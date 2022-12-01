@@ -1,0 +1,110 @@
+@import "./var.scss";
+
+.o-btn {
+  outline: none;
+  border: 1px solid transparent;
+  font-size: var(--btn-text-size);
+  line-height: var(--btn-text-height);
+  border-radius: var(--btn-radius);
+  transition: all .2s ease-in-out;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 4px solid var(--btn-primary_hover);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    color: var(--btn-color_disabled);
+    cursor: not-allowed;
+  }
+}
+
+.o-btn-size-normal {
+  padding: 4px 12px;
+  height: var(--btn-height-m);
+}
+
+.o-btn-size-large {
+  padding: 4px 16px;
+  height: var(--btn-height-l);
+}
+
+.o-btn-size-small {
+  padding: 0 8px;
+  height: var(--btn-height-s);
+}
+
+.o-btn-primary {
+  color: var(--btn-color_inverse);
+  background-color: var(--btn-primary);
+  border-color: var(--btn-primary);
+
+  :not(:disabled) {
+    &:hover {
+      background-color: var(--btn-primary_hover);
+    }
+
+    &:active {
+      background-color: var(--btn-primary_active);
+    }
+  }
+
+  &:disabled {
+    border-color: var(--btn-bg);
+    background-color: var(--btn-bg_disabled);
+  }
+}
+
+.o-btn-outline {
+  color: var(--btn-color);
+  background-color: transparent;
+  border-color: var(--btn-bg);
+
+  :not(:disabled) {
+    &:hover {
+      color: var(--btn-primary_hover);
+      border-color: var(--btn-primary_hover);
+    }
+
+    &:active {
+      color: var(--btn-primary_active);
+      border-color: var(--btn-primary_active);
+    }
+  }
+
+  &:disabled {
+    background-color: var(--btn-bg_disabled);
+  }
+}
+
+.o-btn-text {
+  color: var(--btn-color);
+  background-color: transparent;
+
+  :not(:disabled) {
+    &:hover {
+      background-color: var(--btn-bg_hover);
+    }
+
+    &:active {
+      background-color: var(--btn-bg_active);
+    }
+  }
+}
+
+.o-btn-link {
+  color: var(--btn-primary);
+  background-color: transparent;
+
+  :not(:disabled) {
+    &:hover {
+      color: var(--btn-primary_hover);
+    }
+
+    &:active {
+      color: var(--btn-primary_active);
+    }
+  }
+}
