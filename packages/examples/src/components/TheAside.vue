@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import {routes} from '@/router';
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
+const route = useRoute();
 
-const title = 'aside';
+const title = '组件';
+const currentNav = ref('Home');
+
+watch(()=>route.name, (val)=>{
+  currentNav.value = val as string;
+});
 
 const navList = routes.map(item=>{
-  const {path, label}=item;
+  const {path, name, label}=item;
   return {
     path,
+    name,
     label,
   };
 });
@@ -24,7 +32,10 @@ const navClick = (item: typeof navList[0])=>{
       {{ title }}
     </div>
     <div class="nav-list">
-      <div v-for="(item) in navList" :key="item.path" class="nav-item" @click="navClick(item)">
+      <div
+        v-for="(item) in navList" :key="item.path"
+        class="nav-item" :class="{active: currentNav === item.name}"
+        @click="navClick(item)">
         {{ item.label }}
       </div>
     </div>
@@ -38,12 +49,16 @@ const navClick = (item: typeof navList[0])=>{
 .aside-title {
   padding: 8px;
   text-align: center;
+  border-bottom: 1px solid #eee;
 }
 .nav-item {
-  padding: 4px 16px;
+  padding: 8px 16px;
   cursor: pointer;
   &:hover {
     background-color: #eee;
+  }
+  &.active {
+    background-color: #ddd;
   }
 }
 </style>
