@@ -57,10 +57,9 @@ module.exports = {
       },
       svg: 'never',
     }],
-    'vue/html-closing-bracket-newline': ['warn', {
-      singleline: 'never',
-      multiline: 'never',
-    }],
+
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/html-closing-bracket-newline': 'off',
 
     // for ts
     'default-param-last': 'off',

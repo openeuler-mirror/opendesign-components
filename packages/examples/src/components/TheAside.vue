@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {routes} from '@/router';
+import { routes } from '@/router';
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
@@ -8,12 +8,15 @@ const route = useRoute();
 const title = '组件';
 const currentNav = ref('Home');
 
-watch(() => route.name, (val) => {
-  currentNav.value = val as string;
-});
+watch(
+  () => route.name,
+  (val) => {
+    currentNav.value = val as string;
+  }
+);
 
-const navList = routes.map(item => {
-  const {path, name, label}=item;
+const navList = routes.map((item) => {
+  const { path, name, label } = item;
   return {
     path,
     name,
@@ -33,9 +36,12 @@ const navClick = (item: typeof navList[0]) => {
     </div>
     <div class="nav-list">
       <div
-        v-for="(item) in navList" :key="item.path"
-        class="nav-item" :class="{active: currentNav === item.name}"
-        @click="navClick(item)">
+        v-for="item in navList"
+        :key="item.path"
+        class="nav-item"
+        :class="{ active: currentNav === item.name }"
+        @click="navClick(item)"
+      >
         {{ item.label }}
       </div>
     </div>

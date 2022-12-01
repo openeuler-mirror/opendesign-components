@@ -14,7 +14,7 @@ import TheAside from './components/TheAside.vue';
 </template>
 
 <style lang="scss">
-body{
+body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
 }

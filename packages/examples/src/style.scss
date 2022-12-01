@@ -32,7 +32,6 @@ body {
 
 /* @media (prefers-color-scheme: dark) {
   :root {
-
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
   }
@@ -42,26 +41,26 @@ body {
   }
 } */
 
-
 .page-demo {
   padding: 24px 24px;
 }
 section {
   border: 1px solid #eee;
   padding: var(--o-gap-4);
+
   h4 {
     text-align: center;
     margin: 0;
     margin-bottom: var(--o-gap-3);
   }
-  +section {
+  + section {
     margin-top: 12px;
   }
 }
 .col-2 {
   width: 50%;
   padding: 24px;
-  +.col-2 {
+  + .col-2 {
     margin-left: 12px;
   }
 }
