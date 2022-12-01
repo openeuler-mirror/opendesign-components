@@ -8,11 +8,11 @@ const route = useRoute();
 const title = '组件';
 const currentNav = ref('Home');
 
-watch(()=>route.name, (val)=>{
+watch(() => route.name, (val) => {
   currentNav.value = val as string;
 });
 
-const navList = routes.map(item=>{
+const navList = routes.map(item => {
   const {path, name, label}=item;
   return {
     path,
@@ -21,7 +21,7 @@ const navList = routes.map(item=>{
   };
 });
 
-const navClick = (item: typeof navList[0])=>{
+const navClick = (item: typeof navList[0]) => {
   console.log(item.path);
   router.push(item.path);
 };

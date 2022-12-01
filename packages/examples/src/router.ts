@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import {createRouter, createWebHashHistory} from 'vue-router';
 import TheHome from './pages/TheHome.vue';
 
 export const routes = [
@@ -26,3 +26,4 @@ export const router = createRouter({
     }
   },
 });
+
