@@ -1,4 +1,4 @@
-@import "./var.scss";
+@import './var.scss';
 
 .o-btn {
   outline: none;
@@ -21,19 +21,19 @@
 }
 
 .o-btn-size-small {
-  padding: 0 8px;
+  padding: 0 7px;
   height: var(--btn-height-s);
   border-radius: var(--btn-radius-s);
 }
 
 .o-btn-size-normal {
-  padding: 4px 12px;
+  padding: 4px 15px;
   height: var(--btn-height-m);
   border-radius: var(--btn-radius-m);
 }
 
 .o-btn-size-large {
-  padding: 4px 16px;
+  padding: 4px 19px;
   height: var(--btn-height-l);
   border-radius: var(--btn-radius-l);
 }

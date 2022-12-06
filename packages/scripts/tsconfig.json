@@ -2,10 +2,8 @@
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "dist",
-    // "module": "CommonJS",
-    // "target": "ES2015",
-    "module": "ESNext",
-    "target": "ESNext",
+    "module": "CommonJS",
+    "target": "ES2015",
     "allowJs": true,
     "moduleResolution": "node",
     "baseUrl": ".",
