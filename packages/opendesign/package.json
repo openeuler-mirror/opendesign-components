@@ -18,6 +18,6 @@
 
   },
   "devDependencies": {
-    "@opensig/opensig-scripts": "workspace:^0.0.1",
+    "@opensig/opensig-scripts": "workspace:^0.0.1"
   }
 }
