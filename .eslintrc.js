@@ -44,7 +44,12 @@ module.exports = {
     'max-lines-per-function': ['error', 100],
     complexity: ['warn', 20],
     'max-depth': ['warn', 4],
-    'max-len': ['error', { code: 160 }],
+    'max-len': ['warn', {
+      code: 160,
+      ignoreTemplateLiterals: true,
+      ignoreStrings: true,
+      ignorePattern: 'd="([\\s\\S]*?)"',
+    }],
     'default-param-last': 'off',
     'no-param-reassign': ['error', { props: false }],
 
@@ -57,7 +62,6 @@ module.exports = {
         void: 'always',
         normal: 'never',
       },
-      svg: 'never',
     }],
 
     'vue/singleline-html-element-content-newline': 'off',

@@ -3,6 +3,7 @@ import type { Config } from 'svgo';
 interface GenIconsConfig {
   svgo: Config,
   input: string,
+  output: string,
   template: ({ componentName, svg }: { componentName: string, svg: string }) => void
 }
 
@@ -25,7 +26,11 @@ const svgoConfig: Config = {
 };
 
 const template = ({ componentName, svg }: { componentName: string, svg: string }) => {
-  return `<script>
+  return `<script lang="ts">
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: '${componentName}',
+});
 </script>
 <template>
   ${svg}
@@ -35,6 +40,7 @@ const template = ({ componentName, svg }: { componentName: string, svg: string }
 const config: GenIconsConfig = {
   svgo: svgoConfig,
   input: './icons/svgs',
+  output: './components/icons/',
   template,
 };
 

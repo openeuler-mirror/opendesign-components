@@ -21,7 +21,9 @@ interface IconItem {
   path: string
 }
 
-
+/**
+ * 读取svg图标文件列表
+ */
 function readSvgData() {
   const input = path.resolve(base, iconConfig.input);
 
@@ -33,7 +35,7 @@ function readSvgData() {
     });
 
     files.forEach(file => {
-      const name = path.basename(file, '.svg');
+      const name = `icon-${path.basename(file, '.svg')}`;
       svgs.push({
         type: key,
         name: name,
@@ -46,22 +48,71 @@ function readSvgData() {
   return svgs;
 }
 
-function createIconComponents(icons: Array<IconItem>) {
-  const item = icons[0];
+/**
+ * 创建图标组件
+ * @param icons 图标列表
+ */
+function generateIconComponents(icons: Array<IconItem>) {
+  console.log('generating icon components...');
+  // 清空构建目录
+  const outDir = path.resolve(base, iconConfig.output);
+  fs.emptyDirSync(outDir);
 
-  const file = fs.readFileSync(item.path, 'utf-8');
-  const rlt = optimize(file, {
-    ...iconConfig.svgo,
+  const svgoCfg = iconConfig.svgo;
+  // 遍历生成图标组件
+  icons.forEach(item => {
+    const file = fs.readFileSync(item.path, 'utf-8');
+    const rlt = optimize(file, {
+      path: item.path,
+      ...svgoCfg,
+    });
+
+    const content = iconConfig.template({
+      componentName: item.componentName,
+      svg: rlt.data,
+    });
+
+    fs.outputFile(path.resolve(outDir, `${item.componentName}/${item.componentName}.vue`), content, err => {
+      if (err) {
+        console.log(`build [${item.componentName}] failed: ${err}`);
+      } else {
+        console.log(`build [${item.componentName}] success`);
+      }
+    });
+
+    const idxContent = `export { default as ${item.componentName} } from './${item.componentName}.vue';`;
+    fs.outputFile(path.resolve(outDir, `${item.componentName}/index.ts`), idxContent, err => {
+      if (err) {
+        console.log(`build index [${item.componentName}] failed: ${err}`);
+      } else {
+        console.log(`build index [${item.componentName}] success`);
+      }
+    });
   });
-  console.log(item.name, rlt);
 
 }
+/**
+ * 创建入口文件
+ * @param icons
+ */
+function generateExportIndex(icons: Array<IconItem>) {
+  console.log('generating index.ts...');
 
+  const content = icons.map(item => {
+    return `export { ${item.componentName} } from './${item.componentName}';`;
+  });
+
+  const outDir = path.resolve(base, iconConfig.output);
+  fs.outputFileSync(path.resolve(outDir, 'index.ts'), content.join('\n'));
+
+  // 创建图标地图
+  fs.outputFileSync(path.resolve(outDir, 'icons.json'), JSON.stringify(icons, null, 2));
+}
 export function buildIcons() {
   console.log('search svg...');
   const svgs = readSvgData();
   console.log(`find ${svgs.length} svg files...`);
 
-  createIconComponents(svgs);
-
+  generateIconComponents(svgs);
+  generateExportIndex(svgs);
 }

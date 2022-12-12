@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import '@opensig/opendesign/components/button/style';
+import '@opensig/opendesign/components/icons/style';
 
 import BtnType from '@demo/button/__demo__/BtnType.vue';
 import BtnSize from '@demo/button/__demo__/BtnSize.vue';
 import BtnDisabled from '@demo/button/__demo__/BtnDisabled.vue';
+import BtnIcon from '@demo/button/__demo__/BtnIcon.vue';
 </script>
 <template>
   <div class="page-demo">
@@ -13,6 +15,8 @@ import BtnDisabled from '@demo/button/__demo__/BtnDisabled.vue';
     <BtnSize />
     <h4>Disabled</h4>
     <BtnDisabled />
+    <h4>Icon</h4>
+    <BtnIcon />
   </div>
 </template>
 <style lang="scss"></style>
