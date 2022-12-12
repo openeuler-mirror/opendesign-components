@@ -1,13 +1,46 @@
 <script setup lang="ts">
-import { OButton, ButtonTypeT } from '../index';
+import { OButton, ButtonTypeT, ButtonSizeT, ButtonShapeT } from '../index';
 import { IconEvil2 } from '../../icons';
 </script>
 <template>
   <section>
-    <OButton :type="ButtonTypeT.PRIMARY"><IconEvil2 />Primary Button</OButton>
-    <OButton :type="ButtonTypeT.OUTLINE"><IconEvil2 />Outline Button</OButton>
-    <OButton :type="ButtonTypeT.TEXT"><IconEvil2 />Text Button</OButton>
-    <OButton :type="ButtonTypeT.LINK"><IconEvil2 />Link Button</OButton>
+    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE">
+      <template #icon><IconEvil2 /></template>Primary Button
+    </OButton>
+    <OButton :type="ButtonTypeT.PRIMARY">
+      <template #icon><IconEvil2 /></template>Primary Button
+    </OButton>
+    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.SMALL">
+      <template #icon><IconEvil2 /></template>Primary Button
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.LARGE">
+      Outline Button<template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE">
+      Outline Button<template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL">
+      Outline Button<template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE">
+      <template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE">
+      <template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL">
+      <template #icon><IconEvil2 /></template>
+    </OButton>
+
+    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE" :shape="ButtonShapeT.CIRCLE">
+      <template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE" :shape="ButtonShapeT.CIRCLE">
+      <template #icon><IconEvil2 /></template>
+    </OButton>
+    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL" :shape="ButtonShapeT.CIRCLE">
+      <template #icon><IconEvil2 /></template>
+    </OButton>
   </section>
 </template>
 <style lang="scss"></style>

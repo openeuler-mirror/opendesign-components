@@ -1,6 +1,6 @@
-import { SizeT as ButtonSizeT } from '../_shared/common';
+import { SizeT as ButtonSizeT, ShapeT as ButtonShapeT } from '../_shared/common';
 
-export { ButtonSizeT };
+export { ButtonSizeT, ButtonShapeT };
 
 export enum ButtonTypeT {
   PRIMARY = 'primary',
