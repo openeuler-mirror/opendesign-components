@@ -68,6 +68,7 @@ function generateIconComponents(icons: Array<IconItem>) {
     });
 
     const content = iconConfig.template({
+      name: item.name,
       componentName: item.componentName,
       svg: rlt.data,
     });

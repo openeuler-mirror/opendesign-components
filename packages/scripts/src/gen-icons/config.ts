@@ -4,7 +4,7 @@ interface GenIconsConfig {
   svgo: Config,
   input: string,
   output: string,
-  template: ({ componentName, svg }: { componentName: string, svg: string }) => void
+  template: ({ name, componentName, svg }: { name: string, componentName: string, svg: string }) => void
 }
 
 const svgoConfig: Config = {
@@ -22,14 +22,36 @@ const svgoConfig: Config = {
     'removeScriptElement',
     'removeDimensions',
     'sortAttrs',
+    {
+      name: 'removeAttrs',
+      params: {
+        attrs: [
+          'class',
+        ],
+      },
+    },
+    {
+      name: 'addAttributesToSVGElement',
+      params: {
+        attributes: [
+          { ':class': 'classnames' },
+        ],
+      },
+    },
   ],
 };
 
-const template = ({ componentName, svg }: { componentName: string, svg: string }) => {
+const template = ({ name, componentName, svg }: { name: string, componentName: string, svg: string }) => {
   return `<script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: '${componentName}',
+  setup() {
+    const classnames = ['o-icon', '${name}'];
+    return {
+      classnames,
+    };
+  },
 });
 </script>
 <template>

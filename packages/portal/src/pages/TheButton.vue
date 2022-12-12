@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import '@opensig/opendesign/components/button/style';
-import '@opensig/opendesign/components/icons/style';
 
 import BtnType from '@demo/button/__demo__/BtnType.vue';
 import BtnSize from '@demo/button/__demo__/BtnSize.vue';
