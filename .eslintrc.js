@@ -9,6 +9,7 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
+    // project: ['./**/tsconfig.json'],
   },
   plugins: ['@typescript-eslint'],
   rules: {
@@ -44,8 +45,9 @@ module.exports = {
     complexity: ['warn', 20],
     'max-depth': ['warn', 4],
     'max-len': ['error', { code: 160 }],
-
+    'default-param-last': 'off',
     'no-param-reassign': ['error', { props: false }],
+
     'vue/max-attributes-per-line': ['error', {
       singleline: { max: 4 },
       multiline: { max: 2 },
@@ -62,7 +64,7 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
 
     // for ts
-    'default-param-last': 'off',
+    // '@typescript-eslint/strict-boolean-expressions': 'warn',
     '@typescript-eslint/default-param-last': 'warn',
     'init-declarations': 'off',
     '@typescript-eslint/init-declarations': 'warn',
@@ -76,6 +78,7 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': 'warn',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'warn',
+
     // 'dot-notation': 'off',
     // '@typescript-eslint/dot-notation': 'warn',
     // 'no-return-await': 'off',
