@@ -32,13 +32,13 @@ import { IconEvil2 } from '../../icons';
       <template #icon><IconEvil2 /></template>
     </OButton>
 
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE" :shape="ButtonShapeT.CIRCLE">
+    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE" :shape="ButtonShapeT.ROUND">
       <template #icon><IconEvil2 /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :shape="ButtonShapeT.CIRCLE">
+    <OButton :type="ButtonTypeT.OUTLINE" :shape="ButtonShapeT.ROUND">
       <template #icon><IconEvil2 /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL" :shape="ButtonShapeT.CIRCLE">
+    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL" :shape="ButtonShapeT.ROUND">
       <template #icon><IconEvil2 /></template>
     </OButton>
   </section>

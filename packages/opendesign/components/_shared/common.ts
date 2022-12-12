@@ -16,7 +16,6 @@ export function initSize(type: SizeT) {
 // 形状
 export enum ShapeT {
   ROUND = 'round',
-  CIRCLE = 'circle',
   NORMAL = 'normal'
 }
 export const defaultShape = ref(ShapeT.NORMAL);

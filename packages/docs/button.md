@@ -2,11 +2,11 @@
 
 # props
 
-| name  | type         | 说明 |
-| :---- | :----------- | :--- |
-| type  | ButtonTypeT  | 类型 |
-| size  | SizeT        | 尺寸 |
-| shape | ButtonShapeT | 形状 |
+| name  | type        | 说明 |
+| :---- | :---------- | :--- |
+| type  | ButtonTypeT | 类型 |
+| size  | SizeT       | 尺寸 |
+| shape | ShapeT      | 形状 |
 
 ```
 enum ButtonTypeT {
@@ -20,6 +20,11 @@ enum SizeT {
   LARGE = 'large',
   NORMAL = 'normal',
   SMALL = 'small'
+}
+
+enum ShapeT {
+  ROUND = 'round',
+  NORMAL = 'normal'
 }
 ```
 
