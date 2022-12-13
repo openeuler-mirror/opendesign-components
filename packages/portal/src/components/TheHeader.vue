@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const title = 'opendesing';
+const title = 'opendesign';
 </script>
 <template>
   <div class="the-header">
