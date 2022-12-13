@@ -7,6 +7,7 @@ import fs from 'fs-extra';
 
 const base = process.cwd();
 
+// TODO： 支持指定配置文件
 
 enum SvgType {
   FILL = 'fill',
