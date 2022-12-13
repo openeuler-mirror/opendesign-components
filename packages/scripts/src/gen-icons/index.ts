@@ -110,7 +110,7 @@ function generateExportIndex(icons: Array<IconItem>) {
   // 创建图标地图
   fs.outputFileSync(path.resolve(outDir, 'icons.json'), JSON.stringify(icons, null, 2));
 }
-export function buildIcons() {
+export default function main() {
   console.log('search svg...');
   const svgs = readSvgData();
   console.log(`find ${svgs.length} svg files...`);

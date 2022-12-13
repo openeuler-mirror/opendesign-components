@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import { Command } from 'commander';
 
-import { buildIcons } from './gen-icons';
-import { buildComponents } from './build-components';
+import buildIcons from './gen-icons';
+import buildComponents from './build-components';
 
 const program = new Command();
 

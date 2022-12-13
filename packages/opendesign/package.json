@@ -2,9 +2,14 @@
   "name": "@opensig/opendesign",
   "private": true,
   "version": "0.0.1",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "unpkg": "dist/opendesign.min.js",
   "files": [
-    "components",
-    "icons"
+    "es",
+    "lib",
+    "dist"
   ],
   "scripts": {
     "build:components": "opensig-scripts build:components",
