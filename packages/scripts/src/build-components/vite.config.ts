@@ -6,7 +6,7 @@ export default (): InlineConfig => {
     plugins: [vue()],
     build: {
       lib: {
-        entry: 'components/index.ts',
+        entry: 'src/components/index.ts',
         formats: ['es', 'cjs'],
       },
       target: 'modules',
@@ -14,7 +14,7 @@ export default (): InlineConfig => {
       emptyOutDir: false,
       minify: false,
       rollupOptions: {
-        input: ['components/index.ts', 'components/icons/index.ts'],
+        input: ['src/components/index.ts', 'src/components/icons/index.ts'],
         output: [
           {
             format: 'es',

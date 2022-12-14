@@ -61,8 +61,8 @@ export default defineComponent({
 
 const config: GenIconsConfig = {
   svgo: svgoConfig,
-  input: './icons/svgs',
-  output: './components/icons/',
+  input: './src/icons/svgs',
+  output: './src/components/icons/',
   template,
 };
 

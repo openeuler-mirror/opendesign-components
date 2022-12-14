@@ -5,9 +5,11 @@ import { terser } from 'rollup-plugin-terser';
 export default (type: 'component' | 'icon'): InlineConfig => {
   const entry =
     type === 'component'
-      ? 'components/index.ts'
-      : 'components/icons/index.ts';
+      ? 'src/components/index.ts'
+      : 'src/components/icons/index.ts';
+
   const entryFileName = type === 'component' ? 'opendesign' : 'opendesign-icon';
+
   const name = type === 'component' ? 'opendesign' : 'opendesignIcon';
 
   return {
