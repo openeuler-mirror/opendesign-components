@@ -1,4 +1,4 @@
-import { SizeT as ButtonSizeT, ShapeT as ButtonShapeT } from '../_shared/common';
+import { SizeT as ButtonSizeT, ShapeT as ButtonShapeT } from '../_shared/global';
 
 export { ButtonSizeT, ButtonShapeT };
 

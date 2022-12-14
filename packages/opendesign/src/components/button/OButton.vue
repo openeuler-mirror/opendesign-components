@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { defaultSize, defaultShape } from '../_shared/common';
-import { ButtonSizeT, ButtonTypeT, ButtonShapeT } from './button';
+import { defaultSize, defaultShape } from '../_shared/global';
+import { ButtonSizeT, ButtonTypeT, ButtonShapeT } from './types';
 
 interface PropT {
   type?: ButtonTypeT;

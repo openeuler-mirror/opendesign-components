@@ -5,10 +5,6 @@ export default (): InlineConfig => {
   return {
     plugins: [vue()],
     build: {
-      lib: {
-        entry: 'src/components/index.ts',
-        formats: ['es', 'cjs'],
-      },
       target: 'modules',
       outDir: 'es',
       emptyOutDir: false,
@@ -32,6 +28,10 @@ export default (): InlineConfig => {
           },
         ],
         external: ['vue'],
+      },
+      lib: {
+        entry: 'src/components/index.ts',
+        formats: ['es', 'cjs'],
       },
     },
   };

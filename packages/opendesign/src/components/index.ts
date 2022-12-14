@@ -1,8 +1,3 @@
-import { SizeT } from './_shared/common';
-import { OButton, ButtonTypeT } from './button';
+export * from './_shared/global';
 
-export {
-  SizeT,
-  OButton,
-  ButtonTypeT,
-};
+export * from './button';
