@@ -1,9 +1,16 @@
 import { InlineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts';
 
 export default (): InlineConfig => {
   return {
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      dts(),
+      dts({
+        outputDir: 'lib',
+      }),
+    ],
     build: {
       target: 'modules',
       outDir: 'es',

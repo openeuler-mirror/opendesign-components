@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OButton } from '@opensig/opendesign';
-import { IconHome3 } from '@opensig/opendesign/es/icons';
+import { IconHeart } from '@opensig/opendesign/es/icons';
 
 const title = 'Home';
 </script>
@@ -8,7 +8,7 @@ const title = 'Home';
   <div class="page-demo">
     {{ title }}
     <section>
-      <IconHome3 />
+      <IconHeart />
       <OButton>button</OButton>
     </section>
   </div>
