@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '@opensig/opendesign/es/button/style';
 import { OButton } from '@opensig/opendesign';
 import { IconHeart } from '@opensig/opendesign/es/icons';
 

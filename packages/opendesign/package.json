@@ -5,15 +5,21 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
+  "typings": "lib/index.d.ts",
   "unpkg": "dist/opendesign.min.js",
   "files": [
     "es",
     "lib",
     "dist"
   ],
+  "keywords": [
+    "opendesign",
+    "vue3 components"
+  ],
   "scripts": {
-    "build:components": "opensig-scripts build:components",
-    "build:icons": "opensig-scripts gen:icons"
+    "build:component": "opensig-scripts build:component",
+    "gen:icon": "opensig-scripts gen:icon",
+    "build:style": "opensig-scripts build:style"
   },
   "peerDependencies": {
     "vue": "^3.1.0"

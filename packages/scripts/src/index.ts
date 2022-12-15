@@ -4,6 +4,7 @@ import { Command } from 'commander';
 
 import buildIcons from './gen-icons';
 import buildComponents from './build-components';
+import buildStyle from './build-style';
 
 const program = new Command();
 
@@ -14,16 +15,22 @@ program.name('opensig-scripts')
   .version(packageJson.version)
   .usage('command [options] ');
 
-program.command('gen:icons')
+program.command('gen:icon')
   .description('generate opendesign icon components')
   .action(() => {
     buildIcons();
   });
 
-program.command('build:components')
-  .description('generate opendesign icon components')
+program.command('build:component')
+  .description('build opendesign components')
   .action(() => {
     buildComponents();
+  });
+
+program.command('build:style')
+  .description('build opendesign style')
+  .action(() => {
+    buildStyle();
   });
 
 
