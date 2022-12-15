@@ -3,6 +3,7 @@ import path from 'path';
 import glob from 'glob';
 import Config from './config';
 import sass from 'sass';
+import CleanCSS from 'clean-css';
 
 const base = process.cwd();
 
@@ -14,6 +15,8 @@ export default function main() {
   const files = glob.sync('**/*.{scss,css}', {
     cwd: input,
   });
+  console.log(files);
+
 
   files.forEach(fl => {
     const fPath = path.resolve(input, fl);
@@ -27,6 +30,19 @@ export default function main() {
       const cssName = fl.replace('.scss', '.css');
       fs.outputFile(`es/${cssName}`, result.css);
       fs.outputFile(`lib/${cssName}`, result.css);
+
+      // compile total css
+      if (fl === 'index.scss') {
+        fs.outputFile('dist/opendesign.css', result.css);
+        // compile min.css
+        const compress = new CleanCSS().minify(result.css);
+        fs.outputFile('dist/opendesign.min.css', compress.styles);
+
+        fs.writeFileSync(
+          'dist/opendesign.scss',
+          "@import '../es/index.scss';",
+        );
+      }
     }
   });
   // build index
