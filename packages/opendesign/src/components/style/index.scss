@@ -1,0 +1,28 @@
+[class^='o-'],
+[class^='o-'] * {
+  box-sizing: border-box;
+}
+
+:root {
+  --o-size-l: 40px;
+  --o-size-m: 32px;
+  --o-size-s: 24px;
+}
+
+// icons
+.o-icon {
+  --icon-g1: var(--o-color-text1);
+  --icon-g2: var(--o-color-primary1);
+}
+
+.o-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.03em;
+  color: inherit;
+  font-style: normal;
+  outline: none;
+  stroke: currentColor;
+  fill: currentColor;
+}

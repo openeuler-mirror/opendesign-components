@@ -1,0 +1,22 @@
+{
+  "name": "opendesign-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:portal": "pnpm --filter portal dev",
+    "dev:lib": "pnpm --filter @opensig/opendesign dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-vue": "^9.8.0",
+    "typescript": "^4.6.4"
+  }
+}
