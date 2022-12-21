@@ -1,0 +1,16 @@
+.o-switch {
+  --switch-bg: var(--o-color-info1);
+  --switch-bg_disabled: var(--o-color-info4);
+  --switch-bg-checked: var(--o-color-primary1);
+  --switch-bg-checked_disabled: var(--o-color-primary4);
+  --switch-handler-bg: var(--o-color-bg2);
+  --switch-color: var(--o-color-text1_inverse);
+
+  --switch-text-size-l: var(--o-font_size-h4);
+  --switch-text-size-m: var(--o-font_size-tip1);
+  --switch-text-size-s: var(--o-font_size-tip2);
+
+  --switch-text-height-l: var(--o-line_height-h4);
+  --switch-text-height-m: var(--o-line_height-tip1);
+  --switch-text-height-s: var(--o-line_height-tip2);
+}
