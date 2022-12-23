@@ -18,7 +18,8 @@
   "scripts": {
     "gen:icon": "opensig-scripts gen:icon",
     "build:component": "opensig-scripts build:component",
-    "build:style": "opensig-scripts build:style"
+    "build:style": "opensig-scripts build:style",
+    "build": "opensig-scripts gen:icon && opensig-scripts build:component && opensig-scripts build:style"
   },
   "peerDependencies": {
     "vue": "^3.1.0"

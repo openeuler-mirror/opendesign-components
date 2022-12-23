@@ -1,6 +1,6 @@
-import { initSize, SizeT } from './_shared/global';
+import { initSize, Size } from './_shared/global';
 
 export {
   initSize,
-  SizeT,
+  Size,
 };

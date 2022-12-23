@@ -15,7 +15,6 @@ export default function main() {
   const files = glob.sync('**/*.{scss,css}', {
     cwd: input,
   });
-  console.log(files);
 
 
   files.forEach(fl => {

@@ -2,14 +2,14 @@
 
 # props
 
-| name  | type        | 说明 |
-| :---- | :---------- | :--- |
-| type  | ButtonTypeT | 类型 |
-| size  | SizeT       | 尺寸 |
-| shape | ShapeT      | 形状 |
+| name  | type       | 说明 |
+| :---- | :--------- | :--- |
+| type  | ButtonType | 类型 |
+| size  | SizeT      | 尺寸 |
+| shape | ShapeT     | 形状 |
 
 ```
-enum ButtonTypeT {
+enum ButtonType {
   PRIMARY = 'primary',
   OUTLINE = 'outline',
   TEXT = 'text',

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { OButton, ButtonTypeT, ButtonSizeT } from '../index';
+import { OButton, ButtonType, ButtonSize } from '../index';
 </script>
 <template>
   <section>
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE"> Large Button </OButton>
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.NORMAL"> Normal Button </OButton>
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.SMALL"> Small Button </OButton>
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE"> Large Button </OButton>
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.NORMAL"> Normal Button </OButton>
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.SMALL"> Small Button </OButton>
   </section>
 </template>
 <style lang="scss"></style>

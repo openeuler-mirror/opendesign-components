@@ -18,14 +18,13 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     quotes: ['error', 'single', { avoidEscape: true }],
     'quote-props': ['warn', 'as-needed'],
-    'comma-dangle': ['error', 'always-multiline'],
+    'comma-dangle': ['error', 'only-multiline'],
     camelcase: ['error', { properties: 'never' }],
     'array-bracket-spacing': 'warn',
     'arrow-spacing': 'warn',
     'block-spacing': 'warn',
     'comma-spacing': 'warn',
     'computed-property-spacing': 'warn',
-    'func-call-spacing': 'warn',
     'generator-star-spacing': 'warn',
     'key-spacing': 'warn',
     'keyword-spacing': 'warn',
@@ -53,10 +52,11 @@ module.exports = {
     'default-param-last': 'off',
     'no-param-reassign': ['error', { props: false }],
 
-    'vue/max-attributes-per-line': ['error', {
-      singleline: { max: 4 },
-      multiline: { max: 2 },
-    }],
+    // 'vue/max-attributes-per-line': ['error', {
+    //   singleline: { max: 4 },
+    //   multiline: { max: 2 },
+    // }],
+    'vue/max-attributes-per-line': 'off',
     'vue/html-self-closing': ['warn', {
       html: {
         void: 'always',
@@ -82,6 +82,8 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': 'warn',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'warn',
+    'func-call-spacing': 'off',
+    '@typescript-eslint/func-call-spacing': 'warn'
 
     // 'dot-notation': 'off',
     // '@typescript-eslint/dot-notation': 'warn',

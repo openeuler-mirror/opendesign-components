@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import './style.scss';
-import '@opensig/opendesign/es/style/token.css';
-import '@opensig/opendesign/es/style';
+import '@opensig/opendesign/src/components/style/token.css';
+import '@opensig/opendesign/src/components/style';
 
 // import { initSize, SizeT } from 'opendesign/config';
 import { router } from '@/router';

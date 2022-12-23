@@ -1,25 +1,31 @@
 import { ref } from 'vue';
 
 // 尺寸
-export enum SizeT {
+export enum Size {
   LARGE = 'large',
   NORMAL = 'normal',
   SMALL = 'small'
 }
 
-export const defaultSize = ref(SizeT.NORMAL);
+export const defaultSize = ref(Size.NORMAL);
 
-export function initSize(type: SizeT) {
+export function initSize(type: Size) {
   defaultSize.value = type;
 }
 
 // 形状
-export enum ShapeT {
+export enum Shape {
   ROUND = 'round',
   NORMAL = 'normal'
 }
-export const defaultShape = ref(ShapeT.NORMAL);
+export const defaultShape = ref(Shape.NORMAL);
 
-export function initShape(shape: ShapeT) {
+export function initShape(shape: Shape) {
   defaultShape.value = shape;
+}
+
+export const OptionProvideKey = 'option-provide';
+export interface OptionValueT {
+  label: string;
+  value: string | number;
 }
