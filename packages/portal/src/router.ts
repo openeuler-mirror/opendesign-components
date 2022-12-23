@@ -27,6 +27,12 @@ export const routes = [
     component: () => import('./pages/ThePopup.vue'),
   },
   {
+    path: '/resize-observer',
+    name: 'ResizeObserver',
+    label: 'resize监听',
+    component: () => import('./pages/TheResizeObserver.vue'),
+  },
+  {
     path: '/select',
     name: 'Select',
     label: '下拉框',
