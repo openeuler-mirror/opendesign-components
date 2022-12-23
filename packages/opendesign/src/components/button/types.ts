@@ -1,8 +1,8 @@
-import { SizeT as ButtonSizeT, ShapeT as ButtonShapeT } from '../_shared/global';
+import { Size as ButtonSize, Shape as ButtonShape } from '../_shared/global';
 
-export { ButtonSizeT, ButtonShapeT };
+export { ButtonSize, ButtonShape };
 
-export enum ButtonTypeT {
+export enum ButtonType {
   PRIMARY = 'primary',
   OUTLINE = 'outline',
   TEXT = 'text',

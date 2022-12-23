@@ -1,4 +1,4 @@
-# Switch 开关
+# Select 下拉选择器
 
 # props
 
@@ -28,13 +28,8 @@ enum ShapeT {
 
 | name   | 参数                      | 说明           |
 | :----- | :------------------------ | :------------- |
-| change | value: boolean; ev: Event | 状态切换后触发 |
+| change | value: boolean; ev: Event | 选择切换后触发 |
 
 # expose
 
 # slot
-
-| name | 说明     |
-| :--- | :------- |
-| on   | 开关状态 |
-| off  | 关闭的   |

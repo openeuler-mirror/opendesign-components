@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import { OButton, ButtonTypeT, ButtonSizeT, ButtonShapeT } from '../index';
-import { IconEvil2 } from '../../icons';
+import { OButton, ButtonType, ButtonSize, ButtonShape } from '../index';
+import { IconAdd } from '../../icons';
 </script>
 <template>
   <section>
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE">
-      <template #icon><IconEvil2 /></template>Primary Button
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE">
+      <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton :type="ButtonTypeT.PRIMARY">
-      <template #icon><IconEvil2 /></template>Primary Button
+    <OButton :type="ButtonType.PRIMARY">
+      <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.SMALL">
-      <template #icon><IconEvil2 /></template>Primary Button
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.SMALL">
+      <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.LARGE">
-      Outline Button<template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.LARGE">
+      Outline Button<template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE">
-      Outline Button<template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE">
+      Outline Button<template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL">
-      Outline Button<template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.SMALL">
+      Outline Button<template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE">
-      <template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE">
+      <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE">
-      <template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE">
+      <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL">
-      <template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.SMALL">
+      <template #icon><IconAdd /></template>
     </OButton>
 
-    <OButton :type="ButtonTypeT.PRIMARY" :size="ButtonSizeT.LARGE" :shape="ButtonShapeT.ROUND">
-      <template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE" :shape="ButtonShape.ROUND">
+      <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :shape="ButtonShapeT.ROUND">
-      <template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE" :shape="ButtonShape.ROUND">
+      <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonTypeT.OUTLINE" :size="ButtonSizeT.SMALL" :shape="ButtonShapeT.ROUND">
-      <template #icon><IconEvil2 /></template>
+    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.SMALL" :shape="ButtonShape.ROUND">
+      <template #icon><IconAdd /></template>
     </OButton>
   </section>
 </template>
