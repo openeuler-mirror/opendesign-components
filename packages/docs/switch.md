@@ -2,14 +2,14 @@
 
 # props
 
-| name         | type     | 默认值        | 说明                                                          |
-| :----------- | :------- | :------------ | ------------------------------------------------------------- |
-| model:value  | Boolean  | false         | 开关状态                                                      |
-| shape        | ShapeT   | ShapeT.NORMAL | 形状                                                          |
-| size         | SizeT    | SizeT.NORMAL  | 形状                                                          |
-| disabled     | Boolean  | false         | 形状                                                          |
-| loading      | Boolean  | false         | 加载状态                                                      |
-| beforeChange | Function | ()=>true      | return Promise. resolve(true)继续切换，resolve(false)阻止切换 |
+| name         | type                                        | 默认值        | 说明                                                         |
+| :----------- | :------------------------------------------ | :------------ | ------------------------------------------------------------ |
+| model:value  | Boolean                                     | false         | 开关状态                                                     |
+| shape        | ShapeT                                      | ShapeT.NORMAL | 形状                                                         |
+| size         | SizeT                                       | SizeT.NORMAL  | 尺寸                                                         |
+| disabled     | Boolean                                     | false         | 是否禁用                                                     |
+| loading      | Boolean                                     | false         | 加载状态                                                     |
+| beforeChange | (val: boolean): Promise\<boolean\>\|boolean | -             | return Promise.resolve(true)继续切换，resolve(false)阻止切换 |
 
 ```
 enum SizeT {
@@ -36,5 +36,5 @@ enum ShapeT {
 
 | name | 说明     |
 | :--- | :------- |
-| on   | 开关状态 |
-| off  | 关闭的   |
+| on   | 开启状态 |
+| off  | 关闭状态 |

@@ -21,9 +21,12 @@ importers:
   packages/opendesign:
     specifiers:
       '@opensig/opensig-scripts': workspace:^0.0.1
+      '@vue/shared': ^3.2.45
       typescript: ^4.6.4
       vue: ^3.2.41
       vue-tsc: ^1.0.13
+    dependencies:
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
     devDependencies:
       '@opensig/opensig-scripts': link:../scripts
       typescript: 4.9.3
@@ -545,7 +548,7 @@ packages:
       '@vue/compiler-dom': 3.2.45
       '@vue/compiler-sfc': 3.2.45
       '@vue/reactivity': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
       minimatch: 5.1.1
       vue-template-compiler: 2.7.14
     dev: true
@@ -561,7 +564,7 @@ packages:
     resolution: {integrity: sha512-rcMj7H+PYe5wBV3iYeUgbCglC+pbpN8hBLTJvRiK2eKQiWqu+fG9F+8sW99JdL4LQi7Re178UOxn09puSXvn4A==}
     dependencies:
       '@babel/parser': 7.20.5
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
       estree-walker: 2.0.2
       source-map: 0.6.1
 
@@ -569,7 +572,7 @@ packages:
     resolution: {integrity: sha512-tyYeUEuKqqZO137WrZkpwfPCdiiIeXYCcJ8L4gWz9vqaxzIQRccTSwSWZ/Axx5YR2z+LvpUbmPNXxuBU45lyRw==}
     dependencies:
       '@vue/compiler-core': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
 
   /@vue/compiler-sfc/3.2.45:
     resolution: {integrity: sha512-1jXDuWah1ggsnSAOGsec8cFjT/K6TMZ0sPL3o3d84Ft2AYZi2jWJgRMjw4iaK0rBfA89L5gw427H4n1RZQBu6Q==}
@@ -579,7 +582,7 @@ packages:
       '@vue/compiler-dom': 3.2.45
       '@vue/compiler-ssr': 3.2.45
       '@vue/reactivity-transform': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
       estree-walker: 2.0.2
       magic-string: 0.25.9
       postcss: 8.4.19
@@ -589,7 +592,7 @@ packages:
     resolution: {integrity: sha512-6BRaggEGqhWht3lt24CrIbQSRD5O07MTmd+LjAn5fJj568+R9eUD2F7wMQJjX859seSlrYog7sUtrZSd7feqrQ==}
     dependencies:
       '@vue/compiler-dom': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
 
   /@vue/devtools-api/6.4.5:
     resolution: {integrity: sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==}
@@ -600,26 +603,26 @@ packages:
     dependencies:
       '@babel/parser': 7.20.5
       '@vue/compiler-core': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
       estree-walker: 2.0.2
       magic-string: 0.25.9
 
   /@vue/reactivity/3.2.45:
     resolution: {integrity: sha512-PRvhCcQcyEVohW0P8iQ7HDcIOXRjZfAsOds3N99X/Dzewy8TVhTCT4uXpAHfoKjVTJRA0O0K+6QNkDIZAxNi3A==}
     dependencies:
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
 
   /@vue/runtime-core/3.2.45:
     resolution: {integrity: sha512-gzJiTA3f74cgARptqzYswmoQx0fIA+gGYBfokYVhF8YSXjWTUA2SngRzZRku2HbGbjzB6LBYSbKGIaK8IW+s0A==}
     dependencies:
       '@vue/reactivity': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
 
   /@vue/runtime-dom/3.2.45:
     resolution: {integrity: sha512-cy88YpfP5Ue2bDBbj75Cb4bIEZUMM/mAkDMfqDTpUYVgTf/kuQ2VQ8LebuZ8k6EudgH8pYhsGWHlY0lcxlvTwA==}
     dependencies:
       '@vue/runtime-core': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
       csstype: 2.6.21
 
   /@vue/server-renderer/3.2.45_vue@3.2.45:
@@ -628,11 +631,8 @@ packages:
       vue: 3.2.45
     dependencies:
       '@vue/compiler-ssr': 3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
       vue: 3.2.45
-
-  /@vue/shared/3.2.45:
-    resolution: {integrity: sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg==}
 
   /acorn-jsx/5.3.2_acorn@8.8.1:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -2184,7 +2184,7 @@ packages:
       '@vue/compiler-sfc': 3.2.45
       '@vue/runtime-dom': 3.2.45
       '@vue/server-renderer': 3.2.45_vue@3.2.45
-      '@vue/shared': 3.2.45
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
 
   /which/2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
@@ -2226,3 +2226,8 @@ packages:
     optionalDependencies:
       commander: 2.20.3
     dev: false
+
+  registry.npmmirror.com/@vue/shared/3.2.45:
+    resolution: {integrity: sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/shared/-/shared-3.2.45.tgz}
+    name: '@vue/shared'
+    version: 3.2.45
