@@ -18,12 +18,12 @@ const onResize = () => {
 <template>
   <h4>resize observer</h4>
 
-  <!-- <ResizeObserver @resize="onResize">
+  <ResizeObserver @resize="onResize">
     <div class="content" @click="changeFn">
       {{ content }}
     </div>
-  </ResizeObserver> -->
-  <br />
+  </ResizeObserver>
+  <div style="margin-top: 30px"></div>
   <ResizeObserver @resize="onResize">
     <OButton @click="changeFn">
       {{ content }}
