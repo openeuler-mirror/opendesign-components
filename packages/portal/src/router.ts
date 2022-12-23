@@ -20,6 +20,18 @@ export const routes = [
     label: '开关',
     component: () => import('./pages/TheSwitch.vue'),
   },
+  {
+    path: '/popup',
+    name: 'Popup',
+    label: '浮层',
+    component: () => import('./pages/ThePopup.vue'),
+  },
+  {
+    path: '/select',
+    name: 'Select',
+    label: '下拉框',
+    component: () => import('./pages/TheSelect.vue'),
+  },
 ];
 
 export const router = createRouter({
