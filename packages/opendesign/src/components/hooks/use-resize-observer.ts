@@ -5,16 +5,18 @@ export function useResizeObserver() {
   let ro: ResizeObserver | null = null;
 
   // 创建监听实例
-  const createResizeObserver = (el: HTMLElement, onResize: (en: ResizeObserverEntry) => void) => {
+  const createResizeObserver = (el: HTMLElement | null, onResize: (en: ResizeObserverEntry) => void) => {
     if (!el) {
-      return;
+      return null;
     }
+
     ro = new ResizeObserver((entries: ResizeObserverEntry[]) => {
       if (isFunction(onResize)) {
         onResize(entries[0]);
       }
     });
     ro.observe(el);
+    return ro;
   };
 
   // 销毁监听

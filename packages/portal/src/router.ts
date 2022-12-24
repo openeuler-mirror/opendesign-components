@@ -21,16 +21,16 @@ export const routes = [
     component: () => import('./pages/TheSwitch.vue'),
   },
   {
-    path: '/popup',
-    name: 'Popup',
-    label: '浮层',
-    component: () => import('./pages/ThePopup.vue'),
-  },
-  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'resize监听',
     component: () => import('./pages/TheResizeObserver.vue'),
+  },
+  {
+    path: '/popup',
+    name: 'Popup',
+    label: '浮层',
+    component: () => import('./pages/ThePopup.vue'),
   },
   {
     path: '/select',
@@ -38,6 +38,8 @@ export const routes = [
     label: '下拉框',
     component: () => import('./pages/TheSelect.vue'),
   },
+
+
 ];
 
 export const router = createRouter({

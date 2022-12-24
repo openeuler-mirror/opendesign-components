@@ -1,5 +1,7 @@
-import { defineComponent, onBeforeUnmount, onMounted, ref, cloneVNode, ComponentPublicInstance } from 'vue';
-import { useResizeObserver } from '../hooks';
+import { defineComponent, onBeforeUnmount, cloneVNode, withDirectives } from 'vue';
+import { useResizeObserver } from '../hooks/use-resize-observer';
+import { useElementDirective, LifeCycleT } from '../hooks/use-element';
+
 
 export default defineComponent({
   name: 'ResizeObserver',
@@ -7,28 +9,35 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const { createResizeObserver, destoryResizeObserver } = useResizeObserver();
 
-    const childRef = ref<HTMLElement | ComponentPublicInstance | null>(null);
+    let ro: ResizeObserver | null = null;
 
-    onMounted(() => {
-      if (childRef.value) {
-        createResizeObserver((childRef.value as ComponentPublicInstance).$el || childRef.value, (entry: ResizeObserverEntry) => {
+    const { getElementDirective } = useElementDirective((el: HTMLElement | null, type: LifeCycleT) => {
+      if (type === 'updated') {
+        return;
+      }
+
+      if (ro) {
+        destoryResizeObserver();
+      }
+
+      if (el) {
+        ro = createResizeObserver(el, (entry: ResizeObserverEntry) => {
           emit('resize', entry);
         });
       }
-
     });
 
     onBeforeUnmount(() => {
+      // 销毁监听
       destoryResizeObserver();
     });
 
     return () => {
       const children = slots.default?.();
-      if (children) {
-        return cloneVNode(children[0], { ref: childRef });
-      } else {
-        return null;
+      if (children && children.length > 0) {
+        children[0] = withDirectives(cloneVNode(children[0]), [[getElementDirective]]);
       }
+      return children;
     };
   },
 });
