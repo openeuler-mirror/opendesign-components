@@ -22,6 +22,7 @@ export default defineComponent({
 
       if (el) {
         ro = createResizeObserver(el, (entry: ResizeObserverEntry) => {
+          // 触发resize事件
           emit('resize', entry);
         });
       }

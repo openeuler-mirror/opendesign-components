@@ -14,7 +14,7 @@ const btn6 = ref(null);
 const btn7 = ref(null);
 const btn8 = ref(null);
 const btn9 = ref(null);
-// const visible = ref(false);
+const visible = ref(true);
 </script>
 <template>
   <h4>popup container</h4>
@@ -22,13 +22,13 @@ const btn9 = ref(null);
     <div class="content">
       <OButton ref="btn1" class="btn1">TL btn1 </OButton>
       <OButton ref="btn2" class="btn2">TR btn2 </OButton>
-      <OButton ref="btn3" class="btn3"> btn3 </OButton>
+      <OButton ref="btn3" class="btn3">TL btn3 </OButton>
       <OButton ref="btn4" class="btn4">LT btn4 </OButton>
-      <OButton ref="btn5" class="btn5"> btn5 </OButton>
-      <OButton ref="btn6" class="btn6"> btn6 </OButton>
-      <OButton ref="btn7" class="btn7"> btn7 </OButton>
-      <OButton ref="btn8" class="btn8"> btn8 </OButton>
-      <OButton ref="btn9" class="btn9"> btn9 </OButton>
+      <OButton ref="btn5" class="btn5">TL btn5 </OButton>
+      <OButton ref="btn6" class="btn6">TL btn6 </OButton>
+      <OButton ref="btn7" class="btn7">LEFT btn7 </OButton>
+      <OButton ref="btn8" class="btn8">BL btn8 </OButton>
+      <OButton ref="btn9" class="btn9">TL btn9 </OButton>
 
       <OPopup :position="PopupPosition.TL" :target="btn1" container="#wrap" :trigger="PopupTrigger.CLICK">
         <div>{{ content }}</div>
@@ -38,7 +38,7 @@ const btn9 = ref(null);
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
-      <OPopup :position="PopupPosition.TL" :target="btn3" container="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn3" container="#wrap" :trigger="PopupTrigger.CLICK">
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
@@ -58,8 +58,8 @@ const btn9 = ref(null);
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
-      <OPopup :position="PopupPosition.TL" :target="btn8" container="#wrap" :trigger="PopupTrigger.CLICK">
-        <div>{{ content }}</div>
+      <OPopup :position="PopupPosition.BL" :target="btn8" container="#wrap" :trigger="PopupTrigger.CLICK">
+        <div class="tip">{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
       <OPopup :position="PopupPosition.TL" :target="btn9" container="#wrap" :trigger="PopupTrigger.CLICK">
@@ -71,20 +71,26 @@ const btn9 = ref(null);
 </template>
 <style lang="scss" scoped>
 #wrap {
-  height: 40vh;
+  height: 120vh;
   width: 50vw;
   overflow: auto;
-  border: 1px solid #333;
+  border: 10px solid #333;
   position: relative;
+  z-index: 10;
+  background-color: #eee;
+  // overflow: visible;
 }
 .content {
-  height: 30vh;
-  width: 70vw;
+  height: 140vh;
+  width: 60vw;
 
   position: relative;
   :deep(.o-btn) {
     position: absolute;
   }
+}
+.tip {
+  white-space: nowrap;
 }
 .btn1 {
   left: 0;
@@ -103,7 +109,7 @@ const btn9 = ref(null);
   top: 11vh;
 }
 .btn5 {
-  left: 45vw;
+  left: 20vw;
   top: 15vh;
 }
 .btn6 {
@@ -116,7 +122,8 @@ const btn9 = ref(null);
 }
 .btn8 {
   left: 45vw;
-  bottom: 0;
+  // bottom: 0;
+  top: 100vh;
 }
 .btn9 {
   right: 0;

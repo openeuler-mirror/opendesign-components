@@ -3,6 +3,8 @@
 .o-popup {
   position: absolute;
   z-index: 100;
+  pointer-events: none;
+  min-width: 150px;
 }
 .o-popup-wrap {
   background-color: var(--popup-bg);

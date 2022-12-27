@@ -40,7 +40,11 @@ module.exports = {
     'prefer-template': 'error',
     'prefer-spread': 'error',
     'no-var': 'error',
-    'max-lines-per-function': ['error', 100],
+    'max-lines-per-function': ['error', {
+      max: 100,
+      skipComments: true,
+      skipBlankLines: true
+    }],
     complexity: ['warn', 20],
     'max-depth': ['warn', 4],
     'max-len': ['warn', {

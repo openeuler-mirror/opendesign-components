@@ -25,7 +25,7 @@ const btn12 = ref(null);
       <OButton ref="btn1"> TL </OButton>
       <OPopup :position="PopupPosition.TL" :target="btn1">TL {{ content }} </OPopup>
       <OButton ref="btn2"> TOP </OButton>
-      <OPopup :position="PopupPosition.TOP" :target="btn2">T {{ content }} </OPopup>
+      <OPopup :position="PopupPosition.TOP" :target="btn2" trigger="click">T {{ content }} </OPopup>
       <OButton ref="btn3">TR</OButton>
       <OPopup :position="PopupPosition.TR" :target="btn3">TR {{ content }} </OPopup>
     </div>
@@ -51,7 +51,7 @@ const btn12 = ref(null);
       <OButton ref="btn10"> BL </OButton>
       <OPopup :position="PopupPosition.BL" :target="btn10">BL {{ content }} </OPopup>
       <OButton ref="btn11"> BOTTOM </OButton>
-      <OPopup :position="PopupPosition.BOTTOM" :target="btn11">B {{ content }} </OPopup>
+      <OPopup :position="PopupPosition.BOTTOM" :target="btn11" trigger="click">B {{ content }} </OPopup>
       <OButton ref="btn12"> BR </OButton>
       <OPopup :position="PopupPosition.BR" :target="btn12">BR {{ content }} </OPopup>
     </div>

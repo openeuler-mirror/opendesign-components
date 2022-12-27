@@ -1,36 +1,165 @@
-import { getRelativeBounding, getScroll, isRootEl } from '../_shared/dom';
-import { PopupPosition } from './types';
+import { getElementBorder, getElementSize, getScroll } from '../_shared/dom';
+import type { Direction } from '../_shared/dom';
+import { PopupPosition, FullPosition } from './types';
 
-enum Direction {
-  LEFT = 'left',
-  RIGHT = 'right',
-  TOP = 'top',
-  BOTTOM = 'bottom',
+interface Pos {
+  left: number,
+  top: number
 }
+interface DomContentRect {
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+}
+
+type ElementSize = ReturnType<typeof getElementSize>
+
+// 根据元素Rect判断元素是否在视窗外
+function isOutsideViewport(tRect: DOMRect) {
+  return tRect.bottom < 0 || tRect.right < 0 || tRect.top > window.innerHeight || tRect.left > window.innerWidth;
+}
+// 获取wrapper content box范围，因为绝对定位需要排除border
+function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): DomContentRect {
+  const { left = 0, top = 0, right = 0, bottom = 0 } = getElementBorder(wrapperEl);
+  const rect = wrapperRect || wrapperEl.getBoundingClientRect();
+  return {
+    left: rect.left + left,
+    top: rect.top + top,
+    right: rect.right - right,
+    bottom: rect.bottom - bottom
+  };
+}
+// 根据position计算popup的位置
+function getPopupViewOffset(position: FullPosition, t: DOMRect, p: DOMRect): Pos {
+  const formula: {
+    [k in FullPosition]: { left: number, top: number }
+  } = {
+    top: {
+      left: t.left + t.width / 2 - p.width / 2,
+      top: t.top - p.height
+    },
+    tl: {
+      left: t.left,
+      top: t.top - p.height
+    },
+    tr: {
+      left: t.right - p.width,
+      top: t.top - p.height
+    },
+    bottom: {
+      left: t.left + t.width / 2 - p.width / 2,
+      top: t.bottom
+    },
+    bl: {
+      left: t.left,
+      top: t.bottom
+    },
+    br: {
+      left: t.right - p.width,
+      top: t.bottom
+    },
+    left: {
+      left: t.left - p.width,
+      top: t.top + t.height / 2 - p.height / 2
+    },
+    lt: {
+      left: t.left - p.width,
+      top: t.top
+    },
+    lb: {
+      left: t.left - p.width,
+      top: t.bottom - p.height
+    },
+    right: {
+      left: t.right,
+      top: t.top + t.height / 2 - p.height / 2
+    },
+    rt: {
+      left: t.right,
+      top: t.top
+    },
+    rb: {
+      left: t.right,
+      top: t.bottom - p.height
+
+    }
+  };
+  return formula[position] || { left: 0, top: 0 };
+}
+// 根据视窗与相对容器，返回popup的位置范围
+function getWrapperViewEdge(pSize: ElementSize, wrapperRect?: DomContentRect) {
+  const viewport = {
+    left: 0,
+    right: window.innerWidth,
+    top: 0,
+    bottom: window.innerHeight
+  };
+
+  if (!wrapperRect) {
+    return viewport;
+  }
+  return {
+    left: Math.max(viewport.left, wrapperRect.left),
+    top: Math.max(viewport.top, wrapperRect.top),
+    right: Math.min(viewport.right, wrapperRect.right) - pSize.width,
+    bottom: Math.min(viewport.bottom, wrapperRect.bottom) - pSize.height,
+  };
+}
+// 根据视窗与相对容器，返回popup的位置范围
+function getPopupEdge(pSize: ElementSize, targetRect: DOMRect) {
+  const { left, right, top, bottom } = targetRect;
+  const { width, height } = pSize;
+  return {
+    left: left - width,
+    top: top - height,
+    right: right + width,
+    bottom: bottom + height
+  };
+}
+
+// 计算相对于wrapper的位置信息
+function getPopupWrapOffset(pos: Pos, wrapperEl: HTMLElement | null, wrapperContentRect?: DomContentRect) {
+  if (!wrapperEl) {
+    return pos;
+  }
+  const cs = getScroll(wrapperEl);
+  if (wrapperContentRect) {
+    return {
+      left: pos.left + cs.scrollLeft - wrapperContentRect.left,
+      top: pos.top - wrapperContentRect.top + cs.scrollTop
+    };
+  }
+  return {
+    left: pos.left + cs.scrollLeft,
+    top: pos.top + cs.scrollTop
+  };
+}
+// 根据position获取方向
 function getDirection(position: PopupPosition): Direction {
   switch (position) {
     case PopupPosition.TL:
     case PopupPosition.TR:
     case PopupPosition.TOP:
-      return Direction.TOP;
+      return 'top';
     case PopupPosition.BL:
     case PopupPosition.BR:
     case PopupPosition.BOTTOM:
-      return Direction.BOTTOM;
+      return 'bottom';
     case PopupPosition.LT:
     case PopupPosition.LB:
     case PopupPosition.LEFT:
-      return Direction.LEFT;
+      return 'left';
     case PopupPosition.RT:
     case PopupPosition.RB:
     case PopupPosition.RIGHT:
-      return Direction.RIGHT;
+      return 'right';
   }
 }
-
-function fixPosition(position: PopupPosition, direction: Direction) {
+// 调整position
+function adjustPosition(position: PopupPosition, direction: Direction) {
   const fixFn = {
-    [Direction.TOP]: (p: PopupPosition) => {
+    top: (p: PopupPosition) => {
       if (p === PopupPosition.BOTTOM) {
         return PopupPosition.TOP;
       } else if (p === PopupPosition.BL) {
@@ -40,7 +169,7 @@ function fixPosition(position: PopupPosition, direction: Direction) {
       }
       return p;
     },
-    [Direction.BOTTOM]: (p: PopupPosition) => {
+    bottom: (p: PopupPosition) => {
       if (p === PopupPosition.TOP) {
         return PopupPosition.BOTTOM;
       } else if (p === PopupPosition.TL) {
@@ -50,7 +179,7 @@ function fixPosition(position: PopupPosition, direction: Direction) {
       }
       return p;
     },
-    [Direction.LEFT]: (p: PopupPosition) => {
+    left: (p: PopupPosition) => {
       if (p === PopupPosition.RIGHT) {
         return PopupPosition.LEFT;
       } else if (p === PopupPosition.RT) {
@@ -60,7 +189,7 @@ function fixPosition(position: PopupPosition, direction: Direction) {
       }
       return p;
     },
-    [Direction.RIGHT]: (p: PopupPosition) => {
+    right: (p: PopupPosition) => {
       if (p === PopupPosition.LEFT) {
         return PopupPosition.RIGHT;
       } else if (p === PopupPosition.LT) {
@@ -75,158 +204,106 @@ function fixPosition(position: PopupPosition, direction: Direction) {
   const fn = fixFn[direction];
   return fn ? fn(position) : position;
 }
+// 根据popup的极值调整
+function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSize, pRect: DOMRect, tRect: DOMRect, wRect?: DomContentRect) {
+  const { top, left } = pPosition;
+  const edge = getWrapperViewEdge(pSize, wRect);
 
-function getPopupOffset(targetEl: HTMLElement, position: PopupPosition, popupRect: DOMRect, containerRect: DOMRect) {
-  const t = getRelativeBounding(targetEl, containerRect);
-  const p = popupRect;
-  switch (position) {
-    case PopupPosition.LT: {
-      return {
-        top: t.offsetTop,
-        left: t.offsetLeft - p.width,
-      };
+  let fixedPosition = position;
+  let style = pPosition;
+
+  const d = getDirection(position);
+  if (d === 'top') {
+    if (edge.top > top) {
+      fixedPosition = adjustPosition(position, 'bottom');
+      style = getPopupViewOffset(fixedPosition, tRect, pRect);
     }
-    case PopupPosition.LB: {
-      return {
-        top: t.offsetTop + t.height - p.height,
-        left: t.offsetLeft - p.width,
-      };
+  } else if (d === 'left') {
+    if (edge.left > left) {
+      fixedPosition = adjustPosition(position, 'right');
+      style = getPopupViewOffset(fixedPosition, tRect, pRect);
     }
-    case PopupPosition.LEFT: {
-      return {
-        top: t.offsetTop + Math.round(t.height / 2) - Math.round(p.height / 2),
-        left: t.offsetLeft - p.width,
-      };
+  } else if (d === 'right') {
+    if (edge.right < left) {
+      fixedPosition = adjustPosition(position, 'left');
+      style = getPopupViewOffset(fixedPosition, tRect, pRect);
     }
-    case PopupPosition.RT: {
-      return {
-        top: t.offsetTop,
-        left: t.offsetLeft + t.width,
-      };
-    }
-    case PopupPosition.RB: {
-      return {
-        top: t.offsetTop + t.height - p.height,
-        left: t.offsetLeft + t.width,
-      };
-    }
-    case PopupPosition.RIGHT: {
-      return {
-        top: t.offsetTop + Math.round(t.height / 2) - Math.round(p.height / 2),
-        left: t.offsetLeft + t.width,
-      };
-    }
-    case PopupPosition.TL: {
-      return {
-        top: t.offsetTop - p.height,
-        left: t.offsetLeft,
-      };
-    }
-    case PopupPosition.TR: {
-      return {
-        top: t.offsetTop - p.height,
-        left: t.offsetLeft + t.width - p.width,
-      };
-    }
-    case PopupPosition.TOP: {
-      return {
-        top: t.offsetTop - p.height,
-        left: t.offsetLeft + Math.round(t.width / 2) - Math.round(p.width / 2),
-      };
-    }
-    case PopupPosition.BL: {
-      return {
-        top: t.offsetTop + t.height,
-        left: t.offsetLeft,
-      };
-    }
-    case PopupPosition.BR: {
-      return {
-        top: t.offsetTop + t.height,
-        left: t.offsetLeft + t.width - p.width
-      };
-    }
-    case PopupPosition.BOTTOM: {
-      return {
-        top: t.offsetTop + t.height,
-        left: t.offsetLeft + Math.round(t.width / 2) - Math.round(p.width / 2),
-      };
-    }
-    default: {
-      return {
-        top: 0,
-        left: 0
-      };
+  } else if (d === 'bottom') {
+    if (edge.bottom < top) {
+      fixedPosition = adjustPosition(position, 'top');
+      style = getPopupViewOffset(fixedPosition, tRect, pRect);
     }
   }
-}
 
+  const popEdge = getPopupEdge(pSize, tRect);
+
+  if (['top', 'bottom'].includes(d)) {
+    if (edge.left > left) {
+      style.left = edge.left < popEdge.right ? edge.left : popEdge.right;
+    } else if (edge.right < left) {
+      style.left = edge.right > popEdge.left ? edge.right : popEdge.left;
+    }
+  }
+  if (['left', 'right'].includes(d)) {
+    if (edge.top > top) {
+      style.top = edge.top < popEdge.bottom ? edge.top : popEdge.bottom;
+    } else if (edge.bottom < top) {
+      style.top = edge.bottom < popEdge.top ? edge.bottom : popEdge.top;
+    }
+  }
+
+  return {
+    position: fixedPosition,
+    style,
+  };
+}
 
 // 处理popup位置
 export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, container: HTMLElement, position: PopupPosition,
   { adaptive = true }: { adaptive?: boolean } = {}) {
 
-  const cRect = container.getBoundingClientRect();
-  const pRect = popupEl.getBoundingClientRect();
+  const tRect = targetEl.getBoundingClientRect();
 
-  const { left, top } = getPopupOffset(targetEl, position, pRect, cRect);
+  // 如果target在视窗外，不显示popup
+  const isOutside = isOutsideViewport(tRect);
+  if (isOutside) {
+    return {
+      isOutside: isOutside
+    };
+  }
+
+  const pRect = popupEl.getBoundingClientRect();
+  const pSize = getElementSize(popupEl);
+
+  // 根据position计算popup相对视窗的位置
+  let style = getPopupViewOffset(position, tRect, pRect);
+
+  const wrapperEl = popupEl.offsetParent as HTMLElement | null;
+  const wrapperRect = wrapperEl?.getBoundingClientRect();
+  let wrapperContentRect = wrapperEl ? getWrapperContentRect(wrapperEl, wrapperRect) : undefined;
+
+  // wrapper为body时，如果body有偏移，但position值为static，不需要计算wrapper的content rect。
+  if (wrapperEl?.nodeName === 'BODY' && wrapperContentRect && (wrapperContentRect?.top > 0 || wrapperContentRect?.left > 0)) {
+    const stylePosition = window.getComputedStyle(wrapperEl).getPropertyValue('position');
+    if (stylePosition === 'static') {
+      wrapperContentRect = undefined;
+    }
+  }
 
   let fixedPosition = position;
-  let style = {
-    left,
-    top
-  };
   // 自适应容器边缘
   if (adaptive) {
-    const edge = {
-      left: 0,
-      top: 0,
-      right: Math.floor(cRect.width) - Math.ceil(pRect.width),
-      bottom: Math.floor(cRect.height) - Math.ceil(pRect.height),
-    };
-    const d = getDirection(position);
-    if (d === Direction.TOP && edge.top > top) {
-      fixedPosition = fixPosition(position, Direction.BOTTOM);
-      style = getPopupOffset(targetEl, fixedPosition, pRect, cRect);
-    }
-    if (d === Direction.LEFT && edge.left > left) {
-      fixedPosition = fixPosition(position, Direction.RIGHT);
-      style = getPopupOffset(targetEl, fixedPosition, pRect, cRect);
-    }
-    if (d === Direction.RIGHT && edge.right < left) {
-      fixedPosition = fixPosition(position, Direction.LEFT);
-      style = getPopupOffset(targetEl, fixedPosition, pRect, cRect);
-    }
-    if (d === Direction.BOTTOM && edge.bottom < top) {
-      fixedPosition = fixPosition(position, Direction.TOP);
-      style = getPopupOffset(targetEl, fixedPosition, pRect, cRect);
-    }
-
-    if ([Direction.TOP, Direction.BOTTOM].includes(d)) {
-      if (edge.left > left) {
-        style.left = 0;
-      } else if (edge.right < left) {
-        style.left = edge.right;
-      }
-    }
-    if ([Direction.LEFT, Direction.RIGHT].includes(d)) {
-      if (edge.top > top) {
-        style.top = 0;
-      } else if (edge.bottom < top) {
-        style.top = edge.bottom;
-      }
-    }
+    const rlt = adjustOffset(position, style, pSize, pRect, tRect, wrapperContentRect);
+    fixedPosition = rlt.position;
+    style = rlt.style;
   }
 
-  // 需要加上滚动值，如果为body，则不需要
-  if (!isRootEl(container)) {
-    const cs = getScroll(container);
-    style.left += cs.left;
-    style.top += cs.top;
-  }
+  style = getPopupWrapOffset(style, wrapperEl, wrapperContentRect);
 
   return {
     style,
-    position: fixedPosition
+    position: fixedPosition,
+    isOutside
   };
 };
+

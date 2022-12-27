@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance } from 'vue';
+import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, onUpdated } from 'vue';
 import { PopupPosition, PopupTrigger } from './types';
 import { listenOutClick } from '../directves';
 import { isElement } from '../_shared/dom';
 import { calcPopupStyle } from './popup';
+import { useResizeObserver } from '../hooks/use-resize-observer';
+import { ResizeObserver } from '../resize-observer';
 
 const props = defineProps({
   position: {
@@ -24,50 +26,50 @@ const props = defineProps({
   },
   container: {
     type: [String, Object] as PropType<string | HTMLElement>,
-    default: document.documentElement,
+    default: document.body,
+  },
+  hoverDelay: {
+    type: Number,
+    default: 100,
   },
 });
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
 
-const show = ref(false);
+const visible = ref(false);
 let targetEl: HTMLElement | null = null;
-let containerEl: HTMLElement | null = null;
+let containerEl: Ref<HTMLElement | null> = ref(null);
 const popWrap = ref<HTMLElement | null>(null);
-const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({});
+const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: `${0}px`, top: `${0}px` });
 const popPosition = ref(props.position);
+// 是否在可视区域外
+const isOutside = ref(false);
+
+// 监听dom尺寸变化
+const { createResizeObserver, destoryResizeObserver } = useResizeObserver();
+
 // 处理popup位置
 const updatePopupStyle = () => {
-  if (!targetEl || !popWrap.value || !containerEl) {
+  if (!targetEl || !popWrap.value || !containerEl.value) {
     return;
   }
+  console.log('update style', popWrap.value);
 
-  const { style, position } = calcPopupStyle(popWrap.value, targetEl, containerEl, props.position);
+  const { style, position, isOutside: out } = calcPopupStyle(popWrap.value, targetEl, containerEl.value, props.position);
+  isOutside.value = out;
 
-  popStyle.top = `${style.top}px`;
-  popStyle.left = `${style.left}px`;
-  popPosition.value = position;
-};
+  if (style && !out) {
+    popStyle.top = `${Math.round(style.top)}px`;
+    popStyle.left = `${Math.round(style.left)}px`;
 
-const showFn = () => {
-  if (!show.value) {
-    show.value = true;
-    emits('update:visible', true);
-    nextTick(() => {
-      updatePopupStyle();
-    });
+    popPosition.value = position;
   }
 };
-const hideFn = () => {
-  if (show.value) {
-    show.value = false;
-    emits('update:visible', false);
-  }
-};
+
 watch(
   () => props.visible,
   (val) => {
-    show.value = val;
+    visible.value = val;
     if (val) {
       nextTick(() => {
         updatePopupStyle();
@@ -76,8 +78,42 @@ watch(
   }
 );
 
+let visibleTimer = 0;
+const clearVisibleTimer = () => {
+  if (visibleTimer) {
+    window.clearTimeout(visibleTimer);
+    visibleTimer = 0;
+  }
+};
+
+// 更新可见状态，支持延迟更新
+const updateVisible = (isVisible: boolean, delay?: number) => {
+  if (isVisible === visible.value && visibleTimer) {
+    return;
+  }
+
+  const update = () => {
+    visible.value = isVisible;
+    emits('update:visible', isVisible);
+    // if (isVisible) {
+    //   nextTick(() => {
+    //     updatePopupStyle();
+    //   });
+    // }
+  };
+
+  if (delay) {
+    clearVisibleTimer();
+    if (isVisible !== visible.value) {
+      visibleTimer = window.setTimeout(update, delay);
+    }
+  } else {
+    update();
+  }
+};
+
 // 监听元素的触发事件
-const handleTrigger = (el: HTMLElement | null) => {
+const bindTrigger = (el: HTMLElement | null) => {
   if (!el) {
     return [];
   }
@@ -85,14 +121,31 @@ const handleTrigger = (el: HTMLElement | null) => {
 
   const listeners: Array<() => void> = [];
 
+  const showFn = () => {
+    if (visible.value === false) {
+      updateVisible(true);
+    }
+  };
+  const hideFn = () => {
+    if (visible.value === true) {
+      updateVisible(false);
+    }
+  };
+
   const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
   triggers.forEach((tr: PopupTrigger) => {
     if (tr === PopupTrigger.HOVER) {
-      el?.addEventListener('mouseover', showFn);
-      el?.addEventListener('mouseleave', hideFn);
+      const enterFn = () => {
+        updateVisible(true, props.hoverDelay);
+      };
+      const leavefn = () => {
+        updateVisible(false, props.hoverDelay);
+      };
+      el?.addEventListener('mouseover', enterFn);
+      el?.addEventListener('mouseleave', leavefn);
       const removeFn = () => {
-        el?.removeEventListener('mouseover', showFn);
-        el?.removeEventListener('mouseleave', hideFn);
+        el?.removeEventListener('mouseover', enterFn);
+        el?.removeEventListener('mouseleave', leavefn);
       };
       listeners.push(removeFn);
     } else if (tr === PopupTrigger.FOUCS) {
@@ -131,52 +184,66 @@ const handleTrigger = (el: HTMLElement | null) => {
   return listeners;
 };
 
-let triggerListener: ReturnType<typeof handleTrigger> = [];
+let triggerListener: ReturnType<typeof bindTrigger> = [];
 
 // 触发元素为组件ref，处理事件触发
 watch(
   () => props.target,
   (ele) => {
     if (ele && (ele as ComponentPublicInstance).$el) {
-      triggerListener = handleTrigger((ele as ComponentPublicInstance).$el);
+      triggerListener = bindTrigger((ele as ComponentPublicInstance).$el);
     }
   }
 );
+
+const onResize = () => {
+  if (visible.value) {
+    updatePopupStyle();
+  }
+};
+
 onMounted(() => {
   // 在mounted事件后再显示，避免找不到container
-  show.value = props.visible;
+  visible.value = props.visible;
 
   // 触发元素为dom或者选择器，处理事件触发
   nextTick(() => {
     if (typeof props.container === 'string') {
-      containerEl = document.querySelector(props.container);
+      containerEl.value = document.querySelector(props.container);
     } else {
-      containerEl = props.container;
+      containerEl.value = props.container;
     }
-
-    if (show.value) {
+    // 初始为true时，更新样式
+    if (visible.value) {
       updatePopupStyle();
     }
 
+    // 绑定触发元素事件
     if (typeof props.target === 'string') {
-      triggerListener = handleTrigger(document.querySelector(props.target));
+      triggerListener = bindTrigger(document.querySelector(props.target));
     } else if (isElement(props.target)) {
-      triggerListener = handleTrigger(props.target as HTMLElement);
+      triggerListener = bindTrigger(props.target as HTMLElement);
     }
   });
 });
+
 onUnmounted(() => {
+  // 移除触发事件
   triggerListener.forEach((fn) => {
     fn();
   });
+  // 销毁popup 的 resize监听
+  destoryResizeObserver();
 });
 </script>
 <template>
-  <teleport v-if="show" :to="props.container">
-    <div ref="popWrap" class="o-popup" :style="popStyle">
-      <div class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
-        <slot></slot>
+  <teleport v-if="visible" :to="props.container">
+    <ResizeObserver @resize="onResize">
+      <div v-show="!isOutside" ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs">
+        <div class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
+          <slot></slot>
+        </div>
       </div>
-    </div>
+    </ResizeObserver>
   </teleport>
 </template>
