@@ -208,6 +208,7 @@ function adjustPosition(position: PopupPosition, direction: Direction) {
 function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSize, pRect: DOMRect, tRect: DOMRect, wRect?: DomContentRect) {
   const { top, left } = pPosition;
   const edge = getWrapperViewEdge(pSize, wRect);
+  console.log('1', pSize, edge, pPosition);
 
   let fixedPosition = position;
   let style = pPosition;
@@ -251,6 +252,7 @@ function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSiz
       style.top = edge.bottom < popEdge.top ? edge.bottom : popEdge.top;
     }
   }
+  console.log('2', popEdge, fixedPosition);
 
   return {
     position: fixedPosition,

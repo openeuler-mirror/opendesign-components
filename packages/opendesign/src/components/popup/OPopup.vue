@@ -69,6 +69,9 @@ const updatePopupStyle = () => {
 watch(
   () => props.visible,
   (val) => {
+    if (visible.value === val) {
+      return;
+    }
     visible.value = val;
     if (val) {
       nextTick(() => {
@@ -196,8 +199,9 @@ watch(
   }
 );
 
-const onResize = () => {
+const onResize = (r) => {
   if (visible.value) {
+    console.log(r.contentRect.width, r.contentRect.height);
     updatePopupStyle();
   }
 };
