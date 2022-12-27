@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, onUpdated } from 'vue';
+import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance } from 'vue';
 import { PopupPosition, PopupTrigger } from './types';
-import { listenOutClick } from '../directves';
 import { isElement } from '../_shared/dom';
-import { calcPopupStyle } from './popup';
+import { calcPopupStyle, bindTrigger } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { ResizeObserver } from '../resize-observer';
 
@@ -90,118 +89,55 @@ const clearVisibleTimer = () => {
 };
 
 // 更新可见状态，支持延迟更新
+// let visibleTo = visible.value;
 const updateVisible = (isVisible: boolean, delay?: number) => {
-  if (isVisible === visible.value && visibleTimer) {
+  if (isVisible === visible.value && visibleTimer === 0) {
     return;
   }
 
   const update = () => {
+    if (visible.value === isVisible) {
+      return;
+    }
     visible.value = isVisible;
+    isOutside.value = false;
     emits('update:visible', isVisible);
-    // if (isVisible) {
-    //   nextTick(() => {
-    //     updatePopupStyle();
-    //   });
-    // }
   };
 
   if (delay) {
     clearVisibleTimer();
-    if (isVisible !== visible.value) {
-      visibleTimer = window.setTimeout(update, delay);
-    }
+    visibleTimer = window.setTimeout(update, delay);
   } else {
     update();
   }
 };
 
-// 监听元素的触发事件
-const bindTrigger = (el: HTMLElement | null) => {
-  if (!el) {
-    return [];
-  }
-  targetEl = el;
-
-  const listeners: Array<() => void> = [];
-
-  const showFn = () => {
-    if (visible.value === false) {
-      updateVisible(true);
-    }
-  };
-  const hideFn = () => {
-    if (visible.value === true) {
-      updateVisible(false);
-    }
-  };
-
-  const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
-  triggers.forEach((tr: PopupTrigger) => {
-    if (tr === PopupTrigger.HOVER) {
-      const enterFn = () => {
-        updateVisible(true, props.hoverDelay);
-      };
-      const leavefn = () => {
-        updateVisible(false, props.hoverDelay);
-      };
-      el?.addEventListener('mouseover', enterFn);
-      el?.addEventListener('mouseleave', leavefn);
-      const removeFn = () => {
-        el?.removeEventListener('mouseover', enterFn);
-        el?.removeEventListener('mouseleave', leavefn);
-      };
-      listeners.push(removeFn);
-    } else if (tr === PopupTrigger.FOUCS) {
-      el?.addEventListener('focusin', showFn);
-      el?.addEventListener('focusout', hideFn);
-      const removeFn = () => {
-        el?.removeEventListener('focusin', showFn);
-        el?.removeEventListener('focusout', hideFn);
-      };
-      listeners.push(removeFn);
-    } else if (tr === PopupTrigger.CLICK) {
-      el?.addEventListener('click', showFn);
-
-      const removeFn = listenOutClick(el, hideFn);
-
-      listeners.push(() => {
-        el?.removeEventListener('click', showFn);
-      });
-      listeners.push(removeFn);
-    } else if (tr === PopupTrigger.CONTEXT_MENU) {
-      const fn = (e: Event) => {
-        e.preventDefault();
-        showFn();
-      };
-      el?.addEventListener('contextmenu', fn);
-
-      const removeFn = listenOutClick(el, hideFn);
-
-      listeners.push(() => {
-        el?.removeEventListener('contextmenu', fn);
-      });
-      listeners.push(removeFn);
-    }
-  });
-
-  return listeners;
-};
-
 let triggerListener: ReturnType<typeof bindTrigger> = [];
+const bindEvent = (el: HTMLElement | null) => {
+  if (!el) {
+    return;
+  }
+
+  targetEl = el;
+  const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
+  triggerListener = bindTrigger(el, triggers, {
+    updateFn: updateVisible,
+    hoverDelay: props.hoverDelay,
+  });
+};
 
 // 触发元素为组件ref，处理事件触发
 watch(
   () => props.target,
   (ele) => {
-    if (ele && (ele as ComponentPublicInstance).$el) {
-      triggerListener = bindTrigger((ele as ComponentPublicInstance).$el);
+    if (ele) {
+      bindEvent((ele as ComponentPublicInstance).$el);
     }
   }
 );
 
-const onResize = (r) => {
+const onResize = () => {
   if (visible.value) {
-    console.log(r.contentRect.width, r.contentRect.height);
     updatePopupStyle();
   }
 };
@@ -224,9 +160,9 @@ onMounted(() => {
 
     // 绑定触发元素事件
     if (typeof props.target === 'string') {
-      triggerListener = bindTrigger(document.querySelector(props.target));
+      bindEvent(document.querySelector(props.target));
     } else if (isElement(props.target)) {
-      triggerListener = bindTrigger(props.target as HTMLElement);
+      bindEvent(props.target as HTMLElement);
     }
   });
 });

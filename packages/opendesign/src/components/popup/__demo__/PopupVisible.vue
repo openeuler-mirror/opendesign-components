@@ -20,7 +20,7 @@ setTimeout(() => {
       <OButton ref="btn1" class="btn">Button</OButton>
       <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn1">TL {{ content }} </OPopup>
       <OButton ref="btn2" class="btn"> TOP </OButton>
-      <OPopup v-model:visible="visible" :position="PopupPosition.BOTTOM" :target="btn2" :trigger="PopupTrigger.NULL">T {{ content }} </OPopup>
+      <OPopup :visible="visible" :position="PopupPosition.BOTTOM" :target="btn2" :trigger="PopupTrigger.NULL">T {{ content }} </OPopup>
     </div>
   </section>
 </template>

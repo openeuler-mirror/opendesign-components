@@ -1,6 +1,7 @@
 import { getElementBorder, getElementSize, getScroll } from '../_shared/dom';
 import type { Direction } from '../_shared/dom';
-import { PopupPosition, FullPosition } from './types';
+import { PopupPosition, FullPosition, PopupTrigger } from './types';
+import { listenOutClick } from '../directves';
 
 interface Pos {
   left: number,
@@ -19,6 +20,7 @@ type ElementSize = ReturnType<typeof getElementSize>
 function isOutsideViewport(tRect: DOMRect) {
   return tRect.bottom < 0 || tRect.right < 0 || tRect.top > window.innerHeight || tRect.left > window.innerWidth;
 }
+
 // 获取wrapper content box范围，因为绝对定位需要排除border
 function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): DomContentRect {
   const { left = 0, top = 0, right = 0, bottom = 0 } = getElementBorder(wrapperEl);
@@ -30,6 +32,7 @@ function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): D
     bottom: rect.bottom - bottom
   };
 }
+
 // 根据position计算popup的位置
 function getPopupViewOffset(position: FullPosition, t: DOMRect, p: DOMRect): Pos {
   const formula: {
@@ -87,6 +90,7 @@ function getPopupViewOffset(position: FullPosition, t: DOMRect, p: DOMRect): Pos
   };
   return formula[position] || { left: 0, top: 0 };
 }
+
 // 根据视窗与相对容器，返回popup的位置范围
 function getWrapperViewEdge(pSize: ElementSize, wrapperRect?: DomContentRect) {
   const viewport = {
@@ -106,6 +110,7 @@ function getWrapperViewEdge(pSize: ElementSize, wrapperRect?: DomContentRect) {
     bottom: Math.min(viewport.bottom, wrapperRect.bottom) - pSize.height,
   };
 }
+
 // 根据视窗与相对容器，返回popup的位置范围
 function getPopupEdge(pSize: ElementSize, targetRect: DOMRect) {
   const { left, right, top, bottom } = targetRect;
@@ -135,6 +140,7 @@ function getPopupWrapOffset(pos: Pos, wrapperEl: HTMLElement | null, wrapperCont
     top: pos.top + cs.scrollTop
   };
 }
+
 // 根据position获取方向
 function getDirection(position: PopupPosition): Direction {
   switch (position) {
@@ -156,6 +162,7 @@ function getDirection(position: PopupPosition): Direction {
       return 'right';
   }
 }
+
 // 调整position
 function adjustPosition(position: PopupPosition, direction: Direction) {
   const fixFn = {
@@ -204,11 +211,11 @@ function adjustPosition(position: PopupPosition, direction: Direction) {
   const fn = fixFn[direction];
   return fn ? fn(position) : position;
 }
+
 // 根据popup的极值调整
 function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSize, pRect: DOMRect, tRect: DOMRect, wRect?: DomContentRect) {
   const { top, left } = pPosition;
   const edge = getWrapperViewEdge(pSize, wRect);
-  console.log('1', pSize, edge, pPosition);
 
   let fixedPosition = position;
   let style = pPosition;
@@ -252,7 +259,6 @@ function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSiz
       style.top = edge.bottom < popEdge.top ? edge.bottom : popEdge.top;
     }
   }
-  console.log('2', popEdge, fixedPosition);
 
   return {
     position: fixedPosition,
@@ -309,3 +315,81 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, cont
   };
 };
 
+
+
+// 监听元素的触发事件
+export function bindTrigger(
+  el: HTMLElement | null,
+  triggers: PopupTrigger[],
+  {
+    updateFn,
+    hoverDelay = 100
+  }: {
+    updateFn: (isVisible: boolean, delay?: number) => void,
+    hoverDelay?: number
+  }
+) {
+  if (!el) {
+    return [];
+  }
+
+  const listeners: Array<() => void> = [];
+
+  const showFn = () => {
+    updateFn(true);
+  };
+  const hideFn = () => {
+    updateFn(false);
+  };
+
+  const enterFn = () => {
+    updateFn(true, hoverDelay);
+  };
+  const leavefn = () => {
+    updateFn(false, hoverDelay);
+  };
+
+  triggers.forEach((tr: PopupTrigger) => {
+    if (tr === PopupTrigger.HOVER) {
+      el?.addEventListener('mouseover', enterFn);
+      el?.addEventListener('mouseleave', leavefn);
+      const removeFn = () => {
+        el?.removeEventListener('mouseover', enterFn);
+        el?.removeEventListener('mouseleave', leavefn);
+      };
+      listeners.push(removeFn);
+    } else if (tr === PopupTrigger.FOUCS) {
+      el?.addEventListener('focusin', showFn);
+      el?.addEventListener('focusout', hideFn);
+      const removeFn = () => {
+        el?.removeEventListener('focusin', showFn);
+        el?.removeEventListener('focusout', hideFn);
+      };
+      listeners.push(removeFn);
+    } else if (tr === PopupTrigger.CLICK) {
+      el?.addEventListener('click', showFn);
+
+      const removeFn = listenOutClick(el, hideFn);
+
+      listeners.push(() => {
+        el?.removeEventListener('click', showFn);
+      });
+      listeners.push(removeFn);
+    } else if (tr === PopupTrigger.CONTEXT_MENU) {
+      const fn = (e: Event) => {
+        e.preventDefault();
+        showFn();
+      };
+      el?.addEventListener('contextmenu', fn);
+
+      const removeFn = listenOutClick(el, hideFn);
+
+      listeners.push(() => {
+        el?.removeEventListener('contextmenu', fn);
+      });
+      listeners.push(removeFn);
+    }
+  });
+
+  return listeners;
+};
