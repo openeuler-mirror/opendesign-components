@@ -23,7 +23,7 @@ const props = defineProps({
   visible: {
     type: Boolean,
   },
-  container: {
+  wrapper: {
     type: [String, Object] as PropType<string | HTMLElement>,
     default: document.body,
   },
@@ -37,24 +37,25 @@ const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
 
 const visible = ref(false);
 let targetEl: HTMLElement | null = null;
-let containerEl: Ref<HTMLElement | null> = ref(null);
+let wrapperEl: Ref<HTMLElement | null> = ref(null);
 const popWrap = ref<HTMLElement | null>(null);
 const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: `${0}px`, top: `${0}px` });
 const popPosition = ref(props.position);
 // 是否在可视区域外
 const isOutside = ref(false);
+const unmount = ref(true);
 
 // 监听dom尺寸变化
 const { createResizeObserver, destoryResizeObserver } = useResizeObserver();
 
 // 处理popup位置
 const updatePopupStyle = () => {
-  if (!targetEl || !popWrap.value || !containerEl.value) {
+  if (!targetEl || !popWrap.value || !wrapperEl.value) {
     return;
   }
   console.log('update style', popWrap.value);
 
-  const { style, position, isOutside: out } = calcPopupStyle(popWrap.value, targetEl, containerEl.value, props.position);
+  const { style, position, isOutside: out } = calcPopupStyle(popWrap.value, targetEl, wrapperEl.value, props.position);
   isOutside.value = out;
 
   if (style && !out) {
@@ -102,6 +103,9 @@ const updateVisible = (isVisible: boolean, delay?: number) => {
     visible.value = isVisible;
     isOutside.value = false;
     emits('update:visible', isVisible);
+    if (isVisible) {
+      unmount.value = false;
+    }
   };
 
   if (delay) {
@@ -142,16 +146,22 @@ const onResize = () => {
   }
 };
 
+const handleTransitionEnd = () => {
+  if (!visible.value) {
+    unmount.value = true;
+  }
+};
+
 onMounted(() => {
-  // 在mounted事件后再显示，避免找不到container
+  // 在mounted事件后再显示，避免找不到wrapper
   visible.value = props.visible;
 
   // 触发元素为dom或者选择器，处理事件触发
   nextTick(() => {
-    if (typeof props.container === 'string') {
-      containerEl.value = document.querySelector(props.container);
+    if (typeof props.wrapper === 'string') {
+      wrapperEl.value = document.querySelector(props.wrapper);
     } else {
-      containerEl.value = props.container;
+      wrapperEl.value = props.wrapper;
     }
     // 初始为true时，更新样式
     if (visible.value) {
@@ -177,12 +187,14 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <teleport v-if="visible" :to="props.container">
+  <teleport v-if="!unmount || visible" :to="props.wrapper">
     <ResizeObserver @resize="onResize">
       <div v-show="!isOutside" ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs">
-        <div class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
-          <slot></slot>
-        </div>
+        <Transition name="zoom" :appear="true" @after-leave="handleTransitionEnd">
+          <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
+            <slot></slot>
+          </div>
+        </Transition>
       </div>
     </ResizeObserver>
   </teleport>
