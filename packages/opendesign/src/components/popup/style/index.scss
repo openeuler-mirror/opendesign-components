@@ -60,14 +60,14 @@
   margin-left: var(--popup-gap);
 }
 
-.zoom-enter-active {
-  animation: scale-in 0.3s;
+.popup-in-out-enter-active {
+  animation: popup-scale-in 0.3s;
 }
-.zoom-leave-active {
-  animation: scale-in 0.2s reverse;
+.popup-in-out-leave-active {
+  animation: popup-scale-in 0.2s reverse;
 }
 
-@keyframes scale-in {
+@keyframes popup-scale-in {
   0% {
     transform: scale(0.9);
     opacity: 0;

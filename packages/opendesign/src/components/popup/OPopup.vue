@@ -190,7 +190,7 @@ onUnmounted(() => {
   <teleport v-if="!unmount || visible" :to="props.wrapper">
     <ResizeObserver @resize="onResize">
       <div v-show="!isOutside" ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs">
-        <Transition name="zoom" :appear="true" @after-leave="handleTransitionEnd">
+        <Transition name="popup-in-out" :appear="true" @after-leave="handleTransitionEnd">
           <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
             <slot></slot>
           </div>
