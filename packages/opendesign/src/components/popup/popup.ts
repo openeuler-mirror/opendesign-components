@@ -1,4 +1,4 @@
-import { getElementBorder, getElementSize, getScroll } from '../_shared/dom';
+import { getElementBorder, getElementSize, getOffsetElement, getScroll } from '../_shared/dom';
 import type { Direction } from '../_shared/dom';
 import { PopupPosition, FullPosition, PopupTrigger } from './types';
 import { listenOutClick } from '../directves';
@@ -95,9 +95,9 @@ function getPopupViewOffset(position: FullPosition, t: DOMRect, p: DOMRect): Pos
 function getWrapperViewEdge(pSize: ElementSize, wrapperRect?: DomContentRect) {
   const viewport = {
     left: 0,
-    right: window.innerWidth,
+    right: window.innerWidth - pSize.width,
     top: 0,
-    bottom: window.innerHeight
+    bottom: window.innerHeight - pSize.height
   };
 
   if (!wrapperRect) {
@@ -106,8 +106,8 @@ function getWrapperViewEdge(pSize: ElementSize, wrapperRect?: DomContentRect) {
   return {
     left: Math.max(viewport.left, wrapperRect.left),
     top: Math.max(viewport.top, wrapperRect.top),
-    right: Math.min(viewport.right, wrapperRect.right) - pSize.width,
-    bottom: Math.min(viewport.bottom, wrapperRect.bottom) - pSize.height,
+    right: Math.min(viewport.right, wrapperRect.right - pSize.width),
+    bottom: Math.min(viewport.bottom, wrapperRect.bottom - pSize.height),
   };
 }
 
@@ -132,7 +132,7 @@ function getPopupWrapOffset(pos: Pos, wrapperEl: HTMLElement | null, wrapperCont
   if (wrapperContentRect) {
     return {
       left: pos.left + cs.scrollLeft - wrapperContentRect.left,
-      top: pos.top - wrapperContentRect.top + cs.scrollTop
+      top: pos.top + cs.scrollTop - wrapperContentRect.top
     };
   }
   return {
@@ -267,7 +267,7 @@ function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSiz
 }
 
 // 处理popup位置
-export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, container: HTMLElement, position: PopupPosition,
+export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, position: PopupPosition,
   { adaptive = true }: { adaptive?: boolean } = {}) {
 
   const tRect = targetEl.getBoundingClientRect();
@@ -286,16 +286,18 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, cont
   // 根据position计算popup相对视窗的位置
   let style = getPopupViewOffset(position, tRect, pRect);
 
-  const wrapperEl = popupEl.offsetParent as HTMLElement | null;
-  const wrapperRect = wrapperEl?.getBoundingClientRect();
-  let wrapperContentRect = wrapperEl ? getWrapperContentRect(wrapperEl, wrapperRect) : undefined;
+  const wrapperEl = getOffsetElement(popupEl) as HTMLElement;
+  if (!wrapperEl) {
+    return {
+      isOutside: true
+    };
+  }
+  const wrapperRect = wrapperEl.getBoundingClientRect();
+  let wrapperContentRect = undefined;
 
   // wrapper为body时，如果body有偏移，但position值为static，不需要计算wrapper的content rect。
-  if (wrapperEl?.nodeName === 'BODY' && wrapperContentRect && (wrapperContentRect?.top > 0 || wrapperContentRect?.left > 0)) {
-    const stylePosition = window.getComputedStyle(wrapperEl).getPropertyValue('position');
-    if (stylePosition === 'static') {
-      wrapperContentRect = undefined;
-    }
+  if (wrapperEl.nodeName !== 'HTML') {
+    wrapperContentRect = getWrapperContentRect(wrapperEl, wrapperRect);
   }
 
   let fixedPosition = position;

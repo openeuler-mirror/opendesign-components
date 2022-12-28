@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance } from 'vue';
 import { PopupPosition, PopupTrigger } from './types';
-import { isElement } from '../_shared/dom';
+import { isElement, getScrollParents } from '../_shared/dom';
+import { throttleRAF } from '../_shared/utils';
 import { calcPopupStyle, bindTrigger } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { ResizeObserver } from '../resize-observer';
@@ -53,9 +54,9 @@ const updatePopupStyle = () => {
   if (!targetEl || !popWrap.value || !wrapperEl.value) {
     return;
   }
-  console.log('update style', popWrap.value);
+  console.log('update style');
 
-  const { style, position, isOutside: out } = calcPopupStyle(popWrap.value, targetEl, wrapperEl.value, props.position);
+  const { style, position, isOutside: out } = calcPopupStyle(popWrap.value, targetEl, props.position);
   isOutside.value = out;
 
   if (style && !out) {
@@ -152,6 +153,34 @@ const handleTransitionEnd = () => {
   }
 };
 
+const scrollListener = throttleRAF(() => {
+  if (visible.value) {
+    updatePopupStyle();
+  }
+});
+
+const listenScroll = (el: HTMLElement) => {
+  el.addEventListener('scroll', scrollListener, { passive: true });
+  return () => {
+    el.removeEventListener('scroll', scrollListener);
+  };
+};
+
+watch(popWrap, (popEl) => {
+  let handles: Array<() => void> = [];
+  if (popEl) {
+    if (targetEl) {
+      const scrollers = getScrollParents(targetEl);
+      console.log('scrollers', scrollers);
+      handles = scrollers.map((el) => {
+        return listenScroll(el);
+      });
+    }
+  } else {
+    handles.forEach((hl) => hl());
+  }
+});
+
 onMounted(() => {
   // 在mounted事件后再显示，避免找不到wrapper
   visible.value = props.visible;
@@ -190,7 +219,7 @@ onUnmounted(() => {
   <teleport v-if="!unmount || visible" :to="props.wrapper">
     <ResizeObserver @resize="onResize">
       <div v-show="!isOutside" ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs">
-        <Transition name="popup-in-out" :appear="true" @after-leave="handleTransitionEnd">
+        <Transition name="o-zoom-fade" :appear="true" @after-leave="handleTransitionEnd">
           <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
             <slot></slot>
           </div>
