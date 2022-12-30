@@ -10,29 +10,56 @@ import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 
 const props = defineProps({
+  /**
+   * 弹出位置
+   */
   position: {
     type: String as PropType<PopupPosition>,
     default: PopupPosition.LB,
   },
+  /**
+   * 触发事件
+   * 'hover','click','focus','contextMenu'
+   */
   trigger: {
     type: [String, Array<String>] as PropType<PopupTrigger | PopupTrigger[]>,
     default: PopupTrigger.HOVER,
   },
+  /**
+   * 触发元素或组件
+   */
   target: {
     type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
     default: null,
     require: true,
   },
+  /**
+   * 是否可见
+   * v-model
+   */
   visible: {
     type: Boolean,
   },
+  /**
+   * 挂载容器，默认为body
+   */
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement>,
     default: document.body,
   },
+  /**
+   * hover事件延时触发的时间（毫秒）
+   */
   hoverDelay: {
     type: Number,
     default: 100,
+  },
+  /**
+   * 是否当触发元素不可见时隐藏弹出框
+   */
+  hideWhenTargetInvisible: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -40,7 +67,7 @@ const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
 
 const visible = ref(false);
 let targetEl: HTMLElement | null = null;
-const isTargetInViewport = ref(false);
+const isTargetInViewport = ref(!props.hideWhenTargetInvisible);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
 const popWrap = ref<HTMLElement | null>(null);
@@ -54,7 +81,7 @@ const intersctionObserver = useIntersectionObserver();
 
 // 处理popup位置
 const updatePopupStyle = () => {
-  if (!isTargetInViewport.value) {
+  if (props.hideWhenTargetInvisible && !isTargetInViewport.value) {
     return;
   }
 
@@ -147,7 +174,9 @@ const bindTargetEvent = (el: HTMLElement | null) => {
     hoverDelay: props.hoverDelay,
   });
 
-  intersctionObserver.addListener(targetEl, onTargetInterscting);
+  if (props.hideWhenTargetInvisible) {
+    intersctionObserver.addListener(targetEl, onTargetInterscting);
+  }
 };
 
 // 触发元素为组件ref，处理事件触发
@@ -159,11 +188,13 @@ watch(
     }
   }
 );
-
 const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
     updatePopupStyle();
   }
+};
+const onPopupResize = (en: ResizeObserverEntry, isFirst: boolean) => {
+  return onResize(en, props.hideWhenTargetInvisible ? isFirst : false);
 };
 
 const handleTransitionEnd = () => {
@@ -234,9 +265,9 @@ onMounted(() => {
     }
 
     // // 初始为true时，更新样式
-    // if (visible.value) {
-    //   updatePopupStyle();
-    // }
+    if (visible.value) {
+      updatePopupStyle();
+    }
   });
 });
 
@@ -256,7 +287,7 @@ onUnmounted(() => {
 </script>
 <template>
   <teleport v-if="!unmount || visible" :to="props.wrapper">
-    <ResizeObserver @resize="onResize">
+    <ResizeObserver @resize="onPopupResize">
       <div ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs" :class="{ hide: !isTargetInViewport }">
         <Transition name="o-zoom-fade" :appear="true" @after-leave="handleTransitionEnd">
           <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
