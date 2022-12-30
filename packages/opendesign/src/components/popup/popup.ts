@@ -16,11 +16,6 @@ interface DomContentRect {
 
 type ElementSize = ReturnType<typeof getElementSize>
 
-// 根据元素Rect判断元素是否在视窗外
-function isOutsideViewport(tRect: DOMRect) {
-  return tRect.bottom < 0 || tRect.right < 0 || tRect.top > window.innerHeight || tRect.left > window.innerWidth;
-}
-
 // 获取wrapper content box范围，因为绝对定位需要排除border
 function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): DomContentRect {
   const { left = 0, top = 0, right = 0, bottom = 0 } = getElementBorder(wrapperEl);
@@ -256,7 +251,7 @@ function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSiz
     if (edge.top > top) {
       style.top = edge.top < popEdge.bottom ? edge.top : popEdge.bottom;
     } else if (edge.bottom < top) {
-      style.top = edge.bottom < popEdge.top ? edge.bottom : popEdge.top;
+      style.top = edge.bottom > popEdge.top ? edge.bottom : popEdge.top;
     }
   }
 
@@ -271,14 +266,6 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
   { adaptive = true }: { adaptive?: boolean } = {}) {
 
   const tRect = targetEl.getBoundingClientRect();
-
-  // 如果target在视窗外，不显示popup
-  const isOutside = isOutsideViewport(tRect);
-  if (isOutside) {
-    return {
-      isOutside: isOutside
-    };
-  }
 
   const pRect = popupEl.getBoundingClientRect();
   const pSize = getElementSize(popupEl);
@@ -313,7 +300,6 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
   return {
     style,
     position: fixedPosition,
-    isOutside
   };
 };
 

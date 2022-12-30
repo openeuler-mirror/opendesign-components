@@ -18,8 +18,8 @@ const visible = ref(true);
 const text = ref('text');
 const width = ref('50vw');
 setTimeout(() => {
-  text.value += '--|';
-  width.value = '40vw';
+  // text.value += '--|';
+  // width.value = '40vw';
 }, 2000);
 </script>
 <template>
@@ -44,7 +44,7 @@ setTimeout(() => {
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
-      <OPopup :position="PopupPosition.TL" :target="btn3" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn3" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
@@ -52,7 +52,7 @@ setTimeout(() => {
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
-      <OPopup v-model:visible="visible" :position="PopupPosition.TR" :target="btn5" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup :position="PopupPosition.TR" :target="btn5" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
@@ -77,7 +77,7 @@ setTimeout(() => {
 </template>
 <style lang="scss" scoped>
 #wrap {
-  height: 120vh;
+  height: 50vh;
   width: 50vw;
   overflow: auto;
   border: 10px solid #333;
@@ -87,7 +87,7 @@ setTimeout(() => {
   // overflow: visible;
 }
 .content {
-  height: 140vh;
+  height: 50vh;
   width: 60vw;
 
   position: relative;

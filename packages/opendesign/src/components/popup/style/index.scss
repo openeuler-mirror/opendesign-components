@@ -5,6 +5,12 @@
   z-index: 100;
   pointer-events: none;
   min-width: 120px;
+  opacity: 1;
+  transition: opacity var(--o-transition-duration-3);
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 .o-popup-wrap {
   background-color: var(--popup-bg);
