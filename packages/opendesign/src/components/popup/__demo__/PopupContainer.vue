@@ -15,16 +15,22 @@ const btn7 = ref(null);
 const btn8 = ref(null);
 const btn9 = ref(null);
 const visible = ref(true);
+const text = ref('text');
+const width = ref('50vw');
+setTimeout(() => {
+  text.value += '--|';
+  width.value = '40vw';
+}, 2000);
 </script>
 <template>
   <h4>popup container</h4>
-  <div id="wrap">
+  <div id="wrap" :style="{ width: width }">
     <div class="content">
       <OButton ref="btn1" class="btn1">TL btn1 </OButton>
       <OButton ref="btn2" class="btn2">TR btn2 </OButton>
       <OButton ref="btn3" class="btn3">TL btn3 </OButton>
       <OButton ref="btn4" class="btn4">LT btn4 </OButton>
-      <OButton ref="btn5" class="btn5">TL btn5 </OButton>
+      <OButton ref="btn5" class="btn5">TL btn5 {{ text }}</OButton>
       <OButton ref="btn6" class="btn6">TL btn6 </OButton>
       <OButton ref="btn7" class="btn7">LEFT btn7 </OButton>
       <OButton ref="btn8" class="btn8">BL btn8 </OButton>
@@ -38,7 +44,7 @@ const visible = ref(true);
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
-      <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn3" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup :position="PopupPosition.TL" :target="btn3" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
@@ -46,7 +52,7 @@ const visible = ref(true);
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
-      <OPopup :position="PopupPosition.TL" :target="btn5" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup v-model:visible="visible" :position="PopupPosition.TR" :target="btn5" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
         <div>{{ content }}</div>
         <div>{{ content }}</div>
       </OPopup>
@@ -109,7 +115,7 @@ const visible = ref(true);
   top: 11vh;
 }
 .btn5 {
-  left: 20vw;
+  right: 60%;
   top: 15vh;
 }
 .btn6 {

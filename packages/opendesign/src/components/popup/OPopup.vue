@@ -5,6 +5,7 @@ import { isElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
 import { calcPopupStyle, bindTrigger } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
+import type { ResizeObserverInstanceT } from '../hooks/use-resize-observer';
 import { ResizeObserver } from '../resize-observer';
 
 const props = defineProps({
@@ -46,8 +47,7 @@ const popPosition = ref(props.position);
 const isOutside = ref(false);
 const unmount = ref(true);
 
-// 监听dom尺寸变化
-const { createResizeObserver, destoryResizeObserver } = useResizeObserver();
+const resizeObserver = useResizeObserver();
 
 // 处理popup位置
 const updatePopupStyle = () => {
@@ -106,6 +106,9 @@ const updateVisible = (isVisible: boolean, delay?: number) => {
     emits('update:visible', isVisible);
     if (isVisible) {
       unmount.value = false;
+      nextTick(() => {
+        updatePopupStyle();
+      });
     }
   };
 
@@ -141,8 +144,8 @@ watch(
   }
 );
 
-const onResize = () => {
-  if (visible.value) {
+const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
+  if (visible.value && !isFirst) {
     updatePopupStyle();
   }
 };
@@ -170,14 +173,34 @@ watch(popWrap, (popEl) => {
   let handles: Array<() => void> = [];
   if (popEl) {
     if (targetEl) {
+      // 监听targetEl父组件滚动
       const scrollers = getScrollParents(targetEl);
-      console.log('scrollers', scrollers);
       handles = scrollers.map((el) => {
         return listenScroll(el);
       });
+
+      // 监听targetEL尺寸变化
+      resizeObserver.addListener(targetEl, onResize);
+    }
+    if (!wrapperEl.value) {
+      if (typeof props.wrapper === 'string') {
+        wrapperEl.value = document.querySelector(props.wrapper);
+      } else {
+        wrapperEl.value = props.wrapper;
+      }
+    }
+    if (wrapperEl.value) {
+      // 监听warpper尺寸变化
+      resizeObserver.addListener(wrapperEl.value, onResize);
     }
   } else {
     handles.forEach((hl) => hl());
+    if (wrapperEl.value) {
+      resizeObserver.removeListener(wrapperEl.value, onResize);
+    }
+    if (targetEl) {
+      resizeObserver.removeListener(targetEl, onResize);
+    }
   }
 });
 
@@ -187,11 +210,6 @@ onMounted(() => {
 
   // 触发元素为dom或者选择器，处理事件触发
   nextTick(() => {
-    if (typeof props.wrapper === 'string') {
-      wrapperEl.value = document.querySelector(props.wrapper);
-    } else {
-      wrapperEl.value = props.wrapper;
-    }
     // 初始为true时，更新样式
     if (visible.value) {
       updatePopupStyle();
@@ -212,7 +230,12 @@ onUnmounted(() => {
     fn();
   });
   // 销毁popup 的 resize监听
-  destoryResizeObserver();
+  if (wrapperEl.value) {
+    resizeObserver.removeListener(wrapperEl.value, onResize);
+  }
+  if (targetEl) {
+    resizeObserver.removeListener(targetEl, onResize);
+  }
 });
 </script>
 <template>
