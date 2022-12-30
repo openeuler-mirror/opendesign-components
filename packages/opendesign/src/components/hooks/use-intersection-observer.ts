@@ -1,18 +1,18 @@
-import ResizeObserver from 'resize-observer-polyfill';
+import IntersectionObserver from 'intersection-observer-polyfill';
 import { isFunction } from '../_shared/utils';
 
-export type ResizeListenerT = (entry: ResizeObserverEntry, isFirst: boolean) => void;
+export type IntersectionListenerT = (entry: IntersectionObserverEntry) => void;
 /**
  * 监听元素尺寸变化，
  * ele: 监听元素；
  * onResize: resize回调（entry: 尺寸变化元素，isFirst: 是否为初次监听时的回调);
  */
-export function useResizeObserver(
+export function useIntersectionObserver(
   element?: HTMLElement,
-  onResize?: ResizeListenerT,
+  listenerFn?: IntersectionListenerT,
 ) {
   let el = element;
-  let cb = onResize;
+  let cb = listenerFn;
 
   /**
    * 监听池
@@ -20,24 +20,20 @@ export function useResizeObserver(
    */
   const observerPool = new Map<HTMLElement, {
     element: HTMLElement,
-    isFirst: boolean, // 初次监听时会触发一次回调
-    callbacks: Array<(entry: ResizeObserverEntry, isFirst: boolean) => void>
+    callbacks: Array<IntersectionListenerT>
   } | null>();
 
   // 创建监听实例
-  const instance = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+  const instance = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
       const ele = entry.target as HTMLElement;
       const ins = observerPool.get(ele);
+
       if (!ins) {
         return;
       }
 
-      ins?.callbacks?.forEach(fn => fn(entry, ins.isFirst));
-
-      if (ins.isFirst) {
-        ins.isFirst = false;
-      }
+      ins?.callbacks?.forEach(fn => fn(entry));
     });
   });
 
@@ -52,9 +48,9 @@ export function useResizeObserver(
      * listener: resize回调, 移除监听时需要指定该监听函数
      * isFirst: 是否为初次监听时的回调
      */
-    addListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
+    addListener: (ele?: HTMLElement, listener?: IntersectionListenerT) => {
       el = ele || element;
-      cb = listener || onResize;
+      cb = listener || cb;
 
       if (!el || !cb || !isFunction(cb)) {
         return null;
@@ -70,7 +66,6 @@ export function useResizeObserver(
         observerPool.set(el, {
           element: el,
           callbacks: [cb],
-          isFirst: true
         });
       }
 
@@ -78,10 +73,9 @@ export function useResizeObserver(
     },
     /**
      * 移除监听
-     * listener: 要移除的监听函数，如果不传，则使用初始化时的onResize回调
+     * listener: 要移除的监听函数，如果不传，则使用初始化时的回调
      */
-    removeListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
-
+    removeListener: (ele?: HTMLElement, listener?: IntersectionListenerT) => {
       let fn = listener || cb;
       el = ele || element;
 

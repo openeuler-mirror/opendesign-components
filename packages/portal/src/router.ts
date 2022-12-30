@@ -27,6 +27,12 @@ export const routes = [
     component: () => import('./pages/TheResizeObserver.vue'),
   },
   {
+    path: '/intersection-observer',
+    name: 'IntersectionObserver',
+    label: 'Intersection监听',
+    component: () => import('./pages/TheIntersectionObserver.vue'),
+  },
+  {
     path: '/popup',
     name: 'Popup',
     label: '浮层',
