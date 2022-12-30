@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { PropType, ComponentPublicInstance } from 'vue';
-import { OPopup, PopupPosition, PopupTrigger } from '../popup';
+import { OPopup, PopupPositionT, PopupTriggerT } from '../popup';
 
 const props = defineProps({
   /**
    * 弹出位置
    */
   position: {
-    type: String as PropType<PopupPosition>,
-    default: PopupPosition.LB,
+    type: String as PropType<PopupPositionT>,
+    default: 'top',
   },
   /**
    * 触发事件
    * 'hover','click','focus','contextMenu'
    */
   trigger: {
-    type: [String, Array<String>] as PropType<PopupTrigger | PopupTrigger[]>,
-    default: PopupTrigger.HOVER,
+    type: [String, Array<String>] as PropType<PopupTriggerT | PopupTriggerT[]>,
+    default: 'hover',
   },
   /**
    * 触发元素或组件

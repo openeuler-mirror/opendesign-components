@@ -1,6 +1,6 @@
 import { getElementBorder, getElementSize, getOffsetElement, getScroll } from '../_shared/dom';
-import type { Direction } from '../_shared/dom';
-import { PopupPosition, FullPosition, PopupTrigger } from './types';
+import type { DirectionT } from '../_shared/dom';
+import type { PopupPositionT, PopupTriggerT } from './types';
 import { listenOutClick } from '../directves';
 
 interface Pos {
@@ -29,9 +29,9 @@ function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): D
 }
 
 // 根据position计算popup的位置
-function getPopupViewOffset(position: FullPosition, t: DOMRect, p: DOMRect): Pos {
+function getPopupViewOffset(position: PopupPositionT, t: DOMRect, p: DOMRect): Pos {
   const formula: {
-    [k in FullPosition]: { left: number, top: number }
+    [k in PopupPositionT]: { left: number, top: number }
   } = {
     top: {
       left: t.left + t.width / 2 - p.width / 2,
@@ -137,67 +137,67 @@ function getPopupWrapOffset(pos: Pos, wrapperEl: HTMLElement | null, wrapperCont
 }
 
 // 根据position获取方向
-function getDirection(position: PopupPosition): Direction {
+function getDirection(position: PopupPositionT): DirectionT {
   switch (position) {
-    case PopupPosition.TL:
-    case PopupPosition.TR:
-    case PopupPosition.TOP:
+    case 'tl':
+    case 'tr':
+    case 'top':
       return 'top';
-    case PopupPosition.BL:
-    case PopupPosition.BR:
-    case PopupPosition.BOTTOM:
+    case 'bl':
+    case 'br':
+    case 'bottom':
       return 'bottom';
-    case PopupPosition.LT:
-    case PopupPosition.LB:
-    case PopupPosition.LEFT:
+    case 'lt':
+    case 'lb':
+    case 'left':
       return 'left';
-    case PopupPosition.RT:
-    case PopupPosition.RB:
-    case PopupPosition.RIGHT:
+    case 'rt':
+    case 'rb':
+    case 'right':
       return 'right';
   }
 }
 
 // 调整position
-function adjustPosition(position: PopupPosition, direction: Direction) {
+function adjustPosition(position: PopupPositionT, direction: DirectionT) {
   const fixFn = {
-    top: (p: PopupPosition) => {
-      if (p === PopupPosition.BOTTOM) {
-        return PopupPosition.TOP;
-      } else if (p === PopupPosition.BL) {
-        return PopupPosition.TL;
-      } else if (p === PopupPosition.BR) {
-        return PopupPosition.TR;
+    top: (p: PopupPositionT) => {
+      if (p === 'bottom') {
+        return 'top';
+      } else if (p === 'bl') {
+        return 'tl';
+      } else if (p === 'br') {
+        return 'tr';
       }
       return p;
     },
-    bottom: (p: PopupPosition) => {
-      if (p === PopupPosition.TOP) {
-        return PopupPosition.BOTTOM;
-      } else if (p === PopupPosition.TL) {
-        return PopupPosition.BL;
-      } else if (p === PopupPosition.TR) {
-        return PopupPosition.BR;
+    bottom: (p: PopupPositionT) => {
+      if (p === 'top') {
+        return 'bottom';
+      } else if (p === 'tl') {
+        return 'bl';
+      } else if (p === 'tr') {
+        return 'br';
       }
       return p;
     },
-    left: (p: PopupPosition) => {
-      if (p === PopupPosition.RIGHT) {
-        return PopupPosition.LEFT;
-      } else if (p === PopupPosition.RT) {
-        return PopupPosition.LT;
-      } else if (p === PopupPosition.RB) {
-        return PopupPosition.LB;
+    left: (p: PopupPositionT) => {
+      if (p === 'right') {
+        return 'left';
+      } else if (p === 'rt') {
+        return 'lt';
+      } else if (p === 'rb') {
+        return 'lb';
       }
       return p;
     },
-    right: (p: PopupPosition) => {
-      if (p === PopupPosition.LEFT) {
-        return PopupPosition.RIGHT;
-      } else if (p === PopupPosition.LT) {
-        return PopupPosition.RT;
-      } else if (p === PopupPosition.LB) {
-        return PopupPosition.RB;
+    right: (p: PopupPositionT) => {
+      if (p === 'left') {
+        return 'right';
+      } else if (p === 'lt') {
+        return 'rt';
+      } else if (p === 'lb') {
+        return 'rb';
       }
       return p;
     }
@@ -208,7 +208,7 @@ function adjustPosition(position: PopupPosition, direction: Direction) {
 }
 
 // 根据popup的极值调整
-function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSize, pRect: DOMRect, tRect: DOMRect, wRect?: DomContentRect) {
+function adjustOffset(position: PopupPositionT, pPosition: Pos, pSize: ElementSize, pRect: DOMRect, tRect: DOMRect, wRect?: DomContentRect) {
   const { top, left } = pPosition;
   const edge = getWrapperViewEdge(pSize, wRect);
 
@@ -262,7 +262,7 @@ function adjustOffset(position: PopupPosition, pPosition: Pos, pSize: ElementSiz
 }
 
 // 处理popup位置
-export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, position: PopupPosition,
+export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, position: PopupPositionT,
   { adaptive = true }: { adaptive?: boolean } = {}) {
 
   const tRect = targetEl.getBoundingClientRect();
@@ -303,12 +303,10 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
   };
 };
 
-
-
 // 监听元素的触发事件
 export function bindTrigger(
   el: HTMLElement | null,
-  triggers: PopupTrigger[],
+  triggers: PopupTriggerT[],
   {
     updateFn,
     hoverDelay = 100
@@ -337,8 +335,8 @@ export function bindTrigger(
     updateFn(false, hoverDelay);
   };
 
-  triggers.forEach((tr: PopupTrigger) => {
-    if (tr === PopupTrigger.HOVER) {
+  const triggerHandlers: Record<PopupTriggerT, () => void> = {
+    hover: () => {
       el?.addEventListener('mouseover', enterFn);
       el?.addEventListener('mouseleave', leavefn);
       const removeFn = () => {
@@ -346,15 +344,8 @@ export function bindTrigger(
         el?.removeEventListener('mouseleave', leavefn);
       };
       listeners.push(removeFn);
-    } else if (tr === PopupTrigger.FOUCS) {
-      el?.addEventListener('focusin', showFn);
-      el?.addEventListener('focusout', hideFn);
-      const removeFn = () => {
-        el?.removeEventListener('focusin', showFn);
-        el?.removeEventListener('focusout', hideFn);
-      };
-      listeners.push(removeFn);
-    } else if (tr === PopupTrigger.CLICK) {
+    },
+    click: () => {
       el?.addEventListener('click', showFn);
 
       const removeFn = listenOutClick(el, hideFn);
@@ -363,7 +354,17 @@ export function bindTrigger(
         el?.removeEventListener('click', showFn);
       });
       listeners.push(removeFn);
-    } else if (tr === PopupTrigger.CONTEXT_MENU) {
+    },
+    focus: () => {
+      el?.addEventListener('focusin', showFn);
+      el?.addEventListener('focusout', hideFn);
+      const removeFn = () => {
+        el?.removeEventListener('focusin', showFn);
+        el?.removeEventListener('focusout', hideFn);
+      };
+      listeners.push(removeFn);
+    },
+    contextmenu: () => {
       const fn = (e: Event) => {
         e.preventDefault();
         showFn();
@@ -376,7 +377,12 @@ export function bindTrigger(
         el?.removeEventListener('contextmenu', fn);
       });
       listeners.push(removeFn);
-    }
+    },
+    none: () => { }
+  };
+
+  triggers.forEach((tr: PopupTriggerT) => {
+    triggerHandlers[tr]();
   });
 
   return listeners;

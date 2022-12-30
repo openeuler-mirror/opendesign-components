@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
-import { PopupPosition, OPopup, PopupTrigger } from '../index';
+import { OPopup } from '../index';
 
 const content = 'this is popup content';
 const btn1 = ref(null);
@@ -36,55 +36,55 @@ setTimeout(() => {
       <OButton ref="btn8" class="btn8">BL btn8 </OButton>
       <OButton ref="btn9" class="btn9">TL btn9 </OButton>
 
-      <OPopup :position="PopupPosition.TL" :target="btn1" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="tl" :target="btn1" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.TR" :target="btn2" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="tr" :target="btn2" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn3" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup v-model:visible="visible" position="lt" :target="btn3" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.LT" :target="btn4" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="lt" :target="btn4" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.TR" :target="btn5" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="tr" :target="btn5" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.TL" :target="btn6" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="lt" :target="btn6" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.LEFT" :target="btn7" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="left" :target="btn7" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.BL" :target="btn8" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="bl" :target="btn8" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div class="tip">{{ content }}</div>
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup :position="PopupPosition.TL" :target="btn9" wrapper="#wrap" :trigger="PopupTrigger.CLICK">
+      <OPopup position="lt" :target="btn9" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>

@@ -1,4 +1,4 @@
-export type Direction = 'left' | 'right' | 'top' | 'bottom';
+export type DirectionT = 'left' | 'right' | 'top' | 'bottom';
 
 export function isElement(el: any) {
   return (typeof HTMLElement === 'object')
@@ -72,9 +72,9 @@ export function getElementSize(el: HTMLElement | Window) {
   };
 }
 
-export function getElementBorder(el: HTMLElement, dir?: Direction | Direction[]) {
+export function getElementBorder(el: HTMLElement, dir?: DirectionT | DirectionT[]) {
   const style = window.getComputedStyle(el);
-  let d: Direction[] = [];
+  let d: DirectionT[] = [];
 
   if (typeof dir === 'string') {
     d = [dir];

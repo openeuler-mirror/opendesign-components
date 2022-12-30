@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance } from 'vue';
-import { PopupPosition, PopupTrigger } from './types';
+import { PopupPositionT, PopupTriggerT } from './types';
 import { isElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
 import { calcPopupStyle, bindTrigger } from './popup';
@@ -14,16 +14,16 @@ const props = defineProps({
    * 弹出位置
    */
   position: {
-    type: String as PropType<PopupPosition>,
-    default: PopupPosition.LB,
+    type: String as PropType<PopupPositionT>,
+    default: 'top',
   },
   /**
    * 触发事件
    * 'hover','click','focus','contextMenu'
    */
   trigger: {
-    type: [String, Array<String>] as PropType<PopupTrigger | PopupTrigger[]>,
-    default: PopupTrigger.HOVER,
+    type: [String, Array<String>] as PropType<PopupTriggerT | PopupTriggerT[]>,
+    default: 'hover',
   },
   /**
    * 触发元素或组件
