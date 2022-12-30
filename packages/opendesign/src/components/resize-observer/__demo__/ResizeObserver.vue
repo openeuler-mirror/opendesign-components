@@ -5,10 +5,12 @@ import { OButton } from '../../button';
 import '../../button/style';
 
 const content = ref('content text: ');
+const listener = ref(true);
 let cnt = 1;
 const changeFn = () => {
   cnt++;
   content.value += `-${cnt} `;
+  listener.value = cnt !== 3;
 };
 
 const rlt = reactive({
@@ -24,7 +26,9 @@ const rlt = reactive({
   visible2: true,
 });
 
-const onResize = (entry: ResizeObserverEntry, size: 'size1' | 'size2') => {
+const onResize = (entry: ResizeObserverEntry, isfirst: boolean, size: 'size1' | 'size2') => {
+  console.log('onResize', isfirst, entry.target);
+
   rlt[size].width = entry.contentRect.width;
   rlt[size].height = entry.contentRect.height;
 };
@@ -36,22 +40,22 @@ const toggle = (key: 'visible1' | 'visible2') => {
 <template>
   <h4>resize observer</h4>
 
-  <ResizeObserver @resize="(en) => onResize(en, 'size1')">
+  <ResizeObserver @resize="(en, isfirst) => onResize(en, isfirst, 'size1')">
     <div v-if="rlt.visible1" class="content" :name="content" @click="changeFn">
       {{ content }}
     </div>
-    <div v-else class="content" @click="changeFn">changed: {{ content }}</div>
+    <p v-else class="content" @click="changeFn">changed: {{ content }}</p>
     <div @click="toggle('visible1')">toggle</div>
   </ResizeObserver>
   <div class="tip">width: {{ rlt.size1.width }}; height: {{ rlt.size1.height }}</div>
 
-  <ResizeObserver @resize="(en) => onResize(en, 'size2')">
+  <!-- <ResizeObserver @resize="(en,isfirst) => onResize(en, isfirst,'size2')">
     <OButton v-if="rlt.visible2" @click="changeFn">
       {{ content }}
     </OButton>
     <div @click="toggle('visible2')">toggle</div>
   </ResizeObserver>
-  <div class="tip">width: {{ rlt.size2.width }}; height: {{ rlt.size2.height }}</div>
+  <div class="tip">width: {{ rlt.size2.width }}; height: {{ rlt.size2.height }}</div> -->
 </template>
 <style lang="scss" scoped>
 .content {

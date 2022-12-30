@@ -9,7 +9,18 @@ export function isElement(el: any) {
 export function isDocumentElement(el: HTMLElement | Window) {
   return el === window || ['HTML'].includes((el as HTMLElement).tagName);
 }
-
+// 获取真实相对父元素  当body没有设置position时，返回html
+export function getOffsetElement(el: HTMLElement) {
+  let offsetEl = el.offsetParent;
+  if (offsetEl && offsetEl.tagName === 'BODY') {
+    const stylePosition = window.getComputedStyle(document.body).getPropertyValue('position');
+    if (stylePosition === 'static') {
+      return document.documentElement;
+    }
+  }
+  return offsetEl;
+}
+// 获取元素scroll值
 export function getScroll(el: HTMLElement | Window = window) {
   if (!el) {
     return {
@@ -22,6 +33,19 @@ export function getScroll(el: HTMLElement | Window = window) {
     scrollLeft: isroot ? window.scrollX : (el as HTMLElement).scrollLeft,
     scrollTop: isroot ? window.scrollY : (el as HTMLElement).scrollTop,
   };
+}
+// 获取元素的可滚动的父元素
+export function getScrollParents(el: HTMLElement) {
+  const parents: Array<HTMLElement> = [];
+  let ele: HTMLElement | null = el;
+  while (ele && ele !== document.documentElement) {
+    const { offsetHeight, offsetWidth, scrollHeight, scrollWidth } = ele;
+    if (offsetHeight < scrollHeight || offsetWidth < scrollWidth) {
+      parents.push(ele);
+    }
+    ele = ele.parentElement;
+  }
+  return parents;
 }
 export function getRelativeBounding(e: DOMRect, c: DOMRect) {
   return {
