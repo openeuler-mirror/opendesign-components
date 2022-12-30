@@ -49,13 +49,13 @@ const toggle = (key: 'visible1' | 'visible2') => {
   </ResizeObserver>
   <div class="tip">width: {{ rlt.size1.width }}; height: {{ rlt.size1.height }}</div>
 
-  <!-- <ResizeObserver @resize="(en,isfirst) => onResize(en, isfirst,'size2')">
+  <ResizeObserver @resize="(en, isfirst) => onResize(en, isfirst, 'size2')">
     <OButton v-if="rlt.visible2" @click="changeFn">
       {{ content }}
     </OButton>
     <div @click="toggle('visible2')">toggle</div>
   </ResizeObserver>
-  <div class="tip">width: {{ rlt.size2.width }}; height: {{ rlt.size2.height }}</div> -->
+  <div class="tip">width: {{ rlt.size2.width }}; height: {{ rlt.size2.height }}</div>
 </template>
 <style lang="scss" scoped>
 .content {

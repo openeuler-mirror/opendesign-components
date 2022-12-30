@@ -27,8 +27,6 @@ export function useResizeObserver(
   // 创建监听实例
   const observerInstance = new ResizeObserver((entries: ResizeObserverEntry[]) => {
     entries.forEach((entry) => {
-      console.log('rs cb:', entry.target);
-
       const ele = entry.target as HTMLElement;
       const ins = observerPool.get(ele);
       if (!ins) {
@@ -83,6 +81,7 @@ export function useResizeObserver(
      * listener: 要移除的监听函数，如果不传，则使用初始化时的onResize回调
      */
     removeListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
+
       let fn = listener || cb;
       el = ele || element;
 

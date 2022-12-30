@@ -8,8 +8,6 @@ export function useReiszeObserverDirective(onResize: ResizeListenerT): { vResize
   return {
     vResizeObserver: {
       mounted(el: HTMLElement) {
-        console.log('mounted', el);
-
         if (isFunction(onResize)) {
           ob.addListener(el, onResize);
         }
