@@ -4,64 +4,10 @@
   position: absolute;
   z-index: 100;
   pointer-events: none;
-  min-width: 120px;
   opacity: 1;
   transition: opacity var(--o-transition-duration-3);
   &.hide {
     opacity: 0;
     pointer-events: none;
   }
-}
-.o-popup-wrap {
-  background-color: var(--popup-bg);
-  box-shadow: var(--popup-shadow);
-  padding: 4px 8px;
-  border-radius: var(--popup-radius);
-  border: 1px solid red;
-}
-
-.o-popup-pos-bl {
-  margin-top: var(--popup-gap);
-}
-.o-popup-pos-bottom {
-  margin-top: var(--popup-gap);
-}
-.o-popup-pos-br {
-  margin-top: var(--popup-gap);
-}
-
-.o-popup-pos-tl {
-  margin-bottom: var(--popup-gap);
-}
-
-.o-popup-pos-top {
-  margin-bottom: var(--popup-gap);
-}
-
-.o-popup-pos-tr {
-  margin-bottom: var(--popup-gap);
-}
-
-.o-popup-pos-lt {
-  margin-right: var(--popup-gap);
-}
-
-.o-popup-pos-left {
-  margin-right: var(--popup-gap);
-}
-
-.o-popup-pos-lb {
-  margin-right: var(--popup-gap);
-}
-
-.o-popup-pos-rt {
-  margin-left: var(--popup-gap);
-}
-
-.o-popup-pos-right {
-  margin-left: var(--popup-gap);
-}
-
-.o-popup-pos-rb {
-  margin-left: var(--popup-gap);
 }

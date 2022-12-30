@@ -55,7 +55,7 @@ const props = defineProps({
     default: 100,
   },
   /**
-   * 是否当触发元素不可见时隐藏弹出框
+   * 是否当触发元素不可见时隐藏弹层
    */
   hideWhenTargetInvisible: {
     type: Boolean,

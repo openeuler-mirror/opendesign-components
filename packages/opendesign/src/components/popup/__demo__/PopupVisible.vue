@@ -18,14 +18,25 @@ setTimeout(() => {
     <div class="row">visible: {{ visible }}</div>
     <div>
       <OButton ref="btn1" class="btn">Button</OButton>
-      <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn1">TL {{ content }} </OPopup>
+      <OPopup v-model:visible="visible" :position="PopupPosition.TL" :target="btn1">
+        <div class="popup-box">TL {{ content }}</div>
+      </OPopup>
       <OButton ref="btn2" class="btn"> TOP </OButton>
-      <OPopup :visible="visible" :position="PopupPosition.BOTTOM" :target="btn2" :trigger="PopupTrigger.NULL">T {{ content }} </OPopup>
+      <OPopup :visible="visible" :position="PopupPosition.BOTTOM" :target="btn2" :trigger="PopupTrigger.NULL">
+        <div class="popup-box">TL {{ content }}</div>
+      </OPopup>
     </div>
   </section>
 </template>
 <style lang="scss" scoped>
 .btn {
   margin-left: 100px;
+}
+.popup-box {
+  background-color: var(--popup-bg);
+  box-shadow: var(--popup-shadow);
+  padding: 4px 8px;
+  border-radius: var(--popup-radius);
+  border: 1px solid red;
 }
 </style>
