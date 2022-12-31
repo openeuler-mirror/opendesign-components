@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance } from 'vue';
+import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, computed } from 'vue';
 import { PopupPositionT, PopupTriggerT } from './types';
 import { isElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
-import { calcPopupStyle, bindTrigger } from './popup';
+import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { ResizeObserver } from '../resize-observer';
 import { useIntersectionObserver } from '../hooks';
@@ -61,18 +61,30 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  anchorClass: {
+    type: String,
+    default: '',
+  },
 });
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
 
 const visible = ref(false);
 let targetEl: HTMLElement | null = null;
-const isTargetInViewport = ref(!props.hideWhenTargetInvisible);
+const onlyTargetInViewport = ref(!props.hideWhenTargetInvisible);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
 const popWrap = ref<HTMLElement | null>(null);
-const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: `${0}px`, top: `${0}px` });
+const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: '0px', top: '0px' });
 const popPosition = ref(props.position);
+
+const wrapOrigin = ref<{ left: string; top: string }>({ left: '0px', top: '0px' });
+const wrapStyle = computed(() => ({
+  transformOrigin: `${wrapOrigin.value.left} ${wrapOrigin.value.top}`,
+}));
+
+const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({});
+
 // 是否在可视区域外
 const unmount = ref(true);
 
@@ -81,7 +93,7 @@ const intersctionObserver = useIntersectionObserver();
 
 // 处理popup位置
 const updatePopupStyle = () => {
-  if (props.hideWhenTargetInvisible && !isTargetInViewport.value) {
+  if (props.hideWhenTargetInvisible && !onlyTargetInViewport.value) {
     return;
   }
 
@@ -90,21 +102,34 @@ const updatePopupStyle = () => {
   }
   console.log('update style');
 
-  const { style, position } = calcPopupStyle(popWrap.value, targetEl, props.position);
+  const { popupStyle: pStyle, position, anchorStyle: aStyle } = calcPopupStyle(popWrap.value, targetEl, props.position);
 
-  if (style) {
-    popStyle.top = `${Math.round(style.top)}px`;
-    popStyle.left = `${Math.round(style.left)}px`;
+  wrapOrigin.value = getTransformOrigin(position);
+
+  if (pStyle) {
+    popStyle.top = `${Math.round(pStyle.top)}px`;
+    popStyle.left = `${Math.round(pStyle.left)}px`;
 
     popPosition.value = position;
+  }
+
+  if (aStyle) {
+    Object.keys(aStyle).forEach((k) => {
+      const val = aStyle[k as keyof typeof aStyle];
+      anchorStyle[k as keyof typeof anchorStyle] = `${Math.round(val as number)}px`;
+    });
   }
 };
 
 const onTargetInterscting: IntersectionListenerT = (entry: IntersectionObserverEntry) => {
-  isTargetInViewport.value = entry.isIntersecting;
+  onlyTargetInViewport.value = entry.isIntersecting;
+  console.log('onlyTargetInViewport.value', onlyTargetInViewport.value, entry.intersectionRatio, entry.target);
+
   if (entry.isIntersecting) {
     if (visible.value) {
-      updatePopupStyle();
+      nextTick(() => {
+        updatePopupStyle();
+      });
     }
   }
 };
@@ -133,7 +158,6 @@ const clearVisibleTimer = () => {
 };
 
 // 更新可见状态，支持延迟更新
-// let visibleTo = visible.value;
 const updateVisible = (isVisible: boolean, delay?: number) => {
   if (isVisible === visible.value && visibleTimer === 0) {
     return;
@@ -247,6 +271,7 @@ watch(popWrap, (popEl) => {
     if (targetEl) {
       resizeObserver.removeListener(targetEl, onResize);
       intersctionObserver.removeListener(targetEl, onTargetInterscting);
+      onlyTargetInViewport.value = true;
     }
   }
 });
@@ -288,10 +313,13 @@ onUnmounted(() => {
 <template>
   <teleport v-if="!unmount || visible" :to="props.wrapper">
     <ResizeObserver @resize="onPopupResize">
-      <div ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs" :class="{ hide: !isTargetInViewport }">
+      <div ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs" :class="{ hide: !onlyTargetInViewport }">
         <Transition name="o-zoom-fade" :appear="true" @after-leave="handleTransitionEnd">
-          <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]">
+          <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]" :style="wrapStyle">
             <slot></slot>
+            <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
+              <slot name="anchor"></slot>
+            </div>
           </div>
         </Transition>
       </div>

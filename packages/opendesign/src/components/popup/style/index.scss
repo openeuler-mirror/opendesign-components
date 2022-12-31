@@ -11,3 +11,39 @@
     pointer-events: none;
   }
 }
+
+.o-popup-anchor {
+  position: absolute;
+}
+
+.o-popup-pos-left,
+.o-popup-pos-lb,
+.o-popup-pos-lt {
+  .o-popup-anchor {
+    transform: translate(50%, -50%);
+  }
+}
+
+.o-popup-pos-top,
+.o-popup-pos-tl,
+.o-popup-pos-tr {
+  .o-popup-anchor {
+    transform: translate(-50%, 50%);
+  }
+}
+
+.o-popup-pos-right,
+.o-popup-pos-rt,
+.o-popup-pos-rb {
+  .o-popup-anchor {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.o-popup-pos-bottom,
+.o-popup-pos-bl,
+.o-popup-pos-br {
+  .o-popup-anchor {
+    transform: translate(-50%, -50%);
+  }
+}

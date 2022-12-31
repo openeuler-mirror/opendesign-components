@@ -34,7 +34,7 @@ setTimeout(() => {
       <OButton ref="btn6" class="btn6">TL btn6 </OButton>
       <OButton ref="btn7" class="btn7">LEFT btn7 </OButton>
       <OButton ref="btn8" class="btn8">BL btn8 </OButton>
-      <OButton ref="btn9" class="btn9">TL btn9 </OButton>
+      <OButton ref="btn9" class="btn9">LT btn9 </OButton>
 
       <OPopup position="tl" :target="btn1" wrapper="#wrap" trigger="click">
         <div class="popup-box">
@@ -48,7 +48,7 @@ setTimeout(() => {
           <div>{{ content }}</div>
         </div>
       </OPopup>
-      <OPopup v-model:visible="visible" position="lt" :target="btn3" wrapper="#wrap" trigger="click">
+      <OPopup v-model:visible="visible" position="tl" :target="btn3" wrapper="#wrap" trigger="click">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
@@ -113,7 +113,7 @@ setTimeout(() => {
 }
 .content {
   height: 50vh;
-  width: 60vw;
+  width: 80vw;
 
   position: relative;
   :deep(.o-btn) {
