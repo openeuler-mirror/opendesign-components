@@ -6,7 +6,7 @@
   pointer-events: none;
   opacity: 1;
   transition: opacity var(--o-transition-duration-3);
-  &.hide {
+  &.out-view {
     opacity: 0;
     pointer-events: none;
   }

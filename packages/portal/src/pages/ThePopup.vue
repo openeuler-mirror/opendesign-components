@@ -9,7 +9,7 @@ import PopupContainer from '@demo/popup/__demo__/PopupContainer.vue';
   <div class="page-demo">
     <PopupContainer />
     <PopupPosition />
-    <!-- <PopupVisible /> -->
+    <PopupVisible />
   </div>
 </template>
 <style lang="scss"></style>

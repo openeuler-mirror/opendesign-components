@@ -65,16 +65,21 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  unmountOnClose: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
 
 const visible = ref(false);
 let targetEl: HTMLElement | null = null;
-const onlyTargetInViewport = ref(!props.hideWhenTargetInvisible);
+// 默认为true，避免props.visible为初始值为true时，无法计算popup位置
+const isTargetInViewport = ref(true);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
-const popWrap = ref<HTMLElement | null>(null);
+const popupEl = ref<HTMLElement | null>(null);
 const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: '0px', top: '0px' });
 const popPosition = ref(props.position);
 
@@ -86,26 +91,25 @@ const wrapStyle = computed(() => ({
 const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({});
 
 // 是否在可视区域外
-const unmount = ref(true);
+const mounted = ref(false);
 
 const resizeObserver = useResizeObserver();
 const intersctionObserver = useIntersectionObserver();
 
 // 处理popup位置
 const updatePopupStyle = () => {
-  if (props.hideWhenTargetInvisible && !onlyTargetInViewport.value) {
+  if (props.hideWhenTargetInvisible && !isTargetInViewport.value) {
     return;
   }
 
-  if (!targetEl || !popWrap.value || !wrapperEl.value) {
+  if (!targetEl || !popupEl.value || !wrapperEl.value) {
     return;
   }
-  console.log('update style');
+  console.log('calc popup position...');
 
-  const { popupStyle: pStyle, position, anchorStyle: aStyle } = calcPopupStyle(popWrap.value, targetEl, props.position);
+  const { popupStyle: pStyle, position, anchorStyle: aStyle } = calcPopupStyle(popupEl.value, targetEl, props.position);
 
   wrapOrigin.value = getTransformOrigin(position);
-
   if (pStyle) {
     popStyle.top = `${Math.round(pStyle.top)}px`;
     popStyle.left = `${Math.round(pStyle.left)}px`;
@@ -121,17 +125,19 @@ const updatePopupStyle = () => {
   }
 };
 
+// 定义变量，避免首次监听与popup默认显示时重复计算
+let oldIntersecting: boolean | null = null;
 const onTargetInterscting: IntersectionListenerT = (entry: IntersectionObserverEntry) => {
-  onlyTargetInViewport.value = entry.isIntersecting;
-  console.log('onlyTargetInViewport.value', onlyTargetInViewport.value, entry.intersectionRatio, entry.target);
+  isTargetInViewport.value = entry.isIntersecting;
 
-  if (entry.isIntersecting) {
+  if (oldIntersecting !== null && entry.isIntersecting) {
     if (visible.value) {
       nextTick(() => {
         updatePopupStyle();
       });
     }
   }
+  oldIntersecting = isTargetInViewport.value;
 };
 
 watch(
@@ -167,13 +173,15 @@ const updateVisible = (isVisible: boolean, delay?: number) => {
     if (visible.value === isVisible) {
       return;
     }
+    // 设置popup是否显示，不需要手动触发计算位置，显示时会触发resize，计算位置
     visible.value = isVisible;
     emits('update:visible', isVisible);
     if (isVisible) {
-      unmount.value = false;
-      nextTick(() => {
-        updatePopupStyle();
-      });
+      mounted.value = true;
+
+      if (props.hideWhenTargetInvisible && targetEl) {
+        intersctionObserver.addListener(targetEl, onTargetInterscting);
+      }
     }
   };
 
@@ -217,13 +225,16 @@ const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
     updatePopupStyle();
   }
 };
-const onPopupResize = (en: ResizeObserverEntry, isFirst: boolean) => {
-  return onResize(en, props.hideWhenTargetInvisible ? isFirst : false);
+/**
+ * popup
+ */
+const onPopupResize = (en: ResizeObserverEntry) => {
+  return onResize(en, false);
 };
 
 const handleTransitionEnd = () => {
-  if (!visible.value) {
-    unmount.value = true;
+  if (!visible.value && props.unmountOnClose) {
+    mounted.value = false;
   }
 };
 
@@ -239,9 +250,13 @@ const listenScroll = (el: HTMLElement) => {
     el.removeEventListener('scroll', scrollListener);
   };
 };
-watch(popWrap, (popEl) => {
+watch(popupEl, (popEl) => {
   let handles: Array<() => void> = [];
   if (popEl) {
+    /**
+     * popup显示时，监听挂载容器、关联元素
+     */
+
     if (targetEl) {
       // 监听targetEl父组件滚动
       const scrollers = getScrollParents(targetEl);
@@ -252,18 +267,16 @@ watch(popWrap, (popEl) => {
       // 监听targetEL尺寸变化
       resizeObserver.addListener(targetEl, onResize);
     }
-    if (!wrapperEl.value) {
-      if (typeof props.wrapper === 'string') {
-        wrapperEl.value = document.querySelector(props.wrapper);
-      } else {
-        wrapperEl.value = props.wrapper;
-      }
-    }
+
     if (wrapperEl.value) {
       // 监听warpper尺寸变化
       resizeObserver.addListener(wrapperEl.value, onResize);
     }
   } else {
+    /**
+     * popup隐藏时，销毁事件监听
+     */
+
     handles.forEach((hl) => hl());
     if (wrapperEl.value) {
       resizeObserver.removeListener(wrapperEl.value, onResize);
@@ -271,7 +284,7 @@ watch(popWrap, (popEl) => {
     if (targetEl) {
       resizeObserver.removeListener(targetEl, onResize);
       intersctionObserver.removeListener(targetEl, onTargetInterscting);
-      onlyTargetInViewport.value = true;
+      isTargetInViewport.value = true;
     }
   }
 });
@@ -282,6 +295,14 @@ onMounted(() => {
 
   // 触发元素为dom或者选择器，处理事件触发
   nextTick(() => {
+    if (!wrapperEl.value) {
+      if (typeof props.wrapper === 'string') {
+        wrapperEl.value = document.querySelector(props.wrapper);
+      } else {
+        wrapperEl.value = props.wrapper;
+      }
+    }
+
     // 绑定触发元素事件
     if (typeof props.target === 'string') {
       bindTargetEvent(document.querySelector(props.target));
@@ -289,10 +310,10 @@ onMounted(() => {
       bindTargetEvent(props.target as HTMLElement);
     }
 
-    // // 初始为true时，更新样式
-    if (visible.value) {
-      updatePopupStyle();
-    }
+    // 初始为true时，更新样式
+    // if (visible.value) {
+    //   updatePopupStyle();
+    // }
   });
 });
 
@@ -311,11 +332,11 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <teleport v-if="!unmount || visible" :to="props.wrapper">
-    <ResizeObserver @resize="onPopupResize">
-      <div ref="popWrap" class="o-popup" :style="popStyle" v-bind="$attrs" :class="{ hide: !onlyTargetInViewport }">
+  <teleport v-if="wrapperEl" :to="props.wrapper">
+    <ResizeObserver v-if="mounted || visible" @resize="onPopupResize">
+      <div ref="popupEl" class="o-popup" :style="popStyle" v-bind="$attrs" :class="{ 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport }">
         <Transition name="o-zoom-fade" :appear="true" @after-leave="handleTransitionEnd">
-          <div v-if="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]" :style="wrapStyle">
+          <div v-show="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]" :style="wrapStyle">
             <slot></slot>
             <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
               <slot name="anchor"></slot>

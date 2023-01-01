@@ -36,7 +36,7 @@ setTimeout(() => {
       <OButton ref="btn8" class="btn8">BL btn8 </OButton>
       <OButton ref="btn9" class="btn9">LT btn9 </OButton>
 
-      <OPopup position="tl" :target="btn1" wrapper="#wrap" trigger="click">
+      <OPopup position="tl" :target="btn1" wrapper="#wrap" trigger="click" :unmount-on-close="false">
         <div class="popup-box">
           <div>{{ content }}</div>
           <div>{{ content }}</div>
@@ -132,7 +132,7 @@ setTimeout(() => {
   top: 0;
 }
 .btn3 {
-  right: 0;
+  left: 60%;
   top: 0;
 }
 .btn4 {

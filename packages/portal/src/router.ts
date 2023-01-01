@@ -35,8 +35,14 @@ export const routes = [
   {
     path: '/popup',
     name: 'Popup',
-    label: '浮层',
+    label: '弹层',
     component: () => import('./pages/ThePopup.vue'),
+  },
+  {
+    path: '/popover',
+    name: 'Popover',
+    label: '弹出框',
+    component: () => import('./pages/ThePopover.vue'),
   },
   {
     path: '/select',
