@@ -67,9 +67,17 @@ module.exports = {
         normal: 'never',
       },
     }],
+    // "vue/html-indent": ["error", type, {
+    //   "attribute": 1,
+    //   "baseIndent": 1,
+    //   "closeBracket": 2,
+    //   "alignAttributesVertically": true,
+    //   "ignores": []
+    // }],
 
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-closing-bracket-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'warn',
 
     // for ts
     // '@typescript-eslint/strict-boolean-expressions': 'warn',

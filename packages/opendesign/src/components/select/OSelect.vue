@@ -2,7 +2,7 @@
 import { provide, ref } from 'vue';
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
-import { OptionProvideKey } from '../_shared/global';
+import { ProvideOptionKey } from '../_shared/constant';
 import type { OptionValueT } from '../_shared/global';
 import { IconArrowTraingleDown } from '../icons';
 import { OPopup, PopupPositionT } from '../popup';
