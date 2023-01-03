@@ -9,12 +9,12 @@ const vIntersection: ObjectDirective = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     if (isFunction(binding.value)) {
       listener = binding.value;
-      io.addListener(el, listener);
+      io.addIntersectionListener(el, listener);
     }
   },
   unmounted(el: HTMLElement) {
     if (listener) {
-      io.removeListener(el, listener);
+      io.removeIntersectionListener(el, listener);
     }
   },
 };

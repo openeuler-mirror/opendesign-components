@@ -9,12 +9,12 @@ export function useReiszeObserverDirective(onResize: ResizeListenerT): { vResize
     vResizeObserver: {
       mounted(el: HTMLElement) {
         if (isFunction(onResize)) {
-          ob.addListener(el, onResize);
+          ob.addResizeListener(el, onResize);
         }
       },
       unmounted(el: HTMLElement) {
         if (onResize) {
-          ob.removeListener(el, onResize);
+          ob.removeResizeListener(el, onResize);
         }
       },
     }

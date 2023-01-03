@@ -12,7 +12,7 @@ $ani-prefix: 'o-ani';
 
 @keyframes o-zoom-fade-in {
   0% {
-    transform: scale(0.9);
+    transform: scale(0.95);
     opacity: 0;
   }
   100% {
@@ -22,8 +22,8 @@ $ani-prefix: 'o-ani';
 }
 
 .o-zoom-fade-enter-active {
-  animation: o-zoom-fade-in var(--o-transition-duration-3);
+  animation: o-zoom-fade-in var(--o-transition-duration-2);
 }
 .o-zoom-fade-leave-active {
-  animation: o-zoom-fade-in var(--o-transition-duration-2) reverse;
+  animation: o-zoom-fade-in var(--o-transition-duration-1) reverse;
 }

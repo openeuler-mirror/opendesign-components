@@ -48,7 +48,7 @@ export function useIntersectionObserver(
      * listener: resize回调, 移除监听时需要指定该监听函数
      * isFirst: 是否为初次监听时的回调
      */
-    addListener: (ele?: HTMLElement, listener?: IntersectionListenerT) => {
+    addIntersectionListener: (ele?: HTMLElement, listener?: IntersectionListenerT) => {
       el = ele || element;
       cb = listener || cb;
 
@@ -75,7 +75,7 @@ export function useIntersectionObserver(
      * 移除监听
      * listener: 要移除的监听函数，如果不传，则使用初始化时的回调
      */
-    removeListener: (ele?: HTMLElement, listener?: IntersectionListenerT) => {
+    removeIntersectionListener: (ele?: HTMLElement, listener?: IntersectionListenerT) => {
       let fn = listener || cb;
       el = ele || element;
 

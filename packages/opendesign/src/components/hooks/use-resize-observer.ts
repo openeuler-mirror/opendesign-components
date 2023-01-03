@@ -52,7 +52,7 @@ export function useResizeObserver(
      * listener: resize回调, 移除监听时需要指定该监听函数
      * isFirst: 是否为初次监听时的回调
      */
-    addListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
+    addResizeListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
       el = ele || element;
       cb = listener || onResize;
 
@@ -80,7 +80,7 @@ export function useResizeObserver(
      * 移除监听
      * listener: 要移除的监听函数，如果不传，则使用初始化时的onResize回调
      */
-    removeListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
+    removeResizeListener: (ele?: HTMLElement, listener?: ResizeListenerT) => {
 
       let fn = listener || cb;
       el = ele || element;

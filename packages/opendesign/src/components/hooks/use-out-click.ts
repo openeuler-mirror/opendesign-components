@@ -17,7 +17,7 @@ window.addEventListener('mousedown', (e) => {
   });
 });
 
-function addListener(el: HTMLElement, fn: () => void, exception?: (e: MouseEvent) => boolean) {
+function addOutClickListener(el: HTMLElement, fn: () => void, exception?: (e: MouseEvent) => boolean) {
   if (!elList.has(el)) {
     elList.set(el, []);
   }
@@ -31,7 +31,7 @@ function addListener(el: HTMLElement, fn: () => void, exception?: (e: MouseEvent
   }
 }
 
-function removeListener(el: HTMLElement, listener?: () => void) {
+function removeOutClickListener(el: HTMLElement, listener?: () => void) {
   if (listener) {
     const handlers = elList.get(el);
     if (!handlers) {
@@ -48,7 +48,7 @@ function removeListener(el: HTMLElement, listener?: () => void) {
 
 export function useOutClick() {
   return {
-    addListener,
-    removeListener,
+    addOutClickListener,
+    removeOutClickListener,
   };
 }

@@ -12,12 +12,12 @@ export function useIntersectionObserverDirective({ listener, removeOnUnmounted }
     vIntersectionObserver: {
       mounted(el: HTMLElement) {
         if (isFunction(listener)) {
-          io.addListener(el, listener);
+          io.addIntersectionListener(el, listener);
         }
       },
       unmounted(el: HTMLElement) {
         if (listener && removeOnUnmounted) {
-          io.removeListener(el, listener);
+          io.removeIntersectionListener(el, listener);
         }
       },
     }

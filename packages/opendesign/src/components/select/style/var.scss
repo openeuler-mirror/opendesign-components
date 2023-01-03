@@ -1,0 +1,31 @@
+.o-select {
+  --select-text-size: var(--o-font_size-text);
+  --select-text-height: var(--o-line_height-text);
+
+  --select-height-s: var(--o-size-s);
+  --select-height-m: var(--o-size-m);
+  --select-height-l: var(--o-size-l);
+
+  --select-radius-s: var(--o-radius-s);
+  --select-radius-m: var(--o-radius-s);
+  --select-radius-l: var(--o-radius-s);
+
+  --select-border: var(--o-color-info1);
+  --select-border_hover: var(--o-color-primary2);
+  --select-border_active: var(--o-color-primary3);
+  --select-border_disabled: var(--o-color-info1);
+
+  --select-bg: var(--o-color-bg1);
+  --select-bg_hover: var(--o-color-bg2);
+  --select-bg_disabled: var(--o-color-info4);
+
+  --select-color: var(--o-color-text2);
+  --select-color_disabled: var(--o-color-text4);
+}
+
+.o-select-options {
+  --select-options-bg: var(--o-color-bg2);
+  --select-options-shadow: none;
+  --select-options-border: 1px solid var(--o-color-primary2);
+  --select-options-radius: var(--o-radius-s);
+}
