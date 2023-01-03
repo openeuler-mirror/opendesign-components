@@ -6,10 +6,11 @@ export enum Size {
   NORMAL = 'normal',
   SMALL = 'small'
 }
+export type SizeT = 'large' | 'normal' | 'small'
 
-export const defaultSize = ref(Size.NORMAL);
+export const defaultSize = ref<SizeT>('normal');
 
-export function initSize(type: Size) {
+export function initSize(type: SizeT) {
   defaultSize.value = type;
 }
 
@@ -18,9 +19,11 @@ export enum Shape {
   ROUND = 'round',
   NORMAL = 'normal'
 }
-export const defaultShape = ref(Shape.NORMAL);
+export type ShapeT = 'round' | 'normal'
 
-export function initShape(shape: Shape) {
+export const defaultShape = ref<ShapeT>('normal');
+
+export function initShape(shape: ShapeT) {
   defaultShape.value = shape;
 }
 

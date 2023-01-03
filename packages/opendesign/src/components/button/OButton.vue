@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { defaultSize, defaultShape } from '../_shared/global';
-import { ButtonSize, ButtonType, ButtonShape } from './types';
+import type { SizeT, ShapeT } from '../_shared/global';
+import { ButtonTypeT } from './types';
 
 interface ButtonPropT {
-  type?: ButtonType;
-  size?: ButtonSize;
-  shape?: ButtonShape;
+  type?: ButtonTypeT;
+  size?: SizeT;
+  shape?: ShapeT;
 }
 const props = withDefaults(defineProps<ButtonPropT>(), {
-  type: ButtonType.OUTLINE,
+  type: 'outline',
   size: defaultSize.value,
   shape: defaultShape.value,
 });

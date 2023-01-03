@@ -20,6 +20,38 @@ export const routes = [
     label: '开关',
     component: () => import('./pages/TheSwitch.vue'),
   },
+  {
+    path: '/resize-observer',
+    name: 'ResizeObserver',
+    label: 'resize监听',
+    component: () => import('./pages/TheResizeObserver.vue'),
+  },
+  {
+    path: '/intersection-observer',
+    name: 'IntersectionObserver',
+    label: 'Intersection监听',
+    component: () => import('./pages/TheIntersectionObserver.vue'),
+  },
+  {
+    path: '/popup',
+    name: 'Popup',
+    label: '弹层',
+    component: () => import('./pages/ThePopup.vue'),
+  },
+  {
+    path: '/popover',
+    name: 'Popover',
+    label: '弹出框',
+    component: () => import('./pages/ThePopover.vue'),
+  },
+  {
+    path: '/select',
+    name: 'Select',
+    label: '下拉框',
+    component: () => import('./pages/TheSelect.vue'),
+  },
+
+
 ];
 
 export const router = createRouter({

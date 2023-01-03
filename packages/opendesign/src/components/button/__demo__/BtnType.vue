@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { OButton, ButtonType } from '../index';
+import { OButton } from '../index';
 </script>
 <template>
   <section>
-    <OButton :type="ButtonType.PRIMARY">Primary Button</OButton>
-    <OButton :type="ButtonType.OUTLINE">Outline Button</OButton>
-    <OButton :type="ButtonType.TEXT">Text Button</OButton>
-    <OButton :type="ButtonType.LINK">Link Button</OButton>
+    <OButton type="primary">Primary Button</OButton>
+    <OButton type="outline">Outline Button</OButton>
+    <OButton type="text">Text Button</OButton>
+    <OButton type="link">Link Button</OButton>
   </section>
 </template>
 <style lang="scss"></style>

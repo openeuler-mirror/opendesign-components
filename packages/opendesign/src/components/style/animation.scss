@@ -9,3 +9,21 @@ $ani-prefix: 'o-ani';
     transform: rotate(360deg);
   }
 }
+
+@keyframes o-zoom-fade-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.o-zoom-fade-enter-active {
+  animation: o-zoom-fade-in var(--o-transition-duration-2);
+}
+.o-zoom-fade-leave-active {
+  animation: o-zoom-fade-in var(--o-transition-duration-1) reverse;
+}

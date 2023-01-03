@@ -1,0 +1,33 @@
+@import './var.scss';
+
+.o-option {
+  cursor: pointer;
+  padding: var(--option-padding);
+  background-color: var(--option-bg);
+
+  font-size: var(--option-text-size);
+  line-height: var(--option-text-height);
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--option-bg_hover);
+    color: var(--option-color_hover);
+  }
+  &.active {
+    color: var(--option-color_active);
+    background-color: var(--option-bg_active);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    color: var(--option-color_disabled);
+    background-color: var(--option-bg_disabled);
+  }
+}
+.o-options-size-small {
+  .o-option {
+    padding: var(--option-padding-s);
+    font-size: var(--option-text-size_small);
+    line-height: var(--option-text-height_small);
+  }
+}

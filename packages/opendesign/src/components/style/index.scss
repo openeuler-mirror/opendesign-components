@@ -1,3 +1,5 @@
+@import './animation.scss';
+
 [class^='o-'],
 [class^='o-'] * {
   box-sizing: border-box;
@@ -7,6 +9,9 @@
   --o-size-l: 40px;
   --o-size-m: 32px;
   --o-size-s: 24px;
+  --o-transition-duration-1: 0.1s;
+  --o-transition-duration-2: 0.2s;
+  --o-transition-duration-3: 0.3s;
 }
 
 // icons

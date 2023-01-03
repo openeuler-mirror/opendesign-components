@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import { OButton, ButtonType, ButtonSize, ButtonShape } from '../index';
+import { OButton } from '../index';
 import { IconAdd } from '../../icons';
 </script>
 <template>
   <section>
-    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE">
+    <OButton type="primary" size="large">
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton :type="ButtonType.PRIMARY">
+    <OButton type="primary">
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.SMALL">
+    <OButton type="primary" size="small">
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.LARGE">
+    <OButton type="outline" size="large">
       Outline Button<template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.OUTLINE">
+    <OButton type="outline">
       Outline Button<template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.SMALL">
+    <OButton type="outline" size="small">
       Outline Button<template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE">
+    <OButton type="primary" size="large">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.OUTLINE">
+    <OButton type="outline">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.SMALL">
+    <OButton type="outline" size="small">
       <template #icon><IconAdd /></template>
     </OButton>
 
-    <OButton :type="ButtonType.PRIMARY" :size="ButtonSize.LARGE" :shape="ButtonShape.ROUND">
+    <OButton type="primary" size="large" shape="round">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.OUTLINE" :shape="ButtonShape.ROUND">
+    <OButton type="outline" shape="round">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton :type="ButtonType.OUTLINE" :size="ButtonSize.SMALL" :shape="ButtonShape.ROUND">
+    <OButton type="outline" size="small" shape="round">
       <template #icon><IconAdd /></template>
     </OButton>
   </section>
