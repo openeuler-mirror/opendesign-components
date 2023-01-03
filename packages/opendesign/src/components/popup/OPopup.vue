@@ -103,9 +103,23 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  /**
+   * popup最小宽度设置为触发元素宽度
+   */
+  adjustMinWidth: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * popup宽度设置为触发元素宽度
+   */
+  adjustWidth: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
+const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
 
 const visible = ref(false);
@@ -115,7 +129,14 @@ const isTargetInViewport = ref(true);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
 const popupRef = ref<HTMLElement | null>(null);
-const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: '0px', top: '0px' });
+const popStyle = reactive<{
+  left?: string;
+  top?: string;
+  right?: string;
+  bottom?: string;
+  minWidth?: string;
+  width?: string;
+}>({});
 const popPosition = ref(props.position);
 
 const wrapOrigin = ref<{ left: string; top: string }>({ left: '0px', top: '0px' });
@@ -129,7 +150,7 @@ const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bott
 const mounted = ref(false);
 const isAnimating = ref(false);
 
-const resizeObserver = useResizeObserver();
+const { addResizeListener, removeResizeListener } = useResizeObserver();
 const intersctionObserver = useIntersectionObserver();
 
 // 处理popup位置
@@ -218,11 +239,13 @@ const updateVisible = (isVisible: boolean, delay?: number) => {
     // 设置popup是否显示，不需要手动触发计算位置，显示时会触发resize，计算位置
     visible.value = isVisible;
     emits('update:visible', isVisible);
+    emits('change', isVisible);
+
     if (isVisible) {
       mounted.value = true;
 
       if (props.hideWhenTargetInvisible && targetEl) {
-        intersctionObserver.addListener(targetEl, onTargetInterscting);
+        intersctionObserver.addIntersectionListener(targetEl, onTargetInterscting);
       }
     }
   };
@@ -242,13 +265,20 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   }
   targetEl = el;
 
+  // 初始化popup宽度，避免引起resize，触发重复计算
+  if (props.adjustMinWidth) {
+    popStyle.minWidth = `${targetEl.offsetWidth}px`;
+  } else if (props.adjustWidth) {
+    popStyle.width = `${targetEl.offsetWidth}px`;
+  }
+
   triggerListener = bindTrigger(el, popupRef, triggers, {
     updateFn: updateVisible,
     hoverDelay: props.hoverDelay,
   });
 
   if (props.hideWhenTargetInvisible) {
-    intersctionObserver.addListener(targetEl, onTargetInterscting);
+    intersctionObserver.addIntersectionListener(targetEl, onTargetInterscting);
   }
 };
 
@@ -310,12 +340,19 @@ watch(popupRef, (popEl) => {
       });
 
       // 监听targetEL尺寸变化
-      resizeObserver.addListener(targetEl, onResize);
+      addResizeListener(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
+        if (props.adjustMinWidth) {
+          popStyle.minWidth = `${targetEl?.offsetWidth}px`;
+        } else if (props.adjustWidth) {
+          popStyle.width = `${targetEl?.offsetWidth}px`;
+        }
+        onResize(en, isFirst);
+      });
     }
 
     if (wrapperEl.value) {
       // 监听warpper尺寸变化
-      resizeObserver.addListener(wrapperEl.value, onResize);
+      addResizeListener(wrapperEl.value, onResize);
     }
   } else {
     /**
@@ -324,11 +361,11 @@ watch(popupRef, (popEl) => {
 
     handles.forEach((hl) => hl());
     if (wrapperEl.value) {
-      resizeObserver.removeListener(wrapperEl.value, onResize);
+      removeResizeListener(wrapperEl.value, onResize);
     }
     if (targetEl) {
-      resizeObserver.removeListener(targetEl, onResize);
-      intersctionObserver.removeListener(targetEl, onTargetInterscting);
+      removeResizeListener(targetEl, onResize);
+      intersctionObserver.removeIntersectionListener(targetEl, onTargetInterscting);
       isTargetInViewport.value = true;
     }
   }
@@ -378,10 +415,10 @@ onUnmounted(() => {
   });
   // 销毁popup 的 resize监听
   if (wrapperEl.value) {
-    resizeObserver.removeListener(wrapperEl.value, onResize);
+    removeResizeListener(wrapperEl.value, onResize);
   }
   if (targetEl) {
-    resizeObserver.removeListener(targetEl, onResize);
+    removeResizeListener(targetEl, onResize);
   }
 });
 </script>

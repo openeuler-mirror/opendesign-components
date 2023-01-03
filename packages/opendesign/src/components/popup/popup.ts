@@ -5,7 +5,7 @@ import type { PopupPositionT, PopupTriggerT } from './types';
 
 import { useOutClick } from '../hooks/use-out-click';
 
-const { addListener, removeListener } = useOutClick();
+const { addOutClickListener, removeOutClickListener } = useOutClick();
 interface Pos {
   left: number,
   top: number
@@ -434,7 +434,7 @@ export function bindTrigger(
     click: () => {
       el?.addEventListener('click', showFn);
 
-      addListener(el, hideFn, (e: MouseEvent) => {
+      addOutClickListener(el, hideFn, (e: MouseEvent) => {
         return !!popupRef.value?.contains(e.target as HTMLElement);
       });
 
@@ -442,7 +442,7 @@ export function bindTrigger(
         el?.removeEventListener('click', showFn);
       });
       listeners.push(() => {
-        removeListener(el, hideFn);
+        removeOutClickListener(el, hideFn);
       });
     },
     focus: () => {
@@ -461,12 +461,17 @@ export function bindTrigger(
       };
       el?.addEventListener('contextmenu', fn);
 
-      const removeFn = listenOutClick(el, hideFn);
+      addOutClickListener(el, hideFn, (e: MouseEvent) => {
+        return !!popupRef.value?.contains(e.target as HTMLElement);
+      });
 
       listeners.push(() => {
         el?.removeEventListener('contextmenu', fn);
       });
-      listeners.push(removeFn);
+
+      listeners.push(() => {
+        removeOutClickListener(el, hideFn);
+      });
     },
     none: () => { }
   };
