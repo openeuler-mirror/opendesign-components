@@ -1,8 +1,11 @@
+import { Ref } from 'vue';
 import { getElementBorder, getElementSize, getOffsetElement, getScroll } from '../_shared/dom';
 import type { DirectionT } from '../_shared/dom';
 import type { PopupPositionT, PopupTriggerT } from './types';
-import { listenOutClick } from '../directves';
 
+import { useOutClick } from '../hooks/use-out-click';
+
+const { addListener, removeListener } = useOutClick();
 interface Pos {
   left: number,
   top: number
@@ -374,6 +377,7 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
 // 监听元素的触发事件
 export function bindTrigger(
   el: HTMLElement | null,
+  popupRef: Ref<HTMLElement | null>,
   triggers: PopupTriggerT[],
   {
     updateFn,
@@ -416,12 +420,16 @@ export function bindTrigger(
     click: () => {
       el?.addEventListener('click', showFn);
 
-      const removeFn = listenOutClick(el, hideFn);
+      addListener(el, hideFn, (e: MouseEvent) => {
+        return !!popupRef.value?.contains(e.target as HTMLElement);
+      });
 
       listeners.push(() => {
         el?.removeEventListener('click', showFn);
       });
-      listeners.push(removeFn);
+      listeners.push(() => {
+        removeListener(el, hideFn);
+      });
     },
     focus: () => {
       el?.addEventListener('focusin', showFn);

@@ -3,11 +3,13 @@
 .o-popup {
   position: absolute;
   z-index: 100;
-  pointer-events: none;
   opacity: 1;
   transition: opacity var(--o-transition-duration-3);
   &.out-view {
     opacity: 0;
+    pointer-events: none;
+  }
+  &.animating {
     pointer-events: none;
   }
 }

@@ -69,9 +69,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  statyOnHoverin: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
+const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
 
 const visible = ref(false);
 let targetEl: HTMLElement | null = null;
@@ -79,7 +84,7 @@ let targetEl: HTMLElement | null = null;
 const isTargetInViewport = ref(true);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
-const popupEl = ref<HTMLElement | null>(null);
+const popupRef = ref<HTMLElement | null>(null);
 const popStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({ left: '0px', top: '0px' });
 const popPosition = ref(props.position);
 
@@ -90,8 +95,9 @@ const wrapStyle = computed(() => ({
 
 const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({});
 
-// 是否在可视区域外
+// 是否需要挂载
 const mounted = ref(false);
+const isAnimating = ref(false);
 
 const resizeObserver = useResizeObserver();
 const intersctionObserver = useIntersectionObserver();
@@ -102,12 +108,12 @@ const updatePopupStyle = () => {
     return;
   }
 
-  if (!targetEl || !popupEl.value || !wrapperEl.value) {
+  if (!targetEl || !popupRef.value || !wrapperEl.value) {
     return;
   }
   console.log('calc popup position...');
 
-  const { popupStyle: pStyle, position, anchorStyle: aStyle } = calcPopupStyle(popupEl.value, targetEl, props.position);
+  const { popupStyle: pStyle, position, anchorStyle: aStyle } = calcPopupStyle(popupRef.value, targetEl, props.position);
 
   wrapOrigin.value = getTransformOrigin(position);
   if (pStyle) {
@@ -200,8 +206,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   }
   targetEl = el;
 
-  const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
-  triggerListener = bindTrigger(el, triggers, {
+  triggerListener = bindTrigger(el, popupRef, triggers, {
     updateFn: updateVisible,
     hoverDelay: props.hoverDelay,
   });
@@ -231,8 +236,11 @@ const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
 const onPopupResize = (en: ResizeObserverEntry) => {
   return onResize(en, false);
 };
-
+const handleTransitionStart = () => {
+  isAnimating.value = true;
+};
 const handleTransitionEnd = () => {
+  isAnimating.value = false;
   if (!visible.value && props.unmountOnClose) {
     mounted.value = false;
   }
@@ -250,7 +258,8 @@ const listenScroll = (el: HTMLElement) => {
     el.removeEventListener('scroll', scrollListener);
   };
 };
-watch(popupEl, (popEl) => {
+
+watch(popupRef, (popEl) => {
   let handles: Array<() => void> = [];
   if (popEl) {
     /**
@@ -288,7 +297,16 @@ watch(popupEl, (popEl) => {
     }
   }
 });
-
+const onPopupHoverIn = () => {
+  if (triggers.includes('hover')) {
+    updateVisible(true, props.hoverDelay);
+  }
+};
+const onPopupHoverOut = () => {
+  if (triggers.includes('hover')) {
+    updateVisible(false, props.hoverDelay);
+  }
+};
 onMounted(() => {
   // 在mounted事件后再显示，避免找不到wrapper
   visible.value = props.visible;
@@ -334,8 +352,23 @@ onUnmounted(() => {
 <template>
   <teleport v-if="wrapperEl" :to="props.wrapper">
     <ResizeObserver v-if="mounted || visible" @resize="onPopupResize">
-      <div ref="popupEl" class="o-popup" :style="popStyle" v-bind="$attrs" :class="{ 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport }">
-        <Transition name="o-zoom-fade" :appear="true" @after-leave="handleTransitionEnd">
+      <div
+        ref="popupRef"
+        class="o-popup"
+        :style="popStyle"
+        v-bind="$attrs"
+        :class="{ 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport, animating: isAnimating }"
+        @mouseover="onPopupHoverIn"
+        @mouseleave="onPopupHoverOut"
+      >
+        <Transition
+          name="o-zoom-fade"
+          :appear="true"
+          @before-enter="handleTransitionStart"
+          @after-enter="handleTransitionEnd"
+          @before-leave="handleTransitionStart"
+          @after-leave="handleTransitionEnd"
+        >
           <div v-show="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]" :style="wrapStyle">
             <slot></slot>
             <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
