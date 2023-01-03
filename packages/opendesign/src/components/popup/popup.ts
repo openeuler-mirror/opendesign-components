@@ -39,56 +39,64 @@ function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): D
 }
 
 // 根据position计算popup的位置
-function getPopupViewOffset(position: PopupPositionT, t: DOMRect, p: DOMRect): Pos {
+function getPopupViewOffset(
+  position: PopupPositionT,
+  t: DOMRect,
+  p: DOMRect,
+  {
+    offset = 0
+  }: {
+    offset?: number
+  } = {}): Pos {
   const formula: {
     [k in PopupPositionT]: { left: number, top: number }
   } = {
     top: {
       left: t.left + t.width / 2 - p.width / 2,
-      top: t.top - p.height
+      top: t.top - p.height - offset
     },
     tl: {
       left: t.left,
-      top: t.top - p.height
+      top: t.top - p.height - offset
     },
     tr: {
       left: t.right - p.width,
-      top: t.top - p.height
+      top: t.top - p.height - offset
     },
     bottom: {
       left: t.left + t.width / 2 - p.width / 2,
-      top: t.bottom
+      top: t.bottom + offset
     },
     bl: {
       left: t.left,
-      top: t.bottom
+      top: t.bottom + offset
     },
     br: {
       left: t.right - p.width,
-      top: t.bottom
+      top: t.bottom + offset
     },
     left: {
-      left: t.left - p.width,
+      left: t.left - p.width - offset,
       top: t.top + t.height / 2 - p.height / 2
     },
     lt: {
-      left: t.left - p.width,
+      left: t.left - p.width - offset,
       top: t.top
     },
     lb: {
-      left: t.left - p.width,
+      left: t.left - p.width - offset,
       top: t.bottom - p.height
     },
     right: {
-      left: t.right,
+      left: t.right + offset,
       top: t.top + t.height / 2 - p.height / 2
     },
     rt: {
-      left: t.right,
+      left: t.right + offset,
       top: t.top
     },
     rb: {
-      left: t.right,
+      left: t.right + offset,
       top: t.bottom - p.height
 
     }
@@ -225,7 +233,13 @@ function adjustOffset(
   pRect: DOMRect,
   tRect: DOMRect,
   wRect?: DomContentRect,
-  anchorOffset?: number
+  {
+    anchorOffset,
+    offset
+  }: {
+    anchorOffset?: number,
+    offset?: number
+  } = {}
 ) {
   const { top, left } = popupPosition;
   const edge = getWrapperViewEdge(popupSize, wRect);
@@ -237,22 +251,22 @@ function adjustOffset(
   if (d === 'top') {
     if (edge.top > top) {
       fixedPosition = adjustPosition(position, 'bottom');
-      style = getPopupViewOffset(fixedPosition, tRect, pRect);
+      style = getPopupViewOffset(fixedPosition, tRect, pRect, { offset });
     }
   } else if (d === 'left') {
     if (edge.left > left) {
       fixedPosition = adjustPosition(position, 'right');
-      style = getPopupViewOffset(fixedPosition, tRect, pRect);
+      style = getPopupViewOffset(fixedPosition, tRect, pRect, { offset });
     }
   } else if (d === 'right') {
     if (edge.right < left) {
       fixedPosition = adjustPosition(position, 'left');
-      style = getPopupViewOffset(fixedPosition, tRect, pRect);
+      style = getPopupViewOffset(fixedPosition, tRect, pRect, { offset });
     }
   } else if (d === 'bottom') {
     if (edge.bottom < top) {
       fixedPosition = adjustPosition(position, 'top');
-      style = getPopupViewOffset(fixedPosition, tRect, pRect);
+      style = getPopupViewOffset(fixedPosition, tRect, pRect, { offset });
     }
   }
 
@@ -325,9 +339,9 @@ function getAnchorOffset(position: PopupPositionT, tRect: DOMRect, popupStyle: P
 // 处理popup位置
 export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, position: PopupPositionT,
   {
-    adaptive = true, anchorOffset = 8
+    adaptive = true, anchorOffset = 8, offset = 8
   }: {
-    adaptive?: boolean, anchorOffset?: number
+    adaptive?: boolean, anchorOffset?: number, offset?: number
   } = {}) {
 
   const tRect = targetEl.getBoundingClientRect();
@@ -336,7 +350,7 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
   const popupSize = getElementSize(popupEl);
 
   // 根据position计算popup相对视窗的位置
-  let popupStyle = getPopupViewOffset(position, tRect, pRect);
+  let popupStyle = getPopupViewOffset(position, tRect, pRect, { offset: offset });
   let anchorStyle: AnchorPosition = {};
 
   const wrapperEl = getOffsetElement(popupEl) as HTMLElement;
@@ -358,7 +372,7 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
   let fixedPosition = position;
   // 自适应容器边缘
   if (adaptive) {
-    const rlt = adjustOffset(position, popupStyle, popupSize, pRect, tRect, wrapperContentRect, anchorOffset);
+    const rlt = adjustOffset(position, popupStyle, popupSize, pRect, tRect, wrapperContentRect, { offset: offset, anchorOffset });
     fixedPosition = rlt.position;
     popupStyle = rlt.popupStyle;
   }

@@ -1,3 +1,8 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+};
+</script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, computed } from 'vue';
 import { PopupPositionT, PopupTriggerT } from './types';
@@ -46,6 +51,13 @@ const props = defineProps({
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement>,
     default: document.body,
+  },
+  /**
+   * 距离target偏移量
+   */
+  offset: {
+    type: Number,
+    default: 0,
   },
   /**
    * hover事件延时触发的时间（毫秒）
@@ -113,7 +125,13 @@ const updatePopupStyle = () => {
   }
   console.log('calc popup position...');
 
-  const { popupStyle: pStyle, position, anchorStyle: aStyle } = calcPopupStyle(popupRef.value, targetEl, props.position);
+  const {
+    popupStyle: pStyle,
+    position,
+    anchorStyle: aStyle,
+  } = calcPopupStyle(popupRef.value, targetEl, props.position, {
+    offset: props.offset,
+  });
 
   wrapOrigin.value = getTransformOrigin(position);
   if (pStyle) {
@@ -357,7 +375,7 @@ onUnmounted(() => {
         class="o-popup"
         :style="popStyle"
         v-bind="$attrs"
-        :class="{ 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport, animating: isAnimating }"
+        :class="[`o-popup-pos-${popPosition}`, { 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport, animating: isAnimating }]"
         @mouseover="onPopupHoverIn"
         @mouseleave="onPopupHoverOut"
       >
@@ -369,7 +387,7 @@ onUnmounted(() => {
           @before-leave="handleTransitionStart"
           @after-leave="handleTransitionEnd"
         >
-          <div v-show="visible" class="o-popup-wrap" :class="[`o-popup-pos-${popPosition}`]" :style="wrapStyle">
+          <div v-show="visible" class="o-popup-wrap" :style="wrapStyle">
             <slot></slot>
             <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
               <slot name="anchor"></slot>
