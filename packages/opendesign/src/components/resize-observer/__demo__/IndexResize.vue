@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import ResizeObserver from '@demo/resize-observer/__demo__/ResizeObserverDemo.vue';
+import ResizeObserver from './ResizeDemo.vue';
 </script>
 <template>
   <div class="page-demo">
-    <!-- <SelectSize /> -->
-    <!-- <SelectDisabled /> -->
     <ResizeObserver />
   </div>
 </template>
