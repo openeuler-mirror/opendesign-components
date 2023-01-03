@@ -1,0 +1,140 @@
+@import './var.scss';
+
+.o-btn {
+  outline: none;
+  border: 1px solid transparent;
+  font-size: var(--btn-text-size);
+  line-height: var(--btn-text-height);
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 4px solid var(--btn-primary_hover);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    color: var(--btn-color_disabled);
+    cursor: not-allowed;
+  }
+}
+
+.o-btn-size-small {
+  padding: 0 7px;
+  height: var(--btn-height-s);
+  border-radius: var(--btn-radius-s);
+  &.o-btn-icon-only {
+    width: var(--btn-height-s);
+  }
+}
+
+.o-btn-size-normal {
+  padding: 4px 15px;
+  height: var(--btn-height-m);
+  border-radius: var(--btn-radius-m);
+  &.o-btn-icon-only {
+    width: var(--btn-height-m);
+  }
+}
+
+.o-btn-size-large {
+  padding: 4px 19px;
+  height: var(--btn-height-l);
+  border-radius: var(--btn-radius-l);
+
+  &.o-btn-icon-only {
+    width: var(--btn-height-l);
+  }
+}
+
+.o-btn-primary {
+  color: var(--btn-color_inverse);
+  background-color: var(--btn-primary);
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: var(--btn-primary_hover);
+    }
+
+    &:active {
+      background-color: var(--btn-primary_active);
+    }
+  }
+
+  &:disabled {
+    border-color: var(--btn-bg);
+    background-color: var(--btn-bg_disabled);
+  }
+}
+
+.o-btn-outline {
+  color: var(--btn-color);
+  background-color: transparent;
+  border-color: var(--btn-bg);
+
+  &:not(:disabled) {
+    &:hover {
+      color: var(--btn-primary_hover);
+      border-color: var(--btn-primary_hover);
+    }
+
+    &:active {
+      color: var(--btn-primary_active);
+      border-color: var(--btn-primary_active);
+    }
+  }
+
+  &:disabled {
+    background-color: var(--btn-bg_disabled);
+  }
+}
+
+.o-btn-text {
+  color: var(--btn-color);
+  background-color: transparent;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: var(--btn-bg_hover);
+    }
+
+    &:active {
+      background-color: var(--btn-bg_active);
+    }
+  }
+}
+
+.o-btn-link {
+  color: var(--btn-primary);
+  background-color: transparent;
+
+  &:not(:disabled) {
+    &:hover {
+      color: var(--btn-primary_hover);
+    }
+
+    &:active {
+      color: var(--btn-primary_active);
+    }
+  }
+}
+
+.o-btn-icon-only {
+  padding: 0;
+}
+.o-btn-icon {
+  vertical-align: middle;
+  margin-right: 6px;
+
+  .o-btn-icon-only & {
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.o-btn-shape-round {
+  border-radius: var(--btn-height-l);
+}
