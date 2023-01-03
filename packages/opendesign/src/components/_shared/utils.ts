@@ -1,21 +1,21 @@
 import { throttle as _throttle, debounce as _debounce } from 'lodash-es';
 import type { ThrottleSettings, DebounceSettings } from 'lodash-es';
 
-export function isFunction(fn: any) {
+export function isFunction(fn: unknown) {
   return typeof fn === 'function';
 }
 // 防抖
-export function debounce<T extends (...args: any) => any>(fn: T, wait?: number, ctx?: any | null, opts?: ThrottleSettings) {
+export function debounce<T extends (...args: Array<unknown>) => unknown>(fn: T, wait?: number, ctx?: unknown | null, opts?: ThrottleSettings) {
   return _debounce.apply(ctx, [fn, wait, opts]);
 }
 // 节流
-export function throttle<T extends (...args: any) => any>(fn: T, wait?: number, ctx?: any | null, opts?: DebounceSettings) {
+export function throttle<T extends (...args: Array<unknown>) => unknown>(fn: T, wait?: number, ctx?: unknown | null, opts?: DebounceSettings) {
   return _throttle.apply(ctx, [fn, wait, opts]);
 }
 // 防抖 时间为一个一帧
-export function debounceRAF<T extends (...args: any) => any>(fn: T) {
+export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   let handle = 0;
-  const rlt = (...args: any[]) => {
+  const rlt = (...args: Array<unknown>) => {
     if (handle) {
       cancelAnimationFrame(handle);
     }
@@ -31,9 +31,9 @@ export function debounceRAF<T extends (...args: any) => any>(fn: T) {
   return rlt;
 }
 // 节流 时间为一个一帧
-export function throttleRAF<T extends (...args: any) => any>(fn: T) {
+export function throttleRAF<T extends (...args: Array<unknown>) => unknown>(fn: T) {
   let handle = 0;
-  const rlt = (...args: any[]) => {
+  const rlt = (...args: Array<unknown>) => {
     if (handle) {
       return;
     }

@@ -1,33 +1,13 @@
 # Button 按钮
 
-# props
+## props
 
-| name  | type       | 说明 |
-| :---- | :--------- | :--- |
-| type  | ButtonType | 类型 |
-| size  | SizeT      | 尺寸 |
-| shape | ShapeT     | 形状 |
+| name  | type        | 默认值    | 说明                                 |
+| :---- | :---------- | :-------- | :----------------------------------- |
+| shape | ShapeT      | 'normal'  | 形状: large \| normal \| small       |
+| size  | SizeT       | 'normal'  | 形状 normal \| round                 |
+| type  | ButtonTypeT | 'outline' | 形状 primary \|outline\| text \|link |
 
-```
-enum ButtonType {
-  PRIMARY = 'primary',
-  OUTLINE = 'outline',
-  TEXT = 'text',
-  LINK = 'link',
-}
+## event
 
-enum SizeT {
-  LARGE = 'large',
-  NORMAL = 'normal',
-  SMALL = 'small'
-}
-
-enum ShapeT {
-  ROUND = 'round',
-  NORMAL = 'normal'
-}
-```
-
-# event
-
-# expose
+## expose

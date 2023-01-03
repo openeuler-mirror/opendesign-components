@@ -1,25 +1,9 @@
-.o-btn {
-  --btn-primary: var(--o-color-primary1);
-  --btn-primary_hover: var(--o-color-primary2);
-  --btn-primary_active: var(--o-color-primary3);
+.o-link {
+  --link-color: var(--o-color-primary1);
+  --link-color_hover: var(--o-color-primary2);
+  --link-color_active: var(--o-color-primary3);
+  --link-color_disabled: var(--o-color-info4);
 
-  --btn-bg: var(--o-color-info1);
-  --btn-bg_hover: var(--o-color-info2);
-  --btn-bg_active: var(--o-color-info3);
-  --btn-bg_disabled: var(--o-color-info4);
-
-  --btn-color: var(--o-color-text2);
-  --btn-color_inverse: var(--o-color-text2_inverse);
-  --btn-color_disabled: var(--o-color-text4);
-
-  --btn-text-size: var(--o-font_size-text);
-  --btn-text-height: var(--o-line_height-text);
-
-  --btn-height-s: var(--o-size-s);
-  --btn-height-m: var(--o-size-m);
-  --btn-height-l: var(--o-size-l);
-
-  --btn-radius-s: var(--o-radius-s);
-  --btn-radius-m: var(--o-radius-s);
-  --btn-radius-l: var(--o-radius-s);
+  --link-text-size: var(--o-font_size-text);
+  --link-text-height: var(--o-line_height-text);
 }
