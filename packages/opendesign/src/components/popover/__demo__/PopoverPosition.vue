@@ -23,7 +23,7 @@ const btn12 = ref(null);
   <div class="position-wrap">
     <div class="top">
       <OButton ref="btn1"> TL </OButton>
-      <OPopover position="tl" :target="btn1">
+      <OPopover position="tl" :target="btn1" trigger="click">
         <div class="box">TL {{ content }}</div>
       </OPopover>
       <OButton ref="btn2"> TOP </OButton>
@@ -38,7 +38,7 @@ const btn12 = ref(null);
     <div class="middle">
       <div class="left">
         <OButton ref="btn4"> LT </OButton>
-        <OPopover position="lt" :target="btn4">
+        <OPopover position="lt" :target="btn4" trigger="click">
           <div class="box">LT {{ content }}</div>
         </OPopover>
         <OButton ref="btn5"> LEFT </OButton>
@@ -52,7 +52,7 @@ const btn12 = ref(null);
       </div>
       <div class="right">
         <OButton ref="btn7"> RT </OButton>
-        <OPopover position="rt" :target="btn7">
+        <OPopover position="rt" :target="btn7" trigger="click">
           <div class="box">R {{ content }}</div>
         </OPopover>
         <OButton ref="btn8"> RIGHT </OButton>
@@ -67,7 +67,7 @@ const btn12 = ref(null);
     </div>
     <div class="bottom">
       <OButton ref="btn10"> BL </OButton>
-      <OPopover position="bl" :target="btn10">
+      <OPopover position="bl" :target="btn10" trigger="click">
         <div class="box">BL {{ content }}</div>
       </OPopover>
       <OButton ref="btn11"> BOTTOM </OButton>

@@ -40,6 +40,14 @@ const props = defineProps({
     type: [String, Object] as PropType<string | HTMLElement>,
     default: document.body,
   },
+  unmountOnClose: {
+    type: Boolean,
+    default: true,
+  },
+  offset: {
+    type: Number,
+    default: 8,
+  },
 });
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
@@ -49,14 +57,18 @@ const updateVisible = (val: boolean) => {
 </script>
 <template>
   <OPopup
+    class="o-popover"
+    :offset="props.offset"
     :visible="props.visible"
     :position="props.position"
     :trigger="props.trigger"
     :target="props.target"
     :wrapper="props.wrapper"
+    anchor-class="o-popover-anchor"
+    :unmount-on-close="props.unmountOnClose"
     @update:visible="updateVisible"
   >
-    <div class="o-popover">
+    <div class="o-popover-wrap">
       <slot></slot>
     </div>
   </OPopup>
