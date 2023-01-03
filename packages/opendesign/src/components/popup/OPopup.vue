@@ -73,17 +73,33 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * 锚点自定义class
+   */
   anchorClass: {
     type: String,
     default: '',
   },
+  /**
+   * 是否在popup隐藏时unmout
+   */
   unmountOnClose: {
     type: Boolean,
     default: true,
   },
+  /**
+   * Popup在hover时是否不消失，当trigger包含hover时有效
+   */
   statyOnHoverin: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * popup wrap自定义class
+   */
+  wrapClass: {
+    type: String,
+    default: '',
   },
 });
 
@@ -387,7 +403,7 @@ onUnmounted(() => {
           @before-leave="handleTransitionStart"
           @after-leave="handleTransitionEnd"
         >
-          <div v-show="visible" class="o-popup-wrap" :style="wrapStyle">
+          <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="wrapClass">
             <slot></slot>
             <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
               <slot name="anchor"></slot>
