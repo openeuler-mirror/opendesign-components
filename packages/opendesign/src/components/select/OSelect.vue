@@ -2,7 +2,7 @@
 import { provide, ref } from 'vue';
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
-import { ProvideOptionKey } from '../_shared/constant';
+import { ProvideKeyOptionUpdate, ProvideKeyOptionValue } from '../_shared/constant';
 import type { OptionValueT } from '../_shared/global';
 import { IconArrowTraingleDown } from '../icons';
 import { OPopup, PopupPositionT } from '../popup';
@@ -33,7 +33,7 @@ const emits = defineEmits(['update:modelValue']);
 const selectRef = ref<HTMLElement>();
 
 const showOption = ref(false);
-provide(`${OptionProvideKey}/update`, (val: OptionValueT, emit?: boolean) => {
+provide(ProvideKeyOptionUpdate, (val: OptionValueT, emit?: boolean) => {
   activeLabel.value = val.label;
   if (emit) {
     emits('update:modelValue', val.value);
@@ -42,7 +42,7 @@ provide(`${OptionProvideKey}/update`, (val: OptionValueT, emit?: boolean) => {
   }
 });
 
-provide(`${OptionProvideKey}/value`, activeVal);
+provide(ProvideKeyOptionValue, activeVal);
 const onOptionChange = (visible: boolean) => {
   if (visible) {
     console.log(selectRef.value?.clientWidth);
