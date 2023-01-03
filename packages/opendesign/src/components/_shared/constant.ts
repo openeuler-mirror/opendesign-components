@@ -1,2 +1,2 @@
-export const ProvideKeyOptionUpdate = Symbol('provide-option/update');
-export const ProvideKeyOptionValue = Symbol('provide-option/value');
+export const PROVIDE_KEY_UPTION_UPDATE = Symbol('provide-option/update');
+export const PROVIDE_KEY_UPTION_VALUE = Symbol('provide-option/value');
