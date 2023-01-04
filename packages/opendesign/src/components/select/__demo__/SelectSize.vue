@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { OSelect } from '../index';
 import { OOption } from '../../option';
-const selectVal = ref('opt1');
 const selectVal2 = ref('');
 const options = [
   { label: 'option 1', value: 'opt1' },
@@ -10,11 +9,12 @@ const options = [
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
 ];
+const selectVal = ref(options[0].value);
 </script>
 <template>
   <h4>Size</h4>
   <section>
-    <OSelect v-model="selectVal" size="large">
+    <OSelect v-model="selectVal" size="large" :default-label="options[0].label">
       <OOption :label="options[0].label" :value="options[0].value" />
       <OOption :label="options[1].label" :value="options[1].value" />
       <OOption :label="options[2].label" :value="options[2].value" />

@@ -147,7 +147,7 @@ const wrapStyle = computed(() => ({
 const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({});
 
 // 是否需要挂载
-const mounted = ref(false);
+const toMount = ref(false);
 const isAnimating = ref(false);
 
 const { addResizeListener, removeResizeListener } = useResizeObserver();
@@ -242,7 +242,7 @@ const updateVisible = (isVisible: boolean, delay?: number) => {
     emits('change', isVisible);
 
     if (isVisible) {
-      mounted.value = true;
+      toMount.value = true;
 
       if (props.hideWhenTargetInvisible && targetEl) {
         intersctionObserver.addIntersectionListener(targetEl, onTargetInterscting);
@@ -308,7 +308,7 @@ const handleTransitionStart = () => {
 const handleTransitionEnd = () => {
   isAnimating.value = false;
   if (!visible.value && props.unmountOnClose) {
-    mounted.value = false;
+    toMount.value = false;
   }
 };
 
@@ -424,7 +424,7 @@ onUnmounted(() => {
 </script>
 <template>
   <teleport v-if="wrapperEl" :to="props.wrapper">
-    <ResizeObserver v-if="mounted || visible" @resize="onPopupResize">
+    <ResizeObserver v-if="toMount || visible || !props.unmountOnClose" @resize="onPopupResize">
       <div
         ref="popupRef"
         class="o-popup"

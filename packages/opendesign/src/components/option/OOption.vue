@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { inject } from 'vue';
-import { selectOptionUpdateFnInjectKey, selectOptionValueInjectKey } from '../select/provide';
+import { computed, inject } from 'vue';
+import { selectOptionInjectKey } from '../select/provide';
 
 interface OptionPropT {
   label?: string;
@@ -13,15 +13,18 @@ const props = withDefaults(defineProps<OptionPropT>(), {
   label: '',
 });
 
-const val = inject(selectOptionValueInjectKey);
-const updateFn = inject(selectOptionUpdateFnInjectKey);
+const selectInject = inject(selectOptionInjectKey);
 
-// 是否是select
-const isInSelect = !!updateFn;
+const currentVal = computed(() => {
+  if (selectInject) {
+    return selectInject.value.value;
+  }
+  return '';
+});
 
-if (props.value === val?.value) {
-  if (isInSelect) {
-    updateFn({
+if (props.value === currentVal.value) {
+  if (selectInject) {
+    selectInject.update({
       label: props.label || `${props.value}`,
       value: props.value,
     });
@@ -30,8 +33,8 @@ if (props.value === val?.value) {
 
 const clickOption = () => {
   if (!props.disabled) {
-    if (isInSelect) {
-      updateFn(
+    if (selectInject) {
+      selectInject.update(
         {
           label: props.label || `${props.value}`,
           value: props.value,
@@ -43,7 +46,7 @@ const clickOption = () => {
 };
 </script>
 <template>
-  <div class="o-option" :class="{ active: val === props.value, 'is-disabled': props.disabled }" @click="clickOption">
+  <div class="o-option" :class="{ active: currentVal === props.value, 'is-disabled': props.disabled }" @click="clickOption">
     <slot>{{ props.label || `${props.value}` }}</slot>
   </div>
 </template>
