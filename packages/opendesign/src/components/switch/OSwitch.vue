@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import { isPromise } from '@vue/shared';
+import { isPromise, isBoolean } from '../_shared/utils';
 
 import { defaultSize, defaultShape } from '../_shared/global';
-import { SwitchSizeT, SwitchShapeT } from './types';
+import type { SizeT, ShapeT } from '../_shared/global';
 import { IconLoading } from '../icons';
 
-interface PropT {
-  size?: SwitchSizeT;
-  shape?: SwitchShapeT;
+interface SwitchPropT {
+  /**
+   * 开关尺寸: 'large' | 'normal' | 'small'
+   */
+  size?: SizeT;
+  /**
+   * 开关形状: 'normal' | 'round'
+   */
+  shape?: ShapeT;
   modelValue?: boolean;
   disabled?: boolean;
   loading?: boolean;
   beforeChange?: (val: boolean) => Promise<boolean> | boolean;
 }
 
-const props = withDefaults(defineProps<PropT>(), {
+const props = withDefaults(defineProps<SwitchPropT>(), {
   size: defaultSize.value,
   shape: defaultShape.value,
   modelValue: false,
@@ -23,16 +29,16 @@ const props = withDefaults(defineProps<PropT>(), {
   beforeChange: undefined,
 });
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', val: boolean, ev: MouseEvent): void;
-  (e: 'change', val: boolean, ev: MouseEvent): void;
+const emits = defineEmits<{
+  (e: 'update:modelValue', val: boolean): void;
+  (e: 'change', val: boolean): void;
 }>();
 
 const isExpectType = (res: unknown) => {
-  return isPromise(res) || typeof res === 'boolean';
+  return isPromise(res) || isBoolean(res);
 };
 
-const isChangeable = () => {
+const isChangeable = (): Promise<boolean> => {
   if (props.loading || props.disabled) {
     return Promise.resolve(false);
   }
@@ -45,16 +51,17 @@ const isChangeable = () => {
   if (!isExpectType(res)) {
     return Promise.reject('beforeChange should return  type `Promise<boolean>` or `boolean`');
   }
-  return typeof res === 'boolean' ? Promise.resolve(res) : res;
+
+  return isBoolean(res) ? Promise.resolve(res) : res;
 };
 
-const onClick = (ev: MouseEvent) => {
+const onClick = () => {
   isChangeable()
     .then((flag) => {
       if (flag) {
         const val = !props.modelValue;
-        emit('update:modelValue', val, ev);
-        emit('change', val, ev);
+        emits('update:modelValue', val);
+        emits('change', val);
       }
     })
     .catch((err) => {
