@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, inject, watch } from 'vue';
-import { radioGroupInjectKey } from './provide';
+import { radioGroupInjectKey } from '../radio-group/provide';
 
 interface RadioPropT {
   value: string | boolean | number;
