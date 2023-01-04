@@ -2,27 +2,21 @@
 @import '../../popup/style/index.scss';
 
 .o-select-size-small {
-  .o-select-wrap {
-    padding: 0 4px 0 8px;
-    height: var(--select-height-s);
-    border-radius: var(--select-radius-s);
-  }
+  padding: 0 4px 0 8px;
+  height: var(--select-height-s);
+  border-radius: var(--select-radius-s);
 }
 
 .o-select-size-normal {
-  .o-select-wrap {
-    padding: 4px 8px 4px 12px;
-    height: var(--select-height-m);
-    border-radius: var(--select-radius-m);
-  }
+  padding: 4px 8px 4px 12px;
+  height: var(--select-height-m);
+  border-radius: var(--select-radius-m);
 }
 
 .o-select-size-large {
-  .o-select-wrap {
-    padding: 4px 12px 4px 16px;
-    height: var(--select-height-l);
-    border-radius: var(--select-radius-l);
-  }
+  padding: 4px 12px 4px 16px;
+  height: var(--select-height-l);
+  border-radius: var(--select-radius-l);
 }
 
 .o-select-input {
@@ -33,7 +27,7 @@
   background-color: transparent;
   display: inline-flex;
 }
-.o-select-wrap {
+.o-select {
   border: 1px solid var(--select-border);
   border-radius: 4px;
   padding: 0 12px;

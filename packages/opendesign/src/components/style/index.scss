@@ -26,10 +26,10 @@
 }
 
 .o-icon {
-  display: inline-flex;
+  display: inline-block;
   width: 1em;
   height: 1em;
-  align-self: center;
+  vertical-align: middle;
   color: inherit;
   font-style: normal;
   outline: none;
