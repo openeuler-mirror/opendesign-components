@@ -57,8 +57,12 @@ export const routes = [
     label: '下拉框',
     component: () => import('@demo/select/__demo__/IndexSelect.vue'),
   },
-
-
+  {
+    path: '/radio',
+    name: 'Radio',
+    label: '单选',
+    component: () => import('@demo/radio/__demo__/IndexRadio.vue'),
+  },
 ];
 
 export const router = createRouter({
