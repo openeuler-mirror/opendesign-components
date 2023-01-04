@@ -1,38 +1,25 @@
 # Switch 开关
 
-# props
+## props
 
 | name         | type                                        | 默认值        | 说明                                                         |
 | :----------- | :------------------------------------------ | :------------ | ------------------------------------------------------------ |
-| model:value  | Boolean                                     | false         | 开关状态                                                     |
-| shape        | ShapeT                                      | ShapeT.NORMAL | 形状                                                         |
-| size         | SizeT                                       | SizeT.NORMAL  | 尺寸                                                         |
-| disabled     | Boolean                                     | false         | 是否禁用                                                     |
-| loading      | Boolean                                     | false         | 加载状态                                                     |
+| model:value  | boolean                                     | false         | 开关状态                                                     |
+| shape        | ShapeT                                      | ShapeT.NORMAL | 开关形状                                                     |
+| size         | SizeT                                       | SizeT.NORMAL  | 开关尺寸                                                     |
+| disabled     | boolean                                     | false         | 是否禁用                                                     |
+| loading      | boolean                                     | false         | 加载状态                                                     |
 | beforeChange | (val: boolean): Promise\<boolean\>\|boolean | -             | return Promise.resolve(true)继续切换，resolve(false)阻止切换 |
 
-```
-enum SizeT {
-  LARGE = 'large',
-  NORMAL = 'normal',
-  SMALL = 'small'
-}
+## event
 
-enum ShapeT {
-  ROUND = 'round',
-  NORMAL = 'normal'
-}
-```
+| name   | 参数            | 说明           |
+| :----- | :-------------- | :------------- |
+| change | value: boolean; | 状态切换后触发 |
 
-# event
+## expose
 
-| name   | 参数                      | 说明           |
-| :----- | :------------------------ | :------------- |
-| change | value: boolean; ev: Event | 状态切换后触发 |
-
-# expose
-
-# slot
+## slot
 
 | name | 说明     |
 | :--- | :------- |

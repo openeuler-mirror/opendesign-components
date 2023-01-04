@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OSWitch, SwitchShapeT } from '../index';
+import { OSWitch } from '../index';
 
 const switchVal1 = ref(false);
 const loading1 = ref(false);
@@ -30,17 +30,7 @@ const beforeChange2 = (): Promise<boolean> => {
 
 <template>
   <section>
-    <OSWitch
-      v-model="switchVal1"
-      :shape="SwitchShapeT.NORMAL"
-      :loading="loading1"
-      :before-change="beforeChange1"
-    />
-    <OSWitch
-      v-model="switchVal2"
-      :shape="SwitchShapeT.ROUND"
-      :loading="loading2"
-      :before-change="beforeChange2"
-    />
+    <OSWitch v-model="switchVal1" shape="normal" :loading="loading1" :before-change="beforeChange1" />
+    <OSWitch v-model="switchVal2" shape="round" :loading="loading2" :before-change="beforeChange2" />
   </section>
 </template>
