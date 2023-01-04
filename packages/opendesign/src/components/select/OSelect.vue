@@ -2,10 +2,10 @@
 import { provide, ref } from 'vue';
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
-import { PROVIDE_KEY_UPTION_UPDATE, PROVIDE_KEY_UPTION_VALUE } from '../_shared/constant';
-import type { OptionValueT } from '../_shared/global';
 import { IconArrowTraingleDown } from '../icons';
 import { OPopup, PopupPositionT } from '../popup';
+import { selectOptionUpdateFnInjectKey, selectOptionValueInjectKey } from './provide';
+import { SelectOptionT } from './types';
 
 interface SelectPropT {
   size?: SizeT;
@@ -33,7 +33,7 @@ const emits = defineEmits(['update:modelValue']);
 const selectRef = ref<HTMLElement>();
 
 const showOption = ref(false);
-provide(PROVIDE_KEY_UPTION_UPDATE, (val: OptionValueT, emit?: boolean) => {
+provide(selectOptionUpdateFnInjectKey, (val: SelectOptionT, emit?: boolean) => {
   activeLabel.value = val.label;
   if (emit) {
     emits('update:modelValue', val.value);
@@ -42,7 +42,8 @@ provide(PROVIDE_KEY_UPTION_UPDATE, (val: OptionValueT, emit?: boolean) => {
   }
 });
 
-provide(PROVIDE_KEY_UPTION_VALUE, activeVal);
+provide(selectOptionValueInjectKey, activeVal);
+
 const onOptionChange = (visible: boolean) => {
   if (visible) {
     console.log(selectRef.value?.clientWidth);
