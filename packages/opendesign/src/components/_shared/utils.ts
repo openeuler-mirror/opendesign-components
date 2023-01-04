@@ -4,7 +4,7 @@ import type { ThrottleSettings, DebounceSettings } from 'lodash-es';
 export function isBoolean(val: unknown): val is boolean {
   return typeof val === 'boolean';
 }
-export function isString(val: unknown): val is string {
+export function isString(val: unknown) {
   return typeof val === 'string';
 }
 export function isNumber(val: unknown): val is number {
@@ -12,6 +12,9 @@ export function isNumber(val: unknown): val is number {
 }
 export function isFunction(val: unknown): val is Function {
   return typeof val === 'function';
+}
+export function isArray(val: unknown): val is Array<any> {
+  return Array.isArray(val);
 }
 export function isObject(val: unknown): val is Record<any, any> {
   return val !== null && typeof val === 'object';
