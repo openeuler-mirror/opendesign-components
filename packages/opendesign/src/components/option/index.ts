@@ -1,8 +1,6 @@
 import _OOption from './OOption.vue';
 import type { App } from 'vue';
 
-// export * from './types';
-
 const OOption = Object.assign(_OOption, {
   install(app: App) {
     app.component(_OOption.name, _OOption);
