@@ -9,6 +9,10 @@
   white-space: nowrap;
   cursor: pointer;
 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   &:focus-visible {
     outline: 4px solid var(--btn-primary_hover);
     outline-offset: 1px;
@@ -26,6 +30,9 @@
   border-radius: var(--btn-radius-s);
   &.o-btn-icon-only {
     width: var(--btn-height-s);
+  }
+  .o-btn-icon {
+    margin-right: 2px;
   }
 }
 
@@ -124,8 +131,13 @@
   padding: 0;
 }
 .o-btn-icon {
-  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  // vertical-align: middle;
   margin-right: 6px;
+  > svg {
+    vertical-align: top;
+  }
 
   .o-btn-icon-only & {
     margin-right: 0;

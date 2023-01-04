@@ -8,6 +8,10 @@
   }
 }
 
+.o-roating {
+  animation: o-rotating var(--o-transition-duration-long) var(--o-transition-function-linear) infinite;
+}
+
 @keyframes o-zoom-fade-in {
   0% {
     transform: scale(0.95);

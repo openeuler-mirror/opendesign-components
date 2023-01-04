@@ -3,6 +3,7 @@ import { OButton } from '../index';
 import { IconAdd } from '../../icons';
 </script>
 <template>
+  <h4>Shape</h4>
   <section>
     <OButton type="primary" size="large" shape="round">
       <template #icon><IconAdd /></template>

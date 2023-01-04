@@ -2,6 +2,7 @@
 import { OButton } from '../index';
 </script>
 <template>
+  <h4>Size</h4>
   <section>
     <OButton type="primary" size="large"> Large Button </OButton>
     <OButton type="primary" size="normal"> Normal Button </OButton>

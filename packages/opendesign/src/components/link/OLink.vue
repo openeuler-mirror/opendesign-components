@@ -67,9 +67,9 @@ const IconLinkArrow = getLinkArrowIcon();
     v-bind="$attrs"
     @click="onClick"
   >
-    <span v-if="props.loading" class="o-link-icon prefix loading"><IconLoading /></span>
-    <span v-else-if="props.icon || $slots.icon" class="o-link-icon prefix">
-      <slot v-if="$slots.icon" name="icon"></slot>
+    <span v-if="props.icon || $slots.icon || props.loading" class="o-link-icon prefix">
+      <IconLoading v-if="props.loading" class="o-roating" />
+      <slot v-else-if="$slots.icon" name="icon"></slot>
       <IconLink v-else />
     </span>
     <slot></slot>

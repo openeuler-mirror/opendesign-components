@@ -3,6 +3,7 @@ import { OButton } from '../index';
 import { IconAdd } from '../../icons';
 </script>
 <template>
+  <h4>Icon</h4>
   <section>
     <OButton type="primary" size="large">
       <template #icon><IconAdd /></template>Primary Button
@@ -14,13 +15,13 @@ import { IconAdd } from '../../icons';
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
     <OButton type="outline" size="large">
-      Outline Button<template #icon><IconAdd /></template>
+      <template #icon><IconAdd /></template>Outline Button
     </OButton>
     <OButton type="outline">
-      Outline Button<template #icon><IconAdd /></template>
+      <template #icon><IconAdd /></template>Outline Button
     </OButton>
     <OButton type="outline" size="small">
-      Outline Button<template #icon><IconAdd /></template>
+      <template #icon><IconAdd /></template>Outline Button
     </OButton>
     <OButton type="primary" size="large">
       <template #icon><IconAdd /></template>

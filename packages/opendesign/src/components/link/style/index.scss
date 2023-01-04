@@ -29,11 +29,6 @@
     margin-left: 2px;
   }
 
-  &.loading {
-    > svg {
-      animation: o-rotating var(--o-transition-duration-long) var(--o-transition-function-linear) infinite;
-    }
-  }
   &.arrow svg {
     transition: transform var(--o-transition-duration-2);
   }

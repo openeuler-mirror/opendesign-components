@@ -5,6 +5,7 @@ const btnClick = () => {
 };
 </script>
 <template>
+  <h4>Disabled</h4>
   <section>
     <OButton type="primary" disabled @click="btnClick">Primary Button</OButton>
     <OButton type="outline" disabled>Outline Button</OButton>
