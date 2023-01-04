@@ -1,8 +1,15 @@
 .o-link {
-  --link-color: var(--o-color-primary1);
+  --link-color: var(--o-color-text);
   --link-color_hover: var(--o-color-primary2);
-  --link-color_active: var(--o-color-primary3);
+  --link-color_active: var(--o-color-primary1);
   --link-color_disabled: var(--o-color-info4);
+
+  --link-primary: var(--o-color-primary1);
+
+  --link-bg: transparent;
+  --link-bg_hover: var(--o-color-bg3);
+  --link-bg_active: var(--o-color-bg1);
+  --link-bg_disabled: transparent;
 
   --link-text-size: var(--o-font_size-text);
   --link-text-height: var(--o-line_height-text);

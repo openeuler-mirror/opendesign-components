@@ -5,15 +5,15 @@ import { ButtonTypeT } from './types';
 
 interface ButtonPropT {
   /**
-   * 按钮类型：'primary' | 'outline' | 'text' | 'link'
+   * 按钮类型："outline" | "primary" | "text" | "link"
    */
   type?: ButtonTypeT;
   /**
-   * 按钮尺寸：'primary' | 'outline' | 'text' | 'link'
+   * 按钮尺寸："normal" | "small" | "large"
    */
   size?: SizeT;
   /**
-   * 按钮形状：'primary' | 'outline' | 'text' | 'link'
+   * 按钮形状："normal" | "round"
    */
   shape?: ShapeT;
 }

@@ -1,6 +1,4 @@
-$ani-prefix: 'o-ani';
-
-@keyframes #{$ani-prefix}-rotating {
+@keyframes o-rotating {
   0% {
     transform: rotate(0);
   }

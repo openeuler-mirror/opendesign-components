@@ -2,6 +2,33 @@
 
 .o-link {
   cursor: pointer;
+  text-decoration: none;
+
+  &.is-disabled {
+    cursor: not-allowed;
+  }
+  &:hover {
+    .o-link-icon.arrow svg {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.o-link-icon {
+  vertical-align: middle;
+  margin-right: 2px;
+
+  &.loading {
+    > svg {
+      animation: o-rotating var(--o-transition-duration-long) var(--o-transition-function-linear) infinite;
+    }
+  }
+  &.arrow svg {
+    transition: transform var(--o-transition-duration-2);
+  }
+}
+
+.o-link-normal {
   color: var(--link-color);
   &:hover {
     color: var(--link-color_hover);
@@ -11,6 +38,24 @@
   }
   &.is-disabled {
     color: var(--link-color_disabled);
-    cursor: not-allowed;
+  }
+}
+
+.o-link-primary {
+  color: var(--link-primary);
+  background-color: var(--link-bg);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link-primary);
+    background-color: var(--link-bg_hover);
+  }
+  &:active {
+    color: var(--link-primary);
+    background-color: var(--link-bg_active);
+  }
+  &.is-disabled {
+    color: var(--link-color_disabled);
+    background-color: transparent;
   }
 }

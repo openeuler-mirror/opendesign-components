@@ -13,3 +13,7 @@ export function initSize(type: SizeT) {
 export type ShapeT = 'round' | 'normal'
 
 export const defaultShape = ref<ShapeT>('normal');
+
+export function initShape(type: ShapeT) {
+  defaultShape.value = type;
+}

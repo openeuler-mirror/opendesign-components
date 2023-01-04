@@ -1,7 +1,7 @@
 import _OSWitch from './OSwitch.vue';
 import type { App } from 'vue';
 
-export * from './types';
+// export * from './types';
 
 const OSWitch = Object.assign(_OSWitch, {
   install(app: App) {
