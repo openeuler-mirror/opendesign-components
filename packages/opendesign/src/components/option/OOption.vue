@@ -1,37 +1,44 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import { OptionProvideKey } from '../_shared/global';
-import type { OptionValueT } from '../_shared/global';
+import { selectOptionUpdateFnInjectKey, selectOptionValueInjectKey } from '../select/provide';
 
 interface OptionPropT {
   label?: string;
   value: string | number;
   disabled?: boolean;
 }
+
 const props = withDefaults(defineProps<OptionPropT>(), {
   value: '',
   label: '',
 });
 
-const val = inject(`${OptionProvideKey}/value`);
-const updateFn = inject(`${OptionProvideKey}/update`) as (val: OptionValueT, emit?: boolean) => void;
+const val = inject(selectOptionValueInjectKey);
+const updateFn = inject(selectOptionUpdateFnInjectKey);
 
-if (props.value === val) {
-  updateFn({
-    label: props.label || `${props.value}`,
-    value: props.value,
-  });
+// 是否是select
+const isInSelect = !!updateFn;
+
+if (props.value === val?.value) {
+  if (isInSelect) {
+    updateFn({
+      label: props.label || `${props.value}`,
+      value: props.value,
+    });
+  }
 }
 
 const clickOption = () => {
   if (!props.disabled) {
-    updateFn(
-      {
-        label: props.label || `${props.value}`,
-        value: props.value,
-      },
-      true
-    );
+    if (isInSelect) {
+      updateFn(
+        {
+          label: props.label || `${props.value}`,
+          value: props.value,
+        },
+        true
+      );
+    }
   }
 };
 </script>

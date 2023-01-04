@@ -13,12 +13,3 @@ export function initSize(type: SizeT) {
 export type ShapeT = 'round' | 'normal'
 
 export const defaultShape = ref<ShapeT>('normal');
-
-export function initShape(shape: ShapeT) {
-  defaultShape.value = shape;
-}
-
-export interface OptionValueT {
-  label: string;
-  value: string | number;
-}
