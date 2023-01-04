@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { emit } from 'process';
+import { getLoadingIcon, getLinkIcon, getLinkArrowIcon } from '../_shared/icons';
 
 interface LinkPropsT {
   /**
@@ -11,31 +11,38 @@ interface LinkPropsT {
    */
   target?: '_blank' | '_parent' | '_self' | '_top' | '';
   /**
-   * 指定目标对象到链接对象的关系。
+   * 是否为loading状态
    */
-  rel?:
-    | 'alternate'
-    | 'author'
-    | 'bookmark'
-    | 'external'
-    | 'help'
-    | 'license'
-    | 'next'
-    | 'nofollow'
-    | 'noreferrer'
-    | 'noopener'
-    | 'prev'
-    | 'search'
-    | 'tag'
-    | '';
+  loading?: boolean;
+  /**
+   * 链接类型
+   */
+  type?: 'normal' | 'primary' | 'warning' | 'danger' | 'success';
+  /**
+   * 是否禁用
+   */
   disabled?: boolean;
+  /**
+   * 图标
+   */
   icon?: boolean;
+  /**
+   * 图标箭头
+   */
+  iconArrow?: boolean;
+  /**
+   * hover时是否显示背景
+   */
+  hoverable?: boolean;
 }
+
 const props = withDefaults(defineProps<LinkPropsT>(), {
   href: '',
   target: '',
-  rel: '',
+  icon: false,
+  type: 'normal',
 });
+
 const emits = defineEmits<{ (e: 'click', val: MouseEvent): void }>();
 const onClick = (e: MouseEvent) => {
   if (props.disabled) {
@@ -47,10 +54,28 @@ const onClick = (e: MouseEvent) => {
   }
   emits('click', e);
 };
+const IconLoading = getLoadingIcon();
+const IconLink = getLinkIcon();
+const IconLinkArrow = getLinkArrowIcon();
 </script>
 <template>
-  <a class="o-link" :href="props.href" :target="props.target" :rel="props.rel" v-bind="$attrs" :class="{ 'is-disabled': props.disabled }" @click="onClick">
-    <span class="o-link-icon"></span>
+  <a
+    class="o-link"
+    :href="props.href"
+    :target="props.target"
+    :class="[{ 'is-disabled': props.disabled, 'o-link-hoverable': props.hoverable }, `o-link-${props.type}`]"
+    v-bind="$attrs"
+    @click="onClick"
+  >
+    <span v-if="props.icon || $slots.icon || props.loading" class="o-link-icon prefix">
+      <IconLoading v-if="props.loading" class="o-roating" />
+      <slot v-else-if="$slots.icon" name="icon"></slot>
+      <IconLink v-else />
+    </span>
     <slot></slot>
+    <span v-if="$slots.iconSuffix" class="o-link-icon suffix">
+      <slot name="iconSuffix"></slot>
+    </span>
+    <span v-else-if="props.iconArrow" class="o-link-icon suffix arrow"><IconLinkArrow /></span>
   </a>
 </template>

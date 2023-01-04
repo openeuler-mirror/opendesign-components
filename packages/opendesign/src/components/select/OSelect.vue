@@ -51,30 +51,32 @@ const onOptionChange = (visible: boolean) => {
 };
 </script>
 <template>
-  <div ref="selectRef" class="o-select" :class="[`o-select-size-${props.size}`, `o-select-shape-${props.shape}`, { 'is-selecting': showOption }]">
-    <div class="o-select-wrap" :class="{ 'is-disabled': props.disabled }">
-      <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
-      <span class="o-select-suffix">
-        <slot name="suffix">
-          <span class="o-select-icon-arrow" :class="{ active: showOption }">
-            <IconArrowTraingleDown />
-          </span>
-        </slot>
-      </span>
-    </div>
-    <OPopup
-      v-model:visible="showOption"
-      :position="props.optionPosition"
-      :target="selectRef"
-      trigger="click"
-      :offset="4"
-      :adjust-min-width="props.optionWidthMode === 'min-width'"
-      :adjust-width="props.optionWidthMode === 'width'"
-      @change="onOptionChange"
-    >
-      <div class="o-select-options" :class="[`o-options-size-${props.size}`, props.optionWrapClass]">
-        <slot></slot>
-      </div>
-    </OPopup>
+  <div
+    ref="selectRef"
+    class="o-select"
+    :class="[`o-select-size-${props.size}`, `o-select-shape-${props.shape}`, { 'is-selecting': showOption, 'is-disabled': props.disabled }]"
+  >
+    <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
+    <span class="o-select-suffix">
+      <slot name="suffix">
+        <span class="o-select-icon-arrow" :class="{ active: showOption }">
+          <IconArrowTraingleDown />
+        </span>
+      </slot>
+    </span>
   </div>
+  <OPopup
+    v-model:visible="showOption"
+    :position="props.optionPosition"
+    :target="selectRef"
+    trigger="click"
+    :offset="4"
+    :adjust-min-width="props.optionWidthMode === 'min-width'"
+    :adjust-width="props.optionWidthMode === 'width'"
+    @change="onOptionChange"
+  >
+    <div class="o-select-options" :class="[`o-options-size-${props.size}`, props.optionWrapClass]">
+      <slot></slot>
+    </div>
+  </OPopup>
 </template>

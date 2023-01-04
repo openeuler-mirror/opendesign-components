@@ -1,6 +1,4 @@
-$ani-prefix: 'o-ani';
-
-@keyframes #{$ani-prefix}-rotating {
+@keyframes o-rotating {
   0% {
     transform: rotate(0);
   }
@@ -8,6 +6,10 @@ $ani-prefix: 'o-ani';
   100% {
     transform: rotate(360deg);
   }
+}
+
+.o-roating {
+  animation: o-rotating var(--o-transition-duration-long) var(--o-transition-function-linear) infinite;
 }
 
 @keyframes o-zoom-fade-in {

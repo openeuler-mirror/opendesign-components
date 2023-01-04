@@ -2,6 +2,7 @@
 import { OButton } from '../index';
 </script>
 <template>
+  <h4>Type</h4>
   <section>
     <OButton type="primary">Primary Button</OButton>
     <OButton type="outline">Outline Button</OButton>

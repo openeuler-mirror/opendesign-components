@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import '../style';
-import BtnIndex from './LinkDemo.vue';
+import LinkDemo from './LinkDemo.vue';
 </script>
 <template>
   <div class="page-demo">
-    <BtnIndex />
+    <LinkDemo />
   </div>
 </template>
 <style lang="scss"></style>

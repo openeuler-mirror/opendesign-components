@@ -12,6 +12,11 @@
   --o-transition-duration-1: 0.1s;
   --o-transition-duration-2: 0.2s;
   --o-transition-duration-3: 0.3s;
+  --o-transition-duration-long: 1.5s;
+
+  --o-transition-function-linear: linear;
+  --o-transition-function-ease-in: ease-in;
+  --o-transition-function-ease-out: ease-out;
 }
 
 // icons
@@ -24,10 +29,14 @@
   display: inline-block;
   width: 1em;
   height: 1em;
-  vertical-align: -0.03em;
+  vertical-align: middle;
   color: inherit;
   font-style: normal;
   outline: none;
-  stroke: currentColor;
-  fill: currentColor;
+  &.type-stroke {
+    stroke: currentColor;
+  }
+  &.type-fill {
+    fill: currentColor;
+  }
 }
