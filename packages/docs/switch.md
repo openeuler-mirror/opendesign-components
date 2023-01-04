@@ -2,14 +2,14 @@
 
 ## props
 
-| name         | type                                        | 默认值       | 说明                                                         |
-| :----------- | :------------------------------------------ | :----------- | ------------------------------------------------------------ |
-| model:value  | boolean                                     | false        | 开关状态                                                     |
-| shape        | Shape                                       | Shape.NORMAL | 开关形状                                                     |
-| size         | Size                                        | Size.NORMAL  | 开关尺寸                                                     |
-| disabled     | boolean                                     | false        | 是否禁用                                                     |
-| loading      | boolean                                     | false        | 加载状态                                                     |
-| beforeChange | (val: boolean): Promise\<boolean\>\|boolean | -            | return Promise.resolve(true)继续切换，resolve(false)阻止切换 |
+| name         | type                                        | 默认值        | 说明                                                         |
+| :----------- | :------------------------------------------ | :------------ | ------------------------------------------------------------ |
+| model:value  | boolean                                     | false         | 开关状态                                                     |
+| shape        | ShapeT                                      | ShapeT.NORMAL | 开关形状                                                     |
+| size         | SizeT                                       | SizeT.NORMAL  | 开关尺寸                                                     |
+| disabled     | boolean                                     | false         | 是否禁用                                                     |
+| loading      | boolean                                     | false         | 加载状态                                                     |
+| beforeChange | (val: boolean): Promise\<boolean\>\|boolean | -             | return Promise.resolve(true)继续切换，resolve(false)阻止切换 |
 
 ## event
 
