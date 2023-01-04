@@ -1,6 +1,6 @@
 import { InlineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default (type: 'component' | 'icon'): InlineConfig => {
   const entry =

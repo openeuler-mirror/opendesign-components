@@ -17,7 +17,7 @@ interface LinkPropsT {
   /**
    * 链接类型
    */
-  type?: 'normal' | 'primary';
+  type?: 'normal' | 'primary' | 'warning' | 'danger' | 'success';
   /**
    * 是否禁用
    */
@@ -30,6 +30,10 @@ interface LinkPropsT {
    * 图标箭头
    */
   iconArrow?: boolean;
+  /**
+   * hover时是否显示背景
+   */
+  hoverable?: boolean;
 }
 
 const props = withDefaults(defineProps<LinkPropsT>(), {
@@ -59,19 +63,19 @@ const IconLinkArrow = getLinkArrowIcon();
     class="o-link"
     :href="props.href"
     :target="props.target"
-    :class="[{ 'is-disabled': props.disabled }, `o-link-${props.type}`]"
+    :class="[{ 'is-disabled': props.disabled, 'o-link-hoverable': props.hoverable }, `o-link-${props.type}`]"
     v-bind="$attrs"
     @click="onClick"
   >
-    <span v-if="props.loading" class="o-link-icon loading"><IconLoading /></span>
-    <span v-else-if="props.icon || $slots.icon" class="o-link-icon">
+    <span v-if="props.loading" class="o-link-icon prefix loading"><IconLoading /></span>
+    <span v-else-if="props.icon || $slots.icon" class="o-link-icon prefix">
       <slot v-if="$slots.icon" name="icon"></slot>
       <IconLink v-else />
     </span>
     <slot></slot>
-    <span v-if="$slots.iconSuffix" class="o-link-icon arrow">
+    <span v-if="$slots.iconSuffix" class="o-link-icon suffix">
       <slot name="iconSuffix"></slot>
     </span>
-    <span v-else-if="props.iconArrow" class="o-link-icon arrow"><IconLinkArrow /></span>
+    <span v-else-if="props.iconArrow" class="o-link-icon suffix arrow"><IconLinkArrow /></span>
   </a>
 </template>

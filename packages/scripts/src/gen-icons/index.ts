@@ -72,6 +72,7 @@ function generateIconComponents(icons: Array<IconItem>) {
       name: item.name,
       componentName: item.componentName,
       svg: rlt.data,
+      type: item.type
     });
 
     fs.outputFile(path.resolve(outDir, `${item.componentName}/${item.componentName}.vue`), content, err => {

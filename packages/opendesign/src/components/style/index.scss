@@ -33,6 +33,10 @@
   color: inherit;
   font-style: normal;
   outline: none;
-  stroke: currentColor;
-  fill: currentColor;
+  &.type-stroke {
+    stroke: currentColor;
+  }
+  &.type-fill {
+    fill: currentColor;
+  }
 }

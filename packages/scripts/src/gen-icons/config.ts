@@ -4,7 +4,7 @@ interface GenIconsConfig {
   svgo: Config,
   input: string,
   output: string,
-  template: ({ name, componentName, svg }: { name: string, componentName: string, svg: string }) => void
+  template: typeof template
 }
 
 const svgoConfig: Config = {
@@ -41,13 +41,13 @@ const svgoConfig: Config = {
   ],
 };
 
-const template = ({ name, componentName, svg }: { name: string, componentName: string, svg: string }) => {
+const template = ({ name, componentName, svg, type }: { name: string, componentName: string, svg: string, type: 'fill' | 'stroke' | 'color' }) => {
   return `<script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: '${componentName}',
   setup() {
-    const classnames = ['o-icon', '${name}'];
+    const classnames = ['o-icon', '${name}', 'type-${type}'];
     return {
       classnames,
     };

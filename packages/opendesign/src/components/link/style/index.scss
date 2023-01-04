@@ -3,20 +3,31 @@
 .o-link {
   cursor: pointer;
   text-decoration: none;
+  padding: 0 2px;
 
-  &.is-disabled {
-    cursor: not-allowed;
-  }
   &:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
     .o-link-icon.arrow svg {
       transform: translateX(4px);
     }
+  }
+
+  &.is-disabled {
+    color: var(--link-color_disabled);
+    cursor: not-allowed;
+    text-decoration: none;
   }
 }
 
 .o-link-icon {
   vertical-align: middle;
-  margin-right: 2px;
+  &.prefix {
+    margin-right: 2px;
+  }
+  &.suffix {
+    margin-left: 2px;
+  }
 
   &.loading {
     > svg {
@@ -28,7 +39,7 @@
   }
 }
 
-.o-link-normal {
+.o-link-normal:not(.is-disabled) {
   color: var(--link-color);
   &:hover {
     color: var(--link-color_hover);
@@ -36,26 +47,71 @@
   &:active {
     color: var(--link-color_active);
   }
-  &.is-disabled {
-    color: var(--link-color_disabled);
+}
+
+.o-link-primary:not(.is-disabled) {
+  color: var(--link-primary);
+
+  &:hover {
+    color: var(--link-primary_hover);
+  }
+  &:active {
+    color: var(--link-primary_active);
   }
 }
 
-.o-link-primary {
-  color: var(--link-primary);
-  background-color: var(--link-bg);
-  text-decoration: none;
+.o-link-success:not(.is-disabled) {
+  color: var(--link-success);
 
   &:hover {
+    color: var(--link-success_hover);
+  }
+  &:active {
+    color: var(--link-success_active);
+  }
+}
+
+.o-link-warning:not(.is-disabled) {
+  color: var(--link-warning);
+
+  &:hover {
+    color: var(--link-warning_hover);
+  }
+  &:active {
+    color: var(--link-warning_active);
+  }
+}
+
+.o-link-danger:not(.is-disabled) {
+  color: var(--link-danger);
+
+  &:hover {
+    color: var(--link-danger_hover);
+  }
+  &:active {
+    color: var(--link-danger_active);
+  }
+}
+
+.o-link-hoverable:not(.is-disabled) {
+  &.o-link-primary {
     color: var(--link-primary);
+  }
+  &.o-link-success {
+    color: var(--link-success);
+  }
+  &.o-link-warning {
+    color: var(--link-warning);
+  }
+  &.o-link-danger {
+    color: var(--link-danger);
+  }
+
+  &:hover {
+    text-decoration: none;
     background-color: var(--link-bg_hover);
   }
   &:active {
-    color: var(--link-primary);
     background-color: var(--link-bg_active);
-  }
-  &.is-disabled {
-    color: var(--link-color_disabled);
-    background-color: transparent;
   }
 }
