@@ -7,7 +7,7 @@ interface RadioGroupPropT {
   modelValue?: string | boolean | number;
   disabled?: boolean;
   /**
-   * 单选组方向: 'horizontal' | 'vertical'
+   * 单选框组方向: 'horizontal' | 'vertical'
    */
   direction?: RadioGroupDirectionT;
 }
@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<RadioGroupPropT>(), {
   direction: 'horizontal',
 });
 
-const emit = defineEmits<{
+const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
   (e: 'change', val: string | number | boolean): void;
 }>();
@@ -26,8 +26,8 @@ const emit = defineEmits<{
 const { modelValue, disabled } = toRefs(props);
 
 const onChange = (val: string | number | boolean) => {
-  emit('update:modelValue', val);
-  emit('change', val);
+  emits('update:modelValue', val);
+  emits('change', val);
 };
 
 provide(radioGroupInjectKey, { modelValue, disabled, onChange });
@@ -38,5 +38,3 @@ provide(radioGroupInjectKey, { modelValue, disabled, onChange });
     <slot></slot>
   </div>
 </template>
-
-<style lang="scss" scoped></style>
