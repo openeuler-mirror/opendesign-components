@@ -7,7 +7,7 @@ const switchVal2 = ref(true);
 
 <template>
   <section>
-    <OSWitch v-model="switchVal1" shape="normal" />
+    <OSWitch v-model="switchVal1" />
     <OSWitch v-model="switchVal2" shape="round" />
   </section>
 </template>

@@ -5,6 +5,9 @@ import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
 import { IconLoading } from '../_shared/icons';
 
+// TODO:
+// 1. props 参数注释需要补全
+// 2. 增加chang事件的示例
 interface SwitchPropT {
   /**
    * 开关尺寸: 'large' | 'normal' | 'small'
@@ -33,7 +36,7 @@ const emits = defineEmits<{
   (e: 'update:modelValue', val: boolean): void;
   (e: 'change', val: boolean): void;
 }>();
-
+// TODO：这个函数命名太宽泛了，建议明确下如：isExpectBeforeChangeType，或者如果只在一个地方使用，就不用抽取函数了
 const isExpectType = (res: unknown) => {
   return isPromise(res) || isBoolean(res);
 };
@@ -84,6 +87,7 @@ const onClick = () => {
   >
     <div class="o-switch-wrapper">
       <div class="o-switch-handler">
+        <!-- TODO：尽量不要使用语义不对应的标签，无语义的使用span就好了 -->
         <i v-if="props.loading" class="o-switch-icon_loading">
           <IconLoading />
         </i>
