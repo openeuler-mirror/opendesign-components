@@ -28,7 +28,7 @@ const onLinkClick2 = () => {
 
   <h4>图标</h4>
   <section>
-    <OLink :href="link" icon type="primary">图标链接1</OLink>
+    <OLink :href="link" icon-prefix type="primary">图标链接1</OLink>
     <OLink :href="link" icon-arrow>图标链接2</OLink>
     <OLink :href="link">
       <template #icon><IconDone /></template>自定义图标链接1
