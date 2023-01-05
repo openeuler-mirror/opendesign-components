@@ -6,8 +6,9 @@ const switchVal2 = ref(true);
 </script>
 
 <template>
+  <h4>Disabled & Loading</h4>
   <section>
-    <OSWitch v-model="switchVal1" shape="normal" loading />
+    <OSWitch v-model="switchVal1" loading />
     <OSWitch v-model="switchVal2" shape="round" loading />
   </section>
 </template>

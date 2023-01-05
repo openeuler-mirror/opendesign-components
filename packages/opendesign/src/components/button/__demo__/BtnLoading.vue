@@ -22,7 +22,7 @@ const showLoading = (key: 'loading1' | 'loading2' | 'loading3', val: boolean) =>
       <template #icon><IconAdd /></template>Outline Button
     </OButton>
     <OButton type="text" :loading="rlt.loading3" @click="showLoading('loading3', true)">Text Button</OButton>
-    <OButton type="link" :loading="rlt.loading3" @click="showLoading('loading3', true)">Link Button</OButton>
+    <OButton type="link" :loading="!rlt.loading3" @click="showLoading('loading3', true)">Link Button</OButton>
   </section>
 </template>
 <style lang="scss"></style>

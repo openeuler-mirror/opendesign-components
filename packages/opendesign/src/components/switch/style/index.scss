@@ -7,7 +7,7 @@
   color: var(--switch-color);
   transition: all 0.3s;
   cursor: pointer;
-
+  // TODO 以o-xxx的类 不需要嵌套，尽量减少嵌套
   .o-switch-wrapper {
     width: 100%;
     height: 100%;
@@ -116,6 +116,7 @@
 
   .o-switch-wrapper {
     font-size: var(--switch-text-size-l);
+    // TODO
     line-height: --switch-text-height-l;
     .o-switch-handler {
       width: 20px;

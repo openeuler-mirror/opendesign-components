@@ -4,33 +4,29 @@ import { OSWitch } from '../index';
 
 const switchVal1 = ref(false);
 const loading1 = ref(false);
+let cnt = 0;
 const beforeChange1 = (): Promise<boolean> => {
   loading1.value = true;
-
+  cnt += 1;
   return new Promise((resolve) => {
     setTimeout(() => {
       loading1.value = false;
-      return resolve(true);
+      return resolve(cnt % 2 === 0);
     }, 1000);
   });
 };
 
 const switchVal2 = ref(true);
-const loading2 = ref(false);
-const beforeChange2 = (): Promise<boolean> => {
-  loading2.value = true;
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      loading2.value = false;
-      return reject(new Error('Error'));
-    }, 1000);
-  });
+const beforeChange2 = () => {
+  cnt += 1;
+  return cnt % 2 === 0;
 };
 </script>
 
 <template>
+  <h4>阻止切换</h4>
   <section>
-    <OSWitch v-model="switchVal1" shape="normal" :loading="loading1" :before-change="beforeChange1" />
-    <OSWitch v-model="switchVal2" shape="round" :loading="loading2" :before-change="beforeChange2" />
+    <OSWitch v-model="switchVal1" :loading="loading1" :before-change="beforeChange1" />
+    <OSWitch v-model="switchVal2" shape="round" :before-change="beforeChange2" />
   </section>
 </template>

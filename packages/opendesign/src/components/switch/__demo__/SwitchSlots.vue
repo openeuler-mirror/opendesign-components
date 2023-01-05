@@ -8,13 +8,14 @@ const switchVal2 = ref(true);
 </script>
 
 <template>
+  <h4>插槽</h4>
   <section>
-    <OSWitch v-model="switchVal1" shape="normal">
+    <OSWitch v-model="switchVal1">
       <template #on>开</template>
       <template #off>关</template>
     </OSWitch>
 
-    <OSWitch v-model="switchVal1" shape="normal">
+    <OSWitch v-model="switchVal1">
       <template #on><IconDone /></template>
       <template #off><IconX /></template>
     </OSWitch>
