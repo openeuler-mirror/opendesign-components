@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ORadio, ORadioGroup } from '../index';
+import { ORadio } from '../index';
+import { ORadioGroup } from '../../radio-group';
 const radioVal1 = ref(1);
 const radioVal2 = ref('a');
 const handleChange = (val: string | number | boolean) => {

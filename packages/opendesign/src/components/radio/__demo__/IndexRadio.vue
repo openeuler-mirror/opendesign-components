@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import '../style';
+import '../../radio-group/style';
 import RadioBasic from './RadioBasic.vue';
 import RadioDisabled from './RadioDisabled.vue';
 import RadioGroup from './RadioGroup.vue';

@@ -1,9 +1,8 @@
 import type { App } from 'vue';
 
 import _ORadio from './ORadio.vue';
-import _ORadioGroup from '../radio/ORadioGroup.vue';
 
-export * from './types';
+export * from '../radio-group/types';
 
 const ORadio = Object.assign(_ORadio, {
   install(app: App) {
@@ -11,10 +10,4 @@ const ORadio = Object.assign(_ORadio, {
   },
 });
 
-const ORadioGroup = Object.assign(_ORadioGroup, {
-  install(app: App) {
-    app.component(_ORadioGroup.name, _ORadioGroup);
-  },
-});
-
-export { ORadio, ORadioGroup };
+export { ORadio };
