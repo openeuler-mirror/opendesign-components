@@ -9,7 +9,7 @@ interface LinkPropsT {
   /**
    * 指定在何处显示链接的资源。
    */
-  target?: '_blank' | '_parent' | '_self' | '_top' | '';
+  target?: '_blank' | '_parent' | '_self' | '_top';
   /**
    * 是否为loading状态
    */
@@ -23,9 +23,9 @@ interface LinkPropsT {
    */
   disabled?: boolean;
   /**
-   * 图标
+   * 前缀图标
    */
-  icon?: boolean;
+  iconPrefix?: boolean;
   /**
    * 图标箭头
    */
@@ -38,7 +38,7 @@ interface LinkPropsT {
 
 const props = withDefaults(defineProps<LinkPropsT>(), {
   href: '',
-  target: '',
+  target: undefined,
   icon: false,
   type: 'normal',
 });

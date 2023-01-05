@@ -13,6 +13,7 @@ interface SelectPropT {
   shape?: ShapeT;
   placeholder?: string;
   disabled?: boolean;
+
   optionPosition?: PopupPositionT;
   optionWidthMode?: 'auto' | 'min-width' | 'width';
   optionWrapClass?: string;
