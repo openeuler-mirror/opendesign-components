@@ -21,7 +21,7 @@ const selectVal = ref(options[0].value);
       <OOption :label="options[3].label" :value="options[3].value" />
     </OSelect>
 
-    <OSelect v-model="selectVal2">
+    <OSelect v-model="selectVal2" placeholder="click to select...">
       <OOption :value="options[0].value" />
       <OOption :value="options[1].value" disabled />
     </OSelect>

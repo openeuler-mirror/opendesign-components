@@ -40,10 +40,16 @@ const props = defineProps({
     type: [String, Object] as PropType<string | HTMLElement>,
     default: document.body,
   },
+  /**
+   * 是否在隐藏时卸载
+   */
   unmountOnClose: {
     type: Boolean,
     default: true,
   },
+  /**
+   * 距离触发元素的偏移量
+   */
   offset: {
     type: Number,
     default: 8,
