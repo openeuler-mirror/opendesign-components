@@ -3,7 +3,7 @@ import { isPromise, isBoolean } from '../_shared/utils';
 
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
-import { getLoadingIcon } from '../_shared/icons';
+import { IconLoading } from '../_shared/icons';
 
 interface SwitchPropT {
   /**
@@ -68,7 +68,6 @@ const onClick = () => {
       console.warn(`${err}`);
     });
 };
-const IconLoading = getLoadingIcon();
 </script>
 
 <template>

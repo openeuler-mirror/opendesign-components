@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getLoadingIcon, getLinkIcon, getLinkArrowIcon } from '../_shared/icons';
+import { IconLinkPrefix, IconLinkArrow, IconLoading } from '../_shared/icons';
 
 interface LinkPropsT {
   /**
@@ -54,9 +54,6 @@ const onClick = (e: MouseEvent) => {
   }
   emits('click', e);
 };
-const IconLoading = getLoadingIcon();
-const IconLink = getLinkIcon();
-const IconLinkArrow = getLinkArrowIcon();
 </script>
 <template>
   <a
@@ -70,7 +67,7 @@ const IconLinkArrow = getLinkArrowIcon();
     <span v-if="props.icon || $slots.icon || props.loading" class="o-link-icon prefix">
       <IconLoading v-if="props.loading" class="o-roating" />
       <slot v-else-if="$slots.icon" name="icon"></slot>
-      <IconLink v-else />
+      <IconLinkPrefix v-else />
     </span>
     <slot></slot>
     <span v-if="$slots.iconSuffix" class="o-link-icon suffix">

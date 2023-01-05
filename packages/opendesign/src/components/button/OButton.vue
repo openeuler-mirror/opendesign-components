@@ -2,7 +2,8 @@
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
 import { ButtonTypeT } from './types';
-import { getLoadingIcon } from '../_shared/icons';
+import { IconLoading } from '../_shared/icons';
+import { computed } from 'vue';
 
 interface ButtonPropT {
   /**
@@ -24,10 +25,10 @@ interface ButtonPropT {
 }
 const props = withDefaults(defineProps<ButtonPropT>(), {
   type: 'outline',
-  size: defaultSize.value,
+  size: undefined,
   shape: defaultShape.value,
 });
-const IconLoading = getLoadingIcon();
+const size = computed(() => props.size || defaultSize.value);
 </script>
 <template>
   <button
@@ -35,7 +36,7 @@ const IconLoading = getLoadingIcon();
     class="o-btn"
     :class="[
       `o-btn-${props.type}`,
-      `o-btn-size-${props.size}`,
+      `o-btn-size-${size}`,
       `o-btn-shape-${props.shape}`,
       {
         'o-btn-icon-only': $slots.icon && !$slots.default,
