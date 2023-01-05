@@ -1,3 +1,5 @@
+import { isArray } from './utils';
+
 export type DirectionT = 'left' | 'right' | 'top' | 'bottom';
 
 export function isElement(el: any) {
@@ -79,7 +81,7 @@ export function getElementBorder(el: HTMLElement, dir?: DirectionT | DirectionT[
   if (typeof dir === 'string') {
     d = [dir];
   } else {
-    d = Array.isArray(dir) ? dir : ['left', 'right', 'bottom', 'top'];
+    d = isArray(dir) ? dir : ['left', 'right', 'bottom', 'top'];
   }
   const rlt: {
     left?: number,

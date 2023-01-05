@@ -1,4 +1,4 @@
-export * from './_shared/global';
+export * from './_shared/export';
 
 export * from './hooks';
 

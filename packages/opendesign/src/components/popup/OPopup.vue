@@ -7,7 +7,7 @@ export default {
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, computed } from 'vue';
 import { PopupPositionT, PopupTriggerT } from './types';
 import { isElement, getScrollParents } from '../_shared/dom';
-import { throttleRAF } from '../_shared/utils';
+import { isArray, throttleRAF } from '../_shared/utils';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { ResizeObserver } from '../resize-observer';
@@ -120,7 +120,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
-const triggers = Array.isArray(props.trigger) ? props.trigger : [props.trigger];
+const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
 
 const visible = ref(false);
 let targetEl: HTMLElement | null = null;

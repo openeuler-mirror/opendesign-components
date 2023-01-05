@@ -3,7 +3,7 @@ import { isPromise, isBoolean } from '../_shared/utils';
 
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
-import { getLoadingIcon } from '../_shared/icons';
+import { IconLoading } from '../_shared/icons';
 
 interface SwitchPropT {
   /**
@@ -21,8 +21,8 @@ interface SwitchPropT {
 }
 
 const props = withDefaults(defineProps<SwitchPropT>(), {
-  size: defaultSize.value,
-  shape: defaultShape.value,
+  size: undefined,
+  shape: undefined,
   modelValue: false,
   disabled: false,
   loading: false,
@@ -68,15 +68,14 @@ const onClick = () => {
       console.warn(`${err}`);
     });
 };
-const IconLoading = getLoadingIcon();
 </script>
 
 <template>
   <div
     class="o-switch"
     :class="[
-      `o-switch-size-${props.size}`,
-      `o-switch-shape-${props.shape}`,
+      `o-switch-size-${props.size || defaultSize}`,
+      `o-switch-shape-${props.shape || defaultShape}`,
       { 'is-checked': props.modelValue },
       { 'is-disabled': props.disabled },
       { 'is-loading': props.loading },

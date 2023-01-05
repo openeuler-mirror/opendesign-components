@@ -1,30 +1,33 @@
 /**
  * 定义全局图标，支持全局初始化自定义
  */
-import { IconLoading, IconLink, IconArrowRight } from '../icons';
-import type { Component } from 'vue';
+import { Component, shallowRef } from 'vue';
+import {
+  IconLoading as _IconLoading,
+  IconLink as IconLink,
+  IconArrowRight
+} from '../icons';
 
-let iLoading: Component = IconLoading;
-export function setLoadingIcon(icon: Component) {
-  iLoading = icon;
-}
-export function getLoadingIcon() {
-  return iLoading;
-}
-
-
-let iLink: Component = IconLink;
-export function setLinkIcon(icon: Component) {
-  iLink = icon;
-}
-export function getLinkIcon() {
-  return iLink;
+/**
+ * 全局loading图标
+ */
+export const IconLoading = shallowRef<Component>(_IconLoading);
+export function initLoadingIcon(icon: Component) {
+  IconLoading.value = icon;
 }
 
-let iLinkArrow: Component = IconArrowRight;
-export function setLinkArrowIcon(icon: Component) {
-  iLinkArrow = icon;
+/**
+ * link前缀图标
+ */
+export const IconLinkPrefix = shallowRef<Component>(IconLink);
+export function initLinkPrefixIcon(icon: Component) {
+  IconLinkPrefix.value = icon;
 }
-export function getLinkArrowIcon() {
-  return iLinkArrow;
+
+/**
+ * link箭头图标
+ */
+export const IconLinkArrow = shallowRef<Component>(IconArrowRight);
+export function initLinkArrowIcon(icon: Component) {
+  IconLinkArrow.value = icon;
 }
