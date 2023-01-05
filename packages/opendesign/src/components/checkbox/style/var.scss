@@ -1,0 +1,10 @@
+.o-checkbox {
+  --checkbox-color: var(--o-color-text1);
+  --checkbox-color_disabled: var(--o-color-text4);
+
+  --checkbox-text-size: var(--o-font_size-text);
+  --checkbox-text-height: var(--o-line_height-text);
+
+  --checkbox-icon-checked: var(--o-color-primary1);
+  --checkbox-icon-checked_disabled: var(--o-color-primary4);
+}

@@ -63,6 +63,12 @@ export const routes = [
     label: '单选',
     component: () => import('@demo/radio/__demo__/IndexRadio.vue'),
   },
+  {
+    path: '/checkbox',
+    name: 'Checkbox',
+    label: '多选',
+    component: () => import('@demo/checkbox/__demo__/IndexCheckbox.vue'),
+  },
 ];
 
 export const router = createRouter({
