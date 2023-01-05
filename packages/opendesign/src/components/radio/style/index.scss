@@ -72,20 +72,3 @@
     }
   }
 }
-
-.o-radio-group {
-  display: inline-flex;
-  flex-wrap: wrap;
-  &.is-horizontal {
-    .o-radio + .o-radio {
-      margin-left: var(--radio-group-gap);
-    }
-  }
-
-  &.is-vertical {
-    flex-direction: column;
-    .o-radio + .o-radio {
-      margin-top: var(--radio-group-gap);
-    }
-  }
-}

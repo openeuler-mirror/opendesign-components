@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<RadioPropT>(), {
   disabled: false,
 });
 
-const emit = defineEmits<{
+const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
   (e: 'change', rlt: { value: string | number | boolean; checked: boolean }): void;
 }>();
@@ -36,13 +36,16 @@ const onChange = () => {
 
   const val = props.value;
   radioGroupInjection?.onChange(val);
-  emit('update:modelValue', val);
+  emits('update:modelValue', val);
 };
 
 watch(
   () => isChecked.value,
   () => {
-    emit('change', { value: props.value, checked: isChecked.value });
+    emits('change', {
+      value: radioGroupInjection ? radioGroupInjection.modelValue.value : (props.modelValue as string | number | boolean),
+      checked: isChecked.value,
+    });
   }
 );
 </script>
