@@ -21,8 +21,8 @@ interface SwitchPropT {
 }
 
 const props = withDefaults(defineProps<SwitchPropT>(), {
-  size: defaultSize.value,
-  shape: defaultShape.value,
+  size: undefined,
+  shape: undefined,
   modelValue: false,
   disabled: false,
   loading: false,
@@ -74,8 +74,8 @@ const onClick = () => {
   <div
     class="o-switch"
     :class="[
-      `o-switch-size-${props.size}`,
-      `o-switch-shape-${props.shape}`,
+      `o-switch-size-${props.size || defaultSize}`,
+      `o-switch-shape-${props.shape || defaultShape}`,
       { 'is-checked': props.modelValue },
       { 'is-disabled': props.disabled },
       { 'is-loading': props.loading },

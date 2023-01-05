@@ -25,8 +25,8 @@ interface SelectPropT {
 }
 const props = withDefaults(defineProps<SelectPropT>(), {
   modelValue: '',
-  size: defaultSize.value,
-  shape: defaultShape.value,
+  size: undefined,
+  shape: undefined,
   placeholder: 'please select...',
   optionPosition: 'bl',
   optionWidthMode: 'min-width',
@@ -63,7 +63,11 @@ provide(selectOptionInjectKey, {
   <div
     ref="selectRef"
     class="o-select"
-    :class="[`o-select-size-${props.size}`, `o-select-shape-${props.shape}`, { 'is-selecting': showOption, 'is-disabled': props.disabled }]"
+    :class="[
+      `o-select-size-${props.size || defaultSize}`,
+      `o-select-shape-${props.shape || defaultShape}`,
+      { 'is-selecting': showOption, 'is-disabled': props.disabled },
+    ]"
   >
     <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
     <span class="o-select-suffix">
