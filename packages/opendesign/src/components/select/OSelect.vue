@@ -50,12 +50,16 @@ interface SelectPropT {
    * 是否在结束选择时，卸载下拉选项
    * v-model
    */
-  unmountOnClose?: boolean;
+  unmountOnHide?: boolean;
   /**
    * 默认初始值对应的label显示，不传则使用modelValue
    * 当unmountOnClose为true时，存在初始值对应label无法获取问题，可使用该属性指定初始值
    */
   defaultLabel?: string;
+  /**
+   * 过渡名称
+   */
+  transition?: string;
 }
 const props = withDefaults(defineProps<SelectPropT>(), {
   modelValue: '',
@@ -67,7 +71,8 @@ const props = withDefaults(defineProps<SelectPropT>(), {
   optionWidthMode: 'min-width',
   optionWrapClass: '',
   defaultLabel: '',
-  unmountOnClose: true,
+  unmountOnHide: true,
+  transition: undefined,
 });
 
 const activeLabel = ref(props.defaultLabel || props.modelValue);
@@ -115,7 +120,8 @@ provide(selectOptionInjectKey, {
 
     <OPopup
       v-model:visible="showOption"
-      :unmount-on-close="props.unmountOnClose"
+      :transition="props.transition"
+      :unmount-on-hide="props.unmountOnHide"
       :position="props.optionPosition"
       :target="selectRef"
       :trigger="props.trigger"

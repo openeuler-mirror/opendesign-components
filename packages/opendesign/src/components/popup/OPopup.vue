@@ -85,7 +85,7 @@ const props = defineProps({
   /**
    * 是否在popup隐藏时unmout
    */
-  unmountOnClose: {
+  unmountOnHide: {
     type: Boolean,
     default: true,
   },
@@ -116,6 +116,13 @@ const props = defineProps({
   adjustWidth: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * 过渡名称
+   */
+  transition: {
+    type: String,
+    default: 'o-zoom-fade',
   },
 });
 
@@ -307,7 +314,7 @@ const handleTransitionStart = () => {
 };
 const handleTransitionEnd = () => {
   isAnimating.value = false;
-  if (!visible.value && props.unmountOnClose) {
+  if (!visible.value && props.unmountOnHide) {
     toMount.value = false;
   }
 };
@@ -424,7 +431,7 @@ onUnmounted(() => {
 </script>
 <template>
   <teleport v-if="wrapperEl" :to="props.wrapper">
-    <ResizeObserver v-if="toMount || visible || !props.unmountOnClose" @resize="onPopupResize">
+    <ResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
       <div
         ref="popupRef"
         class="o-popup"
@@ -435,7 +442,7 @@ onUnmounted(() => {
         @mouseleave="onPopupHoverOut"
       >
         <Transition
-          name="o-zoom-fade"
+          :name="props.transition"
           :appear="true"
           @before-enter="handleTransitionStart"
           @after-enter="handleTransitionEnd"

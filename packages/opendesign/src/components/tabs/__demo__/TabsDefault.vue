@@ -2,27 +2,41 @@
 import { ref } from 'vue';
 import { OTabs, OTabPane } from '../index';
 import { IconSearch } from '../../icons';
-const activeTab = ref('');
+const activeTab = ref('Tab A');
+const tabChange = (val: string | number, oldVal: string | number) => {
+  console.log(`active: ${val}, old: ${oldVal}`);
+};
 </script>
 <template>
   <h4>Default</h4>
-  <section>
-    <OTabs v-model="activeTab">
-      <OTabPane value="1">pane 1</OTabPane>
-      <OTabPane value="2">pane 2</OTabPane>
-      <OTabPane value="3">pane 3</OTabPane>
-      <OTabPane value="4">pane 4</OTabPane>
+  <div class="sec">
+    <OTabs>
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTabs>
-  </section>
-  <section>
-    <OTabs v-model="activeTab">
-      <OTabPane value="a"><template #nav>nav 1</template>pane 1 </OTabPane>
-      <OTabPane value="b">pane 2</OTabPane>
-      <OTabPane value="c">
-        <template #nav><IconSearch /> nav 3</template>pane 3
+  </div>
+  <div class="sec">
+    <OTabs v-model="activeTab" lazy @change="tabChange">
+      <template #act>action</template>
+      <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
+      <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
+      <OTabPane value="Tab C" class="pane">
+        <template #nav><IconSearch /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane value="d"><template #nav>nav 4</template>pane 4</OTabPane>
+      <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTabs>
-  </section>
+  </div>
 </template>
-<style lang="scss"></style>
+<style lang="scss">
+.sec {
+  border: 1px solid #eee;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.pane {
+  padding: 36px;
+  background-color: bisque;
+}
+</style>

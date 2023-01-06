@@ -5,7 +5,8 @@ import { Component, shallowRef } from 'vue';
 import {
   IconLoading as _IconLoading,
   IconLink as IconLink,
-  IconArrowRight
+  IconArrowRight,
+  IconX
 } from '../icons';
 
 /**
@@ -30,4 +31,11 @@ export function initLinkPrefixIcon(icon: Component) {
 export const IconLinkArrow = shallowRef<Component>(IconArrowRight);
 export function initLinkArrowIcon(icon: Component) {
   IconLinkArrow.value = icon;
+}
+/**
+ * close图标
+ */
+export const IconClose = shallowRef<Component>(IconX);
+export function initCloseIcon(icon: Component) {
+  IconClose.value = icon;
 }
