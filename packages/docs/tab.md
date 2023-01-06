@@ -8,6 +8,7 @@
 | :--------- | :-------------------------- | :----- | ------------------------------ |
 | modelValue | string \| number（v-model） | ''     | 开关状态                       |
 | lazy       | boolean                     | false  | 是否在首次激活标签时再挂载内容 |
+| addable    | boolean                     | false  | 是否可以添加页签               |
 
 ### OTabPane
 

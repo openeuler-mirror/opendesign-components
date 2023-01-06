@@ -15,6 +15,9 @@ interface SelectPropT {
    * 是否激活时再加载
    */
   lazy?: boolean;
+  /**
+   * 是否可以添加页签
+   */
   addable?: boolean;
 }
 
