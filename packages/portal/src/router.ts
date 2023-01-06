@@ -69,6 +69,12 @@ export const routes = [
     label: '多选',
     component: () => import('@demo/checkbox/__demo__/IndexCheckbox.vue'),
   },
+  {
+    path: '/tabs',
+    name: 'Tabs',
+    label: '标签页',
+    component: () => import('@demo/tabs/__demo__/IndexTabs.vue'),
+  },
 ];
 
 export const router = createRouter({
