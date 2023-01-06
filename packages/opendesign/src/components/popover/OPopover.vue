@@ -43,7 +43,7 @@ const props = defineProps({
   /**
    * 是否在隐藏时卸载
    */
-  unmountOnClose: {
+  unmountOnHide: {
     type: Boolean,
     default: true,
   },
@@ -71,7 +71,7 @@ const updateVisible = (val: boolean) => {
     :target="props.target"
     :wrapper="props.wrapper"
     anchor-class="o-popover-anchor"
-    :unmount-on-close="props.unmountOnClose"
+    :unmount-on-hide="props.unmountOnHide"
     @update:visible="updateVisible"
   >
     <div class="o-popover-wrap">
