@@ -1,10 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { OTabs, OTabPane } from '../index';
 import { IconSearch } from '../../icons';
 const activeTab = ref('Tab A');
 const tabChange = (val: string | number, oldVal: string | number) => {
   console.log(`active: ${val}, old: ${oldVal}`);
+};
+function getPanelItem(key: string) {
+  return {
+    id: key,
+    label: `Nav ${key}`,
+    content: `Panel Content: ${key}`,
+  };
+}
+const tabList = reactive(
+  new Array(4).fill(1).map((k, idx) => {
+    return getPanelItem(`${idx + 1}`);
+  })
+);
+const tabAdd = () => {
+  console.log('add tab');
+  tabList.push(getPanelItem(`${tabList.length + 1}`));
+};
+
+const tabDelete = (v: string | number) => {
+  console.log(v);
 };
 </script>
 <template>
@@ -17,6 +37,7 @@ const tabChange = (val: string | number, oldVal: string | number) => {
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTabs>
   </div>
+  <h4>Slot & change</h4>
   <div class="sec">
     <OTabs v-model="activeTab" lazy @change="tabChange">
       <template #act>action</template>
@@ -26,6 +47,14 @@ const tabChange = (val: string | number, oldVal: string | number) => {
         <template #nav><IconSearch /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
+    </OTabs>
+  </div>
+  <h4>Add & Delete</h4>
+  <div class="sec">
+    <OTabs v-model="activeTab" lazy addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
+      <OTabPane v-for="(item, idx) in tabList" :key="item.id" :value="item.id" class="pane" :label="item.label" :closable="idx > 1">
+        {{ item.content }}
+      </OTabPane>
     </OTabs>
   </div>
 </template>

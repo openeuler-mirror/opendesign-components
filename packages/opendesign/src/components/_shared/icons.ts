@@ -6,7 +6,8 @@ import {
   IconLoading as _IconLoading,
   IconLink as IconLink,
   IconArrowRight,
-  IconX
+  IconX,
+  IconAdd as _IconAdd,
 } from '../icons';
 
 /**
@@ -38,4 +39,11 @@ export function initLinkArrowIcon(icon: Component) {
 export const IconClose = shallowRef<Component>(IconX);
 export function initCloseIcon(icon: Component) {
   IconClose.value = icon;
+}
+/**
+ * add图标
+ */
+export const IconAdd = shallowRef<Component>(_IconAdd);
+export function initAddIcon(icon: Component) {
+  IconAdd.value = icon;
 }

@@ -3,6 +3,7 @@ import { computed, provide, reactive, ref } from 'vue';
 import { tabsInjectKey, TabNavData } from './provide';
 import TabNav from './TabNav.vue';
 import TabContent from './TabContent.vue';
+import { IconAdd } from '../_shared/icons';
 
 interface SelectPropT {
   /**
@@ -14,6 +15,7 @@ interface SelectPropT {
    * 是否激活时再加载
    */
   lazy?: boolean;
+  addable?: boolean;
 }
 
 const props = withDefaults(defineProps<SelectPropT>(), {
@@ -25,6 +27,7 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
   (e: 'change', value: string | number, oldValue: string | number): void;
   (e: 'delete', value: string | number): void;
+  (e: 'add', evt: MouseEvent): void;
 }>();
 
 const activeKey = ref(props.modelValue);
@@ -69,15 +72,20 @@ provide(tabsInjectKey, {
 });
 
 // nav选择
-const onNavSelect = (value: string | number) => {
+const onSelectNav = (value: string | number) => {
   emits('change', value, activeValue.value);
   activeKey.value = value;
   emits('update:modelValue', value);
 };
 
-const onNavDelete = (value: string | number) => {
+// 删除页签
+const onDeleteNav = (value: string | number) => {
   removeTabItem(value);
   emits('delete', value);
+};
+// 添加页签
+const onAddNav = (e: MouseEvent) => {
+  emits('add', e);
 };
 </script>
 <template>
@@ -91,9 +99,12 @@ const onNavDelete = (value: string | number) => {
           class="o-tabs-nav"
           :active-value="activeValue"
           v-bind="item"
-          @select="onNavSelect"
-          @delete="onNavDelete"
+          @select="onSelectNav"
+          @delete="onDeleteNav"
         />
+        <div v-if="props.addable" class="o-tab-nav-add" @click="onAddNav">
+          <IconAdd />
+        </div>
       </div>
       <div v-if="$slots.act" class="o-tabs-act">
         <slot name="act"></slot>
