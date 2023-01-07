@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<OptionPropT>(), {
   label: '',
 });
 
-const selectInject = inject(selectOptionInjectKey);
+const selectInject = inject(selectOptionInjectKey, null);
 
 const currentVal = computed(() => {
   if (selectInject) {
