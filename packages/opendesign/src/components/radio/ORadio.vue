@@ -1,10 +1,19 @@
 <script lang="ts" setup>
-import { computed, inject, watch } from 'vue';
+import { computed, inject, nextTick } from 'vue';
 import { radioGroupInjectKey } from '../radio-group/provide';
 
 interface RadioPropT {
+  /**
+   * 单选框value
+   */
   value: string | boolean | number;
+  /**
+   * 双向绑定值
+   */
   modelValue?: string | boolean | number;
+  /**
+   * 是否禁用
+   */
   disabled?: boolean;
 }
 const props = withDefaults(defineProps<RadioPropT>(), {
@@ -14,7 +23,7 @@ const props = withDefaults(defineProps<RadioPropT>(), {
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
-  (e: 'change', rlt: { value: string | number | boolean; checked: boolean }): void;
+  (e: 'change', val: string | number | boolean): void;
 }>();
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
@@ -35,19 +44,17 @@ const onChange = () => {
   }
 
   const val = props.value;
-  radioGroupInjection?.onChange(val);
   emits('update:modelValue', val);
+  radioGroupInjection?.onModelValueUpdate(val);
+  nextTick(() => {
+    emits('change', val);
+    radioGroupInjection?.onChange(val);
+  });
 };
 
-watch(
-  () => isChecked.value,
-  () => {
-    emits('change', {
-      value: radioGroupInjection ? radioGroupInjection.modelValue.value : (props.modelValue as string | number | boolean),
-      checked: isChecked.value,
-    });
-  }
-);
+defineExpose({
+  checked: isChecked,
+});
 </script>
 
 <template>

@@ -25,12 +25,15 @@ const emits = defineEmits<{
 
 const { modelValue, disabled } = toRefs(props);
 
-const onChange = (val: Array<string | number>) => {
+const onModelValueUpdate = (val: Array<string | number>) => {
   emits('update:modelValue', val);
+};
+
+const onChange = (val: Array<string | number>) => {
   emits('change', val);
 };
 
-provide(checkboxGroupInjectKey, { modelValue, disabled, onChange });
+provide(checkboxGroupInjectKey, { modelValue, disabled, onModelValueUpdate, onChange });
 </script>
 
 <template>

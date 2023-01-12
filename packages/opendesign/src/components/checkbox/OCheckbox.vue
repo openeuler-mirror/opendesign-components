@@ -1,11 +1,20 @@
 <script lang="ts" setup>
-import { computed, inject, watch } from 'vue';
+import { computed, inject, nextTick } from 'vue';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { IconDone } from '../icons';
 
 interface CheckboxPropT {
+  /**
+   * 多选框value
+   */
   value: string | number;
+  /**
+   * 双向绑定值
+   */
   modelValue?: Array<string | number>;
+  /**
+   * 是否禁用
+   */
   disabled?: boolean;
 }
 const props = withDefaults(defineProps<CheckboxPropT>(), {
@@ -15,7 +24,7 @@ const props = withDefaults(defineProps<CheckboxPropT>(), {
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: Array<string | number>): void;
-  (e: 'change', rlt: { value: Array<string | number>; checked: boolean }): void;
+  (e: 'change', val: Array<string | number>): void;
 }>();
 
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
@@ -34,24 +43,26 @@ const onClick = (ev: Event) => {
 
 const onChange = (ev: Event) => {
   const { checked } = ev.target as HTMLInputElement;
-  let newVal: Array<string | number> = [];
+
   const set = checkboxGroupInjection ? new Set([...checkboxGroupInjection.modelValue.value]) : new Set([...props.modelValue]);
   if (checked) {
     set.add(props.value);
   } else {
     set.delete(props.value);
   }
-  newVal = Array.from(set);
-  checkboxGroupInjection?.onChange(newVal);
-  emits('update:modelValue', newVal);
+
+  const val = Array.from(set);
+  emits('update:modelValue', val);
+  checkboxGroupInjection?.onModelValueUpdate(val);
+  nextTick(() => {
+    emits('change', val);
+    checkboxGroupInjection?.onChange(val);
+  });
 };
 
-watch(
-  () => isChecked.value,
-  () => {
-    emits('change', { value: checkboxGroupInjection ? checkboxGroupInjection.modelValue.value : props.modelValue, checked: isChecked.value });
-  }
-);
+defineExpose({
+  checked: isChecked,
+});
 </script>
 
 <template>
