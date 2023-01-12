@@ -65,7 +65,7 @@ const onClick = (e: MouseEvent) => {
     @click="onClick"
   >
     <span v-if="props.icon || $slots.icon || props.loading" class="o-link-icon prefix">
-      <IconLoading v-if="props.loading" class="o-roating" />
+      <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else-if="$slots.icon" name="icon"></slot>
       <IconLinkPrefix v-else />
     </span>

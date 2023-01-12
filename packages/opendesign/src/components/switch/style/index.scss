@@ -1,43 +1,35 @@
 @import './var.scss';
 
 .o-switch {
-  display: inline-flex;
-  align-items: center;
+  position: relative;
   background-color: var(--switch-bg);
   color: var(--switch-color);
-  transition: all 0.3s;
+  transition: background-color var(--o-transition-duration-3);
   cursor: pointer;
-  // TODO 以o-xxx的类 不需要嵌套，尽量减少嵌套
-  .o-switch-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
 
-    .o-switch-handler {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: var(--switch-handler-bg);
-      transition: all 0.3s;
+  .o-switch-handler {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--switch-handler-bg);
+    transition: left var(--o-transition-duration-3);
 
-      i {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--switch-bg);
-        animation: o-rotating 2s linear infinite;
-      }
-    }
-
-    .o-switch-content {
+    .o-switch-icon_loading {
       width: 100%;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--switch-bg);
     }
+  }
+
+  .o-switch-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &.is-checked {
@@ -48,17 +40,22 @@
   &.is-loading {
     cursor: not-allowed;
     background-color: var(--switch-bg_disabled);
+  }
 
-    &.is-checked {
-      background-color: var(--switch-bg-checked_disabled);
-      .o-switch-wrapper {
-        .o-switch-handler {
-          i {
-            color: var(--switch-bg-checked_disabled);
-          }
-        }
+  &.is-disabled.is-checked,
+  &.is-loading.is-checked {
+    background-color: var(--switch-bg-checked_disabled);
+    .o-switch-handler {
+      .o-switch-icon_loading {
+        color: var(--switch-bg-checked_disabled);
       }
     }
+  }
+}
+
+.o-switch.o-switch-shape-round {
+  .o-switch-handler {
+    border-radius: 50%;
   }
 }
 
@@ -66,141 +63,101 @@
   min-width: 40px;
   height: 20px;
   border-radius: 2px;
+  font-size: var(--switch-text-size-m);
+  line-height: var(--switch-text-height-m);
 
-  .o-switch-wrapper {
-    font-size: var(--switch-text-size-m);
-    line-height: var(--switch-text-height-m);
+  .o-switch-handler {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    left: 2px;
+  }
 
-    .o-switch-handler {
-      width: 16px;
-      height: 16px;
-      border-radius: 2px;
-      left: 2px;
-
-      i {
-        font-size: var(--switch-text-size-m);
-      }
-    }
-
-    .o-switch-content {
-      padding-left: 20px;
-      padding-right: 4px;
-    }
+  .o-switch-content {
+    padding-left: 20px;
+    padding-right: 4px;
   }
 
   &.is-checked {
-    .o-switch-wrapper {
-      .o-switch-handler {
-        left: calc(100% - 18px);
-      }
-      .o-switch-content {
-        padding-left: 4px;
-        padding-right: 20px;
-      }
+    .o-switch-handler {
+      left: calc(100% - 18px);
     }
-  }
-
-  &.o-switch-shape-round {
-    border-radius: 10px;
-    .o-switch-wrapper {
-      .o-switch-handler {
-        border-radius: 50%;
-      }
+    .o-switch-content {
+      padding-left: 4px;
+      padding-right: 20px;
     }
   }
 }
+
+.o-switch-size-normal.o-switch-shape-round {
+  border-radius: 10px;
+}
+
 .o-switch-size-large {
   min-width: 60px;
   height: 28px;
   border-radius: 2px;
+  font-size: var(--switch-text-size-l);
+  line-height: var(--switch-text-height-l);
 
-  .o-switch-wrapper {
-    font-size: var(--switch-text-size-l);
-    // TODO
-    line-height: --switch-text-height-l;
-    .o-switch-handler {
-      width: 20px;
-      height: 20px;
-      border-radius: 2px;
-      left: 4px;
+  .o-switch-handler {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    left: 4px;
+  }
 
-      i {
-        font-size: var(--switch-text-size-l);
-      }
-    }
-
-    .o-switch-content {
-      padding-left: 28px;
-      padding-right: 8px;
-    }
+  .o-switch-content {
+    padding-left: 28px;
+    padding-right: 8px;
   }
 
   &.is-checked {
-    .o-switch-wrapper {
-      .o-switch-handler {
-        left: calc(100% - 24px);
-      }
+    .o-switch-handler {
+      left: calc(100% - 24px);
+    }
 
-      .o-switch-content {
-        padding-left: 8px;
-        padding-right: 28px;
-      }
+    .o-switch-content {
+      padding-left: 8px;
+      padding-right: 28px;
     }
   }
+}
 
-  &.o-switch-shape-round {
-    border-radius: 14px;
-    .o-switch-wrapper {
-      .o-switch-handler {
-        border-radius: 50%;
-      }
-    }
-  }
+.o-switch-size-large.o-switch-shape-round {
+  border-radius: 14px;
 }
 
 .o-switch-size-small {
   min-width: 30px;
   height: 16px;
   border-radius: 2px;
+  font-size: var(--switch-text-size-s);
+  line-height: var(--switch-text-height-s);
 
-  .o-switch-wrapper {
-    font-size: var(--switch-text-size-s);
-    line-height: var(--switch-text-height-s);
-    .o-switch-handler {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-      left: 2px;
+  .o-switch-handler {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    left: 2px;
+  }
 
-      i {
-        font-size: var(--switch-text-size-s);
-      }
-    }
-
-    .o-switch-content {
-      padding-left: 15px;
-      padding-right: 2px;
-    }
+  .o-switch-content {
+    padding-left: 15px;
+    padding-right: 2px;
   }
 
   &.is-checked {
-    .o-switch-wrapper {
-      .o-switch-handler {
-        left: calc(100% - 14px);
-      }
-      .o-switch-content {
-        padding-left: 2px;
-        padding-right: 15px;
-      }
+    .o-switch-handler {
+      left: calc(100% - 14px);
+    }
+    .o-switch-content {
+      padding-left: 2px;
+      padding-right: 15px;
     }
   }
+}
 
-  &.o-switch-shape-round {
-    border-radius: 8px;
-    .o-switch-wrapper {
-      .o-switch-handler {
-        border-radius: 50%;
-      }
-    }
-  }
+.o-switch-size-small.o-switch-shape-round {
+  border-radius: 8px;
 }

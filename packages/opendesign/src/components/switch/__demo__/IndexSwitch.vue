@@ -4,6 +4,7 @@ import '../style';
 import SwitchSizeShape from './SwitchSizeShape.vue';
 import SwitchDisabledAndLoading from './SwitchDisabledAndLoading.vue';
 import SwitchBeforeChange from './SwitchBeforeChange.vue';
+import SwitchEvents from './SwitchEvents.vue';
 import SwitchSlots from './SwitchSlots.vue';
 </script>
 <template>
@@ -11,6 +12,7 @@ import SwitchSlots from './SwitchSlots.vue';
     <SwitchSizeShape />
     <SwitchDisabledAndLoading />
     <SwitchBeforeChange />
+    <SwitchEvents />
     <SwitchSlots />
   </div>
 </template>

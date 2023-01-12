@@ -4,7 +4,13 @@ import { radioGroupInjectKey } from './provide';
 import type { RadioGroupDirectionT } from './types';
 
 interface RadioGroupPropT {
+  /**
+   * 双向绑定值
+   */
   modelValue?: string | boolean | number;
+  /**
+   * 单选框组是否禁用
+   */
   disabled?: boolean;
   /**
    * 单选框组方向: 'horizontal' | 'vertical'
@@ -25,12 +31,15 @@ const emits = defineEmits<{
 
 const { modelValue, disabled } = toRefs(props);
 
-const onChange = (val: string | number | boolean) => {
+const onModelValueUpdate = (val: string | number | boolean) => {
   emits('update:modelValue', val);
+};
+
+const onChange = (val: string | number | boolean) => {
   emits('change', val);
 };
 
-provide(radioGroupInjectKey, { modelValue, disabled, onChange });
+provide(radioGroupInjectKey, { modelValue, disabled, onModelValueUpdate, onChange });
 </script>
 
 <template>
