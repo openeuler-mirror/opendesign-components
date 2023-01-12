@@ -5,35 +5,6 @@
   box-sizing: border-box;
 }
 
-:root {
-  --o-size-l: 40px;
-  --o-size-m: 32px;
-  --o-size-s: 24px;
-
-  // Exit
-  --o-duration-s: 200ms;
-  // Enter for standard-in
-  --o-duration-m1: 250ms;
-  // Begin and End for standard
-  --o-duration-m2: 300ms;
-  // Enter for emphasized-in
-  --o-duration-m3: 400ms;
-  // Begin and End for emphasized
-  --o-duration-l: 500ms;
-  // 轮播切换 for emphasized
-  --o-duration-xl: 1000ms;
-
-  --o-easing-linear: cubic-bezier(0, 0, 1, 1);
-  // 用于组件
-  --o-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-  --o-easing-standard-in: cubic-bezier(0, 0, 0, 1);
-  --o-easing-standard-out: cubic-bezier(0.3, 0, 1, 1);
-  // 用于大卡片、场景切换
-  --o-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
-  --o-easing-emphasized-in: cubic-bezier(0.3, 0, 0.8, 0.15);
-  --o-easing-emphasized-out: cubic-bezier(0.05, 0.7, 0.1, 1);
-}
-
 // icons
 .o-icon {
   --icon-g1: var(--o-color-text1);
