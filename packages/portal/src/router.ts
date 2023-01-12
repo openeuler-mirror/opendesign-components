@@ -75,6 +75,12 @@ export const routes = [
     label: '标签页',
     component: () => import('@demo/tabs/__demo__/IndexTabs.vue'),
   },
+  {
+    path: '/divider',
+    name: 'Divider',
+    label: '分割线',
+    component: () => import('@demo/divider/__demo__/IndexDivider.vue'),
+  },
 ];
 
 export const router = createRouter({
