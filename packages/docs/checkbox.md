@@ -2,35 +2,39 @@
 
 ## props
 
-| name                 | type                      | 默认值 | 说明        |
-| :------------------- | :------------------------ | :----- | ----------- |
-| value                | string \| number          | -      | 多选框 vale |
-| model-value(v-model) | Array<string \| number \> | [ ]    | 双向绑定值  |
-| disabled             | boolean                   | false  | 是否禁用    |
+| name                 | type                      | 默认值 | 说明              |
+| :------------------- | :------------------------ | :----- | ----------------- |
+| value                | string \| number          | -      | 必选，多选框 vale |
+| model-value(v-model) | Array<string \| number \> | [ ]    | 可选，双向绑定值  |
+| disabled             | boolean                   | false  | 可选，是否禁用    |
 
 ## event
 
-| name   | 参数                                                  | 说明           |
-| :----- | :---------------------------------------------------- | :------------- |
-| change | {value: Array<string \| number \>, checked: boolean}; | 状态切换后触发 |
+| name   | 参数                            | 说明         |
+| :----- | :------------------------------ | :----------- |
+| change | val: Array<string \| number \>; | 值改变时触发 |
 
 ## expose
 
+| name    | 说明           |
+| :------ | :------------- |
+| checked | 多选框是否选中 |
+
 ## slot
 
-| name     | 说明         |
-| :------- | :----------- |
-| checkbox | 自定义多选框 |
+| name     | 参数                               | 说明         |
+| :------- | :--------------------------------- | :----------- |
+| checkbox | checked:boolean; disabled: boolean | 自定义多选框 |
 
 # CheckboxGroup 多选框组
 
 ## props
 
-| name                 | type                      | 默认值 | 说明       |
-| :------------------- | :------------------------ | :----- | ---------- |
-| model-value(v-model) | Array<string \| number \> | -      | 双向绑定值 |
-| disabled             | boolean                   | false  | 是否禁用   |
-| direction            | CheckboxGroupDirectionT   | false  | 排列方向   |
+| name                 | type                      | 默认值 | 说明             |
+| :------------------- | :------------------------ | :----- | ---------------- |
+| model-value(v-model) | Array<string \| number \> | [ ]    | 可选，双向绑定值 |
+| disabled             | boolean                   | false  | 可选，是否禁用   |
+| direction            | CheckboxGroupDirectionT   | false  | 可选，排列方向   |
 
 ```ts
 type CheckGroupDirectionT = 'horizontal' | 'vertical';
@@ -40,7 +44,7 @@ type CheckGroupDirectionT = 'horizontal' | 'vertical';
 
 | name   | 参数                             | 说明           |
 | :----- | :------------------------------- | :------------- |
-| change | value: Array<string \| number \> | 状态切换后触发 |
+| change | val: Array<string \| number \> | 状态切换后触发 |
 
 ## expose
 

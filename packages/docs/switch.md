@@ -2,14 +2,14 @@
 
 ## props
 
-| name         | type                                        | 默认值        | 说明                                                         |
-| :----------- | :------------------------------------------ | :------------ | ------------------------------------------------------------ |
-| model:value  | boolean                                     | false         | 开关状态                                                     |
-| shape        | ShapeT                                      | ShapeT.NORMAL | 开关形状                                                     |
-| size         | SizeT                                       | SizeT.NORMAL  | 开关尺寸                                                     |
-| disabled     | boolean                                     | false         | 是否禁用                                                     |
-| loading      | boolean                                     | false         | 加载状态                                                     |
-| beforeChange | (val: boolean): Promise\<boolean\>\|boolean | -             | return Promise.resolve(true)继续切换，resolve(false)阻止切换 |
+| name                 | type                                        | 默认值        | 说明                                                                                                                                               |
+| :------------------- | :------------------------------------------ | :------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| model-value(v-model) | boolean                                     | false         | 可选，双向绑定值                                                                                                                                   |
+| size                 | SizeT                                       | SizeT.NORMAL  | 可选，开关尺寸                                                                                                                                     |
+| shape                | ShapeT                                      | ShapeT.NORMAL | 可选，开关形状                                                                                                                                     |
+| disabled             | boolean                                     | false         | 可选，是否禁用                                                                                                                                     |
+| loading              | boolean                                     | false         | 可选，是否加载中                                                                                                                                   |
+| beforeChange         | (val: boolean): Promise\<boolean\>\|boolean | -             | 状态改变前的钩子函数，返回 true 或者返回 promise 且 resolve(true)则继续切换，返回 false 或者返回 promise 且被 reject 或 resolve(false)则阻止切换， |
 
 ## event
 

@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<ButtonPropT>(), {
     ]"
   >
     <span v-if="$slots.icon || props.loading" class="o-btn-icon prefix" :class="{ loading: props.loading }">
-      <IconLoading v-if="props.loading" class="o-roating" />
+      <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else-if="$slots.icon" name="icon"></slot>
     </span>
     <slot></slot>

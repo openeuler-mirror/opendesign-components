@@ -4,12 +4,10 @@ import { OCheckbox } from '../index';
 import { OCheckboxGroup } from '../../checkbox-group';
 const checkboxVal1 = ref([1]);
 const checkboxVal2 = ref(['a']);
-const handleChange = (val: Array<string | number>) => {
-  console.log(val);
-};
 </script>
 
 <template>
+  <h4>多选框组</h4>
   <section>
     <OCheckboxGroup v-model="checkboxVal1">
       <OCheckbox :value="1">选项1</OCheckbox>
@@ -19,7 +17,7 @@ const handleChange = (val: Array<string | number>) => {
   </section>
 
   <section>
-    <OCheckboxGroup v-model="checkboxVal2" direction="vertical" @change="handleChange">
+    <OCheckboxGroup v-model="checkboxVal2" direction="vertical">
       <OCheckbox value="a">选项A</OCheckbox>
       <OCheckbox value="b">选项B</OCheckbox>
       <OCheckbox value="c">选项C</OCheckbox>
