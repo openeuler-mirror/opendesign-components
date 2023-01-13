@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, h, mergeProps, PropType, Transition, vShow, withDirectives, SetupContext, Slots, ref } from 'vue';
+import { computed, defineComponent, h, mergeProps, PropType, Transition, vShow, withDirectives, SetupContext, Slots } from 'vue';
 
 export default defineComponent({
   name: 'TabContent',
@@ -56,11 +56,11 @@ export default defineComponent({
     const active = computed(() => props.activeValue === props.value);
     const toMount = computed(() => (props.lazy ? active.value : true));
 
-    // pane只渲染default 插槽的内容
+    // content只渲染default 插槽的内容
     return () => {
       const p = mergeProps(
         {
-          class: ['o-tab-pane', { active: active.value }],
+          class: ['o-tab-content', { active: active.value }],
         },
         props.attrs
       );

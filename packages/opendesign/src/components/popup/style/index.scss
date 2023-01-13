@@ -4,7 +4,7 @@
   position: absolute;
   z-index: 100;
   opacity: 1;
-  transition: opacity var(--o-transition-duration-3);
+  transition: opacity var(--o-duration-m1) var(--o-easing-standard);
   &.out-view {
     opacity: 0;
     pointer-events: none;
