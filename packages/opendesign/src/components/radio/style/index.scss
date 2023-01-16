@@ -64,7 +64,7 @@
     height: 12px;
     border-radius: 50%;
     background-color: transparent;
-    transition: background-color 0.3s;
+    transition: background-color var(--o-duration-s) var(--o-easing-standard);
   }
 }
 

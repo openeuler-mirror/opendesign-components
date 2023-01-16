@@ -29,7 +29,7 @@
   }
 
   &.arrow svg {
-    transition: transform var(--o-transition-duration-2);
+    transition: transform var(--o-duration-s) var(--o-easing-standard);
   }
 }
 

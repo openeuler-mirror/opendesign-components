@@ -56,7 +56,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots, attrs }) {
-    const tabsInjection = inject(tabsInjectKey);
+    const tabsInjection = inject(tabsInjectKey, null);
 
     const instance = getCurrentInstance();
 

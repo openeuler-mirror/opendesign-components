@@ -62,7 +62,7 @@
   color: var(--select-icon-color);
   display: inline-flex;
   align-items: center;
-  transition: transform var(--o-transition-duration-2);
+  transition: transform var(--o-duration-s) var(--o-easing-standard);
   svg {
     display: block;
   }

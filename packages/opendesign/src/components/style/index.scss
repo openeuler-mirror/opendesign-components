@@ -5,22 +5,6 @@
   box-sizing: border-box;
 }
 
-:root {
-  --o-size-l: 40px;
-  --o-size-m: 32px;
-  --o-size-s: 24px;
-  --o-transition-duration-1: 0.1s;
-  --o-transition-duration-2: 0.2s;
-  --o-transition-duration-3: 0.3s;
-  --o-transition-duration-4: 0.4s;
-  --o-transition-duration-6: 0.6s;
-  --o-transition-duration-long: 1.5s;
-
-  --o-transition-function-linear: linear;
-  --o-transition-function-ease-in: ease-in;
-  --o-transition-function-ease-out: cubic-bezier(0, 0, 0.25, 1);
-}
-
 // icons
 .o-icon {
   --icon-g1: var(--o-color-text1);
