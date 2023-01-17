@@ -116,7 +116,7 @@ function generateTokenCss(tokenData: { tokens: TokenListT, prefix: string }, out
       return `:root[theme="${t}"]`;
     });
 
-    fs.outputFileSync(path.join(outDir, `${themeStr.join('.')}.token.css`), `/* theme: ${theme} */
+    fs.outputFileSync(path.join(outDir, `${themeStr.join('-')}.token.css`), `/* theme: ${theme} */
 ${selector.join(',\n')} {
 ${content.join('\n')}
 }`);
