@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { StatusT } from '../_shared/global';
 import { IconLinkPrefix, IconLinkArrow, IconLoading } from '../_shared/icons';
 
 interface LinkPropsT {
@@ -17,7 +18,7 @@ interface LinkPropsT {
   /**
    * 链接类型
    */
-  type?: 'normal' | 'primary' | 'warning' | 'danger' | 'success';
+  status?: StatusT;
   /**
    * 是否禁用
    */
@@ -40,7 +41,7 @@ const props = withDefaults(defineProps<LinkPropsT>(), {
   href: '',
   target: undefined,
   icon: false,
-  type: 'normal',
+  status: 'normal',
 });
 
 const emits = defineEmits<{ (e: 'click', val: MouseEvent): void }>();
@@ -60,7 +61,7 @@ const onClick = (e: MouseEvent) => {
     class="o-link"
     :href="props.href"
     :target="props.target"
-    :class="[{ 'is-disabled': props.disabled, 'o-link-hoverable': props.hoverable }, `o-link-${props.type}`]"
+    :class="[{ 'is-disabled': props.disabled, 'o-link-hoverable': props.hoverable }, `o-link-${props.status}`]"
     v-bind="$attrs"
     @click="onClick"
   >
