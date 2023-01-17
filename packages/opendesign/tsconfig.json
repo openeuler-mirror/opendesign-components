@@ -23,4 +23,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
   ],
+  "exclude": [
+    "src/tokens/token.config.ts"
+  ]
 }
