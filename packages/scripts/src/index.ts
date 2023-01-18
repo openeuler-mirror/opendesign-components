@@ -5,7 +5,7 @@ import { Command } from 'commander';
 import buildIcons from './gen-icons';
 import buildComponents from './build-components';
 import buildStyle from './build-style';
-import genTokens, { TokenOptionsT } from './gen-tokens';
+import genTokens from './gen-tokens';
 
 const program = new Command();
 
@@ -37,7 +37,7 @@ program.command('build:style')
 program.command('gen:token')
   .description('generate opendesign tokens')
   .option('-c, --config <configFile>', 'config file')
-  .action((options: TokenOptionsT) => {
+  .action((options) => {
     genTokens(options);
   });
 
