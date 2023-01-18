@@ -76,6 +76,30 @@ async function readTokens(configFile: string) {
   };
 }
 
+function tokenCssTemplate(themeArray: string[], flatToken: Array<FlatTokenT>) {
+  const content = flatToken.map(item => {
+    const { prefix: p, key, value, name = '', type = '', description = '', group = '' } = item;
+    return `  /**
+   * @name ${name}
+   * @type ${type}
+   * @group ${group}
+   * @description ${description}
+   */
+  ${p}${key}: ${value};`;
+  });
+
+  const selector = themeArray.map(t => {
+    if (t === 'default') {
+      return ':root';
+    }
+    return `:root[theme="${t}"]`;
+  });
+
+  return `/* theme: ${themeArray.join('|')} */
+${selector.join(',\n')} {
+${content.join('\n')}
+}`;
+}
 function generateTokenCss(tokenData: { tokens: TokenListT, prefix: string }, outDir: string) {
 
   const { tokens, prefix = '--o-' } = tokenData;
@@ -97,33 +121,12 @@ function generateTokenCss(tokenData: { tokens: TokenListT, prefix: string }, out
       });
     });
 
-    const content = flatToken.map(item => {
-      const { prefix: p, key, value, name = '', type = '', description = '', group = '' } = item;
-      return `  /**
-   * @name ${name}
-   * @type ${type}
-   * @group ${group}
-   * @description ${description}
-   */
-  ${p}${key}: ${value};`;
-    });
+    const themeArray = Array.isArray(theme) ? theme : [theme];
 
-    const themeStr = Array.isArray(theme) ? theme : [theme];
-    const selector = themeStr.map(t => {
-      if (t === 'default') {
-        return ':root';
-      }
-      return `:root[theme="${t}"]`;
-    });
+    const content = tokenCssTemplate(themeArray, flatToken);
 
-    fs.outputFileSync(path.join(outDir, `${themeStr.join('-')}.token.css`), `/* theme: ${theme} */
-${selector.join(',\n')} {
-${content.join('\n')}
-}`);
+    fs.outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
   });
-
-
-
 }
 
 

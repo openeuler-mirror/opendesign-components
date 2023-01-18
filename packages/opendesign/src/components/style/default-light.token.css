@@ -1,4 +1,4 @@
-/* theme: default,light */
+/* theme: default|light */
 :root,
 :root[theme="light"] {
   /**
