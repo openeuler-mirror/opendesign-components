@@ -6,5 +6,4 @@ const OSelect = Object.assign(_OSelect, {
     app.component(_OSelect.name, _OSelect);
   },
 });
-
 export { OSelect };

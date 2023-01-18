@@ -1,24 +1,39 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-export interface TokenOptionsT {
-  config: string
-}
 export interface TokenConfigT {
   output: string,
   prefix: string,
-  tokens: Array<{ theme: string, file: Array<string> }>,
-  globalTokenFile: Array<string>,
+  themes: string[],
+  defaultTheme: string,
+  tokenFile: string[],
+  codeSnippetsFile: string
 }
 interface FlatTokenT {
   prefix: string,
   catgName: string,
   key: string,
-  value: string,
+  tokenKey: string,
   name: string,
   type: string,
   group: string,
-  description: string
+  description: string,
+  themes: string[],
+  value: {
+    [key: string]: string
+  }
+}
+interface ThemeTokenT {
+  prefix: string,
+  catgName: string,
+  key: string,
+  tokenKey: string,
+  name: string,
+  type: string,
+  group: string,
+  description: string,
+  themes: string[],
+  value: string
 }
 
 export interface TokenT {
@@ -27,107 +42,176 @@ export interface TokenT {
     type: string,
     value: Array<{
       key: string,
-      value: string,
       name: string,
-      description: string
+      description: string,
+      value: {
+        [key: string]: string
+      }
     }>
   }
 }
 
-type TokenListT = Array<{ theme: string, tokens: TokenT }>
+/**
+ * 读取配置文件
+ */
+async function readConfig(cfg: string) {
+  const base = process.cwd();
+  const configFile = path.resolve(base, cfg || './token.config.ts');
+  const configData: TokenConfigT = await require(configFile);
+  const cfgDir = path.dirname(configFile);
 
-const base = process.cwd();
+  const { tokenFile, output = './', codeSnippetsFile } = configData;
 
-async function readTokens(configFile: string) {
-  const cfg = path.resolve(base, configFile || './token.config.ts');
-  const configData: TokenConfigT = await require(cfg);
-  const { prefix, tokens, output, globalTokenFile = [] } = configData;
-  let tokenData: TokenListT = [];
+  configData.output = path.resolve(cfgDir, output);
 
-  if (Array.isArray(tokens)) {
-    tokenData = tokens.map(tk => {
-
-      const files = tk.file.concat(globalTokenFile);
-      const themeToken = {};
-
-      files.forEach(f => {
-        const fpath = path.resolve(path.dirname(cfg), f);
-        try {
-          const content = require(fpath);
-          Object.assign(themeToken, content);
-        } catch (error) {
-          console.warn('load token eror:', fpath);
-        }
-      });
-
-      return {
-        theme: tk.theme,
-        tokens: themeToken
-      };
-
-    });
+  if (codeSnippetsFile) {
+    configData.codeSnippetsFile = path.resolve(cfgDir, codeSnippetsFile);
   }
 
-  const outDir = path.resolve(path.dirname(cfg), output);
+  if (Array.isArray(tokenFile)) {
+    configData.tokenFile = tokenFile.map(item => path.resolve(cfgDir, item));
+  } else if (typeof tokenFile === 'string') {
+    configData.tokenFile = [path.resolve(cfgDir, tokenFile)];
+  }
+
   return {
-    prefix,
-    tokens: tokenData,
-    outDir
+    file: configFile,
+    data: configData
   };
 }
+/**
+ * 读取tokens
+ */
+async function readTokens(configData: TokenConfigT) {
+  console.warn('reading tokens...');
 
-function generateTokenCss(tokenData: { tokens: TokenListT, prefix: string }, outDir: string) {
+  const { prefix, tokenFile } = configData;
+  const tokens: Record<string, FlatTokenT> = {};
 
-  const { tokens, prefix = '--o-' } = tokenData;
+  tokenFile.forEach(tk => {
+    try {
+      const tokenContent: TokenT = require(tk);
+      Object.keys(tokenContent).forEach(k => {
+        const catg = tokenContent[k];
+        catg.value.forEach(item => {
+          const { key, value, ...rest } = item;
+          const tokenKey = `${prefix}${item.key}`;
 
-  tokens.forEach(tk => {
-    const flatToken: Array<FlatTokenT> = [];
-    const { theme } = tk;
+          if (tokens[key]) {
+            console.warn('重复定义的token:', tokenKey);
+          }
 
-    Object.keys(tk.tokens).forEach(k => {
-      const catg = tk.tokens[k];
-      catg.value.forEach(item => {
-        flatToken.push({
-          ...item,
-          prefix,
-          type: catg.type,
-          group: k,
-          catgName: catg.name
+          tokens[key] = {
+            key,
+            tokenKey,
+            value,
+            prefix,
+            type: catg.type,
+            group: k,
+            catgName: catg.name,
+            themes: Object.keys(value),
+            ...rest,
+          };
         });
       });
-    });
 
-    const content = flatToken.map(item => {
-      const { prefix: p, key, value, name = '', type = '', description = '', group = '' } = item;
-      return `  /**
+    } catch (error) {
+      console.warn('load token eror:', tk);
+    }
+  });
+
+  return tokens;
+}
+/**
+ * 生成css的模板
+ */
+function tokenCssTemplate(themeArray: string[], tokens: Array<ThemeTokenT>) {
+  const content = tokens.map(item => {
+    const { tokenKey, value, name = '', type = '', description = '', group = '' } = item;
+    return `  /**
    * @name ${name}
    * @type ${type}
    * @group ${group}
    * @description ${description}
    */
-  ${p}${key}: ${value};`;
-    });
-
-    const themeStr = Array.isArray(theme) ? theme : [theme];
-    const selector = themeStr.map(t => {
-      if (t === 'default') {
-        return ':root';
-      }
-      return `:root[theme="${t}"]`;
-    });
-
-    fs.outputFileSync(path.join(outDir, `${themeStr.join('-')}.token.css`), `/* theme: ${theme} */
-${selector.join(',\n')} {
-${content.join('\n')}
-}`);
+  ${tokenKey}: ${value};`;
   });
 
+  const selector = themeArray.map(t => {
+    if (t === 'default') {
+      return ':root';
+    }
+    return `:root[theme="${t}"]`;
+  });
 
-
+  return `/* theme: ${themeArray.join('|')} */
+${selector.join(',\n')} {
+${content.join('\n')}
+}`;
 }
 
+/**
+ * 生成token.css
+ */
+function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: string[], defaultTheme: string, outDir: string) {
+  const themeToken: Record<string, Array<ThemeTokenT>> = {};
 
-export default async function main(options: TokenOptionsT) {
-  const { tokens, prefix, outDir } = await readTokens(options.config);
-  generateTokenCss({ tokens, prefix }, outDir);
+  Object.keys(tokens).forEach(k => {
+    const token = tokens[k];
+    const { value, ...rest } = token;
+
+    themes.forEach(theme => {
+      if (!themeToken[theme]) {
+        themeToken[theme] = [];
+      }
+      if (value[theme]) {
+        themeToken[theme].push({
+          value: value[theme],
+          ...rest
+        });
+      }
+    });
+  });
+
+  themes.forEach(theme => {
+    let themeArray = [theme];
+    if (theme === defaultTheme) {
+      themeArray.unshift('default');
+    }
+    const content = tokenCssTemplate(themeArray, themeToken[theme]);
+
+    fs.outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
+    console.log(`[${themeArray.join('|')}] theme token file generated!`);
+  });
+}
+
+function generateCodeSnippets(tokens: Record<string, FlatTokenT>, outFile: string) {
+  const snippets: Record<string, any> = {};
+  Object.keys(tokens).forEach(k => {
+    const token = tokens[k];
+    const { value, tokenKey, name, description } = token;
+    const themes = Object.keys(value).map(theme => `${theme}: ${value[theme]}`);
+    const desc = `${name}: ${description}[${themes.join(', ')}]`;
+
+    snippets[tokenKey] = {
+      prefix: [tokenKey],
+      body: `var(${tokenKey})`,
+      description: desc,
+      scope: 'css,scss,less'
+    };
+  });
+  fs.outputFileSync(outFile, JSON.stringify(snippets, null, '  '));
+  console.log('code snippets generated!');
+}
+
+export default async function main(options: { config: string }) {
+  const { data } = await readConfig(options.config);
+
+  const tokens = await readTokens(data);
+
+  generateTokenCss(tokens, data.themes, data.defaultTheme, data.output);
+
+  if (data.codeSnippetsFile) {
+    generateCodeSnippets(tokens, data.codeSnippetsFile);
+  }
 }

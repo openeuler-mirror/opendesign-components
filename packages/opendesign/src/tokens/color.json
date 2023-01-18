@@ -1,0 +1,395 @@
+{
+  "primary": {
+    "name": "主色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-primary1",
+        "name": "常规色",
+        "description": "用于按钮、文本、链接强调状态时常规颜色",
+        "value": {
+          "light": "#002fa7",
+          "dark": "#ff0000"
+        }
+      },
+      {
+        "key": "color-primary2",
+        "name": "悬浮色",
+        "description": "用于按钮、文本、链接强调状态时悬浮颜色",
+        "value": {
+          "light": "#406fe7"
+        }
+      },
+      {
+        "key": "color-primary3",
+        "name": "聚焦色",
+        "description": "用于按钮、文本、链接强调状态时聚焦颜色",
+        "value": {
+          "light": "#00288d"
+        }
+      },
+      {
+        "key": "color-primary4",
+        "name": "禁用色",
+        "description": "用于按钮、文本、链接强调状态时禁用颜色",
+        "value": {
+          "light": "#b2c0e4"
+        }
+      }
+    ]
+  },
+  "major": {
+    "name": "辅色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-major1",
+        "name": "常规色",
+        "description": "用于按钮、文本、链接major状态时文本颜色",
+        "value": {
+          "light": "#feb32a"
+        }
+      }
+    ]
+  },
+  "success": {
+    "name": "成功色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-success1",
+        "name": "常规色",
+        "description": "用于按钮、文本、链接成功状态时常规颜色",
+        "value": {
+          "light": "#6dc335"
+        }
+      },
+      {
+        "key": "color-success2",
+        "name": "悬浮色",
+        "description": "用于按钮、文本、链接成功状态时悬浮颜色",
+        "value": {
+          "light": "#93e95b"
+        }
+      },
+      {
+        "key": "color-success3",
+        "name": "聚焦色",
+        "description": "用于按钮、文本、链接成功状态时聚焦颜色",
+        "value": {
+          "light": "#62af30"
+        }
+      },
+      {
+        "key": "color-success4",
+        "name": "禁用色",
+        "description": "用于按钮、文本、链接成功状态时禁用颜色",
+        "value": {
+          "light": "#c5e7ae"
+        }
+      }
+    ]
+  },
+  "warning": {
+    "name": "告警色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-warning1",
+        "name": "常规色",
+        "description": "用于按钮、文本、链接告警状态时常规颜色",
+        "value": {
+          "light": "#ff8e36"
+        }
+      },
+      {
+        "key": "color-warning2",
+        "name": "悬浮色",
+        "description": "用于按钮、文本、链接告警状态时悬浮颜色",
+        "value": {
+          "light": "#ffb45c"
+        }
+      },
+      {
+        "key": "color-warning3",
+        "name": "聚焦色",
+        "description": "用于按钮、文本、链接告警状态时聚焦颜色",
+        "value": {
+          "light": "#ff801c"
+        }
+      },
+      {
+        "key": "color-warning4",
+        "name": "禁用色",
+        "description": "用于按钮、文本、链接告警状态时禁用颜色",
+        "value": {
+          "light": "#ffd2af"
+        }
+      }
+    ]
+  },
+  "danger": {
+    "name": "错误色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-danger1",
+        "name": "常规色",
+        "description": "用于按钮、文本、链接错误状态时常规颜色",
+        "value": {
+          "light": "#f3524d"
+        }
+      },
+      {
+        "key": "color-danger2",
+        "name": "悬浮色",
+        "description": "用于按钮、文本、链接错误状态时悬浮颜色",
+        "value": {
+          "light": "#ff7873"
+        }
+      },
+      {
+        "key": "color-danger3",
+        "name": "聚焦色",
+        "description": "用于按钮、文本、链接错误状态时聚焦颜色",
+        "value": {
+          "light": "#f13b35"
+        }
+      },
+      {
+        "key": "color-danger4",
+        "name": "禁用色",
+        "description": "用于按钮、文本、链接错误状态时禁用颜色",
+        "value": {
+          "light": "#fabab8"
+        }
+      }
+    ]
+  },
+  "info": {
+    "name": "信息色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-info1",
+        "name": "常规色",
+        "description": "用于按钮、文本、链接信息状态时常规颜色",
+        "value": {
+          "light": "#e5e5e5"
+        }
+      },
+      {
+        "key": "color-info2",
+        "name": "悬浮色",
+        "description": "用于按钮、文本、链接信息状态时悬浮颜色",
+        "value": {
+          "light": "#e5e8f0"
+        }
+      },
+      {
+        "key": "color-info3",
+        "name": "聚焦色",
+        "description": "用于按钮、文本、链接信息状态时聚焦颜色",
+        "value": {
+          "light": "#cccccc"
+        }
+      },
+      {
+        "key": "color-info4",
+        "name": "禁用色",
+        "description": "用于按钮、文本、链接信息状态时禁用颜色",
+        "value": {
+          "light": "#f7f8fa"
+        }
+      }
+    ]
+  },
+  "background": {
+    "name": "背景色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-bg1",
+        "name": "一级容器背景色",
+        "description": "用于页面整体背景色",
+        "value": {
+          "light": "#f5f6f8"
+        }
+      },
+      {
+        "key": "color-bg2",
+        "name": "二级容器背景色",
+        "description": "用于区块、卡片、弹出框、tooltip背景色",
+        "value": {
+          "light": "#ffffff"
+        }
+      },
+      {
+        "key": "color-bg3",
+        "name": "三级容器背景色",
+        "description": "用于区块卡片背景色",
+        "value": {
+          "light": "#f7f8fa"
+        }
+      },
+      {
+        "key": "color-bg4",
+        "name": "四级容器背景色",
+        "description": "用于区块、卡片、表头背景色",
+        "value": {
+          "light": "#e5e8f0"
+        }
+      }
+    ]
+  },
+  "text": {
+    "name": "文字色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-text1",
+        "name": "标题色",
+        "description": "用于强调、标题颜色",
+        "value": {
+          "light": "#000000"
+        }
+      },
+      {
+        "key": "color-text1_inverse",
+        "name": "标题反色",
+        "description": "用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题",
+        "value": {
+          "light": "#ffffff"
+        }
+      },
+      {
+        "key": "color-text2",
+        "name": "正文色",
+        "description": "用于次强调、次级标题、正文颜色",
+        "value": {
+          "light": "#3f3f3f"
+        }
+      },
+      {
+        "key": "color-text2_inverse",
+        "name": "正文反色",
+        "description": "用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文",
+        "value": {
+          "light": "#e5e5e5"
+        }
+      },
+      {
+        "key": "color-text3",
+        "name": "提示色",
+        "description": "用于提示文本颜色",
+        "value": {
+          "light": "#707070"
+        }
+      },
+      {
+        "key": "color-text3_inverse",
+        "name": "提示反色",
+        "description": "用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示",
+        "value": {
+          "light": "#b2b2b2"
+        }
+      },
+      {
+        "key": "color-text4",
+        "name": "置灰色",
+        "description": "用于禁用文本颜色",
+        "value": {
+          "light": "#cccccc"
+        }
+      },
+      {
+        "key": "color-text4_inverse",
+        "name": "置灰反色",
+        "description": "用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本",
+        "value": {
+          "light": "#e5e5e5"
+        }
+      }
+    ]
+  },
+  "border": {
+    "name": "边框色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-border1",
+        "name": "边框色",
+        "description": "较明显的边框",
+        "value": {
+          "light": "#707070"
+        }
+      },
+      {
+        "key": "color-border2",
+        "name": "弱边框色",
+        "description": "较弱的边框",
+        "value": {
+          "light": "#e5e5e5"
+        }
+      }
+    ]
+  },
+  "division": {
+    "name": "分隔线色",
+    "type": "color",
+    "value": [
+      {
+        "key": "color-division1",
+        "name": "分隔线色1",
+        "description": "用于分隔线颜色",
+        "value": {
+          "light": "#707070"
+        }
+      }
+    ]
+  },
+  "mask": {
+    "name": "遮罩色",
+    "type": "mask",
+    "value": [
+      {
+        "key": "color-mask1",
+        "name": "遮罩色1",
+        "description": "用于弹窗遮罩色",
+        "value": {
+          "light": "rgba(0, 0, 0, 0.5)"
+        }
+      }
+    ]
+  },
+  "shadow": {
+    "name": "阴影色",
+    "type": "shadow",
+    "value": [
+      {
+        "key": "shadow-1",
+        "name": "阴影色1",
+        "description": "用于卡片、小弹窗、楼层阴影",
+        "value": {
+          "light": "0 1px 5px rgba(45, 47, 51, 0.1)"
+        }
+      },
+      {
+        "key": "shadow-2",
+        "name": "阴影色2",
+        "description": "用于卡片悬浮阴影",
+        "value": {
+          "light": "0 6px 18px rgba(0, 47, 167, 0.14)"
+        }
+      },
+      {
+        "key": "shadow-3",
+        "name": "阴影色3",
+        "description": "用于提示阴影",
+        "value": {
+          "light": "0 10px 32px rgba(45, 47, 51, 0.18)"
+        }
+      }
+    ]
+  }
+}
