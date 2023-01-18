@@ -1,0 +1,368 @@
+{
+  "gap": {
+    "name": "间距",
+    "type": "gap",
+    "value": [
+      {
+        "key": "gap-1",
+        "value": "4px",
+        "name": "间距1",
+        "description": "用于组件之间的间距1"
+      },
+      {
+        "key": "gap-2",
+        "value": "8px",
+        "name": "间距2",
+        "description": "用于组件之间的间距2"
+      },
+      {
+        "key": "gap-3",
+        "value": "12px",
+        "name": "间距3",
+        "description": "用于组件之间的间距3"
+      },
+      {
+        "key": "gap-4",
+        "value": "16px",
+        "name": "间距4",
+        "description": "用于组件之间的间距4"
+      },
+      {
+        "key": "gap-5",
+        "value": "24px",
+        "name": "间距5",
+        "description": "用于组件之间的间距5"
+      },
+      {
+        "key": "gap-6",
+        "value": "32px",
+        "name": "间距6",
+        "description": "用于组件之间的间距6"
+      },
+      {
+        "key": "gap-7",
+        "value": "40px",
+        "name": "间距7",
+        "description": "用于组件之间的间距7"
+      },
+      {
+        "key": "gap-8",
+        "value": "64px",
+        "name": "间距8",
+        "description": "用于组件之间的间距8"
+      }
+    ]
+  },
+  "size": {
+    "name": "组件尺寸",
+    "type": "size",
+    "value": [
+      {
+        "key": "size-l",
+        "value": "40px",
+        "name": "大尺寸",
+        "description": "尺寸"
+      },
+      {
+        "key": "size-m",
+        "value": "32px",
+        "name": "中尺寸",
+        "description": "尺寸"
+      },
+      {
+        "key": "size-s",
+        "value": "24px",
+        "name": "小尺寸",
+        "description": "小尺寸"
+      }
+    ]
+  },
+  "icon_size": {
+    "name": "图标尺寸",
+    "type": "size",
+    "value": [
+      {
+        "key": "icon_size-l",
+        "value": "48px",
+        "name": "大尺寸图标",
+        "description": "尺寸"
+      },
+      {
+        "key": "icon_size-m",
+        "value": "32px",
+        "name": "中尺寸图标",
+        "description": "尺寸"
+      },
+      {
+        "key": "icon_size-s",
+        "value": "24px",
+        "name": "小尺寸图标",
+        "description": "小尺寸"
+      },
+      {
+        "key": "icon_size-xs",
+        "value": "16px",
+        "name": "超小尺寸图标",
+        "description": "小尺寸"
+      }
+    ]
+  },
+  "font_size": {
+    "name": "文本尺寸",
+    "type": "font",
+    "value": [
+      {
+        "key": "font_size-display1",
+        "value": "64px",
+        "name": "一级数据展示",
+        "description": "一级数据展示"
+      },
+      {
+        "key": "font_size-display2",
+        "value": "54px",
+        "name": "二级数据展示",
+        "description": "二级数据展示"
+      },
+      {
+        "key": "font_size-display3",
+        "value": "36px",
+        "name": "三级数据展示",
+        "description": "三级数据展示"
+      },
+      {
+        "key": "font_size-display4",
+        "value": "28px",
+        "name": "四级数据展示",
+        "description": "四级数据展示"
+      },
+      {
+        "key": "font_size-h1",
+        "value": "24px",
+        "name": "一级标题",
+        "description": "一级标题"
+      },
+      {
+        "key": "font_size-h2",
+        "value": "20px",
+        "name": "二级标题",
+        "description": "二级标题"
+      },
+      {
+        "key": "font_size-h3",
+        "value": "18px",
+        "name": "三级标题",
+        "description": "三级标题"
+      },
+      {
+        "key": "font_size-h4",
+        "value": "16px",
+        "name": "四级标题",
+        "description": "四级标题"
+      },
+      {
+        "key": "font_size-text",
+        "value": "14px",
+        "name": "正文",
+        "description": "正文"
+      },
+      {
+        "key": "font_size-tip1",
+        "value": "12px",
+        "name": "提示文本1",
+        "description": "提示文本1"
+      },
+      {
+        "key": "font_size-tip2",
+        "value": "10px",
+        "name": "提示文本2",
+        "description": "提示文本2"
+      }
+    ]
+  },
+  "line_height": {
+    "name": "文本行高",
+    "type": "font",
+    "value": [
+      {
+        "key": "line_height-display1",
+        "value": "84px",
+        "name": "一级数据展示",
+        "description": "一级数据展示"
+      },
+      {
+        "key": "line_height-display2",
+        "value": "76px",
+        "name": "二级数据展示",
+        "description": "二级数据展示"
+      },
+      {
+        "key": "line_height-display3",
+        "value": "48px",
+        "name": "三级数据展示",
+        "description": "三级数据展示"
+      },
+      {
+        "key": "line_height-display4",
+        "value": "36px",
+        "name": "四级数据展示",
+        "description": "四级数据展示"
+      },
+      {
+        "key": "line_height-h1",
+        "value": "32px",
+        "name": "一级标题",
+        "description": "一级标题"
+      },
+      {
+        "key": "line_height-h2",
+        "value": "28px",
+        "name": "二级标题",
+        "description": "二级标题"
+      },
+      {
+        "key": "line_height-h3",
+        "value": "26px",
+        "name": "三级标题",
+        "description": "三级标题"
+      },
+      {
+        "key": "line_height-h4",
+        "value": "24px",
+        "name": "四级标题",
+        "description": "四级标题"
+      },
+      {
+        "key": "line_height-text",
+        "value": "22px",
+        "name": "正文",
+        "description": "正文"
+      },
+      {
+        "key": "line_height-tip1",
+        "value": "18px",
+        "name": "提示文本1",
+        "description": "提示文本1"
+      },
+      {
+        "key": "line_height-tip2",
+        "value": "14px",
+        "name": "提示文本2",
+        "description": "提示文本2"
+      }
+    ]
+  },
+  "radius": {
+    "name": "圆角尺寸",
+    "type": "radius",
+    "value": [
+      {
+        "key": "radius-l",
+        "value": "16px",
+        "name": "大尺寸圆角",
+        "description": "大尺寸圆角"
+      },
+      {
+        "key": "radius-m",
+        "value": "8px",
+        "name": "中尺寸圆角",
+        "description": "中尺寸圆角"
+      },
+      {
+        "key": "radius-s",
+        "value": "4px",
+        "name": "小尺寸圆角",
+        "description": "小尺寸圆角"
+      }
+    ]
+  },
+  "duration": {
+    "name": "动画持续时间",
+    "type": "animation",
+    "value": [
+      {
+        "key": "duration-s",
+        "value": "200ms",
+        "name": "持续时间",
+        "description": "用于退出屏幕的动画"
+      },
+      {
+        "key": "duration-m1",
+        "value": "250ms",
+        "name": "持续时间",
+        "description": "用于当曲线为standard-in时进入屏幕的动画"
+      },
+      {
+        "key": "duration-m2",
+        "value": "300ms",
+        "name": "持续时间",
+        "description": "用于当曲线为standard时开始、结束的动画"
+      },
+      {
+        "key": "duration-m3",
+        "value": "400ms",
+        "name": "持续时间",
+        "description": "用于当曲线为emphasized-in时进入屏幕的动画"
+      },
+      {
+        "key": "duration-l",
+        "value": "500ms",
+        "name": "持续时间",
+        "description": "用于当曲线为emphasized时开始、结束的动画"
+      },
+      {
+        "key": "duration-xl",
+        "value": "1000ms",
+        "name": "持续时间",
+        "description": "用于当曲线为emphasized时，轮播切换动画"
+      }
+    ]
+  },
+  "easing": {
+    "name": "动画曲线",
+    "type": "animation",
+    "value": [
+      {
+        "key": "easing-linear",
+        "value": "cubic-bezier(0, 0, 1, 1)",
+        "name": "线性动画曲线",
+        "description": "线性曲线"
+      },
+      {
+        "key": "easing-standard",
+        "value": "cubic-bezier(0.2, 0, 0, 1)",
+        "name": "动画曲线",
+        "description": "用于组件"
+      },
+      {
+        "key": "easing-standard-in",
+        "value": "cubic-bezier(0, 0, 0, 1)",
+        "name": "动画曲线",
+        "description": "用于组件"
+      },
+      {
+        "key": "easing-standard-out",
+        "value": "cubic-bezier(0.3, 0, 1, 1)",
+        "name": "动画曲线",
+        "description": "用于组件"
+      },
+      {
+        "key": "easing-emphasized",
+        "value": "cubic-bezier(0.2, 0, 0, 1)",
+        "name": "动画曲线",
+        "description": "用于大卡片、场景切换"
+      },
+      {
+        "key": "easing-emphasized-in",
+        "value": "cubic-bezier(0.3, 0, 0.8, 0.15)",
+        "name": "动画曲线",
+        "description": "用于大卡片、场景切换"
+      },
+      {
+        "key": "easing-emphasized-out",
+        "value": "cubic-bezier(0.05, 0.7, 0.1, 1)",
+        "name": "动画曲线",
+        "description": "用于大卡片、场景切换"
+      }
+    ]
+  }
+}

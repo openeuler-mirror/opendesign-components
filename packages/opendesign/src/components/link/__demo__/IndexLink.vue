@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import '../style';
-import LinkDemo from './LinkDemo.vue';
+import LinkBasic from './LinkBasic.vue';
 </script>
 <template>
   <div class="page-demo">
-    <LinkDemo />
+    <LinkBasic />
   </div>
 </template>
 <style lang="scss"></style>

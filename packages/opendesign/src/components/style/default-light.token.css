@@ -1,0 +1,655 @@
+/* theme: default,light */
+:root,
+:root[theme="light"] {
+  /**
+   * @name 常规色
+   * @type color
+   * @group primary
+   * @description 用于按钮、文本、链接强调状态时常规颜色
+   */
+  --o-color-primary1: #002fa7;
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group primary
+   * @description 用于按钮、文本、链接强调状态时悬浮颜色
+   */
+  --o-color-primary2: #406fe7;
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group primary
+   * @description 用于按钮、文本、链接强调状态时聚焦颜色
+   */
+  --o-color-primary3: #00288d;
+  /**
+   * @name 禁用色
+   * @type color
+   * @group primary
+   * @description 用于按钮、文本、链接强调状态时禁用颜色
+   */
+  --o-color-primary4: #b2c0e4;
+  /**
+   * @name 常规色
+   * @type color
+   * @group major
+   * @description 用于按钮、文本、链接major状态时文本颜色
+   */
+  --o-color-major1: #feb32a;
+  /**
+   * @name 常规色
+   * @type color
+   * @group success
+   * @description 用于按钮、文本、链接成功状态时常规颜色
+   */
+  --o-color-success1: #6dc335;
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group success
+   * @description 用于按钮、文本、链接成功状态时悬浮颜色
+   */
+  --o-color-success2: #93e95b;
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group success
+   * @description 用于按钮、文本、链接成功状态时聚焦颜色
+   */
+  --o-color-success3: #62af30;
+  /**
+   * @name 禁用色
+   * @type color
+   * @group success
+   * @description 用于按钮、文本、链接成功状态时禁用颜色
+   */
+  --o-color-success4: #c5e7ae;
+  /**
+   * @name 常规色
+   * @type color
+   * @group warning
+   * @description 用于按钮、文本、链接告警状态时常规颜色
+   */
+  --o-color-warning1: #ff8e36;
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group warning
+   * @description 用于按钮、文本、链接告警状态时悬浮颜色
+   */
+  --o-color-warning2: #ffb45c;
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group warning
+   * @description 用于按钮、文本、链接告警状态时聚焦颜色
+   */
+  --o-color-warning3: #ff801c;
+  /**
+   * @name 禁用色
+   * @type color
+   * @group warning
+   * @description 用于按钮、文本、链接告警状态时禁用颜色
+   */
+  --o-color-warning4: #ffd2af;
+  /**
+   * @name 常规色
+   * @type color
+   * @group danger
+   * @description 用于按钮、文本、链接错误状态时常规颜色
+   */
+  --o-color-danger1: #f3524d;
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group danger
+   * @description 用于按钮、文本、链接错误状态时悬浮颜色
+   */
+  --o-color-danger2: #ff7873;
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group danger
+   * @description 用于按钮、文本、链接错误状态时聚焦颜色
+   */
+  --o-color-danger3: #f13b35;
+  /**
+   * @name 禁用色
+   * @type color
+   * @group danger
+   * @description 用于按钮、文本、链接错误状态时禁用颜色
+   */
+  --o-color-danger4: #fabab8;
+  /**
+   * @name 常规色
+   * @type color
+   * @group info
+   * @description 用于按钮、文本、链接信息状态时常规颜色
+   */
+  --o-color-info1: #e5e5e5;
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group info
+   * @description 用于按钮、文本、链接信息状态时悬浮颜色
+   */
+  --o-color-info2: #e5e8f0;
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group info
+   * @description 用于按钮、文本、链接信息状态时聚焦颜色
+   */
+  --o-color-info3: #cccccc;
+  /**
+   * @name 禁用色
+   * @type color
+   * @group info
+   * @description 用于按钮、文本、链接信息状态时禁用颜色
+   */
+  --o-color-info4: #f7f8fa;
+  /**
+   * @name 一级容器背景色
+   * @type color
+   * @group background
+   * @description 用于页面整体背景色
+   */
+  --o-color-bg1: #f5f6f8;
+  /**
+   * @name 二级容器背景色
+   * @type color
+   * @group background
+   * @description 用于区块、卡片、弹出框、tooltip背景色
+   */
+  --o-color-bg2: #ffffff;
+  /**
+   * @name 三级容器背景色
+   * @type color
+   * @group background
+   * @description 用于区块卡片背景色
+   */
+  --o-color-bg3: #f7f8fa;
+  /**
+   * @name 四级容器背景色
+   * @type color
+   * @group background
+   * @description 用于区块、卡片、表头背景色
+   */
+  --o-color-bg4: #e5e8f0;
+  /**
+   * @name 标题色
+   * @type color
+   * @group text
+   * @description 用于强调、标题颜色
+   */
+  --o-color-text1: #000000;
+  /**
+   * @name 标题反色
+   * @type color
+   * @group text
+   * @description 用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题
+   */
+  --o-color-text1_inverse: #ffffff;
+  /**
+   * @name 正文色
+   * @type color
+   * @group text
+   * @description 用于次强调、次级标题、正文颜色
+   */
+  --o-color-text2: #3f3f3f;
+  /**
+   * @name 正文反色
+   * @type color
+   * @group text
+   * @description 用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文
+   */
+  --o-color-text2_inverse: #e5e5e5;
+  /**
+   * @name 提示色
+   * @type color
+   * @group text
+   * @description 用于提示文本颜色
+   */
+  --o-color-text3: #707070;
+  /**
+   * @name 提示反色
+   * @type color
+   * @group text
+   * @description 用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示
+   */
+  --o-color-text3_inverse: #b2b2b2;
+  /**
+   * @name 置灰色
+   * @type color
+   * @group text
+   * @description 用于禁用文本颜色
+   */
+  --o-color-text4: #cccccc;
+  /**
+   * @name 置灰反色
+   * @type color
+   * @group text
+   * @description 用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本
+   */
+  --o-color-text4_inverse: #e5e5e5;
+  /**
+   * @name 边框色
+   * @type color
+   * @group border
+   * @description 较明显的边框
+   */
+  --o-color-border1: #707070;
+  /**
+   * @name 弱边框色
+   * @type color
+   * @group border
+   * @description 较弱的边框
+   */
+  --o-color-border2: #e5e5e5;
+  /**
+   * @name 分隔线色1
+   * @type color
+   * @group division
+   * @description 用于分隔线颜色
+   */
+  --o-color-division1: #707070;
+  /**
+   * @name 遮罩色1
+   * @type mask
+   * @group mask
+   * @description 用于弹窗遮罩色
+   */
+  --o-color-mask1: rgba(0, 0, 0, 0.5);
+  /**
+   * @name 阴影色1
+   * @type shadow
+   * @group shadow
+   * @description 用于卡片、小弹窗、楼层阴影
+   */
+  --o-shadow-1: 0 1px 5px rgba(45, 47, 51, 0.1);
+  /**
+   * @name 阴影色2
+   * @type shadow
+   * @group shadow
+   * @description 用于卡片悬浮阴影
+   */
+  --o-shadow-2: 0 6px 18px rgba(0, 47, 167, 0.14);
+  /**
+   * @name 阴影色3
+   * @type shadow
+   * @group shadow
+   * @description 用于提示阴影
+   */
+  --o-shadow-3: 0 10px 32px rgba(45, 47, 51, 0.18);
+  /**
+   * @name 间距1
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距1
+   */
+  --o-gap-1: 4px;
+  /**
+   * @name 间距2
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距2
+   */
+  --o-gap-2: 8px;
+  /**
+   * @name 间距3
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距3
+   */
+  --o-gap-3: 12px;
+  /**
+   * @name 间距4
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距4
+   */
+  --o-gap-4: 16px;
+  /**
+   * @name 间距5
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距5
+   */
+  --o-gap-5: 24px;
+  /**
+   * @name 间距6
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距6
+   */
+  --o-gap-6: 32px;
+  /**
+   * @name 间距7
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距7
+   */
+  --o-gap-7: 40px;
+  /**
+   * @name 间距8
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距8
+   */
+  --o-gap-8: 64px;
+  /**
+   * @name 大尺寸
+   * @type size
+   * @group size
+   * @description 尺寸
+   */
+  --o-size-l: 40px;
+  /**
+   * @name 中尺寸
+   * @type size
+   * @group size
+   * @description 尺寸
+   */
+  --o-size-m: 32px;
+  /**
+   * @name 小尺寸
+   * @type size
+   * @group size
+   * @description 小尺寸
+   */
+  --o-size-s: 24px;
+  /**
+   * @name 大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 尺寸
+   */
+  --o-icon_size-l: 48px;
+  /**
+   * @name 中尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 尺寸
+   */
+  --o-icon_size-m: 32px;
+  /**
+   * @name 小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-s: 24px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-xs: 16px;
+  /**
+   * @name 一级数据展示
+   * @type font
+   * @group font_size
+   * @description 一级数据展示
+   */
+  --o-font_size-display1: 64px;
+  /**
+   * @name 二级数据展示
+   * @type font
+   * @group font_size
+   * @description 二级数据展示
+   */
+  --o-font_size-display2: 54px;
+  /**
+   * @name 三级数据展示
+   * @type font
+   * @group font_size
+   * @description 三级数据展示
+   */
+  --o-font_size-display3: 36px;
+  /**
+   * @name 四级数据展示
+   * @type font
+   * @group font_size
+   * @description 四级数据展示
+   */
+  --o-font_size-display4: 28px;
+  /**
+   * @name 一级标题
+   * @type font
+   * @group font_size
+   * @description 一级标题
+   */
+  --o-font_size-h1: 24px;
+  /**
+   * @name 二级标题
+   * @type font
+   * @group font_size
+   * @description 二级标题
+   */
+  --o-font_size-h2: 20px;
+  /**
+   * @name 三级标题
+   * @type font
+   * @group font_size
+   * @description 三级标题
+   */
+  --o-font_size-h3: 18px;
+  /**
+   * @name 四级标题
+   * @type font
+   * @group font_size
+   * @description 四级标题
+   */
+  --o-font_size-h4: 16px;
+  /**
+   * @name 正文
+   * @type font
+   * @group font_size
+   * @description 正文
+   */
+  --o-font_size-text: 14px;
+  /**
+   * @name 提示文本1
+   * @type font
+   * @group font_size
+   * @description 提示文本1
+   */
+  --o-font_size-tip1: 12px;
+  /**
+   * @name 提示文本2
+   * @type font
+   * @group font_size
+   * @description 提示文本2
+   */
+  --o-font_size-tip2: 10px;
+  /**
+   * @name 一级数据展示
+   * @type font
+   * @group line_height
+   * @description 一级数据展示
+   */
+  --o-line_height-display1: 84px;
+  /**
+   * @name 二级数据展示
+   * @type font
+   * @group line_height
+   * @description 二级数据展示
+   */
+  --o-line_height-display2: 76px;
+  /**
+   * @name 三级数据展示
+   * @type font
+   * @group line_height
+   * @description 三级数据展示
+   */
+  --o-line_height-display3: 48px;
+  /**
+   * @name 四级数据展示
+   * @type font
+   * @group line_height
+   * @description 四级数据展示
+   */
+  --o-line_height-display4: 36px;
+  /**
+   * @name 一级标题
+   * @type font
+   * @group line_height
+   * @description 一级标题
+   */
+  --o-line_height-h1: 32px;
+  /**
+   * @name 二级标题
+   * @type font
+   * @group line_height
+   * @description 二级标题
+   */
+  --o-line_height-h2: 28px;
+  /**
+   * @name 三级标题
+   * @type font
+   * @group line_height
+   * @description 三级标题
+   */
+  --o-line_height-h3: 26px;
+  /**
+   * @name 四级标题
+   * @type font
+   * @group line_height
+   * @description 四级标题
+   */
+  --o-line_height-h4: 24px;
+  /**
+   * @name 正文
+   * @type font
+   * @group line_height
+   * @description 正文
+   */
+  --o-line_height-text: 22px;
+  /**
+   * @name 提示文本1
+   * @type font
+   * @group line_height
+   * @description 提示文本1
+   */
+  --o-line_height-tip1: 18px;
+  /**
+   * @name 提示文本2
+   * @type font
+   * @group line_height
+   * @description 提示文本2
+   */
+  --o-line_height-tip2: 14px;
+  /**
+   * @name 大尺寸圆角
+   * @type radius
+   * @group radius
+   * @description 大尺寸圆角
+   */
+  --o-radius-l: 16px;
+  /**
+   * @name 中尺寸圆角
+   * @type radius
+   * @group radius
+   * @description 中尺寸圆角
+   */
+  --o-radius-m: 8px;
+  /**
+   * @name 小尺寸圆角
+   * @type radius
+   * @group radius
+   * @description 小尺寸圆角
+   */
+  --o-radius-s: 4px;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于退出屏幕的动画
+   */
+  --o-duration-s: 200ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为standard-in时进入屏幕的动画
+   */
+  --o-duration-m1: 250ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为standard时开始、结束的动画
+   */
+  --o-duration-m2: 300ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为emphasized-in时进入屏幕的动画
+   */
+  --o-duration-m3: 400ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为emphasized时开始、结束的动画
+   */
+  --o-duration-l: 500ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为emphasized时，轮播切换动画
+   */
+  --o-duration-xl: 1000ms;
+  /**
+   * @name 线性动画曲线
+   * @type animation
+   * @group easing
+   * @description 线性曲线
+   */
+  --o-easing-linear: cubic-bezier(0, 0, 1, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于组件
+   */
+  --o-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于组件
+   */
+  --o-easing-standard-in: cubic-bezier(0, 0, 0, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于组件
+   */
+  --o-easing-standard-out: cubic-bezier(0.3, 0, 1, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于大卡片、场景切换
+   */
+  --o-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于大卡片、场景切换
+   */
+  --o-easing-emphasized-in: cubic-bezier(0.3, 0, 0.8, 0.15);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于大卡片、场景切换
+   */
+  --o-easing-emphasized-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+}

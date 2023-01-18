@@ -16,6 +16,7 @@
     "vue3 components"
   ],
   "scripts": {
+    "gen:token": "opensig-scripts gen:token --config ./src/tokens/token.config.ts",
     "gen:icon": "opensig-scripts gen:icon",
     "build:component": "opensig-scripts build:component",
     "build:style": "opensig-scripts build:style",
