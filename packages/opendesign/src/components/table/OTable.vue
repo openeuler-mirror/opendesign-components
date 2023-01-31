@@ -5,7 +5,7 @@ import { computed } from 'vue';
 import { IconLoading } from '../_shared/icons';
 import { isString } from '../_shared/utils';
 
-interface SelectPropT {
+interface TablePropT {
   /**
    * 表头内容
    */
@@ -44,7 +44,7 @@ interface SelectPropT {
   loadingLabel?: string;
 }
 
-const props = withDefaults(defineProps<SelectPropT>(), {
+const props = withDefaults(defineProps<TablePropT>(), {
   small: false,
   cellSpan: undefined,
   columns: undefined,

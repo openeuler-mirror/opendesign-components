@@ -7,4 +7,6 @@ const OTable = Object.assign(_OTable, {
   },
 });
 
+export * from './types';
+
 export { OTable };
