@@ -75,6 +75,12 @@ export const routes = [
     label: '标签页',
     component: () => import('@demo/tabs/__demo__/IndexTabs.vue'),
   },
+  {
+    path: '/table',
+    name: 'Table',
+    label: '表格',
+    component: () => import('@demo/table/__demo__/IndexTable.vue'),
+  },
 ];
 
 export const router = createRouter({

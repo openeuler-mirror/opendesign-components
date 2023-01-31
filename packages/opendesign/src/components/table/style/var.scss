@@ -1,0 +1,17 @@
+.o-table {
+  --table-head-bg: var(--o-color-bg3);
+  --table-row-hover: var(--o-color-bg3);
+  --table-text-size: var(--o-font_size-text);
+  --table-text-height: var(--o-line_height-text);
+
+  --table-text-size_small: var(--o-font_size-tip1);
+  --table-text-height_small: var(--o-line_height-tip1);
+
+  --table-tip-text-size: var(--o-font_size-tip1);
+  --table-tip-text-height: var(--o-line_height-tip1);
+
+  --table-tip-color: var(--o-color-text3);
+
+  --table-border: 1px solid var(--o-color-border2);
+  // --table-border: 1px solid var(--o-color-border1);
+}
