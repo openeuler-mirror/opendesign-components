@@ -81,6 +81,12 @@ export const routes = [
     label: '表格',
     component: () => import('@demo/table/__demo__/IndexTable.vue'),
   },
+  {
+    path: '/pagination',
+    name: 'Pagination',
+    label: '分页',
+    component: () => import('@demo/pagination/__demo__/IndexPagination.vue'),
+  },
 ];
 
 export const router = createRouter({
