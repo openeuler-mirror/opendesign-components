@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, VNode, VNodeTypes } from 'vue';
+import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment } from 'vue';
 import { isArray } from './utils';
 
 // 来着vuejs/core
@@ -22,7 +22,13 @@ export const enum ShapeFlags {
 export const isElement = (vnode: VNode) => {
   return Boolean(vnode && vnode.shapeFlag & ShapeFlags.ELEMENT);
 };
-
+/**
+ * 判断vnode是不是文本节点
+ * 包含注释节点
+ */
+export const isTextElement = (vnode: VNode) => {
+  return Boolean(vnode && vnode.shapeFlag & ShapeFlags.TEXT_CHILDREN);
+};
 /**
  * 判断vnode是不是vue组件
  * @param vnode vnode节点
@@ -76,7 +82,7 @@ export function getFirstComponent(vn: VNode | VNode[]): VNode | null {
         return result;
       }
     }
-  } else if (isElement(vn) || isComponent(vn)) {
+  } else if (isElement(vn) || isComponent(vn) || (isTextElement(vn) && vn.type !== Comment)) {
     return vn;
   } else if (isArrayChildren(vn, vn.children)) {
     for (const child of vn.children) {

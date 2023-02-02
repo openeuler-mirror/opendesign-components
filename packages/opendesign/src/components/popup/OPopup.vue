@@ -13,6 +13,7 @@ import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
 import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
+import { OChildOnly } from '../child-only';
 
 // TODO 处理嵌套
 
@@ -130,6 +131,7 @@ const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'chan
 const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
 
 const visible = ref(false);
+const targetElRef = ref<ComponentPublicInstance | null>(null);
 let targetEl: HTMLElement | null = null;
 // 默认为true，避免props.visible为初始值为true时，无法计算popup位置
 const isTargetInViewport = ref(true);
@@ -289,15 +291,22 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   }
 };
 
-// 触发元素为组件ref，处理事件触发
+// 触发元素为组件ref，因生命周期问题，延后绑定处理事件触发
 watch(
   () => props.target,
   (ele) => {
-    if (ele) {
+    if (isElement((ele as ComponentPublicInstance)?.$el)) {
       bindTargetEvent((ele as ComponentPublicInstance).$el);
     }
   }
 );
+
+watch(targetElRef, (elRef) => {
+  if (isElement(elRef?.$el)) {
+    bindTargetEvent(elRef?.$el);
+  }
+});
+
 const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
     updatePopupStyle();
@@ -387,6 +396,7 @@ const onPopupHoverOut = () => {
     updateVisible(false, props.hoverDelay);
   }
 };
+
 onMounted(() => {
   // 在mounted事件后再显示，避免找不到wrapper
   visible.value = props.visible;
@@ -430,6 +440,9 @@ onUnmounted(() => {
 });
 </script>
 <template>
+  <OChildOnly ref="targetElRef">
+    <slot name="target"></slot>
+  </OChildOnly>
   <teleport v-if="wrapperEl" :to="props.wrapper">
     <OResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
       <div
@@ -458,6 +471,5 @@ onUnmounted(() => {
         </Transition>
       </div>
     </OResizeObserver>
-    </oresizeobserver>
   </teleport>
 </template>

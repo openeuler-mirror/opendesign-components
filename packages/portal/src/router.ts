@@ -43,7 +43,7 @@ export const routes = [
     path: '/child-only',
     name: 'ChildOnly',
     label: '只渲染一个子元素',
-    component: () => import('@demo/only-child/__demo__/IndexChildOnly.vue'),
+    component: () => import('@demo/child-only/__demo__/IndexChildOnly.vue'),
   },
   {
     path: '/popup',

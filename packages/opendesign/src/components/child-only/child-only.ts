@@ -9,6 +9,8 @@ export default defineComponent({
   setup(props, { slots }) {
     return () => {
       const children = slots.default?.();
+      // console.log(children);
+
       return children ? getFirstComponent(children) : null;
     };
   },
