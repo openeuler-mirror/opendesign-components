@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { IntersectionObserver } from '../index';
+import { OIntersectionObserver } from '../index';
 import { OButton } from '../../button';
 import '../../button/style';
 
@@ -27,14 +27,14 @@ const toggle = (key: 'visible1' | 'visible2') => {
 
   <div class="tip" @click="toggle('visible2')">enter into view: {{ content }}</div>
   <div class="wrap">
-    <IntersectionObserver @intersection="(isEnter:boolean, en) => onIntersection(isEnter, en)">
+    <OIntersectionObserver @intersection="(isEnter:boolean, en) => onIntersection(isEnter, en)">
       <div v-if="rlt.visible1" class="content" :name="content">first row</div>
       <p v-else class="content">changed: first row</p>
       <div @click="toggle('visible1')">toggle</div>
-    </IntersectionObserver>
-    <IntersectionObserver @intersection="(isEnter:boolean, en) => onIntersection(isEnter, en)">
+    </OIntersectionObserver>
+    <OIntersectionObserver @intersection="(isEnter:boolean, en) => onIntersection(isEnter, en)">
       <OButton v-if="rlt.visible2" @click="toggle('visible2')"> toggle btn</OButton>
-    </IntersectionObserver>
+    </OIntersectionObserver>
   </div>
 </template>
 <style lang="scss" scoped>
