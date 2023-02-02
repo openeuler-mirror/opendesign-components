@@ -40,6 +40,12 @@ export const routes = [
     component: () => import('@demo/intersection-observer/__demo__/IndexIntersection.vue'),
   },
   {
+    path: '/child-only',
+    name: 'ChildOnly',
+    label: '只渲染一个子元素',
+    component: () => import('@demo/only-child/__demo__/IndexChildOnly.vue'),
+  },
+  {
     path: '/popup',
     name: 'Popup',
     label: '弹层',
