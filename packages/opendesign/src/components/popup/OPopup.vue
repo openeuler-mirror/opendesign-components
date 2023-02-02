@@ -10,7 +10,7 @@ import { isElement, getScrollParents } from '../_shared/dom';
 import { isArray, throttleRAF } from '../_shared/utils';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
-import { ResizeObserver } from '../resize-observer';
+import { OResizeObserver } from '../resize-observer';
 import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 
@@ -431,7 +431,7 @@ onUnmounted(() => {
 </script>
 <template>
   <teleport v-if="wrapperEl" :to="props.wrapper">
-    <ResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
+    <OResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
       <div
         ref="popupRef"
         class="o-popup"
@@ -457,6 +457,7 @@ onUnmounted(() => {
           </div>
         </Transition>
       </div>
-    </ResizeObserver>
+    </OResizeObserver>
+    </oresizeobserver>
   </teleport>
 </template>

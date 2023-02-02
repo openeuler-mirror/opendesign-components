@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { ResizeObserver } from '../index';
+import { OResizeObserver } from '../index';
 import { OButton } from '../../button';
 import '../../button/style';
 
@@ -40,21 +40,21 @@ const toggle = (key: 'visible1' | 'visible2') => {
 <template>
   <h4>resize observer</h4>
 
-  <ResizeObserver @resize="(en, isfirst) => onResize(en, isfirst, 'size1')">
+  <OResizeObserver @resize="(en, isfirst) => onResize(en, isfirst, 'size1')">
     <div v-if="rlt.visible1" class="content" :name="content" @click="changeFn">
       {{ content }}
     </div>
     <p v-else class="content" @click="changeFn">changed: {{ content }}</p>
     <div @click="toggle('visible1')">toggle</div>
-  </ResizeObserver>
+  </OResizeObserver>
   <div class="tip">width: {{ rlt.size1.width }}; height: {{ rlt.size1.height }}</div>
 
-  <ResizeObserver @resize="(en, isfirst) => onResize(en, isfirst, 'size2')">
+  <OResizeObserver @resize="(en, isfirst) => onResize(en, isfirst, 'size2')">
     <OButton v-if="rlt.visible2" @click="changeFn">
       {{ content }}
     </OButton>
     <div @click="toggle('visible2')">toggle</div>
-  </ResizeObserver>
+  </OResizeObserver>
   <div class="tip">width: {{ rlt.size2.width }}; height: {{ rlt.size2.height }}</div>
 </template>
 <style lang="scss" scoped>
