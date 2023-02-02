@@ -7,7 +7,7 @@ function getNumbers(min: number, max: number) {
 }
 export function getPagerItem(totalPage: number, currentPage = 1, showPageCount = 9) {
   const maxCount = showPageCount > 3 ? showPageCount : 3;
-  let pages: Array<{ value: number | string, isMore?: boolean, list?: number[] }> = [];
+  let pages: Array<{ value: number | 'left' | 'right', isMore?: boolean, list?: number[] }> = [];
 
   /**
    * 如果页码小于最大显示页码数，直接显示全部
@@ -80,4 +80,15 @@ export function getPagerItem(totalPage: number, currentPage = 1, showPageCount =
   }
 
   return pages;
+}
+
+export type PagerItemT = ReturnType<typeof getPagerItem>
+
+
+export function getSizeOptions(pageSizes: number[], sufix: string, currentPageSize?: number) {
+  return pageSizes.map(item => ({
+    label: item + sufix,
+    value: item,
+    active: currentPageSize === item
+  }));
 }

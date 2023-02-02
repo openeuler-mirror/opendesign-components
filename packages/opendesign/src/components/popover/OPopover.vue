@@ -1,6 +1,12 @@
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+};
+</script>
 <script setup lang="ts">
-import { PropType, ComponentPublicInstance } from 'vue';
+import { PropType, ComponentPublicInstance, ref } from 'vue';
 import { OPopup, PopupPositionT, PopupTriggerT } from '../popup';
+import { OChildOnly } from '../child-only';
 
 const props = defineProps({
   /**
@@ -24,7 +30,6 @@ const props = defineProps({
   target: {
     type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
     default: null,
-    require: true,
   },
   /**
    * 是否可见
@@ -60,21 +65,25 @@ const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
 const updateVisible = (val: boolean) => {
   emits('update:visible', val);
 };
+const targetElRef = ref<ComponentPublicInstance | null>(null);
 </script>
 <template>
+  <OChildOnly ref="targetElRef">
+    <slot name="target"></slot>
+  </OChildOnly>
   <OPopup
     class="o-popover"
     :offset="props.offset"
     :visible="props.visible"
     :position="props.position"
     :trigger="props.trigger"
-    :target="props.target"
+    :target="props.target || targetElRef"
     :wrapper="props.wrapper"
     anchor-class="o-popover-anchor"
     :unmount-on-hide="props.unmountOnHide"
     @update:visible="updateVisible"
   >
-    <div class="o-popover-wrap">
+    <div class="o-popover-wrap" v-bind="$attrs">
       <slot></slot>
     </div>
   </OPopup>

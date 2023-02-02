@@ -39,7 +39,6 @@ const props = defineProps({
   target: {
     type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
     default: null,
-    require: true,
   },
   /**
    * 是否可见
