@@ -58,6 +58,12 @@ export const routes = [
     component: () => import('@demo/popover/__demo__/IndexPopover.vue'),
   },
   {
+    path: '/input',
+    name: 'Input',
+    label: '输入框',
+    component: () => import('@demo/input/__demo__/IndexInput.vue'),
+  },
+  {
     path: '/select',
     name: 'Select',
     label: '下拉框',

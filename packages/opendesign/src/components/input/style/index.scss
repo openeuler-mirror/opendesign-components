@@ -1,0 +1,63 @@
+@import './var.scss';
+@import '../../popup/style/index.scss';
+
+.o-input {
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  padding: 0 12px;
+  cursor: pointer;
+  color: var(--input-color);
+  display: inline-flex;
+  height: var(--input-height-m);
+
+  &:hover {
+    border-color: var(--input-border_hover);
+    background-color: var(--input-bg_hover);
+  }
+  &.is-inputing {
+    border-color: var(--input-border_hover);
+    background-color: var(--input-bg_hover);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    border-color: var(--input-border_disabled);
+    background-color: var(--input-bg_disabled);
+    color: var(--input-color_disabled);
+  }
+}
+.o-input-size-small {
+  padding: 0 6px 0 12px;
+  height: var(--input-height-s);
+  border-radius: var(--input-radius-s);
+}
+
+.o-input-size-normal {
+  padding: 4px 8px 4px 12px;
+  height: var(--input-height-m);
+  border-radius: var(--input-radius-m);
+}
+
+.o-input-size-large {
+  padding: 4px 12px 4px 16px;
+  height: var(--input-height-l);
+  border-radius: var(--input-radius-l);
+}
+
+.o-input-shape-round {
+  border-radius: 100px;
+}
+
+.o-input-input {
+  outline: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: inherit;
+  background-color: transparent;
+  display: inline-flex;
+  width: 100%;
+  caret-color: red;
+  // &.password {
+  //   -webkit-text-security: disc;
+  // }
+}
