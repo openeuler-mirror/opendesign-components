@@ -1,5 +1,5 @@
 import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment } from 'vue';
-import { isArray } from './utils';
+import { isArray } from './is';
 
 // 来着vuejs/core
 // https://github.com/vuejs/core/blob/main/packages/shared/src/shapeFlags.ts

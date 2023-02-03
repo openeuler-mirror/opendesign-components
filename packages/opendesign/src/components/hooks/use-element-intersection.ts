@@ -1,7 +1,7 @@
 import { ObjectDirective } from 'vue';
 import { useIntersectionObserver } from './use-intersection-observer';
 import type { IntersectionListenerT } from './use-intersection-observer';
-import { isFunction } from '../_shared/utils';
+import { isFunction } from '../_shared/is';
 
 const io = useIntersectionObserver();
 export function useIntersectionObserverDirective({ listener, removeOnUnmounted }: {

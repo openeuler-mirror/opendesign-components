@@ -3,7 +3,7 @@ import { TableColumnT, TableRowT, ColumnKeysT, CellSpanT, TableBorderT } from '.
 import { getColumnData, getBodyData } from './table';
 import { computed } from 'vue';
 import { IconLoading } from '../_shared/icons';
-import { isString } from '../_shared/utils';
+import { isString } from '../_shared/is';
 
 interface TablePropT {
   /**

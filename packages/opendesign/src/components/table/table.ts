@@ -1,9 +1,9 @@
 import { Ref } from 'vue';
-import { isFunction, isString } from '../_shared/utils';
+import { isArray, isFunction, isString } from '../_shared/is';
 import { TableColumnT, TableRowT, CellSpanT } from './types';
 
 export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT[] {
-  if (!Array.isArray(columns)) {
+  if (!isArray(columns)) {
     return [];
   }
 

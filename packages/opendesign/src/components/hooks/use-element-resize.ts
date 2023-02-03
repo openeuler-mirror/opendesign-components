@@ -1,7 +1,7 @@
 import { ObjectDirective } from 'vue';
 import { useResizeObserver } from './use-resize-observer';
 import type { ResizeListenerT } from './use-resize-observer';
-import { isFunction } from '../_shared/utils';
+import { isFunction } from '../_shared/is';
 
 const ob = useResizeObserver();
 export function useReiszeObserverDirective(onResize: ResizeListenerT): { vResizeObserver: ObjectDirective } {

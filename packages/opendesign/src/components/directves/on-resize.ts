@@ -1,6 +1,6 @@
 import { DirectiveBinding, ObjectDirective } from 'vue';
 import { useResizeObserver, ResizeListenerT } from '../hooks';
-import { isFunction } from '../_shared/utils';
+import { isFunction } from '../_shared/is';
 
 const ob = useResizeObserver();
 let listener: ResizeListenerT = () => null;
