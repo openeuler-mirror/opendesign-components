@@ -2,62 +2,164 @@
 @import '../../popup/style/index.scss';
 
 .o-input {
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
-  padding: 0 12px;
   cursor: pointer;
   color: var(--input-color);
   display: inline-flex;
-  height: var(--input-height-m);
-
-  &:hover {
-    border-color: var(--input-border_hover);
-    background-color: var(--input-bg_hover);
-  }
-  &.is-inputing {
-    border-color: var(--input-border_hover);
-    background-color: var(--input-bg_hover);
-  }
-  &.is-disabled {
-    cursor: not-allowed;
-    border-color: var(--input-border_disabled);
-    background-color: var(--input-bg_disabled);
-    color: var(--input-color_disabled);
-  }
 }
 .o-input-size-small {
-  padding: 0 6px 0 12px;
   height: var(--input-height-s);
-  border-radius: var(--input-radius-s);
+  font-size: var(--input-text-size-s);
+  line-height: var(--input-text-height-s);
+  .o-input-wrap {
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: var(--input-radius-s);
+  }
 }
 
 .o-input-size-normal {
-  padding: 4px 8px 4px 12px;
   height: var(--input-height-m);
-  border-radius: var(--input-radius-m);
+  font-size: var(--input-text-size-m);
+  line-height: var(--input-text-height-m);
+  .o-input-wrap {
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: var(--input-radius-m);
+  }
+  .o-input-append {
+    border-top-right-radius: var(--input-radius-m);
+    border-bottom-right-radius: var(--input-radius-m);
+  }
+
+  .o-input-prepend {
+    border-top-left-radius: var(--input-radius-m);
+    border-bottom-left-radius: var(--input-radius-m);
+  }
 }
 
 .o-input-size-large {
-  padding: 4px 12px 4px 16px;
   height: var(--input-height-l);
-  border-radius: var(--input-radius-l);
+  font-size: var(--input-text-size-l);
+  line-height: var(--input-text-height-l);
+  .o-input-wrap {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: var(--input-radius-l);
+  }
 }
 
 .o-input-shape-round {
   border-radius: 100px;
 }
 
+.o-input-wrap {
+  display: flex;
+  padding: 0 12px;
+  border: 1px solid var(--input-border);
+
+  &:hover {
+    border-color: var(--input-border-hover);
+    background-color: var(--input-bg-hover);
+  }
+  .o-input.is-focus & {
+    border-color: var(--input-border-active);
+    background-color: var(--input-bg-active);
+  }
+  .o-input.is-disabled & {
+    color: var(--input-color-disabled);
+    cursor: not-allowed;
+    border-color: var(--input-border-disabled);
+    background-color: var(--input-bg-disabled);
+  }
+
+  .o-input:not(.is-disabled) & {
+    &.clearable {
+      &.has-suffix {
+        .o-input-clear {
+          position: absolute;
+          right: 0;
+          height: 100%;
+        }
+
+        &:hover {
+          .o-input-suffix-wrap {
+            visibility: hidden;
+            opacity: 0;
+          }
+        }
+      }
+      &:hover {
+        .o-input-clear {
+          visibility: visible;
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+  &.has-prepend {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  &.has-append {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
 .o-input-input {
   outline: none;
   border: none;
-  padding: 0;
   color: inherit;
   cursor: inherit;
   background-color: transparent;
   display: inline-flex;
   width: 100%;
-  caret-color: red;
-  // &.password {
-  //   -webkit-text-security: disc;
-  // }
+  caret-color: var(--o-color-primary1);
+  padding: 4px 0;
+}
+
+.o-input-clear {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.1);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.o-input-suffix-wrap {
+  transition: all var(var(--o-duration-m1)) var(--o-easing-standard-out);
+}
+.o-input-suffix {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 4px;
+}
+.o-input-prefix {
+  display: flex;
+  align-items: center;
+
+  margin-right: 4px;
+}
+.o-input-clear-icon {
+  stroke-width: 0.5px;
+}
+
+.o-input-append,
+.o-input-prepend {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.o-input-append {
+  border: 1px solid var(--o-color-border2);
+  border-left: 0;
+}
+
+.o-input-prepend {
+  border: 1px solid var(--o-color-border2);
+  border-right: 0;
 }

@@ -18,7 +18,7 @@ export function isString(val: unknown): val is string {
 }
 
 export function isNumber(val: unknown): val is number {
-  return opt.call(val) === '[object Number]' && val === val; // eslint-disable-line
+  return opt.call(val) === '[object Number]' && !isNaN(val as number);
 }
 
 export function isFunction(val: unknown): val is Function {
@@ -29,14 +29,16 @@ export function isArray(val: unknown): val is Array<any> {
   return Array.isArray(val);
 }
 
+// 是否是对象或者数组等（key:value 形式）
 export function isObject(val: unknown): val is Record<any, any> {
   return val !== null && typeof val === 'object';
 }
 
+// 是否是纯对象
 export function isPlainObject(val: unknown): val is object {
   return opt.call(val) === '[object Object]';
 }
 
 export const isPromise = <T>(val: unknown): val is Promise<T> => {
-  return opt.call(val) === '[object Promise]';
+  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
 };

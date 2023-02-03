@@ -63,7 +63,17 @@ const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value))
 const pages = ref(getPagerItem(totalPage.value, currentPage.value, props.showPageCount));
 
 const updateCurrentPage = (page: number) => {
-  currentPage.value = page;
+  if (isNaN(page)) {
+    return;
+  }
+
+  if (page < 1) {
+    currentPage.value = 1;
+  } else if (page > totalPage.value) {
+    currentPage.value = totalPage.value;
+  } else {
+    currentPage.value = page;
+  }
 
   emits('update:currentPage', currentPage.value);
   emits('change', {
@@ -91,7 +101,7 @@ const moreClick = (more: PagerItemT[0]) => {
 };
 
 const goToChange = (val: string) => {
-  console.log(val);
+  updateCurrentPage(Number(val));
 };
 </script>
 <template>
