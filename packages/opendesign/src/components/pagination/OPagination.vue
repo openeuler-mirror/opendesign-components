@@ -100,7 +100,7 @@ const moreClick = (more: PagerItemT[0]) => {
   }
 };
 
-const goToChange = (val: string) => {
+const goToChange = (val: string | number) => {
   updateCurrentPage(Number(val));
 };
 </script>
@@ -113,7 +113,7 @@ const goToChange = (val: string) => {
         <div class="o-pagination-pages">
           <template v-if="props.simple">
             <div class="o-pagination-simple">
-              <OInput v-model="currentPage" class="o-pagination-input" />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
+              <OInput v-model:value="currentPage" class="o-pagination-input" />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
           </template>
           <template v-else>
@@ -148,7 +148,9 @@ const goToChange = (val: string) => {
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
         </div>
-        <div class="o-pagination-goto">{{ Labels.goto }}&nbsp;<OInput v-model="currentPage" class="o-pagination-input" @change="goToChange" /></div>
+        <div class="o-pagination-goto">
+          {{ Labels.goto }}&nbsp;<OInput :value="currentPage" class="o-pagination-input" @blur="goToChange" @press-enter="goToChange" />
+        </div>
       </template>
     </div>
   </div>

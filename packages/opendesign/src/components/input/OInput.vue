@@ -50,8 +50,8 @@ const emits = defineEmits<{
   (e: 'update:value', value: string | number): void;
   (e: 'change', value: string | number): void;
   (e: 'input', value: string | number, evt: Event): void;
-  (e: 'blur', evt: FocusEvent): void;
-  (e: 'focus', evt: FocusEvent): void;
+  (e: 'blur', value: string | number, evt: FocusEvent): void;
+  (e: 'focus', value: string | number, evt: FocusEvent): void;
   (e: 'clear', evt: Event): void;
   (e: 'pressEnter', value: string | number, evt: Event): void;
 }>();
@@ -109,12 +109,12 @@ const onCompositionEnd = (e: Event) => {
 
 const onFocus = (e: FocusEvent) => {
   isFocus.value = true;
-  emits('focus', e);
+  emits('focus', currentValue.value, e);
 };
 
 const onBlur = (e: FocusEvent) => {
   isFocus.value = false;
-  emits('blur', e);
+  emits('blur', currentValue.value, e);
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
