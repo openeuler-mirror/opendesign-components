@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { defaultSize, defaultShape } from '../_shared/global';
-import type { SizeT, ShapeT } from '../_shared/global';
+import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
+import { isNull, isUndefined } from '../_shared/is';
 import { IconArrowTraingleDown } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
@@ -11,7 +11,7 @@ interface InputPropT {
    * 下拉框的值
    * v-model
    */
-  modelValue: string | number;
+  modelValue: string;
   /**
    * 大小
    */
@@ -41,23 +41,32 @@ const props = withDefaults(defineProps<InputPropT>(), {
   type: 'text',
 });
 
-const currentValue = ref(props.modelValue);
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-  (e: 'change', value: string | number): void;
-  (e: 'input', evt: Event, value: string | number): void;
+  (e: 'update:modelValue', value: string): void;
+  (e: 'change', value: string): void;
+  (e: 'input', value: string, evt: Event): void;
   (e: 'blur', evt: Event): void;
   (e: 'focus', evt: Event): void;
+  (e: 'pressEnter', value: string, evt: Event): void;
 }>();
+const currentValue = ref(props.modelValue);
 
-function updateValue(val: string | number) {
+function updateValue(val: string) {
   currentValue.value = val;
   emits('change', val);
+  emits('update:modelValue', val);
 }
+
 watch(
   () => props.modelValue,
   (val) => {
-    updateValue(val);
+    if (isNull(val) || isUndefined(val)) {
+      currentValue.value = '';
+    }
+    if (currentValue.value !== val) {
+      currentValue.value = val;
+      emits('change', val);
+    }
   }
 );
 
@@ -69,8 +78,8 @@ const onInput = (e: Event) => {
     return;
   }
   const val = (e.target as HTMLInputElement)?.value;
-  console.log('onInput', val);
-  emits('input', e, val);
+  emits('input', val, e);
+  updateValue(val);
 };
 
 const onCompositionStart = () => {
@@ -86,29 +95,17 @@ const onCompositionEnd = (e: Event) => {
 };
 
 const onFocus = (e: FocusEvent) => {
-  console.log('onFocus', e);
   emits('focus', e);
 };
 
 const onBlur = (e: FocusEvent) => {
   emits('blur', e);
-  const val = (e.target as HTMLInputElement)?.value;
-  console.log('onBlur', val);
-  if (val !== currentValue.value) {
-    updateValue(val);
-    emits('update:modelValue', val);
-  }
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
   const keyCode = e.key || e.code;
   if (!isComposing && keyCode === Enter.key) {
-    const val = (e.target as HTMLInputElement)?.value;
-    console.log('onEnter', val);
-    if (val !== currentValue.value) {
-      updateValue(val);
-      emits('update:modelValue', val);
-    }
+    emits('pressEnter', currentValue.value, e);
   }
 };
 </script>
@@ -118,7 +115,7 @@ const onKeyDown = (e: KeyboardEvent) => {
     :class="[`o-input-size-${props.size || defaultSize}`, `o-input-shape-${props.shape || defaultShape}`, { 'is-disabled': props.disabled }]"
   >
     <input
-      :value="currentValue"
+      :value="props.modelValue ?? currentValue"
       :type="type"
       :placeholder="props.placeholder"
       class="o-input-input"
