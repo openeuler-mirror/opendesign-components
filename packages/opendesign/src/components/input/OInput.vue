@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
-import { isNull, isUndefined } from '../_shared/is';
+import { isFunction, isNull, isUndefined } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
@@ -29,13 +29,26 @@ interface InputPropT {
    */
   disabled?: boolean;
   /**
+   * 是否只读
+   */
+  readonly?: false;
+  /**
    * 是否可以清除
    */
   clearable?: boolean;
   /**
    * 是否是密码输入
    */
-  type?: 'text' | 'password' | 'textarea' | 'number';
+  type?: 'text' | 'password' | 'textarea';
+  /**
+   * 解析输入框的值
+   */
+  parse?: (value: string) => string;
+  /**
+   * 对值格式化，控制显示格式
+   * 需搭配parse处理，保证值的正确性
+   */
+  format?: (value: string | number) => string | number;
 }
 const props = withDefaults(defineProps<InputPropT>(), {
   value: '',
@@ -44,6 +57,8 @@ const props = withDefaults(defineProps<InputPropT>(), {
   placeholder: '',
   type: 'text',
   clearable: true,
+  parse: undefined,
+  format: undefined,
 });
 
 const emits = defineEmits<{
@@ -56,41 +71,35 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: string | number, evt: Event): void;
 }>();
 
+// 输入框值
 const currentValue = ref(props.value);
+// 输入框显示的字符串
+const displayValue = computed(() => {
+  if (isNull(currentValue.value) || isUndefined(currentValue.value)) {
+    return '';
+  }
+  return isFunction(props.format) ? props.format(currentValue.value) : currentValue.value;
+});
+
 const isFocus = ref(false);
 
 function updateValue(val: string) {
-  if (props.type === 'number') {
-    currentValue.value = parseInt(val);
-  } else {
-    currentValue.value = val;
-  }
+  currentValue.value = isFunction(props.parse) ? props.parse(val) : val;
 
   emits('change', val);
   emits('update:value', val);
 }
 
-watch(
-  () => props.value,
-  (val) => {
-    if (isNull(val) || isUndefined(val)) {
-      currentValue.value = '';
-    }
-    if (currentValue.value !== val) {
-      currentValue.value = val;
-      emits('change', val);
-    }
-  }
-);
-
 // 正在输入中文，处理输入过程中触发input事件
 let isComposing = false;
 
-const onInput = (e: Event) => {
+const onInput = (e: InputEvent) => {
   if (isComposing) {
     return;
   }
   const val = (e.target as HTMLInputElement)?.value;
+  console.log(e.data);
+
   updateValue(val);
   emits('input', currentValue.value, e);
 };
@@ -157,10 +166,11 @@ const clearClick = (e: Event) => {
         <slot name="prefix"></slot>
       </div>
       <input
-        :value="props.value ?? currentValue"
+        :value="displayValue"
         :type="type"
         :placeholder="props.placeholder"
         class="o-input-input"
+        :readonly="props.readonly || props.disabled"
         @focus="onFocus"
         @blur="onBlur"
         @input="onInput"

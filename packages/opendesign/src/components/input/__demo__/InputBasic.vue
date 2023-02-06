@@ -29,15 +29,6 @@ const printEvent = (event: string, val?: string | number) => {
       @press-enter="(v) => printEvent('press-enter', v)"
     />
     <OInput v-model:value="val3" />
-    <OInput
-      v-model:value="val4"
-      type="number"
-      @blur="() => printEvent('blur')"
-      @change="(v) => printEvent('change', v)"
-      @input="(v) => printEvent('input', v)"
-      @focus="printEvent('focus')"
-      @press-enter="(v) => printEvent('press-enter', v)"
-    />
     <OInput v-model:value="val3" type="password" />
   </section>
   <h4>Size</h4>

@@ -113,7 +113,7 @@ const goToChange = (val: string | number) => {
         <div class="o-pagination-pages">
           <template v-if="props.simple">
             <div class="o-pagination-simple">
-              <OInput v-model:value="currentPage" class="o-pagination-input" />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
+              <OInput v-model:value="currentPage" :clearable="false" class="o-pagination-input" />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
           </template>
           <template v-else>
@@ -149,7 +149,7 @@ const goToChange = (val: string | number) => {
           </OSelect>
         </div>
         <div class="o-pagination-goto">
-          {{ Labels.goto }}&nbsp;<OInput :value="currentPage" class="o-pagination-input" @blur="goToChange" @press-enter="goToChange" />
+          {{ Labels.goto }}&nbsp;<OInput :value="currentPage" class="o-pagination-input" :clearable="false" @blur="goToChange" @press-enter="goToChange" />
         </div>
       </template>
     </div>
