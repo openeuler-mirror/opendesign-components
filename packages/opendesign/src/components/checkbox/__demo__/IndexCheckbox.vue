@@ -7,6 +7,8 @@ import CheckboxDisabled from './CheckboxDisabled.vue';
 import CheckboxSlots from './CheckboxSlots.vue';
 import CheckboxGroup from './CheckboxGroup.vue';
 import CheckboxEvents from './CheckboxEvents.vue';
+import CheckboxIndeterminate from './CheckboxIndeterminate.vue';
+import CheckboxGroupLimit from './CheckboxGroupLimit.vue';
 </script>
 
 <template>
@@ -16,5 +18,7 @@ import CheckboxEvents from './CheckboxEvents.vue';
     <CheckboxSlots />
     <CheckboxGroup />
     <CheckboxEvents />
+    <CheckboxGroupLimit />
+    <CheckboxIndeterminate />
   </div>
 </template>
