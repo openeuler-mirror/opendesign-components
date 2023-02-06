@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import type { DividerTypeT, DividerDirectionT, DividerContentPositionT } from './types';
+import type { DividerTypeT, DividerContentPositionT } from './types';
+import type { DirectionT } from '../_shared/global';
 
 interface DividerPropT {
   /**
-   * 分割线类型：'solid' | 'dashed' | 'dotted'
+   * 分割线类型
+   * 'solid' | 'dashed' | 'dotted'
    */
   type?: DividerTypeT;
   /**
-   * 分割线方向：'horizontal' | 'vertical';
+   * 分割线方向
+   * 'horizontal' | 'vertical'
    */
-  direction?: DividerDirectionT;
+  direction?: DirectionT;
   /**
-   * 自定义内容位置：'left' | 'center' | 'right';
+   * 自定义内容位置
+   * 'left' | 'center' | 'right'
    */
   contentPosition?: DividerContentPositionT;
 }

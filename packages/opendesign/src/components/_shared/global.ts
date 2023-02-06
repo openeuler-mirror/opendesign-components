@@ -14,6 +14,8 @@ export function initShape(type: ShapeT) {
   defaultShape.value = type;
 }
 
+// 方向
+export type DirectionT = 'horizontal' | 'vertical';
 
 // 状态
 export type StatusT = 'normal' | 'primary' | 'warning' | 'danger' | 'success';
