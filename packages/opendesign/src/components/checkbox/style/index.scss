@@ -1,12 +1,10 @@
 @import './var.scss';
 
 .o-checkbox {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
+  color: var(--checkbox-color);
   font-size: var(--checkbox-text-size);
   line-height: var(--checkbox-text-height);
-  color: var(--checkbox-color);
+  height: var(--checkbox-text-height);
   cursor: pointer;
 
   input[type='checkbox'] {
@@ -26,7 +24,8 @@
     }
   }
 
-  &.is-checked {
+  &.is-checked,
+  &.is-indeterminate {
     .o-checkbox-icon {
       background-color: var(--checkbox-icon-checked);
       border-color: var(--checkbox-icon-checked);
@@ -41,12 +40,20 @@
     }
   }
 
-  &.is-checked.is-disabled {
+  &.is-checked.is-disabled,
+  &.is-indeterminate.is-disabled {
     .o-checkbox-icon {
       background-color: var(--checkbox-icon-checked_disabled);
       border-color: var(--checkbox-icon-checked_disabled);
     }
   }
+}
+
+.o-checkbox-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
 }
 
 .o-checkbox-icon {

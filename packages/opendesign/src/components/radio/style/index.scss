@@ -1,12 +1,10 @@
 @import './var.scss';
 
 .o-radio {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
+  color: var(--radio-color);
   font-size: var(--radio-text-size);
   line-height: var(--radio-text-height);
-  color: var(--radio-color);
+  height: var(--radio-text-height);
   cursor: pointer;
 
   input[type='radio'] {
@@ -43,6 +41,13 @@
       }
     }
   }
+}
+
+.o-radio-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
 }
 
 .o-radio-icon {

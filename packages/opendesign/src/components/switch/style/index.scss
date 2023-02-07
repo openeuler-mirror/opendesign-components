@@ -1,36 +1,11 @@
 @import './var.scss';
 
 .o-switch {
-  position: relative;
+  display: inline-block;
   background-color: var(--switch-bg);
   color: var(--switch-color);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
-
-  .o-switch-handler {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: var(--switch-handler-bg);
-    transition: left var(--o-duration-s) var(--o-easing-standard);
-
-    .o-switch-icon_loading {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--switch-bg);
-    }
-  }
-
-  .o-switch-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
   &.is-checked {
     background-color: var(--switch-bg-checked);
@@ -51,6 +26,36 @@
       }
     }
   }
+}
+
+.o-switch-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.o-switch-handler {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--switch-handler-bg);
+  transition: left var(--o-duration-s) var(--o-easing-standard);
+
+  .o-switch-icon-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--switch-bg);
+  }
+}
+
+.o-switch-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .o-switch.o-switch-shape-round {

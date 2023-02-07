@@ -105,6 +105,12 @@ export const routes = [
     label: '分页',
     component: () => import('@demo/pagination/__demo__/IndexPagination.vue'),
   },
+  {
+    path: '/divider',
+    name: 'Divider',
+    label: '分割线',
+    component: () => import('@demo/divider/__demo__/IndexDivider.vue'),
+  },
 ];
 
 export const router = createRouter({

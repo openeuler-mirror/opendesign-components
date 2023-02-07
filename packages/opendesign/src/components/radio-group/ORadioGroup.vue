@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { provide, toRefs } from 'vue';
 import { radioGroupInjectKey } from './provide';
-import type { RadioGroupDirectionT } from './types';
+import type { DirectionT } from '../_shared/global';
 
 interface RadioGroupPropT {
   /**
-   * 双向绑定值
+   * 单选框组双向绑定值
    */
   modelValue?: string | boolean | number;
   /**
@@ -13,9 +13,10 @@ interface RadioGroupPropT {
    */
   disabled?: boolean;
   /**
-   * 单选框组方向: 'horizontal' | 'vertical'
+   * 单选框组方向
+   * 'horizontal' | 'vertical'
    */
-  direction?: RadioGroupDirectionT;
+  direction?: DirectionT;
 }
 
 const props = withDefaults(defineProps<RadioGroupPropT>(), {
@@ -31,7 +32,7 @@ const emits = defineEmits<{
 
 const { modelValue, disabled } = toRefs(props);
 
-const onModelValueUpdate = (val: string | number | boolean) => {
+const updateModelValue = (val: string | number | boolean) => {
   emits('update:modelValue', val);
 };
 
@@ -39,11 +40,11 @@ const onChange = (val: string | number | boolean) => {
   emits('change', val);
 };
 
-provide(radioGroupInjectKey, { modelValue, disabled, onModelValueUpdate, onChange });
+provide(radioGroupInjectKey, { modelValue, disabled, updateModelValue, onChange });
 </script>
 
 <template>
-  <div class="o-radio-group" :class="[`is-${props.direction}`]">
+  <div class="o-radio-group" :class="[`o-radio-group-direction-${props.direction}`]">
     <slot></slot>
   </div>
 </template>

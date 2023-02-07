@@ -8,7 +8,7 @@ interface RadioPropT {
    */
   value: string | boolean | number;
   /**
-   * 双向绑定值
+   * 单选框双向绑定值
    */
   modelValue?: string | boolean | number;
   /**
@@ -45,7 +45,7 @@ const onChange = () => {
 
   const val = props.value;
   emits('update:modelValue', val);
-  radioGroupInjection?.onModelValueUpdate(val);
+  radioGroupInjection?.updateModelValue(val);
   nextTick(() => {
     emits('change', val);
     radioGroupInjection?.onChange(val);
@@ -59,13 +59,15 @@ defineExpose({
 
 <template>
   <label class="o-radio" :class="{ 'is-checked': isChecked, 'is-disabled': isDisabled }">
-    <input type="radio" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
-    <slot v-if="$slots.radio" name="radio" :checked="isChecked" :disabled="isDisabled"></slot>
-    <template v-else>
-      <span class="o-radio-icon"></span>
-      <span class="o-radio-label">
-        <slot></slot>
-      </span>
-    </template>
+    <div class="o-radio-wrapper">
+      <input type="radio" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <slot v-if="$slots.radio" name="radio" :checked="isChecked" :disabled="isDisabled"></slot>
+      <template v-else>
+        <span class="o-radio-icon"></span>
+        <span class="o-radio-label">
+          <slot></slot>
+        </span>
+      </template>
+    </div>
   </label>
 </template>

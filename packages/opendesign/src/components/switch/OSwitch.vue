@@ -91,14 +91,16 @@ const onClick = () => {
     ]"
     @click="onClick"
   >
-    <div class="o-switch-handler">
-      <span v-if="props.loading" class="o-switch-icon_loading o-rotating">
-        <IconLoading />
-      </span>
-    </div>
-    <div v-if="$slots.on || $slots.off" class="o-switch-content">
-      <slot v-if="props.modelValue" name="on"></slot>
-      <slot v-else name="off"></slot>
+    <div class="o-switch-wrapper">
+      <div class="o-switch-handler">
+        <span v-if="props.loading" class="o-switch-icon-loading o-rotating">
+          <IconLoading />
+        </span>
+      </div>
+      <div v-if="$slots.on || $slots.off" class="o-switch-content">
+        <slot v-if="props.modelValue" name="on"></slot>
+        <slot v-else name="off"></slot>
+      </div>
     </div>
   </div>
 </template>

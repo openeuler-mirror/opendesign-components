@@ -8,6 +8,8 @@ import {
   IconArrowRight,
   IconX,
   IconAdd as _IconAdd,
+  IconMinus as _IconMinus,
+  IconDone as _IconDone,
 } from '../icons';
 
 /**
@@ -33,6 +35,7 @@ export const IconLinkArrow = shallowRef<Component>(IconArrowRight);
 export function initLinkArrowIcon(icon: Component) {
   IconLinkArrow.value = icon;
 }
+
 /**
  * close图标
  */
@@ -40,10 +43,27 @@ export const IconClose = shallowRef<Component>(IconX);
 export function initCloseIcon(icon: Component) {
   IconClose.value = icon;
 }
+
 /**
  * add图标
  */
 export const IconAdd = shallowRef<Component>(_IconAdd);
 export function initAddIcon(icon: Component) {
   IconAdd.value = icon;
+}
+
+/**
+ * minus图标
+ */
+export const IconMinus = shallowRef<Component>(_IconMinus);
+export function initMinusIcon(icon: Component) {
+  IconMinus.value = icon;
+}
+
+/**
+ * done图标
+ */
+export const IconDone = shallowRef<Component>(_IconDone);
+export function initDoneIcon(icon: Component) {
+  IconDone.value = icon;
 }
