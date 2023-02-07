@@ -64,6 +64,12 @@ export const routes = [
     component: () => import('@demo/input/__demo__/IndexInput.vue'),
   },
   {
+    path: '/input-number',
+    name: 'InputNumber',
+    label: '数字输入框',
+    component: () => import('@demo/input-number/__demo__/IndexInputNumber.vue'),
+  },
+  {
     path: '/select',
     name: 'Select',
     label: '下拉框',
