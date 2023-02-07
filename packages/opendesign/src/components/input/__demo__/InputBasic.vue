@@ -38,6 +38,13 @@ const printEvent = (event: string, val?: string | number) => {
     <OInput v-model:value="val2" />
     <OInput v-model:value="val3" size="large" />
   </section>
+  <h4>Status</h4>
+  <section>
+    <div>val1:{{ val1 }}</div>
+    <OInput v-model:value="val2" status="success" />
+    <OInput v-model:value="val2" status="warning" />
+    <OInput v-model:value="val2" status="error" />
+  </section>
   <h4>Disabled</h4>
   <section>
     <div>val1:{{ val1 }}</div>

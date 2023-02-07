@@ -61,19 +61,48 @@
     border-color: var(--input-border-hover);
     background-color: var(--input-bg-hover);
   }
-  .o-input.is-focus & {
-    border-color: var(--input-border-active);
-    background-color: var(--input-bg-active);
-  }
-  .o-input.is-disabled & {
-    color: var(--input-color-disabled);
-    cursor: not-allowed;
-    border-color: var(--input-border-disabled);
-    background-color: var(--input-bg-disabled);
-  }
 
-  .o-input:not(.is-disabled) & {
-    &.clearable {
+  &.has-prepend {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  &.has-append {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+.o-input {
+  &:not(.is-disabled) {
+    &.is-success {
+      color: var(--input-success);
+      .o-input-wrap {
+        border-color: var(--input-border-success);
+        background-color: var(--input-bg-success);
+      }
+    }
+    &.is-warning {
+      color: var(--input-warning);
+      .o-input-wrap {
+        border-color: var(--input-border-warning);
+        background-color: var(--input-bg-warning);
+      }
+    }
+    &.is-error {
+      color: var(--input-error);
+      .o-input-wrap {
+        border-color: var(--input-border-error);
+        background-color: var(--input-bg-error);
+      }
+    }
+
+    &.is-focus {
+      .o-input-wrap {
+        border-color: var(--input-border-active);
+        background-color: var(--input-bg-active);
+      }
+    }
+
+    .o-input-wrap.clearable {
       &.has-suffix {
         .o-input-clear {
           position: absolute;
@@ -97,13 +126,12 @@
       }
     }
   }
-  &.has-prepend {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  &.has-append {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+
+  &.is-disabled .o-input-wrap {
+    color: var(--input-color-disabled);
+    cursor: not-allowed;
+    border-color: var(--input-border-disabled);
+    background-color: var(--input-bg-disabled);
   }
 }
 

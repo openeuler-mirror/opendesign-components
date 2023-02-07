@@ -21,7 +21,7 @@ const val2 = ref('this is input value');
         <IconDone />
       </template>
     </OInput>
-    <OInput v-model:value="val2" :clearable="false">
+    <OInput v-model:value="val2">
       <template #suffix> 元 </template>
     </OInput>
   </section>

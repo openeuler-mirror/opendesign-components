@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
 import { isFunction, isNull, isUndefined } from '../_shared/is';
 import { IconX } from '../icons';
@@ -24,6 +24,10 @@ interface InputPropT {
    * 提示文本
    */
   placeholder?: string;
+  /**
+   * 状态，显示指定，用于非表单场景
+   */
+  status?: 'success' | 'warning' | 'error';
   /**
    * 是否禁用
    */
@@ -59,6 +63,7 @@ const props = withDefaults(defineProps<InputPropT>(), {
   clearable: true,
   parse: undefined,
   format: undefined,
+  status: undefined,
 });
 
 const emits = defineEmits<{
@@ -80,6 +85,8 @@ const displayValue = computed(() => {
   }
   return isFunction(props.format) ? props.format(currentValue.value) : currentValue.value;
 });
+
+const status = ref<undefined | 'warning' | 'warn' | 'error'>();
 
 const isFocus = ref(false);
 
@@ -142,6 +149,7 @@ const clearClick = (e: Event) => {
   <label
     class="o-input"
     :class="[
+      `is-${status || props.status}`,
       `o-input-size-${props.size || defaultSize}`,
       `o-input-shape-${props.shape || defaultShape}`,
       {
