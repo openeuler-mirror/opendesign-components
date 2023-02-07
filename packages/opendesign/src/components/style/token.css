@@ -64,13 +64,13 @@
   --o-color-bg4: #e5e8f0;
   /* 文字色 */
   --o-color-text1: #000000;
-  --o-color-text1_inverse: #ffffff;
+  --o-color-text1-inverse: #ffffff;
   --o-color-text2: #3f3f3f;
-  --o-color-text2_inverse: #e5e5e5;
+  --o-color-text2-inverse: #e5e5e5;
   --o-color-text3: #707070;
-  --o-color-text3_inverse: #b2b2b2;
+  --o-color-text3-inverse: #b2b2b2;
   --o-color-text4: #cccccc;
-  --o-color-text4_inverse: #e5e5e5;
+  --o-color-text4-inverse: #e5e5e5;
   /* 遮罩色 */
   --o-color-mask1: rgba(0, 0, 0, 0.5);
   /* 边框色 */

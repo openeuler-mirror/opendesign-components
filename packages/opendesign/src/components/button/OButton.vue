@@ -46,5 +46,8 @@ const props = withDefaults(defineProps<ButtonPropT>(), {
       <slot v-else-if="$slots.icon" name="icon"></slot>
     </span>
     <slot></slot>
+    <span v-if="$slots.iconSuffix" class="o-btn-icon suffix">
+      <slot name="iconSuffix"></slot>
+    </span>
   </button>
 </template>

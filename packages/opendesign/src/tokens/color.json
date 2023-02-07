@@ -255,7 +255,7 @@
         }
       },
       {
-        "key": "color-text1_inverse",
+        "key": "color-text1-inverse",
         "name": "标题反色",
         "description": "用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题",
         "value": {
@@ -271,7 +271,7 @@
         }
       },
       {
-        "key": "color-text2_inverse",
+        "key": "color-text2-inverse",
         "name": "正文反色",
         "description": "用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文",
         "value": {
@@ -287,7 +287,7 @@
         }
       },
       {
-        "key": "color-text3_inverse",
+        "key": "color-text3-inverse",
         "name": "提示反色",
         "description": "用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示",
         "value": {
@@ -303,7 +303,7 @@
         }
       },
       {
-        "key": "color-text4_inverse",
+        "key": "color-text4-inverse",
         "name": "置灰反色",
         "description": "用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本",
         "value": {

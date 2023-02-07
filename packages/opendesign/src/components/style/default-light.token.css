@@ -189,7 +189,7 @@
    * @group text
    * @description 用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题
    */
-  --o-color-text1_inverse: #ffffff;
+  --o-color-text1-inverse: #ffffff;
   /**
    * @name 正文色
    * @type color
@@ -203,7 +203,7 @@
    * @group text
    * @description 用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文
    */
-  --o-color-text2_inverse: #e5e5e5;
+  --o-color-text2-inverse: #e5e5e5;
   /**
    * @name 提示色
    * @type color
@@ -217,7 +217,7 @@
    * @group text
    * @description 用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示
    */
-  --o-color-text3_inverse: #b2b2b2;
+  --o-color-text3-inverse: #b2b2b2;
   /**
    * @name 置灰色
    * @type color
@@ -231,7 +231,7 @@
    * @group text
    * @description 用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本
    */
-  --o-color-text4_inverse: #e5e5e5;
+  --o-color-text4-inverse: #e5e5e5;
   /**
    * @name 边框色
    * @type color
@@ -255,27 +255,27 @@
   --o-color-division1: #707070;
   /**
    * @name 遮罩色1
-   * @type mask
+   * @type color
    * @group mask
    * @description 用于弹窗遮罩色
    */
   --o-color-mask1: rgba(0, 0, 0, 0.5);
   /**
-   * @name 阴影色1
+   * @name 阴影1
    * @type shadow
    * @group shadow
    * @description 用于卡片、小弹窗、楼层阴影
    */
   --o-shadow-1: 0 1px 5px rgba(45, 47, 51, 0.1);
   /**
-   * @name 阴影色2
+   * @name 阴影2
    * @type shadow
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
   --o-shadow-2: 0 6px 18px rgba(0, 47, 167, 0.14);
   /**
-   * @name 阴影色3
+   * @name 阴影3
    * @type shadow
    * @group shadow
    * @description 用于提示阴影
@@ -542,21 +542,21 @@
   --o-line_height-tip2: 14px;
   /**
    * @name 大尺寸圆角
-   * @type radius
+   * @type size
    * @group radius
    * @description 大尺寸圆角
    */
   --o-radius-l: 16px;
   /**
    * @name 中尺寸圆角
-   * @type radius
+   * @type size
    * @group radius
    * @description 中尺寸圆角
    */
   --o-radius-m: 8px;
   /**
    * @name 小尺寸圆角
-   * @type radius
+   * @type size
    * @group radius
    * @description 小尺寸圆角
    */

@@ -207,11 +207,11 @@
     "description": "标题色: 用于强调、标题颜色[light: #000000]",
     "scope": "css,scss,less"
   },
-  "--o-color-text1_inverse": {
+  "--o-color-text1-inverse": {
     "prefix": [
-      "--o-color-text1_inverse"
+      "--o-color-text1-inverse"
     ],
-    "body": "var(--o-color-text1_inverse)",
+    "body": "var(--o-color-text1-inverse)",
     "description": "标题反色: 用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题[light: #ffffff]",
     "scope": "css,scss,less"
   },
@@ -223,11 +223,11 @@
     "description": "正文色: 用于次强调、次级标题、正文颜色[light: #3f3f3f]",
     "scope": "css,scss,less"
   },
-  "--o-color-text2_inverse": {
+  "--o-color-text2-inverse": {
     "prefix": [
-      "--o-color-text2_inverse"
+      "--o-color-text2-inverse"
     ],
-    "body": "var(--o-color-text2_inverse)",
+    "body": "var(--o-color-text2-inverse)",
     "description": "正文反色: 用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文[light: #e5e5e5]",
     "scope": "css,scss,less"
   },
@@ -239,11 +239,11 @@
     "description": "提示色: 用于提示文本颜色[light: #707070]",
     "scope": "css,scss,less"
   },
-  "--o-color-text3_inverse": {
+  "--o-color-text3-inverse": {
     "prefix": [
-      "--o-color-text3_inverse"
+      "--o-color-text3-inverse"
     ],
-    "body": "var(--o-color-text3_inverse)",
+    "body": "var(--o-color-text3-inverse)",
     "description": "提示反色: 用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示[light: #b2b2b2]",
     "scope": "css,scss,less"
   },
@@ -255,11 +255,11 @@
     "description": "置灰色: 用于禁用文本颜色[light: #cccccc]",
     "scope": "css,scss,less"
   },
-  "--o-color-text4_inverse": {
+  "--o-color-text4-inverse": {
     "prefix": [
-      "--o-color-text4_inverse"
+      "--o-color-text4-inverse"
     ],
-    "body": "var(--o-color-text4_inverse)",
+    "body": "var(--o-color-text4-inverse)",
     "description": "置灰反色: 用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本[light: #e5e5e5]",
     "scope": "css,scss,less"
   },
@@ -300,7 +300,7 @@
       "--o-shadow-1"
     ],
     "body": "var(--o-shadow-1)",
-    "description": "阴影色1: 用于卡片、小弹窗、楼层阴影[light: 0 1px 5px rgba(45, 47, 51, 0.1)]",
+    "description": "阴影1: 用于卡片、小弹窗、楼层阴影[light: 0 1px 5px rgba(45, 47, 51, 0.1)]",
     "scope": "css,scss,less"
   },
   "--o-shadow-2": {
@@ -308,7 +308,7 @@
       "--o-shadow-2"
     ],
     "body": "var(--o-shadow-2)",
-    "description": "阴影色2: 用于卡片悬浮阴影[light: 0 6px 18px rgba(0, 47, 167, 0.14)]",
+    "description": "阴影2: 用于卡片悬浮阴影[light: 0 6px 18px rgba(0, 47, 167, 0.14)]",
     "scope": "css,scss,less"
   },
   "--o-shadow-3": {
@@ -316,7 +316,7 @@
       "--o-shadow-3"
     ],
     "body": "var(--o-shadow-3)",
-    "description": "阴影色3: 用于提示阴影[light: 0 10px 32px rgba(45, 47, 51, 0.18)]",
+    "description": "阴影3: 用于提示阴影[light: 0 10px 32px rgba(45, 47, 51, 0.18)]",
     "scope": "css,scss,less"
   },
   "--o-gap-1": {

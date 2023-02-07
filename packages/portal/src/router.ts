@@ -40,6 +40,12 @@ export const routes = [
     component: () => import('@demo/intersection-observer/__demo__/IndexIntersection.vue'),
   },
   {
+    path: '/child-only',
+    name: 'ChildOnly',
+    label: '只渲染一个子元素',
+    component: () => import('@demo/child-only/__demo__/IndexChildOnly.vue'),
+  },
+  {
     path: '/popup',
     name: 'Popup',
     label: '弹层',
@@ -50,6 +56,18 @@ export const routes = [
     name: 'Popover',
     label: '弹出框',
     component: () => import('@demo/popover/__demo__/IndexPopover.vue'),
+  },
+  {
+    path: '/input',
+    name: 'Input',
+    label: '输入框',
+    component: () => import('@demo/input/__demo__/IndexInput.vue'),
+  },
+  {
+    path: '/input-number',
+    name: 'InputNumber',
+    label: '数字输入框',
+    component: () => import('@demo/input-number/__demo__/IndexInputNumber.vue'),
   },
   {
     path: '/select',
@@ -74,6 +92,18 @@ export const routes = [
     name: 'Tabs',
     label: '标签页',
     component: () => import('@demo/tabs/__demo__/IndexTabs.vue'),
+  },
+  {
+    path: '/table',
+    name: 'Table',
+    label: '表格',
+    component: () => import('@demo/table/__demo__/IndexTable.vue'),
+  },
+  {
+    path: '/pagination',
+    name: 'Pagination',
+    label: '分页',
+    component: () => import('@demo/pagination/__demo__/IndexPagination.vue'),
   },
   {
     path: '/divider',

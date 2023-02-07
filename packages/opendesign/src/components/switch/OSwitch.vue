@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isPromise, isBoolean } from '../_shared/utils';
+import { isPromise, isBoolean } from '../_shared/is';
 
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';

@@ -1,4 +1,4 @@
-import { isArray } from './utils';
+import { isArray } from './is';
 
 export type DirectionT = 'left' | 'right' | 'top' | 'bottom';
 

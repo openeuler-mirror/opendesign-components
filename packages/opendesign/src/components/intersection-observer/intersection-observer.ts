@@ -6,7 +6,7 @@ import { useIntersectionObserverDirective } from '../hooks';
  * 如果有多个子元素，每个子元素都会被监听到
  */
 export default defineComponent({
-  name: 'ResizeObserver',
+  name: 'OIntersectionObserver',
   emits: ['intersection'],
   setup(props, { emit, slots }) {
     const { vIntersectionObserver } = useIntersectionObserverDirective({

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ResizeObserver from './ResizeDemo.vue';
+import OResizeObserver from './ResizeDemo.vue';
 </script>
 <template>
   <div class="page-demo">
-    <ResizeObserver />
+    <OResizeObserver />
   </div>
 </template>
 <style lang="scss"></style>

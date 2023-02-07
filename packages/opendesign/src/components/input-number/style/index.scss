@@ -1,0 +1,8 @@
+@import './var.scss';
+@import '../../input/style/index.scss';
+
+.o-input-number {
+  cursor: pointer;
+  color: var(--input-color);
+  display: inline-flex;
+}
