@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
 import { isFunction, isNull, isUndefined } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
+import { toInputString } from './input';
 
 interface InputPropT {
   /**
@@ -75,59 +76,60 @@ const props = withDefaults(defineProps<InputPropT>(), {
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
   (e: 'change', value: string | number): void;
-  (e: 'input', value: string | number, evt: Event): void;
+  (e: 'input', value: string, evt: Event): void;
   (e: 'blur', value: string | number, evt: FocusEvent): void;
   (e: 'focus', value: string | number, evt: FocusEvent): void;
   (e: 'clear', evt: Event): void;
-  (e: 'pressEnter', value: string | number, evt: Event): void;
+  (e: 'pressEnter', value: string | number, evt: KeyboardEvent): void;
 }>();
 
 const inputRef = ref<HTMLElement | null>(null);
-// 输入框值
-const currentValue = ref(props.defaultValue);
-const computedValue = computed(() => {
-  return props.modelValue ?? currentValue.value;
-});
+// 数字输入框当前值
+const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
+// 监听属性变化，刷新值
+watch(
+  () => props.modelValue,
+  (val) => {
+    // console.log('watch', val);
+    realValue.value = toInputString(val);
+  }
+);
 
 // 输入框显示的字符串
 const displayValue = computed(() => {
-  if (isNull(computedValue.value) || isUndefined(computedValue.value)) {
-    return '';
-  }
-  return isFunction(props.format) ? props.format(computedValue.value) : computedValue.value;
+  const v = isFunction(props.format) ? props.format(realValue.value) : realValue.value;
+  // console.log('displayValue', v, realValue.value);
+  return v;
 });
 
+// 输入框状态
 const status = ref<undefined | 'warning' | 'warn' | 'error'>();
 const statusClass = computed(() => (status.value || props.status ? `is-${status.value || props.status}` : ''));
 
+// 是否聚焦状态
 const isFocus = ref(false);
+let lastValue: number | string = realValue.value;
 
 function updateValue(val: string) {
-  currentValue.value = isFunction(props.parse) ? props.parse(val) : val;
+  const value = isFunction(props.parse) ? props.parse(val) : val;
+  emits('update:modelValue', value);
 
-  emits('change', currentValue.value);
-  emits('update:modelValue', currentValue.value);
+  if (lastValue !== value) {
+    emits('change', value);
+    lastValue = value;
+  }
+  return value;
 }
 
 // 正在输入中文，处理输入过程中触发input事件
 let isComposing = false;
 let clickInside = false;
 
-const onInput = (e: Event) => {
-  if (isComposing) {
-    return;
-  }
-  const val = (e.target as HTMLInputElement)?.value;
-
-  updateValue(val);
-  nextTick(() => {
-    emits('input', computedValue.value, e);
-  });
-};
-
+// 开始中文输入
 const onCompositionStart = () => {
   isComposing = true;
 };
+// 结束中文输入
 const onCompositionEnd = (e: Event) => {
   if (!isComposing) {
     return;
@@ -137,13 +139,29 @@ const onCompositionEnd = (e: Event) => {
   trigger(e.target as HTMLElement, 'input');
 };
 
+const onInput = (e: Event) => {
+  if (isComposing) {
+    return;
+  }
+  const val = (e.target as HTMLInputElement)?.value;
+  emits('input', val, e);
+  // console.log('input', val);
+
+  if (!props.parse) {
+    emits('update:modelValue', val);
+    // console.log('update:modelValue', val);
+  }
+};
+
 const onFocus = (e: FocusEvent) => {
   clickInside = false;
   if (isFocus.value) {
     return;
   }
+  console.log('onFocus', clickInside);
   isFocus.value = true;
-  emits('focus', computedValue.value, e);
+  emits('focus', realValue.value, e);
+  // console.log('focus', realValue.value);
 };
 
 const onBlur = (e: FocusEvent) => {
@@ -151,23 +169,32 @@ const onBlur = (e: FocusEvent) => {
     clickInside = false;
     return;
   }
+  console.log('onBlur', clickInside);
   isFocus.value = false;
-  emits('blur', computedValue.value, e);
+  const val = (e.target as HTMLInputElement)?.value;
+  const v = updateValue(val);
+  emits('blur', v, e);
+  // console.log('blur', v);
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
   const keyCode = e.key || e.code;
   if (!isComposing && keyCode === Enter.key) {
-    emits('pressEnter', computedValue.value, e);
+    const val = (e.target as HTMLInputElement)?.value;
+    const v = updateValue(val);
+    emits('pressEnter', v, e);
+    // console.log('pressEnter', v);
   }
 };
-
+// 清除值
 const clearClick = (e: Event) => {
   updateValue('');
   emits('clear', e);
 };
-const onMouseDown = () => {
-  clickInside = true;
+const onMouseDown = (e: MouseEvent) => {
+  if ((e.target as HTMLInputElement) !== inputRef.value) {
+    clickInside = true;
+  }
 };
 </script>
 <template>
@@ -191,7 +218,7 @@ const onMouseDown = () => {
       class="o-input-wrap"
       :class="{
         'has-suffix': $slots.suffix,
-        clearable: props.clearable && computedValue !== '',
+        clearable: props.clearable && realValue !== '',
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
       }"

@@ -12,7 +12,7 @@ setTimeout(() => {
 }, 2000);
 
 const printEvent = (event: string, val?: string | number) => {
-  console.log(event, val);
+  console.log(`[${event}]`, val);
 };
 </script>
 <template>
@@ -20,12 +20,14 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>val1:{{ val1 }}</div>
     <OInput v-model="val1" />
+    <div>val2:{{ val2 }}</div>
     <OInput
       v-model="val2"
       @blur="(v) => printEvent('blur', v)"
       @change="(v) => printEvent('change', v)"
       @input="(v) => printEvent('input', v)"
       @focus="(v) => printEvent('focus', v)"
+      @clear="(v) => printEvent('clear')"
       @press-enter="(v) => printEvent('press-enter', v)"
     />
     <OInput v-model="val3" />

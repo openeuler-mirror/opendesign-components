@@ -2,19 +2,17 @@
 import { ref } from 'vue';
 import { OInput } from '../index';
 
-const val1 = ref('');
 const val2 = ref('this is input value');
 const event = ref('--');
 
 const printEvent = (evt: string, val?: string | number) => {
-  console.log(evt, val);
+  console.log(`[${evt}]`, val);
   event.value = evt;
 };
 </script>
 <template>
   <h4>Event</h4>
   <section>
-    <div>val1:{{ val1 }}</div>
     <OInput
       v-model="val2"
       @blur="(v) => printEvent('blur', v)"
@@ -26,7 +24,7 @@ const printEvent = (evt: string, val?: string | number) => {
       <template #prepend>+86</template>
       <template #append>RMB</template>
     </OInput>
-    value: {{ val1 }}; event:{{ event }};
+    value: {{ val2 }}; event:{{ event }};
   </section>
 </template>
 <style lang="scss"></style>
