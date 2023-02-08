@@ -33,7 +33,9 @@ body {
 
 .page-demo {
   padding: 8px 24px;
-  color: var(--o-color-text1);
+  h4 {
+    color: var(--o-color-text1);
+  }
 }
 section {
   border: 1px solid var(--o-color-border2);
