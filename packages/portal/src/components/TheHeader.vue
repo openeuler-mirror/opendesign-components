@@ -19,11 +19,11 @@ const globalSetting = () => {
 </template>
 <style lang="scss" scoped>
 .the-header {
-  color: #333;
+  color: var(--o-color-text1);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f6f6f6;
+  background-color: var(--o-color-bg3);
   box-shadow: 0px 2px 8px rgba($color: #000000, $alpha: 0.1);
 }
 .tools {

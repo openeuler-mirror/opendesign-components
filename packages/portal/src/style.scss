@@ -33,9 +33,12 @@ body {
 
 .page-demo {
   padding: 8px 24px;
+  h4 {
+    color: var(--o-color-text1);
+  }
 }
 section {
-  border: 1px solid #eee;
+  border: 1px solid var(--o-color-border2);
   padding: var(--o-gap-4);
 
   h4 {
