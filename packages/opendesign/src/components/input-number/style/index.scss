@@ -2,7 +2,48 @@
 @import '../../input/style/index.scss';
 
 .o-input-number {
-  cursor: pointer;
-  color: var(--input-color);
-  display: inline-flex;
+  .o-input-prepend,
+  .o-input-append {
+    font-size: 14px;
+
+    &:hover {
+      color: var(--input-number-btn-color);
+    }
+  }
+
+  &.is-disabled {
+    .o-input-prepend,
+    .o-input-append {
+      background-color: var(--input-number-btn-bg-disabled);
+      color: var(--input-number-btn-color-disabled);
+    }
+  }
+  &.is-invalid {
+    .o-input-input {
+      text-decoration: line-through;
+    }
+  }
+}
+.o-input-number-btn {
+  user-select: none;
+}
+.o-input-number-size-small {
+  width: 90px;
+  .o-input-number-btn {
+    // padding: 0 4px;
+  }
+}
+.o-input-number-size-normal {
+  width: 120px;
+
+  .o-input-number-btn {
+    // padding: 0 8px;
+  }
+}
+.o-input-number-size-large {
+  width: 160px;
+
+  .o-input-number-btn {
+    // padding: 0 12px;
+  }
 }

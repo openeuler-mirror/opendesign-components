@@ -11,7 +11,7 @@ const parse = (val: string) => val.replace(/^\$/g, '');
   <h4>Parse & Format</h4>
   <section>
     <div>val1:{{ val1 }}</div>
-    <OInput v-model:value="val2" :format="format" :parse="parse" />
+    <OInput v-model="val2" :format="format" :parse="parse" />
   </section>
 </template>
 <style lang="scss"></style>

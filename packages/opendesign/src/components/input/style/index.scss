@@ -15,6 +15,17 @@
     padding-right: 6px;
     border-radius: var(--input-radius-s);
   }
+  .o-input-append {
+    border-top-right-radius: var(--input-radius-s);
+    border-bottom-right-radius: var(--input-radius-s);
+    padding: 0 4px;
+  }
+
+  .o-input-prepend {
+    padding: 0 4px;
+    border-top-left-radius: var(--input-radius-s);
+    border-bottom-left-radius: var(--input-radius-s);
+  }
 }
 
 .o-input-size-normal {
@@ -29,9 +40,11 @@
   .o-input-append {
     border-top-right-radius: var(--input-radius-m);
     border-bottom-right-radius: var(--input-radius-m);
+    padding: 0 8px;
   }
 
   .o-input-prepend {
+    padding: 0 8px;
     border-top-left-radius: var(--input-radius-m);
     border-bottom-left-radius: var(--input-radius-m);
   }
@@ -46,10 +59,57 @@
     padding-right: 16px;
     border-radius: var(--input-radius-l);
   }
+  .o-input-append {
+    border-top-right-radius: var(--input-radius-l);
+    border-bottom-right-radius: var(--input-radius-l);
+    padding: 0 12px;
+  }
+
+  .o-input-prepend {
+    padding: 0 12px;
+    border-top-left-radius: var(--input-radius-l);
+    border-bottom-left-radius: var(--input-radius-l);
+  }
 }
 
 .o-input-shape-round {
-  border-radius: 100px;
+  .o-input-wrap {
+    border-radius: 100px;
+  }
+  .o-input-prepend {
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+  }
+
+  .o-input-append {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+  }
+
+  &.o-input-size-large {
+    .o-input-prepend {
+      padding-left: 18px;
+    }
+    .o-input-append {
+      padding-right: 18px;
+    }
+  }
+  &.o-input-size-normal {
+    .o-input-prepend {
+      padding-left: 12px;
+    }
+    .o-input-append {
+      padding-right: 12px;
+    }
+  }
+  &.o-input-size-small {
+    .o-input-prepend {
+      padding-left: 6px;
+    }
+    .o-input-append {
+      padding-right: 6px;
+    }
+  }
 }
 
 .o-input-wrap {
@@ -145,6 +205,7 @@
   width: 100%;
   caret-color: var(--o-color-primary1);
   padding: 4px 0;
+  line-height: inherit;
 }
 
 .o-input-clear {
@@ -179,15 +240,16 @@
 .o-input-prepend {
   display: flex;
   align-items: center;
-  padding: 0 8px;
 }
 
 .o-input-append {
   border: 1px solid var(--o-color-border2);
   border-left: 0;
+  flex-shrink: 0;
 }
 
 .o-input-prepend {
   border: 1px solid var(--o-color-border2);
   border-right: 0;
+  flex-shrink: 0;
 }

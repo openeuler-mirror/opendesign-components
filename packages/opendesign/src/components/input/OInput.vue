@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
 import { isFunction, isNull, isUndefined } from '../_shared/is';
 import { IconX } from '../icons';
@@ -11,7 +11,12 @@ interface InputPropT {
    * 下拉框的值
    * v-model
    */
-  value: string | number;
+  modelValue?: string | number;
+  /**
+   * 下拉框的默认值
+   * 非受控
+   */
+  defaultValue?: string | number;
   /**
    * 大小
    */
@@ -35,7 +40,7 @@ interface InputPropT {
   /**
    * 是否只读
    */
-  readonly?: false;
+  readonly?: boolean;
   /**
    * 是否可以清除
    */
@@ -55,7 +60,8 @@ interface InputPropT {
   format?: (value: string | number) => string | number;
 }
 const props = withDefaults(defineProps<InputPropT>(), {
-  value: '',
+  modelValue: undefined,
+  defaultValue: '',
   size: undefined,
   shape: undefined,
   placeholder: '',
@@ -67,7 +73,7 @@ const props = withDefaults(defineProps<InputPropT>(), {
 });
 
 const emits = defineEmits<{
-  (e: 'update:value', value: string | number): void;
+  (e: 'update:modelValue', value: string | number): void;
   (e: 'change', value: string | number): void;
   (e: 'input', value: string | number, evt: Event): void;
   (e: 'blur', value: string | number, evt: FocusEvent): void;
@@ -76,39 +82,47 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: string | number, evt: Event): void;
 }>();
 
+const inputRef = ref<HTMLElement | null>(null);
 // 输入框值
-const currentValue = ref(props.value);
+const currentValue = ref(props.defaultValue);
+const computedValue = computed(() => {
+  return props.modelValue ?? currentValue.value;
+});
+
 // 输入框显示的字符串
 const displayValue = computed(() => {
-  if (isNull(currentValue.value) || isUndefined(currentValue.value)) {
+  if (isNull(computedValue.value) || isUndefined(computedValue.value)) {
     return '';
   }
-  return isFunction(props.format) ? props.format(currentValue.value) : currentValue.value;
+  return isFunction(props.format) ? props.format(computedValue.value) : computedValue.value;
 });
 
 const status = ref<undefined | 'warning' | 'warn' | 'error'>();
+const statusClass = computed(() => (status.value || props.status ? `is-${status.value || props.status}` : ''));
 
 const isFocus = ref(false);
 
 function updateValue(val: string) {
   currentValue.value = isFunction(props.parse) ? props.parse(val) : val;
 
-  emits('change', val);
-  emits('update:value', val);
+  emits('change', currentValue.value);
+  emits('update:modelValue', currentValue.value);
 }
 
 // 正在输入中文，处理输入过程中触发input事件
 let isComposing = false;
+let clickInside = false;
 
-const onInput = (e: InputEvent) => {
+const onInput = (e: Event) => {
   if (isComposing) {
     return;
   }
   const val = (e.target as HTMLInputElement)?.value;
-  console.log(e.data);
 
   updateValue(val);
-  emits('input', currentValue.value, e);
+  nextTick(() => {
+    emits('input', computedValue.value, e);
+  });
 };
 
 const onCompositionStart = () => {
@@ -124,19 +138,27 @@ const onCompositionEnd = (e: Event) => {
 };
 
 const onFocus = (e: FocusEvent) => {
+  clickInside = false;
+  if (isFocus.value) {
+    return;
+  }
   isFocus.value = true;
-  emits('focus', currentValue.value, e);
+  emits('focus', computedValue.value, e);
 };
 
 const onBlur = (e: FocusEvent) => {
+  if (clickInside) {
+    clickInside = false;
+    return;
+  }
   isFocus.value = false;
-  emits('blur', currentValue.value, e);
+  emits('blur', computedValue.value, e);
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
   const keyCode = e.key || e.code;
   if (!isComposing && keyCode === Enter.key) {
-    emits('pressEnter', currentValue.value, e);
+    emits('pressEnter', computedValue.value, e);
   }
 };
 
@@ -144,12 +166,15 @@ const clearClick = (e: Event) => {
   updateValue('');
   emits('clear', e);
 };
+const onMouseDown = () => {
+  clickInside = true;
+};
 </script>
 <template>
   <label
     class="o-input"
     :class="[
-      `is-${status || props.status}`,
+      statusClass,
       `o-input-size-${props.size || defaultSize}`,
       `o-input-shape-${props.shape || defaultShape}`,
       {
@@ -157,6 +182,7 @@ const clearClick = (e: Event) => {
         'is-focus': isFocus,
       },
     ]"
+    @mousedown="onMouseDown"
   >
     <span v-if="$slots.prepend" class="o-input-prepend">
       <slot name="prepend"></slot>
@@ -165,7 +191,7 @@ const clearClick = (e: Event) => {
       class="o-input-wrap"
       :class="{
         'has-suffix': $slots.suffix,
-        clearable: props.clearable && props.value !== '',
+        clearable: props.clearable && computedValue !== '',
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
       }"
@@ -174,6 +200,7 @@ const clearClick = (e: Event) => {
         <slot name="prefix"></slot>
       </div>
       <input
+        ref="inputRef"
         :value="displayValue"
         :type="type"
         :placeholder="props.placeholder"

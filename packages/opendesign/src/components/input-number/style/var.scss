@@ -1,31 +1,5 @@
 .o-input-number {
-  --input-text-size-s: var(--o-font_size-tip1);
-  --input-text-height-s: var(--o-line_height-tip1);
-  --input-text-size-m: var(--o-font_size-text);
-  --input-text-height-m: var(--o-line_height-text);
-  --input-text-size-l: var(--o-font_size-h4);
-  --input-text-height-l: var(--o-line_height-h4);
-
-  --input-height-s: var(--o-size-s);
-  --input-height-m: var(--o-size-m);
-  --input-height-l: var(--o-size-l);
-
-  --input-radius-s: var(--o-radius-s);
-  --input-radius-m: var(--o-radius-s);
-  --input-radius-l: var(--o-radius-s);
-
-  --input-border: var(--o-color-info1);
-  --input-border-hover: var(--o-color-primary2);
-  --input-border-active: var(--o-color-primary3);
-  --input-border-disabled: var(--o-color-info1);
-
-  --input-bg: var(--o-color-bg1);
-  --input-bg-hover: var(--o-color-bg3);
-  --input-bg-active: var(--o-color-bg3);
-  --input-bg-disabled: var(--o-color-info4);
-
-  --input-color: var(--o-color-text2);
-  --input-color-disabled: var(--o-color-text4);
-
-  --input-icon-color: var(--o-color-text3);
+  --input-number-btn-color: var(--o-color-primary1);
+  --input-number-btn-bg-disabled: var(--o-color-info4);
+  --input-number-btn-color-disabled: var(--o-color-text4);
 }

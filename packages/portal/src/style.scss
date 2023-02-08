@@ -34,6 +34,13 @@ body {
 .page-demo {
   padding: 8px 24px;
 }
+.col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 section {
   border: 1px solid #eee;
   padding: var(--o-gap-4);
