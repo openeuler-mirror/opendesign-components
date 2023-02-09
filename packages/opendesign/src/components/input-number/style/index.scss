@@ -5,12 +5,9 @@
   .o-input-prepend,
   .o-input-append {
     font-size: 14px;
-    // padding: 0;
+    padding: 0;
     align-items: stretch;
-
-    &:hover {
-      color: var(--input-number-btn-color);
-    }
+    overflow: hidden;
   }
 
   &.is-disabled {
@@ -29,27 +26,30 @@
 .o-input-number-btn {
   user-select: none;
   align-items: center;
+  justify-content: center;
   display: flex;
+  width: var(--input-height);
+  font-size: var(--input-number-icon-size);
+  &:hover {
+    color: var(--input-number-btn-color);
+    background-color: var(--input-number-btn-bg);
+  }
+  .o-input-shape-round & {
+    &.append {
+      padding-right: 2px;
+    }
+    &.prepend {
+      padding-left: 2px;
+    }
+  }
 }
 
 .o-input-number-size-small {
   width: 90px;
-  .o-input-number-btn {
-    padding-left: 2px;
-  }
-  .o-input-number-btn-icon {
-    padding: 0 4px;
-  }
 }
 .o-input-number-size-normal {
   width: 120px;
-  .o-input-number-btn-icon {
-    padding: 0 8px;
-  }
 }
 .o-input-number-size-large {
   width: 160px;
-  .o-input-number-btn-icon {
-    padding: 0 12px;
-  }
 }

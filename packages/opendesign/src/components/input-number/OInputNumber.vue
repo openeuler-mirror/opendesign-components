@@ -189,12 +189,12 @@ const controlClick = (type: 'plus' | 'minus') => {
     @update:model-value="updateValue"
   >
     <template v-if="['default', 'left'].includes(props.controls)" #prepend>
-      <div v-if="props.controls === 'default'" class="o-input-number-btn" @click="controlClick('minus')">
+      <div v-if="props.controls === 'default'" class="o-input-number-btn prepend" @click="controlClick('minus')">
         <slot name="minus"><IconMinus /></slot>
       </div>
     </template>
     <template v-if="['default', 'right'].includes(props.controls)" #append>
-      <div v-if="props.controls === 'default'" class="o-input-number-btn" @click="controlClick('plus')">
+      <div v-if="props.controls === 'default'" class="o-input-number-btn append" @click="controlClick('plus')">
         <slot name="add"><IconAdd /></slot>
       </div>
     </template>
