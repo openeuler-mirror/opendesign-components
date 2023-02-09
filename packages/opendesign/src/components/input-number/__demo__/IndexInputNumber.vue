@@ -9,7 +9,7 @@ import InputNumberSlot from './InputNumberSlot.vue';
 <template>
   <div class="page-demo">
     <InputNumberBasic />
-    <!-- <InputNumberEvent /> -->
+    <InputNumberEvent />
     <InputNumberSlot />
   </div>
 </template>

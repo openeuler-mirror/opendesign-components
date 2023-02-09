@@ -60,7 +60,7 @@ interface InputPropT {
   /**
    * 控制按钮位置
    */
-  controls?: 'default' | 'right' | 'left' | 'none';
+  controls?: 'both' | 'right' | 'left' | 'none';
   /**
    * 是否在输入合法时，更新modelvalue
    */
@@ -88,7 +88,7 @@ const props = withDefaults(defineProps<InputPropT>(), {
   parse: undefined,
   format: undefined,
   status: undefined,
-  controls: 'default',
+  controls: 'both',
   updateOnInput: true,
 });
 
@@ -248,9 +248,9 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     @press-enter="onPressEnter"
     @update:model-value="onUpdateModelValue"
   >
-    <template v-if="['default', 'left'].includes(props.controls)" #prepend>
+    <template v-if="['both', 'left'].includes(props.controls)" #prepend>
       <div
-        v-if="props.controls === 'default'"
+        v-if="props.controls === 'both'"
         class="o-input-number-btn prepend"
         :class="{
           'is-disabled': !canMinus,
@@ -280,9 +280,9 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
         </div>
       </div>
     </template>
-    <template v-if="['default', 'right'].includes(props.controls)" #append>
+    <template v-if="['both', 'right'].includes(props.controls)" #append>
       <div
-        v-if="props.controls === 'default'"
+        v-if="props.controls === 'both'"
         class="o-input-number-btn append"
         :class="{
           'is-disabled': !canAdd,
