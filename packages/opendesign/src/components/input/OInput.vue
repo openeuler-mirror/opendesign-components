@@ -204,9 +204,10 @@ const onMouseDown = (e: MouseEvent) => {
       statusClass,
       `o-input-size-${props.size || defaultSize}`,
       `o-input-shape-${props.shape || defaultShape}`,
+      `o-input-status-${props.status}`,
       {
-        'is-disabled': props.disabled,
-        'is-focus': isFocus,
+        'o-input-disabled': props.disabled,
+        'o-input-focus': isFocus,
       },
     ]"
     @mousedown="onMouseDown"
@@ -217,10 +218,11 @@ const onMouseDown = (e: MouseEvent) => {
     <div
       class="o-input-wrap"
       :class="{
+        'o-input-clearable': props.clearable && realValue !== '' && !props.disabled,
         'has-suffix': $slots.suffix,
-        clearable: props.clearable && realValue !== '',
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
+        'is-focus': isFocus,
       }"
     >
       <div v-if="$slots.prefix" class="o-input-prefix">
@@ -232,7 +234,8 @@ const onMouseDown = (e: MouseEvent) => {
         :type="type"
         :placeholder="props.placeholder"
         class="o-input-input"
-        :readonly="props.readonly || props.disabled"
+        :readonly="props.readonly"
+        :disabled="props.disabled"
         @focus="onFocus"
         @blur="onBlur"
         @input="onInput"
@@ -241,10 +244,10 @@ const onMouseDown = (e: MouseEvent) => {
         @compositionend="onCompositionEnd"
       />
       <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
-        <div v-if="props.clearable" class="o-input-clear" @click="clearClick"><IconX class="o-input-clear-icon" /></div>
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>
         </span>
+        <div v-if="props.clearable" class="o-input-clear" @click="clearClick"><IconX class="o-input-clear-icon" /></div>
       </div>
     </div>
     <span v-if="$slots.append" class="o-input-append">

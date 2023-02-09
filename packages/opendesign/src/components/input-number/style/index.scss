@@ -1,10 +1,12 @@
-@import './var.scss';
-@import '../../input/style/index.scss';
+@use './var.scss';
+@use '../../input/style/index.scss';
 
 .o-input-number {
   .o-input-prepend,
   .o-input-append {
     font-size: 14px;
+    // padding: 0;
+    align-items: stretch;
 
     &:hover {
       color: var(--input-number-btn-color);
@@ -26,24 +28,28 @@
 }
 .o-input-number-btn {
   user-select: none;
+  align-items: center;
+  display: flex;
 }
+
 .o-input-number-size-small {
   width: 90px;
   .o-input-number-btn {
-    // padding: 0 4px;
+    padding-left: 2px;
+  }
+  .o-input-number-btn-icon {
+    padding: 0 4px;
   }
 }
 .o-input-number-size-normal {
   width: 120px;
-
-  .o-input-number-btn {
-    // padding: 0 8px;
+  .o-input-number-btn-icon {
+    padding: 0 8px;
   }
 }
 .o-input-number-size-large {
   width: 160px;
-
-  .o-input-number-btn {
-    // padding: 0 12px;
+  .o-input-number-btn-icon {
+    padding: 0 12px;
   }
 }

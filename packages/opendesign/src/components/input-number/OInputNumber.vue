@@ -1,27 +1,35 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
+import { defaultSize, SizeT, ShapeT } from '../_shared/global';
 import { IconMinus, IconAdd } from '../icons';
 import { OInput } from '../input';
-import { isNumberString, getInputValueString, getRealValue } from './input-number';
+import { isValidNumber, getInputValueString, getRealValue } from './input-number';
 
 interface InputPropT {
   /**
-   * 下拉框的值
+   * 数字输入框的值
    * v-model
    */
   modelValue?: string | number;
   /**
-   * 下拉框的默认值
+   * 数字输入框的默认值
    * 非受控
    */
   defaultValue?: string | number;
   /**
-   * 大小
+   * 按钮点击时步长
    */
   step?: number;
   /**
-   * 大小
+   * 最小值
+   */
+  min?: number;
+  /**
+   * 最大值
+   */
+  max?: number;
+  /**
+   * 样式尺寸
    */
   size?: SizeT;
   /**
@@ -48,7 +56,6 @@ interface InputPropT {
    * 是否可以清除
    */
   clearable?: boolean;
-
   /**
    * 控制按钮位置
    */
@@ -71,6 +78,8 @@ const props = withDefaults(defineProps<InputPropT>(), {
   modelValue: undefined,
   defaultValue: '',
   step: 1,
+  min: undefined,
+  max: undefined,
   size: undefined,
   shape: undefined,
   placeholder: '',
@@ -92,25 +101,24 @@ const emits = defineEmits<{
   (e: 'update:value', value: string | number, evt: Event): void;
 }>();
 
-const currentValue = ref<number | string>(getInputValueString(props.modelValue ?? props.defaultValue));
+const currentValue = ref<number | string>(props.modelValue ?? props.defaultValue);
+const isValid = ref(isValidNumber(currentValue.value, props.min, props.max));
+let realValue = getRealValue(currentValue.value);
+let lastValidValue: number | string = '';
 
 watch(
   () => props.modelValue,
   (val) => {
     currentValue.value = getInputValueString(val);
+    isValid.value = isValidNumber(val, props.min, props.max);
   }
 );
-
-let realValue = getRealValue(currentValue.value);
-
-const isValid = ref(isNumberString(currentValue.value));
-let lastValidValue: number | string = '';
 
 const parseValue = (val: string | number) => {
   if (!isValid.value) {
     currentValue.value = lastValidValue;
   } else {
-    realValue = Number(val);
+    realValue = getRealValue(val);
     if (realValue !== currentValue.value) {
       currentValue.value = realValue;
 
@@ -121,7 +129,7 @@ const parseValue = (val: string | number) => {
   isValid.value = true;
 };
 const updateValue = (val: string | number) => {
-  isValid.value = isNumberString(val);
+  isValid.value = isValidNumber(val);
   currentValue.value = val;
 
   if (isValid.value && props.updateOnInput) {
@@ -139,14 +147,19 @@ const onFocus = (val: string | number, evt: FocusEvent) => {
 };
 const onBlur = (val: string | number, evt: FocusEvent) => {
   parseValue(val);
+  lastValidValue = realValue;
   emits('blur', realValue, evt);
 };
 const onPressEnter = (val: string | number, evt: FocusEvent) => {
   parseValue(val);
+  lastValidValue = realValue;
   emits('pressEnter', realValue, evt);
 };
 
-const constrolClick = (type: 'plus' | 'minus') => {
+const controlClick = (type: 'plus' | 'minus') => {
+  if (props.disabled) {
+    return;
+  }
   if (type === 'plus') {
     realValue += props.step;
   } else {
@@ -176,13 +189,13 @@ const constrolClick = (type: 'plus' | 'minus') => {
     @update:model-value="updateValue"
   >
     <template v-if="['default', 'left'].includes(props.controls)" #prepend>
-      <div class="o-input-number-btn" @click="constrolClick('minus')">
-        <slot name="control-left"><IconMinus /></slot>
+      <div v-if="props.controls === 'default'" class="o-input-number-btn" @click="controlClick('minus')">
+        <slot name="minus"><IconMinus /></slot>
       </div>
     </template>
     <template v-if="['default', 'right'].includes(props.controls)" #append>
-      <div class="o-input-number-btn" @click="constrolClick('plus')">
-        <slot name="control-right"><IconAdd /></slot>
+      <div v-if="props.controls === 'default'" class="o-input-number-btn" @click="controlClick('plus')">
+        <slot name="add"><IconAdd /></slot>
       </div>
     </template>
     <template v-if="$slots.prefix" #prefix>

@@ -8,6 +8,7 @@ setTimeout(() => {
 }, 2000);
 const val2 = ref(100);
 const val3 = ref(3333);
+const val4 = ref('1px');
 </script>
 <template>
   <h4>Basic</h4>
@@ -37,7 +38,7 @@ const val3 = ref(3333);
     </div>
   </section>
   <h4>Size</h4>
-  <div>val1:{{ val2 }}</div>
+  <div>val2:{{ val2 }}</div>
   <section>
     <OInputNumber v-model="val2" size="small" />
     <OInputNumber v-model="val2" />
@@ -57,10 +58,25 @@ const val3 = ref(3333);
   <section>
     <div>val1:{{ val1 }}</div>
     <OInputNumber v-model="val2" disabled />
-    <OInputNumber v-model="val2" disabled>
+    <OInputNumber v-model="val2" disabled style="width: 150px">
       <template #prefix>$</template>
     </OInputNumber>
     <OInputNumber v-model="val2" disabled style="width: 150px">
+      <template #suffix> 元 </template>
+    </OInputNumber>
+  </section>
+
+  <h4>Step & min & max</h4>
+  <section>
+    <div>val4:{{ val4 }}</div>
+    <OInputNumber v-model="val4" :step="2" />
+    <OInputNumber v-model="val4" :min="1" style="width: 150px">
+      <template #prefix>$</template>
+    </OInputNumber>
+    <OInputNumber v-model="val4" :max="5" style="width: 150px">
+      <template #suffix> 元 </template>
+    </OInputNumber>
+    <OInputNumber v-model="val4" :step="3" :min="3" :max="8" style="width: 150px">
       <template #suffix> 元 </template>
     </OInputNumber>
   </section>

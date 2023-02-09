@@ -50,7 +50,15 @@ const printEvent = (event: string, val?: string | number) => {
       <template #prefix><IconDone /></template>
       <template #suffix> 元 </template>
     </OInput>
+    <OInput v-model="val2" shape="round" size="small">
+      <template #prepend>+86</template>
+      <template #append>手机</template>
+    </OInput>
     <OInput v-model="val2" shape="round">
+      <template #prepend>+86</template>
+      <template #append>手机</template>
+    </OInput>
+    <OInput v-model="val2" shape="round" size="large">
       <template #prepend>+86</template>
       <template #append>手机</template>
     </OInput>
