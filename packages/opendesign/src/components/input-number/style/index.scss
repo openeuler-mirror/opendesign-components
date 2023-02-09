@@ -30,8 +30,11 @@
   display: flex;
   min-width: var(--input-height);
   font-size: var(--input-number-icon-size);
-  &:hover {
-    color: var(--input-number-btn-color);
+  flex-wrap: wrap;
+  color: var(--input-number-btn-color);
+
+  &:not(.is-vertical):hover {
+    color: var(--input-number-btn-color-hover);
     background-color: var(--input-number-btn-bg);
   }
   &.is-disabled {
@@ -39,6 +42,7 @@
     background-color: var(--input-number-btn-bg-disabled);
     color: var(--input-number-btn-color-disabled);
   }
+
   .o-input-shape-round & {
     &.append {
       padding-right: 2px;
@@ -47,6 +51,29 @@
       padding-left: 2px;
     }
   }
+}
+.o-input-number-btn-minus,
+.o-input-number-btn-plus {
+  width: 100%;
+  height: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    color: var(--input-number-btn-color-hover);
+    background-color: var(--input-number-btn-bg);
+  }
+}
+.o-input-number-icon-minus {
+  position: absolute;
+  margin-top: -4px;
+}
+.o-input-number-icon-plus {
+  position: absolute;
+  margin-bottom: -4px;
 }
 
 .o-input-number-size-small {

@@ -36,6 +36,14 @@ const val4 = ref('1px');
       controls none:
       <OInputNumber v-model="val1" controls="none" />
     </div>
+    <div class="col">
+      controls left:
+      <OInputNumber v-model="val1" controls="left" />
+    </div>
+    <div class="right">
+      controls left:
+      <OInputNumber v-model="val1" controls="right" :max="5" />
+    </div>
   </section>
   <h4>Size</h4>
   <div>val2:{{ val2 }}</div>

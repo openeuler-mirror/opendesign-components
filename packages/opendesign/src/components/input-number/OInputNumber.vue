@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { defaultSize, SizeT, ShapeT } from '../_shared/global';
-import { IconMinus, IconAdd } from '../icons';
+import { IconMinus, IconAdd, IconChevronDown, IconChevronUp } from '../icons';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, getRealValue } from './input-number';
 import { isFunction, isUndefined } from '../_shared/is';
@@ -110,13 +110,12 @@ watch(
   () => props.modelValue,
   (val) => {
     isValid.value = isValidNumber(val, props.min, props.max);
-    // currentValue.value = val;
     if (isFunction(props.format)) {
       currentValue.value = props.format(val ?? '');
     } else {
       currentValue.value = val;
     }
-    console.log('watch', val);
+    // console.log('watch', val);
   }
 );
 
@@ -200,7 +199,7 @@ const onChange = (val: string) => {
 };
 
 const onUpdateModelValue = (val: string) => {
-  console.log('update model');
+  // console.log('update model');
   isValid.value = isValidNumber(val, props.min, props.max, props.parse);
 
   if (isValid.value) {
@@ -260,6 +259,26 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
       >
         <slot name="minus"><IconMinus /></slot>
       </div>
+      <div v-if="props.controls === 'left'" class="o-input-number-btn is-vertical">
+        <div
+          class="o-input-number-btn-plus"
+          :class="{
+            'is-disabled': !canAdd,
+          }"
+          @click="(e) => controlClick('plus', e)"
+        >
+          <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
+        </div>
+        <div
+          class="o-input-number-btn-minus"
+          :class="{
+            'is-disabled': !canMinus,
+          }"
+          @click="(e) => controlClick('minus', e)"
+        >
+          <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
+        </div>
+      </div>
     </template>
     <template v-if="['default', 'right'].includes(props.controls)" #append>
       <div
@@ -271,6 +290,26 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
         @click="(e) => controlClick('plus', e)"
       >
         <slot name="add"><IconAdd /></slot>
+      </div>
+      <div v-if="props.controls === 'right'" class="o-input-number-btn is-vertical">
+        <div
+          class="o-input-number-btn-plus"
+          :class="{
+            'is-disabled': !canAdd,
+          }"
+          @click="(e) => controlClick('plus', e)"
+        >
+          <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
+        </div>
+        <div
+          class="o-input-number-btn-minus"
+          :class="{
+            'is-disabled': !canMinus,
+          }"
+          @click="(e) => controlClick('minus', e)"
+        >
+          <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
+        </div>
       </div>
     </template>
     <template v-if="$slots.prefix" #prefix>

@@ -12,6 +12,14 @@ const val2 = ref(1000);
       <template #minus>Plus</template>
       <template #add>Minus</template>
     </OInputNumber>
+    <OInputNumber v-model:value="val1" controls="left" style="width: 150px">
+      <template #minus>+</template>
+      <template #add>-</template>
+    </OInputNumber>
+    <OInputNumber v-model:value="val1" controls="right" style="width: 150px">
+      <template #minus>+</template>
+      <template #add>-</template>
+    </OInputNumber>
     <OInputNumber v-model:value="val2" style="width: 150px">
       <template #prefix> $ </template>
     </OInputNumber>
