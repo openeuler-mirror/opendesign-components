@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { defaultSize, SizeT, ShapeT } from '../_shared/global';
 import { IconMinus, IconAdd } from '../icons';
 import { OInput } from '../input';
-import { isValidNumber, getInputValueString, getRealValue } from './input-number';
+import { isValidNumber, correctValue, getRealValue } from './input-number';
+import { isFunction, isUndefined } from '../_shared/is';
 
 interface InputPropT {
   /**
@@ -76,7 +77,7 @@ interface InputPropT {
 }
 const props = withDefaults(defineProps<InputPropT>(), {
   modelValue: undefined,
-  defaultValue: '',
+  defaultValue: undefined,
   step: 1,
   min: undefined,
   max: undefined,
@@ -92,80 +93,141 @@ const props = withDefaults(defineProps<InputPropT>(), {
 });
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-  (e: 'change', value: string | number): void;
-  (e: 'input', value: string | number, evt: Event): void;
-  (e: 'blur', value: string | number, evt: FocusEvent): void;
-  (e: 'focus', value: string | number, evt: FocusEvent): void;
-  (e: 'pressEnter', value: string | number, evt: Event): void;
-  (e: 'update:value', value: string | number, evt: Event): void;
+  (e: 'update:modelValue', value: number): void;
+  (e: 'change', value: number): void;
+  (e: 'input', value: string, evt: Event): void;
+  (e: 'blur', value: number, evt: FocusEvent): void;
+  (e: 'focus', value: number, evt: FocusEvent): void;
+  (e: 'plus', value: number, evt: MouseEvent): void;
+  (e: 'minus', value: number, evt: MouseEvent): void;
+  (e: 'pressEnter', value: number, evt: Event): void;
 }>();
 
-const currentValue = ref<number | string>(props.modelValue ?? props.defaultValue);
+const currentValue = ref<number | string | undefined>(props.modelValue ?? props.defaultValue);
 const isValid = ref(isValidNumber(currentValue.value, props.min, props.max));
-let realValue = getRealValue(currentValue.value);
-let lastValidValue: number | string = '';
 
 watch(
   () => props.modelValue,
   (val) => {
-    currentValue.value = getInputValueString(val);
     isValid.value = isValidNumber(val, props.min, props.max);
+    // currentValue.value = val;
+    if (isFunction(props.format)) {
+      currentValue.value = props.format(val ?? '');
+    } else {
+      currentValue.value = val;
+    }
+    console.log('watch', val);
   }
 );
 
-const parseValue = (val: string | number) => {
-  if (!isValid.value) {
-    currentValue.value = lastValidValue;
-  } else {
-    realValue = getRealValue(val);
-    if (realValue !== currentValue.value) {
-      currentValue.value = realValue;
+let numberValue = getRealValue(currentValue.value);
+let lastNumberValue = numberValue;
 
-      emits('update:modelValue', realValue);
-      emits('change', realValue);
+const canAdd = computed(() => {
+  if (props.disabled) {
+    return false;
+  }
+  const n = Number(currentValue.value);
+  if (!isUndefined(props.max) && props.max <= n) {
+    return false;
+  }
+  return true;
+});
+const canMinus = computed(() => {
+  if (props.disabled) {
+    return false;
+  }
+  const n = Number(currentValue.value);
+  if (!isUndefined(props.min) && props.min >= n) {
+    return false;
+  }
+  return true;
+});
+
+const updateValue = (val: string) => {
+  const v = isFunction(props.parse) ? props.parse(val) : val;
+  // const v = val;
+
+  if (isValid.value) {
+    numberValue = getRealValue(v);
+  } else {
+    // 不合法数据矫正
+    numberValue = correctValue(v, lastNumberValue, props.min, props.max);
+    isValid.value = true;
+  }
+
+  emits('update:modelValue', numberValue);
+
+  if (numberValue !== lastNumberValue) {
+    emits('change', numberValue);
+  } else {
+    if (isFunction(props.format)) {
+      currentValue.value = props.format(numberValue);
+    } else {
+      // 更新输入框显示的值
+      currentValue.value = numberValue;
     }
   }
-  isValid.value = true;
-};
-const updateValue = (val: string | number) => {
-  isValid.value = isValidNumber(val);
-  currentValue.value = val;
 
-  if (isValid.value && props.updateOnInput) {
-    parseValue(val);
-  }
+  lastNumberValue = numberValue;
+  return numberValue;
 };
 
-const onInput = (val: string | number, evt: Event) => {
+const onInput = (val: string, evt: Event) => {
   emits('input', val, evt);
 };
 
-const onFocus = (val: string | number, evt: FocusEvent) => {
-  lastValidValue = currentValue.value;
-  emits('focus', realValue, evt);
+const onFocus = (val: string, evt: FocusEvent) => {
+  lastNumberValue = numberValue;
+  emits('focus', numberValue, evt);
+  // console.log('focus', numberValue);
 };
-const onBlur = (val: string | number, evt: FocusEvent) => {
-  parseValue(val);
-  lastValidValue = realValue;
-  emits('blur', realValue, evt);
+const onBlur = (val: string, evt: FocusEvent) => {
+  const v = updateValue(val);
+  emits('blur', v, evt);
 };
-const onPressEnter = (val: string | number, evt: FocusEvent) => {
-  parseValue(val);
-  lastValidValue = realValue;
-  emits('pressEnter', realValue, evt);
+const onPressEnter = (val: string, evt: Event): void => {
+  const v = updateValue(val);
+
+  emits('pressEnter', v, evt);
 };
 
-const controlClick = (type: 'plus' | 'minus') => {
+const onChange = (val: string) => {
+  // console.log('change', val);
+  if (isValid.value) {
+    updateValue(val);
+  }
+};
+
+const onUpdateModelValue = (val: string) => {
+  console.log('update model');
+  isValid.value = isValidNumber(val, props.min, props.max, props.parse);
+
+  if (isValid.value) {
+    numberValue = getRealValue(val, undefined, undefined, props.parse);
+    if (!isFunction(props.format)) {
+      emits('update:modelValue', numberValue);
+      lastNumberValue = numberValue;
+    }
+  }
+  currentValue.value = val;
+};
+
+const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
   if (props.disabled) {
     return;
   }
-  if (type === 'plus') {
-    realValue += props.step;
-  } else {
-    realValue -= props.step;
+  let v = Number.isNaN(numberValue) ? 0 : numberValue;
+
+  if (type === 'plus' && canAdd.value) {
+    v += props.step;
+    v = updateValue(String(v));
+    emits('plus', v, e);
+  } else if (type === 'minus' && canMinus.value) {
+    v -= props.step;
+    v = updateValue(String(v));
+    emits('minus', v, e);
   }
-  parseValue(realValue);
 };
 </script>
 <template>
@@ -180,21 +242,34 @@ const controlClick = (type: 'plus' | 'minus') => {
     :disabled="props.disabled"
     :readonly="props.readonly"
     :clearable="false"
-    :parse="props.parse"
-    :format="props.format"
     @input="onInput"
+    @change="onChange"
     @blur="onBlur"
     @focus="onFocus"
     @press-enter="onPressEnter"
-    @update:model-value="updateValue"
+    @update:model-value="onUpdateModelValue"
   >
     <template v-if="['default', 'left'].includes(props.controls)" #prepend>
-      <div v-if="props.controls === 'default'" class="o-input-number-btn prepend" @click="controlClick('minus')">
+      <div
+        v-if="props.controls === 'default'"
+        class="o-input-number-btn prepend"
+        :class="{
+          'is-disabled': !canMinus,
+        }"
+        @click="(e) => controlClick('minus', e)"
+      >
         <slot name="minus"><IconMinus /></slot>
       </div>
     </template>
     <template v-if="['default', 'right'].includes(props.controls)" #append>
-      <div v-if="props.controls === 'default'" class="o-input-number-btn append" @click="controlClick('plus')">
+      <div
+        v-if="props.controls === 'default'"
+        class="o-input-number-btn append"
+        :class="{
+          'is-disabled': !canAdd,
+        }"
+        @click="(e) => controlClick('plus', e)"
+      >
         <slot name="add"><IconAdd /></slot>
       </div>
     </template>

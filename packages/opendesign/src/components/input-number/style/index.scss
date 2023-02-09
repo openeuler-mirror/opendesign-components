@@ -10,13 +10,13 @@
     overflow: hidden;
   }
 
-  &.is-disabled {
-    .o-input-prepend,
-    .o-input-append {
-      background-color: var(--input-number-btn-bg-disabled);
-      color: var(--input-number-btn-color-disabled);
-    }
-  }
+  // &.is-disabled {
+  //   .o-input-prepend,
+  //   .o-input-append {
+  //     background-color: var(--input-number-btn-bg-disabled);
+  //     color: var(--input-number-btn-color-disabled);
+  //   }
+  // }
   &.is-invalid {
     .o-input-input {
       text-decoration: line-through;
@@ -28,11 +28,16 @@
   align-items: center;
   justify-content: center;
   display: flex;
-  width: var(--input-height);
+  min-width: var(--input-height);
   font-size: var(--input-number-icon-size);
   &:hover {
     color: var(--input-number-btn-color);
     background-color: var(--input-number-btn-bg);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    background-color: var(--input-number-btn-bg-disabled);
+    color: var(--input-number-btn-color-disabled);
   }
   .o-input-shape-round & {
     &.append {

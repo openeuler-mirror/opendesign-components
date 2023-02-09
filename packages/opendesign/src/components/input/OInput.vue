@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
-import { isFunction, isNull, isUndefined } from '../_shared/is';
+import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
@@ -74,13 +74,13 @@ const props = withDefaults(defineProps<InputPropT>(), {
 });
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-  (e: 'change', value: string | number): void;
+  (e: 'update:modelValue', value: string): void;
+  (e: 'change', value: string): void;
   (e: 'input', value: string, evt: Event): void;
-  (e: 'blur', value: string | number, evt: FocusEvent): void;
-  (e: 'focus', value: string | number, evt: FocusEvent): void;
+  (e: 'blur', value: string, evt: FocusEvent): void;
+  (e: 'focus', value: string, evt: FocusEvent): void;
   (e: 'clear', evt: Event): void;
-  (e: 'pressEnter', value: string | number, evt: KeyboardEvent): void;
+  (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
 const inputRef = ref<HTMLElement | null>(null);
@@ -108,7 +108,7 @@ const statusClass = computed(() => (status.value || props.status ? `is-${status.
 
 // 是否聚焦状态
 const isFocus = ref(false);
-let lastValue: number | string = realValue.value;
+let lastValue: string = realValue.value;
 
 function updateValue(val: string) {
   const value = isFunction(props.parse) ? props.parse(val) : val;
@@ -158,7 +158,7 @@ const onFocus = (e: FocusEvent) => {
   if (isFocus.value) {
     return;
   }
-  console.log('onFocus', clickInside);
+  // console.log('onFocus', clickInside);
   isFocus.value = true;
   emits('focus', realValue.value, e);
   // console.log('focus', realValue.value);
@@ -169,7 +169,7 @@ const onBlur = (e: FocusEvent) => {
     clickInside = false;
     return;
   }
-  console.log('onBlur', clickInside);
+  // console.log('onBlur', clickInside);
   isFocus.value = false;
   const val = (e.target as HTMLInputElement)?.value;
   const v = updateValue(val);

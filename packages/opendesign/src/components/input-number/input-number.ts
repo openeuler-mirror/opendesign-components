@@ -1,12 +1,16 @@
-import { isNumber } from '../_shared/is';
+import { isFunction, isNumber, isUndefined } from '../_shared/is';
 
-export function isValidNumber(val: string | number | undefined, min?: number, max?: number) {
-  if (isNumber(val) || !val || isNumber(Number(val))) {
-    const v = Number(val);
-    if (min && v < min) {
+export function isValidNumber(val?: string | number, min?: number, max?: number, parse?: (value: string) => string) {
+  if (Number.isNaN(val)) {
+    return true;
+  }
+  const value = isFunction(parse) ? parse(String(val)) : val;
+  if (isNumber(Number(value))) {
+    const v = Number(value);
+    if (!isUndefined(min) && v < min) {
       return false;
     }
-    if (max && v > max) {
+    if (!isUndefined(max) && v > max) {
       return false;
     }
 
@@ -15,10 +19,13 @@ export function isValidNumber(val: string | number | undefined, min?: number, ma
   return false;
 }
 
-export function getInputValueString(val: string | number | undefined, min?: number, max?: number) {
-  let rlt: number | string = '';
-  if (isValidNumber(val)) {
-    rlt = Number(val);
+export function getRealValue(val?: string | number, min?: number, max?: number, parse?: (value: string) => string) {
+
+  const value = isFunction(parse) ? parse(String(val)) : val;
+
+  let rlt: number = NaN;
+  if (value !== '' && isValidNumber(value, min, max)) {
+    rlt = Number(value);
     if (min !== undefined) {
       rlt = rlt < min ? min : rlt;
     }
@@ -29,6 +36,14 @@ export function getInputValueString(val: string | number | undefined, min?: numb
   return rlt;
 }
 
-export function getRealValue(val: string | number) {
-  return isValidNumber(val) ? Number(val) : 0;
+export function correctValue(val: string | number, lastVal: number, min?: number, max?: number) {
+  const v = Number(val);
+  if (isNumber(v)) {
+    if (!isUndefined(max) && v > max) {
+      return max;
+    } if (!isUndefined(min) && v < min) {
+      return min;
+    }
+  }
+  return lastVal;
 }

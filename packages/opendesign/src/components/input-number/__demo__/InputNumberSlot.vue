@@ -9,8 +9,8 @@ const val2 = ref(1000);
   <h4>Prefix & Suffix</h4>
   <section>
     <OInputNumber v-model:value="val1" style="width: 150px">
-      <template #control-left>Plus</template>
-      <template #control-right>Minus</template>
+      <template #minus>Plus</template>
+      <template #add>Minus</template>
     </OInputNumber>
     <OInputNumber v-model:value="val2" style="width: 150px">
       <template #prefix> $ </template>

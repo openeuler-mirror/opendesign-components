@@ -1,7 +1,7 @@
-import { isNull, isUndefined, isNumber } from '../_shared/is';
+import { isNull, isUndefined } from '../_shared/is';
 
 export function toInputString(val: unknown): string {
-  if (isUndefined(val) || isNull(val) || (isNumber(val as number) && isNaN(val as number))) {
+  if (isUndefined(val) || isNull(val) || (typeof val === 'number' && isNaN(val as number))) {
     return '';
   }
   return String(val);

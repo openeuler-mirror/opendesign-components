@@ -57,11 +57,11 @@ const val4 = ref('1px');
   <h4>Disabled</h4>
   <section>
     <div>val1:{{ val1 }}</div>
-    <OInputNumber v-model="val2" disabled />
-    <OInputNumber v-model="val2" disabled style="width: 150px">
+    <OInputNumber v-model="val1" disabled />
+    <OInputNumber v-model="val1" disabled style="width: 150px">
       <template #prefix>$</template>
     </OInputNumber>
-    <OInputNumber v-model="val2" disabled style="width: 150px">
+    <OInputNumber v-model="val1" disabled style="width: 150px">
       <template #suffix> 元 </template>
     </OInputNumber>
   </section>
