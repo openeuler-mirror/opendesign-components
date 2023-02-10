@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
 import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
-import { toInputString } from './input';
+import { toInputString, getInputAutoWidth } from './input';
 
 interface InputPropT {
   /**
@@ -47,6 +47,10 @@ interface InputPropT {
    */
   clearable?: boolean;
   /**
+   * 是否自动增加宽度
+   */
+  autoWidth?: boolean;
+  /**
    * 是否是密码输入
    */
   type?: 'text' | 'password';
@@ -86,12 +90,15 @@ const emits = defineEmits<{
 const inputRef = ref<HTMLElement | null>(null);
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
+// 当前input文本值
+const inputText = ref(realValue.value);
 // 监听属性变化，刷新值
 watch(
   () => props.modelValue,
   (val) => {
     // console.log('watch', val);
     realValue.value = toInputString(val);
+    inputText.value = realValue.value;
   }
 );
 
@@ -142,6 +149,8 @@ const onInput = (e: Event) => {
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
   // console.log('input', val);
+
+  inputText.value = val;
 
   if (!props.parse) {
     emits('update:modelValue', val);
@@ -223,21 +232,27 @@ const onMouseDown = (e: MouseEvent) => {
       <div v-if="$slots.prefix" class="o-input-prefix">
         <slot name="prefix"></slot>
       </div>
-      <input
-        ref="inputRef"
-        :value="displayValue"
-        :type="type"
-        :placeholder="props.placeholder"
-        class="o-input-input"
-        :readonly="props.readonly"
-        :disabled="props.disabled"
-        @focus="onFocus"
-        @blur="onBlur"
-        @input="onInput"
-        @keydown="onKeyDown"
-        @compositionstart="onCompositionStart"
-        @compositionend="onCompositionEnd"
-      />
+      <div class="o-input-input-wrap">
+        <input
+          ref="inputRef"
+          :value="displayValue"
+          :type="type"
+          :placeholder="props.placeholder"
+          class="o-input-input"
+          :class="{
+            'is-auto-size': props.autoWidth,
+          }"
+          :readonly="props.readonly"
+          :disabled="props.disabled"
+          @focus="onFocus"
+          @blur="onBlur"
+          @input="onInput"
+          @keydown="onKeyDown"
+          @compositionstart="onCompositionStart"
+          @compositionend="onCompositionEnd"
+        />
+        <div v-if="props.autoWidth" class="o-input-mirror">{{ inputText }}</div>
+      </div>
       <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>

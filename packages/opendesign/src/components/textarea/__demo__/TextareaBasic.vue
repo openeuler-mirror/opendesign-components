@@ -13,21 +13,6 @@ const printEvent = (event: string, val?: string | number) => {
 };
 </script>
 <template>
-  <h4>Clearable</h4>
-  <section>
-    <OTextarea v-model="val1" :max-length="10" size="large" shape="round" clearable />
-  </section>
-  <h4>MaxLength</h4>
-  <section>
-    <div>
-      <div>MaxLength: 10 | val2:{{ val2 }}</div>
-      <OTextarea v-model="val1" :max-length="10" />
-    </div>
-    <div>
-      <div>input-out-limit：超出长度时不能输入</div>
-      <OTextarea v-model="val1" :max-length="10" :input-out-limit="false" />
-    </div>
-  </section>
   <h4>Size</h4>
   <div>
     <div>val1:{{ val1 }}</div>
@@ -95,6 +80,21 @@ const printEvent = (event: string, val?: string | number) => {
       <div>none:</div>
       <OTextarea v-model="val1" resize="none" />
     </div>
+  </section>
+  <h4>MaxLength</h4>
+  <section>
+    <div>
+      <div>MaxLength: 10 | val2:{{ val2 }}</div>
+      <OTextarea v-model="val1" :max-length="10" />
+    </div>
+    <div>
+      <div>input-out-limit：超出长度时不能输入</div>
+      <OTextarea v-model="val1" :max-length="10" :input-out-limit="false" />
+    </div>
+  </section>
+  <h4>Clearable</h4>
+  <section>
+    <OTextarea v-model="val1" :max-length="10" size="large" shape="round" :clearable="false" />
   </section>
 </template>
 <style lang="scss"></style>

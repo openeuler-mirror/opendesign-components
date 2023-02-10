@@ -15,7 +15,8 @@
   border-radius: var(--input-radius);
   border: 1px solid var(--input-border);
   background-color: var(--input-bg);
-
+  width: 100%;
+  overflow: auto;
   &:hover {
     border-color: var(--input-border-hover);
     background-color: var(--input-bg-hover);
@@ -44,8 +45,17 @@
   display: inline-flex;
   width: 100%;
   caret-color: var(--o-color-primary1);
-  padding: 4px 0;
+  padding: 0;
   line-height: inherit;
+  height: 100%;
+  font-size: inherit;
+  &.is-auto-size {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 .o-input-clear {
@@ -128,6 +138,18 @@
   padding: var(--input-append-padding);
   border-top-right-radius: var(--input-append-prepend-border-radius);
   border-bottom-right-radius: var(--input-append-prepend-border-radius);
+}
+
+.o-input-input-wrap {
+  position: relative;
+}
+.o-input-mirror {
+  white-space: pre;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  visibility: hidden;
 }
 
 .o-input-prepend {
