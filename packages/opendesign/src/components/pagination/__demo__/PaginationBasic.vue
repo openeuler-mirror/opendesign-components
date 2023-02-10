@@ -2,9 +2,14 @@
 import { ref } from 'vue';
 import { OPagination } from '../index';
 const currentPage = ref(5);
-// setTimeout(() => {
-//   currentPage.value = 3;
-// }, 2000);
+const total = ref(100);
+
+setTimeout(() => {
+  total.value = 50;
+}, 2000);
+
+const pageSize = 8;
+const pageSizes = [8, 16, 32, 64];
 const onChange = (value: { current: number; size: number }) => {
   console.log(value);
 };
@@ -12,11 +17,12 @@ const onChange = (value: { current: number; size: number }) => {
 <template>
   <h4>Basic</h4>
   <div class="sec">
-    <OPagination :total="100" :current-page="currentPage" @change="onChange" />
+    <OPagination :total="total" :current-page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" @change="onChange" />
   </div>
   <h4>Simple</h4>
   <div class="sec">
-    <OPagination :total="100" :current-page="currentPage" simple @change="onChange" />
+    <div>当前页：{{ currentPage }}</div>
+    <OPagination v-model:current-page="currentPage" :total="100" simple @change="onChange" />
   </div>
 </template>
 <style lang="scss">

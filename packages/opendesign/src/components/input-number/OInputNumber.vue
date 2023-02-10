@@ -121,6 +121,7 @@ watch(
 
 let numberValue = getRealValue(currentValue.value);
 let lastNumberValue = numberValue;
+let lastChangedNumberValue = numberValue;
 
 const canAdd = computed(() => {
   if (props.disabled) {
@@ -157,9 +158,11 @@ const updateValue = (val: string) => {
 
   emits('update:modelValue', numberValue);
 
-  if (numberValue !== lastNumberValue) {
+  if (numberValue !== lastChangedNumberValue) {
     emits('change', numberValue);
-  } else {
+  }
+
+  if (numberValue === lastNumberValue) {
     if (isFunction(props.format)) {
       currentValue.value = props.format(numberValue);
     } else {
@@ -169,6 +172,7 @@ const updateValue = (val: string) => {
   }
 
   lastNumberValue = numberValue;
+  lastChangedNumberValue = numberValue;
   return numberValue;
 };
 
@@ -177,7 +181,7 @@ const onInput = (val: string, evt: Event) => {
 };
 
 const onFocus = (val: string, evt: FocusEvent) => {
-  lastNumberValue = numberValue;
+  // lastNumberValue = numberValue;
   emits('focus', numberValue, evt);
   // console.log('focus', numberValue);
 };

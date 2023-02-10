@@ -5,7 +5,7 @@
   align-items: center;
   white-space: nowrap;
 
-  > *:not(first-child) {
+  > *:not(:first-child) {
     margin-left: 12px;
   }
 }

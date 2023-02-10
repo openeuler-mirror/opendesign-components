@@ -6,6 +6,8 @@ function getNumbers(min: number, max: number) {
   return arr;
 }
 export function getPagerItem(totalPage: number, currentPage = 1, showPageCount = 9) {
+  const activePage = currentPage > totalPage ? totalPage : currentPage;
+
   const maxCount = showPageCount > 3 ? showPageCount : 3;
   let pages: Array<{ value: number | 'left' | 'right', isMore?: boolean, list?: number[] }> = [];
 
@@ -36,8 +38,8 @@ export function getPagerItem(totalPage: number, currentPage = 1, showPageCount =
   } else {
     const d = (maxCount - 3) / 2;
 
-    let min = currentPage - Math.floor(d);
-    let max = currentPage + Math.ceil(d);
+    let min = activePage - Math.floor(d);
+    let max = activePage + Math.ceil(d);
 
     // 处理边缘问题
     if (max > totalPage - 1) {
