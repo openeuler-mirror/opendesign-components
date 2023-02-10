@@ -1,5 +1,4 @@
-@import './var.scss';
-@import '../../popup/style/index.scss';
+@use './var.scss';
 
 .o-select {
   border: 1px solid var(--select-border);

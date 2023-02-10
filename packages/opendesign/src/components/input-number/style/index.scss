@@ -1,8 +1,86 @@
-@import './var.scss';
-@import '../../input/style/index.scss';
+@use './var.scss';
 
 .o-input-number {
-  cursor: pointer;
-  color: var(--input-color);
+  .o-input-prepend,
+  .o-input-append {
+    font-size: 14px;
+    padding: 0;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  // &.is-disabled {
+  //   .o-input-prepend,
+  //   .o-input-append {
+  //     background-color: var(--input-number-btn-bg-disabled);
+  //     color: var(--input-number-btn-color-disabled);
+  //   }
+  // }
+  &.is-invalid {
+    .o-input-input {
+      text-decoration: line-through;
+    }
+  }
+}
+.o-input-number-btn {
+  user-select: none;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  min-width: var(--input-height);
+  font-size: var(--input-number-icon-size);
+  flex-wrap: wrap;
+  color: var(--input-number-btn-color);
+
+  &:not(.is-vertical):hover {
+    color: var(--input-number-btn-color-hover);
+    background-color: var(--input-number-btn-bg);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    background-color: var(--input-number-btn-bg-disabled);
+    color: var(--input-number-btn-color-disabled);
+  }
+
+  .o-input-shape-round & {
+    &.append {
+      padding-right: 2px;
+    }
+    &.prepend {
+      padding-left: 2px;
+    }
+  }
+}
+.o-input-number-btn-minus,
+.o-input-number-btn-plus {
+  width: 100%;
+  height: 50%;
   display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    color: var(--input-number-btn-color-hover);
+    background-color: var(--input-number-btn-bg);
+  }
+}
+.o-input-number-icon-minus {
+  position: absolute;
+  margin-top: -4px;
+}
+.o-input-number-icon-plus {
+  position: absolute;
+  margin-bottom: -4px;
+}
+
+.o-input-number-size-small {
+  width: 90px;
+}
+.o-input-number-size-normal {
+  width: 120px;
+}
+.o-input-number-size-large {
+  width: 160px;
 }

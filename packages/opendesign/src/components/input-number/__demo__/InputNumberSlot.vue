@@ -1,27 +1,29 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OInputNumber } from '../index';
-import { IconDone } from '../../icons';
 
 const val1 = ref('');
-const val2 = ref('this is input value');
+const val2 = ref(1000);
 </script>
 <template>
   <h4>Prefix & Suffix</h4>
   <section>
-    <div>val1:{{ val1 }}</div>
-    <OInputNumber v-model:value="val2" />
-    <OInputNumber v-model:value="val2">
-      <template #prefix>
-        <IconDone />
-      </template>
+    <OInputNumber v-model:value="val1" style="width: 150px">
+      <template #minus>Plus</template>
+      <template #add>Minus</template>
     </OInputNumber>
-    <OInputNumber v-model:value="val2">
-      <template #suffix>
-        <IconDone />
-      </template>
+    <OInputNumber v-model:value="val1" controls="left" style="width: 150px">
+      <template #minus>+</template>
+      <template #add>-</template>
     </OInputNumber>
-    <OInputNumber v-model:value="val2" :clearable="false">
+    <OInputNumber v-model:value="val1" controls="right" style="width: 150px">
+      <template #minus>+</template>
+      <template #add>-</template>
+    </OInputNumber>
+    <OInputNumber v-model:value="val2" style="width: 150px">
+      <template #prefix> $ </template>
+    </OInputNumber>
+    <OInputNumber v-model:value="val2" :clearable="false" style="width: 150px">
       <template #suffix> 元 </template>
     </OInputNumber>
   </section>

@@ -1,102 +1,30 @@
-@import './var.scss';
-@import '../../popup/style/index.scss';
+@use './var.scss';
 
 .o-input {
   cursor: pointer;
   color: var(--input-color);
   display: inline-flex;
-}
-.o-input-size-small {
-  height: var(--input-height-s);
-  font-size: var(--input-text-size-s);
-  line-height: var(--input-text-height-s);
-  .o-input-wrap {
-    padding-left: 6px;
-    padding-right: 6px;
-    border-radius: var(--input-radius-s);
-  }
-}
-
-.o-input-size-normal {
-  height: var(--input-height-m);
-  font-size: var(--input-text-size-m);
-  line-height: var(--input-text-height-m);
-  .o-input-wrap {
-    padding-left: 12px;
-    padding-right: 12px;
-    border-radius: var(--input-radius-m);
-  }
-  .o-input-append {
-    border-top-right-radius: var(--input-radius-m);
-    border-bottom-right-radius: var(--input-radius-m);
-  }
-
-  .o-input-prepend {
-    border-top-left-radius: var(--input-radius-m);
-    border-bottom-left-radius: var(--input-radius-m);
-  }
-}
-
-.o-input-size-large {
-  height: var(--input-height-l);
-  font-size: var(--input-text-size-l);
-  line-height: var(--input-text-height-l);
-  .o-input-wrap {
-    padding-left: 16px;
-    padding-right: 16px;
-    border-radius: var(--input-radius-l);
-  }
-}
-
-.o-input-shape-round {
-  border-radius: 100px;
+  height: var(--input-height);
+  font-size: var(--input-text-size);
+  line-height: var(--input-text-height);
 }
 
 .o-input-wrap {
   display: flex;
-  padding: 0 12px;
+  padding: var(--input-padding);
+  border-radius: var(--input-radius);
   border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
 
   &:hover {
     border-color: var(--input-border-hover);
     background-color: var(--input-bg-hover);
   }
-  .o-input.is-focus & {
-    border-color: var(--input-border-active);
-    background-color: var(--input-bg-active);
-  }
-  .o-input.is-disabled & {
-    color: var(--input-color-disabled);
-    cursor: not-allowed;
-    border-color: var(--input-border-disabled);
-    background-color: var(--input-bg-disabled);
+  &.is-focus {
+    border-color: var(--input-border-focus);
+    background-color: var(--input-bg-focus);
   }
 
-  .o-input:not(.is-disabled) & {
-    &.clearable {
-      &.has-suffix {
-        .o-input-clear {
-          position: absolute;
-          right: 0;
-          height: 100%;
-        }
-
-        &:hover {
-          .o-input-suffix-wrap {
-            visibility: hidden;
-            opacity: 0;
-          }
-        }
-      }
-      &:hover {
-        .o-input-clear {
-          visibility: visible;
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-    }
-  }
   &.has-prepend {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -104,6 +32,32 @@
   &.has-append {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+}
+
+.o-input-disabled {
+  .o-input-clear {
+    display: none;
+  }
+  .o-input-wrap {
+    color: var(--input-color-disabled);
+    cursor: not-allowed;
+    border-color: var(--input-border-disabled);
+    background-color: var(--input-bg-disabled);
+  }
+}
+
+.o-input-clearable {
+  &:hover {
+    .o-input-suffix-wrap {
+      visibility: hidden;
+      opacity: 0;
+    }
+    .o-input-clear {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }
 
@@ -117,6 +71,7 @@
   width: 100%;
   caret-color: var(--o-color-primary1);
   padding: 4px 0;
+  line-height: inherit;
 }
 
 .o-input-clear {
@@ -127,6 +82,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--input-icon-color);
+  &:hover {
+    color: var(--input-icon-color-hover);
+  }
+  .o-input-suffix-wrap + & {
+    position: absolute;
+    right: 0;
+    height: 100%;
+  }
 }
 .o-input-suffix-wrap {
   transition: all var(var(--o-duration-m1)) var(--o-easing-standard-out);
@@ -140,9 +104,9 @@
 .o-input-prefix {
   display: flex;
   align-items: center;
-
   margin-right: 4px;
 }
+
 .o-input-clear-icon {
   stroke-width: 0.5px;
 }
@@ -151,15 +115,92 @@
 .o-input-prepend {
   display: flex;
   align-items: center;
-  padding: 0 8px;
 }
 
 .o-input-append {
   border: 1px solid var(--o-color-border2);
   border-left: 0;
+  flex-shrink: 0;
+  padding: var(--input-append-padding);
+  border-top-right-radius: var(--input-append-prepend-border-radius);
+  border-bottom-right-radius: var(--input-append-prepend-border-radius);
 }
 
 .o-input-prepend {
   border: 1px solid var(--o-color-border2);
   border-right: 0;
+  flex-shrink: 0;
+  padding: var(--input-prepend-padding);
+  border-top-left-radius: var(--input-append-prepend-border-radius);
+  border-bottom-left-radius: var(--input-append-prepend-border-radius);
+}
+.o-input-size-small {
+  --input-height: var(--input-height-s);
+  --input-text-size: var(--input-text-size-s);
+  --input-text-height: var(--input-text-height-s);
+  --input-append-prepend-border-radius: var(--input-radius-s);
+  --input-padding: 0 8px;
+  --input-radius: var(--input-radius-s);
+  --input-append-padding: 0 4px;
+  --input-prepend-padding: 0 4px;
+  &.o-input-shape-round {
+    --input-append-padding: 0 6px 0 4px;
+    --input-prepend-padding: 0 4px 0 6px;
+  }
+}
+.o-input-size-normal {
+  --input-height: var(--input-height-m);
+  --input-text-size: var(--input-text-size-m);
+  --input-text-height: var(--input-text-height-m);
+  --input-append-prepend-border-radius: var(--input-radius-m);
+  --input-padding: 0 12px;
+  --input-radius: var(--input-radius-m);
+  --input-append-padding: 0 8px;
+  --input-prepend-padding: 0 8px;
+  &.o-input-shape-round {
+    --input-append-padding: 0 12px 0 8px;
+    --input-prepend-padding: 0 8px 0 12px;
+  }
+}
+.o-input-size-large {
+  --input-height: var(--input-height-l);
+  --input-text-size: var(--input-text-size-l);
+  --input-text-height: var(--input-text-height-l);
+  --input-append-prepend-border-radius: var(--input-radius-l);
+  --input-padding: 0 16px;
+  --input-radius: var(--input-radius-l);
+  --input-append-padding: 0 12px;
+  --input-prepend-padding: 0 12px;
+  &.o-input-shape-round {
+    --input-append-padding: 0 16px 0 12px;
+    --input-prepend-padding: 0 12px 0 16px;
+  }
+}
+.o-input-shape-round {
+  --input-radius: 100px;
+  --input-append-prepend-border-radius: 100px;
+}
+.o-input-status-success {
+  --input-border: var(--input-border-success);
+  --input-border-hover: var(--input-border-success-hover);
+  --input-border-focus: var(--input-border-success-focus);
+  --input-bg: var(--input-bg-success);
+  --input-bg-hover: var(--input-bg-success-hover);
+  --input-bg-focus: var(--input-bg-success-focus);
+}
+.o-input-status-warning {
+  --input-border: var(--input-border-warning);
+  --input-border-hover: var(--input-border-warning-hover);
+  --input-border-focus: var(--input-border-warning-focus);
+  --input-bg: var(--input-bg-warning);
+  --input-bg-hover: var(--input-bg-warning-hover);
+  --input-bg-focus: var(--input-bg-warning-focus);
+}
+.o-input-status-error {
+  --input-border: var(--input-border-error);
+  --input-border-hover: var(--input-border-error-hover);
+  --input-border-focus: var(--input-border-error-focus);
+  --input-bg: var(--input-bg-error);
+  --input-bg-hover: var(--input-bg-error-hover);
+  --input-bg-focus: var(--input-bg-error-focus);
 }

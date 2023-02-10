@@ -37,6 +37,13 @@ body {
     color: var(--o-color-text1);
   }
 }
+.col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 section {
   border: 1px solid var(--o-color-border2);
   padding: var(--o-gap-4);

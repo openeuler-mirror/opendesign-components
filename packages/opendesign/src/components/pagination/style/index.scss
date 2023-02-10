@@ -1,8 +1,4 @@
-@import './var.scss';
-@import '../../popover/style/index.scss';
-@import '../../input/style/index.scss';
-@import '../../select/style/index.scss';
-@import '../../option/style/index.scss';
+@use './var.scss';
 
 .o-pagination-wrap {
   display: flex;
