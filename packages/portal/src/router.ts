@@ -70,6 +70,12 @@ export const routes = [
     component: () => import('@demo/input-number/__demo__/IndexInputNumber.vue'),
   },
   {
+    path: '/textarea',
+    name: 'Textarea',
+    label: '文本域',
+    component: () => import('@demo/textarea/__demo__/IndexTextarea.vue'),
+  },
+  {
     path: '/select',
     name: 'Select',
     label: '下拉框',

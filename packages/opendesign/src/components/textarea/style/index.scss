@@ -1,0 +1,155 @@
+@use './var.scss';
+
+.o-textarea {
+  cursor: pointer;
+  color: var(--textarea-color);
+  display: inline-flex;
+  font-size: var(--textarea-text-size);
+  line-height: var(--textarea-text-height);
+}
+
+.o-textarea-wrap {
+  display: flex;
+  border-radius: var(--textarea-radius);
+  border: 1px solid var(--textarea-border);
+  background-color: var(--textarea-bg);
+  position: relative;
+
+  &:hover {
+    border-color: var(--textarea-border-hover);
+    background-color: var(--textarea-bg-hover);
+  }
+  &.is-focus {
+    border-color: var(--textarea-border-focus);
+    background-color: var(--textarea-bg-focus);
+  }
+}
+
+.o-textarea-textarea {
+  padding: var(--textarea-padding);
+  outline: none;
+  border: none;
+  color: inherit;
+  cursor: inherit;
+  background-color: transparent;
+  display: inline-flex;
+  width: 100%;
+  caret-color: var(--o-color-primary1);
+  line-height: inherit;
+  .o-textarea-disabled & {
+    resize: none;
+  }
+}
+
+.o-textarea-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  font-size: 16px;
+  margin-top: -8px;
+  border-radius: 50%;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.1);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--textarea-icon-color);
+  background-color: var(--textarea-icon-bg);
+
+  &:hover {
+    color: var(--textarea-icon-color-hover);
+  }
+}
+
+.o-textarea-clear-icon {
+  stroke-width: 0.5px;
+}
+
+.o-textarea-clearable {
+  &:hover {
+    .o-textarea-clear {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.o-textarea-disabled {
+  .o-textarea-clear {
+    display: none;
+  }
+  .o-textarea-wrap {
+    color: var(--textarea-color-disabled);
+    cursor: not-allowed;
+    border-color: var(--textarea-border-disabled);
+    background-color: var(--textarea-bg-disabled);
+  }
+}
+
+.o-textarea-limit {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  color: var(--textarea-limit-color);
+  font-size: var(--textarea-limit-text-size);
+  line-height: var(--textarea-limit-text-height);
+  > .is-error {
+    color: var(--textarea-limit-color-error);
+  }
+}
+
+.o-textarea-size-small {
+  --textarea-text-size: var(--textarea-text-size-s);
+  --textarea-text-height: var(--textarea-text-height-s);
+  --textarea-padding: 2px 8px;
+  --textarea-radius: var(--textarea-radius-s);
+  &.o-textarea-shape-round {
+    --textarea-radius: 12px;
+  }
+}
+.o-textarea-size-normal {
+  --textarea-text-size: var(--textarea-text-size-m);
+  --textarea-text-height: var(--textarea-text-height-m);
+  --textarea-padding: 4px 12px;
+  --textarea-radius: var(--textarea-radius-m);
+  &.o-textarea-shape-round {
+    --textarea-radius: 16px;
+  }
+}
+.o-textarea-size-large {
+  --textarea-text-size: var(--textarea-text-size-l);
+  --textarea-text-height: var(--textarea-text-height-l);
+  --textarea-padding: 6px 12px;
+  --textarea-radius: var(--textarea-radius-l);
+  &.o-textarea-shape-round {
+    --textarea-radius: 20px;
+  }
+}
+
+.o-textarea-status-success {
+  --textarea-border: var(--textarea-border-success);
+  --textarea-border-hover: var(--textarea-border-success-hover);
+  --textarea-border-focus: var(--textarea-border-success-focus);
+  --textarea-bg: var(--textarea-bg-success);
+  --textarea-bg-hover: var(--textarea-bg-success-hover);
+  --textarea-bg-focus: var(--textarea-bg-success-focus);
+}
+.o-textarea-status-warning {
+  --textarea-border: var(--textarea-border-warning);
+  --textarea-border-hover: var(--textarea-border-warning-hover);
+  --textarea-border-focus: var(--textarea-border-warning-focus);
+  --textarea-bg: var(--textarea-bg-warning);
+  --textarea-bg-hover: var(--textarea-bg-warning-hover);
+  --textarea-bg-focus: var(--textarea-bg-warning-focus);
+}
+.o-textarea-status-error {
+  --textarea-border: var(--textarea-border-error);
+  --textarea-border-hover: var(--textarea-border-error-hover);
+  --textarea-border-focus: var(--textarea-border-error-focus);
+  --textarea-bg: var(--textarea-bg-error);
+  --textarea-bg-hover: var(--textarea-bg-error-hover);
+  --textarea-bg-focus: var(--textarea-bg-error-focus);
+}

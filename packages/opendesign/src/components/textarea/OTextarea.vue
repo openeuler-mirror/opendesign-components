@@ -4,20 +4,19 @@ import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
 import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
-import { Enter } from '../_shared/keycode';
-import { toInputString } from './input';
+import { toInputString } from './textarea';
 
 interface InputPropT {
   /**
    * 下拉框的值
    * v-model
    */
-  modelValue?: string | number;
+  modelValue?: string;
   /**
    * 下拉框的默认值
    * 非受控
    */
-  defaultValue?: string | number;
+  defaultValue?: string;
   /**
    * 大小
    */
@@ -47,18 +46,33 @@ interface InputPropT {
    */
   clearable?: boolean;
   /**
-   * 是否是密码输入
+   * 是否支持调整尺寸
    */
-  type?: 'text' | 'password';
+  resize?: 'both' | 'horizontal' | 'vertical' | 'none';
   /**
-   * 解析输入框的值
+   * 显示的行数
    */
-  parse?: (value: string) => string;
+  rows?: number;
   /**
-   * 对值格式化，控制显示格式
-   * 需搭配parse处理，保证值的正确性
+   * 显示的行数
    */
-  format?: (value: string | number) => string | number;
+  cols?: number;
+  /**
+   * 最大字符长度
+   */
+  maxLength?: number;
+  /**
+   * 超过最大字符长度时是否允许输入
+   */
+  inputOutLimit?: boolean;
+  /**
+   * 获取长度方法
+   */
+  getLength?: (val: string) => number;
+  /**
+   * 高度自适应
+   */
+  autoResize?: boolean;
 }
 const props = withDefaults(defineProps<InputPropT>(), {
   modelValue: undefined,
@@ -66,11 +80,14 @@ const props = withDefaults(defineProps<InputPropT>(), {
   size: undefined,
   shape: undefined,
   placeholder: '',
-  type: 'text',
   clearable: true,
-  parse: undefined,
-  format: undefined,
   status: undefined,
+  resize: 'vertical',
+  rows: 3,
+  cols: 20,
+  maxLength: undefined,
+  getLength: undefined,
+  inputOutLimit: true,
 });
 
 const emits = defineEmits<{
@@ -80,10 +97,10 @@ const emits = defineEmits<{
   (e: 'blur', value: string, evt: FocusEvent): void;
   (e: 'focus', value: string, evt: FocusEvent): void;
   (e: 'clear', evt: Event): void;
-  (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
+  (e: 'keydown', value: string, evt: KeyboardEvent): void;
 }>();
 
-const inputRef = ref<HTMLElement | null>(null);
+const textareaRef = ref<HTMLElement | null>(null);
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
 // 监听属性变化，刷新值
@@ -95,30 +112,41 @@ watch(
   }
 );
 
-// 输入框显示的字符串
-const displayValue = computed(() => {
-  const v = isFunction(props.format) ? props.format(realValue.value) : realValue.value;
-  // console.log('displayValue', v, realValue.value);
-  return v;
+const resizeValue = computed(() => {
+  return props.disabled ? 'none' : props.resize;
+});
+
+const getValueLength = (val: string) => {
+  if (isFunction(props.getLength)) {
+    return props.getLength(val);
+  }
+  return val.length ?? 0;
+};
+// 是否超出最大长度限制
+const currentLength = computed(() => getValueLength(realValue.value));
+const isOutLengthLimit = computed(() => (props.maxLength !== undefined ? currentLength.value > props.maxLength : false));
+
+const status = computed(() => {
+  return props.status ?? (isOutLengthLimit.value ? 'error' : '');
 });
 
 // 是否聚焦状态
 const isFocus = ref(false);
 let lastValue: string = realValue.value;
 
-function updateValue(val: string) {
-  const value = isFunction(props.parse) ? props.parse(val) : val;
-  emits('update:modelValue', value);
+const updateValue = (val: string) => {
+  emits('update:modelValue', val);
 
-  if (lastValue !== value) {
-    emits('change', value);
-    lastValue = value;
+  if (lastValue !== val) {
+    emits('change', val);
+    lastValue = val;
   }
-  return value;
-}
+  return val;
+};
 
 // 正在输入中文，处理输入过程中触发input事件
 let isComposing = false;
+// 解决点击组件内的非textarea区域触发focus、blur问题
 let clickInside = false;
 
 // 开始中文输入
@@ -141,12 +169,8 @@ const onInput = (e: Event) => {
   }
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
-  // console.log('input', val);
 
-  if (!props.parse) {
-    emits('update:modelValue', val);
-    // console.log('update:modelValue', val);
-  }
+  emits('update:modelValue', val);
 };
 
 const onFocus = (e: FocusEvent) => {
@@ -154,10 +178,8 @@ const onFocus = (e: FocusEvent) => {
   if (isFocus.value) {
     return;
   }
-  // console.log('onFocus', clickInside);
   isFocus.value = true;
   emits('focus', realValue.value, e);
-  // console.log('focus', realValue.value);
 };
 
 const onBlur = (e: FocusEvent) => {
@@ -165,21 +187,16 @@ const onBlur = (e: FocusEvent) => {
     clickInside = false;
     return;
   }
-  // console.log('onBlur', clickInside);
   isFocus.value = false;
   const val = (e.target as HTMLInputElement)?.value;
   const v = updateValue(val);
   emits('blur', v, e);
-  // console.log('blur', v);
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
-  const keyCode = e.key || e.code;
-  if (!isComposing && keyCode === Enter.key) {
+  if (!isComposing) {
     const val = (e.target as HTMLInputElement)?.value;
-    const v = updateValue(val);
-    emits('pressEnter', v, e);
-    // console.log('pressEnter', v);
+    emits('keydown', val, e);
   }
 };
 // 清除值
@@ -188,65 +205,56 @@ const clearClick = (e: Event) => {
   emits('clear', e);
 };
 const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== inputRef.value) {
+  if ((e.target as HTMLInputElement) !== textareaRef.value) {
     clickInside = true;
   }
 };
 </script>
 <template>
   <label
-    class="o-input"
+    class="o-textarea"
     :class="[
-      `o-input-size-${props.size || defaultSize}`,
-      `o-input-shape-${props.shape || defaultShape}`,
-      props.status ? `o-input-status-${props.status}` : '',
+      `o-textarea-size-${props.size || defaultSize}`,
+      `o-textarea-shape-${props.shape || defaultShape}`,
+      status ? `o-textarea-status-${status}` : '',
       {
-        'o-input-disabled': props.disabled,
-        'o-input-focus': isFocus,
+        'o-textarea-disabled': props.disabled,
+        'o-textarea-focus': isFocus,
       },
     ]"
     @mousedown="onMouseDown"
   >
-    <span v-if="$slots.prepend" class="o-input-prepend">
-      <slot name="prepend"></slot>
-    </span>
     <div
-      class="o-input-wrap"
+      class="o-textarea-wrap"
       :class="{
-        'o-input-clearable': props.clearable && realValue !== '' && !props.disabled,
-        'has-suffix': $slots.suffix,
-        'has-prepend': $slots.prepend,
-        'has-append': $slots.append,
-        'is-focus': isFocus,
+        'o-textarea-clearable': props.clearable && realValue !== '' && !props.disabled,
       }"
     >
-      <div v-if="$slots.prefix" class="o-input-prefix">
-        <slot name="prefix"></slot>
-      </div>
-      <input
-        ref="inputRef"
-        :value="displayValue"
-        :type="type"
+      <textarea
+        ref="textareaRef"
+        class="o-textarea-textarea"
         :placeholder="props.placeholder"
-        class="o-input-input"
+        :value="realValue"
         :readonly="props.readonly"
         :disabled="props.disabled"
+        :style="{
+          resize: resizeValue,
+        }"
+        :maxlength="props.inputOutLimit ? '' : props.maxLength"
+        :rows="props.rows"
+        :cols="props.cols"
         @focus="onFocus"
         @blur="onBlur"
         @input="onInput"
         @keydown="onKeyDown"
         @compositionstart="onCompositionStart"
         @compositionend="onCompositionEnd"
-      />
-      <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
-        <span v-if="$slots.suffix" class="o-input-suffix-wrap">
-          <slot name="suffix"></slot>
-        </span>
-        <div v-if="props.clearable" class="o-input-clear" @click="clearClick"><IconX class="o-input-clear-icon" /></div>
+      ></textarea>
+      <div v-if="props.clearable" class="o-textarea-clear" @click="clearClick"><IconX class="o-textarea-clear-icon" /></div>
+      <div v-if="props.maxLength" class="o-textarea-limit">
+        <span :class="{ 'is-error': isOutLengthLimit }">{{ currentLength }}</span
+        >/{{ props.maxLength }}
       </div>
     </div>
-    <span v-if="$slots.append" class="o-input-append">
-      <slot name="append"></slot>
-    </span>
   </label>
 </template>
