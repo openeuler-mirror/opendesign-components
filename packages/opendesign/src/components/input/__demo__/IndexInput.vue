@@ -10,11 +10,11 @@ import InputAutoWidth from './InputAutoWidth.vue';
 </script>
 <template>
   <div class="page-demo">
-    <InputAutoWidth />
     <InputBasic />
     <InputEvent />
     <InputSlot />
     <InputMethod />
+    <InputAutoWidth />
   </div>
 </template>
 <style lang="scss"></style>
