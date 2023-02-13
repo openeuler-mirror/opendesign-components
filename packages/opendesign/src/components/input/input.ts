@@ -6,14 +6,3 @@ export function toInputString(val: unknown): string {
   }
   return String(val);
 }
-
-export function getInputAutoWidth(inputEl: HTMLElement) {
-  if (inputEl) {
-    const { clientWidth, scrollWidth } = inputEl;
-    if (clientWidth < scrollWidth) {
-      return `${scrollWidth}` + 'px';
-    }
-  }
-
-  return '';
-}

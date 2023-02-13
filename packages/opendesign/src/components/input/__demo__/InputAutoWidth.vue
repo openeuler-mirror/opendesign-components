@@ -11,8 +11,14 @@ setTimeout(() => {
 <template>
   <h4>Auto Width</h4>
   <section>
-    <OInput v-model="val1" auto-width style="max-width: 300px" />
-    <OInput v-model="val2" auto-width style="min-width: 200px" />
+    <div>
+      max-width: 300px:
+      <OInput v-model="val1" auto-width style="max-width: 300px" />
+    </div>
+    <div>
+      min-width: 200px:
+      <OInput v-model="val2" auto-width style="min-width: 200px" />
+    </div>
   </section>
 </template>
 <style lang="scss"></style>

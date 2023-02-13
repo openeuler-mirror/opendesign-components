@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
 import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
-import { toInputString, getInputAutoWidth } from './input';
+import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
 
 interface InputPropT {
@@ -205,7 +205,7 @@ const onMouseDown = (e: MouseEvent) => {
 };
 
 const onMirrorResize = (en: ResizeObserverEntry) => {
-  inputWidth.value = en.contentRect.width;
+  inputWidth.value = en.target.clientWidth;
 };
 </script>
 <template>
@@ -238,30 +238,32 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
       <div v-if="$slots.prefix" class="o-input-prefix">
         <slot name="prefix"></slot>
       </div>
-      <input
-        ref="inputRef"
-        :value="displayValue"
-        :type="type"
-        :placeholder="props.placeholder"
-        class="o-input-input"
-        :class="{
-          'is-auto-size': props.autoWidth,
-        }"
-        :style="{
-          width: inputWidth + 'px',
-        }"
-        :readonly="props.readonly"
-        :disabled="props.disabled"
-        @focus="onFocus"
-        @blur="onBlur"
-        @input="onInput"
-        @keydown="onKeyDown"
-        @compositionstart="onCompositionStart"
-        @compositionend="onCompositionEnd"
-      />
-      <OResizeObserver v-if="props.autoWidth" @resize="onMirrorResize">
-        <div class="o-input-mirror">{{ inputText }}</div>
-      </OResizeObserver>
+      <div class="o-input-auto-wrap">
+        <input
+          ref="inputRef"
+          :value="displayValue"
+          :type="type"
+          :placeholder="props.placeholder"
+          class="o-input-input"
+          :class="{
+            'is-auto-size': props.autoWidth,
+          }"
+          :style="{
+            width: inputWidth + 'px',
+          }"
+          :readonly="props.readonly"
+          :disabled="props.disabled"
+          @focus="onFocus"
+          @blur="onBlur"
+          @input="onInput"
+          @keydown="onKeyDown"
+          @compositionstart="onCompositionStart"
+          @compositionend="onCompositionEnd"
+        />
+        <OResizeObserver v-if="props.autoWidth" @resize="onMirrorResize">
+          <div class="o-input-mirror">{{ inputText }}</div>
+        </OResizeObserver>
+      </div>
       <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>

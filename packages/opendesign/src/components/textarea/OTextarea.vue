@@ -5,6 +5,7 @@ import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { toInputString } from './textarea';
+import { OResizeObserver } from '../resize-observer';
 
 interface InputPropT {
   /**
@@ -66,6 +67,10 @@ interface InputPropT {
    */
   inputOutLimit?: boolean;
   /**
+   * 是否自动计算高度
+   */
+  autoHeight?: boolean;
+  /**
    * 获取长度方法
    */
   getLength?: (val: string) => number;
@@ -100,20 +105,25 @@ const emits = defineEmits<{
   (e: 'keydown', value: string, evt: KeyboardEvent): void;
 }>();
 
+const textareaHeight = ref();
+
 const textareaRef = ref<HTMLElement | null>(null);
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
+// 当前textarea文本值
+const textareaText = ref(realValue.value);
 // 监听属性变化，刷新值
 watch(
   () => props.modelValue,
   (val) => {
     // console.log('watch', val);
     realValue.value = toInputString(val);
+    textareaText.value = `${realValue.value}\r\n`;
   }
 );
 
 const resizeValue = computed(() => {
-  return props.disabled ? 'none' : props.resize;
+  return props.autoHeight || props.disabled ? 'none' : props.resize;
 });
 
 const getValueLength = (val: string) => {
@@ -169,6 +179,7 @@ const onInput = (e: Event) => {
   }
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
+  textareaText.value = `${val}\r\n`;
 
   emits('update:modelValue', val);
 };
@@ -209,6 +220,11 @@ const onMouseDown = (e: MouseEvent) => {
     clickInside = true;
   }
 };
+
+const onMirrorResize = (en: ResizeObserverEntry) => {
+  textareaHeight.value = en.target.clientHeight;
+  console.log(en);
+};
 </script>
 <template>
   <label
@@ -220,6 +236,7 @@ const onMouseDown = (e: MouseEvent) => {
       {
         'o-textarea-disabled': props.disabled,
         'o-textarea-focus': isFocus,
+        'o-textarea-auto-height': props.autoHeight,
       },
     ]"
     @mousedown="onMouseDown"
@@ -239,6 +256,7 @@ const onMouseDown = (e: MouseEvent) => {
         :disabled="props.disabled"
         :style="{
           resize: resizeValue,
+          height: textareaHeight + 'px',
         }"
         :maxlength="props.inputOutLimit ? '' : props.maxLength"
         :rows="props.rows"
@@ -250,6 +268,10 @@ const onMouseDown = (e: MouseEvent) => {
         @compositionstart="onCompositionStart"
         @compositionend="onCompositionEnd"
       ></textarea>
+
+      <OResizeObserver v-if="props.autoHeight" @resize="onMirrorResize">
+        <div class="o-textarea-mirror">{{ textareaText }}</div>
+      </OResizeObserver>
       <div v-if="props.clearable" class="o-textarea-clear" @click="clearClick"><IconX class="o-textarea-clear-icon" /></div>
       <div v-if="props.maxLength" class="o-textarea-limit">
         <span :class="{ 'is-error': isOutLengthLimit }">{{ currentLength }}</span
