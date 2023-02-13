@@ -21,7 +21,7 @@ const handleChange = (val: Array<string | number>) => {
     checkboxVal1.value = ['a'];
     indeterminate.value = false;
   } else if (val.length === 0) {
-    checkboxVal1.value = ['a'];
+    checkboxVal1.value = [];
     indeterminate.value = false;
   } else {
     checkboxVal1.value = [];

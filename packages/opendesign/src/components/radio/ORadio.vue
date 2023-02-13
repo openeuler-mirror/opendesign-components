@@ -1,16 +1,21 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick } from 'vue';
+import { computed, inject, nextTick, ref, watch } from 'vue';
 import { radioGroupInjectKey } from '../radio-group/provide';
+import { isUndefined } from '../_shared/is';
 
 interface RadioPropT {
   /**
    * 单选框value
    */
-  value: string | boolean | number;
+  value: string | number | boolean;
   /**
    * 单选框双向绑定值
    */
-  modelValue?: string | boolean | number;
+  modelValue?: string | number | boolean;
+  /**
+   * 非受控状态时，默认是否选中
+   */
+  defaultChecked?: boolean;
   /**
    * 是否禁用
    */
@@ -18,6 +23,7 @@ interface RadioPropT {
 }
 const props = withDefaults(defineProps<RadioPropT>(), {
   modelValue: undefined,
+  defaultChecked: false,
   disabled: false,
 });
 
@@ -28,8 +34,41 @@ const emits = defineEmits<{
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
 
+// 监听modelValue改变
+const isModelValueChanged = ref(false);
+
+watch(
+  () => props.modelValue,
+  () => {
+    isModelValueChanged.value = true;
+  }
+);
+
 // 是否选中
-const isChecked = computed(() => props.value === (radioGroupInjection ? radioGroupInjection.modelValue.value : props.modelValue));
+const _checked = ref(props.defaultChecked);
+const isChecked = computed(() => {
+  if (radioGroupInjection) {
+    return props.value === radioGroupInjection.realValue.value;
+  }
+
+  if (!isUndefined(props.modelValue) || isModelValueChanged.value) {
+    return props.value === props.modelValue;
+  }
+
+  return _checked.value;
+});
+
+watch(
+  isChecked,
+  (val) => {
+    _checked.value = val;
+  },
+  { immediate: true }
+);
+
+defineExpose({
+  checked: isChecked,
+});
 
 // 是否disabled
 const isDisabled = computed(() => radioGroupInjection?.disabled.value || props.disabled);
@@ -43,6 +82,8 @@ const onChange = () => {
     return;
   }
 
+  _checked.value = true;
+
   const val = props.value;
   emits('update:modelValue', val);
   radioGroupInjection?.updateModelValue(val);
@@ -51,16 +92,12 @@ const onChange = () => {
     radioGroupInjection?.onChange(val);
   });
 };
-
-defineExpose({
-  checked: isChecked,
-});
 </script>
 
 <template>
   <label class="o-radio" :class="{ 'is-checked': isChecked, 'is-disabled': isDisabled }">
     <div class="o-radio-wrapper">
-      <input type="radio" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input type="radio" :value="value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot v-if="$slots.radio" name="radio" :checked="isChecked" :disabled="isDisabled"></slot>
       <template v-else>
         <span class="o-radio-icon"></span>

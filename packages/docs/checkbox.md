@@ -2,12 +2,13 @@
 
 ## props
 
-| name                 | type                      | 默认值 | 说明                 |
-| :------------------- | :------------------------ | :----- | -------------------- |
-| value                | string \| number          | -      | 必选，多选框 vale    |
-| model-value(v-model) | Array<string \| number \> | [ ]    | 可选，双向绑定值     |
-| disabled             | boolean                   | false  | 可选，是否禁用       |
-| indeterminate        | boolean                   | false  | 可选，是否为半选状态 |
+| name                | type                      | 默认值 | 说明                             |
+| :------------------ | :------------------------ | :----- | -------------------------------- |
+| value               | string \| number          | -      | 必选，多选框 value               |
+| defaultChecked      | boolean                   | false  | 可选，非受控状态时，默认是否选中 |
+| modelValue(v-model) | Array<string \| number \> | -      | 可选，多选框双向绑定值           |
+| disabled            | boolean                   | false  | 可选，是否禁用                   |
+| indeterminate       | boolean                   | false  | 可选，是否为半选状态             |
 
 ## event
 
@@ -31,13 +32,14 @@
 
 ## props
 
-| name                 | type                       | 默认值       | 说明                                   |
-| :------------------- | :------------------------- | :----------- | -------------------------------------- |
-| model-value(v-model) | Array<string \| number \>  | [ ]          | 可选，双向绑定值                       |
-| disabled             | boolean                    | false        | 可选，是否禁用                         |
-| direction            | 'horizontal' \| 'vertical' | 'horizontal' | 可选，排列方向                         |
-| min                  | number                     | -            | 可选，多选框组支持选中的最小多选框数量 |
-| max                  | number                     | -            | 可选，多选框组支持选中的最大多选框数量 |
+| name                | type                       | 默认值       | 说明                                   |
+| :------------------ | :------------------------- | :----------- | -------------------------------------- |
+| modelValue(v-model) | Array<string \| number \>  | -            | 可选，多选框组双向绑定值               |
+| disabled            | boolean                    | false        | 可选，是否禁用                         |
+| defaultValue        | Array<string \| number \>  | []           | 可选，非受控状态时，多选框组默认值     |
+| direction           | 'horizontal' \| 'vertical' | 'horizontal' | 可选，排列方向                         |
+| min                 | number                     | -            | 可选，多选框组支持选中的最小多选框数量 |
+| max                 | number                     | -            | 可选，多选框组支持选中的最大多选框数量 |
 
 ## event
 
