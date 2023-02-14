@@ -6,6 +6,7 @@ import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
 import { toInputString } from './input';
+import { OResizeObserver } from '../resize-observer';
 
 interface InputPropT {
   /**
@@ -47,9 +48,13 @@ interface InputPropT {
    */
   clearable?: boolean;
   /**
+   * 是否自动增加宽度
+   */
+  autoWidth?: boolean;
+  /**
    * 是否是密码输入
    */
-  type?: 'text' | 'password' | 'textarea';
+  type?: 'text' | 'password';
   /**
    * 解析输入框的值
    */
@@ -84,14 +89,18 @@ const emits = defineEmits<{
 }>();
 
 const inputRef = ref<HTMLElement | null>(null);
+const inputWidth = ref();
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
+// 当前input文本值
+const inputText = ref(realValue.value);
 // 监听属性变化，刷新值
 watch(
   () => props.modelValue,
   (val) => {
     // console.log('watch', val);
     realValue.value = toInputString(val);
+    inputText.value = realValue.value;
   }
 );
 
@@ -101,10 +110,6 @@ const displayValue = computed(() => {
   // console.log('displayValue', v, realValue.value);
   return v;
 });
-
-// 输入框状态
-const status = ref<undefined | 'warning' | 'warn' | 'error'>();
-const statusClass = computed(() => (status.value || props.status ? `is-${status.value || props.status}` : ''));
 
 // 是否聚焦状态
 const isFocus = ref(false);
@@ -146,6 +151,8 @@ const onInput = (e: Event) => {
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
   // console.log('input', val);
+
+  inputText.value = val;
 
   if (!props.parse) {
     emits('update:modelValue', val);
@@ -196,15 +203,18 @@ const onMouseDown = (e: MouseEvent) => {
     clickInside = true;
   }
 };
+
+const onMirrorResize = (en: ResizeObserverEntry) => {
+  inputWidth.value = en.target.clientWidth;
+};
 </script>
 <template>
   <label
     class="o-input"
     :class="[
-      statusClass,
       `o-input-size-${props.size || defaultSize}`,
       `o-input-shape-${props.shape || defaultShape}`,
-      `o-input-status-${props.status}`,
+      props.status ? `o-input-status-${props.status}` : '',
       {
         'o-input-disabled': props.disabled,
         'o-input-focus': isFocus,
@@ -228,21 +238,32 @@ const onMouseDown = (e: MouseEvent) => {
       <div v-if="$slots.prefix" class="o-input-prefix">
         <slot name="prefix"></slot>
       </div>
-      <input
-        ref="inputRef"
-        :value="displayValue"
-        :type="type"
-        :placeholder="props.placeholder"
-        class="o-input-input"
-        :readonly="props.readonly"
-        :disabled="props.disabled"
-        @focus="onFocus"
-        @blur="onBlur"
-        @input="onInput"
-        @keydown="onKeyDown"
-        @compositionstart="onCompositionStart"
-        @compositionend="onCompositionEnd"
-      />
+      <div class="o-input-auto-wrap">
+        <input
+          ref="inputRef"
+          :value="displayValue"
+          :type="type"
+          :placeholder="props.placeholder"
+          class="o-input-input"
+          :class="{
+            'is-auto-size': props.autoWidth,
+          }"
+          :style="{
+            width: inputWidth + 'px',
+          }"
+          :readonly="props.readonly"
+          :disabled="props.disabled"
+          @focus="onFocus"
+          @blur="onBlur"
+          @input="onInput"
+          @keydown="onKeyDown"
+          @compositionstart="onCompositionStart"
+          @compositionend="onCompositionEnd"
+        />
+        <OResizeObserver v-if="props.autoWidth" @resize="onMirrorResize">
+          <div class="o-input-mirror">{{ inputText }}</div>
+        </OResizeObserver>
+      </div>
       <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>

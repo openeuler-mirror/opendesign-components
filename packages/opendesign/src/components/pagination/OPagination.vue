@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, nextTick, watch } from 'vue';
 import { getPagerItem, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
@@ -61,6 +61,12 @@ const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
 const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
 
 const pages = ref(getPagerItem(totalPage.value, currentPage.value, props.showPageCount));
+watch(
+  () => totalPage.value,
+  () => {
+    pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+  }
+);
 
 const updateCurrentPage = (page: number) => {
   if (isNaN(page)) {
@@ -103,17 +109,44 @@ const moreClick = (more: PagerItemT[0]) => {
 const goToChange = (val: string | number) => {
   updateCurrentPage(Number(val));
 };
+
+const pageSizeChange = (val: string | number) => {
+  // updateCurrentPage(Number(val));
+  const currentIndex = currentPageSize.value * currentPage.value;
+  currentPageSize.value = Number(val);
+  nextTick(() => {
+    currentPage.value = Math.ceil(currentIndex / currentPageSize.value);
+    console.log(currentIndex, totalPage.value, currentPage.value, currentPageSize.value);
+
+    pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+  });
+};
 </script>
 <template>
   <div class="o-pagination">
     <div class="o-pagination-wrap">
       <div class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <template v-if="!props.simple">
+        <div class="o-pagination-size">
+          <OSelect :model-value="currentPageSize" class="o-pagination-select" :default-label="defaultSizeLabel" @change="pageSizeChange">
+            <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
+          </OSelect>
+        </div>
+      </template>
       <div class="o-pagination-pager">
         <div class="o-pagination-prev" :class="{ disabled: currentPage === 1 }" @click="() => currentPage !== 1 && clickPageBtn(false)">&lt;</div>
         <div class="o-pagination-pages">
           <template v-if="props.simple">
             <div class="o-pagination-simple">
-              <OInputNumber :model-value="currentPage" :clearable="false" class="o-pagination-input" controls="none" />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
+              <OInputNumber
+                :model-value="currentPage"
+                :clearable="false"
+                class="o-pagination-input"
+                controls="none"
+                :min="1"
+                :max="totalPage"
+                @change="goToChange"
+              />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
           </template>
           <template v-else>
@@ -143,18 +176,14 @@ const goToChange = (val: string | number) => {
         </div>
       </div>
       <template v-if="!props.simple">
-        <div class="o-pagination-size">
-          <OSelect :model-value="currentPageSize" class="o-pagination-select" :default-label="defaultSizeLabel">
-            <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
-          </OSelect>
-        </div>
         <div class="o-pagination-goto">
           {{ Labels.goto }}&nbsp;<OInputNumber
             :model-value="currentPage"
             class="o-pagination-input"
             controls="none"
-            @blur="goToChange"
-            @press-enter="goToChange"
+            :min="1"
+            :max="totalPage"
+            @change="goToChange"
           />
         </div>
       </template>

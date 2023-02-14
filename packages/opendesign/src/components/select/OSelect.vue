@@ -88,12 +88,14 @@ provide(selectOptionInjectKey, {
   value: activeVal,
   update: (val: SelectOptionT, emit?: boolean) => {
     activeLabel.value = val.label;
-    console.log(activeLabel.value);
 
     if (emit) {
+      if (activeVal.value !== val.value) {
+        emits('change', val.value);
+        activeVal.value = val.value;
+        console.log('选中change', val.value, activeLabel.value);
+      }
       emits('update:modelValue', val.value);
-      emits('change', val.value);
-      activeVal.value = val.value;
       showOption.value = false;
     }
   },

@@ -1,0 +1,54 @@
+.o-textarea {
+  --textarea-text-size-s: var(--o-font_size-tip1);
+  --textarea-text-height-s: var(--o-line_height-tip1);
+  --textarea-text-size-m: var(--o-font_size-text);
+  --textarea-text-height-m: var(--o-line_height-text);
+  --textarea-text-size-l: var(--o-font_size-h4);
+  --textarea-text-height-l: var(--o-line_height-h4);
+
+  --textarea-radius-s: var(--o-radius-s);
+  --textarea-radius-m: var(--o-radius-s);
+  --textarea-radius-l: var(--o-radius-s);
+
+  --textarea-border: var(--o-color-info1);
+  --textarea-border-hover: var(--o-color-primary2);
+  --textarea-border-focus: var(--o-color-primary3);
+  --textarea-border-disabled: var(--o-color-info1);
+
+  --textarea-bg: var(--o-color-bg1);
+  --textarea-bg-hover: var(--o-color-bg3);
+  --textarea-bg-focus: var(--o-color-bg3);
+  --textarea-bg-disabled: var(--o-color-info4);
+
+  --textarea-color: var(--o-color-text2);
+  --textarea-color-disabled: var(--o-color-text4);
+
+  --textarea-icon-color: var(--o-color-text3);
+  --textarea-icon-bg: var(--o-color-bg4);
+  --textarea-icon-color-hover: var(--o-color-primary1);
+
+  --textarea-border-success: var(--o-color-success1);
+  --textarea-border-success-hover: var(--o-color-success2);
+  --textarea-border-success-focus: var(--o-color-success3);
+  --textarea-border-warning: var(--o-color-warning1);
+  --textarea-border-warning-hover: var(--o-color-warning2);
+  --textarea-border-warning-focus: var(--o-color-warning3);
+  --textarea-border-error: var(--o-color-danger1);
+  --textarea-border-error-hover: var(--o-color-danger2);
+  --textarea-border-error-focus: var(--o-color-danger3);
+
+  --textarea-bg-success: var(--o-color-bg1);
+  --textarea-bg-success-hover: var(--o-color-bg1);
+  --textarea-bg-success-focus: var(--o-color-bg1);
+  --textarea-bg-warning: var(--o-color-bg1);
+  --textarea-bg-warning-hover: var(--o-color-bg1);
+  --textarea-bg-warning-focus: var(--o-color-bg1);
+  --textarea-bg-error: var(--o-color-bg1);
+  --textarea-bg-error-hover: var(--o-color-bg1);
+  --textarea-bg-error-focus: var(--o-color-bg1);
+
+  --textarea-limit-color: var(--o-color-text3);
+  --textarea-limit-color-error: var(--o-color-danger1);
+  --textarea-limit-text-size: var(--o-font_size-tip2);
+  --textarea-limit-text-height: var(--o-line_height-tip2);
+}

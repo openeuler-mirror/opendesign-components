@@ -15,7 +15,9 @@
   border-radius: var(--input-radius);
   border: 1px solid var(--input-border);
   background-color: var(--input-bg);
-
+  width: 100%;
+  overflow: hidden;
+  position: relative;
   &:hover {
     border-color: var(--input-border-hover);
     background-color: var(--input-bg-hover);
@@ -32,6 +34,42 @@
   &.has-append {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+  }
+}
+
+.o-input-input {
+  outline: none;
+  border: none;
+  color: inherit;
+  cursor: inherit;
+  background-color: transparent;
+  display: inline-flex;
+  caret-color: var(--o-color-primary1);
+  padding: 0;
+  line-height: inherit;
+  height: 100%;
+  width: 100%;
+  font-size: inherit;
+}
+
+.o-input-clear {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.1);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--input-icon-color);
+  background-color: var(--input-icon-bg);
+  border-radius: 50%;
+
+  &:hover {
+    color: var(--input-icon-color-hover);
+  }
+  .o-input-suffix-wrap + & {
+    position: absolute;
+    right: 0;
   }
 }
 
@@ -61,42 +99,12 @@
   }
 }
 
-.o-input-input {
-  outline: none;
-  border: none;
-  color: inherit;
-  cursor: inherit;
-  background-color: transparent;
-  display: inline-flex;
-  width: 100%;
-  caret-color: var(--o-color-primary1);
-  padding: 4px 0;
-  line-height: inherit;
-}
-
-.o-input-clear {
-  visibility: hidden;
-  opacity: 0;
-  transform: scale(0.1);
-  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--input-icon-color);
-  &:hover {
-    color: var(--input-icon-color-hover);
-  }
-  .o-input-suffix-wrap + & {
-    position: absolute;
-    right: 0;
-    height: 100%;
-  }
-}
 .o-input-suffix-wrap {
   transition: all var(var(--o-duration-m1)) var(--o-easing-standard-out);
 }
 .o-input-suffix {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   position: relative;
   margin-left: 4px;
@@ -124,6 +132,22 @@
   padding: var(--input-append-padding);
   border-top-right-radius: var(--input-append-prepend-border-radius);
   border-bottom-right-radius: var(--input-append-prepend-border-radius);
+}
+
+.o-input-auto-wrap {
+  position: relative;
+}
+.o-input-mirror {
+  white-space: pre;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  pointer-events: none;
 }
 
 .o-input-prepend {
