@@ -20,7 +20,7 @@ setTimeout(() => {
       <OTextarea v-model="val1" auto-height style="max-height: 120px" />
     </div>
     <div>
-      min-width: 200px:
+      min-height: 200px:
       <OTextarea v-model="val2" auto-height style="min-height: 120px" />
     </div>
   </section>

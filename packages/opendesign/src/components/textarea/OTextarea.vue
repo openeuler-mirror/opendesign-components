@@ -223,7 +223,6 @@ const onMouseDown = (e: MouseEvent) => {
 
 const onMirrorResize = (en: ResizeObserverEntry) => {
   textareaHeight.value = en.target.clientHeight;
-  console.log(en);
 };
 </script>
 <template>
