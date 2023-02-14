@@ -7,9 +7,9 @@ import TableDiyHead from './TableDiyHead.vue';
 </script>
 <template>
   <div class="page-demo">
-    <TableSpan />
-    <TableDiyHead />
     <TableBasic />
+    <TableDiyHead />
+    <TableSpan />
   </div>
 </template>
 <style lang="scss"></style>

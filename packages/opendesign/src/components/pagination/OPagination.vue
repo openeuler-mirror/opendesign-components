@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch } from 'vue';
+import { computed, ref, nextTick, watch, Ref } from 'vue';
 import { getPagerItem, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect } from '../select';
 import { OOption } from '../option';
+import { defaultPageSizes } from './types';
 
 interface PaginationPropT {
   /**
@@ -18,7 +19,7 @@ interface PaginationPropT {
   /**
    * 数据总条数
    */
-  total: number;
+  total?: number;
   /**
    * 当前页码
    */
@@ -34,10 +35,11 @@ interface PaginationPropT {
 }
 
 const props = withDefaults(defineProps<PaginationPropT>(), {
-  pageSizes: () => [6, 12, 24, 48],
-  pageSize: 6,
+  pageSizes: () => defaultPageSizes,
+  pageSize: defaultPageSizes[0],
   currentPage: 1,
   showPageCount: 9,
+  total: 0,
 });
 const emits = defineEmits<{
   (e: 'update:pageSize', value: number): void;
@@ -112,15 +114,26 @@ const goToChange = (val: string | number) => {
 
 const pageSizeChange = (val: string | number) => {
   // updateCurrentPage(Number(val));
-  const currentIndex = currentPageSize.value * currentPage.value;
+  const currentIndex = currentPageSize.value * (currentPage.value - 1);
   currentPageSize.value = Number(val);
   nextTick(() => {
-    currentPage.value = Math.ceil(currentIndex / currentPageSize.value);
+    currentPage.value = Math.floor(currentIndex / currentPageSize.value) + 1;
     console.log(currentIndex, totalPage.value, currentPage.value, currentPageSize.value);
 
     pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+
+    emits('change', {
+      current: currentPage.value,
+      size: currentPageSize.value,
+    });
   });
 };
+
+defineExpose<{
+  pageCount: Ref<number>;
+}>({
+  pageCount: totalPage,
+});
 </script>
 <template>
   <div class="o-pagination">
