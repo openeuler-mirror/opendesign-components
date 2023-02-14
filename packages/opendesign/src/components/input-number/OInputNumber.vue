@@ -106,6 +106,10 @@ const emits = defineEmits<{
 const currentValue = ref<number | string | undefined>(props.modelValue ?? props.defaultValue);
 const isValid = ref(isValidNumber(currentValue.value, props.min, props.max));
 
+let numberValue = getRealValue(currentValue.value);
+let lastNumberValue = numberValue;
+let lastInputValue = currentValue.value;
+
 watch(
   () => props.modelValue,
   (val) => {
@@ -115,13 +119,12 @@ watch(
     } else {
       currentValue.value = val;
     }
+    numberValue = getRealValue(currentValue.value);
+    lastNumberValue = numberValue;
+    lastInputValue = currentValue.value;
     // console.log('watch', val);
   }
 );
-
-let numberValue = getRealValue(currentValue.value);
-let lastNumberValue = numberValue;
-let lastChangedNumberValue = numberValue;
 
 const canAdd = computed(() => {
   if (props.disabled) {
@@ -158,11 +161,11 @@ const updateValue = (val: string) => {
 
   emits('update:modelValue', numberValue);
 
-  if (numberValue !== lastChangedNumberValue) {
+  if (numberValue !== lastNumberValue) {
     emits('change', numberValue);
   }
 
-  if (numberValue === lastNumberValue) {
+  if (val !== lastInputValue) {
     if (isFunction(props.format)) {
       currentValue.value = props.format(numberValue);
     } else {
@@ -172,7 +175,7 @@ const updateValue = (val: string) => {
   }
 
   lastNumberValue = numberValue;
-  lastChangedNumberValue = numberValue;
+  lastInputValue = currentValue.value;
   return numberValue;
 };
 
@@ -255,7 +258,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     <template v-if="['both', 'left'].includes(props.controls)" #prepend>
       <div
         v-if="props.controls === 'both'"
-        class="o-input-number-btn prepend"
+        class="o-input-number-btn both-left"
         :class="{
           'is-disabled': !canMinus,
         }"
@@ -287,7 +290,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     <template v-if="['both', 'right'].includes(props.controls)" #append>
       <div
         v-if="props.controls === 'both'"
-        class="o-input-number-btn append"
+        class="o-input-number-btn both-right"
         :class="{
           'is-disabled': !canAdd,
         }"

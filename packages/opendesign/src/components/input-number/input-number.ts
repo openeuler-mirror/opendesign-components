@@ -44,6 +44,7 @@ export function correctValue(val: string | number, lastVal: number, min?: number
     } if (!isUndefined(min) && v < min) {
       return min;
     }
+    return v;
   }
   return lastVal;
 }

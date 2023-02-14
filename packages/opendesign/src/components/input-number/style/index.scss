@@ -9,13 +9,6 @@
     overflow: hidden;
   }
 
-  // &.is-disabled {
-  //   .o-input-prepend,
-  //   .o-input-append {
-  //     background-color: var(--input-number-btn-bg-disabled);
-  //     color: var(--input-number-btn-color-disabled);
-  //   }
-  // }
   &.is-invalid {
     .o-input-input {
       text-decoration: line-through;
@@ -32,21 +25,24 @@
   flex-wrap: wrap;
   color: var(--input-number-btn-color);
 
-  &:not(.is-vertical):hover {
-    color: var(--input-number-btn-color-hover);
-    background-color: var(--input-number-btn-bg);
-  }
-  &.is-disabled {
-    cursor: not-allowed;
-    background-color: var(--input-number-btn-bg-disabled);
-    color: var(--input-number-btn-color-disabled);
+  &.both-left,
+  &.both-right {
+    &:hover {
+      color: var(--input-number-btn-color-hover);
+      background-color: var(--input-number-btn-bg);
+    }
+    &.is-disabled {
+      cursor: not-allowed;
+      background-color: var(--input-number-btn-bg-disabled);
+      color: var(--input-number-btn-color-disabled);
+    }
   }
 
   .o-input-shape-round & {
-    &.append {
+    &.both-right {
       padding-right: 2px;
     }
-    &.prepend {
+    &.both-left {
       padding-left: 2px;
     }
   }
@@ -64,6 +60,11 @@
   &:hover {
     color: var(--input-number-btn-color-hover);
     background-color: var(--input-number-btn-bg);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    background-color: var(--input-number-btn-bg-disabled);
+    color: var(--input-number-btn-color-disabled);
   }
 }
 .o-input-number-icon-minus {
