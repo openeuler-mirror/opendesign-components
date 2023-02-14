@@ -10,8 +10,6 @@
 
 .o-textarea-wrap {
   display: flex;
-  padding-top: var(--textarea-padding-v);
-  padding-bottom: var(--textarea-padding-v);
   border-radius: var(--textarea-radius);
   border: 1px solid var(--textarea-border);
   background-color: var(--textarea-bg);
@@ -29,8 +27,7 @@
 }
 
 .o-textarea-textarea {
-  padding-left: var(--textarea-padding-h);
-  padding-right: var(--textarea-padding-h);
+  padding: var(--textarea-padding-v) var(--textarea-padding-h);
   outline: none;
   border: none;
   color: inherit;
@@ -40,6 +37,7 @@
   width: 100%;
   caret-color: var(--o-color-primary1);
   line-height: inherit;
+  min-height: calc(var(--textarea-text-height) + var(--textarea-padding-v) * 2);
 
   white-space: pre-wrap;
   overflow-wrap: break-word;
@@ -106,13 +104,11 @@
 }
 
 .o-textarea-mirror {
-  padding-left: var(--textarea-padding-h);
-  padding-right: var(--textarea-padding-h);
+  padding: var(--textarea-padding-v) var(--textarea-padding-h);
   white-space: pre-wrap;
   overflow-wrap: break-word;
   line-height: inherit;
   display: inline-flex;
-  // align-items: center;
   flex-direction: column;
   width: 100%;
   visibility: hidden;
@@ -129,6 +125,7 @@
   --textarea-text-height: var(--textarea-text-height-s);
   --textarea-padding-v: 2px;
   --textarea-padding-h: 8px;
+  --textarea-padding: 2px 8px;
   --textarea-radius: var(--textarea-radius-s);
   &.o-textarea-shape-round {
     --textarea-radius: 12px;
@@ -139,6 +136,7 @@
   --textarea-text-height: var(--textarea-text-height-m);
   --textarea-padding-v: 4px;
   --textarea-padding-h: 12px;
+  --textarea-padding: 4px 12px;
   --textarea-radius: var(--textarea-radius-m);
   &.o-textarea-shape-round {
     --textarea-radius: 16px;
@@ -149,6 +147,7 @@
   --textarea-text-height: var(--textarea-text-height-l);
   --textarea-padding-v: 6px;
   --textarea-padding-h: 12px;
+  --textarea-padding: 6px 12px;
   --textarea-radius: var(--textarea-radius-l);
   &.o-textarea-shape-round {
     --textarea-radius: 20px;
