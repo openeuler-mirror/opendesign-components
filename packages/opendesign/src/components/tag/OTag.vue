@@ -66,12 +66,12 @@ const emits = defineEmits<{
 const isVisible = ref(true);
 
 // 监听checked属性改变
-const isCheckedChanged = ref(false);
+const isCheckedPropChange = ref(false);
 
 watch(
   () => props.checked,
   () => {
-    isCheckedChanged.value = true;
+    isCheckedPropChange.value = true;
   }
 );
 
@@ -82,7 +82,7 @@ const isChecked = computed(() => {
     return false;
   }
 
-  if (!isUndefined(props.checked) || isCheckedChanged.value) {
+  if (!isUndefined(props.checked) || isCheckedPropChange.value) {
     return props.checked ?? false;
   }
 
