@@ -2,10 +2,9 @@
 import { computed, ref, watch } from 'vue';
 import { defaultSize, defaultShape } from '../_shared/global';
 import type { SizeT, ShapeT } from '../_shared/global';
+import type { TagStatusT } from './types';
 import { IconClose } from '../_shared/icons';
 import { isUndefined } from '../_shared/is';
-
-type TagStatusT = 'normal' | 'success' | 'warning' | 'danger';
 
 interface TagPropT {
   /**
