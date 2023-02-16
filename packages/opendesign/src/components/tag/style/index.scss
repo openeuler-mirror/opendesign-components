@@ -1,0 +1,108 @@
+@use './var.scss';
+
+.o-tag {
+  font-size: var(--tag-text-size);
+  line-height: var(--tag-text-height);
+  height: var(--tag-height);
+  border: 1px solid var(--tag-border);
+  border-radius: var(--tag-radius);
+  padding: var(--tag-padding);
+  transition: all var(--o-duration-s) var(--o-easing-standard);
+  background-color: var(--tag-bg);
+  color: var(--tag-color);
+  white-space: nowrap;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o-tag-size-small {
+  --tag-padding: 0 7px;
+  --tag-height: var(--tag-height-s);
+  --tag-radius: var(--tag-radius-s);
+}
+
+.o-tag-size-normal {
+  --tag-padding: 4px 15px;
+  --tag-height: var(--tag-height-m);
+  --tag-radius: var(--tag-radius-m);
+}
+
+.o-tag-size-large {
+  --tag-padding: 4px 19px;
+  --tag-height: var(--tag-height-l);
+  --tag-radius: var(--tag-radius-l);
+}
+
+.o-tag-status-success {
+  --tag-color: var(--tag-color-success);
+  --tag-bg: var(--tag-bg-success);
+  --tag-border: var(--tag-border-success);
+}
+
+.o-tag-status-warning {
+  --tag-color: var(--tag-color-warning);
+  --tag-bg: var(--tag-bg-warning);
+  --tag-border: var(--tag-border-warning);
+}
+
+.o-tag-status-danger {
+  --tag-color: var(--tag-color-danger);
+  --tag-bg: var(--tag-bg-danger);
+  --tag-border: var(--tag-border-danger);
+}
+
+.o-tag-icon {
+  display: inline-flex;
+  align-items: center;
+  > svg {
+    vertical-align: top;
+  }
+
+  &.prefix {
+    margin-right: 6px;
+  }
+
+  &.suffix {
+    margin-left: 6px;
+  }
+}
+
+.o-tag-icon-close {
+  cursor: pointer;
+}
+
+.o-tag-shape-round {
+  --tag-radius: var(--tag-height-l);
+}
+
+.o-tag-bordered {
+  --tag-bg: transparent;
+  &.o-tag-status-success {
+    --tag-color: var(--tag-bg-success);
+  }
+  &.o-tag-status-warning {
+    --tag-color: var(--tag-bg-warning);
+  }
+  &.o-tag-status-danger {
+    --tag-color: var(--tag-bg-danger);
+  }
+}
+
+.o-tag-checkable {
+  cursor: pointer;
+  &:not(.o-tag-checked) {
+    --tag-bg: transparent;
+    --tag-border: transparent;
+    &.o-tag-status-success {
+      --tag-color: var(--tag-bg-success);
+    }
+    &.o-tag-status-warning {
+      --tag-color: var(--tag-bg-warning);
+    }
+    &.o-tag-status-danger {
+      --tag-color: var(--tag-bg-danger);
+    }
+  }
+}

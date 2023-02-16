@@ -1,7 +1,7 @@
 import { InjectionKey, Ref } from 'vue';
 
 export const checkboxGroupInjectKey: InjectionKey<{
-  modelValue: Ref<Array<string | number>>;
+  realValue: Ref<Array<string | number>>;
   disabled: Ref<boolean>;
   isMinimum: Ref<boolean>;
   isMaximum: Ref<boolean>;

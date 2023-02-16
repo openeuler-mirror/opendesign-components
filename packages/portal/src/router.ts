@@ -117,6 +117,12 @@ export const routes = [
     label: '分割线',
     component: () => import('@demo/divider/__demo__/IndexDivider.vue'),
   },
+  {
+    path: '/tag',
+    name: 'Tag',
+    label: '标签',
+    component: () => import('@demo/tag/__demo__/IndexTag.vue'),
+  },
 ];
 
 export const router = createRouter({
