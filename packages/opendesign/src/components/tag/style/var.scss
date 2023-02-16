@@ -1,0 +1,27 @@
+.o-tag {
+  --tag-color: var(--o-color-text2);
+  --tag-color-success: var(--o-color-text1-inverse);
+  --tag-color-warning: var(--o-color-text1-inverse);
+  --tag-color-danger: var(--o-color-text1-inverse);
+
+  --tag-bg: var(--o-color-info1);
+  --tag-bg-success: var(--o-color-success1);
+  --tag-bg-warning: var(--o-color-warning1);
+  --tag-bg-danger: var(--o-color-danger1);
+
+  --tag-border: var(--o-color-info1);
+  --tag-border-success: var(--o-color-success1);
+  --tag-border-warning: var(--o-color-warning1);
+  --tag-border-danger: var(--o-color-danger1);
+
+  --tag-text-size: var(--o-font_size-text);
+  --tag-text-height: var(--o-line_height-text);
+
+  --tag-height-s: var(--o-size-s);
+  --tag-height-m: var(--o-size-m);
+  --tag-height-l: var(--o-size-l);
+
+  --tag-radius-s: var(--o-radius-s);
+  --tag-radius-m: var(--o-radius-s);
+  --tag-radius-l: var(--o-radius-s);
+}
