@@ -295,6 +295,14 @@
     "description": "遮罩色1: 用于弹窗遮罩色[light: rgba(0, 0, 0, 0.5), 'dark: rgba(0, 0, 0, 0.5)]",
     "scope": "css,scss,less"
   },
+  "--o-color-mask2": {
+    "prefix": [
+      "--o-color-mask2"
+    ],
+    "body": "var(--o-color-mask2)",
+    "description": "遮罩色2: 用于loading遮罩色[light: rgba(0, 0, 0, 0.1), 'dark: rgba(0, 0, 0, 0.1)]",
+    "scope": "css,scss,less"
+  },
   "--o-shadow-1": {
     "prefix": [
       "--o-shadow-1"

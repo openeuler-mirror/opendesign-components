@@ -261,6 +261,13 @@
    */
   --o-color-mask1: rgba(0, 0, 0, 0.5);
   /**
+   * @name 遮罩色2
+   * @type color
+   * @group mask
+   * @description 用于loading遮罩色
+   */
+  --o-color-mask2: rgba(0, 0, 0, 0.1);
+  /**
    * @name 阴影1
    * @type shadow
    * @group shadow

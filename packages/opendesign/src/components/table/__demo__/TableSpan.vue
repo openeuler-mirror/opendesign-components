@@ -10,7 +10,7 @@ const columns2 = [
   { label: 'Email 4', key: 'email' },
   { label: 'Other 5', key: 'other' },
 ];
-const tableData = getTableData(20);
+const tableData = getTableData(6);
 
 function cellSpanFn(rowIdx: number, colIdx: number) {
   if (rowIdx === 2 && colIdx === 2) {

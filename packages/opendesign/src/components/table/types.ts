@@ -1,4 +1,4 @@
-import { StyleValue } from 'vue';
+import { StyleValue, ExtractPropTypes, PropType } from 'vue';
 
 export interface TableColumnT {
   key: string,
@@ -17,26 +17,62 @@ export type CellSpanT = (rowIndex: number, columnIndex: number) => { rowspan?: n
 
 export type TableBorderT = 'all' | 'row' | 'column' | 'frame' | 'row-column' | 'row-frame' | 'column-frame' | 'none';
 
+export const tableProps = {
+  /**
+   * 表头内容
+   */
+  columns: {
+    type: Array as PropType<TableColumnT[] | string[]>
+  },
+  /**
+   * 表头内容
+   */
+  columnKeys: {
+    type: Array as PropType<ColumnKeysT>,
+  },
+  /**
+   * 表格数据
+   */
+  data: {
+    type: Array as PropType<TableRowT[]>,
+  },
+  /**
+   * 是否显示边框
+   */
+  border: {
+    type: String as PropType<TableBorderT>,
+    default: 'row'
+  },
+  /**
+   * 是否小表格
+   */
+  small: {
+    type: Boolean,
+  },
+  /**
+   * 处理单元格合并(表体部分，不包含表头)
+   */
+  cellSpan: {
+    type: Function as PropType<CellSpanT>,
+  },
+  /**
+   * 空数据提示文本
+   */
+  emptyLabel: {
+    type: String,
+  },
+  /**
+   * 是否正在加载
+   */
+  loading: {
+    type: Boolean,
+  },
+  /**
+   * 加载提示文本
+   */
+  loadingLabel: {
+    type: String,
+  },
+};
 
-export interface TablePaginationT {
-  /**
-  * 当前页码
-  */
-  currentPage?: number;
-  /**
-   * 每页数据条数
-   */
-  pageSize?: number;
-  /**
-   * 支持选择的每页数据条数
-   */
-  pageSizes?: number[];
-  /**
-   * 显示页面数 > 3
-   */
-  showPageCount?: number;
-  /**
-   * 简洁模式
-   */
-  simple?: boolean;
-}
+export type PopupPropsT = ExtractPropTypes<typeof tableProps>;

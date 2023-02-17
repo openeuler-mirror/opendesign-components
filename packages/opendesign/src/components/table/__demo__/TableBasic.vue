@@ -11,7 +11,7 @@ const columns1 = [
 ];
 const table1 = {
   columns: columns1,
-  data: getTableData(20),
+  data: getTableData(6),
 };
 const loading = ref(true);
 </script>
@@ -26,6 +26,7 @@ const loading = ref(true);
     <br />
     <OTable :columns="table1.columns" />
   </div>
+
   <h4>Style: Border</h4>
   <div class="sec">
     <h5>Border: all</h5>

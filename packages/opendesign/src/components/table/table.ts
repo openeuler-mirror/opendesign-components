@@ -1,7 +1,6 @@
 import { Ref } from 'vue';
 import { isArray, isFunction, isString } from '../_shared/is';
 import { TableColumnT, TableRowT, CellSpanT } from './types';
-import { PaginationPropT } from '../pagination';
 
 export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT[] {
   if (!isArray(columns)) {
@@ -38,12 +37,12 @@ interface CellT {
   last?: boolean
 }
 
-export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRowT[], pageIndex = 1, pageSize?: number, cellSpan?: CellSpanT) {
+export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRowT[], cellSpan?: CellSpanT) {
   if (!bodyData) {
     return [];
   }
-  let t = pageSize ?? bodyData.length;
-  let s = (pageIndex - 1) * t;
+  let t = bodyData.length;
+  let s = 0;
 
   const colLenght = columnData.value.length;
 

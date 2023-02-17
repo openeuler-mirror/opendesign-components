@@ -16,3 +16,10 @@
 | initLinkPrefixIcon | (icon: Component) | --     | 设置 link 组件前缀图标 |
 | initCloseIcon      | (icon: Component) | --     | 设置全局关闭图标       |
 | initAddIcon        | (icon: Component) | --     | 设置全局添加图标       |
+
+| 方法名  | 参数                                    | 默认值    |
+| :------ | :-------------------------------------- | :-------- |
+| color   | undefined primary success warning error | undefined |
+| variant | fill outline text                       | outline   |
+| rounded | undefined string 'pill'                 | undefined |
+| size    | small medium large                      | medium    |

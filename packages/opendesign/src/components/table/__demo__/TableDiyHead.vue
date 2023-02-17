@@ -23,7 +23,7 @@ const columns1: ColItemT[][] = [
 ];
 const columnKeys = ['name', 'salary', 'address', 'email', 'other'];
 
-const tableData = getTableData(20);
+const tableData = getTableData(6);
 </script>
 <template>
   <h4>自定义表头</h4>
