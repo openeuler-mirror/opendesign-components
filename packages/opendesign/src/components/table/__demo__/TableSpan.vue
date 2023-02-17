@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { OTable } from '../index';
+import { getTableData } from './data';
 
 const columns2 = [
   { label: 'No 0', key: 'no' },
@@ -9,53 +10,7 @@ const columns2 = [
   { label: 'Email 4', key: 'email' },
   { label: 'Other 5', key: 'other' },
 ];
-const tableData = [
-  {
-    no: 0,
-    key: 1,
-    name: 'Jane Doe',
-    salary: 23000,
-    address: '32 Park Road, London',
-    email: 'jane.doe@example.com',
-    other: 'other info',
-  },
-  {
-    no: 1,
-    key: 2,
-    name: 'Alisa Ross',
-    salary: 25000,
-    address: '35 Park Road, London',
-    email: 'alisa.ross@example.com',
-    other: 'other info',
-  },
-  {
-    no: 2,
-    key: 3,
-    name: 'Kevin Sandra',
-    salary: 22000,
-    address: '31 Park Road, London',
-    email: 'kevin.sandra@example.com',
-    other: 'other info',
-  },
-  {
-    no: 3,
-    key: 4,
-    name: 'Ed Hellen',
-    salary: 17000,
-    address: '42 Park Road, London',
-    email: 'ed.hellen@example.com',
-    other: 'other info',
-  },
-  {
-    no: 4,
-    key: 5,
-    name: 'William Smith',
-    salary: 27000,
-    address: '62 Park Road, London',
-    email: 'william.smith@example.com',
-    other: 'other info',
-  },
-];
+const tableData = getTableData(6);
 
 function cellSpanFn(rowIdx: number, colIdx: number) {
   if (rowIdx === 2 && colIdx === 2) {

@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, computed } from 'vue';
-import { PopupPositionT, PopupTriggerT } from './types';
+import { propupProps } from './types';
 import { isElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
 import { isArray } from '../_shared/is';
@@ -18,114 +18,7 @@ import { OChildOnly } from '../child-only';
 
 // TODO 处理嵌套
 
-const props = defineProps({
-  /**
-   * 弹出位置
-   */
-  position: {
-    type: String as PropType<PopupPositionT>,
-    default: 'top',
-  },
-  /**
-   * 触发事件
-   * 'hover','click','focus','contextMenu'
-   */
-  trigger: {
-    type: [String, Array<String>] as PropType<PopupTriggerT | PopupTriggerT[]>,
-    default: 'hover',
-  },
-  /**
-   * 触发元素或组件
-   */
-  target: {
-    type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
-    default: null,
-  },
-  /**
-   * 是否可见
-   * v-model
-   */
-  visible: {
-    type: Boolean,
-  },
-  /**
-   * 挂载容器，默认为body
-   */
-  wrapper: {
-    type: [String, Object] as PropType<string | HTMLElement>,
-    default: document.body,
-  },
-  /**
-   * 距离target偏移量
-   */
-  offset: {
-    type: Number,
-    default: 0,
-  },
-  /**
-   * hover事件延时触发的时间（毫秒）
-   */
-  hoverDelay: {
-    type: Number,
-    default: 100,
-  },
-  /**
-   * 是否当触发元素不可见时隐藏弹层
-   */
-  hideWhenTargetInvisible: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * 锚点自定义class
-   */
-  anchorClass: {
-    type: String,
-    default: '',
-  },
-  /**
-   * 是否在popup隐藏时unmout
-   */
-  unmountOnHide: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * Popup在hover时是否不消失，当trigger包含hover时有效
-   */
-  statyOnHoverin: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * popup wrap自定义class
-   */
-  wrapClass: {
-    type: String,
-    default: '',
-  },
-  /**
-   * popup最小宽度设置为触发元素宽度
-   */
-  adjustMinWidth: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * popup宽度设置为触发元素宽度
-   */
-  adjustWidth: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * 过渡名称
-   */
-  transition: {
-    type: String,
-    default: 'o-zoom-fade',
-  },
-});
+const props = defineProps(propupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];

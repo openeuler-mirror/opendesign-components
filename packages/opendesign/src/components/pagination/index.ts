@@ -8,3 +8,4 @@ const OPagination = Object.assign(_OPagination, {
 });
 
 export { OPagination };
+export * from './types';

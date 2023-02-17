@@ -1,6 +1,9 @@
 @use './var.scss';
 
 .o-table {
+  --table-min-height: 240px;
+  position: relative;
+  min-height: var(--table-min-height);
   table {
     width: 100%;
     border-collapse: collapse;
@@ -84,11 +87,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px;
   border-bottom: var(--table-border);
   font-size: var(--table-tip-text-size);
   line-height: var(--table-tip-text-height);
   color: var(--table-tip-color);
+  min-height: calc(var(--table-min-height) - 48px);
+}
+.o-table-loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--table-tip-text-size);
+  line-height: var(--table-tip-text-height);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--table-loading-mask);
+  color: var(--table-loading-color);
 }
 
 .o-table-loading-label {

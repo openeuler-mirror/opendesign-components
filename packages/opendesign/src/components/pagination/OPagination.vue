@@ -1,48 +1,18 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch } from 'vue';
+import { computed, ref, nextTick, watch, Ref } from 'vue';
 import { getPagerItem, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect } from '../select';
 import { OOption } from '../option';
+import { paginationProps } from './types';
 
-interface PaginationPropT {
-  /**
-   * 支持选择的每页数据条数
-   */
-  pageSizes?: number[];
-  /**
-   * 每页数据条数
-   */
-  pageSize?: number;
-  /**
-   * 数据总条数
-   */
-  total: number;
-  /**
-   * 当前页码
-   */
-  currentPage?: number;
-  /**
-   * 显示页面数 > 3
-   */
-  showPageCount?: number;
-  /**
-   * 简洁模式
-   */
-  simple?: boolean;
-}
+const props = defineProps(paginationProps);
 
-const props = withDefaults(defineProps<PaginationPropT>(), {
-  pageSizes: () => [6, 12, 24, 48],
-  pageSize: 6,
-  currentPage: 1,
-  showPageCount: 9,
-});
 const emits = defineEmits<{
   (e: 'update:pageSize', value: number): void;
-  (e: 'update:currentPage', value: number): void;
-  (e: 'change', value: { current: number; size: number }): void;
+  (e: 'update:page', value: number): void;
+  (e: 'change', value: { page: number; pageSize: number }): void;
 }>();
 
 const Labels = {
@@ -53,7 +23,7 @@ const Labels = {
 };
 
 let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
-let currentPage = ref(props.currentPage);
+let currentPage = ref(props.page);
 
 const pageSizeList = getSizeOptions(props.pageSizes, Labels.sizeLabel, currentPageSize.value);
 const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
@@ -81,10 +51,10 @@ const updateCurrentPage = (page: number) => {
     currentPage.value = page;
   }
 
-  emits('update:currentPage', currentPage.value);
+  emits('update:page', currentPage.value);
   emits('change', {
-    current: currentPage.value,
-    size: currentPageSize.value,
+    page: currentPage.value,
+    pageSize: currentPageSize.value,
   });
   pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
 };
@@ -112,20 +82,38 @@ const goToChange = (val: string | number) => {
 
 const pageSizeChange = (val: string | number) => {
   // updateCurrentPage(Number(val));
-  const currentIndex = currentPageSize.value * currentPage.value;
+  const currentIndex = currentPageSize.value * (currentPage.value - 1);
+  const oldPage = currentPage.value;
   currentPageSize.value = Number(val);
   nextTick(() => {
-    currentPage.value = Math.ceil(currentIndex / currentPageSize.value);
+    currentPage.value = Math.floor(currentIndex / currentPageSize.value) + 1;
     console.log(currentIndex, totalPage.value, currentPage.value, currentPageSize.value);
 
     pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+
+    if (oldPage !== currentPage.value) {
+      emits('update:page', currentPage.value);
+    }
+    emits('update:pageSize', currentPageSize.value);
+    emits('change', {
+      page: currentPage.value,
+      pageSize: currentPageSize.value,
+    });
   });
 };
+
+defineExpose<{
+  pageCount: Ref<number>;
+}>({
+  pageCount: totalPage,
+});
 </script>
 <template>
   <div class="o-pagination">
     <div class="o-pagination-wrap">
+      <!-- total -->
       <div class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <!-- sizes -->
       <template v-if="!props.simple">
         <div class="o-pagination-size">
           <OSelect :model-value="currentPageSize" class="o-pagination-select" :default-label="defaultSizeLabel" @change="pageSizeChange">
@@ -133,6 +121,7 @@ const pageSizeChange = (val: string | number) => {
           </OSelect>
         </div>
       </template>
+      <!-- pager -->
       <div class="o-pagination-pager">
         <div class="o-pagination-prev" :class="{ disabled: currentPage === 1 }" @click="() => currentPage !== 1 && clickPageBtn(false)">&lt;</div>
         <div class="o-pagination-pages">
@@ -175,7 +164,8 @@ const pageSizeChange = (val: string | number) => {
           &gt;
         </div>
       </div>
-      <template v-if="!props.simple">
+      <!-- jumper -->
+      <template v-if="props.showJumper && !props.simple">
         <div class="o-pagination-goto">
           {{ Labels.goto }}&nbsp;<OInputNumber
             :model-value="currentPage"

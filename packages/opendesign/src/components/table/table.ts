@@ -41,15 +41,18 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
   if (!bodyData) {
     return [];
   }
+  let t = bodyData.length;
+  let s = 0;
 
-  const rowLength = bodyData.length;
   const colLenght = columnData.value.length;
 
   const rlt = [];
   let span = null;
   const skipCell: Record<string, boolean> = {};
+  console.log(s, t);
+  const end = Math.min(s + t, bodyData.length);
 
-  for (let r = 0; r < rowLength; r += 1) {
+  for (let r = s; r < end; r += 1) {
     const row = bodyData[r];
     let cols = [];
     for (let c = 0; c < colLenght; c += 1) {

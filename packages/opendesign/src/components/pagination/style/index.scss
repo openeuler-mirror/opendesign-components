@@ -72,9 +72,14 @@
   width: 60px;
 }
 
-.o-pagination-simple {
-}
-
 .o-pagination-select {
   width: 110px;
+}
+
+.o-pagination {
+  .o-table + & {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
