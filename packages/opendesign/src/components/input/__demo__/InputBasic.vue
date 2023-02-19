@@ -9,10 +9,6 @@ const val3 = ref(`${12345}`);
 setTimeout(() => {
   val2.value += '---';
 }, 2000);
-
-const printEvent = (event: string, val?: string | number) => {
-  console.log(`[${event}]`, val);
-};
 </script>
 <template>
   <div>val1:{{ val1 }}</div>
