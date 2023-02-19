@@ -1,109 +1,9 @@
 @use './var.scss';
 
-// --btn-bg: background-color & border-color
-
-.o-btn-normal {
-  --btn-color: var(--o-color-text2);
-  --btn-color-hover: var(--o-color-primary2);
-  --btn-color-active: var(--o-color-primary3);
-
-  --btn-bg: var(--o-color-normal1);
-  --btn-bg-hover: var(--o-color-primary2);
-  --btn-bg-active: var(--o-color-primary3);
-
-  --btn-bd: var(--o-color-normal1);
-  --btn-bd-hover: var(--o-color-primary2);
-  --btn-bd-active: var(--o-color-primary3);
-}
-.o-btn-primary {
-  --btn-color: var(--o-color-primary1);
-  --btn-color-hover: var(--o-color-primary2);
-  --btn-color-active: var(--o-color-primary3);
-
-  --btn-bg: var(--o-color-primary1);
-  --btn-bg-hover: var(--o-color-primary2);
-  --btn-bg-active: var(--o-color-primary3);
-
-  --btn-bd: var(--o-color-primary1);
-  --btn-bd-hover: var(--o-color-primary2);
-  --btn-bd-active: var(--o-color-primary3);
-}
-.o-btn-success {
-  --btn-color: var(--o-color-success1);
-  --btn-color-hover: var(--o-color-success2);
-  --btn-color-active: var(--o-color-success3);
-
-  --btn-bg: var(--o-color-success1);
-  --btn-bg-hover: var(--o-color-success2);
-  --btn-bg-active: var(--o-color-success3);
-
-  --btn-bd: var(--o-color-success1);
-  --btn-bd-hover: var(--o-color-success2);
-  --btn-bd-active: var(--o-color-success3);
-}
-.o-btn-warning {
-  --btn-color: var(--o-color-warning1);
-  --btn-color-hover: var(--o-color-warning2);
-  --btn-color-active: var(--o-color-warning3);
-
-  --btn-bg: var(--o-color-warning1);
-  --btn-bg-hover: var(--o-color-warning2);
-  --btn-bg-active: var(--o-color-warning3);
-
-  --btn-bd: var(--o-color-warning1);
-  --btn-bd-hover: var(--o-color-warning2);
-  --btn-bd-active: var(--o-color-warning3);
-}
-.o-btn-danger {
-  --btn-color: var(--o-color-danger1);
-  --btn-color-hover: var(--o-color-danger2);
-  --btn-color-active: var(--o-color-danger3);
-
-  --btn-bg: var(--o-color-danger1);
-  --btn-bg-hover: var(--o-color-danger2);
-  --btn-bg-active: var(--o-color-danger3);
-
-  --btn-bd: var(--o-color-danger1);
-  --btn-bd-hover: var(--o-color-danger2);
-  --btn-bd-active: var(--o-color-danger3);
-}
-
-.o-btn-fill {
-  --btn-color: var(--o-color-text1-inverse);
-  --btn-color-hover: var(--o-color-text1-inverse);
-  --btn-color-active: var(--o-color-text1-inverse);
-
-  &.o-btn-normal:not(.o-btn-disabled) {
-    --btn-color: var(--o-color-text2);
-  }
-}
-
-.o-btn-disabled {
-  --btn-color: var(--o-color-text4);
-  --btn-bg: var(--o-color-normal4);
-  --btn-bd: var(--o-color-normal4);
-}
-.o-btn-text {
-  --btn-color-hover: var(--o-color-text1-inverse);
-  --btn-color-active: var(--o-color-text1-inverse);
-}
-
-.o-btn-small {
-  --btn-radius: var(--o-radius-s);
-}
-.o-btn-medium {
-  --btn-radius: var(--o-radius-m);
-}
-.o-btn-large {
-  --btn-radius: var(--o-radius-l);
-}
-
 .o-btn {
   outline: none;
   background-color: transparent;
   border: 1px solid transparent;
-  font-size: var(--btn-text-size);
-  line-height: var(--btn-text-height);
   transition: all var(--o-duration-s) var(--o-easing-standard);
   white-space: nowrap;
   cursor: pointer;
@@ -111,7 +11,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--btn-rounded);
 }
 .o-btn-disabled {
   cursor: not-allowed;
@@ -177,6 +76,7 @@
   padding: 0 7px;
   height: var(--o-size-s);
   font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
   border-radius: var(--btn-radius);
 
   &.o-btn-icon-only {
@@ -191,6 +91,7 @@
   padding: 0 15px;
   height: var(--o-size-m);
   font-size: var(--o-font_size-text);
+  line-height: var(--o-line_height-text);
   border-radius: var(--btn-radius);
 
   &.o-btn-icon-only {
@@ -202,6 +103,7 @@
   padding: 0 19px;
   height: var(--o-size-l);
   font-size: var(--o-font_size-h4);
+  line-height: var(--o-line_height-h4);
   border-radius: var(--btn-radius);
 
   &.o-btn-icon-only {
@@ -211,21 +113,6 @@
 
 .o-btn-round-pill {
   border-radius: var(--o-size-l);
-}
-
-.o-btn-link {
-  color: var(--btn-primary);
-  background-color: transparent;
-
-  &:not(:disabled) {
-    &:hover {
-      color: var(--btn-primary_hover);
-    }
-
-    &:active {
-      color: var(--btn-primary_active);
-    }
-  }
 }
 
 .o-btn-icon-only {
