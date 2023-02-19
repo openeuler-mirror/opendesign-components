@@ -39,6 +39,34 @@
   /**
    * @name 常规色
    * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时常规颜色
+   */
+  --o-color-normal1: var(--o-color-info1);
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时悬浮颜色
+   */
+  --o-color-normal2: var(--o-color-primary2);
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时聚焦颜色
+   */
+  --o-color-normal3: var(--o-color-primary3);
+  /**
+   * @name 禁用色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时禁用颜色
+   */
+  --o-color-normal4: var(--o-color-info4);
+  /**
+   * @name 常规色
+   * @type color
    * @group success
    * @description 用于按钮、文本、链接成功状态时常规颜色
    */

@@ -15,6 +15,55 @@
    */
   --o-color-primary2: #5988ff;
   /**
+   * @name 聚焦色
+   * @type color
+   * @group primary
+   * @description 用于按钮、文本、链接强调状态时聚焦颜色
+   */
+  --o-color-primary3: #002fa7;
+  /**
+   * @name 禁用色
+   * @type color
+   * @group primary
+   * @description 用于按钮、文本、链接强调状态时禁用颜色
+   */
+  --o-color-primary4: #0c2360;
+  /**
+   * @name 常规色
+   * @type color
+   * @group major
+   * @description 用于按钮、文本、链接major状态时文本颜色
+   */
+  --o-color-major1: #feb32a;
+  /**
+   * @name 常规色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时常规颜色
+   */
+  --o-color-normal1: var(--o-color-info1);
+  /**
+   * @name 悬浮色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时悬浮颜色
+   */
+  --o-color-normal2: var(--o-color-primary2);
+  /**
+   * @name 聚焦色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时聚焦颜色
+   */
+  --o-color-normal3: var(--o-color-primary3);
+  /**
+   * @name 禁用色
+   * @type color
+   * @group normal
+   * @description 用于按钮、文本、链接常态时禁用颜色
+   */
+  --o-color-normal4: var(--o-color-info4);
+  /**
    * @name 常规色
    * @type color
    * @group success
@@ -113,6 +162,13 @@
    */
   --o-color-info2: #2e2e2e;
   /**
+   * @name 聚焦色
+   * @type color
+   * @group info
+   * @description 用于按钮、文本、链接信息状态时聚焦颜色
+   */
+  --o-color-info3: #1e1e1e;
+  /**
    * @name 禁用色
    * @type color
    * @group info
@@ -126,6 +182,13 @@
    * @description 用于页面整体背景色
    */
   --o-color-bg1: #121212;
+  /**
+   * @name 二级容器背景色
+   * @type color
+   * @group background
+   * @description 用于区块、卡片、弹出框、tooltip背景色
+   */
+  --o-color-bg2: #1e1e1e;
   /**
    * @name 三级容器背景色
    * @type color
@@ -155,12 +218,26 @@
    */
   --o-color-text1-inverse: #000000;
   /**
+   * @name 正文色
+   * @type color
+   * @group text
+   * @description 用于次强调、次级标题、正文颜色
+   */
+  --o-color-text2: #e5e5e5;
+  /**
    * @name 正文反色
    * @type color
    * @group text
    * @description 用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文
    */
   --o-color-text2-inverse: #3f3f3f;
+  /**
+   * @name 提示色
+   * @type color
+   * @group text
+   * @description 用于提示文本颜色
+   */
+  --o-color-text3: #b2b2b2;
   /**
    * @name 提示反色
    * @type color
@@ -203,6 +280,20 @@
    * @description 用于分隔线颜色
    */
   --o-color-division1: #b2b2b2;
+  /**
+   * @name 遮罩色1
+   * @type color
+   * @group mask
+   * @description 用于弹窗遮罩色
+   */
+  --o-color-mask1: rgba(0, 0, 0, 0.5);
+  /**
+   * @name 遮罩色2
+   * @type color
+   * @group mask
+   * @description 用于loading遮罩色
+   */
+  --o-color-mask2: rgba(0, 0, 0, 0.1);
   /**
    * @name 阴影1
    * @type shadow
