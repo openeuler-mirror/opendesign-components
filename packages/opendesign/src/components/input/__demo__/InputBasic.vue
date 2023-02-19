@@ -6,69 +6,49 @@ import { IconDone } from '../../icons';
 const val1 = ref('');
 const val2 = ref('this is input value');
 const val3 = ref(`${12345}`);
-const val4 = ref(12345);
 setTimeout(() => {
   val2.value += '---';
 }, 2000);
-
-const printEvent = (event: string, val?: string | number) => {
-  console.log(`[${event}]`, val);
-};
 </script>
 <template>
-  <h4>Basic</h4>
+  <div>val1:{{ val1 }}</div>
+  <div>val2:{{ val2 }}</div>
+  <div>val3:{{ val3 }}</div>
+  <h4>type</h4>
   <section>
-    <div>val1:{{ val1 }}</div>
-    <OInput v-model="val1" />
-    <div>val2:{{ val2 }}</div>
-    <OInput
-      v-model="val2"
-      @blur="(v) => printEvent('blur', v)"
-      @change="(v) => printEvent('change', v)"
-      @input="(v) => printEvent('input', v)"
-      @focus="(v) => printEvent('focus', v)"
-      @clear="(v) => printEvent('clear')"
-      @press-enter="(v) => printEvent('press-enter', v)"
-    />
-    <OInput v-model="val3" />
-    <OInput v-model="val3" type="password" />
+    <div>
+      <section>
+        <p>text:</p>
+        <OInput v-model="val3" />
+        <p>password:</p>
+        <OInput v-model="val3" type="password" />
+      </section>
+    </div>
+  </section>
+  <h4>color</h4>
+  <section>
+    <div>
+      <p>color: normal</p>
+      <OInput v-model="val1" placeholder="outline input" />
+    </div>
+    <div>
+      <p>color: success</p>
+      <OInput v-model="val1" placeholder="outline input" color="success" />
+    </div>
+    <div>
+      <p>color: warning</p>
+      <OInput v-model="val1" placeholder="outline input" color="warning" />
+    </div>
+    <div>
+      <p>color: danger</p>
+      <OInput v-model="val1" placeholder="outline input" color="danger" />
+    </div>
   </section>
   <h4>Size</h4>
   <section>
-    <div>val1:{{ val1 }}</div>
     <OInput v-model="val2" size="small" />
     <OInput v-model="val2" />
     <OInput v-model="val3" size="large" />
-  </section>
-  <h4>Shape</h4>
-  <section>
-    <div>val1:{{ val1 }}</div>
-    <OInput v-model="val2" size="small" shape="round" />
-    <OInput v-model="val2" shape="round" />
-    <OInput v-model="val3" size="large" shape="round" />
-    <OInput v-model="val2" disabled shape="round">
-      <template #prefix><IconDone /></template>
-      <template #suffix> 元 </template>
-    </OInput>
-    <OInput v-model="val2" shape="round" size="small">
-      <template #prepend>+86</template>
-      <template #append>手机</template>
-    </OInput>
-    <OInput v-model="val2" shape="round">
-      <template #prepend>+86</template>
-      <template #append>手机</template>
-    </OInput>
-    <OInput v-model="val2" shape="round" size="large">
-      <template #prepend>+86</template>
-      <template #append>手机</template>
-    </OInput>
-  </section>
-  <h4>Status</h4>
-  <section>
-    <div>val1:{{ val1 }}</div>
-    <OInput v-model="val2" status="success" />
-    <OInput v-model="val2" status="warning" />
-    <OInput v-model="val2" status="error" />
   </section>
   <h4>Disabled</h4>
   <section>

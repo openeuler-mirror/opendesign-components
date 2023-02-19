@@ -3,6 +3,8 @@ import '../style';
 import '../../option/style';
 
 import InputBasic from './InputBasic.vue';
+import InputRound from './InputRound.vue';
+
 import InputEvent from './InputEvent.vue';
 import InputSlot from './InputSlot.vue';
 import InputMethod from './InputMethod.vue';
@@ -11,8 +13,9 @@ import InputAutoWidth from './InputAutoWidth.vue';
 <template>
   <div class="page-demo">
     <InputBasic />
-    <InputEvent />
+    <InputRound />
     <InputSlot />
+    <InputEvent />
     <InputMethod />
     <InputAutoWidth />
   </div>

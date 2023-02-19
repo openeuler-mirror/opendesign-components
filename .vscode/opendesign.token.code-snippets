@@ -3,7 +3,7 @@
     "prefix": [
       "--o-color-primary1"
     ],
-    "body": "var(--o-color-primary1)",
+    "body": "--o-color-primary1",
     "description": "常规色: 用于按钮、文本、链接强调状态时常规颜色[light: #002fa7, dark: #406fe7]",
     "scope": "css,scss,less"
   },
@@ -11,7 +11,7 @@
     "prefix": [
       "--o-color-primary2"
     ],
-    "body": "var(--o-color-primary2)",
+    "body": "--o-color-primary2",
     "description": "悬浮色: 用于按钮、文本、链接强调状态时悬浮颜色[light: #406fe7, dark: #5988ff]",
     "scope": "css,scss,less"
   },
@@ -19,31 +19,63 @@
     "prefix": [
       "--o-color-primary3"
     ],
-    "body": "var(--o-color-primary3)",
-    "description": "聚焦色: 用于按钮、文本、链接强调状态时聚焦颜色[light: #00288d, 'dark: #002fa7]",
+    "body": "--o-color-primary3",
+    "description": "聚焦色: 用于按钮、文本、链接强调状态时聚焦颜色[light: #00288d, dark: #002fa7]",
     "scope": "css,scss,less"
   },
   "--o-color-primary4": {
     "prefix": [
       "--o-color-primary4"
     ],
-    "body": "var(--o-color-primary4)",
-    "description": "禁用色: 用于按钮、文本、链接强调状态时禁用颜色[light: #b2c0e4, 'dark: #0c2360]",
+    "body": "--o-color-primary4",
+    "description": "禁用色: 用于按钮、文本、链接强调状态时禁用颜色[light: #b2c0e4, dark: #0c2360]",
     "scope": "css,scss,less"
   },
   "--o-color-major1": {
     "prefix": [
       "--o-color-major1"
     ],
-    "body": "var(--o-color-major1)",
-    "description": "常规色: 用于按钮、文本、链接major状态时文本颜色[light: #feb32a, 'dark: #feb32a]",
+    "body": "--o-color-major1",
+    "description": "常规色: 用于按钮、文本、链接major状态时文本颜色[light: #feb32a, dark: #feb32a]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-normal1": {
+    "prefix": [
+      "--o-color-normal1"
+    ],
+    "body": "--o-color-normal1",
+    "description": "常规色: 用于按钮、文本、链接常态时常规颜色[light: var(--o-color-info1), dark: var(--o-color-info1)]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-normal2": {
+    "prefix": [
+      "--o-color-normal2"
+    ],
+    "body": "--o-color-normal2",
+    "description": "悬浮色: 用于按钮、文本、链接常态时悬浮颜色[light: var(--o-color-primary2), dark: var(--o-color-primary2)]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-normal3": {
+    "prefix": [
+      "--o-color-normal3"
+    ],
+    "body": "--o-color-normal3",
+    "description": "聚焦色: 用于按钮、文本、链接常态时聚焦颜色[light: var(--o-color-primary3), dark: var(--o-color-primary3)]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-normal4": {
+    "prefix": [
+      "--o-color-normal4"
+    ],
+    "body": "--o-color-normal4",
+    "description": "禁用色: 用于按钮、文本、链接常态时禁用颜色[light: var(--o-color-info4), dark: var(--o-color-info4)]",
     "scope": "css,scss,less"
   },
   "--o-color-success1": {
     "prefix": [
       "--o-color-success1"
     ],
-    "body": "var(--o-color-success1)",
+    "body": "--o-color-success1",
     "description": "常规色: 用于按钮、文本、链接成功状态时常规颜色[light: #6dc335, dark: #6dc335]",
     "scope": "css,scss,less"
   },
@@ -51,7 +83,7 @@
     "prefix": [
       "--o-color-success2"
     ],
-    "body": "var(--o-color-success2)",
+    "body": "--o-color-success2",
     "description": "悬浮色: 用于按钮、文本、链接成功状态时悬浮颜色[light: #93e95b, dark: #93e95b]",
     "scope": "css,scss,less"
   },
@@ -59,7 +91,7 @@
     "prefix": [
       "--o-color-success3"
     ],
-    "body": "var(--o-color-success3)",
+    "body": "--o-color-success3",
     "description": "聚焦色: 用于按钮、文本、链接成功状态时聚焦颜色[light: #62af30, dark: #62af30]",
     "scope": "css,scss,less"
   },
@@ -67,7 +99,7 @@
     "prefix": [
       "--o-color-success4"
     ],
-    "body": "var(--o-color-success4)",
+    "body": "--o-color-success4",
     "description": "禁用色: 用于按钮、文本、链接成功状态时禁用颜色[light: #c5e7ae, dark: #355f1a]",
     "scope": "css,scss,less"
   },
@@ -75,7 +107,7 @@
     "prefix": [
       "--o-color-warning1"
     ],
-    "body": "var(--o-color-warning1)",
+    "body": "--o-color-warning1",
     "description": "常规色: 用于按钮、文本、链接告警状态时常规颜色[light: #ff8e36, dark: #ff8e36]",
     "scope": "css,scss,less"
   },
@@ -83,7 +115,7 @@
     "prefix": [
       "--o-color-warning2"
     ],
-    "body": "var(--o-color-warning2)",
+    "body": "--o-color-warning2",
     "description": "悬浮色: 用于按钮、文本、链接告警状态时悬浮颜色[light: #ffb45c, dark: #ffb45c]",
     "scope": "css,scss,less"
   },
@@ -91,7 +123,7 @@
     "prefix": [
       "--o-color-warning3"
     ],
-    "body": "var(--o-color-warning3)",
+    "body": "--o-color-warning3",
     "description": "聚焦色: 用于按钮、文本、链接告警状态时聚焦颜色[light: #ff801c, dark: #ff801c]",
     "scope": "css,scss,less"
   },
@@ -99,7 +131,7 @@
     "prefix": [
       "--o-color-warning4"
     ],
-    "body": "var(--o-color-warning4)",
+    "body": "--o-color-warning4",
     "description": "禁用色: 用于按钮、文本、链接告警状态时禁用颜色[light: #ffd2af, dark: #b54f00]",
     "scope": "css,scss,less"
   },
@@ -107,7 +139,7 @@
     "prefix": [
       "--o-color-danger1"
     ],
-    "body": "var(--o-color-danger1)",
+    "body": "--o-color-danger1",
     "description": "常规色: 用于按钮、文本、链接错误状态时常规颜色[light: #f3524d, dark: #f3524d]",
     "scope": "css,scss,less"
   },
@@ -115,7 +147,7 @@
     "prefix": [
       "--o-color-danger2"
     ],
-    "body": "var(--o-color-danger2)",
+    "body": "--o-color-danger2",
     "description": "悬浮色: 用于按钮、文本、链接错误状态时悬浮颜色[light: #ff7873, dark: #ff7873]",
     "scope": "css,scss,less"
   },
@@ -123,7 +155,7 @@
     "prefix": [
       "--o-color-danger3"
     ],
-    "body": "var(--o-color-danger3)",
+    "body": "--o-color-danger3",
     "description": "聚焦色: 用于按钮、文本、链接错误状态时聚焦颜色[light: #f13b35, dark: #f13b35]",
     "scope": "css,scss,less"
   },
@@ -131,7 +163,7 @@
     "prefix": [
       "--o-color-danger4"
     ],
-    "body": "var(--o-color-danger4)",
+    "body": "--o-color-danger4",
     "description": "禁用色: 用于按钮、文本、链接错误状态时禁用颜色[light: #fabab8, dark: #850d09]",
     "scope": "css,scss,less"
   },
@@ -139,7 +171,7 @@
     "prefix": [
       "--o-color-info1"
     ],
-    "body": "var(--o-color-info1)",
+    "body": "--o-color-info1",
     "description": "常规色: 用于按钮、文本、链接信息状态时常规颜色[light: #e5e5e5, dark: #242424]",
     "scope": "css,scss,less"
   },
@@ -147,7 +179,7 @@
     "prefix": [
       "--o-color-info2"
     ],
-    "body": "var(--o-color-info2)",
+    "body": "--o-color-info2",
     "description": "悬浮色: 用于按钮、文本、链接信息状态时悬浮颜色[light: #e5e8f0, dark: #2e2e2e]",
     "scope": "css,scss,less"
   },
@@ -155,15 +187,15 @@
     "prefix": [
       "--o-color-info3"
     ],
-    "body": "var(--o-color-info3)",
-    "description": "聚焦色: 用于按钮、文本、链接信息状态时聚焦颜色[light: #cccccc, 'dark: #1e1e1e]",
+    "body": "--o-color-info3",
+    "description": "聚焦色: 用于按钮、文本、链接信息状态时聚焦颜色[light: #cccccc, dark: #1e1e1e]",
     "scope": "css,scss,less"
   },
   "--o-color-info4": {
     "prefix": [
       "--o-color-info4"
     ],
-    "body": "var(--o-color-info4)",
+    "body": "--o-color-info4",
     "description": "禁用色: 用于按钮、文本、链接信息状态时禁用颜色[light: #f7f8fa, dark: #151515]",
     "scope": "css,scss,less"
   },
@@ -171,7 +203,7 @@
     "prefix": [
       "--o-color-bg1"
     ],
-    "body": "var(--o-color-bg1)",
+    "body": "--o-color-bg1",
     "description": "一级容器背景色: 用于页面整体背景色[light: #f5f6f8, dark: #121212]",
     "scope": "css,scss,less"
   },
@@ -179,15 +211,15 @@
     "prefix": [
       "--o-color-bg2"
     ],
-    "body": "var(--o-color-bg2)",
-    "description": "二级容器背景色: 用于区块、卡片、弹出框、tooltip背景色[light: #ffffff, 'dark: #1e1e1e]",
+    "body": "--o-color-bg2",
+    "description": "二级容器背景色: 用于区块、卡片、弹出框、tooltip背景色[light: #ffffff, dark: #1e1e1e]",
     "scope": "css,scss,less"
   },
   "--o-color-bg3": {
     "prefix": [
       "--o-color-bg3"
     ],
-    "body": "var(--o-color-bg3)",
+    "body": "--o-color-bg3",
     "description": "三级容器背景色: 用于区块卡片背景色[light: #f7f8fa, dark: #242424]",
     "scope": "css,scss,less"
   },
@@ -195,7 +227,7 @@
     "prefix": [
       "--o-color-bg4"
     ],
-    "body": "var(--o-color-bg4)",
+    "body": "--o-color-bg4",
     "description": "四级容器背景色: 用于区块、卡片、表头背景色[light: #e5e8f0, dark: #2e2e2e]",
     "scope": "css,scss,less"
   },
@@ -203,7 +235,7 @@
     "prefix": [
       "--o-color-text1"
     ],
-    "body": "var(--o-color-text1)",
+    "body": "--o-color-text1",
     "description": "标题色: 用于强调、标题颜色[light: #000000, dark: #ffffff]",
     "scope": "css,scss,less"
   },
@@ -211,7 +243,7 @@
     "prefix": [
       "--o-color-text1-inverse"
     ],
-    "body": "var(--o-color-text1-inverse)",
+    "body": "--o-color-text1-inverse",
     "description": "标题反色: 用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题[light: #ffffff, dark: #000000]",
     "scope": "css,scss,less"
   },
@@ -219,15 +251,15 @@
     "prefix": [
       "--o-color-text2"
     ],
-    "body": "var(--o-color-text2)",
-    "description": "正文色: 用于次强调、次级标题、正文颜色[light: #3f3f3f, 'dark: #e5e5e5]",
+    "body": "--o-color-text2",
+    "description": "正文色: 用于次强调、次级标题、正文颜色[light: #3f3f3f, dark: #e5e5e5]",
     "scope": "css,scss,less"
   },
   "--o-color-text2-inverse": {
     "prefix": [
       "--o-color-text2-inverse"
     ],
-    "body": "var(--o-color-text2-inverse)",
+    "body": "--o-color-text2-inverse",
     "description": "正文反色: 用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文[light: #e5e5e5, dark: #3f3f3f]",
     "scope": "css,scss,less"
   },
@@ -235,15 +267,15 @@
     "prefix": [
       "--o-color-text3"
     ],
-    "body": "var(--o-color-text3)",
-    "description": "提示色: 用于提示文本颜色[light: #707070, 'dark: #b2b2b2]",
+    "body": "--o-color-text3",
+    "description": "提示色: 用于提示文本颜色[light: #707070, dark: #b2b2b2]",
     "scope": "css,scss,less"
   },
   "--o-color-text3-inverse": {
     "prefix": [
       "--o-color-text3-inverse"
     ],
-    "body": "var(--o-color-text3-inverse)",
+    "body": "--o-color-text3-inverse",
     "description": "提示反色: 用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示[light: #b2b2b2, dark: #707070]",
     "scope": "css,scss,less"
   },
@@ -251,7 +283,7 @@
     "prefix": [
       "--o-color-text4"
     ],
-    "body": "var(--o-color-text4)",
+    "body": "--o-color-text4",
     "description": "置灰色: 用于禁用文本颜色[light: #cccccc, dark: #555555]",
     "scope": "css,scss,less"
   },
@@ -259,7 +291,7 @@
     "prefix": [
       "--o-color-text4-inverse"
     ],
-    "body": "var(--o-color-text4-inverse)",
+    "body": "--o-color-text4-inverse",
     "description": "置灰反色: 用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本[light: #e5e5e5, dark: #2d2d2d]",
     "scope": "css,scss,less"
   },
@@ -267,7 +299,7 @@
     "prefix": [
       "--o-color-border1"
     ],
-    "body": "var(--o-color-border1)",
+    "body": "--o-color-border1",
     "description": "边框色: 较明显的边框[light: #707070, dark: #b2b2b2]",
     "scope": "css,scss,less"
   },
@@ -275,7 +307,7 @@
     "prefix": [
       "--o-color-border2"
     ],
-    "body": "var(--o-color-border2)",
+    "body": "--o-color-border2",
     "description": "弱边框色: 较弱的边框[light: #e5e5e5, dark: #2d2d2d]",
     "scope": "css,scss,less"
   },
@@ -283,7 +315,7 @@
     "prefix": [
       "--o-color-division1"
     ],
-    "body": "var(--o-color-division1)",
+    "body": "--o-color-division1",
     "description": "分隔线色1: 用于分隔线颜色[light: #707070, dark: #b2b2b2]",
     "scope": "css,scss,less"
   },
@@ -291,23 +323,23 @@
     "prefix": [
       "--o-color-mask1"
     ],
-    "body": "var(--o-color-mask1)",
-    "description": "遮罩色1: 用于弹窗遮罩色[light: rgba(0, 0, 0, 0.5), 'dark: rgba(0, 0, 0, 0.5)]",
+    "body": "--o-color-mask1",
+    "description": "遮罩色1: 用于弹窗遮罩色[light: rgba(0, 0, 0, 0.5), dark: rgba(0, 0, 0, 0.5)]",
     "scope": "css,scss,less"
   },
   "--o-color-mask2": {
     "prefix": [
       "--o-color-mask2"
     ],
-    "body": "var(--o-color-mask2)",
-    "description": "遮罩色2: 用于loading遮罩色[light: rgba(0, 0, 0, 0.1), 'dark: rgba(0, 0, 0, 0.1)]",
+    "body": "--o-color-mask2",
+    "description": "遮罩色2: 用于loading遮罩色[light: rgba(0, 0, 0, 0.1), dark: rgba(0, 0, 0, 0.1)]",
     "scope": "css,scss,less"
   },
   "--o-shadow-1": {
     "prefix": [
       "--o-shadow-1"
     ],
-    "body": "var(--o-shadow-1)",
+    "body": "--o-shadow-1",
     "description": "阴影1: 用于卡片、小弹窗、楼层阴影[light: 0 1px 5px rgba(45, 47, 51, 0.1), dark: 0 1px 7px rgba(0, 0, 0, 0.3)]",
     "scope": "css,scss,less"
   },
@@ -315,7 +347,7 @@
     "prefix": [
       "--o-shadow-2"
     ],
-    "body": "var(--o-shadow-2)",
+    "body": "--o-shadow-2",
     "description": "阴影2: 用于卡片悬浮阴影[light: 0 6px 18px rgba(0, 47, 167, 0.14), dark: 0 6px 18px rgba(0, 0, 0, 0.42)]",
     "scope": "css,scss,less"
   },
@@ -323,7 +355,7 @@
     "prefix": [
       "--o-shadow-3"
     ],
-    "body": "var(--o-shadow-3)",
+    "body": "--o-shadow-3",
     "description": "阴影3: 用于提示阴影[light: 0 10px 32px rgba(45, 47, 51, 0.18), dark: 0 10px 32px rgba(0, 0, 0, 0.54)]",
     "scope": "css,scss,less"
   },
@@ -331,7 +363,7 @@
     "prefix": [
       "--o-gap-1"
     ],
-    "body": "var(--o-gap-1)",
+    "body": "--o-gap-1",
     "description": "间距1: 用于组件之间的间距1[light: 4px, dark: 4px]",
     "scope": "css,scss,less"
   },
@@ -339,7 +371,7 @@
     "prefix": [
       "--o-gap-2"
     ],
-    "body": "var(--o-gap-2)",
+    "body": "--o-gap-2",
     "description": "间距2: 用于组件之间的间距2[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
@@ -347,7 +379,7 @@
     "prefix": [
       "--o-gap-3"
     ],
-    "body": "var(--o-gap-3)",
+    "body": "--o-gap-3",
     "description": "间距3: 用于组件之间的间距3[light: 12px, dark: 12px]",
     "scope": "css,scss,less"
   },
@@ -355,7 +387,7 @@
     "prefix": [
       "--o-gap-4"
     ],
-    "body": "var(--o-gap-4)",
+    "body": "--o-gap-4",
     "description": "间距4: 用于组件之间的间距4[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
@@ -363,7 +395,7 @@
     "prefix": [
       "--o-gap-5"
     ],
-    "body": "var(--o-gap-5)",
+    "body": "--o-gap-5",
     "description": "间距5: 用于组件之间的间距5[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
@@ -371,7 +403,7 @@
     "prefix": [
       "--o-gap-6"
     ],
-    "body": "var(--o-gap-6)",
+    "body": "--o-gap-6",
     "description": "间距6: 用于组件之间的间距6[light: 32px, dark: 32px]",
     "scope": "css,scss,less"
   },
@@ -379,7 +411,7 @@
     "prefix": [
       "--o-gap-7"
     ],
-    "body": "var(--o-gap-7)",
+    "body": "--o-gap-7",
     "description": "间距7: 用于组件之间的间距7[light: 40px, dark: 40px]",
     "scope": "css,scss,less"
   },
@@ -387,7 +419,7 @@
     "prefix": [
       "--o-gap-8"
     ],
-    "body": "var(--o-gap-8)",
+    "body": "--o-gap-8",
     "description": "间距8: 用于组件之间的间距8[light: 64px, dark: 64px]",
     "scope": "css,scss,less"
   },
@@ -395,7 +427,7 @@
     "prefix": [
       "--o-size-l"
     ],
-    "body": "var(--o-size-l)",
+    "body": "--o-size-l",
     "description": "大尺寸: 尺寸[light: 40px, dark: 40px]",
     "scope": "css,scss,less"
   },
@@ -403,7 +435,7 @@
     "prefix": [
       "--o-size-m"
     ],
-    "body": "var(--o-size-m)",
+    "body": "--o-size-m",
     "description": "中尺寸: 尺寸[light: 32px, dark: 32px]",
     "scope": "css,scss,less"
   },
@@ -411,7 +443,7 @@
     "prefix": [
       "--o-size-s"
     ],
-    "body": "var(--o-size-s)",
+    "body": "--o-size-s",
     "description": "小尺寸: 小尺寸[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
@@ -419,7 +451,7 @@
     "prefix": [
       "--o-icon_size-l"
     ],
-    "body": "var(--o-icon_size-l)",
+    "body": "--o-icon_size-l",
     "description": "大尺寸图标: 尺寸[light: 48px, dark: 48px]",
     "scope": "css,scss,less"
   },
@@ -427,7 +459,7 @@
     "prefix": [
       "--o-icon_size-m"
     ],
-    "body": "var(--o-icon_size-m)",
+    "body": "--o-icon_size-m",
     "description": "中尺寸图标: 尺寸[light: 32px, dark: 32px]",
     "scope": "css,scss,less"
   },
@@ -435,7 +467,7 @@
     "prefix": [
       "--o-icon_size-s"
     ],
-    "body": "var(--o-icon_size-s)",
+    "body": "--o-icon_size-s",
     "description": "小尺寸图标: 小尺寸[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
@@ -443,7 +475,7 @@
     "prefix": [
       "--o-icon_size-xs"
     ],
-    "body": "var(--o-icon_size-xs)",
+    "body": "--o-icon_size-xs",
     "description": "超小尺寸图标: 小尺寸[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
@@ -451,7 +483,7 @@
     "prefix": [
       "--o-font_size-display1"
     ],
-    "body": "var(--o-font_size-display1)",
+    "body": "--o-font_size-display1",
     "description": "一级数据展示: 一级数据展示[light: 64px, dark: 64px]",
     "scope": "css,scss,less"
   },
@@ -459,7 +491,7 @@
     "prefix": [
       "--o-font_size-display2"
     ],
-    "body": "var(--o-font_size-display2)",
+    "body": "--o-font_size-display2",
     "description": "二级数据展示: 二级数据展示[light: 54px, dark: 54px]",
     "scope": "css,scss,less"
   },
@@ -467,7 +499,7 @@
     "prefix": [
       "--o-font_size-display3"
     ],
-    "body": "var(--o-font_size-display3)",
+    "body": "--o-font_size-display3",
     "description": "三级数据展示: 三级数据展示[light: 36px, dark: 36px]",
     "scope": "css,scss,less"
   },
@@ -475,7 +507,7 @@
     "prefix": [
       "--o-font_size-display4"
     ],
-    "body": "var(--o-font_size-display4)",
+    "body": "--o-font_size-display4",
     "description": "四级数据展示: 四级数据展示[light: 28px, dark: 28px]",
     "scope": "css,scss,less"
   },
@@ -483,7 +515,7 @@
     "prefix": [
       "--o-font_size-h1"
     ],
-    "body": "var(--o-font_size-h1)",
+    "body": "--o-font_size-h1",
     "description": "一级标题: 一级标题[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
@@ -491,7 +523,7 @@
     "prefix": [
       "--o-font_size-h2"
     ],
-    "body": "var(--o-font_size-h2)",
+    "body": "--o-font_size-h2",
     "description": "二级标题: 二级标题[light: 20px, dark: 20px]",
     "scope": "css,scss,less"
   },
@@ -499,7 +531,7 @@
     "prefix": [
       "--o-font_size-h3"
     ],
-    "body": "var(--o-font_size-h3)",
+    "body": "--o-font_size-h3",
     "description": "三级标题: 三级标题[light: 18px, dark: 18px]",
     "scope": "css,scss,less"
   },
@@ -507,7 +539,7 @@
     "prefix": [
       "--o-font_size-h4"
     ],
-    "body": "var(--o-font_size-h4)",
+    "body": "--o-font_size-h4",
     "description": "四级标题: 四级标题[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
@@ -515,7 +547,7 @@
     "prefix": [
       "--o-font_size-text"
     ],
-    "body": "var(--o-font_size-text)",
+    "body": "--o-font_size-text",
     "description": "正文: 正文[light: 14px, dark: 14px]",
     "scope": "css,scss,less"
   },
@@ -523,7 +555,7 @@
     "prefix": [
       "--o-font_size-tip1"
     ],
-    "body": "var(--o-font_size-tip1)",
+    "body": "--o-font_size-tip1",
     "description": "提示文本1: 提示文本1[light: 12px, dark: 12px]",
     "scope": "css,scss,less"
   },
@@ -531,7 +563,7 @@
     "prefix": [
       "--o-font_size-tip2"
     ],
-    "body": "var(--o-font_size-tip2)",
+    "body": "--o-font_size-tip2",
     "description": "提示文本2: 提示文本2[light: 10px, dark: 10px]",
     "scope": "css,scss,less"
   },
@@ -539,7 +571,7 @@
     "prefix": [
       "--o-line_height-display1"
     ],
-    "body": "var(--o-line_height-display1)",
+    "body": "--o-line_height-display1",
     "description": "一级数据展示: 一级数据展示[light: 84px, dark: 84px]",
     "scope": "css,scss,less"
   },
@@ -547,7 +579,7 @@
     "prefix": [
       "--o-line_height-display2"
     ],
-    "body": "var(--o-line_height-display2)",
+    "body": "--o-line_height-display2",
     "description": "二级数据展示: 二级数据展示[light: 76px, dark: 76px]",
     "scope": "css,scss,less"
   },
@@ -555,7 +587,7 @@
     "prefix": [
       "--o-line_height-display3"
     ],
-    "body": "var(--o-line_height-display3)",
+    "body": "--o-line_height-display3",
     "description": "三级数据展示: 三级数据展示[light: 48px, dark: 48px]",
     "scope": "css,scss,less"
   },
@@ -563,7 +595,7 @@
     "prefix": [
       "--o-line_height-display4"
     ],
-    "body": "var(--o-line_height-display4)",
+    "body": "--o-line_height-display4",
     "description": "四级数据展示: 四级数据展示[light: 36px, dark: 36px]",
     "scope": "css,scss,less"
   },
@@ -571,7 +603,7 @@
     "prefix": [
       "--o-line_height-h1"
     ],
-    "body": "var(--o-line_height-h1)",
+    "body": "--o-line_height-h1",
     "description": "一级标题: 一级标题[light: 32px, dark: 32px]",
     "scope": "css,scss,less"
   },
@@ -579,7 +611,7 @@
     "prefix": [
       "--o-line_height-h2"
     ],
-    "body": "var(--o-line_height-h2)",
+    "body": "--o-line_height-h2",
     "description": "二级标题: 二级标题[light: 28px, dark: 28px]",
     "scope": "css,scss,less"
   },
@@ -587,7 +619,7 @@
     "prefix": [
       "--o-line_height-h3"
     ],
-    "body": "var(--o-line_height-h3)",
+    "body": "--o-line_height-h3",
     "description": "三级标题: 三级标题[light: 26px, dark: 26px]",
     "scope": "css,scss,less"
   },
@@ -595,7 +627,7 @@
     "prefix": [
       "--o-line_height-h4"
     ],
-    "body": "var(--o-line_height-h4)",
+    "body": "--o-line_height-h4",
     "description": "四级标题: 四级标题[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
@@ -603,7 +635,7 @@
     "prefix": [
       "--o-line_height-text"
     ],
-    "body": "var(--o-line_height-text)",
+    "body": "--o-line_height-text",
     "description": "正文: 正文[light: 22px, dark: 22px]",
     "scope": "css,scss,less"
   },
@@ -611,7 +643,7 @@
     "prefix": [
       "--o-line_height-tip1"
     ],
-    "body": "var(--o-line_height-tip1)",
+    "body": "--o-line_height-tip1",
     "description": "提示文本1: 提示文本1[light: 18px, dark: 18px]",
     "scope": "css,scss,less"
   },
@@ -619,7 +651,7 @@
     "prefix": [
       "--o-line_height-tip2"
     ],
-    "body": "var(--o-line_height-tip2)",
+    "body": "--o-line_height-tip2",
     "description": "提示文本2: 提示文本2[light: 14px, dark: 14px]",
     "scope": "css,scss,less"
   },
@@ -627,31 +659,31 @@
     "prefix": [
       "--o-radius-l"
     ],
-    "body": "var(--o-radius-l)",
-    "description": "大尺寸圆角: 大尺寸圆角[light: 16px, dark: 16px]",
+    "body": "--o-radius-l",
+    "description": "大尺寸圆角: 大尺寸圆角[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
   "--o-radius-m": {
     "prefix": [
       "--o-radius-m"
     ],
-    "body": "var(--o-radius-m)",
-    "description": "中尺寸圆角: 中尺寸圆角[light: 8px, dark: 8px]",
+    "body": "--o-radius-m",
+    "description": "中尺寸圆角: 中尺寸圆角[light: 4px, dark: 4px]",
     "scope": "css,scss,less"
   },
   "--o-radius-s": {
     "prefix": [
       "--o-radius-s"
     ],
-    "body": "var(--o-radius-s)",
-    "description": "小尺寸圆角: 小尺寸圆角[light: 4px, dark: 4px]",
+    "body": "--o-radius-s",
+    "description": "小尺寸圆角: 小尺寸圆角[light: 2px, dark: 2px]",
     "scope": "css,scss,less"
   },
   "--o-duration-s": {
     "prefix": [
       "--o-duration-s"
     ],
-    "body": "var(--o-duration-s)",
+    "body": "--o-duration-s",
     "description": "持续时间: 用于退出屏幕的动画[light: 200ms, dark: 200ms]",
     "scope": "css,scss,less"
   },
@@ -659,7 +691,7 @@
     "prefix": [
       "--o-duration-m1"
     ],
-    "body": "var(--o-duration-m1)",
+    "body": "--o-duration-m1",
     "description": "持续时间: 用于当曲线为standard-in时进入屏幕的动画[light: 250ms, dark: 250ms]",
     "scope": "css,scss,less"
   },
@@ -667,7 +699,7 @@
     "prefix": [
       "--o-duration-m2"
     ],
-    "body": "var(--o-duration-m2)",
+    "body": "--o-duration-m2",
     "description": "持续时间: 用于当曲线为standard时开始、结束的动画[light: 300ms, dark: 300ms]",
     "scope": "css,scss,less"
   },
@@ -675,7 +707,7 @@
     "prefix": [
       "--o-duration-m3"
     ],
-    "body": "var(--o-duration-m3)",
+    "body": "--o-duration-m3",
     "description": "持续时间: 用于当曲线为emphasized-in时进入屏幕的动画[light: 400ms, dark: 400ms]",
     "scope": "css,scss,less"
   },
@@ -683,7 +715,7 @@
     "prefix": [
       "--o-duration-l"
     ],
-    "body": "var(--o-duration-l)",
+    "body": "--o-duration-l",
     "description": "持续时间: 用于当曲线为emphasized时开始、结束的动画[light: 500ms, dark: 500ms]",
     "scope": "css,scss,less"
   },
@@ -691,7 +723,7 @@
     "prefix": [
       "--o-duration-xl"
     ],
-    "body": "var(--o-duration-xl)",
+    "body": "--o-duration-xl",
     "description": "持续时间: 用于当曲线为emphasized时，轮播切换动画[light: 1000ms, dark: 1000ms]",
     "scope": "css,scss,less"
   },
@@ -699,7 +731,7 @@
     "prefix": [
       "--o-easing-linear"
     ],
-    "body": "var(--o-easing-linear)",
+    "body": "--o-easing-linear",
     "description": "线性动画曲线: 线性曲线[light: cubic-bezier(0, 0, 1, 1), dark: cubic-bezier(0, 0, 1, 1)]",
     "scope": "css,scss,less"
   },
@@ -707,7 +739,7 @@
     "prefix": [
       "--o-easing-standard"
     ],
-    "body": "var(--o-easing-standard)",
+    "body": "--o-easing-standard",
     "description": "动画曲线: 用于组件[light: cubic-bezier(0.2, 0, 0, 1), dark: cubic-bezier(0.2, 0, 0, 1)]",
     "scope": "css,scss,less"
   },
@@ -715,7 +747,7 @@
     "prefix": [
       "--o-easing-standard-in"
     ],
-    "body": "var(--o-easing-standard-in)",
+    "body": "--o-easing-standard-in",
     "description": "动画曲线: 用于组件[light: cubic-bezier(0, 0, 0, 1), dark: cubic-bezier(0, 0, 0, 1)]",
     "scope": "css,scss,less"
   },
@@ -723,7 +755,7 @@
     "prefix": [
       "--o-easing-standard-out"
     ],
-    "body": "var(--o-easing-standard-out)",
+    "body": "--o-easing-standard-out",
     "description": "动画曲线: 用于组件[light: cubic-bezier(0.3, 0, 1, 1), dark: cubic-bezier(0.3, 0, 1, 1)]",
     "scope": "css,scss,less"
   },
@@ -731,7 +763,7 @@
     "prefix": [
       "--o-easing-emphasized"
     ],
-    "body": "var(--o-easing-emphasized)",
+    "body": "--o-easing-emphasized",
     "description": "动画曲线: 用于大卡片、场景切换[light: cubic-bezier(0.2, 0, 0, 1), dark: cubic-bezier(0.2, 0, 0, 1)]",
     "scope": "css,scss,less"
   },
@@ -739,7 +771,7 @@
     "prefix": [
       "--o-easing-emphasized-in"
     ],
-    "body": "var(--o-easing-emphasized-in)",
+    "body": "--o-easing-emphasized-in",
     "description": "动画曲线: 用于大卡片、场景切换[light: cubic-bezier(0.3, 0, 0.8, 0.15), dark: cubic-bezier(0.3, 0, 0.8, 0.15)]",
     "scope": "css,scss,less"
   },
@@ -747,7 +779,7 @@
     "prefix": [
       "--o-easing-emphasized-out"
     ],
-    "body": "var(--o-easing-emphasized-out)",
+    "body": "--o-easing-emphasized-out",
     "description": "动画曲线: 用于大卡片、场景切换[light: cubic-bezier(0.05, 0.7, 0.1, 1), dark: cubic-bezier(0.05, 0.7, 0.1, 1)]",
     "scope": "css,scss,less"
   }

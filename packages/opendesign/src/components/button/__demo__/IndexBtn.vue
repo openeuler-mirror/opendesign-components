@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import '../style';
 
-import BtnType from './BtnType.vue';
-import BtnSize from './BtnSize.vue';
-import BtnDisabled from './BtnDisabled.vue';
+import BtnBasic from './BtnBasic.vue';
 import BtnIcon from './BtnIcon.vue';
-import BtnShape from './BtnShape.vue';
+import BtnRound from './BtnRound.vue';
 import BtnLoading from './BtnLoading.vue';
 </script>
 <template>
   <div class="page-demo">
-    <BtnType />
-    <BtnShape />
-    <BtnSize />
-    <BtnDisabled />
+    <BtnBasic />
+    <BtnRound />
     <BtnIcon />
     <BtnLoading />
   </div>

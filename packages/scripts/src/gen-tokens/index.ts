@@ -195,7 +195,7 @@ function generateCodeSnippets(tokens: Record<string, FlatTokenT>, outFile: strin
 
     snippets[tokenKey] = {
       prefix: [tokenKey],
-      body: `var(${tokenKey})`,
+      body: tokenKey,
       description: desc,
       scope: 'css,scss,less'
     };

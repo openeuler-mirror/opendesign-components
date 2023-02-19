@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@/': `${path.resolve(__dirname, './src')}/`,
-      '@demo': path.resolve(__dirname, '../opendesign/src/components'),
+      '@components': path.resolve(__dirname, '../opendesign/src/components'),
     },
   },
 });

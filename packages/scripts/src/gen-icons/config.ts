@@ -27,6 +27,8 @@ const svgoConfig: Config = {
       params: {
         attrs: [
           'class',
+          'path:fill:currentColor',
+          'path:stroke:currentColor'
         ],
       },
     },
@@ -46,6 +48,7 @@ const template = ({ name, componentName, svg, type }: { name: string, componentN
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: '${componentName}',
+  svgType: '${type}',
   setup() {
     const classnames = ['o-icon', '${name}', 'type-${type}'];
     return {
