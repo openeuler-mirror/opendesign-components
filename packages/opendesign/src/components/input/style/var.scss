@@ -1,57 +1,110 @@
 .o-input {
-  --input-text-size-s: var(--o-font_size-tip1);
-  --input-text-height-s: var(--o-line_height-tip1);
-  --input-text-size-m: var(--o-font_size-text);
-  --input-text-height-m: var(--o-line_height-text);
-  --input-text-size-l: var(--o-font_size-h4);
-  --input-text-height-l: var(--o-line_height-h4);
-
-  --input-height-s: var(--o-size-s);
-  --input-height-m: var(--o-size-m);
-  --input-height-l: var(--o-size-l);
-
-  --input-radius-s: var(--o-radius-s);
-  --input-radius-m: var(--o-radius-s);
-  --input-radius-l: var(--o-radius-s);
-
-  --input-border: var(--o-color-info1);
-  --input-border-hover: var(--o-color-primary2);
-  --input-border-focus: var(--o-color-primary3);
-  --input-border-disabled: var(--o-color-info1);
-
-  --input-bg: var(--o-color-bg1);
-  --input-bg-hover: var(--o-color-bg3);
-  --input-bg-focus: var(--o-color-bg3);
-  --input-bg-disabled: var(--o-color-info4);
-
+  --input-placeholder: var(--o-color-text4);
   --input-color: var(--o-color-text2);
   --input-color-disabled: var(--o-color-text4);
 
-  --input-icon-color: var(--o-color-text3);
-  --input-icon-color-hover: var(--o-color-primary1);
-  --input-icon-bg: var(--o-color-bg4);
-
-  --input-border-success: var(--o-color-success1);
-  --input-border-success-hover: var(--o-color-success2);
-  --input-border-success-focus: var(--o-color-success3);
-  --input-border-warning: var(--o-color-warning1);
-  --input-border-warning-hover: var(--o-color-warning2);
-  --input-border-warning-focus: var(--o-color-warning3);
-  --input-border-error: var(--o-color-danger1);
-  --input-border-error-hover: var(--o-color-danger2);
-  --input-border-error-focus: var(--o-color-danger3);
-
-  --input-bg-success: var(--o-color-bg1);
-  --input-bg-success-hover: var(--o-color-bg1);
-  --input-bg-success-focus: var(--o-color-bg1);
-  --input-bg-warning: var(--o-color-bg1);
-  --input-bg-warning-hover: var(--o-color-bg1);
-  --input-bg-warning-focus: var(--o-color-bg1);
-  --input-bg-error: var(--o-color-bg1);
-  --input-bg-error-hover: var(--o-color-bg1);
-  --input-bg-error-focus: var(--o-color-bg1);
-
-  --input-color-success: var(--o-color-text2);
-  --input-color-warning: var(--o-color-text2);
-  --input-color-error: var(--o-color-text2);
+  --input-bg: var(--o-color-bg2);
+  --input-bg-hover: var(--o-color-bg2);
+  --input-bg-focus: var(--o-color-bg2);
 }
+.o-input-size-small {
+  --input-height: var(--o-size-s);
+  --input-text-size: var(--o-font_size-tip1);
+  --input-text-height: var(--o-line_height-tip1);
+
+  --input-padding: 0 8px;
+  --input-append-padding: 0 4px;
+  --input-prepend-padding: 0 4px;
+  --input-radius: var(--o-radius-s);
+  &.o-input-round-pill {
+    --input-append-padding: 0 6px 0 4px;
+    --input-prepend-padding: 0 4px 0 6px;
+  }
+}
+.o-input-size-medium {
+  --input-height: var(--o-size-m);
+  --input-text-size: var(--o-font_size-text);
+  --input-text-height: var(--o-line_height-text);
+
+  --input-padding: 0 12px;
+  --input-append-padding: 0 8px;
+  --input-prepend-padding: 0 8px;
+  --input-radius: var(--o-radius-m);
+
+  &.o-input-round-pill {
+    --input-append-padding: 0 12px 0 8px;
+    --input-prepend-padding: 0 8px 0 12px;
+  }
+}
+.o-input-size-large {
+  --input-height: var(--o-size-l);
+  --input-text-size: var(--o-font_size-h4);
+  --input-text-height: var(--o-font_size-h4);
+
+  --input-padding: 0 16px;
+  --input-append-padding: 0 12px;
+  --input-prepend-padding: 0 12px;
+  --input-radius: var(--o-radius-l);
+  &.o-input-round-pill {
+    --input-append-padding: 0 16px 0 12px;
+    --input-prepend-padding: 0 12px 0 16px;
+  }
+}
+
+.o-input-round-pill {
+  --input-radius: var(--o-size-l);
+}
+
+.o-input-normal {
+  --input-bd: var(--o-color-normal1);
+  --input-bd-hover: var(--o-color-normal2);
+  --input-bd-focus: var(--o-color-normal2);
+}
+.o-input-success {
+  --input-bd: var(--o-color-success4);
+  --input-bd-hover: var(--o-color-success1);
+  --input-bd-focus: var(--o-color-success1);
+}
+.o-input-warning {
+  --input-bd: var(--o-color-warning4);
+  --input-bd-hover: var(--o-color-warning1);
+  --input-bd-focus: var(--o-color-warning1);
+}
+.o-input-danger {
+  --input-bd: var(--o-color-danger4);
+  --input-bd-hover: var(--o-color-danger1);
+  --input-bd-focus: var(--o-color-danger1);
+}
+.o-input-disabled {
+  --input-bd: var(--o-color-normal1);
+  --input-bd-hover: var(--o-color-normal1);
+  --input-bd-focus: var(--o-color-normal1);
+
+  --input-bg: var(--o-color-normal4);
+  --input-bg-hover: var(--o-color-normal4);
+  --input-bg-focus: var(--o-color-normal4);
+}
+// .o-input-status-success {
+//   --input-border: var(--input-border-success);
+//   --input-border-hover: var(--input-border-success-hover);
+//   --input-border-focus: var(--input-border-success-focus);
+//   --input-bg: var(--input-bg-success);
+//   --input-bg-hover: var(--input-bg-success-hover);
+//   --input-bg-focus: var(--input-bg-success-focus);
+// }
+// .o-input-status-warning {
+//   --input-border: var(--input-border-warning);
+//   --input-border-hover: var(--input-border-warning-hover);
+//   --input-border-focus: var(--input-border-warning-focus);
+//   --input-bg: var(--input-bg-warning);
+//   --input-bg-hover: var(--input-bg-warning-hover);
+//   --input-bg-focus: var(--input-bg-warning-focus);
+// }
+// .o-input-status-error {
+//   --input-border: var(--input-border-error);
+//   --input-border-hover: var(--input-border-error-hover);
+//   --input-border-focus: var(--input-border-error-focus);
+//   --input-bg: var(--input-bg-error);
+//   --input-bg-hover: var(--input-bg-error-hover);
+//   --input-bg-focus: var(--input-bg-error-focus);
+// }

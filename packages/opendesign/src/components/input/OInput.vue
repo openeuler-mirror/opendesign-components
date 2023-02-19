@@ -1,82 +1,16 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
+import { defaultSize } from '../_shared/global';
 import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
 import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
+import { inputPorps } from './types';
+import { getRoundClass } from '../_shared/style-class';
 
-interface InputPropT {
-  /**
-   * 下拉框的值
-   * v-model
-   */
-  modelValue?: string | number;
-  /**
-   * 下拉框的默认值
-   * 非受控
-   */
-  defaultValue?: string | number;
-  /**
-   * 大小
-   */
-  size?: SizeT;
-  /**
-   * 形状
-   */
-  shape?: ShapeT;
-  /**
-   * 提示文本
-   */
-  placeholder?: string;
-  /**
-   * 状态，显示指定，用于非表单场景
-   */
-  status?: 'success' | 'warning' | 'error';
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-  /**
-   * 是否只读
-   */
-  readonly?: boolean;
-  /**
-   * 是否可以清除
-   */
-  clearable?: boolean;
-  /**
-   * 是否自动增加宽度
-   */
-  autoWidth?: boolean;
-  /**
-   * 是否是密码输入
-   */
-  type?: 'text' | 'password';
-  /**
-   * 解析输入框的值
-   */
-  parse?: (value: string) => string;
-  /**
-   * 对值格式化，控制显示格式
-   * 需搭配parse处理，保证值的正确性
-   */
-  format?: (value: string | number) => string | number;
-}
-const props = withDefaults(defineProps<InputPropT>(), {
-  modelValue: undefined,
-  defaultValue: '',
-  size: undefined,
-  shape: undefined,
-  placeholder: '',
-  type: 'text',
-  clearable: true,
-  parse: undefined,
-  format: undefined,
-  status: undefined,
-});
+const props = defineProps(inputPorps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -207,19 +141,22 @@ const onMouseDown = (e: MouseEvent) => {
 const onMirrorResize = (en: ResizeObserverEntry) => {
   inputWidth.value = en.target.clientWidth;
 };
+const round = getRoundClass(props, 'input');
+console.log(round.class.value);
 </script>
 <template>
   <label
     class="o-input"
     :class="[
+      `o-input-${props.color}`,
       `o-input-size-${props.size || defaultSize}`,
-      `o-input-shape-${props.shape || defaultShape}`,
-      props.status ? `o-input-status-${props.status}` : '',
+      round.class.value,
       {
         'o-input-disabled': props.disabled,
         'o-input-focus': isFocus,
       },
     ]"
+    :style="round.style.value"
     @mousedown="onMouseDown"
   >
     <span v-if="$slots.prepend" class="o-input-prepend">
@@ -238,7 +175,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
       <div v-if="$slots.prefix" class="o-input-prefix">
         <slot name="prefix"></slot>
       </div>
-      <div class="o-input-auto-wrap">
+      <div class="o-input-input-wrap">
         <input
           ref="inputRef"
           :value="displayValue"
