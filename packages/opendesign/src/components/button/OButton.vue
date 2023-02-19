@@ -1,31 +1,47 @@
 <script setup lang="ts">
-import { defaultSize, defaultShape } from '../_shared/global';
-import type { SizeT, ShapeT } from '../_shared/global';
-import { ButtonTypeT } from './types';
+import { defaultSize, defaultRound } from '../_shared/global';
+import { buttonProps } from './types';
 import { IconLoading } from '../_shared/icons';
+import { computed, StyleValue } from 'vue';
 
-interface ButtonPropT {
-  /**
-   * 按钮类型："outline" | "primary" | "text" | "link"
-   */
-  type?: ButtonTypeT;
-  /**
-   * 按钮尺寸："normal" | "small" | "large"
-   */
-  size?: SizeT;
-  /**
-   * 按钮形状："normal" | "round"
-   */
-  shape?: ShapeT;
-  /**
-   * 是否为loading状态
-   */
-  loading?: boolean;
-}
-const props = withDefaults(defineProps<ButtonPropT>(), {
-  type: 'outline',
-  size: undefined,
-  shape: undefined,
+const props = defineProps(buttonProps);
+
+const styleList = computed(() => {
+  const rlt: StyleValue = {};
+
+  const round = props.round || defaultRound.value;
+
+  if (round) {
+    if (round !== 'pill') {
+      rlt['--btn-radius'] = props.round;
+    }
+  }
+  return rlt;
+});
+
+const classList = computed(() => {
+  const rlt = [];
+
+  if (props.color) {
+    rlt.push(`o-btn-${props.color}`);
+  }
+
+  rlt.push(`o-btn-${props.size || defaultSize.value}`);
+
+  rlt.push(`o-btn-${props.variant}`);
+
+  if (props.round) {
+    if (props.round === 'pill') {
+      rlt.push('o-btn-round-pill');
+    } else {
+      rlt.push('o-btn-round-diy');
+    }
+  } else {
+    if (defaultRound.value) {
+      rlt.push('o-btn-round-diy');
+    }
+  }
+  return rlt;
 });
 </script>
 <template>
@@ -33,13 +49,13 @@ const props = withDefaults(defineProps<ButtonPropT>(), {
     type="button"
     class="o-btn"
     :class="[
-      `o-btn-${props.type}`,
-      `o-btn-size-${props.size || defaultSize}`,
-      `o-btn-shape-${props.shape || defaultShape}`,
+      ...classList,
       {
         'o-btn-icon-only': $slots.icon && !$slots.default,
+        'o-btn-disabled': props.disabled,
       },
     ]"
+    :style="styleList"
   >
     <span v-if="$slots.icon || props.loading" class="o-btn-icon prefix" :class="{ loading: props.loading }">
       <IconLoading v-if="props.loading" class="o-rotating" />

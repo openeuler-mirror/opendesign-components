@@ -580,21 +580,21 @@
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 16px;
+  --o-radius-l: 8px;
   /**
    * @name 中尺寸圆角
    * @type size
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 8px;
+  --o-radius-m: 4px;
   /**
    * @name 小尺寸圆角
    * @type size
    * @group radius
    * @description 小尺寸圆角
    */
-  --o-radius-s: 4px;
+  --o-radius-s: 2px;
   /**
    * @name 持续时间
    * @type animation

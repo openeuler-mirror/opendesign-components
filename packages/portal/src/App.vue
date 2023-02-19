@@ -38,6 +38,6 @@ body {
   margin-top: var(--app-header-height);
   margin-left: var(--app-aside-width);
   min-height: calc(100vh - 48px);
-  background-color: var(--o-color-bg1);
+  // background-color: var(--o-color-bg1);
 }
 </style>

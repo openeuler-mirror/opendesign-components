@@ -660,7 +660,7 @@
       "--o-radius-l"
     ],
     "body": "--o-radius-l",
-    "description": "大尺寸圆角: 大尺寸圆角[light: 16px, dark: 16px]",
+    "description": "大尺寸圆角: 大尺寸圆角[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
   "--o-radius-m": {
@@ -668,7 +668,7 @@
       "--o-radius-m"
     ],
     "body": "--o-radius-m",
-    "description": "中尺寸圆角: 中尺寸圆角[light: 8px, dark: 8px]",
+    "description": "中尺寸圆角: 中尺寸圆角[light: 4px, dark: 4px]",
     "scope": "css,scss,less"
   },
   "--o-radius-s": {
@@ -676,7 +676,7 @@
       "--o-radius-s"
     ],
     "body": "--o-radius-s",
-    "description": "小尺寸圆角: 小尺寸圆角[light: 4px, dark: 4px]",
+    "description": "小尺寸圆角: 小尺寸圆角[light: 2px, dark: 2px]",
     "scope": "css,scss,less"
   },
   "--o-duration-s": {
