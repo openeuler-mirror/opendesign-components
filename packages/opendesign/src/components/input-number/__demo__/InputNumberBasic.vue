@@ -11,7 +11,7 @@ const val3 = ref(3333);
 const val4 = ref('1px');
 </script>
 <template>
-  <h4>Basic</h4>
+  <h4>Color</h4>
   <div>val1:{{ val1 }}</div>
   <section>
     <div class="col">
@@ -25,6 +25,25 @@ const val4 = ref('1px');
     <div class="col">
       default-value:
       <OInputNumber :default-value="val1" style="width: 150px" />
+    </div>
+  </section>
+  <h4>Color</h4>
+  <section>
+    <div>
+      <p>normal</p>
+      <OInputNumber v-model="val1" style="width: 150px" color="normal" />
+    </div>
+    <div>
+      <p>success</p>
+      <OInputNumber v-model="val1" style="width: 150px" color="success" />
+    </div>
+    <div>
+      <p>warning</p>
+      <OInputNumber v-model="val1" style="width: 150px" color="warning" />
+    </div>
+    <div>
+      <p>danger</p>
+      <OInputNumber v-model="val1" style="width: 150px" color="danger" />
     </div>
   </section>
   <section>
@@ -52,15 +71,28 @@ const val4 = ref('1px');
     <OInputNumber v-model="val2" />
     <OInputNumber v-model="val3" size="large" />
   </section>
-  <h4>Shape</h4>
+  <h4>Round</h4>
   <section>
-    <OInputNumber v-model="val2" size="small" shape="round" />
-    <OInputNumber v-model="val2" shape="round" />
-    <OInputNumber v-model="val3" size="large" shape="round" />
+    <div>
+      <p>pill</p>
+      <section>
+        <OInputNumber v-model="val2" size="small" round="pill" />
+        <OInputNumber v-model="val2" round="pill" />
+        <OInputNumber v-model="val3" size="large" round="pill" />
 
-    <OInputNumber v-model="val2" size="small" shape="round" controls="none" />
-    <OInputNumber v-model="val2" shape="round" controls="none" />
-    <OInputNumber v-model="val3" size="large" shape="round" controls="none" />
+        <OInputNumber v-model="val2" size="small" round="pill" controls="none" />
+        <OInputNumber v-model="val2" round="pill" controls="none" />
+        <OInputNumber v-model="val3" size="large" round="pill" controls="none" />
+      </section>
+    </div>
+    <div>
+      <p>16px</p>
+      <section>
+        <OInputNumber v-model="val2" size="small" round="16px" controls="none" />
+        <OInputNumber v-model="val2" round="16px" controls="none" />
+        <OInputNumber v-model="val3" size="large" round="16px" controls="none" />
+      </section>
+    </div>
   </section>
   <h4>Disabled</h4>
   <section>

@@ -3,7 +3,7 @@
 .o-input-number {
   .o-input-prepend,
   .o-input-append {
-    font-size: 14px;
+    font-size: var(--o-font_size-text);
     padding: 0;
     align-items: stretch;
     overflow: hidden;
@@ -21,15 +21,17 @@
   justify-content: center;
   display: flex;
   min-width: var(--input-height);
-  font-size: var(--input-number-icon-size);
+  font-size: 16px;
   flex-wrap: wrap;
   color: var(--input-number-btn-color);
 
   &.both-left,
   &.both-right {
+    background-color: var(--input-number-btn-bg);
+
     &:hover {
       color: var(--input-number-btn-color-hover);
-      background-color: var(--input-number-btn-bg);
+      background-color: var(--input-number-btn-bg-hover);
     }
     &.is-disabled {
       cursor: not-allowed;
@@ -38,7 +40,7 @@
     }
   }
 
-  .o-input-shape-round & {
+  .o-input-round-pill & {
     &.both-right {
       padding-right: 2px;
     }
@@ -57,9 +59,11 @@
   font-size: 16px;
   overflow: hidden;
   position: relative;
+  background-color: var(--input-number-btn-bg);
+
   &:hover {
     color: var(--input-number-btn-color-hover);
-    background-color: var(--input-number-btn-bg);
+    background-color: var(--input-number-btn-bg-hover);
   }
   &.is-disabled {
     cursor: not-allowed;
@@ -79,7 +83,7 @@
 .o-input-number-size-small {
   width: 90px;
 }
-.o-input-number-size-normal {
+.o-input-number-size-medium {
   width: 120px;
 }
 .o-input-number-size-large {

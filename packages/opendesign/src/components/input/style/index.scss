@@ -18,13 +18,15 @@
   border: 1px solid var(--input-bd);
   background-color: var(--input-bg);
 
-  &:hover {
-    border-color: var(--input-bd-hover);
-    background-color: var(--input-bg-hover);
-  }
-  &.is-focus {
-    border-color: var(--input-bd-focus);
-    background-color: var(--input-bg-focus);
+  &:not(.is-readonly) {
+    &:hover {
+      border-color: var(--input-bd-hover);
+      background-color: var(--input-bg-hover);
+    }
+    &.is-focus {
+      border-color: var(--input-bd-focus);
+      background-color: var(--input-bg-focus);
+    }
   }
 
   &.has-prepend {
@@ -78,9 +80,6 @@
 }
 
 .o-input-disabled {
-  .o-input-clear {
-    display: none;
-  }
   .o-input-wrap {
     color: var(--input-color-disabled);
     cursor: not-allowed;

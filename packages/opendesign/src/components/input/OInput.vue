@@ -48,6 +48,7 @@ const displayValue = computed(() => {
 // 是否聚焦状态
 const isFocus = ref(false);
 let lastValue: string = realValue.value;
+const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 
 function updateValue(val: string) {
   const value = isFunction(props.parse) ? props.parse(val) : val;
@@ -142,7 +143,6 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
   inputWidth.value = en.target.clientWidth;
 };
 const round = getRoundClass(props, 'input');
-console.log(round.class.value);
 </script>
 <template>
   <label
@@ -165,11 +165,12 @@ console.log(round.class.value);
     <div
       class="o-input-wrap"
       :class="{
-        'o-input-clearable': props.clearable && realValue !== '' && !props.disabled,
+        'o-input-clearable': isClearable && realValue !== '',
         'has-suffix': $slots.suffix,
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
         'is-focus': isFocus,
+        'is-readonly': props.readonly,
       }"
     >
       <div v-if="$slots.prefix" class="o-input-prefix">
@@ -205,7 +206,7 @@ console.log(round.class.value);
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>
         </span>
-        <div v-if="props.clearable" class="o-input-clear" @click="clearClick"><IconX class="o-input-clear-icon" /></div>
+        <div v-if="isClearable" class="o-input-clear" @click="clearClick"><IconX class="o-input-clear-icon" /></div>
       </div>
     </div>
     <span v-if="$slots.append" class="o-input-append">

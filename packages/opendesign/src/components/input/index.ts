@@ -7,3 +7,4 @@ const OInput = Object.assign(_OInput, {
   },
 });
 export { OInput };
+export * from './types';
