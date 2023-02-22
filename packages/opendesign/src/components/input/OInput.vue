@@ -7,10 +7,10 @@ import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
 import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
-import { inputPorps } from './types';
+import { inputProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 
-const props = defineProps(inputPorps);
+const props = defineProps(inputProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;

@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, ShapeT, ColorT, RoundT } from '../_shared/global';
+import type { SizeT, ShapeT, RoundT } from '../_shared/global';
 
-export const inputPorps = {
+export const inputProps = {
   /**
    * 下拉框的值
    * v-model
@@ -94,4 +94,4 @@ export const inputPorps = {
   },
 };
 
-export type InputPorpsT = ExtractPropTypes<typeof inputPorps>;
+export type InputPropsT = ExtractPropTypes<typeof inputProps>;

@@ -189,13 +189,13 @@ function generateCodeSnippets(tokens: Record<string, FlatTokenT>, outFile: strin
   const snippets: Record<string, any> = {};
   Object.keys(tokens).forEach(k => {
     const token = tokens[k];
-    const { value, tokenKey, name, description } = token;
+    const { value, tokenKey, description } = token;
     const themes = Object.keys(value).map(theme => `${theme}: ${value[theme]}`);
-    const desc = `${name}: ${description}[${themes.join(', ')}]`;
+    const desc = `${description || ''}[${themes.join(', ')}]`;
 
     snippets[tokenKey] = {
-      prefix: [tokenKey],
-      body: tokenKey,
+      prefix: [`var(${tokenKey})`],
+      body: `var(${tokenKey})`,
       description: desc,
       scope: 'css,scss,less'
     };

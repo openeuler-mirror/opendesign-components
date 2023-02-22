@@ -23,3 +23,7 @@
 | variant | fill outline text                     | outline   |
 | rounded | undefined string 'pill'               | undefined |
 | size    | small normal large                    | normal    |
+
+# 变量定义都在 var.scss 里，同时使用最外层内定义；
+
+# 不同状态通过类改变变量值，而不是新定义多个变量；
