@@ -1,0 +1,44 @@
+@use './var.scss';
+
+.o-rate {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  font-size: var(--rate-height);
+  cursor: pointer;
+}
+
+.o-rate-item {
+  position: relative;
+
+  & + .o-rate-item {
+    margin-left: 8px;
+  }
+
+  &.is-half-active {
+    .o-rate-icon-top {
+      opacity: 1;
+    }
+  }
+
+  &.is-full-active {
+    .o-rate-icon-bottom {
+      color: var(--rate-color-active);
+    }
+  }
+}
+
+.o-rate-icon {
+  color: var(--rate-color);
+  transition: all var(--o-duration-m1) var(--o-easing-standard);
+}
+
+.o-rate-icon-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  overflow: hidden;
+  color: var(--rate-color-active);
+}
