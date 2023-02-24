@@ -45,6 +45,8 @@ const navClick = (item: typeof navList[0]) => {
 .the-aside {
   background-color: var(--o-color-fill2);
   color: var(--o-color-info1);
+  overflow: auto;
+  height: calc(100vh - 48px);
 }
 .aside-title {
   padding: 16px;

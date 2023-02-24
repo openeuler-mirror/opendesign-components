@@ -38,9 +38,9 @@ const emits = defineEmits<{
 }>();
 
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
+
 // 监听modelValue改变
 const isModelValueChanged = ref(false);
-
 watch(
   () => props.modelValue,
   () => {

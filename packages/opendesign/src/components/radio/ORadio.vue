@@ -21,6 +21,7 @@ interface RadioPropT {
    */
   disabled?: boolean;
 }
+
 const props = withDefaults(defineProps<RadioPropT>(), {
   modelValue: undefined,
   defaultChecked: false,
@@ -36,7 +37,6 @@ const radioGroupInjection = inject(radioGroupInjectKey, null);
 
 // 监听modelValue改变
 const isModelValueChanged = ref(false);
-
 watch(
   () => props.modelValue,
   () => {

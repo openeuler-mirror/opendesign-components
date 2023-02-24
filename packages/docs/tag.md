@@ -6,8 +6,8 @@
 | :--------------- | :--------------------------------------------- | :------- | ------------------------------------------------------- |
 | status           | 'normal' \| 'success' \| 'warning' \| 'danger' | 'normal' | 标签状态                                                |
 | bordered         | boolean                                        | false    | 是否有边框                                              |
-| size             | 'large' \| 'normal' \| 'small'                 | 'normal' | 标签形状                                                |
-| shape            | 'normal' \| 'round'                            | 'normal' | 尺寸                                                    |
+| size             | 'large' \| 'normal' \| 'small'                 | 'normal' | 标签尺寸                                                |
+| shape            | 'normal' \| 'round'                            | 'normal' | 标签形状                                                |
 | closable         | boolean                                        | false    | 是否可关闭                                              |
 | checkable        | boolean                                        | false    | 是否可选中                                              |
 | checked(v-model) | boolean                                        | false    | 是否被选中（仅 checkable 为 true 生效）                 |

@@ -129,6 +129,18 @@ export const routes = [
     label: '标签',
     component: () => import('@components/tag/__demo__/IndexTag.vue'),
   },
+  {
+    path: '/badge',
+    name: 'Badge',
+    label: '徽标',
+    component: () => import('@components/badge/__demo__/IndexBadge.vue'),
+  },
+  {
+    path: '/rate',
+    name: 'Rate',
+    label: '评分',
+    component: () => import('@components/rate/__demo__/IndexRate.vue'),
+  },
 ];
 
 export const router = createRouter({
