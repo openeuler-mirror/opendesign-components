@@ -6,8 +6,8 @@
 
   color-scheme: light dark;
 
-  color: #213547;
-  background-color: #ffffff;
+  color: var(--o-color-info1);
+  background-color: var(--o-color-fill1);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -45,7 +45,7 @@ body {
   gap: 8px;
 }
 section {
-  border: 1px solid var(--o-color-border2);
+  border: 1px solid var(--o-color-control1-light);
   padding: var(--o-gap-4);
 
   h4 {

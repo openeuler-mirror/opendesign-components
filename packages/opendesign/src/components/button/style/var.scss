@@ -1,15 +1,15 @@
 .o-btn-normal {
-  --btn-color: var(--o-color-text2);
-  --btn-color-hover: var(--o-color-primary2);
-  --btn-color-active: var(--o-color-primary3);
+  --btn-color: var(--o-color-info2);
+  --btn-color-hover: var(--o-color-info2);
+  --btn-color-active: var(--o-color-info2);
 
-  --btn-bg: var(--o-color-normal1);
-  --btn-bg-hover: var(--o-color-primary2);
-  --btn-bg-active: var(--o-color-primary3);
+  --btn-bg: var(--o-color-neutral4);
+  --btn-bg-hover: var(--o-color-neutral2);
+  --btn-bg-active: var(--o-color-neutral6);
 
-  --btn-bd: var(--o-color-normal1);
-  --btn-bd-hover: var(--o-color-primary2);
-  --btn-bd-active: var(--o-color-primary3);
+  --btn-bd: var(--o-color-neutral4);
+  --btn-bd-hover: var(--o-color-neutral2);
+  --btn-bd-active: var(--o-color-neutral6);
 }
 .o-btn-primary {
   --btn-color: var(--o-color-primary1);

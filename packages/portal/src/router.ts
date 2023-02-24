@@ -5,7 +5,7 @@ export const routes = [
   {
     path: '/',
     name: 'Home',
-    label: '首页',
+    label: '通用',
     component: TheHome,
   },
   {
