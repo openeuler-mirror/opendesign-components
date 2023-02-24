@@ -14,4 +14,12 @@ import PopupTarget from './PopupTarget.vue';
     <PopupVisible />
   </div>
 </template>
-<style lang="scss"></style>
+<style lang="scss">
+.popup-box {
+  background-color: var(--o-color-fill2);
+  box-shadow: var(--o-shadow-1);
+  padding: 4px 8px;
+  border-radius: var(--o-radius-m);
+  border: 1px solid red;
+}
+</style>

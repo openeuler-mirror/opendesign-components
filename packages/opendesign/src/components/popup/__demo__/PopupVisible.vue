@@ -32,11 +32,4 @@ setTimeout(() => {
 .btn {
   margin-left: 100px;
 }
-.popup-box {
-  background-color: var(--popup-bg);
-  box-shadow: var(--popup-shadow);
-  padding: 4px 8px;
-  border-radius: var(--popup-radius);
-  border: 1px solid red;
-}
 </style>
