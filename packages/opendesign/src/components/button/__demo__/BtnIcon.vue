@@ -5,41 +5,41 @@ import { IconAdd } from '../../icons';
 <template>
   <h4>Icon</h4>
   <section>
-    <OButton type="primary" size="large">
+    <OButton variant="solid" size="large">
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton type="primary">
+    <OButton variant="solid">
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton type="primary" size="small">
+    <OButton variant="solid" size="small">
       <template #icon><IconAdd /></template>Primary Button
     </OButton>
-    <OButton type="outline" size="large">
+    <OButton variant="outline" size="large">
       <template #icon><IconAdd /></template>Outline Button
     </OButton>
-    <OButton type="outline">
+    <OButton variant="outline">
       <template #icon><IconAdd /></template>Outline Button
     </OButton>
-    <OButton type="outline" size="small">
+    <OButton variant="outline" size="small">
       <template #icon><IconAdd /></template>Outline Button
     </OButton>
-    <OButton type="primary" size="large">
+    <OButton variant="text" size="large">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton type="outline">
+    <OButton variant="text">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton type="outline" size="small">
+    <OButton variant="text" size="small">
       <template #icon><IconAdd /></template>
     </OButton>
 
-    <OButton type="primary" size="large" shape="round">
+    <OButton variant="solid" size="large" round="pill">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton type="outline" shape="round">
+    <OButton variant="outline" round="pill">
       <template #icon><IconAdd /></template>
     </OButton>
-    <OButton type="outline" size="small" shape="round">
+    <OButton variant="text" size="small" round="pill">
       <template #icon><IconAdd /></template>
     </OButton>
   </section>

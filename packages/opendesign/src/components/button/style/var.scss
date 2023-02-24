@@ -1,87 +1,170 @@
 .o-btn-normal {
-  --btn-color: var(--o-color-info2);
-  --btn-color-hover: var(--o-color-info2);
-  --btn-color-active: var(--o-color-info2);
+  --btn-color: var(--o-color-info1);
+  --btn-color-hover: var(--o-color-info1);
+  --btn-color-active: var(--o-color-info1);
 
-  --btn-bg: var(--o-color-neutral4);
-  --btn-bg-hover: var(--o-color-neutral2);
-  --btn-bg-active: var(--o-color-neutral6);
+  --btn-bd: var(--o-color-control1);
+  --btn-bd-hover: var(--o-color-control2);
+  --btn-bd-active: var(--o-color-control3);
 
-  --btn-bd: var(--o-color-neutral4);
-  --btn-bd-hover: var(--o-color-neutral2);
-  --btn-bd-active: var(--o-color-neutral6);
+  &.o-btn-solid {
+    --btn-bg: var(--o-color-control1-light);
+    --btn-bg-hover: var(--o-color-control2-light);
+    --btn-bg-active: var(--o-color-control3-light);
+
+    --btn-bd: var(--o-color-control1-light);
+    --btn-bd-hover: var(--o-color-control2-light);
+    --btn-bd-active: var(--o-color-control3-light);
+  }
+
+  &.o-btn-text {
+    --btn-bg-hover: var(--o-color-control1-light);
+    --btn-bg-active: var(--o-color-control2-light);
+  }
+
+  &.o-btn-disabled {
+    --btn-color: var(--o-color-info4);
+    --btn-bg: var(--o-color-control4-light);
+    --btn-bd: var(--o-color-control4-light);
+  }
 }
 .o-btn-primary {
   --btn-color: var(--o-color-primary1);
-  --btn-color-hover: var(--o-color-primary2);
-  --btn-color-active: var(--o-color-primary3);
-
-  --btn-bg: var(--o-color-primary1);
-  --btn-bg-hover: var(--o-color-primary2);
-  --btn-bg-active: var(--o-color-primary3);
+  --btn-color-hover: var(--o-color-primary1);
+  --btn-color-active: var(--o-color-primary1);
 
   --btn-bd: var(--o-color-primary1);
   --btn-bd-hover: var(--o-color-primary2);
   --btn-bd-active: var(--o-color-primary3);
+
+  &.o-btn-solid {
+    --btn-bg: var(--o-color-primary1);
+    --btn-bg-hover: var(--o-color-primary2);
+    --btn-bg-active: var(--o-color-primary3);
+
+    --btn-bd: var(--o-color-primary1);
+    --btn-bd-hover: var(--o-color-primary2);
+    --btn-bd-active: var(--o-color-primary3);
+  }
+
+  &.o-btn-text {
+    --btn-bg-hover: var(--o-color-primary1-light);
+    --btn-bg-active: var(--o-color-primary2-light);
+  }
+
+  &.o-btn-disabled {
+    --btn-color: var(--o-color-primary4);
+    --btn-bg: var(--o-color-primary4);
+    --btn-bd: var(--o-color-primary4);
+  }
 }
 .o-btn-success {
   --btn-color: var(--o-color-success1);
-  --btn-color-hover: var(--o-color-success2);
-  --btn-color-active: var(--o-color-success3);
-
-  --btn-bg: var(--o-color-success1);
-  --btn-bg-hover: var(--o-color-success2);
-  --btn-bg-active: var(--o-color-success3);
+  --btn-color-hover: var(--o-color-success1);
+  --btn-color-active: var(--o-color-success1);
 
   --btn-bd: var(--o-color-success1);
   --btn-bd-hover: var(--o-color-success2);
   --btn-bd-active: var(--o-color-success3);
+
+  &.o-btn-solid {
+    --btn-bg: var(--o-color-success1);
+    --btn-bg-hover: var(--o-color-success2);
+    --btn-bg-active: var(--o-color-success3);
+
+    --btn-bd: var(--o-color-success1);
+    --btn-bd-hover: var(--o-color-success2);
+    --btn-bd-active: var(--o-color-success3);
+  }
+
+  &.o-btn-text {
+    --btn-bg-hover: var(--o-color-success1-light);
+    --btn-bg-active: var(--o-color-success2-light);
+  }
+
+  &.o-btn-disabled {
+    --btn-color: var(--o-color-success4);
+    --btn-bg: var(--o-color-success4);
+    --btn-bd: var(--o-color-success4);
+  }
 }
 .o-btn-warning {
   --btn-color: var(--o-color-warning1);
-  --btn-color-hover: var(--o-color-warning2);
-  --btn-color-active: var(--o-color-warning3);
-
-  --btn-bg: var(--o-color-warning1);
-  --btn-bg-hover: var(--o-color-warning2);
-  --btn-bg-active: var(--o-color-warning3);
+  --btn-color-hover: var(--o-color-warning1);
+  --btn-color-active: var(--o-color-warning1);
 
   --btn-bd: var(--o-color-warning1);
   --btn-bd-hover: var(--o-color-warning2);
   --btn-bd-active: var(--o-color-warning3);
+
+  &.o-btn-solid {
+    --btn-bg: var(--o-color-warning1);
+    --btn-bg-hover: var(--o-color-warning2);
+    --btn-bg-active: var(--o-color-warning3);
+
+    --btn-bd: var(--o-color-warning1);
+    --btn-bd-hover: var(--o-color-warning2);
+    --btn-bd-active: var(--o-color-warning3);
+  }
+
+  &.o-btn-text {
+    --btn-bg-hover: var(--o-color-warning1-light);
+    --btn-bg-active: var(--o-color-warning2-light);
+  }
+
+  &.o-btn-disabled {
+    --btn-color: var(--o-color-warning4);
+    --btn-bg: var(--o-color-warning4);
+    --btn-bd: var(--o-color-warning4);
+  }
 }
 .o-btn-danger {
   --btn-color: var(--o-color-danger1);
-  --btn-color-hover: var(--o-color-danger2);
-  --btn-color-active: var(--o-color-danger3);
-
-  --btn-bg: var(--o-color-danger1);
-  --btn-bg-hover: var(--o-color-danger2);
-  --btn-bg-active: var(--o-color-danger3);
+  --btn-color-hover: var(--o-color-danger1);
+  --btn-color-active: var(--o-color-danger1);
 
   --btn-bd: var(--o-color-danger1);
   --btn-bd-hover: var(--o-color-danger2);
   --btn-bd-active: var(--o-color-danger3);
-}
 
-.o-btn-fill {
-  --btn-color: var(--o-color-text1-inverse);
-  --btn-color-hover: var(--o-color-text1-inverse);
-  --btn-color-active: var(--o-color-text1-inverse);
+  &.o-btn-solid {
+    --btn-bg: var(--o-color-danger1);
+    --btn-bg-hover: var(--o-color-danger2);
+    --btn-bg-active: var(--o-color-danger3);
 
-  &.o-btn-normal:not(.o-btn-disabled) {
-    --btn-color: var(--o-color-text2);
+    --btn-bd: var(--o-color-danger1);
+    --btn-bd-hover: var(--o-color-danger2);
+    --btn-bd-active: var(--o-color-danger3);
+  }
+
+  &.o-btn-text {
+    --btn-bg-hover: var(--o-color-danger1-light);
+    --btn-bg-active: var(--o-color-danger2-light);
+  }
+
+  &.o-btn-disabled {
+    --btn-color: var(--o-color-danger4);
+    --btn-bg: var(--o-color-danger4);
+    --btn-bd: var(--o-color-danger4);
   }
 }
 
-.o-btn-disabled {
-  --btn-color: var(--o-color-text4);
-  --btn-bg: var(--o-color-normal4);
-  --btn-bd: var(--o-color-normal4);
-}
-.o-btn-text {
-  --btn-color-hover: var(--o-color-text1-inverse);
-  --btn-color-active: var(--o-color-text1-inverse);
+.o-btn-solid {
+  --btn-color: var(--o-color-info1-inverse);
+  --btn-color-hover: var(--o-color-info1-inverse);
+  --btn-color-active: var(--o-color-info1-inverse);
+
+  &.o-btn-normal:not(.o-btn-disabled) {
+    --btn-color: var(--o-color-info1);
+    --btn-color-hover: var(--o-color-info1);
+    --btn-color-active: var(--o-color-info1);
+  }
+  &.o-btn-disabled {
+    --btn-color: var(--o-color-info1-inverse);
+    &.o-btn-normal {
+      --btn-color: var(--o-color-info4);
+    }
+  }
 }
 
 .o-btn-small {

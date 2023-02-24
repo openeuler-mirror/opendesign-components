@@ -623,28 +623,28 @@
    * @group control
    * @description 浅/控件常规
    */
-  --o-color-control1-light: rgb(var(--o-mixedgray-2));
+  --o-color-control1-light: rgb(var(--o-mixedgray-3));
   /**
    * @name 
    * @type color
    * @group control
    * @description 浅/控件悬浮
    */
-  --o-color-control2-light: rgb(var(--o-mixedgray-3));
+  --o-color-control2-light: rgb(var(--o-mixedgray-4));
   /**
    * @name 
    * @type color
    * @group control
    * @description 浅/控件激活
    */
-  --o-color-control3-light: rgb(var(--o-mixedgray-4));
+  --o-color-control3-light: rgb(var(--o-mixedgray-5));
   /**
    * @name 
    * @type color
    * @group control
    * @description 浅/控件禁用
    */
-  --o-color-control4-light: rgb(var(--o-mixedgray-1));
+  --o-color-control4-light: rgb(var(--o-mixedgray-2));
   /**
    * @name 
    * @type color
@@ -700,7 +700,7 @@
    * @group primary
    * @description 浅/禁用
    */
-  --o-color-primary5-light: rgb(var(--o-blue-1));
+  --o-color-primary4-light: rgb(var(--o-blue-1));
   /**
    * @name 
    * @type color
@@ -728,7 +728,7 @@
    * @group success
    * @description 禁用
    */
-  --o-color-success5: rgb(var(--o-green-3));
+  --o-color-success4: rgb(var(--o-green-3));
   /**
    * @name 
    * @type color
@@ -756,7 +756,7 @@
    * @group success
    * @description 浅/禁用
    */
-  --o-color-success5-light: rgb(var(--o-green-1));
+  --o-color-success4-light: rgb(var(--o-green-1));
   /**
    * @name 
    * @type color
@@ -784,7 +784,7 @@
    * @group warning
    * @description 禁用
    */
-  --o-color-warning5: rgb(var(--o-orange-3));
+  --o-color-warning4: rgb(var(--o-orange-3));
   /**
    * @name 
    * @type color
@@ -812,7 +812,7 @@
    * @group warning
    * @description 浅/禁用
    */
-  --o-color-warning5-light: rgb(var(--o-orange-1));
+  --o-color-warning4-light: rgb(var(--o-orange-1));
   /**
    * @name 
    * @type color
@@ -840,7 +840,7 @@
    * @group danger
    * @description 禁用
    */
-  --o-color-danger5: rgb(var(--o-red-3));
+  --o-color-danger4: rgb(var(--o-red-3));
   /**
    * @name 
    * @type color
@@ -868,7 +868,7 @@
    * @group danger
    * @description 浅/禁用
    */
-  --o-color-danger5-light: rgb(var(--o-red-1));
+  --o-color-danger4-light: rgb(var(--o-red-1));
   /**
    * @name 阴影1
    * @type shadow

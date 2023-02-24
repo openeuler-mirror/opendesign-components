@@ -708,7 +708,7 @@
       "var(--o-color-control1-light)"
     ],
     "body": "var(--o-color-control1-light)",
-    "description": "浅/控件常规[light: rgb(var(--o-mixedgray-2)), dark: rgb(var(--o-mixedgray-2))]",
+    "description": "浅/控件常规[light: rgb(var(--o-mixedgray-3)), dark: rgb(var(--o-mixedgray-3))]",
     "scope": "css,scss,less"
   },
   "--o-color-control2-light": {
@@ -716,7 +716,7 @@
       "var(--o-color-control2-light)"
     ],
     "body": "var(--o-color-control2-light)",
-    "description": "浅/控件悬浮[light: rgb(var(--o-mixedgray-3)), dark: rgb(var(--o-mixedgray-3))]",
+    "description": "浅/控件悬浮[light: rgb(var(--o-mixedgray-4)), dark: rgb(var(--o-mixedgray-4))]",
     "scope": "css,scss,less"
   },
   "--o-color-control3-light": {
@@ -724,7 +724,7 @@
       "var(--o-color-control3-light)"
     ],
     "body": "var(--o-color-control3-light)",
-    "description": "浅/控件激活[light: rgb(var(--o-mixedgray-4)), dark: rgb(var(--o-mixedgray-4))]",
+    "description": "浅/控件激活[light: rgb(var(--o-mixedgray-5)), dark: rgb(var(--o-mixedgray-5))]",
     "scope": "css,scss,less"
   },
   "--o-color-control4-light": {
@@ -732,7 +732,7 @@
       "var(--o-color-control4-light)"
     ],
     "body": "var(--o-color-control4-light)",
-    "description": "浅/控件禁用[light: rgb(var(--o-mixedgray-1)), dark: rgb(var(--o-mixedgray-1))]",
+    "description": "浅/控件禁用[light: rgb(var(--o-mixedgray-2)), dark: rgb(var(--o-mixedgray-2))]",
     "scope": "css,scss,less"
   },
   "--o-color-primary1": {
@@ -791,11 +791,11 @@
     "description": "浅/激活[light: rgb(var(--o-blue-4)), dark: rgb(var(--o-blue-4))]",
     "scope": "css,scss,less"
   },
-  "--o-color-primary5-light": {
+  "--o-color-primary4-light": {
     "prefix": [
-      "var(--o-color-primary5-light)"
+      "var(--o-color-primary4-light)"
     ],
-    "body": "var(--o-color-primary5-light)",
+    "body": "var(--o-color-primary4-light)",
     "description": "浅/禁用[light: rgb(var(--o-blue-1)), dark: rgb(var(--o-blue-1))]",
     "scope": "css,scss,less"
   },
@@ -823,11 +823,11 @@
     "description": "激活[light: rgb(var(--o-green-7)), dark: rgb(var(--o-green-7))]",
     "scope": "css,scss,less"
   },
-  "--o-color-success5": {
+  "--o-color-success4": {
     "prefix": [
-      "var(--o-color-success5)"
+      "var(--o-color-success4)"
     ],
-    "body": "var(--o-color-success5)",
+    "body": "var(--o-color-success4)",
     "description": "禁用[light: rgb(var(--o-green-3)), dark: rgb(var(--o-green-3))]",
     "scope": "css,scss,less"
   },
@@ -855,11 +855,11 @@
     "description": "浅/激活[light: rgb(var(--o-green-4)), dark: rgb(var(--o-green-4))]",
     "scope": "css,scss,less"
   },
-  "--o-color-success5-light": {
+  "--o-color-success4-light": {
     "prefix": [
-      "var(--o-color-success5-light)"
+      "var(--o-color-success4-light)"
     ],
-    "body": "var(--o-color-success5-light)",
+    "body": "var(--o-color-success4-light)",
     "description": "浅/禁用[light: rgb(var(--o-green-1)), dark: rgb(var(--o-green-1))]",
     "scope": "css,scss,less"
   },
@@ -887,11 +887,11 @@
     "description": "激活[light: rgb(var(--o-orange-7)), dark: rgb(var(--o-orange-7))]",
     "scope": "css,scss,less"
   },
-  "--o-color-warning5": {
+  "--o-color-warning4": {
     "prefix": [
-      "var(--o-color-warning5)"
+      "var(--o-color-warning4)"
     ],
-    "body": "var(--o-color-warning5)",
+    "body": "var(--o-color-warning4)",
     "description": "禁用[light: rgb(var(--o-orange-3)), dark: rgb(var(--o-orange-3))]",
     "scope": "css,scss,less"
   },
@@ -919,11 +919,11 @@
     "description": "浅/激活[light: rgb(var(--o-orange-4)), dark: rgb(var(--o-orange-4))]",
     "scope": "css,scss,less"
   },
-  "--o-color-warning5-light": {
+  "--o-color-warning4-light": {
     "prefix": [
-      "var(--o-color-warning5-light)"
+      "var(--o-color-warning4-light)"
     ],
-    "body": "var(--o-color-warning5-light)",
+    "body": "var(--o-color-warning4-light)",
     "description": "浅/禁用[light: rgb(var(--o-orange-1)), dark: rgb(var(--o-orange-1))]",
     "scope": "css,scss,less"
   },
@@ -951,11 +951,11 @@
     "description": "激活[light: rgb(var(--o-red-7)), dark: rgb(var(--o-red-7))]",
     "scope": "css,scss,less"
   },
-  "--o-color-danger5": {
+  "--o-color-danger4": {
     "prefix": [
-      "var(--o-color-danger5)"
+      "var(--o-color-danger4)"
     ],
-    "body": "var(--o-color-danger5)",
+    "body": "var(--o-color-danger4)",
     "description": "禁用[light: rgb(var(--o-red-3)), dark: rgb(var(--o-red-3))]",
     "scope": "css,scss,less"
   },
@@ -983,11 +983,11 @@
     "description": "浅/激活[light: rgb(var(--o-red-4)), dark: rgb(var(--o-red-4))]",
     "scope": "css,scss,less"
   },
-  "--o-color-danger5-light": {
+  "--o-color-danger4-light": {
     "prefix": [
-      "var(--o-color-danger5-light)"
+      "var(--o-color-danger4-light)"
     ],
-    "body": "var(--o-color-danger5-light)",
+    "body": "var(--o-color-danger4-light)",
     "description": "浅/禁用[light: rgb(var(--o-red-1)), dark: rgb(var(--o-red-1))]",
     "scope": "css,scss,less"
   },

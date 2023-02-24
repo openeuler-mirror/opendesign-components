@@ -10,9 +10,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-.o-btn-disabled {
-  cursor: not-allowed;
+  &:hover {
+    cursor: pointer;
+  }
+  &.o-btn-disabled {
+    cursor: not-allowed;
+  }
 }
 
 .o-btn-outline {
@@ -34,7 +37,7 @@
   }
 }
 
-.o-btn-fill {
+.o-btn-solid {
   color: var(--btn-color);
   border: 1px solid var(--btn-bd);
   background-color: var(--btn-bg);
@@ -42,7 +45,7 @@
     &:hover {
       color: var(--btn-color-hover);
       border: 1px solid var(--btn-bd-hover);
-      background-color: var(--btn-bg-active);
+      background-color: var(--btn-bg-hover);
     }
 
     &:active {
@@ -57,6 +60,7 @@
 }
 .o-btn-text {
   color: var(--btn-color);
+  background-color: transparent;
 
   &:not(.o-btn-disabled) {
     &:hover {
