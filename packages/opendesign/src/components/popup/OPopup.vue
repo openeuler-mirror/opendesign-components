@@ -4,8 +4,8 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, PropType, ComponentPublicInstance, computed } from 'vue';
-import { propupProps } from './types';
+import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed } from 'vue';
+import { popupProps } from './types';
 import { isElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
 import { isArray } from '../_shared/is';
@@ -18,7 +18,7 @@ import { OChildOnly } from '../child-only';
 
 // TODO 处理嵌套
 
-const props = defineProps(propupProps);
+const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];

@@ -83,7 +83,7 @@ const btn12 = ref(null);
 </template>
 <style lang="scss" scoped>
 .position-wrap {
-  padding: 100px;
+  padding: 200px;
   height: 50vh;
   overflow: auto;
   border: 1px solid #333;

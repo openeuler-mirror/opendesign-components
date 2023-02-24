@@ -1,27 +1,27 @@
 @use './var.scss';
 
 .o-popover-wrap {
-  background-color: var(--popup-bg);
-  box-shadow: var(--popup-shadow);
+  background-color: var(--popover-bg);
+  box-shadow: var(--popover-shadow);
   padding: 4px 8px;
-  border-radius: var(--popup-radius);
-  border: 1px solid var(--popup-border-color);
+  border-radius: var(--popover-radius);
+  border: var(--popover-bd);
   min-width: 120px;
 }
 .o-popover-anchor {
-  border: 1px solid var(--popup-border-color);
+  border: var(--popover-bd);
   border-bottom: none;
   border-right: none;
   border-top-left-radius: 2px;
   width: 8px;
   height: 8px;
-  background-color: var(--popup-bg);
+  background-color: var(--popover-bg);
 }
 
 .o-popup-pos-left,
 .o-popup-pos-lb,
 .o-popup-pos-lt {
-  .o-popup-anchor {
+  .o-popover-anchor {
     transform: translate(50%, -50%) rotate(135deg);
   }
 }
@@ -29,7 +29,7 @@
 .o-popup-pos-top,
 .o-popup-pos-tl,
 .o-popup-pos-tr {
-  .o-popup-anchor {
+  .o-popover-anchor {
     transform: translate(-50%, 50%) rotate(225deg);
   }
 }
@@ -37,7 +37,7 @@
 .o-popup-pos-right,
 .o-popup-pos-rt,
 .o-popup-pos-rb {
-  .o-popup-anchor {
+  .o-popover-anchor {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
 }
@@ -45,7 +45,7 @@
 .o-popup-pos-bottom,
 .o-popup-pos-bl,
 .o-popup-pos-br {
-  .o-popup-anchor {
+  .o-popover-anchor {
     transform: translate(-50%, -50%) rotate(45deg);
   }
 }
