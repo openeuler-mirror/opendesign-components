@@ -20,7 +20,7 @@ export function initRound(m: string, s: string, l: string) {
 // 方向
 export type DirectionT = 'horizontal' | 'vertical';
 
-export type VariantT = 'fill' | 'outline' | 'text';
+export type VariantT = 'solid' | 'outline' | 'text';
 
 export type ColorT = 'normal' | 'primary' | 'success' | 'warning' | 'danger';
 

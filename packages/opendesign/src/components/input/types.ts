@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, ShapeT, ColorT, RoundT } from '../_shared/global';
+import type { SizeT, ShapeT, RoundT } from '../_shared/global';
 
-export const inputPorps = {
+export const inputProps = {
   /**
    * 下拉框的值
    * v-model
@@ -35,10 +35,10 @@ export const inputPorps = {
     type: String as PropType<RoundT>
   },
   /**
-   * 颜色类型：ColorT
+   * 颜色类型
    */
   color: {
-    type: String as PropType<ColorT>,
+    type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
     default: 'normal'
   },
   /**
@@ -46,12 +46,6 @@ export const inputPorps = {
    */
   placeholder: {
     type: String,
-  },
-  /**
-   * 状态，显示指定，用于非表单场景
-   */
-  status: {
-    type: String as PropType<'success' | 'warning' | 'error'>,
   },
   /**
    * 是否禁用
@@ -100,4 +94,4 @@ export const inputPorps = {
   },
 };
 
-export type InputPorpsT = ExtractPropTypes<typeof inputPorps>;
+export type InputPropsT = ExtractPropTypes<typeof inputProps>;

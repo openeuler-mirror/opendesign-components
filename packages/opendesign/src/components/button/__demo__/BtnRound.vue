@@ -18,23 +18,23 @@ const onClick = () => {
     <div>
       <p>round="pill"</p>
       <section>
-        <OButton type="primary" size="large" round="pill">
+        <OButton variant="solid" size="large" round="pill">
           <template #icon><IconAdd /></template>
         </OButton>
-        <OButton type="outline" round="pill">
+        <OButton variant="outline" round="pill">
           <template #icon><IconAdd /></template>
         </OButton>
-        <OButton type="outline" size="small" round="pill">
+        <OButton variant="text" size="small" round="pill">
           <template #icon><IconAdd /></template>
         </OButton>
 
-        <OButton type="primary" size="large" round="pill">
+        <OButton variant="solid" size="large" round="pill">
           <template #icon><IconAdd /></template>Round Button
         </OButton>
-        <OButton type="outline" round="pill">
+        <OButton variant="outline" round="pill">
           <template #icon><IconAdd /></template>Round Button
         </OButton>
-        <OButton type="outline" size="small" round="pill">
+        <OButton variant="text" size="small" round="pill">
           <template #icon><IconAdd /></template>Round Button
         </OButton>
       </section>
@@ -42,13 +42,13 @@ const onClick = () => {
     <div>
       <p>round="{{ r }}"</p>
       <section>
-        <OButton type="primary" size="large" :round="r + 'px'" @click="onClick">
+        <OButton variant="solid" size="large" :round="r + 'px'" @click="onClick">
           <template #icon><IconAdd /></template>Round Button
         </OButton>
-        <OButton type="outline" :round="r + 'px'">
+        <OButton variant="outline" :round="r + 'px'">
           <template #icon><IconAdd /></template>Round Button
         </OButton>
-        <OButton type="outline" size="small" :round="r + 'px'">
+        <OButton variant="text" size="small" :round="r + 'px'">
           <template #icon><IconAdd /></template>Round Button
         </OButton>
       </section>

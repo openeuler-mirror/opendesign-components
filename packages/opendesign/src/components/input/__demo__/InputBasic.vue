@@ -50,6 +50,24 @@ setTimeout(() => {
     <OInput v-model="val2" />
     <OInput v-model="val3" size="large" />
   </section>
+  <h4>Readonly</h4>
+  <section>
+    <div>val1:{{ val1 }}</div>
+    <OInput v-model="val2" readonly />
+    <OInput v-model="val2" readonly>
+      <template #prefix>
+        <IconDone />
+      </template>
+    </OInput>
+    <OInput v-model="val2" readonly>
+      <template #suffix>
+        <IconDone />
+      </template>
+    </OInput>
+    <OInput v-model="val2" :clearable="false" readonly>
+      <template #suffix> 元 </template>
+    </OInput>
+  </section>
   <h4>Disabled</h4>
   <section>
     <div>val1:{{ val1 }}</div>

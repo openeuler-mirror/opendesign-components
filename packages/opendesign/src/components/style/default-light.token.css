@@ -2,320 +2,894 @@
 :root,
 :root[theme="light"] {
   /**
-   * @name 常规色
-   * @type color
-   * @group primary
-   * @description 用于按钮、文本、链接强调状态时常规颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-primary1: #002fa7;
+  --o-blue-1: 232, 243, 255;
   /**
-   * @name 悬浮色
-   * @type color
-   * @group primary
-   * @description 用于按钮、文本、链接强调状态时悬浮颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-primary2: #406fe7;
+  --o-blue-2: 190, 218, 255;
   /**
-   * @name 聚焦色
-   * @type color
-   * @group primary
-   * @description 用于按钮、文本、链接强调状态时聚焦颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-primary3: #00288d;
+  --o-blue-3: 148, 191, 255;
   /**
-   * @name 禁用色
-   * @type color
-   * @group primary
-   * @description 用于按钮、文本、链接强调状态时禁用颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-primary4: #b2c0e4;
+  --o-blue-4: 106, 161, 255;
   /**
-   * @name 常规色
-   * @type color
-   * @group major
-   * @description 用于按钮、文本、链接major状态时文本颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-major1: #feb32a;
+  --o-blue-5: 64, 128, 255;
   /**
-   * @name 常规色
-   * @type color
-   * @group normal
-   * @description 用于按钮、文本、链接常态时常规颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-normal1: var(--o-color-info1);
+  --o-blue-6: 22, 93, 255;
   /**
-   * @name 悬浮色
-   * @type color
-   * @group normal
-   * @description 用于按钮、文本、链接常态时悬浮颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-normal2: var(--o-color-primary2);
+  --o-blue-7: 14, 66, 210;
   /**
-   * @name 聚焦色
-   * @type color
-   * @group normal
-   * @description 用于按钮、文本、链接常态时聚焦颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-normal3: var(--o-color-primary3);
+  --o-blue-8: 7, 44, 166;
   /**
-   * @name 禁用色
-   * @type color
-   * @group normal
-   * @description 用于按钮、文本、链接常态时禁用颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-normal4: var(--o-color-info4);
+  --o-blue-9: 3, 26, 121;
   /**
-   * @name 常规色
-   * @type color
-   * @group success
-   * @description 用于按钮、文本、链接成功状态时常规颜色
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
    */
-  --o-color-success1: #6dc335;
+  --o-blue-10: 0, 13, 77;
   /**
-   * @name 悬浮色
-   * @type color
-   * @group success
-   * @description 用于按钮、文本、链接成功状态时悬浮颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-success2: #93e95b;
+  --o-yellow-1: 254, 255, 232;
   /**
-   * @name 聚焦色
-   * @type color
-   * @group success
-   * @description 用于按钮、文本、链接成功状态时聚焦颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-success3: #62af30;
+  --o-yellow-2: 254, 254, 190;
   /**
-   * @name 禁用色
-   * @type color
-   * @group success
-   * @description 用于按钮、文本、链接成功状态时禁用颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-success4: #c5e7ae;
+  --o-yellow-3: 253, 250, 148;
   /**
-   * @name 常规色
-   * @type color
-   * @group warning
-   * @description 用于按钮、文本、链接告警状态时常规颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-warning1: #ff8e36;
+  --o-yellow-4: 252, 242, 107;
   /**
-   * @name 悬浮色
-   * @type color
-   * @group warning
-   * @description 用于按钮、文本、链接告警状态时悬浮颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-warning2: #ffb45c;
+  --o-yellow-5: 251, 232, 66;
   /**
-   * @name 聚焦色
-   * @type color
-   * @group warning
-   * @description 用于按钮、文本、链接告警状态时聚焦颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-warning3: #ff801c;
+  --o-yellow-6: 250, 220, 25;
   /**
-   * @name 禁用色
-   * @type color
-   * @group warning
-   * @description 用于按钮、文本、链接告警状态时禁用颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-warning4: #ffd2af;
+  --o-yellow-7: 207, 175, 15;
   /**
-   * @name 常规色
-   * @type color
-   * @group danger
-   * @description 用于按钮、文本、链接错误状态时常规颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-danger1: #f3524d;
+  --o-yellow-8: 163, 132, 8;
   /**
-   * @name 悬浮色
-   * @type color
-   * @group danger
-   * @description 用于按钮、文本、链接错误状态时悬浮颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-danger2: #ff7873;
+  --o-yellow-9: 120, 93, 3;
   /**
-   * @name 聚焦色
-   * @type color
-   * @group danger
-   * @description 用于按钮、文本、链接错误状态时聚焦颜色
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
    */
-  --o-color-danger3: #f13b35;
+  --o-yellow-10: 77, 56, 0;
   /**
-   * @name 禁用色
-   * @type color
-   * @group danger
-   * @description 用于按钮、文本、链接错误状态时禁用颜色
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
    */
-  --o-color-danger4: #fabab8;
+  --o-green-1: 232, 255, 234;
   /**
-   * @name 常规色
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-2: 175, 240, 181;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-3: 123, 225, 136;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-4: 76, 210, 99;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-5: 35, 195, 67;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-6: 0, 180, 42;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-7: 0, 154, 41;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-8: 0, 128, 38;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-9: 0, 102, 34;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-10: 0, 77, 28;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-1: 255, 247, 232;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-2: 255, 228, 186;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-3: 255, 207, 139;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-4: 255, 182, 93;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-5: 255, 154, 46;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-6: 255, 125, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-7: 210, 95, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-8: 166, 69, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-9: 121, 46, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-10: 77, 27, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-1: 255, 236, 232;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-2: 253, 205, 197;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-3: 251, 172, 163;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-4: 249, 137, 129;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-5: 247, 101, 96;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-6: 245, 63, 63;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-7: 203, 39, 45;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-8: 161, 21, 30;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-9: 119, 8, 19;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-10: 77, 0, 10;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-1: 255, 255, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-2: 238, 238, 238;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-3: 221, 221, 221;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-4: 198, 198, 198;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-5: 139, 139, 139;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-6: 119, 119, 119;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-7: 94, 94, 94;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-8: 75, 75, 75;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-9: 44, 44, 44;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-10: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-1: 247, 248, 250;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-2: 242, 243, 245;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-3: 229, 230, 235;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-4: 201, 205, 212;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-5: 169, 174, 184;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-6: 134, 144, 156;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-7: 107, 119, 133;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-8: 78, 89, 105;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-9: 39, 46, 59;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-10: 29, 33, 41;
+  /**
+   * @name 
    * @type color
    * @group info
-   * @description 用于按钮、文本、链接信息状态时常规颜色
+   * @description 一级/强调/标题
    */
-  --o-color-info1: #e5e5e5;
+  --o-color-info1: rgb(var(--o-gray-10));
   /**
-   * @name 悬浮色
+   * @name 
    * @type color
    * @group info
-   * @description 用于按钮、文本、链接信息状态时悬浮颜色
+   * @description 二级/次强调/正文
    */
-  --o-color-info2: #e5e8f0;
+  --o-color-info2: rgb(var(--o-gray-8));
   /**
-   * @name 聚焦色
+   * @name 
    * @type color
    * @group info
-   * @description 用于按钮、文本、链接信息状态时聚焦颜色
+   * @description 三级/辅助信息
    */
-  --o-color-info3: #cccccc;
+  --o-color-info3: rgb(var(--o-gray-6));
   /**
-   * @name 禁用色
+   * @name 
    * @type color
    * @group info
-   * @description 用于按钮、文本、链接信息状态时禁用颜色
+   * @description 置灰/禁用
    */
-  --o-color-info4: #f7f8fa;
+  --o-color-info4: rgb(var(--o-gray-4));
   /**
-   * @name 一级容器背景色
+   * @name 
    * @type color
-   * @group background
-   * @description 用于页面整体背景色
+   * @group info
+   * @description 一级/次强调/正文反色
    */
-  --o-color-bg1: #f5f6f8;
+  --o-color-info1-inverse: rgb(var(--o-gray-1));
   /**
-   * @name 二级容器背景色
+   * @name 
    * @type color
-   * @group background
-   * @description 用于区块、卡片、弹出框、tooltip背景色
+   * @group info
+   * @description 二级/辅助信息反色
    */
-  --o-color-bg2: #ffffff;
+  --o-color-info2-inverse: rgb(var(--o-gray-3));
   /**
-   * @name 三级容器背景色
+   * @name 
    * @type color
-   * @group background
-   * @description 用于区块卡片背景色
+   * @group info
+   * @description 三级/辅助信息反色
    */
-  --o-color-bg3: #f7f8fa;
+  --o-color-info3-inverse: rgb(var(--o-gray-5));
   /**
-   * @name 四级容器背景色
+   * @name 
    * @type color
-   * @group background
-   * @description 用于区块、卡片、表头背景色
+   * @group info
+   * @description 置灰/禁用反色
    */
-  --o-color-bg4: #e5e8f0;
+  --o-color-info4-inverse: rgb(var(--o-gray-7));
   /**
-   * @name 标题色
-   * @type color
-   * @group text
-   * @description 用于强调、标题颜色
-   */
-  --o-color-text1: #000000;
-  /**
-   * @name 标题反色
-   * @type color
-   * @group text
-   * @description 用于强调、标题颜色的反色，例如浅色模式下的深色背景上的标题
-   */
-  --o-color-text1-inverse: #ffffff;
-  /**
-   * @name 正文色
-   * @type color
-   * @group text
-   * @description 用于次强调、次级标题、正文颜色
-   */
-  --o-color-text2: #3f3f3f;
-  /**
-   * @name 正文反色
-   * @type color
-   * @group text
-   * @description 用于次强调、次级标题、正文颜色的反色，例如浅色模式下的深色背景上的正文
-   */
-  --o-color-text2-inverse: #e5e5e5;
-  /**
-   * @name 提示色
-   * @type color
-   * @group text
-   * @description 用于提示文本颜色
-   */
-  --o-color-text3: #707070;
-  /**
-   * @name 提示反色
-   * @type color
-   * @group text
-   * @description 用于提示文本颜色的反色，例如浅色模式下的深色背景上的提示
-   */
-  --o-color-text3-inverse: #b2b2b2;
-  /**
-   * @name 置灰色
-   * @type color
-   * @group text
-   * @description 用于禁用文本颜色
-   */
-  --o-color-text4: #cccccc;
-  /**
-   * @name 置灰反色
-   * @type color
-   * @group text
-   * @description 用于禁用文本颜色的反色，例如浅色模式下的深色背景上的禁用文本
-   */
-  --o-color-text4-inverse: #e5e5e5;
-  /**
-   * @name 边框色
-   * @type color
-   * @group border
-   * @description 较明显的边框
-   */
-  --o-color-border1: #707070;
-  /**
-   * @name 弱边框色
-   * @type color
-   * @group border
-   * @description 较弱的边框
-   */
-  --o-color-border2: #e5e5e5;
-  /**
-   * @name 分隔线色1
-   * @type color
-   * @group division
-   * @description 用于分隔线颜色
-   */
-  --o-color-division1: #707070;
-  /**
-   * @name 遮罩色1
+   * @name 
    * @type color
    * @group mask
-   * @description 用于弹窗遮罩色
+   * @description 全局遮罩
    */
-  --o-color-mask1: rgba(0, 0, 0, 0.5);
+  --o-color-mask1: rgba(var(--o-gray-10), .2);
   /**
-   * @name 遮罩色2
+   * @name 
    * @type color
    * @group mask
-   * @description 用于loading遮罩色
+   * @description 局部遮罩
    */
-  --o-color-mask2: rgba(0, 0, 0, 0.1);
+  --o-color-mask2: rgba(var(--o-gray-10), .1);
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 一级填充/页面背景
+   */
+  --o-color-fill1: rgb(var(--o-mixedgray-1));
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 二级填充/区块、卡片
+   */
+  --o-color-fill2: rgb(var(--o-gray-1));
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 三级填充/卡片
+   */
+  --o-color-fill3: rgb(var(--o-mixedgray-3));
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 四级填充/禁用
+   */
+  --o-color-fill4: rgb(var(--o-mixedgray-4));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 常规
+   */
+  --o-color-control1: rgb(var(--o-mixedgray-3));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 悬浮
+   */
+  --o-color-control2: rgb(var(--o-mixedgray-4));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 激活
+   */
+  --o-color-control3: rgb(var(--o-mixedgray-6));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 禁用
+   */
+  --o-color-control4: rgb(var(--o-mixedgray-5));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 浅/控件常规
+   */
+  --o-color-control1-light: rgb(var(--o-mixedgray-3));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 浅/控件悬浮
+   */
+  --o-color-control2-light: rgb(var(--o-mixedgray-4));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 浅/控件激活
+   */
+  --o-color-control3-light: rgb(var(--o-mixedgray-5));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 浅/控件禁用
+   */
+  --o-color-control4-light: rgb(var(--o-mixedgray-2));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 常规
+   */
+  --o-color-primary1: rgb(var(--o-blue-6));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 悬浮
+   */
+  --o-color-primary2: rgb(var(--o-blue-5));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 激活
+   */
+  --o-color-primary3: rgb(var(--o-blue-7));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 禁用
+   */
+  --o-color-primary4: rgb(var(--o-blue-3));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 浅/常规
+   */
+  --o-color-primary1-light: rgb(var(--o-blue-2));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 浅/悬浮
+   */
+  --o-color-primary2-light: rgb(var(--o-blue-3));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 浅/激活
+   */
+  --o-color-primary3-light: rgb(var(--o-blue-4));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 浅/禁用
+   */
+  --o-color-primary4-light: rgb(var(--o-blue-1));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 常规
+   */
+  --o-color-success1: rgb(var(--o-green-6));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 悬浮
+   */
+  --o-color-success2: rgb(var(--o-green-5));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 激活
+   */
+  --o-color-success3: rgb(var(--o-green-7));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 禁用
+   */
+  --o-color-success4: rgb(var(--o-green-3));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 浅/常规
+   */
+  --o-color-success1-light: rgb(var(--o-green-2));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 浅/悬浮
+   */
+  --o-color-success2-light: rgb(var(--o-green-3));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 浅/激活
+   */
+  --o-color-success3-light: rgb(var(--o-green-4));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 浅/禁用
+   */
+  --o-color-success4-light: rgb(var(--o-green-1));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 常规
+   */
+  --o-color-warning1: rgb(var(--o-orange-6));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 悬浮
+   */
+  --o-color-warning2: rgb(var(--o-orange-5));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 激活
+   */
+  --o-color-warning3: rgb(var(--o-orange-7));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 禁用
+   */
+  --o-color-warning4: rgb(var(--o-orange-3));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 浅/常规
+   */
+  --o-color-warning1-light: rgb(var(--o-orange-2));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 浅/悬浮
+   */
+  --o-color-warning2-light: rgb(var(--o-orange-3));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 浅/激活
+   */
+  --o-color-warning3-light: rgb(var(--o-orange-4));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 浅/禁用
+   */
+  --o-color-warning4-light: rgb(var(--o-orange-1));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 常规
+   */
+  --o-color-danger1: rgb(var(--o-red-6));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 悬浮
+   */
+  --o-color-danger2: rgb(var(--o-red-5));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 激活
+   */
+  --o-color-danger3: rgb(var(--o-red-7));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 禁用
+   */
+  --o-color-danger4: rgb(var(--o-red-3));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 浅/常规
+   */
+  --o-color-danger1-light: rgb(var(--o-red-2));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 浅/悬浮
+   */
+  --o-color-danger2-light: rgb(var(--o-red-3));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 浅/激活
+   */
+  --o-color-danger3-light: rgb(var(--o-red-4));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 浅/禁用
+   */
+  --o-color-danger4-light: rgb(var(--o-red-1));
   /**
    * @name 阴影1
    * @type shadow
    * @group shadow
    * @description 用于卡片、小弹窗、楼层阴影
    */
-  --o-shadow-1: 0 1px 5px rgba(45, 47, 51, 0.1);
+  --o-shadow-1: 0 1px 5px rgba(var(--o-gray-10), 0.1);
   /**
    * @name 阴影2
    * @type shadow
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 6px 18px rgba(0, 47, 167, 0.14);
+  --o-shadow-2: 0 6px 18px rgba(var(--o-gray-10), 0.14);
   /**
    * @name 阴影3
    * @type shadow
    * @group shadow
    * @description 用于提示阴影
    */
-  --o-shadow-3: 0 10px 32px rgba(45, 47, 51, 0.18);
+  --o-shadow-3: 0 10px 32px rgba(var(--o-gray-10), 0.18);
   /**
    * @name 间距1
    * @type gap

@@ -43,26 +43,26 @@ const navClick = (item: typeof navList[0]) => {
 </template>
 <style lang="scss" scoped>
 .the-aside {
-  background-color: var(--o-color-bg3);
-  color: var(--o-color-text1);
-  border-right: 1px solid var(--o-color-border2);
+  background-color: var(--o-color-fill2);
+  color: var(--o-color-info1);
   overflow: auto;
   height: calc(100vh - 48px);
 }
 .aside-title {
-  padding: 8px;
+  padding: 16px;
   text-align: center;
-  border-bottom: 1px solid var(--o-color-border2);
+  border-bottom: 1px solid var(--o-color-control1-light);
+  font-size: var(--o-font_size-h1);
 }
 .nav-item {
   padding: 8px 16px;
   cursor: pointer;
   &:hover {
-    background-color: var(--o-color-bg4);
+    background-color: var(--o-color-primary1-light);
   }
   &.active {
-    color: var(--o-color-primary1);
-    background-color: var(--o-color-bg4);
+    color: var(--o-color-info1-inverse);
+    background-color: var(--o-color-primary1);
   }
 }
 </style>

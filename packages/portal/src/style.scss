@@ -6,8 +6,8 @@
 
   color-scheme: light dark;
 
-  color: #213547;
-  background-color: #ffffff;
+  color: var(--o-color-info1);
+  background-color: var(--o-color-fill1);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -44,8 +44,20 @@ body {
   flex-wrap: wrap;
   gap: 8px;
 }
+.block {
+  padding: var(--o-gap-4);
+  border: 1px solid var(--o-color-control2-light);
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 8px;
+}
 section {
-  border: 1px solid var(--o-color-border2);
+  border: 1px solid var(--o-color-control2-light);
   padding: var(--o-gap-4);
 
   h4 {
