@@ -17,31 +17,27 @@ setTimeout(() => {
   <h4>type</h4>
   <section>
     <div>
-      <section>
+      <div class="row">
         <p>text:</p>
         <OInput v-model="val3" />
         <p>password:</p>
         <OInput v-model="val3" type="password" />
-      </section>
+      </div>
     </div>
   </section>
-  <h4>color</h4>
+  <h4>color & variant</h4>
   <section>
-    <div>
-      <p>color: normal</p>
-      <OInput v-model="val1" placeholder="outline input" />
+    <div class="row">
+      <OInput v-model="val1" placeholder="outline + normal" />
+      <OInput v-model="val1" placeholder="outline + success" color="success" />
+      <OInput v-model="val1" placeholder="outline + warning" color="warning" />
+      <OInput v-model="val1" placeholder="outline + danger" color="danger" />
     </div>
-    <div>
-      <p>color: success</p>
-      <OInput v-model="val1" placeholder="outline input" color="success" />
-    </div>
-    <div>
-      <p>color: warning</p>
-      <OInput v-model="val1" placeholder="outline input" color="warning" />
-    </div>
-    <div>
-      <p>color: danger</p>
-      <OInput v-model="val1" placeholder="outline input" color="danger" />
+    <div class="row">
+      <OInput v-model="val1" variant="solid" placeholder="solid + normal" />
+      <OInput v-model="val1" variant="solid" placeholder="solid + success" color="success" />
+      <OInput v-model="val1" variant="solid" placeholder="solid + warning" color="warning" />
+      <OInput v-model="val1" variant="solid" placeholder="solid + danger" color="danger" />
     </div>
   </section>
   <h4>Size</h4>
@@ -70,21 +66,34 @@ setTimeout(() => {
   </section>
   <h4>Disabled</h4>
   <section>
-    <div>val1:{{ val1 }}</div>
-    <OInput v-model="val2" disabled />
-    <OInput v-model="val2" disabled>
-      <template #prefix>
-        <IconDone />
-      </template>
-    </OInput>
-    <OInput v-model="val2" disabled>
-      <template #suffix>
-        <IconDone />
-      </template>
-    </OInput>
-    <OInput v-model="val2" :clearable="false" disabled>
-      <template #suffix> 元 </template>
-    </OInput>
+    <div class="row">
+      <OInput v-model="val3" placeholder="outline + normal" disabled />
+      <OInput v-model="val3" placeholder="outline + success" color="success" disabled />
+      <OInput v-model="val3" placeholder="outline + warning" color="warning" disabled />
+      <OInput v-model="val3" placeholder="outline + danger" color="danger" disabled />
+    </div>
+    <div class="row">
+      <OInput v-model="val3" variant="solid" placeholder="solid + normal" disabled />
+      <OInput v-model="val3" variant="solid" placeholder="solid + success" color="success" disabled />
+      <OInput v-model="val3" variant="solid" placeholder="solid + warning" color="warning" disabled />
+      <OInput v-model="val3" variant="solid" placeholder="solid + danger" color="danger" disabled />
+    </div>
+    <div class="row">
+      <OInput v-model="val3" disabled />
+      <OInput v-model="val3" disabled>
+        <template #prefix>
+          <IconDone />
+        </template>
+      </OInput>
+      <OInput v-model="val3" disabled>
+        <template #suffix>
+          <IconDone />
+        </template>
+      </OInput>
+      <OInput v-model="val3" :clearable="false" disabled>
+        <template #suffix> 元 </template>
+      </OInput>
+    </div>
   </section>
 </template>
 <style lang="scss"></style>

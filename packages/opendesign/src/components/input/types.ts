@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, ShapeT, RoundT } from '../_shared/global';
+import type { SizeT, ShapeT, RoundT, VariantT } from '../_shared/global';
 
 export const inputProps = {
   /**
@@ -40,6 +40,13 @@ export const inputProps = {
   color: {
     type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
     default: 'normal'
+  },
+  /**
+   * 按钮类型：ColorT
+   */
+  variant: {
+    type: String as PropType<VariantT>,
+    default: 'outline'
   },
   /**
    * 提示文本

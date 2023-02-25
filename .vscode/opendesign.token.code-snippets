@@ -1,4 +1,20 @@
 {
+  "--o-color-white": {
+    "prefix": [
+      "var(--o-color-white)"
+    ],
+    "body": "var(--o-color-white)",
+    "description": "[light: 255, 255, 255, dark: 255, 255, 255]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-black": {
+    "prefix": [
+      "var(--o-color-black)"
+    ],
+    "body": "var(--o-color-black)",
+    "description": "[light: 0, 0, 0, dark: 0, 0, 0]",
+    "scope": "css,scss,less"
+  },
   "--o-blue-1": {
     "prefix": [
       "var(--o-blue-1)"
@@ -669,6 +685,14 @@
     ],
     "body": "var(--o-color-fill4)",
     "description": "四级填充/禁用[light: rgb(var(--o-mixedgray-4)), dark: rgb(var(--o-mixedgray-4))]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-control-white": {
+    "prefix": [
+      "var(--o-color-control-white)"
+    ],
+    "body": "var(--o-color-control-white)",
+    "description": "白底[light: rgb(var(--o-color-white)), dark: rgb(var(--o-color-white))]",
     "scope": "css,scss,less"
   },
   "--o-color-control1": {

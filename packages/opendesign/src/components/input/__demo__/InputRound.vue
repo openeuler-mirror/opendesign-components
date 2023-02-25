@@ -26,7 +26,7 @@ const onClick = () => {
           <template #prepend>+86</template>
           <template #append>手机</template>
         </OInput>
-        <OInput v-model="val1" round="pill">
+        <OInput v-model="val1" round="pill" color="danger">
           <template #prepend>+86</template>
           <template #append>手机</template>
         </OInput>

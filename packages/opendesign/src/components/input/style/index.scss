@@ -8,6 +8,9 @@
   font-size: var(--input-text-size);
   line-height: var(--input-text-height);
 }
+.o-input-disabled {
+  --input-color: var(--input-color-disabled);
+}
 .o-input-wrap {
   display: flex;
   padding: var(--input-padding);
@@ -18,7 +21,7 @@
   border: 1px solid var(--input-bd);
   background-color: var(--input-bg);
 
-  &:not(.is-readonly) {
+  &:not(.is-readonly):not(.is-disabled) {
     &:hover {
       border-color: var(--input-bd-hover);
       background-color: var(--input-bg-hover);
@@ -27,6 +30,11 @@
       border-color: var(--input-bd-focus);
       background-color: var(--input-bg-focus);
     }
+  }
+  &.is-disabled {
+    border-color: var(--input-bd-disabled);
+    background-color: var(--input-bg-disabled);
+    cursor: not-allowed;
   }
 
   &.has-prepend {
@@ -46,7 +54,6 @@
   cursor: inherit;
   background-color: transparent;
   display: inline-flex;
-  // caret-color: var(--o-color-primary1);
   padding: 0;
   line-height: inherit;
   height: 100%;
@@ -76,13 +83,6 @@
   .o-input-suffix-wrap + & {
     position: absolute;
     right: 0;
-  }
-}
-
-.o-input-disabled {
-  .o-input-wrap {
-    color: var(--input-color-disabled);
-    cursor: not-allowed;
   }
 }
 
@@ -127,7 +127,7 @@
 }
 
 .o-input-append {
-  border: 1px solid var(--o-color-border2);
+  border: var(--input-prepend-append-bd);
   border-left: 0;
   flex-shrink: 0;
   padding: var(--input-append-padding);
@@ -152,7 +152,7 @@
 }
 
 .o-input-prepend {
-  border: 1px solid var(--o-color-border2);
+  border: var(--input-prepend-append-bd);
   border-right: 0;
   flex-shrink: 0;
   padding: var(--input-prepend-padding);

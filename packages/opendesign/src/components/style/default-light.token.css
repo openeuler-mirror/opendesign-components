@@ -4,6 +4,20 @@
   /**
    * @name 
    * @type palette
+   * @group base
+   * @description 
+   */
+  --o-color-white: 255, 255, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group base
+   * @description 
+   */
+  --o-color-black: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
    * @group blue
    * @description 
    */
@@ -589,6 +603,13 @@
    * @description 四级填充/禁用
    */
   --o-color-fill4: rgb(var(--o-mixedgray-4));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 白底
+   */
+  --o-color-control-white: rgb(var(--o-color-white));
   /**
    * @name 
    * @type color
