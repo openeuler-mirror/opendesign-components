@@ -141,6 +141,12 @@ export const routes = [
     label: '评分',
     component: () => import('@components/rate/__demo__/IndexRate.vue'),
   },
+  {
+    path: '/breadcrumb',
+    name: 'Breadcrumb ',
+    label: '面包屑',
+    component: () => import('@components/breadcrumb/__demo__/IndexBreadcrumb.vue'),
+  },
 ];
 
 export const router = createRouter({

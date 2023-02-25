@@ -8,13 +8,13 @@ import { OBadge } from '../index';
   <h4>徽章位置偏移</h4>
   <section>
     <OBadge :value="9" :offset="[5, 10]">
-      <OButton variant="fill" />
+      <OButton variant="solid" />
     </OBadge>
     <OBadge :value="9" :offset="[5, 20]">
-      <OButton variant="fill" />
+      <OButton variant="solid" />
     </OBadge>
     <OBadge :value="9" :offset="['50%', '20%']">
-      <OButton variant="fill" />
+      <OButton variant="solid" />
     </OBadge>
   </section>
 </template>

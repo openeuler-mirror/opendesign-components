@@ -3,25 +3,30 @@
   --badge-text-height: var(--o-line_height-tip1);
 
   --badge-border: var(--o-radius-l);
-  --badge-color: var(--o-color-text1-inverse);
 
-  --badge-bg: var(--o-color-danger1);
+  --badge-color: var(--o-color-info1);
+
+  --badge-bg: var(--o-color-control1);
 
   --badge-padding: 20px;
 }
 
 .o-badge-primary {
+  --badge-color: var(--o-color-fill1);
   --badge-bg: var(--o-color-primary1);
 }
 
 .o-badge-success {
+  --badge-color: var(--o-color-fill1);
   --badge-bg: var(--o-color-success1);
 }
 
 .o-badge-warning {
+  --badge-color: var(--o-color-fill1);
   --badge-bg: var(--o-color-warning1);
 }
 
 .o-badge-danger {
+  --badge-color: var(--o-color-fill1);
   --badge-bg: var(--o-color-danger1);
 }

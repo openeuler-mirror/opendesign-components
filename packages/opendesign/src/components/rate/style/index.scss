@@ -12,7 +12,7 @@
   position: relative;
 
   & + .o-rate-item {
-    margin-left: 8px;
+    margin-left: var(--rate-gap);
   }
 
   &.is-half-active {

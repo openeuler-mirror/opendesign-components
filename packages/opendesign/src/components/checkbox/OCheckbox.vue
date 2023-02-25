@@ -119,7 +119,7 @@ defineExpose({
       <input type="checkbox" :value="value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot v-if="$slots.checkbox" name="checkbox" :checked="isChecked" :disabled="isDisabled"></slot>
       <template v-else>
-        <span class="o-checkbox-icon">
+        <span class="o-checkbox-input">
           <IconMinus v-if="indeterminate" />
           <IconDone v-else-if="isChecked" />
         </span>

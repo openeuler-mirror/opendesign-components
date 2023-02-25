@@ -17,6 +17,7 @@ import TheAside from './components/TheAside.vue';
 body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
+  font-family: 'Helvetica', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 .app-header {
   position: fixed;
@@ -38,6 +39,5 @@ body {
   margin-top: var(--app-header-height);
   margin-left: var(--app-aside-width);
   min-height: calc(100vh - 48px);
-  // background-color: var(--o-color-bg1);
 }
 </style>

@@ -1,15 +1,15 @@
 .o-tag {
-  --tag-color: var(--o-color-text2);
-  --tag-color-success: var(--o-color-text1-inverse);
-  --tag-color-warning: var(--o-color-text1-inverse);
-  --tag-color-danger: var(--o-color-text1-inverse);
+  --tag-color: var(--o-color-info1);
+  --tag-color-success: var(--o-color-info1-inverse);
+  --tag-color-warning: var(--o-color-info1-inverse);
+  --tag-color-danger: var(--o-color-info1-inverse);
 
-  --tag-bg: var(--o-color-info1);
+  --tag-bg: var(--o-color-control1-light);
   --tag-bg-success: var(--o-color-success1);
   --tag-bg-warning: var(--o-color-warning1);
   --tag-bg-danger: var(--o-color-danger1);
 
-  --tag-border: var(--o-color-info1);
+  --tag-border: var(--o-color-control1-light);
   --tag-border-success: var(--o-color-success1);
   --tag-border-warning: var(--o-color-warning1);
   --tag-border-danger: var(--o-color-danger1);

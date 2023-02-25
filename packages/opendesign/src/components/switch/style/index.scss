@@ -14,15 +14,15 @@
   &.is-disabled,
   &.is-loading {
     cursor: not-allowed;
-    background-color: var(--switch-bg_disabled);
+    background-color: var(--switch-bg-disabled);
   }
 
   &.is-disabled.is-checked,
   &.is-loading.is-checked {
-    background-color: var(--switch-bg-checked_disabled);
+    background-color: var(--switch-bg-checked-disabled);
     .o-switch-handler {
       .o-switch-icon_loading {
-        color: var(--switch-bg-checked_disabled);
+        color: var(--switch-bg-checked-disabled);
       }
     }
   }

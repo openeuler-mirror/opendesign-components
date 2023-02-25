@@ -8,13 +8,13 @@ import { OBadge } from '../index';
   <h4>基础用法</h4>
   <section>
     <OBadge :value="9">
-      <OButton variant="fill" />
+      <OButton variant="solid" />
     </OBadge>
     <OBadge :value="100">
-      <OButton variant="fill" />
+      <OButton variant="solid" />
     </OBadge>
     <OBadge value="hot">
-      <OButton variant="fill" />
+      <OButton variant="solid" />
     </OBadge>
   </section>
 </template>

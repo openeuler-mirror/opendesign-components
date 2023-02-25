@@ -1,6 +1,8 @@
 .o-rate {
-  --rate-color: var(--o-color-info1);
-  --rate-color-active: var(--o-color-major1);
+  --rate-color: var(--o-color-control1-light);
+  --rate-color-active: var(--o-color-warning1);
+
+  --rate-gap: var(--o-gap-2);
 
   --rate-height: var(--o-font_size-h1);
 }
