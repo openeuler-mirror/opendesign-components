@@ -1,10 +1,11 @@
 .o-divider {
-  --o-divider-color: var(--o-color-division1);
+  --o-divider-color: var(--o-color-info1);
+
+  --o-divider-line-color: var(--o-color-control1);
 
   --o-divider-gap-horizontal: var(--o-gap-4);
   --o-divider-gap-vertical: var(--o-gap-2);
 
-  --o-divider-text-color: var(--o-color-text1);
   --o-divider-text-size: var(--o-font_size-text);
   --o-divider-text-height: var(--o-line_height-text);
 }

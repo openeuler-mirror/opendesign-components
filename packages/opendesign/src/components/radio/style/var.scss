@@ -1,10 +1,15 @@
 .o-radio {
-  --radio-color: var(--o-color-text1);
-  --radio-color_disabled: var(--o-color-text4);
+  --radio-color: var(--o-color-info1);
+  --radio-color-disabled: var(--o-color-info4);
 
   --radio-text-size: var(--o-font_size-text);
   --radio-text-height: var(--o-line_height-text);
 
-  --radio-icon-checked: var(--o-color-primary1);
-  --radio-icon-checked_disabled: var(--o-color-primary4);
+  --radio-input-bg: var(--o-color-fill2);
+
+  --radio-input-color-checked: var(--o-color-primary1);
+  --radio-input-color-disabled: var(--o-color-primary4);
+
+  --radio-input-border: var(--o-color-control1);
+  --radio-input-border-disabled: var(--o-color-control4);
 }

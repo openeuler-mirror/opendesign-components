@@ -100,7 +100,7 @@ const onChange = () => {
       <input type="radio" :value="value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot v-if="$slots.radio" name="radio" :checked="isChecked" :disabled="isDisabled"></slot>
       <template v-else>
-        <span class="o-radio-icon"></span>
+        <span class="o-radio-input"></span>
         <span class="o-radio-label">
           <slot></slot>
         </span>

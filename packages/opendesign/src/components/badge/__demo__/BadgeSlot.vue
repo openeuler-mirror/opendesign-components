@@ -9,7 +9,7 @@ import { OBadge } from '../index';
   <h4>自定义徽章内容</h4>
   <section>
     <OBadge>
-      <OButton variant="fill" />
+      <OButton variant="solid" />
       <template #content> <IconAdd /></template>
     </OBadge>
   </section>

@@ -1,10 +1,18 @@
 .o-checkbox {
-  --checkbox-color: var(--o-color-text1);
-  --checkbox-color_disabled: var(--o-color-text4);
+  --checkbox-color: var(--o-color-info1);
+  --checkbox-color-disabled: var(--o-color-info4);
 
   --checkbox-text-size: var(--o-font_size-text);
   --checkbox-text-height: var(--o-line_height-text);
 
-  --checkbox-icon-checked: var(--o-color-primary1);
-  --checkbox-icon-checked_disabled: var(--o-color-primary4);
+  --checkbox-input-color: var(--o-color-fill1);
+
+  --checkbox-input-border: var(--o-color-control1);
+  --checkbox-input-border-disabled: var(--o-color-control4);
+  --checkbox-input-border-checked: var(--o-color-primary1);
+  --checkbox-input-border-checked-disabled: var(--o-color-primary4);
+
+  --checkbox-input-bg: var(--o-color-fill1);
+  --checkbox-input-bg-checked: var(--o-color-primary1);
+  --checkbox-input-bg-checked-disabled: var(--o-color-primary4);
 }
