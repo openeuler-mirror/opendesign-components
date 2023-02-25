@@ -1,12 +1,12 @@
 .o-switch {
-  --switch-bg: var(--o-color-info1);
-  --switch-bg_disabled: var(--o-color-info4);
+  --switch-bg: var(--o-color-control1);
+  --switch-bg-disabled: var(--o-color-control4);
   --switch-bg-checked: var(--o-color-primary1);
-  --switch-bg-checked_disabled: var(--o-color-primary4);
+  --switch-bg-checked-disabled: var(--o-color-primary4);
 
-  --switch-handler-bg: var(--o-color-bg2);
+  --switch-handler-bg: var(--o-color-fill2);
 
-  --switch-color: var(--o-color-text1-inverse);
+  --switch-color: var(--o-color-info1-inverse);
 
   --switch-text-size-l: var(--o-font_size-h4);
   --switch-text-size-m: var(--o-font_size-tip1);
