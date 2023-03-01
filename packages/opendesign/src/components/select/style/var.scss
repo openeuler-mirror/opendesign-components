@@ -5,13 +5,17 @@
   --select-color: var(--o-color-info2);
   --select-color-disabled: var(--o-color-info4);
 
+  --select-bg-color: transparent;
+  --select-bg-color-hover: transparent;
+  --select-bg-color-focus: var(--o-color-control-light);
+
   --select-icon-color: var(--o-color-info3);
   --select-icon-color-disabled: var(--o-color-info4);
   --input-icon-bg-color: var(--o-color-control1-light);
 }
 
 .o-select-options {
-  --select-options-bg: var(--o-color-control1-light);
+  --select-options-bg: var(--o-color-control-light);
   --select-options-shadow: none;
   --select-options-bd: 1px solid var(--o-color-primary2);
   --select-options-radius: var(--o-radius-s);
@@ -85,7 +89,7 @@
   --select-height: var(--o-size-s);
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
-  --select-padding: 0 6px 0 12px;
+  --select-padding: 0 6px 0 8px;
   --select-radius: var(--o-radius-s);
 }
 .o-select-size-medium {
@@ -114,7 +118,7 @@
   }
 
   .o-select-options-size-large & {
-    --option-padding: 7px 20px;
+    --option-padding: 7px 16px;
     --option-text-size: var(--o-font_size-h4);
     --option-text-height: var(--o-line_height-h4);
   }

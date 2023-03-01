@@ -607,14 +607,14 @@
    * @name 
    * @type color
    * @group control
-   * @description 白底
+   * @description 很浅背景
    */
-  --o-color-control-white: rgb(var(--o-color-white));
+  --o-color-control-light: rgb(var(--o-gray-1));
   /**
    * @name 
    * @type color
    * @group control
-   * @description 常规
+   * @description 常规，常用于边框
    */
   --o-color-control1: rgb(var(--o-mixedgray-3));
   /**
@@ -642,28 +642,28 @@
    * @name 
    * @type color
    * @group control
-   * @description 浅/控件常规
+   * @description 常规-浅，常用于背景
    */
   --o-color-control1-light: rgb(var(--o-mixedgray-3));
   /**
    * @name 
    * @type color
    * @group control
-   * @description 浅/控件悬浮
+   * @description 悬浮-浅
    */
   --o-color-control2-light: rgb(var(--o-mixedgray-4));
   /**
    * @name 
    * @type color
    * @group control
-   * @description 浅/控件激活
+   * @description 激活-浅
    */
   --o-color-control3-light: rgb(var(--o-mixedgray-5));
   /**
    * @name 
    * @type color
    * @group control
-   * @description 浅/控件禁用
+   * @description 禁用-浅
    */
   --o-color-control4-light: rgb(var(--o-mixedgray-2));
   /**

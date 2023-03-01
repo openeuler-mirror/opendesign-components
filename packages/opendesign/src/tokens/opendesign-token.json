@@ -698,16 +698,16 @@
     "typeName": "颜色",
     "value": [
       {
-        "key": "color-control-white",
-        "description": "白底",
+        "key": "color-control-light",
+        "description": "很浅背景",
         "value": {
-          "light": "rgb(var(--o-color-white))",
-          "dark": "rgb(var(--o-color-white))"
+          "light": "rgb(var(--o-gray-1))",
+          "dark": "rgb(var(--o-gray-1))"
         }
       },
       {
         "key": "color-control1",
-        "description": "常规",
+        "description": "常规，常用于边框",
         "value": {
           "light": "rgb(var(--o-mixedgray-3))",
           "dark": "rgb(var(--o-mixedgray-3))"
@@ -739,7 +739,7 @@
       },
       {
         "key": "color-control1-light",
-        "description": "浅/控件常规",
+        "description": "常规-浅，常用于背景",
         "value": {
           "light": "rgb(var(--o-mixedgray-3))",
           "dark": "rgb(var(--o-mixedgray-3))"
@@ -747,7 +747,7 @@
       },
       {
         "key": "color-control2-light",
-        "description": "浅/控件悬浮",
+        "description": "悬浮-浅",
         "value": {
           "light": "rgb(var(--o-mixedgray-4))",
           "dark": "rgb(var(--o-mixedgray-4))"
@@ -755,7 +755,7 @@
       },
       {
         "key": "color-control3-light",
-        "description": "浅/控件激活",
+        "description": "激活-浅",
         "value": {
           "light": "rgb(var(--o-mixedgray-5))",
           "dark": "rgb(var(--o-mixedgray-5))"
@@ -763,7 +763,7 @@
       },
       {
         "key": "color-control4-light",
-        "description": "浅/控件禁用",
+        "description": "禁用-浅",
         "value": {
           "light": "rgb(var(--o-mixedgray-2))",
           "dark": "rgb(var(--o-mixedgray-2))"
