@@ -124,17 +124,40 @@
 .o-input-prepend {
   display: flex;
   align-items: center;
+  background-color: var(--input-prepend-append-bg);
+  border: 1px solid var(--input-prepend-append-bd);
 }
 
 .o-input-append {
-  border: var(--input-prepend-append-bd);
-  border-left: 0;
   flex-shrink: 0;
   padding: var(--input-append-padding);
   border-top-right-radius: var(--input-radius);
   border-bottom-right-radius: var(--input-radius);
 }
 
+.o-input-prepend {
+  flex-shrink: 0;
+  padding: var(--input-prepend-padding);
+  border-top-left-radius: var(--input-radius);
+  border-bottom-left-radius: var(--input-radius);
+}
+.o-input-solid {
+  .o-input-prepend {
+    border-width: 0 1px 0 0;
+  }
+  .o-input-append {
+    border-width: 0 0 0 1px;
+  }
+}
+
+.o-input-outline {
+  .o-input-prepend {
+    border-right: 0;
+  }
+  .o-input-append {
+    border-left: 0;
+  }
+}
 .o-input-input-wrap {
   position: relative;
 }
@@ -149,13 +172,4 @@
   left: 0;
   top: 100%;
   pointer-events: none;
-}
-
-.o-input-prepend {
-  border: var(--input-prepend-append-bd);
-  border-right: 0;
-  flex-shrink: 0;
-  padding: var(--input-prepend-padding);
-  border-top-left-radius: var(--input-radius);
-  border-bottom-left-radius: var(--input-radius);
 }

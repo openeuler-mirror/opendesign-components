@@ -165,6 +165,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     :disabled="props.disabled"
     :readonly="props.readonly"
     :clearable="false"
+    type="text"
     @input="onInput"
     @change="onChange"
     @blur="onBlur"
@@ -173,67 +174,77 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     @update:model-value="onUpdateModelValue"
   >
     <template v-if="['both', 'left'].includes(props.controls)" #prepend>
-      <div
-        v-if="props.controls === 'both'"
-        class="o-input-number-btn both-left"
-        :class="{
-          'is-disabled': !canMinus,
-        }"
-        @click="(e) => controlClick('minus', e)"
-      >
-        <slot name="minus"><IconMinus /></slot>
-      </div>
-      <div v-if="props.controls === 'left'" class="o-input-number-btn is-vertical">
+      <div class="o-input-number-btn-wrap">
         <div
-          class="o-input-number-btn-plus"
-          :class="{
-            'is-disabled': !canAdd,
-          }"
-          @click="(e) => controlClick('plus', e)"
-        >
-          <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
-        </div>
-        <div
-          class="o-input-number-btn-minus"
+          v-if="props.controls === 'both'"
+          class="o-input-number-btn both-left"
+          tabindex="-1"
           :class="{
             'is-disabled': !canMinus,
           }"
           @click="(e) => controlClick('minus', e)"
         >
-          <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
+          <slot name="minus"><IconMinus /></slot>
         </div>
+        <template v-if="props.controls === 'left'">
+          <div
+            class="o-input-number-btn plus"
+            :class="{
+              'is-disabled': !canAdd,
+            }"
+            tabindex="-1"
+            @click="(e) => controlClick('plus', e)"
+          >
+            <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
+          </div>
+          <div
+            class="o-input-number-btn minus"
+            :class="{
+              'is-disabled': !canMinus,
+            }"
+            tabindex="-1"
+            @click="(e) => controlClick('minus', e)"
+          >
+            <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
+          </div>
+        </template>
       </div>
     </template>
     <template v-if="['both', 'right'].includes(props.controls)" #append>
-      <div
-        v-if="props.controls === 'both'"
-        class="o-input-number-btn both-right"
-        :class="{
-          'is-disabled': !canAdd,
-        }"
-        @click="(e) => controlClick('plus', e)"
-      >
-        <slot name="add"><IconAdd /></slot>
-      </div>
-      <div v-if="props.controls === 'right'" class="o-input-number-btn is-vertical">
+      <div class="o-input-number-btn-wrap">
         <div
-          class="o-input-number-btn-plus"
+          v-if="props.controls === 'both'"
+          class="o-input-number-btn both-right"
           :class="{
             'is-disabled': !canAdd,
           }"
+          tabindex="-1"
           @click="(e) => controlClick('plus', e)"
         >
-          <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
+          <slot name="add"><IconAdd /></slot>
         </div>
-        <div
-          class="o-input-number-btn-minus"
-          :class="{
-            'is-disabled': !canMinus,
-          }"
-          @click="(e) => controlClick('minus', e)"
-        >
-          <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
-        </div>
+        <template v-else-if="props.controls === 'right'">
+          <div
+            class="o-input-number-btn plus"
+            tabindex="-1"
+            :class="{
+              'is-disabled': !canAdd,
+            }"
+            @click="(e) => controlClick('plus', e)"
+          >
+            <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
+          </div>
+          <div
+            class="o-input-number-btn minus"
+            tabindex="-1"
+            :class="{
+              'is-disabled': !canMinus,
+            }"
+            @click="(e) => controlClick('minus', e)"
+          >
+            <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
+          </div>
+        </template>
       </div>
     </template>
     <template v-if="$slots.prefix" #prefix>

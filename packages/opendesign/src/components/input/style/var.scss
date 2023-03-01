@@ -7,7 +7,7 @@
   --input-bg-hover: transparent;
   --input-bg-focus: var(--o-color-control-white);
 
-  --input-prepend-append-bd: 1px solid var(--o-color-control1);
+  --input-prepend-append-bd: var(--o-color-control1);
 }
 
 .o-input-normal {
@@ -15,7 +15,6 @@
   --input-bd-hover: var(--o-color-primary2);
   --input-bd-focus: var(--o-color-primary3);
   --input-bd-disabled: var(--o-color-control4);
-
   &.o-input-solid {
     --input-bd: var(--o-color-control1-light);
     --input-bd-hover: var(--o-color-control2-light);
@@ -25,6 +24,11 @@
     --input-bg: var(--o-color-control1-light);
     --input-bg-hover: var(--o-color-control2-light);
     --input-bg-disabled: var(--o-color-control4-light);
+
+    --input-prepend-append-bd: var(--o-color-control2-light);
+    &.o-input-disabled {
+      --input-prepend-append-bd: var(--o-color-control4-light);
+    }
   }
 }
 
@@ -80,6 +84,10 @@
     --input-bg-hover: var(--o-color-danger2-light);
     --input-bg-disabled: var(--o-color-danger4-light);
   }
+}
+
+.o-input-solid {
+  --input-prepend-append-bg: var(--o-color-control1-light);
 }
 
 .o-input-disabled {
