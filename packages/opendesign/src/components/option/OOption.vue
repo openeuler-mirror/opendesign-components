@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
+import { optionProps } from './types';
 
-interface OptionPropT {
-  label?: string;
-  value: string | number;
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<OptionPropT>(), {
-  value: '',
-  label: '',
-});
+const props = defineProps(optionProps);
 
 const selectInject = inject(selectOptionInjectKey, null);
 
@@ -46,7 +38,16 @@ const clickOption = () => {
 };
 </script>
 <template>
-  <div class="o-option" :class="{ active: currentVal === props.value, 'is-disabled': props.disabled }" @click="clickOption">
+  <div
+    class="o-option"
+    :class="[
+      {
+        active: currentVal === props.value,
+        'o-option-disabled': props.disabled,
+      },
+    ]"
+    @click="clickOption"
+  >
     <slot>{{ props.label || `${props.value}` }}</slot>
   </div>
 </template>

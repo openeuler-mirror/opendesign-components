@@ -1,79 +1,15 @@
 <script setup lang="ts">
 import { provide, ref } from 'vue';
-import { defaultSize, defaultShape } from '../_shared/global';
-import type { SizeT, ShapeT } from '../_shared/global';
+import { defaultSize } from '../_shared/global';
 import { IconArrowTraingleDown } from '../icons';
-import { OPopup, PopupPositionT, PopupTriggerT } from '../popup';
+import { OPopup } from '../popup';
 import { selectOptionInjectKey } from './provide';
-import { SelectOptionT } from './types';
+import { SelectOptionT, selectProps } from './types';
+import { getRoundClass } from '../_shared/style-class';
 
-interface SelectPropT {
-  /**
-   * 下拉框的值
-   * v-model
-   */
-  modelValue: string | number;
-  /**
-   * 大小
-   */
-  size?: SizeT;
-  /**
-   * 形状
-   */
-  shape?: ShapeT;
-  /**
-   * 提示文本
-   */
-  placeholder?: string;
-  /**
-   * 下拉选项触发方式
-   */
-  trigger?: PopupTriggerT;
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-  /**
-   * 下拉选项位置
-   */
-  optionPosition?: PopupPositionT;
-  /**
-   * 下拉选项宽度自适应规则
-   * 'auto':自动 | 'min-width':最小宽度与选择框一致 | 'width': 宽度与选择框一致
-   */
-  optionWidthMode?: 'auto' | 'min-width' | 'width';
-  /**
-   * 下拉容器自定义类
-   */
-  optionWrapClass?: string;
-  /**
-   * 是否在结束选择时，卸载下拉选项
-   * v-model
-   */
-  unmountOnHide?: boolean;
-  /**
-   * 默认初始值对应的label显示，不传则使用modelValue
-   * 当unmountOnClose为true时，存在初始值对应label无法获取问题，可使用该属性指定初始值
-   */
-  defaultLabel?: string;
-  /**
-   * 过渡名称
-   */
-  transition?: string;
-}
-const props = withDefaults(defineProps<SelectPropT>(), {
-  modelValue: '',
-  size: undefined,
-  shape: undefined,
-  placeholder: 'please select...',
-  trigger: 'click',
-  optionPosition: 'bl',
-  optionWidthMode: 'min-width',
-  optionWrapClass: '',
-  defaultLabel: '',
-  unmountOnHide: true,
-  transition: undefined,
-});
+const props = defineProps(selectProps);
+
+const round = getRoundClass(props, 'select');
 
 const activeLabel = ref(props.defaultLabel || props.modelValue);
 const activeVal = ref(props.modelValue);
@@ -106,10 +42,16 @@ provide(selectOptionInjectKey, {
     ref="selectRef"
     class="o-select"
     :class="[
+      `o-select-${props.color}`,
+      `o-select-${props.variant}`,
       `o-select-size-${props.size || defaultSize}`,
-      `o-select-shape-${props.shape || defaultShape}`,
-      { 'is-selecting': showOption, 'is-disabled': props.disabled },
+      round.class.value,
+      {
+        'is-selecting': showOption,
+        'o-select-disabled': props.disabled,
+      },
     ]"
+    :style="round.style.value"
   >
     <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
     <span class="o-select-suffix">
@@ -121,6 +63,7 @@ provide(selectOptionInjectKey, {
     </span>
 
     <OPopup
+      v-if="!props.disabled"
       v-model:visible="showOption"
       :transition="props.transition"
       :unmount-on-hide="props.unmountOnHide"
@@ -131,7 +74,7 @@ provide(selectOptionInjectKey, {
       :adjust-min-width="props.optionWidthMode === 'min-width'"
       :adjust-width="props.optionWidthMode === 'width'"
     >
-      <div class="o-select-options" :class="[`o-options-size-${props.size}`, props.optionWrapClass]">
+      <div class="o-select-options" :class="[`o-select-options-size-${props.size || defaultSize}`, props.optionWrapClass]">
         <slot></slot>
       </div>
     </OPopup>

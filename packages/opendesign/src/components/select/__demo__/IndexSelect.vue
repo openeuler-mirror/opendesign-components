@@ -2,15 +2,17 @@
 import '../style';
 import '../../option/style';
 
+import SelectBasic from './SelectBasic.vue';
 import SelectSizeShape from './SelectSizeShape.vue';
 import SelectDisabled from './SelectDisabled.vue';
 import SelectPopupposition from './SelectPopupposition.vue';
 </script>
 <template>
   <div class="page-demo">
-    <SelectSizeShape />
+    <SelectBasic />
+    <!-- <SelectSizeShape />
     <SelectDisabled />
-    <SelectPopupposition />
+    <SelectPopupposition /> -->
   </div>
 </template>
 <style lang="scss"></style>
