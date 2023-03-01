@@ -131,5 +131,14 @@ const selectVal2 = ref(options[0].value);
       </OSelect>
     </div>
   </section>
+  <h4>Clearable</h4>
+  <section>
+    <OSelect v-model="selectVal1" placeholder="normal + outline" clearable>
+      <OOption :label="options[0].label" :value="options[0].value" />
+      <OOption :label="options[1].label" :value="options[1].value" disabled />
+      <OOption :label="options[2].label" :value="options[2].value" disabled />
+      <OOption :label="options[3].label" :value="options[3].value" />
+    </OSelect>
+  </section>
 </template>
 <style lang="scss"></style>

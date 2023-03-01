@@ -51,6 +51,12 @@ export const selectProps = {
     default: 'please select...'
   },
   /**
+   * 是否可以清除
+   */
+  clearable: {
+    type: Boolean,
+  },
+  /**
    * 是否禁用
    */
   disabled: {

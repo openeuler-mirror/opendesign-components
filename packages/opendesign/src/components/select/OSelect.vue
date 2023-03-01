@@ -1,22 +1,35 @@
 <script setup lang="ts">
-import { provide, ref } from 'vue';
+import { computed, provide, ref } from 'vue';
 import { defaultSize } from '../_shared/global';
-import { IconArrowTraingleDown } from '../icons';
+import { IconArrowTraingleDown, IconX } from '../icons';
 import { OPopup } from '../popup';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 
 const props = defineProps(selectProps);
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string | number): void;
+  (e: 'change', value: string | number): void;
+  (e: 'clear', evt: Event): void;
+}>();
 
 const round = getRoundClass(props, 'select');
 
 const activeLabel = ref(props.defaultLabel || props.modelValue);
 const activeVal = ref(props.modelValue);
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-  (e: 'change', value: string | number): void;
-}>();
+
+const isClearable = computed(() => props.clearable && !props.disabled);
+console.log(isClearable.value);
+
+// 清除值
+const clearClick = (e: Event) => {
+  e.stopPropagation();
+  activeLabel.value = '';
+  activeVal.value = '';
+  emits('clear', e);
+};
+
 const selectRef = ref<HTMLElement>();
 
 const showOption = ref(false);
@@ -49,17 +62,21 @@ provide(selectOptionInjectKey, {
       {
         'is-selecting': showOption,
         'o-select-disabled': props.disabled,
+        'o-input-clearable': isClearable && activeVal !== '',
       },
     ]"
     :style="round.style.value"
   >
     <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
     <span class="o-select-suffix">
-      <slot name="suffix">
-        <span class="o-select-icon-arrow" :class="{ active: showOption }">
-          <IconArrowTraingleDown />
-        </span>
-      </slot>
+      <span class="o-select-suffix-wrap">
+        <slot name="suffix">
+          <span class="o-select-icon-arrow" :class="{ active: showOption }">
+            <IconArrowTraingleDown />
+          </span>
+        </slot>
+      </span>
+      <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconX class="o-select-clear-icon" /></div>
     </span>
 
     <OPopup
