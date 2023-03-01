@@ -36,23 +36,23 @@
   font-size: 16px;
   overflow: hidden;
   position: relative;
-  background-color: var(--input-number-btn-bg);
+  background-color: var(--input-number-btn-bg-color);
   &.both-left,
   &.both-right {
     height: 100%;
   }
   &:hover {
     color: var(--input-number-btn-color-hover);
-    background-color: var(--input-number-btn-bg-hover);
+    background-color: var(--input-number-btn-bg-color-hover);
   }
   &:focus {
     color: var(--input-number-btn-color-active);
-    background-color: var(--input-number-btn-bg-active);
+    background-color: var(--input-number-btn-bg-color-active);
   }
   &.is-disabled {
     cursor: not-allowed;
     color: var(--input-number-btn-color-disabled);
-    background-color: var(--input-number-btn-bg-disabled);
+    background-color: var(--input-number-btn-bg-color-disabled);
   }
 
   .o-input-round-pill & {

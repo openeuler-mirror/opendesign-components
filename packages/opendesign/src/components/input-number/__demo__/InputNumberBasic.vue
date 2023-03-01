@@ -11,7 +11,7 @@ const val3 = ref(3333);
 const val4 = ref('1px');
 </script>
 <template>
-  <h4>Color</h4>
+  <h4>Base</h4>
   <div>val1:{{ val1 }}</div>
   <section>
     <div class="col">
@@ -27,7 +27,7 @@ const val4 = ref('1px');
       <OInputNumber :default-value="val1" style="width: 150px" />
     </div>
   </section>
-  <h4>Color</h4>
+  <h4>Color & Variant</h4>
   <section>
     <div class="row">
       <div>

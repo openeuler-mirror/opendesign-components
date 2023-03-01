@@ -1,7 +1,7 @@
 @use './var.scss';
 
 .o-popover-wrap {
-  background-color: var(--popover-bg);
+  background-color: var(--popover-bg-color);
   box-shadow: var(--popover-shadow);
   padding: 4px 8px;
   border-radius: var(--popover-radius);
@@ -15,7 +15,7 @@
   border-top-left-radius: 2px;
   width: 8px;
   height: 8px;
-  background-color: var(--popover-bg);
+  background-color: var(--popover-bg-color);
 }
 
 .o-popup-pos-left,

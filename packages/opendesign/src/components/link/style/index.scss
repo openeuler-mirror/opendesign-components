@@ -46,11 +46,11 @@
     &:hover {
       text-decoration: none;
       color: var(--link-color);
-      background-color: var(--link-color-bg-hover);
+      background-color: var(--link-bg-color-hover);
     }
     &:active {
       color: var(--link-color);
-      background-color: var(--link-color-bg-active);
+      background-color: var(--link-bg-color-active);
     }
   }
 }

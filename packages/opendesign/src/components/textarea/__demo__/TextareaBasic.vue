@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import { OTextarea } from '../index';
 
-const val1 = ref('this is input value');
+const val1 = ref('');
+const val3 = ref('');
 const val2 = ref('this is input value');
 setTimeout(() => {
   // val1.value += '---';
@@ -13,55 +14,64 @@ const printEvent = (event: string, val?: string | number) => {
 };
 </script>
 <template>
-  <h4>Size</h4>
-  <div>
-    <div>val1:{{ val1 }}</div>
-    <section style="align-items: flex-start">
-      <OTextarea
-        v-model="val1"
-        size="small"
-        @blur="(v) => printEvent('blur', v)"
-        @change="(v) => printEvent('change', v)"
-        @input="(v) => printEvent('input', v)"
-        @focus="(v) => printEvent('focus', v)"
-        @keydown="(v) => printEvent('keydown', v)"
-      />
-      <OTextarea v-model="val1" size="normal" />
-      <OTextarea v-model="val1" size="large" />
-    </section>
-  </div>
-  <h4>Round</h4>
-  <div>
-    <div>val1:{{ val1 }}</div>
-    <section style="align-items: flex-start">
-      <OTextarea v-model="val1" size="small" shape="round" />
-      <OTextarea v-model="val1" size="normal" resize="both" shape="round" />
-      <OTextarea v-model="val1" size="large" shape="round" />
-    </section>
-  </div>
-  <h4>Status</h4>
+  <h4>Color & Variant</h4>
   <section>
-    <div>
-      <div>success:</div>
-      <OTextarea v-model="val1" status="success" />
+    <div>Outline</div>
+    <div class="row">
+      <OTextarea v-model="val1" placeholder="normal + outline" />
+      <OTextarea v-model="val1" color="success" placeholder="success + outline" />
+      <OTextarea v-model="val1" color="warning" placeholder="warning + outline" />
+      <OTextarea v-model="val1" color="danger" placeholder="danger + outline" />
     </div>
-    <div>
-      <div>warning:</div>
-      <OTextarea v-model="val1" status="warning" />
-    </div>
-    <div>
-      <div>error:(default)</div>
-      <OTextarea v-model="val1" status="error" />
+    <div>Solid</div>
+    <div class="row">
+      <OTextarea v-model="val3" variant="solid" placeholder="normal + solid" />
+      <OTextarea v-model="val3" variant="solid" color="success" placeholder="success + solid" />
+      <OTextarea v-model="val3" variant="solid" color="warning" placeholder="warning + solid" />
+      <OTextarea v-model="val3" variant="solid" color="danger" placeholder="danger + solid" />
     </div>
   </section>
-  <h4>Disabled & Readonly</h4>
+  <h4>Size & Round</h4>
   <div>
-    <div>val1:{{ val1 }}</div>
     <section>
-      <OTextarea v-model="val1" disabled />
-      <OTextarea v-model="val1" readonly />
+      <div>default</div>
+      <div class="row" style="align-items: flex-start">
+        <OTextarea v-model="val1" size="small" />
+        <OTextarea v-model="val1" size="medium" resize="both" />
+        <OTextarea v-model="val1" size="large" />
+      </div>
+      <div>round="pill"</div>
+      <div class="row" style="align-items: flex-start">
+        <OTextarea v-model="val1" size="small" round="pill" />
+        <OTextarea v-model="val1" size="medium" resize="both" round="pill" />
+        <OTextarea v-model="val1" size="large" round="pill" />
+      </div>
+      <div>round="12px"</div>
+      <div class="row" style="align-items: flex-start">
+        <OTextarea v-model="val1" size="small" round="12px" />
+        <OTextarea v-model="val1" size="medium" resize="both" round="12px" />
+        <OTextarea v-model="val1" size="large" round="12px" />
+      </div>
     </section>
   </div>
+
+  <h4>Disabled</h4>
+  <section>
+    <div>Outline</div>
+    <div class="row">
+      <OTextarea v-model="val1" placeholder="normal + outline" disabled />
+      <OTextarea v-model="val1" color="success" placeholder="success + outline" disabled />
+      <OTextarea v-model="val1" color="warning" placeholder="warning + outline" disabled />
+      <OTextarea v-model="val1" color="danger" placeholder="danger + outline" disabled />
+    </div>
+    <div>Solid</div>
+    <div class="row">
+      <OTextarea v-model="val3" variant="solid" placeholder="normal + solid" disabled />
+      <OTextarea v-model="val3" variant="solid" color="success" placeholder="success + solid" disabled />
+      <OTextarea v-model="val3" variant="solid" color="warning" placeholder="warning + solid" disabled />
+      <OTextarea v-model="val3" variant="solid" color="danger" placeholder="danger + solid" disabled />
+    </div>
+  </section>
   <h4>Resize</h4>
   <section>
     <div>
@@ -85,16 +95,17 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>
       <div>MaxLength: 10 | val2:{{ val2 }}</div>
-      <OTextarea v-model="val1" :max-length="10" />
+      <OTextarea v-model="val2" :max-length="10" />
     </div>
     <div>
       <div>input-out-limit：超出长度时不能输入</div>
-      <OTextarea v-model="val1" :max-length="10" :input-out-limit="false" />
+      <OTextarea v-model="val2" :max-length="10" :input-out-limit="false" />
     </div>
   </section>
   <h4>Clearable</h4>
   <section>
-    <OTextarea v-model="val1" :max-length="10" size="large" shape="round" :clearable="false" />
+    <div>clearable="false"</div>
+    <OTextarea v-model="val1" :max-length="10" size="large" :clearable="false" />
   </section>
 </template>
 <style lang="scss"></style>

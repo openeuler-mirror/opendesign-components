@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, ShapeT, RoundT, VariantT } from '../_shared/global';
+import type { SizeT, RoundT, VariantT } from '../_shared/global';
 
-export const inputProps = {
+export const textareaProps = {
   /**
    * 下拉框的值
    * v-model
@@ -47,6 +47,7 @@ export const inputProps = {
    */
   placeholder: {
     type: String,
+    default: ''
   },
   /**
    * 是否禁用
@@ -74,25 +75,57 @@ export const inputProps = {
     type: Boolean,
   },
   /**
-   * 是否是密码输入
+   * 是否支持调整尺寸
    */
-  type: {
-    type: String as PropType<'text' | 'password'>,
-    default: 'text'
+  resize: {
+    type: String as PropType<'both' | 'horizontal' | 'vertical' | 'none'>,
+    default: 'vertical'
   },
   /**
-   * 解析输入框的值
+   * 显示的行数
    */
-  parse: {
-    type: Function as PropType<(value: string) => string>,
+  rows: {
+    type: Number,
+    default: 3
   },
   /**
-   * 对值格式化，控制显示格式
-   * 需搭配parse处理，保证值的正确性
+   * 显示的行数
    */
-  format: {
-    type: Function as PropType<(value: string | number) => string | number>,
+  cols: {
+    type: Number,
+    default: 20
+  },
+  /**
+   * 最大字符长度
+   */
+  maxLength: {
+    type: Number,
+  },
+  /**
+   * 超过最大字符长度时是否允许输入
+   */
+  inputOnOutLimit: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * 是否自动计算高度
+   */
+  autoHeight: {
+    type: Boolean,
+  },
+  /**
+   * 高度自适应
+   */
+  autoResize: {
+    type: Boolean,
+  },
+  /**
+   * 获取长度方法
+   */
+  getLength: {
+    type: Function as PropType<(val: string) => Number>,
   },
 };
 
-export type InputPropsT = ExtractPropTypes<typeof inputProps>;
+export type TextareaPropsT = ExtractPropTypes<typeof textareaProps>;
