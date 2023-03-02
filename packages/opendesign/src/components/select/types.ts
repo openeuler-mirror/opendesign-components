@@ -8,7 +8,7 @@ export const selectProps = {
    * v-model
    */
   modelValue: {
-    type: [String, Number] as PropType<string | number>,
+    type: [String, Number],
   },
   /**
    * 下拉框的默认值

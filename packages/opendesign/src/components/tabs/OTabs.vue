@@ -1,30 +1,12 @@
 <script setup lang="ts">
-import { computed, provide, reactive, ref } from 'vue';
+import { computed, provide, reactive, ref, nextTick } from 'vue';
 import { tabsInjectKey, TabNavData } from './provide';
 import TabNav from './TabNav.vue';
 import TabContent from './TabContent.vue';
 import { IconAdd } from '../_shared/icons';
+import { tabsProps } from './types';
 
-interface SelectPropT {
-  /**
-   * tab选中的nav值
-   * v-model
-   */
-  modelValue?: string | number;
-  /**
-   * 是否激活时再加载
-   */
-  lazy?: boolean;
-  /**
-   * 是否可以添加页签
-   */
-  addable?: boolean;
-}
-
-const props = withDefaults(defineProps<SelectPropT>(), {
-  modelValue: '',
-  lazy: false,
-});
+const props = defineProps(tabsProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
@@ -34,6 +16,7 @@ const emits = defineEmits<{
 }>();
 
 const activeKey = ref(props.modelValue);
+const archorStyle = ref<Record<string, string>>({});
 
 const tabsMap = reactive(new Map<string | number, TabNavData>());
 const addTabItem = (tabKey: string | number, tabData: TabNavData) => {
@@ -73,18 +56,39 @@ provide(tabsInjectKey, {
   addTabItem,
   removeTabItem,
 });
+const updateArchor = (el: HTMLElement) => {
+  nextTick(() => {
+    const { clientWidth, offsetLeft } = el;
+    archorStyle.value = {
+      transform: `translate3d(${offsetLeft}px, 0px, 0px)`,
+      width: `${clientWidth}px`,
+    };
+  });
+};
 
+let activeEl: HTMLElement | null = null;
+const onNavSelect = (value: string | number, el: HTMLElement) => {
+  if (el) {
+    updateArchor(el);
+    activeEl = el;
+  }
+};
 // nav选择
-const onSelectNav = (value: string | number) => {
-  emits('change', value, activeValue.value);
-  activeKey.value = value;
-  emits('update:modelValue', value);
+const onNavClick = (value: string | number) => {
+  if (activeValue.value !== value) {
+    emits('change', value, activeValue.value);
+    activeKey.value = value;
+    emits('update:modelValue', value);
+  }
 };
 
 // 删除页签
 const onDeleteNav = (value: string | number) => {
   removeTabItem(value);
   emits('delete', value);
+  if (activeEl) {
+    updateArchor(activeEl);
+  }
 };
 // 添加页签
 const onAddNav = (e: MouseEvent) => {
@@ -94,23 +98,46 @@ const onAddNav = (e: MouseEvent) => {
 <template>
   <div class="o-tabs">
     <slot></slot>
-    <div class="o-tabs-head" :class="{ 'with-act': !!$slots.act }">
-      <div class="o-tabs-navs">
+    <div
+      class="o-tabs-head"
+      :class="[
+        `o-tabs-${props.variant}`,
+        {
+          'with-act': $slots.suffix || $slots.prefix,
+          'show-line': props.line,
+        },
+      ]"
+    >
+      <div v-if="$slots.prefix" class="o-tabs-head-prefix">
+        <slot name="prefix"></slot>
+      </div>
+      <div
+        class="o-tabs-navs"
+        :class="{
+          'is-center': props.center,
+        }"
+      >
         <TabNav
           v-for="item in navList"
           :key="item.value"
           class="o-tabs-nav"
           :active-value="activeValue"
           v-bind="item"
-          @select="onSelectNav"
+          @click="onNavClick"
+          @select="onNavSelect"
           @delete="onDeleteNav"
         />
+        <div v-if="props.variant === 'text'" class="o-tab-nav-archor" :style="archorStyle">
+          <slot name="archor">
+            <div class="o-tab-nav-archor-line"></div>
+          </slot>
+        </div>
         <div v-if="props.addable" class="o-tab-nav-add" @click="onAddNav">
           <IconAdd />
         </div>
       </div>
-      <div v-if="$slots.act" class="o-tabs-act">
-        <slot name="act"></slot>
+      <div v-if="$slots.suffix" class="o-tabs-head-suffix">
+        <slot name="suffix"></slot>
       </div>
     </div>
     <div class="o-tabs-body">

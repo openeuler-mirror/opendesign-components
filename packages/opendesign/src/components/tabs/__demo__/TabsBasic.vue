@@ -28,9 +28,32 @@ const tabDelete = (v: string | number) => {
 };
 </script>
 <template>
-  <h4>Default</h4>
+  <h4>Variant</h4>
   <div class="sec">
-    <OTabs>
+    <p>Solid</p>
+    <OTabs variant="solid">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTabs>
+    <p>line:false</p>
+    <OTabs variant="solid" :line="false">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTabs>
+    <br />
+    <p>Text</p>
+    <OTabs variant="text">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTabs>
+    <p>line:false</p>
+    <OTabs variant="text" :line="false">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
@@ -40,7 +63,19 @@ const tabDelete = (v: string | number) => {
   <h4>Slot & change</h4>
   <div class="sec">
     <OTabs v-model="activeTab" lazy @change="tabChange">
-      <template #act>action</template>
+      <template #prefix>Prefix</template>
+      <template #suffix>Suffix</template>
+      <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
+      <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
+      <OTabPane value="Tab C" class="pane">
+        <template #nav><IconSearch /> Nav 3</template>pane 3
+      </OTabPane>
+      <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
+    </OTabs>
+    <p>center</p>
+    <OTabs v-model="activeTab" lazy center @change="tabChange">
+      <template #prefix>Prefix</template>
+      <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
       <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
       <OTabPane value="Tab C" class="pane">
@@ -66,6 +101,6 @@ const tabDelete = (v: string | number) => {
 }
 .pane {
   padding: 36px;
-  background-color: bisque;
+  background-color: #fff;
 }
 </style>
