@@ -1,0 +1,103 @@
+@use './var.scss';
+
+.o-menu {
+  list-style: none;
+  width: var(--o-menu-width);
+  color: var(--o-menu-color);
+  background-color: var(--o-menu-bg);
+  margin: 0;
+  padding: 0;
+}
+
+// submenu
+.o-sub-menu {
+  font-size: var(--o-sub-menu-text-size);
+  line-height: var(--o-sub-menu-text-height);
+  font-weight: 400;
+}
+
+.o-sub-menu-active {
+  & > .o-sub-menu-title {
+    font-weight: 700;
+  }
+}
+
+.o-sub-menu-expanded {
+  & > .o-sub-menu-title {
+    .o-sub-menu-title-arrow {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.o-sub-menu-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 48px 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background-color var(--o-duration-m2) var(--o-easing-standard);
+
+  &:hover {
+    background-color: var(--o-sub-menu-bg-hover);
+  }
+}
+
+.o-sub-menu-title-icon {
+  margin-right: 4px;
+  font-size: var(--o-sub-menu-icon-height);
+}
+
+.o-sub-menu-title-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.o-sub-menu-title-arrow {
+  position: absolute;
+  right: 16px;
+  transform: rotate(0);
+  font-size: var(--o-sub-menu-icon-height);
+  transition: transform var(--o-duration-m2) var(--o-easing-standard);
+}
+
+.o-sub-menu-children {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  transition: height var(--o-duration-m2) var(--o-easing-standard);
+}
+
+//menu-item
+.o-menu-item {
+  font-size: var(--o-menu-item-text-size);
+  line-height: var(--o-menu-item-text-height);
+  border-radius: 8px;
+  padding: 12px 16px 12px 36px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: background-color var(--o-duration-s) var(--o-easing-standard);
+
+  &:not(.o-menu-item-disabled):hover {
+    background-color: var(--o-menu-item-bg-hover);
+  }
+
+  & + .o-menu-item {
+    margin-top: 4px;
+  }
+}
+
+.o-menu-item-active {
+  background-color: var(--o-menu-item-bg-active);
+}
+
+.o-menu-item-disabled {
+  cursor: not-allowed;
+  color: var(--o-menu-item-color-disabled);
+}
