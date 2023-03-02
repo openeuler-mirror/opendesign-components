@@ -1,99 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { defaultSize, defaultShape, SizeT, ShapeT } from '../_shared/global';
+import { defaultSize, defaultShape } from '../_shared/global';
 import { isFunction } from '../_shared/is';
 import { IconX } from '../icons';
 import { trigger } from '../_shared/event';
 import { toInputString } from './textarea';
 import { OResizeObserver } from '../resize-observer';
+import { textareaProps } from './types';
+import { getRoundClass } from '../_shared/style-class';
 
-interface InputPropT {
-  /**
-   * 下拉框的值
-   * v-model
-   */
-  modelValue?: string;
-  /**
-   * 下拉框的默认值
-   * 非受控
-   */
-  defaultValue?: string;
-  /**
-   * 大小
-   */
-  size?: SizeT;
-  /**
-   * 形状
-   */
-  shape?: ShapeT;
-  /**
-   * 提示文本
-   */
-  placeholder?: string;
-  /**
-   * 状态，显示指定，用于非表单场景
-   */
-  status?: 'success' | 'warning' | 'error';
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-  /**
-   * 是否只读
-   */
-  readonly?: boolean;
-  /**
-   * 是否可以清除
-   */
-  clearable?: boolean;
-  /**
-   * 是否支持调整尺寸
-   */
-  resize?: 'both' | 'horizontal' | 'vertical' | 'none';
-  /**
-   * 显示的行数
-   */
-  rows?: number;
-  /**
-   * 显示的行数
-   */
-  cols?: number;
-  /**
-   * 最大字符长度
-   */
-  maxLength?: number;
-  /**
-   * 超过最大字符长度时是否允许输入
-   */
-  inputOutLimit?: boolean;
-  /**
-   * 是否自动计算高度
-   */
-  autoHeight?: boolean;
-  /**
-   * 获取长度方法
-   */
-  getLength?: (val: string) => number;
-  /**
-   * 高度自适应
-   */
-  autoResize?: boolean;
-}
-const props = withDefaults(defineProps<InputPropT>(), {
-  modelValue: undefined,
-  defaultValue: '',
-  size: undefined,
-  shape: undefined,
-  placeholder: '',
-  clearable: true,
-  status: undefined,
-  resize: 'vertical',
-  rows: 3,
-  cols: 20,
-  maxLength: undefined,
-  getLength: undefined,
-  inputOutLimit: true,
-});
+const props = defineProps(textareaProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -136,9 +52,10 @@ const getValueLength = (val: string) => {
 const currentLength = computed(() => getValueLength(realValue.value));
 const isOutLengthLimit = computed(() => (props.maxLength !== undefined ? currentLength.value > props.maxLength : false));
 
-const status = computed(() => {
-  return props.status ?? (isOutLengthLimit.value ? 'error' : '');
+const color = computed(() => {
+  return isOutLengthLimit.value ? 'danger' : props.color;
 });
+const round = getRoundClass(props, 'textarea');
 
 // 是否聚焦状态
 const isFocus = ref(false);
@@ -229,21 +146,24 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
   <label
     class="o-textarea"
     :class="[
+      `o-textarea-${color}`,
+      `o-textarea-${props.variant}`,
       `o-textarea-size-${props.size || defaultSize}`,
-      `o-textarea-shape-${props.shape || defaultShape}`,
-      status ? `o-textarea-status-${status}` : '',
+      round.class.value,
       {
         'o-textarea-disabled': props.disabled,
         'o-textarea-focus': isFocus,
         'o-textarea-auto-height': props.autoHeight,
       },
     ]"
+    :style="round.style.value"
     @mousedown="onMouseDown"
   >
     <div
       class="o-textarea-wrap"
       :class="{
         'o-textarea-clearable': props.clearable && realValue !== '' && !props.disabled,
+        'is-focus': isFocus,
       }"
     >
       <textarea
@@ -257,7 +177,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
           resize: resizeValue,
           height: textareaHeight + 'px',
         }"
-        :maxlength="props.inputOutLimit ? '' : props.maxLength"
+        :maxlength="props.inputOnOutLimit ? '' : props.maxLength"
         :rows="props.rows"
         :cols="props.cols"
         @focus="onFocus"

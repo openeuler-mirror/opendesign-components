@@ -1,12 +1,99 @@
 .o-input {
-  --input-placeholder: var(--o-color-text4);
-  --input-color: var(--o-color-text2);
-  --input-color-disabled: var(--o-color-text4);
+  --input-color: var(--o-color-info2);
+  --input-color-disabled: var(--o-color-info4);
+  --input-placeholder: var(--o-color-info4);
 
-  --input-bg: var(--o-color-bg2);
-  --input-bg-hover: var(--o-color-bg2);
-  --input-bg-focus: var(--o-color-bg2);
+  --input-bg-color: transparent;
+  --input-bg-color-hover: transparent;
+  --input-bg-color-focus: var(--o-color-control-white);
+
+  --input-prepend-append-bd-color: var(--o-color-control1);
 }
+
+.o-input-normal {
+  --input-bd-color: var(--o-color-control1);
+  --input-bd-color-hover: var(--o-color-primary2);
+  --input-bd-color-focus: var(--o-color-primary3);
+  --input-bd-color-disabled: var(--o-color-control4);
+  &.o-input-solid {
+    --input-bd-color: var(--o-color-control1-light);
+    --input-bd-color-hover: var(--o-color-control2-light);
+    --input-bd-color-focus: var(--o-color-primary3-light);
+    --input-bd-color-disabled: var(--o-color-control4-light);
+
+    --input-bg-color: var(--o-color-control1-light);
+    --input-bg-color-hover: var(--o-color-control2-light);
+    --input-bg-color-disabled: var(--o-color-control4-light);
+
+    --input-prepend-append-bd-color: var(--o-color-control2-light);
+    &.o-input-disabled {
+      --input-prepend-append-bd-color: var(--o-color-control4-light);
+    }
+  }
+}
+
+.o-input-success {
+  --input-bd-color: var(--o-color-success1);
+  --input-bd-color-hover: var(--o-color-success2);
+  --input-bd-color-focus: var(--o-color-success3);
+  --input-bd-color-disabled: var(--o-color-success4);
+
+  &.o-input-solid {
+    --input-bd-color: var(--o-color-success1-light);
+    --input-bd-color-hover: var(--o-color-success2-light);
+    --input-bd-color-focus: var(--o-color-success3-light);
+    --input-bd-color-disabled: var(--o-color-success4-light);
+
+    --input-bg-color: var(--o-color-success1-light);
+    --input-bg-color-hover: var(--o-color-success2-light);
+    --input-bg-color-disabled: var(--o-color-success4-light);
+  }
+}
+
+.o-input-warning {
+  --input-bd-color: var(--o-color-warning1);
+  --input-bd-color-hover: var(--o-color-warning2);
+  --input-bd-color-focus: var(--o-color-warning3);
+  --input-bd-color-disabled: var(--o-color-warning4);
+
+  &.o-input-solid {
+    --input-bd-color: var(--o-color-warning1-light);
+    --input-bd-color-hover: var(--o-color-warning2-light);
+    --input-bd-color-focus: var(--o-color-warning3-light);
+    --input-bd-color-disabled: var(--o-color-warning4-light);
+
+    --input-bg-color: var(--o-color-warning1-light);
+    --input-bg-color-hover: var(--o-color-warning2-light);
+    --input-bg-color-disabled: var(--o-color-warning4-light);
+  }
+}
+
+.o-input-danger {
+  --input-bd-color: var(--o-color-danger1);
+  --input-bd-color-hover: var(--o-color-danger2);
+  --input-bd-color-focus: var(--o-color-danger3);
+  --input-bd-color-disabled: var(--o-color-danger4);
+
+  &.o-input-solid {
+    --input-bd-color: var(--o-color-danger1-light);
+    --input-bd-color-hover: var(--o-color-danger2-light);
+    --input-bd-color-focus: var(--o-color-danger3-light);
+    --input-bd-color-disabled: var(--o-color-danger4-light);
+
+    --input-bg-color: var(--o-color-danger1-light);
+    --input-bg-color-hover: var(--o-color-danger2-light);
+    --input-bg-color-disabled: var(--o-color-danger4-light);
+  }
+}
+
+.o-input-solid {
+  --input-prepend-append-bg-color: var(--o-color-control1-light);
+}
+
+.o-input-disabled {
+  --input-color: var(--o-color-info4);
+}
+
 .o-input-size-small {
   --input-height: var(--o-size-s);
   --input-text-size: var(--o-font_size-tip1);
@@ -16,11 +103,13 @@
   --input-append-padding: 0 4px;
   --input-prepend-padding: 0 4px;
   --input-radius: var(--o-radius-s);
+
   &.o-input-round-pill {
     --input-append-padding: 0 6px 0 4px;
     --input-prepend-padding: 0 4px 0 6px;
   }
 }
+
 .o-input-size-medium {
   --input-height: var(--o-size-m);
   --input-text-size: var(--o-font_size-text);
@@ -36,6 +125,7 @@
     --input-prepend-padding: 0 8px 0 12px;
   }
 }
+
 .o-input-size-large {
   --input-height: var(--o-size-l);
   --input-text-size: var(--o-font_size-h4);
@@ -45,6 +135,7 @@
   --input-append-padding: 0 12px;
   --input-prepend-padding: 0 12px;
   --input-radius: var(--o-radius-l);
+
   &.o-input-round-pill {
     --input-append-padding: 0 16px 0 12px;
     --input-prepend-padding: 0 12px 0 16px;
@@ -53,34 +144,4 @@
 
 .o-input-round-pill {
   --input-radius: var(--o-size-l);
-}
-
-.o-input-normal {
-  --input-bd: var(--o-color-normal1);
-  --input-bd-hover: var(--o-color-normal2);
-  --input-bd-focus: var(--o-color-normal2);
-}
-.o-input-success {
-  --input-bd: var(--o-color-success4);
-  --input-bd-hover: var(--o-color-success1);
-  --input-bd-focus: var(--o-color-success1);
-}
-.o-input-warning {
-  --input-bd: var(--o-color-warning4);
-  --input-bd-hover: var(--o-color-warning1);
-  --input-bd-focus: var(--o-color-warning1);
-}
-.o-input-danger {
-  --input-bd: var(--o-color-danger4);
-  --input-bd-hover: var(--o-color-danger1);
-  --input-bd-focus: var(--o-color-danger1);
-}
-.o-input-disabled {
-  --input-bd: var(--o-color-normal1);
-  --input-bd-hover: var(--o-color-normal1);
-  --input-bd-focus: var(--o-color-normal1);
-
-  --input-bg: var(--o-color-normal4);
-  --input-bg-hover: var(--o-color-normal4);
-  --input-bg-focus: var(--o-color-normal4);
 }

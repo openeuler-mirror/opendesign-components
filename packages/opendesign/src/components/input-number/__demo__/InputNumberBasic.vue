@@ -11,7 +11,7 @@ const val3 = ref(3333);
 const val4 = ref('1px');
 </script>
 <template>
-  <h4>Color</h4>
+  <h4>Base</h4>
   <div>val1:{{ val1 }}</div>
   <section>
     <div class="col">
@@ -27,29 +27,37 @@ const val4 = ref('1px');
       <OInputNumber :default-value="val1" style="width: 150px" />
     </div>
   </section>
-  <h4>Color</h4>
+  <h4>Color & Variant</h4>
   <section>
-    <div>
-      <p>normal</p>
-      <OInputNumber v-model="val1" style="width: 150px" color="normal" />
+    <div class="row">
+      <div>
+        <p>normal</p>
+        <OInputNumber v-model="val1" style="width: 150px" color="normal" />
+      </div>
+      <div>
+        <p>success</p>
+        <OInputNumber v-model="val1" style="width: 150px" color="success" />
+      </div>
+      <div>
+        <p>warning</p>
+        <OInputNumber v-model="val1" style="width: 150px" color="warning" />
+      </div>
+      <div>
+        <p>danger</p>
+        <OInputNumber v-model="val1" style="width: 150px" color="danger" />
+      </div>
     </div>
-    <div>
-      <p>success</p>
-      <OInputNumber v-model="val1" style="width: 150px" color="success" />
-    </div>
-    <div>
-      <p>warning</p>
-      <OInputNumber v-model="val1" style="width: 150px" color="warning" />
-    </div>
-    <div>
-      <p>danger</p>
-      <OInputNumber v-model="val1" style="width: 150px" color="danger" />
+    <div class="row">
+      <OInputNumber v-model="val1" style="width: 150px" color="normal" variant="solid" />
+      <OInputNumber v-model="val1" style="width: 150px" color="success" variant="solid" />
+      <OInputNumber v-model="val1" style="width: 150px" color="warning" variant="solid" />
+      <OInputNumber v-model="val1" style="width: 150px" color="danger" variant="solid" />
     </div>
   </section>
   <section>
     <div class="col">
       readonly:
-      <OInputNumber v-model="val1" readonly />
+      <OInputNumber v-model="val1" readonly :max="5" :min="0" />
     </div>
     <div class="col">
       controls none:
@@ -61,7 +69,7 @@ const val4 = ref('1px');
     </div>
     <div class="right">
       controls left:
-      <OInputNumber v-model="val1" controls="right" :max="5" />
+      <OInputNumber v-model="val1" controls="right" :max="5" :min="0" />
     </div>
   </section>
   <h4>Size</h4>
@@ -96,14 +104,22 @@ const val4 = ref('1px');
   </section>
   <h4>Disabled</h4>
   <section>
-    <div>val1:{{ val1 }}</div>
-    <OInputNumber v-model="val1" disabled />
-    <OInputNumber v-model="val1" disabled style="width: 150px">
-      <template #prefix>$</template>
-    </OInputNumber>
-    <OInputNumber v-model="val1" disabled style="width: 150px">
-      <template #suffix> 元 </template>
-    </OInputNumber>
+    <div class="row">
+      <OInputNumber v-model="val1" disabled />
+      <OInputNumber v-model="val1" disabled style="width: 150px">
+        <template #prefix>$</template>
+      </OInputNumber>
+      <OInputNumber v-model="val1" disabled style="width: 150px">
+        <template #suffix> 元 </template>
+      </OInputNumber>
+    </div>
+
+    <div class="row">
+      <OInputNumber v-model="val1" style="width: 150px" color="normal" variant="solid" disabled />
+      <OInputNumber v-model="val1" style="width: 150px" color="success" variant="solid" disabled />
+      <OInputNumber v-model="val1" style="width: 150px" color="warning" variant="solid" disabled />
+      <OInputNumber v-model="val1" style="width: 150px" color="danger" variant="solid" disabled />
+    </div>
   </section>
 
   <h4>Step & min & max</h4>

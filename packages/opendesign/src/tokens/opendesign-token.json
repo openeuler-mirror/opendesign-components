@@ -1,4 +1,25 @@
 {
+  "base": {
+    "name": "基础色(不同皮肤色相不变)",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "color-white",
+        "value": {
+          "light": "255, 255, 255",
+          "dark": "255, 255, 255"
+        }
+      },
+      {
+        "key": "color-black",
+        "value": {
+          "light": "0, 0, 0",
+          "dark": "0, 0, 0"
+        }
+      }
+    ]
+  },
   "blue": {
     "name": "蓝色",
     "type": "palette",
@@ -6,7 +27,6 @@
     "value": [
       {
         "key": "blue-1",
-        "colorType": "Blue",
         "value": {
           "light": "232, 243, 255",
           "dark": "0, 13, 77"
@@ -14,7 +34,6 @@
       },
       {
         "key": "blue-2",
-        "colorType": "Blue",
         "value": {
           "light": "190, 218, 255",
           "dark": "4, 27, 121"
@@ -22,7 +41,6 @@
       },
       {
         "key": "blue-3",
-        "colorType": "Blue",
         "value": {
           "light": "148, 191, 255",
           "dark": "14, 50, 166"
@@ -30,7 +48,6 @@
       },
       {
         "key": "blue-4",
-        "colorType": "Blue",
         "value": {
           "light": "106, 161, 255",
           "dark": "29, 77, 210"
@@ -38,7 +55,6 @@
       },
       {
         "key": "blue-5",
-        "colorType": "Blue",
         "value": {
           "light": "64, 128, 255",
           "dark": "48, 111, 255"
@@ -46,7 +62,6 @@
       },
       {
         "key": "blue-6",
-        "colorType": "Blue",
         "value": {
           "light": "22, 93, 255",
           "dark": "60, 126, 255"
@@ -54,7 +69,6 @@
       },
       {
         "key": "blue-7",
-        "colorType": "Blue",
         "value": {
           "light": "14, 66, 210",
           "dark": "104, 159, 255"
@@ -62,7 +76,6 @@
       },
       {
         "key": "blue-8",
-        "colorType": "Blue",
         "value": {
           "light": "7, 44, 166",
           "dark": "147, 190, 255"
@@ -70,7 +83,6 @@
       },
       {
         "key": "blue-9",
-        "colorType": "Blue",
         "value": {
           "light": "3, 26, 121",
           "dark": "190, 218, 255"
@@ -78,7 +90,6 @@
       },
       {
         "key": "blue-10",
-        "colorType": "Blue",
         "value": {
           "light": "0, 13, 77",
           "dark": "234, 244, 255"
@@ -93,7 +104,6 @@
     "value": [
       {
         "key": "yellow-1",
-        "colorType": "Yellow",
         "value": {
           "light": "254, 255, 232",
           "dark": "77, 56, 0"
@@ -101,7 +111,6 @@
       },
       {
         "key": "yellow-2",
-        "colorType": "Yellow",
         "value": {
           "light": "254, 254, 190",
           "dark": "120, 94, 7"
@@ -109,7 +118,6 @@
       },
       {
         "key": "yellow-3",
-        "colorType": "Yellow",
         "value": {
           "light": "253, 250, 148",
           "dark": "163, 134, 20"
@@ -117,7 +125,6 @@
       },
       {
         "key": "yellow-4",
-        "colorType": "Yellow",
         "value": {
           "light": "252, 242, 107",
           "dark": "207, 179, 37"
@@ -125,7 +132,6 @@
       },
       {
         "key": "yellow-5",
-        "colorType": "Yellow",
         "value": {
           "light": "251, 232, 66",
           "dark": "250, 225, 60"
@@ -133,7 +139,6 @@
       },
       {
         "key": "yellow-6",
-        "colorType": "Yellow",
         "value": {
           "light": "250, 220, 25",
           "dark": "251, 233, 75"
@@ -141,7 +146,6 @@
       },
       {
         "key": "yellow-7",
-        "colorType": "Yellow",
         "value": {
           "light": "207, 175, 15",
           "dark": "252, 243, 116"
@@ -149,7 +153,6 @@
       },
       {
         "key": "yellow-8",
-        "colorType": "Yellow",
         "value": {
           "light": "163, 132, 8",
           "dark": "253, 250, 157"
@@ -157,7 +160,6 @@
       },
       {
         "key": "yellow-9",
-        "colorType": "Yellow",
         "value": {
           "light": "120, 93, 3",
           "dark": "254, 254, 198"
@@ -165,7 +167,6 @@
       },
       {
         "key": "yellow-10",
-        "colorType": "Yellow",
         "value": {
           "light": "77, 56, 0",
           "dark": "254, 255, 240"
@@ -180,7 +181,6 @@
     "value": [
       {
         "key": "green-1",
-        "colorType": "Green",
         "value": {
           "light": "232, 255, 234",
           "dark": "0, 77, 28"
@@ -188,7 +188,6 @@
       },
       {
         "key": "green-2",
-        "colorType": "Green",
         "value": {
           "light": "175, 240, 181",
           "dark": "4, 102, 37"
@@ -196,7 +195,6 @@
       },
       {
         "key": "green-3",
-        "colorType": "Green",
         "value": {
           "light": "123, 225, 136",
           "dark": "10, 128, 45"
@@ -204,7 +202,6 @@
       },
       {
         "key": "green-4",
-        "colorType": "Green",
         "value": {
           "light": "76, 210, 99",
           "dark": "18, 154, 55"
@@ -212,7 +209,6 @@
       },
       {
         "key": "green-5",
-        "colorType": "Green",
         "value": {
           "light": "35, 195, 67",
           "dark": "29, 180, 64"
@@ -220,7 +216,6 @@
       },
       {
         "key": "green-6",
-        "colorType": "Green",
         "value": {
           "light": "0, 180, 42",
           "dark": "39, 195, 70"
@@ -228,7 +223,6 @@
       },
       {
         "key": "green-7",
-        "colorType": "Green",
         "value": {
           "light": "0, 154, 41",
           "dark": "80, 210, 102"
@@ -236,7 +230,6 @@
       },
       {
         "key": "green-8",
-        "colorType": "Green",
         "value": {
           "light": "0, 128, 38",
           "dark": "126, 225, 139"
@@ -244,7 +237,6 @@
       },
       {
         "key": "green-9",
-        "colorType": "Green",
         "value": {
           "light": "0, 102, 34",
           "dark": "178, 240, 183"
@@ -252,7 +244,6 @@
       },
       {
         "key": "green-10",
-        "colorType": "Green",
         "value": {
           "light": "0, 77, 28",
           "dark": "235, 255, 236"
@@ -267,7 +258,6 @@
     "value": [
       {
         "key": "orange-1",
-        "colorType": "Orange",
         "value": {
           "light": "255, 247, 232",
           "dark": "77, 27, 0"
@@ -275,7 +265,6 @@
       },
       {
         "key": "orange-2",
-        "colorType": "Orange",
         "value": {
           "light": "255, 228, 186",
           "dark": "121, 48, 4"
@@ -283,7 +272,6 @@
       },
       {
         "key": "orange-3",
-        "colorType": "Orange",
         "value": {
           "light": "255, 207, 139",
           "dark": "166, 75, 10"
@@ -291,7 +279,6 @@
       },
       {
         "key": "orange-4",
-        "colorType": "Orange",
         "value": {
           "light": "255, 182, 93",
           "dark": "210, 105, 19"
@@ -299,7 +286,6 @@
       },
       {
         "key": "orange-5",
-        "colorType": "Orange",
         "value": {
           "light": "255, 154, 46",
           "dark": "255, 141, 31"
@@ -307,7 +293,6 @@
       },
       {
         "key": "orange-6",
-        "colorType": "Orange",
         "value": {
           "light": "255, 125, 0",
           "dark": "255, 150, 38"
@@ -315,7 +300,6 @@
       },
       {
         "key": "orange-7",
-        "colorType": "Orange",
         "value": {
           "light": "210, 95, 0",
           "dark": "255, 179, 87"
@@ -323,7 +307,6 @@
       },
       {
         "key": "orange-8",
-        "colorType": "Orange",
         "value": {
           "light": "166, 69, 0",
           "dark": "255, 205, 135"
@@ -331,7 +314,6 @@
       },
       {
         "key": "orange-9",
-        "colorType": "Orange",
         "value": {
           "light": "121, 46, 0",
           "dark": "255, 227, 184"
@@ -339,7 +321,6 @@
       },
       {
         "key": "orange-10",
-        "colorType": "Orange",
         "value": {
           "light": "77, 27, 0",
           "dark": "255, 247, 232"
@@ -354,7 +335,6 @@
     "value": [
       {
         "key": "red-1",
-        "colorType": "Red",
         "value": {
           "light": "255, 236, 232",
           "dark": "77, 0, 10"
@@ -362,7 +342,6 @@
       },
       {
         "key": "red-2",
-        "colorType": "Red",
         "value": {
           "light": "253, 205, 197",
           "dark": "119, 6, 17"
@@ -370,7 +349,6 @@
       },
       {
         "key": "red-3",
-        "colorType": "Red",
         "value": {
           "light": "251, 172, 163",
           "dark": "161, 22, 31"
@@ -378,7 +356,6 @@
       },
       {
         "key": "red-4",
-        "colorType": "Red",
         "value": {
           "light": "249, 137, 129",
           "dark": "203, 46, 52"
@@ -386,7 +363,6 @@
       },
       {
         "key": "red-5",
-        "colorType": "Red",
         "value": {
           "light": "247, 101, 96",
           "dark": "245, 78, 78"
@@ -394,7 +370,6 @@
       },
       {
         "key": "red-6",
-        "colorType": "Red",
         "value": {
           "light": "245, 63, 63",
           "dark": "247, 105, 101"
@@ -402,7 +377,6 @@
       },
       {
         "key": "red-7",
-        "colorType": "Red",
         "value": {
           "light": "203, 39, 45",
           "dark": "249, 141, 134"
@@ -410,7 +384,6 @@
       },
       {
         "key": "red-8",
-        "colorType": "Red",
         "value": {
           "light": "161, 21, 30",
           "dark": "251, 176, 167"
@@ -418,7 +391,6 @@
       },
       {
         "key": "red-9",
-        "colorType": "Red",
         "value": {
           "light": "119, 8, 19",
           "dark": "253, 209, 202"
@@ -426,7 +398,6 @@
       },
       {
         "key": "red-10",
-        "colorType": "Red",
         "value": {
           "light": "77, 0, 10",
           "dark": "255, 240, 236"
@@ -441,7 +412,6 @@
     "value": [
       {
         "key": "gray-1",
-        "colorType": "Gray",
         "value": {
           "light": "255, 255, 255",
           "dark": "0, 0, 0"
@@ -449,7 +419,6 @@
       },
       {
         "key": "gray-2",
-        "colorType": "Gray",
         "value": {
           "light": "238, 238, 238",
           "dark": "36, 36, 36"
@@ -457,7 +426,6 @@
       },
       {
         "key": "gray-3",
-        "colorType": "Gray",
         "value": {
           "light": "221, 221, 221",
           "dark": "57, 57, 57"
@@ -465,7 +433,6 @@
       },
       {
         "key": "gray-4",
-        "colorType": "Gray",
         "value": {
           "light": "198, 198, 198",
           "dark": "94, 94, 94"
@@ -473,7 +440,6 @@
       },
       {
         "key": "gray-5",
-        "colorType": "Gray",
         "value": {
           "light": "139, 139, 139",
           "dark": "119, 119, 122"
@@ -481,7 +447,6 @@
       },
       {
         "key": "gray-6",
-        "colorType": "Gray",
         "value": {
           "light": "119, 119, 119",
           "dark": "166, 166, 166"
@@ -489,7 +454,6 @@
       },
       {
         "key": "gray-7",
-        "colorType": "Gray",
         "value": {
           "light": "94, 94, 94",
           "dark": "221, 221, 221"
@@ -497,7 +461,6 @@
       },
       {
         "key": "gray-8",
-        "colorType": "Gray",
         "value": {
           "light": "75, 75, 75",
           "dark": "238, 238, 238"
@@ -505,7 +468,6 @@
       },
       {
         "key": "gray-9",
-        "colorType": "Gray",
         "value": {
           "light": "44, 44, 44",
           "dark": "243, 243, 243"
@@ -513,7 +475,6 @@
       },
       {
         "key": "gray-10",
-        "colorType": "Gray",
         "value": {
           "light": "0, 0, 0",
           "dark": "255, 255, 255"
@@ -528,7 +489,6 @@
     "value": [
       {
         "key": "mixedgray-1",
-        "colorType": "Mixedgray",
         "value": {
           "light": "247, 248, 250",
           "dark": "23, 23, 26"
@@ -536,7 +496,6 @@
       },
       {
         "key": "mixedgray-2",
-        "colorType": "Mixedgray",
         "value": {
           "light": "242, 243, 245",
           "dark": "46, 46, 48"
@@ -544,7 +503,6 @@
       },
       {
         "key": "mixedgray-3",
-        "colorType": "Mixedgray",
         "value": {
           "light": "229, 230, 235",
           "dark": "72, 72, 73"
@@ -552,7 +510,6 @@
       },
       {
         "key": "mixedgray-4",
-        "colorType": "Mixedgray",
         "value": {
           "light": "201, 205, 212",
           "dark": "95, 95, 96"
@@ -560,7 +517,6 @@
       },
       {
         "key": "mixedgray-5",
-        "colorType": "Mixedgray",
         "value": {
           "light": "169, 174, 184",
           "dark": "120, 120, 122"
@@ -568,7 +524,6 @@
       },
       {
         "key": "mixedgray-6",
-        "colorType": "Mixedgray",
         "value": {
           "light": "134, 144, 156",
           "dark": "146, 146, 147"
@@ -576,7 +531,6 @@
       },
       {
         "key": "mixedgray-7",
-        "colorType": "Mixedgray",
         "value": {
           "light": "107, 119, 133",
           "dark": "171, 171, 172"
@@ -584,7 +538,6 @@
       },
       {
         "key": "mixedgray-8",
-        "colorType": "Mixedgray",
         "value": {
           "light": "78, 89, 105",
           "dark": "197, 197, 197"
@@ -592,7 +545,6 @@
       },
       {
         "key": "mixedgray-9",
-        "colorType": "Mixedgray",
         "value": {
           "light": "39, 46, 59",
           "dark": "223, 223, 223"
@@ -600,7 +552,6 @@
       },
       {
         "key": "mixedgray-10",
-        "colorType": "Mixedgray",
         "value": {
           "light": "29, 33, 41",
           "dark": "246, 246, 246"
@@ -747,8 +698,16 @@
     "typeName": "颜色",
     "value": [
       {
+        "key": "color-control-light",
+        "description": "很浅背景",
+        "value": {
+          "light": "rgb(var(--o-gray-1))",
+          "dark": "rgb(var(--o-gray-1))"
+        }
+      },
+      {
         "key": "color-control1",
-        "description": "常规",
+        "description": "常规，常用于边框",
         "value": {
           "light": "rgb(var(--o-mixedgray-3))",
           "dark": "rgb(var(--o-mixedgray-3))"
@@ -780,7 +739,7 @@
       },
       {
         "key": "color-control1-light",
-        "description": "浅/控件常规",
+        "description": "常规-浅，常用于背景",
         "value": {
           "light": "rgb(var(--o-mixedgray-3))",
           "dark": "rgb(var(--o-mixedgray-3))"
@@ -788,7 +747,7 @@
       },
       {
         "key": "color-control2-light",
-        "description": "浅/控件悬浮",
+        "description": "悬浮-浅",
         "value": {
           "light": "rgb(var(--o-mixedgray-4))",
           "dark": "rgb(var(--o-mixedgray-4))"
@@ -796,7 +755,7 @@
       },
       {
         "key": "color-control3-light",
-        "description": "浅/控件激活",
+        "description": "激活-浅",
         "value": {
           "light": "rgb(var(--o-mixedgray-5))",
           "dark": "rgb(var(--o-mixedgray-5))"
@@ -804,7 +763,7 @@
       },
       {
         "key": "color-control4-light",
-        "description": "浅/控件禁用",
+        "description": "禁用-浅",
         "value": {
           "light": "rgb(var(--o-mixedgray-2))",
           "dark": "rgb(var(--o-mixedgray-2))"

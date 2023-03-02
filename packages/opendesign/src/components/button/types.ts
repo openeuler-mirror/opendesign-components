@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, VariantT } from '../_shared/global';
+import { SizeT, RoundT, ColorT, VariantT } from '../_shared/global';
 
 export type ButtonTypeT = 'primary' | 'outline' | 'text' | 'link'
 
@@ -8,7 +8,7 @@ export const buttonProps = {
    * 颜色类型：ColorT
    */
   color: {
-    type: String as PropType<'normal' | 'primary' | 'success' | 'warning' | 'danger'>,
+    type: String as PropType<ColorT>,
     default: 'normal'
   },
   /**

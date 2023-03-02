@@ -149,6 +149,7 @@ const round = getRoundClass(props, 'input');
     class="o-input"
     :class="[
       `o-input-${props.color}`,
+      `o-input-${props.variant}`,
       `o-input-size-${props.size || defaultSize}`,
       round.class.value,
       {
@@ -171,6 +172,7 @@ const round = getRoundClass(props, 'input');
         'has-append': $slots.append,
         'is-focus': isFocus,
         'is-readonly': props.readonly,
+        'is-disabled': props.disabled,
       }"
     >
       <div v-if="$slots.prefix" class="o-input-prefix">

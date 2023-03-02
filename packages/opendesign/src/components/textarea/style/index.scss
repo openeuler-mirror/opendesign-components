@@ -11,21 +11,25 @@
 .o-textarea-wrap {
   display: flex;
   border-radius: var(--textarea-radius);
-  border: 1px solid var(--textarea-border);
-  background-color: var(--textarea-bg);
+  border: 1px solid var(--textarea-bd-color);
+  background-color: var(--textarea-bg-color);
   position: relative;
   flex-direction: column;
   justify-items: stretch;
   &:hover {
-    border-color: var(--textarea-border-hover);
-    background-color: var(--textarea-bg-hover);
+    border-color: var(--textarea-bd-color-hover);
+    background-color: var(--textarea-bg-color-hover);
   }
   &.is-focus {
-    border-color: var(--textarea-border-focus);
-    background-color: var(--textarea-bg-focus);
+    border-color: var(--textarea-bd-color-focus);
+    background-color: var(--textarea-bg-color-focus);
   }
 }
-
+.o-textarea-round-pill {
+  .o-textarea-wrap {
+    border-radius: var(--textarea-radius-pill);
+  }
+}
 .o-textarea-textarea {
   padding: var(--textarea-padding-v) var(--textarea-padding-h);
   outline: none;
@@ -35,7 +39,6 @@
   background-color: transparent;
   display: inline-flex;
   width: 100%;
-  caret-color: var(--o-color-primary1);
   line-height: inherit;
   min-height: calc(var(--textarea-text-height) + var(--textarea-padding-v) * 2);
 
@@ -58,7 +61,7 @@
   align-items: center;
   justify-content: center;
   color: var(--textarea-icon-color);
-  background-color: var(--textarea-icon-bg);
+  background-color: var(--textarea-icon-bg-color);
 
   &:hover {
     color: var(--textarea-icon-color-hover);
@@ -86,8 +89,8 @@
   .o-textarea-wrap {
     color: var(--textarea-color-disabled);
     cursor: not-allowed;
-    border-color: var(--textarea-border-disabled);
-    background-color: var(--textarea-bg-disabled);
+    border-color: var(--textarea-bd-color-disabled);
+    background-color: var(--textarea-bg-color-disabled);
   }
 }
 
@@ -117,64 +120,4 @@
   left: 100%;
   top: 0;
   pointer-events: none;
-  background-color: rgba($color: #ff0000, $alpha: 0.5);
-}
-
-.o-textarea-size-small {
-  --textarea-text-size: var(--textarea-text-size-s);
-  --textarea-text-height: var(--textarea-text-height-s);
-  --textarea-padding-v: 2px;
-  --textarea-padding-h: 8px;
-  --textarea-padding: 2px 8px;
-  --textarea-radius: var(--textarea-radius-s);
-  &.o-textarea-shape-round {
-    --textarea-radius: 12px;
-  }
-}
-.o-textarea-size-medium {
-  --textarea-text-size: var(--textarea-text-size-m);
-  --textarea-text-height: var(--textarea-text-height-m);
-  --textarea-padding-v: 4px;
-  --textarea-padding-h: 12px;
-  --textarea-padding: 4px 12px;
-  --textarea-radius: var(--textarea-radius-m);
-  &.o-textarea-shape-round {
-    --textarea-radius: 16px;
-  }
-}
-.o-textarea-size-large {
-  --textarea-text-size: var(--textarea-text-size-l);
-  --textarea-text-height: var(--textarea-text-height-l);
-  --textarea-padding-v: 6px;
-  --textarea-padding-h: 12px;
-  --textarea-padding: 6px 12px;
-  --textarea-radius: var(--textarea-radius-l);
-  &.o-textarea-shape-round {
-    --textarea-radius: 20px;
-  }
-}
-
-.o-textarea-status-success {
-  --textarea-border: var(--textarea-border-success);
-  --textarea-border-hover: var(--textarea-border-success-hover);
-  --textarea-border-focus: var(--textarea-border-success-focus);
-  --textarea-bg: var(--textarea-bg-success);
-  --textarea-bg-hover: var(--textarea-bg-success-hover);
-  --textarea-bg-focus: var(--textarea-bg-success-focus);
-}
-.o-textarea-status-warning {
-  --textarea-border: var(--textarea-border-warning);
-  --textarea-border-hover: var(--textarea-border-warning-hover);
-  --textarea-border-focus: var(--textarea-border-warning-focus);
-  --textarea-bg: var(--textarea-bg-warning);
-  --textarea-bg-hover: var(--textarea-bg-warning-hover);
-  --textarea-bg-focus: var(--textarea-bg-warning-focus);
-}
-.o-textarea-status-error {
-  --textarea-border: var(--textarea-border-error);
-  --textarea-border-hover: var(--textarea-border-error-hover);
-  --textarea-border-focus: var(--textarea-border-error-focus);
-  --textarea-bg: var(--textarea-bg-error);
-  --textarea-bg-hover: var(--textarea-bg-error-hover);
-  --textarea-bg-focus: var(--textarea-bg-error-focus);
 }

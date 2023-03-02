@@ -1,4 +1,20 @@
 {
+  "--o-color-white": {
+    "prefix": [
+      "var(--o-color-white)"
+    ],
+    "body": "var(--o-color-white)",
+    "description": "[light: 255, 255, 255, dark: 255, 255, 255]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-black": {
+    "prefix": [
+      "var(--o-color-black)"
+    ],
+    "body": "var(--o-color-black)",
+    "description": "[light: 0, 0, 0, dark: 0, 0, 0]",
+    "scope": "css,scss,less"
+  },
   "--o-blue-1": {
     "prefix": [
       "var(--o-blue-1)"
@@ -671,12 +687,20 @@
     "description": "四级填充/禁用[light: rgb(var(--o-mixedgray-4)), dark: rgb(var(--o-mixedgray-4))]",
     "scope": "css,scss,less"
   },
+  "--o-color-control-light": {
+    "prefix": [
+      "var(--o-color-control-light)"
+    ],
+    "body": "var(--o-color-control-light)",
+    "description": "很浅背景[light: rgb(var(--o-gray-1)), dark: rgb(var(--o-gray-1))]",
+    "scope": "css,scss,less"
+  },
   "--o-color-control1": {
     "prefix": [
       "var(--o-color-control1)"
     ],
     "body": "var(--o-color-control1)",
-    "description": "常规[light: rgb(var(--o-mixedgray-3)), dark: rgb(var(--o-mixedgray-3))]",
+    "description": "常规，常用于边框[light: rgb(var(--o-mixedgray-3)), dark: rgb(var(--o-mixedgray-3))]",
     "scope": "css,scss,less"
   },
   "--o-color-control2": {
@@ -708,7 +732,7 @@
       "var(--o-color-control1-light)"
     ],
     "body": "var(--o-color-control1-light)",
-    "description": "浅/控件常规[light: rgb(var(--o-mixedgray-3)), dark: rgb(var(--o-mixedgray-3))]",
+    "description": "常规-浅，常用于背景[light: rgb(var(--o-mixedgray-3)), dark: rgb(var(--o-mixedgray-3))]",
     "scope": "css,scss,less"
   },
   "--o-color-control2-light": {
@@ -716,7 +740,7 @@
       "var(--o-color-control2-light)"
     ],
     "body": "var(--o-color-control2-light)",
-    "description": "浅/控件悬浮[light: rgb(var(--o-mixedgray-4)), dark: rgb(var(--o-mixedgray-4))]",
+    "description": "悬浮-浅[light: rgb(var(--o-mixedgray-4)), dark: rgb(var(--o-mixedgray-4))]",
     "scope": "css,scss,less"
   },
   "--o-color-control3-light": {
@@ -724,7 +748,7 @@
       "var(--o-color-control3-light)"
     ],
     "body": "var(--o-color-control3-light)",
-    "description": "浅/控件激活[light: rgb(var(--o-mixedgray-5)), dark: rgb(var(--o-mixedgray-5))]",
+    "description": "激活-浅[light: rgb(var(--o-mixedgray-5)), dark: rgb(var(--o-mixedgray-5))]",
     "scope": "css,scss,less"
   },
   "--o-color-control4-light": {
@@ -732,7 +756,7 @@
       "var(--o-color-control4-light)"
     ],
     "body": "var(--o-color-control4-light)",
-    "description": "浅/控件禁用[light: rgb(var(--o-mixedgray-2)), dark: rgb(var(--o-mixedgray-2))]",
+    "description": "禁用-浅[light: rgb(var(--o-mixedgray-2)), dark: rgb(var(--o-mixedgray-2))]",
     "scope": "css,scss,less"
   },
   "--o-color-primary1": {

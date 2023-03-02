@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { defaultSize } from '../_shared/global';
-import { buttonProps } from './types';
 import { IconLoading } from '../_shared/icons';
 import { getRoundClass } from '../_shared/style-class';
+import { buttonProps } from './types';
 
 const props = defineProps(buttonProps);
 

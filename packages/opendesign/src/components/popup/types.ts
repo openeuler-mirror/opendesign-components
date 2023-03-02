@@ -4,7 +4,7 @@ export type PopupPositionT = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br' | 'lef
 
 export type PopupTriggerT = 'hover' | 'click' | 'focus' | 'contextmenu' | 'none';
 
-export const propupProps = {
+export const popupProps = {
   /**
    * 弹出位置
    */
@@ -113,4 +113,4 @@ export const propupProps = {
   },
 };
 
-export type PopupPropsT = ExtractPropTypes<typeof propupProps>;
+export type PopupPropsT = ExtractPropTypes<typeof popupProps>;

@@ -1,28 +1,44 @@
-.o-link {
-  --link-color: var(--o-color-text2);
-  --link-color_hover: var(--o-color-primary2);
-  --link-color_active: var(--o-color-primary1);
-  --link-color_disabled: var(--o-color-info3);
+.o-link-normal {
+  --link-color: var(--o-color-info2);
+  --link-color-hover: var(--o-color-primary2);
+  --link-color-active: var(--o-color-primary3);
+  --link-color-disabled: var(--o-color-info4);
+  --link-bg-color-hover: var(--o-color-control1-light);
+  --link-bg-color-active: var(--o-color-control2-light);
+}
 
-  --link-primary: var(--o-color-primary1);
-  --link-primary_hover: var(--o-color-primary3);
-  --link-primary_active: var(--o-color-primary2);
+.o-link-primary {
+  --link-color: var(--o-color-primary1);
+  --link-color-hover: var(--o-color-primary2);
+  --link-color-active: var(--o-color-primary3);
+  --link-color-disabled: var(--o-color-primary4);
+  --link-bg-color-hover: var(--o-color-primary1-light);
+  --link-bg-color-active: var(--o-color-primary2-light);
+}
 
-  --link-success: var(--o-color-success1);
-  --link-success_hover: var(--o-color-success3);
-  --link-success_active: var(--o-color-success2);
+.o-link-success {
+  --link-color: var(--o-color-success1);
+  --link-color-hover: var(--o-color-success2);
+  --link-color-active: var(--o-color-success3);
+  --link-color-disabled: var(--o-color-success4);
+  --link-bg-color-hover: var(--o-color-success1-light);
+  --link-bg-color-active: var(--o-color-success2-light);
+}
 
-  --link-warning: var(--o-color-warning1);
-  --link-warning_hover: var(--o-color-warning3);
-  --link-warning_active: var(--o-color-warning2);
+.o-link-warning {
+  --link-color: var(--o-color-warning1);
+  --link-color-hover: var(--o-color-warning2);
+  --link-color-active: var(--o-color-warning3);
+  --link-color-disabled: var(--o-color-warning4);
+  --link-bg-color-hover: var(--o-color-warning1-light);
+  --link-bg-color-active: var(--o-color-warning2-light);
+}
 
-  --link-danger: var(--o-color-danger1);
-  --link-danger_hover: var(--o-color-danger3);
-  --link-danger_active: var(--o-color-danger2);
-
-  --link-bg_hover: var(--o-color-bg1);
-  --link-bg_active: var(--o-color-bg1);
-
-  --link-text-size: var(--o-font_size-text);
-  --link-text-height: var(--o-line_height-text);
+.o-link-danger {
+  --link-color: var(--o-color-danger1);
+  --link-color-hover: var(--o-color-danger2);
+  --link-color-active: var(--o-color-danger3);
+  --link-color-disabled: var(--o-color-danger4);
+  --link-bg-color-hover: var(--o-color-danger1-light);
+  --link-bg-color-active: var(--o-color-danger2-light);
 }

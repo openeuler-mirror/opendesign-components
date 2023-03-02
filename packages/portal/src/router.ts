@@ -102,7 +102,7 @@ export const routes = [
   {
     path: '/tabs',
     name: 'Tabs',
-    label: '标签页',
+    label: '页签',
     component: () => import('@components/tabs/__demo__/IndexTabs.vue'),
   },
   {

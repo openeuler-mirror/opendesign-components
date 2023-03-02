@@ -27,3 +27,9 @@
 # 变量定义都在 var.scss 里，同时使用最外层内定义；
 
 # 不同状态通过类改变变量值，而不是新定义多个变量；
+
+# 变量命名
+
+- 边框（bd） `--btn-bd: 1px solid var(--o-color-control1)`
+- 边框颜色（bd-color） `--btn-bd-color: var(--o-color-control1)`
+- 背景颜色（bg-color） `--btn-bg-color: var(--o-color-control1)`
