@@ -147,6 +147,12 @@ export const routes = [
     label: '面包屑',
     component: () => import('@components/breadcrumb/__demo__/IndexBreadcrumb.vue'),
   },
+  {
+    path: '/menu',
+    name: 'OMenu ',
+    label: '菜单',
+    component: () => import('@components/menu/__demo__/IndexMenu.vue'),
+  },
 ];
 
 export const router = createRouter({
