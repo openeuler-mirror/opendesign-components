@@ -1,0 +1,20 @@
+.o-menu {
+  --o-menu-width: 260px;
+  --o-menu-bg: var(--o-color-fill2);
+  --o-menu-color: var(--o-color-info1);
+}
+
+.o-sub-menu {
+  --o-sub-menu-bg-hover: var(--o-color-control2-light);
+  --o-sub-menu-text-size: var(--o-font_size-h4);
+  --o-sub-menu-text-height: var(--o-line_height-h4);
+  --o-sub-menu-icon-height: var(--o-font_size-h1);
+}
+
+.o-menu-item {
+  --o-menu-item-text-size: var(--o-font_size-text);
+  --o-menu-item-text-height: var(--o-line_height-text);
+  --o-menu-item-bg-active: var(--o-color-control2);
+  --o-menu-item-bg-hover: var(--o-color-control2-light);
+  --o-menu-item-color-disabled: var(--o-color-info4);
+}
