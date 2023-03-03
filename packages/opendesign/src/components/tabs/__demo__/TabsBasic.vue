@@ -62,7 +62,7 @@ const tabDelete = (v: string | number) => {
   </div>
   <h4>Slot & change</h4>
   <div class="sec">
-    <OTabs v-model="activeTab" lazy @change="tabChange">
+    <OTabs v-model="activeTab" @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
@@ -73,7 +73,7 @@ const tabDelete = (v: string | number) => {
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTabs>
     <p>center</p>
-    <OTabs v-model="activeTab" lazy center @change="tabChange">
+    <OTabs v-model="activeTab" nav-justify="center" @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>

@@ -12,7 +12,7 @@ export default defineComponent({
     const instance = getCurrentInstance();
 
     if (instance?.uid) {
-      const id = props.value || instance?.uid;
+      const id = props.value || props.label || instance?.uid;
 
       tabsInjection?.addTabItem(
         id,

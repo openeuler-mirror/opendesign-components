@@ -5,9 +5,6 @@
   align-items: center;
   position: relative;
   width: 100%;
-  &.is-center {
-    justify-content: center;
-  }
 }
 .o-tabs-head {
   font-size: var(--tabs-nav-text-size);

@@ -36,11 +36,10 @@ export const tabsProps = {
     default: true
   },
   /**
-   * 是否展示nav线
+   * 是否nav的横向排列布局，支持justify-content的所有值
    */
-  center: {
-    type: Boolean,
-    default: false
+  navJustify: {
+    type: String,
   },
 };
 

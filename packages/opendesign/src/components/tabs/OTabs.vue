@@ -51,10 +51,8 @@ const activeValue = computed(() => {
 });
 
 provide(tabsInjectKey, {
-  value: activeValue,
   lazy: props.lazy,
   addTabItem,
-  removeTabItem,
 });
 const updateArchor = (el: HTMLElement) => {
   nextTick(() => {
@@ -113,8 +111,8 @@ const onAddNav = (e: MouseEvent) => {
       </div>
       <div
         class="o-tabs-navs"
-        :class="{
-          'is-center': props.center,
+        :style="{
+          'justify-content': props.navJustify,
         }"
       >
         <TabNav
