@@ -14,6 +14,8 @@ export const defaultRound = ref<'pill' | 'default'>('default');
 export function initRound(type: 'pill' | 'default') {
   defaultRound.value = type;
 }
+// TODO 全局变量增加 o-radius-control-s o-radius-control-m o-radius-control-l
+
 
 // 方向
 export type DirectionT = 'horizontal' | 'vertical';
