@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
 import { isFunction } from '../_shared/is';
-import { IconX } from '../icons';
+import { IconClose } from '../_shared/icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
 import { toInputString } from './input';
@@ -208,7 +208,7 @@ const round = getRoundClass(props, 'input');
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>
         </span>
-        <div v-if="isClearable" class="o-input-clear" @click="clearClick"><IconX class="o-input-clear-icon" /></div>
+        <div v-if="isClearable" class="o-input-clear" @click="clearClick"><IconClose class="o-input-clear-icon" /></div>
       </div>
     </div>
     <span v-if="$slots.append" class="o-input-append">

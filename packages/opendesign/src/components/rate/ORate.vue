@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
 import { rateProps } from './types';
 
-import { IconStar } from '../icons';
+import { IconStar } from '../_shared/icons';
 
 const props = defineProps(rateProps);
 

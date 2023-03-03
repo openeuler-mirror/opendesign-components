@@ -5,7 +5,7 @@ import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect } from '../select';
 import { OOption } from '../option';
-import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../icons';
+import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_shared/icons';
 import { paginationProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 

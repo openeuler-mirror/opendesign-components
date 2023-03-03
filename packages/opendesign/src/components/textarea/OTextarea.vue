@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { defaultSize, defaultShape } from '../_shared/global';
+import { defaultSize } from '../_shared/global';
 import { isFunction } from '../_shared/is';
-import { IconX } from '../icons';
+import { IconClose } from '../_shared/icons';
 import { trigger } from '../_shared/event';
 import { toInputString } from './textarea';
 import { OResizeObserver } from '../resize-observer';
@@ -191,7 +191,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
       <OResizeObserver v-if="props.autoHeight" @resize="onMirrorResize">
         <div class="o-textarea-mirror">{{ textareaText }}</div>
       </OResizeObserver>
-      <div v-if="props.clearable" class="o-textarea-clear" @click="clearClick"><IconX class="o-textarea-clear-icon" /></div>
+      <div v-if="props.clearable" class="o-textarea-clear" @click="clearClick"><IconClose class="o-textarea-clear-icon" /></div>
       <div v-if="props.maxLength" class="o-textarea-limit">
         <span :class="{ 'is-error': isOutLengthLimit }">{{ currentLength }}</span
         >/{{ props.maxLength }}

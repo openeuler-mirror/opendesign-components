@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue';
 import { defaultSize } from '../_shared/global';
-import { IconArrowTraingleDown, IconX } from '../icons';
+import { IconChevronDown, IconClose } from '../_shared/icons';
 import { OPopup } from '../popup';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
@@ -72,11 +72,11 @@ provide(selectOptionInjectKey, {
       <span class="o-select-suffix-wrap">
         <slot name="suffix">
           <span class="o-select-icon-arrow" :class="{ active: showOption }">
-            <IconArrowTraingleDown />
+            <IconChevronDown />
           </span>
         </slot>
       </span>
-      <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconX class="o-select-clear-icon" /></div>
+      <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
     </span>
 
     <OPopup
