@@ -75,4 +75,4 @@ export const tableProps = {
   },
 };
 
-export type PopupPropsT = ExtractPropTypes<typeof tableProps>;
+export type TablePropsT = ExtractPropTypes<typeof tableProps>;

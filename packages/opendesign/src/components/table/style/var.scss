@@ -1,18 +1,36 @@
 .o-table {
-  --table-head-bg: var(--o-color-bg3);
-  --table-row-hover: var(--o-color-bg3);
   --table-text-size: var(--o-font_size-text);
   --table-text-height: var(--o-line_height-text);
-
-  --table-text-size_small: var(--o-font_size-tip1);
-  --table-text-height_small: var(--o-line_height-tip1);
+  --table-color: var(--o-color-info2);
 
   --table-tip-text-size: var(--o-font_size-tip1);
   --table-tip-text-height: var(--o-line_height-tip1);
+  --table-tip-color: var(--o-color-info3);
 
-  --table-tip-color: var(--o-color-text3);
+  --table-cell-padding: 13px 16px;
 
-  --table-border: 1px solid var(--o-color-border2);
+  --table-head-bg: var(--o-color-control1);
+  --table-row-hover: var(--o-color-control1-light);
+
+  --table-border: 1px solid var(--o-color-control1-light);
   --table-loading-mask: var(--o-color-mask2);
-  --table-loading-color: var(--o-color-text3);
+  --table-loading-color: var(--o-color-info2);
+
+  --table-body-min-height: 200px;
+}
+
+.o-table-border-all,
+.o-table-border-row {
+  --table-cell-padding: 13px 16px 12px;
+}
+
+.o-table-small {
+  --table-text-size: var(--o-font_size-tip1);
+  --table-text-height: var(--o-line_height-tip1);
+
+  --table-cell-padding: 7px 8px;
+  .o-table-border-all,
+  .o-table-border-row {
+    --table-cell-padding: 7px 8px 6px;
+  }
 }
