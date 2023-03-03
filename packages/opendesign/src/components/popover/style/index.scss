@@ -3,10 +3,12 @@
 .o-popover-wrap {
   background-color: var(--popover-bg-color);
   box-shadow: var(--popover-shadow);
-  padding: 4px 8px;
   border-radius: var(--popover-radius);
   border: var(--popover-bd);
+}
+.o-popover-body {
   min-width: 120px;
+  padding: 4px 8px;
 }
 .o-popover-anchor {
   border: var(--popover-bd);

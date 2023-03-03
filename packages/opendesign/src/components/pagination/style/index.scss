@@ -6,7 +6,7 @@
   white-space: nowrap;
 
   > *:not(:first-child) {
-    margin-left: 12px;
+    margin-left: var(--pagination-item-gap);
   }
 }
 .o-pagination-pager {
@@ -20,12 +20,25 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--o-color-border2);
+  color: var(--pagination-item-color);
+  border: 1px solid var(--pagination-item-bd-color);
+  background-color: var(--pagination-item-bg-color);
   cursor: pointer;
   user-select: none;
-  &.disabled {
-    color: var(--o-color-border2);
-    border: 1px solid var(--o-color-border2);
+  border-radius: var(--pagination-radius);
+  &:hover {
+    border-color: var(--pagination-item-bd-color-hover);
+    background-color: var(--pagination-item-bg-color-hover);
+  }
+  &:active {
+    border-color: var(--pagination-item-bd-color-active);
+    background-color: var(--pagination-item-bg-color-active);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    color: var(--pagination-item-color-disabled);
+    border: 1px solid var(--pagination-item-bd-color-disabled);
+    background-color: var(--pagination-item-bg-color-disabled);
   }
 }
 .o-pagination-pages {
@@ -41,15 +54,28 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  color: var(--pagination-item-color);
+  border: 1px solid var(--pagination-item-bd-color);
+  background-color: var(--pagination-item-bg-color);
+  border-radius: var(--pagination-radius);
+
   + .o-pagination-item {
     margin-left: 8px;
   }
   &:hover {
-    color: var(--o-color-primary2);
+    color: var(--pagination-item-color-hover);
+    border: 1px solid var(--pagination-item-bd-color-hover);
+    background-color: var(--pagination-item-bg-color-hover);
+  }
+  &:active {
+    color: var(--pagination-item-color-active);
+    border: 1px solid var(--pagination-item-bd-color-active);
+    background-color: var(--pagination-item-bg-color-active);
   }
   &.active {
-    color: var(--o-color-primary1);
-    border: 1px solid var(--o-color-primary1);
+    color: var(--pagination-item-color-current);
+    border: 1px solid var(--pagination-item-bd-color-current);
+    background-color: var(--pagination-item-bg-color-current);
   }
 }
 
@@ -64,7 +90,7 @@
   padding: 2px 16px;
   cursor: pointer;
   &:hover {
-    background-color: var(--o-color-bg1);
+    background-color: var(--pagination-more-item-bg-color-hover);
   }
 }
 

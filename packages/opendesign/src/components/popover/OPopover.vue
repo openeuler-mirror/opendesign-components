@@ -29,11 +29,12 @@ const targetElRef = ref<ComponentPublicInstance | null>(null);
     :trigger="props.trigger"
     :target="props.target || targetElRef"
     :wrapper="props.wrapper"
+    wrap-class="o-popover-wrap"
     anchor-class="o-popover-anchor"
     :unmount-on-hide="props.unmountOnHide"
     @update:visible="updateVisible"
   >
-    <div class="o-popover-wrap" v-bind="$attrs">
+    <div class="o-popover-body" v-bind="$attrs">
       <slot></slot>
     </div>
   </OPopup>

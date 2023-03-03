@@ -5,9 +5,13 @@ import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect } from '../select';
 import { OOption } from '../option';
+import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../icons';
 import { paginationProps } from './types';
+import { getRoundClass } from '../_shared/style-class';
 
 const props = defineProps(paginationProps);
+
+const round = getRoundClass(props, 'pagination');
 
 const emits = defineEmits<{
   (e: 'update:pageSize', value: number): void;
@@ -109,21 +113,30 @@ defineExpose<{
 });
 </script>
 <template>
-  <div class="o-pagination">
+  <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
       <div class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
       <!-- sizes -->
       <template v-if="!props.simple">
         <div class="o-pagination-size">
-          <OSelect :model-value="currentPageSize" class="o-pagination-select" :default-label="defaultSizeLabel" @change="pageSizeChange">
+          <OSelect :model-value="currentPageSize" class="o-pagination-select" :default-label="defaultSizeLabel" :round="props.round" @change="pageSizeChange">
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
         </div>
       </template>
       <!-- pager -->
       <div class="o-pagination-pager">
-        <div class="o-pagination-prev" :class="{ disabled: currentPage === 1 }" @click="() => currentPage !== 1 && clickPageBtn(false)">&lt;</div>
+        <div
+          class="o-pagination-prev"
+          :class="{
+            'is-disabled': currentPage === 1,
+          }"
+          tabindex="1"
+          @click="() => currentPage !== 1 && clickPageBtn(false)"
+        >
+          <IconChevronLeft />
+        </div>
         <div class="o-pagination-pages">
           <template v-if="props.simple">
             <div class="o-pagination-simple">
@@ -134,6 +147,7 @@ defineExpose<{
                 controls="none"
                 :min="1"
                 :max="totalPage"
+                :round="props.round"
                 @change="goToChange"
               />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
@@ -144,6 +158,7 @@ defineExpose<{
               :key="item.value"
               class="o-pagination-item"
               :class="{ active: item.value === currentPage }"
+              tabindex="1"
               @click="selectPage(item.value)"
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
@@ -153,15 +168,22 @@ defineExpose<{
                     <div v-for="p in item.list" :key="p" class="o-pagination-more-item">{{ p }}</div>
                   </div>
                   <template #target>
-                    <span @click="moreClick(item)">...</span>
+                    <span @click="moreClick(item)"><IconEllipsis /></span>
                   </template>
                 </OPopover>
               </template>
             </div>
           </template>
         </div>
-        <div class="o-pagination-next" :class="{ disabled: currentPage === totalPage }" @click="() => currentPage !== totalPage && clickPageBtn(true)">
-          &gt;
+        <div
+          class="o-pagination-next"
+          :class="{
+            'is-disabled': currentPage === totalPage,
+          }"
+          tabindex="1"
+          @click="() => currentPage !== totalPage && clickPageBtn(true)"
+        >
+          <IconChevronRight />
         </div>
       </div>
       <!-- jumper -->
@@ -173,6 +195,7 @@ defineExpose<{
             controls="none"
             :min="1"
             :max="totalPage"
+            :round="props.round"
             @change="goToChange"
           />
         </div>
