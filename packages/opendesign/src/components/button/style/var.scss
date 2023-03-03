@@ -167,6 +167,9 @@
   }
 }
 
+.o-btn-round-pill {
+  --btn-radius: var(--o-size-l);
+}
 .o-btn-small {
   --btn-radius: var(--o-radius-s);
 }

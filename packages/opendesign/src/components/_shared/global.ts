@@ -9,12 +9,10 @@ export function initSize(val: SizeT) {
 
 // 圆角
 export type RoundT = 'pill' | string;
-export const defaultRound = ref<{ m: string, s: string, l: string } | null>();
+export const defaultRound = ref<'pill' | 'default'>('default');
 
-export function initRound(m: string, s: string, l: string) {
-  defaultRound.value = {
-    m, s, l
-  };
+export function initRound(type: 'pill' | 'default') {
+  defaultRound.value = type;
 }
 
 // 方向
