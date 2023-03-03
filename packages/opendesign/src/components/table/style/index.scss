@@ -1,9 +1,7 @@
 @use './var.scss';
 
 .o-table {
-  --table-min-height: 240px;
   position: relative;
-  min-height: var(--table-min-height);
   table {
     width: 100%;
     border-collapse: collapse;
@@ -16,7 +14,7 @@
 
   th,
   td {
-    padding: 13px 16px;
+    padding: var(--table-cell-padding);
     font-size: var(--table-text-size);
     line-height: var(--table-text-height);
   }
@@ -27,21 +25,6 @@
 
   tbody tr:hover {
     background-color: var(--table-row-hover);
-  }
-
-  &.is-small {
-    th,
-    td {
-      padding: 7px 8px;
-      font-size: var(--table-text-size_small);
-      line-height: var(--table-text-height_small);
-    }
-    &.is-border {
-      th,
-      td {
-        padding-bottom: 4px;
-      }
-    }
   }
 }
 
@@ -60,13 +43,6 @@
   th,
   td {
     border-bottom: var(--table-border);
-    padding: 13px 16px 12px;
-
-    &.is-small {
-      & {
-        padding: 7px 8px 6px;
-      }
-    }
   }
 }
 
@@ -91,7 +67,7 @@
   font-size: var(--table-tip-text-size);
   line-height: var(--table-tip-text-height);
   color: var(--table-tip-color);
-  min-height: calc(var(--table-min-height) - 48px);
+  min-height: var(--table-body-min-height);
 }
 .o-table-loading-wrap {
   display: flex;

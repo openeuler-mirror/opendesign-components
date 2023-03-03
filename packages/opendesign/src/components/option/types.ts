@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes } from 'vue';
 
 export const optionProps = {
   /**
@@ -12,7 +12,7 @@ export const optionProps = {
    * 值
    */
   value: {
-    type: [String, Number] as PropType<string | number>,
+    type: [String, Number],
     default: ''
   },
   /**

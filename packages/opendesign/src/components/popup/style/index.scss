@@ -16,5 +16,9 @@
 
 .o-popup-anchor {
   position: absolute;
+  z-index: 0;
+}
+.o-popup-body {
+  position: relative;
   z-index: 1;
 }

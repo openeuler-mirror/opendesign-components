@@ -2,16 +2,34 @@
   --tabs-nav-text-size: var(--o-font_size-text);
   --tabs-nav-text-height: var(--o-line_height-text);
 
-  --tabs-nav-color: var(--o-color-text2);
-  --tabs-nav-color_active: var(--o-color-text1);
-  --tabs-nav-color_disabled: var(--o-color-text4);
-  --tabs-nav-bg: var(--o-color-bg1);
-  --tabs-nav-bg_hover: var(--o-color-bg3);
-  --tabs-nav-bg_disabled: var(--o-color-bg4);
+  --tabs-nav-color: var(--o-color-info2);
+  --tabs-nav-color-disabled: var(--o-color-info4);
 
   --tabs-nav-radius: 2px;
 
-  --tabs-icon-color: var(--o-color-text2);
-  --tabs-icon-color_hover: var(--o-color-primary1);
-  --tabs-icon-bg_hover: var(--o-color-bg2);
+  --tabs-icon-color: var(--o-color-info2);
+  --tabs-icon-color-hover: var(--o-color-primary1);
+  --tabs-icon-bg-color-hover: var(--o-color-control3-light);
+
+  --tabs-nav-divider: 1px solid var(--o-color-control1);
+  --tabs-nav-archor-color: var(--o-color-primary1);
+}
+
+.o-tabs-solid {
+  --tabs-nav-bd-color: var(--o-color-control1-light);
+  --tabs-nav-bd-color-hover: var(--o-color-control2-light);
+  --tabs-nav-bd-color-active: var(--o-color-control1-light);
+  --tabs-nav-bd-color-disabled: var(--o-color-control4-light);
+
+  --tabs-nav-bg-color: var(--o-color-control1-light);
+  --tabs-nav-bg-color-hover: var(--o-color-control2-light);
+  --tabs-nav-bg-color-active: var(--o-color-control-light);
+  --tabs-nav-bg-color-disabled: var(--o-color-control4-light);
+}
+.o-tabs-text {
+  --tabs-nav-color-hover: var(--o-color-primary1);
+  --tabs-nav-color-active: var(--o-color-primary1);
+  --tabs-nav-bd-color: transparent;
+  --tabs-nav-bd-color-hover: transparent;
+  --tabs-nav-bd-color-active: var(--o-color-primary1);
 }

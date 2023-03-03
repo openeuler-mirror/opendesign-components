@@ -6,7 +6,7 @@ export const badgeProps = {
    * 显示值
    */
   value: {
-    type: [String, Number] as PropType<string | number>,
+    type: [String, Number],
     default: '',
   },
   /**

@@ -14,9 +14,7 @@ export interface TabNavData {
 
 
 export const tabsInjectKey: InjectionKey<{
-  value: Ref<string | number>,
   lazy: boolean,
   addTabItem: (key: string | number, data: TabNavData) => void,
-  removeTabItem: (tabKey: string | number) => void,
 }> = Symbol('provide-tabs');
 

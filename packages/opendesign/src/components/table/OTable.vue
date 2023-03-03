@@ -7,7 +7,7 @@ import { isString } from '../_shared/is';
 
 const props = defineProps(tableProps);
 
-const emits = defineEmits<{}>();
+// const emits = defineEmits<{}>();
 
 const columnData = computed(() => getColumnData(props.columns));
 
@@ -28,7 +28,7 @@ const boderClass = computed(() => {
     class="o-table"
     :class="[
       {
-        'is-small': props.small,
+        'o-table-small': props.small,
       },
     ]"
   >
@@ -52,8 +52,8 @@ const boderClass = computed(() => {
           </slot>
         </tbody>
       </table>
-      <div v-if="!props.loading && (!props.data || props.data.length === 0)" class="o-table-tip-wrap">
-        <slot name="empty">
+      <div v-if="!props.data || props.data.length === 0" class="o-table-tip-wrap">
+        <slot v-if="!props.loading" name="empty">
           <div class="o-table-empty-label">{{ emptyLabel }}</div>
         </slot>
       </div>
