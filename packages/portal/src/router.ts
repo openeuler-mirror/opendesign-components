@@ -135,6 +135,12 @@ export const routes = [
     component: () => import('@components/menu/__demo__/IndexMenu.vue'),
   },
   {
+    path: '/dropdown',
+    name: 'ODropdown',
+    label: '下拉菜单',
+    component: () => import('@components/dropdown/__demo__/IndexDropdown.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'resize监听',
@@ -150,7 +156,7 @@ export const routes = [
     path: '/child-only',
     name: 'ChildOnly',
     label: '只渲染一个子元素',
-    component: () => import('@components/child-only/__demo__/IndexChildOnly.vue'),
+    component: () => import('@components/child-only/__demo__/IndexChildOnly.vue')
   },
 ];
 
