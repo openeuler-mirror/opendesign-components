@@ -355,8 +355,10 @@ onUnmounted(() => {
           @before-leave="handleTransitionStart"
           @after-leave="handleTransitionEnd"
         >
-          <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="wrapClass">
-            <slot></slot>
+          <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
+            <div class="o-popup-body">
+              <slot></slot>
+            </div>
             <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
               <slot name="anchor"></slot>
             </div>

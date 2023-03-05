@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, h, PropType, Slots } from 'vue';
+import { computed, defineComponent, h, ref, onMounted, PropType, Slots, watch } from 'vue';
 import { IconClose } from '../_shared/icons';
 
 export default defineComponent({
@@ -49,23 +49,39 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['select', 'delete'],
+  emits: ['click', 'delete', 'select'],
   setup(props, { emit }) {
+    const navRef = ref<HTMLElement | null>(null);
     const defaultLabel = props.label || props.value;
 
     const active = computed(() => props.activeValue === props.value);
+
+    watch(
+      () => active.value,
+      (v: Boolean) => {
+        if (v) {
+          emit('select', props.value, navRef.value);
+        }
+      }
+    );
 
     const navClick = (e: MouseEvent) => {
       if (props.disabled || active.value) {
         return;
       }
-      emit('select', props.value, e);
+      emit('click', props.value, e);
     };
 
     const navCloseClick = (e: MouseEvent) => {
       e.stopImmediatePropagation();
       emit('delete', props.value, e);
     };
+
+    onMounted(() => {
+      if (active.value && navRef.value) {
+        emit('select', props.value, navRef.value);
+      }
+    });
 
     // pane只渲染default 插槽的内容
     return () => {
@@ -87,6 +103,7 @@ export default defineComponent({
             },
           ],
           onClick: navClick,
+          ref: navRef,
         },
         props.closable ? [titleNode, closeNode] : titleNode
       );

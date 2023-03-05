@@ -1,8 +1,22 @@
 import { ExtractPropTypes, PropType } from 'vue';
+import { RoundT } from '../_shared/global';
 
 const pageSizes = [6, 12, 24, 48];
 
 export const paginationProps = {
+  /**
+   * 按钮类型：ColorT
+   */
+  variant: {
+    type: String as PropType<'solid' | 'outline'>,
+    default: 'outline'
+  },
+  /**
+   * 圆角值
+   */
+  round: {
+    type: String as PropType<RoundT>
+  },
   /**
    * 支持选择的每页数据条数
    */

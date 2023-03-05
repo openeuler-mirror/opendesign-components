@@ -20,6 +20,11 @@ const loading = ref(true);
   <div class="sec">
     <OTable :columns="table1.columns" :data="table1.data" />
   </div>
+  <h4>Style: Small</h4>
+  <div class="sec">
+    <OTable :columns="table1.columns" :data="table1.data" small />
+  </div>
+
   <h4>loading & Empty</h4>
   <div class="sec">
     <OTable :columns="table1.columns" :loading="loading" />
@@ -41,11 +46,6 @@ const loading = ref(true);
     <OTable :columns="table1.columns" :data="table1.data" border="row-frame" />
     <h5>Border: column-frame</h5>
     <OTable :columns="table1.columns" :data="table1.data" border="column-frame" />
-  </div>
-
-  <h4>Style: Small</h4>
-  <div class="sec">
-    <OTable :columns="table1.columns" :data="table1.data" small />
   </div>
 </template>
 <style lang="scss">
