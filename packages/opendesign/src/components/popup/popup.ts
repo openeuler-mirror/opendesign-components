@@ -397,7 +397,7 @@ export function bindTrigger(
     updateFn,
     hoverDelay = 100
   }: {
-    updateFn: (isVisible: boolean, delay?: number) => void,
+    updateFn: (isVisible?: boolean, delay?: number) => void,
     hoverDelay?: number
   }
 ) {
@@ -412,6 +412,9 @@ export function bindTrigger(
   };
   const hideFn = () => {
     updateFn(false);
+  };
+  const toggleFn = () => {
+    updateFn();
   };
 
   const enterFn = () => {
@@ -432,14 +435,14 @@ export function bindTrigger(
       listeners.push(removeFn);
     },
     click: () => {
-      el?.addEventListener('click', showFn);
+      el?.addEventListener('click', toggleFn);
 
       addOutClickListener(el, hideFn, (e: MouseEvent) => {
         return !!popupRef.value?.contains(e.target as HTMLElement);
       });
 
       listeners.push(() => {
-        el?.removeEventListener('click', showFn);
+        el?.removeEventListener('click', toggleFn);
       });
       listeners.push(() => {
         removeOutClickListener(el, hideFn);
