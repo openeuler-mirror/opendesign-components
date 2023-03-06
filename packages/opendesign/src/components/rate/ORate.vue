@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { defaultSize } from '../_shared/global';
 import { rateProps } from './types';
-
-import { IconStar } from '../_shared/icons';
+import { defaultSize } from '../_shared/global';
+import { IconStar } from '../icons';
 
 const props = defineProps(rateProps);
 
@@ -13,10 +12,11 @@ const emits = defineEmits<{
 }>();
 
 const realValue = ref(props.modelValue ?? props.defaultValue);
+
 watch(
   () => props.modelValue,
   (val) => {
-    realValue.value = val ?? 0;
+    realValue.value = val ?? props.defaultValue;
   }
 );
 

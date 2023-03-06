@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-
 import { breadcrumbItemProps } from './types';
 import { breadcrumbInjectKey } from './provide';
 import { IconChevronRight } from '../_shared/icons';
@@ -34,7 +33,7 @@ const onClick = () => {
     <span class="o-breadcrumb-item-separator">
       <slot v-if="$slots.separator" name="separator"></slot>
       <span v-else-if="separator"> {{ separator }}</span>
-      <template v-else-if="breadcrumbInjection?.separator">{{ breadcrumbInjection?.separator }} </template>
+      <template v-else-if="breadcrumbInjection?.separator.value">{{ breadcrumbInjection?.separator.value }} </template>
       <IconChevronRight v-else />
     </span>
   </div>

@@ -1,30 +1,7 @@
 <script setup lang="ts">
-import type { DividerTypeT, DividerContentPositionT } from './types';
-import type { DirectionT } from '../_shared/global';
+import { dividerProps } from './types';
 
-interface DividerPropT {
-  /**
-   * 分割线类型
-   * 'solid' | 'dashed' | 'dotted'
-   */
-  type?: DividerTypeT;
-  /**
-   * 分割线方向
-   * 'horizontal' | 'vertical'
-   */
-  direction?: DirectionT;
-  /**
-   * 自定义内容位置
-   * 'left' | 'center' | 'right'
-   */
-  contentPosition?: DividerContentPositionT;
-}
-
-const props = withDefaults(defineProps<DividerPropT>(), {
-  type: 'solid',
-  direction: 'horizontal',
-  contentPosition: 'center',
-});
+const props = defineProps(dividerProps);
 </script>
 
 <template>

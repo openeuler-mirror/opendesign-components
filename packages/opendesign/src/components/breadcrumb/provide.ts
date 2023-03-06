@@ -1,7 +1,7 @@
-import { InjectionKey } from 'vue';
+import { InjectionKey, Ref } from 'vue';
 
 interface BreadcrumbInjectT {
-  separator: string | number;
+  separator: Ref<string | number>;
 }
 
 export const breadcrumbInjectKey: InjectionKey<BreadcrumbInjectT> = Symbol('provide-breadcrumb');

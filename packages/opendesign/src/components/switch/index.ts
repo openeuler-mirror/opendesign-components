@@ -8,4 +8,6 @@ const OSWitch = Object.assign(_OSWitch, {
   },
 });
 
+export * from './types';
+
 export { OSWitch };

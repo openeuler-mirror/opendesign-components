@@ -8,4 +8,6 @@ const OCheckboxGroup = Object.assign(_OCheckboxGroup, {
   },
 });
 
+export * from './types';
+
 export { OCheckboxGroup };
