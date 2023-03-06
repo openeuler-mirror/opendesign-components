@@ -106,9 +106,7 @@ const pageSizeChange = (val: string | number) => {
   });
 };
 
-defineExpose<{
-  pageCount: Ref<number>;
-}>({
+defineExpose({
   pageCount: totalPage,
 });
 </script>

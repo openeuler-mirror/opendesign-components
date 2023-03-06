@@ -1,6 +1,6 @@
 import { Ref } from 'vue';
 import { isArray, isFunction, isString } from '../_shared/is';
-import { TableColumnT, TableRowT, CellSpanT } from './types';
+import { TableColumnT, TableRowT, CellSpanT, TableCellT } from './types';
 
 export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT[] {
   if (!isArray(columns)) {
@@ -29,13 +29,7 @@ function getSkipCell(rowIndex: number, columnIndex: number, span: { rowspan?: nu
   }
   return skip;
 }
-interface CellT {
-  value: any,
-  key: string | number,
-  colspan?: number,
-  rowspan?: number,
-  last?: boolean
-}
+
 
 export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRowT[], cellSpan?: CellSpanT) {
   if (!bodyData) {
@@ -60,7 +54,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
       if (isFunction(cellSpan)) {
         span = cellSpan(r, c);
       }
-      const cell: CellT = {
+      const cell: TableCellT = {
         value: row[col.key],
         key: col.key
       };
