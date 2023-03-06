@@ -11,6 +11,14 @@ export interface TableRowT {
   [key: string]: any;
 }
 
+export interface TableCellT {
+  value: any,
+  key: string | number,
+  colspan?: number,
+  rowspan?: number,
+  last?: boolean
+}
+
 export type ColumnKeysT = Array<string>;
 
 export type CellSpanT = (rowIndex: number, columnIndex: number) => { rowspan?: number; colspan?: number } | undefined;

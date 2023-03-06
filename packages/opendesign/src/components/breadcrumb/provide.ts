@@ -1,6 +1,6 @@
 import { InjectionKey, Ref } from 'vue';
 
-interface BreadcrumbInjectT {
+export interface BreadcrumbInjectT {
   separator: Ref<string | number>;
 }
 

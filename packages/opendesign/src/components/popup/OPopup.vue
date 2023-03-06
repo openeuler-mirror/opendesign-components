@@ -129,21 +129,23 @@ const clearVisibleTimer = () => {
 };
 
 // 更新可见状态，支持延迟更新
-const updateVisible = (isVisible: boolean, delay?: number) => {
-  if (isVisible === visible.value && visibleTimer === 0) {
+const updateVisible = (isVisible?: boolean, delay?: number) => {
+  const v = isVisible === undefined ? !visible.value : isVisible;
+
+  if (v === visible.value && visibleTimer === 0) {
     return;
   }
 
   const update = () => {
-    if (visible.value === isVisible) {
+    if (visible.value === v) {
       return;
     }
     // 设置popup是否显示，不需要手动触发计算位置，显示时会触发resize，计算位置
-    visible.value = isVisible;
-    emits('update:visible', isVisible);
-    emits('change', isVisible);
+    visible.value = v;
+    emits('update:visible', v);
+    emits('change', v);
 
-    if (isVisible) {
+    if (v) {
       toMount.value = true;
 
       if (props.hideWhenTargetInvisible && targetEl) {
