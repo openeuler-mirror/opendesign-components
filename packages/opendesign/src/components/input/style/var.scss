@@ -102,7 +102,7 @@
   --input-padding: 0 8px;
   --input-append-padding: 0 4px;
   --input-prepend-padding: 0 4px;
-  --input-radius: var(--o-radius-s);
+  --input-radius: var(--o-radius-control-s);
 
   &.o-input-round-pill {
     --input-append-padding: 0 6px 0 4px;
@@ -118,7 +118,7 @@
   --input-padding: 0 12px;
   --input-append-padding: 0 8px;
   --input-prepend-padding: 0 8px;
-  --input-radius: var(--o-radius-m);
+  --input-radius: var(--o-radius-control-m);
 
   &.o-input-round-pill {
     --input-append-padding: 0 12px 0 8px;
@@ -134,7 +134,7 @@
   --input-padding: 0 16px;
   --input-append-padding: 0 12px;
   --input-prepend-padding: 0 12px;
-  --input-radius: var(--o-radius-l);
+  --input-radius: var(--o-radius-control-l);
 
   &.o-input-round-pill {
     --input-append-padding: 0 16px 0 12px;
