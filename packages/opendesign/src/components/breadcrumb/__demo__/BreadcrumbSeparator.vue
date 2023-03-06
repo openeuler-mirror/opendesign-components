@@ -16,7 +16,7 @@ const handleClick = () => {
       <OBreadcrumbItem @click="handleClick">面包屑</OBreadcrumbItem>
     </OBreadcrumb>
 
-    <OBreadcrumb separator="/">
+    <OBreadcrumb separator="=">
       <OBreadcrumbItem :to="{ name: 'Home' }" @click="handleClick">
         首页
         <template #separator>

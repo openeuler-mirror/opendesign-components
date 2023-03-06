@@ -1,83 +1,21 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { switchProps } from './types';
 import { defaultSize, defaultShape } from '../_shared/global';
-import type { SizeT, ShapeT } from '../_shared/global';
 import { IconLoading } from '../_shared/icons';
 import { isPromise, isBoolean, isUndefined } from '../_shared/is';
 
-interface SwitchPropT {
-  /**
-   * 双向绑定值
-   */
-  modelValue?: string | number | boolean;
-  /**
-   * 选中状态对应值
-   */
-  checkedValue?: string | number | boolean;
-  /**
-   * 未选中状态对应值
-   */
-  uncheckedValue?: string | number | boolean;
-  /**
-   * 非受控状态时，默认是否选中
-   */
-  defaultChecked?: boolean;
-  /**
-   * 开关尺寸
-   * 'large' | 'normal' | 'small'
-   */
-  size?: SizeT;
-  /**
-   * 开关形状
-   * 'normal' | 'round'
-   */
-  shape?: ShapeT;
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-  /**
-   * 是否加载中
-   */
-  loading?: boolean;
-  /**
-   *
-   * 状态改变前的钩子函数
-   */
-  beforeChange?: (val: boolean) => Promise<boolean> | boolean;
-}
-
-const props = withDefaults(defineProps<SwitchPropT>(), {
-  modelValue: undefined,
-  checkedValue: true,
-  uncheckedValue: false,
-  defaultChecked: false,
-  size: undefined,
-  shape: undefined,
-  disabled: false,
-  loading: false,
-  beforeChange: undefined,
-});
+const props = defineProps(switchProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
   (e: 'change', val: string | number | boolean): void;
 }>();
 
-// 监听modelValue改变
-const isModelValueChanged = ref(false);
-
-watch(
-  () => props.modelValue,
-  () => {
-    isModelValueChanged.value = true;
-  }
-);
-
 // 是否选中
 const _checked = ref(props.defaultChecked);
 const isChecked = computed(() => {
-  if (!isUndefined(props.modelValue) || isModelValueChanged.value) {
+  if (!isUndefined(props.modelValue)) {
     return props.checkedValue === props.modelValue;
   }
 

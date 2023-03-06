@@ -48,4 +48,4 @@ export const breadcrumbItemProps = {
 
 export type BreadcrumbPropsT = ExtractPropTypes<typeof breadcrumbProps>;
 
-export type BreadcrumbItemProps = ExtractPropTypes<typeof breadcrumbProps>;
+export type BreadcrumbItemPropsT = ExtractPropTypes<typeof breadcrumbProps>;

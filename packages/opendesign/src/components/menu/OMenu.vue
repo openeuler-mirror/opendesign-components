@@ -47,7 +47,6 @@ onMounted(() => {
 
 // 展开节点列表
 const realExpanded = ref(expanded?.value ?? defaultExpanded.value);
-
 watch(
   () => expanded?.value,
   (val) => {

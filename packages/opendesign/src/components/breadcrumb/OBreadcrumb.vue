@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { provide, reactive, toRefs } from 'vue';
+import { provide, toRef } from 'vue';
 import { breadcrumbProps } from './types';
 import { breadcrumbInjectKey } from './provide';
 
 const props = defineProps(breadcrumbProps);
-const { separator } = toRefs(props);
 
-provide(
-  breadcrumbInjectKey,
-  reactive({
-    separator,
-  })
-);
+provide(breadcrumbInjectKey, {
+  separator: toRef(props, 'separator'),
+});
 </script>
 
 <template>
