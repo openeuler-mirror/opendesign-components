@@ -153,6 +153,12 @@ export const routes = [
     label: '菜单',
     component: () => import('@components/menu/__demo__/IndexMenu.vue'),
   },
+  {
+    path: '/dropdown',
+    name: 'ODropdown',
+    label: '下拉菜单',
+    component: () => import('@components/dropdown/__demo__/IndexDropdown.vue'),
+  },
 ];
 
 export const router = createRouter({
