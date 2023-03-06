@@ -1359,6 +1359,30 @@
     "description": "小尺寸圆角[light: 2px, dark: 2px]",
     "scope": "css,scss,less"
   },
+  "--o-radius-control-l": {
+    "prefix": [
+      "var(--o-radius-control-l)"
+    ],
+    "body": "var(--o-radius-control-l)",
+    "description": "大尺寸控件圆角[light: var(--o-radius-l), dark: var(--o-radius-l)]",
+    "scope": "css,scss,less"
+  },
+  "--o-radius-control-m": {
+    "prefix": [
+      "var(--o-radius-control-m)"
+    ],
+    "body": "var(--o-radius-control-m)",
+    "description": "中尺寸控件圆角[light: var(--o-radius-m), dark: var(--o-radius-m)]",
+    "scope": "css,scss,less"
+  },
+  "--o-radius-control-s": {
+    "prefix": [
+      "var(--o-radius-control-s)"
+    ],
+    "body": "var(--o-radius-control-s)",
+    "description": "小尺寸控件圆角[light: var(--o-radius-s), dark: var(--o-radius-s)]",
+    "scope": "css,scss,less"
+  },
   "--o-duration-s": {
     "prefix": [
       "var(--o-duration-s)"

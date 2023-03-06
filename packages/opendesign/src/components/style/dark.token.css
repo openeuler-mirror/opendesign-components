@@ -1191,6 +1191,27 @@
    */
   --o-radius-s: 2px;
   /**
+   * @name 大尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 大尺寸控件圆角
+   */
+  --o-radius-control-l: var(--o-radius-l);
+  /**
+   * @name 中尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 中尺寸控件圆角
+   */
+  --o-radius-control-m: var(--o-radius-m);
+  /**
+   * @name 小尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 小尺寸控件圆角
+   */
+  --o-radius-control-s: var(--o-radius-s);
+  /**
    * @name 持续时间
    * @type animation
    * @group duration
