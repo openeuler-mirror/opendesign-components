@@ -18,7 +18,7 @@
   --select-options-bg: var(--o-color-control-light);
   --select-options-shadow: none;
   --select-options-bd: 1px solid var(--o-color-primary2);
-  --select-options-radius: var(--o-radius-s);
+  --select-options-radius: var(--o-radius-control-s);
 }
 
 .o-select-normal {
@@ -90,21 +90,21 @@
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
   --select-padding: 0 6px 0 8px;
-  --select-radius: var(--o-radius-s);
+  --select-radius: var(--o-radius-control-s);
 }
 .o-select-size-medium {
   --select-height: var(--o-size-m);
   --select-text-size: var(--o-font_size-text);
   --select-text-height: var(--o-line_height-text);
   --select-padding: 4px 8px 4px 12px;
-  --select-radius: var(--o-radius-m);
+  --select-radius: var(--o-radius-control-m);
 }
 .o-select-size-large {
   --select-height: var(--o-size-l);
   --select-text-size: var(--o-font_size-h4);
   --select-text-height: var(--o-line_height-h4);
   --select-padding: 4px 12px 4px 16px;
-  --select-radius: var(--o-radius-l);
+  --select-radius: var(--o-radius-control-l);
 }
 .o-select-round-pill {
   --select-radius: var(--o-size-l);

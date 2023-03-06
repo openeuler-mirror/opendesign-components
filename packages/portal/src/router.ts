@@ -26,30 +26,11 @@ export const routes = [
     label: '链接',
     component: () => import('@components/link/__demo__/IndexLink.vue'),
   },
-
   {
     path: '/switch',
     name: 'Switch',
     label: '开关',
     component: () => import('@components/switch/__demo__/IndexSwitch.vue'),
-  },
-  {
-    path: '/resize-observer',
-    name: 'ResizeObserver',
-    label: 'resize监听',
-    component: () => import('@components/resize-observer/__demo__/IndexResize.vue'),
-  },
-  {
-    path: '/intersection-observer',
-    name: 'IntersectionObserver',
-    label: 'Intersection监听',
-    component: () => import('@components/intersection-observer/__demo__/IndexIntersection.vue'),
-  },
-  {
-    path: '/child-only',
-    name: 'ChildOnly',
-    label: '只渲染一个子元素',
-    component: () => import('@components/child-only/__demo__/IndexChildOnly.vue'),
   },
   {
     path: '/popup',
@@ -157,8 +138,26 @@ export const routes = [
     path: '/dropdown',
     name: 'ODropdown',
     label: '下拉菜单',
-    component: () => import('@components/dropdown/__demo__/IndexDropdown.vue'),
+    component: () => import('@components/dropdown/__demo__/IndexDropdown.vue')
   },
+  {
+    path: '/resize-observer',
+    name: 'ResizeObserver',
+    label: 'resize监听',
+    component: () => import('@components/resize-observer/__demo__/IndexResize.vue'),
+  },
+  {
+    path: '/intersection-observer',
+    name: 'IntersectionObserver',
+    label: 'Intersection监听',
+    component: () => import('@components/intersection-observer/__demo__/IndexIntersection.vue'),
+  },
+  {
+    path: '/child-only',
+    name: 'ChildOnly',
+    label: '只渲染一个子元素',
+    component: () => import('@components/child-only/__demo__/IndexChildOnly.vue'),
+  }
 ];
 
 export const router = createRouter({

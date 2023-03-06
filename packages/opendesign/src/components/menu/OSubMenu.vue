@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, inject, provide } from 'vue';
 import { subMenuProps } from './types';
-import { IconChevronRight } from '../icons';
+import { IconChevronRight } from '../_shared/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_shared/is';
 

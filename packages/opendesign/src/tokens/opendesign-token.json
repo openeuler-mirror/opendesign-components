@@ -1488,6 +1488,33 @@
           "light": "2px",
           "dark": "2px"
         }
+      },
+      {
+        "key": "radius-control-l",
+        "name": "大尺寸控件圆角",
+        "description": "大尺寸控件圆角",
+        "value": {
+          "light": "var(--o-radius-l)",
+          "dark": "var(--o-radius-l)"
+        }
+      },
+      {
+        "key": "radius-control-m",
+        "name": "中尺寸控件圆角",
+        "description": "中尺寸控件圆角",
+        "value": {
+          "light": "var(--o-radius-m)",
+          "dark": "var(--o-radius-m)"
+        }
+      },
+      {
+        "key": "radius-control-s",
+        "name": "小尺寸控件圆角",
+        "description": "小尺寸控件圆角",
+        "value": {
+          "light": "var(--o-radius-s)",
+          "dark": "var(--o-radius-s)"
+        }
       }
     ]
   },

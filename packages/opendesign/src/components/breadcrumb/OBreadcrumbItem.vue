@@ -3,7 +3,7 @@ import { inject } from 'vue';
 
 import { breadcrumbItemProps } from './types';
 import { breadcrumbInjectKey } from './provide';
-import { IconChevronRight } from '../icons';
+import { IconChevronRight } from '../_shared/icons';
 
 defineProps(breadcrumbItemProps);
 

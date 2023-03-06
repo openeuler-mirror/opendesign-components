@@ -2,10 +2,6 @@
   --textarea-color: var(--o-color-info2);
   --textarea-color-disabled: var(--o-color-info4);
 
-  --textarea-radius-pill-s: 16px;
-  --textarea-radius-pill-m: 16px;
-  --textarea-radius-pill-l: 16px;
-
   --textarea-bg-color: transparent;
   --textarea-bg-color-hover: transparent;
   --textarea-bg-color-focus: var(--o-color-control-light);
@@ -86,7 +82,7 @@
   --textarea-text-height: var(--o-line_height-tip1);
   --textarea-padding-v: 2px;
   --textarea-padding-h: 8px;
-  --textarea-radius: var(--o-radius-s);
+  --textarea-radius: var(--o-radius-control-s);
   --textarea-radius-pill: 12px;
 }
 .o-textarea-size-medium {
@@ -94,7 +90,7 @@
   --textarea-text-height: var(--o-line_height-text);
   --textarea-padding-v: 4px;
   --textarea-padding-h: 12px;
-  --textarea-radius: var(--o-radius-m);
+  --textarea-radius: var(--o-radius-control-m);
   --textarea-radius-pill: 16px;
 }
 .o-textarea-size-large {
@@ -102,6 +98,6 @@
   --textarea-text-height: var(--o-line_height-h4);
   --textarea-padding-v: 6px;
   --textarea-padding-h: 12px;
-  --textarea-radius: var(--o-radius-l);
+  --textarea-radius: var(--o-radius-control-l);
   --textarea-radius-pill: 20px;
 }

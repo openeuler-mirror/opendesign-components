@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { defaultSize } from '../_shared/global';
-import { IconMinus, IconAdd, IconChevronDown, IconChevronUp } from '../icons';
+import { IconMinus, IconAdd, IconChevronUp, IconChevronDown } from '../_shared/icons';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, getRealValue } from './input-number';
 import { isFunction, isUndefined } from '../_shared/is';
