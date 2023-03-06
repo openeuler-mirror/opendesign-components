@@ -1,32 +1,10 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, ref, watch } from 'vue';
+import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_shared/is';
 
-interface RadioPropT {
-  /**
-   * 单选框value
-   */
-  value: string | number | boolean;
-  /**
-   * 单选框双向绑定值
-   */
-  modelValue?: string | number | boolean;
-  /**
-   * 非受控状态时，默认是否选中
-   */
-  defaultChecked?: boolean;
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<RadioPropT>(), {
-  modelValue: undefined,
-  defaultChecked: false,
-  disabled: false,
-});
+const props = defineProps(radioProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
@@ -35,24 +13,16 @@ const emits = defineEmits<{
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
 
-// 监听modelValue改变
-const isModelValueChanged = ref(false);
-watch(
-  () => props.modelValue,
-  () => {
-    isModelValueChanged.value = true;
-  }
-);
-
 // 是否选中
 const _checked = ref(props.defaultChecked);
+
 const isChecked = computed(() => {
   if (radioGroupInjection) {
-    return props.value === radioGroupInjection.realValue.value;
+    return radioGroupInjection.realValue.value === props.value;
   }
 
-  if (!isUndefined(props.modelValue) || isModelValueChanged.value) {
-    return props.value === props.modelValue;
+  if (!isUndefined(props.modelValue)) {
+    return props.modelValue === props.value;
   }
 
   return _checked.value;
@@ -84,7 +54,7 @@ const onChange = () => {
 
   _checked.value = true;
 
-  const val = props.value;
+  const val = props.value ?? true;
   emits('update:modelValue', val);
   radioGroupInjection?.updateModelValue(val);
   nextTick(() => {

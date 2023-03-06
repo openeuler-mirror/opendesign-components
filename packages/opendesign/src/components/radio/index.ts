@@ -8,4 +8,6 @@ const ORadio = Object.assign(_ORadio, {
   },
 });
 
+export * from './types';
+
 export { ORadio };

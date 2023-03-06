@@ -1,36 +1,11 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, ref, watch } from 'vue';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
+import { checkboxProps } from './types';
 import { IconDone, IconMinus } from '../_shared/icons';
-import { isArray } from '../_shared/is';
+import { isArray, isUndefined } from '../_shared/is';
 
-interface CheckboxPropT {
-  /**
-   * 多选框value
-   */
-  value: string | number;
-  /**
-   * 多选框双向绑定值
-   */
-  modelValue?: Array<string | number>;
-  /**
-   * 非受控状态时，默认是否选中
-   */
-  defaultChecked?: boolean;
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-  /**
-   * 是否为半选状态
-   */
-  indeterminate?: boolean;
-}
-const props = withDefaults(defineProps<CheckboxPropT>(), {
-  modelValue: undefined,
-  defaultChecked: false,
-  disabled: false,
-});
+const props = defineProps(checkboxProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: Array<string | number>): void;
@@ -39,25 +14,18 @@ const emits = defineEmits<{
 
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
 
-// 监听modelValue改变
-const isModelValueChanged = ref(false);
-watch(
-  () => props.modelValue,
-  () => {
-    isModelValueChanged.value = true;
-  },
-  { deep: true }
-);
-
 // 是否选中
 const _checked = ref(props.defaultChecked);
 const isChecked = computed(() => {
+  if (isUndefined(props.value)) {
+    return false;
+  }
   if (checkboxGroupInjection) {
-    return isArray(checkboxGroupInjection.realValue.value) ? checkboxGroupInjection.realValue.value.includes(props.value) : false;
+    return checkboxGroupInjection.realValue.value.includes(props.value);
   }
 
-  if (isArray(props.modelValue) || isModelValueChanged.value) {
-    return isArray(props.modelValue) ? props.modelValue.includes(props.value) : false;
+  if (isArray(props.modelValue)) {
+    return props.modelValue.includes(props.value);
   }
 
   return _checked.value;
@@ -85,6 +53,10 @@ const onClick = (ev: Event) => {
 };
 
 const onChange = (ev: Event) => {
+  if (isUndefined(props.value)) {
+    return;
+  }
+
   const { checked } = ev.target as HTMLInputElement;
 
   const set = checkboxGroupInjection

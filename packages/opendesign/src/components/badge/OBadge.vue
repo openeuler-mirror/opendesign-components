@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { isNumber } from '../_shared/is';
 import { badgeProps } from './types';
+
+import { isNumber } from '../_shared/is';
 
 const props = defineProps(badgeProps);
 

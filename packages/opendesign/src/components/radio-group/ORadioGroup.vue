@@ -1,47 +1,26 @@
 <script lang="ts" setup>
-import { provide, ref, toRefs, watch } from 'vue';
+import { provide, ref, toRef, watch } from 'vue';
+import { radioGroupProps } from './types';
 import { radioGroupInjectKey } from './provide';
-import type { DirectionT } from '../_shared/global';
+import { isUndefined } from '../_shared/is';
 
-interface RadioGroupPropT {
-  /**
-   * 单选框组双向绑定值
-   */
-  modelValue?: string | number | boolean;
-  /**
-   * 非受控状态时，单选框组默认值
-   */
-  defaultValue?: string | number | boolean;
-  /**
-   * 单选框组是否禁用
-   */
-  disabled?: boolean;
-  /**
-   * 单选框组方向
-   * 'horizontal' | 'vertical'
-   */
-  direction?: DirectionT;
-}
-
-const props = withDefaults(defineProps<RadioGroupPropT>(), {
-  modelValue: undefined,
-  defaultValue: '',
-  disabled: false,
-  direction: 'horizontal',
-});
+const props = defineProps(radioGroupProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
   (e: 'change', val: string | number | boolean): void;
 }>();
 
-const { modelValue, disabled } = toRefs(props);
+const realValue = ref(props.modelValue ?? props.defaultValue);
 
-const realValue = ref(modelValue.value ?? props.defaultValue);
-
-watch(modelValue, (val) => {
-  realValue.value = val as string | number | boolean;
-});
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (!isUndefined(val)) {
+      realValue.value = val;
+    }
+  }
+);
 
 const updateModelValue = (val: string | number | boolean) => {
   emits('update:modelValue', val);
@@ -51,7 +30,12 @@ const onChange = (val: string | number | boolean) => {
   emits('change', val);
 };
 
-provide(radioGroupInjectKey, { realValue, disabled, updateModelValue, onChange });
+provide(radioGroupInjectKey, {
+  realValue,
+  disabled: toRef(props, 'disabled'),
+  updateModelValue,
+  onChange,
+});
 </script>
 
 <template>
