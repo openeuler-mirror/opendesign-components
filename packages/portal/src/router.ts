@@ -157,25 +157,7 @@ export const routes = [
     name: 'ChildOnly',
     label: '只渲染一个子元素',
     component: () => import('@components/child-only/__demo__/IndexChildOnly.vue'),
-  },
-  {
-    path: '/resize-observer',
-    name: 'ResizeObserver',
-    label: 'resize监听',
-    component: () => import('@components/resize-observer/__demo__/IndexResize.vue'),
-  },
-  {
-    path: '/intersection-observer',
-    name: 'IntersectionObserver',
-    label: 'Intersection监听',
-    component: () => import('@components/intersection-observer/__demo__/IndexIntersection.vue'),
-  },
-  {
-    path: '/child-only',
-    name: 'ChildOnly',
-    label: '只渲染一个子元素',
-    component: () => import('@components/child-only/__demo__/IndexChildOnly.vue')
-  },
+  }
 ];
 
 export const router = createRouter({
