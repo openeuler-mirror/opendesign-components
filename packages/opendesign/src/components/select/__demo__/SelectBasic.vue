@@ -8,7 +8,7 @@ const options = [
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
 ];
-const selectVal1 = ref('');
+const selectVal1 = ref('opt1');
 const selectVal2 = ref(options[0].value);
 </script>
 <template>

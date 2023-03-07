@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { OSelect } from '../index';
 import { OOption } from '../../option';
 
-const selectVal = ref('option 1');
+const selectVal = ref('opt2');
 const selectVal2 = ref('');
 const options = [
   { label: 'option 1', value: 'opt1' },
