@@ -7,7 +7,7 @@ export const tabsProps = {
    */
   modelValue: {
     type: [String, Number],
-    default: ''
+    default: undefined
   },
   /**
    * VariantT
@@ -62,13 +62,6 @@ export const tabPaneProps = {
     default: undefined,
   },
   /**
-   * 是否在隐藏时卸载页签内容
-   */
-  unmountOnHide: {
-    type: Boolean,
-    default: false,
-  },
-  /**
    * 页签切换时过渡动画
    */
   transition: {
@@ -90,9 +83,16 @@ export const tabPaneProps = {
     default: false,
   },
   /**
-   * 是否页签首次激活时再加载页签内容
+   * 是否页签首次激活前不渲染页签内容
    */
   lazy: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 是否在隐藏时卸载页签内容
+   */
+  unmountOnHide: {
     type: Boolean,
     default: false,
   },

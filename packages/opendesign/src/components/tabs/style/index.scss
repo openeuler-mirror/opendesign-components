@@ -26,6 +26,10 @@
     border-bottom: var(--tabs-nav-divider);
   }
 }
+.o-tabs-navs-wrap {
+  display: inline-flex;
+  align-items: center;
+}
 .o-tab-nav {
   display: inline-flex;
   align-items: center;
@@ -36,9 +40,6 @@
   background-color: var(--tabs-nav-bg-color);
   position: relative;
   z-index: 1;
-  + .o-tab-nav {
-    margin-left: 8px;
-  }
 
   &:hover {
     color: var(--tabs-nav-color-hover);
@@ -46,7 +47,7 @@
     background-color: var(--tabs-nav-bg-color-hover);
   }
 
-  &.active {
+  &.is-active {
     color: var(--tabs-nav-color-active);
     border-color: var(--tabs-nav-bd-color-active);
     background-color: var(--tabs-nav-bg-color-active);
@@ -126,11 +127,16 @@
   display: flex;
 }
 
-.o-tab-content {
+.o-tab-pane {
   flex-shrink: 0;
   width: 100%;
   display: none;
-  &.active {
+  &.is-active {
     display: block;
+  }
+}
+.o-tabs-solid {
+  .o-tab-nav + .o-tab-nav {
+    margin-left: 8px;
   }
 }

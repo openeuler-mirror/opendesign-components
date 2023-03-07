@@ -99,13 +99,6 @@ export const selectProps = {
     default: true
   },
   /**
-   * 默认初始值对应的label显示，不传则使用modelValue
-   * 当unmountOnClose为true时，存在初始值对应label无法获取问题，可使用该属性指定初始值
-   */
-  defaultLabel: {
-    type: String,
-  },
-  /**
    * 过渡名称
    */
   transition: {

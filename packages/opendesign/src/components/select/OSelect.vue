@@ -14,13 +14,14 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
 }>();
 
+const optionsRef = ref<HTMLElement | null>(null);
+
 const round = getRoundClass(props, 'select');
 
-const activeLabel = ref(props.defaultLabel || props.modelValue);
+const activeLabel = ref(props.modelValue);
 const activeVal = ref(props.modelValue);
 
 const isClearable = computed(() => props.clearable && !props.disabled);
-console.log(isClearable.value);
 
 // 清除值
 const clearClick = (e: Event) => {
@@ -78,7 +79,11 @@ provide(selectOptionInjectKey, {
       </span>
       <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
     </span>
-
+    <teleport :to="optionsRef" :disabled="!optionsRef">
+      <div v-show="optionsRef" class="o-select-option-wrap">
+        <slot></slot>
+      </div>
+    </teleport>
     <OPopup
       v-if="!props.disabled"
       v-model:visible="showOption"
@@ -91,9 +96,7 @@ provide(selectOptionInjectKey, {
       :adjust-min-width="props.optionWidthMode === 'min-width'"
       :adjust-width="props.optionWidthMode === 'width'"
     >
-      <div class="o-select-options" :class="[`o-select-options-size-${props.size || defaultSize}`, props.optionWrapClass]">
-        <slot></slot>
-      </div>
+      <div ref="optionsRef" class="o-select-options" :class="[`o-select-options-size-${props.size || defaultSize}`, props.optionWrapClass]"></div>
     </OPopup>
   </div>
 </template>

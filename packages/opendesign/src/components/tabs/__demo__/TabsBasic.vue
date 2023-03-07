@@ -3,7 +3,8 @@ import { ref, reactive } from 'vue';
 import { OTabs, OTabPane } from '../index';
 import { IconSearch } from '../../icons';
 const activeTab = ref('Tab A');
-const tabChange = (val: string | number, oldVal: string | number) => {
+const activeTab2 = ref('1');
+const tabChange = (val: string | number, oldVal?: string | number) => {
   console.log(`active: ${val}, old: ${oldVal}`);
 };
 function getPanelItem(key: string) {
@@ -26,15 +27,18 @@ const tabAdd = () => {
 const tabDelete = (v: string | number) => {
   console.log(v);
 };
+const onChange = (v: string | number, oldv?: string | number) => {
+  console.log('change', v, oldv);
+};
 </script>
 <template>
   <h4>Variant</h4>
   <div class="sec">
     <p>Solid</p>
-    <OTabs variant="solid">
+    <OTabs variant="solid" @change="onChange">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
-      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 3" unmount-on-hide>pane 3</OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTabs>
     <p>line:false</p>
@@ -62,7 +66,7 @@ const tabDelete = (v: string | number) => {
   </div>
   <h4>Slot & change</h4>
   <div class="sec">
-    <OTabs v-model="activeTab" @change="tabChange">
+    <OTabs v-model="activeTab" addable @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
@@ -73,7 +77,7 @@ const tabDelete = (v: string | number) => {
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTabs>
     <p>center</p>
-    <OTabs v-model="activeTab" nav-justify="center" @change="tabChange">
+    <OTabs v-model="activeTab" nav-justify="center" addable @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
@@ -84,9 +88,9 @@ const tabDelete = (v: string | number) => {
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTabs>
   </div>
-  <h4>Add & Delete</h4>
+  <h4>Add & Lazy</h4>
   <div class="sec">
-    <OTabs v-model="activeTab" lazy addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
+    <OTabs v-model="activeTab2" lazy addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
       <OTabPane v-for="(item, idx) in tabList" :key="item.id" :value="item.id" class="pane" :label="item.label" :closable="idx > 1">
         {{ item.content }}
       </OTabPane>
