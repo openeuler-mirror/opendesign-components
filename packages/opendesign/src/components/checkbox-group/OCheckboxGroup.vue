@@ -22,7 +22,7 @@ watch(
   }
 );
 
-const isMinimum = computed(() => (isArray(props.min) ? false : realValue.value.length <= props.min));
+const isMinimum = computed(() => (isUndefined(props.min) ? false : realValue.value.length <= props.min));
 
 const isMaximum = computed(() => (isUndefined(props.max) ? false : realValue.value.length >= props.max));
 
