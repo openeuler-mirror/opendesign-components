@@ -1,1 +1,1 @@
-# scripts for open-computing
+# scripts for open-design
