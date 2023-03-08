@@ -2,7 +2,7 @@
   "name": "@opensig/opendesign",
   "version": "0.0.2",
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "es/index.mjs",
   "types": "es/index.d.ts",
   "typings": "lib/index.d.ts",
   "unpkg": "dist/opendesign.min.js",
