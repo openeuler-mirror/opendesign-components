@@ -1,9 +1,7 @@
 {
   "name": "@opensig/opensig-scripts",
   "version": "0.0.1",
-  "description": "Open Computing Scripts",
-  "author": "Open Computing Team",
-  "license": "MIT",
+  "description": "opendesign component Scripts",
   "main": "dist/index.js",
   "bin": "dist/index.js",
   "files": [

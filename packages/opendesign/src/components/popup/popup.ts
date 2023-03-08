@@ -5,7 +5,6 @@ import type { PopupPositionT, PopupTriggerT } from './types';
 
 import { useOutClick } from '../hooks/use-out-click';
 
-const { addOutClickListener, removeOutClickListener } = useOutClick();
 interface Pos {
   left: number,
   top: number
@@ -404,6 +403,7 @@ export function bindTrigger(
   if (!el) {
     return [];
   }
+  const { addOutClickListener, removeOutClickListener } = useOutClick();
 
   const listeners: Array<() => void> = [];
 

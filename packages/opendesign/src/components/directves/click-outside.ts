@@ -1,14 +1,15 @@
 import { ObjectDirective, DirectiveBinding } from 'vue';
 import { useOutClick } from '../hooks/use-out-click';
 
-const { addOutClickListener, removeOutClickListener } = useOutClick();
 
+let out: ReturnType<typeof useOutClick> | null = null;
 const vOutClick: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
-    addOutClickListener(el, binding.value);
+    out = useOutClick();
+    out?.addOutClickListener(el, binding.value);
   },
   unmounted(el: HTMLElement) {
-    removeOutClickListener(el);
+    out?.removeOutClickListener(el);
   }
 };
 

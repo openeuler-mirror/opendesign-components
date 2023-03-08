@@ -141,7 +141,7 @@ function tokenCssTemplate(themeArray: string[], tokens: Array<ThemeTokenT>) {
     if (t === 'default') {
       return ':root';
     }
-    return `:root[theme="${t}"]`;
+    return `[data-o-theme="${t}"]`;
   });
 
   return `/* theme: ${themeArray.join('|')} */

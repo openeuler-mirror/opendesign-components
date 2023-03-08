@@ -15,6 +15,7 @@ import { OResizeObserver } from '../resize-observer';
 import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
+import ClientOnly from '../_shared/client-only';
 
 // TODO 处理嵌套
 
@@ -52,8 +53,77 @@ const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bott
 const toMount = ref(false);
 const isAnimating = ref(false);
 
-const { addResizeListener, removeResizeListener } = useResizeObserver();
-const intersctionObserver = useIntersectionObserver();
+let ro: ReturnType<typeof useResizeObserver> | null = null;
+let io: ReturnType<typeof useIntersectionObserver> | null = null;
+
+onMounted(() => {
+  ro = useResizeObserver();
+  io = useIntersectionObserver();
+
+  // 在mounted事件后再显示，避免找不到wrapper
+  visible.value = props.visible;
+
+  // 触发元素为dom或者选择器，处理事件触发
+  nextTick(() => {
+    if (!wrapperEl.value) {
+      if (typeof props.wrapper === 'string') {
+        wrapperEl.value = document.querySelector(props.wrapper);
+      } else {
+        wrapperEl.value = props.wrapper;
+      }
+    }
+
+    // 绑定触发元素事件
+    if (typeof props.target === 'string') {
+      bindTargetEvent(document.querySelector(props.target));
+    } else if (isElement(props.target)) {
+      bindTargetEvent(props.target as HTMLElement);
+    }
+
+    // 初始为true时，更新样式
+    // if (visible.value) {
+    //   updatePopupStyle();
+    // }
+  });
+});
+
+let triggerListener: ReturnType<typeof bindTrigger> = [];
+const bindTargetEvent = (el: HTMLElement | null) => {
+  if (!el) {
+    return;
+  }
+  targetEl = el;
+
+  // 初始化popup宽度，避免引起resize，触发重复计算
+  if (props.adjustMinWidth) {
+    popStyle.minWidth = `${targetEl.offsetWidth}px`;
+  } else if (props.adjustWidth) {
+    popStyle.width = `${targetEl.offsetWidth}px`;
+  }
+
+  triggerListener = bindTrigger(el, popupRef, triggers, {
+    updateFn: updateVisible,
+    hoverDelay: props.hoverDelay,
+  });
+
+  if (props.hideWhenTargetInvisible) {
+    io?.addIntersectionListener(targetEl, onTargetInterscting);
+  }
+};
+
+onUnmounted(() => {
+  // 移除触发事件
+  triggerListener.forEach((fn) => {
+    fn();
+  });
+  // 销毁popup 的 resize监听
+  if (wrapperEl.value) {
+    ro?.removeResizeListener(wrapperEl.value, onResize);
+  }
+  if (targetEl) {
+    ro?.removeResizeListener(targetEl, onResize);
+  }
+});
 
 // 处理popup位置
 const updatePopupStyle = () => {
@@ -149,7 +219,7 @@ const updateVisible = (isVisible?: boolean, delay?: number) => {
       toMount.value = true;
 
       if (props.hideWhenTargetInvisible && targetEl) {
-        intersctionObserver.addIntersectionListener(targetEl, onTargetInterscting);
+        io?.addIntersectionListener(targetEl, onTargetInterscting);
       }
     }
   };
@@ -159,30 +229,6 @@ const updateVisible = (isVisible?: boolean, delay?: number) => {
     visibleTimer = window.setTimeout(update, delay);
   } else {
     update();
-  }
-};
-
-let triggerListener: ReturnType<typeof bindTrigger> = [];
-const bindTargetEvent = (el: HTMLElement | null) => {
-  if (!el) {
-    return;
-  }
-  targetEl = el;
-
-  // 初始化popup宽度，避免引起resize，触发重复计算
-  if (props.adjustMinWidth) {
-    popStyle.minWidth = `${targetEl.offsetWidth}px`;
-  } else if (props.adjustWidth) {
-    popStyle.width = `${targetEl.offsetWidth}px`;
-  }
-
-  triggerListener = bindTrigger(el, popupRef, triggers, {
-    updateFn: updateVisible,
-    hoverDelay: props.hoverDelay,
-  });
-
-  if (props.hideWhenTargetInvisible) {
-    intersctionObserver.addIntersectionListener(targetEl, onTargetInterscting);
   }
 };
 
@@ -251,7 +297,7 @@ watch(popupRef, (popEl) => {
       });
 
       // 监听targetEL尺寸变化
-      addResizeListener(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
+      ro?.addResizeListener(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
         if (props.adjustMinWidth) {
           popStyle.minWidth = `${targetEl?.offsetWidth}px`;
         } else if (props.adjustWidth) {
@@ -263,7 +309,7 @@ watch(popupRef, (popEl) => {
 
     if (wrapperEl.value) {
       // 监听warpper尺寸变化
-      addResizeListener(wrapperEl.value, onResize);
+      ro?.addResizeListener(wrapperEl.value, onResize);
     }
   } else {
     /**
@@ -272,11 +318,11 @@ watch(popupRef, (popEl) => {
 
     handles.forEach((hl) => hl());
     if (wrapperEl.value) {
-      removeResizeListener(wrapperEl.value, onResize);
+      ro?.removeResizeListener(wrapperEl.value, onResize);
     }
     if (targetEl) {
-      removeResizeListener(targetEl, onResize);
-      intersctionObserver.removeIntersectionListener(targetEl, onTargetInterscting);
+      ro?.removeResizeListener(targetEl, onResize);
+      io?.removeIntersectionListener(targetEl, onTargetInterscting);
       isTargetInViewport.value = true;
     }
   }
@@ -291,82 +337,42 @@ const onPopupHoverOut = () => {
     updateVisible(false, props.hoverDelay);
   }
 };
-
-onMounted(() => {
-  // 在mounted事件后再显示，避免找不到wrapper
-  visible.value = props.visible;
-
-  // 触发元素为dom或者选择器，处理事件触发
-  nextTick(() => {
-    if (!wrapperEl.value) {
-      if (typeof props.wrapper === 'string') {
-        wrapperEl.value = document.querySelector(props.wrapper);
-      } else {
-        wrapperEl.value = props.wrapper;
-      }
-    }
-
-    // 绑定触发元素事件
-    if (typeof props.target === 'string') {
-      bindTargetEvent(document.querySelector(props.target));
-    } else if (isElement(props.target)) {
-      bindTargetEvent(props.target as HTMLElement);
-    }
-
-    // 初始为true时，更新样式
-    // if (visible.value) {
-    //   updatePopupStyle();
-    // }
-  });
-});
-
-onUnmounted(() => {
-  // 移除触发事件
-  triggerListener.forEach((fn) => {
-    fn();
-  });
-  // 销毁popup 的 resize监听
-  if (wrapperEl.value) {
-    removeResizeListener(wrapperEl.value, onResize);
-  }
-  if (targetEl) {
-    removeResizeListener(targetEl, onResize);
-  }
-});
 </script>
 <template>
   <OChildOnly ref="targetElRef">
     <slot name="target"></slot>
   </OChildOnly>
-  <teleport v-if="wrapperEl" :to="props.wrapper">
-    <OResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
-      <div
-        ref="popupRef"
-        class="o-popup"
-        :style="popStyle"
-        v-bind="$attrs"
-        :class="[`o-popup-pos-${popPosition}`, { 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport, animating: isAnimating }]"
-        @mouseover="onPopupHoverIn"
-        @mouseleave="onPopupHoverOut"
-      >
-        <Transition
-          :name="props.transition"
-          :appear="true"
-          @before-enter="handleTransitionStart"
-          @after-enter="handleTransitionEnd"
-          @before-leave="handleTransitionStart"
-          @after-leave="handleTransitionEnd"
+  <ClientOnly>
+    <teleport v-if="wrapperEl" :to="props.wrapper">
+      <OResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
+        <div
+          ref="popupRef"
+          class="o-popup"
+          :style="popStyle"
+          v-bind="$attrs"
+          :class="[`o-popup-pos-${popPosition}`, { 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport, animating: isAnimating }]"
+          @mouseover="onPopupHoverIn"
+          @mouseleave="onPopupHoverOut"
         >
-          <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
-            <div class="o-popup-body">
-              <slot></slot>
+          <Transition
+            :name="props.transition"
+            :appear="true"
+            @before-enter="handleTransitionStart"
+            @after-enter="handleTransitionEnd"
+            @before-leave="handleTransitionStart"
+            @after-leave="handleTransitionEnd"
+          >
+            <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
+              <div class="o-popup-body">
+                <slot></slot>
+              </div>
+              <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
+                <slot name="anchor"></slot>
+              </div>
             </div>
-            <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
-              <slot name="anchor"></slot>
-            </div>
-          </div>
-        </Transition>
-      </div>
-    </OResizeObserver>
-  </teleport>
+          </Transition>
+        </div>
+      </OResizeObserver>
+    </teleport>
+  </ClientOnly>
 </template>

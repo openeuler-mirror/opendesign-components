@@ -1,4 +1,4 @@
-import ResizeObserver from 'resize-observer-polyfill';
+// import ResizeObserver from 'resize-observer-polyfill';
 import { isFunction } from '../_shared/is';
 
 export type ResizeListenerT = (entry: ResizeObserverEntry, isFirst: boolean) => void;
