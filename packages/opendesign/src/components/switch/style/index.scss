@@ -2,33 +2,37 @@
 
 .o-switch {
   display: inline-block;
-  background-color: var(--switch-bg);
+  height: var(--switch-height);
+  font-size: var(--switch-text-size);
+  line-height: var(--switch-text-height);
   color: var(--switch-color);
+  background-color: var(--switch-bg-color);
+  border-radius: var(--switch-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
+}
 
-  &.is-checked {
-    background-color: var(--switch-bg-checked);
-  }
+.o-switch-checked {
+  background-color: var(--switch-bg-color-checked);
+}
 
-  &.is-disabled,
-  &.is-loading {
-    cursor: not-allowed;
-    background-color: var(--switch-bg-disabled);
-  }
+.o-switch-disabled,
+.o-switch-loading {
+  cursor: not-allowed;
+  background-color: var(--switch-bg-color-disabled);
+}
 
-  &.is-disabled.is-checked,
-  &.is-loading.is-checked {
-    background-color: var(--switch-bg-checked-disabled);
-    .o-switch-handler {
-      .o-switch-icon_loading {
-        color: var(--switch-bg-checked-disabled);
-      }
+.o-switch-disabled.o-switch-checked,
+.o-switch-loading.o-switch-checked {
+  background-color: var(--switch-bg-color-checked-disabled);
+  .o-switch-handler {
+    .o-switch-icon-loading {
+      color: var(--switch-bg-color-checked-disabled);
     }
   }
 }
 
-.o-switch-wrapper {
+.o-switch-wrap {
   position: relative;
   height: 100%;
 }
@@ -37,7 +41,10 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: var(--switch-handler-bg);
+  width: var(--switch-handler-size);
+  height: var(--switch-handler-size);
+  border-radius: var(--switch-handler-radius);
+  background-color: var(--switch-handler-bg-color);
   transition: left var(--o-duration-s) var(--o-easing-standard);
 
   .o-switch-icon-loading {
@@ -46,7 +53,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--switch-bg);
+    color: var(--switch-bg-color);
   }
 }
 
@@ -58,57 +65,9 @@
   justify-content: center;
 }
 
-.o-switch.o-switch-shape-round {
-  .o-switch-handler {
-    border-radius: 50%;
-  }
-}
-
-.o-switch-size-medium {
-  min-width: 40px;
-  height: 20px;
-  border-radius: 2px;
-  font-size: var(--switch-text-size-m);
-  line-height: var(--switch-text-height-m);
-
-  .o-switch-handler {
-    width: 16px;
-    height: 16px;
-    border-radius: 2px;
-    left: 2px;
-  }
-
-  .o-switch-content {
-    padding-left: 20px;
-    padding-right: 4px;
-  }
-
-  &.is-checked {
-    .o-switch-handler {
-      left: calc(100% - 18px);
-    }
-    .o-switch-content {
-      padding-left: 4px;
-      padding-right: 20px;
-    }
-  }
-}
-
-.o-switch-size-medium.o-switch-shape-round {
-  border-radius: 10px;
-}
-
-.o-switch-size-large {
+.o-switch-large {
   min-width: 60px;
-  height: 28px;
-  border-radius: 2px;
-  font-size: var(--switch-text-size-l);
-  line-height: var(--switch-text-height-l);
-
   .o-switch-handler {
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
     left: 4px;
   }
 
@@ -117,7 +76,7 @@
     padding-right: 8px;
   }
 
-  &.is-checked {
+  &.o-switch-checked {
     .o-switch-handler {
       left: calc(100% - 24px);
     }
@@ -129,21 +88,33 @@
   }
 }
 
-.o-switch-size-large.o-switch-shape-round {
-  border-radius: 14px;
-}
-
-.o-switch-size-small {
-  min-width: 30px;
-  height: 16px;
-  border-radius: 2px;
-  font-size: var(--switch-text-size-s);
-  line-height: var(--switch-text-height-s);
+.o-switch-medium {
+  min-width: 40px;
 
   .o-switch-handler {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
+    left: 2px;
+  }
+
+  .o-switch-content {
+    padding-left: 20px;
+    padding-right: 4px;
+  }
+
+  &.o-switch-checked {
+    .o-switch-handler {
+      left: calc(100% - 18px);
+    }
+    .o-switch-content {
+      padding-left: 4px;
+      padding-right: 20px;
+    }
+  }
+}
+
+.o-switch-small {
+  min-width: 30px;
+
+  .o-switch-handler {
     left: 2px;
   }
 
@@ -152,7 +123,7 @@
     padding-right: 2px;
   }
 
-  &.is-checked {
+  &.o-switch-checked {
     .o-switch-handler {
       left: calc(100% - 14px);
     }
@@ -161,8 +132,4 @@
       padding-right: 15px;
     }
   }
-}
-
-.o-switch-size-small.o-switch-shape-round {
-  border-radius: 8px;
 }

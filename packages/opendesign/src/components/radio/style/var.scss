@@ -1,15 +1,19 @@
 .o-radio {
-  --radio-color: var(--o-color-info1);
-  --radio-color-disabled: var(--o-color-info4);
-
   --radio-text-size: var(--o-font_size-text);
   --radio-text-height: var(--o-line_height-text);
 
-  --radio-input-bg: var(--o-color-fill2);
+  --radio-input-size: 18px;
+  --radio-input-inner-size: 12px;
 
-  --radio-input-color-checked: var(--o-color-primary1);
-  --radio-input-color-disabled: var(--o-color-primary4);
+  --radio-color: var(--o-color-info1);
+  --radio-color-disabled: var(--o-color-info4);
 
-  --radio-input-border: var(--o-color-control1);
-  --radio-input-border-disabled: var(--o-color-control4);
+  --radio-input-bg-color: var(--o-color-control-light);
+
+  --radio-input-bd-color: var(--o-color-control1);
+  --radio-input-bd-color-disabled: var(--o-color-control4);
+
+  --radio-input-inner-bg-color: transparent;
+  --radio-input-inner-bg-color-checked: var(--o-color-primary1);
+  --radio-input-inner-bg-color-checked-disabled: var(--o-color-primary4);
 }
