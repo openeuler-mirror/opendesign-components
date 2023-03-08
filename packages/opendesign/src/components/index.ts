@@ -10,6 +10,7 @@ export * from './popover';
 export * from './input';
 export * from './input-number';
 export * from './textarea';
+export * from './option';
 export * from './select';
 export * from './tabs';
 export * from './table';

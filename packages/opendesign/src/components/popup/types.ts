@@ -39,7 +39,7 @@ export const popupProps = {
    */
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement>,
-    default: document.body,
+    default: 'body',
   },
   /**
    * 距离target偏移量

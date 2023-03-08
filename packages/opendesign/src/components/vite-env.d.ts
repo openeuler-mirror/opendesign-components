@@ -6,6 +6,6 @@ declare module '*.vue' {
   export default component;
 }
 
-declare module 'intersection-observer-polyfill' {
-  export default IntersectionObserver;
-}
+// declare module 'intersection-observer-polyfill' {
+//   export default IntersectionObserver;
+// }

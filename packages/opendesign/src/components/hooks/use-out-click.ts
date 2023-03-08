@@ -5,18 +5,6 @@ interface handlerItemT {
 
 const elList = new Map<HTMLElement, Array<handlerItemT>>();
 
-window.addEventListener('mousedown', (e) => {
-  elList.forEach((handlers, el) => {
-    if (!el.contains(e.target as HTMLElement)) {
-      handlers.forEach(item => {
-        if (!item.exception || !item.exception(e)) {
-          item.handler();
-        }
-      });
-    }
-  });
-});
-
 function addOutClickListener(el: HTMLElement, fn: () => void, exception?: (e: MouseEvent) => boolean) {
   if (!elList.has(el)) {
     elList.set(el, []);
@@ -47,6 +35,18 @@ function removeOutClickListener(el: HTMLElement, listener?: () => void) {
 }
 
 export function useOutClick() {
+  window.addEventListener('mousedown', (e) => {
+    elList.forEach((handlers, el) => {
+      if (!el.contains(e.target as HTMLElement)) {
+        handlers.forEach(item => {
+          if (!item.exception || !item.exception(e)) {
+            item.handler();
+          }
+        });
+      }
+    });
+  });
+
   return {
     addOutClickListener,
     removeOutClickListener,

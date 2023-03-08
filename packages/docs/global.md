@@ -35,3 +35,9 @@
 - 边框（bd） `--btn-bd: 1px solid var(--o-color-control1)`
 - 边框颜色（bd-color） `--btn-bd-color: var(--o-color-control1)`
 - 背景颜色（bg-color） `--btn-bg-color: var(--o-color-control1)`
+
+# polyfill
+
+> resize-observer-polyfill
+> intersection-observer-polyfill
+> 建议在项目使用时引入

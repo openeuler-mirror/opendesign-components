@@ -6,6 +6,7 @@ import { OPopup } from '../popup';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
+import ClientOnly from '../_shared/client-only';
 
 const props = defineProps(selectProps);
 const emits = defineEmits<{
@@ -69,34 +70,36 @@ provide(selectOptionInjectKey, {
     :style="round.style.value"
   >
     <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
-    <span class="o-select-suffix">
-      <span class="o-select-suffix-wrap">
+    <div class="o-select-suffix">
+      <div class="o-select-suffix-wrap">
         <slot name="suffix">
-          <span class="o-select-icon-arrow" :class="{ active: showOption }">
+          <div class="o-select-icon-arrow" :class="{ active: showOption }">
             <IconChevronDown />
-          </span>
+          </div>
         </slot>
-      </span>
-      <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
-    </span>
-    <teleport :to="optionsRef" :disabled="!optionsRef">
-      <div v-show="optionsRef" class="o-select-option-wrap">
-        <slot></slot>
       </div>
-    </teleport>
-    <OPopup
-      v-if="!props.disabled"
-      v-model:visible="showOption"
-      :transition="props.transition"
-      :unmount-on-hide="props.unmountOnHide"
-      :position="props.optionPosition"
-      :target="selectRef"
-      :trigger="props.trigger"
-      :offset="4"
-      :adjust-min-width="props.optionWidthMode === 'min-width'"
-      :adjust-width="props.optionWidthMode === 'width'"
-    >
-      <div ref="optionsRef" class="o-select-options" :class="[`o-select-options-size-${props.size || defaultSize}`, props.optionWrapClass]"></div>
-    </OPopup>
+      <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
+    </div>
+    <ClientOnly>
+      <teleport :to="optionsRef" :disabled="!optionsRef">
+        <div v-show="optionsRef" class="o-select-option-wrap">
+          <slot></slot>
+        </div>
+      </teleport>
+      <OPopup
+        v-if="!props.disabled"
+        v-model:visible="showOption"
+        :transition="props.transition"
+        :unmount-on-hide="props.unmountOnHide"
+        :position="props.optionPosition"
+        :target="selectRef"
+        :trigger="props.trigger"
+        :offset="4"
+        :adjust-min-width="props.optionWidthMode === 'min-width'"
+        :adjust-width="props.optionWidthMode === 'width'"
+      >
+        <div ref="optionsRef" class="o-select-options" :class="[`o-select-options-size-${props.size || defaultSize}`, props.optionWrapClass]"></div>
+      </OPopup>
+    </ClientOnly>
   </div>
 </template>

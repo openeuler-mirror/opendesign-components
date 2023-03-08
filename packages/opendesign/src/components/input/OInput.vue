@@ -9,6 +9,7 @@ import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
 import { inputProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
+import ClientOnly from '../_shared/client-only';
 
 const props = defineProps(inputProps);
 
@@ -41,7 +42,6 @@ watch(
 // 输入框显示的字符串
 const displayValue = computed(() => {
   const v = isFunction(props.format) ? props.format(realValue.value) : realValue.value;
-  // console.log('displayValue', v, realValue.value);
   return v;
 });
 
@@ -53,6 +53,7 @@ const isClearable = computed(() => props.clearable && !props.disabled && !props.
 function updateValue(val: string) {
   const value = isFunction(props.parse) ? props.parse(val) : val;
   emits('update:modelValue', value);
+  realValue.value = value;
 
   if (lastValue !== value) {
     emits('change', value);
@@ -140,7 +141,8 @@ const onMouseDown = (e: MouseEvent) => {
 };
 
 const onMirrorResize = (en: ResizeObserverEntry) => {
-  inputWidth.value = en.target.clientWidth;
+  // + 1; 修复宽度为小数的情况
+  inputWidth.value = en.target.clientWidth + 1;
 };
 const round = getRoundClass(props, 'input');
 </script>
@@ -200,9 +202,11 @@ const round = getRoundClass(props, 'input');
           @compositionstart="onCompositionStart"
           @compositionend="onCompositionEnd"
         />
-        <OResizeObserver v-if="props.autoWidth" @resize="onMirrorResize">
-          <div class="o-input-mirror">{{ inputText }}</div>
-        </OResizeObserver>
+        <ClientOnly>
+          <OResizeObserver v-if="props.autoWidth" @resize="onMirrorResize">
+            <div class="o-input-mirror">{{ inputText }}</div>
+          </OResizeObserver>
+        </ClientOnly>
       </div>
       <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">

@@ -19,7 +19,7 @@ setTimeout(() => {
     <div>
       <div class="row">
         <p>text:</p>
-        <OInput v-model="val3" />
+        <OInput />
         <p>password:</p>
         <OInput v-model="val3" type="password" />
       </div>

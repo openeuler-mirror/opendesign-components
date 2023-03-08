@@ -8,6 +8,7 @@ import { toInputString } from './textarea';
 import { OResizeObserver } from '../resize-observer';
 import { textareaProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
+import ClientOnly from '../_shared/client-only';
 
 const props = defineProps(textareaProps);
 
@@ -187,10 +188,11 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
         @compositionstart="onCompositionStart"
         @compositionend="onCompositionEnd"
       ></textarea>
-
-      <OResizeObserver v-if="props.autoHeight" @resize="onMirrorResize">
-        <div class="o-textarea-mirror">{{ textareaText }}</div>
-      </OResizeObserver>
+      <ClientOnly>
+        <OResizeObserver v-if="props.autoHeight" @resize="onMirrorResize">
+          <div class="o-textarea-mirror">{{ textareaText }}</div>
+        </OResizeObserver>
+      </ClientOnly>
       <div v-if="props.clearable" class="o-textarea-clear" @click="clearClick"><IconClose class="o-textarea-clear-icon" /></div>
       <div v-if="props.maxLength" class="o-textarea-limit">
         <span :class="{ 'is-error': isOutLengthLimit }">{{ currentLength }}</span

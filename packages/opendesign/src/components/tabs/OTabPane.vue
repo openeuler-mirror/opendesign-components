@@ -8,6 +8,7 @@ import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch }
 import { tabsInjectKey } from './provide';
 import { tabPaneProps } from './types';
 import { IconClose } from '../_shared/icons';
+import ClientOnly from '../_shared/client-only';
 
 const props = defineProps(tabPaneProps);
 
@@ -73,25 +74,27 @@ onMounted(() => {
 });
 </script>
 <template>
-  <teleport v-if="navsRef && !isClosed" :to="navsRef">
-    <div
-      ref="navRef"
-      :class="[
-        'o-tab-nav',
-        {
-          'is-active': isActive,
-          'is-disabled': props.disabled,
-          'is-closable': props.closable,
-        },
-      ]"
-      @click="navClick"
-    >
-      <div class="o-tab-nav-title">
-        <slot name="nav">{{ props.label || props.value }}</slot>
+  <ClientOnly>
+    <teleport v-if="navsRef && !isClosed" :to="navsRef">
+      <div
+        ref="navRef"
+        :class="[
+          'o-tab-nav',
+          {
+            'is-active': isActive,
+            'is-disabled': props.disabled,
+            'is-closable': props.closable,
+          },
+        ]"
+        @click="navClick"
+      >
+        <div class="o-tab-nav-title">
+          <slot name="nav">{{ props.label || props.value }}</slot>
+        </div>
+        <div v-if="props.closable" class="o-tab-nav-close" @click="navCloseClick"><IconClose /></div>
       </div>
-      <div v-if="props.closable" class="o-tab-nav-close" @click="navCloseClick"><IconClose /></div>
-    </div>
-  </teleport>
+    </teleport>
+  </ClientOnly>
 
   <transition :name="props.transition">
     <div
