@@ -7,12 +7,14 @@
 
   --checkbox-input-color: var(--o-color-fill1);
 
-  --checkbox-input-border: var(--o-color-control1);
-  --checkbox-input-border-disabled: var(--o-color-control4);
-  --checkbox-input-border-checked: var(--o-color-primary1);
-  --checkbox-input-border-checked-disabled: var(--o-color-primary4);
+  --checkbox-input-bd-color: var(--o-color-control1);
+  --checkbox-input-bd-color-disabled: var(--o-color-control4);
+  --checkbox-input-bd-color-checked: var(--o-color-primary1);
+  --checkbox-input-bd-color-checked-disabled: var(--o-color-primary4);
 
   --checkbox-input-bg: var(--o-color-fill1);
   --checkbox-input-bg-checked: var(--o-color-primary1);
   --checkbox-input-bg-checked-disabled: var(--o-color-primary4);
+
+  --checkbox-input-size: 16px;
 }

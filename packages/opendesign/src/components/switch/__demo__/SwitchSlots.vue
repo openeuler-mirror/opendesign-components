@@ -20,12 +20,12 @@ const switchVal2 = ref(true);
       <template #off><IconX /></template>
     </OSWitch>
 
-    <OSWitch v-model="switchVal2" shape="round">
+    <OSWitch v-model="switchVal2" round="pill">
       <template #on>开</template>
       <template #off>关</template>
     </OSWitch>
 
-    <OSWitch v-model="switchVal2" shape="round">
+    <OSWitch v-model="switchVal2" round="pill">
       <template #on><IconDone /></template>
       <template #off><IconX /></template>
     </OSWitch>

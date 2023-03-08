@@ -18,3 +18,9 @@ import { OBadge } from '../index';
     </OBadge>
   </section>
 </template>
+
+<style lang="scss" scoped>
+.o-badge + .o-badge {
+  margin-left: 20px;
+}
+</style>

@@ -24,11 +24,11 @@ export const rateProps = {
   },
   /**
    * 尺寸
-   * "normal" | "small" | "large"
+   * "small"| "medium"  | "large"
    */
   size: {
     type: String as PropType<SizeT>,
-    default: 'normal',
+    default: 'medium',
   },
   /**
    * 颜色类型

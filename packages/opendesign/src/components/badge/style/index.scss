@@ -11,22 +11,22 @@
   right: 0;
   transform: translate(50%, -50%);
   transform-origin: 100% 0;
-  color: var(--badge-color);
-  background-color: var(--badge-bg);
   min-width: 20px;
   font-size: var(--badge-text-size);
   line-height: var(--badge-text-height);
-  text-align: center;
   height: var(--badge-text-height);
-  padding-left: 4px;
-  padding-right: 4px;
-  border-radius: var(--badge-border);
+  text-align: center;
+  color: var(--badge-color);
+  background-color: var(--badge-bg-color);
+  padding-left: var(--badge-padding);
+  padding-right: var(--badge-padding);
+  border-radius: var(--badge-radius);
 }
 
 .o-badge-dot {
   .o-badge-content {
-    height: 8px;
-    width: 8px;
+    height: var(--badge-dot-size);
+    width: var(--badge-dot-size);
     padding: 0;
     border-radius: 50%;
     min-width: unset;

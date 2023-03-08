@@ -1,18 +1,42 @@
 .o-switch {
-  --switch-bg: var(--o-color-control1);
-  --switch-bg-disabled: var(--o-color-control4);
-  --switch-bg-checked: var(--o-color-primary1);
-  --switch-bg-checked-disabled: var(--o-color-primary4);
-
-  --switch-handler-bg: rgb(var(--o-color-white));
-
   --switch-color: var(--o-color-info1-inverse);
 
-  --switch-text-size-l: var(--o-font_size-h4);
-  --switch-text-size-m: var(--o-font_size-tip1);
-  --switch-text-size-s: var(--o-font_size-tip2);
+  --switch-bg-color: var(--o-color-control1);
+  --switch-bg-color-disabled: var(--o-color-control4);
+  --switch-bg-color-checked: var(--o-color-primary1);
+  --switch-bg-color-checked-disabled: var(--o-color-primary4);
 
-  --switch-text-height-l: var(--o-line_height-h4);
-  --switch-text-height-m: var(--o-line_height-tip1);
-  --switch-text-height-s: var(--o-line_height-tip2);
+  --switch-handler-bg-color: rgb(var(--o-color-white));
+}
+
+.o-switch-large {
+  --switch-height: 28px;
+  --switch-radius: 2px;
+  --switch-text-size: var(--o-font_size-h4);
+  --switch-text-height: var(--o-line_height-h4);
+  --switch-handler-size: 20px;
+  --switch-handler-radius: 2px;
+}
+
+.o-switch-medium {
+  --switch-height: 20px;
+  --switch-radius: 2px;
+  --switch-text-size: var(--o-font_size-tip1);
+  --switch-text-height: var(--o-line_height-tip1);
+  --switch-handler-size: 16px;
+  --switch-handler-radius: 2px;
+}
+
+.o-switch-small {
+  --switch-height: 16px;
+  --switch-radius: 2px;
+  --switch-text-size: var(--o-font_size-tip2);
+  --switch-text-height: var(--o-line_height-tip2);
+  --switch-handler-size: 12px;
+  --switch-handler-radius: 2px;
+}
+
+.o-switch-round-pill {
+  --switch-radius: var(--o-size-l);
+  --switch-handler-radius: var(--o-size-l);
 }

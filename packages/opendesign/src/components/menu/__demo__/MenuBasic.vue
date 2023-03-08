@@ -71,3 +71,9 @@ const activeVal2 = ref('1-1');
     </div>
   </section>
 </template>
+
+<style lang="scss" scoped>
+section {
+  align-items: flex-start;
+}
+</style>
