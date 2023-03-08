@@ -1,4 +1,4 @@
-import type { SizeT, ShapeT } from '../_shared/global';
+import type { SizeT, RoundT } from '../_shared/global';
 import type { ExtractPropTypes, PropType } from 'vue';
 
 export const switchProps = {
@@ -31,17 +31,16 @@ export const switchProps = {
   },
   /**
    * 开关尺寸
-   * 'large' | 'normal' | 'small'
+   * 'large' | 'medium' | 'small'
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 开关形状
-   * 'normal' | 'round'
+   * 圆角值
    */
-  shape: {
-    type: String as PropType<ShapeT>,
+  round: {
+    type: String as PropType<RoundT>,
   },
   /**
    * 是否禁用

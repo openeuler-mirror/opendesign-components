@@ -3,11 +3,13 @@
   --rate-color-active: var(--o-color-warning1);
 
   --rate-gap: var(--o-gap-2);
+}
 
+.o-rate-medium {
   --rate-height: var(--o-font_size-h1);
 }
 
-.o-rate-size-large {
+.o-rate-large {
   --rate-height: var(--o-font_size-display3);
 }
 

@@ -75,7 +75,7 @@ const iconStatus = computed(() => {
 </script>
 
 <template>
-  <div class="o-rate" :class="[`o-rate-${props.color}`, `o-rate-size-${props.size || defaultSize}`]" @mouseleave="resetHoverIndex">
+  <div class="o-rate" :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`]" @mouseleave="resetHoverIndex">
     <div
       v-for="(item, key) in count"
       :key="key"

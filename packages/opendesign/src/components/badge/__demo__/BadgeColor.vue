@@ -5,7 +5,7 @@ import { OBadge } from '../index';
 </script>
 
 <template>
-  <h4>基础用法</h4>
+  <h4>不同颜色</h4>
   <section>
     <OBadge :value="9" color="primary">
       <OButton variant="solid" />
@@ -21,3 +21,9 @@ import { OBadge } from '../index';
     </OBadge>
   </section>
 </template>
+
+<style lang="scss" scoped>
+.o-badge + .o-badge {
+  margin-left: 20px;
+}
+</style>

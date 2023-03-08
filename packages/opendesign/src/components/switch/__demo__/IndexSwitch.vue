@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import '../style';
 
-import SwitchSizeShape from './SwitchSizeShape.vue';
+import SwitchBasic from './SwitchBasic.vue';
+import SwitchRound from './SwitchRound.vue';
 import SwitchDisabledAndLoading from './SwitchDisabledAndLoading.vue';
 import SwitchBeforeChange from './SwitchBeforeChange.vue';
 import SwitchEvents from './SwitchEvents.vue';
 import SwitchSlots from './SwitchSlots.vue';
 </script>
+
 <template>
   <div class="page-demo">
-    <SwitchSizeShape />
+    <SwitchBasic />
+    <SwitchRound />
     <SwitchDisabledAndLoading />
     <SwitchBeforeChange />
     <SwitchEvents />

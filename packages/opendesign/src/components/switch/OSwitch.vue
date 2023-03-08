@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { switchProps } from './types';
-import { defaultSize, defaultShape } from '../_shared/global';
+import { defaultSize } from '../_shared/global';
+import { getRoundClass } from '../_shared/style-class';
 import { IconLoading } from '../_shared/icons';
 import { isPromise, isBoolean, isUndefined } from '../_shared/is';
 
@@ -11,6 +12,8 @@ const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
   (e: 'change', val: string | number | boolean): void;
 }>();
+
+const round = getRoundClass(props, 'switch');
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
@@ -68,15 +71,16 @@ const onClick = () => {
   <div
     class="o-switch"
     :class="[
-      `o-switch-size-${props.size || defaultSize}`,
-      `o-switch-shape-${props.shape || defaultShape}`,
-      { 'is-checked': isChecked },
-      { 'is-disabled': props.disabled },
-      { 'is-loading': props.loading },
+      `o-switch-${props.size || defaultSize}`,
+      round.class.value,
+      { 'o-switch-checked': isChecked },
+      { 'o-switch-disabled': props.disabled },
+      { 'o-switch-loading': props.loading },
     ]"
+    :style="round.style.value"
     @click="onClick"
   >
-    <div class="o-switch-wrapper">
+    <div class="o-switch-wrap">
       <div class="o-switch-handler">
         <span v-if="props.loading" class="o-switch-icon-loading o-rotating">
           <IconLoading />

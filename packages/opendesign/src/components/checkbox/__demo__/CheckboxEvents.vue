@@ -18,7 +18,7 @@ const handleChange2 = (val: Array<string | number>) => {
 </script>
 
 <template>
-  <h4>change事件</h4>
+  <h4>Change事件</h4>
   <section>
     <OCheckbox ref="checkboxRef1" v-model="checkboxVal1" :value="1" @change="handleChange1">选项1</OCheckbox>
     <OCheckbox v-model="checkboxVal1" :value="2" @change="handleChange1">选项2</OCheckbox>
