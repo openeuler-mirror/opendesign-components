@@ -1,59 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { defaultSize, defaultShape } from '../_shared/global';
-import type { SizeT, ShapeT } from '../_shared/global';
-import type { TagStatusT } from './types';
+import { defaultSize } from '../_shared/global';
+import { getRoundClass } from '../_shared/style-class';
+import { tagProps } from './types';
 import { IconClose } from '../_shared/icons';
 import { isUndefined } from '../_shared/is';
 
-interface TagPropT {
-  /**
-   * 标签状态
-   * 'normal' | 'success' | 'warning' | 'danger'
-   */
-  status?: TagStatusT;
-  /**
-   * 是否有边框
-   */
-  bordered?: boolean;
-  /**
-   * 标签尺寸
-   * 'normal' | 'large' | 'small'
-   */
-  size?: SizeT;
-  /**
-   * 标签形状
-   * 'normal' | 'round'
-   */
-  shape?: ShapeT;
-  /**
-   * 是否可关闭
-   */
-  closable?: boolean;
-  /**
-   * 是否可选中
-   */
-  checkable?: boolean;
-  /**
-   * 是否被选中(标签可选中时该属性生效)
-   */
-  checked?: boolean;
-  /**
-   * 非受控状态时，默认是否选中(标签可选中时该属性生效)
-   */
-  defaultChecked?: boolean;
-}
-
-const props = withDefaults(defineProps<TagPropT>(), {
-  status: 'normal',
-  bordered: false,
-  size: undefined,
-  shape: undefined,
-  closable: false,
-  checkable: false,
-  checked: undefined,
-  defaultChecked: false,
-});
+const props = defineProps(tagProps);
 
 const emits = defineEmits<{
   (e: 'update:checked', val: boolean): void;
@@ -61,18 +14,10 @@ const emits = defineEmits<{
   (e: 'close'): void;
 }>();
 
+const round = getRoundClass(props, 'tag');
+
 // 是否可见
 const isVisible = ref(true);
-
-// 监听checked属性改变
-const isCheckedPropChange = ref(false);
-
-watch(
-  () => props.checked,
-  () => {
-    isCheckedPropChange.value = true;
-  }
-);
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
@@ -80,9 +25,8 @@ const isChecked = computed(() => {
   if (!props.checkable) {
     return false;
   }
-
-  if (!isUndefined(props.checked) || isCheckedPropChange.value) {
-    return props.checked ?? false;
+  if (!isUndefined(props.checked)) {
+    return props.checked;
   }
 
   return _checked.value;
@@ -117,13 +61,14 @@ const onClose = (ev: Event) => {
     v-if="isVisible"
     class="o-tag"
     :class="[
-      `o-tag-status-${props.status}`,
-      `o-tag-size-${props.size || defaultSize}`,
-      `o-tag-shape-${props.shape || defaultShape}`,
-      { 'o-tag-bordered': props.bordered },
+      `o-tag-${props.color}`,
+      `o-tag-${props.size || defaultSize}`,
+      `o-tag-${props.variant}`,
+      round.class.value,
       { 'o-tag-checkable': props.checkable },
       { 'o-tag-checked': isChecked },
     ]"
+    :style="round.style.value"
     @click="onClick"
   >
     <span v-if="$slots.icon" class="o-tag-icon prefix">

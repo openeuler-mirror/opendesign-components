@@ -2,22 +2,22 @@
 import '../style';
 
 import TagBasic from './TagBasic.vue';
-import TagClosable from './TagClosable.vue';
-import TagShape from './TagShape.vue';
+import TagColor from './TagColor.vue';
 import TagSize from './TagSize.vue';
-import TagStatus from './TagStatus.vue';
-import TagBordered from './TagBordered.vue';
+import TagShape from './TagRound.vue';
+import TagOutline from './TagOutline.vue';
+import TagClosable from './TagClosable.vue';
 import TagCheckable from './TagCheckable.vue';
 </script>
 
 <template>
   <div class="page-demo">
     <TagBasic />
-    <TagClosable />
-    <TagShape />
+    <TagColor />
     <TagSize />
-    <TagStatus />
-    <TagBordered />
+    <TagShape />
+    <TagClosable />
+    <TagOutline />
     <TagCheckable />
   </div>
 </template>

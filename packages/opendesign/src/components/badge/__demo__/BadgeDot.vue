@@ -9,12 +9,12 @@ const link = 'www.openeuler.org';
 </script>
 
 <template>
-  <h4>红点徽章</h4>
+  <h4>点状徽章</h4>
   <section>
-    <OBadge dot>
+    <OBadge color="danger" dot>
       <OButton variant="solid" />
     </OBadge>
-    <OBadge dot>
+    <OBadge color="danger" dot>
       <OLink :href="link">普通链接</OLink>
     </OBadge>
   </section>

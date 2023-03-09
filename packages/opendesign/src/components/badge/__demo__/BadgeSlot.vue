@@ -8,9 +8,11 @@ import { OBadge } from '../index';
 <template>
   <h4>自定义徽章内容</h4>
   <section>
-    <OBadge>
+    <OBadge color="danger">
       <OButton variant="solid" />
-      <template #content> <IconAdd /></template>
+      <template #content>
+        <IconAdd />
+      </template>
     </OBadge>
   </section>
 </template>
