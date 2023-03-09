@@ -1077,7 +1077,14 @@
    * @group font_size
    * @description 正文
    */
-  --o-font_size-text: 14px;
+  --o-font_size-text1: 14px;
+  /**
+   * @name 正文-大
+   * @type font
+   * @group font_size
+   * @description 正文-大
+   */
+  --o-font_size-text2: 16px;
   /**
    * @name 提示文本1
    * @type font
@@ -1154,7 +1161,14 @@
    * @group line_height
    * @description 正文
    */
-  --o-line_height-text: 22px;
+  --o-line_height-text1: 22px;
+  /**
+   * @name 正文-大
+   * @type font
+   * @group line_height
+   * @description 正文-大
+   */
+  --o-line_height-text2: 24px;
   /**
    * @name 提示文本1
    * @type font

@@ -1323,12 +1323,21 @@
         }
       },
       {
-        "key": "font_size-text",
+        "key": "font_size-text1",
         "name": "正文",
         "description": "正文",
         "value": {
           "light": "14px",
           "dark": "14px"
+        }
+      },
+      {
+        "key": "font_size-text2",
+        "name": "正文-大",
+        "description": "正文-大",
+        "value": {
+          "light": "16px",
+          "dark": "16px"
         }
       },
       {
@@ -1429,12 +1438,21 @@
         }
       },
       {
-        "key": "line_height-text",
+        "key": "line_height-text1",
         "name": "正文",
         "description": "正文",
         "value": {
           "light": "22px",
           "dark": "22px"
+        }
+      },
+      {
+        "key": "line_height-text2",
+        "name": "正文-大",
+        "description": "正文-大",
+        "value": {
+          "light": "24px",
+          "dark": "24px"
         }
       },
       {

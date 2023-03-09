@@ -99,8 +99,8 @@
 .o-btn-medium {
   padding: 0 15px;
   height: var(--o-size-m);
-  font-size: var(--o-font_size-text);
-  line-height: var(--o-line_height-text);
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
 
   &.o-btn-icon-only {
     width: var(--o-size-m);
@@ -110,8 +110,8 @@
 .o-btn-large {
   padding: 0 19px;
   height: var(--o-size-l);
-  font-size: var(--o-font_size-h4);
-  line-height: var(--o-line_height-h4);
+  font-size: var(--o-font_size-text2);
+  line-height: var(--o-line_height-text2);
 
   &.o-btn-icon-only {
     width: var(--o-size-l);

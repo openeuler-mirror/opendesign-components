@@ -1223,12 +1223,20 @@
     "description": "四级标题[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
-  "--o-font_size-text": {
+  "--o-font_size-text1": {
     "prefix": [
-      "var(--o-font_size-text)"
+      "var(--o-font_size-text1)"
     ],
-    "body": "var(--o-font_size-text)",
+    "body": "var(--o-font_size-text1)",
     "description": "正文[light: 14px, dark: 14px]",
+    "scope": "css,scss,less"
+  },
+  "--o-font_size-text2": {
+    "prefix": [
+      "var(--o-font_size-text2)"
+    ],
+    "body": "var(--o-font_size-text2)",
+    "description": "正文-大[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-tip1": {
@@ -1311,12 +1319,20 @@
     "description": "四级标题[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
-  "--o-line_height-text": {
+  "--o-line_height-text1": {
     "prefix": [
-      "var(--o-line_height-text)"
+      "var(--o-line_height-text1)"
     ],
-    "body": "var(--o-line_height-text)",
+    "body": "var(--o-line_height-text1)",
     "description": "正文[light: 22px, dark: 22px]",
+    "scope": "css,scss,less"
+  },
+  "--o-line_height-text2": {
+    "prefix": [
+      "var(--o-line_height-text2)"
+    ],
+    "body": "var(--o-line_height-text2)",
+    "description": "正文-大[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-tip1": {
