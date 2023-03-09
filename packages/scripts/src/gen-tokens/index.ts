@@ -192,10 +192,11 @@ function generateCodeSnippets(tokens: Record<string, FlatTokenT>, outFile: strin
     const { value, tokenKey, description } = token;
     const themes = Object.keys(value).map(theme => `${theme}: ${value[theme]}`);
     const desc = `${description || ''}[${themes.join(', ')}]`;
+    const code = `var(${tokenKey})`;
 
     snippets[tokenKey] = {
-      prefix: [`var(${tokenKey})`],
-      body: `var(${tokenKey})`,
+      prefix: [code],
+      body: code,
       description: desc,
       scope: 'css,scss,less'
     };
