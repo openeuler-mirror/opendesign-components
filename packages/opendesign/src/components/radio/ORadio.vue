@@ -8,7 +8,7 @@ const props = defineProps(radioProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
-  (e: 'change', val: string | number | boolean): void;
+  (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
@@ -47,7 +47,7 @@ const onClick = (ev: Event) => {
   ev.stopPropagation();
 };
 
-const onChange = () => {
+const onChange = (ev: Event) => {
   if (isDisabled.value) {
     return;
   }
@@ -58,8 +58,8 @@ const onChange = () => {
   emits('update:modelValue', val);
   radioGroupInjection?.updateModelValue(val);
   nextTick(() => {
-    emits('change', val);
-    radioGroupInjection?.onChange(val);
+    emits('change', val, ev);
+    radioGroupInjection?.onChange(val, ev);
   });
 };
 </script>

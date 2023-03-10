@@ -7,26 +7,18 @@ import { IconChevronRight } from '../_shared/icons';
 defineProps(breadcrumbItemProps);
 
 const breadcrumbInjection = inject(breadcrumbInjectKey, null);
-
-const emits = defineEmits<{
-  (e: 'click'): void;
-}>();
-
-const onClick = () => {
-  emits('click');
-};
 </script>
 
 <template>
   <div class="o-breadcrumb-item">
     <!-- label -->
-    <a v-if="href" :href="href" :target="target" class="o-breadcrumb-item-label" @click="onClick">
+    <a v-if="href" :href="href" :target="target" class="o-breadcrumb-item-label">
       <slot></slot>
     </a>
-    <router-link v-else-if="to" :to="to" :replace="replace" @click="onClick">
+    <router-link v-else-if="to" :to="to" :replace="replace">
       <slot></slot>
     </router-link>
-    <span v-else class="o-breadcrumb-item-label" @click="onClick">
+    <span v-else class="o-breadcrumb-item-label">
       <slot></slot>
     </span>
     <!-- separator -->

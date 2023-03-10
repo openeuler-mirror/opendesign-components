@@ -10,8 +10,8 @@ const props = defineProps(tagProps);
 
 const emits = defineEmits<{
   (e: 'update:checked', val: boolean): void;
-  (e: 'change', val: boolean): void;
-  (e: 'close'): void;
+  (e: 'change', val: boolean, ev: MouseEvent): void;
+  (e: 'close', ev: MouseEvent): void;
 }>();
 
 const round = getRoundClass(props, 'tag');
@@ -40,19 +40,19 @@ watch(
   { immediate: true }
 );
 
-const onClick = () => {
+const onClick = (ev: MouseEvent) => {
   if (props.checkable) {
     const checked = !isChecked.value;
     _checked.value = checked;
     emits('update:checked', checked);
-    emits('change', checked);
+    emits('change', checked, ev);
   }
 };
 
-const onClose = (ev: Event) => {
+const onClose = (ev: MouseEvent) => {
   ev.stopPropagation();
   isVisible.value = false;
-  emits('close');
+  emits('close', ev);
 };
 </script>
 

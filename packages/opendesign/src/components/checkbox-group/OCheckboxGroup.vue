@@ -8,7 +8,7 @@ const props = defineProps(checkboxGroupProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: Array<string | number>): void;
-  (e: 'change', val: Array<string | number>): void;
+  (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
 const realValue = ref(isArray(props.modelValue) ? props.modelValue : props.defaultValue);
@@ -31,8 +31,8 @@ const updateModelValue = (val: Array<string | number>) => {
   emits('update:modelValue', val);
 };
 
-const onChange = (val: Array<string | number>) => {
-  emits('change', val);
+const onChange = (val: Array<string | number>, ev: Event) => {
+  emits('change', val, ev);
 };
 
 provide(checkboxGroupInjectKey, {

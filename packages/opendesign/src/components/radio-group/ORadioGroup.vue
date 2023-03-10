@@ -8,7 +8,7 @@ const props = defineProps(radioGroupProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
-  (e: 'change', val: string | number | boolean): void;
+  (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
 const realValue = ref(props.modelValue ?? props.defaultValue);
@@ -27,8 +27,8 @@ const updateModelValue = (val: string | number | boolean) => {
   emits('update:modelValue', val);
 };
 
-const onChange = (val: string | number | boolean) => {
-  emits('change', val);
+const onChange = (val: string | number | boolean, ev: Event) => {
+  emits('change', val, ev);
 };
 
 provide(radioGroupInjectKey, {
