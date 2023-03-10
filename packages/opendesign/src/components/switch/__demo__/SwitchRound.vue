@@ -5,7 +5,7 @@ const switchVal1 = ref(false);
 const switchVal2 = ref(true);
 const switchVal3 = ref(true);
 
-const r2 = '2px';
+const r2 = '6px';
 const r4 = '4px';
 </script>
 
@@ -23,7 +23,7 @@ const r4 = '4px';
 
     <div>
       <section>
-        <p>round="2px"</p>
+        <p>round={{ r2 }}</p>
         <OSWitch v-model="switchVal2" :round="r2" size="small" />
         <OSWitch v-model="switchVal2" :round="r2" size="medium" />
         <OSWitch v-model="switchVal2" :round="r2" size="large" />
@@ -32,7 +32,7 @@ const r4 = '4px';
 
     <div>
       <section>
-        <p>round="4px"</p>
+        <p>round={{ r4 }}</p>
         <OSWitch v-model="switchVal3" :round="r4" size="small" />
         <OSWitch v-model="switchVal3" :round="r4" size="medium" />
         <OSWitch v-model="switchVal3" :round="r4" size="large" />

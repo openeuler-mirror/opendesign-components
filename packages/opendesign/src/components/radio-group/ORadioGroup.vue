@@ -23,6 +23,7 @@ watch(
 );
 
 const updateModelValue = (val: string | number | boolean) => {
+  realValue.value = val;
   emits('update:modelValue', val);
 };
 

@@ -12,16 +12,6 @@
   cursor: pointer;
 }
 
-.o-switch-checked {
-  background-color: var(--switch-bg-color-checked);
-}
-
-.o-switch-disabled,
-.o-switch-loading {
-  cursor: not-allowed;
-  background-color: var(--switch-bg-color-disabled);
-}
-
 .o-switch-disabled.o-switch-checked,
 .o-switch-loading.o-switch-checked {
   background-color: var(--switch-bg-color-checked-disabled);
@@ -43,9 +33,10 @@
   transform: translateY(-50%);
   width: var(--switch-handler-size);
   height: var(--switch-handler-size);
-  border-radius: var(--switch-handler-radius);
+  border-radius: calc(var(--switch-radius) - 2px);
   background-color: var(--switch-handler-bg-color);
   transition: left var(--o-duration-s) var(--o-easing-standard);
+  left: var(--switch-handler-offset);
 
   .o-switch-icon-loading {
     width: 100%;
@@ -63,73 +54,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-left: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-content-padding));
+  padding-right: var(--switch-content-padding);
+}
+
+.o-switch-checked {
+  background-color: var(--switch-bg-color-checked);
+
+  .o-switch-handler {
+    left: calc(100% - var(--switch-handler-offset) - var(--switch-handler-size));
+  }
+
+  .o-switch-content {
+    padding-left: var(--switch-content-padding);
+    padding-right: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-content-padding));
+  }
+}
+
+.o-switch-disabled,
+.o-switch-loading {
+  cursor: not-allowed;
+  background-color: var(--switch-bg-color-disabled);
 }
 
 .o-switch-large {
   min-width: 60px;
-  .o-switch-handler {
-    left: 4px;
-  }
-
-  .o-switch-content {
-    padding-left: 28px;
-    padding-right: 8px;
-  }
-
-  &.o-switch-checked {
-    .o-switch-handler {
-      left: calc(100% - 24px);
-    }
-
-    .o-switch-content {
-      padding-left: 8px;
-      padding-right: 28px;
-    }
-  }
 }
 
 .o-switch-medium {
   min-width: 40px;
-
-  .o-switch-handler {
-    left: 2px;
-  }
-
-  .o-switch-content {
-    padding-left: 20px;
-    padding-right: 4px;
-  }
-
-  &.o-switch-checked {
-    .o-switch-handler {
-      left: calc(100% - 18px);
-    }
-    .o-switch-content {
-      padding-left: 4px;
-      padding-right: 20px;
-    }
-  }
 }
 
 .o-switch-small {
   min-width: 30px;
-
-  .o-switch-handler {
-    left: 2px;
-  }
-
-  .o-switch-content {
-    padding-left: 15px;
-    padding-right: 2px;
-  }
-
-  &.o-switch-checked {
-    .o-switch-handler {
-      left: calc(100% - 14px);
-    }
-    .o-switch-content {
-      padding-left: 2px;
-      padding-right: 15px;
-    }
-  }
 }
