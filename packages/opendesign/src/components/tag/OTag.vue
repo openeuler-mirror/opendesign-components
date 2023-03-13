@@ -61,9 +61,9 @@ const onClose = (ev: MouseEvent) => {
     v-if="isVisible"
     class="o-tag"
     :class="[
+      `o-tag-${props.variant}`,
       `o-tag-${props.color}`,
       `o-tag-${props.size || defaultSize}`,
-      `o-tag-${props.variant}`,
       round.class.value,
       { 'o-tag-checkable': props.checkable },
       { 'o-tag-checked': isChecked },
