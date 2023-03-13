@@ -9,7 +9,7 @@ const props = defineProps(checkboxProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: Array<string | number>): void;
-  (e: 'change', val: Array<string | number>): void;
+  (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
@@ -75,8 +75,8 @@ const onChange = (ev: Event) => {
   emits('update:modelValue', val);
   checkboxGroupInjection?.updateModelValue(val);
   nextTick(() => {
-    emits('change', val);
-    checkboxGroupInjection?.onChange(val);
+    emits('change', val, ev);
+    checkboxGroupInjection?.onChange(val, ev);
   });
 };
 

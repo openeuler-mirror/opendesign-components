@@ -6,5 +6,5 @@ export const checkboxGroupInjectKey: InjectionKey<{
   isMinimum: Ref<boolean>;
   isMaximum: Ref<boolean>;
   updateModelValue: (val: Array<string | number>) => void;
-  onChange: (val: Array<string | number>) => void;
+  onChange: (val: Array<string | number>, ev: Event) => void;
 }> = Symbol('provide-checkbox-group');

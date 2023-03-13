@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { rateProps } from './types';
 import { defaultSize } from '../_shared/global';
 import { IconStar } from '../icons';
+import { isUndefined } from '../_shared/is';
 
 const props = defineProps(rateProps);
 
@@ -16,7 +17,9 @@ const realValue = ref(props.modelValue ?? props.defaultValue);
 watch(
   () => props.modelValue,
   (val) => {
-    realValue.value = val ?? props.defaultValue;
+    if (!isUndefined(val)) {
+      realValue.value = val;
+    }
   }
 );
 

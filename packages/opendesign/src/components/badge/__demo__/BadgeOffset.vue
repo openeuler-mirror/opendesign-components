@@ -7,13 +7,13 @@ import { OBadge } from '../index';
 <template>
   <h4>徽章位置偏移</h4>
   <section>
-    <OBadge :value="9" :offset="[5, 10]">
+    <OBadge :value="9" :offset="[5, 10]" color="danger">
       <OButton variant="solid" />
     </OBadge>
-    <OBadge :value="9" :offset="[5, 20]">
+    <OBadge :value="9" :offset="[5, 20]" color="danger">
       <OButton variant="solid" />
     </OBadge>
-    <OBadge :value="9" :offset="['50%', '20%']">
+    <OBadge :value="9" :offset="['50%', '20%']" color="danger">
       <OButton variant="solid" />
     </OBadge>
   </section>
