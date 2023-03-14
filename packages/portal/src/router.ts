@@ -153,6 +153,12 @@ export const routes = [
     component: () => import('@components/dialog/__demo__/IndexDialog.vue'),
   },
   {
+    path: '/figure',
+    name: 'Figure',
+    label: '图片',
+    component: () => import('@components/figure/__demo__/IndexFigure.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'resize监听',

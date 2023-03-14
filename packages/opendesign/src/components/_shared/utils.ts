@@ -45,3 +45,38 @@ export function throttleRAF<T extends (...args: Array<unknown>) => unknown>(fn: 
   };
   return rlt;
 }
+
+/**
+ * 颜色池
+ */
+class ColorPool {
+  pool: Array<string>;
+  tmpPool: Array<string>;
+
+  constructor(pool: Array<string>) {
+    this.pool = pool;
+    this.tmpPool = [...pool];
+  }
+  /**
+   * 返回指定位置颜色，或者从颜色池随机返回一个颜色
+   * @param index
+   * @returns
+   */
+  pick(index?: number): string {
+    if (index !== undefined) {
+      return this.pool[index % this.pool.length];
+    }
+    const { length } = this.tmpPool;
+    if (length === 0) {
+      this.tmpPool = [...this.pool];
+    }
+    const idx = Math.floor(Math.random() * length);
+    const color = this.tmpPool[idx];
+    this.tmpPool.splice(idx, 1);
+
+    return color;
+  }
+}
+
+const PrestColor = ['#d9e6c3', '#ebd5be', '#d1e6de', '#e0ceeb', '#ebd3c7', '#e6dada', '#e3deeb', '#dedae6', '#cad0e8', '#cedeeb'];
+export const PrestColorPool = new ColorPool(PrestColor);

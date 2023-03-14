@@ -53,13 +53,13 @@ const onMaskClick = (e: MouseEvent) => {
       <transition :name="props.transition">
         <div v-if="isMounted" class="o-dlg-main" :class="props.wrapClass">
           <div class="o-dlg-btn-close" @click="onCloseClick"><IconClose /></div>
-          <div class="o-dlg-head">
+          <div v-if="$slots.header" class="o-dlg-head">
             <slot name="header"></slot>
           </div>
           <div class="o-dlg-body">
             <slot></slot>
           </div>
-          <div class="o-dlg-foot">
+          <div v-if="$slots.footer" class="o-dlg-foot">
             <slot name="footer"></slot>
           </div>
         </div>
