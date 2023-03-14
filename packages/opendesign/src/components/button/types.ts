@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, ColorT, VariantT } from '../_shared/global';
+import { RoundT, ColorT, VariantT } from '../_shared/global';
 
 export type ButtonTypeT = 'primary' | 'outline' | 'text' | 'link'
 

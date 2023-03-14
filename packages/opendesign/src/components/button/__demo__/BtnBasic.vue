@@ -81,34 +81,5 @@ import { IconAdd } from '../../icons';
       </div>
     </div>
   </section>
-
-  <h4>Size</h4>
-  <section>
-    <OButton color="normal" size="mini"
-      ><template #icon><IconAdd /></template>Primary Button</OButton
-    >
-    <OButton color="normal" size="small"
-      ><template #icon><IconAdd /></template>Primary Button</OButton
-    >
-    <OButton color="normal" size="medium"
-      ><template #icon><IconAdd /></template>Success Button</OButton
-    >
-    <OButton color="normal" size="large"
-      ><template #icon><IconAdd /></template>Warning Button</OButton
-    >
-
-    <OButton color="primary" size="mini"
-      ><template #icon><IconAdd /></template>Primary Button</OButton
-    >
-    <OButton color="primary" size="small"
-      ><template #icon><IconAdd /></template>Primary Button</OButton
-    >
-    <OButton color="primary" size="medium"
-      ><template #icon><IconAdd /></template>Success Button</OButton
-    >
-    <OButton color="primary" size="large"
-      ><template #icon><IconAdd /></template>Warning Button</OButton
-    >
-  </section>
 </template>
 <style lang="scss"></style>
