@@ -1174,12 +1174,30 @@
     "typeName": "尺寸",
     "value": [
       {
-        "key": "size-l",
-        "name": "大尺寸",
-        "description": "尺寸",
+        "key": "size-xxs",
+        "name": "小尺寸",
+        "description": "小尺寸",
         "value": {
-          "light": "40px",
-          "dark": "40px"
+          "light": "12px",
+          "dark": "12px"
+        }
+      },
+      {
+        "key": "size-xs",
+        "name": "小尺寸",
+        "description": "小尺寸",
+        "value": {
+          "light": "18px",
+          "dark": "18px"
+        }
+      },
+      {
+        "key": "size-s",
+        "name": "小尺寸",
+        "description": "小尺寸",
+        "value": {
+          "light": "24px",
+          "dark": "24px"
         }
       },
       {
@@ -1192,12 +1210,21 @@
         }
       },
       {
-        "key": "size-s",
-        "name": "小尺寸",
-        "description": "小尺寸",
+        "key": "size-l",
+        "name": "大尺寸",
+        "description": "尺寸",
         "value": {
-          "light": "24px",
-          "dark": "24px"
+          "light": "40px",
+          "dark": "40px"
+        }
+      },
+      {
+        "key": "size-xl",
+        "name": "大尺寸",
+        "description": "尺寸",
+        "value": {
+          "light": "48px",
+          "dark": "48px"
         }
       }
     ]
@@ -1208,21 +1235,21 @@
     "typeName": "尺寸",
     "value": [
       {
-        "key": "icon_size-l",
-        "name": "大尺寸图标",
-        "description": "尺寸",
+        "key": "icon_size-xxs",
+        "name": "超小尺寸图标",
+        "description": "小尺寸",
         "value": {
-          "light": "48px",
-          "dark": "48px"
+          "light": "12px",
+          "dark": "12px"
         }
       },
       {
-        "key": "icon_size-m",
-        "name": "中尺寸图标",
-        "description": "尺寸",
+        "key": "icon_size-xs",
+        "name": "超小尺寸图标",
+        "description": "小尺寸",
         "value": {
-          "light": "32px",
-          "dark": "32px"
+          "light": "16px",
+          "dark": "16px"
         }
       },
       {
@@ -1235,12 +1262,21 @@
         }
       },
       {
-        "key": "icon_size-xs",
-        "name": "超小尺寸图标",
-        "description": "小尺寸",
+        "key": "icon_size-m",
+        "name": "中尺寸图标",
+        "description": "尺寸",
         "value": {
-          "light": "16px",
-          "dark": "16px"
+          "light": "32px",
+          "dark": "32px"
+        }
+      },
+      {
+        "key": "icon_size-l",
+        "name": "大尺寸图标",
+        "description": "尺寸",
+        "value": {
+          "light": "48px",
+          "dark": "48px"
         }
       }
     ]
@@ -1314,21 +1350,21 @@
         }
       },
       {
-        "key": "font_size-h4",
-        "name": "四级标题",
-        "description": "四级标题",
-        "value": {
-          "light": "16px",
-          "dark": "16px"
-        }
-      },
-      {
-        "key": "font_size-text",
-        "name": "正文",
-        "description": "正文",
+        "key": "font_size-text1",
+        "name": "常规正文",
+        "description": "常规正文",
         "value": {
           "light": "14px",
           "dark": "14px"
+        }
+      },
+      {
+        "key": "font_size-text2",
+        "name": "大号正文",
+        "description": "大号正文",
+        "value": {
+          "light": "16px",
+          "dark": "16px"
         }
       },
       {
@@ -1420,21 +1456,21 @@
         }
       },
       {
-        "key": "line_height-h4",
-        "name": "四级标题",
-        "description": "四级标题",
-        "value": {
-          "light": "24px",
-          "dark": "24px"
-        }
-      },
-      {
-        "key": "line_height-text",
-        "name": "正文",
-        "description": "正文",
+        "key": "line_height-text1",
+        "name": "常规正文",
+        "description": "常规正文",
         "value": {
           "light": "22px",
           "dark": "22px"
+        }
+      },
+      {
+        "key": "line_height-text2",
+        "name": "大号正文",
+        "description": "大号正文",
+        "value": {
+          "light": "24px",
+          "dark": "24px"
         }
       },
       {
@@ -1463,12 +1499,12 @@
     "typeName": "尺寸",
     "value": [
       {
-        "key": "radius-l",
-        "name": "大尺寸圆角",
-        "description": "大尺寸圆角",
+        "key": "radius-s",
+        "name": "小尺寸圆角",
+        "description": "小尺寸圆角",
         "value": {
-          "light": "8px",
-          "dark": "8px"
+          "light": "2px",
+          "dark": "2px"
         }
       },
       {
@@ -1481,21 +1517,21 @@
         }
       },
       {
-        "key": "radius-s",
-        "name": "小尺寸圆角",
-        "description": "小尺寸圆角",
+        "key": "radius-l",
+        "name": "大尺寸圆角",
+        "description": "大尺寸圆角",
         "value": {
-          "light": "2px",
-          "dark": "2px"
+          "light": "8px",
+          "dark": "8px"
         }
       },
       {
-        "key": "radius-control-l",
-        "name": "大尺寸控件圆角",
-        "description": "大尺寸控件圆角",
+        "key": "radius-control-s",
+        "name": "小尺寸控件圆角",
+        "description": "小尺寸控件圆角",
         "value": {
-          "light": "var(--o-radius-l)",
-          "dark": "var(--o-radius-l)"
+          "light": "var(--o-radius-s)",
+          "dark": "var(--o-radius-s)"
         }
       },
       {
@@ -1508,12 +1544,12 @@
         }
       },
       {
-        "key": "radius-control-s",
-        "name": "小尺寸控件圆角",
-        "description": "小尺寸控件圆角",
+        "key": "radius-control-l",
+        "name": "大尺寸控件圆角",
+        "description": "大尺寸控件圆角",
         "value": {
-          "light": "var(--o-radius-s)",
-          "dark": "var(--o-radius-s)"
+          "light": "var(--o-radius-l)",
+          "dark": "var(--o-radius-l)"
         }
       }
     ]

@@ -86,16 +86,16 @@
   --textarea-radius-pill: 12px;
 }
 .o-textarea-size-medium {
-  --textarea-text-size: var(--o-font_size-text);
-  --textarea-text-height: var(--o-line_height-text);
+  --textarea-text-size: var(--o-font_size-text1);
+  --textarea-text-height: var(--o-line_height-text1);
   --textarea-padding-v: 4px;
   --textarea-padding-h: 12px;
   --textarea-radius: var(--o-radius-control-m);
   --textarea-radius-pill: 16px;
 }
 .o-textarea-size-large {
-  --textarea-text-size: var(--o-font_size-h4);
-  --textarea-text-height: var(--o-line_height-h4);
+  --textarea-text-size: var(--o-font_size-text2);
+  --textarea-text-height: var(--o-line_height-text2);
   --textarea-padding-v: 6px;
   --textarea-padding-h: 12px;
   --textarea-radius: var(--o-radius-control-l);

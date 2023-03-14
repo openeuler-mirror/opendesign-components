@@ -15,6 +15,7 @@ const handleChange = (val: boolean) => {
   <h4>可选中标签</h4>
   <section>
     <OTag v-model:checked="tagVal1" checkable @change="handleChange">Tag1</OTag>
+    <OTag v-model:checked="tagVal2" color="primary" checkable @change="handleChange">Tag2</OTag>
     <OTag v-model:checked="tagVal2" color="success" checkable @change="handleChange">Tag2</OTag>
     <OTag v-model:checked="tagVal3" color="warning" checkable @change="handleChange">Tag3</OTag>
     <OTag v-model:checked="tagVal4" color="danger" checkable @change="handleChange">Tag4</OTag>

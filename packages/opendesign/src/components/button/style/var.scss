@@ -160,9 +160,6 @@
   }
 }
 
-.o-btn-round-pill {
-  --btn-radius: var(--o-size-l);
-}
 .o-btn-small {
   --btn-radius: var(--o-radius-control-s);
 }
@@ -171,4 +168,8 @@
 }
 .o-btn-large {
   --btn-radius: var(--o-radius-control-l);
+}
+
+.o-btn-round-pill {
+  --btn-radius: var(--o-size-l);
 }

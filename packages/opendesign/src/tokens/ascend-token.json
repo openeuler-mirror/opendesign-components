@@ -20,156 +20,79 @@
       }
     ]
   },
-  "blue": {
-    "name": "蓝色",
+  "deepblue": {
+    "name": "深蓝色",
     "type": "palette",
     "typeName": "色盘",
     "value": [
       {
-        "key": "blue-1",
+        "key": "deepblue-1",
         "value": {
           "light": "232, 240, 255",
-          "dark": "0, 13, 77"
+          "dark": "232, 240, 255"
         }
       },
       {
-        "key": "blue-2",
+        "key": "deepblue-2",
         "value": {
           "light": "194, 213, 254",
-          "dark": "4, 27, 121"
+          "dark": "194, 213, 254"
         }
       },
       {
-        "key": "blue-3",
+        "key": "deepblue-3",
         "value": {
           "light": "157, 184, 253",
-          "dark": "14, 50, 166"
+          "dark": "157, 184, 253"
         }
       },
       {
-        "key": "blue-4",
+        "key": "deepblue-4",
         "value": {
           "light": "120, 153, 252",
-          "dark": "29, 77, 210"
+          "dark": "120, 153, 252"
         }
       },
       {
-        "key": "blue-5",
+        "key": "deepblue-5",
         "value": {
           "light": "83, 119, 251",
-          "dark": "48, 111, 255"
+          "dark": "83, 119, 251"
         }
       },
       {
-        "key": "blue-6",
+        "key": "deepblue-6",
         "value": {
           "light": "46, 83, 250",
-          "dark": "60, 126, 255"
+          "dark": "46, 83, 250"
         }
       },
       {
-        "key": "blue-7",
+        "key": "deepblue-7",
         "value": {
           "light": "29, 55, 207",
-          "dark": "104, 159, 255"
+          "dark": "29, 55, 207"
         }
       },
       {
-        "key": "blue-8",
+        "key": "deepblue-8",
         "value": {
           "light": "15, 32, 163",
-          "dark": "147, 190, 255"
+          "dark": "15, 32, 163"
         }
       },
       {
-        "key": "blue-9",
+        "key": "deepblue-9",
         "value": {
           "light": "6, 15, 120",
-          "dark": "190, 218, 255"
+          "dark": "6, 15, 120"
         }
       },
       {
-        "key": "blue-10",
+        "key": "deepblue-10",
         "value": {
           "light": "0, 4, 47",
-          "dark": "234, 244, 255"
-        }
-      }
-    ]
-  },
-  "yellow": {
-    "name": "黄色",
-    "type": "palette",
-    "typeName": "色盘",
-    "value": [
-      {
-        "key": "yellow-1",
-        "value": {
-          "light": "255, 255, 232",
-          "dark": "77, 56, 0"
-        }
-      },
-      {
-        "key": "yellow-2",
-        "value": {
-          "light": "253, 251, 185",
-          "dark": "120, 94, 7"
-        }
-      },
-      {
-        "key": "yellow-3",
-        "value": {
-          "light": "251, 244, 139",
-          "dark": "163, 134, 20"
-        }
-      },
-      {
-        "key": "yellow-4",
-        "value": {
-          "light": "249, 233, 94",
-          "dark": "207, 179, 37"
-        }
-      },
-      {
-        "key": "yellow-5",
-        "value": {
-          "light": "247, 221, 49",
-          "dark": "250, 225, 60"
-        }
-      },
-      {
-        "key": "yellow-6",
-        "value": {
-          "light": "245, 205, 5",
-          "dark": "251, 233, 75"
-        }
-      },
-      {
-        "key": "yellow-7",
-        "value": {
-          "light": "203, 163, 3",
-          "dark": "252, 243, 116"
-        }
-      },
-      {
-        "key": "yellow-8",
-        "value": {
-          "light": "161, 124, 2",
-          "dark": "253, 250, 157"
-        }
-      },
-      {
-        "key": "yellow-9",
-        "value": {
-          "light": "119, 87, 1",
-          "dark": "254, 254, 198"
-        }
-      },
-      {
-        "key": "yellow-10",
-        "value": {
-          "light": "77, 54, 0",
-          "dark": "254, 255, 240"
+          "dark": "0, 4, 47"
         }
       }
     ]
@@ -183,70 +106,70 @@
         "key": "green-1",
         "value": {
           "light": "232, 255, 238",
-          "dark": "0, 77, 28"
+          "dark": "232, 255, 238"
         }
       },
       {
         "key": "green-2",
         "value": {
           "light": "177, 239, 195",
-          "dark": "4, 102, 37"
+          "dark": "177, 239, 195"
         }
       },
       {
         "key": "green-3",
         "value": {
           "light": "128, 224, 158",
-          "dark": "10, 128, 45"
+          "dark": "128, 224, 158"
         }
       },
       {
         "key": "green-4",
         "value": {
           "light": "84, 208, 127",
-          "dark": "18, 154, 55"
+          "dark": "84, 208, 127"
         }
       },
       {
         "key": "green-5",
         "value": {
           "light": "45, 193, 101",
-          "dark": "29, 180, 64"
+          "dark": "45, 193, 101"
         }
       },
       {
         "key": "green-6",
         "value": {
           "light": "11, 177, 81",
-          "dark": "39, 195, 70"
+          "dark": "11, 177, 81"
         }
       },
       {
         "key": "green-7",
         "value": {
           "light": "7, 152, 72",
-          "dark": "80, 210, 102"
+          "dark": "7, 152, 72"
         }
       },
       {
         "key": "green-8",
         "value": {
           "light": "4, 127, 63",
-          "dark": "126, 225, 139"
+          "dark": "4, 127, 63"
         }
       },
       {
         "key": "green-9",
         "value": {
           "light": "2, 102, 53",
-          "dark": "178, 240, 183"
+          "dark": "2, 102, 53"
         }
       },
       {
         "key": "green-10",
         "value": {
           "light": "0, 77, 42",
-          "dark": "235, 255, 236"
+          "dark": "0, 77, 42"
         }
       }
     ]
@@ -260,70 +183,70 @@
         "key": "orange-1",
         "value": {
           "light": "255, 246, 232",
-          "dark": "77, 27, 0"
+          "dark": "255, 246, 232"
         }
       },
       {
         "key": "orange-2",
         "value": {
           "light": "254, 226, 186",
-          "dark": "121, 48, 4"
+          "dark": "254, 226, 186"
         }
       },
       {
         "key": "orange-3",
         "value": {
           "light": "253, 202, 140",
-          "dark": "166, 75, 10"
+          "dark": "253, 202, 140"
         }
       },
       {
         "key": "orange-4",
         "value": {
           "light": "252, 176, 95",
-          "dark": "210, 105, 19"
+          "dark": "252, 176, 95"
         }
       },
       {
         "key": "orange-5",
         "value": {
           "light": "251, 147, 50",
-          "dark": "255, 141, 31"
+          "dark": "251, 147, 50"
         }
       },
       {
         "key": "orange-6",
         "value": {
           "light": "250, 115, 5",
-          "dark": "255, 150, 38"
+          "dark": "250, 115, 5"
         }
       },
       {
         "key": "orange-7",
         "value": {
           "light": "207, 88, 3",
-          "dark": "255, 179, 87"
+          "dark": "207, 88, 3"
         }
       },
       {
         "key": "orange-8",
         "value": {
           "light": "163, 64, 2",
-          "dark": "255, 205, 135"
+          "dark": "163, 64, 2"
         }
       },
       {
         "key": "orange-9",
         "value": {
           "light": "120, 42, 1",
-          "dark": "255, 227, 184"
+          "dark": "120, 42, 1"
         }
       },
       {
         "key": "orange-10",
         "value": {
           "light": "77, 24, 0",
-          "dark": "255, 247, 232"
+          "dark": "77, 24, 0"
         }
       }
     ]
@@ -337,70 +260,84 @@
         "key": "red-1",
         "value": {
           "light": "255, 234, 232",
-          "dark": "77, 0, 10"
+          "dark": "255, 234, 232"
         }
       },
       {
         "key": "red-2",
         "value": {
           "light": "250, 185, 182",
-          "dark": "119, 6, 17"
+          "dark": "250, 185, 182"
         }
       },
       {
         "key": "red-3",
         "value": {
           "light": "245, 136, 134",
-          "dark": "161, 22, 31"
+          "dark": "245, 136, 134"
         }
       },
       {
         "key": "red-4",
         "value": {
           "light": "240, 87, 90",
-          "dark": "203, 46, 52"
+          "dark": "240, 87, 90"
         }
       },
       {
         "key": "red-5",
         "value": {
           "light": "235, 43, 52",
-          "dark": "245, 78, 78"
+          "dark": "235, 43, 52"
         }
       },
       {
         "key": "red-6",
         "value": {
           "light": "230, 0, 18",
-          "dark": "247, 105, 101"
+          "dark": "230, 0, 18"
         }
       },
       {
         "key": "red-7",
         "value": {
           "light": "192, 0, 45",
-          "dark": "249, 141, 134"
+          "dark": "192, 0, 45"
         }
       },
       {
         "key": "red-8",
         "value": {
           "light": "153, 0, 23",
-          "dark": "251, 176, 167"
+          "dark": "153, 0, 23"
         }
       },
       {
         "key": "red-9",
         "value": {
           "light": "115, 0, 21",
-          "dark": "253, 209, 202"
+          "dark": "115, 0, 21"
         }
       },
       {
         "key": "red-10",
         "value": {
           "light": "77, 0, 17",
-          "dark": "255, 240, 236"
+          "dark": "77, 0, 17"
+        }
+      }
+    ]
+  },
+  "huaweired": {
+    "name": "华为红",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "red-huawei",
+        "value": {
+          "light": "199, 0, 11",
+          "dark": "199, 0, 11"
         }
       }
     ]
@@ -414,98 +351,98 @@
         "key": "gray-1",
         "value": {
           "light": "255, 255, 255",
-          "dark": "0, 0, 0"
+          "dark": "255, 255, 255"
         }
       },
       {
         "key": "gray-2",
         "value": {
           "light": "250, 250, 250",
-          "dark": "36, 36, 36"
+          "dark": "250, 250, 250"
         }
       },
       {
         "key": "gray-3",
         "value": {
           "light": "247, 247, 247",
-          "dark": "57, 57, 57"
+          "dark": "247, 247, 247"
         }
       },
       {
         "key": "gray-4",
         "value": {
           "light": "242, 242, 242",
-          "dark": "94, 94, 94"
+          "dark": "242, 242, 242"
         }
       },
       {
         "key": "gray-5",
         "value": {
           "light": "235, 235, 235",
-          "dark": "119, 119, 122"
+          "dark": "235, 235, 235"
         }
       },
       {
         "key": "gray-6",
         "value": {
           "light": "219, 219, 219",
-          "dark": "166, 166, 166"
+          "dark": "219, 219, 219"
         }
       },
       {
         "key": "gray-7",
         "value": {
           "light": "189, 189, 189",
-          "dark": "221, 221, 221"
+          "dark": "189, 189, 189"
         }
       },
       {
         "key": "gray-8",
         "value": {
           "light": "148, 148, 148",
-          "dark": "238, 238, 238"
+          "dark": "148, 148, 148"
         }
       },
       {
         "key": "gray-9",
         "value": {
           "light": "110, 110, 110",
-          "dark": "243, 243, 243"
+          "dark": "110, 110, 110"
         }
       },
       {
         "key": "gray-10",
         "value": {
           "light": "79, 79, 79",
-          "dark": "255, 255, 255"
+          "dark": "79, 79, 79"
         }
       },
       {
         "key": "gray-11",
         "value": {
           "light": "48, 48, 48",
-          "dark": "255, 255, 255"
+          "dark": "48, 48, 48"
         }
       },
       {
         "key": "gray-12",
         "value": {
           "light": "36, 36, 36",
-          "dark": "255, 255, 255"
+          "dark": "36, 36, 36"
         }
       },
       {
         "key": "gray-13",
         "value": {
           "light": "18, 18, 18",
-          "dark": "255, 255, 255"
+          "dark": "18, 18, 18"
         }
       },
       {
         "key": "gray-14",
         "value": {
           "light": "0, 0, 0",
-          "dark": "255, 255, 255"
+          "dark": "0, 0, 0"
         }
       }
     ]
@@ -519,98 +456,637 @@
         "key": "mixedgray-1",
         "value": {
           "light": "255, 255, 255",
-          "dark": "0, 0, 0"
+          "dark": "255, 255, 255"
         }
       },
       {
         "key": "mixedgray-2",
         "value": {
           "light": "244, 245, 247",
-          "dark": "16, 18, 20"
+          "dark": "244, 245, 247"
         }
       },
       {
         "key": "mixedgray-3",
         "value": {
           "light": "237, 239, 242",
-          "dark": "23, 25, 28"
+          "dark": "237, 239, 242"
         }
       },
       {
         "key": "mixedgray-4",
         "value": {
           "light": "232, 234, 237",
-          "dark": "33, 35, 39"
+          "dark": "232, 234, 237"
         }
       },
       {
         "key": "mixedgray-5",
         "value": {
           "light": "224, 226, 230",
-          "dark": "40, 42, 47"
+          "dark": "224, 226, 230"
         }
       },
       {
         "key": "mixedgray-6",
         "value": {
           "light": "209, 214, 219",
-          "dark": "50, 53, 57"
+          "dark": "209, 214, 219"
         }
       },
       {
         "key": "mixedgray-7",
         "value": {
           "light": "179, 185, 191",
-          "dark": "61, 63, 67"
+          "dark": "179, 185, 191"
         }
       },
       {
         "key": "mixedgray-8",
         "value": {
           "light": "144, 150, 158",
-          "dark": "80, 84, 88"
+          "dark": "144, 150, 158"
         }
       },
       {
         "key": "mixedgray-9",
         "value": {
           "light": "104, 109, 117",
-          "dark": "113, 117, 122"
+          "dark": "104, 109, 117"
         }
       },
       {
         "key": "mixedgray-10",
         "value": {
           "light": "79, 84, 92",
-          "dark": "147, 152, 159"
+          "dark": "79, 84, 92"
         }
       },
       {
         "key": "mixedgray-11",
         "value": {
           "light": "55, 59, 66",
-          "dark": "172, 177, 185"
+          "dark": "55, 59, 66"
         }
       },
       {
         "key": "mixedgray-12",
         "value": {
           "light": "32, 35, 41",
-          "dark": "198, 202, 210"
+          "dark": "32, 35, 41"
         }
       },
       {
         "key": "mixedgray-13",
         "value": {
           "light": "18, 20, 23",
-          "dark": "231, 234, 238"
+          "dark": "18, 20, 23"
         }
       },
       {
         "key": "mixedgray-14",
         "value": {
           "light": "0, 0, 0",
-          "dark": "255, 255, 255"
+          "dark": "0, 0, 0"
+        }
+      }
+    ]
+  },
+  "yellow": {
+    "name": "黄色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "yellow-1",
+        "value": {
+          "light": "255, 255, 232",
+          "dark": "255, 255, 232"
+        }
+      },
+      {
+        "key": "yellow-2",
+        "value": {
+          "light": "253, 251, 185",
+          "dark": "253, 251, 185"
+        }
+      },
+      {
+        "key": "yellow-3",
+        "value": {
+          "light": "251, 244, 139",
+          "dark": "251, 244, 139"
+        }
+      },
+      {
+        "key": "yellow-4",
+        "value": {
+          "light": "249, 233, 94",
+          "dark": "249, 233, 94"
+        }
+      },
+      {
+        "key": "yellow-5",
+        "value": {
+          "light": "247, 221, 49",
+          "dark": "247, 221, 49"
+        }
+      },
+      {
+        "key": "yellow-6",
+        "value": {
+          "light": "245, 205, 5",
+          "dark": "245, 205, 5"
+        }
+      },
+      {
+        "key": "yellow-7",
+        "value": {
+          "light": "203, 163, 3",
+          "dark": "203, 163, 3"
+        }
+      },
+      {
+        "key": "yellow-8",
+        "value": {
+          "light": "161, 124, 2",
+          "dark": "161, 124, 2"
+        }
+      },
+      {
+        "key": "yellow-9",
+        "value": {
+          "light": "119, 87, 1",
+          "dark": "119, 87, 1"
+        }
+      },
+      {
+        "key": "yellow-10",
+        "value": {
+          "light": "77, 54, 0",
+          "dark": "77, 54, 0"
+        }
+      }
+    ]
+  },
+  "lime": {
+    "name": "黄绿色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "lime-1",
+        "value": {
+          "light": "251, 255, 232",
+          "dark": "251, 255, 232"
+        }
+      },
+      {
+        "key": "lime-2",
+        "value": {
+          "light": "233, 245, 184",
+          "dark": "233, 245, 184"
+        }
+      },
+      {
+        "key": "lime-3",
+        "value": {
+          "light": "213, 236, 139",
+          "dark": "213, 236, 139"
+        }
+      },
+      {
+        "key": "lime-4",
+        "value": {
+          "light": "192, 226, 97",
+          "dark": "192, 226, 97"
+        }
+      },
+      {
+        "key": "lime-5",
+        "value": {
+          "light": "169, 217, 59",
+          "dark": "169, 217, 59"
+        }
+      },
+      {
+        "key": "lime-6",
+        "value": {
+          "light": "146, 207, 23",
+          "dark": "146, 207, 23"
+        }
+      },
+      {
+        "key": "lime-7",
+        "value": {
+          "light": "116, 174, 15",
+          "dark": "116, 174, 15"
+        }
+      },
+      {
+        "key": "lime-8",
+        "value": {
+          "light": "88, 142, 8",
+          "dark": "88, 142, 8"
+        }
+      },
+      {
+        "key": "lime-9",
+        "value": {
+          "light": "63, 109, 3",
+          "dark": "63, 109, 3"
+        }
+      },
+      {
+        "key": "lime-10",
+        "value": {
+          "light": "41, 77, 0",
+          "dark": "41, 77, 0"
+        }
+      }
+    ]
+  },
+  "cyan": {
+    "name": "青色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "cyan-1",
+        "value": {
+          "light": "232, 255, 249",
+          "dark": "232, 255, 249"
+        }
+      },
+      {
+        "key": "cyan-2",
+        "value": {
+          "light": "176, 240, 226",
+          "dark": "176, 240, 226"
+        }
+      },
+      {
+        "key": "cyan-3",
+        "value": {
+          "light": "125, 225, 207",
+          "dark": "125, 225, 207"
+        }
+      },
+      {
+        "key": "cyan-4",
+        "value": {
+          "light": "79, 221, 191",
+          "dark": "79, 221, 191"
+        }
+      },
+      {
+        "key": "cyan-5",
+        "value": {
+          "light": "38, 196, 177",
+          "dark": "38, 196, 177"
+        }
+      },
+      {
+        "key": "cyan-6",
+        "value": {
+          "light": "3, 181, 165",
+          "dark": "3, 181, 165"
+        }
+      },
+      {
+        "key": "cyan-7",
+        "value": {
+          "light": "2, 155, 147",
+          "dark": "2, 155, 147"
+        }
+      },
+      {
+        "key": "cyan-8",
+        "value": {
+          "light": "1, 129, 127",
+          "dark": "1, 129, 127"
+        }
+      },
+      {
+        "key": "cyan-9",
+        "value": {
+          "light": "0, 101, 103",
+          "dark": "0, 101, 103"
+        }
+      },
+      {
+        "key": "cyan-10",
+        "value": {
+          "light": "0, 73, 77",
+          "dark": "0, 73, 77"
+        }
+      }
+    ]
+  },
+  "blue": {
+    "name": "蓝色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "blue-1",
+        "value": {
+          "light": "232, 249, 255",
+          "dark": "232, 249, 255"
+        }
+      },
+      {
+        "key": "blue-2",
+        "value": {
+          "light": "185, 233, 252",
+          "dark": "185, 233, 252"
+        }
+      },
+      {
+        "key": "blue-3",
+        "value": {
+          "light": "138, 214, 249",
+          "dark": "138, 214, 249"
+        }
+      },
+      {
+        "key": "blue-4",
+        "value": {
+          "light": "93, 192, 246",
+          "dark": "93, 192, 246"
+        }
+      },
+      {
+        "key": "blue-5",
+        "value": {
+          "light": "48, 168, 243",
+          "dark": "48, 168, 243"
+        }
+      },
+      {
+        "key": "blue-6",
+        "value": {
+          "light": "5, 142, 240",
+          "dark": "5, 142, 240"
+        }
+      },
+      {
+        "key": "blue-7",
+        "value": {
+          "light": "3, 111, 199",
+          "dark": "3, 111, 199"
+        }
+      },
+      {
+        "key": "blue-8",
+        "value": {
+          "light": "2, 83, 158",
+          "dark": "2, 83, 158"
+        }
+      },
+      {
+        "key": "blue-9",
+        "value": {
+          "light": "1, 57, 117",
+          "dark": "1, 57, 117"
+        }
+      },
+      {
+        "key": "blue-10",
+        "value": {
+          "light": "0, 34, 77",
+          "dark": "0, 34, 77"
+        }
+      }
+    ]
+  },
+  "purple": {
+    "name": "紫色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "purple-1",
+        "value": {
+          "light": "245, 232, 255",
+          "dark": "245, 232, 255"
+        }
+      },
+      {
+        "key": "purple-2",
+        "value": {
+          "light": "225, 192, 253",
+          "dark": "225, 192, 253"
+        }
+      },
+      {
+        "key": "purple-3",
+        "value": {
+          "light": "203, 152, 251",
+          "dark": "203, 152, 251"
+        }
+      },
+      {
+        "key": "purple-4",
+        "value": {
+          "light": "178, 113, 248",
+          "dark": "178, 113, 248"
+        }
+      },
+      {
+        "key": "purple-5",
+        "value": {
+          "light": "152, 75, 246",
+          "dark": "152, 75, 246"
+        }
+      },
+      {
+        "key": "purple-6",
+        "value": {
+          "light": "123, 37, 244",
+          "dark": "123, 37, 244"
+        }
+      },
+      {
+        "key": "purple-7",
+        "value": {
+          "light": "92, 23, 202",
+          "dark": "92, 23, 202"
+        }
+      },
+      {
+        "key": "purple-8",
+        "value": {
+          "light": "64, 12, 160",
+          "dark": "64, 12, 160"
+        }
+      },
+      {
+        "key": "purple-9",
+        "value": {
+          "light": "41, 4, 118",
+          "dark": "41, 4, 118"
+        }
+      },
+      {
+        "key": "purple-10",
+        "value": {
+          "light": "22, 0, 77",
+          "dark": "22, 0, 77"
+        }
+      }
+    ]
+  },
+  "pink": {
+    "name": "粉色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "pink-1",
+        "value": {
+          "light": "255, 232, 253",
+          "dark": "255, 232, 253"
+        }
+      },
+      {
+        "key": "pink-2",
+        "value": {
+          "light": "246, 188, 243",
+          "dark": "246, 188, 243"
+        }
+      },
+      {
+        "key": "pink-3",
+        "value": {
+          "light": "238, 146, 235",
+          "dark": "238, 146, 235"
+        }
+      },
+      {
+        "key": "pink-4",
+        "value": {
+          "light": "229, 107, 229",
+          "dark": "229, 107, 229"
+        }
+      },
+      {
+        "key": "pink-5",
+        "value": {
+          "light": "216, 71, 221",
+          "dark": "216, 71, 221"
+        }
+      },
+      {
+        "key": "pink-6",
+        "value": {
+          "light": "199, 37, 212",
+          "dark": "199, 37, 212"
+        }
+      },
+      {
+        "key": "pink-7",
+        "value": {
+          "light": "163, 23, 178",
+          "dark": "163, 23, 178"
+        }
+      },
+      {
+        "key": "pink-8",
+        "value": {
+          "light": "127, 13, 144",
+          "dark": "127, 13, 144"
+        }
+      },
+      {
+        "key": "pink-9",
+        "value": {
+          "light": "93, 5, 110",
+          "dark": "93, 5, 110"
+        }
+      },
+      {
+        "key": "pink-10",
+        "value": {
+          "light": "61, 0, 77",
+          "dark": "61, 0, 77"
+        }
+      }
+    ]
+  },
+  "rosyred": {
+    "name": "玫红色",
+    "type": "palette",
+    "typeName": "色盘",
+    "value": [
+      {
+        "key": "rosyred-1",
+        "value": {
+          "light": "255, 232, 240",
+          "dark": "255, 232, 240"
+        }
+      },
+      {
+        "key": "rosyred-2",
+        "value": {
+          "light": "249, 185, 209",
+          "dark": "249, 185, 209"
+        }
+      },
+      {
+        "key": "rosyred-3",
+        "value": {
+          "light": "243, 141, 182",
+          "dark": "243, 141, 182"
+        }
+      },
+      {
+        "key": "rosyred-4",
+        "value": {
+          "light": "238, 98, 158",
+          "dark": "238, 98, 158"
+        }
+      },
+      {
+        "key": "rosyred-5",
+        "value": {
+          "light": "232, 57, 139",
+          "dark": "232, 57, 139"
+        }
+      },
+      {
+        "key": "rosyred-6",
+        "value": {
+          "light": "226, 18, 122",
+          "dark": "226, 18, 122"
+        }
+      },
+      {
+        "key": "rosyred-7",
+        "value": {
+          "light": "189, 11, 106",
+          "dark": "189, 11, 106"
+        }
+      },
+      {
+        "key": "rosyred-8",
+        "value": {
+          "light": "151, 6, 88",
+          "dark": "151, 6, 88"
+        }
+      },
+      {
+        "key": "rosyred-9",
+        "value": {
+          "light": "114, 2, 69",
+          "dark": "114, 2, 69"
+        }
+      },
+      {
+        "key": "rosyred-10",
+        "value": {
+          "light": "77, 0, 48",
+          "dark": "77, 0, 48"
         }
       }
     ]
@@ -761,7 +1237,6 @@
           "dark": "rgb(var(--o-mixedgray-7))"
         }
       },
-
       {
         "key": "color-control2",
         "description": "hover，常用于边框",
@@ -770,7 +1245,6 @@
           "dark": "rgb(var(--o-mixedgray-9))"
         }
       },
-
       {
         "key": "color-control3",
         "description": "激活，常用于边框",
@@ -1463,21 +1937,21 @@
         }
       },
       {
-        "key": "font_size-h5",
-        "name": "五级标题",
-        "description": "五级标题",
-        "value": {
-          "light": "18px",
-          "dark": "18px"
-        }
-      },
-      {
-        "key": "font_size-text",
-        "name": "正文",
-        "description": "正文",
+        "key": "font_size-text1",
+        "name": "常规正文",
+        "description": "常规正文",
         "value": {
           "light": "16px",
           "dark": "16px"
+        }
+      },
+      {
+        "key": "font_size-text2",
+        "name": "大号正文",
+        "description": "大号正文",
+        "value": {
+          "light": "18px",
+          "dark": "18px"
         }
       },
       {
@@ -1596,9 +2070,18 @@
         }
       },
       {
-        "key": "line_height-text",
+        "key": "line_height-text1",
         "name": "正文",
         "description": "正文",
+        "value": {
+          "light": "22px",
+          "dark": "22px"
+        }
+      },
+      {
+        "key": "line_height-text2",
+        "name": "正文-大",
+        "description": "正文-大",
         "value": {
           "light": "24px",
           "dark": "24px"

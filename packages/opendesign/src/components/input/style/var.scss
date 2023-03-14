@@ -108,8 +108,8 @@
 
 .o-input-size-medium {
   --input-height: var(--o-size-m);
-  --input-text-size: var(--o-font_size-text);
-  --input-text-height: var(--o-line_height-text);
+  --input-text-size: var(--o-font_size-text1);
+  --input-text-height: var(--o-line_height-text1);
 
   --input-padding: 0 12px;
   --input-append-padding: 0 8px;
@@ -124,8 +124,8 @@
 
 .o-input-size-large {
   --input-height: var(--o-size-l);
-  --input-text-size: var(--o-font_size-h4);
-  --input-text-height: var(--o-font_size-h4);
+  --input-text-size: var(--o-font_size-text2);
+  --input-text-height: var(--o-font_size-text2);
 
   --input-padding: 0 16px;
   --input-append-padding: 0 12px;

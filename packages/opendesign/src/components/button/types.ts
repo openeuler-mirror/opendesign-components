@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, ColorT, VariantT } from '../_shared/global';
+import { RoundT, ColorT, VariantT } from '../_shared/global';
 
 export type ButtonTypeT = 'primary' | 'outline' | 'text' | 'link'
 
@@ -22,7 +22,7 @@ export const buttonProps = {
    * 按钮尺寸：SizeT
    */
   size: {
-    type: String as PropType<SizeT>
+    type: String as PropType<'mini' | 'small' | 'medium' | 'large'>
   },
   /**
    * 圆角值

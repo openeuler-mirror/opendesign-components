@@ -43,7 +43,7 @@ const onClick = () => {
       <p>round="{{ r }}px"</p>
       <section>
         <OButton variant="solid" size="large" :round="r + 'px'" @click="onClick">
-          <template #icon><IconAdd /></template>Round Button
+          <template #icon><IconAdd /></template>Click To Change Round
         </OButton>
         <OButton variant="outline" :round="r + 'px'">
           <template #icon><IconAdd /></template>Round Button

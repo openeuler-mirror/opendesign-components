@@ -1,3 +1,3 @@
-export { initSize, initShape } from './global';
+export { initSize, initShape, initRound } from './global';
 
 export * from './init-icons';

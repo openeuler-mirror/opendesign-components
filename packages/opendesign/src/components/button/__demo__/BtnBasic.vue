@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { OButton } from '../index';
+import { IconAdd } from '../../icons';
 </script>
 <template>
   <h4>Variant & Color</h4>
@@ -79,17 +80,6 @@ import { OButton } from '../index';
         </div>
       </div>
     </div>
-  </section>
-
-  <h4>Size</h4>
-  <section>
-    <OButton color="normal" size="small">Primary Button</OButton>
-    <OButton color="normal" size="medium">Success Button</OButton>
-    <OButton color="normal" size="large">Warning Button</OButton>
-
-    <OButton color="primary" size="small">Primary Button</OButton>
-    <OButton color="primary" size="medium">Success Button</OButton>
-    <OButton color="primary" size="large">Warning Button</OButton>
   </section>
 </template>
 <style lang="scss"></style>

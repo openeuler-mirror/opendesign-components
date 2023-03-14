@@ -8,10 +8,10 @@ export function initSize(val: SizeT) {
 }
 
 // 圆角
-export type RoundT = 'pill' | string;
-export const defaultRound = ref<'pill' | 'default'>('default');
+export type RoundT = 'pill' | 'normal' | string;
+export const defaultRound = ref<'pill' | 'normal'>('normal');
 
-export function initRound(type: 'pill' | 'default') {
+export function initRound(type: 'pill' | 'normal') {
   defaultRound.value = type;
 }
 // TODO 全局变量增加 o-radius-control-s o-radius-control-m o-radius-control-l
