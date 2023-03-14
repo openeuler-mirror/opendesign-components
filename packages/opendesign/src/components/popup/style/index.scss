@@ -2,7 +2,7 @@
 
 .o-popup {
   position: absolute;
-  z-index: 100;
+  z-index: var(--popup-z-index);
   opacity: 1;
   transition: opacity var(--o-duration-m1) var(--o-easing-standard);
   &.out-view {

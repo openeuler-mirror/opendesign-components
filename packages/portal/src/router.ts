@@ -147,6 +147,12 @@ export const routes = [
     component: () => import('@components/progress/__demo__/IndexProgress.vue'),
   },
   {
+    path: '/dialog',
+    name: 'Dialog',
+    label: '对话框',
+    component: () => import('@components/dialog/__demo__/IndexDialog.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'resize监听',

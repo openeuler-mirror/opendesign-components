@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --o-z-index-base: 100;
+}
+
 // icons
 .o-icon {
   --icon-g1: var(--o-color-text1);

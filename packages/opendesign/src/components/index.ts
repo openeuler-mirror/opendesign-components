@@ -28,6 +28,7 @@ export * from './menu';
 export * from './breadcrumb';
 // export * from './dropdown';
 // export * from './scrollbar';
+export * from './dialog';
 
 export * from './intersection-observer';
 export * from './resize-observer';
