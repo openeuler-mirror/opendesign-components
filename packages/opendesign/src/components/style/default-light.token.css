@@ -968,19 +968,19 @@
    */
   --o-gap-8: 64px;
   /**
-   * @name 大尺寸
+   * @name 小尺寸
    * @type size
    * @group size
-   * @description 尺寸
+   * @description 小尺寸
    */
-  --o-size-l: 40px;
+  --o-size-xxs: 12px;
   /**
-   * @name 中尺寸
+   * @name 小尺寸
    * @type size
    * @group size
-   * @description 尺寸
+   * @description 小尺寸
    */
-  --o-size-m: 32px;
+  --o-size-xs: 18px;
   /**
    * @name 小尺寸
    * @type size
@@ -989,19 +989,40 @@
    */
   --o-size-s: 24px;
   /**
-   * @name 大尺寸图标
+   * @name 中尺寸
    * @type size
-   * @group icon_size
+   * @group size
    * @description 尺寸
    */
-  --o-icon_size-l: 48px;
+  --o-size-m: 32px;
   /**
-   * @name 中尺寸图标
+   * @name 大尺寸
    * @type size
-   * @group icon_size
+   * @group size
    * @description 尺寸
    */
-  --o-icon_size-m: 32px;
+  --o-size-l: 40px;
+  /**
+   * @name 大尺寸
+   * @type size
+   * @group size
+   * @description 尺寸
+   */
+  --o-size-xl: 48px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-xxs: 12px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
@@ -1010,12 +1031,19 @@
    */
   --o-icon_size-s: 24px;
   /**
-   * @name 超小尺寸图标
+   * @name 中尺寸图标
    * @type size
    * @group icon_size
-   * @description 小尺寸
+   * @description 尺寸
    */
-  --o-icon_size-xs: 16px;
+  --o-icon_size-m: 32px;
+  /**
+   * @name 大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 尺寸
+   */
+  --o-icon_size-l: 48px;
   /**
    * @name 一级数据展示
    * @type font
@@ -1066,24 +1094,17 @@
    */
   --o-font_size-h3: 18px;
   /**
-   * @name 四级标题
+   * @name 常规正文
    * @type font
    * @group font_size
-   * @description 四级标题
-   */
-  --o-font_size-h4: 16px;
-  /**
-   * @name 正文
-   * @type font
-   * @group font_size
-   * @description 正文
+   * @description 常规正文
    */
   --o-font_size-text1: 14px;
   /**
-   * @name 正文-大
+   * @name 大号正文
    * @type font
    * @group font_size
-   * @description 正文-大
+   * @description 大号正文
    */
   --o-font_size-text2: 16px;
   /**
@@ -1150,24 +1171,17 @@
    */
   --o-line_height-h3: 26px;
   /**
-   * @name 四级标题
+   * @name 常规正文
    * @type font
    * @group line_height
-   * @description 四级标题
-   */
-  --o-line_height-h4: 24px;
-  /**
-   * @name 正文
-   * @type font
-   * @group line_height
-   * @description 正文
+   * @description 常规正文
    */
   --o-line_height-text1: 22px;
   /**
-   * @name 正文-大
+   * @name 大号正文
    * @type font
    * @group line_height
-   * @description 正文-大
+   * @description 大号正文
    */
   --o-line_height-text2: 24px;
   /**
@@ -1185,12 +1199,12 @@
    */
   --o-line_height-tip2: 14px;
   /**
-   * @name 大尺寸圆角
+   * @name 小尺寸圆角
    * @type size
    * @group radius
-   * @description 大尺寸圆角
+   * @description 小尺寸圆角
    */
-  --o-radius-l: 8px;
+  --o-radius-s: 2px;
   /**
    * @name 中尺寸圆角
    * @type size
@@ -1199,19 +1213,19 @@
    */
   --o-radius-m: 4px;
   /**
-   * @name 小尺寸圆角
+   * @name 大尺寸圆角
    * @type size
    * @group radius
-   * @description 小尺寸圆角
+   * @description 大尺寸圆角
    */
-  --o-radius-s: 2px;
+  --o-radius-l: 8px;
   /**
-   * @name 大尺寸控件圆角
+   * @name 小尺寸控件圆角
    * @type size
    * @group radius
-   * @description 大尺寸控件圆角
+   * @description 小尺寸控件圆角
    */
-  --o-radius-control-l: var(--o-radius-l);
+  --o-radius-control-s: var(--o-radius-s);
   /**
    * @name 中尺寸控件圆角
    * @type size
@@ -1220,12 +1234,12 @@
    */
   --o-radius-control-m: var(--o-radius-m);
   /**
-   * @name 小尺寸控件圆角
+   * @name 大尺寸控件圆角
    * @type size
    * @group radius
-   * @description 小尺寸控件圆角
+   * @description 大尺寸控件圆角
    */
-  --o-radius-control-s: var(--o-radius-s);
+  --o-radius-control-l: var(--o-radius-l);
   /**
    * @name 持续时间
    * @type animation

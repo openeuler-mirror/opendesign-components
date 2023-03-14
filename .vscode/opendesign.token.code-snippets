@@ -1103,20 +1103,20 @@
     "description": "用于组件之间的间距8[light: 64px, dark: 64px]",
     "scope": "css,scss,less"
   },
-  "--o-size-l": {
+  "--o-size-xxs": {
     "prefix": [
-      "var(--o-size-l)"
+      "var(--o-size-xxs)"
     ],
-    "body": "var(--o-size-l)",
-    "description": "尺寸[light: 40px, dark: 40px]",
+    "body": "var(--o-size-xxs)",
+    "description": "小尺寸[light: 12px, dark: 12px]",
     "scope": "css,scss,less"
   },
-  "--o-size-m": {
+  "--o-size-xs": {
     "prefix": [
-      "var(--o-size-m)"
+      "var(--o-size-xs)"
     ],
-    "body": "var(--o-size-m)",
-    "description": "尺寸[light: 32px, dark: 32px]",
+    "body": "var(--o-size-xs)",
+    "description": "小尺寸[light: 18px, dark: 18px]",
     "scope": "css,scss,less"
   },
   "--o-size-s": {
@@ -1127,20 +1127,44 @@
     "description": "小尺寸[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
-  "--o-icon_size-l": {
+  "--o-size-m": {
     "prefix": [
-      "var(--o-icon_size-l)"
+      "var(--o-size-m)"
     ],
-    "body": "var(--o-icon_size-l)",
+    "body": "var(--o-size-m)",
+    "description": "尺寸[light: 32px, dark: 32px]",
+    "scope": "css,scss,less"
+  },
+  "--o-size-l": {
+    "prefix": [
+      "var(--o-size-l)"
+    ],
+    "body": "var(--o-size-l)",
+    "description": "尺寸[light: 40px, dark: 40px]",
+    "scope": "css,scss,less"
+  },
+  "--o-size-xl": {
+    "prefix": [
+      "var(--o-size-xl)"
+    ],
+    "body": "var(--o-size-xl)",
     "description": "尺寸[light: 48px, dark: 48px]",
     "scope": "css,scss,less"
   },
-  "--o-icon_size-m": {
+  "--o-icon_size-xxs": {
     "prefix": [
-      "var(--o-icon_size-m)"
+      "var(--o-icon_size-xxs)"
     ],
-    "body": "var(--o-icon_size-m)",
-    "description": "尺寸[light: 32px, dark: 32px]",
+    "body": "var(--o-icon_size-xxs)",
+    "description": "小尺寸[light: 12px, dark: 12px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size-xs": {
+    "prefix": [
+      "var(--o-icon_size-xs)"
+    ],
+    "body": "var(--o-icon_size-xs)",
+    "description": "小尺寸[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-icon_size-s": {
@@ -1151,12 +1175,20 @@
     "description": "小尺寸[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
-  "--o-icon_size-xs": {
+  "--o-icon_size-m": {
     "prefix": [
-      "var(--o-icon_size-xs)"
+      "var(--o-icon_size-m)"
     ],
-    "body": "var(--o-icon_size-xs)",
-    "description": "小尺寸[light: 16px, dark: 16px]",
+    "body": "var(--o-icon_size-m)",
+    "description": "尺寸[light: 32px, dark: 32px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size-l": {
+    "prefix": [
+      "var(--o-icon_size-l)"
+    ],
+    "body": "var(--o-icon_size-l)",
+    "description": "尺寸[light: 48px, dark: 48px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-display1": {
@@ -1215,20 +1247,12 @@
     "description": "三级标题[light: 18px, dark: 18px]",
     "scope": "css,scss,less"
   },
-  "--o-font_size-h4": {
-    "prefix": [
-      "var(--o-font_size-h4)"
-    ],
-    "body": "var(--o-font_size-h4)",
-    "description": "四级标题[light: 16px, dark: 16px]",
-    "scope": "css,scss,less"
-  },
   "--o-font_size-text1": {
     "prefix": [
       "var(--o-font_size-text1)"
     ],
     "body": "var(--o-font_size-text1)",
-    "description": "正文[light: 14px, dark: 14px]",
+    "description": "常规正文[light: 14px, dark: 14px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-text2": {
@@ -1236,7 +1260,7 @@
       "var(--o-font_size-text2)"
     ],
     "body": "var(--o-font_size-text2)",
-    "description": "正文-大[light: 16px, dark: 16px]",
+    "description": "大号正文[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-tip1": {
@@ -1311,20 +1335,12 @@
     "description": "三级标题[light: 26px, dark: 26px]",
     "scope": "css,scss,less"
   },
-  "--o-line_height-h4": {
-    "prefix": [
-      "var(--o-line_height-h4)"
-    ],
-    "body": "var(--o-line_height-h4)",
-    "description": "四级标题[light: 24px, dark: 24px]",
-    "scope": "css,scss,less"
-  },
   "--o-line_height-text1": {
     "prefix": [
       "var(--o-line_height-text1)"
     ],
     "body": "var(--o-line_height-text1)",
-    "description": "正文[light: 22px, dark: 22px]",
+    "description": "常规正文[light: 22px, dark: 22px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-text2": {
@@ -1332,7 +1348,7 @@
       "var(--o-line_height-text2)"
     ],
     "body": "var(--o-line_height-text2)",
-    "description": "正文-大[light: 24px, dark: 24px]",
+    "description": "大号正文[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-tip1": {
@@ -1351,12 +1367,12 @@
     "description": "提示文本2[light: 14px, dark: 14px]",
     "scope": "css,scss,less"
   },
-  "--o-radius-l": {
+  "--o-radius-s": {
     "prefix": [
-      "var(--o-radius-l)"
+      "var(--o-radius-s)"
     ],
-    "body": "var(--o-radius-l)",
-    "description": "大尺寸圆角[light: 8px, dark: 8px]",
+    "body": "var(--o-radius-s)",
+    "description": "小尺寸圆角[light: 2px, dark: 2px]",
     "scope": "css,scss,less"
   },
   "--o-radius-m": {
@@ -1367,20 +1383,20 @@
     "description": "中尺寸圆角[light: 4px, dark: 4px]",
     "scope": "css,scss,less"
   },
-  "--o-radius-s": {
+  "--o-radius-l": {
     "prefix": [
-      "var(--o-radius-s)"
+      "var(--o-radius-l)"
     ],
-    "body": "var(--o-radius-s)",
-    "description": "小尺寸圆角[light: 2px, dark: 2px]",
+    "body": "var(--o-radius-l)",
+    "description": "大尺寸圆角[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
-  "--o-radius-control-l": {
+  "--o-radius-control-s": {
     "prefix": [
-      "var(--o-radius-control-l)"
+      "var(--o-radius-control-s)"
     ],
-    "body": "var(--o-radius-control-l)",
-    "description": "大尺寸控件圆角[light: var(--o-radius-l), dark: var(--o-radius-l)]",
+    "body": "var(--o-radius-control-s)",
+    "description": "小尺寸控件圆角[light: var(--o-radius-s), dark: var(--o-radius-s)]",
     "scope": "css,scss,less"
   },
   "--o-radius-control-m": {
@@ -1391,12 +1407,12 @@
     "description": "中尺寸控件圆角[light: var(--o-radius-m), dark: var(--o-radius-m)]",
     "scope": "css,scss,less"
   },
-  "--o-radius-control-s": {
+  "--o-radius-control-l": {
     "prefix": [
-      "var(--o-radius-control-s)"
+      "var(--o-radius-control-l)"
     ],
-    "body": "var(--o-radius-control-s)",
-    "description": "小尺寸控件圆角[light: var(--o-radius-s), dark: var(--o-radius-s)]",
+    "body": "var(--o-radius-control-l)",
+    "description": "大尺寸控件圆角[light: var(--o-radius-l), dark: var(--o-radius-l)]",
     "scope": "css,scss,less"
   },
   "--o-duration-s": {

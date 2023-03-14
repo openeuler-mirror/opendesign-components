@@ -22,7 +22,7 @@ export const buttonProps = {
    * 按钮尺寸：SizeT
    */
   size: {
-    type: String as PropType<SizeT>
+    type: String as PropType<'mini' | 'small' | 'medium' | 'large'>
   },
   /**
    * 圆角值

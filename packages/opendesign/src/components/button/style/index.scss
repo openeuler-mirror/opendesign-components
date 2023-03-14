@@ -82,6 +82,19 @@
   background-color: var(--btn-bg-color-disabled);
 }
 
+.o-btn-mini {
+  padding: 0 4px;
+  height: var(--o-size-xs);
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+
+  &.o-btn-icon-only {
+    width: var(--o-icon_size-xs);
+  }
+  .o-btn-icon {
+    margin-right: 2px;
+  }
+}
 .o-btn-small {
   padding: 0 7px;
   height: var(--o-size-s);
