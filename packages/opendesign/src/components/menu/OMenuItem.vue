@@ -7,7 +7,7 @@ import { isUndefined } from '../_shared/is';
 const props = defineProps(menuItemProps);
 
 const emits = defineEmits<{
-  (e: 'click'): void;
+  (e: 'click', ev: Event): void;
 }>();
 
 const menuInjection = inject(menuInjectKey, null);
@@ -20,7 +20,7 @@ const isActive = computed(() => {
   return false;
 });
 
-const onItemClick = (ev: Event) => {
+const onItemClick = (ev: MouseEvent) => {
   ev.stopPropagation();
 
   if (props.disabled) {
@@ -31,7 +31,7 @@ const onItemClick = (ev: Event) => {
     return;
   }
 
-  emits('click');
+  emits('click', ev);
 
   menuInjection?.updateModelValue(props.value);
 };

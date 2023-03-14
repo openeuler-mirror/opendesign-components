@@ -10,7 +10,7 @@ const props = defineProps(switchProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
-  (e: 'change', val: string | number | boolean): void;
+  (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
 const round = getRoundClass(props, 'switch');
@@ -50,7 +50,7 @@ const isChangeable = (): Promise<boolean> => {
   return isBoolean(res) ? Promise.resolve(res) : res;
 };
 
-const onClick = () => {
+const onClick = (ev: Event) => {
   isChangeable()
     .then((flag) => {
       if (flag) {
@@ -58,7 +58,7 @@ const onClick = () => {
         _checked.value = checked;
         const val = checked ? props.checkedValue : props.uncheckedValue;
         emits('update:modelValue', val);
-        emits('change', val);
+        emits('change', val, ev);
       }
     })
     .catch((err) => {

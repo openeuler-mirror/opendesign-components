@@ -11,29 +11,32 @@
 
 .o-switch-large {
   --switch-height: 28px;
-  --switch-radius: 2px;
-  --switch-text-size: var(--o-font_size-text2);
-  --switch-text-height: var(--o-line_height-text2);
+  --switch-radius: 8px;
+  --switch-text-size: var(--o-font_size-h4);
+  --switch-text-height: var(--o-line_height-h4);
   --switch-handler-size: 20px;
-  --switch-handler-radius: 2px;
+  --switch-content-padding: 8px;
+  --switch-handler-offset: 4px;
 }
 
 .o-switch-medium {
   --switch-height: 20px;
-  --switch-radius: 2px;
+  --switch-radius: 6px;
   --switch-text-size: var(--o-font_size-tip1);
   --switch-text-height: var(--o-line_height-tip1);
   --switch-handler-size: 16px;
-  --switch-handler-radius: 2px;
+  --switch-content-padding: 6px;
+  --switch-handler-offset: 4px;
 }
 
 .o-switch-small {
   --switch-height: 16px;
-  --switch-radius: 2px;
+  --switch-radius: 4px;
   --switch-text-size: var(--o-font_size-tip2);
   --switch-text-height: var(--o-line_height-tip2);
   --switch-handler-size: 12px;
-  --switch-handler-radius: 2px;
+  --switch-content-padding: 4px;
+  --switch-handler-offset: 2px;
 }
 
 .o-switch-round-pill {

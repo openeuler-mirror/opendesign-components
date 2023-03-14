@@ -9,6 +9,7 @@
   --sub-menu-text-size: var(--o-font_size-text2);
   --sub-menu-text-height: var(--o-line_height-text2);
   --sub-menu-icon-height: var(--o-font_size-h1);
+  --sub-menu-radius: var(--o-radius-control-s);
 }
 
 .o-menu-item {
@@ -17,4 +18,5 @@
   --menu-item-bg-active: var(--o-color-control2);
   --menu-item-bg-hover: var(--o-color-control2-light);
   --menu-item-color-disabled: var(--o-color-info4);
+  --menu-item-radius: var(--o-radius-control-s);
 }

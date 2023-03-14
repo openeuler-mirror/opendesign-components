@@ -35,7 +35,7 @@
   display: flex;
   align-items: center;
   padding: 16px 48px 16px 24px;
-  border-radius: 8px;
+  border-radius: var(--sub-menu-radius);
   margin-bottom: 4px;
   cursor: pointer;
   transition: background-color var(--o-duration-m2) var(--o-easing-standard);
@@ -76,7 +76,7 @@
 .o-menu-item {
   font-size: var(--menu-item-text-size);
   line-height: var(--menu-item-text-height);
-  border-radius: 8px;
+  border-radius: var(--menu-item-radius);
   padding: 12px 16px 12px 36px;
   cursor: pointer;
   overflow: hidden;

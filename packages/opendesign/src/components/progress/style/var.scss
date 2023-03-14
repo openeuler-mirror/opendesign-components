@@ -1,0 +1,22 @@
+.o-progress {
+  --o-progress-track-bg-color: var(--o-color-control1-light);
+  --o-progress-text-size: var(--o-font_size-text);
+  --o-progress-text-height: var(--o-font_size-text);
+  --o-progress-color: var(--o-color-info2);
+}
+
+.o-progress-primary {
+  --o-progress-bar-bg-color: var(--o-color-primary1);
+}
+
+.o-progress-success {
+  --o-progress-bar-bg-color: var(--o-color-success1);
+}
+
+.o-progress-warning {
+  --o-progress-bar-bg-color: var(--o-color-warning1);
+}
+
+.o-progress-danger {
+  --o-progress-bar-bg-color: var(--o-color-danger1);
+}
