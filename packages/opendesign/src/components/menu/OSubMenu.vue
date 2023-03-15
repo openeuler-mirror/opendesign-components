@@ -100,17 +100,10 @@ const onLeave = (el: HTMLUListElement) => {
         <IconChevronRight />
       </span>
     </div>
-    <transition
-      name="sub-menu-children"
-      @before-enter="onBeforeEnter"
-      @enter="onEnter"
-      @after-enter="onAfterEnter"
-      @before-leave="onBeforeLeave"
-      @leave="onLeave"
-    >
+    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave" @leave="onLeave">
       <ul v-show="isExpanded" class="o-sub-menu-children">
         <slot></slot>
       </ul>
-    </transition>
+    </Transition>
   </li>
 </template>

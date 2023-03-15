@@ -1,7 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-import type { ColorT } from '../_shared/global';
-
 export type ProgressVariantT = 'line' | 'circle';
 
 export type ProgressColorT = 'primary' | 'success' | 'warning' | 'danger';

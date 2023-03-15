@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IconAdd } from '../../icons';
+import { IconStar } from '../../icons';
 import { OMenu, OSubMenu, OMenuItem } from '../index';
 
 const expandedArr = ref(['1']);
@@ -22,8 +22,8 @@ const activeVal2 = ref('1-1');
     <div>
       <OMenu v-model="activeVal" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
         <OSubMenu value="1">
-          <template #title>一级菜单1</template>
-          <template #icon><IconAdd /></template>
+          <template #title>一级菜单1一级菜单1一级菜单1</template>
+          <template #icon><IconStar /></template>
           <OMenuItem value="1-1">二级菜单1-1</OMenuItem>
           <OMenuItem value="1-2" disabled>二级菜单1-2</OMenuItem>
           <OMenuItem value="1-3">二级菜单1-3</OMenuItem>
@@ -31,7 +31,7 @@ const activeVal2 = ref('1-1');
         </OSubMenu>
         <OSubMenu value="2">
           <template #title>一级菜单2</template>
-          <template #icon><IconAdd /></template>
+          <template #icon><IconStar /></template>
           <OMenuItem value="2-1">二级菜单2-1</OMenuItem>
           <OMenuItem value="2-2">二级菜单2-2</OMenuItem>
           <OMenuItem value="2-3">二级菜单2-3</OMenuItem>
@@ -39,10 +39,10 @@ const activeVal2 = ref('1-1');
         </OSubMenu>
         <OSubMenu value="3">
           <template #title>一级菜单3</template>
-          <template #icon><IconAdd /></template>
+          <template #icon><IconStar /></template>
           <OSubMenu value="3-1">
             <template #title>二级菜单3-1</template>
-            <template #icon><IconAdd /></template>
+            <template #icon><IconStar /></template>
             <OMenuItem value="3-1-1">三级菜单3-1-1</OMenuItem>
             <OMenuItem value="3-1-2">三级菜单3-1-2</OMenuItem>
             <OMenuItem value="3-1-3">三级菜单3-1-3</OMenuItem>
