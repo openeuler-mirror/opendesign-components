@@ -2,6 +2,7 @@ export * from './_shared/export';
 export * from './hooks';
 export * from './directves';
 
+export * from './icons';
 export * from './button';
 export * from './switch';
 export * from './link';
@@ -26,9 +27,11 @@ export * from './divider';
 export * from './form';
 export * from './menu';
 export * from './breadcrumb';
-// export * from './dropdown';
+export * from './dropdown';
 // export * from './scrollbar';
 export * from './dialog';
+export * from './figure';
+export * from './card';
 
 export * from './intersection-observer';
 export * from './resize-observer';
