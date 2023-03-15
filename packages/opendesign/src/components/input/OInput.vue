@@ -9,7 +9,7 @@ import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
 import { inputProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
-import ClientOnly from '../_shared/client-only';
+import ClientOnly from '../_shared/components/client-only';
 
 const props = defineProps(inputProps);
 

@@ -4,7 +4,7 @@ import { OButton } from '../../button';
 import '../../button/style';
 import { ODialog } from '../index';
 
-const showDlg = ref(true);
+const showDlg = ref(false);
 
 const toggle = (show?: boolean) => {
   if (show === undefined) {

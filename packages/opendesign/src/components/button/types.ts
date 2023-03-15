@@ -42,6 +42,12 @@ export const buttonProps = {
   disabled: {
     type: Boolean
   },
+  /**
+   * 链接跳转
+   */
+  href: {
+    type: String,
+  }
 };
 
 export type ButtonPropsT = ExtractPropTypes<typeof buttonProps>;

@@ -15,7 +15,7 @@ import { OResizeObserver } from '../resize-observer';
 import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
-import ClientOnly from '../_shared/client-only';
+import ClientOnly from '../_shared/components/client-only';
 
 // TODO 处理嵌套
 

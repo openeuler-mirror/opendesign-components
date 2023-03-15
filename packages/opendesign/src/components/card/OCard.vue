@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { computed } from 'vue';
 import { dialogProps } from './types';
 import { OFigure } from '../figure';
-import HtmlTag from '../_shared/components/tag';
+import HtmlTag from '../_shared/components/html-tag';
 
 const props = defineProps(dialogProps);
 

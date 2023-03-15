@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { PrestColorPool } from '../_shared/utils';
-import DivOrA from '../_shared/DivOrA.vue';
+import HtmlTag from '../_shared/components/html-tag';
 
 import { figureProps } from './types';
 
@@ -54,8 +54,8 @@ watch(
 );
 </script>
 <template>
-  <DivOrA
-    :is-a="!!props.href"
+  <HtmlTag
+    :tag="!!props.href ? 'a' : 'div'"
     class="o-figure"
     :href="props.href"
     :class="{
@@ -86,5 +86,5 @@ watch(
       <img v-else-if="!isError" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
     <slot></slot>
-  </DivOrA>
+  </HtmlTag>
 </template>

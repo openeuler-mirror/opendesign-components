@@ -17,12 +17,12 @@ const showLoading = (key: 'loading1' | 'loading2' | 'loading3', val: boolean) =>
 <template>
   <h4>Loading</h4>
   <section>
-    <OButton type="primary" :loading="rlt.loading1" @click="showLoading('loading1', true)">Primary Button</OButton>
-    <OButton type="outline" :loading="rlt.loading2" @click="showLoading('loading2', true)">
+    <OButton color="primary" :loading="rlt.loading1" @click="showLoading('loading1', true)">Primary Button</OButton>
+    <OButton variant="outline" :loading="rlt.loading2" @click="showLoading('loading2', true)">
       <template #icon><IconAdd /></template>Outline Button
     </OButton>
-    <OButton type="text" :loading="rlt.loading3" @click="showLoading('loading3', true)">Text Button</OButton>
-    <OButton type="link" :loading="!rlt.loading3" @click="showLoading('loading3', true)">Link Button</OButton>
+    <OButton variant="text" :loading="rlt.loading3" @click="showLoading('loading3', true)">Text Button</OButton>
+    <OButton :loading="!rlt.loading3" href="https://hiascend.com" target="__blank">Link Button</OButton>
   </section>
 </template>
 <style lang="scss"></style>

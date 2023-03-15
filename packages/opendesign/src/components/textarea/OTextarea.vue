@@ -8,7 +8,7 @@ import { toInputString } from './textarea';
 import { OResizeObserver } from '../resize-observer';
 import { textareaProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
-import ClientOnly from '../_shared/client-only';
+import ClientOnly from '../_shared/components/client-only';
 
 const props = defineProps(textareaProps);
 

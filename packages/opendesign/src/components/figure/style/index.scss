@@ -14,7 +14,8 @@
   img {
     vertical-align: top;
     opacity: 1;
-    transition: opacity var(--o-duration-m2), transform var(--o-duration-m2);
+    transition: opacity var(--o-duration-m2), transform var(--o-easing-standard) var(--o-duration-m2);
+    will-change: transform;
   }
   &.is-error {
     background-color: var(--o-color-control4);
