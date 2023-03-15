@@ -1,59 +1,63 @@
 @use './var.scss';
 
-.o-dialog {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--dlg-z-index);
-  display: none;
-  &.is-show {
-    display: flex;
+.o-figure {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  transition: background-color var(--o-duration-m2);
+  &.is-loading {
+    background-color: var(--figure-prest-color);
+    img {
+      opacity: 0;
+    }
+  }
+  img {
+    vertical-align: top;
+    opacity: 1;
+    transition: opacity var(--o-duration-m2), transform var(--o-duration-m2);
+  }
+  &.is-error {
+    background-color: var(--o-color-control4);
   }
 }
-.o-dlg-mask {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: var(--o-color-mask1);
-}
-.o-dlg-main {
-  position: relative;
-  background-color: var(--o-color-control-light);
-  min-width: 200px;
-  box-shadow: var(--o-shadow-1);
-}
+.o-figure-hoverable {
+  cursor: pointer;
 
-.o-dlg-btn-close {
-  position: absolute;
-  right: var(--o-gap-3);
-  top: var(--o-gap-3);
-  font-size: var(--o-icon_size-s);
-  color: var(--dlg-close-color);
-  border-radius: var(--dlg-close-radius);
-  display: flex;
   &:hover {
-    text-decoration: none;
-    color: var(--dlg-close-color-hover);
-    background-color: var(--dlg-close-bg-color-hover);
+    img {
+      transform: scale(1.05);
+    }
   }
   &:active {
-    color: var(--dlg-close-color-active);
-    background-color: var(--dlg-close-bg-color-active);
+    img {
+      transform: scale(1.02);
+    }
   }
 }
+.o-figure-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: var(--figure-padding-top);
+}
+.o-figure-bg {
+  background-size: var(--figure-fit);
+  background-position: var(--figure-position);
+  background-repeat: no-repeat;
+}
+.o-figure-img-ratio {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--figure-fit);
+  object-position: var(--figure-position);
+}
 
-.o-dlg-head {
-  padding: 8px 16px;
-}
-.o-dlg-body {
-  padding: 8px 16px;
-}
-.o-dlg-foot {
-  padding: 8px 16px;
+.o-figure-img {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--figure-fit);
+  object-position: var(--figure-position);
 }

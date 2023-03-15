@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { PrestColorPool } from '../_shared/utils';
+import DivOrA from '../_shared/DivOrA.vue';
 
 import { figureProps } from './types';
 
@@ -53,11 +54,20 @@ watch(
 );
 </script>
 <template>
-  <div
+  <DivOrA
+    :is-a="!!props.href"
     class="o-figure"
+    :href="props.href"
     :class="{
       'is-loading': isLoading,
       'is-error': isError,
+      'o-figure-hoverable': props.hoverable || !!props.href,
+    }"
+    :style="{
+      '--figure-prest-color': prestColor,
+      '--figure-padding-top': paddingTop,
+      '--figure-fit': fit,
+      '--figure-position': position,
     }"
   >
     <template v-if="props.src">
@@ -76,44 +86,5 @@ watch(
       <img v-else-if="!isError" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
     <slot></slot>
-  </div>
+  </DivOrA>
 </template>
-<style lang="scss">
-.o-figure {
-  display: inline-flex;
-  overflow: hidden;
-  transition: background-color var(--o-duration-m2);
-  &.is-loading {
-    background-color: v-bind(prestColor);
-    img {
-      opacity: 0;
-    }
-  }
-  img {
-    opacity: 1;
-    transition: opacity var(--o-duration-m2);
-  }
-  &.is-error {
-    background-color: var(--o-color-control4);
-  }
-}
-.o-figure-wrapper {
-  position: relative;
-  width: 100%;
-  padding-top: v-bind(paddingTop);
-}
-.o-figure-bg {
-  background-size: v-bind(fit);
-  background-position: v-bind(position);
-  background-repeat: no-repeat;
-}
-.o-figure-img-ratio {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: v-bind(fit);
-  object-position: v-bind(position);
-}
-</style>

@@ -39,6 +39,18 @@ export const figureProps = {
   background: {
     type: Boolean,
   },
+  /**
+   * 可hover
+   */
+  hoverable: {
+    type: Boolean,
+  },
+  /**
+   * 链接跳转
+   */
+  href: {
+    type: String,
+  }
 };
 
 export type FigurePropsT = ExtractPropTypes<typeof figureProps>;
