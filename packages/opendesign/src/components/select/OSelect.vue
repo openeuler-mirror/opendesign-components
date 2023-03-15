@@ -6,7 +6,7 @@ import { OPopup } from '../popup';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
-import ClientOnly from '../_shared/client-only';
+import ClientOnly from '../_shared/components/client-only';
 
 const props = defineProps(selectProps);
 const emits = defineEmits<{

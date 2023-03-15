@@ -1,0 +1,9 @@
+.o-dialog {
+  --dlg-close-color: var(--o-color-info2);
+  --dlg-close-color-hover: var(--o-color-primary2);
+  --dlg-close-color-active: var(--o-color-primary3);
+  --dlg-close-bg-color-hover: var(--o-color-control1-light);
+  --dlg-close-bg-color-active: var(--o-color-control2-light);
+  --dlg-close-radius: 50%;
+  --dlg-z-index: calc(var(--o-z-index-base) + 10);
+}

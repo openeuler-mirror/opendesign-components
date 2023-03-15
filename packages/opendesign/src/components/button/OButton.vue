@@ -3,13 +3,16 @@ import { defaultSize } from '../_shared/global';
 import { IconLoading } from '../_shared/icons';
 import { getRoundClass } from '../_shared/style-class';
 import { buttonProps } from './types';
+import HtmlTag from '../_shared/components/html-tag';
 
 const props = defineProps(buttonProps);
 
 const round = getRoundClass(props, 'btn');
 </script>
 <template>
-  <button
+  <HtmlTag
+    :tag="!!props.href ? 'a' : 'button'"
+    :href="props.href"
     type="button"
     class="o-btn"
     :class="[
@@ -32,5 +35,5 @@ const round = getRoundClass(props, 'btn');
     <span v-if="$slots.iconSuffix" class="o-btn-icon suffix">
       <slot name="iconSuffix"></slot>
     </span>
-  </button>
+  </HtmlTag>
 </template>

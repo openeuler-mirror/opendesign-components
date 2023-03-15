@@ -6,12 +6,12 @@
   border: 1px solid transparent;
   transition: all var(--o-duration-s) var(--o-easing-standard);
   white-space: nowrap;
-
+  text-decoration: none;
   border-radius: var(--btn-radius);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   &:hover {
     cursor: pointer;
   }

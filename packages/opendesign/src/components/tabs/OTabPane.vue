@@ -8,7 +8,7 @@ import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch }
 import { tabsInjectKey } from './provide';
 import { tabPaneProps } from './types';
 import { IconClose } from '../_shared/icons';
-import ClientOnly from '../_shared/client-only';
+import ClientOnly from '../_shared/components/client-only';
 
 const props = defineProps(tabPaneProps);
 

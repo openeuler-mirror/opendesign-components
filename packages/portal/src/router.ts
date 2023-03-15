@@ -147,6 +147,24 @@ export const routes = [
     component: () => import('@components/progress/__demo__/IndexProgress.vue'),
   },
   {
+    path: '/dialog',
+    name: 'Dialog',
+    label: '对话框',
+    component: () => import('@components/dialog/__demo__/IndexDialog.vue'),
+  },
+  {
+    path: '/figure',
+    name: 'Figure',
+    label: '图片',
+    component: () => import('@components/figure/__demo__/IndexFigure.vue'),
+  },
+  {
+    path: '/card',
+    name: 'Card',
+    label: '卡片',
+    component: () => import('@components/card/__demo__/IndexCard.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'resize监听',
