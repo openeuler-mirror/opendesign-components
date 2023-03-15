@@ -13,29 +13,26 @@ const r4 = '4px';
   <h4>Round</h4>
   <section>
     <div>
+      <p>round = 'pill'</p>
       <section>
-        <p>round="pill"</p>
         <OSWitch v-model="switchVal1" round="pill" size="small" />
         <OSWitch v-model="switchVal1" round="pill" size="medium" />
-        <OSWitch v-model="switchVal1" round="pill" size="large" />
       </section>
     </div>
 
     <div>
+      <p>round = {{ r2 }}</p>
       <section>
-        <p>round={{ r2 }}</p>
         <OSWitch v-model="switchVal2" :round="r2" size="small" />
         <OSWitch v-model="switchVal2" :round="r2" size="medium" />
-        <OSWitch v-model="switchVal2" :round="r2" size="large" />
       </section>
     </div>
 
     <div>
+      <p>round = {{ r4 }}</p>
       <section>
-        <p>round={{ r4 }}</p>
         <OSWitch v-model="switchVal3" :round="r4" size="small" />
         <OSWitch v-model="switchVal3" :round="r4" size="medium" />
-        <OSWitch v-model="switchVal3" :round="r4" size="large" />
       </section>
     </div>
   </section>

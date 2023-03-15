@@ -74,13 +74,12 @@ const onChange = (ev: Event) => {
   >
     <div class="o-radio-wrap">
       <input type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
-      <slot v-if="$slots.radio" name="radio" :checked="isChecked" :disabled="isDisabled"></slot>
-      <template v-else>
+      <slot name="radio" :checked="isChecked" :disabled="isDisabled">
         <span class="o-radio-input"></span>
         <span class="o-radio-label">
           <slot></slot>
         </span>
-      </template>
+      </slot>
     </div>
   </label>
 </template>
