@@ -3,17 +3,9 @@
 .o-radio-group {
   display: inline-flex;
   flex-wrap: wrap;
-}
-
-.o-radio-group-direction-horizontal {
-  .o-radio + .o-radio {
-    margin-left: var(--radio-group-gap);
-  }
+  gap: var(--radio-group-gap);
 }
 
 .o-radio-group-direction-vertical {
   flex-direction: column;
-  .o-radio + .o-radio {
-    margin-top: var(--radio-group-gap);
-  }
 }

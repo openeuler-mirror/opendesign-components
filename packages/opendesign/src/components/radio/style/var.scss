@@ -2,18 +2,23 @@
   --radio-text-size: var(--o-font_size-text1);
   --radio-text-height: var(--o-line_height-text1);
 
-  --radio-input-size: 18px;
-  --radio-input-inner-size: 12px;
+  --radio-input-size: calc(var(--o-size-s) / 2);
+  --radio-input-inner-size: calc(var(--o-size-s) / 4);
 
   --radio-color: var(--o-color-info1);
   --radio-color-disabled: var(--o-color-info4);
 
   --radio-input-bg-color: var(--o-color-control-light);
+  --radio-input-bg-color-checked: var(--o-color-primary1);
+  --radio-input-bg-color-disabled: var(--o-color-control4-light);
+  --radio-input-bg-color-checked-disabled: var(--o-color-primary4);
 
   --radio-input-bd-color: var(--o-color-control1);
+  --radio-input-bd-color-checked: var(--o-color-primary1);
   --radio-input-bd-color-disabled: var(--o-color-control4);
+  --radio-input-bd-color-checked-disabled: var(--o-color-primary4);
 
   --radio-input-inner-bg-color: transparent;
-  --radio-input-inner-bg-color-checked: var(--o-color-primary1);
-  --radio-input-inner-bg-color-checked-disabled: var(--o-color-primary4);
+  --radio-input-inner-bg-color-checked: rgb(var(--o-color-white));
+  --radio-input-inner-bg-color-checked-disabled: rgb(var(--o-color-white));
 }

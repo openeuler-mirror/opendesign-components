@@ -15,7 +15,7 @@ const breadcrumbInjection = inject(breadcrumbInjectKey, null);
     <a v-if="href" :href="href" :target="target" class="o-breadcrumb-item-label">
       <slot></slot>
     </a>
-    <router-link v-else-if="to" :to="to" :replace="replace">
+    <router-link v-else-if="to" :to="to" :replace="replace" class="o-breadcrumb-item-label">
       <slot></slot>
     </router-link>
     <span v-else class="o-breadcrumb-item-label">

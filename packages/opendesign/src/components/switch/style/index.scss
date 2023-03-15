@@ -2,7 +2,7 @@
 
 .o-switch {
   display: inline-block;
-  height: var(--switch-height);
+  height: var(--switch-size);
   font-size: var(--switch-text-size);
   line-height: var(--switch-text-height);
   color: var(--switch-color);
@@ -77,14 +77,10 @@
   background-color: var(--switch-bg-color-disabled);
 }
 
-.o-switch-large {
-  min-width: 60px;
-}
-
 .o-switch-medium {
   min-width: 40px;
 }
 
 .o-switch-small {
-  min-width: 30px;
+  min-width: 40px;
 }

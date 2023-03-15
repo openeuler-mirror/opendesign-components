@@ -9,34 +9,25 @@
   --switch-handler-bg-color: rgb(var(--o-color-white));
 }
 
-.o-switch-large {
-  --switch-height: 28px;
-  --switch-radius: 8px;
-  --switch-text-size: var(--o-font_size-h4);
-  --switch-text-height: var(--o-line_height-h4);
-  --switch-handler-size: 20px;
-  --switch-content-padding: 8px;
-  --switch-handler-offset: 4px;
-}
-
 .o-switch-medium {
-  --switch-height: 20px;
-  --switch-radius: 6px;
+  --switch-size: var(--o-size-xs);
+  --switch-radius: var(--o-radius-control-s);
   --switch-text-size: var(--o-font_size-tip1);
   --switch-text-height: var(--o-line_height-tip1);
-  --switch-handler-size: 16px;
+  --switch-handler-size: var(--o-size-xxs);
   --switch-content-padding: 6px;
-  --switch-handler-offset: 4px;
+  --switch-handler-offset: var(--o-gap-1);
 }
 
 .o-switch-small {
-  --switch-height: 16px;
-  --switch-radius: 4px;
-  --switch-text-size: var(--o-font_size-tip2);
-  --switch-text-height: var(--o-line_height-tip2);
-  --switch-handler-size: 12px;
-  --switch-content-padding: 4px;
-  --switch-handler-offset: 2px;
+  --switch-size: var(--o-size-xs);
+  --switch-radius: var(--o-radius-control-s);
+  --switch-text-size: var(--o-font_size-tip1);
+  --switch-text-height: var(--o-line_height-tip1);
+  --switch-handler-size: var(--o-size-xxs);
+  --switch-content-padding: 6px;
+  --switch-handler-offset: 4px;
+  scale: 0.5;
 }
 
 .o-switch-round-pill {

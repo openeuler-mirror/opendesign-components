@@ -3,17 +3,9 @@
 .o-checkbox-group {
   display: inline-flex;
   flex-wrap: wrap;
-}
-
-.o-checkbox-group-direction-horizontal {
-  .o-checkbox + .o-checkbox {
-    margin-left: var(--checkbox-group-gap);
-  }
+  gap: var(--checkbox-group-gap);
 }
 
 .o-checkbox-group-direction-vertical {
   flex-direction: column;
-  .o-checkbox + .o-checkbox {
-    margin-top: var(--checkbox-group-gap);
-  }
 }

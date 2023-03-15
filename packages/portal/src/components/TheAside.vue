@@ -58,6 +58,7 @@ const navClick = (item: typeof navList[0]) => {
   padding: 8px 16px;
   cursor: pointer;
   &:hover {
+    color: var(--o-color-info1-inverse);
     background-color: var(--o-color-primary1-light);
   }
   &.active {

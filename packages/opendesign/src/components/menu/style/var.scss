@@ -1,22 +1,23 @@
 .o-menu {
-  --menu-width: 260px;
-  --menu-bg: var(--o-color-fill2);
+  --menu-width: 240px;
+  --menu-bg-color: transparent;
   --menu-color: var(--o-color-info1);
 }
 
 .o-sub-menu {
-  --sub-menu-bg-hover: var(--o-color-control2-light);
-  --sub-menu-text-size: var(--o-font_size-text2);
-  --sub-menu-text-height: var(--o-line_height-text2);
-  --sub-menu-icon-height: var(--o-font_size-h1);
-  --sub-menu-radius: var(--o-radius-control-s);
+  --sub-menu-bg-color-hover: var(--o-color-control2-light);
+  --sub-menu-text-size: var(--o-font_size-text1);
+  --sub-menu-text-height: var(--o-line_height-text1);
+  --sub-menu-icon-size: var(--o-icon_size-s);
+  --sub-menu-icon-arrow-size: var(--o-icon_size-xs);
+  --sub-menu-radius: var(--o-radius-control-m);
 }
 
 .o-menu-item {
   --menu-item-text-size: var(--o-font_size-text1);
   --menu-item-text-height: var(--o-line_height-text1);
-  --menu-item-bg-active: var(--o-color-control2);
+  --menu-item-bg-active: var(--o-color-control3-light);
   --menu-item-bg-hover: var(--o-color-control2-light);
   --menu-item-color-disabled: var(--o-color-info4);
-  --menu-item-radius: var(--o-radius-control-s);
+  --menu-item-radius: var(--o-radius-control-m);
 }
