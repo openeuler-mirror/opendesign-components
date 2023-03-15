@@ -159,6 +159,12 @@ export const routes = [
     component: () => import('@components/figure/__demo__/IndexFigure.vue'),
   },
   {
+    path: '/card',
+    name: 'Card',
+    label: '卡片',
+    component: () => import('@components/card/__demo__/IndexCard.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'resize监听',
