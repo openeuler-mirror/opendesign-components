@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "gen:token": "opensig-scripts gen:token --config ./src/tokens/token.config.ts",
-    "gen:icon": "opensig-scripts gen:icon",
+    "gen:icon": "opensig-scripts gen:icon --config ./src/icons/icon.config.ts",
     "build:component": "opensig-scripts build:component",
     "build:style": "opensig-scripts build:style",
     "build": "opensig-scripts gen:icon && opensig-scripts build:component && opensig-scripts build:style"

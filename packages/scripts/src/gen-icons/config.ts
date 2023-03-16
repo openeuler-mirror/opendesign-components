@@ -1,6 +1,6 @@
 import type { Config } from 'svgo';
 
-interface GenIconsConfig {
+export interface IconsConfig {
   svgo: Config,
   input: string,
   output: string,
@@ -62,11 +62,9 @@ export default defineComponent({
 </template>`;
 };
 
-const config: GenIconsConfig = {
+export const defaultConfig: IconsConfig = {
   svgo: svgoConfig,
   input: './src/icons/svgs',
   output: './src/components/icons/',
   template,
 };
-
-export default config;

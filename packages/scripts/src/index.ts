@@ -18,8 +18,9 @@ program.name('opensig-scripts')
 
 program.command('gen:icon')
   .description('generate opendesign icon components')
-  .action(() => {
-    buildIcons();
+  .option('-c, --config <configFile>', 'config file')
+  .action((options) => {
+    buildIcons(options);
   });
 
 program.command('build:component')
