@@ -3,6 +3,7 @@
 .o-rate {
   display: inline-flex;
   align-items: center;
+  gap: var(--rate-gap);
   user-select: none;
   font-size: var(--rate-height);
   cursor: pointer;
@@ -10,10 +11,6 @@
 
 .o-rate-item {
   position: relative;
-
-  & + .o-rate-item {
-    margin-left: var(--rate-gap);
-  }
 
   &.is-half-active {
     .o-rate-icon-top {
