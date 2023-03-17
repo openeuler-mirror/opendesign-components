@@ -62,7 +62,7 @@ function readSvgData(cfg: IconsConfig) {
     });
 
     files.forEach(file => {
-      const name = `icon-${path.basename(file, '.svg')}`;
+      const name = `icon-${path.basename(file.replace(/\s/g, ''), '.svg')}`;
       svgs.push({
         type: key,
         name: name,
