@@ -22,13 +22,14 @@ const svgoConfig: Config = {
     'removeScriptElement',
     'removeDimensions',
     'sortAttrs',
+    'removeUselessStrokeAndFill',
     {
       name: 'removeAttrs',
       params: {
         attrs: [
           'class',
-          'path:fill:currentColor',
-          'path:stroke:currentColor'
+          'path:fill',
+          'path:stroke'
         ],
       },
     },
