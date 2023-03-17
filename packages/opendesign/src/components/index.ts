@@ -28,6 +28,7 @@ export * from './form';
 export * from './menu';
 export * from './breadcrumb';
 export * from './dropdown';
+export * from './progress';
 // export * from './scrollbar';
 export * from './dialog';
 export * from './figure';
