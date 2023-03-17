@@ -26,6 +26,7 @@ export * from './divider';
 export * from './form';
 export * from './menu';
 export * from './breadcrumb';
+export * from './progress';
 // export * from './dropdown';
 // export * from './scrollbar';
 export * from './dialog';
