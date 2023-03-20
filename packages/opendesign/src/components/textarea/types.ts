@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT } from '../_shared/global';
-
+export type ResizeT = 'both' | 'horizontal'| 'h' | 'vertical' | 'v' | 'none';
 export const textareaProps = {
   /**
    * 下拉框的值
@@ -78,7 +78,7 @@ export const textareaProps = {
    * 是否支持调整尺寸
    */
   resize: {
-    type: String as PropType<'both' | 'horizontal' | 'vertical' | 'none'>,
+    type: String as PropType<ResizeT>,
     default: 'vertical'
   },
   /**
