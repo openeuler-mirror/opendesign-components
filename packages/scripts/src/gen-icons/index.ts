@@ -20,7 +20,7 @@ export interface TokenConfigT {
  */
 async function readConfig(cfg: string) {
   const base = process.cwd();
-  const configFile = path.resolve(base, cfg || './icons.config.ts');
+  const configFile = path.resolve(base, cfg || './icon.config.ts');
   const cfgDir = path.dirname(configFile);
 
   const configData: IconsConfig = await require(configFile);
