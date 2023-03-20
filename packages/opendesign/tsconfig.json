@@ -29,6 +29,7 @@
     "src/**/*.vue",
   ],
   "exclude": [
-    "src/tokens/token.config.ts"
+    "src/tokens/token.config.ts",
+    "src/icons/icon.config.ts",
   ]
 }
