@@ -30,7 +30,7 @@ const targetElRef = ref<ComponentPublicInstance | null>(null);
     :target="props.target || targetElRef"
     :wrapper="props.wrapper"
     wrap-class="o-popover-wrap"
-    anchor-class="o-popover-anchor"
+    :anchor-class="props.anchor ? props.anchorClass : ''"
     :unmount-on-hide="props.unmountOnHide"
     @update:visible="updateVisible"
   >

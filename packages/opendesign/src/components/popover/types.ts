@@ -2,7 +2,7 @@ import { ExtractPropTypes } from 'vue';
 
 import { popupProps } from '../popup/types';
 
-const { position, trigger, target, visible, wrapper, unmountOnHide } = popupProps;
+const { position, trigger, target, visible, wrapper, unmountOnHide, anchorClass } = popupProps;
 
 export const popoverProps = {
   position,
@@ -11,12 +11,20 @@ export const popoverProps = {
   visible,
   wrapper,
   unmountOnHide,
+  anchorClass,
   /**
    * 距离触发元素的偏移量
    */
   offset: {
     type: Number,
     default: 8,
+  },
+  /**
+   * 是否展示箭头
+   */
+  anchor: {
+    type: Boolean,
+    default: true,
   },
 };
 

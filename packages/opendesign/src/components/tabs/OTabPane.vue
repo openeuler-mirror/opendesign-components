@@ -19,7 +19,7 @@ const navRef = ref<HTMLElement | null>(null);
 const tabsInjection = inject(tabsInjectKey, null);
 
 const { navsRef, activeValue, lazy } = tabsInjection || {};
-console.log(props.transition);
+// console.log(props.transition);
 
 const instance = getCurrentInstance();
 if (!props.value && !props.label) {
@@ -43,7 +43,7 @@ const toMount = computed(() => {
   }
   return true;
 });
-console.log(toMount.value, props.unmountOnHide);
+// console.log(toMount.value, props.unmountOnHide);
 
 watch(
   () => isActive.value,
@@ -81,16 +81,16 @@ onMounted(() => {
         :class="[
           'o-tab-nav',
           {
-            'is-active': isActive,
-            'is-disabled': props.disabled,
-            'is-closable': props.closable,
+            'o-tab-nav-active': isActive,
+            'o-tab-nav-disabled': props.disabled,
+            'o-tab-nav-closable': props.closable,
           },
         ]"
         @click="navClick"
       >
-        <div class="o-tab-nav-title">
-          <slot name="nav">{{ props.label || props.value }}</slot>
-        </div>
+        <slot name="nav">
+          <div class="o-tab-nav-title">{{ props.label || props.value }}</div>
+        </slot>
         <div v-if="props.closable" class="o-tab-nav-close" @click="navCloseClick"><IconClose /></div>
       </div>
     </teleport>
@@ -104,9 +104,9 @@ onMounted(() => {
       :class="[
         'o-tab-pane',
         {
-          'is-active': isActive,
-          'is-disabled': props.disabled,
-          'is-closable': props.closable,
+          'o-tab-pane-active': isActive,
+          'o-tab-pane-disabled': props.disabled,
+          'o-tab-pane-closable': props.closable,
         },
       ]"
     >
