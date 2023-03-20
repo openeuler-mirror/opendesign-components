@@ -10,7 +10,7 @@ const props = defineProps(dividerProps);
     class="o-divider"
     :class="[`o-divider-${props.type}`, `o-divider-${props.direction}`, { [`o-divider-content-${props.contentPosition}`]: $slots.default }]"
   >
-    <template v-if="props.direction === 'horizontal'">
+    <template v-if="props.direction === 'h'">
       <div class="o-divider-line"></div>
       <template v-if="$slots.default">
         <div class="o-divider-content">

@@ -1,5 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT } from '../_shared/global';
+
 export type ResizeT = 'both' | 'horizontal'| 'h' | 'vertical' | 'v' | 'none';
 export const textareaProps = {
   /**

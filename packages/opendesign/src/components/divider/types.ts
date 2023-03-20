@@ -15,11 +15,11 @@ export const dividerProps = {
   },
   /**
    * 分割线方向
-   * 'horizontal' | 'vertical'
+   * 'h' | 'v'
    */
   direction: {
     type: String as PropType<DirectionT>,
-    default: 'horizontal',
+    default: 'h',
   },
   /**
    * 自定义内容位置

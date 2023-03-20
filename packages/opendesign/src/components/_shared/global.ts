@@ -18,7 +18,7 @@ export function initRound(type: 'pill' | 'normal') {
 
 
 // 方向
-export type DirectionT = 'horizontal' | 'vertical';
+export type DirectionT = 'h' | 'v';
 
 export type VariantT = 'solid' | 'outline' | 'text';
 
