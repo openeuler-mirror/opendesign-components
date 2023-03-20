@@ -1,4 +1,4 @@
-import type { Config } from 'svgo';
+import type { Config, PluginConfig } from 'svgo';
 
 export interface IconsConfig {
   svgo: {
@@ -10,57 +10,35 @@ export interface IconsConfig {
   output: string,
   template: typeof template
 }
+export const basePlugins:PluginConfig[] = [
+  {
+    name: 'preset-default',
+    params: {
+      overrides: {
+        // 不移除view-box属性
+        removeViewBox: false,
+        cleanupIds: false
+      },
+    },
+  },
+  'removeStyleElement',
+  'removeScriptElement',
+  'removeDimensions',
+  'sortAttrs',
+  'removeUselessStrokeAndFill',
 
-const baseSvgoConfig: Config = {
-  plugins: [
-    {
-      name: 'preset-default',
-      params: {
-        overrides: {
-          // 不移除view-box属性
-          removeViewBox: false,
-        },
-      },
+  {
+    name: 'addAttributesToSVGElement',
+    params: {
+      attributes: [
+        { ':class': 'classnames' },
+      ],
     },
-    'removeStyleElement',
-    'removeScriptElement',
-    'removeDimensions',
-    'sortAttrs',
-    'removeUselessStrokeAndFill',
-    {
-      name: 'removeAttrs',
-      params: {
-        attrs: [
-          'class',
-        ],
-      },
-    },
-    {
-      name: 'addAttributesToSVGElement',
-      params: {
-        attributes: [
-          { ':class': 'classnames' },
-        ],
-      },
-    },
-  ],
-};
+  },
+];
 const fillSvgoConfig: Config = {
   plugins: [
-    {
-      name: 'preset-default',
-      params: {
-        overrides: {
-          // 不移除view-box属性
-          removeViewBox: false,
-        },
-      },
-    },
-    'removeStyleElement',
-    'removeScriptElement',
-    'removeDimensions',
-    'sortAttrs',
-    'removeUselessStrokeAndFill',
+    ...basePlugins,
     {
       name: 'removeAttrs',
       params: {
@@ -69,33 +47,12 @@ const fillSvgoConfig: Config = {
           'fill',
         ],
       },
-    },
-    {
-      name: 'addAttributesToSVGElement',
-      params: {
-        attributes: [
-          { ':class': 'classnames' },
-        ],
-      },
-    },
+    }
   ],
 };
 const strokeSvgoConfig: Config = {
   plugins: [
-    {
-      name: 'preset-default',
-      params: {
-        overrides: {
-          // 不移除view-box属性
-          removeViewBox: false,
-        },
-      },
-    },
-    'removeStyleElement',
-    'removeScriptElement',
-    'removeDimensions',
-    'sortAttrs',
-    'removeUselessStrokeAndFill',
+    ...basePlugins,
     {
       name: 'removeAttrs',
       params: {
@@ -104,18 +61,22 @@ const strokeSvgoConfig: Config = {
           'stroke',
         ],
       },
-    },
+    }
+  ],
+};
+const colorSvgoConfig: Config = {
+  plugins: [
+    ...basePlugins,
     {
-      name: 'addAttributesToSVGElement',
+      name: 'removeAttrs',
       params: {
-        attributes: [
-          { ':class': 'classnames' },
+        attrs: [
+          'class',
         ],
       },
     },
-  ],
+  ]
 };
-const colorSvgoConfig = baseSvgoConfig;
 
 const template = ({ name, componentName, svg, type }: { name: string, componentName: string, svg: string, type: 'fill' | 'stroke' | 'color' }) => {
   return `<script lang="ts">
