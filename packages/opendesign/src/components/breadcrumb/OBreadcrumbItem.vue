@@ -24,7 +24,7 @@ const breadcrumbInjection = inject(breadcrumbInjectKey, null);
     <!-- separator -->
     <span class="o-breadcrumb-item-separator">
       <slot v-if="$slots.separator" name="separator"></slot>
-      <span v-else-if="separator"> {{ separator }}</span>
+      <template v-else-if="separator"> {{ separator }}</template>
       <template v-else-if="breadcrumbInjection?.separator.value">{{ breadcrumbInjection?.separator.value }} </template>
       <IconChevronRight v-else />
     </span>

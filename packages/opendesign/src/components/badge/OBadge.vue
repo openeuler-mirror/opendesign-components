@@ -31,8 +31,7 @@ const style = computed(() => {
   <div class="o-badge" :class="[`o-badge-${props.color}`, { 'o-badge-dot': props.dot, 'o-badge-only': !$slots.default }]">
     <slot></slot>
     <sup class="o-badge-content" :style="style">
-      <slot v-if="$slots.content" name="content"></slot>
-      <template v-else>{{ content }}</template>
+      <slot name="content"> {{ content }}</slot>
     </sup>
   </div>
 </template>
