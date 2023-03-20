@@ -86,12 +86,12 @@ const iconStatus = computed(() => {
       :class="{ 'is-full-active': iconStatus[key] === 'full', 'is-half-active': iconStatus[key] === 'half' }"
     >
       <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
-        <slot name="icon">
+        <slot name="icon" :index="item" :status="iconStatus[key]">
           <IconStar />
         </slot>
       </span>
       <span class="o-rate-icon o-rate-icon-bottom" @mouseenter="setHoverIndex(key, false)" @click="setValue(key, false)">
-        <slot name="icon">
+        <slot name="icon" :index="item" :status="iconStatus[key]">
           <IconStar />
         </slot>
       </span>
