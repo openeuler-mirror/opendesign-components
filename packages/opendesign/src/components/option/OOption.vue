@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed, inject, watch } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
 import { optionProps } from './types';
 
@@ -14,14 +14,24 @@ const currentVal = computed(() => {
   return '';
 });
 
-if (props.value === currentVal.value) {
-  if (selectInject) {
-    selectInject.update({
-      label: props.label || `${props.value}`,
-      value: props.value,
-    });
-  }
-}
+watch(
+  () => currentVal.value,
+  (v) => {
+    if (props.value === v) {
+      if (selectInject) {
+        // 初始化select的值、相应modelValue变化
+        selectInject.update(
+          {
+            label: props.label || `${props.value}`,
+            value: props.value,
+          },
+          false
+        );
+      }
+    }
+  },
+  { immediate: true }
+);
 
 const clickOption = () => {
   if (!props.disabled) {

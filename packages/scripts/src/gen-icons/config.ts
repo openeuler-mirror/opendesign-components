@@ -12,12 +12,34 @@ export interface IconsConfig {
 }
 export const basePlugins:PluginConfig[] = [
   {
+    // 将id替换成class
+    name: 'addClassesbyId',
+    fn: () => {
+      const nodes:string[] = ['*'];
+      return {
+        element: {
+          enter: (node) => {
+            if (nodes.includes('*') || nodes.includes(node.name)){
+              const classname = node.attributes.class|| '';
+              const id = node.attributes.id||'';
+              const cls = classname.split(' ');
+              cls.push(id);
+              const classStr = cls.join(' ').trim();
+              if (classStr) {
+                node.attributes.class = classStr;
+              }
+            }
+          },
+        },
+      };
+    },
+  },
+  {
     name: 'preset-default',
     params: {
       overrides: {
         // 不移除view-box属性
         removeViewBox: false,
-        cleanupIds: false
       },
     },
   },
@@ -33,30 +55,7 @@ export const basePlugins:PluginConfig[] = [
         { ':class': 'classnames' },
       ],
     },
-  },
-  {
-    name: 'replaceIdbyClass',
-    fn: () => {
-      return {
-        element: {
-          enter: (node) => {
-            if (node.name==='path') {
-
-              const classname = node.attributes.class|| '';
-              const id = node.attributes.id||'';
-              const cls = classname.split(' ');
-              cls.push(id);
-              const classStr = cls.join(' ').trim();
-              if (classStr) {
-                node.attributes.class = classStr;
-              }
-              console.log(node.name, classStr);
-            }
-          },
-        },
-      };
-    },
-  },
+  }
 ];
 const fillSvgoConfig: Config = {
   plugins: [

@@ -33,7 +33,6 @@
 .o-tab-nav {
   display: inline-flex;
   align-items: center;
-  padding: 4px 16px;
   cursor: pointer;
   border: 1px solid var(--tabs-nav-bd-color);
   border-bottom-width: 0;
@@ -46,24 +45,23 @@
     border-color: var(--tabs-nav-bd-color-hover);
     background-color: var(--tabs-nav-bg-color-hover);
   }
-
-  &.is-active {
-    color: var(--tabs-nav-color-active);
-    border-color: var(--tabs-nav-bd-color-active);
-    background-color: var(--tabs-nav-bg-color-active);
-  }
-
-  &.is-closable {
-    padding-right: 24px;
-    position: relative;
-  }
-
-  &.is-disabled {
-    cursor: not-allowed;
-    color: var(--tabs-nav-color-disabled);
-    border-color: var(--tabs-nav-bd-color-disabled);
-    background-color: var(--tabs-nav-bg-color-disabled);
-  }
+}
+.o-tab-nav-active {
+  color: var(--tabs-nav-color-active);
+  border-color: var(--tabs-nav-bd-color-active);
+  background-color: var(--tabs-nav-bg-color-active);
+}
+.o-tab-nav-disabled {
+  cursor: not-allowed;
+  color: var(--tabs-nav-color-disabled);
+  border-color: var(--tabs-nav-bd-color-disabled);
+  background-color: var(--tabs-nav-bg-color-disabled);
+}
+.o-tab-nav-closable {
+  position: relative;
+}
+.o-tab-nav-title {
+  padding: 4px 16px;
 }
 .o-tabs-text {
   .o-tab-nav {
@@ -131,9 +129,9 @@
   flex-shrink: 0;
   width: 100%;
   display: none;
-  &.is-active {
-    display: block;
-  }
+}
+.o-tab-pane-active {
+  display: block;
 }
 .o-tabs-solid {
   .o-tab-nav + .o-tab-nav {
