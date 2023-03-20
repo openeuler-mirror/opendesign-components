@@ -43,19 +43,21 @@ const hasContent = computed(() => {
         <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :class="{ 'is-full': !props.coverRatio }" />
       </slot>
     </div>
-    <div v-if="hasContent || $slots.title || $slots.default" class="o-card-main">
-      <div>
-        <div class="o-card-title">
-          <slot name="title">{{ props.title }}</slot>
+    <div v-if="hasContent || $slots.title || $slots.content || $slots.default" class="o-card-main">
+      <slot>
+        <div>
+          <div v-if="props.title || $slots.title" class="o-card-title">
+            <slot name="title">{{ props.title }}</slot>
+          </div>
+          <div class="o-card-content">
+            <div v-if="props.content" class="o-card-detail">{{ props.content }}</div>
+            <slot name="content"></slot>
+          </div>
         </div>
-        <div class="o-card-content">
-          <div class="o-card-detail">{{ props.content }}</div>
-          <slot></slot>
+        <div v-if="$slots.actions" class="o-card-actions">
+          <slot name="actions"></slot>
         </div>
-      </div>
-      <div v-if="$slots.actions" class="o-card-actions">
-        <slot name="actions"></slot>
-      </div>
+      </slot>
     </div>
   </HtmlTag>
 </template>

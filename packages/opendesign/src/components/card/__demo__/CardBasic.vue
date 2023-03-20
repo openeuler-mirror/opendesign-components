@@ -74,6 +74,17 @@ const card = {
         </template>
       </OCard>
     </div>
+    <div class="flex">
+      <OCard class="card col3" hoverable>
+        <div class="card-icon">
+          <div class="icon"><IconStar /></div>
+          <div>
+            <div class="title">{{ card.title }}</div>
+            <div class="btns">{{ card.content }}</div>
+          </div>
+        </div>
+      </OCard>
+    </div>
   </section>
 </template>
 <style lang="scss">
@@ -100,5 +111,17 @@ const card = {
 }
 .card2 {
   // height: 260px;
+}
+.card-icon {
+  display: flex;
+  align-items: flex-start;
+  .icon {
+    font-size: 60px;
+    margin-right: 12px;
+  }
+  .title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
 }
 </style>
