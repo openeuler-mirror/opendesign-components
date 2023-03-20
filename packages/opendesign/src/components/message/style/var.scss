@@ -1,0 +1,29 @@
+.o-message {
+  --message-padding: 8px 16px;
+  --message-text-size: var(--o-font_size-text1);
+  --message-text-height: var(--o-line_height-text1);
+
+  --message-color: var(--o-color-info1);
+
+  --message-radius: var(--o-radius-control-m);
+}
+
+.o-message-normal {
+  --message-bg-color: var(--o-color-control-light);
+  --message-bd-color: var(--o-color-control1);
+}
+
+.o-message-success {
+  --message-bg-color: var(--o-color-success4-light);
+  --message-bd-color: var(--o-color-success1);
+}
+
+.o-message-warning {
+  --message-bg-color: var(--o-color-warning4-light);
+  --message-bd-color: var(--o-color-warning1);
+}
+
+.o-message-danger {
+  --message-bg-color: var(--o-color-danger4-light);
+  --message-bd-color: var(--o-color-danger1);
+}

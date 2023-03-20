@@ -33,6 +33,7 @@ export * from './dropdown';
 export * from './dialog';
 export * from './figure';
 export * from './card';
+export * from './message';
 
 export * from './intersection-observer';
 export * from './resize-observer';
