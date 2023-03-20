@@ -9,12 +9,14 @@ const options = [
   { label: 'option 4', value: 'opt4' },
 ];
 const selectVal1 = ref('opt1');
-const selectVal2 = ref(options[0].value);
+const changeVal = () => {
+  selectVal1.value = 'opt3';
+};
 </script>
 <template>
   <h4>Color & Variant</h4>
   <section>
-    <div>Outline</div>
+    <div @click="changeVal">Outline</div>
     <div class="row">
       <OSelect v-model="selectVal1" placeholder="normal + outline">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />

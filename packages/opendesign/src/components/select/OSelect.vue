@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
 import { IconChevronDown, IconClose } from '../_shared/icons';
 import { OPopup } from '../popup';
@@ -21,6 +21,13 @@ const round = getRoundClass(props, 'select');
 
 const activeLabel = ref(props.modelValue);
 const activeVal = ref(props.modelValue);
+
+watch(
+  () => props.modelValue,
+  (v) => {
+    activeVal.value = v;
+  }
+);
 
 const isClearable = computed(() => props.clearable && !props.disabled);
 
