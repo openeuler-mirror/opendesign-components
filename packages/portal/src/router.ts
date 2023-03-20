@@ -68,6 +68,12 @@ export const routes = [
     label: '下拉框',
     component: () => import('@components/select/__demo__/IndexSelect.vue'),
   },
+  // {
+  //   path: '/cascader',
+  //   name: 'Cascader',
+  //   label: '级联选择器',
+  //   component: () => import('@components/cascader/__demo__/IndexCascader.vue'),
+  // },
   {
     path: '/radio',
     name: 'Radio',
@@ -163,6 +169,12 @@ export const routes = [
     name: 'Card',
     label: '卡片',
     component: () => import('@components/card/__demo__/IndexCard.vue'),
+  },
+  {
+    path: '/message',
+    name: 'Message',
+    label: '消息提示',
+    component: () => import('@components/message/__demo__/IndexMessage.vue'),
   },
   {
     path: '/resize-observer',
