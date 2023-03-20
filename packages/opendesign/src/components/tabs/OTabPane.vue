@@ -19,7 +19,7 @@ const navRef = ref<HTMLElement | null>(null);
 const tabsInjection = inject(tabsInjectKey, null);
 
 const { navsRef, activeValue, lazy } = tabsInjection || {};
-console.log(props.transition);
+// console.log(props.transition);
 
 const instance = getCurrentInstance();
 if (!props.value && !props.label) {
@@ -43,7 +43,7 @@ const toMount = computed(() => {
   }
   return true;
 });
-console.log(toMount.value, props.unmountOnHide);
+// console.log(toMount.value, props.unmountOnHide);
 
 watch(
   () => isActive.value,

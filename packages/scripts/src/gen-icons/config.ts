@@ -26,13 +26,35 @@ export const basePlugins:PluginConfig[] = [
   'removeDimensions',
   'sortAttrs',
   'removeUselessStrokeAndFill',
-
   {
     name: 'addAttributesToSVGElement',
     params: {
       attributes: [
         { ':class': 'classnames' },
       ],
+    },
+  },
+  {
+    name: 'replaceIdbyClass',
+    fn: () => {
+      return {
+        element: {
+          enter: (node) => {
+            if (node.name==='path') {
+
+              const classname = node.attributes.class|| '';
+              const id = node.attributes.id||'';
+              const cls = classname.split(' ');
+              cls.push(id);
+              const classStr = cls.join(' ').trim();
+              if (classStr) {
+                node.attributes.class = classStr;
+              }
+              console.log(node.name, classStr);
+            }
+          },
+        },
+      };
     },
   },
 ];
@@ -43,7 +65,7 @@ const fillSvgoConfig: Config = {
       name: 'removeAttrs',
       params: {
         attrs: [
-          'class',
+          'svg:class',
           'fill',
         ],
       },
@@ -57,7 +79,7 @@ const strokeSvgoConfig: Config = {
       name: 'removeAttrs',
       params: {
         attrs: [
-          'class',
+          'svg:class',
           'stroke',
         ],
       },
@@ -71,7 +93,7 @@ const colorSvgoConfig: Config = {
       name: 'removeAttrs',
       params: {
         attrs: [
-          'class',
+          'svg:class',
         ],
       },
     },
