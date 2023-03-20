@@ -84,10 +84,11 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
   // 清空构建目录
   fs.emptyDirSync(cfg.output);
 
-  const svgoCfg = cfg.svgo;
   // 遍历生成图标组件
   icons.forEach(item => {
     const file = fs.readFileSync(item.path, 'utf-8');
+    const svgoCfg = cfg.svgo[item.type];
+
     const rlt = optimize(file, {
       path: item.path,
       ...svgoCfg,

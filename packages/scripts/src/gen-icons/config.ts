@@ -1,13 +1,17 @@
 import type { Config } from 'svgo';
 
 export interface IconsConfig {
-  svgo: Config,
+  svgo: {
+    fill: Config,
+    stroke: Config,
+    color: Config,
+  },
   input: string,
   output: string,
   template: typeof template
 }
 
-const svgoConfig: Config = {
+const baseSvgoConfig: Config = {
   plugins: [
     {
       name: 'preset-default',
@@ -28,8 +32,6 @@ const svgoConfig: Config = {
       params: {
         attrs: [
           'class',
-          'path:fill',
-          'path:stroke'
         ],
       },
     },
@@ -43,6 +45,77 @@ const svgoConfig: Config = {
     },
   ],
 };
+const fillSvgoConfig: Config = {
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          // 不移除view-box属性
+          removeViewBox: false,
+        },
+      },
+    },
+    'removeStyleElement',
+    'removeScriptElement',
+    'removeDimensions',
+    'sortAttrs',
+    'removeUselessStrokeAndFill',
+    {
+      name: 'removeAttrs',
+      params: {
+        attrs: [
+          'class',
+          'fill',
+        ],
+      },
+    },
+    {
+      name: 'addAttributesToSVGElement',
+      params: {
+        attributes: [
+          { ':class': 'classnames' },
+        ],
+      },
+    },
+  ],
+};
+const strokeSvgoConfig: Config = {
+  plugins: [
+    {
+      name: 'preset-default',
+      params: {
+        overrides: {
+          // 不移除view-box属性
+          removeViewBox: false,
+        },
+      },
+    },
+    'removeStyleElement',
+    'removeScriptElement',
+    'removeDimensions',
+    'sortAttrs',
+    'removeUselessStrokeAndFill',
+    {
+      name: 'removeAttrs',
+      params: {
+        attrs: [
+          'class',
+          'stroke',
+        ],
+      },
+    },
+    {
+      name: 'addAttributesToSVGElement',
+      params: {
+        attributes: [
+          { ':class': 'classnames' },
+        ],
+      },
+    },
+  ],
+};
+const colorSvgoConfig = baseSvgoConfig;
 
 const template = ({ name, componentName, svg, type }: { name: string, componentName: string, svg: string, type: 'fill' | 'stroke' | 'color' }) => {
   return `<script lang="ts">
@@ -64,7 +137,11 @@ export default defineComponent({
 };
 
 export const defaultConfig: IconsConfig = {
-  svgo: svgoConfig,
+  svgo: {
+    color: colorSvgoConfig,
+    stroke: strokeSvgoConfig,
+    fill: fillSvgoConfig,
+  },
   input: './src/icons/svgs',
   output: './src/components/icons/',
   template,
