@@ -24,11 +24,11 @@ export const checkboxGroupProps = {
   },
   /**
    * 多选框组方向
-   * 'horizontal' | 'vertical'
+   * 'h' | 'v'
    */
   direction: {
     type: String as PropType<DirectionT>,
-    default: 'horizontal',
+    default: 'h',
   },
   /**
    * 多选框组支持选中的最小多选框数量

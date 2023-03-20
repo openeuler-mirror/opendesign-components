@@ -4,7 +4,7 @@ import { defaultSize } from '../_shared/global';
 import { isFunction } from '../_shared/is';
 import { IconClose } from '../_shared/icons';
 import { trigger } from '../_shared/event';
-import { toInputString } from './textarea';
+import { getResizeValue, toInputString } from './textarea';
 import { OResizeObserver } from '../resize-observer';
 import { textareaProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
@@ -40,7 +40,7 @@ watch(
 );
 
 const resizeValue = computed(() => {
-  return props.autoHeight || props.disabled ? 'none' : props.resize;
+  return props.autoHeight || props.disabled ? 'none' : getResizeValue(props.resize);
 });
 
 const getValueLength = (val: string) => {

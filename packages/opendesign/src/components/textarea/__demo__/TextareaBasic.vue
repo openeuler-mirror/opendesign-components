@@ -80,11 +80,11 @@ const printEvent = (event: string, val?: string | number) => {
     </div>
     <div>
       <div>horizontal:</div>
-      <OTextarea v-model="val1" resize="horizontal" />
+      <OTextarea v-model="val1" resize="h" />
     </div>
     <div>
       <div>vertical:(default)</div>
-      <OTextarea v-model="val1" resize="vertical" />
+      <OTextarea v-model="val1" resize="v" />
     </div>
     <div>
       <div>none:</div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import { PrestColorPool } from '../_shared/utils';
 import HtmlTag from '../_shared/components/html-tag';
 
@@ -8,6 +8,7 @@ import { figureProps } from './types';
 const props = defineProps(figureProps);
 
 const emits = defineEmits<{ (e: 'error'): void }>();
+const imgRef = ref<HTMLImageElement | null>(null);
 
 const isLoading = ref(true);
 const isError = ref(false);
@@ -44,7 +45,7 @@ watch(
   () => props.src,
   (src?: string) => {
     if (src && props.background) {
-      const img = document.createElement('img');
+      const img = new Image();
       img.onload = onImgLoaded;
       img.onerror = onImgError;
       img.src = src;
@@ -52,6 +53,12 @@ watch(
   },
   { immediate: true }
 );
+onMounted(() => {
+  // 修复服务端渲染时，加载过快未刷新load状态问题
+  if (imgRef.value && imgRef.value.complete) {
+    onImgLoaded();
+  }
+});
 </script>
 <template>
   <HtmlTag
@@ -81,9 +88,17 @@ watch(
           backgroundImage: bgSrc,
         }"
       >
-        <img v-if="!props.background && !isError" :src="props.src" :alt="props.alt" class="o-figure-img-ratio" @load="onImgLoaded" @error="onImgError" />
+        <img
+          v-if="!props.background && !isError"
+          ref="imgRef"
+          :src="props.src"
+          :alt="props.alt"
+          class="o-figure-img-ratio"
+          @load="onImgLoaded"
+          @error="onImgError"
+        />
       </div>
-      <img v-else-if="!isError" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
+      <img v-else-if="!isError" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
     <slot></slot>
   </HtmlTag>

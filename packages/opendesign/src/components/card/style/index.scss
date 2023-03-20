@@ -42,7 +42,7 @@
 }
 
 .o-card-main {
-  padding: 24px;
+  padding: var(--card-main-padding);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
