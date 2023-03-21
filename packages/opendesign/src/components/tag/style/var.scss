@@ -29,22 +29,27 @@
 }
 
 .o-tag-small {
-  --tag-padding: 0 7px;
+  --tag-padding: 0 6px;
   --tag-radius: var(--o-radius-control-s);
-  --tag-text-size: var(--o-font_size-tip1);
-  --tag-text-height: var(--o-line_height-tip1);
+  --tag-text-size: 10px;
+  --tag-text-height: 16px;
+  --tag-height: var(--o-size-xxs);
 }
 
 .o-tag-medium {
-  --tag-padding: 0 15px;
-  --tag-radius: var(--o-radius-control-m);
-  --tag-text-size: var(--o-font_size-text);
-  --tag-text-height: var(--o-line_height-text);
+  --tag-padding: 0 12px;
+  --tag-radius: var(--o-radius-control-s);
+  --tag-text-size: var(--o-font_size-tip2);
+  --tag-text-height: var(--o-line_height-tip2);
+  --tag-height: var(--o-size-xs);
 }
 
 .o-tag-large {
-  --tag-padding: 4px 19px;
-  --tag-radius: var(--o-radius-control-l);
+  --tag-padding: 0 14px;
+  --tag-radius: var(--o-radius-control-s);
+  --tag-text-size: var(--o-font_size-tip1);
+  --tag-text-height: var(--o-line_height-tip1);
+  --tag-height: var(--o-size-s);
 }
 
 .o-tag-round-pill {
