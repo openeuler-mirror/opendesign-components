@@ -16,6 +16,12 @@
     bottom: 0;
     opacity: 0;
   }
+
+  &:not(.o-radio-checked):not(.o-radio-disabled):hover {
+    .o-radio-input {
+      border-color: var(--radio-input-bd-color-hover);
+    }
+  }
 }
 
 .o-radio-wrap {
@@ -33,6 +39,7 @@
   background-color: var(--radio-input-bg-color);
   border: 1px solid var(--radio-input-bd-color);
   border-radius: 50%;
+  transition: border-color var(--o-duration-s) var(--o-easing-standard);
 
   &::after {
     content: '';
