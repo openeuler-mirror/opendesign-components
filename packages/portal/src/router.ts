@@ -68,12 +68,12 @@ export const routes = [
     label: '下拉框',
     component: () => import('@components/select/__demo__/IndexSelect.vue'),
   },
-  // {
-  //   path: '/cascader',
-  //   name: 'Cascader',
-  //   label: '级联选择器',
-  //   component: () => import('@components/cascader/__demo__/IndexCascader.vue'),
-  // },
+  {
+    path: '/cascader',
+    name: 'Cascader',
+    label: '级联选择器',
+    component: () => import('@components/cascader/__demo__/IndexCascader.vue'),
+  },
   {
     path: '/radio',
     name: 'Radio',
