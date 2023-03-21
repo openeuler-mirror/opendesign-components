@@ -46,6 +46,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  &:first-child {
+    height: 100%;
+  }
 }
 
 .o-card-content {

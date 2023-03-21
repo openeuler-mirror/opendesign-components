@@ -75,14 +75,17 @@ const card = {
       </OCard>
     </div>
     <div class="flex">
-      <OCard class="card col3" hoverable>
-        <div class="card-icon">
-          <div class="icon"><IconStar /></div>
-          <div>
-            <div class="title">{{ card.title }}</div>
-            <div class="btns">{{ card.content }}</div>
+      <OCard class="card col3" hoverable style="height: 350px">
+        <template #main>
+          <div class="card-icon">
+            <div class="icon"><IconStar /></div>
+            <div>
+              <div class="title">{{ card.title }}</div>
+              <div class="btns">{{ card.content }}</div>
+            </div>
           </div>
-        </div>
+          1123
+        </template>
       </OCard>
     </div>
   </section>
