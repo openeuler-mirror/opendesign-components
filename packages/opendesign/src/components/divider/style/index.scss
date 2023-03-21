@@ -42,7 +42,7 @@
   }
 }
 
-.o-divider-vertical {
+.o-divider-v {
   display: inline-block;
   width: 1px;
   height: 1em;
@@ -53,21 +53,21 @@
 }
 
 .o-divider-solid {
-  &.o-divider-vertical,
+  &.o-divider-v,
   .o-divider-line {
     border-style: solid;
   }
 }
 
 .o-divider-dashed {
-  &.o-divider-vertical,
+  &.o-divider-v,
   .o-divider-line {
     border-style: dashed;
   }
 }
 
 .o-divider-dotted {
-  &.o-divider-vertical,
+  &.o-divider-v,
   .o-divider-line {
     border-style: dotted;
   }
