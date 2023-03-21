@@ -50,7 +50,13 @@ export const figureProps = {
    */
   href: {
     type: String,
-  }
+  },
+  /**
+   * 预置随机多彩背景
+   */
+  colorfull: {
+    type: Boolean,
+  },
 };
 
 export type FigurePropsT = ExtractPropTypes<typeof figureProps>;

@@ -6,7 +6,9 @@
   overflow: hidden;
   transition: background-color var(--o-duration-m2);
   &.is-loading {
-    background-color: var(--figure-prest-color);
+    &.is-colorfull {
+      background-color: var(--figure-prest-color);
+    }
     img {
       opacity: 0;
     }

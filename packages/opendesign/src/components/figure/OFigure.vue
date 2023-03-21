@@ -12,7 +12,7 @@ const imgRef = ref<HTMLImageElement | null>(null);
 
 const isLoading = ref(true);
 const isError = ref(false);
-const prestColor = PrestColorPool.pick();
+const prestColor = props.colorfull ? PrestColorPool.pick() : '';
 
 const bgSrc = computed(() => {
   if (props.background && props.ratio) {
@@ -68,6 +68,7 @@ onMounted(() => {
     :class="{
       'is-loading': isLoading,
       'is-error': isError,
+      'is-colorfull': props.colorfull,
       'o-figure-hoverable': props.hoverable || !!props.href,
     }"
     :style="{
