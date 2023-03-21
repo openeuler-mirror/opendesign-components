@@ -2,7 +2,6 @@
 
 .o-menu {
   width: var(--menu-width);
-  color: var(--menu-color);
   background-color: var(--menu-bg-color);
   list-style: none;
   margin: 0;
@@ -13,6 +12,7 @@
 .o-sub-menu {
   font-size: var(--sub-menu-text-size);
   line-height: var(--sub-menu-text-height);
+  color: var(--sub-menu-color);
 }
 
 .o-sub-menu-active {
@@ -72,6 +72,7 @@
 
 //menu-item
 .o-menu-item {
+  color: var(--menu-item-color);
   font-size: var(--menu-item-text-size);
   line-height: var(--menu-item-text-height);
   border-radius: var(--menu-item-radius);
@@ -83,12 +84,12 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   &:not(.o-menu-item-active):hover {
-    background-color: var(--menu-item-bg-hover);
+    background-color: var(--menu-item-bg-color-hover);
   }
 }
 
 .o-menu-item-active {
-  background-color: var(--menu-item-bg-active);
+  background-color: var(--menu-item-bg-color-active);
 }
 
 .o-menu-item-disabled {

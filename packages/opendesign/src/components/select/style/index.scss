@@ -66,10 +66,11 @@
 }
 
 .o-select-options {
-  background-color: var(--select-options-bg);
+  background-color: var(--select-options-bg-color);
   box-shadow: var(--select-options-shadow);
   border-radius: var(--select-options-radius);
   border: var(--select-options-bd);
+  padding: var(--select-options-padding);
 }
 
 .o-select-clear {
