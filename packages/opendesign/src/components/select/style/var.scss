@@ -15,10 +15,11 @@
 }
 
 .o-select-options {
-  --select-options-bg: var(--o-color-control-light);
-  --select-options-shadow: none;
-  --select-options-bd: 1px solid var(--o-color-primary2);
-  --select-options-radius: var(--o-radius-control-s);
+  --select-options-bg-color: var(--o-color-control-light);
+  --select-options-shadow: var(--o-shadow-2);
+  --select-options-bd: none;
+  --select-options-radius: var(--o-radius-control-l);
+  --select-options-padding: 4px;
 }
 
 .o-select-normal {
