@@ -14,6 +14,7 @@
     }
   }
   img {
+    max-width: 100%;
     vertical-align: top;
     opacity: 1;
     transition: opacity var(--o-duration-m2), transform var(--o-easing-standard) var(--o-duration-m2);

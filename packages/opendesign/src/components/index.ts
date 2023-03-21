@@ -33,6 +33,7 @@ export * from './dialog';
 export * from './figure';
 export * from './card';
 export * from './message';
+export * from './slides';
 
 // export * from './scrollbar';
 
