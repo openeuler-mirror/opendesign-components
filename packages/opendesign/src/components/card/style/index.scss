@@ -4,6 +4,7 @@
   background-color: var(--o-color-control-light);
   border-radius: var(--card-radius);
   overflow: hidden;
+  display: flex;
 }
 .o-card-cover {
   flex-shrink: 0;
@@ -46,6 +47,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 }
 
 .o-card-content {
@@ -82,15 +84,19 @@
     }
   }
 }
-.o-card-actions {
+.o-card-bottom {
   margin-top: 24px;
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
   color: var(--o-color-info3);
 }
-
+.o-card-layout-v {
+  display: flex;
+  flex-direction: column;
+}
 .o-card-layout-h {
   display: flex;
+  flex-direction: row;
 }
 .o-card-layout-hr {
   display: flex;

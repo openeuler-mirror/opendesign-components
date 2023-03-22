@@ -6,12 +6,15 @@
   overflow: hidden;
   transition: background-color var(--o-duration-m2);
   &.is-loading {
-    background-color: var(--figure-prest-color);
+    &.is-colorfull {
+      background-color: var(--figure-prest-color);
+    }
     img {
       opacity: 0;
     }
   }
   img {
+    max-width: 100%;
     vertical-align: top;
     opacity: 1;
     transition: opacity var(--o-duration-m2), transform var(--o-easing-standard) var(--o-duration-m2);

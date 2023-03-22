@@ -177,6 +177,12 @@ export const routes = [
     component: () => import('@components/message/__demo__/IndexMessage.vue'),
   },
   {
+    path: '/slides',
+    name: 'Slides',
+    label: '幻灯片 Slides',
+    component: () => import('@components/slides/__demo__/IndexSlides.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

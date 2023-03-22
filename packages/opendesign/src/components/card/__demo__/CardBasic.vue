@@ -38,6 +38,26 @@ const card = {
           </div>
         </template>
       </OCard>
+      <OCard
+        class="card col2 card2"
+        :cover="card.cover"
+        :cover-ratio="16 / 9"
+        :title="card.title"
+        :content="card.content"
+        layout="hr"
+        cover-class="card-cover"
+        :title-max-row="1"
+        :detail-max-row="2"
+      >
+        <template #actions>
+          <div class="actions">
+            <div class="date">2023/02/09</div>
+            <div class="btns">
+              <div class="btn"><IconStar /> 文本</div>
+            </div>
+          </div>
+        </template>
+      </OCard>
     </div>
     <div>
       <OCard
@@ -75,14 +95,17 @@ const card = {
       </OCard>
     </div>
     <div class="flex">
-      <OCard class="card col3" hoverable>
-        <div class="card-icon">
-          <div class="icon"><IconStar /></div>
-          <div>
-            <div class="title">{{ card.title }}</div>
-            <div class="btns">{{ card.content }}</div>
+      <OCard class="card col3" hoverable style="height: 350px">
+        <template #main>
+          <div class="card-icon">
+            <div class="icon"><IconStar /></div>
+            <div>
+              <div class="title">{{ card.title }}</div>
+              <div class="btns">{{ card.content }}</div>
+            </div>
           </div>
-        </div>
+          1123
+        </template>
       </OCard>
     </div>
   </section>

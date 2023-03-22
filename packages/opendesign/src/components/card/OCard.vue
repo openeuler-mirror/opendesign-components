@@ -28,36 +28,38 @@ const hasContent = computed(() => {
       '--card-detail-max-row': props.detailMaxRow,
     }"
   >
-    <div
-      v-if="$slots.cover || props.cover"
-      class="o-card-cover"
-      :class="[
-        props.coverClass,
-        `o-card-cover-${props.layout}`,
-        {
-          'o-card-only-cover': !hasContent && !$slots.title && !$slots.default,
-        },
-      ]"
-    >
-      <slot name="cover">
-        <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :class="{ 'is-full': !props.coverRatio }" />
-      </slot>
-    </div>
-    <div v-if="hasContent || $slots.title || $slots.content || $slots.default" class="o-card-main">
-      <slot>
-        <div>
-          <div v-if="props.title || $slots.title" class="o-card-title">
-            <slot name="title">{{ props.title }}</slot>
+    <slot name="card">
+      <div
+        v-if="$slots.cover || props.cover"
+        class="o-card-cover"
+        :class="[
+          props.coverClass,
+          `o-card-cover-${props.layout}`,
+          {
+            'o-card-only-cover': !hasContent && !$slots.title && !$slots.default,
+          },
+        ]"
+      >
+        <slot name="cover">
+          <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :class="{ 'is-full': !props.coverRatio }" />
+        </slot>
+      </div>
+      <div v-if="hasContent || $slots.title || $slots.main || $slots.default" class="o-card-main">
+        <slot name="main">
+          <div>
+            <div v-if="props.title || $slots.title" class="o-card-title">
+              <slot name="title">{{ props.title }}</slot>
+            </div>
+            <div class="o-card-content">
+              <div v-if="props.content" class="o-card-detail">{{ props.content }}</div>
+              <slot></slot>
+            </div>
           </div>
-          <div class="o-card-content">
-            <div v-if="props.content" class="o-card-detail">{{ props.content }}</div>
-            <slot name="content"></slot>
+          <div v-if="$slots.bottom" class="o-card-bottom">
+            <slot name="bottom"></slot>
           </div>
-        </div>
-        <div v-if="$slots.actions" class="o-card-actions">
-          <slot name="actions"></slot>
-        </div>
-      </slot>
-    </div>
+        </slot>
+      </div>
+    </slot>
   </HtmlTag>
 </template>
