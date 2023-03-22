@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import { OCascader } from '../index';
 
 const cascaderVal1 = ref('1-1-1');
-const options1 = [
+
+const option1 = [
   {
     label: '选项一',
     value: '1',
@@ -57,7 +58,7 @@ const handleChange1 = (val: string | number | Array<string | number>) => {
 };
 
 const cascaderVal2 = ref('1-1-1');
-const options2 = [
+const option2 = [
   {
     label: '选项一',
     value: '1',
@@ -113,7 +114,7 @@ const handleChange2 = (val: string | number | Array<string | number>) => {
 <template>
   <h4>基础用法</h4>
   <section>
-    <OCascader v-model="cascaderVal1" :options="options1" @change="handleChange1" />
-    <OCascader v-model="cascaderVal2" :options="options2" path-mode @change="handleChange2" />
+    <OCascader v-model="cascaderVal1" :options="option1" @change="handleChange1" />
+    <OCascader v-model="cascaderVal2" :options="option2" path-mode @change="handleChange2" />
   </section>
 </template>
