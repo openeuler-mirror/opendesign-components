@@ -55,8 +55,8 @@ const hasContent = computed(() => {
               <slot></slot>
             </div>
           </div>
-          <div v-if="$slots.actions" class="o-card-actions">
-            <slot name="actions"></slot>
+          <div v-if="$slots.bottom" class="o-card-bottom">
+            <slot name="bottom"></slot>
           </div>
         </slot>
       </div>
