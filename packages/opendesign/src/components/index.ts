@@ -34,9 +34,9 @@ export * from './figure';
 export * from './card';
 export * from './message';
 export * from './slides';
+export * from './cascader';
 
 // export * from './scrollbar';
-
 export * from './intersection-observer';
 export * from './resize-observer';
 export * from './child-only';

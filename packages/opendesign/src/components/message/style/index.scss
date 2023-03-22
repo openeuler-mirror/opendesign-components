@@ -15,7 +15,7 @@
 }
 
 .o-message + .o-message {
-  margin-top: 16px;
+  margin-top: var(--message-gap);
 }
 
 .o-message-list {

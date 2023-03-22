@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { inject, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 import { IconChevronRight } from '../_shared/icons';
 import { OSelect } from '../select';
-import { selectOptionInjectKey } from '../select/provide';
 
 import { cascaderProps } from './types';
 import type { CascaderValueT, CascaderNodePathT } from './types';
@@ -19,8 +18,6 @@ interface ColumnInfoT {
 }
 
 const props = defineProps(cascaderProps);
-
-const selectInject = inject(selectOptionInjectKey, null);
 
 const emits = defineEmits<{
   (e: 'change', val: CascaderValueT): void;
@@ -69,6 +66,7 @@ watch(
 );
 
 const onClick = (option: ColumnInfoT, columnInfo: Array<ColumnInfoT>) => {
+  console.log(panelInfo.value);
   if (!isArray(panelInfo.value)) {
     return;
   }
@@ -113,7 +111,7 @@ const onClick = (option: ColumnInfoT, columnInfo: Array<ColumnInfoT>) => {
     :transition="props.transition"
   >
     <div class="o-cascader-panel">
-      <ul v-for="(columnInfo, index) in panelInfo" :key="columnInfo[0].depth" class="o-cascader-options" :style="{ zIndex: 100 - index }">
+      <ul v-for="(columnInfo, index) in panelInfo" :key="index" class="o-cascader-options">
         <li
           v-for="option in columnInfo"
           :key="option.value"

@@ -1,11 +1,13 @@
 .o-message {
+  --message-color: var(--o-color-info1);
+
   --message-padding: 8px 16px;
   --message-text-size: var(--o-font_size-text1);
   --message-text-height: var(--o-line_height-text1);
 
-  --message-color: var(--o-color-info1);
-
   --message-radius: var(--o-radius-control-m);
+
+  --message-gap: 16px;
 }
 
 .o-message-normal {
