@@ -193,7 +193,7 @@ onUnmounted(() => {
     <div ref="slideWrapRef" class="o-slides-wrap" :class="[`o-slides-type-${props.type}`]">
       <slot></slot>
     </div>
-    <div class="o-slides-indicator-wrap">
+    <div v-if="props.indicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
       <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="activeSlideByIndex(idx)">
         <slot name="indicator" :active="item - 1 === activeIndex">
           <div
@@ -205,22 +205,26 @@ onUnmounted(() => {
         </slot>
       </div>
     </div>
-    <div class="o-slides-arrow-wrap">
-      <div class="o-slides-arrow-prev" @click="changeActiveSlide(-1)">
+    <div v-if="props.arrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
+      <div @click="changeActiveSlide(-1)">
         <slot name="arrow-prev">
-          <div class="o-slides-arrow-icon">
-            <slot name="arrow-prev-icon">
-              <IconChevronLeft />
-            </slot>
+          <div class="o-slides-arrow-prev">
+            <div class="o-slides-arrow-icon">
+              <slot name="arrow-prev-icon">
+                <IconChevronLeft />
+              </slot>
+            </div>
           </div>
         </slot>
       </div>
-      <div class="o-slides-arrow-next" @click="changeActiveSlide(1)">
+      <div @click="changeActiveSlide(1)">
         <slot name="arrow-next">
-          <div class="o-slides-arrow-icon">
-            <slot name="arrow-next-icon">
-              <IconChevronRight />
-            </slot>
+          <div class="o-slides-arrow-next">
+            <div class="o-slides-arrow-icon">
+              <slot name="arrow-next-icon">
+                <IconChevronRight />
+              </slot>
+            </div>
           </div>
         </slot>
       </div>

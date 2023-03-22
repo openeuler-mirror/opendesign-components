@@ -38,7 +38,6 @@ const onChange = (now: number, last: number) => {
   width: 50%;
   margin: auto;
   height: 200px;
-  background-color: red;
 }
 .slide-item2 {
   width: 100%;
