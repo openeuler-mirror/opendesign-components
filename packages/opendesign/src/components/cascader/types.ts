@@ -70,14 +70,6 @@ export const cascaderProps = {
     default: 'bl',
   },
   /**
-   * 下拉选项宽度自适应规则
-   * 'auto':自动 | 'min-width':最小宽度与选择框一致 | 'width': 宽度与选择框一致
-   */
-  optionWidthMode: {
-    type: String as PropType<'auto' | 'min-width' | 'width'>,
-    default: 'min-width',
-  },
-  /**
    * 是否在结束选择时，卸载下拉选项
    * v-model
    */
