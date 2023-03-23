@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../icons';
-import { getCssVariable } from '../_shared/dom';
+// import { getCssVariable } from '../_shared/dom';
 
 import { slidesProps } from './types';
 
@@ -16,7 +16,9 @@ watch(
     activeIndex.value = v ?? 0;
   }
 );
-
+// enum CSS_VAR {
+//   GAP_X = '--slide-gap-x',
+// }
 enum ClassNames {
   PREVIOUS = 'o-slide-item-last',
   NEXT = 'o-slide-item-next',
@@ -208,9 +210,9 @@ const changeActiveSlide = (index: number, animate = true, reverse = false) => {
 };
 
 onMounted(() => {
-  if (slidesRef.value) {
-    console.log(getCssVariable('--gap-x', slidesRef.value));
-  }
+  // if (slidesRef.value) {
+  //   console.log(getCssVariable('--gap-x', slidesRef.value));
+  // }
 
   initSlides();
   if (props.autoPlay) {

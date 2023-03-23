@@ -38,13 +38,15 @@
   transform: translate3d(0, -50%, 0);
 }
 .o-slides-arrow-icon {
-  font-size: 48px;
-  color: var(--o-color-control-light);
-  background-color: rgba(var(--o-gray-1), 0.3);
+  font-size: var(--slides-arrow-size);
+  color: var(--slides-arrow-color);
+  background-color: var(--slides-arrow-bg-color);
   border-radius: 50%;
-  opacity: 0.6;
+  opacity: var(--slides-arrow-opacity);
   &:hover {
-    opacity: 1;
+    opacity: var(--slides-arrow-opacity-hover);
+    color: var(--slides-arrow-color-hover);
+    background-color: var(--slides-arrow-bg-color-hover);
   }
 }
 // indicator
@@ -61,7 +63,7 @@
 .o-slides-indicator-dot {
   width: 48px;
   height: 3px;
-  background-color: var(--o-color-control-light);
+  background-color: var(--slides-indicator-bg-color);
   margin: 4px;
   border-radius: 3px;
   opacity: 0.3;
@@ -69,6 +71,7 @@
 }
 .o-slides-indicator-dot-active {
   opacity: 1;
+  background-color: var(--slides-indicator-bg-color-active);
 }
 
 // slide
@@ -156,6 +159,6 @@
     height: 100%;
     overflow: hidden;
     z-index: 1;
-    margin-right: var(--gap-x);
+    margin-right: var(--slide-gap-x);
   }
 }
