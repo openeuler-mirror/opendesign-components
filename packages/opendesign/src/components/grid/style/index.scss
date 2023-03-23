@@ -1,0 +1,69 @@
+@use './var.scss';
+
+$media-xs: 576px;
+$media-s: 721px;
+$media-m: 1201px;
+$media-l: 1441px;
+$media-xl: 1681px;
+$media-xxl: 1920px;
+
+.o-row {
+  display: flex;
+  justify-content: var(--row-justify);
+  align-items: var(--row-align);
+  flex-wrap: var(--row-wrap);
+  flex-direction: var(--row-direction);
+  margin-left: var(--row-gap-x);
+  margin-right: var(--row-gap-x);
+  margin-bottom: var(--row-gap-y);
+}
+.o-row-inline {
+  display: inline-flex;
+}
+
+.o-col {
+  flex: var(--col-flex);
+  flex-grow: var(--col-grow);
+  flex-shrink: var(--col-shrink);
+  flex-basis: var(--col-basis);
+  align-self: var(--col-align);
+  padding-left: var(--col-gap-x);
+  padding-right: var(--col-gap-x);
+  margin-bottom: var(--col-gap-y);
+}
+
+@media (min-width: $media-xs) {
+  .o-col-xs {
+    flex-basis: var(--col-basis-xs);
+  }
+}
+
+@media (min-width: $media-s) {
+  .o-col-s {
+    flex-basis: var(--col-basis-s);
+  }
+}
+
+@media (min-width: $media-m) {
+  .o-col-m {
+    flex-basis: var(--col-basis-m);
+  }
+}
+
+@media (min-width: $media-l) {
+  .o-col-l {
+    flex-basis: var(--col-basis-l);
+  }
+}
+
+@media (min-width: $media-xl) {
+  .o-col-xl {
+    flex-basis: var(--col-basis-xl);
+  }
+}
+
+@media (min-width: $media-xxl) {
+  .o-col-xxl {
+    flex-basis: var(--col-basis-xxl);
+  }
+}
