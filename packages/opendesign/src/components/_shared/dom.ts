@@ -3,8 +3,8 @@ import { isArray } from './is';
 export type DirectionT = 'left' | 'right' | 'top' | 'bottom';
 
 export function isElement(el: any) {
-  return (typeof HTMLElement === 'object')
-    ? (el instanceof HTMLElement)
+  return typeof HTMLElement === 'object'
+    ? el instanceof HTMLElement
     : !!(el && typeof el === 'object' && (el.nodeType === 1 || el.nodeType === 9) && typeof el.nodeName === 'string');
 }
 
@@ -27,7 +27,7 @@ export function getScroll(el: HTMLElement | Window = window) {
   if (!el) {
     return {
       scrollLeft: 0,
-      scrollTop: 0
+      scrollTop: 0,
     };
   }
   const isroot = isDocumentElement(el);
@@ -63,7 +63,7 @@ export function getRelativeBounding(e: DOMRect, c: DOMRect) {
     offsetBottom: e.bottom - c.top,
   };
 }
-export type RelativeRect = ReturnType<typeof getRelativeBounding>
+export type RelativeRect = ReturnType<typeof getRelativeBounding>;
 
 export function getElementSize(el: HTMLElement | Window) {
   return {
@@ -84,13 +84,18 @@ export function getElementBorder(el: HTMLElement, dir?: DirectionT | DirectionT[
     d = isArray(dir) ? dir : ['left', 'right', 'bottom', 'top'];
   }
   const rlt: {
-    left?: number,
-    right?: number,
-    top?: number,
-    bottom?: number,
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
   } = {};
-  d.forEach(k => {
+  d.forEach((k) => {
     rlt[k] = parseFloat(style.getPropertyValue(`border-${k}-width`));
   });
   return rlt;
+}
+
+export function getCssVariable(key: string, el?: HTMLElement) {
+  const ele = el ? el : document.documentElement;
+  return ele.style.getPropertyValue(key);
 }

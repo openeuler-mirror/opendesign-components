@@ -3,6 +3,7 @@
 .o-slides {
   position: relative;
   visibility: hidden;
+  overflow: hidden;
 }
 .o-slides-visible {
   visibility: visible;
@@ -144,14 +145,17 @@
 }
 
 .o-slides-type-carousel {
-  --slide-gap: 16px;
   transition: transform var(--o-duration-l) var(--o-easing-emphasized);
+  display: flex;
+  width: 100%;
+  height: 100%;
   .o-slide-item {
-    position: absolute;
-    left: 0;
-    right: 0;
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 100%;
     height: 100%;
     overflow: hidden;
     z-index: 1;
+    margin-right: var(--gap-x);
   }
 }
