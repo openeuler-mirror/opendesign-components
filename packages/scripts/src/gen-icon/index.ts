@@ -4,16 +4,6 @@ import glob from 'glob';
 import { toPascalCase } from '../utils';
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
-export interface TokenConfigT {
-  output: string,
-  prefix: string,
-  themes: string[],
-  defaultTheme: string,
-  tokenFile: string[],
-  codeSnippetsFile: string
-}
-
-// TODO： 支持指定配置文件
 
 /**
  * 读取配置文件
@@ -32,7 +22,7 @@ async function readConfig(cfg: string) {
 
   return {
     file: configFile,
-    data: config
+    data: config,
   };
 }
 
@@ -43,25 +33,24 @@ enum SvgType {
 }
 
 interface IconItem {
-  type: SvgType,
-  name: string,
-  componentName: string,
-  path: string
+  type: SvgType;
+  name: string;
+  componentName: string;
+  path: string;
 }
 
 /**
  * 读取svg图标文件列表
  */
 function readSvgData(cfg: IconsConfig) {
-
   const svgs: Array<IconItem> = [];
-  [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach(key => {
+  [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach((key) => {
     const files = glob.sync(`${key}/**/*.svg`, {
       cwd: cfg.input,
       absolute: true,
     });
 
-    files.forEach(file => {
+    files.forEach((file) => {
       const name = `icon-${path.basename(file.replace(/\s/g, ''), '.svg')}`;
       svgs.push({
         type: key,
@@ -70,7 +59,6 @@ function readSvgData(cfg: IconsConfig) {
         path: file,
       });
     });
-
   });
   return svgs;
 }
@@ -85,7 +73,7 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
   fs.emptyDirSync(cfg.output);
 
   // 遍历生成图标组件
-  icons.forEach(item => {
+  icons.forEach((item) => {
     const file = fs.readFileSync(item.path, 'utf-8');
     const svgoCfg = cfg.svgo[item.type];
 
@@ -98,10 +86,10 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
       name: item.name,
       componentName: item.componentName,
       svg: rlt.data,
-      type: item.type
+      type: item.type,
     });
 
-    fs.outputFile(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content, err => {
+    fs.outputFile(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content, (err) => {
       if (err) {
         console.log(`build [${item.componentName}] failed: ${err}`);
       } else {
@@ -110,7 +98,7 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
     });
 
     const idxContent = `export { default as ${item.componentName} } from './${item.componentName}.vue';`;
-    fs.outputFile(path.resolve(cfg.output, `${item.componentName}/index.ts`), idxContent, err => {
+    fs.outputFile(path.resolve(cfg.output, `${item.componentName}/index.ts`), idxContent, (err) => {
       if (err) {
         console.log(`build index [${item.componentName}] failed: ${err}`);
       } else {
@@ -118,7 +106,6 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
       }
     });
   });
-
 }
 /**
  * 创建入口文件
@@ -127,7 +114,7 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
 function generateExportIndex(icons: Array<IconItem>, output: string) {
   console.log('generating index.ts...');
 
-  const content = icons.map(item => {
+  const content = icons.map((item) => {
     return `export { ${item.componentName} } from './${item.componentName}';`;
   });
 
