@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",
@@ -18,6 +18,7 @@
   "scripts": {
     "gen:token": "opensig-scripts gen:token --config ./src/tokens/token.config.ts",
     "gen:icon": "opensig-scripts gen:icon --config ./src/icons/icon.config.ts",
+    "clean:svg": "opensig-scripts clean:svg --config ./src/icons/cleansvg.config.ts",
     "build:component": "opensig-scripts build:component",
     "build:style": "opensig-scripts build:style",
     "build": "pnpm gen:icon && pnpm build:component && pnpm build:style"

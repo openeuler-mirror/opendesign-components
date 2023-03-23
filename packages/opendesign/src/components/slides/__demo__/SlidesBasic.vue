@@ -21,8 +21,8 @@ const onChange = (now: number, last: number) => {
       </OSlideItem>
     </OSlides>
   </section>
-  <section>
-    <OSlides class="slides2" type="carousel" auto-play @change="onChange">
+  <section style="overflow: hidden">
+    <OSlides class="slides2" type="carousel" :auto-play="false" style="--slide-gap-x: 16px" @change="onChange">
       <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
         <OFigure class="img" :src="s" />
       </OSlideItem>
@@ -38,14 +38,12 @@ const onChange = (now: number, last: number) => {
   width: 50%;
   margin: auto;
   height: 200px;
-  background-color: red;
-}
-.slide-item2 {
-  width: 100%;
-  padding: 0 8px;
+  overflow: visible;
+  // background-color: red;
 }
 .img {
+  border-radius: 16px;
+  height: 100%;
   width: 100%;
-  height: 300px;
 }
 </style>

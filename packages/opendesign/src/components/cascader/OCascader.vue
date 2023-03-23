@@ -7,15 +7,16 @@ import { OSelect } from '../select';
 import { cascaderProps } from './types';
 import type { CascaderValueT, CascaderNodePathT } from './types';
 import CascaderTree from './cascader';
+import type { ColumnInfoT } from './cascader';
 import { isArray, isUndefined } from '../_shared/is';
 
-interface ColumnInfoT {
-  value: string | number;
-  label?: string;
-  depth: number;
-  isLeaf: boolean;
-  isActive: boolean;
-}
+// interface ColumnInfoT {
+//   value: string | number;
+//   label?: string;
+//   depth: number;
+//   isLeaf: boolean;
+//   isActive: boolean;
+// }
 
 const props = defineProps(cascaderProps);
 

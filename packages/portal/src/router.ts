@@ -183,6 +183,12 @@ export const routes = [
     component: () => import('@components/slides/__demo__/IndexSlides.vue'),
   },
   {
+    path: '/grid',
+    name: 'Grid',
+    label: '栅格 Grid',
+    component: () => import('@components/grid/__demo__/IndexGrid.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

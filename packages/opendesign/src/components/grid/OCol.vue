@@ -1,0 +1,74 @@
+<script setup lang="ts">
+import { colProps } from './types';
+import { computed, StyleValue } from 'vue';
+
+const props = defineProps(colProps);
+interface Vars {
+  '--col-flex'?: string;
+  '--col-grow'?: string | number;
+  '--col-shrink'?: string | number;
+  '--col-align'?: string;
+  '--col-basis'?: string;
+  '--col-basis-xs'?: string;
+  '--col-basis-s'?: string;
+  '--col-basis-m'?: string;
+  '--col-basis-l'?: string;
+  '--col-basis-xl'?: string;
+  '--col-basis-xxl'?: string;
+}
+const style = computed(() => {
+  const s: Vars = {};
+  if (props.flex) {
+    s['--col-flex'] = props.flex;
+  }
+  if (props.width) {
+    s['--col-basis'] = props.width;
+  }
+
+  if (props.grow) {
+    s['--col-grow'] = props.grow;
+  }
+  if (props.shrink) {
+    s['--col-shrink'] = props.shrink;
+  }
+  if (props.align) {
+    s['--col-align'] = props.align;
+  }
+
+  if (props.xs) {
+    s['--col-basis-xs'] = props.xs.width;
+  }
+  if (props.s) {
+    s['--col-basis-s'] = props.s.width;
+  }
+  if (props.m) {
+    s['--col-basis-m'] = props.m.width;
+  }
+  if (props.l) {
+    s['--col-basis-l'] = props.l.width;
+  }
+  if (props.xl) {
+    s['--col-basis-xl'] = props.xl.width;
+  }
+  if (props.xxl) {
+    s['--col-basis-xxl'] = props.xxl.width;
+  }
+  return s as StyleValue;
+});
+</script>
+<template>
+  <div
+    class="o-col"
+    :style="style"
+    :class="{
+      'o-col-xs': !!props.xs,
+      'o-col-s': !!props.s,
+      'o-col-m': !!props.m,
+      'o-col-l': !!props.l,
+      'o-col-xl': !!props.xl,
+      'o-col-xxl': !!props.xxl,
+    }"
+  >
+    <slot></slot>
+  </div>
+</template>
