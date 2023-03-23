@@ -40,7 +40,7 @@ provide(radioGroupInjectKey, {
 </script>
 
 <template>
-  <div class="o-radio-group" :class="[`o-radio-group-direction-${props.direction}`]">
+  <div class="o-radio-group" :class="[`o-radio-group-${props.direction}`]">
     <slot></slot>
   </div>
 </template>

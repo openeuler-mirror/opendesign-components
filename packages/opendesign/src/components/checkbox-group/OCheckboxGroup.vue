@@ -46,7 +46,7 @@ provide(checkboxGroupInjectKey, {
 </script>
 
 <template>
-  <div class="o-checkbox-group" :class="`o-checkbox-group-direction-${props.direction}`">
+  <div class="o-checkbox-group" :class="`o-checkbox-group-${props.direction}`">
     <slot></slot>
   </div>
 </template>
