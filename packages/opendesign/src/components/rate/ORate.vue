@@ -83,7 +83,7 @@ const iconStatus = computed(() => {
       v-for="(item, key) in count"
       :key="key"
       class="o-rate-item"
-      :class="{ 'is-full-active': iconStatus[key] === 'full', 'is-half-active': iconStatus[key] === 'half' }"
+      :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }"
     >
       <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
         <slot name="icon" :index="item" :status="iconStatus[key]">

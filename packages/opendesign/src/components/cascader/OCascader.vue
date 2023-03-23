@@ -24,6 +24,8 @@ const emits = defineEmits<{
   (e: 'change', val: CascaderValueT): void;
 }>();
 
+const selectRef = ref<InstanceType<typeof OSelect> | null>();
+
 const _value = ref(props.modelValue);
 const inputLabel = ref();
 
@@ -66,8 +68,14 @@ watch(
   }
 );
 
+watch(
+  () => inputLabel.value,
+  (val) => {
+    selectRef.value?.updateLabel(val);
+  }
+);
+
 const onClick = (option: ColumnInfoT, columnInfo: Array<ColumnInfoT>) => {
-  console.log(panelInfo.value);
   if (!isArray(panelInfo.value)) {
     return;
   }
@@ -101,6 +109,7 @@ const onClick = (option: ColumnInfoT, columnInfo: Array<ColumnInfoT>) => {
 
 <template>
   <OSelect
+    ref="selectRef"
     :model-value="inputLabel"
     :round="props.round"
     :variant="props.variant"
