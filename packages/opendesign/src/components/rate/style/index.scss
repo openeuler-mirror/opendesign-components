@@ -3,7 +3,6 @@
 .o-rate {
   display: inline-flex;
   align-items: center;
-  gap: var(--rate-gap);
   user-select: none;
   font-size: var(--rate-size);
   cursor: pointer;
@@ -12,16 +11,20 @@
 .o-rate-item {
   position: relative;
 
-  &.is-half-active {
+  &.is-half{
     .o-rate-icon-top {
       opacity: 1;
     }
   }
 
-  &.is-full-active {
+  &.is-full{
     .o-rate-icon-bottom {
       color: var(--rate-color-active);
     }
+  }
+
+  & + .o-rate-item {
+    margin-left: var(--rate-gap);
   }
 }
 
