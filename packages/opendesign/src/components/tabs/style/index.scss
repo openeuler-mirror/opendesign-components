@@ -39,11 +39,12 @@
   background-color: var(--tabs-nav-bg-color);
   position: relative;
   z-index: 1;
-
-  &:hover {
-    color: var(--tabs-nav-color-hover);
-    border-color: var(--tabs-nav-bd-color-hover);
-    background-color: var(--tabs-nav-bg-color-hover);
+  &:not(.o-tab-nav-disabled) {
+    &:hover {
+      color: var(--tabs-nav-color-hover);
+      border-color: var(--tabs-nav-bd-color-hover);
+      background-color: var(--tabs-nav-bg-color-hover);
+    }
   }
 }
 .o-tab-nav-active {
