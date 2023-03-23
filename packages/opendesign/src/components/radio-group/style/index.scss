@@ -5,13 +5,13 @@
   flex-wrap: wrap;
 }
 
-.o-radio-group-direction-h {
+.o-radio-group-h {
   .o-radio + .o-radio {
     margin-left: var(--radio-group-gap);
   }
 }
 
-.o-radio-group-direction-v {
+.o-radio-group-v {
   flex-direction: column;
   .o-radio + .o-radio {
     margin-top: var(--radio-group-gap);

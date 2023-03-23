@@ -18,7 +18,7 @@ const radioVal2 = ref('a');
   </section>
 
   <section>
-    <ORadioGroup v-model="radioVal2" direction="vertical">
+    <ORadioGroup v-model="radioVal2" direction="v">
       <ORadio value="a">选项A</ORadio>
       <ORadio value="b">选项B</ORadio>
       <ORadio value="c">选项C</ORadio>

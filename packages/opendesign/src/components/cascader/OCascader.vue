@@ -116,7 +116,7 @@ const onClick = (option: ColumnInfoT, columnInfo: Array<ColumnInfoT>) => {
     :placeholder="props.placeholder"
     :triggre="props.trigger"
     :option-position="props.optionPosition"
-    :option-width-mode="props.optionWidthMode"
+    option-width-mode="auto"
     :unmount-on-hide="props.unmountOnHide"
     :transition="props.transition"
   >

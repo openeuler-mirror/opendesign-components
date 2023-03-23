@@ -12,6 +12,7 @@
   border: 1px solid var(--message-bd-color);
   width: fit-content;
   transition: all var(--o-duration-m1) var(--o-easing-standard-out);
+  text-align: center;
 }
 
 .o-message + .o-message {

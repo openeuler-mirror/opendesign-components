@@ -5,13 +5,13 @@
   flex-wrap: wrap;
 }
 
-.o-checkbox-group-direction-h {
+.o-checkbox-group-h {
   .o-checkbox + .o-checkbox {
     margin-left: var(--checkbox-group-gap);
   }
 }
 
-.o-checkbox-group-direction-v {
+.o-checkbox-group-v {
   flex-direction: column;
   .o-checkbox + .o-checkbox {
     margin-top: var(--checkbox-group-gap);
