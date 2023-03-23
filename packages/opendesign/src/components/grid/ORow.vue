@@ -78,7 +78,18 @@ const style = computed(() => {
 });
 </script>
 <template>
-  <div class="o-row" :style="style">
+  <div
+    class="o-row"
+    :style="style"
+    :class="{
+      'o-row-xs': !!props.xs,
+      'o-row-s': !!props.s,
+      'o-row-m': !!props.m,
+      'o-row-l': !!props.l,
+      'o-row-xl': !!props.xl,
+      'o-row-xxl': !!props.xxl,
+    }"
+  >
     <slot></slot>
   </div>
 </template>
