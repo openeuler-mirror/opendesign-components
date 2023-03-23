@@ -10,12 +10,10 @@
 .o-cascader-options {
   list-style: none;
   margin: 0;
-  padding: 4px 4px 4px 4px;
+  padding: 4px;
   min-width: 144px;
   max-width: 192px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow-y: auto;
 
   & + .o-cascader-options {
     border-left: 1px solid var(--cascader-options-bd-clor);
@@ -34,7 +32,6 @@
   display: flex;
   align-items: center;
   padding: var(--cascader-option-padding);
-
   color: var(--cascader-option-color);
   border-radius: var(--cascader-option-radius);
   background-color: var(--cascader-option-bg-color);
@@ -49,6 +46,10 @@
 .o-cascader-option-label {
   font-size: var(--cascader-option-text-size);
   line-height: var(--cascader-option-text-height);
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .o-cascader-option-arrow {
