@@ -11,7 +11,7 @@ interface CascaderNodeT {
   isLeaf: boolean;
 }
 
-interface ColumnInfoT {
+export interface ColumnInfoT {
   value: string | number;
   label?: string;
   depth: number;

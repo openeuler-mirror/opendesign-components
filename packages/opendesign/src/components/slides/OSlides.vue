@@ -19,16 +19,16 @@ watch(
 // enum CSS_VAR {
 //   GAP_X = '--slide-gap-x',
 // }
-enum ClassNames {
-  PREVIOUS = 'o-slide-item-last',
-  NEXT = 'o-slide-item-next',
-  ACTIVE = 'o-slide-item-active',
-  ANIMATING = 'o-slide-item-animating',
-  ACTIVE_IN = 'o-slide-item-in',
-  ACTIVE_IN_REVERSE = 'o-slide-item-in-reverse',
-  ACTIVE_OUT = 'o-slide-item-out',
-  ACTIVE_OUT_REVERSE = 'o-slide-item-out-reverse',
-}
+const ClassNames = {
+  PREVIOUS: 'o-slide-item-last',
+  NEXT: 'o-slide-item-next',
+  ACTIVE: 'o-slide-item-active',
+  ANIMATING: 'o-slide-item-animating',
+  ACTIVE_IN: 'o-slide-item-in',
+  ACTIVE_IN_REVERSE: 'o-slide-item-in-reverse',
+  ACTIVE_OUT: 'o-slide-item-out',
+  ACTIVE_OUT_REVERSE: 'o-slide-item-out-reverse',
+};
 const initialized = ref(false);
 
 const slideWrapRef = ref<HTMLElement | null>(null);
