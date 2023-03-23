@@ -1,4 +1,13 @@
 import { ExtractPropTypes, PropType } from 'vue';
+export interface RowMediaT {
+  gapY: string;
+  gapX: string;
+}
+export interface ColMediaT {
+  width: string;
+}
+
+export const mediaSize = ['xs', 's', 'm', 'l', 'xl', 'xxl'];
 
 export const rowProps = {
   /**
@@ -43,6 +52,42 @@ export const rowProps = {
   gapY: {
     type: String,
   },
+  /**
+   * @media (min-width: 576px)
+   */
+  xs: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
+   * @media (min-width: 721px)
+   */
+  s: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
+   * @media (min-width: 1201px)
+   */
+  m: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
+   * @media (min-width: 1441px)
+   */
+  l: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
+   * @media (min-width: 1681px)
+   */
+  xl: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
+   * @media (min-width: 1920px)
+   */
+  xxl: {
+    type: Object as PropType<RowMediaT>,
+  },
 };
 
 export const colProps = {
@@ -80,37 +125,37 @@ export const colProps = {
    * @media (min-width: 576px)
    */
   xs: {
-    type: Object,
+    type: Object as PropType<ColMediaT>,
   },
   /**
    * @media (min-width: 721px)
    */
   s: {
-    type: Object,
+    type: Object as PropType<ColMediaT>,
   },
   /**
    * @media (min-width: 1201px)
    */
   m: {
-    type: Object,
+    type: Object as PropType<ColMediaT>,
   },
   /**
    * @media (min-width: 1441px)
    */
   l: {
-    type: Object,
+    type: Object as PropType<ColMediaT>,
   },
   /**
    * @media (min-width: 1681px)
    */
   xl: {
-    type: Object,
+    type: Object as PropType<ColMediaT>,
   },
   /**
    * @media (min-width: 1920px)
    */
   xxl: {
-    type: Object,
+    type: Object as PropType<ColMediaT>,
   },
 };
 
