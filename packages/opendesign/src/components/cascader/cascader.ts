@@ -93,7 +93,7 @@ export default class CascaderTree {
 
     if (!isArray(val)) {
       let node = this.getNode(this.root, val);
-      if (isUndefined(node)) {
+      if (isUndefined(node) || !node.isLeaf) {
         const columnInfo = this.getNextColumnInfo(this.root);
         if (!isUndefined(columnInfo)) {
           rlt = [columnInfo];
@@ -112,7 +112,7 @@ export default class CascaderTree {
 
       for (let i = 0, len = val.length; i < len; i++) {
         const child = this.getChild(parent, val[i]);
-        if (isUndefined(child)) {
+        if (isUndefined(child) || (!child.isLeaf && child.depth === len)) {
           const columnInfo = this.getNextColumnInfo(this.root);
           if (!isUndefined(columnInfo)) {
             rlt = [columnInfo];

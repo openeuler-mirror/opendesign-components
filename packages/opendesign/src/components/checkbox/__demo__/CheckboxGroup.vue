@@ -17,7 +17,7 @@ const checkboxVal2 = ref(['a']);
   </section>
 
   <section>
-    <OCheckboxGroup v-model="checkboxVal2" direction="vertical">
+    <OCheckboxGroup v-model="checkboxVal2" direction="v">
       <OCheckbox value="a">选项A</OCheckbox>
       <OCheckbox value="b">选项B</OCheckbox>
       <OCheckbox value="c">选项C</OCheckbox>
