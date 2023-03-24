@@ -1,4 +1,13 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-<title>arrow-triangle-solid-down</title>
-<path fill="currentColor"  d="M10.48 14.747c-0.126-0.125-0.197-0.296-0.197-0.473s0.071-0.348 0.197-0.473l0.267-0.267c0.125-0.13 0.299-0.203 0.48-0.2h9.547c0.181-0.003 0.355 0.070 0.48 0.2l0.267 0.267c0.126 0.125 0.197 0.296 0.197 0.473s-0.071 0.348-0.197 0.473l-5.053 5.053c-0.121 0.129-0.29 0.202-0.467 0.202s-0.346-0.073-0.467-0.202l-5.053-5.053z"></path>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>arrow-traingle-down</title>
+    <defs>
+        <path d="M12.3841106,9.46093277 L16.3165898,14.1799078 C16.4933719,14.3920462 16.4647098,14.7073286 16.2525714,14.8841106 C16.1627139,14.9589919 16.0494474,15 15.9324792,15 L8.06752081,15 C7.79137843,15 7.56752081,14.7761424 7.56752081,14.5 C7.56752081,14.3830317 7.60852892,14.2697653 7.68341017,14.1799078 L11.6158894,9.46093277 C11.7926714,9.24879432 12.1079538,9.22013229 12.3200922,9.39691433 C12.3433237,9.41627394 12.364751,9.43770124 12.3841106,9.46093277 Z" id="path-1"></path>
+    </defs>
+    <g id="arrow-traingle-down" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="path1" fill="#000000" transform="translate(12.000000, 12.000000) scale(1, -1) translate(-12.000000, -12.000000) " xlink:href="#path-1"></use>
+    </g>
 </svg>
