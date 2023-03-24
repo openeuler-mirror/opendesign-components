@@ -207,6 +207,16 @@ const changeActiveSlide = (index: number, animate = true, reverse = false) => {
   }
 };
 
+watch(
+  () => props.autoPlay,
+  (v) => {
+    if (v) {
+      startPlay();
+    } else {
+      stopPlay();
+    }
+  }
+);
 onMounted(() => {
   // if (slidesRef.value) {
   //   console.log(getCssVariable('--gap-x', slidesRef.value));
