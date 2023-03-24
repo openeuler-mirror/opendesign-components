@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { colProps } from './types';
+import { colProps, mediaSize, ColMediaT, ColPropsT } from './types';
 import { computed, StyleValue } from 'vue';
 
 const props = defineProps(colProps);
@@ -34,25 +34,12 @@ const style = computed(() => {
   if (props.align) {
     s['--col-align'] = props.align;
   }
-
-  if (props.xs) {
-    s['--col-basis-xs'] = props.xs.width;
-  }
-  if (props.s) {
-    s['--col-basis-s'] = props.s.width;
-  }
-  if (props.m) {
-    s['--col-basis-m'] = props.m.width;
-  }
-  if (props.l) {
-    s['--col-basis-l'] = props.l.width;
-  }
-  if (props.xl) {
-    s['--col-basis-xl'] = props.xl.width;
-  }
-  if (props.xxl) {
-    s['--col-basis-xxl'] = props.xxl.width;
-  }
+  mediaSize.forEach((k) => {
+    const v = props[k as keyof ColPropsT] as ColMediaT;
+    if (v) {
+      s[`--col-basis-${k}` as keyof Vars] = v.width;
+    }
+  });
   return s as StyleValue;
 });
 </script>

@@ -59,11 +59,13 @@ provide(selectOptionInjectKey, {
   },
 });
 
+const updateLabel = (label: string, isVisible: boolean = false) => {
+  activeLabel.value = label;
+  showOption.value = isVisible;
+};
+
 defineExpose({
-  updateLabel(label: string, isVisible: boolean = false) {
-    activeLabel.value = label;
-    showOption.value = isVisible;
-  },
+  updateLabel,
 });
 </script>
 <template>

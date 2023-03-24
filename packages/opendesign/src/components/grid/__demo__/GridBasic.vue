@@ -37,6 +37,22 @@ import { ORow, OCol } from '../index';
         <div class="box">{{ item }}</div>
       </OCol>
     </ORow>
+    <br />
+    <ORow
+      gap-x="16px"
+      gap-y="16px"
+      wrap="wrap"
+      :xs="{ gapX: '4px', gapY: '4px' }"
+      :s="{ gapX: '8px', gapY: '8px' }"
+      :m="{ gapX: '16px', gapY: '16px' }"
+      :l="{ gapX: '24px', gapY: '24px' }"
+      :xl="{ gapX: '32px', gapY: '32px' }"
+      :xxl="{ gapX: '48px', gapY: '48px' }"
+    >
+      <OCol v-for="item in 10" :key="item" width="20%" class="colored">
+        <div class="box">{{ item }}</div>
+      </OCol>
+    </ORow>
   </div>
 </template>
 <style lang="scss">

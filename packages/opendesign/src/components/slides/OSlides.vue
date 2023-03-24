@@ -144,8 +144,6 @@ const ininCarouselSlides = () => {
   }
 
   slideElList.value.forEach((el, idx) => {
-    const { clientWidth } = el;
-    el.style.left = `${clientWidth * idx}px`;
     el.addEventListener('click', () => {
       activeCarouselSlideByIndex(idx);
     });
