@@ -1,6 +1,8 @@
 .o-message {
   --message-color: var(--o-color-info1);
 
+  --o-message-icon-size: var(--o-icon_size-xs);
+
   --message-padding: 8px 16px;
   --message-text-size: var(--o-font_size-text1);
   --message-text-height: var(--o-line_height-text1);
@@ -12,20 +14,30 @@
 
 .o-message-normal {
   --message-bg-color: var(--o-color-control-light);
-  --message-bd-color: var(--o-color-control1);
+  --message-bd-color: var(--o-color-control3);
+  --message-icon-color: var(--o-color-info1);
+}
+
+.o-message-primary {
+  --message-bg-color: var(--o-color-primary4-light);
+  --message-bd-color: var(--o-color-primary1);
+  --message-icon-color: var(--o-color-primary1);
 }
 
 .o-message-success {
   --message-bg-color: var(--o-color-success4-light);
   --message-bd-color: var(--o-color-success1);
+  --message-icon-color: var(--o-color-success1);
 }
 
 .o-message-warning {
   --message-bg-color: var(--o-color-warning4-light);
   --message-bd-color: var(--o-color-warning1);
+  --message-icon-color: var(--o-color-warning1);
 }
 
 .o-message-danger {
   --message-bg-color: var(--o-color-danger4-light);
   --message-bd-color: var(--o-color-danger1);
+  --message-icon-color: var(--o-color-danger1);
 }
