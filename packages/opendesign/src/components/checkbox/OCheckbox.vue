@@ -98,7 +98,7 @@ defineExpose({
       <input type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="checkbox" :checked="isChecked" :disabled="isDisabled">
         <span class="o-checkbox-input">
-          <Transition name="o-fade-in-enter">
+          <Transition name="o-fade-in">
             <IconMinus v-if="props.indeterminate" />
             <IconDone v-else-if="isChecked" />
           </Transition>

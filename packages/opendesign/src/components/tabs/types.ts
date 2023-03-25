@@ -7,14 +7,14 @@ export const tabsProps = {
    */
   modelValue: {
     type: [String, Number],
-    default: undefined
+    default: undefined,
   },
   /**
    * VariantT
    */
   variant: {
     type: String as PropType<'solid' | 'text'>,
-    default: 'text'
+    default: 'text',
   },
   /**
    * 是否激活时再加载
@@ -33,7 +33,7 @@ export const tabsProps = {
    */
   line: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /**
    * 是否nav的横向排列布局，支持justify-content的所有值
@@ -44,7 +44,6 @@ export const tabsProps = {
 };
 
 export type TabsPropsT = ExtractPropTypes<typeof tabsProps>;
-
 
 export const tabPaneProps = {
   /**
@@ -66,7 +65,7 @@ export const tabPaneProps = {
    */
   transition: {
     type: String,
-    default: 'o-fade-in-enter',
+    default: 'o-fade-in',
   },
   /**
    * 是否禁用选中该页签
