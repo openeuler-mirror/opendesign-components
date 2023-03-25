@@ -12,12 +12,12 @@ const vOnResize: ObjectDirective = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     if (isFunction(binding.value)) {
       listener = binding.value;
-      ro?.addResizeListener(el, listener);
+      ro?.observe(el, listener);
     }
   },
   unmounted(el: HTMLElement) {
     if (listener) {
-      ro?.removeResizeListener(el, listener);
+      ro?.unobserve(el, listener);
     }
   },
 };
