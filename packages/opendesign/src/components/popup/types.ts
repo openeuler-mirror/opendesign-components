@@ -67,7 +67,7 @@ export const popupProps = {
    */
   anchorClass: {
     type: String,
-    default: '',
+    default: undefined,
   },
   /**
    * 是否在popup隐藏时unmout
@@ -88,7 +88,7 @@ export const popupProps = {
    */
   wrapClass: {
     type: String,
-    default: '',
+    default: undefined,
   },
   /**
    * popup最小宽度设置为触发元素宽度

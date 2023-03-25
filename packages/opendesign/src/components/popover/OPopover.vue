@@ -29,8 +29,8 @@ const targetElRef = ref<ComponentPublicInstance | null>(null);
     :trigger="props.trigger"
     :target="props.target || targetElRef"
     :wrapper="props.wrapper"
-    wrap-class="o-popover-wrap"
-    :anchor-class="props.anchor ? props.anchorClass : ''"
+    :wrap-class="props.wrapClass ?? 'o-popover-wrap'"
+    :anchor-class="props.anchor ? props.anchorClass ?? 'o-popover-anchor' : ''"
     :unmount-on-hide="props.unmountOnHide"
     @update:visible="updateVisible"
   >

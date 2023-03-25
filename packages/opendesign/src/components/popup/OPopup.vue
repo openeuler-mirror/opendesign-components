@@ -107,7 +107,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   });
 
   if (props.hideWhenTargetInvisible) {
-    io?.addIntersectionListener(targetEl, onTargetInterscting);
+    io?.observe(targetEl, onTargetInterscting);
   }
 };
 
@@ -118,10 +118,10 @@ onUnmounted(() => {
   });
   // 销毁popup 的 resize监听
   if (wrapperEl.value) {
-    ro?.removeResizeListener(wrapperEl.value, onResize);
+    ro?.unobserve(wrapperEl.value, onResize);
   }
   if (targetEl) {
-    ro?.removeResizeListener(targetEl, onResize);
+    ro?.unobserve(targetEl, onResize);
   }
 });
 
@@ -219,7 +219,7 @@ const updateVisible = (isVisible?: boolean, delay?: number) => {
       toMount.value = true;
 
       if (props.hideWhenTargetInvisible && targetEl) {
-        io?.addIntersectionListener(targetEl, onTargetInterscting);
+        io?.observe(targetEl, onTargetInterscting);
       }
     }
   };
@@ -297,7 +297,7 @@ watch(popupRef, (popEl) => {
       });
 
       // 监听targetEL尺寸变化
-      ro?.addResizeListener(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
+      ro?.observe(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
         if (props.adjustMinWidth) {
           popStyle.minWidth = `${targetEl?.offsetWidth}px`;
         } else if (props.adjustWidth) {
@@ -309,7 +309,7 @@ watch(popupRef, (popEl) => {
 
     if (wrapperEl.value) {
       // 监听warpper尺寸变化
-      ro?.addResizeListener(wrapperEl.value, onResize);
+      ro?.observe(wrapperEl.value, onResize);
     }
   } else {
     /**
@@ -318,11 +318,11 @@ watch(popupRef, (popEl) => {
 
     handles.forEach((hl) => hl());
     if (wrapperEl.value) {
-      ro?.removeResizeListener(wrapperEl.value, onResize);
+      ro?.unobserve(wrapperEl.value, onResize);
     }
     if (targetEl) {
-      ro?.removeResizeListener(targetEl, onResize);
-      io?.removeIntersectionListener(targetEl, onTargetInterscting);
+      ro?.unobserve(targetEl, onResize);
+      io?.unobserve(targetEl, onTargetInterscting);
       isTargetInViewport.value = true;
     }
   }

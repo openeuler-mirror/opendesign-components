@@ -6,24 +6,24 @@ import type { PopupPositionT, PopupTriggerT } from './types';
 import { useOutClick } from '../hooks/use-out-click';
 
 interface Pos {
-  left: number,
-  top: number
+  left: number;
+  top: number;
 }
 interface DomContentRect {
-  left: number,
-  right: number,
-  top: number,
-  bottom: number,
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
 }
 
 interface AnchorPosition {
-  left?: number,
-  top?: number,
-  right?: number,
-  bottom?: number
+  left?: number;
+  top?: number;
+  right?: number;
+  bottom?: number;
 }
 
-type ElementSize = ReturnType<typeof getElementSize>
+type ElementSize = ReturnType<typeof getElementSize>;
 
 // 获取wrapper content box范围，因为绝对定位需要排除border
 function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): DomContentRect {
@@ -33,7 +33,7 @@ function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): D
     left: rect.left + left,
     top: rect.top + top,
     right: rect.right - right,
-    bottom: rect.bottom - bottom
+    bottom: rect.bottom - bottom,
   };
 }
 
@@ -43,62 +43,62 @@ function getPopupViewOffset(
   t: DOMRect,
   p: DOMRect,
   {
-    offset = 0
+    offset = 0,
   }: {
-    offset?: number
-  } = {}): Pos {
+    offset?: number;
+  } = {}
+): Pos {
   const formula: {
-    [k in PopupPositionT]: { left: number, top: number }
+    [k in PopupPositionT]: { left: number; top: number };
   } = {
     top: {
       left: t.left + t.width / 2 - p.width / 2,
-      top: t.top - p.height - offset
+      top: t.top - p.height - offset,
     },
     tl: {
       left: t.left,
-      top: t.top - p.height - offset
+      top: t.top - p.height - offset,
     },
     tr: {
       left: t.right - p.width,
-      top: t.top - p.height - offset
+      top: t.top - p.height - offset,
     },
     bottom: {
       left: t.left + t.width / 2 - p.width / 2,
-      top: t.bottom + offset
+      top: t.bottom + offset,
     },
     bl: {
       left: t.left,
-      top: t.bottom + offset
+      top: t.bottom + offset,
     },
     br: {
       left: t.right - p.width,
-      top: t.bottom + offset
+      top: t.bottom + offset,
     },
     left: {
       left: t.left - p.width - offset,
-      top: t.top + t.height / 2 - p.height / 2
+      top: t.top + t.height / 2 - p.height / 2,
     },
     lt: {
       left: t.left - p.width - offset,
-      top: t.top
+      top: t.top,
     },
     lb: {
       left: t.left - p.width - offset,
-      top: t.bottom - p.height
+      top: t.bottom - p.height,
     },
     right: {
       left: t.right + offset,
-      top: t.top + t.height / 2 - p.height / 2
+      top: t.top + t.height / 2 - p.height / 2,
     },
     rt: {
       left: t.right + offset,
-      top: t.top
+      top: t.top,
     },
     rb: {
       left: t.right + offset,
-      top: t.bottom - p.height
-
-    }
+      top: t.bottom - p.height,
+    },
   };
   return formula[position] || { left: 0, top: 0 };
 }
@@ -109,7 +109,7 @@ function getWrapperViewEdge(popupSize: ElementSize, wrapperRect?: DomContentRect
     left: 0,
     right: window.innerWidth - popupSize.width,
     top: 0,
-    bottom: window.innerHeight - popupSize.height
+    bottom: window.innerHeight - popupSize.height,
   };
 
   if (!wrapperRect) {
@@ -131,7 +131,7 @@ function getPopupEdge(popupSize: ElementSize, targetRect: DOMRect, anchorOffset:
     left: left - width + anchorOffset,
     top: top - height + anchorOffset,
     right: right - anchorOffset,
-    bottom: bottom - anchorOffset
+    bottom: bottom - anchorOffset,
   };
 }
 
@@ -144,12 +144,12 @@ function getPopupWrapOffset(pos: Pos, wrapperEl: HTMLElement | null, wrapperCont
   if (wrapperContentRect) {
     return {
       left: pos.left + cs.scrollLeft - wrapperContentRect.left,
-      top: pos.top + cs.scrollTop - wrapperContentRect.top
+      top: pos.top + cs.scrollTop - wrapperContentRect.top,
     };
   }
   return {
     left: pos.left + cs.scrollLeft,
-    top: pos.top + cs.scrollTop
+    top: pos.top + cs.scrollTop,
   };
 }
 
@@ -217,7 +217,7 @@ function adjustPosition(position: PopupPositionT, direction: DirectionT) {
         return 'rb';
       }
       return p;
-    }
+    },
   };
 
   const fn = fixFn[direction];
@@ -234,10 +234,10 @@ function adjustOffset(
   wRect?: DomContentRect,
   {
     anchorOffset,
-    offset
+    offset,
   }: {
-    anchorOffset?: number,
-    offset?: number
+    anchorOffset?: number;
+    offset?: number;
   } = {}
 ) {
   const { top, left } = popupPosition;
@@ -298,7 +298,7 @@ function getAnchorOffset(position: PopupPositionT, tRect: DOMRect, popupStyle: P
 
   const { left: pl, top: pt } = popupStyle;
   if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
-    let l = tRect.left + (tRect.width / 2) - pl;
+    let l = tRect.left + tRect.width / 2 - pl;
 
     if (l > popupSize.width - limit) {
       l = popupSize.width - limit;
@@ -314,7 +314,7 @@ function getAnchorOffset(position: PopupPositionT, tRect: DOMRect, popupStyle: P
       pos.top = 0;
     }
   } else if (['left', 'lt', 'lb', 'right', 'rt', 'rb'].includes(position)) {
-    let t = tRect.top + (tRect.height / 2) - pt;
+    let t = tRect.top + tRect.height / 2 - pt;
 
     if (t > popupSize.height - limit) {
       t = popupSize.height - limit;
@@ -331,18 +331,24 @@ function getAnchorOffset(position: PopupPositionT, tRect: DOMRect, popupStyle: P
     }
   }
 
-
   return pos;
 }
 
 // 处理popup位置
-export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, position: PopupPositionT,
+export function calcPopupStyle(
+  popupEl: HTMLElement,
+  targetEl: HTMLElement,
+  position: PopupPositionT,
   {
-    adaptive = true, anchorOffset = 8, offset = 8
+    adaptive = true,
+    anchorOffset = 8,
+    offset = 8,
   }: {
-    adaptive?: boolean, anchorOffset?: number, offset?: number
-  } = {}) {
-
+    adaptive?: boolean;
+    anchorOffset?: number;
+    offset?: number;
+  } = {}
+) {
   const tRect = targetEl.getBoundingClientRect();
 
   const pRect = popupEl.getBoundingClientRect();
@@ -357,7 +363,7 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
     return {
       popupStyle,
       position,
-      anchorStyle
+      anchorStyle,
     };
   }
   const wrapperRect = wrapperEl.getBoundingClientRect();
@@ -383,9 +389,9 @@ export function calcPopupStyle(popupEl: HTMLElement, targetEl: HTMLElement, posi
   return {
     position: fixedPosition,
     popupStyle,
-    anchorStyle
+    anchorStyle,
   };
-};
+}
 
 // 监听元素的触发事件
 export function bindTrigger(
@@ -394,16 +400,16 @@ export function bindTrigger(
   triggers: PopupTriggerT[],
   {
     updateFn,
-    hoverDelay = 100
+    hoverDelay = 100,
   }: {
-    updateFn: (isVisible?: boolean, delay?: number) => void,
-    hoverDelay?: number
+    updateFn: (isVisible?: boolean, delay?: number) => void;
+    hoverDelay?: number;
   }
 ) {
   if (!el) {
     return [];
   }
-  const { addOutClickListener, removeOutClickListener } = useOutClick();
+  const outClick = useOutClick();
 
   const listeners: Array<() => void> = [];
 
@@ -437,7 +443,7 @@ export function bindTrigger(
     click: () => {
       el?.addEventListener('click', toggleFn);
 
-      addOutClickListener(el, hideFn, (e: MouseEvent) => {
+      outClick.addListener(el, hideFn, (e: MouseEvent) => {
         return !!popupRef.value?.contains(e.target as HTMLElement);
       });
 
@@ -445,7 +451,7 @@ export function bindTrigger(
         el?.removeEventListener('click', toggleFn);
       });
       listeners.push(() => {
-        removeOutClickListener(el, hideFn);
+        outClick.removeListener(el, hideFn);
       });
     },
     focus: () => {
@@ -464,7 +470,7 @@ export function bindTrigger(
       };
       el?.addEventListener('contextmenu', fn);
 
-      addOutClickListener(el, hideFn, (e: MouseEvent) => {
+      outClick.addListener(el, hideFn, (e: MouseEvent) => {
         return !!popupRef.value?.contains(e.target as HTMLElement);
       });
 
@@ -473,10 +479,10 @@ export function bindTrigger(
       });
 
       listeners.push(() => {
-        removeOutClickListener(el, hideFn);
+        outClick.removeListener(el, hideFn);
       });
     },
-    none: () => { }
+    none: () => {},
   };
 
   triggers.forEach((tr: PopupTriggerT) => {
@@ -484,7 +490,7 @@ export function bindTrigger(
   });
 
   return listeners;
-};
+}
 
 export function getTransformOrigin(position: PopupPositionT) {
   let left = '0px';
