@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch, Ref } from 'vue';
+import { computed, ref, nextTick, watch } from 'vue';
 import { getPagerItem, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
@@ -42,7 +42,7 @@ watch(
   }
 );
 
-const updateCurrentPage = (page: number) => {
+const setCurrentPage = (page: number) => {
   if (isNaN(page)) {
     return;
   }
@@ -54,14 +54,26 @@ const updateCurrentPage = (page: number) => {
   } else {
     currentPage.value = page;
   }
+  pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+};
 
+const updateCurrentPage = (page: number) => {
+  setCurrentPage(page);
   emits('update:page', currentPage.value);
   emits('change', {
     page: currentPage.value,
     pageSize: currentPageSize.value,
   });
-  pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
 };
+
+watch(
+  () => props.page,
+  (val) => {
+    if (val !== currentPage.value) {
+      setCurrentPage(val);
+    }
+  }
+);
 
 const selectPage = (page: number | string) => {
   updateCurrentPage(page as number);
