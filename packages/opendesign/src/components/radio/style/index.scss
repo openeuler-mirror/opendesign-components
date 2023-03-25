@@ -39,7 +39,7 @@
   background-color: var(--radio-input-bg-color);
   border: 1px solid var(--radio-input-bd-color);
   border-radius: 50%;
-  transition: border-color var(--o-duration-s) var(--o-easing-standard);
+  transition: all var(--o-duration-s) var(--o-easing-standard);
 
   &::after {
     content: '';
@@ -50,8 +50,9 @@
     width: var(--radio-input-inner-size);
     height: var(--radio-input-inner-size);
     border-radius: 50%;
+    opacity: 0;
     background-color: var(--radio-input-inner-bg-color);
-    transition: background-color var(--o-duration-s) var(--o-easing-standard);
+    transition: background-color var(--o-duration-s) var(--o-easing-standard), opacity var(--o-duration-m1) var(--o-easing-standard-in);
   }
 }
 
@@ -64,6 +65,7 @@
     background-color: var(--radio-input-bg-color-checked);
     border-color: var(--radio-input-bd-color-checked);
     &::after {
+      opacity: 1;
       background-color: var(--radio-input-inner-bg-color-checked);
     }
   }
