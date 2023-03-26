@@ -14,36 +14,87 @@ const onChange = (now: number, last: number) => {
 </script>
 <template>
   <h4>基本</h4>
-  <section>
-    <OSlides class="slides" auto-play @change="onChange">
-      <OSlideItem v-for="s in slides" :key="s">
-        <OFigure class="img" :src="s" />
+  <div class="block">
+    <div class="center"></div>
+    <OSlides loop class="gallery-slides" :auto-play="false" :active-index="0" @change="onChange">
+      <OSlideItem v-for="s in 6" :key="s" class="gallery-slide">
+        <div class="slide">{{ s - 1 }}</div>
+        <div class="center red"></div>
       </OSlideItem>
     </OSlides>
-  </section>
-  <section style="overflow: hidden">
-    <OSlides class="slides2" type="carousel" :auto-play="false" style="--slide-gap-x: 16px" @change="onChange">
+  </div>
+  <div class="block" style="overflow: hidden">
+    <OSlides class="slides" auto-play @change="onChange">
       <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
         <OFigure class="img" :src="s" />
       </OSlideItem>
     </OSlides>
-  </section>
+  </div>
+  <div class="block" style="overflow: hidden">
+    <OSlides loop class="slides2" :auto-play="true" style="--slide-gap-x: 16px" :active-index="1" @change="onChange">
+      <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
+        <OFigure class="img" :src="s" />
+      </OSlideItem>
+    </OSlides>
+  </div>
 </template>
 <style lang="scss">
+.block {
+  position: relative;
+}
+.center {
+  position: absolute;
+  border: 1px solid blue;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  z-index: 10;
+  // margin-left: -1px;
+  &.red {
+    border-color: red;
+  }
+}
 .slides {
-  height: 300px;
-  width: 100%;
+  height: 200px;
+  width: 80%;
+  margin: auto;
 }
 .slides2 {
   width: 50%;
   margin: auto;
   height: 200px;
-  overflow: visible;
+  overflow: hidden;
   // background-color: red;
+}
+.slide-item2 {
+  width: 100%;
+  height: 100%;
+  padding: 0 8px;
 }
 .img {
   border-radius: 16px;
+  overflow: hidden;
   height: 100%;
   width: 100%;
+}
+
+.gallery-slides {
+  height: 100px;
+  background-color: #eee;
+}
+.gallery-slide {
+  width: 500px;
+  height: 100px;
+}
+
+.slide {
+  height: 100%;
+  border: 2px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin: 0 16px;
+  background-color: #333;
 }
 </style>
