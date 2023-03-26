@@ -7,8 +7,14 @@ import '../../button/style';
 
 const message = useMessage();
 
-const handlePrimaryBtnClick = () => {
+const handleNormalBtnClick = () => {
   message.normal({
+    content: '用于表示普通操作信息提示，3秒后消失',
+  });
+};
+
+const handlePrimaryBtnClick = () => {
+  message.primary({
     content: '用于表示普通操作信息提示，3秒后消失',
   });
 };
@@ -35,7 +41,8 @@ const handleDangerBtnClick = () => {
 <template>
   <h4>基础用法</h4>
   <section>
-    <OButton color="normal" @click="handlePrimaryBtnClick">Info Message</OButton>
+    <OButton color="normal" @click="handleNormalBtnClick">Info Message</OButton>
+    <OButton color="primary" @click="handlePrimaryBtnClick">Primary Message</OButton>
     <OButton color="success" @click="handleSuccessBtnClick">Success Message</OButton>
     <OButton color="warning" @click="handleWarningBtnClick">Warning Message</OButton>
     <OButton color="danger" @click="handleDangerBtnClick">Danger Message</OButton>
