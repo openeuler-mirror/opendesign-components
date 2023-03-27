@@ -15,19 +15,26 @@ const observerPool = new WeakMap<
   } | null
 >();
 
+// 记录监听数量
+let record = 0;
+
 // 创建监听实例
-const instance = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-  entries.forEach((entry) => {
-    const ele = entry.target as HTMLElement;
-    const ins = observerPool.get(ele);
+let instance: ResizeObserver | null = null;
 
-    if (!ins) {
-      return;
-    }
+function createObserver() {
+  return new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      const ele = entry.target as HTMLElement;
+      const ins = observerPool.get(ele);
 
-    ins?.callbacks?.forEach((fn) => fn(entry));
+      if (!ins) {
+        return;
+      }
+
+      ins?.callbacks?.forEach((fn) => fn(entry));
+    });
   });
-});
+}
 
 /**
  * 监听元素尺寸变化，
@@ -56,7 +63,11 @@ export function useIntersectionObserver() {
       if (val) {
         val.callbacks.push(listener);
       } else {
+        if (!instance) {
+          instance = createObserver();
+        }
         instance.observe(el);
+        record++;
 
         observerPool.set(el, {
           element: el,
@@ -71,7 +82,7 @@ export function useIntersectionObserver() {
      * listener: 要移除的监听函数，如果不传，则使用初始化时的回调
      */
     unobserve: (el?: HTMLElement, listener?: IntersectionListenerT) => {
-      if (!el || !isFunction(listener)) {
+      if (!el || !isFunction(listener) || !instance) {
         return;
       }
 
@@ -84,6 +95,13 @@ export function useIntersectionObserver() {
           // 当el无监听时，销毁resizeObserver
           instance.unobserve(el);
           observerPool.delete(el);
+
+          // 无监听元素，就断开
+          record--;
+          if (record === 0) {
+            instance.disconnect();
+            instance = null;
+          }
         }
       }
     },

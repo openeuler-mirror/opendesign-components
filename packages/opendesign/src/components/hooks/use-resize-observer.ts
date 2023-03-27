@@ -14,23 +14,29 @@ const observerPool = new WeakMap<
   } | null
 >();
 
+// 记录监听数量
+let record = 0;
+
 // 创建监听实例
-const instance = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-  entries.forEach((entry) => {
-    const ele = entry.target as HTMLElement;
-    const ins = observerPool.get(ele);
-    if (!ins) {
-      return;
-    }
+let instance: ResizeObserver | null = null;
 
-    ins?.callbacks?.forEach((fn) => fn(entry, ins.isFirst));
+function createObserver() {
+  return new ResizeObserver((entries: ResizeObserverEntry[]) => {
+    entries.forEach((entry) => {
+      const ele = entry.target as HTMLElement;
+      const ins = observerPool.get(ele);
+      if (!ins) {
+        return;
+      }
 
-    if (ins.isFirst) {
-      ins.isFirst = false;
-    }
+      ins?.callbacks?.forEach((fn) => fn(entry, ins.isFirst));
+
+      if (ins.isFirst) {
+        ins.isFirst = false;
+      }
+    });
   });
-});
-
+}
 export type ResizeListenerT = (entry: ResizeObserverEntry, isFirst: boolean) => void;
 /**
  * 监听元素尺寸变化，
@@ -38,7 +44,6 @@ export type ResizeListenerT = (entry: ResizeObserverEntry, isFirst: boolean) => 
  * onResize: resize回调（entry: 尺寸变化元素，isFirst: 是否为初次监听时的回调);
  */
 export function useResizeObserver() {
-
   return {
     /**
      * 监听实例
@@ -60,7 +65,11 @@ export function useResizeObserver() {
       if (val) {
         val.callbacks.push(listener);
       } else {
+        if (!instance) {
+          instance = createObserver();
+        }
         instance.observe(el);
+        record++;
 
         observerPool.set(el, {
           element: el,
@@ -76,7 +85,7 @@ export function useResizeObserver() {
      * listener: 要移除的监听函数，如果不传，则使用初始化时的onResize回调
      */
     unobserve: (el?: HTMLElement, listener?: ResizeListenerT) => {
-      if (!el || !isFunction(listener)) {
+      if (!el || !isFunction(listener) || !instance) {
         return;
       }
 
@@ -90,6 +99,13 @@ export function useResizeObserver() {
         if (val.callbacks.length === 0) {
           instance.unobserve(el);
           observerPool.delete(el);
+
+          // 无监听元素，就断开
+          record--;
+          if (record === 0) {
+            instance.disconnect();
+            instance = null;
+          }
         }
       }
     },
