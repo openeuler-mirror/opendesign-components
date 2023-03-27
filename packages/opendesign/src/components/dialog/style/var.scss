@@ -1,9 +1,18 @@
 .o-dialog {
+  --dlg-close-size: var(--o-icon_size-xs);
   --dlg-close-color: var(--o-color-info2);
   --dlg-close-color-hover: var(--o-color-primary2);
   --dlg-close-color-active: var(--o-color-primary3);
-  --dlg-close-bg-color-hover: var(--o-color-control1-light);
-  --dlg-close-bg-color-active: var(--o-color-control2-light);
-  --dlg-close-radius: 50%;
+
   --dlg-z-index: calc(var(--o-z-index-base) + 10);
+
+  --dlg-mask: var(--o-color-mask1);
+  --dlg-bg-color: var(--o-color-control-light);
+  --dlg-radius: var(--o-radius-l);
+  --dlg-shadow: var(--o-shadow-1);
+
+  --dlg-min-width: 320px;
+  --dlg-head-padding: 16px 24px;
+  --dlg-body-padding: 0 24px;
+  --dlg-foot-padding: 16px 24px;
 }

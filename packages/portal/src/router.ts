@@ -189,6 +189,12 @@ export const routes = [
     component: () => import('@components/grid/__demo__/IndexGrid.vue'),
   },
   {
+    path: '/loading',
+    name: 'Loading',
+    label: '加载 Loading',
+    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

@@ -4,10 +4,9 @@ import type { IntersectionListenerT } from './use-intersection-observer';
 import { isFunction } from '../_shared/is';
 
 let io: ReturnType<typeof useIntersectionObserver> | null = null;
-export function useIntersectionObserverDirective({ listener, removeOnUnmounted }: {
-  listener: IntersectionListenerT,
-  removeOnUnmounted?: boolean
-}): { vIntersectionObserver: ObjectDirective } {
+export function useIntersectionObserverDirective({ listener, removeOnUnmounted }: { listener: IntersectionListenerT; removeOnUnmounted?: boolean }): {
+  vIntersectionObserver: ObjectDirective;
+} {
   return {
     vIntersectionObserver: {
       beforeMount() {
@@ -15,14 +14,14 @@ export function useIntersectionObserverDirective({ listener, removeOnUnmounted }
       },
       mounted(el: HTMLElement) {
         if (isFunction(listener)) {
-          io?.addIntersectionListener(el, listener);
+          io?.observe(el, listener);
         }
       },
       unmounted(el: HTMLElement) {
         if (listener && removeOnUnmounted) {
-          io?.removeIntersectionListener(el, listener);
+          io?.unobserve(el, listener);
         }
       },
-    }
+    },
   };
 }

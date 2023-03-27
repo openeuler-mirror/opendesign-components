@@ -12,16 +12,14 @@ const vIntersection: ObjectDirective = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     if (isFunction(binding.value)) {
       listener = binding.value;
-      io?.addIntersectionListener(el, listener);
+      io?.observe(el, listener);
     }
   },
   unmounted(el: HTMLElement) {
     if (listener) {
-      io?.removeIntersectionListener(el, listener);
+      io?.unobserve(el, listener);
     }
   },
 };
 
-export {
-  vIntersection
-};
+export { vIntersection };

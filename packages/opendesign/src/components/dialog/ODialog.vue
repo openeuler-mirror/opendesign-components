@@ -11,12 +11,20 @@ const emits = defineEmits<{
   (e: 'update:modelValue', val: boolean, evt: MouseEvent): void;
 }>();
 
+const isShow = ref(props.modelValue);
 const toMount = ref(false);
 const isMounted = computed(() => {
   return toMount.value || isShow.value || !props.unmountOnHide;
 });
 
-const isShow = ref(props.modelValue);
+const handleTransitionStart = () => {
+  toMount.value = true;
+};
+const handleTransitionEnd = () => {
+  if (!isShow.value && props.unmountOnHide) {
+    toMount.value = false;
+  }
+};
 watch(
   () => props.modelValue,
   (v: boolean) => {
@@ -41,17 +49,19 @@ const onMaskClick = (e: MouseEvent) => {
 </script>
 <template>
   <teleport :to="props.wrapper">
-    <div
-      class="o-dialog"
-      :class="{
-        'is-show': isShow,
-      }"
-    >
-      <transition name="o-fade-up-enter">
-        <div v-if="isMounted" class="o-dlg-mask" @click="onMaskClick"></div>
+    <div v-if="isMounted" class="o-dialog">
+      <transition name="o-fade-in">
+        <div v-if="isShow && props.mask" class="o-dlg-mask" @click="onMaskClick"></div>
       </transition>
-      <transition :name="props.transition">
-        <div v-if="isMounted" class="o-dlg-main" :class="props.wrapClass">
+      <transition
+        :appear="true"
+        :name="props.transition"
+        @before-enter="handleTransitionStart"
+        @after-enter="handleTransitionEnd"
+        @before-leave="handleTransitionStart"
+        @after-leave="handleTransitionEnd"
+      >
+        <div v-show="isShow" class="o-dlg-main" :class="props.wrapClass">
           <div class="o-dlg-btn-close" @click="onCloseClick"><IconClose /></div>
           <div v-if="$slots.header" class="o-dlg-head">
             <slot name="header"></slot>

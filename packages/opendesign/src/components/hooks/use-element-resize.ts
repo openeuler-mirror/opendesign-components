@@ -12,14 +12,14 @@ export function useReiszeObserverDirective(onResize: ResizeListenerT): { vResize
       },
       mounted(el: HTMLElement) {
         if (isFunction(onResize)) {
-          ro?.addResizeListener(el, onResize);
+          ro?.observe(el, onResize);
         }
       },
       unmounted(el: HTMLElement) {
         if (onResize) {
-          ro?.removeResizeListener(el, onResize);
+          ro?.unobserve(el, onResize);
         }
       },
-    }
+    },
   };
 }

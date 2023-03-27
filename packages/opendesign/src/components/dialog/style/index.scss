@@ -1,7 +1,7 @@
 @use './var.scss';
 
 .o-dialog {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   top: 0;
@@ -9,10 +9,7 @@
   align-items: center;
   justify-content: center;
   z-index: var(--dlg-z-index);
-  display: none;
-  &.is-show {
-    display: flex;
-  }
+  display: flex;
 }
 .o-dlg-mask {
   position: absolute;
@@ -20,40 +17,40 @@
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: var(--o-color-mask1);
+  background-color: var(--dlg-mask);
 }
 .o-dlg-main {
   position: relative;
-  background-color: var(--o-color-control-light);
+  background-color: var(--dlg-bg-color);
   min-width: 200px;
-  box-shadow: var(--o-shadow-1);
+  box-shadow: var(--dlg-shadow);
+  border-radius: var(--dlg-radius);
+  min-width: var(--dlg-min-width);
 }
 
 .o-dlg-btn-close {
   position: absolute;
   right: var(--o-gap-3);
   top: var(--o-gap-3);
-  font-size: var(--o-icon_size-s);
+  font-size: var(--dlg-close-size);
   color: var(--dlg-close-color);
-  border-radius: var(--dlg-close-radius);
   display: flex;
+  transition: transform var(--o-easing-standard) var(--o-duration-m2);
   &:hover {
-    text-decoration: none;
     color: var(--dlg-close-color-hover);
-    background-color: var(--dlg-close-bg-color-hover);
   }
   &:active {
     color: var(--dlg-close-color-active);
-    background-color: var(--dlg-close-bg-color-active);
+    transform: scale(0.9);
   }
 }
 
 .o-dlg-head {
-  padding: 8px 16px;
+  padding: var(--dlg-head-padding);
 }
 .o-dlg-body {
-  padding: 8px 16px;
+  padding: var(--dlg-body-padding);
 }
 .o-dlg-foot {
-  padding: 8px 16px;
+  padding: var(--dlg-foot-padding);
 }

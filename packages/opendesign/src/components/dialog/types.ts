@@ -21,7 +21,7 @@ export const dialogProps = {
     type: Boolean,
   },
   /**
-   * 是否在popup隐藏时unmout
+   * 是否在隐藏时unmout
    */
   unmountOnHide: {
     type: Boolean,
@@ -40,7 +40,13 @@ export const dialogProps = {
     type: String,
     default: 'o-zoom-fade',
   },
-
+  /**
+   * 是否需要mask
+   */
+  mask: {
+    type: Boolean,
+    default: true,
+  },
 };
 
 export type DialogPropsT = ExtractPropTypes<typeof dialogProps>;

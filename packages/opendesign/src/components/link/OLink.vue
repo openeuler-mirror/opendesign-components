@@ -7,12 +7,9 @@ const props = defineProps(linkProps);
 
 const emits = defineEmits<{ (e: 'click', val: MouseEvent): void }>();
 const onClick = (e: MouseEvent) => {
-  if (props.disabled) {
+  if (props.disabled || props.loading) {
     e.preventDefault();
     return;
-  }
-  if (!props.href) {
-    e.preventDefault();
   }
   emits('click', e);
 };
@@ -20,27 +17,28 @@ const onClick = (e: MouseEvent) => {
 <template>
   <a
     class="o-link"
-    :href="props.href"
+    :href="props.disabled ? void 0 : props.href"
     :target="props.target"
     :class="[
       {
         'o-link-disabled': props.disabled,
-        'o-link-hoverable': props.hoverable,
+        'o-link-hover-bg': props.hoverBg,
+        'o-link-hover-underline': props.hoverUnderline,
       },
       `o-link-${props.color}`,
     ]"
     v-bind="$attrs"
     @click="onClick"
   >
-    <span v-if="props.iconPrefix || $slots.iconPrefix || props.loading" class="o-link-icon prefix">
+    <span v-if="$slots.iconPrefix || props.iconPrefix || props.loading" class="o-link-icon-wrap prefix">
       <IconLoading v-if="props.loading" class="o-rotating" />
-      <slot v-else-if="$slots.icon" name="icon"></slot>
-      <IconLinkPrefix v-else />
+      <slot v-else name="icon">
+        <IconLinkPrefix />
+      </slot>
     </span>
     <slot></slot>
-    <span v-if="$slots.iconSuffix" class="o-link-icon suffix">
-      <slot name="iconSuffix"></slot>
+    <span v-if="$slots.iconSuffix || props.iconSuffix" class="o-link-icon-wrap suffix">
+      <slot name="iconSuffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
     </span>
-    <span v-else-if="props.iconArrow" class="o-link-icon suffix arrow"><IconLinkArrow /></span>
   </a>
 </template>

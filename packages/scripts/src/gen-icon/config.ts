@@ -2,26 +2,26 @@ import type { Config, PluginConfig } from 'svgo';
 
 export interface IconsConfig {
   svgo: {
-    fill: Config,
-    stroke: Config,
-    color: Config,
-  },
-  input: string,
-  output: string,
-  template: typeof template
+    fill: Config;
+    stroke: Config;
+    color: Config;
+  };
+  input: string;
+  output: string;
+  template: typeof template;
 }
-export const basePlugins:PluginConfig[] = [
+export const basePlugins: PluginConfig[] = [
   {
-    // 将id替换成class
+    // 将id添加到class
     name: 'addClassesbyId',
     fn: () => {
-      const nodes:string[] = ['*'];
+      const nodes: string[] = ['*'];
       return {
         element: {
           enter: (node) => {
-            if (nodes.includes('*') || nodes.includes(node.name)){
-              const classname = node.attributes.class|| '';
-              const id = node.attributes.id||'';
+            if (nodes.includes('*') || nodes.includes(node.name)) {
+              const classname = node.attributes.class || '';
+              const id = node.attributes.id || '';
               const cls = classname.split(' ');
               cls.push(id);
               const classStr = cls.join(' ').trim();
@@ -43,19 +43,19 @@ export const basePlugins:PluginConfig[] = [
       },
     },
   },
+  // 'prefixIds',
   'removeStyleElement',
   'removeScriptElement',
   'removeDimensions',
   'sortAttrs',
   'removeUselessStrokeAndFill',
+  'removeXMLNS',
   {
     name: 'addAttributesToSVGElement',
     params: {
-      attributes: [
-        { ':class': 'classnames' },
-      ],
+      attributes: [{ ':class': 'classnames' }],
     },
-  }
+  },
 ];
 const fillSvgoConfig: Config = {
   plugins: [
@@ -63,12 +63,9 @@ const fillSvgoConfig: Config = {
     {
       name: 'removeAttrs',
       params: {
-        attrs: [
-          'svg:class',
-          'fill',
-        ],
+        attrs: ['svg:class', 'fill'],
       },
-    }
+    },
   ],
 };
 const strokeSvgoConfig: Config = {
@@ -77,12 +74,9 @@ const strokeSvgoConfig: Config = {
     {
       name: 'removeAttrs',
       params: {
-        attrs: [
-          'svg:class',
-          'stroke',
-        ],
+        attrs: ['svg:class', 'stroke'],
       },
-    }
+    },
   ],
 };
 const colorSvgoConfig: Config = {
@@ -91,15 +85,13 @@ const colorSvgoConfig: Config = {
     {
       name: 'removeAttrs',
       params: {
-        attrs: [
-          'svg:class',
-        ],
+        attrs: ['svg:class'],
       },
     },
-  ]
+  ],
 };
 
-const template = ({ name, componentName, svg, type }: { name: string, componentName: string, svg: string, type: 'fill' | 'stroke' | 'color' }) => {
+const template = ({ name, componentName, svg, type }: { name: string; componentName: string; svg: string; type: 'fill' | 'stroke' | 'color' }) => {
   return `<script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
