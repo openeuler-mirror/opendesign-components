@@ -394,6 +394,7 @@ export function calcPopupStyle(
 }
 
 // 监听元素的触发事件
+// eslint-disable-next-line max-lines-per-function
 export function bindTrigger(
   el: HTMLElement | null,
   popupRef: Ref<HTMLElement | null>,
@@ -401,9 +402,11 @@ export function bindTrigger(
   {
     updateFn,
     hoverDelay = 100,
+    autoHide = true,
   }: {
     updateFn: (isVisible?: boolean, delay?: number) => void;
     hoverDelay?: number;
+    autoHide?: boolean;
   }
 ) {
   if (!el) {
@@ -433,48 +436,46 @@ export function bindTrigger(
   const triggerHandlers: Record<PopupTriggerT, () => void> = {
     hover: () => {
       el?.addEventListener('mouseover', enterFn);
-      el?.addEventListener('mouseleave', leavefn);
-      const removeFn = () => {
-        el?.removeEventListener('mouseover', enterFn);
-        el?.removeEventListener('mouseleave', leavefn);
-      };
-      listeners.push(removeFn);
-    },
-    'hover-click': () => {
-      el?.addEventListener('mouseover', enterFn);
-      outClick.addListener(el, hideFn, (e: MouseEvent) => {
-        return !!popupRef.value?.contains(e.target as HTMLElement);
-      });
-      const removeFn = () => {
-        el?.removeEventListener('mouseover', enterFn);
-      };
-      listeners.push(removeFn);
       listeners.push(() => {
-        outClick.removeListener(el, hideFn);
+        el?.removeEventListener('mouseover', enterFn);
       });
+
+      if (autoHide) {
+        el?.addEventListener('mouseleave', leavefn);
+        listeners.push(() => {
+          el?.removeEventListener('mouseleave', leavefn);
+        });
+      }
     },
     click: () => {
       el?.addEventListener('click', toggleFn);
 
-      outClick.addListener(el, hideFn, (e: MouseEvent) => {
-        return !!popupRef.value?.contains(e.target as HTMLElement);
-      });
-
       listeners.push(() => {
         el?.removeEventListener('click', toggleFn);
       });
-      listeners.push(() => {
-        outClick.removeListener(el, hideFn);
-      });
+
+      if (autoHide) {
+        outClick.addListener(el, hideFn, (e: MouseEvent) => {
+          return !!popupRef.value?.contains(e.target as HTMLElement);
+        });
+
+        listeners.push(() => {
+          outClick.removeListener(el, hideFn);
+        });
+      }
     },
     focus: () => {
       el?.addEventListener('focusin', showFn);
-      el?.addEventListener('focusout', hideFn);
-      const removeFn = () => {
+      listeners.push(() => {
         el?.removeEventListener('focusin', showFn);
-        el?.removeEventListener('focusout', hideFn);
-      };
-      listeners.push(removeFn);
+      });
+
+      if (autoHide) {
+        el?.addEventListener('focusout', hideFn);
+        listeners.push(() => {
+          el?.removeEventListener('focusout', hideFn);
+        });
+      }
     },
     contextmenu: () => {
       const fn = (e: Event) => {
@@ -483,19 +484,37 @@ export function bindTrigger(
       };
       el?.addEventListener('contextmenu', fn);
 
-      outClick.addListener(el, hideFn, (e: MouseEvent) => {
-        return !!popupRef.value?.contains(e.target as HTMLElement);
-      });
-
       listeners.push(() => {
         el?.removeEventListener('contextmenu', fn);
       });
 
-      listeners.push(() => {
-        outClick.removeListener(el, hideFn);
-      });
+      if (autoHide) {
+        outClick.addListener(el, hideFn, (e: MouseEvent) => {
+          return !!popupRef.value?.contains(e.target as HTMLElement);
+        });
+        listeners.push(() => {
+          outClick.removeListener(el, hideFn);
+        });
+      }
     },
     none: () => {},
+    // hover 显示 outclick隐藏
+    'hover-outclick': () => {
+      el?.addEventListener('mouseover', enterFn);
+
+      listeners.push(() => {
+        el?.removeEventListener('mouseover', enterFn);
+      });
+
+      if (autoHide) {
+        outClick.addListener(el, hideFn, (e: MouseEvent) => {
+          return !!popupRef.value?.contains(e.target as HTMLElement);
+        });
+        listeners.push(() => {
+          outClick.removeListener(el, hideFn);
+        });
+      }
+    },
   };
 
   triggers.forEach((tr: PopupTriggerT) => {

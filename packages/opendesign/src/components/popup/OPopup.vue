@@ -104,6 +104,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   triggerListener = bindTrigger(el, popupRef, triggers, {
     updateFn: updateVisible,
     hoverDelay: props.hoverDelay,
+    autoHide: props.autoHide,
   });
 
   if (props.hideWhenTargetInvisible) {

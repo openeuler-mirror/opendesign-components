@@ -15,9 +15,13 @@ const content = 'this is popup content';
     <div class="popup-box">hover {{ content }}</div>
     <template #target><div class="btn">hover 123</div></template>
   </OPopup>
-  <OPopup position="tl" trigger="hover-click" :unmount-on-hide="false">
+  <OPopup position="tl" trigger="hover-outclick" :unmount-on-hide="false">
     <div class="popup-box">hover-click {{ content }}</div>
     <template #target><div class="btn">hover-click 123</div></template>
+  </OPopup>
+  <OPopup position="tl" trigger="hover" :auto-hide="false" :unmount-on-hide="false">
+    <div class="popup-box">hover not autohide {{ content }}</div>
+    <template #target><div class="btn">hover not autohide</div></template>
   </OPopup>
 </template>
 <style lang="scss" scoped>
