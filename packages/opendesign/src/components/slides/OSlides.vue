@@ -49,13 +49,14 @@ let slidesInstance: GallerySlidesT | null = null;
 const activeSlideByIndex = (index: number) => {
   const to = fixIndex(index);
   const from = activeIndex.value;
+  if (to === from) {
+    return;
+  }
   emits('before-change', to, activeIndex.value);
 
   switch (props.type) {
     case 'gallery': {
-      // TODO 解决动画执行完的回调
-      (slidesInstance as GallerySlidesT)?.active(to).then((i) => {
-        // console.log('actived', i);
+      (slidesInstance as GallerySlidesT)?.active(to).then(() => {
         emits('change', to, from);
       });
       activeIndex.value = to;

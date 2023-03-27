@@ -9,12 +9,12 @@ const slides = [
 ];
 
 const onChange = (now: number, last: number) => {
-  console.log(now, last);
+  console.log('slides changed', now, last);
 };
 </script>
 <template>
   <h4>基本</h4>
-  <div class="block">
+  <!-- <div class="block">
     <div class="center"></div>
     <OSlides loop class="gallery-slides" :auto-play="false" :active-index="0" @change="onChange">
       <OSlideItem v-for="s in 6" :key="s" class="gallery-slide">
@@ -22,7 +22,7 @@ const onChange = (now: number, last: number) => {
         <div class="center red"></div>
       </OSlideItem>
     </OSlides>
-  </div>
+  </div> -->
   <div class="block" style="overflow: hidden">
     <OSlides class="slides" auto-play @change="onChange">
       <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
@@ -30,13 +30,13 @@ const onChange = (now: number, last: number) => {
       </OSlideItem>
     </OSlides>
   </div>
-  <div class="block" style="overflow: hidden">
+  <!-- <div class="block" style="overflow: hidden">
     <OSlides loop class="slides2" :auto-play="true" style="--slide-gap-x: 16px" :active-index="1" @change="onChange">
       <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
         <OFigure class="img" :src="s" />
       </OSlideItem>
     </OSlides>
-  </div>
+  </div> -->
 </template>
 <style lang="scss">
 .block {

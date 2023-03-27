@@ -19,7 +19,7 @@ export interface GallerySlidesOptionT {
   onChange?: () => void;
 }
 
-// let res;
+let resolveArr: ((value: null | number) => void)[] = [];
 export default class GallerySlides {
   container: ContainerT;
   slideList: SlideItemT[];
@@ -37,15 +37,15 @@ export default class GallerySlides {
     slideContainer.addEventListener('transitionend', () => {
       slideContainer.style.willChange = '';
       slideContainer.classList.remove('is-animating');
-      console.log('end');
+      console.log('animate end');
 
       this.loopRange();
       this.isChanging = false;
 
-      // if (res) {
-      //   res();
-      //   res = null;
-      // }
+      if (resolveArr.length > 1) {
+        resolveArr.forEach((fn) => fn(null));
+        resolveArr = [];
+      }
     });
     slideContainer.addEventListener('transitionstart', () => {
       slideContainer.style.willChange = 'transform';
@@ -146,10 +146,11 @@ export default class GallerySlides {
       }
 
       el.style.transform = `translate3d(${value}px,0,0)`;
-      // res = resolve;
-      setTimeout(() => {
+      if (animate) {
+        resolveArr.push(resolve);
+      } else {
         resolve(null);
-      }, 500);
+      }
     });
   }
 }
