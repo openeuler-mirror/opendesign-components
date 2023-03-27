@@ -148,7 +148,7 @@ provide(slidesInjectKey, {
   type: props.type,
 });
 
-defineExpose<slidesExposeT>({
+defineExpose({
   play: startPlay,
   stop: startPlay,
   active: activeSlide,

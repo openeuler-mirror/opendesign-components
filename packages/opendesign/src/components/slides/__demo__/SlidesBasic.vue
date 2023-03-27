@@ -16,7 +16,7 @@ const onBeforeChange = (now: number, last: number) => {
   console.log('slides before changed', now, last);
 };
 
-const slidesRef = ref(null);
+const slidesRef = ref<InstanceType<typeof OSlides> | null>(null);
 let idx = 1;
 const next = () => {
   slidesRef.value?.active(++idx).then(() => {
