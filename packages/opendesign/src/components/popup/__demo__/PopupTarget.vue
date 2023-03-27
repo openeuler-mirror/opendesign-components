@@ -8,8 +8,16 @@ const content = 'this is popup content';
   <h4>Popup Target</h4>
 
   <OPopup position="tl" trigger="click" :unmount-on-hide="false">
-    <div class="popup-box">{{ content }}</div>
-    <template #target><div>123</div></template>
+    <div class="popup-box">click {{ content }}</div>
+    <template #target><div class="btn">click 123</div></template>
+  </OPopup>
+  <OPopup position="tl" trigger="hover" :unmount-on-hide="false">
+    <div class="popup-box">hover {{ content }}</div>
+    <template #target><div class="btn">hover 123</div></template>
+  </OPopup>
+  <OPopup position="tl" trigger="hover-click" :unmount-on-hide="false">
+    <div class="popup-box">hover-click {{ content }}</div>
+    <template #target><div class="btn">hover-click 123</div></template>
   </OPopup>
 </template>
 <style lang="scss" scoped>
@@ -22,5 +30,11 @@ const content = 'this is popup content';
   z-index: 10;
   background-color: #eee;
   // overflow: visible;
+}
+.btn {
+  padding: 12px 24px;
+  border: 1px solid #333;
+  margin: 12px;
+  display: inline-block;
 }
 </style>

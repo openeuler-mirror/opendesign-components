@@ -440,6 +440,19 @@ export function bindTrigger(
       };
       listeners.push(removeFn);
     },
+    'hover-click': () => {
+      el?.addEventListener('mouseover', enterFn);
+      outClick.addListener(el, hideFn, (e: MouseEvent) => {
+        return !!popupRef.value?.contains(e.target as HTMLElement);
+      });
+      const removeFn = () => {
+        el?.removeEventListener('mouseover', enterFn);
+      };
+      listeners.push(removeFn);
+      listeners.push(() => {
+        outClick.removeListener(el, hideFn);
+      });
+    },
     click: () => {
       el?.addEventListener('click', toggleFn);
 
