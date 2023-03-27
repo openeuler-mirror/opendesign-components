@@ -25,7 +25,7 @@ export const linkProps = {
    */
   color: {
     type: String as PropType<ColorT>,
-    default: 'normal'
+    default: 'normal',
   },
   /**
    * 是否禁用
@@ -40,15 +40,21 @@ export const linkProps = {
     type: Boolean,
   },
   /**
-   * 图标箭头
+   * 后缀图标
    */
-  iconArrow: {
+  iconSuffix: {
     type: Boolean,
   },
   /**
    * hover时是否显示背景
    */
-  hoverable: {
+  hoverBg: {
+    type: Boolean,
+  },
+  /**
+   * hover时是否下划线
+   */
+  hoverUnderline: {
     type: Boolean,
   },
 };
