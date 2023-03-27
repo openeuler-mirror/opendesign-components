@@ -42,7 +42,7 @@ export default class GallerySlides {
       this.loopRange();
       this.isChanging = false;
 
-      if (resolveArr.length > 1) {
+      if (resolveArr.length > 0) {
         resolveArr.forEach((fn) => fn(null));
         resolveArr = [];
       }

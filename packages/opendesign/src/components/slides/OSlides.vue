@@ -5,7 +5,7 @@ import { IconChevronLeft, IconChevronRight } from '../icons';
 import GallerySlides, { GallerySlidesT } from './gallery';
 import { slidesInjectKey } from './provide';
 
-import { slidesProps } from './types';
+import { slidesExposeT, slidesProps } from './types';
 
 const props = defineProps(slidesProps);
 
@@ -47,22 +47,29 @@ const fixIndex = (idx: number) => {
 let slidesInstance: GallerySlidesT | null = null;
 
 const activeSlideByIndex = (index: number) => {
-  const to = fixIndex(index);
-  const from = activeIndex.value;
-  if (to === from) {
-    return;
-  }
-  emits('before-change', to, activeIndex.value);
-
-  switch (props.type) {
-    case 'gallery': {
-      (slidesInstance as GallerySlidesT)?.active(to).then(() => {
-        emits('change', to, from);
-      });
-      activeIndex.value = to;
-      break;
+  return new Promise((resolve) => {
+    const to = fixIndex(index);
+    const from = activeIndex.value;
+    if (to === from) {
+      resolve(false);
     }
-  }
+
+    emits('before-change', to, activeIndex.value);
+
+    switch (props.type) {
+      case 'gallery': {
+        (slidesInstance as GallerySlidesT)?.active(to).then(() => {
+          emits('change', to, from);
+          resolve(true);
+        });
+        activeIndex.value = to;
+        break;
+      }
+      default: {
+        resolve(false);
+      }
+    }
+  });
 };
 
 let timer: number | null = null;
@@ -82,18 +89,18 @@ const startPlay = () => {
 // 激活slide
 const activeSlide = (index: number) => {
   if (isChanging) {
-    return;
+    return Promise.resolve();
   }
   isChanging = true;
   // 停止自动播放
   stopPlay();
-  activeSlideByIndex(index);
-
-  // 恢复自动播放
-  if (props.autoPlay) {
-    startPlay();
-  }
-  isChanging = false;
+  return activeSlideByIndex(index).then(() => {
+    // 恢复自动播放
+    if (props.autoPlay) {
+      startPlay();
+    }
+    isChanging = false;
+  });
 };
 
 const initSlides = () => {
@@ -139,6 +146,12 @@ onUnmounted(() => {
 });
 provide(slidesInjectKey, {
   type: props.type,
+});
+
+defineExpose<slidesExposeT>({
+  play: startPlay,
+  stop: startPlay,
+  active: activeSlide,
 });
 </script>
 <template>

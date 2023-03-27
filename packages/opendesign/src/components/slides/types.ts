@@ -62,3 +62,9 @@ export const slidesProps = {
 };
 
 export type SlidesPropsT = ExtractPropTypes<typeof slidesProps>;
+
+export interface slidesExposeT {
+  play: () => void;
+  stop: () => void;
+  active: (index: number) => Promise<void>;
+}
