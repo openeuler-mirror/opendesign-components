@@ -52,11 +52,7 @@ export default class GallerySlides {
     });
 
     let s = 0;
-    this.slideList = slideElList.map((el, idx) => {
-      el.addEventListener('click', () => {
-        this.active(idx);
-      });
-
+    this.slideList = slideElList.map((el) => {
       const w = el.clientWidth;
       const l = s;
       el.style.left = `${l}px`;

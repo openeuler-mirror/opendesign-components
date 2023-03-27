@@ -45,19 +45,7 @@ const fixIndex = (idx: number) => {
 
 // gallery
 let slidesInstance: GallerySlidesT | null = null;
-const initSlides = () => {
-  if (!slideElList.value || !slideWrapRef.value) {
-    return;
-  }
-  switch (props.type) {
-    case 'gallery': {
-      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value);
 
-      break;
-    }
-  }
-  initialized.value = true;
-};
 const activeSlideByIndex = (index: number) => {
   const to = fixIndex(index);
   const from = activeIndex.value;
@@ -90,20 +78,40 @@ const startPlay = () => {
   }, props.interval);
 };
 
-const changeActiveSlide = (index: number) => {
+// 激活slide
+const activeSlide = (index: number) => {
   if (isChanging) {
     return;
   }
   isChanging = true;
   // 停止自动播放
   stopPlay();
-
   activeSlideByIndex(index);
+
   // 恢复自动播放
   if (props.autoPlay) {
     startPlay();
   }
   isChanging = false;
+};
+
+const initSlides = () => {
+  if (!slideElList.value || !slideWrapRef.value) {
+    return;
+  }
+  switch (props.type) {
+    case 'gallery': {
+      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value);
+
+      break;
+    }
+  }
+  slideElList.value.forEach((el, idx) => {
+    el.addEventListener('click', () => {
+      activeSlide(idx);
+    });
+  });
+  initialized.value = true;
 };
 
 watch(
@@ -152,7 +160,7 @@ provide(slidesInjectKey, {
       </div>
     </div>
     <div v-if="props.indicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
-      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="changeActiveSlide(idx)">
+      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="activeSlide(idx)">
         <slot name="indicator" :active="item - 1 === activeIndex">
           <div
             class="o-slides-indicator-bar"
@@ -165,7 +173,7 @@ provide(slidesInjectKey, {
       </div>
     </div>
     <div v-if="props.arrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
-      <div @click="changeActiveSlide(activeIndex - 1)">
+      <div @click="activeSlide(activeIndex - 1)">
         <slot name="arrow-prev">
           <div class="o-slides-arrow-prev">
             <div class="o-slides-arrow-icon">
@@ -176,7 +184,7 @@ provide(slidesInjectKey, {
           </div>
         </slot>
       </div>
-      <div @click="changeActiveSlide(activeIndex + 1)">
+      <div @click="activeSlide(activeIndex + 1)">
         <slot name="arrow-next">
           <div class="o-slides-arrow-next">
             <div class="o-slides-arrow-icon">
