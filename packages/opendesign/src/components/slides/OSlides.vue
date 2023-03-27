@@ -5,7 +5,7 @@ import { IconChevronLeft, IconChevronRight } from '../icons';
 import GallerySlides, { GallerySlidesT } from './gallery';
 import { slidesInjectKey } from './provide';
 
-import { slidesExposeT, slidesProps } from './types';
+import { slidesProps } from './types';
 
 const props = defineProps(slidesProps);
 
