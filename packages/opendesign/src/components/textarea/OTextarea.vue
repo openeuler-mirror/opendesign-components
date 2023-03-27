@@ -178,7 +178,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
           resize: resizeValue,
           height: textareaHeight + 'px',
         }"
-        :maxlength="props.inputOnOutLimit ? '' : props.maxLength"
+        :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
         :rows="props.rows"
         :cols="props.cols"
         @focus="onFocus"

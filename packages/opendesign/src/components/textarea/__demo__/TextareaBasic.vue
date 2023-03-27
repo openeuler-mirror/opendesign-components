@@ -99,7 +99,7 @@ const printEvent = (event: string, val?: string | number) => {
     </div>
     <div>
       <div>input-out-limit：超出长度时不能输入</div>
-      <OTextarea v-model="val2" :max-length="10" :input-out-limit="false" />
+      <OTextarea v-model="val2" :max-length="10" :input-on-outlimit="false" />
     </div>
   </section>
   <h4>Clearable</h4>
