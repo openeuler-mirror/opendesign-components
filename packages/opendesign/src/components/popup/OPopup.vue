@@ -334,7 +334,7 @@ const onPopupHoverIn = () => {
   }
 };
 const onPopupHoverOut = () => {
-  if (triggers.includes('hover')) {
+  if (triggers.includes('hover') && props.autoHide) {
     updateVisible(false, props.hoverDelay);
   }
 };
