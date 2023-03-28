@@ -1,7 +1,7 @@
 @use './var.scss';
 
 .o-dialog {
-  position: absolute;
+  position: var(--dlg-position, 'fixed');
   left: 0;
   right: 0;
   top: 0;

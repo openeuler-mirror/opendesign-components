@@ -1,4 +1,6 @@
 .o-dialog {
+  --dlg-position: fixed;
+
   --dlg-close-size: var(--o-icon_size-xs);
   --dlg-close-color: var(--o-color-info2);
   --dlg-close-color-hover: var(--o-color-primary2);
