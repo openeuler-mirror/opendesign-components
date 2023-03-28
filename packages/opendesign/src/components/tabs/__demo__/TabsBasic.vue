@@ -77,7 +77,7 @@ const onChange = (v: string | number, oldv?: string | number) => {
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTabs>
     <p>center</p>
-    <OTabs v-model="activeTab" nav-justify="center" addable @change="tabChange">
+    <OTabs v-model="activeTab" :style="{ '--tabs-nav-justify': 'center' }" addable @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>

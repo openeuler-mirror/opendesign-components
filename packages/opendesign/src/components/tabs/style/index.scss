@@ -5,6 +5,7 @@
   align-items: center;
   position: relative;
   width: 100%;
+  justify-content: var(--tabs-nav-justify, 'flex-start');
 }
 .o-tabs-head {
   font-size: var(--tabs-nav-text-size);
@@ -15,7 +16,6 @@
   &.with-act {
     display: flex;
     align-items: center;
-    // justify-content: space-between;
   }
   &.show-line::after {
     content: '';
