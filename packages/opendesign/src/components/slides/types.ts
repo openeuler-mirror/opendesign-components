@@ -59,6 +59,12 @@ export const slidesProps = {
   loop: {
     type: Boolean,
   },
+  /**
+   * 点击卡片切换到当前
+   */
+  clickToActive: {
+    type: Boolean,
+  },
 };
 
 export type SlidesPropsT = ExtractPropTypes<typeof slidesProps>;

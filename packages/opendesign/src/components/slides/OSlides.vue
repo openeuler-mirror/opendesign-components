@@ -14,7 +14,19 @@ const emits = defineEmits<{
   (e: 'change', to: number, from: number): void;
 }>();
 
-const activeIndex = ref(props.activeIndex || 0);
+const slideWrapRef = ref<HTMLElement | null>(null);
+const total = computed(() => slideWrapRef.value?.children.length);
+
+const fixIndex = (idx: number) => {
+  if (!total.value) {
+    return idx;
+  }
+  const i = idx % total.value;
+  return i >= 0 ? i : i + total.value;
+};
+
+const activeIndex = ref(props.activeIndex ? fixIndex(props.activeIndex) : 0);
+
 watch(
   () => props.activeIndex,
   (v) => {
@@ -24,24 +36,14 @@ watch(
 
 const initialized = ref(false);
 
-const slideWrapRef = ref<HTMLElement | null>(null);
 const slidesRef = ref<HTMLElement | null>(null);
 
 const slideElList = computed(() => {
   const c = slideWrapRef.value?.children;
   return c ? Array.from(c).map((el) => el as HTMLElement) : null;
 });
-const total = computed(() => slideWrapRef.value?.children.length);
 
 let isChanging = false;
-
-const fixIndex = (idx: number) => {
-  if (!total.value) {
-    return idx;
-  }
-  const i = idx % total.value;
-  return i >= 0 ? i : i + total.value;
-};
 
 // gallery
 let slidesInstance: GallerySlidesT | null = null;
@@ -123,19 +125,35 @@ const initSlides = () => {
   }
   switch (props.type) {
     case 'gallery': {
-      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value);
+      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value, {
+        onTouchstart: () => {
+          stopPlay();
+        },
+        onTouchend: () => {
+          // 恢复自动播放
+          if (props.autoPlay) {
+            startPlay();
+          }
+        },
+        onChanged: (to, from) => {
+          activeIndex.value = to;
+          afterActive(to, from);
+        },
+      });
       break;
     }
   }
 
-  slideElList.value.forEach((el, idx) => {
-    if (idx === activeIndex.value) {
-      el.classList.add('o-slide-active');
-    }
-    el.addEventListener('click', () => {
-      activeSlide(idx);
+  if (props.clickToActive) {
+    slideElList.value.forEach((el, idx) => {
+      el.addEventListener('click', () => {
+        activeSlide(idx);
+      });
     });
-  });
+  }
+
+  slideElList.value[activeIndex.value].classList.add('o-slide-active');
+
   initialized.value = true;
 };
 

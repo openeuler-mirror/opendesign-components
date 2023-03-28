@@ -54,6 +54,7 @@ const next = () => {
 <style lang="scss">
 .block {
   position: relative;
+  overflow: hidden;
 }
 .center {
   position: absolute;
