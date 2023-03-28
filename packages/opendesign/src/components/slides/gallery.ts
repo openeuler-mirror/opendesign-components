@@ -28,16 +28,14 @@ export default class GallerySlides {
   moveValue: number;
   currentIndex: number;
   isChanging: boolean;
-  waitAnimation: (() => void) | null;
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GallerySlidesOptionT) {
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;
-    this.waitAnimation = null;
 
     slideContainer.addEventListener('transitionend', () => {
       slideContainer.style.willChange = '';
       slideContainer.classList.remove('is-animating');
-      console.log('animate end');
+      // console.log('animate end');
 
       this.loopRange();
       this.isChanging = false;
@@ -85,6 +83,7 @@ export default class GallerySlides {
     this.isChanging = animate;
     this.currentIndex = slideIndex;
     const slide = this.slideList[slideIndex];
+
     if (!slide) {
       return Promise.resolve(null);
     }

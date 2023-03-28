@@ -46,23 +46,18 @@ const fixIndex = (idx: number) => {
 // gallery
 let slidesInstance: GallerySlidesT | null = null;
 
-const activeSlideByIndex = (index: number) => {
+const activeSlideByIndex = (to: number): Promise<boolean> => {
   return new Promise((resolve) => {
-    const to = fixIndex(index);
     const from = activeIndex.value;
-    if (to === from) {
+    if (to === from || !slideElList.value) {
       resolve(false);
     }
-
-    emits('before-change', to, activeIndex.value);
 
     switch (props.type) {
       case 'gallery': {
         (slidesInstance as GallerySlidesT)?.active(to).then(() => {
-          emits('change', to, from);
           resolve(true);
         });
-        activeIndex.value = to;
         break;
       }
       default: {
@@ -88,13 +83,33 @@ const startPlay = () => {
 
 // 激活slide
 const activeSlide = (index: number) => {
-  if (isChanging) {
+  if (isChanging || !slideElList.value) {
     return Promise.resolve();
   }
   isChanging = true;
   // 停止自动播放
   stopPlay();
-  return activeSlideByIndex(index).then(() => {
+
+  const to = fixIndex(index);
+  const from = activeIndex.value;
+
+  emits('before-change', to, activeIndex.value);
+
+  return activeSlideByIndex(to).then((success) => {
+    if (!success) {
+      return;
+    }
+
+    const toSlideEl = (slideElList.value as HTMLElement[])[to];
+    const fromSlideEl = (slideElList.value as HTMLElement[])[from];
+
+    fromSlideEl.classList.remove('o-slide-active');
+    toSlideEl.classList.add('o-slide-active');
+
+    emits('change', to, from);
+
+    activeIndex.value = to;
+
     // 恢复自动播放
     if (props.autoPlay) {
       startPlay();
