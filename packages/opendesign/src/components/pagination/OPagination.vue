@@ -103,7 +103,7 @@ const pageSizeChange = (val: string | number) => {
   currentPageSize.value = Number(val);
   nextTick(() => {
     currentPage.value = Math.floor(currentIndex / currentPageSize.value) + 1;
-    console.log(currentIndex, totalPage.value, currentPage.value, currentPageSize.value);
+    // console.log(currentIndex, totalPage.value, currentPage.value, currentPageSize.value);
 
     pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
 

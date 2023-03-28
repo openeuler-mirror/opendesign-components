@@ -14,7 +14,7 @@ export const enum ShapeFlags {
   SUSPENSE = 1 << 7, //suspense组件
   COMPONENT_SHOULD_KEEP_ALIVE = 1 << 8, //需要被keep-live的有状态组件
   COMPONENT_KEPT_ALIVE = 1 << 9, //已经被keep-alive的有状态组件
-  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT//有状态或函数式组件
+  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT, //有状态或函数式组件
 }
 /**
  * 判断vnode是不是element
@@ -57,8 +57,8 @@ export function useSlotElement(componentName?: string) {
   const components = [];
 
   onMounted(() => {
-    children?.forEach(child => {
-      console.log(child, isComponent(child));
+    children?.forEach((child) => {
+      // console.log(child, isComponent(child));
       if (isComponent(child, child.type)) {
         if (componentName && child.type.name === componentName) {
           components.push(child);
@@ -71,7 +71,7 @@ export function useSlotElement(componentName?: string) {
       if (nodes) {
         children = nodes;
       }
-    }
+    },
   };
 }
 export function getFirstComponent(vn: VNode | VNode[]): VNode | null {
@@ -103,7 +103,6 @@ export function getFirstComponent(vn: VNode | VNode[]): VNode | null {
   return null;
 }
 
-
 export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {
   if (isArray(vn)) {
     for (const child of vn) {
@@ -122,7 +121,7 @@ export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {
       const result = getFirstElement(vn.component.subTree);
       if (result) {
         return result;
-      };
+      }
     }
   } else if (isArrayChildren(vn, vn.children)) {
     for (const child of vn.children) {
@@ -142,18 +141,16 @@ export function useSlotFirstElement() {
   onMounted(() => {
     if (children) {
       fistElement.value = getFirstElement(children);
-      console.log(fistElement.value);
-
+      // console.log(fistElement.value);
     }
   });
   return {
     setSlot(nodes: VNode[] | undefined) {
       if (nodes) {
         children = nodes;
-        console.log(children);
-
+        // console.log(children);
       }
     },
-    fistElement
+    fistElement,
   };
 }

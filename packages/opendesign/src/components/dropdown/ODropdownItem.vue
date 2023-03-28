@@ -7,7 +7,6 @@ const props = defineProps(dropdownItemProps);
 const dropdownInjection = inject(dropdownInjectKey, null);
 
 const onItemClick = () => {
-  console.log(1);
   if (props.disabled) {
     return;
   }

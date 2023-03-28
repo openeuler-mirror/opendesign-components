@@ -93,7 +93,6 @@ provide(tabsInjectKey, {
 });
 const onHeadResize = () => {
   updateArchor();
-  console.log('resize');
 };
 </script>
 <template>

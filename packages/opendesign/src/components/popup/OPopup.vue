@@ -135,7 +135,7 @@ const updatePopupStyle = () => {
   if (!targetEl || !popupRef.value || !wrapperEl.value) {
     return;
   }
-  console.log('calc popup position...');
+  // console.log('calc popup position...');
 
   const {
     popupStyle: pStyle,
