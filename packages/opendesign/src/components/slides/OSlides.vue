@@ -46,16 +46,34 @@ const fixIndex = (idx: number) => {
 // gallery
 let slidesInstance: GallerySlidesT | null = null;
 
-const activeSlideByIndex = (to: number): Promise<boolean> => {
+function afterActive(to: number, from: number) {
+  const toSlideEl = (slideElList.value as HTMLElement[])[to];
+  const fromSlideEl = (slideElList.value as HTMLElement[])[from];
+
+  fromSlideEl.classList.remove('o-slide-active');
+  toSlideEl.classList.add('o-slide-active');
+
+  emits('change', to, from);
+}
+const activeSlideByIndex = (index: number): Promise<boolean> => {
   return new Promise((resolve) => {
+    const to = fixIndex(index);
     const from = activeIndex.value;
-    if (to === from || !slideElList.value) {
-      resolve(false);
+
+    if (isChanging || !slideElList.value || to === from) {
+      return Promise.resolve(false);
     }
+    isChanging = true;
+
+    emits('before-change', to, from);
+    activeIndex.value = to;
 
     switch (props.type) {
       case 'gallery': {
         (slidesInstance as GallerySlidesT)?.active(to).then(() => {
+          afterActive(to, from);
+
+          isChanging = false;
           resolve(true);
         });
         break;
@@ -74,6 +92,7 @@ const stopPlay = () => {
     timer = null;
   }
 };
+
 const startPlay = () => {
   stopPlay();
   timer = window.setInterval(() => {
@@ -83,38 +102,18 @@ const startPlay = () => {
 
 // 激活slide
 const activeSlide = (index: number) => {
-  if (isChanging || !slideElList.value) {
-    return Promise.resolve();
-  }
-  isChanging = true;
   // 停止自动播放
   stopPlay();
 
-  const to = fixIndex(index);
-  const from = activeIndex.value;
-
-  emits('before-change', to, activeIndex.value);
-
-  return activeSlideByIndex(to).then((success) => {
+  return activeSlideByIndex(index).then((success) => {
     if (!success) {
       return;
     }
-
-    const toSlideEl = (slideElList.value as HTMLElement[])[to];
-    const fromSlideEl = (slideElList.value as HTMLElement[])[from];
-
-    fromSlideEl.classList.remove('o-slide-active');
-    toSlideEl.classList.add('o-slide-active');
-
-    emits('change', to, from);
-
-    activeIndex.value = to;
 
     // 恢复自动播放
     if (props.autoPlay) {
       startPlay();
     }
-    isChanging = false;
   });
 };
 
@@ -125,11 +124,14 @@ const initSlides = () => {
   switch (props.type) {
     case 'gallery': {
       slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value);
-
       break;
     }
   }
+
   slideElList.value.forEach((el, idx) => {
+    if (idx === activeIndex.value) {
+      el.classList.add('o-slide-active');
+    }
     el.addEventListener('click', () => {
       activeSlide(idx);
     });
