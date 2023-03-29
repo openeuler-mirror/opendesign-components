@@ -201,6 +201,10 @@ const clearVisibleTimer = () => {
 
 // 更新可见状态，支持延迟更新
 const updateVisible = (isVisible?: boolean, delay?: number) => {
+  if (props.disabled) {
+    return;
+  }
+
   const v = isVisible === undefined ? !visible.value : isVisible;
 
   if (v === visible.value && visibleTimer === 0) {

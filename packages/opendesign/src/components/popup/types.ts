@@ -35,6 +35,12 @@ export const popupProps = {
     type: Boolean,
   },
   /**
+   * 是否禁用
+   */
+  disabled: {
+    type: Boolean,
+  },
+  /**
    * 挂载容器，默认为body
    */
   wrapper: {

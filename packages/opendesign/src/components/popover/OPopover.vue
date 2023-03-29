@@ -33,6 +33,7 @@ const targetElRef = ref<ComponentPublicInstance | null>(null);
     :anchor-class="props.anchor ? props.anchorClass ?? 'o-popover-anchor' : ''"
     :unmount-on-hide="props.unmountOnHide"
     :auto-hide="props.autoHide"
+    :disabled="props.disabled"
     @update:visible="updateVisible"
   >
     <div class="o-popover-body" v-bind="$attrs">
