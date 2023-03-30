@@ -130,7 +130,6 @@ const onUpdateModelValue = (val: string) => {
     numberValue = getRealValue(val, undefined, undefined, props.parse);
     if (!isFunction(props.format)) {
       emits('update:modelValue', numberValue);
-      lastNumberValue = numberValue;
     }
   }
   currentValue.value = val;
