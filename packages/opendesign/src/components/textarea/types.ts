@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT } from '../_shared/global';
 
-export type ResizeT = 'both' | 'horizontal'| 'h' | 'vertical' | 'v' | 'none';
+export type ResizeT = 'both' | 'horizontal' | 'h' | 'vertical' | 'v' | 'none';
 export const textareaProps = {
   /**
    * 下拉框的值
@@ -27,28 +27,28 @@ export const textareaProps = {
    * 圆角值
    */
   round: {
-    type: String as PropType<RoundT>
+    type: String as PropType<RoundT>,
   },
   /**
    * 颜色类型
    */
   color: {
     type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
-    default: 'normal'
+    default: 'normal',
   },
   /**
    * 按钮类型：ColorT
    */
   variant: {
     type: String as PropType<VariantT>,
-    default: 'outline'
+    default: 'outline',
   },
   /**
    * 提示文本
    */
   placeholder: {
     type: String,
-    default: ''
+    default: '',
   },
   /**
    * 是否禁用
@@ -67,7 +67,7 @@ export const textareaProps = {
    */
   clearable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /**
    * 是否自动增加宽度
@@ -80,21 +80,21 @@ export const textareaProps = {
    */
   resize: {
     type: String as PropType<ResizeT>,
-    default: 'vertical'
+    default: 'vertical',
   },
   /**
    * 显示的行数
    */
   rows: {
     type: Number,
-    default: 3
+    default: undefined,
   },
   /**
    * 显示的行数
    */
   cols: {
     type: Number,
-    default: 20
+    default: undefined,
   },
   /**
    * 最大字符长度
@@ -105,9 +105,9 @@ export const textareaProps = {
   /**
    * 超过最大字符长度时是否允许输入
    */
-  inputOnOutLimit: {
+  inputOnOutlimit: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /**
    * 是否自动计算高度

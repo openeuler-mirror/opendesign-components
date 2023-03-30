@@ -51,7 +51,7 @@ provide(selectOptionInjectKey, {
       if (activeVal.value !== val.value) {
         emits('change', val.value);
         activeVal.value = val.value;
-        console.log('选中change', val.value, activeLabel.value);
+        // console.log('选中change', val.value, activeLabel.value);
       }
       emits('update:modelValue', val.value);
       showOption.value = false;

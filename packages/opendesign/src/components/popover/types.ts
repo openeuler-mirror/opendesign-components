@@ -2,7 +2,7 @@ import { ExtractPropTypes } from 'vue';
 
 import { popupProps } from '../popup/types';
 
-const { position, trigger, target, visible, wrapper, unmountOnHide, anchorClass, wrapClass } = popupProps;
+const { position, trigger, target, visible, wrapper, unmountOnHide, anchorClass, wrapClass, autoHide } = popupProps;
 
 export const popoverProps = {
   position,
@@ -13,6 +13,7 @@ export const popoverProps = {
   unmountOnHide,
   anchorClass,
   wrapClass,
+  autoHide,
   /**
    * 距离触发元素的偏移量
    */

@@ -3,6 +3,7 @@ import { provide, ref, nextTick } from 'vue';
 import { tabsInjectKey } from './provide';
 import { IconAdd } from '../_shared/icons';
 import { tabsProps } from './types';
+import { OResizeObserver } from '../resize-observer';
 
 const props = defineProps(tabsProps);
 
@@ -21,9 +22,14 @@ const bodyRef = ref<HTMLElement | null>(null);
 
 const valueSet: Array<string | number> = [];
 
-const updateArchor = (el: HTMLElement) => {
+let activeNavEl: HTMLElement | null = null;
+
+const updateArchor = () => {
   nextTick(() => {
-    const { clientWidth, offsetLeft } = el;
+    if (!activeNavEl) {
+      return;
+    }
+    const { clientWidth, offsetLeft } = activeNavEl;
     archorStyle.value = {
       transform: `translate3d(${offsetLeft}px, 0px, 0px)`,
       width: `${clientWidth}px`,
@@ -34,14 +40,15 @@ const updateArchor = (el: HTMLElement) => {
 // 更新tab当前选中值
 const updateValue = (value: string | number, navEl: HTMLElement | null) => {
   emits('update:modelValue', value);
-
+  activeNavEl = navEl;
   if (activeKey.value !== value) {
     emits('change', value, activeKey.value);
     activeKey.value = value;
   }
 
   if (navEl) {
-    updateArchor(navEl);
+    activeNavEl = navEl;
+    updateArchor();
   }
 };
 
@@ -56,7 +63,8 @@ const initValue = (value: string | number, navEl: HTMLElement | null) => {
   }
 
   if (activeKey.value === value && navEl) {
-    updateArchor(navEl);
+    activeNavEl = navEl;
+    updateArchor();
   }
 };
 // 删除页签
@@ -83,42 +91,42 @@ provide(tabsInjectKey, {
   onDeletePane,
   initValue,
 });
+const onHeadResize = () => {
+  updateArchor();
+};
 </script>
 <template>
   <div class="o-tabs">
-    <div
-      class="o-tabs-head"
-      :class="[
-        `o-tabs-${props.variant}`,
-        {
-          'with-act': $slots.suffix || $slots.prefix,
-          'show-line': props.line,
-        },
-      ]"
-    >
-      <div v-if="$slots.prefix" class="o-tabs-head-prefix">
-        <slot name="prefix"></slot>
-      </div>
+    <OResizeObserver @resize="onHeadResize">
       <div
-        class="o-tabs-navs"
-        :style="{
-          'justify-content': props.navJustify,
-        }"
+        class="o-tabs-head"
+        :class="[
+          `o-tabs-${props.variant}`,
+          {
+            'with-act': $slots.suffix || $slots.prefix,
+            'show-line': props.line,
+          },
+        ]"
       >
-        <div ref="navsRef" class="o-tabs-navs-wrap"></div>
-        <div v-if="props.variant === 'text'" class="o-tab-nav-archor" :style="archorStyle">
-          <slot name="archor">
-            <div class="o-tab-nav-archor-line"></div>
-          </slot>
+        <div v-if="$slots.prefix" class="o-tabs-head-prefix">
+          <slot name="prefix"></slot>
         </div>
-        <div v-if="props.addable" class="o-tab-nav-add" @click="onAddNav">
-          <IconAdd />
+        <div class="o-tabs-navs">
+          <div ref="navsRef" class="o-tabs-navs-wrap"></div>
+          <div v-if="props.variant === 'text'" class="o-tab-nav-archor" :style="archorStyle">
+            <slot name="archor">
+              <div class="o-tab-nav-archor-line"></div>
+            </slot>
+          </div>
+          <div v-if="props.addable" class="o-tab-nav-add" @click="onAddNav">
+            <IconAdd />
+          </div>
+        </div>
+        <div v-if="$slots.suffix" class="o-tabs-head-suffix">
+          <slot name="suffix"></slot>
         </div>
       </div>
-      <div v-if="$slots.suffix" class="o-tabs-head-suffix">
-        <slot name="suffix"></slot>
-      </div>
-    </div>
+    </OResizeObserver>
     <div ref="bodyRef" class="o-tabs-body">
       <slot></slot>
     </div>

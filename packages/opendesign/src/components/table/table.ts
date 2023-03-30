@@ -7,10 +7,10 @@ export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT
     return [];
   }
 
-  return columns.map(item => {
+  return columns.map((item) => {
     if (isString(item)) {
       return {
-        key: item
+        key: item,
       };
     }
 
@@ -30,7 +30,6 @@ function getSkipCell(rowIndex: number, columnIndex: number, span: { rowspan?: nu
   return skip;
 }
 
-
 export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRowT[], cellSpan?: CellSpanT) {
   if (!bodyData) {
     return [];
@@ -43,7 +42,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
   const rlt = [];
   let span = null;
   const skipCell: Record<string, boolean> = {};
-  console.log(s, t);
+  // console.log(s, t);
   const end = Math.min(s + t, bodyData.length);
 
   for (let r = s; r < end; r += 1) {
@@ -56,7 +55,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
       }
       const cell: TableCellT = {
         value: row[col.key],
-        key: col.key
+        key: col.key,
       };
 
       if (span) {
@@ -70,7 +69,6 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
           cell.rowspan = rowspan;
         }
       }
-
 
       if (!skipCell[`${r}-${c}`]) {
         if (c === colLenght - 1) {

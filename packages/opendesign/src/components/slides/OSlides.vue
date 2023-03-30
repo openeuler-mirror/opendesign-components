@@ -46,23 +46,25 @@ const fixIndex = (idx: number) => {
 // gallery
 let slidesInstance: GallerySlidesT | null = null;
 
-const activeSlideByIndex = (index: number) => {
-  const to = fixIndex(index);
-  const from = activeIndex.value;
-  if (to === from) {
-    return;
-  }
-  emits('before-change', to, activeIndex.value);
-
-  switch (props.type) {
-    case 'gallery': {
-      (slidesInstance as GallerySlidesT)?.active(to).then(() => {
-        emits('change', to, from);
-      });
-      activeIndex.value = to;
-      break;
+const activeSlideByIndex = (to: number): Promise<boolean> => {
+  return new Promise((resolve) => {
+    const from = activeIndex.value;
+    if (to === from || !slideElList.value) {
+      resolve(false);
     }
-  }
+
+    switch (props.type) {
+      case 'gallery': {
+        (slidesInstance as GallerySlidesT)?.active(to).then(() => {
+          resolve(true);
+        });
+        break;
+      }
+      default: {
+        resolve(false);
+      }
+    }
+  });
 };
 
 let timer: number | null = null;
@@ -81,19 +83,39 @@ const startPlay = () => {
 
 // 激活slide
 const activeSlide = (index: number) => {
-  if (isChanging) {
-    return;
+  if (isChanging || !slideElList.value) {
+    return Promise.resolve();
   }
   isChanging = true;
   // 停止自动播放
   stopPlay();
-  activeSlideByIndex(index);
 
-  // 恢复自动播放
-  if (props.autoPlay) {
-    startPlay();
-  }
-  isChanging = false;
+  const to = fixIndex(index);
+  const from = activeIndex.value;
+
+  emits('before-change', to, activeIndex.value);
+
+  return activeSlideByIndex(to).then((success) => {
+    if (!success) {
+      return;
+    }
+
+    const toSlideEl = (slideElList.value as HTMLElement[])[to];
+    const fromSlideEl = (slideElList.value as HTMLElement[])[from];
+
+    fromSlideEl.classList.remove('o-slide-active');
+    toSlideEl.classList.add('o-slide-active');
+
+    emits('change', to, from);
+
+    activeIndex.value = to;
+
+    // 恢复自动播放
+    if (props.autoPlay) {
+      startPlay();
+    }
+    isChanging = false;
+  });
 };
 
 const initSlides = () => {
@@ -139,6 +161,12 @@ onUnmounted(() => {
 });
 provide(slidesInjectKey, {
   type: props.type,
+});
+
+defineExpose({
+  play: startPlay,
+  stop: startPlay,
+  active: activeSlide,
 });
 </script>
 <template>

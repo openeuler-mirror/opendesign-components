@@ -35,12 +35,6 @@ export const tabsProps = {
     type: Boolean,
     default: true,
   },
-  /**
-   * 是否nav的横向排列布局，支持justify-content的所有值
-   */
-  navJustify: {
-    type: String,
-  },
 };
 
 export type TabsPropsT = ExtractPropTypes<typeof tabsProps>;

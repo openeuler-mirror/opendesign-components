@@ -104,6 +104,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   triggerListener = bindTrigger(el, popupRef, triggers, {
     updateFn: updateVisible,
     hoverDelay: props.hoverDelay,
+    autoHide: props.autoHide,
   });
 
   if (props.hideWhenTargetInvisible) {
@@ -134,7 +135,7 @@ const updatePopupStyle = () => {
   if (!targetEl || !popupRef.value || !wrapperEl.value) {
     return;
   }
-  console.log('calc popup position...');
+  // console.log('calc popup position...');
 
   const {
     popupStyle: pStyle,
@@ -333,7 +334,7 @@ const onPopupHoverIn = () => {
   }
 };
 const onPopupHoverOut = () => {
-  if (triggers.includes('hover')) {
+  if (triggers.includes('hover') && props.autoHide) {
     updateVisible(false, props.hoverDelay);
   }
 };

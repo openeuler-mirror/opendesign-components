@@ -9,7 +9,6 @@ const OSlides = Object.assign(_OSlides, {
   },
 });
 
-export {
-  OSlides,
-  OSlideItem
-};
+export { OSlides, OSlideItem };
+
+export * from './types';

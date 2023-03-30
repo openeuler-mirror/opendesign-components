@@ -2,7 +2,7 @@ import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 
 export type PopupPositionT = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br' | 'left' | 'lt' | 'lb' | 'right' | 'rt' | 'rb';
 
-export type PopupTriggerT = 'hover' | 'click' | 'focus' | 'contextmenu' | 'none';
+export type PopupTriggerT = 'hover' | 'click' | 'focus' | 'contextmenu' | 'none' | 'hover-outclick';
 
 export const popupProps = {
   /**
@@ -110,6 +110,13 @@ export const popupProps = {
   transition: {
     type: String,
     default: 'o-zoom-fade',
+  },
+  /**
+   * 是否自动隐藏
+   */
+  autoHide: {
+    type: Boolean,
+    default: true,
   },
 };
 
