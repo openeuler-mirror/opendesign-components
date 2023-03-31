@@ -117,8 +117,9 @@ export default class GallerySlides {
       },
       onMove: (pos, e) => {
         const { dx, dy } = pos;
+
         // 判断是否为横向滑动
-        if (dx > dy) {
+        if (Math.abs(dx) > Math.abs(dy)) {
           e.stopPropagation();
           e.preventDefault();
           e.stopImmediatePropagation();
