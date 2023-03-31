@@ -116,11 +116,14 @@ export default class GallerySlides {
         }
       },
       onMove: (pos, e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        const { dx } = pos;
-        this.transformX(this.oldMoveValue + dx, false);
+        const { dx, dy } = pos;
+        // 判断是否为横向滑动
+        if (dx > dy) {
+          e.stopPropagation();
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          this.transformX(this.oldMoveValue + dx, false);
+        }
       },
       onEnd: (pos) => {
         this.isTouchStart = false;
