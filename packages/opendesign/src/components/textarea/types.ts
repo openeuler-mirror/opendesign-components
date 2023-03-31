@@ -116,12 +116,6 @@ export const textareaProps = {
     type: Boolean,
   },
   /**
-   * 高度自适应
-   */
-  autoResize: {
-    type: Boolean,
-  },
-  /**
    * 获取长度方法
    */
   getLength: {

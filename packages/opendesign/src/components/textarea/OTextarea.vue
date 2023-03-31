@@ -138,7 +138,7 @@ const onMouseDown = (e: MouseEvent) => {
     clickInside = true;
   }
 };
-
+// TODO 更改自动高度方案
 const onMirrorResize = (en: ResizeObserverEntry) => {
   textareaHeight.value = en.target.clientHeight;
 };
