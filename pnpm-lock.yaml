@@ -20,7 +20,7 @@ importers:
 
   packages/opendesign:
     specifiers:
-      '@opensig/opensig-scripts': workspace:^0.0.1
+      '@opensig/opensig-scripts': workspace:^0.0.6
       '@types/lodash-es': ^4.17.6
       intersection-observer-polyfill: ^0.1.0
       lodash-es: ^4.17.21
@@ -41,7 +41,8 @@ importers:
 
   packages/portal:
     specifiers:
-      '@opensig/opendesign': workspace:^0.0.1
+      '@opensig/opendesign': workspace:^0.0.23
+      '@opensig/opensig-scripts': workspace:^0.0.6
       '@vitejs/plugin-vue': ^3.2.0
       normalize.css: ^8.0.1
       sass: ^1.56.1
@@ -52,6 +53,7 @@ importers:
       vue-tsc: ^1.0.13
     dependencies:
       '@opensig/opendesign': link:../opendesign
+      '@opensig/opensig-scripts': link:../scripts
       normalize.css: 8.0.1
       vue: 3.2.45
       vue-router: 4.1.6_vue@3.2.45
