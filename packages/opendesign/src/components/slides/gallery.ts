@@ -64,9 +64,6 @@ export default class GallerySlides {
         resolveArr = [];
       }
     });
-    slideContainer.addEventListener('transitionstart', () => {
-      slideContainer.style.willChange = 'transform';
-    });
 
     let s = 0;
     this.slideList = slideElList.map((el, idx) => {

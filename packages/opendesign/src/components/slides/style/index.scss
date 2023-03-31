@@ -114,7 +114,6 @@
 }
 
 // gallery
-
 .o-slide-container-gallery {
   height: 100%;
   position: absolute;
@@ -122,6 +121,7 @@
   display: flex;
   flex-wrap: nowrap;
   &.is-animating {
+    will-change: transform;
     transition: transform var(--o-duration-l) var(--o-easing-emphasized);
   }
 }
