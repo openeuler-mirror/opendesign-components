@@ -23,6 +23,11 @@ const next = () => {
     console.log('done', idx);
   });
 };
+
+const slidesRef2 = ref<InstanceType<typeof OSlides> | null>(null);
+const initSlides = () => {
+  slidesRef2.value?.init();
+};
 </script>
 <template>
   <div style="min-height: 200vh">
@@ -38,19 +43,20 @@ const next = () => {
       </OSlides>
     </div>
     <div class="block" style="overflow: hidden">
-      <OSlides class="slides" auto-play click-to-active @change="onChange">
+      <OSlides class="slides" auto-play click-to-active indicator-click @change="onChange">
         <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OSlideItem>
       </OSlides>
     </div>
-    <!-- <div class="block" style="overflow: hidden">
-    <OSlides loop class="slides2" :auto-play="true" style="--slide-gap-x: 16px" :active-index="1" @change="onChange">
-      <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
-        <OFigure class="img" :src="s" />
-      </OSlideItem>
-    </OSlides>
-  </div> -->
+    <div class="block" style="overflow: hidden">
+      <div class="btn" @click="initSlides">do init</div>
+      <OSlides ref="slidesRef2" manual-init class="slides2" auto-play :active-index="1" @change="onChange">
+        <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
+          <OFigure class="img" :src="s" />
+        </OSlideItem>
+      </OSlides>
+    </div>
   </div>
 </template>
 <style lang="scss">

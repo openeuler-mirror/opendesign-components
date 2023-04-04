@@ -44,8 +44,8 @@ export default class GallerySlides {
   private onTouchstart: (() => void) | undefined;
   private onTouchend: (() => void) | undefined;
   private onChanged: ((to: number, from: number) => void) | undefined;
-  private isTouchStart: boolean;
-  private isMoving: boolean;
+  private isTouchStart: boolean; // 是否开始touch事件
+  private isSliding: boolean; // 是否在切换
   private oldMoveValue: number;
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GallerySlidesOptionT) {
     const { alignType = 'center' } = options || {};
@@ -92,7 +92,7 @@ export default class GallerySlides {
 
     // handle touch
     this.isTouchStart = false;
-    this.isMoving = false;
+    this.isSliding = false;
     this.oldMoveValue = 0;
     this.onTouchstart = options?.onTouchstart;
     this.onTouchend = options?.onTouchend;
@@ -111,23 +111,34 @@ export default class GallerySlides {
       onStart: () => {
         this.isTouchStart = true;
         this.oldMoveValue = this.moveValue;
+        this.isSliding = true;
         if (isFunction(this.onTouchstart)) {
           this.onTouchstart();
         }
       },
       onMove: (pos, e) => {
+        if (!this.isTouchStart || !this.isSliding) {
+          return;
+        }
         const { dx, dy } = pos;
 
         // 判断是否为横向滑动
         if (Math.abs(dx) > Math.abs(dy)) {
+          this.isSliding = true;
           e.stopPropagation();
           e.preventDefault();
           e.stopImmediatePropagation();
           this.transformX(this.oldMoveValue + dx, false);
+        } else {
+          this.isSliding = false;
         }
       },
       onEnd: (pos) => {
+        if (!this.isTouchStart) {
+          return;
+        }
         this.isTouchStart = false;
+        this.isSliding = false;
         const { width: sw } = this.slideList[this.currentIndex];
 
         // TODO 处理slide宽度不一致问题，一次滚动多个
@@ -207,6 +218,7 @@ export default class GallerySlides {
   transformX(value: number, animate: boolean = true): Promise<null | number> {
     return new Promise((resolve) => {
       this.moveValue = value;
+      this.isChanging = false;
 
       const { el } = this.container;
 

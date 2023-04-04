@@ -30,9 +30,8 @@ export const slidesProps = {
   /**
    * 是否显示切换箭头
    */
-  arrow: {
+  hideArrow: {
     type: Boolean,
-    default: true,
   },
   /**
    * 设置切换箭头容器类
@@ -41,11 +40,16 @@ export const slidesProps = {
     type: String,
   },
   /**
-   * 是否显示指示器
+   * 不显示指示器
    */
-  indicator: {
+  hideIndicator: {
     type: Boolean,
-    default: true,
+  },
+  /**
+   * 指示器点击切换
+   */
+  indicatorClick: {
+    type: Boolean,
   },
   /**
    * 设置指示器容器类
@@ -54,15 +58,15 @@ export const slidesProps = {
     type: String,
   },
   /**
-   * 是否无限切换，使用下一张补位
-   */
-  loop: {
-    type: Boolean,
-  },
-  /**
    * 点击卡片切换到当前
    */
   clickToActive: {
+    type: Boolean,
+  },
+  /**
+   * 是否手工初始化，用户调用instance.init()
+   */
+  manualInit: {
     type: Boolean,
   },
 };

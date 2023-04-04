@@ -120,7 +120,7 @@ const activeSlide = (index: number) => {
 };
 
 const initSlides = () => {
-  if (!slideElList.value || !slideWrapRef.value) {
+  if (!slideElList.value || !slideWrapRef.value || initialized.value) {
     return;
   }
   switch (props.type) {
@@ -147,7 +147,9 @@ const initSlides = () => {
   if (props.clickToActive) {
     slideElList.value.forEach((el, idx) => {
       el.addEventListener('click', () => {
-        activeSlide(idx);
+        if (idx !== activeIndex.value) {
+          activeSlide(idx);
+        }
       });
     });
   }
@@ -167,10 +169,15 @@ watch(
     }
   }
 );
-onMounted(() => {
+const init = () => {
   initSlides();
   if (props.autoPlay) {
     startPlay();
+  }
+};
+onMounted(() => {
+  if (!props.manualInit) {
+    init();
   }
 });
 onUnmounted(() => {
@@ -184,6 +191,7 @@ provide(slidesInjectKey, {
 });
 
 defineExpose({
+  init: init,
   play: startPlay,
   stop: startPlay,
   active: activeSlide,
@@ -196,6 +204,7 @@ defineExpose({
     :class="[
       {
         'o-slides-visible': initialized,
+        'o-slide-click-active': props.clickToActive,
       },
       `o-slides-type-${props.type}`,
     ]"
@@ -208,8 +217,8 @@ defineExpose({
         <slot></slot>
       </div>
     </div>
-    <div v-if="props.indicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
-      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="activeSlide(idx)">
+    <div v-if="!props.hideIndicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
+      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="props.indicatorClick && activeSlide(idx)">
         <slot name="indicator" :active="item - 1 === activeIndex">
           <div
             class="o-slides-indicator-bar"
@@ -221,7 +230,7 @@ defineExpose({
         </slot>
       </div>
     </div>
-    <div v-if="props.arrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
+    <div v-if="!props.hideArrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
       <div @click="activeSlide(activeIndex - 1)">
         <slot name="arrow-prev">
           <div class="o-slides-arrow-prev">
