@@ -38,7 +38,7 @@ const next = () => {
       </OSlides>
     </div>
     <div class="block" style="overflow: hidden">
-      <OSlides class="slides" auto-play @change="onChange">
+      <OSlides class="slides" auto-play click-to-active @change="onChange">
         <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OSlideItem>
