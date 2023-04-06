@@ -41,7 +41,7 @@ export const routes = [
   {
     path: '/popover',
     name: 'Popover',
-    label: '弹出框 Popover',
+    label: '气泡提示 Popover',
     component: () => import('@components/popover/__demo__/IndexPopover.vue'),
   },
   {
@@ -65,7 +65,7 @@ export const routes = [
   {
     path: '/select',
     name: 'Select',
-    label: '下拉框 Select',
+    label: '下拉选择器 Select',
     component: () => import('@components/select/__demo__/IndexSelect.vue'),
   },
   {
@@ -77,13 +77,13 @@ export const routes = [
   {
     path: '/radio',
     name: 'Radio',
-    label: '单选 Radio',
+    label: '单选框 Radio',
     component: () => import('@components/radio/__demo__/IndexRadio.vue'),
   },
   {
     path: '/checkbox',
     name: 'Checkbox',
-    label: '多选 Checkbox',
+    label: '多选框 Checkbox',
     component: () => import('@components/checkbox/__demo__/IndexCheckbox.vue'),
   },
   {
@@ -143,7 +143,7 @@ export const routes = [
   {
     path: '/dropdown',
     name: 'Dropdown',
-    label: '下拉菜单 Dropdown',
+    label: '下拉按钮 Dropdown',
     component: () => import('@components/dropdown/__demo__/IndexDropdown.vue'),
   },
   {
@@ -179,7 +179,7 @@ export const routes = [
   {
     path: '/slides',
     name: 'Slides',
-    label: '幻灯片 Slides',
+    label: '轮播 Slides',
     component: () => import('@components/slides/__demo__/IndexSlides.vue'),
   },
   {
