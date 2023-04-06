@@ -3,7 +3,7 @@
   --textarea-color-disabled: var(--o-color-info4);
 
   --textarea-bg-color: transparent;
-  --textarea-bg-color-hover: transparent;
+  --textarea-bg-color-hover: var(--o-color-control-light);
   --textarea-bg-color-focus: var(--o-color-control-light);
 
   --textarea-icon-color: var(--o-color-control3);
@@ -14,9 +14,7 @@
   --textarea-limit-color-error: var(--o-color-danger1);
   --textarea-limit-text-size: var(--o-font_size-tip2);
   --textarea-limit-text-height: var(--o-line_height-tip2);
-}
 
-.o-textarea-normal {
   --textarea-bd-color: var(--o-color-control1);
   --textarea-bd-color-hover: var(--o-color-primary2);
   --textarea-bd-color-focus: var(--o-color-primary3);
@@ -27,10 +25,11 @@
     --textarea-bd-color-hover: var(--o-color-control2-light);
 
     --textarea-bg-color: var(--o-color-control1-light);
-    --textarea-bg-color-hover: var(--o-color-control2-light);
+    --textarea-bg-color-hover: var(--o-color-control-light);
     --textarea-bg-color-disabled: var(--o-color-control4-light);
   }
 }
+
 .o-textarea-success {
   --textarea-bd-color: var(--o-color-success1);
   --textarea-bd-color-hover: var(--o-color-success2);
@@ -42,7 +41,6 @@
     --textarea-bd-color-hover: var(--o-color-success2-light);
 
     --textarea-bg-color: var(--o-color-success1-light);
-    --textarea-bg-color-hover: var(--o-color-success2-light);
     --textarea-bg-color-disabled: var(--o-color-success4-light);
   }
 }
@@ -57,7 +55,6 @@
     --textarea-bd-color-hover: var(--o-color-warning2-light);
 
     --textarea-bg-color: var(--o-color-warning1-light);
-    --textarea-bg-color-hover: var(--o-color-warning2-light);
     --textarea-bg-color-disabled: var(--o-color-warning4-light);
   }
 }
@@ -72,7 +69,6 @@
     --textarea-bd-color-hover: var(--o-color-danger2-light);
 
     --textarea-bg-color: var(--o-color-danger1-light);
-    --textarea-bg-color-hover: var(--o-color-danger2-light);
     --textarea-bg-color-disabled: var(--o-color-danger4-light);
   }
 }

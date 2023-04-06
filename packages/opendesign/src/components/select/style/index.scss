@@ -40,6 +40,8 @@
   width: 100%;
   font-size: var(--select-text-size);
   line-height: var(--select-text-height);
+  overflow: hidden;
+  text-overflow: ellipsis;
   &::-webkit-input-placeholder {
     color: var(--select-placeholder);
   }
