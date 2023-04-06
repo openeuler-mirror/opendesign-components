@@ -31,9 +31,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "../opendesign/**/*.ts",
-    // "../opendesign/**/*.d.ts",
-    // "../opendesign/**/*.vue"
+    "../opendesign/**/*.ts"
   ],
   "exclude": [
     "../opendesign/**/*.config.ts"
