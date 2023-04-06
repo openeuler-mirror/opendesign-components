@@ -27,6 +27,6 @@ const beforeChange2 = () => {
   <h4>阻止切换</h4>
   <section>
     <OSWitch v-model="switchVal1" :loading="loading1" :before-change="beforeChange1" />
-    <OSWitch v-model="switchVal2" shape="round" :before-change="beforeChange2" />
+    <OSWitch v-model="switchVal2" round="pill" :before-change="beforeChange2" />
   </section>
 </template>

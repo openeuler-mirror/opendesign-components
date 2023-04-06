@@ -1,21 +1,19 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { DirectionT } from '../_shared/global';
 
-export type DividerTypeT = 'solid' | 'dashed' | 'dotted';
-export type DividerContentPositionT = 'left' | 'center' | 'right';
+export const DividerVariantTypes = ['solid', 'dashed', 'dotted'] as const;
+export type DividerVariantT = typeof DividerVariantTypes[number];
 
 export const dividerProps = {
   /**
-   * 分割线类型
-   * 'solid' | 'dashed' | 'dotted'
+   * 分割线类型 DividerVariantT
    */
-  type: {
-    type: String as PropType<DividerTypeT>,
+  variant: {
+    type: String as PropType<DividerVariantT>,
     default: 'solid',
   },
   /**
-   * 分割线方向
-   * 'h' | 'v'
+   * 分割线方向 DirectionT
    */
   direction: {
     type: String as PropType<DirectionT>,
@@ -23,10 +21,9 @@ export const dividerProps = {
   },
   /**
    * 自定义内容位置
-   * 'left' | 'center' | 'right'
    */
-  contentPosition: {
-    type: String as PropType<DividerContentPositionT>,
+  labelPosition: {
+    type: String as PropType<'left' | 'center' | 'right'>,
     default: 'center',
   },
 };

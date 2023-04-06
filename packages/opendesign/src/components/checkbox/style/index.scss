@@ -42,7 +42,7 @@
   color: var(--checkbox-input-color);
   border: 1px solid var(--checkbox-input-bd-color);
   border-radius: var(--checkbox-radius);
-  transition: border-color var(--o-duration-s) var(--o-easing-standard), border-color var(--o-duration-s) var(--o-easing-standard);
+  transition: border-color var(--o-duration-s) var(--o-easing-standard), background-color var(--o-duration-s) var(--o-easing-standard);
 }
 
 .o-checkbox-label {

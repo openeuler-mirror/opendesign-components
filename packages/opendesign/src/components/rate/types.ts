@@ -23,16 +23,13 @@ export const rateProps = {
     default: 0,
   },
   /**
-   * 尺寸
-   * "small"| "medium"  | "large"
+   * 尺寸 SizeT
    */
   size: {
     type: String as PropType<SizeT>,
-    default: 'medium',
   },
   /**
-   * 颜色类型
-   * 'normal' | 'primary' | 'success' | 'warning' | 'danger'
+   * 颜色类型 ColorT
    */
   color: {
     type: String as PropType<ColorT>,

@@ -6,11 +6,11 @@ import { ODivider } from '../index';
   <h4>垂直方向</h4>
   <section>
     <span>OpenDesign</span>
-    <ODivider direction="vertical" />
+    <ODivider direction="v" />
     <span>openEuler</span>
-    <ODivider direction="vertical" type="dashed" />
+    <ODivider direction="v" variant="dashed" />
     <span>开源社区</span>
-    <ODivider direction="vertical" type="dotted" />
+    <ODivider direction="v" variant="dotted" />
   </section>
 </template>
 

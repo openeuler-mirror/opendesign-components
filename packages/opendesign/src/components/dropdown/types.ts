@@ -17,26 +17,26 @@ export const dropdownProps = {
     default: false,
   },
   /**
-   * 大小
+   * 大小 SizeT
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 下拉选项触发方式
+   * 下拉选项触发方式 PopupTriggerT
    */
   trigger: {
     type: String as PropType<PopupTriggerT>,
     default: 'click',
   },
   /**
-   * 下拉选项位置
+   * 下拉选项位置 PopupPositionT
    */
   optionPosition: {
     type: String as PropType<PopupPositionT>,
@@ -58,7 +58,6 @@ export const dropdownProps = {
   },
   /**
    * 是否在结束选择时，卸载下拉选项
-   * v-model
    */
   unmountOnHide: {
     type: Boolean,
@@ -94,6 +93,7 @@ export const dropdownItemProps = {
    */
   disabled: {
     type: Boolean,
+    default: false,
   },
 };
 

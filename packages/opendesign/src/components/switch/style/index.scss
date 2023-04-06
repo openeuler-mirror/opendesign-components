@@ -48,14 +48,14 @@
   }
 }
 
-.o-switch-content {
+.o-switch-label {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-content-padding));
-  padding-right: var(--switch-content-padding);
+  padding-left: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-label-padding));
+  padding-right: var(--switch-label-padding);
 }
 
 .o-switch-checked {
@@ -65,9 +65,9 @@
     left: calc(100% - var(--switch-handler-offset) - var(--switch-handler-size));
   }
 
-  .o-switch-content {
-    padding-left: var(--switch-content-padding);
-    padding-right: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-content-padding));
+  .o-switch-label {
+    padding-left: var(--switch-label-padding);
+    padding-right: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-label-padding));
   }
 }
 

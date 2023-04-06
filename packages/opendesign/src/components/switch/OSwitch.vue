@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { switchProps } from './types';
-import { defaultSize } from '../_shared/global';
 import { getRoundClass } from '../_shared/style-class';
 import { IconLoading } from '../_shared/icons';
 import { isPromise, isBoolean, isUndefined } from '../_shared/is';
@@ -71,7 +70,7 @@ const onClick = (ev: Event) => {
   <div
     class="o-switch"
     :class="[
-      `o-switch-${props.size || defaultSize}`,
+      `o-switch-${props.size}`,
       round.class.value,
       { 'o-switch-checked': isChecked },
       { 'o-switch-disabled': props.disabled },
@@ -86,7 +85,7 @@ const onClick = (ev: Event) => {
           <IconLoading />
         </span>
       </div>
-      <div v-if="$slots.on || $slots.off" class="o-switch-content">
+      <div v-if="$slots.on || $slots.off" class="o-switch-label">
         <slot v-if="isChecked" name="on"></slot>
         <slot v-else name="off"></slot>
       </div>

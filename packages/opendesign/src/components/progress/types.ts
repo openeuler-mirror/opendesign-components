@@ -1,13 +1,14 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-export type ProgressVariantT = 'line' | 'circle';
+export const ProgressVariantTypes = ['line', 'circle'] as const;
+export type ProgressVariantT = typeof ProgressVariantTypes[number];
 
-export type ProgressColorT = 'primary' | 'success' | 'warning' | 'danger';
+export const ProgressColorTypes = ['primary', 'success', 'warning', 'danger'] as const;
+export type ProgressColorT = typeof ProgressColorTypes[number];
 
 export const progressProps = {
   /**
-   * 进度条类型
-   * 'line' | 'circle'
+   * 进度条类型 ProgressVariantT
    */
   variant: {
     type: String as PropType<ProgressVariantT>,
@@ -29,8 +30,7 @@ export const progressProps = {
     default: 6,
   },
   /**
-   * 进度条颜色类型
-   * 'primary' | 'success' | 'warning' | 'danger'
+   * 进度条颜色类型 ProgressColorT
    */
   color: {
     type: String as PropType<ProgressColorT>,

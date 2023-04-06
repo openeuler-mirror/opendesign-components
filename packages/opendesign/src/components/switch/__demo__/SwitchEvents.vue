@@ -12,6 +12,6 @@ const handleChange = (val: string | number | boolean) => {
 <template>
   <h4>Change事件</h4>
   <section>
-    <OSWitch v-model="switchVal1" shape="round" @change="handleChange" />
+    <OSWitch v-model="switchVal1" round="pill" @change="handleChange" />
   </section>
 </template>
