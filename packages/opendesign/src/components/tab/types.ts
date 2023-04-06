@@ -3,7 +3,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 export const TabVariantTypes = ['solid', 'text'] as const;
 export type TabVariantT = typeof TabVariantTypes[number];
 
-export const tabsProps = {
+export const tabProps = {
   /**
    * tab选中的nav值
    * v-model
@@ -40,7 +40,7 @@ export const tabsProps = {
   },
 };
 
-export type TabsPropsT = ExtractPropTypes<typeof tabsProps>;
+export type TabPropsT = ExtractPropTypes<typeof tabProps>;
 
 export const tabPaneProps = {
   /**

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import '../style';
-import SlidesBasic from './SlidesBasic.vue';
+import CarouselBasic from './CarouselBasic.vue';
 </script>
 <template>
   <div class="page-demo">
-    <SlidesBasic />
+    <CarouselBasic />
   </div>
 </template>
 <style lang="scss"></style>

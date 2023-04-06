@@ -87,10 +87,10 @@ export const routes = [
     component: () => import('@components/checkbox/__demo__/IndexCheckbox.vue'),
   },
   {
-    path: '/tabs',
-    name: 'Tabs',
-    label: '页签 Tabs',
-    component: () => import('@components/tabs/__demo__/IndexTabs.vue'),
+    path: '/tab',
+    name: 'Tab',
+    label: '页签 Tab',
+    component: () => import('@components/tab/__demo__/IndexTab.vue'),
   },
   {
     path: '/table',
@@ -177,10 +177,10 @@ export const routes = [
     component: () => import('@components/message/__demo__/IndexMessage.vue'),
   },
   {
-    path: '/slides',
-    name: 'Slides',
-    label: '幻灯片 Slides',
-    component: () => import('@components/slides/__demo__/IndexSlides.vue'),
+    path: '/carousel',
+    name: 'Carousel',
+    label: '幻灯片 Carousel',
+    component: () => import('@components/carousel/__demo__/IndexCarousel.vue'),
   },
   {
     path: '/grid',

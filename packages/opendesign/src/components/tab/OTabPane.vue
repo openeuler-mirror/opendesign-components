@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch } from 'vue';
-import { tabsInjectKey } from './provide';
+import { tabInjectKey } from './provide';
 import { tabPaneProps } from './types';
 import { IconClose } from '../_shared/icons';
 import ClientOnly from '../_shared/components/client-only';
@@ -16,9 +16,9 @@ const isClosed = ref(false);
 
 const navRef = ref<HTMLElement | null>(null);
 
-const tabsInjection = inject(tabsInjectKey, null);
+const tabInjection = inject(tabInjectKey, null);
 
-const { navsRef, activeValue, lazy } = tabsInjection || {};
+const { navsRef, activeValue, lazy } = tabInjection || {};
 // console.log(props.transition);
 
 const instance = getCurrentInstance();
@@ -50,26 +50,26 @@ watch(
   (v: boolean) => {
     if (v) {
       hasActived.value = true;
-      tabsInjection?.updateValue(paneKey.value, navRef.value);
+      tabInjection?.updateValue(paneKey.value, navRef.value);
     }
   }
 );
 
 const navClick = () => {
   if (!props.disabled) {
-    tabsInjection?.updateValue(paneKey.value, navRef.value);
+    tabInjection?.updateValue(paneKey.value, navRef.value);
   }
 };
 const navCloseClick = (e: MouseEvent) => {
   e.stopImmediatePropagation();
   isClosed.value = true;
 
-  tabsInjection?.onDeletePane(paneKey.value, e);
+  tabInjection?.onDeletePane(paneKey.value, e);
 };
 
 onMounted(() => {
   nextTick(() => {
-    tabsInjection?.initValue(paneKey.value, navRef.value);
+    tabInjection?.initValue(paneKey.value, navRef.value);
   });
 });
 </script>

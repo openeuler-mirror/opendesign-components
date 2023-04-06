@@ -2,7 +2,7 @@ import { supportTouch } from '../_shared/dom';
 import { isFunction } from '../_shared/is';
 import { OTouch } from '../_shared/pointer';
 
-interface SlideItemT {
+interface GalleryItemT {
   index: number;
   el: HTMLElement;
   width: number;
@@ -14,12 +14,12 @@ interface ContainerT {
 }
 type AlignT = 'center' | 'left';
 
-export interface GallerySlidesT {
+export interface GalleryT {
   active: (slideIndex: number) => Promise<null | number>;
   loopRange: () => void;
   transformX: (value: number, animate: boolean) => Promise<null | number>;
 }
-export interface GallerySlidesOptionT {
+export interface GalleryOptionT {
   alignType?: 'center' | 'left';
   onTouchstart?: () => void;
   onTouchend?: () => void;
@@ -33,9 +33,9 @@ const fixIndex = (idx: number, total: number) => {
   return i >= 0 ? i : i + total;
 };
 let resolveArr: ((value: null | number) => void)[] = [];
-export default class GallerySlides {
+export default class Gallery {
   private container: ContainerT;
-  private slideList: SlideItemT[];
+  private slideList: GalleryItemT[];
   private total: number;
   private alignType: AlignT;
   private moveValue: number;
@@ -47,7 +47,7 @@ export default class GallerySlides {
   private isTouchStart: boolean; // 是否开始touch事件
   private isSliding: boolean; // 是否在切换
   private oldMoveValue: number;
-  constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GallerySlidesOptionT) {
+  constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GalleryOptionT) {
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;
 

@@ -2,21 +2,21 @@
 import { ref } from 'vue';
 import { OFigure } from '../../figure';
 import '../../figure/style';
-import { OSlides, OSlideItem } from '../index';
-const slides = [
+import { OCarousel, OCarouselItem } from '../index';
+const carousel = [
   'https://www.hiascend.com/p/resource/202303/95e2eec7ebe049628f402b04731b675b.png',
   'https://www.hiascend.com/p/resource/202303/2422385450af46418ca68b03b13e4494.png',
   'https://www.hiascend.com/p/resource/202303/4d94234f0bab4612883906a30d595391.png',
 ];
 
 const onChange = (now: number, last: number) => {
-  console.log('slides changed', now, last);
+  console.log('carousel changed', now, last);
 };
 const onBeforeChange = (now: number, last: number) => {
-  console.log('slides before changed', now, last);
+  console.log('carousel before changed', now, last);
 };
 
-const slidesRef = ref<InstanceType<typeof OSlides> | null>(null);
+const slidesRef = ref<InstanceType<typeof OCarousel> | null>(null);
 let idx = 1;
 const next = () => {
   slidesRef.value?.active(++idx).then(() => {
@@ -24,7 +24,7 @@ const next = () => {
   });
 };
 
-const slidesRef2 = ref<InstanceType<typeof OSlides> | null>(null);
+const slidesRef2 = ref<InstanceType<typeof OCarousel> | null>(null);
 const initSlides = () => {
   slidesRef2.value?.init();
 };
@@ -35,27 +35,27 @@ const initSlides = () => {
     <div class="block">
       <h2 @click="next">Next</h2>
       <div class="center"></div>
-      <OSlides ref="slidesRef" loop class="gallery-slides" :auto-play="false" :active-index="idx" @change="onChange" @before-change="onBeforeChange">
-        <OSlideItem v-for="s in 6" :key="s" class="gallery-slide">
+      <OCarousel ref="slidesRef" loop class="gallery-carousel" :auto-play="false" :active-index="idx" @change="onChange" @before-change="onBeforeChange">
+        <OCarouselItem v-for="s in 6" :key="s" class="gallery-carousel-item">
           <div class="slide">{{ s - 1 }}</div>
           <div class="center red"></div>
-        </OSlideItem>
-      </OSlides>
+        </OCarouselItem>
+      </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
-      <OSlides class="slides" auto-play click-to-active indicator-click @change="onChange">
-        <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
+      <OCarousel class="carousel" auto-play click-to-active indicator-click @change="onChange">
+        <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
-        </OSlideItem>
-      </OSlides>
+        </OCarouselItem>
+      </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
       <div class="btn" @click="initSlides">do init</div>
-      <OSlides ref="slidesRef2" manual-init class="slides2" auto-play :active-index="1" @change="onChange">
-        <OSlideItem v-for="s in slides" :key="s" class="slide-item2">
+      <OCarousel ref="slidesRef2" manual-init class="slides2" auto-play :active-index="1" @change="onChange">
+        <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
-        </OSlideItem>
-      </OSlides>
+        </OCarouselItem>
+      </OCarousel>
     </div>
   </div>
 </template>
@@ -76,7 +76,7 @@ const initSlides = () => {
     border-color: red;
   }
 }
-.slides {
+.carousel {
   height: 200px;
   width: 80%;
   margin: auto;
@@ -100,11 +100,11 @@ const initSlides = () => {
   width: 100%;
 }
 
-.gallery-slides {
+.gallery-carousel {
   height: 100px;
   background-color: #eee;
 }
-.gallery-slide {
+.gallery-carousel-item {
   width: 500px;
   height: 100px;
 }

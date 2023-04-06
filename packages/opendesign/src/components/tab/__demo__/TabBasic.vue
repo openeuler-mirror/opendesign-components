@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { OTabs, OTabPane } from '../index';
+import { OTab, OTabPane } from '../index';
 import { IconSearch } from '../../icons';
 const activeTab = ref('Tab A');
 const activeTab2 = ref('1');
@@ -38,40 +38,40 @@ const updateTab = (v: string) => {
   <h4>Variant</h4>
   <div class="sec">
     <p>Solid</p>
-    <OTabs variant="solid" @change="onChange">
+    <OTab variant="solid" @change="onChange">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" unmount-on-hide>pane 3</OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
-    </OTabs>
+    </OTab>
     <p>line:false</p>
-    <OTabs variant="solid" :line="false">
+    <OTab variant="solid" :line="false">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
-    </OTabs>
+    </OTab>
     <br />
     <p>Text</p>
-    <OTabs variant="text">
+    <OTab variant="text">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
-    </OTabs>
+    </OTab>
     <p>line:false</p>
-    <OTabs variant="text" :line="false">
+    <OTab variant="text" :line="false">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
-    </OTabs>
+    </OTab>
   </div>
   <h4>Slot & change</h4>
   <div class="sec">
     <p @click="updateTab('Tab A')">click to active Tab A</p>
 
-    <OTabs v-model="activeTab" addable @change="tabChange">
+    <OTab v-model="activeTab" addable @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
@@ -80,9 +80,9 @@ const updateTab = (v: string) => {
         <template #nav><IconSearch /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
-    </OTabs>
+    </OTab>
     <p>center</p>
-    <OTabs v-model="activeTab" :style="{ '--tabs-nav-justify': 'center' }" addable @change="tabChange">
+    <OTab v-model="activeTab" :style="{ '--tab-nav-justify': 'center' }" addable @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
@@ -91,15 +91,15 @@ const updateTab = (v: string) => {
         <template #nav><IconSearch /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
-    </OTabs>
+    </OTab>
   </div>
   <h4>Add & Lazy</h4>
   <div class="sec">
-    <OTabs v-model="activeTab2" lazy addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
+    <OTab v-model="activeTab2" lazy addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
       <OTabPane v-for="(item, idx) in tabList" :key="item.id" :value="item.id" class="pane" :label="item.label" :closable="idx > 1">
         {{ item.content }}
       </OTabPane>
-    </OTabs>
+    </OTab>
   </div>
 </template>
 <style lang="scss">

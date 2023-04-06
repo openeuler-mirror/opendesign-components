@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { provide, ref, nextTick, watch } from 'vue';
-import { tabsInjectKey } from './provide';
+import { tabInjectKey } from './provide';
 import { IconAdd } from '../_shared/icons';
-import { tabsProps } from './types';
+import { tabProps } from './types';
 import { OResizeObserver } from '../resize-observer';
 
-const props = defineProps(tabsProps);
+const props = defineProps(tabProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
@@ -88,7 +88,7 @@ const onDeletePane = (value: string | number) => {
 const onAddNav = (e: MouseEvent) => {
   emits('add', e);
 };
-provide(tabsInjectKey, {
+provide(tabInjectKey, {
   lazy: props.lazy,
   navsRef,
   bodyRef,
@@ -102,23 +102,23 @@ const onHeadResize = () => {
 };
 </script>
 <template>
-  <div class="o-tabs">
+  <div class="o-tab">
     <OResizeObserver @resize="onHeadResize">
       <div
-        class="o-tabs-head"
+        class="o-tab-head"
         :class="[
-          `o-tabs-${props.variant}`,
+          `o-tab-${props.variant}`,
           {
             'with-act': $slots.suffix || $slots.prefix,
             'show-line': props.line,
           },
         ]"
       >
-        <div v-if="$slots.prefix" class="o-tabs-head-prefix">
+        <div v-if="$slots.prefix" class="o-tab-head-prefix">
           <slot name="prefix"></slot>
         </div>
-        <div class="o-tabs-navs">
-          <div ref="navsRef" class="o-tabs-navs-wrap"></div>
+        <div class="o-tab-navs">
+          <div ref="navsRef" class="o-tab-navs-wrap"></div>
           <div v-if="props.variant === 'text'" class="o-tab-nav-archor" :style="archorStyle">
             <slot name="archor">
               <div class="o-tab-nav-archor-line"></div>
@@ -128,12 +128,12 @@ const onHeadResize = () => {
             <IconAdd />
           </div>
         </div>
-        <div v-if="$slots.suffix" class="o-tabs-head-suffix">
+        <div v-if="$slots.suffix" class="o-tab-head-suffix">
           <slot name="suffix"></slot>
         </div>
       </div>
     </OResizeObserver>
-    <div ref="bodyRef" class="o-tabs-body">
+    <div ref="bodyRef" class="o-tab-body">
       <slot></slot>
     </div>
   </div>

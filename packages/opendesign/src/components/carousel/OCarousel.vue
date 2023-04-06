@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../icons';
-// import { getCssVariable } from '../_shared/dom';
-import GallerySlides, { GallerySlidesT } from './gallery';
-import { slidesInjectKey } from './provide';
+import Gallery, { GalleryT } from './gallery';
+import { carouselInjectKey } from './provide';
 
-import { slidesProps } from './types';
+import { carouselProps } from './types';
 
-const props = defineProps(slidesProps);
+const props = defineProps(carouselProps);
 
 const emits = defineEmits<{
   (e: 'before-change', to: number, from: number): void;
   (e: 'change', to: number, from: number): void;
 }>();
 
-const slideWrapRef = ref<HTMLElement | null>(null);
-const total = computed(() => slideWrapRef.value?.children.length);
+const containerRef = ref<HTMLElement | null>(null);
+const total = computed(() => containerRef.value?.children.length);
 
 const fixIndex = (idx: number) => {
   if (!total.value) {
@@ -39,21 +38,21 @@ const initialized = ref(false);
 const slidesRef = ref<HTMLElement | null>(null);
 
 const slideElList = computed(() => {
-  const c = slideWrapRef.value?.children;
+  const c = containerRef.value?.children;
   return c ? Array.from(c).map((el) => el as HTMLElement) : null;
 });
 
 let isChanging = false;
 
 // gallery
-let slidesInstance: GallerySlidesT | null = null;
+let slidesInstance: GalleryT | null = null;
 
 function afterActive(to: number, from: number) {
   const toSlideEl = (slideElList.value as HTMLElement[])[to];
   const fromSlideEl = (slideElList.value as HTMLElement[])[from];
 
-  fromSlideEl.classList.remove('o-slide-active');
-  toSlideEl.classList.add('o-slide-active');
+  fromSlideEl.classList.remove('o-carousel-active');
+  toSlideEl.classList.add('o-carousel-active');
 
   emits('change', to, from);
 }
@@ -72,7 +71,7 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
 
     switch (props.type) {
       case 'gallery': {
-        (slidesInstance as GallerySlidesT)?.active(to).then(() => {
+        (slidesInstance as GalleryT)?.active(to).then(() => {
           afterActive(to, from);
 
           isChanging = false;
@@ -120,12 +119,12 @@ const activeSlide = (index: number) => {
 };
 
 const initSlides = () => {
-  if (!slideElList.value || !slideWrapRef.value || initialized.value) {
+  if (!slideElList.value || !containerRef.value || initialized.value) {
     return;
   }
   switch (props.type) {
     case 'gallery': {
-      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value, {
+      slidesInstance = new Gallery(slideElList.value, containerRef.value, activeIndex.value, {
         onTouchstart: () => {
           stopPlay();
         },
@@ -154,7 +153,7 @@ const initSlides = () => {
     });
   }
 
-  slideElList.value[activeIndex.value].classList.add('o-slide-active');
+  slideElList.value[activeIndex.value].classList.add('o-carousel-active');
 
   initialized.value = true;
 };
@@ -186,7 +185,7 @@ onUnmounted(() => {
     timer = null;
   }
 });
-provide(slidesInjectKey, {
+provide(carouselInjectKey, {
   type: props.type,
 });
 
@@ -200,41 +199,41 @@ defineExpose({
 <template>
   <div
     ref="slidesRef"
-    class="o-slides"
+    class="o-carousel"
     :class="[
       {
-        'o-slides-visible': initialized,
-        'o-slide-click-active': props.clickToActive,
+        'o-carousel-visible': initialized,
+        'o-carousel-click-active': props.clickToActive,
       },
-      `o-slides-type-${props.type}`,
+      `o-carousel-type-${props.type}`,
     ]"
     :style="{
-      '--slides-interval': props.interval + 'ms',
+      '--carousel-interval': props.interval + 'ms',
     }"
   >
-    <div class="o-slides-wrap">
-      <div ref="slideWrapRef" class="o-slide-container" :class="[`o-slide-container-${props.type}`]">
+    <div class="o-carousel-wrap">
+      <div ref="containerRef" class="o-carousel-container" :class="[`o-carousel-container-${props.type}`]">
         <slot></slot>
       </div>
     </div>
-    <div v-if="!props.hideIndicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
-      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="props.indicatorClick && activeSlide(idx)">
+    <div v-if="!props.hideIndicator" class="o-carousel-indicator-wrap" :class="props.indicatorWrapClass">
+      <div v-for="(item, idx) in total" :key="item" class="o-carousel-indicator-item" @click="props.indicatorClick && activeSlide(idx)">
         <slot name="indicator" :active="item - 1 === activeIndex">
           <div
-            class="o-slides-indicator-bar"
+            class="o-carousel-indicator-bar"
             :class="{
-              'o-slides-indicator-bar-active': item - 1 === activeIndex,
+              'o-carousel-indicator-bar-active': item - 1 === activeIndex,
               'is-autoplay': props.autoPlay,
             }"
           ></div>
         </slot>
       </div>
     </div>
-    <div v-if="!props.hideArrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
+    <div v-if="!props.hideArrow" class="o-carousel-arrow-wrap" :class="props.arrowWrapClass">
       <div @click="activeSlide(activeIndex - 1)">
         <slot name="arrow-prev">
-          <div class="o-slides-arrow-prev">
-            <div class="o-slides-arrow-icon">
+          <div class="o-carousel-arrow-prev">
+            <div class="o-carousel-arrow-icon">
               <slot name="arrow-prev-icon">
                 <IconChevronLeft />
               </slot>
@@ -244,8 +243,8 @@ defineExpose({
       </div>
       <div @click="activeSlide(activeIndex + 1)">
         <slot name="arrow-next">
-          <div class="o-slides-arrow-next">
-            <div class="o-slides-arrow-icon">
+          <div class="o-carousel-arrow-next">
+            <div class="o-carousel-arrow-icon">
               <slot name="arrow-next-icon">
                 <IconChevronRight />
               </slot>

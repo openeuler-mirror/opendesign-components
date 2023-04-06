@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-export const slidesProps = {
+export const carouselProps = {
   /**
    * 激活索引
    */
@@ -71,4 +71,4 @@ export const slidesProps = {
   },
 };
 
-export type SlidesPropsT = ExtractPropTypes<typeof slidesProps>;
+export type CarouselPropsT = ExtractPropTypes<typeof carouselProps>;

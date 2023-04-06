@@ -13,7 +13,7 @@ export * from './input-number';
 export * from './textarea';
 export * from './option';
 export * from './select';
-export * from './tabs';
+export * from './tab';
 export * from './table';
 export * from './pagination';
 export * from './radio';
@@ -33,7 +33,7 @@ export * from './dialog';
 export * from './figure';
 export * from './card';
 export * from './message';
-export * from './slides';
+export * from './carousel';
 export * from './cascader';
 export * from './grid';
 
