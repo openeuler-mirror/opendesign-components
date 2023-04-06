@@ -39,7 +39,6 @@ watch(
     numberValue = getRealValue(currentValue.value);
     lastNumberValue = numberValue;
     lastInputValue = currentValue.value;
-    // console.log('watch', val);
   }
 );
 
@@ -66,7 +65,6 @@ const canMinus = computed(() => {
 
 const updateValue = (val: string) => {
   const v = isFunction(props.parse) ? props.parse(val) : val;
-  // const v = val;
 
   if (isValid.value) {
     numberValue = getRealValue(v);
@@ -101,9 +99,7 @@ const onInput = (val: string, evt: Event) => {
 };
 
 const onFocus = (val: string, evt: FocusEvent) => {
-  // lastNumberValue = numberValue;
   emits('focus', numberValue, evt);
-  // console.log('focus', numberValue);
 };
 const onBlur = (val: string, evt: FocusEvent) => {
   const v = updateValue(val);
@@ -116,21 +112,18 @@ const onPressEnter = (val: string, evt: Event): void => {
 };
 
 const onChange = (val: string) => {
-  // console.log('change', val);
   if (isValid.value) {
     updateValue(val);
   }
 };
 
 const onUpdateModelValue = (val: string) => {
-  // console.log('update model');
   isValid.value = isValidNumber(val, props.min, props.max, props.parse);
 
   if (isValid.value) {
     numberValue = getRealValue(val, undefined, undefined, props.parse);
     if (!isFunction(props.format)) {
       emits('update:modelValue', numberValue);
-      lastNumberValue = numberValue;
     }
   }
   currentValue.value = val;
@@ -164,7 +157,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     :round="props.round"
     :disabled="props.disabled"
     :readonly="props.readonly"
-    :clearable="false"
+    :clearable="props.clearable"
     type="text"
     @input="onInput"
     @change="onChange"

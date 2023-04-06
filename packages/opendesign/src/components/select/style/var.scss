@@ -8,23 +8,13 @@
   --select-placeholder: var(--o-color-info4);
 
   --select-bg-color: transparent;
-  --select-bg-color-hover: transparent;
+  --select-bg-color-hover: var(--o-color-control-light);
   --select-bg-color-focus: var(--o-color-control-light);
 
   --select-icon-color: var(--o-color-info3);
   --select-icon-color-disabled: var(--o-color-info4);
   --input-icon-bg-color: var(--o-color-control1-light);
-}
 
-.o-select-options {
-  --select-options-bg-color: var(--o-color-control-light);
-  --select-options-shadow: var(--o-shadow-2);
-  --select-options-bd: none;
-  --select-options-radius: var(--o-radius-control-l);
-  --select-options-padding: 4px;
-}
-
-.o-select-normal {
   --select-bd-color: var(--o-color-control1);
   --select-bd-color-hover: var(--o-color-primary2);
   --select-bd-color-focus: var(--o-color-primary3);
@@ -35,9 +25,17 @@
     --select-bd-color-hover: var(--o-color-control2-light);
 
     --select-bg-color: var(--o-color-control1-light);
-    --select-bg-color-hover: var(--o-color-control2-light);
+    --select-bg-color-hover: var(--o-color-control-light);
     --select-bg-color-disabled: var(--o-color-control4-light);
   }
+}
+
+.o-select-options {
+  --select-options-bg-color: var(--o-color-control-light);
+  --select-options-shadow: var(--o-shadow-2);
+  --select-options-bd: none;
+  --select-options-radius: var(--o-radius-control-l);
+  --select-options-padding: 4px;
 }
 
 .o-select-success {
@@ -51,7 +49,6 @@
     --select-bd-color-hover: var(--o-color-success2-light);
 
     --select-bg-color: var(--o-color-success1-light);
-    --select-bg-color-hover: var(--o-color-success2-light);
     --select-bg-color-disabled: var(--o-color-success4-light);
   }
 }
@@ -67,7 +64,6 @@
     --select-bd-color-hover: var(--o-color-warning2-light);
 
     --select-bg-color: var(--o-color-warning1-light);
-    --select-bg-color-hover: var(--o-color-warning2-light);
     --select-bg-color-disabled: var(--o-color-warning4-light);
   }
 }
@@ -83,7 +79,6 @@
     --select-bd-color-hover: var(--o-color-danger2-light);
 
     --select-bg-color: var(--o-color-danger1-light);
-    --select-bg-color-hover: var(--o-color-danger2-light);
     --select-bg-color-disabled: var(--o-color-danger4-light);
   }
 }

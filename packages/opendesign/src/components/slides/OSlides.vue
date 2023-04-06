@@ -14,26 +14,8 @@ const emits = defineEmits<{
   (e: 'change', to: number, from: number): void;
 }>();
 
-const activeIndex = ref(props.activeIndex || 0);
-watch(
-  () => props.activeIndex,
-  (v) => {
-    activeIndex.value = v ?? 0;
-  }
-);
-
-const initialized = ref(false);
-
 const slideWrapRef = ref<HTMLElement | null>(null);
-const slidesRef = ref<HTMLElement | null>(null);
-
-const slideElList = computed(() => {
-  const c = slideWrapRef.value?.children;
-  return c ? Array.from(c).map((el) => el as HTMLElement) : null;
-});
 const total = computed(() => slideWrapRef.value?.children.length);
-
-let isChanging = false;
 
 const fixIndex = (idx: number) => {
   if (!total.value) {
@@ -43,19 +25,57 @@ const fixIndex = (idx: number) => {
   return i >= 0 ? i : i + total.value;
 };
 
+const activeIndex = ref(props.activeIndex ? fixIndex(props.activeIndex) : 0);
+
+watch(
+  () => props.activeIndex,
+  (v) => {
+    activeIndex.value = v ?? 0;
+  }
+);
+
+const initialized = ref(false);
+
+const slidesRef = ref<HTMLElement | null>(null);
+
+const slideElList = computed(() => {
+  const c = slideWrapRef.value?.children;
+  return c ? Array.from(c).map((el) => el as HTMLElement) : null;
+});
+
+let isChanging = false;
+
 // gallery
 let slidesInstance: GallerySlidesT | null = null;
 
-const activeSlideByIndex = (to: number): Promise<boolean> => {
+function afterActive(to: number, from: number) {
+  const toSlideEl = (slideElList.value as HTMLElement[])[to];
+  const fromSlideEl = (slideElList.value as HTMLElement[])[from];
+
+  fromSlideEl.classList.remove('o-slide-active');
+  toSlideEl.classList.add('o-slide-active');
+
+  emits('change', to, from);
+}
+const activeSlideByIndex = (index: number): Promise<boolean> => {
   return new Promise((resolve) => {
+    const to = fixIndex(index);
     const from = activeIndex.value;
-    if (to === from || !slideElList.value) {
-      resolve(false);
+
+    if (isChanging || !slideElList.value || to === from) {
+      return Promise.resolve(false);
     }
+    isChanging = true;
+
+    emits('before-change', to, from);
+    activeIndex.value = to;
 
     switch (props.type) {
       case 'gallery': {
         (slidesInstance as GallerySlidesT)?.active(to).then(() => {
+          afterActive(to, from);
+
+          isChanging = false;
           resolve(true);
         });
         break;
@@ -74,6 +94,7 @@ const stopPlay = () => {
     timer = null;
   }
 };
+
 const startPlay = () => {
   stopPlay();
   timer = window.setInterval(() => {
@@ -83,57 +104,58 @@ const startPlay = () => {
 
 // 激活slide
 const activeSlide = (index: number) => {
-  if (isChanging || !slideElList.value) {
-    return Promise.resolve();
-  }
-  isChanging = true;
   // 停止自动播放
   stopPlay();
 
-  const to = fixIndex(index);
-  const from = activeIndex.value;
-
-  emits('before-change', to, activeIndex.value);
-
-  return activeSlideByIndex(to).then((success) => {
+  return activeSlideByIndex(index).then((success) => {
     if (!success) {
       return;
     }
-
-    const toSlideEl = (slideElList.value as HTMLElement[])[to];
-    const fromSlideEl = (slideElList.value as HTMLElement[])[from];
-
-    fromSlideEl.classList.remove('o-slide-active');
-    toSlideEl.classList.add('o-slide-active');
-
-    emits('change', to, from);
-
-    activeIndex.value = to;
 
     // 恢复自动播放
     if (props.autoPlay) {
       startPlay();
     }
-    isChanging = false;
   });
 };
 
 const initSlides = () => {
-  if (!slideElList.value || !slideWrapRef.value) {
+  if (!slideElList.value || !slideWrapRef.value || initialized.value) {
     return;
   }
   switch (props.type) {
     case 'gallery': {
-      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value);
-
+      slidesInstance = new GallerySlides(slideElList.value, slideWrapRef.value, activeIndex.value, {
+        onTouchstart: () => {
+          stopPlay();
+        },
+        onTouchend: () => {
+          // 恢复自动播放
+          if (props.autoPlay) {
+            startPlay();
+          }
+        },
+        onChanged: (to, from) => {
+          activeIndex.value = to;
+          afterActive(to, from);
+        },
+      });
       break;
     }
   }
-  slideElList.value.forEach((el, idx) => {
-    el.addEventListener('click', () => {
-      activeSlide(idx);
+
+  if (props.clickToActive) {
+    slideElList.value.forEach((el, idx) => {
+      el.addEventListener('click', () => {
+        if (idx !== activeIndex.value) {
+          activeSlide(idx);
+        }
+      });
     });
-  });
+  }
+
+  slideElList.value[activeIndex.value].classList.add('o-slide-active');
+
   initialized.value = true;
 };
 
@@ -147,10 +169,15 @@ watch(
     }
   }
 );
-onMounted(() => {
+const init = () => {
   initSlides();
   if (props.autoPlay) {
     startPlay();
+  }
+};
+onMounted(() => {
+  if (!props.manualInit) {
+    init();
   }
 });
 onUnmounted(() => {
@@ -164,6 +191,7 @@ provide(slidesInjectKey, {
 });
 
 defineExpose({
+  init: init,
   play: startPlay,
   stop: startPlay,
   active: activeSlide,
@@ -176,6 +204,7 @@ defineExpose({
     :class="[
       {
         'o-slides-visible': initialized,
+        'o-slide-click-active': props.clickToActive,
       },
       `o-slides-type-${props.type}`,
     ]"
@@ -188,8 +217,8 @@ defineExpose({
         <slot></slot>
       </div>
     </div>
-    <div v-if="props.indicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
-      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="activeSlide(idx)">
+    <div v-if="!props.hideIndicator" class="o-slides-indicator-wrap" :class="props.indicatorWrapClass">
+      <div v-for="(item, idx) in total" :key="item" class="o-slides-indicator-item" @click="props.indicatorClick && activeSlide(idx)">
         <slot name="indicator" :active="item - 1 === activeIndex">
           <div
             class="o-slides-indicator-bar"
@@ -201,7 +230,7 @@ defineExpose({
         </slot>
       </div>
     </div>
-    <div v-if="props.arrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
+    <div v-if="!props.hideArrow" class="o-slides-arrow-wrap" :class="props.arrowWrapClass">
       <div @click="activeSlide(activeIndex - 1)">
         <slot name="arrow-prev">
           <div class="o-slides-arrow-prev">

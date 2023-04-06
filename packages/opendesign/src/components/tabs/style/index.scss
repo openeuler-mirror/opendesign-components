@@ -38,6 +38,7 @@
   border-bottom-width: 0;
   background-color: var(--tabs-nav-bg-color);
   position: relative;
+  margin-right: var(--tabs-nav-gap);
   z-index: 1;
   &:not(.o-tab-nav-disabled) {
     &:hover {
@@ -133,9 +134,4 @@
 }
 .o-tab-pane-active {
   display: block;
-}
-.o-tabs-solid {
-  .o-tab-nav + .o-tab-nav {
-    margin-left: 8px;
-  }
 }

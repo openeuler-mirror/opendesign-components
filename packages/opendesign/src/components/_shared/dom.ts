@@ -99,3 +99,7 @@ export function getCssVariable(key: string, el?: HTMLElement) {
   const ele = el ? el : document.documentElement;
   return ele.style.getPropertyValue(key);
 }
+
+export function supportTouch() {
+  return 'ontouchstart' in window;
+}

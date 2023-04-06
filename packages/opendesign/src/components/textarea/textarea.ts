@@ -1,5 +1,5 @@
 import { isNull, isUndefined } from '../_shared/is';
-import { ResizeT } from './types';
+import { TextareaResizeT } from './types';
 
 export function toInputString(val: unknown): string {
   if (isUndefined(val) || isNull(val) || (typeof val === 'number' && isNaN(val as number))) {
@@ -8,10 +8,10 @@ export function toInputString(val: unknown): string {
   return String(val);
 }
 
-export function getResizeValue(resize: ResizeT) {
+export function getResizeValue(resize: TextareaResizeT) {
   if (resize === 'h') {
     return 'horizontal';
-  } else if (resize ==='v') {
+  } else if (resize === 'v') {
     return 'vertical';
   }
   return resize;

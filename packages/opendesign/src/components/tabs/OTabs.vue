@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, ref, nextTick } from 'vue';
+import { provide, ref, nextTick, watch } from 'vue';
 import { tabsInjectKey } from './provide';
 import { IconAdd } from '../_shared/icons';
 import { tabsProps } from './types';
@@ -24,6 +24,12 @@ const valueSet: Array<string | number> = [];
 
 let activeNavEl: HTMLElement | null = null;
 
+watch(
+  () => props.modelValue,
+  (v) => {
+    activeKey.value = v;
+  }
+);
 const updateArchor = () => {
   nextTick(() => {
     if (!activeNavEl) {

@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
     "lib": [
       "ESNext",
       "DOM"
@@ -20,8 +21,8 @@
       "@/*": [
         "src/*"
       ],
-      "@demo/*": [
-        "../opendesign/components/*"
+      "@components/*": [
+        "../opendesign/src/components/*"
       ]
     }
   },
@@ -30,9 +31,10 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "../opendesign/**/*.ts",
-    // "../opendesign/**/*.d.ts",
-    // "../opendesign/**/*.vue"
+    "../opendesign/**/*.ts"
+  ],
+  "exclude": [
+    "../opendesign/**/*.config.ts"
   ],
   "references": [
     {

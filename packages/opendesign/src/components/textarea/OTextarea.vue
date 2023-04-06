@@ -43,7 +43,7 @@ const resizeValue = computed(() => {
   return props.autoHeight || props.disabled ? 'none' : getResizeValue(props.resize);
 });
 
-const getValueLength = (val: string) => {
+const getValueLength = (val: string): number => {
   if (isFunction(props.getLength)) {
     return props.getLength(val);
   }
@@ -138,7 +138,7 @@ const onMouseDown = (e: MouseEvent) => {
     clickInside = true;
   }
 };
-
+// TODO 更改自动高度方案
 const onMirrorResize = (en: ResizeObserverEntry) => {
   textareaHeight.value = en.target.clientHeight;
 };

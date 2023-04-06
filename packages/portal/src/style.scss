@@ -86,3 +86,14 @@ section {
   flex-wrap: wrap;
   gap: 16px;
 }
+
+.btn {
+  padding: 4px 16px;
+  border: 1px solid #ccc;
+  display: inline-flex;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    border-color: #aaa;
+  }
+}

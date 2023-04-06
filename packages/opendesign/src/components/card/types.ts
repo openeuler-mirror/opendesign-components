@@ -1,12 +1,18 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-export const dialogProps = {
+export const DirectionTypes = ['h', 'v', 'hr'] as const;
+export type DirectionT = typeof DirectionTypes[number];
+
+export const CardSizeTypes = ['medium', 'large'] as const;
+export type CardSizeT = typeof CardSizeTypes[number];
+
+export const cardProps = {
   /**
-   * 封面
+   * 布局 DirectionT
    */
   layout: {
-    type: String as PropType<'h' | 'v' | 'hr'>,
-    default: 'v'
+    type: String as PropType<DirectionT>,
+    default: 'v',
   },
   /**
    * 封面
@@ -45,31 +51,18 @@ export const dialogProps = {
     type: String,
   },
   /**
-   * 尺寸
+   * 尺寸 CardSizeT
    */
   size: {
-    type: String as PropType<'medium' | 'large'>,
-    default: 'medium'
-  },
-  /**
-   * 标题最大行数
-   */
-  titleMaxRow: {
-    type: Number,
-  },
-  /**
-   * 详情最大行数
-   */
-  detailMaxRow: {
-    type: Number,
+    type: String as PropType<CardSizeT>,
+    default: 'medium',
   },
   /**
    * 链接跳转
    */
   href: {
     type: String,
-  }
-
+  },
 };
 
-export type DialogPropsT = ExtractPropTypes<typeof dialogProps>;
+export type CardPropsT = ExtractPropTypes<typeof cardProps>;

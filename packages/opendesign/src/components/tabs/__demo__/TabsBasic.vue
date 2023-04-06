@@ -30,6 +30,9 @@ const tabDelete = (v: string | number) => {
 const onChange = (v: string | number, oldv?: string | number) => {
   console.log('change', v, oldv);
 };
+const updateTab = (v: string) => {
+  activeTab.value = v;
+};
 </script>
 <template>
   <h4>Variant</h4>
@@ -66,6 +69,8 @@ const onChange = (v: string | number, oldv?: string | number) => {
   </div>
   <h4>Slot & change</h4>
   <div class="sec">
+    <p @click="updateTab('Tab A')">click to active Tab A</p>
+
     <OTabs v-model="activeTab" addable @change="tabChange">
       <template #prefix>Prefix</template>
       <template #suffix>Suffix</template>

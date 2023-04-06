@@ -1,4 +1,9 @@
+import { supportTouch } from '../_shared/dom';
+import { isFunction } from '../_shared/is';
+import { OTouch } from '../_shared/pointer';
+
 interface SlideItemT {
+  index: number;
   el: HTMLElement;
   width: number;
   left: number;
@@ -15,19 +20,33 @@ export interface GallerySlidesT {
   transformX: (value: number, animate: boolean) => Promise<null | number>;
 }
 export interface GallerySlidesOptionT {
-  alignType: 'center' | 'left';
-  onChange?: () => void;
+  alignType?: 'center' | 'left';
+  onTouchstart?: () => void;
+  onTouchend?: () => void;
+  onChanged?: (from: number, to: number) => void;
 }
-
+const fixIndex = (idx: number, total: number) => {
+  if (!total) {
+    return idx;
+  }
+  const i = idx % total;
+  return i >= 0 ? i : i + total;
+};
 let resolveArr: ((value: null | number) => void)[] = [];
 export default class GallerySlides {
-  container: ContainerT;
-  slideList: SlideItemT[];
-  total: number;
-  alignType: AlignT;
-  moveValue: number;
-  currentIndex: number;
-  isChanging: boolean;
+  private container: ContainerT;
+  private slideList: SlideItemT[];
+  private total: number;
+  private alignType: AlignT;
+  private moveValue: number;
+  private currentIndex: number;
+  private isChanging: boolean;
+  private onTouchstart: (() => void) | undefined;
+  private onTouchend: (() => void) | undefined;
+  private onChanged: ((to: number, from: number) => void) | undefined;
+  private isTouchStart: boolean; // 是否开始touch事件
+  private isSliding: boolean; // 是否在切换
+  private oldMoveValue: number;
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GallerySlidesOptionT) {
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;
@@ -45,18 +64,16 @@ export default class GallerySlides {
         resolveArr = [];
       }
     });
-    slideContainer.addEventListener('transitionstart', () => {
-      slideContainer.style.willChange = 'transform';
-    });
 
     let s = 0;
-    this.slideList = slideElList.map((el) => {
+    this.slideList = slideElList.map((el, idx) => {
       const w = el.clientWidth;
       const l = s;
       el.style.left = `${l}px`;
 
       s += w;
       return {
+        index: idx,
         el,
         width: el.clientWidth,
         left: l,
@@ -73,11 +90,75 @@ export default class GallerySlides {
     this.currentIndex = -1;
     this.isChanging = false;
 
+    // handle touch
+    this.isTouchStart = false;
+    this.isSliding = false;
+    this.oldMoveValue = 0;
+    this.onTouchstart = options?.onTouchstart;
+    this.onTouchend = options?.onTouchend;
+    this.onChanged = options?.onChanged;
+
     this.active(activeIndex, false);
     this.loopRange();
+
+    this.handleTouch();
   }
-  active(slideIndex: number, animate = true): Promise<null | number> {
-    if (this.total === 0 || this.isChanging || this.currentIndex === slideIndex) {
+  handleTouch() {
+    if (!supportTouch()) {
+      return;
+    }
+    new OTouch(this.container.el, {
+      onStart: () => {
+        this.isTouchStart = true;
+        this.oldMoveValue = this.moveValue;
+        this.isSliding = true;
+        if (isFunction(this.onTouchstart)) {
+          this.onTouchstart();
+        }
+      },
+      onMove: (pos, e) => {
+        if (!this.isTouchStart || !this.isSliding) {
+          return;
+        }
+        const { dx, dy } = pos;
+
+        // 判断是否为横向滑动
+        if (Math.abs(dx) > Math.abs(dy)) {
+          this.isSliding = true;
+          e.stopPropagation();
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          this.transformX(this.oldMoveValue + dx, false);
+        } else {
+          this.isSliding = false;
+        }
+      },
+      onEnd: (pos) => {
+        if (!this.isTouchStart) {
+          return;
+        }
+        this.isTouchStart = false;
+        this.isSliding = false;
+        const { width: sw } = this.slideList[this.currentIndex];
+
+        // TODO 处理slide宽度不一致问题，一次滚动多个
+        const step = Math.abs(pos.dx) / sw > 0.2 ? 1 : 0;
+
+        const toIdx = fixIndex(this.currentIndex + (pos.dx < 0 ? step : -1 * step), this.total);
+
+        this.active(toIdx, true, true);
+        if (this.onChanged) {
+          this.onChanged(toIdx, this.currentIndex);
+        }
+        if (isFunction(this.onTouchend)) {
+          this.onTouchend();
+        }
+      },
+    });
+  }
+
+  active(slideIndex: number, animate = true, force: boolean = false): Promise<null | number> {
+    if (this.total === 0 || this.isChanging || (!force && this.currentIndex === slideIndex)) {
       return Promise.resolve(null);
     }
     this.isChanging = animate;
@@ -137,6 +218,7 @@ export default class GallerySlides {
   transformX(value: number, animate: boolean = true): Promise<null | number> {
     return new Promise((resolve) => {
       this.moveValue = value;
+      this.isChanging = false;
 
       const { el } = this.container;
 

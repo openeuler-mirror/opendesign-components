@@ -1,7 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT } from '../_shared/global';
+import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/global';
 
-export type ResizeT = 'both' | 'horizontal' | 'h' | 'vertical' | 'v' | 'none';
+export const TextareaResizeTypes = ['both', 'horizontal', 'h', 'vertical', 'v', 'none'] as const;
+export type TextareaResizeT = typeof TextareaResizeTypes[number];
 export const textareaProps = {
   /**
    * 下拉框的值
@@ -18,26 +19,26 @@ export const textareaProps = {
     type: [String, Number],
   },
   /**
-   * 大小
+   * 大小 SizeT
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 颜色类型
+   * 颜色类型 Color2T
    */
   color: {
-    type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
+    type: String as PropType<Color2T>,
     default: 'normal',
   },
   /**
-   * 按钮类型：ColorT
+   * 按钮类型 VariantT
    */
   variant: {
     type: String as PropType<VariantT>,
@@ -76,10 +77,10 @@ export const textareaProps = {
     type: Boolean,
   },
   /**
-   * 是否支持调整尺寸
+   * 是否支持调整尺寸 ResizeT
    */
   resize: {
-    type: String as PropType<ResizeT>,
+    type: String as PropType<TextareaResizeT>,
     default: 'vertical',
   },
   /**
@@ -116,16 +117,10 @@ export const textareaProps = {
     type: Boolean,
   },
   /**
-   * 高度自适应
-   */
-  autoResize: {
-    type: Boolean,
-  },
-  /**
    * 获取长度方法
    */
   getLength: {
-    type: Function as PropType<(val: string) => Number>,
+    type: Function as PropType<(val: string) => number>,
   },
 };
 

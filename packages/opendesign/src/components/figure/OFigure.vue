@@ -28,9 +28,6 @@ const paddingTop = computed(() => {
   return '';
 });
 
-const fit = computed(() => props.fit);
-const position = computed(() => props.position);
-
 const onImgLoaded = () => {
   isLoading.value = false;
   isError.value = false;
@@ -74,8 +71,6 @@ onMounted(() => {
     :style="{
       '--figure-prest-color': prestColor,
       '--figure-padding-top': paddingTop,
-      '--figure-fit': fit,
-      '--figure-position': position,
     }"
   >
     <template v-if="props.src">

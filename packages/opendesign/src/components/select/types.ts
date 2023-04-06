@@ -1,6 +1,9 @@
 import { PopupPositionT, PopupTriggerT } from '../popup';
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT } from '../_shared/global';
+import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/global';
+
+export const OptionWidthModeTypes = ['auto', 'min-width', 'width'] as const;
+export type OptionWidthModeT = typeof OptionWidthModeTypes[number];
 
 export const selectProps = {
   /**
@@ -18,37 +21,37 @@ export const selectProps = {
     type: [String, Number],
   },
   /**
-   * 大小
+   * 大小 SizeT
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
-    type: String as PropType<RoundT>
+    type: String as PropType<RoundT>,
   },
   /**
-   * 颜色类型
+   * 颜色类型 Color2T
    */
   color: {
-    type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
-    default: 'normal'
+    type: String as PropType<Color2T>,
+    default: 'normal',
   },
   /**
    * 按钮类型：ColorT
    */
   variant: {
     type: String as PropType<VariantT>,
-    default: 'outline'
+    default: 'outline',
   },
   /**
    * 提示文本
    */
   placeholder: {
     type: String,
-    default: 'please select...'
+    default: 'please select...',
   },
   /**
    * 是否可以清除
@@ -63,26 +66,26 @@ export const selectProps = {
     type: Boolean,
   },
   /**
-   * 下拉选项触发方式
+   * 下拉选项触发方式 PopupTriggerT
    */
   trigger: {
     type: String as PropType<PopupTriggerT>,
-    default: 'click'
+    default: 'click',
   },
   /**
-   * 下拉选项位置
+   * 下拉选项位置 PopupPositionT
    */
   optionPosition: {
     type: String as PropType<PopupPositionT>,
-    default: 'bl'
+    default: 'bl',
   },
   /**
-   * 下拉选项宽度自适应规则
+   * 下拉选项宽度自适应规则 OptionWidthModeT
    * 'auto':自动 | 'min-width':最小宽度与选择框一致 | 'width': 宽度与选择框一致
    */
   optionWidthMode: {
-    type: String as PropType<'auto' | 'min-width' | 'width'>,
-    default: 'min-width'
+    type: String as PropType<OptionWidthModeT>,
+    default: 'min-width',
   },
   /**
    * 下拉容器自定义类
@@ -96,7 +99,7 @@ export const selectProps = {
    */
   unmountOnHide: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /**
    * 过渡名称

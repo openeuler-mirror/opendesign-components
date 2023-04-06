@@ -1,20 +1,28 @@
 import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 
-export type PopupPositionT = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br' | 'left' | 'lt' | 'lb' | 'right' | 'rt' | 'rb';
+export const PopupPositionTypes = ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'] as const;
+export type PopupPositionT = typeof PopupPositionTypes[number];
 
-export type PopupTriggerT = 'hover' | 'click' | 'focus' | 'contextmenu' | 'none' | 'hover-outclick';
+export const PopupTriggerTypes = ['hover', 'click', 'focus', 'contextmenu', 'none', 'hover-outclick'] as const;
+export type PopupTriggerT = typeof PopupTriggerTypes[number];
 
 export const popupProps = {
   /**
-   * 弹出位置
+   * 是否可见
+   * v-model
+   */
+  visible: {
+    type: Boolean,
+  },
+  /**
+   * 弹出位置 PopupPositionT
    */
   position: {
     type: String as PropType<PopupPositionT>,
     default: 'top',
   },
   /**
-   * 触发事件
-   * 'hover','click','focus','contextMenu'
+   * 触发事件 PopupTriggerT | PopupTriggerT[]
    */
   trigger: {
     type: [String, Array<String>] as PropType<PopupTriggerT | PopupTriggerT[]>,
@@ -28,10 +36,9 @@ export const popupProps = {
     default: null,
   },
   /**
-   * 是否可见
-   * v-model
+   * 是否禁用
    */
-  visible: {
+  disabled: {
     type: Boolean,
   },
   /**
@@ -73,13 +80,6 @@ export const popupProps = {
    * 是否在popup隐藏时unmout
    */
   unmountOnHide: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * Popup在hover时是否不消失，当trigger包含hover时有效
-   */
-  statyOnHoverin: {
     type: Boolean,
     default: true,
   },
