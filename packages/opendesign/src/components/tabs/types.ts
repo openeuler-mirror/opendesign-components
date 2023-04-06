@@ -1,5 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
+export const TabVariantTypes = ['solid', 'text'] as const;
+export type TabVariantT = typeof TabVariantTypes[number];
+
 export const tabsProps = {
   /**
    * tab选中的nav值
@@ -10,10 +13,10 @@ export const tabsProps = {
     default: undefined,
   },
   /**
-   * VariantT
+   * 类型 TabVariantT
    */
   variant: {
-    type: String as PropType<'solid' | 'text'>,
+    type: String as PropType<TabVariantT>,
     default: 'text',
   },
   /**

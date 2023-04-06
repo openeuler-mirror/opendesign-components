@@ -33,7 +33,6 @@ const inputText = ref(realValue.value);
 watch(
   () => props.modelValue,
   (val) => {
-    // console.log('watch', val);
     realValue.value = toInputString(val);
     inputText.value = realValue.value;
   }
@@ -86,13 +85,11 @@ const onInput = (e: Event) => {
   }
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
-  // console.log('input', val);
 
   inputText.value = val;
 
   if (!props.parse) {
     emits('update:modelValue', val);
-    // console.log('update:modelValue', val);
   }
 };
 
@@ -101,10 +98,8 @@ const onFocus = (e: FocusEvent) => {
   if (isFocus.value) {
     return;
   }
-  // console.log('onFocus', clickInside);
   isFocus.value = true;
   emits('focus', realValue.value, e);
-  // console.log('focus', realValue.value);
 };
 
 const onBlur = (e: FocusEvent) => {
@@ -112,12 +107,10 @@ const onBlur = (e: FocusEvent) => {
     clickInside = false;
     return;
   }
-  // console.log('onBlur', clickInside);
   isFocus.value = false;
   const val = (e.target as HTMLInputElement)?.value;
   const v = updateValue(val);
   emits('blur', v, e);
-  // console.log('blur', v);
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
@@ -126,7 +119,6 @@ const onKeyDown = (e: KeyboardEvent) => {
     const val = (e.target as HTMLInputElement)?.value;
     const v = updateValue(val);
     emits('pressEnter', v, e);
-    // console.log('pressEnter', v);
   }
 };
 // 清除值

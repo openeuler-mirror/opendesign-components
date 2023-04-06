@@ -1,34 +1,29 @@
 import { ref } from 'vue';
 
 // 尺寸
-export type SizeT = 'large' | 'medium' | 'small';
+export const SizeTypes = ['large', 'medium', 'small'] as const;
+export type SizeT = typeof SizeTypes[number];
 export const defaultSize = ref<SizeT>('medium');
 export function initSize(val: SizeT) {
   defaultSize.value = val;
 }
 
 // 圆角
-export type RoundT = 'pill' | 'normal' | string;
-export const defaultRound = ref<'pill' | 'normal'>('normal');
-
-export function initRound(type: 'pill' | 'normal') {
+export type RoundT = 'pill' | string;
+export const defaultRound = ref<'pill' | string>('');
+export function initRound(type: RoundT) {
   defaultRound.value = type;
 }
 
 // 方向
-export type DirectionT = 'h' | 'v';
+export const DirectionTypes = ['h', 'v'] as const;
+export type DirectionT = typeof DirectionTypes[number];
 
-export type VariantT = 'solid' | 'outline' | 'text';
+export const VariantTypes = ['solid', 'outline', 'text'] as const;
+export type VariantT = typeof VariantTypes[number];
 
-export type ColorT = 'normal' | 'primary' | 'success' | 'warning' | 'danger';
+export const ColorTypes = ['normal', 'primary', 'success', 'warning', 'danger'] as const;
+export type ColorT = typeof ColorTypes[number];
 
-
-// todo 废弃
-// 形状
-export type ShapeT = 'round' | 'normal';
-export const defaultShape = ref<ShapeT>('normal');
-export function initShape(type: ShapeT) {
-  defaultShape.value = type;
-}
-// 状态
-export type StatusT = 'normal' | 'primary' | 'warning' | 'danger' | 'success';
+export const Color2Types = ['normal', 'success', 'warning', 'danger'] as const;
+export type Color2T = typeof ColorTypes[number];

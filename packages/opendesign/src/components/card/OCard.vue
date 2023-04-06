@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { dialogProps } from './types';
+import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_shared/components/html-tag';
 
-const props = defineProps(dialogProps);
+const props = defineProps(cardProps);
 
 const hasContent = computed(() => {
   return props.title || props.content;
@@ -23,10 +23,6 @@ const hasContent = computed(() => {
         'o-card-hoverable': props.hoverable || !!props.href,
       },
     ]"
-    :style="{
-      '--card-title-max-row': props.titleMaxRow,
-      '--card-detail-max-row': props.detailMaxRow,
-    }"
   >
     <slot name="card">
       <div

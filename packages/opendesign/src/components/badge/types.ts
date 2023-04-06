@@ -17,8 +17,7 @@ export const badgeProps = {
     default: 99,
   },
   /**
-   * 颜色类型
-   * 'normal' | 'primary' | 'success' | 'warning' | 'danger'
+   * 颜色类型 'normal' | 'primary' | 'success' | 'warning' | 'danger'
    */
   color: {
     type: String as PropType<ColorT>,
@@ -30,11 +29,10 @@ export const badgeProps = {
   dot: {
     type: Boolean,
     default: false,
-  }
+  },
   /**
    * 徽标位置偏移量
-   */,
-  offset: {
+   */ offset: {
     type: Array as PropType<Array<number | string>>,
     default: () => [],
   },

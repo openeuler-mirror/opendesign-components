@@ -43,7 +43,7 @@ const resizeValue = computed(() => {
   return props.autoHeight || props.disabled ? 'none' : getResizeValue(props.resize);
 });
 
-const getValueLength = (val: string) => {
+const getValueLength = (val: string): number => {
   if (isFunction(props.getLength)) {
     return props.getLength(val);
   }

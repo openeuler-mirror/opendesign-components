@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT } from '../_shared/global';
+import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/global';
 
 export const inputProps = {
   /**
@@ -17,30 +17,30 @@ export const inputProps = {
     type: [String, Number],
   },
   /**
-   * 大小
+   * 大小 SizeT
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
-    type: String as PropType<RoundT>
+    type: String as PropType<RoundT>,
   },
   /**
-   * 颜色类型
+   * 颜色类型 Color2T
    */
   color: {
-    type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
-    default: 'normal'
+    type: String as PropType<Color2T>,
+    default: 'normal',
   },
   /**
-   * 按钮类型：ColorT
+   * 按钮类型 VariantT
    */
   variant: {
     type: String as PropType<VariantT>,
-    default: 'outline'
+    default: 'outline',
   },
   /**
    * 提示文本
@@ -65,7 +65,7 @@ export const inputProps = {
    */
   clearable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /**
    * 是否自动增加宽度
@@ -78,7 +78,7 @@ export const inputProps = {
    */
   type: {
     type: String as PropType<'text' | 'password'>,
-    default: 'text'
+    default: 'text',
   },
   /**
    * 解析输入框的值

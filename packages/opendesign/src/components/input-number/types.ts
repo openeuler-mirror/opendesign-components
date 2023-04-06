@@ -1,5 +1,11 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT } from '../_shared/global';
+
+import { inputProps } from '../input/types';
+
+const { size, round, color, variant, placeholder, readonly, disabled, autoWidth, parse, format } = inputProps;
+
+export const InputNumberControlTypes = ['both', 'right', 'left', 'none'] as const;
+export type InputNumberControlT = typeof InputNumberControlTypes[number];
 
 export const inputNumberPorps = {
   /**
@@ -21,7 +27,7 @@ export const inputNumberPorps = {
    */
   step: {
     type: Number,
-    default: 1
+    default: 1,
   },
   /**
    * 最小值
@@ -36,68 +42,60 @@ export const inputNumberPorps = {
     type: Number,
   },
   /**
-   * 大小
-   */
-  size: {
-    type: String as PropType<SizeT>,
-  },
-  /**
-   * 控制按钮位置
+   * 控制按钮位置 InputNumberControlT
    */
   controls: {
-    type: String as PropType<'both' | 'right' | 'left' | 'none'>,
-    default: 'both'
+    type: String as PropType<InputNumberControlT>,
+    default: 'both',
   },
   /**
-   * 圆角值
+   * 是否可以清除
    */
-  round: {
-    type: String as PropType<RoundT>
+  clearable: {
+    type: Boolean,
+    default: false,
   },
   /**
-   * 颜色类型：ColorT
+   * 大小 SizeT
    */
-  color: {
-    type: String as PropType<'normal' | 'success' | 'warning' | 'danger'>,
-    default: 'normal'
-  },
+  size,
+  /**
+   * 圆角值 RoundT
+   */
+  round,
+  /**
+   * 颜色类型 Color2T
+   */
+  color,
+  /**
+   * 按钮类型 VariantT
+   */
+  variant,
   /**
    * 提示文本
    */
-  placeholder: {
-    type: String,
-  },
+  placeholder,
   /**
    * 是否禁用
    */
-  disabled: {
-    type: Boolean,
-  },
+  disabled,
   /**
    * 是否只读
    */
-  readonly: {
-    type: Boolean,
-  },
+  readonly,
   /**
    * 是否自动增加宽度
    */
-  autoWidth: {
-    type: Boolean,
-  },
+  autoWidth,
   /**
    * 解析输入框的值
    */
-  parse: {
-    type: Function as PropType<(value: string) => string>,
-  },
+  parse,
   /**
    * 对值格式化，控制显示格式
    * 需搭配parse处理，保证值的正确性
    */
-  format: {
-    type: Function as PropType<(value: string | number) => string | number>,
-  },
+  format,
 };
 
 export type InputNumberPorpsT = ExtractPropTypes<typeof inputNumberPorps>;

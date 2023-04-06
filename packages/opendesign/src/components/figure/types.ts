@@ -14,20 +14,6 @@ export const figureProps = {
     type: Number,
   },
   /**
-   * 适配方式
-   */
-  position: {
-    type: String,
-    default: 'center'
-  },
-  /**
-   * 适配方式
-   */
-  fit: {
-    type: String,
-    default: 'cover'
-  },
-  /**
    * img alt
    */
   alt: {
