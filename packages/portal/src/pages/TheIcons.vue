@@ -8,7 +8,7 @@ const stokes = shallowRef<any[]>([]);
 const fills = shallowRef<any[]>([]);
 const colors = shallowRef<any[]>([]);
 Object.keys(OIcons).forEach((k) => {
-  const c = OIcons[k];
+  const c = OIcons[k as keyof typeof OIcons];
   if (c.svgType === 'stroke') {
     stokes.value.push(c);
   } else if (c.svgType === 'fill') {
