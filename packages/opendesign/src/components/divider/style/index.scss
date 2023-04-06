@@ -21,12 +21,12 @@
   border-color: var(--o-divider-bd-color);
 }
 
-.o-divider-content {
+.o-divider-label {
   margin: 0 16px;
   white-space: nowrap;
 }
 
-.o-divider-content-left {
+.o-divider-label-left {
   .o-divider-line {
     &:nth-child(1) {
       width: 28px;
@@ -34,7 +34,7 @@
   }
 }
 
-.o-divider-content-right {
+.o-divider-label-right {
   .o-divider-line {
     &:nth-child(3) {
       width: 28px;

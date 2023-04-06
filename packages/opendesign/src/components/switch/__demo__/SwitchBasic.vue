@@ -10,10 +10,8 @@ const switchVal2 = ref(true);
   <section>
     <OSWitch v-model="switchVal1" size="small" />
     <OSWitch v-model="switchVal1" size="medium" />
-    <OSWitch v-model="switchVal1" size="large" />
 
     <OSWitch v-model="switchVal2" round="pill" size="small" />
     <OSWitch v-model="switchVal2" round="pill" size="medium" />
-    <OSWitch v-model="switchVal2" round="pill" size="large" />
   </section>
 </template>

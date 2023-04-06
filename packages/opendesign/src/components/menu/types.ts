@@ -9,29 +9,35 @@ export const menuProps = {
     type: Boolean,
     default: false,
   },
-  // 层级缩进
+  /**
+   * 层级缩进
+   */
   levelIndent: {
     type: Number,
     default: 24,
   },
   /**
-   * 默认选中值
+   * 默认选中值 v-model
    */
   modelValue: {
     type: String,
   },
-  // 非受控模式时，默认选中值
+  /**
+   * 非受控模式时，默认选中值
+   */
   defaultValue: {
     type: String,
     default: '',
   },
   /**
-   * 默认展开的子菜单值
+   * 默认展开的子菜单值 v-model
    */
   expanded: {
     type: Array as PropType<Array<string>>,
   },
-  // 非受控模式时，默认展开的子菜单值
+  /**
+   * 非受控模式时，默认展开的子菜单值
+   */
   defaultExpanded: {
     type: Array as PropType<Array<string>>,
     default: () => [],

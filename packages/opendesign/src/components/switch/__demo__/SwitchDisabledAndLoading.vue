@@ -11,8 +11,8 @@ const switchVal4 = ref(true);
   <h4>Disabled & Loading</h4>
   <section>
     <OSWitch v-model="switchVal1" disabled />
-    <OSWitch v-model="switchVal2" shape="round" disabled />
+    <OSWitch v-model="switchVal2" round="pill" disabled />
     <OSWitch v-model="switchVal3" loading />
-    <OSWitch v-model="switchVal4" shape="round" loading />
+    <OSWitch v-model="switchVal4" round="pill" loading />
   </section>
 </template>

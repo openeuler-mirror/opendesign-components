@@ -9,8 +9,6 @@ export const breadcrumbProps = {
   },
 };
 
-export type TargetTypeT = '_blank' | '_self' | '_parent' | '_top';
-
 export const breadcrumbItemProps = {
   /**
    * 链接跳转地址
@@ -22,7 +20,7 @@ export const breadcrumbItemProps = {
    * 链接跳转方式
    */
   target: {
-    type: String as PropType<TargetTypeT>,
+    type: String as PropType<'_blank' | '_parent' | '_self' | '_top'>,
     default: '_self',
   },
   /**

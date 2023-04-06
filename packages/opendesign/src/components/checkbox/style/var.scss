@@ -2,14 +2,14 @@
   --checkbox-text-size: var(--o-font_size-text1);
   --checkbox-text-height: var(--o-line_height-text1);
 
-  --checkbox-input-size: calc(var(--o-size-s) / 2);
-
-  --checkbox-radius: var(--o-radius-control-s);
-
   --checkbox-color: var(--o-color-info1);
   --checkbox-color-disabled: var(--o-color-info4);
 
+  --checkbox-radius: var(--o-radius-control-s);
+
   --checkbox-input-color: rgb(var(--o-color-white));
+
+  --checkbox-input-size: calc(var(--o-size-s) / 2);
 
   --checkbox-input-bg-color: var(--o-color-control-light);
   --checkbox-input-bd-color-hover: var(--o-color-primary1);

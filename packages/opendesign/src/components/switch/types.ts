@@ -1,7 +1,8 @@
 import type { RoundT } from '../_shared/global';
 import type { ExtractPropTypes, PropType } from 'vue';
 
-export type SwitchSizeT = 'medium' | 'small';
+export const SwitchSizeTypes = ['medium', 'small'] as const;
+export type SwitchSizeT = typeof SwitchSizeTypes[number];
 
 export const switchProps = {
   /**
@@ -32,14 +33,14 @@ export const switchProps = {
     default: false,
   },
   /**
-   * 开关尺寸
-   * 'medium' | 'small'
+   * 开关尺寸 SwitchSizeT
    */
   size: {
     type: String as PropType<SwitchSizeT>,
+    default: 'medium',
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
     type: String as PropType<RoundT>,
@@ -59,7 +60,6 @@ export const switchProps = {
     default: false,
   },
   /**
-   *
    * 状态改变前的钩子函数
    */
   beforeChange: {
