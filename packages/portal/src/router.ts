@@ -195,6 +195,12 @@ export const routes = [
     component: () => import('@components/loading/__demo__/IndexLoading.vue'),
   },
   {
+    path: '/layer',
+    name: 'Layer',
+    label: '浮层 Layer',
+    component: () => import('@components/layer/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

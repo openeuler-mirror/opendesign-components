@@ -1,0 +1,5 @@
+.o-layer {
+  --layer-position: fixed;
+  --layer-mask: var(--o-color-mask1);
+  --layer-z-index: calc(var(--o-z-index-base) + 10);
+}

@@ -1,10 +1,11 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-export const dialogProps = {
+export const layerProps = {
   /**
    * 控制对话框是否显示
+   * v-model
    */
-  modelValue: {
+  visible: {
     type: Boolean,
   },
   /**
@@ -15,12 +16,6 @@ export const dialogProps = {
     default: 'body',
   },
   /**
-   * 是否隐藏可以关闭
-   */
-  hideClose: {
-    type: Boolean,
-  },
-  /**
    * 是否在隐藏时unmout
    */
   unmountOnHide: {
@@ -28,9 +23,9 @@ export const dialogProps = {
     default: true,
   },
   /**
-   * wrap自定义class
+   * body自定义class
    */
-  wrapClass: {
+  mainClass: {
     type: String,
   },
   /**
@@ -47,6 +42,13 @@ export const dialogProps = {
     type: Boolean,
     default: true,
   },
+  /**
+   * 点击mask关闭
+   */
+  maskClose: {
+    type: Boolean,
+    default: true,
+  },
 };
 
-export type DialogPropsT = ExtractPropTypes<typeof dialogProps>;
+export type LayerPropsT = ExtractPropTypes<typeof layerProps>;
