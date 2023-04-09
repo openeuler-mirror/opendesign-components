@@ -1,51 +1,12 @@
-import { ExtractPropTypes, PropType } from 'vue';
-
+import { ExtractPropTypes } from 'vue';
+import { layerProps } from '../layer/types';
 export const dialogProps = {
-  /**
-   * 控制对话框是否显示
-   */
-  modelValue: {
-    type: Boolean,
-  },
-  /**
-   * 挂载容器，默认为body
-   */
-  wrapper: {
-    type: [String, Object] as PropType<string | HTMLElement>,
-    default: 'body',
-  },
+  ...layerProps,
   /**
    * 是否隐藏可以关闭
    */
   hideClose: {
     type: Boolean,
-  },
-  /**
-   * 是否在隐藏时unmout
-   */
-  unmountOnHide: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * wrap自定义class
-   */
-  wrapClass: {
-    type: String,
-  },
-  /**
-   * 过渡名称
-   */
-  transition: {
-    type: String,
-    default: 'o-zoom-fade',
-  },
-  /**
-   * 是否需要mask
-   */
-  mask: {
-    type: Boolean,
-    default: true,
   },
 };
 

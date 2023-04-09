@@ -153,10 +153,16 @@ export const routes = [
     component: () => import('@components/progress/__demo__/IndexProgress.vue'),
   },
   {
+    path: '/layer',
+    name: 'Layer',
+    label: '浮层 Layer',
+    component: () => import('@components/layer/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/dialog',
     name: 'Dialog',
     label: '对话框 Dialog',
-    component: () => import('@components/dialog/__demo__/IndexDialog.vue'),
+    component: () => import('@components/dialog/__demo__/TheIndex.vue'),
   },
   {
     path: '/figure',
@@ -193,12 +199,6 @@ export const routes = [
     name: 'Loading',
     label: '加载 Loading',
     component: () => import('@components/loading/__demo__/IndexLoading.vue'),
-  },
-  {
-    path: '/layer',
-    name: 'Layer',
-    label: '浮层 Layer',
-    component: () => import('@components/layer/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',

@@ -45,7 +45,7 @@ export const popupProps = {
    * 挂载容器，默认为body
    */
   wrapper: {
-    type: [String, Object] as PropType<string | HTMLElement>,
+    type: [String, Object] as PropType<string | HTMLElement | null>,
     default: 'body',
   },
   /**
@@ -73,7 +73,7 @@ export const popupProps = {
    * 锚点自定义class
    */
   anchorClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**
@@ -87,7 +87,7 @@ export const popupProps = {
    * popup wrap自定义class
    */
   wrapClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**

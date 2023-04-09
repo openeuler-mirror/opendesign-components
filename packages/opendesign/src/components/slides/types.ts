@@ -37,7 +37,7 @@ export const slidesProps = {
    * 设置切换箭头容器类
    */
   arrowWrapClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
   },
   /**
    * 不显示指示器
@@ -55,7 +55,7 @@ export const slidesProps = {
    * 设置指示器容器类
    */
   indicatorWrapClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
   },
   /**
    * 点击卡片切换到当前

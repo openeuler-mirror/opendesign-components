@@ -1,24 +1,5 @@
 @use './var.scss';
 
-.o-dialog {
-  position: var(--dlg-position, 'fixed');
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--dlg-z-index);
-  display: flex;
-}
-.o-dlg-mask {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: var(--dlg-mask);
-}
 .o-dlg-main {
   position: relative;
   background-color: var(--dlg-bg-color);

@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, PropType } from 'vue';
 
 import { popupProps } from '../popup/types';
 
@@ -8,14 +8,14 @@ export const popoverProps = {
    * 锚点自定义class
    */
   anchorClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**
    * popup wrap自定义class
    */
   wrapClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**

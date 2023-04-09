@@ -54,7 +54,7 @@ export const dropdownProps = {
    * 下拉容器自定义类
    */
   optionWrapClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
   },
   /**
    * 是否在结束选择时，卸载下拉选项

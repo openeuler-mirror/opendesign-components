@@ -21,3 +21,7 @@
   background-color: var(--layer-mask);
   z-index: -1;
 }
+
+.o-layer-open {
+  overflow: hidden !important;
+}

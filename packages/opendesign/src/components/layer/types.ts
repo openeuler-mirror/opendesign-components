@@ -12,7 +12,7 @@ export const layerProps = {
    * 挂载容器，默认为body
    */
   wrapper: {
-    type: [String, Object] as PropType<string | HTMLElement>,
+    type: [String, Object] as PropType<string | HTMLElement | null>,
     default: 'body',
   },
   /**
@@ -26,14 +26,21 @@ export const layerProps = {
    * body自定义class
    */
   mainClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
   },
   /**
-   * 过渡名称
+   * main过渡名称
    */
-  transition: {
+  mainTransition: {
     type: String,
     default: 'o-zoom-fade',
+  },
+  /**
+   * mask过渡名称
+   */
+  maskTransition: {
+    type: String,
+    default: 'o-fade-in',
   },
   /**
    * 是否需要mask
