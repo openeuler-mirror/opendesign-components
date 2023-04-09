@@ -24,6 +24,7 @@ const onCloseClick = () => {
     class="o-dialog"
     :visible="props.visible"
     :wrapper="props.wrapper"
+    :to-body="props.toBody"
     :unmount-on-hide="props.unmountOnHide"
     :main-class="mergeClass('o-dlg-main', props.mainClass)"
     :main-transition="props.mainTransition"

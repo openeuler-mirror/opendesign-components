@@ -18,16 +18,25 @@ const emits = defineEmits<{
 const visible = ref(props.visible);
 const toMount = ref(props.visible);
 
+const wrapper = computed(() => {
+  if (props.wrapper) {
+    return props.wrapper;
+  } else if (props.toBody) {
+    return document.body;
+  }
+  return null;
+});
+
 const isToBody = ref(false);
 
 // 挂载目标
 let wrapperEl: HTMLElement | null = null;
 const getWrapperEl = () => {
-  if (!wrapperEl && props.wrapper) {
-    if (typeof props.wrapper === 'string') {
-      wrapperEl = document.querySelector(props.wrapper);
+  if (!wrapperEl && wrapper.value) {
+    if (typeof wrapper.value === 'string') {
+      wrapperEl = document.querySelector(wrapper.value);
     } else {
-      wrapperEl = props.wrapper;
+      wrapperEl = wrapper.value;
     }
   }
   isToBody.value = wrapperEl === document.body;
@@ -107,7 +116,7 @@ defineExpose({
 });
 </script>
 <template>
-  <teleport :to="props.wrapper" :disabled="!props.wrapper">
+  <teleport :to="wrapper" :disabled="!wrapper">
     <div v-if="isMounted" v-show="visible || toMount" class="o-layer" v-bind="$attrs" :class="{ 'o-layer-to-body': isToBody }">
       <template v-if="props.mask">
         <transition :name="props.maskTransition" :appear="true">

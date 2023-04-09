@@ -9,11 +9,17 @@ export const layerProps = {
     type: Boolean,
   },
   /**
-   * 挂载容器，默认为body
+   * 挂载容器，默认为当前父元素
    */
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement | null>,
-    default: 'body',
+  },
+  /**
+   * 是否挂载到body
+   */
+  toBody: {
+    type: Boolean,
+    default: false,
   },
   /**
    * 是否在隐藏时unmout

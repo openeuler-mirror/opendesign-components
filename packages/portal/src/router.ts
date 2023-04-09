@@ -165,6 +165,12 @@ export const routes = [
     component: () => import('@components/dialog/__demo__/TheIndex.vue'),
   },
   {
+    path: '/loading',
+    name: 'Loading',
+    label: '加载 Loading',
+    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
+  },
+  {
     path: '/figure',
     name: 'Figure',
     label: '图片 Figure',
@@ -193,12 +199,6 @@ export const routes = [
     name: 'Grid',
     label: '栅格 Grid',
     component: () => import('@components/grid/__demo__/IndexGrid.vue'),
-  },
-  {
-    path: '/loading',
-    name: 'Loading',
-    label: '加载 Loading',
-    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
   },
   {
     path: '/resize-observer',

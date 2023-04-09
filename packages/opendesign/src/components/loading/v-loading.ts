@@ -13,7 +13,11 @@ const vLoading: ObjectDirective = {
   updated(el: HTMLElement, binding: DirectiveBinding) {
     const data = (el as any).__loading_data;
     if (data) {
-      data.instance.exposed.toggle(binding.value);
+      if (binding.value) {
+        data.instance.exposed.show();
+      } else {
+        data.instance.exposed.hide();
+      }
     }
   },
 };
