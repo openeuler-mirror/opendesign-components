@@ -14,15 +14,13 @@ export type CascaderOptionT = {
 
 export const cascaderProps = {
   /**
-   * 级联选择器的值
-   * v-model
+   * 级联选择器双向绑定值 CascaderValueT
    */
   modelValue: {
     type: [String, Number, Array] as PropType<CascaderValueT>,
   },
   /**
-   * 级联选择器选项值
-   *
+   * 级联选择器选项值 CascaderOptionT
    * */
   options: {
     type: Array as PropType<Array<CascaderOptionT>>,
@@ -36,13 +34,13 @@ export const cascaderProps = {
     default: false,
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 级联选择器类型
+   * 级联选择器类型 VariantT
    */
   variant: {
     type: String as PropType<VariantT>,
@@ -56,14 +54,14 @@ export const cascaderProps = {
     default: 'please select...',
   },
   /**
-   * 下拉选项触发方式
+   * 下拉选项触发方式 PopupTriggerT
    */
   trigger: {
     type: String as PropType<PopupTriggerT>,
     default: 'click',
   },
   /**
-   * 下拉选项位置
+   * 下拉选项位置 PopupPositionT
    */
   optionPosition: {
     type: String as PropType<PopupPositionT>,
@@ -71,7 +69,6 @@ export const cascaderProps = {
   },
   /**
    * 是否在结束选择时，卸载下拉选项
-   * v-model
    */
   unmountOnHide: {
     type: Boolean,

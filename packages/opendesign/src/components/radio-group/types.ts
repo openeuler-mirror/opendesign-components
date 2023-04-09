@@ -23,8 +23,7 @@ export const radioGroupProps = {
     default: false,
   },
   /**
-   * 单选框组方向
-   * 'h' | 'v'
+   * 单选框组方向 DirectionT
    */
   direction: {
     type: String as PropType<DirectionT>,

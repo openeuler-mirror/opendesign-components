@@ -52,7 +52,7 @@
     border-radius: 50%;
     opacity: 0;
     background-color: var(--radio-input-inner-bg-color);
-    transition: background-color var(--o-duration-s) var(--o-easing-standard), opacity var(--o-duration-m1) var(--o-easing-standard-in);
+    transition: background-color var(--o-duration-s) var(--o-easing-standard), opacity var(--o-duration-s) var(--o-easing-standard);
   }
 }
 

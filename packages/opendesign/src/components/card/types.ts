@@ -48,7 +48,7 @@ export const cardProps = {
    * cover classname
    */
   coverClass: {
-    type: String,
+    type: [String, Array] as PropType<string | any[]>,
   },
   /**
    * 尺寸 CardSizeT

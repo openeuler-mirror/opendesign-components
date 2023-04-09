@@ -1,7 +1,7 @@
 import type { App } from 'vue';
 import _OLoading from './OLoading.vue';
-import { vLoading } from './vLoading';
-import useLoading from './useLoading';
+import { vLoading } from './v-loading';
+import useLoading from './use-loading';
 
 const OLoading = Object.assign(_OLoading, {
   vLoading,

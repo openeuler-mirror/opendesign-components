@@ -1,29 +1,29 @@
 @use './var.scss';
 
-.o-loading {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--loading-z-index);
-  display: flex;
-  body > & {
-    position: fixed;
-  }
-}
+// .o-loading {
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   align-items: center;
+//   justify-content: center;
+//   z-index: var(--loading-z-index);
+//   display: flex;
+//   body > & {
+//     position: fixed;
+//   }
+// }
 
-.o-loading-mask {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: var(--loading-mask);
-  z-index: 0;
-}
+// .o-loading-mask {
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   background-color: var(--loading-mask);
+//   z-index: 0;
+// }
 .o-loading-main {
   position: relative;
   z-index: 1;

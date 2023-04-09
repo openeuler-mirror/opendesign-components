@@ -10,7 +10,7 @@ const initLoading = (opt?: LoadingPropsT, el?: HTMLElement) => {
   return vnode.component;
 };
 
-const useLoading = (opt?: LoadingPropsT, wrap: Ref<HTMLElement> | HTMLElement | string = 'body') => {
+const useLoading = (wrap: Ref<HTMLElement> | HTMLElement | string = document.body, opt?: LoadingPropsT) => {
   let instance: ComponentInternalInstance | null = null;
   if (typeof wrap === 'string') {
     const el = document.querySelector(wrap);
@@ -28,9 +28,14 @@ const useLoading = (opt?: LoadingPropsT, wrap: Ref<HTMLElement> | HTMLElement | 
     );
   }
   return {
-    toggle() {
+    show() {
       if (instance) {
-        instance.exposed?.toggle();
+        instance.exposed?.show();
+      }
+    },
+    hide() {
+      if (instance) {
+        instance.exposed?.hide();
       }
     },
   };

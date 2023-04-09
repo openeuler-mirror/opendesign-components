@@ -8,8 +8,8 @@ import { ODivider } from '../index';
     <span>OpenDesign SIG，打造服务开源社区的开源体验系统</span>
     <ODivider />
     <span>Community Goes Better with OpenDesign</span>
-    <ODivider type="dashed" />
+    <ODivider variant="dashed" />
     <span>使用 OpenDesign 组件库开始更高效的开发</span>
-    <ODivider type="dotted" />
+    <ODivider variant="dotted" />
   </section>
 </template>

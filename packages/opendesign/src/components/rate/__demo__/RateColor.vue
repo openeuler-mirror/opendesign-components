@@ -10,6 +10,7 @@ const rateVal = ref(3);
   <section>
     <ORate v-model="rateVal" />
     <ORate v-model="rateVal" color="primary" />
+    <ORate v-model="rateVal" color="success" />
     <ORate v-model="rateVal" color="warning" />
     <ORate v-model="rateVal" color="danger" />
   </section>

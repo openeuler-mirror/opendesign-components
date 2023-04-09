@@ -1,21 +1,20 @@
 .o-message {
   --message-color: var(--o-color-info1);
 
-  --o-message-icon-size: var(--o-icon_size-xs);
-
-  --message-padding: 8px 16px;
   --message-text-size: var(--o-font_size-text1);
   --message-text-height: var(--o-line_height-text1);
 
   --message-radius: var(--o-radius-control-m);
 
-  --message-gap: 16px;
-}
+  --message-padding: 8px 16px;
 
-.o-message-normal {
   --message-bg-color: var(--o-color-control-light);
   --message-bd-color: var(--o-color-control3);
+
   --message-icon-color: var(--o-color-info1);
+  --message-icon-size: var(--o-icon_size-xs);
+
+  --message-gap: 16px;
 }
 
 .o-message-primary {

@@ -75,7 +75,7 @@ onMounted(() => {
 </script>
 <template>
   <ClientOnly>
-    <teleport v-if="navsRef && !isClosed" :to="navsRef">
+    <teleport v-if="navsRef && !isClosed" :to="navsRef" :disabled="!navsRef">
       <div
         ref="navRef"
         :class="[

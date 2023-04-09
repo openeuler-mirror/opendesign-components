@@ -41,7 +41,7 @@ export const routes = [
   {
     path: '/popover',
     name: 'Popover',
-    label: '弹出框 Popover',
+    label: '气泡提示 Popover',
     component: () => import('@components/popover/__demo__/IndexPopover.vue'),
   },
   {
@@ -65,7 +65,7 @@ export const routes = [
   {
     path: '/select',
     name: 'Select',
-    label: '下拉框 Select',
+    label: '下拉选择器 Select',
     component: () => import('@components/select/__demo__/IndexSelect.vue'),
   },
   {
@@ -77,13 +77,13 @@ export const routes = [
   {
     path: '/radio',
     name: 'Radio',
-    label: '单选 Radio',
+    label: '单选框 Radio',
     component: () => import('@components/radio/__demo__/IndexRadio.vue'),
   },
   {
     path: '/checkbox',
     name: 'Checkbox',
-    label: '多选 Checkbox',
+    label: '多选框 Checkbox',
     component: () => import('@components/checkbox/__demo__/IndexCheckbox.vue'),
   },
   {
@@ -143,7 +143,7 @@ export const routes = [
   {
     path: '/dropdown',
     name: 'Dropdown',
-    label: '下拉菜单 Dropdown',
+    label: '下拉按钮 Dropdown',
     component: () => import('@components/dropdown/__demo__/IndexDropdown.vue'),
   },
   {
@@ -153,10 +153,22 @@ export const routes = [
     component: () => import('@components/progress/__demo__/IndexProgress.vue'),
   },
   {
+    path: '/layer',
+    name: 'Layer',
+    label: '浮层 Layer',
+    component: () => import('@components/layer/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/dialog',
     name: 'Dialog',
     label: '对话框 Dialog',
-    component: () => import('@components/dialog/__demo__/IndexDialog.vue'),
+    component: () => import('@components/dialog/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/loading',
+    name: 'Loading',
+    label: '加载 Loading',
+    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
   },
   {
     path: '/figure',
@@ -187,12 +199,6 @@ export const routes = [
     name: 'Grid',
     label: '栅格 Grid',
     component: () => import('@components/grid/__demo__/IndexGrid.vue'),
-  },
-  {
-    path: '/loading',
-    name: 'Loading',
-    label: '加载 Loading',
-    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
   },
   {
     path: '/resize-observer',

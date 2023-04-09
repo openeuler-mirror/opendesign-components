@@ -1,0 +1,27 @@
+@use './var.scss';
+
+.o-layer {
+  position: var(--layer-position, 'fixed');
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: var(--layer-z-index);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o-layer-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: var(--layer-mask);
+  z-index: -1;
+}
+
+.o-layer-open {
+  overflow: hidden !important;
+}

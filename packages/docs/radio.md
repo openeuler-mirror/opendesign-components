@@ -31,12 +31,12 @@
 
 ## props
 
-| name                | type                        | 默认值       | 说明                               |
-| :------------------ | :-------------------------- | :----------- | ---------------------------------- |
-| modelValue(v-model) | string \| number \| boolean | -            | 可选，单选框组双向绑定值           |
-| defaultValue        | string \| number \| boolean | ''           | 可选，非受控状态时，单选框组默认值 |
-| disabled            | boolean                     | false        | 可选，是否禁用                     |
-| direction           | 'horizontal' \| 'vertical'  | 'horizontal' | 可选，排列方向                     |
+| name                | type                        | 默认值 | 说明                               |
+| :------------------ | :-------------------------- | :----- | ---------------------------------- |
+| modelValue(v-model) | string \| number \| boolean | -      | 可选，单选框组双向绑定值           |
+| defaultValue        | string \| number \| boolean | ''     | 可选，非受控状态时，单选框组默认值 |
+| disabled            | boolean                     | false  | 可选，是否禁用                     |
+| direction           | 'h' \| 'v'                  | 'h'    | 可选，排列方向                     |
 
 ## event
 

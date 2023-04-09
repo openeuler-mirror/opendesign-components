@@ -1,34 +1,32 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, ColorT, VariantT } from '../_shared/global';
+import { SizeT, RoundT, ColorT } from '../_shared/global';
 
-export type TagVariantT = 'solid' | 'outline';
+export const TagVariantTypes = ['solid', 'outline'] as const;
+export type TagVariantT = typeof TagVariantTypes[number];
 
 export const tagProps = {
   /**
-   * 标签颜色
-   * 'normal' | 'primary' | 'success' | 'warning' | 'danger';
+   * 标签颜色 ColorT
    */
   color: {
     type: String as PropType<ColorT>,
     default: 'normal',
   },
   /**
-   * 标签类型
-   * 'solid' | 'outline'
+   * 标签类型 TagVariantT
    */
   variant: {
-    type: String as PropType<VariantT>,
+    type: String as PropType<TagVariantT>,
     default: 'solid',
   },
   /**
-   * 标签尺寸
-   * 'large' | 'medium' | 'small'
+   * 标签尺寸 SizeT
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值
+   * 圆角值 RoundT
    */
   round: {
     type: String as PropType<RoundT>,
