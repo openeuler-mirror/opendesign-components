@@ -93,7 +93,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  font-size: 14px;
+  font-size: var(--o-icon_size-xxs);
   padding: 1px;
   display: inline-flex;
   align-items: center;
@@ -102,7 +102,6 @@
   border-radius: 50%;
   &:hover {
     color: var(--tab-icon-color-hover);
-    background-color: var(--tab-icon-bg-color-hover);
   }
 }
 
