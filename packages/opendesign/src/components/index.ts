@@ -36,6 +36,7 @@ export * from './message';
 export * from './slides';
 export * from './cascader';
 export * from './grid';
+export * from './result';
 
 // export * from './scrollbar';
 export * from './intersection-observer';

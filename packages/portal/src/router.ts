@@ -195,6 +195,12 @@ export const routes = [
     component: () => import('@components/loading/__demo__/IndexLoading.vue'),
   },
   {
+    path: '/result',
+    name: 'Result',
+    label: '结果 Result',
+    component: () => import('@components/result/__demo__/IndexResult.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',
