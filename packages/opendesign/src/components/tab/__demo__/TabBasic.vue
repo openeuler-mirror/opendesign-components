@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { OTab, OTabPane } from '../index';
-import { IconSearch } from '../../icons';
+import { IconSearch } from '../../icon';
 const activeTab = ref('Tab A');
 const activeTab2 = ref('1');
 const tabChange = (val: string | number, oldVal?: string | number) => {

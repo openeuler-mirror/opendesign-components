@@ -5,7 +5,7 @@ import { OProgress } from '../index';
 
 import '../../button/style';
 import { OButton } from '../../button';
-import { IconAdd, IconMinus } from '../../icons';
+import { IconAdd, IconMinus } from '../../icon';
 
 const val = ref(30);
 const increaseVal = () => {

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { OLoading, vLoading, useLoading } from '../index';
 import { OButton } from '../../button';
 import '../../button/style';
-import { IconAdd } from '../../icons';
+import { IconAdd } from '../../icon';
 
 const show1 = ref(false);
 const showLoading1 = () => {

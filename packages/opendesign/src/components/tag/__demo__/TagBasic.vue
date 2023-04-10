@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OTag } from '../index';
-import { IconAdd } from '../../icons';
+import { IconAdd } from '../../icon';
 </script>
 
 <template>

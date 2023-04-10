@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OButton } from '../index';
-import { IconAdd } from '../../icons';
+import { IconAdd } from '../../icon';
 import { ref } from 'vue';
 
 const r = ref(12);

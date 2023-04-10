@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OButton } from '../../button';
 import '../../button/style';
-import { IconAdd } from '../../icons';
+import { IconAdd } from '../../icon';
 import { OBadge } from '../index';
 </script>
 

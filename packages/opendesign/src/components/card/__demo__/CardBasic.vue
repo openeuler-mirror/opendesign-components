@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OCard } from '../index';
-import { IconStar } from '../../icons';
+import { IconStar } from '../../icon';
 
 const card = {
   cover: 'https://www.hiascend.com/p/resource/202303/0a66367d573f4369a6d160909c33fa6e.png',

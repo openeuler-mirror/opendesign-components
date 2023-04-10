@@ -15,7 +15,7 @@ import {
   IconChevronLeft,
   IconChevronRight,
   IconEllipsis,
-  IconStar
+  IconStar,
 } from './icons';
 
 /**

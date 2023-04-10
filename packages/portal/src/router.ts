@@ -201,6 +201,12 @@ export const routes = [
     component: () => import('@components/grid/__demo__/IndexGrid.vue'),
   },
   {
+    path: '/flex',
+    name: 'Flex',
+    label: '布局 Flex',
+    component: () => import('@components/flex/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

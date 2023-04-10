@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { initIconLoading, initSize } from '@opensig/opendesign/src/components';
-import { IconAdd } from '@opensig/opendesign/src/components/icons';
+import { IconAdd } from '@opensig/opendesign/src/components/icon';
 
 const title = 'opendesign';
 
