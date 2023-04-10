@@ -36,6 +36,7 @@ export * from './message';
 export * from './carousel';
 export * from './cascader';
 export * from './grid';
+export * from './flex';
 
 // export * from './scrollbar';
 export * from './intersection-observer';

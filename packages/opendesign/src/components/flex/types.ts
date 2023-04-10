@@ -1,15 +1,12 @@
 import { ExtractPropTypes, PropType } from 'vue';
-export interface RowMediaT {
+export interface FlexMediaT {
   gap?: string;
   gapY?: string;
   gapX?: string;
 }
-export interface ColMediaT {
+export interface FlexItemMediaT {
   flex: string;
 }
-
-export const mediaSize = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
-export type MediaSizeT = typeof mediaSize[number];
 
 export const flexProps = {
   /**
@@ -65,35 +62,35 @@ export const flexProps = {
    * @media (max-width: 576px)
    */
   xs: {
-    type: Object as PropType<RowMediaT>,
+    type: Object as PropType<FlexMediaT>,
   },
   /**
    * @media (max-width: 720px)
    */
   sm: {
-    type: Object as PropType<RowMediaT>,
+    type: Object as PropType<FlexMediaT>,
   },
   /**
    * @media (max-width: 1200px)
    */
   md: {
-    type: Object as PropType<RowMediaT>,
+    type: Object as PropType<FlexMediaT>,
   },
   /**
    * @media (max-width: 1440px)
    */
   lg: {
-    type: Object as PropType<RowMediaT>,
+    type: Object as PropType<FlexMediaT>,
   },
   /**
    * @media (max-width: 1680px)
    */
   xl: {
-    type: Object as PropType<RowMediaT>,
+    type: Object as PropType<FlexMediaT>,
   },
 };
 
-export const colProps = {
+export const flexItemProps = {
   /**
    * flex-grow
    */
@@ -111,33 +108,33 @@ export const colProps = {
    * @media (max-width: 576px)
    */
   xs: {
-    type: Object as PropType<ColMediaT>,
+    type: Object as PropType<FlexItemMediaT>,
   },
   /**
    * @media (max-width: 721px)
    */
   sm: {
-    type: Object as PropType<ColMediaT>,
+    type: Object as PropType<FlexItemMediaT>,
   },
   /**
    * @media (max-width: 1201px)
    */
   md: {
-    type: Object as PropType<ColMediaT>,
+    type: Object as PropType<FlexItemMediaT>,
   },
   /**
    * @media (max-width: 1441px)
    */
   lg: {
-    type: Object as PropType<ColMediaT>,
+    type: Object as PropType<FlexItemMediaT>,
   },
   /**
    * @media (max-width: 1681px)
    */
   xl: {
-    type: Object as PropType<ColMediaT>,
+    type: Object as PropType<FlexItemMediaT>,
   },
 };
 
-export type RowPropsT = ExtractPropTypes<typeof flexProps>;
-export type ColPropsT = ExtractPropTypes<typeof colProps>;
+export type FlexPropsT = ExtractPropTypes<typeof flexProps>;
+export type FlexItemPropsT = ExtractPropTypes<typeof flexItemProps>;

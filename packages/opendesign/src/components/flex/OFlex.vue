@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { flexProps, RowMediaT } from './types';
+import { flexProps, FlexMediaT } from './types';
 import { computed } from 'vue';
 
 const props = defineProps(flexProps);
 
-const getMediaGap = (opts?: RowMediaT) => {
+const getMediaGap = (opts?: FlexMediaT) => {
   if (!opts) {
     return;
   }

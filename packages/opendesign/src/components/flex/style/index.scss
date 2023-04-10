@@ -28,6 +28,7 @@ $media-xxl: 1920px;
 .o-flex-item {
   flex: var(--flex-item-flex);
 }
+
 @media (max-width: $media-xl) {
   .o-flex-xl {
     --flex-item-gap-x: calc(var(--flex-xl-gap-x) / 2);

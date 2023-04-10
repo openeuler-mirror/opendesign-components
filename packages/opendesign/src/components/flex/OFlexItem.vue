@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { colProps } from './types';
+import { flexItemProps } from './types';
 
-const props = defineProps(colProps);
+const props = defineProps(flexItemProps);
 </script>
 <template>
   <div
