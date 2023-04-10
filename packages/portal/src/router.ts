@@ -210,7 +210,7 @@ export const routes = [
     path: '/result',
     name: 'Result',
     label: '结果 Result',
-    component: () => import('@components/result/__demo__/IndexResult.vue'),
+    component: () => import('@components/result/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',
