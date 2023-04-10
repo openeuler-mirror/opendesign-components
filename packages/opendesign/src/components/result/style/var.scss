@@ -1,0 +1,30 @@
+.o-result {
+  --result-padding: 40px;
+
+  --result-icon-size: 60px;
+  --result-icon-color: var(--o-color-primary1);
+
+  --result-title-color: var(--o-color-info1);
+  --result-title-text-size: var(--o-font_size-h3);
+  --result-title-text-height: var(--o-line_height-h3);
+  --result-title-margin-top: 16px;
+
+  --result-desc-color: var(--o-color-info2);
+  --result-desc-text-size: var(--o-font_size-text1);
+  --result-desc-text-height: var(--o-line_height-text1);
+  --result-desc-margin-top: 8px;
+
+  --result-extra-margin-top: 24px;
+}
+
+.o-result-success {
+  --result-icon-color: var(--o-color-success1);
+}
+
+.o-result-warning {
+  --result-icon-color: var(--o-color-warning1);
+}
+
+.o-result-danger {
+  --result-icon-color: var(--o-color-danger1);
+}
