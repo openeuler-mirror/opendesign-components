@@ -5,7 +5,7 @@
   overflow: hidden;
   transition: background-color var(--o-duration-m2);
   &.is-loading {
-    &.is-colorfull {
+    &.is-colorful {
       background-color: var(--figure-prest-color);
     }
     img {

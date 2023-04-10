@@ -40,7 +40,7 @@ export const figureProps = {
   /**
    * 预置随机多彩背景
    */
-  colorfull: {
+  colorful: {
     type: Boolean,
   },
 };
