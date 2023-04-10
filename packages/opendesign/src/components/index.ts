@@ -2,7 +2,7 @@ export * from './_shared/export';
 export * from './hooks';
 export * from './directves';
 
-export * from './icons';
+export * from './icon';
 export * from './button';
 export * from './switch';
 export * from './link';
