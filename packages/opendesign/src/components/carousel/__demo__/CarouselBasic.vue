@@ -23,6 +23,12 @@ const next = () => {
     console.log('done', idx);
   });
 };
+const startPlay = () => {
+  slidesRef.value?.play();
+};
+const stopPlay = () => {
+  slidesRef.value?.pause();
+};
 
 const slidesRef2 = ref<InstanceType<typeof OCarousel> | null>(null);
 const initSlides = () => {
@@ -34,6 +40,8 @@ const initSlides = () => {
     <h4>gallery</h4>
     <div class="block">
       <div class="btn" @click="next">Next</div>
+      <div class="btn" @click="startPlay">Start</div>
+      <div class="btn" @click="stopPlay">Pause</div>
       <div class="center"></div>
       <OCarousel
         ref="slidesRef"

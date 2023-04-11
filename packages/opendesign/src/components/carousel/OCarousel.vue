@@ -18,6 +18,14 @@ const emits = defineEmits<{
 const containerRef = ref<HTMLElement | null>(null);
 const total = computed(() => containerRef.value?.children.length);
 
+const isAutoPlay = ref(props.autoPlay);
+watch(
+  () => props.autoPlay,
+  (a) => {
+    isAutoPlay.value = a;
+  }
+);
+
 const fixIndex = (idx: number) => {
   if (!total.value) {
     return idx;
@@ -70,7 +78,7 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
 };
 
 let timer: number | null = null;
-const stopPlay = () => {
+const pausePlay = () => {
   if (timer) {
     clearInterval(timer);
     timer = null;
@@ -78,7 +86,7 @@ const stopPlay = () => {
 };
 
 const startPlay = () => {
-  stopPlay();
+  pausePlay();
   timer = window.setInterval(() => {
     activeSlideByIndex(activeIndex.value + 1);
   }, props.interval);
@@ -87,7 +95,7 @@ const startPlay = () => {
 // 激活slide
 const activeSlide = (index: number) => {
   // 停止自动播放
-  stopPlay();
+  pausePlay();
 
   return activeSlideByIndex(index).then((success) => {
     if (!success) {
@@ -108,7 +116,7 @@ const initSlides = () => {
 
   const options = {
     onTouchstart: () => {
-      stopPlay();
+      pausePlay();
     },
     onTouchend: () => {
       // 恢复自动播放
@@ -161,7 +169,7 @@ watch(
     if (v) {
       startPlay();
     } else {
-      stopPlay();
+      pausePlay();
     }
   }
 );
@@ -186,10 +194,18 @@ provide(carouselInjectKey, {
   effect: props.effect,
 });
 
+const play = () => {
+  isAutoPlay.value = true;
+  startPlay();
+};
+const pause = () => {
+  isAutoPlay.value = false;
+  pausePlay();
+};
 defineExpose({
   init: init,
-  play: startPlay,
-  stop: startPlay,
+  play,
+  pause,
   active: activeSlide,
 });
 </script>
@@ -220,7 +236,7 @@ defineExpose({
             class="o-carousel-indicator-bar"
             :class="{
               'o-carousel-indicator-bar-active': item - 1 === activeIndex,
-              'is-autoplay': props.autoPlay,
+              'is-autoplay': isAutoPlay,
             }"
           ></div>
         </slot>
