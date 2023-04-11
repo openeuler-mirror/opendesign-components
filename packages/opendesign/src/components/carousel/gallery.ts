@@ -28,7 +28,6 @@ export interface GalleryOptionT extends EffectOptionT {
   onChanged?: (from: number, to: number) => void;
 }
 
-let resolveArr: ((value: null | number) => void)[] = [];
 export default class Gallery extends Effect {
   private container: ContainerT;
   private slideList: GalleryItemT[];
@@ -38,11 +37,14 @@ export default class Gallery extends Effect {
   private isSliding: boolean; // 是否在切换
   private oldMoveValue: number;
   private destroyObserver: () => void;
+  private resolveArr:((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GalleryOptionT) {
     super(slideElList, slideContainer, activeIndex, options);
 
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;
+
+    this.resolveArr = []
 
     slideContainer.addEventListener('transitionend', () => {
       slideContainer.style.willChange = '';
@@ -50,9 +52,9 @@ export default class Gallery extends Effect {
 
       this.isChanging = false;
 
-      if (resolveArr.length > 0) {
-        resolveArr.forEach((fn) => fn(null));
-        resolveArr = [];
+      if (this.resolveArr.length > 0) {
+        this.resolveArr.forEach((fn) => fn(null));
+        this.resolveArr = [];
       }
     });
 
@@ -224,7 +226,7 @@ export default class Gallery extends Effect {
 
       el.style.transform = `translate3d(${value}px,0,0)`;
       if (animate) {
-        resolveArr.push(resolve);
+        this.resolveArr.push(resolve);
       } else {
         resolve(null);
       }

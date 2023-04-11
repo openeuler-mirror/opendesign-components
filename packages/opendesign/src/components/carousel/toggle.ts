@@ -10,14 +10,15 @@ enum ToggleClass {
   OUT = 'o-carousel-toggle-out',
   CURRENT = 'o-carousel-toggle-current',
 }
-let resolveArr: ((value: null | number) => void)[] = [];
 export default class Toggle extends Effect {
   private slideList: ItemT[];
   private isChanging: boolean;
+  private resolveArr:((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: EffectOptionT) {
     super(slideElList, slideContainer, activeIndex, options);
 
     this.isChanging = false;
+    this.resolveArr = []
 
     this.slideList = slideElList.map((el, idx) => {
       el.addEventListener('animationend', () => {
@@ -26,8 +27,8 @@ export default class Toggle extends Effect {
         this.isChanging = false;
 
         if (idx === this.currentIndex) {
-          resolveArr.forEach((fn) => fn(null));
-          resolveArr = [];
+          this.resolveArr.forEach((fn) => fn(null));
+          this.resolveArr = [];
         }
       });
 
@@ -80,7 +81,7 @@ export default class Toggle extends Effect {
       if (animate) {
         toSlide.el.classList.add(ToggleClass.IN);
         fromSlide.el.classList.add(ToggleClass.OUT);
-        resolveArr.push(resolve);
+        this.resolveArr.push(resolve);
       } else {
         return resolve(toIndex);
       }

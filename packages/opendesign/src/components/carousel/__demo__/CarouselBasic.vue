@@ -10,10 +10,16 @@ const carousel = [
 ];
 
 const onChange = (now: number, last: number) => {
-  console.log('carousel changed', now, last);
+  console.log('[1] changed', now, last);
 };
 const onBeforeChange = (now: number, last: number) => {
-  console.log('carousel before changed', now, last);
+  console.log('[1] before changed', now, last);
+};
+const onChange2 = (now: number, last: number) => {
+  console.log('[2] changed', now, last);
+};
+const onBeforeChange2 = (now: number, last: number) => {
+  console.log('[2] before changed', now, last);
 };
 
 const slidesRef = ref<InstanceType<typeof OCarousel> | null>(null);
@@ -61,7 +67,7 @@ const initSlides = () => {
       </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="carousel" auto-play indicator-click click-to-switch @change="onChange">
+      <OCarousel class="carousel" auto-play indicator-click click-to-switch @change="onChange2" @before-change="onBeforeChange2">
         <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OCarouselItem>
