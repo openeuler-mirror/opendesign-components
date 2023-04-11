@@ -14,8 +14,6 @@ const emits = defineEmits<{
 }>();
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
-const loadingLabel = 'loading...';
-
 defineExpose({
   show() {
     layerRef.value?.show();
@@ -46,7 +44,7 @@ defineExpose({
         <slot name="icon"><IconLoading class="o-rotating" /></slot>
       </div>
       <div class="o-loading-label">
-        <slot name="label">{{ loadingLabel }}</slot>
+        <slot name="label"></slot>
       </div>
     </slot>
   </OLayer>

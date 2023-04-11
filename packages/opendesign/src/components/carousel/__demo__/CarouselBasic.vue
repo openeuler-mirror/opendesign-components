@@ -53,7 +53,7 @@ const initSlides = () => {
       </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="carousel" auto-play click-to-active indicator-click click-to-switch @change="onChange">
+      <OCarousel class="carousel" auto-play indicator-click click-to-switch @change="onChange">
         <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OCarouselItem>
