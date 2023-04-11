@@ -5,7 +5,7 @@ import { OProgress } from '../index';
 
 import '../../button/style';
 import { OButton } from '../../button';
-import { IconAdd, IconMinus } from '../../icons';
+import { IconAdd, IconMinus } from '../../icon';
 
 const val = ref(10);
 const increaseVal = () => {
@@ -29,7 +29,7 @@ const decreaseVal = () => {
       </OButton>
     </div>
     <OProgress :percentage="val" :width="200" :style="{ width: '300px' }" />
-    <OProgress :percentage="val" :width="200" :style="{ width: '300px' }" :show-label="false"/>
+    <OProgress :percentage="val" :width="200" :style="{ width: '300px' }" :show-label="false" />
   </section>
 </template>
 

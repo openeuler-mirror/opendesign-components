@@ -15,8 +15,8 @@ import {
   IconChevronLeft as _IconChevronLeft,
   IconChevronRight as _IconChevronRight,
   IconEllipsis as _IconEllipsis,
-  IconStar as _IconStar
-} from '../icons';
+  IconStar as _IconStar,
+} from '../icon';
 
 /**
  * 全局loading图标

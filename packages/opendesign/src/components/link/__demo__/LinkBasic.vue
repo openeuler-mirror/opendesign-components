@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OLink } from '../index';
-import { IconAdd, IconDone } from '../../icons';
+import { IconAdd, IconDone } from '../../icon';
 
 const link = '#/link';
 

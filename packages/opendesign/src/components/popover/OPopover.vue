@@ -8,6 +8,7 @@ import { ComponentPublicInstance, ref } from 'vue';
 import { OPopup } from '../popup';
 import { OChildOnly } from '../child-only';
 import { popoverProps } from './types';
+import { mergeClass } from '../_shared/dom';
 
 const props = defineProps(popoverProps);
 
@@ -29,8 +30,8 @@ const targetElRef = ref<ComponentPublicInstance | null>(null);
     :trigger="props.trigger"
     :target="props.target || targetElRef"
     :wrapper="props.wrapper"
-    :wrap-class="props.wrapClass ?? 'o-popover-wrap'"
-    :anchor-class="props.anchor ? props.anchorClass ?? 'o-popover-anchor' : ''"
+    :wrap-class="mergeClass('o-popover-wrap', props.wrapClass)"
+    :anchor-class="props.anchor ? mergeClass('o-popover-anchor', props.anchorClass) : ''"
     :unmount-on-hide="props.unmountOnHide"
     :auto-hide="props.autoHide"
     :disabled="props.disabled"

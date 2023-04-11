@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { rateProps } from './types';
 import { defaultSize } from '../_shared/global';
-import { IconStar } from '../icons';
+import { IconStar } from '../icon';
 import { isUndefined } from '../_shared/is';
 
 const props = defineProps(rateProps);
@@ -79,12 +79,7 @@ const iconStatus = computed(() => {
 
 <template>
   <div class="o-rate" :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`]" @mouseleave="resetHoverIndex">
-    <div
-      v-for="(item, key) in count"
-      :key="key"
-      class="o-rate-item"
-      :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }"
-    >
+    <div v-for="(item, key) in count" :key="key" class="o-rate-item" :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }">
       <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
         <slot name="icon" :index="item" :status="iconStatus[key]">
           <IconStar />

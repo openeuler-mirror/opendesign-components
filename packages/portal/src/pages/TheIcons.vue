@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as OIcons from '@components/icons';
+import * as OIcons from '@components/icon';
 import '@components/style';
 import { shallowRef } from 'vue';
 console.log(OIcons);

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue';
 import { messageProps } from './types';
-import { IconAlert, IconError, IconPoint, IconSuccess } from '../icons';
+import { IconAlert, IconError, IconPoint, IconSuccess } from '../icon';
 
 const props = defineProps(messageProps);
 

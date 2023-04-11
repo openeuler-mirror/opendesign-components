@@ -348,7 +348,7 @@ const onPopupHoverOut = () => {
     <slot name="target"></slot>
   </OChildOnly>
   <ClientOnly>
-    <teleport v-if="wrapperEl" :to="props.wrapper">
+    <teleport v-if="wrapperEl" :to="props.wrapper" :disabled="!props.wrapper">
       <OResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
         <div
           ref="popupRef"

@@ -1,4 +1,4 @@
 module.exports = {
   input: './svgs',
-  output: '../components/icons/',
+  output: '../components/icon/',
 };

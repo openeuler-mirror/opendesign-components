@@ -37,6 +37,7 @@ interface IconItem {
   name: string;
   componentName: string;
   path: string;
+  absolutePath: string;
 }
 
 /**
@@ -47,7 +48,7 @@ function readSvgData(cfg: IconsConfig) {
   [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach((key) => {
     const files = glob.sync(`${key}/**/*.svg`, {
       cwd: cfg.input,
-      absolute: true,
+      // absolute: true,
     });
 
     files.forEach((file) => {
@@ -57,6 +58,7 @@ function readSvgData(cfg: IconsConfig) {
         name: name,
         componentName: toPascalCase(name),
         path: file,
+        absolutePath: path.resolve(cfg.input, file),
       });
     });
   });
@@ -74,11 +76,11 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
 
   // 遍历生成图标组件
   icons.forEach((item) => {
-    const file = fs.readFileSync(item.path, 'utf-8');
+    const file = fs.readFileSync(item.absolutePath, 'utf-8');
     const svgoCfg = cfg.svgo[item.type];
 
     const rlt = optimize(file, {
-      path: item.path,
+      path: item.absolutePath,
       ...svgoCfg,
     });
 
@@ -121,7 +123,18 @@ function generateExportIndex(icons: Array<IconItem>, output: string) {
   fs.outputFileSync(path.resolve(output, 'index.ts'), content.join('\n'));
 
   // 创建图标地图
-  fs.outputFileSync(path.resolve(output, 'icons.json'), JSON.stringify(icons, null, 2));
+  fs.outputFileSync(
+    path.resolve(output, 'icons.json'),
+    JSON.stringify(
+      icons.map((item) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { absolutePath: _, ...rest } = item;
+        return rest;
+      }),
+      null,
+      2
+    )
+  );
 }
 export default async function main(options: { config: string }) {
   const { data } = await readConfig(options.config);

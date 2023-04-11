@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { resultProps } from './types';
-import { IconAlert, IconError, IconPoint, IconSuccess } from '../icons';
+import { IconAlert, IconError, IconPoint, IconSuccess } from '../icon';
 import { computed } from 'vue';
 
 const props = defineProps(resultProps);
@@ -24,14 +24,10 @@ const icon = computed(() => iconMap[props.status]);
       </slot>
     </div>
     <div v-if="props.title || $slots.title" class="o-result-title">
-      <slot name="title">
-        <p>{{ props.title }}</p>
-      </slot>
+      <slot name="title">{{ props.title }}</slot>
     </div>
     <div v-if="props.description || $slots.description" class="o-result-description">
-      <slot name="description">
-        <p>{{ props.description }}</p>
-      </slot>
+      <slot name="description">{{ props.description }}</slot>
     </div>
     <div v-if="$slots.extra" class="o-result-extra">
       <slot name="extra"></slot>

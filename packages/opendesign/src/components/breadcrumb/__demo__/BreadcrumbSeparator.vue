@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconAdd } from '../../icons';
+import { IconAdd } from '../../icon';
 import { OBreadcrumb, OBreadcrumbItem } from '../index';
 
 const handleClick = () => {

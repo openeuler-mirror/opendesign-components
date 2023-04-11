@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OButton } from '../index';
-import { IconAdd } from '../../icons';
+import { IconAdd } from '../../icon';
 </script>
 <template>
   <h4>Variant & Color</h4>

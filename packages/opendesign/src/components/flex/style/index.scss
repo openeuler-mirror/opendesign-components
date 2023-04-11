@@ -1,0 +1,79 @@
+@use './var.scss';
+$media-xs: 576px;
+$media-sm: 720px;
+$media-md: 1200px;
+$media-lg: 1440px;
+$media-xl: 1680px;
+$media-xxl: 1920px;
+
+.o-flex {
+  display: flex;
+
+  --flex-item-gap-x: calc(var(--flex-gap-x) / 2);
+  --flex-item-gap-y: var(--flex-gap-y);
+  --flex-shift-x: calc(-1 * var(--flex-item-gap-x));
+  --flex-shift-y: calc(-1 * var(--flex-item-gap-y));
+  margin-left: var(--flex-shift-x);
+  margin-right: var(--flex-shift-x);
+  margin-bottom: var(--flex-shift-y);
+
+  > * {
+    padding-left: var(--flex-item-gap-x);
+    padding-right: var(--flex-item-gap-x);
+    margin-bottom: var(--flex-item-gap-y);
+    flex: 1 0 auto; // 默认撑满
+  }
+}
+
+.o-flex-item {
+  flex: var(--flex-item-flex);
+}
+
+@media (max-width: $media-xl) {
+  .o-flex-xl {
+    --flex-item-gap-x: calc(var(--flex-xl-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-xl-gap-y);
+  }
+  .o-flex-item-xl {
+    flex: var(--flex-item-xl-flex);
+  }
+}
+
+@media (max-width: $media-lg) {
+  .o-flex-lg {
+    --flex-item-gap-x: calc(var(--flex-lg-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-lg-gap-y);
+  }
+  .o-flex-item-lg {
+    flex: var(--flex-item-lg-flex);
+  }
+}
+@media (max-width: $media-md) {
+  .o-flex-md {
+    --flex-item-gap-x: calc(var(--flex-md-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-md-gap-y);
+  }
+  .o-flex-item-md {
+    flex: var(--flex-item-md-flex);
+  }
+}
+
+@media (max-width: $media-sm) {
+  .o-flex-sm {
+    --flex-item-gap-x: calc(var(--flex-sm-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-sm-gap-y);
+  }
+  .o-flex-item-sm {
+    flex: var(--flex-item-sm-flex);
+  }
+}
+
+@media (max-width: $media-xs) {
+  .o-flex-xs {
+    --flex-item-gap-x: calc(var(--flex-xs-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-xs-gap-y);
+  }
+  .o-flex-item-xs {
+    flex: var(--flex-item-xs-flex);
+  }
+}

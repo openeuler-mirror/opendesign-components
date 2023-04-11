@@ -1,20 +1,18 @@
 .o-result {
-  --result-padding: 40px;
-
-  --result-icon-size: 60px;
+  --result-icon-size: var(--o-icon_size-l);
   --result-icon-color: var(--o-color-primary1);
 
   --result-title-color: var(--o-color-info1);
   --result-title-text-size: var(--o-font_size-h3);
   --result-title-text-height: var(--o-line_height-h3);
-  --result-title-margin-top: 16px;
+  --result-icon-gap: 16px;
 
   --result-desc-color: var(--o-color-info2);
   --result-desc-text-size: var(--o-font_size-text1);
   --result-desc-text-height: var(--o-line_height-text1);
-  --result-desc-margin-top: 8px;
+  --result-desc-gap: 8px;
 
-  --result-extra-margin-top: 24px;
+  --result-extra-gap: 24px;
 }
 
 .o-result-success {

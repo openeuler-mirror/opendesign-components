@@ -87,10 +87,10 @@ export const routes = [
     component: () => import('@components/checkbox/__demo__/IndexCheckbox.vue'),
   },
   {
-    path: '/tabs',
-    name: 'Tabs',
-    label: '页签 Tabs',
-    component: () => import('@components/tabs/__demo__/IndexTabs.vue'),
+    path: '/tab',
+    name: 'Tab',
+    label: '页签 Tab',
+    component: () => import('@components/tab/__demo__/IndexTab.vue'),
   },
   {
     path: '/table',
@@ -153,10 +153,22 @@ export const routes = [
     component: () => import('@components/progress/__demo__/IndexProgress.vue'),
   },
   {
+    path: '/layer',
+    name: 'Layer',
+    label: '浮层 Layer',
+    component: () => import('@components/layer/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/dialog',
     name: 'Dialog',
     label: '对话框 Dialog',
-    component: () => import('@components/dialog/__demo__/IndexDialog.vue'),
+    component: () => import('@components/dialog/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/loading',
+    name: 'Loading',
+    label: '加载 Loading',
+    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
   },
   {
     path: '/figure',
@@ -177,10 +189,10 @@ export const routes = [
     component: () => import('@components/message/__demo__/IndexMessage.vue'),
   },
   {
-    path: '/slides',
-    name: 'Slides',
-    label: '轮播 Slides',
-    component: () => import('@components/slides/__demo__/IndexSlides.vue'),
+    path: '/carousel',
+    name: 'Carousel',
+    label: '幻灯片 Carousel',
+    component: () => import('@components/carousel/__demo__/IndexCarousel.vue'),
   },
   {
     path: '/grid',
@@ -189,16 +201,16 @@ export const routes = [
     component: () => import('@components/grid/__demo__/IndexGrid.vue'),
   },
   {
-    path: '/loading',
-    name: 'Loading',
-    label: '加载 Loading',
-    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
+    path: '/flex',
+    name: 'Flex',
+    label: '布局 Flex',
+    component: () => import('@components/flex/__demo__/TheIndex.vue'),
   },
   {
     path: '/result',
     name: 'Result',
     label: '结果 Result',
-    component: () => import('@components/result/__demo__/IndexResult.vue'),
+    component: () => import('@components/result/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',
