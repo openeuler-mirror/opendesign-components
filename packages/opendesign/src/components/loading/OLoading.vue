@@ -43,7 +43,7 @@ defineExpose({
       <div class="o-loading-icon">
         <slot name="icon"><IconLoading class="o-rotating" /></slot>
       </div>
-      <div class="o-loading-label">
+      <div v-if="$slots.label" class="o-loading-label">
         <slot name="label"></slot>
       </div>
     </slot>

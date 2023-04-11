@@ -10,7 +10,7 @@ const initLoading = (opt?: LoadingPropsT, el?: HTMLElement) => {
   return vnode.component;
 };
 
-const useLoading = (wrap: Ref<HTMLElement> | HTMLElement | string = document.body, opt?: LoadingPropsT) => {
+const useLoading = (wrap: Ref<HTMLElement> | HTMLElement | string = 'body', opt?: LoadingPropsT) => {
   let instance: ComponentInternalInstance | null = null;
   if (typeof wrap === 'string') {
     const el = document.querySelector(wrap);
