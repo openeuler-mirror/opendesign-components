@@ -1,6 +1,5 @@
-import { supportTouch } from '../_shared/dom';
-import { isFunction } from '../_shared/is';
-import { OTouch } from '../_shared/pointer';
+import { PointMoveT } from '../_shared/pointer';
+import Effect, { EffectOptionT } from './effect';
 
 interface GalleryItemT {
   index: number;
@@ -13,48 +12,37 @@ interface ContainerT {
   width: number;
 }
 type AlignT = 'center' | 'left';
-
+enum GalleryClass {
+  CURRENT = 'is-current',
+}
 export interface GalleryT {
   active: (slideIndex: number) => Promise<null | number>;
   loopRange: () => void;
   transformX: (value: number, animate: boolean) => Promise<null | number>;
 }
-export interface GalleryOptionT {
+export interface GalleryOptionT extends EffectOptionT {
   alignType?: 'center' | 'left';
-  onTouchstart?: () => void;
-  onTouchend?: () => void;
   onChanged?: (from: number, to: number) => void;
 }
-const fixIndex = (idx: number, total: number) => {
-  if (!total) {
-    return idx;
-  }
-  const i = idx % total;
-  return i >= 0 ? i : i + total;
-};
+
 let resolveArr: ((value: null | number) => void)[] = [];
-export default class Gallery {
+export default class Gallery extends Effect {
   private container: ContainerT;
   private slideList: GalleryItemT[];
-  private total: number;
   private alignType: AlignT;
   private moveValue: number;
-  private currentIndex: number;
   private isChanging: boolean;
-  private onTouchstart: (() => void) | undefined;
-  private onTouchend: (() => void) | undefined;
-  private onChanged: ((to: number, from: number) => void) | undefined;
-  private isTouchStart: boolean; // 是否开始touch事件
   private isSliding: boolean; // 是否在切换
   private oldMoveValue: number;
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GalleryOptionT) {
+    super(slideElList, slideContainer, activeIndex, options);
+
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;
 
     slideContainer.addEventListener('transitionend', () => {
       slideContainer.style.willChange = '';
       slideContainer.classList.remove('is-animating');
-      // console.log('animate end');
 
       this.loopRange();
       this.isChanging = false;
@@ -72,6 +60,7 @@ export default class Gallery {
       el.style.left = `${l}px`;
 
       s += w;
+
       return {
         index: idx,
         el,
@@ -91,70 +80,44 @@ export default class Gallery {
     this.isChanging = false;
 
     // handle touch
-    this.isTouchStart = false;
     this.isSliding = false;
     this.oldMoveValue = 0;
-    this.onTouchstart = options?.onTouchstart;
-    this.onTouchend = options?.onTouchend;
-    this.onChanged = options?.onChanged;
 
     this.active(activeIndex, false);
     this.loopRange();
 
     this.handleTouch();
   }
-  handleTouch() {
-    if (!supportTouch()) {
+  handleTouchStart() {
+    this.oldMoveValue = this.moveValue;
+    this.isSliding = true;
+  }
+  handleTouchMove(pos: PointMoveT, e: TouchEvent) {
+    if (!this.isSliding) {
       return;
     }
-    new OTouch(this.container.el, {
-      onStart: () => {
-        this.isTouchStart = true;
-        this.oldMoveValue = this.moveValue;
-        this.isSliding = true;
-        if (isFunction(this.onTouchstart)) {
-          this.onTouchstart();
-        }
-      },
-      onMove: (pos, e) => {
-        if (!this.isTouchStart || !this.isSliding) {
-          return;
-        }
-        const { dx, dy } = pos;
+    const { dx, dy } = pos;
 
-        // 判断是否为横向滑动
-        if (Math.abs(dx) > Math.abs(dy)) {
-          this.isSliding = true;
-          e.stopPropagation();
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          this.transformX(this.oldMoveValue + dx, false);
-        } else {
-          this.isSliding = false;
-        }
-      },
-      onEnd: (pos) => {
-        if (!this.isTouchStart) {
-          return;
-        }
-        this.isTouchStart = false;
-        this.isSliding = false;
-        const { width: sw } = this.slideList[this.currentIndex];
+    // 判断是否为横向滑动
+    if (Math.abs(dx) > Math.abs(dy)) {
+      this.isSliding = true;
+      e.stopPropagation();
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      this.transformX(this.oldMoveValue + dx, false);
+    } else {
+      this.isSliding = false;
+    }
+  }
+  handleTouchEnd(pos: PointMoveT) {
+    this.isSliding = false;
+    const { width: sw } = this.slideList[this.currentIndex];
 
-        // TODO 处理slide宽度不一致问题，一次滚动多个
-        const step = Math.abs(pos.dx) / sw > 0.2 ? 1 : 0;
+    // TODO 处理slide宽度不一致问题，一次滚动多个
+    const step = Math.abs(pos.dx) / sw > 0.2 ? 1 : 0;
 
-        const toIdx = fixIndex(this.currentIndex + (pos.dx < 0 ? step : -1 * step), this.total);
-
-        this.active(toIdx, true, true);
-        if (this.onChanged) {
-          this.onChanged(toIdx, this.currentIndex);
-        }
-        if (isFunction(this.onTouchend)) {
-          this.onTouchend();
-        }
-      },
-    });
+    const toIdx = this.currentIndex + (pos.dx < 0 ? step : -1 * step);
+    return toIdx;
   }
 
   active(slideIndex: number, animate = true, force: boolean = false): Promise<null | number> {
@@ -162,14 +125,19 @@ export default class Gallery {
       return Promise.resolve(null);
     }
     this.isChanging = animate;
-    this.currentIndex = slideIndex;
-    const slide = this.slideList[slideIndex];
+    const toSlide = this.slideList[slideIndex];
+    const fromSlide = this.slideList[this.currentIndex];
 
-    if (!slide) {
+    toSlide.el.classList.add(GalleryClass.CURRENT);
+    fromSlide?.el.classList.remove(GalleryClass.CURRENT);
+
+    this.currentIndex = slideIndex;
+
+    if (!toSlide) {
       return Promise.resolve(null);
     }
     const { width: cw } = this.container;
-    const { width: sw, left: sl } = slide;
+    const { width: sw, left: sl } = toSlide;
     if (this.alignType === 'center') {
       return this.transformX((cw - sw) / 2 - sl, animate);
     }

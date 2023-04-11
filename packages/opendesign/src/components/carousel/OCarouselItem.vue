@@ -5,7 +5,7 @@ import { carouselInjectKey } from './provide';
 const injection = inject(carouselInjectKey);
 </script>
 <template>
-  <div class="o-carousel-item" :class="[injection ? `o-carousel-${injection.type}` : '']">
+  <div :class="[injection ? `o-carousel-item-${injection.effect}` : 'o-carousel-item']">
     <slot></slot>
   </div>
 </template>

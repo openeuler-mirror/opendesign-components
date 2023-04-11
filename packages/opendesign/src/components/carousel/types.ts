@@ -10,8 +10,8 @@ export const carouselProps = {
   /**
    * 样式类型
    */
-  type: {
-    type: String as PropType<'gallery'>,
+  effect: {
+    type: String as PropType<'gallery' | 'toggle'>,
     default: 'gallery',
   },
   /**
@@ -60,7 +60,7 @@ export const carouselProps = {
   /**
    * 点击卡片切换到当前
    */
-  clickToActive: {
+  clickToSwitch: {
     type: Boolean,
   },
   /**

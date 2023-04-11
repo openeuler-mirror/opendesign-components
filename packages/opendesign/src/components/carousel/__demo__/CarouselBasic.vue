@@ -31,11 +31,21 @@ const initSlides = () => {
 </script>
 <template>
   <div style="min-height: 200vh">
-    <h4>基本</h4>
+    <h4>gallery</h4>
     <div class="block">
-      <h2 @click="next">Next</h2>
+      <div class="btn" @click="next">Next</div>
       <div class="center"></div>
-      <OCarousel ref="slidesRef" loop class="gallery-carousel" :auto-play="false" :active-index="idx" @change="onChange" @before-change="onBeforeChange">
+      <OCarousel
+        ref="slidesRef"
+        indicator-click
+        loop
+        class="gallery-carousel"
+        :auto-play="false"
+        :active-index="idx"
+        click-to-switch
+        @change="onChange"
+        @before-change="onBeforeChange"
+      >
         <OCarouselItem v-for="s in 6" :key="s" class="gallery-carousel-item">
           <div class="slide">{{ s - 1 }}</div>
           <div class="center red"></div>
@@ -43,16 +53,24 @@ const initSlides = () => {
       </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="carousel" auto-play click-to-active indicator-click @change="onChange">
+      <OCarousel class="carousel" auto-play click-to-active indicator-click click-to-switch @change="onChange">
         <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OCarouselItem>
       </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
-      <div class="btn" @click="initSlides">do init</div>
+      <div class="btn" @click="initSlides">延迟初始化</div>
       <OCarousel ref="slidesRef2" manual-init class="slides2" auto-play :active-index="1" @change="onChange">
         <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
+          <OFigure class="img" :src="s" />
+        </OCarouselItem>
+      </OCarousel>
+    </div>
+    <h4>Fade</h4>
+    <div class="block" style="overflow: hidden">
+      <OCarousel class="slides2" effect="toggle" indicator-click @change="onChange">
+        <OCarouselItem v-for="s in carousel" :key="s">
           <OFigure class="img" :src="s" />
         </OCarouselItem>
       </OCarousel>

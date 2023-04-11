@@ -17,11 +17,6 @@
   height: 100%;
   z-index: 1;
 }
-.o-carousel-click-active {
-  .o-carousel-item:not(.o-carousel-active) {
-    cursor: pointer;
-  }
-}
 
 // arrow
 .o-carousel-arrow-prev,
@@ -103,7 +98,7 @@
     transform: translateY(-50%) scaleX(0);
   }
 }
-@keyframes grow {
+@keyframes indicator-grow {
   from {
     transform: translateY(-50%) scaleX(0);
   }
@@ -117,7 +112,7 @@
     transform-origin: left center;
   }
   &.is-autoplay::after {
-    animation: grow var(--carousel-interval, '5000ms') var(--o-easing-linear);
+    animation: indicator-grow var(--carousel-interval, '5000ms') var(--o-easing-linear);
   }
 }
 
@@ -133,8 +128,53 @@
     transition: transform var(--o-duration-l) var(--o-easing-emphasized);
   }
 }
-.o-carousel-gallery {
+.o-carousel-item-gallery {
   position: absolute;
   left: 0;
   flex-shrink: 0;
+}
+// 处理点击切换时光标样式
+.o-carousel-click-to-switch {
+  .o-carousel-item-gallery:not(.is-current) {
+    cursor: pointer;
+  }
+}
+
+// toggle
+@keyframes carousel-toggle {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.o-carousel-container-toggle {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.o-carousel-item-toggle {
+  position: absolute;
+  left: 0;
+  flex-shrink: 0;
+  z-index: 0;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+}
+.o-carousel-toggle-current {
+  opacity: 1;
+  z-index: 2;
+}
+
+.o-carousel-toggle-in {
+  animation: carousel-toggle var(--o-duration-l) var(--o-easing-emphasized) forwards;
+  z-index: 2;
+}
+.o-carousel-toggle-out {
+  animation: carousel-toggle var(--o-duration-l) var(--o-easing-emphasized) reverse forwards;
+  z-index: 1;
 }

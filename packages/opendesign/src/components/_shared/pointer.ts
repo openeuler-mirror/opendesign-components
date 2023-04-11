@@ -1,8 +1,8 @@
-interface PointT {
+export interface PointT {
   x: number;
   y: number;
 }
-interface PointMoveT {
+export interface PointMoveT {
   x: number;
   y: number;
   dx: number;

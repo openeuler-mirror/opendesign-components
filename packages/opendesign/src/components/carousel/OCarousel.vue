@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../icon';
-import Gallery, { GalleryT } from './gallery';
+import Gallery from './gallery';
+import Toggle from './toggle';
 import { carouselInjectKey } from './provide';
 
 import { carouselProps } from './types';
+import { EffectT } from './effect';
 
 const props = defineProps(carouselProps);
 
@@ -45,15 +47,9 @@ const slideElList = computed(() => {
 let isChanging = false;
 
 // gallery
-let slidesInstance: GalleryT | null = null;
+let slidesInstance: EffectT | null = null;
 
 function afterActive(to: number, from: number) {
-  const toSlideEl = (slideElList.value as HTMLElement[])[to];
-  const fromSlideEl = (slideElList.value as HTMLElement[])[from];
-
-  fromSlideEl.classList.remove('o-carousel-active');
-  toSlideEl.classList.add('o-carousel-active');
-
   emits('change', to, from);
 }
 const activeSlideByIndex = (index: number): Promise<boolean> => {
@@ -67,21 +63,17 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     isChanging = true;
 
     emits('before-change', to, from);
+
     activeIndex.value = to;
+    if (slidesInstance) {
+      slidesInstance.active(to).then(() => {
+        afterActive(to, from);
 
-    switch (props.type) {
-      case 'gallery': {
-        (slidesInstance as GalleryT)?.active(to).then(() => {
-          afterActive(to, from);
-
-          isChanging = false;
-          resolve(true);
-        });
-        break;
-      }
-      default: {
-        resolve(false);
-      }
+        isChanging = false;
+        resolve(true);
+      });
+    } else {
+      resolve(false);
     }
   });
 };
@@ -122,28 +114,39 @@ const initSlides = () => {
   if (!slideElList.value || !containerRef.value || initialized.value) {
     return;
   }
-  switch (props.type) {
+
+  const options = {
+    onTouchstart: () => {
+      stopPlay();
+    },
+    onTouchend: () => {
+      // 恢复自动播放
+      if (props.autoPlay) {
+        startPlay();
+      }
+    },
+    onChanged: (to: number, from: number) => {
+      activeIndex.value = to;
+      afterActive(to, from);
+    },
+  };
+
+  let EffectType = null;
+  switch (props.effect) {
+    case 'toggle': {
+      EffectType = Toggle;
+      break;
+    }
     case 'gallery': {
-      slidesInstance = new Gallery(slideElList.value, containerRef.value, activeIndex.value, {
-        onTouchstart: () => {
-          stopPlay();
-        },
-        onTouchend: () => {
-          // 恢复自动播放
-          if (props.autoPlay) {
-            startPlay();
-          }
-        },
-        onChanged: (to, from) => {
-          activeIndex.value = to;
-          afterActive(to, from);
-        },
-      });
+      EffectType = Gallery;
       break;
     }
   }
+  if (EffectType) {
+    slidesInstance = new EffectType(slideElList.value, containerRef.value, activeIndex.value, options);
+  }
 
-  if (props.clickToActive) {
+  if (props.clickToSwitch) {
     slideElList.value.forEach((el, idx) => {
       el.addEventListener('click', () => {
         if (idx !== activeIndex.value) {
@@ -152,8 +155,6 @@ const initSlides = () => {
       });
     });
   }
-
-  slideElList.value[activeIndex.value].classList.add('o-carousel-active');
 
   initialized.value = true;
 };
@@ -186,7 +187,7 @@ onUnmounted(() => {
   }
 });
 provide(carouselInjectKey, {
-  type: props.type,
+  effect: props.effect,
 });
 
 defineExpose({
@@ -203,16 +204,16 @@ defineExpose({
     :class="[
       {
         'o-carousel-visible': initialized,
-        'o-carousel-click-active': props.clickToActive,
+        'o-carousel-click-to-switch': props.clickToSwitch,
       },
-      `o-carousel-type-${props.type}`,
+      `o-carousel-effect-${props.effect}`,
     ]"
     :style="{
       '--carousel-interval': props.interval + 'ms',
     }"
   >
     <div class="o-carousel-wrap">
-      <div ref="containerRef" class="o-carousel-container" :class="[`o-carousel-container-${props.type}`]">
+      <div ref="containerRef" :class="[`o-carousel-container-${props.effect}`]">
         <slot></slot>
       </div>
     </div>
