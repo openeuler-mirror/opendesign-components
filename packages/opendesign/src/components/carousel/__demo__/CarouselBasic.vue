@@ -96,7 +96,7 @@ const initSlides = () => {
 }
 .carousel {
   height: 200px;
-  width: 80%;
+  width: 50%;
   margin: auto;
 }
 .slides2 {

@@ -17,7 +17,7 @@ import { OFlex, OFlexItem } from '../index';
       <OFlexItem flex="25%" class="colored">
         <div class="box">box</div>
       </OFlexItem>
-      <OFlexItem flex="50%" :shrink="0" class="colored">
+      <OFlexItem flex="50%" class="colored">
         <div class="box">box</div>
       </OFlexItem>
       <OFlexItem flex="25%" class="colored">
