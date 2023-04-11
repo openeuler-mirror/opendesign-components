@@ -66,8 +66,8 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
       return Promise.resolve(false);
     }
 
-    activeIndex.value = to;
     if (slidesInstance) {
+      activeIndex.value = to;
       slidesInstance.active(to).then(() => {
         resolve(true);
       });
