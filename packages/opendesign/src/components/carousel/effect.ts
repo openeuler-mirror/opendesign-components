@@ -4,6 +4,7 @@ import { OTouch, PointMoveT } from '../_shared/pointer';
 
 export interface EffectT {
   active: (slideIndex: number) => Promise<null | number>;
+  destroyed: () => void;
 }
 export interface EffectOptionT {
   onTouchstart?: () => void;
@@ -40,7 +41,8 @@ export default abstract class Effect {
   abstract handleTouchStart(): void;
   abstract handleTouchMove(pos: PointMoveT, e: TouchEvent): void;
   abstract handleTouchEnd(pos: PointMoveT, e: TouchEvent): number | void;
-  abstract active(toIndex: number, animate: boolean, force: boolean): Promise<null | number>;
+  abstract active(toIndex: number, animate?: boolean, force?: boolean): Promise<null | number>;
+  abstract destroyed(): void;
   fixIndex(idx: number) {
     const i = idx % this.total;
     return i >= 0 ? i : i + this.total;

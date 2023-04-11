@@ -92,4 +92,5 @@ export default class Toggle extends Effect {
       return toIndex;
     });
   }
+  destroyed() {}
 }

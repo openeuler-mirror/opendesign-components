@@ -1,6 +1,8 @@
 import { isFunction } from '../_shared/is';
 import { PointMoveT } from '../_shared/pointer';
 import Effect, { EffectOptionT } from './effect';
+import { useResizeObserver } from '../hooks';
+import { throttleRAF } from '../_shared/utils';
 
 interface GalleryItemT {
   index: number;
@@ -35,6 +37,7 @@ export default class Gallery extends Effect {
   private isChanging: boolean;
   private isSliding: boolean; // 是否在切换
   private oldMoveValue: number;
+  private destroyObserver: () => void;
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GalleryOptionT) {
     super(slideElList, slideContainer, activeIndex, options);
 
@@ -53,6 +56,35 @@ export default class Gallery extends Effect {
       }
     });
 
+    this.alignType = alignType;
+    this.moveValue = 0;
+    this.currentIndex = activeIndex;
+    this.isChanging = false;
+
+    // handle touch
+    this.isSliding = false;
+    this.oldMoveValue = 0;
+
+    this.slideList = [];
+
+    this.container = {
+      el: slideContainer,
+      width: 0,
+    };
+
+    const or = useResizeObserver();
+    const listener = throttleRAF(() => {
+      console.log('resize');
+
+      this.update(slideElList, slideContainer);
+      this.active(activeIndex, false, true);
+    });
+    or.observe(slideContainer, listener);
+    this.destroyObserver = () => {
+      or.unobserve(slideContainer, listener);
+    };
+  }
+  update(slideElList: HTMLElement[], slideContainer: HTMLElement) {
     let s = 0;
     this.slideList = slideElList.map((el, idx) => {
       const w = el.clientWidth;
@@ -73,19 +105,6 @@ export default class Gallery extends Effect {
       el: slideContainer,
       width: slideContainer.clientWidth,
     };
-
-    this.alignType = alignType;
-    this.moveValue = 0;
-    this.currentIndex = activeIndex;
-    this.isChanging = false;
-
-    // handle touch
-    this.isSliding = false;
-    this.oldMoveValue = 0;
-
-    this.active(activeIndex, false, true);
-
-    this.handleTouch();
   }
   handleTouchStart() {
     this.oldMoveValue = this.moveValue;
@@ -210,5 +229,10 @@ export default class Gallery extends Effect {
         resolve(null);
       }
     });
+  }
+  destroyed() {
+    if (isFunction(this.destroyObserver)) {
+      this.destroyObserver();
+    }
   }
 }

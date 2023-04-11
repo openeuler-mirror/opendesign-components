@@ -6,7 +6,7 @@ import Toggle from './toggle';
 import { carouselInjectKey } from './provide';
 
 import { carouselProps } from './types';
-import { EffectT } from './effect';
+import Effect from './effect';
 
 const props = defineProps(carouselProps);
 
@@ -55,7 +55,7 @@ const slideElList = computed(() => {
 let isChanging = false;
 
 // gallery
-let slidesInstance: EffectT | null = null;
+let slidesInstance: InstanceType<typeof Effect> | null = null;
 
 const activeSlideByIndex = (index: number): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -189,6 +189,7 @@ onUnmounted(() => {
     clearInterval(timer);
     timer = null;
   }
+  slidesInstance?.destroyed();
 });
 provide(carouselInjectKey, {
   effect: props.effect,
