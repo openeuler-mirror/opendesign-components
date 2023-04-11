@@ -29,13 +29,14 @@ export * from './menu';
 export * from './breadcrumb';
 export * from './progress';
 export * from './dropdown';
+export * from './layer';
 export * from './dialog';
+export * from './loading';
 export * from './figure';
 export * from './card';
 export * from './message';
 export * from './carousel';
 export * from './cascader';
-export * from './grid';
 export * from './flex';
 export * from './result';
 
@@ -43,3 +44,6 @@ export * from './result';
 export * from './intersection-observer';
 export * from './resize-observer';
 export * from './child-only';
+
+// 待废弃
+export * from './grid';

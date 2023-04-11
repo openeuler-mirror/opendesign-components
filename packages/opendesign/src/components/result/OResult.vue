@@ -13,7 +13,7 @@ const iconMap = {
   danger: IconError,
 };
 
-const icon = computed(() => iconMap[props.status]);
+const icon = computed(() => (props.status ? iconMap[props.status] : undefined));
 </script>
 
 <template>

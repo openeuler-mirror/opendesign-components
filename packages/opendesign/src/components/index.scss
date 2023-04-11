@@ -26,12 +26,16 @@
 @use './breadcrumb/style/index.scss' as *;
 @use './dropdown/style/index.scss' as *;
 @use './progress/style/index.scss' as *;
+@use './layer/style/index.scss' as *;
 @use './dialog/style/index.scss' as *;
+@use './loading/style/index.scss' as *;
 @use './figure/style/index.scss' as *;
 @use './card/style/index.scss' as *;
 @use './carousel/style/index.scss' as *;
 @use './message/style/index.scss' as *;
 @use './cascader/style/index.scss' as *;
-@use './grid/style/index.scss' as *;
 @use './flex/style/index.scss' as *;
 @use './result/style/index.scss' as *;
+
+// 待废弃
+@use './grid/style/index.scss' as *;
