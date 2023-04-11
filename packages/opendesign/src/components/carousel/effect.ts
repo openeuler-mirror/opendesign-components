@@ -8,6 +8,7 @@ export interface EffectT {
 export interface EffectOptionT {
   onTouchstart?: () => void;
   onTouchend?: () => void;
+  onBeforeChange?: (from: number, to: number) => boolean | void;
   onChanged?: (from: number, to: number) => void;
 }
 
@@ -16,6 +17,7 @@ export default abstract class Effect {
   currentIndex: number;
   onTouchstart: (() => void) | undefined;
   onTouchend: (() => void) | undefined;
+  onBeforeChange: ((to: number, from: number) => boolean | void) | undefined;
   onChanged: ((to: number, from: number) => void) | undefined;
   private isTouchStart: boolean; // 是否开始touch事件
   private containerEl: HTMLElement;
@@ -30,6 +32,7 @@ export default abstract class Effect {
     this.isTouchStart = false;
     this.onTouchstart = options?.onTouchstart;
     this.onTouchend = options?.onTouchend;
+    this.onBeforeChange = options?.onBeforeChange;
     this.onChanged = options?.onChanged;
 
     this.handleTouch();
@@ -71,9 +74,6 @@ export default abstract class Effect {
         if (typeof toIdx === 'number') {
           const to = this.fixIndex(toIdx);
           this.active(to, true, true);
-          if (this.onChanged) {
-            this.onChanged(to, this.currentIndex);
-          }
         }
 
         if (isFunction(this.onTouchend)) {

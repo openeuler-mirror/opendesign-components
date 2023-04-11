@@ -1,3 +1,4 @@
+import { isFunction } from '../_shared/is';
 import { PointMoveT } from '../_shared/pointer';
 import Effect, { EffectOptionT } from './effect';
 
@@ -44,7 +45,6 @@ export default class Gallery extends Effect {
       slideContainer.style.willChange = '';
       slideContainer.classList.remove('is-animating');
 
-      this.loopRange();
       this.isChanging = false;
 
       if (resolveArr.length > 0) {
@@ -76,15 +76,14 @@ export default class Gallery extends Effect {
 
     this.alignType = alignType;
     this.moveValue = 0;
-    this.currentIndex = -1;
+    this.currentIndex = activeIndex;
     this.isChanging = false;
 
     // handle touch
     this.isSliding = false;
     this.oldMoveValue = 0;
 
-    this.active(activeIndex, false);
-    this.loopRange();
+    this.active(activeIndex, false, true);
 
     this.handleTouch();
   }
@@ -120,18 +119,21 @@ export default class Gallery extends Effect {
     return toIdx;
   }
 
-  active(slideIndex: number, animate = true, force: boolean = false): Promise<null | number> {
-    if (this.total === 0 || this.isChanging || (!force && this.currentIndex === slideIndex)) {
+  active(toIndex: number, animate = true, force: boolean = false): Promise<null | number> {
+    if (this.total === 0 || this.isChanging || (!force && this.currentIndex === toIndex)) {
       return Promise.resolve(null);
     }
+
+    if (this.currentIndex !== toIndex && isFunction(this.onBeforeChange) && this.onBeforeChange(toIndex, this.currentIndex) === false) {
+      Promise.resolve(null);
+    }
+
     this.isChanging = animate;
-    const toSlide = this.slideList[slideIndex];
+    const toSlide = this.slideList[toIndex];
     const fromSlide = this.slideList[this.currentIndex];
 
     toSlide.el.classList.add(GalleryClass.CURRENT);
     fromSlide?.el.classList.remove(GalleryClass.CURRENT);
-
-    this.currentIndex = slideIndex;
 
     if (!toSlide) {
       return Promise.resolve(null);
@@ -139,9 +141,16 @@ export default class Gallery extends Effect {
     const { width: cw } = this.container;
     const { width: sw, left: sl } = toSlide;
     if (this.alignType === 'center') {
-      return this.transformX((cw - sw) / 2 - sl, animate);
+      return this.transformX((cw - sw) / 2 - sl, animate).then(() => {
+        if (isFunction(this.onChanged) && this.currentIndex !== toIndex) {
+          this.onChanged(toIndex, this.currentIndex);
+        }
+        this.currentIndex = toIndex;
+        this.loopRange();
+        return toIndex;
+      });
     }
-    return Promise.resolve(slideIndex);
+    return Promise.resolve(toIndex);
   }
   loopRange() {
     const cidx = this.currentIndex;

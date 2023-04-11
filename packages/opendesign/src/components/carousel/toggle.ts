@@ -1,3 +1,4 @@
+import { isFunction } from '../_shared/is';
 import { PointMoveT } from '../_shared/pointer';
 import Effect, { EffectOptionT } from './effect';
 interface ItemT {
@@ -61,11 +62,14 @@ export default class Toggle extends Effect {
       if (this.total === 0 || this.isChanging || (!force && this.currentIndex === toIndex)) {
         return resolve(null);
       }
+
+      if (this.currentIndex !== toIndex && isFunction(this.onBeforeChange) && this.onBeforeChange(toIndex, this.currentIndex) === false) {
+        Promise.resolve(null);
+      }
+
       this.isChanging = animate;
       const toSlide = this.slideList[toIndex];
       const fromSlide = this.slideList[this.currentIndex];
-
-      this.currentIndex = toIndex;
 
       if (!toSlide) {
         return resolve(null);
@@ -80,6 +84,12 @@ export default class Toggle extends Effect {
       } else {
         return resolve(toIndex);
       }
+    }).then(() => {
+      if (isFunction(this.onChanged) && this.currentIndex !== toIndex) {
+        this.onChanged(toIndex, this.currentIndex);
+      }
+      this.currentIndex = toIndex;
+      return toIndex;
     });
   }
 }

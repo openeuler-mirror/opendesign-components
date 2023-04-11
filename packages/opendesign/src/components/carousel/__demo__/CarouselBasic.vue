@@ -69,7 +69,7 @@ const initSlides = () => {
     </div>
     <h4>Fade</h4>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="slides2" effect="toggle" indicator-click @change="onChange">
+      <OCarousel class="slides2" effect="toggle" indicator-click @change="onChange" @before-change="onBeforeChange">
         <OCarouselItem v-for="s in carousel" :key="s">
           <OFigure class="img" :src="s" />
         </OCarouselItem>

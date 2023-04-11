@@ -49,9 +49,6 @@ let isChanging = false;
 // gallery
 let slidesInstance: EffectT | null = null;
 
-function afterActive(to: number, from: number) {
-  emits('change', to, from);
-}
 const activeSlideByIndex = (index: number): Promise<boolean> => {
   return new Promise((resolve) => {
     const to = fixIndex(index);
@@ -60,16 +57,10 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     if (isChanging || !slideElList.value || to === from) {
       return Promise.resolve(false);
     }
-    isChanging = true;
-
-    emits('before-change', to, from);
 
     activeIndex.value = to;
     if (slidesInstance) {
       slidesInstance.active(to).then(() => {
-        afterActive(to, from);
-
-        isChanging = false;
         resolve(true);
       });
     } else {
@@ -125,9 +116,14 @@ const initSlides = () => {
         startPlay();
       }
     },
+    onBeforeChange: (to: number, from: number) => {
+      isChanging = true;
+      emits('before-change', to, from);
+    },
     onChanged: (to: number, from: number) => {
+      isChanging = false;
       activeIndex.value = to;
-      afterActive(to, from);
+      emits('change', to, from);
     },
   };
 
