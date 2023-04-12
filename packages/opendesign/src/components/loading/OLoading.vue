@@ -15,11 +15,8 @@ const emits = defineEmits<{
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 defineExpose({
-  show() {
-    layerRef.value?.show();
-  },
-  hide() {
-    layerRef.value?.hide();
+  toggle(show?: boolean) {
+    layerRef.value?.toggle(show);
   },
 });
 </script>
@@ -29,7 +26,6 @@ defineExpose({
     class="o-loading"
     :visible="props.visible"
     :wrapper="props.wrapper"
-    :to-body="props.toBody"
     :unmount-on-hide="props.unmountOnHide"
     :main-class="mergeClass('o-loading-main', props.mainClass)"
     :main-transition="props.mainTransition"
@@ -41,10 +37,13 @@ defineExpose({
   >
     <slot>
       <div class="o-loading-icon">
-        <slot name="icon"><IconLoading class="o-rotating" /></slot>
+        <slot name="icon">
+          <component :is="props.icon" v-if="props.icon" :class="{ 'o-rotating': props.iconRotating }" />
+          <IconLoading v-else class="o-rotating" />
+        </slot>
       </div>
-      <div v-if="$slots.label" class="o-loading-label">
-        <slot name="label"></slot>
+      <div v-if="$slots.label || props.label" class="o-loading-label">
+        <slot name="label">{{ props.label }}</slot>
       </div>
     </slot>
   </OLayer>

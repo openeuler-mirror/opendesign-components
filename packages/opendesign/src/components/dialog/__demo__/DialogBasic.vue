@@ -64,7 +64,7 @@ const onChane = (v: boolean) => {
       This is Dialog
       <template #footer>
         <div class="dlg-action">
-          <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
+          <OButton color="primary" variant="solid" @click="toggle2(false)">确定</OButton>
           <OButton @click="toggle2(false)">取消</OButton>
         </div>
       </template>
@@ -73,12 +73,12 @@ const onChane = (v: boolean) => {
   <h4>局部弹窗</h4>
   <section class="wrap">
     <OButton @click="toggle3(true)">Open to parent</OButton>
-    <ODialog v-model:visible="showDlg3" @change="onChane">
+    <ODialog v-model:visible="showDlg3" :wrapper="null" @change="onChane">
       <template #header>Dialog Title</template>
       This is Dialog
       <template #footer>
         <div class="dlg-action">
-          <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
+          <OButton color="primary" variant="solid" @click="toggle3(false)">确定</OButton>
           <OButton @click="toggle3(false)">取消</OButton>
         </div>
       </template>
@@ -90,7 +90,7 @@ const onChane = (v: boolean) => {
       This is Dialog
       <template #footer>
         <div class="dlg-action">
-          <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
+          <OButton color="primary" variant="solid" @click="toggle4(false)">确定</OButton>
           <OButton @click="toggle4(false)">取消</OButton>
         </div>
       </template>

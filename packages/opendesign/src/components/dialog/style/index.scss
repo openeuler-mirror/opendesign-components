@@ -17,6 +17,7 @@
   color: var(--dlg-close-color);
   display: flex;
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
+  cursor: pointer;
   &:hover {
     color: var(--dlg-close-color-hover);
   }

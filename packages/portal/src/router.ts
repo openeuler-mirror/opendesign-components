@@ -174,7 +174,7 @@ export const routes = [
     path: '/loading',
     name: 'Loading',
     label: '加载 Loading',
-    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
+    component: () => import('@components/loading/__demo__/TheIndex.vue'),
   },
   {
     path: '/figure',

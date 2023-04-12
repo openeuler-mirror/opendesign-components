@@ -1,8 +1,8 @@
-import { createVNode, render, isRef, Ref, watch, ComponentInternalInstance } from 'vue';
+import { createVNode, render, isRef, Ref, watch, ComponentInternalInstance, onMounted } from 'vue';
 import OLoading from './OLoading.vue';
 import { LoadingPropsT } from './types';
 
-const initLoading = (opt?: LoadingPropsT, el?: HTMLElement) => {
+const initLoading = (opt?: Partial<LoadingPropsT>, el?: HTMLElement) => {
   const vnode = createVNode(OLoading, Object.assign(opt || {}, { wrapper: el }));
   if (el) {
     render(vnode, el);
@@ -10,33 +10,32 @@ const initLoading = (opt?: LoadingPropsT, el?: HTMLElement) => {
   return vnode.component;
 };
 
-const useLoading = (wrap: Ref<HTMLElement> | HTMLElement | string = 'body', opt?: LoadingPropsT) => {
+const useLoading = (wrap: Ref<HTMLElement> | HTMLElement | string = 'body', opt?: Partial<LoadingPropsT>) => {
   let instance: ComponentInternalInstance | null = null;
-  if (typeof wrap === 'string') {
-    const el = document.querySelector(wrap);
-    if (el) {
-      instance = initLoading(opt, el as HTMLElement);
-    }
-  } else if ((wrap as HTMLElement).nodeType === 1) {
-    instance = initLoading(opt, wrap as HTMLElement);
-  } else if (isRef(wrap)) {
+  if (isRef(wrap)) {
     watch(
       () => wrap.value,
       (el) => {
         instance = initLoading(opt, el);
+      },
+      {
+        immediate: true,
       }
     );
+  } else if ((wrap as HTMLElement).nodeType === 1) {
+    instance = initLoading(opt, wrap as HTMLElement);
+  } else if (typeof wrap === 'string') {
+    onMounted(() => {
+      const el = document.querySelector(wrap);
+      if (el) {
+        instance = initLoading(opt, el as HTMLElement);
+      }
+    });
   }
+
   return {
-    show() {
-      if (instance) {
-        instance.exposed?.show();
-      }
-    },
-    hide() {
-      if (instance) {
-        instance.exposed?.hide();
-      }
+    toggle(show?: boolean) {
+      instance?.exposed?.toggle(show);
     },
   };
 };
