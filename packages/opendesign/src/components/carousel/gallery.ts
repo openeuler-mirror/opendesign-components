@@ -37,14 +37,14 @@ export default class Gallery extends Effect {
   private isSliding: boolean; // 是否在切换
   private oldMoveValue: number;
   private destroyObserver: () => void;
-  private resolveArr:((value: null | number) => void)[];
+  private resolveArr: ((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GalleryOptionT) {
     super(slideElList, slideContainer, activeIndex, options);
 
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;
 
-    this.resolveArr = []
+    this.resolveArr = [];
 
     slideContainer.addEventListener('transitionend', () => {
       slideContainer.style.willChange = '';
@@ -76,8 +76,6 @@ export default class Gallery extends Effect {
 
     const or = useResizeObserver();
     const listener = throttleRAF(() => {
-      console.log('resize');
-
       this.update(slideElList, slideContainer);
       this.active(activeIndex, false, true);
     });
