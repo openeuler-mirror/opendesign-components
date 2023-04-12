@@ -4,10 +4,12 @@ import { OTouch, PointMoveT } from '../_shared/pointer';
 
 export interface EffectT {
   active: (slideIndex: number) => Promise<null | number>;
+  destroyed: () => void;
 }
 export interface EffectOptionT {
   onTouchstart?: () => void;
   onTouchend?: () => void;
+  onBeforeChange?: (from: number, to: number) => boolean | void;
   onChanged?: (from: number, to: number) => void;
 }
 
@@ -16,6 +18,7 @@ export default abstract class Effect {
   currentIndex: number;
   onTouchstart: (() => void) | undefined;
   onTouchend: (() => void) | undefined;
+  onBeforeChange: ((to: number, from: number) => boolean | void) | undefined;
   onChanged: ((to: number, from: number) => void) | undefined;
   private isTouchStart: boolean; // 是否开始touch事件
   private containerEl: HTMLElement;
@@ -30,6 +33,7 @@ export default abstract class Effect {
     this.isTouchStart = false;
     this.onTouchstart = options?.onTouchstart;
     this.onTouchend = options?.onTouchend;
+    this.onBeforeChange = options?.onBeforeChange;
     this.onChanged = options?.onChanged;
 
     this.handleTouch();
@@ -37,7 +41,8 @@ export default abstract class Effect {
   abstract handleTouchStart(): void;
   abstract handleTouchMove(pos: PointMoveT, e: TouchEvent): void;
   abstract handleTouchEnd(pos: PointMoveT, e: TouchEvent): number | void;
-  abstract active(toIndex: number, animate: boolean, force: boolean): Promise<null | number>;
+  abstract active(toIndex: number, animate?: boolean, force?: boolean): Promise<null | number>;
+  abstract destroyed(): void;
   fixIndex(idx: number) {
     const i = idx % this.total;
     return i >= 0 ? i : i + this.total;
@@ -71,9 +76,6 @@ export default abstract class Effect {
         if (typeof toIdx === 'number') {
           const to = this.fixIndex(toIdx);
           this.active(to, true, true);
-          if (this.onChanged) {
-            this.onChanged(to, this.currentIndex);
-          }
         }
 
         if (isFunction(this.onTouchend)) {

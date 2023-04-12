@@ -1,3 +1,4 @@
+import { isFunction } from '../_shared/is';
 import { PointMoveT } from '../_shared/pointer';
 import Effect, { EffectOptionT } from './effect';
 interface ItemT {
@@ -9,14 +10,15 @@ enum ToggleClass {
   OUT = 'o-carousel-toggle-out',
   CURRENT = 'o-carousel-toggle-current',
 }
-let resolveArr: ((value: null | number) => void)[] = [];
 export default class Toggle extends Effect {
   private slideList: ItemT[];
   private isChanging: boolean;
+  private resolveArr:((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: EffectOptionT) {
     super(slideElList, slideContainer, activeIndex, options);
 
     this.isChanging = false;
+    this.resolveArr = []
 
     this.slideList = slideElList.map((el, idx) => {
       el.addEventListener('animationend', () => {
@@ -25,8 +27,8 @@ export default class Toggle extends Effect {
         this.isChanging = false;
 
         if (idx === this.currentIndex) {
-          resolveArr.forEach((fn) => fn(null));
-          resolveArr = [];
+          this.resolveArr.forEach((fn) => fn(null));
+          this.resolveArr = [];
         }
       });
 
@@ -61,11 +63,14 @@ export default class Toggle extends Effect {
       if (this.total === 0 || this.isChanging || (!force && this.currentIndex === toIndex)) {
         return resolve(null);
       }
+
+      if (this.currentIndex !== toIndex && isFunction(this.onBeforeChange) && this.onBeforeChange(toIndex, this.currentIndex) === false) {
+        Promise.resolve(null);
+      }
+
       this.isChanging = animate;
       const toSlide = this.slideList[toIndex];
       const fromSlide = this.slideList[this.currentIndex];
-
-      this.currentIndex = toIndex;
 
       if (!toSlide) {
         return resolve(null);
@@ -76,10 +81,17 @@ export default class Toggle extends Effect {
       if (animate) {
         toSlide.el.classList.add(ToggleClass.IN);
         fromSlide.el.classList.add(ToggleClass.OUT);
-        resolveArr.push(resolve);
+        this.resolveArr.push(resolve);
       } else {
         return resolve(toIndex);
       }
+    }).then(() => {
+      if (isFunction(this.onChanged) && this.currentIndex !== toIndex) {
+        this.onChanged(toIndex, this.currentIndex);
+      }
+      this.currentIndex = toIndex;
+      return toIndex;
     });
   }
+  destroyed() {}
 }

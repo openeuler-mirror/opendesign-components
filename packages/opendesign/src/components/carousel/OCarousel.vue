@@ -6,7 +6,7 @@ import Toggle from './toggle';
 import { carouselInjectKey } from './provide';
 
 import { carouselProps } from './types';
-import { EffectT } from './effect';
+import Effect from './effect';
 
 const props = defineProps(carouselProps);
 
@@ -17,6 +17,14 @@ const emits = defineEmits<{
 
 const containerRef = ref<HTMLElement | null>(null);
 const total = computed(() => containerRef.value?.children.length);
+
+const isAutoPlay = ref(props.autoPlay);
+watch(
+  () => props.autoPlay,
+  (a) => {
+    isAutoPlay.value = a;
+  }
+);
 
 const fixIndex = (idx: number) => {
   if (!total.value) {
@@ -47,11 +55,8 @@ const slideElList = computed(() => {
 let isChanging = false;
 
 // gallery
-let slidesInstance: EffectT | null = null;
+let slidesInstance: InstanceType<typeof Effect> | null = null;
 
-function afterActive(to: number, from: number) {
-  emits('change', to, from);
-}
 const activeSlideByIndex = (index: number): Promise<boolean> => {
   return new Promise((resolve) => {
     const to = fixIndex(index);
@@ -60,16 +65,10 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     if (isChanging || !slideElList.value || to === from) {
       return Promise.resolve(false);
     }
-    isChanging = true;
 
-    emits('before-change', to, from);
-
-    activeIndex.value = to;
     if (slidesInstance) {
+      activeIndex.value = to;
       slidesInstance.active(to).then(() => {
-        afterActive(to, from);
-
-        isChanging = false;
         resolve(true);
       });
     } else {
@@ -79,7 +78,7 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
 };
 
 let timer: number | null = null;
-const stopPlay = () => {
+const pausePlay = () => {
   if (timer) {
     clearInterval(timer);
     timer = null;
@@ -87,7 +86,7 @@ const stopPlay = () => {
 };
 
 const startPlay = () => {
-  stopPlay();
+  pausePlay();
   timer = window.setInterval(() => {
     activeSlideByIndex(activeIndex.value + 1);
   }, props.interval);
@@ -96,7 +95,7 @@ const startPlay = () => {
 // 激活slide
 const activeSlide = (index: number) => {
   // 停止自动播放
-  stopPlay();
+  pausePlay();
 
   return activeSlideByIndex(index).then((success) => {
     if (!success) {
@@ -117,7 +116,7 @@ const initSlides = () => {
 
   const options = {
     onTouchstart: () => {
-      stopPlay();
+      pausePlay();
     },
     onTouchend: () => {
       // 恢复自动播放
@@ -125,9 +124,14 @@ const initSlides = () => {
         startPlay();
       }
     },
+    onBeforeChange: (to: number, from: number) => {
+      isChanging = true;
+      emits('before-change', to, from);
+    },
     onChanged: (to: number, from: number) => {
+      isChanging = false;
       activeIndex.value = to;
-      afterActive(to, from);
+      emits('change', to, from);
     },
   };
 
@@ -165,7 +169,7 @@ watch(
     if (v) {
       startPlay();
     } else {
-      stopPlay();
+      pausePlay();
     }
   }
 );
@@ -185,15 +189,24 @@ onUnmounted(() => {
     clearInterval(timer);
     timer = null;
   }
+  slidesInstance?.destroyed();
 });
 provide(carouselInjectKey, {
   effect: props.effect,
 });
 
+const play = () => {
+  isAutoPlay.value = true;
+  startPlay();
+};
+const pause = () => {
+  isAutoPlay.value = false;
+  pausePlay();
+};
 defineExpose({
   init: init,
-  play: startPlay,
-  stop: startPlay,
+  play,
+  pause,
   active: activeSlide,
 });
 </script>
@@ -224,7 +237,7 @@ defineExpose({
             class="o-carousel-indicator-bar"
             :class="{
               'o-carousel-indicator-bar-active': item - 1 === activeIndex,
-              'is-autoplay': props.autoPlay,
+              'is-autoplay': isAutoPlay,
             }"
           ></div>
         </slot>

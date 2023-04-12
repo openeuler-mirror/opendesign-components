@@ -10,10 +10,16 @@ const carousel = [
 ];
 
 const onChange = (now: number, last: number) => {
-  console.log('carousel changed', now, last);
+  console.log('[1] changed', now, last);
 };
 const onBeforeChange = (now: number, last: number) => {
-  console.log('carousel before changed', now, last);
+  console.log('[1] before changed', now, last);
+};
+const onChange2 = (now: number, last: number) => {
+  console.log('[2] changed', now, last);
+};
+const onBeforeChange2 = (now: number, last: number) => {
+  console.log('[2] before changed', now, last);
 };
 
 const slidesRef = ref<InstanceType<typeof OCarousel> | null>(null);
@@ -22,6 +28,12 @@ const next = () => {
   slidesRef.value?.active(++idx).then(() => {
     console.log('done', idx);
   });
+};
+const startPlay = () => {
+  slidesRef.value?.play();
+};
+const stopPlay = () => {
+  slidesRef.value?.pause();
 };
 
 const slidesRef2 = ref<InstanceType<typeof OCarousel> | null>(null);
@@ -34,6 +46,8 @@ const initSlides = () => {
     <h4>gallery</h4>
     <div class="block">
       <div class="btn" @click="next">Next</div>
+      <div class="btn" @click="startPlay">Start</div>
+      <div class="btn" @click="stopPlay">Pause</div>
       <div class="center"></div>
       <OCarousel
         ref="slidesRef"
@@ -53,7 +67,7 @@ const initSlides = () => {
       </OCarousel>
     </div>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="carousel" auto-play click-to-active indicator-click click-to-switch @change="onChange">
+      <OCarousel class="carousel" auto-play indicator-click click-to-switch @change="onChange2" @before-change="onBeforeChange2">
         <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OCarouselItem>
@@ -69,7 +83,7 @@ const initSlides = () => {
     </div>
     <h4>Fade</h4>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="slides2" effect="toggle" indicator-click @change="onChange">
+      <OCarousel class="slides2" effect="toggle" indicator-click @change="onChange" @before-change="onBeforeChange">
         <OCarouselItem v-for="s in carousel" :key="s">
           <OFigure class="img" :src="s" />
         </OCarouselItem>

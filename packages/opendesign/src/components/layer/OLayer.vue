@@ -22,7 +22,7 @@ const wrapper = computed(() => {
   if (props.wrapper) {
     return props.wrapper;
   } else if (props.toBody) {
-    return document.body;
+    return 'body';
   }
   return null;
 });
