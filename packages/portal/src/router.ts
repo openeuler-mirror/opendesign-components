@@ -9,6 +9,12 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/text',
+    name: 'Text',
+    label: '文本 Text',
+    component: () => import('./pages/TheText.vue'),
+  },
+  {
     path: '/icons',
     name: 'Icons',
     label: '图标 Icon',

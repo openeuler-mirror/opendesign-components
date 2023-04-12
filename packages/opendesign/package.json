@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",
