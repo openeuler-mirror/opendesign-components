@@ -52,10 +52,10 @@ const slideElList = computed(() => {
   return c ? Array.from(c).map((el) => el as HTMLElement) : null;
 });
 
-let isChanging = false;
-
 // gallery
 let slidesInstance: InstanceType<typeof Effect> | null = null;
+// 避免同一时间多次切换
+let isChanging = false;
 
 const activeSlideByIndex = (index: number): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -65,13 +65,16 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     if (isChanging || !slideElList.value || to === from) {
       return Promise.resolve(false);
     }
+    isChanging = true;
 
     if (slidesInstance) {
       activeIndex.value = to;
       slidesInstance.active(to).then(() => {
+        isChanging = false;
         resolve(true);
       });
     } else {
+      isChanging = false;
       resolve(false);
     }
   });
@@ -125,11 +128,9 @@ const initSlides = () => {
       }
     },
     onBeforeChange: (to: number, from: number) => {
-      isChanging = true;
       emits('before-change', to, from);
     },
     onChanged: (to: number, from: number) => {
-      isChanging = false;
       activeIndex.value = to;
       emits('change', to, from);
     },
