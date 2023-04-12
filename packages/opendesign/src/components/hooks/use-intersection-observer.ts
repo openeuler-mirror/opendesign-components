@@ -1,4 +1,3 @@
-// import IntersectionObserver from 'intersection-observer-polyfill';
 import { isFunction } from '../_shared/is';
 
 export type IntersectionListenerT = (entry: IntersectionObserverEntry) => void;

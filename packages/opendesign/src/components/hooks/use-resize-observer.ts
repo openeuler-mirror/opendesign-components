@@ -1,4 +1,3 @@
-// import ResizeObserver from 'resize-observer-polyfill';
 import { isFunction } from '../_shared/is';
 
 /**

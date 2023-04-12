@@ -2,7 +2,7 @@ import { isFunction } from '../_shared/is';
 import { PointMoveT } from '../_shared/pointer';
 import Effect, { EffectOptionT } from './effect';
 import { useResizeObserver } from '../hooks';
-import { throttleRAF } from '../_shared/utils';
+import { debounceRAF } from '../_shared/utils';
 
 interface GalleryItemT {
   index: number;
@@ -75,7 +75,7 @@ export default class Gallery extends Effect {
     };
 
     const or = useResizeObserver();
-    const listener = throttleRAF(() => {
+    const listener = debounceRAF(() => {
       this.update(slideElList, slideContainer);
       this.active(activeIndex, false, true);
     });
