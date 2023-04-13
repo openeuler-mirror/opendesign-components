@@ -37,7 +37,7 @@ const toggleLoading2 = () => {
 <template>
   <h4>全局</h4>
   <OButton @click="showLoading1">show1:{{ show1 }}</OButton>
-  <OLoading v-model:visible="show1" to-body />
+  <OLoading v-model:visible="show1" />
   <h4>局部</h4>
   <OButton @click="show2 = !show2">show2:{{ show2 }}</OButton>
   <section>
