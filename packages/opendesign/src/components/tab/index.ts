@@ -6,6 +6,7 @@ const OTab = Object.assign(_OTab, {
   OTabPane,
   install(app: App) {
     app.component(_OTab.name, _OTab);
+    app.component(OTabPane.name, OTabPane);
   },
 });
 

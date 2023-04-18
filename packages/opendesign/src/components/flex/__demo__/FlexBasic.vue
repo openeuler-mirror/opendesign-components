@@ -53,6 +53,12 @@ import { OFlex, OFlexItem } from '../index';
       <div class="colored"><div class="box">box</div></div>
       <div class="colored"><div class="box">box</div></div>
     </OFlex>
+    <br />
+    <OFlex gap="16px">
+      <OFlexItem class="colored"><div class="box">box</div></OFlexItem>
+      <OFlexItem class="colored"><div class="box">box</div></OFlexItem>
+      <OFlexItem class="colored"><div class="box">box</div></OFlexItem>
+    </OFlex>
   </div>
 </template>
 <style lang="scss">

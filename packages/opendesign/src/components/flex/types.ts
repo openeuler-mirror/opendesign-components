@@ -96,7 +96,7 @@ export const flexItemProps = {
    */
   flex: {
     type: String,
-    default: '0 1 auto',
+    default: '1 0 auto',
   },
   /**
    * 同 align-self
