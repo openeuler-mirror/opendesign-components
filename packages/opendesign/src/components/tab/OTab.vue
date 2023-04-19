@@ -102,12 +102,11 @@ const onHeadResize = () => {
 };
 </script>
 <template>
-  <div class="o-tab">
+  <div class="o-tab" :class="[`o-tab-${props.variant}`]">
     <OResizeObserver @resize="onHeadResize">
       <div
         class="o-tab-head"
         :class="[
-          `o-tab-${props.variant}`,
           {
             'with-act': $slots.suffix || $slots.prefix,
             'show-line': props.line,
