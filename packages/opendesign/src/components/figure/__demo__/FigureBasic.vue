@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OFigure } from '../index';
-const img = 'https://www.hiascend.com/p/resource/202303/0a66367d573f4369a6d160909c33fa6e.png';
+const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 </script>
 <template>
   <h4>基本</h4>
@@ -10,7 +10,7 @@ const img = 'https://www.hiascend.com/p/resource/202303/0a66367d573f4369a6d16090
     <OFigure class="img" src="123" :ratio="16 / 9" fit="cover" colorful />
     <OFigure class="img" :src="img" :ratio="16 / 9" fit="cover" background colorful />
     <OFigure class="img" hoverable :src="img" />
-    <OFigure class="img" href="https://hiascend.com" target="__blank" :src="img" />
+    <OFigure class="img" href="openEuler" target="__blank" :src="img" />
   </section>
 </template>
 <style lang="scss">

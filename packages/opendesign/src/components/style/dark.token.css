@@ -20,350 +20,350 @@
    * @group blue
    * @description 
    */
-  --o-blue-1: 0, 13, 77;
+  --o-blue-1: 0, 18, 85;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-2: 4, 27, 121;
+  --o-blue-2: 0, 24, 106;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-3: 14, 50, 166;
+  --o-blue-3: 0, 31, 126;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-4: 29, 77, 210;
+  --o-blue-4: 0, 39, 147;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-5: 48, 111, 255;
+  --o-blue-5: 0, 47, 167;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-6: 60, 126, 255;
+  --o-blue-6: 37, 81, 185;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-7: 104, 159, 255;
+  --o-blue-7: 81, 119, 202;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-8: 147, 190, 255;
+  --o-blue-8: 132, 161, 220;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-9: 190, 218, 255;
+  --o-blue-9: 190, 206, 237;
   /**
    * @name 
    * @type palette
    * @group blue
    * @description 
    */
-  --o-blue-10: 234, 244, 255;
+  --o-blue-10: 227, 234, 246;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-1: 77, 56, 0;
+  --o-yellow-1: 80, 47, 0;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-2: 120, 94, 7;
+  --o-yellow-2: 120, 76, 0;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-3: 163, 134, 20;
+  --o-yellow-3: 160, 109, 0;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-4: 207, 179, 37;
+  --o-yellow-4: 200, 147, 0;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-5: 250, 225, 60;
+  --o-yellow-5: 240, 188, 0;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-6: 251, 233, 75;
+  --o-yellow-6: 243, 207, 49;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-7: 252, 243, 116;
+  --o-yellow-7: 246, 224, 98;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-8: 253, 250, 157;
+  --o-yellow-8: 249, 237, 149;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-9: 254, 254, 198;
+  --o-yellow-9: 252, 248, 202;
   /**
    * @name 
    * @type palette
    * @group yellow
    * @description 
    */
-  --o-yellow-10: 254, 255, 240;
+  --o-yellow-10: 254, 252, 233;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-1: 0, 77, 28;
+  --o-green-1: 7, 60, 9;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-2: 4, 102, 37;
+  --o-green-2: 11, 90, 13;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-3: 10, 128, 45;
+  --o-green-3: 16, 119, 16;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-4: 18, 154, 55;
+  --o-green-4: 22, 149, 21;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-5: 29, 180, 64;
+  --o-green-5: 31, 179, 27;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-6: 39, 195, 70;
+  --o-green-6: 68, 194, 62;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-7: 80, 210, 102;
+  --o-green-7: 109, 209, 103;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-8: 126, 225, 139;
+  --o-green-8: 154, 225, 148;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-9: 178, 240, 183;
+  --o-green-9: 203, 240, 199;
   /**
    * @name 
    * @type palette
    * @group green
    * @description 
    */
-  --o-green-10: 235, 255, 236;
+  --o-green-10: 233, 247, 231;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-1: 77, 27, 0;
+  --o-orange-1: 99, 25, 0;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-2: 121, 48, 4;
+  --o-orange-2: 135, 41, 0;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-3: 166, 75, 10;
+  --o-orange-3: 171, 60, 0;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-4: 210, 105, 19;
+  --o-orange-4: 206, 83, 0;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-5: 255, 141, 31;
+  --o-orange-5: 242, 110, 0;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-6: 255, 150, 38;
+  --o-orange-6: 245, 144, 49;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-7: 255, 179, 87;
+  --o-orange-7: 247, 176, 99;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-8: 255, 205, 135;
+  --o-orange-8: 250, 205, 150;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-9: 255, 227, 184;
+  --o-orange-9: 252, 232, 202;
   /**
    * @name 
    * @type palette
    * @group orange
    * @description 
    */
-  --o-orange-10: 255, 247, 232;
+  --o-orange-10: 254, 246, 233;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-1: 77, 0, 10;
+  --o-red-1: 96, 0, 10;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-2: 119, 6, 17;
+  --o-red-2: 132, 0, 10;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-3: 161, 22, 31;
+  --o-red-3: 168, 0, 7;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-4: 203, 46, 52;
+  --o-red-4: 203, 0, 2;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-5: 245, 78, 78;
+  --o-red-5: 239, 6, 0;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-6: 247, 105, 101;
+  --o-red-6: 242, 60, 48;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-7: 249, 141, 134;
+  --o-red-7: 245, 112, 98;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-8: 251, 176, 167;
+  --o-red-8: 249, 162, 149;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-9: 253, 209, 202;
+  --o-red-9: 252, 209, 201;
   /**
    * @name 
    * @type palette
    * @group red
    * @description 
    */
-  --o-red-10: 255, 240, 236;
+  --o-red-10: 253, 237, 233;
   /**
    * @name 
    * @type palette
@@ -440,70 +440,70 @@
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-1: 23, 23, 26;
+  --o-mixedgray-1: 28, 30, 35;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-2: 46, 46, 48;
+  --o-mixedgray-2: 46, 48, 56;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-3: 72, 72, 73;
+  --o-mixedgray-3: 65, 68, 76;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-4: 95, 95, 96;
+  --o-mixedgray-4: 85, 89, 97;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-5: 120, 120, 122;
+  --o-mixedgray-5: 107, 110, 117;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-6: 146, 146, 147;
+  --o-mixedgray-6: 136, 139, 146;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-7: 171, 171, 172;
+  --o-mixedgray-7: 167, 170, 176;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-8: 197, 197, 197;
+  --o-mixedgray-8: 198, 200, 205;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-9: 223, 223, 223;
+  --o-mixedgray-9: 230, 231, 234;
   /**
    * @name 
    * @type palette
    * @group mixedgray
    * @description 
    */
-  --o-mixedgray-10: 246, 246, 246;
+  --o-mixedgray-10: 249, 249, 249;
   /**
    * @name 
    * @type color
