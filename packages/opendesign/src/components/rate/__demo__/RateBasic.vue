@@ -8,13 +8,15 @@ const rateVal2 = ref(0);
 const handleChange = (val: number) => {
   console.log(val);
 };
+
+let labels = ref(['1', '2', '3', '4', '5']);
 </script>
 
 <template>
   <h4>基础用法</h4>
   <section>
     <ORate v-model="rateVal1" @change="handleChange" />
-    <ORate :default-value="rateVal2" @change="handleChange" />
+    <ORate :default-value="rateVal2" :labels="labels" @change="handleChange" />
   </section>
 </template>
 
