@@ -3,10 +3,10 @@ import { OCard } from '../index';
 import { IconStar } from '../../icon';
 
 const card = {
-  cover: 'https://www.hiascend.com/p/resource/202303/0a66367d573f4369a6d160909c33fa6e.png',
-  title: '荆棘鸟携手昇腾AI，打造总控室“大屏”变“小屏”的秘密武器',
+  cover: 'https://www.openeuler.org/img/banners/20230418-odd.png',
+  title: '一文了解openEuler Developer Day2023亮点！',
   content:
-    '传统的工厂安全总控室里，都是一整面墙花花绿绿的屏幕，安全员要在屏幕前目不转睛的24小时监督，不但费神费力，还难免疏漏。但现在，这一方小屏就能实现整个工厂的安全监察。',
+    'openEuler Developer Day 2023 （简称 ODD 2023）是开放原子开源基金会旗下 openEuler 社区发起的顶级开发者峰会。ODD 2023 将于4月20日-21日在上海浦东嘉里大酒店举办。整体大会以线下会议及线上直播方式进行。大会看点满满，赶紧来一睹为快',
 };
 </script>
 <template>

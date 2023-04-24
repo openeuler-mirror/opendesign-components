@@ -56,6 +56,12 @@ export const rateProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * 文字
+   */
+  labels: {
+    type: Array as PropType<Array<string>>,
+  },
 };
 
 export type RatePropsT = ExtractPropTypes<typeof rateProps>;

@@ -3,6 +3,6 @@ module.exports = {
   output: '../components/style/',
   themes: ['light', 'dark'],
   defaultTheme: 'light',
-  tokenFile: ['./opendesign-token.json'],
+  tokenFile: ['./opendesign2-token.json'],
   codeSnippetsFile: '../../../../.vscode/opendesign.token.code-snippets'
 };

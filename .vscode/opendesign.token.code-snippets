@@ -20,7 +20,7 @@
       "var(--o-blue-1)"
     ],
     "body": "var(--o-blue-1)",
-    "description": "[light: 232, 243, 255, dark: 0, 13, 77]",
+    "description": "[light: 227, 234, 246, dark: 0, 18, 85]",
     "scope": "css,scss,less"
   },
   "--o-blue-2": {
@@ -28,7 +28,7 @@
       "var(--o-blue-2)"
     ],
     "body": "var(--o-blue-2)",
-    "description": "[light: 190, 218, 255, dark: 4, 27, 121]",
+    "description": "[light: 190, 206, 237, dark: 0, 24, 106]",
     "scope": "css,scss,less"
   },
   "--o-blue-3": {
@@ -36,7 +36,7 @@
       "var(--o-blue-3)"
     ],
     "body": "var(--o-blue-3)",
-    "description": "[light: 148, 191, 255, dark: 14, 50, 166]",
+    "description": "[light: 132, 161, 220, dark: 0, 31, 126]",
     "scope": "css,scss,less"
   },
   "--o-blue-4": {
@@ -44,7 +44,7 @@
       "var(--o-blue-4)"
     ],
     "body": "var(--o-blue-4)",
-    "description": "[light: 106, 161, 255, dark: 29, 77, 210]",
+    "description": "[light: 81, 119, 202, dark: 0, 39, 147]",
     "scope": "css,scss,less"
   },
   "--o-blue-5": {
@@ -52,7 +52,7 @@
       "var(--o-blue-5)"
     ],
     "body": "var(--o-blue-5)",
-    "description": "[light: 64, 128, 255, dark: 48, 111, 255]",
+    "description": "[light: 37, 81, 185, dark: 0, 47, 167]",
     "scope": "css,scss,less"
   },
   "--o-blue-6": {
@@ -60,7 +60,7 @@
       "var(--o-blue-6)"
     ],
     "body": "var(--o-blue-6)",
-    "description": "[light: 22, 93, 255, dark: 60, 126, 255]",
+    "description": "[light: 0, 47, 167, dark: 37, 81, 185]",
     "scope": "css,scss,less"
   },
   "--o-blue-7": {
@@ -68,7 +68,7 @@
       "var(--o-blue-7)"
     ],
     "body": "var(--o-blue-7)",
-    "description": "[light: 14, 66, 210, dark: 104, 159, 255]",
+    "description": "[light: 0, 39, 147, dark: 81, 119, 202]",
     "scope": "css,scss,less"
   },
   "--o-blue-8": {
@@ -76,7 +76,7 @@
       "var(--o-blue-8)"
     ],
     "body": "var(--o-blue-8)",
-    "description": "[light: 7, 44, 166, dark: 147, 190, 255]",
+    "description": "[light: 0, 31, 126, dark: 132, 161, 220]",
     "scope": "css,scss,less"
   },
   "--o-blue-9": {
@@ -84,7 +84,7 @@
       "var(--o-blue-9)"
     ],
     "body": "var(--o-blue-9)",
-    "description": "[light: 3, 26, 121, dark: 190, 218, 255]",
+    "description": "[light: 0, 24, 106, dark: 190, 206, 237]",
     "scope": "css,scss,less"
   },
   "--o-blue-10": {
@@ -92,7 +92,7 @@
       "var(--o-blue-10)"
     ],
     "body": "var(--o-blue-10)",
-    "description": "[light: 0, 13, 77, dark: 234, 244, 255]",
+    "description": "[light: 0, 18, 85, dark: 227, 234, 246]",
     "scope": "css,scss,less"
   },
   "--o-yellow-1": {
@@ -100,7 +100,7 @@
       "var(--o-yellow-1)"
     ],
     "body": "var(--o-yellow-1)",
-    "description": "[light: 254, 255, 232, dark: 77, 56, 0]",
+    "description": "[light: 254, 252, 233, dark: 80, 47, 0]",
     "scope": "css,scss,less"
   },
   "--o-yellow-2": {
@@ -108,7 +108,7 @@
       "var(--o-yellow-2)"
     ],
     "body": "var(--o-yellow-2)",
-    "description": "[light: 254, 254, 190, dark: 120, 94, 7]",
+    "description": "[light: 252, 248, 202, dark: 120, 76, 0]",
     "scope": "css,scss,less"
   },
   "--o-yellow-3": {
@@ -116,7 +116,7 @@
       "var(--o-yellow-3)"
     ],
     "body": "var(--o-yellow-3)",
-    "description": "[light: 253, 250, 148, dark: 163, 134, 20]",
+    "description": "[light: 249, 237, 149, dark: 160, 109, 0]",
     "scope": "css,scss,less"
   },
   "--o-yellow-4": {
@@ -124,7 +124,7 @@
       "var(--o-yellow-4)"
     ],
     "body": "var(--o-yellow-4)",
-    "description": "[light: 252, 242, 107, dark: 207, 179, 37]",
+    "description": "[light: 246, 224, 98, dark: 200, 147, 0]",
     "scope": "css,scss,less"
   },
   "--o-yellow-5": {
@@ -132,7 +132,7 @@
       "var(--o-yellow-5)"
     ],
     "body": "var(--o-yellow-5)",
-    "description": "[light: 251, 232, 66, dark: 250, 225, 60]",
+    "description": "[light: 243, 207, 49, dark: 240, 188, 0]",
     "scope": "css,scss,less"
   },
   "--o-yellow-6": {
@@ -140,7 +140,7 @@
       "var(--o-yellow-6)"
     ],
     "body": "var(--o-yellow-6)",
-    "description": "[light: 250, 220, 25, dark: 251, 233, 75]",
+    "description": "[light: 240, 188, 0, dark: 243, 207, 49]",
     "scope": "css,scss,less"
   },
   "--o-yellow-7": {
@@ -148,7 +148,7 @@
       "var(--o-yellow-7)"
     ],
     "body": "var(--o-yellow-7)",
-    "description": "[light: 207, 175, 15, dark: 252, 243, 116]",
+    "description": "[light: 200, 147, 0, dark: 246, 224, 98]",
     "scope": "css,scss,less"
   },
   "--o-yellow-8": {
@@ -156,7 +156,7 @@
       "var(--o-yellow-8)"
     ],
     "body": "var(--o-yellow-8)",
-    "description": "[light: 163, 132, 8, dark: 253, 250, 157]",
+    "description": "[light: 160, 109, 0, dark: 249, 237, 149]",
     "scope": "css,scss,less"
   },
   "--o-yellow-9": {
@@ -164,7 +164,7 @@
       "var(--o-yellow-9)"
     ],
     "body": "var(--o-yellow-9)",
-    "description": "[light: 120, 93, 3, dark: 254, 254, 198]",
+    "description": "[light: 120, 76, 0, dark: 252, 248, 202]",
     "scope": "css,scss,less"
   },
   "--o-yellow-10": {
@@ -172,7 +172,7 @@
       "var(--o-yellow-10)"
     ],
     "body": "var(--o-yellow-10)",
-    "description": "[light: 77, 56, 0, dark: 254, 255, 240]",
+    "description": "[light: 80, 47, 0, dark: 254, 252, 233]",
     "scope": "css,scss,less"
   },
   "--o-green-1": {
@@ -180,7 +180,7 @@
       "var(--o-green-1)"
     ],
     "body": "var(--o-green-1)",
-    "description": "[light: 232, 255, 234, dark: 0, 77, 28]",
+    "description": "[light: 233, 247, 231, dark: 7, 60, 9]",
     "scope": "css,scss,less"
   },
   "--o-green-2": {
@@ -188,7 +188,7 @@
       "var(--o-green-2)"
     ],
     "body": "var(--o-green-2)",
-    "description": "[light: 175, 240, 181, dark: 4, 102, 37]",
+    "description": "[light: 203, 240, 199, dark: 11, 90, 13]",
     "scope": "css,scss,less"
   },
   "--o-green-3": {
@@ -196,7 +196,7 @@
       "var(--o-green-3)"
     ],
     "body": "var(--o-green-3)",
-    "description": "[light: 123, 225, 136, dark: 10, 128, 45]",
+    "description": "[light: 154, 225, 148, dark: 16, 119, 16]",
     "scope": "css,scss,less"
   },
   "--o-green-4": {
@@ -204,7 +204,7 @@
       "var(--o-green-4)"
     ],
     "body": "var(--o-green-4)",
-    "description": "[light: 76, 210, 99, dark: 18, 154, 55]",
+    "description": "[light: 109, 209, 103, dark: 22, 149, 21]",
     "scope": "css,scss,less"
   },
   "--o-green-5": {
@@ -212,7 +212,7 @@
       "var(--o-green-5)"
     ],
     "body": "var(--o-green-5)",
-    "description": "[light: 35, 195, 67, dark: 29, 180, 64]",
+    "description": "[light: 68, 194, 62, dark: 31, 179, 27]",
     "scope": "css,scss,less"
   },
   "--o-green-6": {
@@ -220,7 +220,7 @@
       "var(--o-green-6)"
     ],
     "body": "var(--o-green-6)",
-    "description": "[light: 0, 180, 42, dark: 39, 195, 70]",
+    "description": "[light: 31, 179, 27, dark: 68, 194, 62]",
     "scope": "css,scss,less"
   },
   "--o-green-7": {
@@ -228,7 +228,7 @@
       "var(--o-green-7)"
     ],
     "body": "var(--o-green-7)",
-    "description": "[light: 0, 154, 41, dark: 80, 210, 102]",
+    "description": "[light: 22, 149, 21, dark: 109, 209, 103]",
     "scope": "css,scss,less"
   },
   "--o-green-8": {
@@ -236,7 +236,7 @@
       "var(--o-green-8)"
     ],
     "body": "var(--o-green-8)",
-    "description": "[light: 0, 128, 38, dark: 126, 225, 139]",
+    "description": "[light: 16, 119, 16, dark: 154, 225, 148]",
     "scope": "css,scss,less"
   },
   "--o-green-9": {
@@ -244,7 +244,7 @@
       "var(--o-green-9)"
     ],
     "body": "var(--o-green-9)",
-    "description": "[light: 0, 102, 34, dark: 178, 240, 183]",
+    "description": "[light: 11, 90, 13, dark: 203, 240, 199]",
     "scope": "css,scss,less"
   },
   "--o-green-10": {
@@ -252,7 +252,7 @@
       "var(--o-green-10)"
     ],
     "body": "var(--o-green-10)",
-    "description": "[light: 0, 77, 28, dark: 235, 255, 236]",
+    "description": "[light: 7, 60, 9, dark: 233, 247, 231]",
     "scope": "css,scss,less"
   },
   "--o-orange-1": {
@@ -260,7 +260,7 @@
       "var(--o-orange-1)"
     ],
     "body": "var(--o-orange-1)",
-    "description": "[light: 255, 247, 232, dark: 77, 27, 0]",
+    "description": "[light: 254, 246, 233, dark: 99, 25, 0]",
     "scope": "css,scss,less"
   },
   "--o-orange-2": {
@@ -268,7 +268,7 @@
       "var(--o-orange-2)"
     ],
     "body": "var(--o-orange-2)",
-    "description": "[light: 255, 228, 186, dark: 121, 48, 4]",
+    "description": "[light: 252, 232, 202, dark: 135, 41, 0]",
     "scope": "css,scss,less"
   },
   "--o-orange-3": {
@@ -276,7 +276,7 @@
       "var(--o-orange-3)"
     ],
     "body": "var(--o-orange-3)",
-    "description": "[light: 255, 207, 139, dark: 166, 75, 10]",
+    "description": "[light: 250, 205, 150, dark: 171, 60, 0]",
     "scope": "css,scss,less"
   },
   "--o-orange-4": {
@@ -284,7 +284,7 @@
       "var(--o-orange-4)"
     ],
     "body": "var(--o-orange-4)",
-    "description": "[light: 255, 182, 93, dark: 210, 105, 19]",
+    "description": "[light: 247, 176, 99, dark: 206, 83, 0]",
     "scope": "css,scss,less"
   },
   "--o-orange-5": {
@@ -292,7 +292,7 @@
       "var(--o-orange-5)"
     ],
     "body": "var(--o-orange-5)",
-    "description": "[light: 255, 154, 46, dark: 255, 141, 31]",
+    "description": "[light: 245, 144, 49, dark: 242, 110, 0]",
     "scope": "css,scss,less"
   },
   "--o-orange-6": {
@@ -300,7 +300,7 @@
       "var(--o-orange-6)"
     ],
     "body": "var(--o-orange-6)",
-    "description": "[light: 255, 125, 0, dark: 255, 150, 38]",
+    "description": "[light: 242, 110, 0, dark: 245, 144, 49]",
     "scope": "css,scss,less"
   },
   "--o-orange-7": {
@@ -308,7 +308,7 @@
       "var(--o-orange-7)"
     ],
     "body": "var(--o-orange-7)",
-    "description": "[light: 210, 95, 0, dark: 255, 179, 87]",
+    "description": "[light: 206, 83, 0, dark: 247, 176, 99]",
     "scope": "css,scss,less"
   },
   "--o-orange-8": {
@@ -316,7 +316,7 @@
       "var(--o-orange-8)"
     ],
     "body": "var(--o-orange-8)",
-    "description": "[light: 166, 69, 0, dark: 255, 205, 135]",
+    "description": "[light: 171, 60, 0, dark: 250, 205, 150]",
     "scope": "css,scss,less"
   },
   "--o-orange-9": {
@@ -324,7 +324,7 @@
       "var(--o-orange-9)"
     ],
     "body": "var(--o-orange-9)",
-    "description": "[light: 121, 46, 0, dark: 255, 227, 184]",
+    "description": "[light: 135, 41, 0, dark: 252, 232, 202]",
     "scope": "css,scss,less"
   },
   "--o-orange-10": {
@@ -332,7 +332,7 @@
       "var(--o-orange-10)"
     ],
     "body": "var(--o-orange-10)",
-    "description": "[light: 77, 27, 0, dark: 255, 247, 232]",
+    "description": "[light: 99, 25, 0, dark: 254, 246, 233]",
     "scope": "css,scss,less"
   },
   "--o-red-1": {
@@ -340,7 +340,7 @@
       "var(--o-red-1)"
     ],
     "body": "var(--o-red-1)",
-    "description": "[light: 255, 236, 232, dark: 77, 0, 10]",
+    "description": "[light: 253, 237, 233, dark: 96, 0, 10]",
     "scope": "css,scss,less"
   },
   "--o-red-2": {
@@ -348,7 +348,7 @@
       "var(--o-red-2)"
     ],
     "body": "var(--o-red-2)",
-    "description": "[light: 253, 205, 197, dark: 119, 6, 17]",
+    "description": "[light: 252, 209, 201, dark: 132, 0, 10]",
     "scope": "css,scss,less"
   },
   "--o-red-3": {
@@ -356,7 +356,7 @@
       "var(--o-red-3)"
     ],
     "body": "var(--o-red-3)",
-    "description": "[light: 251, 172, 163, dark: 161, 22, 31]",
+    "description": "[light: 249, 162, 149, dark: 168, 0, 7]",
     "scope": "css,scss,less"
   },
   "--o-red-4": {
@@ -364,7 +364,7 @@
       "var(--o-red-4)"
     ],
     "body": "var(--o-red-4)",
-    "description": "[light: 249, 137, 129, dark: 203, 46, 52]",
+    "description": "[light: 245, 112, 98, dark: 203, 0, 2]",
     "scope": "css,scss,less"
   },
   "--o-red-5": {
@@ -372,7 +372,7 @@
       "var(--o-red-5)"
     ],
     "body": "var(--o-red-5)",
-    "description": "[light: 247, 101, 96, dark: 245, 78, 78]",
+    "description": "[light: 242, 60, 48, dark: 239, 6, 0]",
     "scope": "css,scss,less"
   },
   "--o-red-6": {
@@ -380,7 +380,7 @@
       "var(--o-red-6)"
     ],
     "body": "var(--o-red-6)",
-    "description": "[light: 245, 63, 63, dark: 247, 105, 101]",
+    "description": "[light: 239, 6, 0, dark: 242, 60, 48]",
     "scope": "css,scss,less"
   },
   "--o-red-7": {
@@ -388,7 +388,7 @@
       "var(--o-red-7)"
     ],
     "body": "var(--o-red-7)",
-    "description": "[light: 203, 39, 45, dark: 249, 141, 134]",
+    "description": "[light: 203, 0, 2, dark: 245, 112, 98]",
     "scope": "css,scss,less"
   },
   "--o-red-8": {
@@ -396,7 +396,7 @@
       "var(--o-red-8)"
     ],
     "body": "var(--o-red-8)",
-    "description": "[light: 161, 21, 30, dark: 251, 176, 167]",
+    "description": "[light: 168, 0, 7, dark: 249, 162, 149]",
     "scope": "css,scss,less"
   },
   "--o-red-9": {
@@ -404,7 +404,7 @@
       "var(--o-red-9)"
     ],
     "body": "var(--o-red-9)",
-    "description": "[light: 119, 8, 19, dark: 253, 209, 202]",
+    "description": "[light: 132, 0, 10, dark: 252, 209, 201]",
     "scope": "css,scss,less"
   },
   "--o-red-10": {
@@ -412,7 +412,7 @@
       "var(--o-red-10)"
     ],
     "body": "var(--o-red-10)",
-    "description": "[light: 77, 0, 10, dark: 255, 240, 236]",
+    "description": "[light: 96, 0, 10, dark: 253, 237, 233]",
     "scope": "css,scss,less"
   },
   "--o-gray-1": {
@@ -500,7 +500,7 @@
       "var(--o-mixedgray-1)"
     ],
     "body": "var(--o-mixedgray-1)",
-    "description": "[light: 247, 248, 250, dark: 23, 23, 26]",
+    "description": "[light: 249, 249, 249, dark: 28, 30, 35]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-2": {
@@ -508,7 +508,7 @@
       "var(--o-mixedgray-2)"
     ],
     "body": "var(--o-mixedgray-2)",
-    "description": "[light: 242, 243, 245, dark: 46, 46, 48]",
+    "description": "[light: 230, 231, 234, dark: 46, 48, 56]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-3": {
@@ -516,7 +516,7 @@
       "var(--o-mixedgray-3)"
     ],
     "body": "var(--o-mixedgray-3)",
-    "description": "[light: 229, 230, 235, dark: 72, 72, 73]",
+    "description": "[light: 198, 200, 205, dark: 65, 68, 76]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-4": {
@@ -524,7 +524,7 @@
       "var(--o-mixedgray-4)"
     ],
     "body": "var(--o-mixedgray-4)",
-    "description": "[light: 201, 205, 212, dark: 95, 95, 96]",
+    "description": "[light: 167, 170, 176, dark: 85, 89, 97]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-5": {
@@ -532,7 +532,7 @@
       "var(--o-mixedgray-5)"
     ],
     "body": "var(--o-mixedgray-5)",
-    "description": "[light: 169, 174, 184, dark: 120, 120, 122]",
+    "description": "[light: 136, 139, 146, dark: 107, 110, 117]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-6": {
@@ -540,7 +540,7 @@
       "var(--o-mixedgray-6)"
     ],
     "body": "var(--o-mixedgray-6)",
-    "description": "[light: 134, 144, 156, dark: 146, 146, 147]",
+    "description": "[light: 107, 110, 117, dark: 136, 139, 146]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-7": {
@@ -548,7 +548,7 @@
       "var(--o-mixedgray-7)"
     ],
     "body": "var(--o-mixedgray-7)",
-    "description": "[light: 107, 119, 133, dark: 171, 171, 172]",
+    "description": "[light: 85, 89, 97, dark: 167, 170, 176]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-8": {
@@ -556,7 +556,7 @@
       "var(--o-mixedgray-8)"
     ],
     "body": "var(--o-mixedgray-8)",
-    "description": "[light: 78, 89, 105, dark: 197, 197, 197]",
+    "description": "[light: 65, 68, 76, dark: 198, 200, 205]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-9": {
@@ -564,7 +564,7 @@
       "var(--o-mixedgray-9)"
     ],
     "body": "var(--o-mixedgray-9)",
-    "description": "[light: 39, 46, 59, dark: 223, 223, 223]",
+    "description": "[light: 46, 48, 56, dark: 230, 231, 234]",
     "scope": "css,scss,less"
   },
   "--o-mixedgray-10": {
@@ -572,7 +572,7 @@
       "var(--o-mixedgray-10)"
     ],
     "body": "var(--o-mixedgray-10)",
-    "description": "[light: 29, 33, 41, dark: 246, 246, 246]",
+    "description": "[light: 28, 30, 35, dark: 249, 249, 249]",
     "scope": "css,scss,less"
   },
   "--o-color-info1": {
