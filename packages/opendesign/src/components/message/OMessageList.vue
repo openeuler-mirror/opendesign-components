@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Ref } from 'vue';
+import { Ref, shallowRef } from 'vue';
 import { ref } from 'vue';
 import { MessagePositionT, MessageParamsT } from './types';
 import OMessage from './OMessage.vue';
@@ -31,6 +31,10 @@ const add = (params: MessageParamsT) => {
     id: getUniqueId(),
     ...params,
   };
+
+  if (params.icon) {
+    option.icon = shallowRef(params.icon);
+  }
   optionList.value.push(option);
 };
 
@@ -60,7 +64,11 @@ defineExpose({ add, remove, removeAll });
 <template>
   <div v-if="optionList.length" class="o-message-list" :class="[`o-message-${props.position}`]">
     <TransitionGroup name="fade-message">
-      <OMessage v-for="item in optionList" :key="item.id" :content="item.content" :color="item.color" :duration="item.duration" @close="handleClose(item)" />
+      <OMessage v-for="item in optionList" :key="item.id" :content="item.content" :status="item.status" :duration="item.duration" @close="handleClose(item)">
+        <template v-if="item.icon" #icon>
+          <component :is="item.icon" />
+        </template>
+      </OMessage>
     </TransitionGroup>
   </div>
 </template>
