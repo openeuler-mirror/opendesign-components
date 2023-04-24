@@ -5,6 +5,13 @@
   --rate-gap: 0;
 }
 
+.o-rate-popover {
+  --rate-popover-color: var(--o-color-info1);
+  --rate-popover-text-size: var(--o-font_size-text1);
+  --rate-popover-text-height: var(--o-line_height-text1);
+  --rate-popover-padding: 2px 8px;
+}
+
 .o-rate-large {
   --rate-size: var(--o-icon_size-s);
 }
@@ -27,4 +34,14 @@
 
 .o-rate-danger {
   --rate-color-active: var(--o-color-danger1);
+}
+
+.o-rate-popover {
+  .o-popover-body {
+    color: var(--rate-popover-color);
+    font-size: var(--rate-popover-text-size);
+    line-height: var(--rate-popover-text-height);
+    padding: var(--rate-popover-padding);
+    min-width: auto;
+  }
 }

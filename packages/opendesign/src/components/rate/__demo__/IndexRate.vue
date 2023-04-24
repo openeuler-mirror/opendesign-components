@@ -13,11 +13,11 @@ import RateColor from './RateColor.vue';
 <template>
   <div class="page-demo">
     <RateBasic />
-    <RateSize />
+    <!-- <RateSize />
     <RateColor />
     <RateAllowHalf />
     <RateClearable />
     <RateCount />
-    <RateIcon />
+    <RateIcon /> -->
   </div>
 </template>

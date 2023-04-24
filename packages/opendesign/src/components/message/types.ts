@@ -1,10 +1,12 @@
-import type { ExtractPropTypes, PropType } from 'vue';
-import { ColorT } from '../_shared/global';
+import type { Component, ExtractPropTypes, PropType } from 'vue';
+
+export const MessageStatusTypes = ['info', 'success', 'warning', 'danger'] as const;
+export type MessageStatusT = typeof MessageStatusTypes[number];
 
 export const messageProps = {
-  color: {
-    type: String as PropType<ColorT>,
-    default: 'normal',
+  status: {
+    type: String as PropType<MessageStatusT>,
+    default: 'info',
   },
   content: {
     type: String,
@@ -23,4 +25,4 @@ export type MessagePropsT = ExtractPropTypes<typeof messageProps>;
 
 export type MessagePositionT = 'top' | 'bottom';
 
-export type MessageParamsT = Partial<MessagePropsT & { position: MessagePositionT }>;
+export type MessageParamsT = Partial<MessagePropsT & { position: MessagePositionT; icon: Component }>;

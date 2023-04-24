@@ -4,7 +4,7 @@ import { MessageParamsT } from './types';
 import OMessageList from './OMessageList.vue';
 
 const DEFAULT_OPTIONS: MessageParamsT = {
-  color: 'normal',
+  status: 'info',
   position: 'top',
   duration: 3000,
 };
@@ -57,15 +57,15 @@ const normal = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
   showMessage({
     ...options,
-    color: 'normal',
+    status: 'info',
   });
 };
 
-const primary = (params: MessageParamsT): void => {
+const info = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
   showMessage({
     ...options,
-    color: 'primary',
+    status: 'info',
   });
 };
 
@@ -73,7 +73,7 @@ const success = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
   showMessage({
     ...options,
-    color: 'success',
+    status: 'success',
   });
 };
 
@@ -81,7 +81,7 @@ const warning = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
   showMessage({
     ...options,
-    color: 'warning',
+    status: 'warning',
   });
 };
 
@@ -89,16 +89,24 @@ const danger = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
   showMessage({
     ...options,
-    color: 'danger',
+    status: 'danger',
+  });
+};
+
+const open = (params: MessageParamsT): void => {
+  const options: MessageParamsT = normalizeOptions(params);
+  showMessage({
+    ...options,
   });
 };
 
 const Message = {
   normal,
-  primary,
+  info,
   success,
   warning,
   danger,
+  open,
 };
 
 const useMessage = () => {
