@@ -4,7 +4,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, watch, computed, onMounted } from 'vue';
+import { ref, watch, computed, onMounted, nextTick } from 'vue';
 import { layerProps } from './types';
 
 const props = defineProps(layerProps);
@@ -18,38 +18,28 @@ const emits = defineEmits<{
 const visible = ref(props.visible);
 const toMount = ref(props.visible);
 
-const wrapper = computed(() => {
-  if (props.wrapper) {
-    return props.wrapper;
-  } else if (props.toBody) {
-    return 'body';
-  }
-  return null;
-});
-
 const isToBody = ref(false);
-
+const LayerClass = {
+  OPEN: 'o-layer-open',
+};
 // 挂载目标
 let wrapperEl: HTMLElement | null = null;
-const getWrapperEl = () => {
-  if (!wrapperEl && wrapper.value) {
-    if (typeof wrapper.value === 'string') {
-      wrapperEl = document.querySelector(wrapper.value);
-    } else {
-      wrapperEl = wrapper.value;
-    }
-  }
-  isToBody.value = wrapperEl === document.body;
-};
+const layerRef = ref<HTMLElement | null>(null);
+
 const handleWrapperScroll = () => {
-  getWrapperEl();
-  if (wrapperEl) {
-    if (visible.value) {
-      wrapperEl.classList.add('o-layer-open');
-    } else {
-      wrapperEl.classList.remove('o-layer-open');
+  nextTick(() => {
+    if (!wrapperEl && layerRef.value) {
+      wrapperEl = layerRef.value.offsetParent as HTMLElement;
+      isToBody.value = wrapperEl === document.body;
     }
-  }
+    if (wrapperEl) {
+      if (visible.value) {
+        wrapperEl.classList.add(LayerClass.OPEN);
+      } else {
+        wrapperEl.classList.remove(LayerClass.OPEN);
+      }
+    }
+  });
 };
 
 watch(
@@ -63,22 +53,19 @@ watch(
   }
 );
 
-const show = () => {
-  if (!visible.value) {
-    visible.value = true;
-    emits('update:visible', true);
-    emits('change', true);
-    handleWrapperScroll();
+const toggle = (show?: boolean) => {
+  if (visible.value === show) {
+    return;
   }
-};
 
-const hide = () => {
-  if (visible.value) {
-    visible.value = false;
-    emits('update:visible', false);
-    emits('change', false);
-    handleWrapperScroll();
+  if (show === undefined) {
+    visible.value = !visible.value;
+  } else {
+    visible.value = show;
   }
+  emits('update:visible', visible.value);
+  emits('change', visible.value);
+  handleWrapperScroll();
 };
 
 const isMounted = computed(() => {
@@ -99,7 +86,7 @@ const handleTransitionEnd = () => {
 
 const onMaskClick = (e: MouseEvent) => {
   if (props.maskClose) {
-    hide();
+    toggle(false);
   }
   emits('click:mask', e);
 };
@@ -111,13 +98,12 @@ onMounted(() => {
 });
 
 defineExpose({
-  show,
-  hide,
+  toggle,
 });
 </script>
 <template>
-  <teleport :to="wrapper" :disabled="!wrapper">
-    <div v-if="isMounted" v-show="visible || toMount" class="o-layer" v-bind="$attrs" :class="{ 'o-layer-to-body': isToBody }">
+  <teleport :to="props.wrapper" :disabled="!props.wrapper">
+    <div v-if="isMounted" v-show="visible || toMount" v-bind="$attrs" ref="layerRef" class="o-layer" :class="{ 'o-layer-to-body': isToBody }">
       <template v-if="props.mask">
         <transition :name="props.maskTransition" :appear="true">
           <div v-show="visible" class="o-layer-mask" @click="onMaskClick"></div>

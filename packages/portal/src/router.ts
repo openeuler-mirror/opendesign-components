@@ -9,6 +9,12 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/text',
+    name: 'Text',
+    label: '文本 Text',
+    component: () => import('./pages/TheText.vue'),
+  },
+  {
     path: '/icons',
     name: 'Icons',
     label: '图标 Icon',
@@ -168,7 +174,7 @@ export const routes = [
     path: '/loading',
     name: 'Loading',
     label: '加载 Loading',
-    component: () => import('@components/loading/__demo__/IndexLoading.vue'),
+    component: () => import('@components/loading/__demo__/TheIndex.vue'),
   },
   {
     path: '/figure',

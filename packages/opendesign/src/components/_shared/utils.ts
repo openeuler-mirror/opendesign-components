@@ -1,14 +1,3 @@
-import { throttle as _throttle, debounce as _debounce } from 'lodash-es';
-import type { ThrottleSettings, DebounceSettings } from 'lodash-es';
-
-// 防抖
-export function debounce<T extends (...args: Array<unknown>) => unknown>(fn: T, wait?: number, ctx?: unknown | null, opts?: ThrottleSettings) {
-  return _debounce.apply(ctx, [fn, wait, opts]);
-}
-// 节流
-export function throttle<T extends (...args: Array<unknown>) => unknown>(fn: T, wait?: number, ctx?: unknown | null, opts?: DebounceSettings) {
-  return _throttle.apply(ctx, [fn, wait, opts]);
-}
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   let handle = 0;
@@ -49,7 +38,7 @@ export function throttleRAF<T extends (...args: Array<unknown>) => unknown>(fn: 
 /**
  * 颜色池
  */
-class ColorPool {
+export class ColorPool {
   pool: Array<string>;
   tmpPool: Array<string>;
 
@@ -77,6 +66,3 @@ class ColorPool {
     return color;
   }
 }
-
-const PrestColor = ['#d9e6c3', '#ebd5be', '#d1e6de', '#e0ceeb', '#ebd3c7', '#e6dada', '#e3deeb', '#dedae6', '#cad0e8', '#cedeeb'];
-export const PrestColorPool = new ColorPool(PrestColor);

@@ -7,19 +7,14 @@ export const layerProps = {
    */
   visible: {
     type: Boolean,
+    default: false,
   },
   /**
-   * 挂载容器，默认为当前父元素
+   * 挂载容器，默认为body, null代表当前父元素
    */
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement | null>,
-  },
-  /**
-   * 是否挂载到body
-   */
-  toBody: {
-    type: Boolean,
-    default: false,
+    default: 'body',
   },
   /**
    * 是否在隐藏时unmout
@@ -33,6 +28,7 @@ export const layerProps = {
    */
   mainClass: {
     type: [String, Array] as PropType<string | any[]>,
+    default: '',
   },
   /**
    * main过渡名称

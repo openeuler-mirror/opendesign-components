@@ -1,10 +1,11 @@
 @use './var.scss';
 $media-xs: 576px;
 $media-sm: 720px;
-$media-md: 1200px;
-$media-lg: 1440px;
-$media-xl: 1680px;
-$media-xxl: 1920px;
+$media-md: 960px;
+$media-lg: 1200px;
+$media-xl: 1440px;
+$media-x2l: 1680px;
+$media-x3l: 1920px;
 
 .o-flex {
   display: flex;
@@ -28,7 +29,24 @@ $media-xxl: 1920px;
 .o-flex-item {
   flex: var(--flex-item-flex);
 }
-
+@media (max-width: $media-x3l) {
+  .o-flex-xl {
+    --flex-item-gap-x: calc(var(--flex-x3l-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-x3l-gap-y);
+  }
+  .o-flex-item-xl {
+    flex: var(--flex-item-x3l-flex);
+  }
+}
+@media (max-width: $media-x2l) {
+  .o-flex-xl {
+    --flex-item-gap-x: calc(var(--flex-x2l-gap-x) / 2);
+    --flex-item-gap-y: var(--flex-x2l-gap-y);
+  }
+  .o-flex-item-xl {
+    flex: var(--flex-item-x2l-flex);
+  }
+}
 @media (max-width: $media-xl) {
   .o-flex-xl {
     --flex-item-gap-x: calc(var(--flex-xl-gap-x) / 2);

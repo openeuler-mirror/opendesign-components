@@ -4,6 +4,8 @@
   display: inline-flex;
   overflow: hidden;
   transition: background-color var(--o-duration-m2);
+  border-radius: var(--figure-radius);
+
   &.is-loading {
     &.is-colorful {
       background-color: var(--figure-prest-color);
@@ -64,4 +66,19 @@
   height: 100%;
   object-fit: var(--figure-fit);
   object-position: var(--figure-position);
+}
+
+.o-figure-view {
+  cursor: zoom-in;
+}
+
+.o-figure-view-layer {
+  width: 100%;
+  height: 100%;
+  cursor: zoom-out;
+}
+.o-figure-view-figure {
+  width: 100%;
+  height: 100%;
+  --figure-fit: contain;
 }

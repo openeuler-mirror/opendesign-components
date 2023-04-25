@@ -32,6 +32,15 @@ const toggle3 = (show?: boolean) => {
   }
 };
 
+const show4 = ref(false);
+const toggle4 = (show?: boolean) => {
+  if (show === undefined) {
+    show4.value = !show4.value;
+  } else {
+    show4.value = show;
+  }
+};
+
 const onChane = (v: boolean) => {
   console.log('dialog change', v);
 };
@@ -62,6 +71,14 @@ const onChane = (v: boolean) => {
         <h2>title</h2>
         <p>this is content this is content this is content this is content this is content this is content this is content this is content</p>
         <OButton @click="toggle3()">Close</OButton>
+      </div>
+    </OLayer>
+    <OButton @click="toggle4(true)">Open to Parent</OButton>
+    <OLayer v-model:visible="show4" :wrapper="null" @change="onChane">
+      <div class="box">
+        <h2>title</h2>
+        <p>this is content this is content this is content this is content this is content this is content this is content this is content</p>
+        <OButton @click="toggle4()">Close</OButton>
       </div>
     </OLayer>
   </section>

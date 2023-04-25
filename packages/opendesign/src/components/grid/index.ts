@@ -6,6 +6,7 @@ const ORow = Object.assign(_ORow, {
   OCol,
   install(app: App) {
     app.component(_ORow.name, _ORow);
+    app.component(OCol.name, OCol);
   },
 });
 

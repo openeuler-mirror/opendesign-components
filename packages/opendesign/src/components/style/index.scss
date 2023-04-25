@@ -1,32 +1,12 @@
-@import './animation.scss';
+@use './animation.scss';
+@use './common.scss';
+@use './icon.scss';
 
 [class^='o-'],
-[class^='o-'] * {
+[class^='o-'] {
   box-sizing: border-box;
 }
 
 :root {
   --o-z-index-base: 100;
-}
-
-// icons
-.o-icon {
-  --icon-g1: var(--o-color-text1);
-  --icon-g2: var(--o-color-primary1);
-}
-
-.o-icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.2em;
-  color: inherit;
-  font-style: normal;
-  outline: none;
-  &.type-stroke {
-    stroke: currentColor;
-  }
-  &.type-fill {
-    fill: currentColor;
-  }
 }

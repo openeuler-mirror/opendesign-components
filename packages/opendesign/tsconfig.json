@@ -16,11 +16,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": "./",
-    "paths": {
-      "resize-observer-polyfill": [
-        "node_modules/resize-observer-polyfill"
-      ]
-    }
+    "paths": {}
   },
   "include": [
     "src/**/*.ts",

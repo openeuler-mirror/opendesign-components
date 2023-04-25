@@ -71,21 +71,33 @@ export const flexProps = {
     type: Object as PropType<FlexMediaT>,
   },
   /**
-   * @media (max-width: 1200px)
+   * @media (max-width: 960px)
    */
   md: {
     type: Object as PropType<FlexMediaT>,
   },
   /**
-   * @media (max-width: 1440px)
+   * @media (max-width: 1200px)
    */
   lg: {
     type: Object as PropType<FlexMediaT>,
   },
   /**
-   * @media (max-width: 1680px)
+   * @media (max-width: 1440px)
    */
   xl: {
+    type: Object as PropType<FlexMediaT>,
+  },
+  /**
+   * @media (max-width: 1680px)
+   */
+  x2l: {
+    type: Object as PropType<FlexMediaT>,
+  },
+  /**
+   * @media (max-width: 1920px)
+   */
+  x3l: {
     type: Object as PropType<FlexMediaT>,
   },
 };
@@ -96,7 +108,7 @@ export const flexItemProps = {
    */
   flex: {
     type: String,
-    default: '0 1 auto',
+    default: '1 0 auto',
   },
   /**
    * 同 align-self
@@ -111,27 +123,39 @@ export const flexItemProps = {
     type: Object as PropType<FlexItemMediaT>,
   },
   /**
-   * @media (max-width: 721px)
+   * @media (max-width: 720px)
    */
   sm: {
     type: Object as PropType<FlexItemMediaT>,
   },
   /**
-   * @media (max-width: 1201px)
+   * @media (max-width: 960px)
    */
   md: {
     type: Object as PropType<FlexItemMediaT>,
   },
   /**
-   * @media (max-width: 1441px)
+   * @media (max-width: 1200px)
    */
   lg: {
     type: Object as PropType<FlexItemMediaT>,
   },
   /**
-   * @media (max-width: 1681px)
+   * @media (max-width: 1440px)
    */
   xl: {
+    type: Object as PropType<FlexItemMediaT>,
+  },
+  /**
+   * @media (max-width: 1680px)
+   */
+  x2l: {
+    type: Object as PropType<FlexItemMediaT>,
+  },
+  /**
+   * @media (max-width: 1920px)
+   */
+  x3l: {
     type: Object as PropType<FlexItemMediaT>,
   },
 };

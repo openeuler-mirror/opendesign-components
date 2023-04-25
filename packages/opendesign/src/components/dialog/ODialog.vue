@@ -15,8 +15,14 @@ const emits = defineEmits<{
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 const onCloseClick = () => {
-  layerRef.value?.hide();
+  layerRef.value?.toggle(false);
 };
+
+defineExpose({
+  toggle(show?: boolean) {
+    layerRef.value?.toggle(show);
+  },
+});
 </script>
 <template>
   <OLayer
@@ -24,7 +30,6 @@ const onCloseClick = () => {
     class="o-dialog"
     :visible="props.visible"
     :wrapper="props.wrapper"
-    :to-body="props.toBody"
     :unmount-on-hide="props.unmountOnHide"
     :main-class="mergeClass('o-dlg-main', props.mainClass)"
     :main-transition="props.mainTransition"
