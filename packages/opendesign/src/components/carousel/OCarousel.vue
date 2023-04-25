@@ -233,7 +233,7 @@ defineExpose({
     </div>
     <div v-if="!props.hideIndicator" class="o-carousel-indicator-wrap" :class="props.indicatorWrapClass">
       <div v-for="(item, idx) in total" :key="item" class="o-carousel-indicator-item" @click="props.indicatorClick && activeSlide(idx)">
-        <slot name="indicator" :active="item - 1 === activeIndex">
+        <slot name="indicator" :active="item - 1 === activeIndex" :index="idx">
           <div
             class="o-carousel-indicator-bar"
             :class="{
