@@ -25,6 +25,12 @@ const getMediaGap = (opts?: FlexMediaT) => {
 const gap = computed(() => {
   return getMediaGap(props);
 });
+const x3lGap = computed(() => {
+  return getMediaGap(props.x3l);
+});
+const x2lGap = computed(() => {
+  return getMediaGap(props.x2l);
+});
 const xlGap = computed(() => {
   return getMediaGap(props.xl);
 });
@@ -65,6 +71,10 @@ const xsGap = computed(() => {
       '--flex-lg-gap-y': lgGap?.y,
       '--flex-xl-gap-x': xlGap?.x,
       '--flex-xl-gap-y': xlGap?.y,
+      '--flex-x2l-gap-x': x2lGap?.x,
+      '--flex-x2l-gap-y': x2lGap?.y,
+      '--flex-x3l-gap-x': x3lGap?.x,
+      '--flex-x3l-gap-y': x3lGap?.y,
     }"
     :class="{
       'o-flex-xs': !!props.xs,
@@ -72,6 +82,8 @@ const xsGap = computed(() => {
       'o-flex-md': !!props.md,
       'o-flex-lg': !!props.lg,
       'o-flex-xl': !!props.xl,
+      'o-flex-x2l': !!props.x2l,
+      'o-flex-x3l': !!props.x3l,
     }"
   >
     <slot></slot>

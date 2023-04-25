@@ -42,9 +42,19 @@ import { OFlex, OFlexItem } from '../index';
       </OFlexItem>
     </OFlex>
     <br />
-    <OFlex gap-x="16px" gap-y="16px" :xs="{ gap: '4px' }" :sm="{ gap: '8px' }" :md="{ gap: '16px' }" :lg="{ gap: '24px' }" :xl="{ gap: '32px' }">
+    <OFlex
+      gap-x="16px"
+      gap-y="16px"
+      :xs="{ gap: '4px' }"
+      :sm="{ gap: '8px' }"
+      :md="{ gap: '16px' }"
+      :lg="{ gap: '24px' }"
+      :xl="{ gap: '32px' }"
+      :x2l="{ gap: '48px' }"
+      :x3l="{ gap: '64px' }"
+    >
       <OFlexItem v-for="item in 10" :key="item" flex="20%" class="colored">
-        <div class="box">{{ item }}</div>
+        <div class="box">111{{ item }}</div>
       </OFlexItem>
     </OFlex>
     <br />
