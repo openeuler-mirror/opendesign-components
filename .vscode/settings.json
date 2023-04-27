@@ -1,0 +1,14 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml,pnpm-workspace.yaml,.npmrc,.gitignore,LICENSE.md",
+    ".eslintrc.js": ".prettierrc.js",
+    "README.md": "README.en.md",
+  },
+  "outline.showFiles": true,
+  "files.exclude": {
+    "packages/opendesign/dist": true,
+    "packages/opendesign/es": true,
+    "packages/opendesign/lib": true
+  }
+}
