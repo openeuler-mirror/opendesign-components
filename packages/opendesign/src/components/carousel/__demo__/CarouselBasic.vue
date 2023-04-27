@@ -83,15 +83,19 @@ const initSlides = () => {
     </div>
     <h4>Fade</h4>
     <div class="block" style="overflow: hidden">
-      <OCarousel class="slides2" effect="toggle" indicator-click @change="onChange" @before-change="onBeforeChange">
-        <OCarouselItem v-for="s in carousel" :key="s">
+      <OCarousel class="slides2" effect="toggle" indicator-click active-class="current-slide" @change="onChange" @before-change="onBeforeChange">
+        <OCarouselItem v-for="(s, idx) in carousel" :key="s">
           <OFigure class="img" :src="s" />
+          <div class="slide2-slide-content">
+            <div class="title">this is title {{ idx }}</div>
+            <div class="desc">{{ idx }}this is description, this is description</div>
+          </div>
         </OCarouselItem>
       </OCarousel>
     </div>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .block {
   position: relative;
   overflow: hidden;
@@ -150,5 +154,49 @@ const initSlides = () => {
   font-size: 48px;
   margin: 0 16px;
   background-color: #333;
+}
+
+.slides2 {
+  .img {
+    position: absolute;
+    z-index: -1;
+  }
+}
+.slide2-slide-content {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+@keyframes fade-up {
+  from {
+    transform: translateY(var(--d));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.title {
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+  --d: 10px;
+}
+.desc {
+  margin-top: 12px;
+  font-size: 16px;
+  color: #bbb;
+  --d: 20px;
+}
+.current-slide {
+  .title {
+    animation: fade-up 400ms ease-in;
+  }
+  .desc {
+    animation: fade-up 400ms ease-in;
+  }
 }
 </style>

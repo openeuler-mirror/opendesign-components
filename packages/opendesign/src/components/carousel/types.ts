@@ -69,6 +69,9 @@ export const carouselProps = {
   manualInit: {
     type: Boolean,
   },
+  activeClass: {
+    type: String,
+  },
 };
 
 export type CarouselPropsT = ExtractPropTypes<typeof carouselProps>;

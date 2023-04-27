@@ -87,7 +87,7 @@ const pausePlay = () => {
     timer = null;
   }
 };
-
+// TODO 导出增加播放进度
 const startPlay = () => {
   pausePlay();
   timer = window.setInterval(() => {
@@ -118,6 +118,7 @@ const initSlides = () => {
   }
 
   const options = {
+    activeClass: props.activeClass,
     onTouchstart: () => {
       pausePlay();
     },
