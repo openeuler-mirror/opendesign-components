@@ -17,7 +17,7 @@ const icon = computed(() => (props.status ? iconMap[props.status] : undefined));
 </script>
 
 <template>
-  <div class="o-result" :class="`o-result-${props.status}`">
+  <div class="o-result" :class="{ [`o-result-${props.status}`]: props.status }">
     <div v-if="props.status || $slots.icon" class="o-result-icon" :class="{ 'o-result-icon-custom': $slots.icon }">
       <slot name="icon">
         <component :is="icon" />
