@@ -9,7 +9,6 @@ export const resultProps = {
    */
   status: {
     type: String as PropType<ResultStatusT>,
-    default: 'info',
   },
   /**
    * 标题
