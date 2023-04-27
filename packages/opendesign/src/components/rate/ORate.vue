@@ -82,7 +82,6 @@ const showLabel = computed(() => {
   if (!isArray(props.labels)) {
     return false;
   }
-  console.log(props.labels);
   return props.labels.length === props.count;
 });
 </script>
@@ -90,7 +89,7 @@ const showLabel = computed(() => {
 <template>
   <div class="o-rate" :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`]" @mouseleave="resetHoverIndex">
     <template v-if="showLabel">
-      <OPopover v-for="(item, key) in count" :key="key" :adjust-width="false" :adjust-min-width="false" :visible="true" wrap-class="o-rate-popover">
+      <OPopover v-for="(item, key) in count" :key="key" :adjust-width="false" :adjust-min-width="false" :visible="false" wrap-class="o-rate-popover">
         <template #target>
           <div class="o-rate-item" :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }">
             <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
