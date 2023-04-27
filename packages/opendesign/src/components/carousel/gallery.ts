@@ -16,7 +16,7 @@ interface ContainerT {
 }
 type AlignT = 'center' | 'left';
 enum GalleryClass {
-  CURRENT = 'is-current',
+  CURRENT = 'o-carousel-toggle-current',
 }
 export interface GalleryT {
   active: (slideIndex: number) => Promise<null | number>;
@@ -60,7 +60,7 @@ export default class Gallery extends Effect {
 
     this.alignType = alignType;
     this.moveValue = 0;
-    this.currentIndex = activeIndex;
+    // this.currentIndex = activeIndex;
     this.isChanging = false;
 
     // handle touch
@@ -153,6 +153,11 @@ export default class Gallery extends Effect {
 
     toSlide.el.classList.add(GalleryClass.CURRENT);
     fromSlide?.el.classList.remove(GalleryClass.CURRENT);
+
+    if (this.activeClass) {
+      toSlide.el.classList.add(this.activeClass);
+      fromSlide?.el.classList.remove(this.activeClass);
+    }
 
     if (!toSlide) {
       return Promise.resolve(null);

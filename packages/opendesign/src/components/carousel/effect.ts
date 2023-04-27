@@ -7,6 +7,7 @@ export interface EffectT {
   destroyed: () => void;
 }
 export interface EffectOptionT {
+  activeClass: string;
   onTouchstart?: () => void;
   onTouchend?: () => void;
   onBeforeChange?: (from: number, to: number) => boolean | void;
@@ -16,6 +17,7 @@ export interface EffectOptionT {
 export default abstract class Effect {
   total: number;
   currentIndex: number;
+  activeClass: string | undefined;
   onTouchstart: (() => void) | undefined;
   onTouchend: (() => void) | undefined;
   onBeforeChange: ((to: number, from: number) => boolean | void) | undefined;
@@ -26,6 +28,8 @@ export default abstract class Effect {
     this.total = slideElList.length;
 
     this.containerEl = slideContainer;
+
+    this.activeClass = options?.activeClass;
 
     this.currentIndex = -1;
 

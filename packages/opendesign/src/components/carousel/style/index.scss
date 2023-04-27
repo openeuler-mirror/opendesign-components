@@ -135,7 +135,7 @@
 }
 // 处理点击切换时光标样式
 .o-carousel-click-to-switch {
-  .o-carousel-item-gallery:not(.is-current) {
+  .o-carousel-item-gallery:not(.o-carousel-toggle-current) {
     cursor: pointer;
   }
 }

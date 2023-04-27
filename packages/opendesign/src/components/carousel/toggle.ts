@@ -13,12 +13,12 @@ enum ToggleClass {
 export default class Toggle extends Effect {
   private slideList: ItemT[];
   private isChanging: boolean;
-  private resolveArr:((value: null | number) => void)[];
+  private resolveArr: ((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: EffectOptionT) {
     super(slideElList, slideContainer, activeIndex, options);
 
     this.isChanging = false;
-    this.resolveArr = []
+    this.resolveArr = [];
 
     this.slideList = slideElList.map((el, idx) => {
       el.addEventListener('animationend', () => {
@@ -78,6 +78,12 @@ export default class Toggle extends Effect {
 
       fromSlide?.el.classList.remove(ToggleClass.CURRENT);
       toSlide.el.classList.add(ToggleClass.CURRENT);
+
+      if (this.activeClass) {
+        toSlide.el.classList.add(this.activeClass);
+        fromSlide?.el.classList.remove(this.activeClass);
+      }
+
       if (animate) {
         toSlide.el.classList.add(ToggleClass.IN);
         fromSlide.el.classList.add(ToggleClass.OUT);

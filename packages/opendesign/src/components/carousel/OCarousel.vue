@@ -118,6 +118,7 @@ const initSlides = () => {
   }
 
   const options = {
+    activeClass: props.activeClass,
     onTouchstart: () => {
       pausePlay();
     },
