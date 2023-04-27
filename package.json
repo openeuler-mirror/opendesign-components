@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pnpm --filter portal dev",
     "dev:portal": "pnpm --filter portal dev",
     "dev:lib": "pnpm --filter @opensig/opendesign dev"
   },
