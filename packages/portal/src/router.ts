@@ -219,10 +219,10 @@ export const routes = [
     component: () => import('@components/result/__demo__/TheIndex.vue'),
   },
   {
-    path: '/scrollbar',
-    name: 'Scrollbar',
-    label: '结果 Scrollbar',
-    component: () => import('@components/scrollbar/__demo__/TheIndex.vue'),
+    path: '/scroller',
+    name: 'Scroller',
+    label: '滚动条 Scroller',
+    component: () => import('@components/scroller/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',

@@ -1,0 +1,49 @@
+@use './var.scss';
+/*
+ * ::-webkit-scrollbar 兼容chrome 4+, edge 79+, safari 4+, opera 15+, 
+ * scrollbar-width 兼容firefox 64+
+ */
+.o-scroller-container {
+  overflow: auto;
+  scrollbar-width: none;
+  position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.o-scrollbar {
+  position: absolute;
+  &.v {
+    top: 0;
+    bottom: 0;
+    left: var(--scrollbar-v-left);
+    right: var(--scrollbar-v-right);
+  }
+  &.h {
+    left: 0;
+    right: 0;
+    top: var(--scrollbar-v-top);
+    bottom: var(--scrollbar-v-bottom);
+  }
+}
+
+.o-scrollbar-track {
+  &.v {
+    width: var(--scrollbar-track-width);
+    height: 100%;
+  }
+  background-color: #333;
+}
+
+.o-scrollbar-thumb {
+  &.v {
+    width: var(--scrollbar-v-thumb-width);
+    height: 30px;
+    top: 50px;
+    left: 50%;
+    margin-left: calc(-1 * var(--scrollbar-v-thumb-width) / 2);
+  }
+  background-color: rgb(220, 88, 62);
+  position: absolute;
+}
