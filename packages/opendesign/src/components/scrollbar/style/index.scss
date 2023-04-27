@@ -1,4 +1,12 @@
 @use './var.scss';
-
-.o-scrollbar {
+/*
+ * ::-webkit-scrollbar 兼容chrome 4+, edge 79+, safari 4+, opera 15+, 
+ * scrollbar-width 兼容firefox 64+
+ */
+.o-scrollbar-container {
+  overflow: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
