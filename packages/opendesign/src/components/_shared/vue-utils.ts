@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment, ComponentPublicInstance, watch, isProxy, isC, watchEffect, Ref } from 'vue';
+import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
 

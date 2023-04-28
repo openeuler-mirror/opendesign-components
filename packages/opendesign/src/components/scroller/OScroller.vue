@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, computed, watchEffect, onUnmounted, ComponentPublicInstance, toRefs } from 'vue';
+import { onMounted, ref, computed, onUnmounted, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
 import { useResizeObserver } from '../hooks';
