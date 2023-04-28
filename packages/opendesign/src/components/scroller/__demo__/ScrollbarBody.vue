@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { OScroller } from '../index';
+import '../style';
 </script>
 <template>
   <h4>Scroller body</h4>
   <section class="sec">123123</section>
-  <OScroller :target="" />
+  <OScroller target="body" show-type="always" />
 </template>
 <style lang="scss" scoped>
 .container {

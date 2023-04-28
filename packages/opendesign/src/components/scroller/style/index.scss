@@ -57,6 +57,8 @@
   }
 }
 .o-scrollbar {
+  pointer-events: auto;
+
   position: absolute;
   background-color: var(--scrollbar-bg-color);
   transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
@@ -103,9 +105,10 @@
 .o-scrollbar-track {
   position: relative;
   z-index: 0;
+  border-radius: var(--scrollbar-thumb-radius);
   background-color: var(--scrollbar-track-bg-color);
   opacity: 0;
-  border-radius: var(--scrollbar-thumb-radius);
+  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
 }
 .o-scrollbar-y-track {
   width: var(--scrollbar-track-width);
@@ -162,5 +165,23 @@
     width: var(--scrollbar-thumb-width-hover);
     margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
     background-color: var(--scrollbar-thumb-bg-color-hover);
+  }
+}
+
+.o-scroller-to-body {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: var(--o-z-index-max);
+  pointer-events: none;
+}
+
+.o-scroller-root {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

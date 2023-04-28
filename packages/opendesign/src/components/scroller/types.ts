@@ -15,7 +15,7 @@ export const scrollerProps = {
     type: Boolean,
   },
   /**
-   * 滚动容器
+   * 滚动容器,支持body、元素ref、HTMLElement
    */
   target: {
     type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,

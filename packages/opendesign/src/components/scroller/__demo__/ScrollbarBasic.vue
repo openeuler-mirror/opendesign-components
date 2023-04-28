@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OScroller } from '../index';
+import TheComp from './TheComp.vue';
 
 const containerRef = ref<HTMLElement | null>(null);
+const compRef = ref<HTMLElement | null>(null);
 </script>
 <template>
   <h4>Scroller basic</h4>
@@ -67,9 +69,16 @@ const containerRef = ref<HTMLElement | null>(null);
         <OScroller class="out-scroller" show-type="always" size="small" :target="containerRef" />
       </div>
     </div>
+    <TheComp ref="compRef" />
+    <div>
+      <h3>映射窗口</h3>
+      <div class="out-container">
+        <OScroller class="out-scroller" show-type="always" size="small" :target="compRef" />
+      </div>
+    </div>
   </section>
-
-  <!-- <iframe src="/#/scroller/body" frameborder="0" width="100%" height="500px"></iframe> -->
+  <h3>全局滚动条</h3>
+  <iframe src="/#/scroller/body" frameborder="0" width="100%" height="500px"></iframe>
   <br />
 </template>
 <style lang="scss" scoped>

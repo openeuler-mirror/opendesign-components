@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-import { onMounted, ref, computed, watchEffect, onUnmounted } from 'vue';
+import { onMounted, ref, computed, watchEffect, onUnmounted, ComponentPublicInstance, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
-import { isElement } from '../_shared/dom';
 import { useResizeObserver } from '../hooks';
+import { getHtmlElement } from '../_shared/vue-utils';
 
+const ScrollerClass = {
+  BODY: 'o-scroller-root',
+};
 const props = defineProps(scrollerProps);
 
 const containerEl = ref<HTMLElement | null>(null);
@@ -16,8 +19,8 @@ const hOffsetRate = ref(0);
 const vOffsetRate = ref(0);
 let wrapperEl: HTMLElement | null = null;
 let ro: ReturnType<typeof useResizeObserver> | null = null;
+const isBody = ref(false);
 
-// TODO 支持绑定全局滚动
 const showXBar = ref(false);
 const showYBar = ref(false);
 let lastTop = -1;
@@ -25,8 +28,12 @@ let lastLeft = -1;
 let xTimer: number | null = null;
 let yTimer: number | null = null;
 
-const onScroll = (e: Event) => {
-  const { scrollLeft, scrollWidth, scrollTop, scrollHeight } = e.target as HTMLElement;
+const onScroll = () => {
+  if (!wrapperEl) {
+    return;
+  }
+
+  const { scrollLeft, scrollWidth, scrollTop, scrollHeight } = wrapperEl;
 
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
@@ -67,41 +74,48 @@ const initVars = () => {
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
 
-  hasY.value = clientWidth < scrollWidth;
-  hasX.value = clientHeight < scrollHeight;
+  hasX.value = clientWidth < scrollWidth;
+  hasY.value = clientHeight < scrollHeight;
 };
 const init = () => {
   if (!wrapperEl) {
     return;
   }
+
   initVars();
 
   ro?.observe(wrapperEl, initVars);
-
-  wrapperEl.addEventListener('scroll', onScroll, { passive: true });
+  const listenEl = isBody.value ? window : wrapperEl;
+  listenEl.addEventListener('scroll', onScroll, { passive: true });
 };
-
-watchEffect(() => {
-  if (props.target) {
-    if (typeof props.target === 'string') {
-      wrapperEl = document.querySelector(props.target) as HTMLElement;
-    } else if (isElement(props.target)) {
-      wrapperEl = props.target as HTMLElement;
-    }
-  } else {
-    wrapperEl = containerEl.value;
-  }
-  if (wrapperEl) {
-    init();
-  }
-});
 
 onMounted(() => {
   ro = useResizeObserver();
+
+  if (containerEl.value) {
+    wrapperEl = containerEl.value;
+    init();
+  } else {
+    const { target } = toRefs(props);
+    getHtmlElement(target).then((el) => {
+      if (el === document.body) {
+        isBody.value = true;
+        wrapperEl = document.documentElement;
+        document.body.classList.add(ScrollerClass.BODY);
+      } else if (el) {
+        wrapperEl = el;
+      }
+
+      init();
+    });
+  }
 });
 onUnmounted(() => {
   if (wrapperEl) {
     ro?.unobserve(wrapperEl, initVars);
+
+    const listenEl = isBody.value ? window : wrapperEl;
+    listenEl.removeEventListener('scroll', onScroll);
   }
 });
 
@@ -164,6 +178,9 @@ const scrollerClass = computed(() => {
 
   if (hasX.value && hasY.value) {
     classList.push('o-scroller-both');
+  }
+  if (isBody.value) {
+    classList.push('o-scroller-to-body');
   }
   return classList;
 });
