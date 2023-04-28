@@ -1,9 +1,9 @@
 .o-scroller {
   --scrollbar-height: 100%;
-  --scrollbar-v-right: 0;
-  --scrollbar-v-left: auto;
-  --scrollbar-h-top: auto;
-  --scrollbar-h-bottom: 0;
+  --scrollbar-y-right: 0;
+  --scrollbar-y-left: auto;
+  --scrollbar-x-top: auto;
+  --scrollbar-x-bottom: 0;
   --scrollbar-bg-color: transparent;
 
   --scrollbar-track-bg-color: var(--o-color-control1-light);
@@ -16,6 +16,9 @@
   --scrollbar-thumb-width-hover: 12px;
   --scrollbar-thumb-radius: 12px;
   --scrollbar-width: 12px;
+}
+.o-scroller-both {
+  --scrollbar-height: calc(100% - var(--scrollbar-width) * 2);
 }
 .o-scroller-small {
   --scrollbar-track-width: 4px;

@@ -6,8 +6,8 @@ import { scrollerProps, ScrollerDirection } from './types';
 const props = defineProps(scrollerProps);
 
 const containerEl = ref<HTMLElement | null>(null);
-const hasV = ref(false);
-const hasH = ref(false);
+const hasY = ref(false);
+const hasX = ref(false);
 const hThumbRate = ref(0);
 const vThumbRate = ref(0);
 const hOffsetRate = ref(0);
@@ -62,8 +62,8 @@ onMounted(() => {
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
 
-  hasV.value = clientWidth < scrollWidth;
-  hasH.value = clientHeight < scrollHeight;
+  hasY.value = clientWidth < scrollWidth;
+  hasX.value = clientHeight < scrollHeight;
 });
 
 const onHBarScroll = (ratio: number) => {
@@ -85,13 +85,13 @@ const onVBarScroll = (ratio: number) => {
 };
 
 const onBarHoverIn = (d: ScrollerDirection) => {
-  if (d === 'h') {
+  if (d === 'x') {
     showXBar.value = true;
     if (xTimer) {
       clearTimeout(xTimer);
       yTimer = null;
     }
-  } else if (d === 'v') {
+  } else if (d === 'y') {
     showYBar.value = true;
     if (yTimer) {
       clearTimeout(yTimer);
@@ -101,11 +101,11 @@ const onBarHoverIn = (d: ScrollerDirection) => {
 };
 
 const onBarHoverOut = (d: ScrollerDirection) => {
-  if (d === 'h') {
+  if (d === 'x') {
     xTimer = window.setTimeout(() => {
       showXBar.value = false;
     }, props.duration);
-  } else if (d === 'v') {
+  } else if (d === 'y') {
     yTimer = window.setTimeout(() => {
       showYBar.value = false;
     }, props.duration);
@@ -120,7 +120,11 @@ const scrollerClass = computed(() => {
       'o-scroller-show-y': showYBar.value,
     });
   } else if (props.showType === 'hover') {
-    return classList.push('o-scroller-hover-show');
+    classList.push('o-scroller-hover-show');
+  }
+
+  if (hasX.value && hasY.value) {
+    classList.push('o-scroller-both');
   }
   return classList;
 });
@@ -132,24 +136,24 @@ const scrollerClass = computed(() => {
       <slot></slot>
     </div>
     <OScrollbar
-      v-if="hasH"
+      v-if="hasX && !props.disabledX"
       :size="props.size"
-      direction="h"
+      direction="x"
       :thumb-rate="hThumbRate"
       :offset-rate="hOffsetRate"
       @scroll="onHBarScroll"
-      @mouseenter="onBarHoverIn('h')"
-      @mouseleave="onBarHoverOut('h')"
+      @mouseenter="onBarHoverIn('x')"
+      @mouseleave="onBarHoverOut('x')"
     />
     <OScrollbar
-      v-if="hasV"
-      direction="v"
+      v-if="hasY && !props.disabledY"
+      direction="y"
       :size="props.size"
       :thumb-rate="vThumbRate"
       :offset-rate="vOffsetRate"
       @scroll="onVBarScroll"
-      @mouseenter="onBarHoverIn('v')"
-      @mouseleave="onBarHoverOut('v')"
+      @mouseenter="onBarHoverIn('y')"
+      @mouseleave="onBarHoverOut('y')"
     />
   </div>
 </template>

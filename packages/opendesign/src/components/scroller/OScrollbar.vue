@@ -7,7 +7,7 @@ const emits = defineEmits<{
   (e: 'scroll', ratio: number): void;
 }>();
 
-const isV = computed(() => props.direction === 'v');
+const isY = computed(() => props.direction === 'y');
 // 是否正在拖拽bar
 const isDarggingBar = ref(false);
 
@@ -29,10 +29,10 @@ const thumbSizeStyle = computed(() => {
 const maxOffset = computed(() => trackLength.value - thumbSize.value);
 
 const sizeProp = computed(() => {
-  return isV.value ? 'height' : 'width';
+  return isY.value ? 'height' : 'width';
 });
 const offsetProp = computed(() => {
-  return isV.value ? 'translateY' : 'translateX';
+  return isY.value ? 'translateY' : 'translateX';
 });
 
 const offset = ref(0);
@@ -67,13 +67,13 @@ onMounted(() => {
     return;
   }
   const { offsetHeight, offsetWidth } = barRef.value;
-  trackLength.value = props.direction === 'h' ? offsetWidth : offsetHeight;
+  trackLength.value = props.direction === 'x' ? offsetWidth : offsetHeight;
 });
 
 let s = 0;
 let oldOffset = 0;
 const onMouseMove = (e: MouseEvent) => {
-  const pos = isV.value ? e.clientY : e.clientX;
+  const pos = isY.value ? e.clientY : e.clientX;
   const v = oldOffset + pos - s;
 
   const of = adjustOffset(v);
@@ -93,7 +93,7 @@ const onThumbMouseDown = (e: MouseEvent) => {
   e.preventDefault();
   e.stopPropagation();
   isDarggingBar.value = true;
-  s = isV.value ? e.clientY : e.clientX;
+  s = isY.value ? e.clientY : e.clientX;
   oldOffset = offset.value;
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('mouseup', onMouseUp);
@@ -105,14 +105,14 @@ const onTrackClick = (e: MouseEvent) => {
   if (!thumbRef.value || !barRef.value) {
     return;
   }
-  const pos = isV.value ? e.clientY : e.clientX;
+  const pos = isY.value ? e.clientY : e.clientX;
   let v = 0;
   if (props.notStepJump) {
     const bc = barRef.value.getBoundingClientRect();
-    v = pos - (isV.value ? bc.top : bc.left) - thumbSize.value / 2;
+    v = pos - (isY.value ? bc.top : bc.left) - thumbSize.value / 2;
   } else {
     const bc = thumbRef.value.getBoundingClientRect();
-    const isPlus = pos > (isV.value ? bc.top : bc.left);
+    const isPlus = pos > (isY.value ? bc.top : bc.left);
 
     v = offset.value + thumbSize.value * (isPlus ? 1 : -1);
   }

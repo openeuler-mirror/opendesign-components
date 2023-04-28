@@ -1,20 +1,18 @@
 import { ExtractPropTypes, PropType, ComponentPublicInstance } from 'vue';
-export type ScrollerDirection = 'h' | 'v';
+export type ScrollerDirection = 'x' | 'y';
 
 export const scrollerProps = {
   /**
-   * 按钮类型：PaginationVariantT
+   * 禁用横向滚动
    */
-  scrollX: {
+  disabledX: {
     type: Boolean,
-    default: true,
   },
   /**
-   * 按钮类型：PaginationVariantT
+   * 禁用纵向滚动
    */
-  scrollY: {
+  disabledY: {
     type: Boolean,
-    default: true,
   },
   /**
    * 滚动容器
@@ -29,13 +27,6 @@ export const scrollerProps = {
   duration: {
     type: Number,
     default: 600,
-  },
-  /**
-   * 滚动条在停止滚动多长时间后隐藏, ms
-   */
-  autoHide: {
-    type: Boolean,
-    default: true,
   },
   /**
    * 滚动条显示控制
@@ -63,8 +54,8 @@ export const scrollbarProps = {
    * 滚动条方向 h：横向 v: 纵向
    */
   direction: {
-    type: String as PropType<'h' | 'v'>,
-    default: 'v',
+    type: String as PropType<'x' | 'y'>,
+    default: 'y',
   },
   /**
    * 滚动bar宽度占总宽度
