@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue';
 import { scrollbarProps } from './types';
+import { vOnResize } from '../directves/on-resize';
 
 const props = defineProps(scrollbarProps);
 const emits = defineEmits<{
@@ -123,11 +124,20 @@ const onTrackClick = (e: MouseEvent) => {
     emits('scroll', offset.value / trackLength.value);
   }
 };
+
+const onResize = () => {
+  if (!barRef.value) {
+    return;
+  }
+  const { offsetHeight, offsetWidth } = barRef.value;
+  trackLength.value = props.direction === 'x' ? offsetWidth : offsetHeight;
+};
 </script>
 
 <template>
   <div
     ref="barRef"
+    v-on-resize="onResize"
     class="o-scrollbar"
     :class="[
       `o-scrollbar-${props.direction}`,

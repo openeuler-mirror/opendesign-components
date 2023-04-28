@@ -78,7 +78,7 @@
 .o-scrollbar-y {
   top: 50%;
   height: var(--scrollbar-height);
-  margin-top: calc(var(--scrollbar-height) / -2);
+  transform: translateY(-50%);
 
   width: var(--scrollbar-width);
   left: var(--scrollbar-y-left);
@@ -88,7 +88,7 @@
 .o-scrollbar-x {
   left: 50%;
   width: var(--scrollbar-height);
-  margin-left: calc(var(--scrollbar-height) / -2);
+  transform: translateX(-50%);
 
   top: var(--scrollbar-x-top);
   bottom: var(--scrollbar-x-bottom);

@@ -15,16 +15,17 @@ watch(
   }
 );
 
-const navList = routes.map((item) => {
-  const { path, name, label } = item;
-  return {
-    path,
-    name,
-    label,
-  };
-});
-
-const navClick = (item: typeof navList[0]) => {
+const navList = routes
+  .filter((item) => !item.exclude)
+  .map((item) => {
+    const { path, name, label } = item;
+    return {
+      path,
+      name,
+      label,
+    };
+  });
+const navClick = (item: (typeof navList)[0]) => {
   console.log(item.path);
   router.push(item.path);
 };

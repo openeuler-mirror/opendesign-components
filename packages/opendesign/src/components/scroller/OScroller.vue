@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watchEffect, onUnmounted } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
+import { isElement } from '../_shared/dom';
+import { useResizeObserver } from '../hooks';
 
 const props = defineProps(scrollerProps);
 
@@ -12,6 +14,8 @@ const hThumbRate = ref(0);
 const vThumbRate = ref(0);
 const hOffsetRate = ref(0);
 const vOffsetRate = ref(0);
+let wrapperEl: HTMLElement | null = null;
+let ro: ReturnType<typeof useResizeObserver> | null = null;
 
 // TODO 支持绑定全局滚动
 const showXBar = ref(false);
@@ -20,6 +24,7 @@ let lastTop = -1;
 let lastLeft = -1;
 let xTimer: number | null = null;
 let yTimer: number | null = null;
+
 const onScroll = (e: Event) => {
   const { scrollLeft, scrollWidth, scrollTop, scrollHeight } = e.target as HTMLElement;
 
@@ -51,11 +56,11 @@ const onScroll = (e: Event) => {
   lastTop = scrollTop;
 };
 
-onMounted(() => {
-  if (!containerEl.value) {
+const initVars = () => {
+  if (!wrapperEl) {
     return;
   }
-  const { clientWidth, clientHeight, scrollWidth, scrollHeight, scrollTop, scrollLeft } = containerEl.value;
+  const { clientWidth, clientHeight, scrollWidth, scrollHeight, scrollTop, scrollLeft } = wrapperEl;
 
   hThumbRate.value = clientWidth / scrollWidth;
   vThumbRate.value = clientHeight / scrollHeight;
@@ -64,21 +69,55 @@ onMounted(() => {
 
   hasY.value = clientWidth < scrollWidth;
   hasX.value = clientHeight < scrollHeight;
+};
+const init = () => {
+  if (!wrapperEl) {
+    return;
+  }
+  initVars();
+
+  ro?.observe(wrapperEl, initVars);
+
+  wrapperEl.addEventListener('scroll', onScroll, { passive: true });
+};
+
+watchEffect(() => {
+  if (props.target) {
+    if (typeof props.target === 'string') {
+      wrapperEl = document.querySelector(props.target) as HTMLElement;
+    } else if (isElement(props.target)) {
+      wrapperEl = props.target as HTMLElement;
+    }
+  } else {
+    wrapperEl = containerEl.value;
+  }
+  if (wrapperEl) {
+    init();
+  }
+});
+
+onMounted(() => {
+  ro = useResizeObserver();
+});
+onUnmounted(() => {
+  if (wrapperEl) {
+    ro?.unobserve(wrapperEl, initVars);
+  }
 });
 
 const onHBarScroll = (ratio: number) => {
-  if (containerEl.value) {
-    const d = ratio * containerEl.value.scrollWidth;
-    containerEl.value.scrollTo({
+  if (wrapperEl) {
+    const d = ratio * wrapperEl.scrollWidth;
+    wrapperEl.scrollTo({
       left: d,
     });
   }
 };
 
 const onVBarScroll = (ratio: number) => {
-  if (containerEl.value) {
-    const d = ratio * containerEl.value.scrollHeight;
-    containerEl.value.scrollTo({
+  if (wrapperEl) {
+    const d = ratio * wrapperEl.scrollHeight;
+    wrapperEl.scrollTo({
       top: d,
     });
   }
@@ -132,7 +171,7 @@ const scrollerClass = computed(() => {
 
 <template>
   <div class="o-scroller" :class="scrollerClass">
-    <div ref="containerEl" class="o-scroller-container" @scroll.passive="onScroll">
+    <div v-if="$slots.default" ref="containerEl" class="o-scroller-container">
       <slot></slot>
     </div>
     <OScrollbar

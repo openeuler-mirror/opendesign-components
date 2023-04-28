@@ -225,6 +225,13 @@ export const routes = [
     component: () => import('@components/scroller/__demo__/TheIndex.vue'),
   },
   {
+    exclude: true,
+    path: '/scroller/body',
+    name: 'Scroller-body',
+    label: '滚动条 Scroller-body',
+    component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { OScroller } from '../index';
+
+const containerRef = ref<HTMLElement | null>(null);
 </script>
 <template>
-  <h4>resize observer</h4>
+  <h4>Scroller basic</h4>
   <section>
     <div>
       <h3>Native</h3>
@@ -48,10 +51,30 @@ import { OScroller } from '../index';
       </OScroller>
     </div>
   </section>
+  <h4>Scroller target</h4>
+  <section>
+    <div>
+      <h3>Native</h3>
+      <div ref="containerRef" class="container native">
+        <div class="section">1</div>
+        <div class="section">2</div>
+        <div class="section">3</div>
+      </div>
+    </div>
+    <div>
+      <h3>映射窗口</h3>
+      <div class="out-container">
+        <OScroller class="out-scroller" show-type="always" size="small" :target="containerRef" />
+      </div>
+    </div>
+  </section>
+
+  <!-- <iframe src="/#/scroller/body" frameborder="0" width="100%" height="500px"></iframe> -->
+  <br />
 </template>
 <style lang="scss" scoped>
 .container {
-  width: 300px;
+  width: 100%;
   height: 300px;
   border: 2px solid rgb(111, 45, 234);
   box-sizing: border-box;
@@ -59,10 +82,12 @@ import { OScroller } from '../index';
 .native {
   overflow: auto;
 }
-
+section > div {
+  flex: 0 1 33%;
+}
 .section {
-  height: 200px;
-  width: 400px;
+  height: 75%;
+  width: 150%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,5 +100,13 @@ import { OScroller } from '../index';
   &:nth-child(3) {
     background-color: #f4f8726e;
   }
+}
+.out-scroller {
+  height: 100%;
+}
+.out-container {
+  width: 300px;
+  height: 200px;
+  background-color: #efefef;
 }
 </style>
