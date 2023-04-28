@@ -228,7 +228,7 @@ export const routes = [
     exclude: true,
     path: '/scroller/body',
     name: 'Scroller-body',
-    label: '滚动条 Scroller-body',
+    label: '全局滚动条 Scroller-body',
     component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
   },
   {
