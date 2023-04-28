@@ -3,47 +3,164 @@
  * ::-webkit-scrollbar 兼容chrome 4+, edge 79+, safari 4+, opera 15+, 
  * scrollbar-width 兼容firefox 64+
  */
+
+.o-scroller {
+  position: relative;
+}
+
+.o-scroller-auto-show {
+  > .o-scrollbar {
+    opacity: 0;
+    pointer-events: none;
+  }
+  > .o-scrollbar-dragging {
+    opacity: 1;
+  }
+  &.o-scroller-show-x {
+    > .o-scrollbar-h {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &.o-scroller-show-y {
+    > .o-scrollbar-v {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
+.o-scroller-hover-show {
+  > .o-scrollbar {
+    opacity: 0;
+  }
+
+  > .o-scrollbar-dragging {
+    opacity: 1;
+  }
+  &:hover {
+    > .o-scrollbar {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
 .o-scroller-container {
   overflow: auto;
   scrollbar-width: none;
-  position: relative;
+  height: 100%;
+  width: 100%;
   &::-webkit-scrollbar {
     display: none;
   }
 }
-
 .o-scrollbar {
   position: absolute;
-  &.v {
-    top: 0;
-    bottom: 0;
-    left: var(--scrollbar-v-left);
-    right: var(--scrollbar-v-right);
-  }
-  &.h {
-    left: 0;
-    right: 0;
-    top: var(--scrollbar-v-top);
-    bottom: var(--scrollbar-v-bottom);
+  background-color: var(--scrollbar-bg-color);
+  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
+
+  &:hover {
+    .o-scrollbar-h-thumb-bar {
+      height: var(--scrollbar-thumb-width-hover);
+      margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
+    }
+    .o-scrollbar-v-thumb-bar {
+      width: var(--scrollbar-thumb-width-hover);
+      margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
+    }
+    .o-scrollbar-track {
+      opacity: 1;
+    }
   }
 }
+.o-scrollbar-v {
+  top: 50%;
+  height: var(--scrollbar-height);
+  margin-top: calc(var(--scrollbar-height) / -2);
 
-.o-scrollbar-track {
-  &.v {
-    width: var(--scrollbar-track-width);
-    height: 100%;
+  width: var(--scrollbar-width);
+  left: var(--scrollbar-v-left);
+  right: var(--scrollbar-v-right);
+}
+
+.o-scrollbar-h {
+  left: 50%;
+  width: var(--scrollbar-height);
+  margin-left: calc(var(--scrollbar-height) / -2);
+
+  top: var(--scrollbar-h-top);
+  bottom: var(--scrollbar-h-bottom);
+  height: var(--scrollbar-width);
+}
+
+.o-scrollbar-dragging {
+  .o-scrollbar-track {
+    opacity: 1;
   }
-  background-color: #333;
+}
+.o-scrollbar-track {
+  position: relative;
+  z-index: 0;
+  background-color: var(--scrollbar-track-bg-color);
+  opacity: 0;
+  border-radius: var(--scrollbar-thumb-radius);
+}
+.o-scrollbar-v-track {
+  width: var(--scrollbar-track-width);
+  height: 100%;
+  left: 50%;
+  margin-left: calc(var(--scrollbar-track-width) / -2);
+}
+.o-scrollbar-h-track {
+  height: var(--scrollbar-track-width);
+  width: 100%;
+  top: 50%;
+  margin-top: calc(var(--scrollbar-track-width) / -2);
 }
 
 .o-scrollbar-thumb {
-  &.v {
-    width: var(--scrollbar-v-thumb-width);
-    height: 30px;
-    top: 50px;
-    left: 50%;
-    margin-left: calc(-1 * var(--scrollbar-v-thumb-width) / 2);
-  }
-  background-color: rgb(220, 88, 62);
   position: absolute;
+  z-index: 1;
+}
+.o-scrollbar-v-thumb {
+  top: 0;
+  left: 50%;
+}
+.o-scrollbar-h-thumb {
+  left: 0;
+  top: 50%;
+}
+
+.o-scrollbar-h-thumb-bar,
+.o-scrollbar-v-thumb-bar {
+  background-color: var(--scrollbar-thumb-bg-color);
+  border-radius: var(--scrollbar-thumb-radius);
+  transition: all var(--o-easing-standard-in) var(--o-duration-m1);
+
+  &:hover {
+    background-color: var(--scrollbar-thumb-bg-color-hover);
+  }
+}
+.o-scrollbar-h-thumb-bar {
+  width: 100%;
+  height: var(--scrollbar-thumb-width);
+  margin-top: calc(var(--scrollbar-thumb-width) / -2);
+
+  &.is-dragging {
+    height: var(--scrollbar-thumb-width-hover);
+    margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
+    background-color: var(--scrollbar-thumb-bg-color-hover);
+  }
+}
+.o-scrollbar-v-thumb-bar {
+  width: var(--scrollbar-thumb-width);
+  margin-left: calc(var(--scrollbar-thumb-width) / -2);
+  height: 100%;
+  &.is-dragging {
+    width: var(--scrollbar-thumb-width-hover);
+    margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
+    background-color: var(--scrollbar-thumb-bg-color-hover);
+  }
 }

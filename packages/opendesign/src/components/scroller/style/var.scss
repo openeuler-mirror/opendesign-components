@@ -1,9 +1,27 @@
-.o-scrollbar {
-  --scrollbar-v-right: 10px;
+.o-scroller {
+  --scrollbar-height: 100%;
+  --scrollbar-v-right: 0;
   --scrollbar-v-left: auto;
   --scrollbar-h-top: auto;
   --scrollbar-h-bottom: 0;
+  --scrollbar-bg-color: transparent;
 
+  --scrollbar-track-bg-color: var(--o-color-control1-light);
+  --scrollbar-track-width: 8px;
+  --scrollbar-thumb-radius: 4px;
+
+  --scrollbar-thumb-bg-color: var(--o-color-control2-light);
+  --scrollbar-thumb-bg-color-hover: var(--o-color-control3-light);
+  --scrollbar-thumb-width: 8px;
+  --scrollbar-thumb-width-hover: 12px;
+  --scrollbar-thumb-radius: 12px;
+  --scrollbar-width: 12px;
+}
+.o-scroller-small {
   --scrollbar-track-width: 4px;
-  --scrollbar-v-thumb-width: 10px;
+  --scrollbar-thumb-radius: 2px;
+  --scrollbar-thumb-width: 4px;
+  --scrollbar-thumb-width-hover: 8px;
+  --scrollbar-thumb-radius: 10px;
+  --scrollbar-width: 10px;
 }

@@ -13,8 +13,35 @@ import { OScroller } from '../index';
       </div>
     </div>
     <div>
-      <h3>Scroller</h3>
+      <h3>Scroller showType="auto"</h3>
       <OScroller class="container">
+        <div class="section">1</div>
+        <div class="section">2</div>
+        <div class="section">3</div>
+      </OScroller>
+    </div>
+
+    <div>
+      <h3>Scroller showType="always"</h3>
+      <OScroller class="container" show-type="always">
+        <div class="section">1</div>
+        <div class="section">2</div>
+        <div class="section">3</div>
+      </OScroller>
+    </div>
+
+    <div>
+      <h3>Scroller showType="hover"</h3>
+      <OScroller class="container" show-type="hover">
+        <div class="section">1</div>
+        <div class="section">2</div>
+        <div class="section">3</div>
+      </OScroller>
+    </div>
+
+    <div>
+      <h3>Scroller size="small"</h3>
+      <OScroller class="container" show-type="always" size="small">
         <div class="section">1</div>
         <div class="section">2</div>
         <div class="section">3</div>
@@ -35,6 +62,7 @@ import { OScroller } from '../index';
 
 .section {
   height: 200px;
+  width: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
