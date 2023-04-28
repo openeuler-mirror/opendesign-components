@@ -2,7 +2,7 @@ import { isArray } from './is';
 
 export type DirectionT = 'left' | 'right' | 'top' | 'bottom';
 
-export function isElement(el: any) {
+export function isHtmlElement(el: any) {
   return typeof HTMLElement === 'object'
     ? el instanceof HTMLElement
     : !!(el && typeof el === 'object' && (el.nodeType === 1 || el.nodeType === 9) && typeof el.nodeName === 'string');

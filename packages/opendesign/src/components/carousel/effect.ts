@@ -7,7 +7,7 @@ export interface EffectT {
   destroyed: () => void;
 }
 export interface EffectOptionT {
-  activeClass: string;
+  activeClass?: string;
   onTouchstart?: () => void;
   onTouchend?: () => void;
   onBeforeChange?: (from: number, to: number) => boolean | void;

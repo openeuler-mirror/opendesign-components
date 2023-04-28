@@ -28,6 +28,20 @@ let lastNumberValue = numberValue;
 let lastInputValue = currentValue.value;
 
 watch(
+  () => props.min,
+  (v) => {
+    isValid.value = isValidNumber(currentValue.value, v, props.max);
+  }
+);
+
+watch(
+  () => props.max,
+  (v) => {
+    isValid.value = isValidNumber(currentValue.value, props.min, v);
+  }
+);
+
+watch(
   () => props.modelValue,
   (val) => {
     isValid.value = isValidNumber(val, props.min, props.max);

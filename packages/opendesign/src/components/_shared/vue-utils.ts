@@ -1,5 +1,6 @@
-import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment } from 'vue';
+import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref } from 'vue';
 import { isArray } from './is';
+import { isHtmlElement } from './dom';
 
 // 来着vuejs/core
 // https://github.com/vuejs/core/blob/main/packages/shared/src/shapeFlags.ts
@@ -154,3 +155,21 @@ export function useSlotFirstElement() {
     fistElement,
   };
 }
+
+export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
+  return new Promise((resolve) => {
+    if (isHtmlElement(elRef.value)) {
+      resolve(elRef.value as HTMLElement);
+    } else if (typeof elRef.value === 'string') {
+      resolve(document.querySelector(elRef.value) as HTMLElement);
+    } else {
+      watchEffect(() => {
+        if (isHtmlElement(elRef.value)) {
+          resolve(elRef.value as HTMLElement);
+        } else if (elRef.value) {
+          resolve((elRef.value as ComponentPublicInstance).$el);
+        }
+      });
+    }
+  });
+};
