@@ -4,9 +4,9 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed } from 'vue';
+import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
 import { popupProps } from './types';
-import { isElement, getScrollParents } from '../_shared/dom';
+import { isHtmlElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
 import { isArray } from '../_shared/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
@@ -16,6 +16,7 @@ import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
+import { getHtmlElement } from '../_shared/vue-utils';
 
 // TODO 处理嵌套
 
@@ -63,28 +64,43 @@ onMounted(() => {
   // 在mounted事件后再显示，避免找不到wrapper
   visible.value = props.visible;
 
-  // 触发元素为dom或者选择器，处理事件触发
-  nextTick(() => {
-    if (!wrapperEl.value) {
-      if (typeof props.wrapper === 'string') {
-        wrapperEl.value = document.querySelector(props.wrapper);
-      } else {
-        wrapperEl.value = props.wrapper;
-      }
+  const { target, wrapper } = toRefs(props);
+  // 绑定触发元素事件
+  getHtmlElement(target).then((el) => {
+    if (el) {
+      bindTargetEvent(el);
     }
-
-    // 绑定触发元素事件
-    if (typeof props.target === 'string') {
-      bindTargetEvent(document.querySelector(props.target));
-    } else if (isElement(props.target)) {
-      bindTargetEvent(props.target as HTMLElement);
-    }
-
-    // 初始为true时，更新样式
-    // if (visible.value) {
-    //   updatePopupStyle();
-    // }
   });
+
+  // 获取挂载容器
+  getHtmlElement(wrapper).then((el) => {
+    if (el) {
+      wrapperEl.value = el;
+    }
+  });
+
+  // 触发元素为dom或者选择器，处理事件触发
+  // nextTick(() => {
+  // if (!wrapperEl.value) {
+  //   if (typeof props.wrapper === 'string') {
+  //     wrapperEl.value = document.querySelector(props.wrapper);
+  //   } else {
+  //     wrapperEl.value = props.wrapper;
+  //   }
+  // }
+
+  // 绑定触发元素事件
+  // if (typeof props.target === 'string') {
+  // bindTargetEvent(document.querySelector(props.target));
+  // } else if (isHtmlElement(props.target)) {
+  // bindTargetEvent(props.target as HTMLElement);
+  // }
+
+  // 初始为true时，更新样式
+  // if (visible.value) {
+  //   updatePopupStyle();
+  // }
+  // });
 });
 
 let triggerListener: ReturnType<typeof bindTrigger> = [];
@@ -238,17 +254,17 @@ const updateVisible = (isVisible?: boolean, delay?: number) => {
 };
 
 // 触发元素为组件ref，因生命周期问题，延后绑定处理事件触发
-watch(
-  () => props.target,
-  (ele) => {
-    if (isElement((ele as ComponentPublicInstance)?.$el)) {
-      bindTargetEvent((ele as ComponentPublicInstance).$el);
-    }
-  }
-);
+// watch(
+//   () => props.target,
+//   (ele) => {
+//     if (isHtmlElement((ele as ComponentPublicInstance)?.$el)) {
+//       bindTargetEvent((ele as ComponentPublicInstance).$el);
+//     }
+//   }
+// );
 
 watch(targetElRef, (elRef) => {
-  if (isElement(elRef?.$el)) {
+  if (isHtmlElement(elRef?.$el)) {
     bindTargetEvent(elRef?.$el);
   }
 });
