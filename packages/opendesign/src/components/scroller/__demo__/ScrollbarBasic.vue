@@ -5,6 +5,8 @@ import TheComp from './TheComp.vue';
 
 const containerRef = ref<HTMLElement | null>(null);
 const compRef = ref<HTMLElement | null>(null);
+
+const link = `${window.location.href}/body`;
 </script>
 <template>
   <h4>Scroller basic</h4>
@@ -78,7 +80,7 @@ const compRef = ref<HTMLElement | null>(null);
     </div>
   </section>
   <h3>全局滚动条</h3>
-  <iframe src="/#/scroller/body" frameborder="0" width="100%" height="500px"></iframe>
+  <iframe :src="link" frameborder="0" width="100%" height="500px"></iframe>
   <br />
 </template>
 <style lang="scss" scoped>
