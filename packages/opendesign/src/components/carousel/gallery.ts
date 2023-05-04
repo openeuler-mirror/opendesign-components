@@ -151,6 +151,10 @@ export default class Gallery extends Effect {
     const toSlide = this.slideList[toIndex];
     const fromSlide = this.slideList[this.currentIndex];
 
+    if (!toSlide) {
+      return Promise.resolve(null);
+    }
+
     toSlide.el.classList.add(GalleryClass.CURRENT);
     fromSlide?.el.classList.remove(GalleryClass.CURRENT);
 
