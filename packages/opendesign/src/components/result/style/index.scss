@@ -1,0 +1,40 @@
+@use './var.scss';
+
+.o-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.o-result-icon {
+  width: var(--result-icon-size);
+  height: var(--result-icon-size);
+  font-size: var(--result-icon-size);
+  color: var(--result-icon-color);
+  margin-bottom: var(--result-icon-gap);
+}
+
+.o-result-title {
+  color: var(--result-title-color);
+  font-size: var(--result-title-text-size);
+  line-height: var(--result-title-text-height);
+  font-weight: 500;
+}
+
+.o-result-description {
+  color: var(--result-desc-color);
+  font-size: var(--result-desc-text-size);
+  line-height: var(--result-desc-text-height);
+  margin-top: var(--result-desc-gap);
+}
+
+.o-result-extra {
+  margin-top: var(--result-extra-gap);
+}
+
+.o-result-icon-custom {
+  width: auto;
+  height: auto;
+}

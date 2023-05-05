@@ -1,0 +1,91 @@
+@use './var.scss';
+
+.o-radio {
+  color: var(--radio-color);
+  font-size: var(--radio-text-size);
+  line-height: var(--radio-text-height);
+  cursor: pointer;
+
+  input[type='radio'] {
+    position: absolute;
+    outline: none;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+
+  &:not(.o-radio-checked):not(.o-radio-disabled):hover {
+    .o-radio-input {
+      border-color: var(--radio-input-bd-color-hover);
+    }
+  }
+}
+
+.o-radio-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+.o-radio-input {
+  position: relative;
+  display: inline-block;
+  width: var(--radio-input-size);
+  height: var(--radio-input-size);
+  background-color: var(--radio-input-bg-color);
+  border: 1px solid var(--radio-input-bd-color);
+  border-radius: 50%;
+  transition: all var(--o-duration-s) var(--o-easing-standard);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--radio-input-inner-size);
+    height: var(--radio-input-inner-size);
+    border-radius: 50%;
+    opacity: 0;
+    background-color: var(--radio-input-inner-bg-color);
+    transition: background-color var(--o-duration-s) var(--o-easing-standard), opacity var(--o-duration-s) var(--o-easing-standard);
+  }
+}
+
+.o-radio-label {
+  margin-left: 12px;
+}
+
+.o-radio-checked {
+  .o-radio-input {
+    background-color: var(--radio-input-bg-color-checked);
+    border-color: var(--radio-input-bd-color-checked);
+    &::after {
+      opacity: 1;
+      background-color: var(--radio-input-inner-bg-color-checked);
+    }
+  }
+}
+
+.o-radio-disabled {
+  cursor: not-allowed;
+  color: var(--radio-color-disabled);
+  .o-radio-input {
+    background-color: var(--radio-input-bg-color-disabled);
+    border-color: var(--radio-input-bd-color-disabled);
+  }
+}
+
+.o-radio-checked.o-radio-disabled {
+  .o-radio-input {
+    background-color: var(--radio-input-bg-color-checked-disabled);
+    border-color: var(--radio-input-bd-color-checked-disabled);
+    &::after {
+      background-color: var(--radio-input-inner-bg-color-checked-disabled);
+    }
+  }
+}

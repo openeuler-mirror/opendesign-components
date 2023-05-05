@@ -1,0 +1,13 @@
+.o-card {
+  --card-radius: var(--o-radius-control-l);
+  --card-title-max-row: 0;
+  --card-detail-max-row: 0;
+  --card-main-padding: 24px;
+}
+
+.o-card-medium {
+  --card-h-cover-width: 274px;
+}
+.o-card-large {
+  --card-h-cover-width: 442px;
+}

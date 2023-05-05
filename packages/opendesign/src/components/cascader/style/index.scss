@@ -1,0 +1,66 @@
+@use './var.scss';
+
+.o-cascader-panel {
+  position: relative;
+  display: inline-flex;
+  border-radius: var(--o-radius-control-l);
+  height: 200px;
+}
+
+.o-cascader-options {
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  min-width: 144px;
+  max-width: 192px;
+  overflow-y: auto;
+
+  & + .o-cascader-options {
+    border-left: 1px solid var(--cascader-options-bd-clor);
+  }
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.o-cascader-option {
+  display: flex;
+  align-items: center;
+  padding: var(--cascader-option-padding);
+  color: var(--cascader-option-color);
+  border-radius: var(--cascader-option-radius);
+  background-color: var(--cascader-option-bg-color);
+  transition: background-color var(--o-duration-s) var(--o-easing-standard);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--cascader-option-bg-color-hover);
+  }
+}
+
+.o-cascader-option-label {
+  font-size: var(--cascader-option-text-size);
+  line-height: var(--cascader-option-text-height);
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.o-cascader-option-arrow {
+  font-size: var(--cascader-option-icon-size);
+  margin-left: auto;
+}
+
+.o-cascader-option-active {
+  &,
+  &:hover {
+    background-color: var(--cascader-option-bg-color-active);
+    font-weight: 500;
+  }
+}

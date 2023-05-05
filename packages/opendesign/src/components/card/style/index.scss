@@ -1,0 +1,114 @@
+@use './var.scss';
+
+.o-card {
+  background-color: var(--o-color-control-light);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  display: flex;
+}
+.o-card-cover {
+  flex-shrink: 0;
+}
+.o-card-cover-v {
+  padding: 8px 8px 0;
+}
+.o-card-cover-h {
+  padding: 8px 0 8px 8px;
+}
+.o-card-cover-hr {
+  padding: 8px 8px 8px 0;
+}
+
+.o-card-only-cover {
+  padding: 0;
+}
+
+.o-card-cover-img {
+  width: 100%;
+  border-radius: calc(var(--card-radius) / 2);
+  &.is-full {
+    height: 100%;
+  }
+}
+
+.o-card-title {
+  font-size: var(--o-font_size-h3);
+  line-height: var(--o-line_height-h3);
+  color: var(--o-color-info1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--card-title-max-row);
+  -webkit-box-orient: vertical;
+}
+
+.o-card-main {
+  padding: var(--card-main-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.o-card-content {
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+  color: var(--o-color-info2);
+  .o-card-title + & {
+    margin-top: 12px;
+  }
+}
+.o-card-detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--card-detail-max-row);
+  -webkit-box-orient: vertical;
+}
+
+.o-card-hoverable {
+  position: relative;
+  cursor: pointer;
+  transition: box-shadow var(--o-easing-standard) var(--o-duration-m2);
+
+  &:hover {
+    box-shadow: var(--o-shadow-2);
+    .o-card-cover img {
+      transform: scale(1.05);
+    }
+  }
+  &:active {
+    box-shadow: var(--o-shadow-1);
+    .o-card-cover img {
+      transform: scale(1.02);
+    }
+  }
+}
+.o-card-bottom {
+  margin-top: 24px;
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  color: var(--o-color-info3);
+}
+.o-card-layout-v {
+  display: flex;
+  flex-direction: column;
+}
+.o-card-layout-h {
+  display: flex;
+  flex-direction: row;
+}
+.o-card-layout-hr {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.o-card-cover-h,
+.o-card-cover-hr {
+  width: var(--card-h-cover-width);
+}
+
+.o-card-large {
+  .o-card-main {
+    padding: 24px 32px;
+  }
+}

@@ -1,0 +1,44 @@
+@use './var.scss';
+
+.o-rate {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  font-size: var(--rate-size);
+  cursor: pointer;
+}
+
+.o-rate-item {
+  position: relative;
+
+  &.is-half{
+    .o-rate-icon-top {
+      opacity: 1;
+    }
+  }
+
+  &.is-full{
+    .o-rate-icon-bottom {
+      color: var(--rate-color-active);
+    }
+  }
+
+  & + .o-rate-item {
+    margin-left: var(--rate-gap);
+  }
+}
+
+.o-rate-icon {
+  color: var(--rate-color);
+  transition: all var(--o-duration-m1) var(--o-easing-standard);
+}
+
+.o-rate-icon-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  overflow: hidden;
+  color: var(--rate-color-active);
+}

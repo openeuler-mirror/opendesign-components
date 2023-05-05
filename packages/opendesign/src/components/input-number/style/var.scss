@@ -1,0 +1,11 @@
+.o-input-number {
+  --input-number-btn-color: var(--o-color-info3);
+  --input-number-btn-color-hover: var(--o-color-info1);
+  --input-number-btn-color-active: var(--o-color-info1);
+  --input-number-btn-color-disabled: var(--o-color-info4);
+  --input-number-btn-bg-color: transparent;
+  --input-number-btn-bg-color-hover: var(--o-color-control1-light);
+  --input-number-btn-bg-color-active: var(--o-color-control2-light);
+  --input-number-btn-bg-color-disabled: var(--o-color-control4-light);
+  --input-number-btn-pill-fix: 2px;
+}

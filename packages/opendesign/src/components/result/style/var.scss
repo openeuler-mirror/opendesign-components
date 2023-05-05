@@ -1,0 +1,28 @@
+.o-result {
+  --result-icon-size: var(--o-icon_size-l);
+  --result-icon-color: var(--o-color-primary1);
+  --result-icon-gap: 16px;
+
+  --result-title-color: var(--o-color-info1);
+  --result-title-text-size: var(--o-font_size-h3);
+  --result-title-text-height: var(--o-line_height-h3);
+
+  --result-desc-color: var(--o-color-info3);
+  --result-desc-text-size: var(--o-font_size-h4);
+  --result-desc-text-height: var(--o-line_height-h4);
+  --result-desc-gap: 8px;
+
+  --result-extra-gap: 40px;
+}
+
+.o-result-success {
+  --result-icon-color: var(--o-color-success1);
+}
+
+.o-result-warning {
+  --result-icon-color: var(--o-color-warning1);
+}
+
+.o-result-danger {
+  --result-icon-color: var(--o-color-danger1);
+}

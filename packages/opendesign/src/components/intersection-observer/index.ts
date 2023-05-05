@@ -1,0 +1,1 @@
+export { default as OIntersectionObserver } from './intersection-observer';

@@ -1,0 +1,65 @@
+@keyframes o-rotating {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.o-rotating {
+  animation: o-rotating 2s var(--o-easing-linear) infinite;
+}
+
+@keyframes o-zoom-fade-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.o-zoom-fade-enter-active {
+  animation: o-zoom-fade-in var(--o-duration-m1) var(--o-easing-standard-in);
+}
+.o-zoom-fade-leave-active {
+  animation: o-zoom-fade-in var(--o-duration-s) var(--o-easing-standard-out) reverse;
+}
+
+@keyframes o-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.o-fade-in-enter-active {
+  animation: o-fade-in var(--o-duration-m1) var(--o-easing-standard-in);
+}
+.o-fade-in-leave-active {
+  animation: o-fade-in var(--o-duration-m1) var(--o-easing-standard-out) reverse;
+}
+
+@keyframes o-fade-up {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.o-fade-up-enter-active {
+  animation: o-fade-up var(--o-duration-m1) var(--o-easing-standard-in);
+}
+.o-fade-up-leave-active {
+  animation: o-fade-up var(--o-duration-s) var(--o-easing-standard-out) reverse;
+}
