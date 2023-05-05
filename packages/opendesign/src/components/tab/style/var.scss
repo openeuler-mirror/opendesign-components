@@ -1,6 +1,8 @@
 .o-tab {
   --tab-nav-text-size: var(--o-font_size-text1);
   --tab-nav-text-height: var(--o-line_height-text1);
+  --tab-nav-btn-icon-size: 16px;
+  --tab-nav-btn-size: 24px;
 
   --tab-nav-color: var(--o-color-info2);
   --tab-nav-color-disabled: var(--o-color-info4);
@@ -9,6 +11,7 @@
 
   --tab-icon-color: var(--o-color-info2);
   --tab-icon-color-hover: var(--o-color-primary1);
+  --tab-icon-color-disabled: var(--o-color-info4);
 
   --tab-nav-divider: 1px solid var(--o-color-control1);
   --tab-nav-archor-color: var(--o-color-primary1);
