@@ -53,8 +53,11 @@
   }
 }
 .o-tab-nav-btn-disabled {
-  color: var(--tab-icon-color-disabled);
-  cursor: not-allowed;
+  &,
+  &:hover {
+    color: var(--tab-icon-color-disabled);
+    cursor: not-allowed;
+  }
 }
 
 .o-tab-nav-list {
@@ -74,24 +77,28 @@
   margin-right: var(--tab-nav-gap);
   z-index: 1;
   color: var(--tab-icon-color);
-  &:not(.o-tab-nav-disabled, .o-tab-nav-active) {
-    &:hover {
-      color: var(--tab-nav-color-hover);
-      border-color: var(--tab-nav-bd-color-hover);
-      background-color: var(--tab-nav-bg-color-hover);
-    }
+  &:hover {
+    color: var(--tab-nav-color-hover);
+    border-color: var(--tab-nav-bd-color-hover);
+    background-color: var(--tab-nav-bg-color-hover);
   }
 }
 .o-tab-nav-active {
-  color: var(--tab-nav-color-active);
-  border-color: var(--tab-nav-bd-color-active);
-  background-color: var(--tab-nav-bg-color-active);
+  &,
+  &:hover {
+    color: var(--tab-nav-color-active);
+    border-color: var(--tab-nav-bd-color-active);
+    background-color: var(--tab-nav-bg-color-active);
+  }
 }
 .o-tab-nav-disabled {
-  cursor: not-allowed;
-  color: var(--tab-nav-color-disabled);
-  border-color: var(--tab-nav-bd-color-disabled);
-  background-color: var(--tab-nav-bg-color-disabled);
+  &,
+  &:hover {
+    cursor: not-allowed;
+    color: var(--tab-nav-color-disabled);
+    border-color: var(--tab-nav-bd-color-disabled);
+    background-color: var(--tab-nav-bg-color-disabled);
+  }
 }
 .o-tab-nav-closable {
   position: relative;

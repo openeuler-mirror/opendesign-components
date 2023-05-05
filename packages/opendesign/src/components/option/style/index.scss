@@ -12,24 +12,22 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
 
-  &:not(.o-option-disabled) {
-    &:hover {
-      background-color: var(--option-bg-color-hover);
-      color: var(--option-color-hover);
-    }
-    &.active {
-      color: var(--option-color-active);
-      background-color: var(--option-bg-color-active);
-    }
+  &:hover {
+    background-color: var(--option-bg-color-hover);
+    color: var(--option-color-hover);
   }
-
   &.active {
     font-weight: 500;
+    color: var(--option-color-active);
+    background-color: var(--option-bg-color-active);
   }
 }
 
 .o-option-disabled {
-  cursor: not-allowed;
-  color: var(--option-color-disabled);
-  background-color: var(--option-bg-color-disabled);
+  &,
+  &:hover {
+    cursor: not-allowed;
+    color: var(--option-color-disabled);
+    background-color: var(--option-bg-color-disabled);
+  }
 }

@@ -83,13 +83,16 @@
   text-overflow: ellipsis;
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
-  &:not(.o-menu-item-active):hover {
+  &:hover {
     background-color: var(--menu-item-bg-color-hover);
   }
 }
 
 .o-menu-item-active {
-  background-color: var(--menu-item-bg-color-active);
+  &,
+  &:hover {
+    background-color: var(--menu-item-bg-color-active);
+  }
 }
 
 .o-menu-item-disabled {
