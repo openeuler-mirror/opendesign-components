@@ -2,6 +2,7 @@
 
 .o-figure {
   display: inline-flex;
+  vertical-align: top;
   overflow: hidden;
   transition: background-color var(--o-duration-m2);
   border-radius: var(--figure-radius);

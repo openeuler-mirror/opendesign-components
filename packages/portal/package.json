@@ -10,7 +10,7 @@
     "gen:icon": "opensig-scripts gen:icon --config __test_scripts/icons/icon.config.ts"
   },
   "dependencies": {
-    "@opensig/opendesign": "workspace:^0.0.37",
+    "@opensig/opendesign": "workspace:^0.0.38",
     "normalize.css": "^8.0.1",
     "vue": "^3.2.41",
     "vue-router": "^4.1.6",
