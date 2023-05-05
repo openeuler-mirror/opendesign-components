@@ -6,3 +6,10 @@ $text-types: display1, display2, display3, display4, display5, h1, h2, h3, h4, t
     line-height: var(--o-line_height-#{$type});
   }
 }
+
+.o-hide-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

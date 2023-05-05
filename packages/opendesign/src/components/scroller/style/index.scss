@@ -177,11 +177,3 @@
   z-index: var(--o-z-index-max);
   pointer-events: none;
 }
-
-.o-scroller-root {
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
