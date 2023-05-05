@@ -103,7 +103,7 @@ defineExpose({
 </script>
 <template>
   <teleport :to="props.wrapper" :disabled="!props.wrapper">
-    <div v-if="isMounted" v-show="visible || toMount" v-bind="$attrs" ref="layerRef" class="o-layer" :class="{ 'o-layer-to-body': isToBody }">
+    <div v-if="isMounted" v-show="visible || toMount" ref="layerRef" class="o-layer" :class="{ 'o-layer-to-body': isToBody }" v-bind="$attrs">
       <template v-if="props.mask">
         <transition :name="props.maskTransition" :appear="true">
           <div v-show="visible" class="o-layer-mask" @click="onMaskClick"></div>
