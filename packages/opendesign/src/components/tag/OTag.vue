@@ -66,7 +66,7 @@ const onClose = (ev: MouseEvent) => {
       `o-tag-${props.size || defaultSize}`,
       round.class.value,
       { 'o-tag-checkable': props.checkable },
-      { 'o-tag-checked': isChecked },
+      { 'o-tag-not-checked': !isChecked },
     ]"
     :style="round.style.value"
     @click="onClick"
