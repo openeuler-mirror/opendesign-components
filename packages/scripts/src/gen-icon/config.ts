@@ -98,7 +98,7 @@ export default defineComponent({
   name: '${componentName}',
   svgType: '${type}',
   setup() {
-    const classnames = ['o-icon', '${name}', 'type-${type}'];
+    const classnames = ['o-icon', 'o-${name}', 'type-${type}'];
     return {
       classnames,
     };
