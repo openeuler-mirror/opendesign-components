@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { PopupPositionT, PopupTriggerT } from '../popup';
-import type { RoundT, VariantT } from '../_shared/global';
+import type { RoundT, VariantT } from '../_shared/types';
 
 export type CascaderNodeValueT = string | number;
 export type CascaderNodePathT = Array<CascaderNodeValueT>;

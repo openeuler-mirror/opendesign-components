@@ -1,8 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT, ColorT, VariantT } from '../_shared/global';
+import { RoundT, ColorT, VariantT } from '../_shared/types';
 
 export const ButtonSizeTypes = ['large', 'medium', 'small', 'mini'] as const;
-export type ButtonSizeT = typeof ButtonSizeTypes[number];
+export type ButtonSizeT = (typeof ButtonSizeTypes)[number];
 
 export const buttonProps = {
   /**

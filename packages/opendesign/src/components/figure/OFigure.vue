@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from 'vue';
-import { PrestColorPool } from '../_shared/global';
+import { defaultPrestColorPool } from '../_shared/global';
 import HtmlTag from '../_shared/components/html-tag';
 
 import { figureProps } from './types';
@@ -12,7 +12,7 @@ const imgRef = ref<HTMLImageElement | null>(null);
 
 const isLoading = ref(true);
 const isError = ref(false);
-const prestColor = props.colorful ? PrestColorPool.value.pick() : '';
+const prestColor = props.colorful ? defaultPrestColorPool.value.pick() : '';
 
 const bgSrc = computed(() => {
   if (props.background && props.ratio) {

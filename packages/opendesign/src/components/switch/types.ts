@@ -1,8 +1,8 @@
-import type { RoundT } from '../_shared/global';
+import type { RoundT } from '../_shared/types';
 import type { ExtractPropTypes, PropType } from 'vue';
 
 export const SwitchSizeTypes = ['medium', 'small'] as const;
-export type SwitchSizeT = typeof SwitchSizeTypes[number];
+export type SwitchSizeT = (typeof SwitchSizeTypes)[number];
 
 export const switchProps = {
   /**
