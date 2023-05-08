@@ -77,6 +77,9 @@
   margin-right: var(--tab-nav-gap);
   z-index: 1;
   color: var(--tab-icon-color);
+  &:last-child {
+    margin-right: 0;
+  }
   &:hover {
     color: var(--tab-nav-color-hover);
     border-color: var(--tab-nav-bd-color-hover);
