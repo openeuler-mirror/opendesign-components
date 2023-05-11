@@ -1,6 +1,7 @@
 import { supportTouch } from '../_shared/dom';
 import { isFunction } from '../_shared/is';
-import { OPointer, PointMoveT } from '../_shared/pointer';
+import { OPointer } from '../_shared/pointer';
+import { PointMoveT } from '../_shared/types';
 
 export interface EffectT {
   active: (slideIndex: number) => Promise<null | number>;

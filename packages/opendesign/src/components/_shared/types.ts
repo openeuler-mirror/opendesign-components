@@ -25,6 +25,10 @@ export type RoundT = 'pill' | string;
 export const DirectionTypes = ['h', 'v'] as const;
 export type DirectionT = (typeof DirectionTypes)[number];
 
+// 位置
+export const PositionTypes = ['left', 'right', 'top', 'bottom'] as const;
+export type PositionT = (typeof PositionTypes)[number];
+
 // 形状
 export const VariantTypes = ['solid', 'outline', 'text'] as const;
 export type VariantT = (typeof VariantTypes)[number];

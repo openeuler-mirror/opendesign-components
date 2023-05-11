@@ -14,7 +14,7 @@
 
 @keyframes o-zoom-fade-in {
   0% {
-    transform: scale(0.95);
+    transform: scale(var(--init-scale));
     opacity: 0;
   }
   100% {
@@ -24,9 +24,20 @@
 }
 
 .o-zoom-fade-enter-active {
+  --init-scale: 0.95;
   animation: o-zoom-fade-in var(--o-duration-m1) var(--o-easing-standard-in);
 }
 .o-zoom-fade-leave-active {
+  --init-scale: 0.95;
+  animation: o-zoom-fade-in var(--o-duration-s) var(--o-easing-standard-out) reverse;
+}
+
+.o-zoom-fade2-enter-active {
+  --init-scale: 0.8;
+  animation: o-zoom-fade-in var(--o-duration-m1) var(--o-easing-standard-in);
+}
+.o-zoom-fade2-leave-active {
+  --init-scale: 0.8;
   animation: o-zoom-fade-in var(--o-duration-s) var(--o-easing-standard-out) reverse;
 }
 

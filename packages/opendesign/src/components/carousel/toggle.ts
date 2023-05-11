@@ -1,5 +1,5 @@
 import { isFunction } from '../_shared/is';
-import { PointMoveT } from '../_shared/pointer';
+import { PointMoveT } from '../_shared/types';
 import Effect, { EffectOptionT } from './effect';
 interface ItemT {
   index: number;

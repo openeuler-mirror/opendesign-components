@@ -4,8 +4,9 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, nextTick } from 'vue';
+import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties } from 'vue';
 import { layerProps } from './types';
+import { useMouse, UseMouseT } from '../hooks/use-mouse';
 
 const props = defineProps(layerProps);
 
@@ -22,16 +23,27 @@ const isToBody = ref(false);
 const LayerClass = {
   OPEN: 'o-layer-open',
 };
+const mainRef = ref<HTMLElement | null>(null);
+
+let mouse: UseMouseT = useMouse({
+  type: 'client',
+});
+
+const layerRef = ref<HTMLElement | null>(null);
 // 挂载目标
 let wrapperEl: HTMLElement | null = null;
-const layerRef = ref<HTMLElement | null>(null);
+
+const initWrapperEl = () => {
+  if (!wrapperEl && layerRef.value) {
+    wrapperEl = layerRef.value.offsetParent as HTMLElement;
+    isToBody.value = wrapperEl === document.body;
+  }
+  return wrapperEl;
+};
 
 const handleWrapperScroll = () => {
+  initWrapperEl();
   nextTick(() => {
-    if (!wrapperEl && layerRef.value) {
-      wrapperEl = layerRef.value.offsetParent as HTMLElement;
-      isToBody.value = wrapperEl === document.body;
-    }
     if (wrapperEl) {
       if (visible.value) {
         wrapperEl.classList.add(LayerClass.OPEN);
@@ -42,6 +54,32 @@ const handleWrapperScroll = () => {
   });
 };
 
+const mainStyle = ref<CSSProperties>({});
+
+// 以鼠标位置缩放
+const getOriginStyle = () => {
+  let ox = 'center';
+  let oy = 'center';
+  if (mainRef.value && mouse) {
+    const { offsetLeft, offsetTop } = mainRef.value;
+    if (isToBody.value) {
+      ox = `${mouse.x.value - offsetLeft}px`;
+      oy = `${mouse.y.value - offsetTop}px`;
+    } else if (wrapperEl) {
+      const size = wrapperEl.getBoundingClientRect();
+
+      ox = `${mouse.x.value - offsetLeft - size.x}px`;
+      oy = `${mouse.y.value - offsetTop - size.y}px`;
+    }
+  }
+  return `${ox} ${oy}`;
+};
+const updateOrigin = (el: HTMLElement | null) => {
+  if (props.transitionOrign === 'mouse') {
+    initWrapperEl();
+    mainStyle.value.transformOrigin = getOriginStyle();
+  }
+};
 watch(
   () => props.visible,
   (v: boolean) => {
@@ -75,7 +113,11 @@ const isMounted = computed(() => {
 const handleTransitionStart = () => {
   toMount.value = true;
 };
-
+const handleTransitionEnter = () => {
+  if (visible.value) {
+    updateOrigin(mainRef.value);
+  }
+};
 const handleTransitionEnd = () => {
   if (!props.unmountOnHide) {
     toMount.value = false;
@@ -97,6 +139,10 @@ onMounted(() => {
   }
 });
 
+onUnmounted(() => {
+  mouse?.destroy();
+});
+
 defineExpose({
   toggle,
 });
@@ -113,11 +159,12 @@ defineExpose({
         :appear="true"
         :name="props.mainTransition"
         @before-enter="handleTransitionStart"
+        @enter="handleTransitionEnter"
         @after-enter="handleTransitionEnd"
         @before-leave="handleTransitionStart"
         @after-leave="handleTransitionEnd"
       >
-        <div v-show="visible" :class="props.mainClass">
+        <div v-show="visible" ref="mainRef" :class="props.mainClass" :style="mainStyle" class="o-layer-main">
           <slot></slot>
         </div>
       </transition>
