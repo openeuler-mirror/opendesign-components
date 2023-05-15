@@ -2,6 +2,7 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import { defaultPrestColorPool } from '../_shared/global';
 import HtmlTag from '../_shared/components/html-tag';
+import OLayer from '../layer/OLayer.vue';
 
 import { figureProps } from './types';
 
@@ -56,6 +57,23 @@ onMounted(() => {
     onImgLoaded();
   }
 });
+
+// 全屏预览图片
+const previewVisible = ref(false);
+const preview = () => {
+  previewVisible.value = true;
+};
+const onPreviewChange = () => {};
+
+const onFigureClick = () => {
+  if (props.preview) {
+    preview();
+  }
+};
+
+defineExpose({
+  preview,
+});
 </script>
 <template>
   <HtmlTag
@@ -67,11 +85,13 @@ onMounted(() => {
       'is-error': isError,
       'is-colorful': props.colorful,
       'o-figure-hoverable': props.hoverable || !!props.href,
+      'o-figure-previewable': props.preview,
     }"
     :style="{
       '--figure-prest-color': prestColor,
       '--figure-padding-top': paddingTop,
     }"
+    @click="onFigureClick"
   >
     <template v-if="props.src">
       <div
@@ -97,5 +117,8 @@ onMounted(() => {
       <img v-else-if="!isError" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
     <slot></slot>
+    <OLayer v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">
+      <div class="o-figure-preview-img"><img :src="props.src" /></div>
+    </OLayer>
   </HtmlTag>
 </template>
