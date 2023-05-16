@@ -3,7 +3,7 @@ import { h } from 'vue';
 
 import '../style';
 import useMessage from '../use-message';
-import { IconAdd, IconLoading } from '../../icon';
+import { OIconAdd, OIconLoading } from '../../icon-svgs';
 
 import { OButton } from '../../button';
 import '../../button/style';
@@ -38,7 +38,7 @@ const handleInfoBtnClick2 = () => {
   message.open({
     content: '自定义Icon',
     status: 'info',
-    icon: IconAdd,
+    icon: OIconAdd,
   });
 };
 
@@ -46,7 +46,7 @@ const handleInfoWarningClick2 = () => {
   message.open({
     content: '排队中，请稍后',
     status: 'warning',
-    icon: h(IconLoading, { class: 'o-rotating' }),
+    icon: h(OIconLoading, { class: 'o-rotating' }),
   });
 };
 </script>

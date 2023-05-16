@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OSWitch } from '../index';
-import { IconDone, IconX } from '../../icon';
+import { OIconDone, OIconX } from '../../icon-svgs';
 
 const switchVal1 = ref(false);
 const switchVal2 = ref(true);
@@ -16,8 +16,8 @@ const switchVal2 = ref(true);
     </OSWitch>
 
     <OSWitch v-model="switchVal1">
-      <template #on><IconDone /></template>
-      <template #off><IconX /></template>
+      <template #on><OIconDone /></template>
+      <template #off><OIconX /></template>
     </OSWitch>
 
     <OSWitch v-model="switchVal2" round="pill">
@@ -26,8 +26,8 @@ const switchVal2 = ref(true);
     </OSWitch>
 
     <OSWitch v-model="switchVal2" round="pill">
-      <template #on><IconDone /></template>
-      <template #off><IconX /></template>
+      <template #on><OIconDone /></template>
+      <template #off><OIconX /></template>
     </OSWitch>
   </section>
 </template>

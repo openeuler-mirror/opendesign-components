@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OLink } from '../index';
-import { IconAdd, IconDone } from '../../icon';
+import { OIconAdd, OIconDone } from '../../icon-svgs';
 
 const link = '#/link';
 
@@ -62,10 +62,10 @@ const onLinkClick2 = () => {
     <OLink :href="link" icon-prefix status="primary">icon-prefix</OLink>
     <OLink :href="link" icon-suffix>icon-suffix</OLink>
     <OLink :href="link">
-      <template #iconPrefix><IconDone /></template>自定义图标链接slot:iconPrefix
+      <template #iconPrefix><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
     <OLink :href="link">
-      自定义图标链接slot:iconSuffix<template #iconSuffix><IconAdd /></template>
+      自定义图标链接slot:iconSuffix<template #iconSuffix><OIconAdd /></template>
     </OLink>
   </section>
   <h4>点击事件</h4>

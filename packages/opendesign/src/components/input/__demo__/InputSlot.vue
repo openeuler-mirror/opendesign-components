@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OInput } from '../index';
-import { IconDone } from '../../icon';
+import { OIconDone } from '../../icon-svgs';
 
 const val1 = ref('');
 const val2 = ref('this is input value');
@@ -13,12 +13,12 @@ const val2 = ref('this is input value');
     <OInput v-model="val2" />
     <OInput v-model="val2">
       <template #prefix>
-        <IconDone />
+        <OIconDone />
       </template>
     </OInput>
     <OInput v-model="val2">
       <template #suffix>
-        <IconDone />
+        <OIconDone />
       </template>
     </OInput>
     <OInput v-model="val2">

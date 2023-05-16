@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OButton } from '../index';
-import { IconAdd } from '../../icon';
+import { OIconAdd } from '../../icon-svgs';
 import { ref } from 'vue';
 
 const r = ref(12);
@@ -19,23 +19,23 @@ const onClick = () => {
       <p>round="pill"</p>
       <section>
         <OButton variant="solid" size="large" round="pill">
-          <template #icon><IconAdd /></template>
+          <template #icon><OIconAdd /></template>
         </OButton>
         <OButton variant="outline" round="pill">
-          <template #icon><IconAdd /></template>
+          <template #icon><OIconAdd /></template>
         </OButton>
         <OButton variant="text" size="small" round="pill">
-          <template #icon><IconAdd /></template>
+          <template #icon><OIconAdd /></template>
         </OButton>
 
         <OButton variant="solid" size="large" round="pill">
-          <template #icon><IconAdd /></template>Round Button
+          <template #icon><OIconAdd /></template>Round Button
         </OButton>
         <OButton variant="outline" round="pill">
-          <template #icon><IconAdd /></template>Round Button
+          <template #icon><OIconAdd /></template>Round Button
         </OButton>
         <OButton variant="text" size="small" round="pill">
-          <template #icon><IconAdd /></template>Round Button
+          <template #icon><OIconAdd /></template>Round Button
         </OButton>
       </section>
     </div>
@@ -43,13 +43,13 @@ const onClick = () => {
       <p>round="{{ r }}px"</p>
       <section>
         <OButton variant="solid" size="large" :round="r + 'px'" @click="onClick">
-          <template #icon><IconAdd /></template>Click To Change Round
+          <template #icon><OIconAdd /></template>Click To Change Round
         </OButton>
         <OButton variant="outline" :round="r + 'px'">
-          <template #icon><IconAdd /></template>Round Button
+          <template #icon><OIconAdd /></template>Round Button
         </OButton>
         <OButton variant="text" size="small" :round="r + 'px'">
-          <template #icon><IconAdd /></template>Round Button
+          <template #icon><OIconAdd /></template>Round Button
         </OButton>
       </section>
     </div>

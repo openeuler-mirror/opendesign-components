@@ -1,4 +1,5 @@
-.o-svg-icon {
-  --icon-g1: var(--o-color-info1);
-  --icon-g2: var(--o-color-primary1);
+.o-icon {
+  --icon-btn-color: var(--o-color-info1);
+  --icon-btn-color-hover: var(--o-color-info2);
+  --icon-btn-color-active: var(--o-color-info3);
 }

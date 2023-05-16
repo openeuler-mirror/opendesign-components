@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OFigure } from '../index';
-import { IconSearch } from '../../icon';
+import { OIconSearch } from '../../icon-svgs';
 import { ref } from 'vue';
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 
@@ -22,7 +22,7 @@ const preivewImg = () => {
     <OFigure class="img" href="openEuler" target="__blank" :src="img" />
     <OFigure class="img" :src="img" preview />
     <OFigure ref="figureRef" class="img" :src="img">
-      <IconSearch class="zoomIn" @click="preivewImg" />
+      <OIconSearch class="zoomIn" @click="preivewImg" />
     </OFigure>
   </section>
 </template>

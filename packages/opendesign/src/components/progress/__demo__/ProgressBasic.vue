@@ -5,7 +5,7 @@ import { OProgress } from '../index';
 
 import '../../button/style';
 import { OButton } from '../../button';
-import { IconAdd, IconMinus } from '../../icon';
+import { OIconAdd, OIconMinus } from '../../icon-svgs';
 
 const val = ref(10);
 const increaseVal = () => {
@@ -22,10 +22,10 @@ const decreaseVal = () => {
   <section>
     <div class="progress-btn">
       <OButton color="primary" size="small" @click="increaseVal">
-        <IconAdd />
+        <OIconAdd />
       </OButton>
       <OButton color="primary" size="small" @click="decreaseVal">
-        <IconMinus />
+        <OIconMinus />
       </OButton>
     </div>
     <OProgress :percentage="val" :width="200" :style="{ width: '300px' }" />

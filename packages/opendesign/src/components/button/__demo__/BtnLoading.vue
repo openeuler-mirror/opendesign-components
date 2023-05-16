@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { IconAdd } from '../../icon';
+import { OIconAdd } from '../../icon-svgs';
 import { OButton } from '../index';
 const rlt = reactive({
   loading1: false,
@@ -19,7 +19,7 @@ const showLoading = (key: 'loading1' | 'loading2' | 'loading3', val: boolean) =>
   <section>
     <OButton color="primary" :loading="rlt.loading1" @click="showLoading('loading1', true)">Primary Button</OButton>
     <OButton variant="outline" :loading="rlt.loading2" @click="showLoading('loading2', true)">
-      <template #icon><IconAdd /></template>Outline Button
+      <template #icon><OIconAdd /></template>Outline Button
     </OButton>
     <OButton variant="text" :loading="rlt.loading3" @click="showLoading('loading3', true)">Text Button</OButton>
     <OButton :loading="!rlt.loading3" href="https://hiascend.com" target="__blank">Link Button</OButton>

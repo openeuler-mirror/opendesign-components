@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconAdd } from '../../icon';
+import { OIconAdd } from '../../icon-svgs';
 import { OBreadcrumb, OBreadcrumbItem } from '../index';
 
 const handleClick = () => {
@@ -20,19 +20,19 @@ const handleClick = () => {
       <OBreadcrumbItem :to="{ name: 'Home' }" @click="handleClick">
         首页
         <template #separator>
-          <IconAdd />
+          <OIconAdd />
         </template>
       </OBreadcrumbItem>
       <OBreadcrumbItem href="http://devin-cwd.gitee.io/design-token-editor/#/token-color" target="_blank" @click="handleClick">
         Token
         <template #separator>
-          <IconAdd />
+          <OIconAdd />
         </template>
       </OBreadcrumbItem>
       <OBreadcrumbItem @click="handleClick">
         面包屑
         <template #separator>
-          <IconAdd />
+          <OIconAdd />
         </template>
       </OBreadcrumbItem>
     </OBreadcrumb>
