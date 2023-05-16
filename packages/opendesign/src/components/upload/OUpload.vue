@@ -7,6 +7,8 @@ import { computed, ref } from 'vue';
 import { isFunction } from '../_shared/is';
 import { OIcon } from '../icon';
 
+// TODO 控制按钮样式、拖拽上传、图片上传
+
 const props = defineProps(uploadProps);
 
 const Label = {
