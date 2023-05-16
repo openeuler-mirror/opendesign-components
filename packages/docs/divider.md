@@ -7,3 +7,9 @@
 | variant       | 'solid' \| 'dashed' \| 'dotted' | 'solid'  | 可选，分割线类型     |
 | direction     | 'h' \| 'v'                      | 'h'      | 可选，分割线方向     |
 | labelPosition | 'left' \| 'center' \| 'right'   | 'center' | 可选，自定义内容位置 |
+
+## slot
+
+| name    | 参数 | 说明           |
+| :------ | :--- | :------------- |
+| default |      | 分割线文字内容 |

@@ -2,26 +2,27 @@
 
 ## props
 
-| name             | type                                           | 默认值   | 说明                                                    |
-| :--------------- | :--------------------------------------------- | :------- | ------------------------------------------------------- |
-| status           | 'normal' \| 'success' \| 'warning' \| 'danger' | 'normal' | 标签状态                                                |
-| bordered         | boolean                                        | false    | 是否有边框                                              |
-| size             | 'large' \| 'normal' \| 'small'                 | 'normal' | 标签尺寸                                                |
-| shape            | 'normal' \| 'round'                            | 'normal' | 标签形状                                                |
-| closable         | boolean                                        | false    | 是否可关闭                                              |
-| checkable        | boolean                                        | false    | 是否可选中                                              |
-| checked(v-model) | boolean                                        | false    | 是否被选中（仅 checkable 为 true 生效）                 |
-| defaultChecked   | boolean                                        | false    | 非受控状态时，默认是否选中（仅 checkable 为 true 生效） |
+| name             | type                                           | 默认值   | 说明                                                          |
+| :--------------- | :--------------------------------------------- | :------- | ------------------------------------------------------------- |
+| color            | 'normal' \| 'success' \| 'warning' \| 'danger' | 'normal' | 可选，标签颜色                                                |
+| variant          | 'solid'\|'outline'                             | 'solid'  | 可选，标签类型                                                |
+| size             | 'large' \| 'normal' \| 'small'                 | 'normal' | 可选，标签尺寸                                                |
+| round            | string                                         | -        | 可选，标签圆角                                                |
+| closable         | boolean                                        | false    | 可选，是否可关闭                                              |
+| checkable        | boolean                                        | false    | 可选，是否可选中                                              |
+| checked(v-model) | boolean                                        | false    | 可选，是否被选中（仅 checkable 为 true 生效）                 |
+| defaultChecked   | boolean                                        | false    | 可选，非受控状态时，默认是否选中（仅 checkable 为 true 生效） |
 
 ## event
 
-| name  | 参数         | 说明         |
-| :---- | :----------- | :----------- |
-| close |              | 值改变时触发 |
-| check | val: boolean | 选中时触发   |
+| name   | 参数                         | 说明         |
+| :----- | :--------------------------- | :----------- |
+| change | val: boolean, ev: MouseEvent | 值改变时触发 |
+| close  | ev: MouseEvent               | 关闭时触发   |
 
 ## slot
 
-| name | 说明     |
-| :--- | :------- |
-| icon | 按钮图标 |
+| name    | 说明           |
+| :------ | :------------- |
+| icon    | 自定义图标     |
+| default | 自定义标签内容 |
