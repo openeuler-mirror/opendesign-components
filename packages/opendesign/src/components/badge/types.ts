@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { ColorT } from '../_shared/global';
+import type { ColorT } from '../_shared/types';
 
 export const badgeProps = {
   /**

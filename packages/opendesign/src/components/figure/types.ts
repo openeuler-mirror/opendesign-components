@@ -43,6 +43,12 @@ export const figureProps = {
   colorful: {
     type: Boolean,
   },
+  /**
+   * 预览
+   */
+  preview: {
+    type: Boolean,
+  },
 };
 
 export type FigurePropsT = ExtractPropTypes<typeof figureProps>;

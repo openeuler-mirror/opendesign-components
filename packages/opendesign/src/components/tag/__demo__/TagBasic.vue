@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OTag } from '../index';
-import { IconAdd } from '../../icon';
+import { OIconAdd } from '../../icon-svgs';
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import { IconAdd } from '../../icon';
     <OTag>Tag1</OTag>
     <OTag>Tag2</OTag>
     <OTag>
-      <template #icon><IconAdd /></template>
+      <template #icon><OIconAdd /></template>
       Icon Tag
     </OTag>
   </section>

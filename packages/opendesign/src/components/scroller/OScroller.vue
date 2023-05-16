@@ -6,7 +6,7 @@ import { useResizeObserver } from '../hooks';
 import { getHtmlElement } from '../_shared/vue-utils';
 
 const ScrollerClass = {
-  BODY: 'o-scroller-root',
+  BODY: 'o-hide-scrollbar',
 };
 const props = defineProps(scrollerProps);
 

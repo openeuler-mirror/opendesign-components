@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { DirectionT } from '../_shared/global';
+import { DirectionT } from '../_shared/types';
 
 export const radioGroupProps = {
   /**

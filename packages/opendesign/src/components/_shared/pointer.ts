@@ -1,20 +1,12 @@
-export interface PointT {
-  x: number;
-  y: number;
-}
-export interface PointMoveT {
-  x: number;
-  y: number;
-  dx: number;
-  dy: number;
-}
+import type { PointT, PointMoveT } from './types';
+
 interface TouchOptionsT {
   onStart?: (pos: PointT, e: TouchEvent) => void;
   onMove?: (pos: PointMoveT, e: TouchEvent) => void;
   onEnd?: (pos: PointMoveT, e: TouchEvent) => void;
 }
 function noop() {}
-export class OTouch {
+export class OPointer {
   private el: HTMLElement;
   private x1: number;
   private y1: number;

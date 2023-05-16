@@ -1,6 +1,6 @@
 import { PopupPositionT, PopupTriggerT } from '../popup';
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT } from '../_shared/global';
+import type { SizeT, RoundT } from '../_shared/types';
 
 export const dropdownProps = {
   /**

@@ -1,5 +1,5 @@
 import { isFunction } from '../_shared/is';
-import { PointMoveT } from '../_shared/pointer';
+import { PointMoveT } from '../_shared/types';
 import Effect, { EffectOptionT } from './effect';
 import { useResizeObserver } from '../hooks';
 import { debounceRAF } from '../_shared/utils';
@@ -150,6 +150,10 @@ export default class Gallery extends Effect {
     this.isChanging = animate;
     const toSlide = this.slideList[toIndex];
     const fromSlide = this.slideList[this.currentIndex];
+
+    if (!toSlide) {
+      return Promise.resolve(null);
+    }
 
     toSlide.el.classList.add(GalleryClass.CURRENT);
     fromSlide?.el.classList.remove(GalleryClass.CURRENT);

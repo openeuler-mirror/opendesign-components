@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { OLoading, vLoading, useLoading } from '../index';
 import { OButton } from '../../button';
 import '../../button/style';
-import { IconAdd } from '../../icon';
+import { OIconAdd } from '../../icon-svgs';
 
 const show1 = ref(false);
 const showLoading1 = () => {
@@ -21,7 +21,7 @@ const box1 = ref();
 const l1 = useLoading();
 const l2 = useLoading(box1, {
   label: 'loading',
-  icon: IconAdd,
+  icon: OIconAdd,
   iconRotating: true,
 });
 const toggleLoading1 = () => {
@@ -47,7 +47,7 @@ const toggleLoading2 = () => {
     </div>
     <div class="box">
       show2
-      <OLoading v-model:visible="show2" :wrapper="null">自定义<IconAdd class="o-rotating" /></OLoading>
+      <OLoading v-model:visible="show2" :wrapper="null">自定义<OIconAdd class="o-rotating" /></OLoading>
     </div>
   </section>
   <h4>指令</h4>

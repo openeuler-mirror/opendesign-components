@@ -1,0 +1,18 @@
+@use './var.scss';
+
+.o-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.o-icon-btn {
+  color: var(--icon-btn-color);
+  cursor: pointer;
+  &:hover {
+    color: var(--icon-btn-color-hover);
+  }
+  &:active {
+    color: var(--icon-btn-color-active);
+  }
+}

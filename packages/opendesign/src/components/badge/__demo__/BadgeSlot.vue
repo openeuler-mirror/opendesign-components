@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { OButton } from '../../button';
 import '../../button/style';
-import { IconAdd } from '../../icon';
+import { OIconAdd } from '../../icon-svgs';
 import { OBadge } from '../index';
 </script>
 
@@ -11,7 +11,7 @@ import { OBadge } from '../index';
     <OBadge color="danger">
       <OButton variant="solid" />
       <template #content>
-        <IconAdd />
+        <OIconAdd />
       </template>
     </OBadge>
   </section>

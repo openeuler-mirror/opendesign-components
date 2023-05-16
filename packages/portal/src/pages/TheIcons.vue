@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import * as OIcons from '@components/icon';
+import { OIcon } from '@components/icon';
+import * as OIcons from '@components/icon-svgs';
 import '@components/style';
+import '@components/icon/style';
 import { shallowRef } from 'vue';
 console.log(OIcons);
 
@@ -23,12 +25,14 @@ Object.keys(OIcons).forEach((k) => {
     <h4>Stoke</h4>
     <div class="icon-list">
       <div v-for="icon in stokes" :key="icon" class="icon-item">
-        <component
-          :is="icon"
-          :class="{
-            'o-rotating': icon.name === 'IconLoading',
-          }"
-        />
+        <OIcon>
+          <component
+            :is="icon"
+            :class="{
+              'o-rotating': icon.name === 'IconLoading',
+            }"
+          />
+        </OIcon>
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>
@@ -36,12 +40,14 @@ Object.keys(OIcons).forEach((k) => {
     <h4>Fill</h4>
     <div class="icon-list">
       <div v-for="icon in fills" :key="icon" class="icon-item">
-        <component
-          :is="icon"
-          :class="{
-            'o-rotating': icon.name === 'IconLoading',
-          }"
-        />
+        <OIcon>
+          <component
+            :is="icon"
+            :class="{
+              'o-rotating': icon.name === 'IconLoading',
+            }"
+          />
+        </OIcon>
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>
@@ -49,12 +55,14 @@ Object.keys(OIcons).forEach((k) => {
     <h4>Color</h4>
     <div class="icon-list">
       <div v-for="icon in colors" :key="icon" class="icon-item">
-        <component
-          :is="icon"
-          :class="{
-            'o-rotating': icon.name === 'IconLoading',
-          }"
-        />
+        <OIcon>
+          <component
+            :is="icon"
+            :class="{
+              'o-rotating': icon.name === 'IconLoading',
+            }"
+          />
+        </OIcon>
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>

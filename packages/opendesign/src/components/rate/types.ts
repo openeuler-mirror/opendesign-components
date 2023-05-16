@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { ColorT, SizeT } from '../_shared/global';
+import type { ColorT, SizeT } from '../_shared/types';
 
 export const rateProps = {
   /**

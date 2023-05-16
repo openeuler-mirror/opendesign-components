@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { initIconLoading, initSize } from '@opensig/opendesign/src/components';
-import { IconAdd } from '@opensig/opendesign/src/components/icon';
+import { OIconAdd } from '@opensig/opendesign/src/components/icon-svgs';
 
 const title = 'opendesign';
 
 const globalSetting = () => {
-  initIconLoading(IconAdd);
+  initIconLoading(OIconAdd);
   initSize('large');
 };
 </script>

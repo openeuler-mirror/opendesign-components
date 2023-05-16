@@ -142,7 +142,7 @@ defineExpose({
           :class="{
             'is-disabled': currentPage === 1,
           }"
-          tabindex="1"
+          tabindex="-1"
           @click="() => currentPage !== 1 && clickPageBtn(false)"
         >
           <IconChevronLeft />
@@ -168,7 +168,7 @@ defineExpose({
               :key="item.value"
               class="o-pagination-item"
               :class="{ active: item.value === currentPage }"
-              tabindex="1"
+              tabindex="-1"
               @click="selectPage(item.value)"
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
@@ -190,7 +190,7 @@ defineExpose({
           :class="{
             'is-disabled': currentPage === totalPage,
           }"
-          tabindex="1"
+          tabindex="-1"
           @click="() => currentPage !== totalPage && clickPageBtn(true)"
         >
           <IconChevronRight />

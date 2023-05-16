@@ -1,0 +1,1 @@
+export { default as IconKunpeng } from './IconKunpeng.vue';

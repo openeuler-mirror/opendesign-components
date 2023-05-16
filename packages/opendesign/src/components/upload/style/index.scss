@@ -1,0 +1,117 @@
+@use './var.scss';
+
+.o-upload-select {
+  position: relative;
+}
+.o-upload-select-input {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.o-upload-file-item {
+  position: relative;
+}
+.o-upload-file-item-wrap {
+  display: flex;
+  // align-items: center;
+  margin-top: 8px;
+  padding: 0 4px;
+  color: var(--upload-file-item-color);
+  transition: background-color var(--o-easing-standard-in) var(--o-duration-m1);
+
+  &:hover {
+    background-color: var(--upload-file-item-bg-hover);
+  }
+  &.is-error {
+    color: var(--upload-file-item-color-error);
+  }
+
+  &:hover,
+  &.is-error {
+    .o-upload-icons {
+      opacity: 1;
+    }
+  }
+}
+
+.o-upload-file-label {
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+  margin-right: auto;
+  padding: 5px 0;
+}
+.o-upload-icon-link {
+  font-size: var(--upload-icon-size);
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.o-upload-icons {
+  display: flex;
+  margin-left: 16px;
+  opacity: 0;
+  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
+
+  > * + * {
+    margin-left: 8px;
+  }
+}
+
+.o-upload-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.o-upload-icon-retry,
+.o-upload-icon-remove {
+  font-size: var(--upload-icon-size);
+  display: flex;
+  align-items: center;
+}
+
+.o-upload-icon-loading {
+  margin-left: 8px;
+}
+.o-upload-tip {
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  color: var(--o-color-info3);
+  margin-top: 8px;
+}
+.o-upload-file-item-tip {
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  color: var(--o-color-info1);
+  display: flex;
+  padding-left: 24px;
+  &.is-error {
+    color: var(--o-color-danger1);
+  }
+}
+.o-upload-icon-error {
+  margin-top: 1px;
+  color: var(--o-color-danger1);
+  margin-right: 8px;
+  font-size: var(--upload-icon-size);
+}
+
+.o-upload-file-progress {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: var(--upload-progress-height);
+  background-color: var(--upload-progress-bg-color);
+  border-radius: var(--upload-progress-radius);
+  overflow: hidden;
+}
+.o-upload-file-progress-bar {
+  width: 0%;
+  height: 100%;
+  background-color: var(--upload-progress-value-bg-color);
+  border-radius: var(--upload-progress-radius);
+  transition: width var(--o-easing-linear) var(--o-duration-s);
+}

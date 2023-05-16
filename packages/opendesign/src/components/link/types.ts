@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { ColorT } from '../_shared/global';
+import { ColorT } from '../_shared/types';
 
 export const linkProps = {
   /**

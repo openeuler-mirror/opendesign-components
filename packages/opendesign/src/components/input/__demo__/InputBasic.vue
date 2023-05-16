@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OInput } from '../index';
-import { IconDone } from '../../icon';
+import { OIconDone } from '../../icon-svgs';
 
 const val1 = ref('');
 const val2 = ref('this is input value');
@@ -89,12 +89,12 @@ setTimeout(() => {
     <OInput v-model="val2" readonly />
     <OInput v-model="val2" readonly>
       <template #prefix>
-        <IconDone />
+        <OIconDone />
       </template>
     </OInput>
     <OInput v-model="val2" readonly>
       <template #suffix>
-        <IconDone />
+        <OIconDone />
       </template>
     </OInput>
     <OInput v-model="val2" :clearable="false" readonly>

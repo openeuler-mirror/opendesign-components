@@ -1,6 +1,7 @@
 import { supportTouch } from '../_shared/dom';
 import { isFunction } from '../_shared/is';
-import { OTouch, PointMoveT } from '../_shared/pointer';
+import { OPointer } from '../_shared/pointer';
+import { PointMoveT } from '../_shared/types';
 
 export interface EffectT {
   active: (slideIndex: number) => Promise<null | number>;
@@ -55,7 +56,7 @@ export default abstract class Effect {
     if (!supportTouch()) {
       return;
     }
-    new OTouch(this.containerEl, {
+    new OPointer(this.containerEl, {
       onStart: () => {
         this.isTouchStart = true;
         this.handleTouchStart();

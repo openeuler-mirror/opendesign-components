@@ -66,7 +66,9 @@ const onChane = (v: boolean) => {
       </div>
     </OLayer>
     <OButton @click="toggle3(true)">Open to Section</OButton>
-    <OLayer v-model:visible="show3" :wrapper="wrapperRef" @change="onChane">
+    <OButton class="center" @click="toggle3(true)">Open to Section</OButton>
+    <OButton class="left" @click="toggle3(true)">Open to Section</OButton>
+    <OLayer v-model:visible="show3" :wrapper="wrapperRef" transition-orign="css" @change="onChane">
       <div class="box">
         <h2>title</h2>
         <p>this is content this is content this is content this is content this is content this is content this is content this is content</p>
@@ -82,6 +84,12 @@ const onChane = (v: boolean) => {
       </div>
     </OLayer>
   </section>
+  <section class="wrap">
+    <OButton @click="toggle1(true)">Open</OButton>
+    <OButton @click="toggle2(true)">Open unmount-on-hide</OButton>
+    <OButton @click="toggle3(true)">Open to Section</OButton>
+    <OButton @click="toggle4(true)">Open to Parent</OButton>
+  </section>
 </template>
 <style lang="scss" scoped>
 .box {
@@ -89,8 +97,18 @@ const onChane = (v: boolean) => {
   background-color: var(--o-color-control-light);
 }
 .wrap {
-  height: 200vh;
+  height: 100vh;
   align-items: flex-start;
   position: relative;
+}
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+.left {
+  position: absolute;
+  left: 0;
+  top: 50%;
 }
 </style>

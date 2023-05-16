@@ -19,7 +19,6 @@ const navRef = ref<HTMLElement | null>(null);
 const tabInjection = inject(tabInjectKey, null);
 
 const { navsRef, activeValue, lazy } = tabInjection || {};
-// console.log(props.transition);
 
 const instance = getCurrentInstance();
 if (!props.value && !props.label) {
@@ -43,7 +42,6 @@ const toMount = computed(() => {
   }
   return true;
 });
-// console.log(toMount.value, props.unmountOnHide);
 
 watch(
   () => isActive.value,
@@ -100,7 +98,6 @@ onMounted(() => {
     <div
       v-if="!isClosed && toMount"
       v-show="isActive"
-      v-bind="$attrs"
       :class="[
         'o-tab-pane',
         {
@@ -109,6 +106,7 @@ onMounted(() => {
           'o-tab-pane-closable': props.closable,
         },
       ]"
+      v-bind="$attrs"
     >
       <slot></slot>
     </div>

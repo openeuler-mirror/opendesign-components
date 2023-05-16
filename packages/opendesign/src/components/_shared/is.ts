@@ -1,4 +1,3 @@
-
 const opt = Object.prototype.toString;
 
 export function isUndefined(val: unknown): val is undefined {
@@ -42,3 +41,5 @@ export function isPlainObject(val: unknown): val is object {
 export const isPromise = <T>(val: unknown): val is Promise<T> => {
   return isObject(val) && isFunction(val.then) && isFunction(val.catch);
 };
+
+export const isClient = typeof window !== 'undefined';

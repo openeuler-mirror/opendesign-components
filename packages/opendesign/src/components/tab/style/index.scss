@@ -27,11 +27,47 @@
   }
 }
 .o-tab-navs-wrap {
-  display: inline-flex;
+  overflow: auto;
+  flex: 1;
+  position: relative;
+}
+
+.o-tab-navs-scrollable {
+  display: flex;
+  position: relative;
   align-items: center;
+  flex: 1;
+  overflow: hidden;
+}
+.o-tab-nav-btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--tab-nav-btn-icon-size);
+  margin: 0 8px;
+
+  &:hover {
+    color: var(--tab-icon-color-hover);
+  }
+}
+.o-tab-nav-btn-disabled {
+  &,
+  &:hover {
+    color: var(--tab-icon-color-disabled);
+    cursor: not-allowed;
+  }
+}
+
+.o-tab-nav-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 .o-tab-nav {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   cursor: pointer;
   border: 1px solid var(--tab-nav-bd-color);
@@ -40,24 +76,32 @@
   position: relative;
   margin-right: var(--tab-nav-gap);
   z-index: 1;
-  &:not(.o-tab-nav-disabled) {
-    &:hover {
-      color: var(--tab-nav-color-hover);
-      border-color: var(--tab-nav-bd-color-hover);
-      background-color: var(--tab-nav-bg-color-hover);
-    }
+  color: var(--tab-icon-color);
+  &:last-child {
+    margin-right: 0;
+  }
+  &:hover {
+    color: var(--tab-nav-color-hover);
+    border-color: var(--tab-nav-bd-color-hover);
+    background-color: var(--tab-nav-bg-color-hover);
   }
 }
 .o-tab-nav-active {
-  color: var(--tab-nav-color-active);
-  border-color: var(--tab-nav-bd-color-active);
-  background-color: var(--tab-nav-bg-color-active);
+  &,
+  &:hover {
+    color: var(--tab-nav-color-active);
+    border-color: var(--tab-nav-bd-color-active);
+    background-color: var(--tab-nav-bg-color-active);
+  }
 }
 .o-tab-nav-disabled {
-  cursor: not-allowed;
-  color: var(--tab-nav-color-disabled);
-  border-color: var(--tab-nav-bd-color-disabled);
-  background-color: var(--tab-nav-bg-color-disabled);
+  &,
+  &:hover {
+    cursor: not-allowed;
+    color: var(--tab-nav-color-disabled);
+    border-color: var(--tab-nav-bd-color-disabled);
+    background-color: var(--tab-nav-bg-color-disabled);
+  }
 }
 .o-tab-nav-closable {
   position: relative;
@@ -107,14 +151,15 @@
 
 .o-tab-nav-add {
   margin-left: 8px;
-  display: inline-flex;
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: var(--tab-nav-btn-size);
+  height: var(--tab-nav-btn-size);
   cursor: pointer;
   color: var(--tab-icon-color);
-  font-size: 14px;
+  font-size: var(--tab-nav-btn-icon-size);
   border-radius: 50%;
   &:hover {
     color: var(--tab-icon-color-hover);

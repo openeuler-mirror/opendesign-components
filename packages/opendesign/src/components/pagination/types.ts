@@ -1,10 +1,10 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT } from '../_shared/global';
+import { RoundT } from '../_shared/types';
 
 const pageSizes = [6, 12, 24, 48];
 
 export const PaginationVariantTypes = ['solid', 'outline'] as const;
-export type PaginationVariantT = typeof PaginationVariantTypes[number];
+export type PaginationVariantT = (typeof PaginationVariantTypes)[number];
 
 export const paginationProps = {
   /**

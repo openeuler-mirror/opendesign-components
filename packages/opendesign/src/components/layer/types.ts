@@ -35,7 +35,7 @@ export const layerProps = {
    */
   mainTransition: {
     type: String,
-    default: 'o-zoom-fade',
+    default: 'o-zoom-fade2',
   },
   /**
    * mask过渡名称
@@ -43,6 +43,13 @@ export const layerProps = {
   maskTransition: {
     type: String,
     default: 'o-fade-in',
+  },
+  /**
+   * mask过渡名称
+   */
+  transitionOrign: {
+    type: String as PropType<'mouse' | 'css'>,
+    default: 'mouse',
   },
   /**
    * 是否需要mask

@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue';
 import { messageProps } from './types';
-import { IconAlert, IconError, IconPoint, IconSuccess } from '../icon';
+import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-svgs';
 
 const props = defineProps(messageProps);
 
 const iconMap = {
-  info: IconPoint,
-  success: IconSuccess,
-  warning: IconAlert,
-  danger: IconError,
+  info: OIconPoint,
+  success: OIconSuccess,
+  warning: OIconAlert,
+  danger: OIconError,
 };
 
 const emits = defineEmits<{

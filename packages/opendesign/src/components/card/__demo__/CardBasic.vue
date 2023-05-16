@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OCard } from '../index';
-import { IconStar } from '../../icon';
+import { OIconStar } from '../../icon-svgs';
 
 const card = {
   cover: 'https://www.openeuler.org/img/banners/20230418-odd.png',
@@ -33,7 +33,7 @@ const card = {
           <div class="actions">
             <div class="date">2023/02/09</div>
             <div class="btns">
-              <div class="btn"><IconStar /> 文本</div>
+              <div class="btn"><OIconStar /> 文本</div>
             </div>
           </div>
         </template>
@@ -53,7 +53,7 @@ const card = {
           <div class="actions">
             <div class="date">2023/02/09</div>
             <div class="btns">
-              <div class="btn"><IconStar /> 文本</div>
+              <div class="btn"><OIconStar /> 文本</div>
             </div>
           </div>
         </template>
@@ -74,7 +74,7 @@ const card = {
           <div class="actions">
             <div class="date">2023/02/09</div>
             <div class="btns">
-              <div class="btn"><IconStar /> 文本</div>
+              <div class="btn"><OIconStar /> 文本</div>
             </div>
           </div>
         </template>
@@ -88,7 +88,7 @@ const card = {
           <div class="actions">
             <div class="date">2023/02/09</div>
             <div class="btns">
-              <div class="btn"><IconStar /> 文本</div>
+              <div class="btn"><OIconStar /> 文本</div>
             </div>
           </div>
         </template>
@@ -98,7 +98,7 @@ const card = {
       <OCard class="card col3" hoverable style="height: 350px">
         <template #main>
           <div class="card-icon">
-            <div class="icon"><IconStar /></div>
+            <div class="icon"><OIconStar /></div>
             <div>
               <div class="title">{{ card.title }}</div>
               <div class="btns">{{ card.content }}</div>
@@ -132,9 +132,9 @@ const card = {
   display: flex;
   justify-content: space-between;
 }
-.card2 {
-  // height: 260px;
-}
+// .card2 {
+// height: 260px;
+// }
 .card-icon {
   display: flex;
   align-items: flex-start;

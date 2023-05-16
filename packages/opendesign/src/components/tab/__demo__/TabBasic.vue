@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { OTab, OTabPane } from '../index';
-import { IconSearch } from '../../icon';
+import { OIconSearch } from '../../icon-svgs';
 const activeTab = ref('Tab A');
 const activeTab2 = ref('1');
 const tabChange = (val: string | number, oldVal?: string | number) => {
@@ -77,7 +77,7 @@ const updateTab = (v: string) => {
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
       <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
       <OTabPane value="Tab C" class="pane">
-        <template #nav><IconSearch /> Nav 3</template>pane 3
+        <template #nav><OIconSearch /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTab>
@@ -88,7 +88,7 @@ const updateTab = (v: string) => {
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
       <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
       <OTabPane value="Tab C" class="pane">
-        <template #nav><IconSearch /> Nav 3</template>pane 3
+        <template #nav><OIconSearch /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTab>

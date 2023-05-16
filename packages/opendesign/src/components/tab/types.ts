@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
 export const TabVariantTypes = ['solid', 'text'] as const;
-export type TabVariantT = typeof TabVariantTypes[number];
+export type TabVariantT = (typeof TabVariantTypes)[number];
 
 export const tabProps = {
   /**
@@ -29,6 +29,12 @@ export const tabProps = {
    * 是否可以添加页签
    */
   addable: {
+    type: Boolean,
+  },
+  /**
+   * 不激活新添加页签
+   */
+  addInactive: {
     type: Boolean,
   },
   /**

@@ -21,19 +21,23 @@
   border: 1px solid var(--input-bd-color);
   background-color: var(--input-bg-color);
 
-  &:not(.is-readonly):not(.is-disabled) {
-    &:hover {
-      border-color: var(--input-bd-color-hover);
-      background-color: var(--input-bg-color-hover);
-    }
-    &.is-focus {
-      border-color: var(--input-bd-color-focus);
-      background-color: var(--input-bg-color-focus);
-    }
+  &:hover {
+    border-color: var(--input-bd-color-hover);
+    background-color: var(--input-bg-color-hover);
   }
-  &.is-disabled {
+  &.is-focus {
+    border-color: var(--input-bd-color-focus);
+    background-color: var(--input-bg-color-focus);
+  }
+  &.is-disabled,
+  &.is-readonly {
     border-color: var(--input-bd-color-disabled);
     background-color: var(--input-bg-color-disabled);
+  }
+  &.is-readonly {
+    cursor: text;
+  }
+  &.is-disabled {
     cursor: not-allowed;
   }
 

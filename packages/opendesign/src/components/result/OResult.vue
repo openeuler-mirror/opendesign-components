@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 import { resultProps } from './types';
-import { IconAlert, IconError, IconPoint, IconSuccess } from '../icon';
+import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-svgs';
 import { computed } from 'vue';
 
 const props = defineProps(resultProps);
 
-// TODO:修改图标命名-->IconInfo、IconSuccess、IconWarning、IconDanger、Icon500...支持全局配置图标
+// TODO:修改图标命名-->IconInfo、OIconSuccess、IconWarning、IconDanger、Icon500...支持全局配置图标
 const iconMap = {
-  info: IconPoint,
-  success: IconSuccess,
-  warning: IconAlert,
-  danger: IconError,
+  info: OIconPoint,
+  success: OIconSuccess,
+  warning: OIconAlert,
+  danger: OIconError,
 };
 
-const icon = computed(() => (props.status ? iconMap[props.status] : undefined));
+const icon: any = computed(() => (props.status ? iconMap[props.status] : undefined));
 </script>
 
 <template>

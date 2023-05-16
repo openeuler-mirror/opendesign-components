@@ -1,8 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, ColorT } from '../_shared/global';
+import { SizeT, RoundT, ColorT } from '../_shared/types';
 
 export const TagVariantTypes = ['solid', 'outline'] as const;
-export type TagVariantT = typeof TagVariantTypes[number];
+export type TagVariantT = (typeof TagVariantTypes)[number];
 
 export const tagProps = {
   /**

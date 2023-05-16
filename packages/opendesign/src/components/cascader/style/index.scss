@@ -38,7 +38,7 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
 
-  &:not(.o-cascader-option-active):hover {
+  &:hover {
     background-color: var(--cascader-option-bg-color-hover);
   }
 }
@@ -58,6 +58,9 @@
 }
 
 .o-cascader-option-active {
-  background-color: var(--cascader-option-bg-color-active);
-  font-weight: 500;
+  &,
+  &:hover {
+    background-color: var(--cascader-option-bg-color-active);
+    font-weight: 500;
+  }
 }

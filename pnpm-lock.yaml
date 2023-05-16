@@ -41,7 +41,7 @@ importers:
   packages/portal:
     dependencies:
       '@opensig/opendesign':
-        specifier: workspace:^0.0.37
+        specifier: workspace:^0.0.38
         version: link:../opendesign
       '@opensig/opensig-scripts':
         specifier: workspace:^0.0.8

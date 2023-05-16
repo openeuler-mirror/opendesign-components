@@ -1,8 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { DirectionT } from '../_shared/global';
+import type { DirectionT } from '../_shared/types';
 
 export const DividerVariantTypes = ['solid', 'dashed', 'dotted'] as const;
-export type DividerVariantT = typeof DividerVariantTypes[number];
+export type DividerVariantT = (typeof DividerVariantTypes)[number];
 
 export const dividerProps = {
   /**

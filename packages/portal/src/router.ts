@@ -18,7 +18,7 @@ export const routes = [
     path: '/icons',
     name: 'Icons',
     label: '图标 Icon',
-    component: () => import('./pages/TheIcons.vue'),
+    component: () => import('@components/icon/__demo__/TheIndex.vue'),
   },
   {
     path: '/button',
@@ -230,6 +230,12 @@ export const routes = [
     name: 'Scroller-body',
     label: '全局滚动条 Scroller-body',
     component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    label: '上传 Upload',
+    component: () => import('@components/upload/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',

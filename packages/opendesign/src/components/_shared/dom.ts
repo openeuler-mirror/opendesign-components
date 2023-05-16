@@ -1,6 +1,5 @@
 import { isArray } from './is';
-
-export type DirectionT = 'left' | 'right' | 'top' | 'bottom';
+import { PositionT } from './types';
 
 export function isHtmlElement(el: any) {
   return typeof HTMLElement === 'object'
@@ -74,9 +73,9 @@ export function getElementSize(el: HTMLElement | Window) {
   };
 }
 
-export function getElementBorder(el: HTMLElement, dir?: DirectionT | DirectionT[]) {
+export function getElementBorder(el: HTMLElement, dir?: PositionT | PositionT[]) {
   const style = window.getComputedStyle(el);
-  let d: DirectionT[] = [];
+  let d: PositionT[] = [];
 
   if (typeof dir === 'string') {
     d = [dir];

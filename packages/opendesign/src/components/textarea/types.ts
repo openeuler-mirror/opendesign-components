@@ -1,8 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/global';
+import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/types';
 
 export const TextareaResizeTypes = ['both', 'horizontal', 'h', 'vertical', 'v', 'none'] as const;
-export type TextareaResizeT = typeof TextareaResizeTypes[number];
+export type TextareaResizeT = (typeof TextareaResizeTypes)[number];
 export const textareaProps = {
   /**
    * 下拉框的值
