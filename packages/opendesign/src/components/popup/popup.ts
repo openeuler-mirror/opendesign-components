@@ -1,6 +1,6 @@
 import { Ref } from 'vue';
 import { getElementBorder, getElementSize, getOffsetElement, getScroll } from '../_shared/dom';
-import type { DirectionT } from '../_shared/dom';
+import type { DirectionT } from '../_shared/types';
 import type { PopupPositionT, PopupTriggerT } from './types';
 
 import { useOutClick } from '../hooks/use-out-click';
