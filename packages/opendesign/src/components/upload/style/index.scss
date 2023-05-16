@@ -21,12 +21,6 @@
   color: var(--upload-file-item-color);
   transition: background-color var(--o-easing-standard-in) var(--o-duration-m1);
 
-  > * {
-    margin-right: 8px;
-    &:last-child {
-      margin-right: 0;
-    }
-  }
   &:hover {
     background-color: var(--upload-file-item-bg-hover);
   }
@@ -52,31 +46,35 @@
   font-size: var(--upload-icon-size);
   display: flex;
   align-items: center;
+  margin-right: 8px;
 }
 
 .o-upload-icons {
   display: flex;
   margin-left: 16px;
-}
-.o-upload-icon-retry,
-.o-upload-icon-delete {
-  font-size: var(--upload-icon-size);
-  color: var(--o-color-info2);
-  display: flex;
-  align-items: center;
-}
-.o-upload-icons {
   opacity: 0;
   transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
-}
-.o-upload-icon-retry,
-.o-upload-icon-delete {
-  cursor: pointer;
-  &:hover {
-    color: var(--o-color-primary1);
+
+  > * + * {
+    margin-left: 8px;
   }
 }
 
+.o-upload-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.o-upload-icon-retry,
+.o-upload-icon-remove {
+  font-size: var(--upload-icon-size);
+  display: flex;
+  align-items: center;
+}
+
+.o-upload-icon-loading {
+  margin-left: 8px;
+}
 .o-upload-tip {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
@@ -88,19 +86,22 @@
   line-height: var(--o-line_height-tip1);
   color: var(--o-color-info1);
   display: flex;
+  padding-left: 24px;
   &.is-error {
     color: var(--o-color-danger1);
   }
 }
 .o-upload-icon-error {
+  margin-top: 1px;
   color: var(--o-color-danger1);
   margin-right: 8px;
+  font-size: var(--upload-icon-size);
 }
 
 .o-upload-file-progress {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 4px;
+  right: 4px;
   bottom: 0;
   height: var(--upload-progress-height);
   background-color: var(--upload-progress-bg-color);
@@ -108,6 +109,7 @@
   overflow: hidden;
 }
 .o-upload-file-progress-bar {
+  width: 0%;
   height: 100%;
   background-color: var(--upload-progress-value-bg-color);
   border-radius: var(--upload-progress-radius);
