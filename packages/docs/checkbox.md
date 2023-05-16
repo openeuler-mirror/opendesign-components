@@ -18,15 +18,16 @@
 
 ## expose
 
-| name    | 说明           |
-| :------ | :------------- |
-| checked | 多选框是否选中 |
+| name    | type    | 说明           |
+| :------ | :------ | :------------- |
+| checked | boolean | 多选框是否选中 |
 
 ## slot
 
-| name     | 参数                               | 说明         |
-| :------- | :--------------------------------- | :----------- |
-| checkbox | checked:boolean; disabled: boolean | 自定义多选框 |
+| name     | 参数                               | 说明           |
+| :------- | :--------------------------------- | :------------- |
+| checkbox | checked:boolean; disabled: boolean | 自定义多选框   |
+| default  |                                    | 多选框文字内容 |
 
 # CheckboxGroup 多选框组
 
@@ -47,6 +48,8 @@
 | :----- | :----------------------------- | :------------- |
 | change | val: Array<string \| number \> | 状态切换后触发 |
 
-## expose
-
 ## slot
+
+| name    | 参数 | 说明         |
+| :------ | :--- | :----------- |
+| default |      | 多选框组内容 |
