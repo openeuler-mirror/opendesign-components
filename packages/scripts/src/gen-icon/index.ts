@@ -17,6 +17,9 @@ async function readConfig(cfg: string) {
 
   const config = Object.assign(defaultConfig, configData);
 
+  console.log('[input]', config.input);
+  console.log('[output]', config.output);
+
   config.input = path.resolve(cfgDir, config.input);
   config.output = path.resolve(cfgDir, config.output);
 
@@ -52,7 +55,7 @@ function readSvgData(cfg: IconsConfig) {
     });
 
     files.forEach((file) => {
-      const name = `icon-${path.basename(file.replace(/\s/g, ''), '.svg')}`;
+      const name = `${cfg.prefix}icon-${path.basename(file.replace(/\s/g, ''), '.svg')}`;
       svgs.push({
         type: key,
         name: name,
@@ -89,6 +92,7 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
       componentName: item.componentName,
       svg: rlt.data,
       type: item.type,
+      componentClass: cfg.componentClass,
     });
 
     fs.outputFile(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content, (err) => {
