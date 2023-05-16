@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
-import { IconChevronLeft, IconChevronRight } from '../icon';
+import { OIconChevronLeft, OIconChevronRight } from '../icon-svgs';
 import Gallery from './gallery';
 import Toggle from './toggle';
 import { carouselInjectKey } from './provide';
@@ -251,7 +251,7 @@ defineExpose({
           <div class="o-carousel-arrow-prev">
             <div class="o-carousel-arrow-icon">
               <slot name="arrow-prev-icon">
-                <IconChevronLeft />
+                <OIconChevronLeft />
               </slot>
             </div>
           </div>
@@ -262,7 +262,7 @@ defineExpose({
           <div class="o-carousel-arrow-next">
             <div class="o-carousel-arrow-icon">
               <slot name="arrow-next-icon">
-                <IconChevronRight />
+                <OIconChevronRight />
               </slot>
             </div>
           </div>

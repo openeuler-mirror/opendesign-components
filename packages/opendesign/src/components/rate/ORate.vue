@@ -4,7 +4,7 @@ import { computed, ref, watch } from 'vue';
 import { OPopover } from '../popover';
 import { rateProps } from './types';
 import { defaultSize } from '../_shared/global';
-import { IconStar } from '../icon';
+import { OIconStar } from '../icon-svgs';
 import { isArray, isUndefined } from '../_shared/is';
 
 const props = defineProps(rateProps);
@@ -94,12 +94,12 @@ const showLabel = computed(() => {
           <div class="o-rate-item" :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }">
             <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
               <slot name="icon" :index="item" :status="iconStatus[key]">
-                <IconStar />
+                <OIconStar />
               </slot>
             </span>
             <span class="o-rate-icon o-rate-icon-bottom" @mouseenter="setHoverIndex(key, false)" @click="setValue(key, false)">
               <slot name="icon" :index="item" :status="iconStatus[key]">
-                <IconStar />
+                <OIconStar />
               </slot>
             </span>
           </div>
@@ -117,12 +117,12 @@ const showLabel = computed(() => {
       >
         <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
           <slot name="icon" :index="item" :status="iconStatus[key]">
-            <IconStar />
+            <OIconStar />
           </slot>
         </span>
         <span class="o-rate-icon o-rate-icon-bottom" @mouseenter="setHoverIndex(key, false)" @click="setValue(key, false)">
           <slot name="icon" :index="item" :status="iconStatus[key]">
-            <IconStar />
+            <OIconStar />
           </slot>
         </span>
       </div>

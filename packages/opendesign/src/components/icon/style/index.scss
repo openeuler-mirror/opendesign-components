@@ -1,10 +1,15 @@
+@use './var.scss';
+
 // icons
 .o-icon {
-  --icon-g1: var(--o-color-text1);
-  --icon-g2: var(--o-color-primary1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
 }
 
-.o-icon {
+.o-svg-icon {
   display: inline-block;
   width: 1em;
   height: 1em;

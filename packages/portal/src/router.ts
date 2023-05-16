@@ -232,6 +232,12 @@ export const routes = [
     component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
   },
   {
+    path: '/upload',
+    name: 'Upload',
+    label: '上传 Upload',
+    component: () => import('@components/upload/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',
