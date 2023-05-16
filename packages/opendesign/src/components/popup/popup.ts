@@ -1,6 +1,6 @@
 import { Ref } from 'vue';
 import { getElementBorder, getElementSize, getOffsetElement, getScroll } from '../_shared/dom';
-import type { DirectionT } from '../_shared/types';
+import type { PositionT } from '../_shared/types';
 import type { PopupPositionT, PopupTriggerT } from './types';
 
 import { useOutClick } from '../hooks/use-out-click';
@@ -154,7 +154,7 @@ function getPopupWrapOffset(pos: Pos, wrapperEl: HTMLElement | null, wrapperCont
 }
 
 // 根据position获取方向
-function getDirection(position: PopupPositionT): DirectionT {
+function getDirection(position: PopupPositionT): PositionT {
   switch (position) {
     case 'tl':
     case 'tr':
@@ -176,7 +176,7 @@ function getDirection(position: PopupPositionT): DirectionT {
 }
 
 // 调整position
-function adjustPosition(position: PopupPositionT, direction: DirectionT) {
+function adjustPosition(position: PopupPositionT, direction: PositionT) {
   const fixFn = {
     top: (p: PopupPositionT) => {
       if (p === 'bottom') {
