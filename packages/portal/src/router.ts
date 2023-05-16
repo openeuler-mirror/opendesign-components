@@ -18,7 +18,7 @@ export const routes = [
     path: '/icons',
     name: 'Icons',
     label: '图标 Icon',
-    component: () => import('./pages/TheIcons.vue'),
+    component: () => import('@components/icon/__demo__/TheIndex.vue'),
   },
   {
     path: '/button',
