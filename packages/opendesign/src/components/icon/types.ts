@@ -1,8 +1,8 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 
 export const iconProps = {
   icon: {
-    type: Object as PropType<any>,
+    type: Object as PropType<Component>,
   },
   button: {
     type: Boolean,

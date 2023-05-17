@@ -1000,42 +1000,42 @@
    * @group size
    * @description 小尺寸
    */
-  --o-control-size-xxs: 12px;
+  --o-control_size-xxs: 12px;
   /**
    * @name 小尺寸
    * @type size
    * @group size
    * @description 小尺寸
    */
-  --o-control-size-xs: 18px;
+  --o-control_size-xs: 18px;
   /**
    * @name 小尺寸
    * @type size
    * @group size
    * @description 小尺寸
    */
-  --o-control-size-s: 24px;
+  --o-control_size-s: 24px;
   /**
    * @name 中尺寸
    * @type size
    * @group size
    * @description 尺寸
    */
-  --o-control-size-m: 32px;
+  --o-control_size-m: 32px;
   /**
    * @name 大尺寸
    * @type size
    * @group size
    * @description 尺寸
    */
-  --o-control-size-l: 40px;
+  --o-control_size-l: 40px;
   /**
    * @name 大尺寸
    * @type size
    * @group size
    * @description 尺寸
    */
-  --o-control-size-xl: 48px;
+  --o-control_size-xl: 48px;
   /**
    * @name 超小尺寸图标
    * @type size

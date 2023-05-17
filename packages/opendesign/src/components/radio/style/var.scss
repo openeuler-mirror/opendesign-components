@@ -5,7 +5,7 @@
   --radio-color: var(--o-color-info1);
   --radio-color-disabled: var(--o-color-info4);
 
-  --radio-input-size: calc(var(--o-control-size-s) / 2);
+  --radio-input-size: calc(var(--o-control_size-s) / 2);
 
   --radio-input-bg-color: var(--o-color-control-light);
   --radio-input-bg-color-checked: var(--o-color-primary1);
@@ -18,7 +18,7 @@
   --radio-input-bd-color-disabled: var(--o-color-control4);
   --radio-input-bd-color-checked-disabled: var(--o-color-primary4);
 
-  --radio-input-inner-size: calc(var(--o-control-size-s) / 4);
+  --radio-input-inner-size: calc(var(--o-control_size-s) / 4);
   --radio-input-inner-bg-color: transparent;
   --radio-input-inner-bg-color-checked: rgb(var(--o-color-white));
   --radio-input-inner-bg-color-checked-disabled: rgb(var(--o-color-white));

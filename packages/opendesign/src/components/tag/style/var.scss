@@ -7,7 +7,7 @@
   --tag-radius: var(--o-radius-control-s);
   --tag-text-size: var(--o-font_size-tip2);
   --tag-text-height: var(--o-line_height-tip2);
-  --tag-height: var(--o-control-size-xs);
+  --tag-height: var(--o-control_size-xs);
 }
 
 .o-tag-primary {
@@ -39,7 +39,7 @@
   --tag-radius: var(--o-radius-control-s);
   --tag-text-size: 10px;
   --tag-text-height: 16px;
-  --tag-height: var(--o-control-size-xxs);
+  --tag-height: var(--o-control_size-xxs);
 }
 
 .o-tag-large {
@@ -47,11 +47,11 @@
   --tag-radius: var(--o-radius-control-s);
   --tag-text-size: var(--o-font_size-tip1);
   --tag-text-height: var(--o-line_height-tip1);
-  --tag-height: var(--o-control-size-s);
+  --tag-height: var(--o-control_size-s);
 }
 
 .o-tag-round-pill {
-  --tag-radius: var(--o-control-size-l);
+  --tag-radius: var(--o-control_size-l);
 }
 
 .o-tag-outline {
