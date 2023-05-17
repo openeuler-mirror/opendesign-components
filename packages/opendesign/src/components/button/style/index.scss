@@ -83,12 +83,12 @@
 
 .o-btn-mini {
   padding: 0 4px;
-  height: var(--o-size-xs);
+  height: var(--o-control-size-xs);
   font-size: var(--o-font_size-tip2);
   line-height: var(--o-line_height-tip2);
 
   &.o-btn-icon-only {
-    width: var(--o-size-xs);
+    width: var(--o-control-size-xs);
   }
   .o-btn-icon {
     margin-right: 2px;
@@ -96,12 +96,12 @@
 }
 .o-btn-small {
   padding: 0 7px;
-  height: var(--o-size-s);
+  height: var(--o-control-size-s);
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
 
   &.o-btn-icon-only {
-    width: var(--o-size-s);
+    width: var(--o-control-size-s);
   }
   .o-btn-icon {
     margin-right: 2px;
@@ -110,23 +110,23 @@
 
 .o-btn-medium {
   padding: 0 15px;
-  height: var(--o-size-m);
+  height: var(--o-control-size-m);
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
 
   &.o-btn-icon-only {
-    width: var(--o-size-m);
+    width: var(--o-control-size-m);
   }
 }
 
 .o-btn-large {
   padding: 0 19px;
-  height: var(--o-size-l);
+  height: var(--o-control-size-l);
   font-size: var(--o-font_size-text2);
   line-height: var(--o-line_height-text2);
 
   &.o-btn-icon-only {
-    width: var(--o-size-l);
+    width: var(--o-control-size-l);
   }
 }
 
