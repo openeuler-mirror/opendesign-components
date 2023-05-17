@@ -19,10 +19,23 @@ const doUpload = () => {
   <h4>Basic</h4>
   <section style="flex-wrap: wrap; align-items: flex-start">
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="上传(单选)" />
+      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="" />
+    </div>
+    <div class="upload-item">
+      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="上传(单选)" color="normal" variant="solid" />
     </div>
     <div class="upload-item">
       <OUpload multiple select-label="上传(多选)" :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" />
+    </div>
+    <div class="upload-item">
+      <OUpload
+        multiple
+        select-label="上传(多选)"
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        :on-before-upload="onBeforeUpload"
+        color="primary"
+      />
     </div>
 
     <div class="upload-item">

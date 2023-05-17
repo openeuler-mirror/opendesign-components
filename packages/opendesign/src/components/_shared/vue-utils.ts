@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
 
@@ -172,4 +172,18 @@ export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTM
       });
     }
   });
+};
+
+export const isEmptySlot = (slot?: Slot) => {
+  if (!slot) {
+    return true;
+  }
+  const children = slot();
+  if (children.length === 0) {
+    return true;
+  }
+  if (children.length === 1 && isTextElement(children[0]) && !children[0].children) {
+    return true;
+  }
+  return false;
 };

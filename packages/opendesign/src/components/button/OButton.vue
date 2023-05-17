@@ -4,6 +4,7 @@ import { IconLoading } from '../_shared/icons';
 import { getRoundClass } from '../_shared/style-class';
 import { buttonProps } from './types';
 import HtmlTag from '../_shared/components/html-tag';
+import { isEmptySlot } from '../_shared/vue-utils';
 
 const props = defineProps(buttonProps);
 
@@ -21,7 +22,7 @@ const round = getRoundClass(props, 'btn');
       `o-btn-${props.variant}`,
       round.class.value,
       {
-        'o-btn-icon-only': !$slots.default && (props.icon || $slots.icon),
+        'o-btn-icon-only': isEmptySlot($slots.default) && (props.icon || $slots.icon),
         'o-btn-disabled': props.disabled,
       },
     ]"

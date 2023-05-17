@@ -25,7 +25,7 @@ export interface UploadRequestOptionT {
 
 export const uploadProps = {
   /**
-   * 颜色类型 ColorT
+   * 按钮颜色类型 ColorT
    */
   color: {
     type: String as PropType<ColorT>,
@@ -45,7 +45,7 @@ export const uploadProps = {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值 RoundT
+   * 按钮圆角值 RoundT
    */
   round: {
     type: String as PropType<RoundT>,
