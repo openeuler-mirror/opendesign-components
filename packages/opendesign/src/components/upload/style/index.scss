@@ -15,9 +15,9 @@
 }
 .o-upload-file-item-wrap {
   display: flex;
-  // align-items: center;
   margin-top: 8px;
   padding: 0 4px;
+  border-radius: var(--upload-file-item-radius);
   color: var(--upload-file-item-color);
   transition: background-color var(--o-easing-standard-in) var(--o-duration-m1);
 
