@@ -179,6 +179,11 @@ export const isEmptySlot = (slot?: Slot) => {
     return true;
   }
   const children = slot();
+
+  if (children.length > 1) {
+    return false;
+  }
+
   if (children.length === 0) {
     return true;
   }
