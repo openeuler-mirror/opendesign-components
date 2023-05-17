@@ -90,9 +90,6 @@
   &.o-btn-icon-only {
     width: var(--o-control_size-xs);
   }
-  .o-btn-icon {
-    margin-right: 2px;
-  }
 }
 .o-btn-small {
   padding: 0 7px;
@@ -102,9 +99,6 @@
 
   &.o-btn-icon-only {
     width: var(--o-control_size-s);
-  }
-  .o-btn-icon {
-    margin-right: 2px;
   }
 }
 
@@ -133,13 +127,10 @@
 .o-btn-icon-only {
   padding: 0;
 }
-.o-btn-icon {
+.o-btn-prefix {
   display: inline-flex;
   align-items: center;
-  margin-right: 6px;
-  > svg {
-    vertical-align: top;
-  }
+  margin-right: var(--btn-gap);
 
   .o-btn-icon-only & {
     margin-right: 0;
@@ -147,4 +138,9 @@
     align-items: center;
     justify-content: center;
   }
+}
+.o-btn-suffix {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--btn-gap);
 }

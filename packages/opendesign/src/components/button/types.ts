@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 import { RoundT, ColorT, VariantT } from '../_shared/types';
 
 export const ButtonSizeTypes = ['large', 'medium', 'small', 'mini'] as const;
@@ -48,6 +48,12 @@ export const buttonProps = {
    */
   href: {
     type: String,
+  },
+  /**
+   * 前缀图标
+   */
+  icon: {
+    type: Object as PropType<Component>,
   },
 };
 

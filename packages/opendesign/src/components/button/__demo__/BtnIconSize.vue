@@ -6,31 +6,29 @@ import { OIconAdd } from '../../icon-svgs';
   <h4>Icon + Size</h4>
   <section>
     <div class="row">
-      <OButton variant="solid" size="mini">
-        <template #icon><OIconAdd /></template>Primary Button
-      </OButton>
+      <OButton variant="solid" size="mini" :icon="OIconAdd">mini Button </OButton>
       <OButton variant="solid" size="small">
-        <template #icon><OIconAdd /></template>Primary Button
+        <template #icon><OIconAdd /></template>small Button
       </OButton>
       <OButton variant="solid" size="medium">
-        <template #icon><OIconAdd /></template>Primary Button
+        <template #icon><OIconAdd /></template>outline Button
       </OButton>
       <OButton variant="solid" size="large">
-        <template #icon><OIconAdd /></template>Primary Button
+        <template #icon><OIconAdd /></template>large Button
       </OButton>
     </div>
     <div class="row">
       <OButton variant="outline" size="mini">
-        <template #icon><OIconAdd /></template>Outline Button
+        <template #icon><OIconAdd /></template>mini Button
       </OButton>
       <OButton variant="outline" size="small">
-        <template #icon><OIconAdd /></template>Outline Button
+        <template #icon><OIconAdd /></template>small Button
       </OButton>
       <OButton variant="outline">
-        <template #icon><OIconAdd /></template>Outline Button
+        <template #icon><OIconAdd /></template>outline Button
       </OButton>
-      <OButton variant="outline" size="large">
-        <template #icon><OIconAdd /></template>Outline Button
+      <OButton variant="outline" size="large" :icon="OIconAdd">
+        <template #suffix><OIconAdd /></template>large Button
       </OButton>
     </div>
     <div class="row">
