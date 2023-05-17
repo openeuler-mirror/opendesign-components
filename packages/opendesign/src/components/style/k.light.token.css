@@ -1,5 +1,6 @@
-/* theme: k-light */
-[data-o-theme='k-light'] {
+/* theme: default|light */
+:root,
+[data-o-theme="k.light"] {
   /**
    * @name 
    * @type palette
@@ -993,56 +994,56 @@
    * @group primary
    * @description 常规
    */
-  --o-color-primary1: rgb(var(--o-mixedgray-12));
+  --o-color-primary1: rgb(var(--o-gray-12));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-mixedgray-11));
+  --o-color-primary2: rgb(var(--o-gray-11));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-mixedgray-13));
+  --o-color-primary3: rgb(var(--o-gray-13));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用
    */
-  --o-color-primary4: rgb(var(--o-mixedgray-6));
+  --o-color-primary4: rgb(var(--o-gray-6));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 常规-浅
    */
-  --o-color-primary1-light: rgb(var(--o-mixedgray-4));
+  --o-color-primary1-light: rgb(var(--o-gray-4));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮-浅
    */
-  --o-color-primary2-light: rgb(var(--o-mixedgray-5));
+  --o-color-primary2-light: rgb(var(--o-gray-5));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活-浅
    */
-  --o-color-primary3-light: rgb(var(--o-mixedgray-6));
+  --o-color-primary3-light: rgb(var(--o-gray-6));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用-浅
    */
-  --o-color-primary4-light: rgb(var(--o-mixedgray-5));
+  --o-color-primary4-light: rgb(var(--o-gray-5));
   /**
    * @name 
    * @type color
@@ -1217,182 +1218,154 @@
    * @group fill
    * @description 一级填充：页面背景
    */
-  --o-color-fill1: rgb(var(--o-mixedgray-2));
+  --o-color-fill1: rgb(var(--o-gray-2));
   /**
    * @name 
    * @type color
    * @group fill
-   * @description 二级填充：区块/卡片
+   * @description 二级填充：区块、卡片
    */
-  --o-color-fill2: rgb(var(--o-mixedgray-1));
+  --o-color-fill2: rgb(var(--o-gray-1));
   /**
    * @name 
    * @type color
    * @group fill
    * @description 三级填充：卡片
    */
-  --o-color-fill3: rgb(var(--o-mixedgray-3));
+  --o-color-fill3: rgb(var(--o-gray-3));
   /**
    * @name 
    * @type color
    * @group control
    * @description 常规，常用于边框
    */
-  --o-color-control1: rgb(var(--o-mixedgray-14), 0.25);
+  --o-color-control1: rgba(var(--o-gray-14), 0.25);
   /**
    * @name 
    * @type color
    * @group control
    * @description 悬浮，常用于边框
    */
-  --o-color-control2: rgb(var(--o-mixedgray-14), 0.6);
+  --o-color-control2: rgba(var(--o-gray-14), 0.6);
   /**
    * @name 
    * @type color
    * @group control
    * @description 激活，常用于边框
    */
-  --o-color-control3: rgb(var(--o-mixedgray-14), 0.8);
+  --o-color-control3: rgba(var(--o-gray-14), 0.8);
   /**
    * @name 
    * @type color
    * @group control
    * @description 禁用，常用于边框
    */
-  --o-color-control4: rgb(var(--o-mixedgray-14), 0.15);
+  --o-color-control4: rgba(var(--o-gray-14), 0.15);
   /**
    * @name 
    * @type color
    * @group control
    * @description 常规-浅，常用于背景
    */
-  --o-color-control1-light: rgb(var(--o-mixedgray-5));
+  --o-color-control1-light: rgb(var(--o-gray-5));
   /**
    * @name 
    * @type color
    * @group control
    * @description 悬浮-浅，常用于背景
    */
-  --o-color-control2-light: rgb(var(--o-mixedgray-3));
+  --o-color-control2-light: rgb(var(--o-gray-3));
   /**
    * @name 
    * @type color
    * @group control
    * @description 激活-浅，常用于背景
    */
-  --o-color-control3-light: rgb(var(--o-mixedgray-4));
+  --o-color-control3-light: rgb(var(--o-gray-4));
   /**
    * @name 
    * @type color
    * @group control
-   * @description 禁用-浅，常用于背景
+   * @description 禁用，常用于背景
    */
-  --o-color-control4-light: rgb(var(--o-mixedgray-3));
+  --o-color-control4-light: rgb(var(--o-gray-3));
   /**
    * @name 
    * @type color
    * @group control
    * @description 很浅，常用于表格背景色
    */
-  --o-color-control-light: rgb(var(--o-mixedgray-1));
+  --o-color-control-light: rgb(var(--o-gray-1));
   /**
    * @name 
    * @type color
    * @group info
    * @description 一级/强调/标题
    */
-  --o-color-info1: rgb(var(--o-mixedgray-14), 1);
+  --o-color-info1: rgba(var(--o-gray-14), 1.0);
   /**
    * @name 
    * @type color
    * @group info
    * @description 二级/次强调/正文
    */
-  --o-color-info2: rgb(var(--o-mixedgray-14), 0.8);
+  --o-color-info2: rgba(var(--o-gray-14), 0.8);
   /**
    * @name 
    * @type color
    * @group info
    * @description 三级/辅助信息
    */
-  --o-color-info3: rgb(var(--o-mixedgray-14), 0.6);
+  --o-color-info3: rgba(var(--o-gray-14), 0.6);
   /**
    * @name 
    * @type color
    * @group info
    * @description 置灰/禁用
    */
-  --o-color-info4: rgb(var(--o-mixedgray-14), 0.4);
+  --o-color-info4: rgba(var(--o-gray-14), 0.4);
   /**
    * @name 
    * @type color
    * @group info
    * @description 一级/次强调/正文反色
    */
-  --o-color-info1-inverse: rgb(var(--o-mixedgray-1), 1);
+  --o-color-info1-inverse: rgba(var(--o-gray-1), 1.0);
   /**
    * @name 
    * @type color
    * @group info
    * @description 二级/辅助信息反色
    */
-  --o-color-info2-inverse: rgb(var(--o-mixedgray-1), 0.8);
+  --o-color-info2-inverse: rgba(var(--o-gray-1), 0.8);
   /**
    * @name 
    * @type color
    * @group info
    * @description 三级/辅助信息反色
    */
-  --o-color-info3-inverse: rgb(var(--o-mixedgray-1), 0.6);
+  --o-color-info3-inverse: rgba(var(--o-gray-1), 0.6);
   /**
    * @name 
    * @type color
    * @group info
    * @description 置灰/禁用反色
    */
-  --o-color-info4-inverse: rgb(var(--o-mixedgray-1), 0.4);
+  --o-color-info4-inverse: rgba(var(--o-gray-1), 0.4);
   /**
    * @name 
    * @type color
    * @group mask
    * @description 全局遮罩
    */
-  --o-color-mask1: rgba(var(--o-mixedgray-14), 0.4);
+  --o-color-mask1: rgba(var(--o-gray-14), 0.4);
   /**
    * @name 
    * @type color
    * @group mask
    * @description 局部遮罩
    */
-  --o-color-mask2: rgba(var(--o-mixedgray-1), 0.2);
-  /**
-   * @name 
-   * @type color
-   * @group link
-   * @description 常规
-   */
-  --o-color-link1: rgb(var(--o-deepblue-6), 1);
-  /**
-   * @name 
-   * @type color
-   * @group link
-   * @description 悬浮
-   */
-  --o-color-link2: rgb(var(--o-deepblue-6), 0.7);
-  /**
-   * @name 
-   * @type color
-   * @group link
-   * @description 激活
-   */
-  --o-color-link3: rgb(var(--o-deepblue-6), 0.9);
-  /**
-   * @name 
-   * @type color
-   * @group link
-   * @description 禁用
-   */
-  --o-color-link4: rgb(var(--o-deepblue-6), 0.4);
+  --o-color-mask2: rgba(var(--o-gray-14), 0.2);
   /**
    * @name 阴影1
    * @type shadow
@@ -1414,6 +1387,34 @@
    * @description 用于提示阴影
    */
   --o-shadow-3: 0 10px 40px rgba(var(--o-mixedgray-13), 0.08);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 常规
+   */
+  --o-color-link1: rgb(var(--o-deepblue-6), 1.0);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 悬浮
+   */
+  --o-color-link2: rgb(var(--o-deepblue-6), 0.7);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 激活
+   */
+  --o-color-link3: rgb(var(--o-deepblue-6), 0.9);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 禁用
+   */
+  --o-color-link4: rgb(var(--o-deepblue-6), 0.4);
   /**
    * @name 间距1
    * @type gap
@@ -1487,42 +1488,42 @@
   /**
    * @name 超小尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 小尺寸
    */
-  --o-control_size-xxs: 16px;
+  --o-control_size-2xs: 16px;
   /**
    * @name 小尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 小尺寸
    */
   --o-control_size-xs: 24px;
   /**
    * @name 小尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 小尺寸
    */
   --o-control_size-s: 32px;
   /**
    * @name 中尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 尺寸
    */
   --o-control_size-m: 40px;
   /**
    * @name 大尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 尺寸
    */
   --o-control_size-l: 48px;
   /**
    * @name 大尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 尺寸
    */
   --o-control_size-xl: 56px;
@@ -1532,56 +1533,63 @@
    * @group icon_size
    * @description 小尺寸
    */
-  --o-icon_size-xxs: 16px;
+  --o-icon_size-2xs: 14px;
   /**
    * @name 小尺寸图标
    * @type size
    * @group icon_size
    * @description 小尺寸
    */
-  --o-icon_size-xs: 24px;
+  --o-icon_size-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
    * @group icon_size
    * @description 小尺寸
    */
-  --o-icon_size-s: 32px;
+  --o-icon_size-s: 24px;
+  /**
+   * @name 小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-m: 32px;
   /**
    * @name 大尺寸图标
    * @type size
    * @group icon_size
    * @description 尺寸
    */
-  --o-icon_size-m: 40px;
+  --o-icon_size-l: 40px;
   /**
    * @name 大尺寸图标
    * @type size
    * @group icon_size
    * @description 尺寸
    */
-  --o-icon_size-l: 48px;
+  --o-icon_size-xl: 48px;
   /**
    * @name 大尺寸图标
    * @type size
    * @group icon_size
    * @description 尺寸
    */
-  --o-icon_size-xl: 64px;
+  --o-icon_size-2xl: 64px;
   /**
    * @name 大尺寸图标
    * @type size
    * @group icon_size
    * @description 尺寸
    */
-  --o-icon_size-xxl: 72px;
+  --o-icon_size-3xl: 72px;
   /**
    * @name 大尺寸图标
    * @type size
    * @group icon_size
    * @description 尺寸
    */
-  --o-icon_size-xxxl: 96px;
+  --o-icon_size-4xl: 96px;
   /**
    * @name 一级数据展示
    * @type font

@@ -25,11 +25,11 @@ const THEME_KEY = 'o-theme';
 
 const localTheme = localStorage.getItem(THEME_KEY);
 
-const currentStyle = ref(localTheme?.split('-')[1] || 'light');
+const currentStyle = ref(localTheme?.split('.')[1] || 'light');
 const currentThemeIdx = ref(
   Math.max(
     themeInfo.findIndex((item) => {
-      return item.prefix === localTheme?.split('-')[0];
+      return item.prefix === localTheme?.split('.')[0];
     }),
     0
   )
@@ -40,14 +40,14 @@ const currentThemeAttr = computed(() => {
     return currentStyle.value;
   }
 
-  return `${themeInfo[currentThemeIdx.value].prefix}-${currentStyle.value}`;
+  return `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`;
 });
 
 watch(
   () => currentThemeAttr.value,
   (val) => {
     document.body.setAttribute(ATTR_NAME, val);
-    localStorage.setItem('o-theme', `${themeInfo[currentThemeIdx.value].prefix}-${currentStyle.value}`);
+    localStorage.setItem('o-theme', `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`);
   },
   {
     immediate: true,
