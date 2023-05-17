@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { initIconLoading, initSize } from '@opensig/opendesign/src/components';
+import { initIconLoading, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src/components';
 import { OIconAdd } from '@opensig/opendesign/src/components/icon-svgs';
+
+import '../../../opendesign/src/components/dropdown/style';
 
 const themeInfo = [
   {
@@ -52,9 +54,8 @@ watch(
   }
 );
 
-const changeTheme = () => {
-  currentThemeIdx.value = (currentThemeIdx.value + 1) % themeInfo.length;
-  console.log('theme: ', `${themeInfo[currentThemeIdx.value].prefix}-${currentStyle.value}`);
+const changeTheme = (idx: number) => {
+  currentThemeIdx.value = idx;
 };
 
 const changeStyle = () => {
@@ -70,13 +71,18 @@ const globalSetting = () => {
   <div class="the-header">
     {{ themeInfo[currentThemeIdx].name }}
     <div class="tools">
-      <div class="tool-item" @click="changeTheme">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            d="M7.012 8.591l-2.005 1.999c-0.091 0.097-0.218 0.151-0.351 0.151s-0.26-0.055-0.351-0.151l-2.155-2.099c-0.097-0.091-0.152-0.217-0.152-0.35s0.055-0.259 0.152-0.35l3.719-3.719c0.25-0.25 0.561-0.429 0.902-0.52l2.055-0.55c0.121-0.029 0.244 0.035 0.291 0.15 0.616 1.045 1.697 1.732 2.907 1.849 1.208-0.115 2.288-0.798 2.907-1.839 0.043-0.119 0.167-0.187 0.291-0.16l2.005 0.54c0.341 0.091 0.653 0.27 0.902 0.52l3.719 3.719c0.097 0.091 0.152 0.217 0.152 0.35s-0.055 0.259-0.152 0.35l-2.125 2.119c-0.091 0.097-0.218 0.151-0.351 0.151s-0.26-0.055-0.351-0.151l-2.005-1.999v11.396c0 0.552-0.449 1-1.002 1h-7.999c-0.554 0-1.002-0.448-1.002-1v-11.406z"
-          />
-        </svg>
+      <div class="tool-item">
+        <ODropdown>
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M7.012 8.591l-2.005 1.999c-0.091 0.097-0.218 0.151-0.351 0.151s-0.26-0.055-0.351-0.151l-2.155-2.099c-0.097-0.091-0.152-0.217-0.152-0.35s0.055-0.259 0.152-0.35l3.719-3.719c0.25-0.25 0.561-0.429 0.902-0.52l2.055-0.55c0.121-0.029 0.244 0.035 0.291 0.15 0.616 1.045 1.697 1.732 2.907 1.849 1.208-0.115 2.288-0.798 2.907-1.839 0.043-0.119 0.167-0.187 0.291-0.16l2.005 0.54c0.341 0.091 0.653 0.27 0.902 0.52l3.719 3.719c0.097 0.091 0.152 0.217 0.152 0.35s-0.055 0.259-0.152 0.35l-2.125 2.119c-0.091 0.097-0.218 0.151-0.351 0.151s-0.26-0.055-0.351-0.151l-2.005-1.999v11.396c0 0.552-0.449 1-1.002 1h-7.999c-0.554 0-1.002-0.448-1.002-1v-11.406z"
+            />
+          </svg>
+          <template #dropdown>
+            <ODropdownItem v-for="(item, index) in themeInfo" :key="item.name" :label="item.name" :value="item.name" @click="changeTheme(index)" />
+          </template>
+        </ODropdown>
       </div>
       <div class="tool-item" @click="changeStyle">
         <svg v-if="currentStyle === 'light'" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
