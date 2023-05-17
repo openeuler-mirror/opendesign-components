@@ -98,12 +98,6 @@ export const uploadProps = {
   onBeforeRemove: {
     type: Function as PropType<(file: UploadFileT) => Promise<boolean>>,
   },
-  /**
-   * 是否显示上传loading图标
-   */
-  showUploadingIcon: {
-    type: Boolean,
-  },
 };
 
 export type UploadPropsT = ExtractPropTypes<typeof uploadProps>;

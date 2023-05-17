@@ -24,13 +24,13 @@
   &:hover {
     background-color: var(--upload-file-item-bg-hover);
   }
-  &.is-error {
-    color: var(--upload-file-item-color-error);
-  }
+  // &.is-error {
+  //   color: var(--upload-file-item-color-error);
+  // }
 
   &:hover,
   &.is-error {
-    .o-upload-icons {
+    .o-upload-item-hover-in {
       opacity: 1;
     }
   }
@@ -52,8 +52,7 @@
 .o-upload-icons {
   display: flex;
   margin-left: 16px;
-  opacity: 0;
-  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
+  font-size: var(--upload-icon-size);
 
   > * + * {
     margin-left: 8px;
@@ -65,11 +64,10 @@
   align-items: center;
   justify-content: center;
 }
-.o-upload-icon-retry,
-.o-upload-icon-remove {
-  font-size: var(--upload-icon-size);
-  display: flex;
-  align-items: center;
+
+.o-upload-item-hover-in {
+  opacity: 0;
+  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
 }
 
 .o-upload-icon-loading {
@@ -88,14 +86,8 @@
   display: flex;
   padding-left: 24px;
   &.is-error {
-    color: var(--o-color-danger1);
+    color: var(--upload-file-item-color-error);
   }
-}
-.o-upload-icon-error {
-  margin-top: 1px;
-  color: var(--o-color-danger1);
-  margin-right: 8px;
-  font-size: var(--upload-icon-size);
 }
 
 .o-upload-file-progress {

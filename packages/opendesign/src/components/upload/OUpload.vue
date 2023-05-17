@@ -31,35 +31,44 @@ const fileList = ref<UploadFileT[]>([]);
 /**
  * 发起上传请求
  */
-const requestUploadFile = (file: UploadFileT) => {
-  if (isFunction(props.uploadRequest)) {
-    file.status = 'uploading';
+const requestUploadFile = (file: UploadFileT): Promise<UploadFileT> => {
+  return new Promise((resolve) => {
+    if (isFunction(props.uploadRequest)) {
+      file.status = 'uploading';
 
-    file.request = props.uploadRequest({
-      file: file,
-      onProgress(percent: number) {
-        file.percent = percent;
-      },
-      onSuccess() {
-        file.status = 'finished';
-        file.retry = false;
-      },
-      onError(response?: any, retry?: boolean) {
-        file.status = 'failed';
-        file.message = response?.message;
-        file.retry = retry;
-        file.percent = 0;
-      },
-    });
-  }
+      file.request = props.uploadRequest({
+        file: file,
+        onProgress(percent: number) {
+          file.percent = percent;
+        },
+        onSuccess() {
+          file.status = 'finished';
+          file.retry = false;
+          resolve(file);
+        },
+        onError(response?: any, retry?: boolean) {
+          file.status = 'failed';
+          file.message = response?.message;
+          file.retry = retry;
+          file.percent = 0;
+          resolve(file);
+        },
+      });
+    } else {
+      resolve(file);
+    }
+  });
 };
 
 /**
  * 上传单个文件
  */
 const doUploadFile = (file: UploadFileT) => {
+  file.retry = false;
+  file.message = '';
+
   if (isFunction(props.onBeforeUpload)) {
-    props.onBeforeUpload(file).then((res) => {
+    return props.onBeforeUpload(file).then((res) => {
       if (res === false) {
         return;
       }
@@ -68,10 +77,10 @@ const doUploadFile = (file: UploadFileT) => {
         file.file = res;
       }
 
-      requestUploadFile(file);
+      return requestUploadFile(file);
     });
   } else {
-    requestUploadFile(file);
+    return requestUploadFile(file);
   }
 };
 
@@ -83,8 +92,15 @@ const doUpload = () => {
     return;
   }
 
-  fileList.value.forEach((f) => {
-    doUploadFile(f);
+  const rlt = fileList.value.map((f) => {
+    if (f.status && ['finished', 'uploading'].includes(f.status)) {
+      return Promise.resolve(f);
+    }
+    return doUploadFile(f);
+  });
+
+  return Promise.allSettled(rlt).then(() => {
+    return fileList.value;
   });
 };
 
@@ -129,16 +145,30 @@ const onFileRemove = (file: UploadFileT) => {
         }
       }
     });
+  } else {
+    fileList.value = fileList.value.filter((f) => f.file.name !== file.file.name);
+    if (file.request) {
+      file.request.abort();
+    }
   }
 };
 
 const onFileUploadRetry = (file: UploadFileT) => {
   console.log('retry file upload', file.file.name);
-  file.retry = false;
-  file.message = '';
+
   doUploadFile(file);
 };
 
+const showLoading = (item: UploadFileT): boolean => {
+  if (item.status !== 'uploading') {
+    return false;
+  }
+
+  if (!item.percent && item.percent !== 0) {
+    return true;
+  }
+  return false;
+};
 defineExpose({
   upload: doUpload,
 });
@@ -172,18 +202,20 @@ defineExpose({
             </div>
             <div class="o-upload-file-label">{{ item.name }}</div>
             <div class="o-upload-icons">
-              <OIcon v-if="item.retry" button class="o-upload-icon o-upload-icon-retry" @click="onFileUploadRetry(item)">
-                <IconRefresh />
+              <OIcon v-if="showLoading(item)" class="o-upload-icon-loading">
+                <IconLoading class="o-rotating" />
               </OIcon>
-              <OIcon button class="o-upload-icon o-upload-icon-remove" @click="onFileRemove(item)">
-                <IconDelete />
-              </OIcon>
+              <OIcon
+                v-if="item.retry"
+                button
+                class="o-upload-icon o-upload-item-hover-in o-upload-icon-retry"
+                :icon="IconRefresh"
+                @click="onFileUploadRetry(item)"
+              />
+              <OIcon button class="o-upload-icon o-upload-icon-remove o-upload-item-hover-in" :icon="IconDelete" @click="onFileRemove(item)" />
             </div>
 
-            <OIcon v-if="props.showUploadingIcon && item.status === 'uploading'" class="o-upload-icon-loading">
-              <IconLoading class="o-rotating" />
-            </OIcon>
-            <div v-if="item.status === 'uploading'" class="o-upload-file-progress">
+            <div v-if="item.status === 'uploading' && item.percent" class="o-upload-file-progress">
               <div class="o-upload-file-progress-bar" :style="{ width: item.percent + '%' }"></div>
             </div>
             <slot name="file-item-suffix" :item="item"></slot>
