@@ -23,9 +23,10 @@
 
 ## slot
 
-| name  | 参数                               | 说明         |
-| :---- | :--------------------------------- | :----------- |
-| radio | checked:boolean; disabled: boolean | 自定义单选框 |
+| name    | 参数                               | 说明           |
+| :------ | :--------------------------------- | :------------- |
+| radio   | checked:boolean; disabled: boolean | 自定义单选框   |
+| default |                                    | 单选框文字内容 |
 
 # RadioGroup 单选框组
 
@@ -44,6 +45,8 @@
 | :----- | :------------------------------- | :------------- |
 | change | val: string \| number \| boolean | 状态切换后触发 |
 
-## expose
-
 ## slot
+
+| name    | 参数 | 说明         |
+| :------ | :--- | :----------- |
+| default |      | 单选框组内容 |

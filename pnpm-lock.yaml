@@ -26,7 +26,7 @@ importers:
   packages/opendesign:
     devDependencies:
       '@opensig/opensig-scripts':
-        specifier: workspace:^0.0.8
+        specifier: workspace:^0.0.10
         version: link:../scripts
       typescript:
         specifier: ^4.6.4
@@ -44,7 +44,7 @@ importers:
         specifier: workspace:^0.0.38
         version: link:../opendesign
       '@opensig/opensig-scripts':
-        specifier: workspace:^0.0.8
+        specifier: workspace:^0.0.10
         version: link:../scripts
       normalize.css:
         specifier: ^8.0.1

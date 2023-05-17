@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
 </script>
@@ -39,5 +37,6 @@ body {
   margin-top: var(--app-header-height);
   margin-left: var(--app-aside-width);
   min-height: calc(100vh - 48px);
+  background-color: var(--o-color-fill1);
 }
 </style>
