@@ -9,7 +9,7 @@ const props = defineProps(iconProps);
       'o-icon-btn': props.button,
       'o-icon-btn-disabled': props.disabled,
     }"
-    :tabindex="props.button ? 0 : -1"
+    :tabindex="props.button ? 0 : ''"
   >
     <slot>
       <component :is="props.icon" />
