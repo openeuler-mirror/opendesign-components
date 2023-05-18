@@ -16,3 +16,10 @@
     color: var(--icon-btn-color-active);
   }
 }
+.o-icon-btn-disabled {
+  &,
+  &:hover,
+  &:active {
+    color: var(--icon-btn-color-disabled);
+  }
+}

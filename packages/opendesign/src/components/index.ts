@@ -3,7 +3,7 @@ export * from './hooks';
 export * from './directves';
 
 export * from './icon';
-export * from './icon-svgs';
+export * from './icon-components';
 export * from './button';
 export * from './switch';
 export * from './link';

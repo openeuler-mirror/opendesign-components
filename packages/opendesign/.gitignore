@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-src/components/icon-svgs
+src/components/icon-components
 es
 lib
