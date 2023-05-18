@@ -11,8 +11,8 @@ import { useMouse, UseMouseT } from '../hooks/use-mouse';
 const props = defineProps(layerProps);
 
 const emits = defineEmits<{
-  (e: 'change', val: boolean): void;
-  (e: 'update:visible', val: boolean, evt?: MouseEvent): void;
+  (e: 'change', visible: boolean): void;
+  (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
   (e: 'click:mask', evt: MouseEvent): void;
 }>();
 
