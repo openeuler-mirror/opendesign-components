@@ -1,3 +1,6 @@
+<script lang="ts">
+export const ItemSlotNames = ['item', 'item-prefix', 'item-suffix', 'item-tip'];
+</script>
 <script setup lang="ts">
 import { IconLoading, IconLinkPrefix, IconRefresh, IconDelete } from '../_shared/icons';
 import { UploadFileT } from './types';
@@ -34,47 +37,50 @@ const showLoading = (file: UploadFileT): boolean => {
 };
 </script>
 <template>
-  <div :key="props.file.id" class="o-upload-file-item">
-    <slot name="file-item" :item="file">
+  <div :key="props.file.id" class="o-upload-item">
+    <slot :name="ItemSlotNames[0]" :item="file">
       <div
-        class="o-upload-file-item-wrap"
+        class="o-upload-item-wrap"
         :class="{
           'is-error': props.file.status === 'failed',
         }"
       >
-        <slot name="file-item-prefix" :item="props.file"> </slot>
+        <slot :name="ItemSlotNames[1]" :item="props.file"></slot>
         <div v-if="props.file.icon !== false" class="o-upload-icon-link">
           <component :is="props.file.icon" v-if="props.file.icon" />
           <IconLinkPrefix v-else />
         </div>
-        <div class="o-upload-file-label">{{ props.file.name }}</div>
-        <div class="o-upload-icons">
+        <div class="o-upload-item-label">{{ props.file.name }}</div>
+        <div class="o-upload-item-icons">
           <OIcon v-if="showLoading(props.file)" class="o-upload-icon-loading">
             <IconLoading class="o-rotating" />
           </OIcon>
           <OIcon
             v-if="props.file.retry"
             button
-            class="o-upload-icon o-upload-item-hover-in o-upload-icon-retry"
+            class="o-upload-item-icon o-upload-item-hover-in o-upload-icon-retry"
             :icon="IconRefresh"
             @click="onFileUploadRetry(props.file)"
           />
-          <OIcon button class="o-upload-icon o-upload-icon-remove o-upload-item-hover-in" :icon="IconDelete" @click="onFileRemove(props.file)" />
+          <OIcon button class="o-upload-item-icon o-upload-icon-remove o-upload-item-hover-in" :icon="IconDelete" @click="onFileRemove(props.file)" />
         </div>
 
-        <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-file-progress">
-          <div class="o-upload-file-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
+        <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-item-progress">
+          <div class="o-upload-item-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
         </div>
-        <slot name="file-item-suffix" :item="props.file"></slot>
+        <slot :name="ItemSlotNames[2]" :item="props.file"></slot>
       </div>
 
-      <slot name="file-item-tip" :item="props.file">
+      <slot :name="ItemSlotNames[3]" :item="props.file">
         <div
           v-if="props.file.message"
-          class="o-upload-file-item-tip"
-          :class="{
-            'is-error': props.file.status === 'failed',
-          }"
+          class="o-upload-item-tip"
+          :class="[
+            {
+              'is-error': props.file.status === 'failed',
+            },
+            props.file.messageClass,
+          ]"
         >
           {{ props.file.message }}
         </div>

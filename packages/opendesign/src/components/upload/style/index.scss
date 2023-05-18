@@ -2,7 +2,8 @@
 
 .o-upload-select {
   position: relative;
-  display: inline-flex;
+  display: inline-block;
+  cursor: pointer;
 }
 .o-upload-select-input {
   position: absolute;
@@ -11,10 +12,10 @@
   height: 0;
   opacity: 0;
 }
-.o-upload-file-item {
+.o-upload-item {
   position: relative;
 }
-.o-upload-file-item-wrap {
+.o-upload-item-wrap {
   display: flex;
   margin-top: 8px;
   padding: 0 4px;
@@ -37,7 +38,7 @@
   }
 }
 
-.o-upload-file-label {
+.o-upload-item-label {
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
   margin-right: auto;
@@ -50,7 +51,7 @@
   margin-right: 8px;
 }
 
-.o-upload-icons {
+.o-upload-item-icons {
   display: flex;
   margin-left: 16px;
   font-size: var(--upload-icon-size);
@@ -60,7 +61,7 @@
   }
 }
 
-.o-upload-icon {
+.o-upload-item-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +75,7 @@
 .o-upload-icon-loading {
   margin-left: 8px;
 }
-.o-upload-tip {
+.o-upload-select-extra {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
   color: var(--o-color-info3);
@@ -91,7 +92,7 @@
   }
 }
 
-.o-upload-file-progress {
+.o-upload-item-progress {
   position: absolute;
   left: 4px;
   right: 4px;
@@ -101,10 +102,51 @@
   border-radius: var(--upload-progress-radius);
   overflow: hidden;
 }
-.o-upload-file-progress-bar {
+.o-upload-item-progress-bar {
   width: 0%;
   height: 100%;
   background-color: var(--upload-progress-value-bg-color);
   border-radius: var(--upload-progress-radius);
   transition: width var(--o-easing-linear) var(--o-duration-s);
+}
+
+// 拖拽上传
+.o-upload-select-drag {
+  width: 100%;
+}
+.o-upload-drag {
+  padding: var(--upload-drag-padding);
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-text1);
+  color: var(--upload-drag-color);
+  background-color: var(--upload-drag-bg-color);
+  border: var(--upload-drag-border);
+  text-align: center;
+  width: 100%;
+  border-radius: var(--upload-drag-radius);
+  text-align: center;
+  transition: all var(--o-easing-standard) var(--o-duration-m2);
+  &:hover {
+    border: var(--upload-drag-border-hover);
+  }
+}
+.o-upload-drag-dragging {
+  border: var(--upload-drag-border-dragging);
+  background-color: var(--upload-drag-bg-color-dragging);
+}
+.o-upload-drag-disabled {
+  &,
+  &:hover {
+    cursor: not-allowed;
+    color: var(--upload-drag-color-disabled);
+    border: var(--upload-drag-border-disabled);
+    background-color: var(--upload-drag-bg-color-disabled);
+  }
+}
+.o-upload-drag-icon {
+  font-size: var(--o-icon_size-s);
+  vertical-align: top;
+  + .o-upload-drag-label {
+    margin-top: 12px;
+  }
 }

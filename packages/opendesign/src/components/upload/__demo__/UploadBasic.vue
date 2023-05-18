@@ -19,30 +19,35 @@ const doUpload = () => {
   <h4>Basic</h4>
   <section style="flex-wrap: wrap; align-items: flex-start">
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="" />
+      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="" />
     </div>
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="上传(单选)" color="normal" variant="solid" />
+      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="上传(单选)" color="normal" variant="solid" />
     </div>
     <div class="upload-item">
-      <OUpload multiple select-label="上传(多选)" :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" />
+      <OUpload multiple btn-label="上传(多选)" :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" />
     </div>
     <div class="upload-item">
       <OUpload
         multiple
-        select-label="上传(多选)"
+        btn-label="上传(多选)"
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
         :on-before-upload="onBeforeUpload"
         color="primary"
       />
     </div>
+    <div class="upload-item">
+      <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" color="primary" draggable>
+        <template #select-drag-extra><div>请不要上传个人敏感数据</div></template>
+      </OUpload>
+    </div>
 
     <div class="upload-item">
       <p>无进度上传</p>
       <OUpload
         multiple
-        select-label="上传(多选)"
+        btn-label="上传(多选)"
         :on-after-select="onAfterSelect"
         :upload-request="(e) => uploadRequest(e, false)"
         :on-before-upload="onBeforeUpload"
@@ -51,7 +56,7 @@ const doUpload = () => {
     <div class="upload-item">
       <p>延迟上传</p>
       <OButton class="btn" @click="doUpload">开始上传</OButton>
-      <OUpload ref="uploadRef" multiple :upload-request="uploadRequest" lazy-upload select-label="选择文件" />
+      <OUpload ref="uploadRef" multiple :upload-request="uploadRequest" lazy-upload btn-label="选择文件" />
     </div>
     <div class="upload-item">
       <p>删除前确认 onBeforeRemove</p>

@@ -27,7 +27,9 @@ export const requestUploadFile = (file: UploadFileT, options: OptionsT): Promise
           file.status = 'failed';
           file.message = response?.message;
           file.retry = retry;
-          file.percent = 0;
+          if (file.percent) {
+            file.percent = 0;
+          }
           resolve(file);
         },
       });

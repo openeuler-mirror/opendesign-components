@@ -20,7 +20,6 @@ export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
         id: file.name,
         name: file.name,
         file: file,
-        retry: false,
       };
     })
   );
