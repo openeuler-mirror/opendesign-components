@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import './style.scss';
+import './assets/style/style.scss';
 import 'normalize.css';
 
 import '@opensig/opendesign/src/components/style/light.token.css';

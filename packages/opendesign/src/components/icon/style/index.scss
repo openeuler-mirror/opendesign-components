@@ -12,13 +12,15 @@
   &:hover {
     color: var(--icon-btn-color-hover);
   }
-  &:active {
+  &:active,
+  &:focus-visible {
     color: var(--icon-btn-color-active);
   }
 }
 .o-icon-btn-disabled {
   &,
   &:hover,
+  &:focus-visible,
   &:active {
     color: var(--icon-btn-color-disabled);
   }

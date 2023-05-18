@@ -59,6 +59,13 @@ Object.keys(OIcons).forEach((k) => {
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>
+
+    <h4>Stoke</h4>
+    <div class="icon-btn-list">
+      <OIcon :icon="OIcons.OIconAdd" button />
+      <OIcon :icon="OIcons.OIconDelete" button tabindex="0" />
+      <OIcon :icon="OIcons.OIconRefresh" button />
+    </div>
   </div>
 </template>
 <style lang="scss">
@@ -82,5 +89,10 @@ Object.keys(OIcons).forEach((k) => {
 .icon-name {
   font-size: 14px;
   word-wrap: break-word;
+}
+.icon-btn-list {
+  display: flex;
+  font-size: 32px;
+  gap: 24px;
 }
 </style>
