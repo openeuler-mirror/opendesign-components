@@ -5,11 +5,11 @@ import 'normalize.css';
 import '@opensig/opendesign/src/components/style/light.token.css';
 import '@opensig/opendesign/src/components/style/dark.token.css';
 
-import '@opensig/opendesign/src/components/style/a.light.token.css';
-import '@opensig/opendesign/src/components/style/a.dark.token.css';
+import './assets/style/a.light.token.css';
+import './assets/style/a.dark.token.css';
 
-import '@opensig/opendesign/src/components/style/k.light.token.css';
-import '@opensig/opendesign/src/components/style/k.dark.token.css';
+import './assets/style/k.light.token.css';
+import './assets/style/k.dark.token.css';
 
 import { router } from '@/router';
 
