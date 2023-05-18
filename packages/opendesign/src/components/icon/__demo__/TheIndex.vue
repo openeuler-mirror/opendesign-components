@@ -21,6 +21,7 @@ Object.keys(OIcons).forEach((k) => {
 </script>
 <template>
   <div class="page-demo">
+    <h2>图标</h2>
     <h4>Stoke</h4>
     <div class="icon-list">
       <div v-for="icon in stokes" :key="icon" class="icon-item">
@@ -60,7 +61,7 @@ Object.keys(OIcons).forEach((k) => {
       </div>
     </div>
 
-    <h4>Stoke</h4>
+    <h2>图标按钮</h2>
     <div class="icon-btn-list">
       <OIcon :icon="OIcons.OIconAdd" button />
       <OIcon :icon="OIcons.OIconDelete" button tabindex="0" />

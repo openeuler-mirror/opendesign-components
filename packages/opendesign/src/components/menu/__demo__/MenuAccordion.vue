@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OIconMore } from '../../icon-components';
+import OIconMore from './OIconMore.vue';
 import { OMenu, OSubMenu, OMenuItem } from '../index';
 
 const expandedArr = ref(['2']);
