@@ -6,7 +6,6 @@ import { OIconAdd } from '../../icon-components';
   <h4>Icon + Size</h4>
   <section>
     <div class="row">
-      <OButton variant="solid" size="mini" :icon="OIconAdd">mini Button </OButton>
       <OButton variant="solid" size="small">
         <template #icon><OIconAdd /></template>small Button
       </OButton>
@@ -18,9 +17,6 @@ import { OIconAdd } from '../../icon-components';
       </OButton>
     </div>
     <div class="row">
-      <OButton variant="outline" size="mini">
-        <template #icon><OIconAdd /></template>mini Button
-      </OButton>
       <OButton variant="outline" size="small">
         <template #icon><OIconAdd /></template>small Button
       </OButton>
@@ -32,9 +28,6 @@ import { OIconAdd } from '../../icon-components';
       </OButton>
     </div>
     <div class="row">
-      <OButton variant="text" size="mini">
-        <template #icon><OIconAdd /></template>
-      </OButton>
       <OButton variant="text" size="small">
         <template #icon><OIconAdd /></template>
       </OButton>
@@ -44,9 +37,6 @@ import { OIconAdd } from '../../icon-components';
       <OButton variant="text" size="large">
         <template #icon><OIconAdd /></template>
       </OButton>
-      <OButton variant="outline" size="mini" round="pill">
-        <template #icon><OIconAdd /></template>
-      </OButton>
       <OButton variant="outline" size="small" round="pill">
         <template #icon><OIconAdd /></template>
       </OButton>
@@ -54,9 +44,6 @@ import { OIconAdd } from '../../icon-components';
         <template #icon><OIconAdd /></template>
       </OButton>
       <OButton variant="outline" size="large" round="pill">
-        <template #icon><OIconAdd /></template>
-      </OButton>
-      <OButton variant="solid" size="mini" round="pill">
         <template #icon><OIconAdd /></template>
       </OButton>
       <OButton variant="solid" size="small" round="pill">
