@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OSWitch } from '../index';
-import { OIconDone, OIconX } from '../../icon-svgs';
+import { OIconDone, OIconX } from '../../icon-components';
 
 const switchVal1 = ref(false);
 const switchVal2 = ref(true);

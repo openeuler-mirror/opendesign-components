@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue';
 import { messageProps } from './types';
-import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-svgs';
+import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-components';
 
 const props = defineProps(messageProps);
 

@@ -4,7 +4,7 @@ import { computed, ref, watch } from 'vue';
 import { OPopover } from '../popover';
 import { rateProps } from './types';
 import { defaultSize } from '../_shared/global';
-import { OIconStar } from '../icon-svgs';
+import { OIconStar } from '../icon-components';
 import { isArray, isUndefined } from '../_shared/is';
 
 const props = defineProps(rateProps);

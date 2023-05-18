@@ -7,6 +7,7 @@ const props = defineProps(iconProps);
     class="o-icon"
     :class="{
       'o-icon-btn': props.button,
+      'o-icon-btn-disabled': props.disabled,
     }"
     tabindex="-1"
   >

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OButton } from '../index';
-import { OIconAdd } from '../../icon-svgs';
+import { OIconAdd } from '../../icon-components';
 </script>
 <template>
   <h4>Icon + Size</h4>

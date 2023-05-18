@@ -2,7 +2,7 @@
 import { shallowRef } from 'vue';
 import { OUpload, UploadFileT } from '../index';
 import { OIcon } from '../../icon';
-import { OIconDone, OIconStar, OIconCalendar } from '../../icon-svgs';
+import { OIconDone, OIconStar, OIconCalendar } from '../../icon-components';
 import { uploadRequest } from './upload';
 
 const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {

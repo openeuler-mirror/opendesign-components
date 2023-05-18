@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OCard } from '../index';
-import { OIconStar } from '../../icon-svgs';
+import { OIconStar } from '../../icon-components';
 
 const card = {
   cover: 'https://www.openeuler.org/img/banners/20230418-odd.png',

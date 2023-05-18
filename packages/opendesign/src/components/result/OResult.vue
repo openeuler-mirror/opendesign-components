@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { resultProps } from './types';
-import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-svgs';
+import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-components';
 import { computed } from 'vue';
 
 const props = defineProps(resultProps);

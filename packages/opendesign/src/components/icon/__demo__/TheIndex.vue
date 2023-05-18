@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OIcon } from '../index';
-import * as OIcons from '../../icon-svgs';
+import * as OIcons from '../../icon-components';
 import '../style';
 import { shallowRef } from 'vue';
 console.log(OIcons);
@@ -24,14 +24,12 @@ Object.keys(OIcons).forEach((k) => {
     <h4>Stoke</h4>
     <div class="icon-list">
       <div v-for="icon in stokes" :key="icon" class="icon-item">
-        <OIcon>
-          <component
-            :is="icon"
-            :class="{
-              'o-rotating': icon.name === 'IconLoading',
-            }"
-          />
-        </OIcon>
+        <OIcon
+          :icon="icon"
+          :class="{
+            'o-rotating': icon.name === 'OIconLoading',
+          }"
+        />
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>
@@ -39,14 +37,12 @@ Object.keys(OIcons).forEach((k) => {
     <h4>Fill</h4>
     <div class="icon-list">
       <div v-for="icon in fills" :key="icon" class="icon-item">
-        <OIcon>
-          <component
-            :is="icon"
-            :class="{
-              'o-rotating': icon.name === 'IconLoading',
-            }"
-          />
-        </OIcon>
+        <OIcon
+          :icon="icon"
+          :class="{
+            'o-rotating': icon.name === 'OIconLoading',
+          }"
+        />
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>
@@ -54,14 +50,12 @@ Object.keys(OIcons).forEach((k) => {
     <h4>Color</h4>
     <div class="icon-list">
       <div v-for="icon in colors" :key="icon" class="icon-item">
-        <OIcon>
-          <component
-            :is="icon"
-            :class="{
-              'o-rotating': icon.name === 'IconLoading',
-            }"
-          />
-        </OIcon>
+        <OIcon
+          :icon="icon"
+          :class="{
+            'o-rotating': icon.name === 'OIconLoading',
+          }"
+        />
         <div class="icon-name">{{ icon.name }}</div>
       </div>
     </div>

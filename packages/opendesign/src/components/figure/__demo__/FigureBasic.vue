@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OFigure } from '../index';
-import { OIconSearch } from '../../icon-svgs';
+import { OIconSearch } from '../../icon-components';
 import { ref } from 'vue';
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 
