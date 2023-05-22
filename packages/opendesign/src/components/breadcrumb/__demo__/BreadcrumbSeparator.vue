@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OIconAdd } from '../../icon-svgs';
+import { OIconAdd } from '../../icon-components';
 import { OBreadcrumb, OBreadcrumbItem } from '../index';
 
 const handleClick = () => {

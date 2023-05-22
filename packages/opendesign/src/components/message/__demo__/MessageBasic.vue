@@ -3,7 +3,7 @@ import { h } from 'vue';
 
 import '../style';
 import useMessage from '../use-message';
-import { OIconAdd, OIconLoading } from '../../icon-svgs';
+import { OIconAdd, OIconLoading } from '../../icon-components';
 
 import { OButton } from '../../button';
 import '../../button/style';

@@ -162,14 +162,18 @@
 
 .o-btn-small {
   --btn-radius: var(--o-radius-control-s);
+  --btn-gap: 2px;
 }
 .o-btn-medium {
   --btn-radius: var(--o-radius-control-m);
+  --btn-gap: 6px;
 }
 .o-btn-large {
   --btn-radius: var(--o-radius-control-l);
+  --btn-gap: 6px;
 }
 
 .o-btn-round-pill {
-  --btn-radius: var(--o-size-l);
+  --btn-radius: var(--o-control_size-l);
+  --btn-gap: 6px;
 }

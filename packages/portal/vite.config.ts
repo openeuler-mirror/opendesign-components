@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       '@/': `${path.resolve(__dirname, './src')}/`,
       '@components': path.resolve(__dirname, '../opendesign/src/components'),
+      '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
 });

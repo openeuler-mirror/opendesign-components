@@ -46,7 +46,7 @@ body {
 }
 .block {
   padding: var(--o-gap-4);
-  border: 1px solid var(--o-color-control2-light);
+  border: 1px solid var(--o-color-control1-light);
 }
 .row {
   display: flex;
@@ -57,7 +57,7 @@ body {
   padding: 8px;
 }
 section {
-  border: 1px solid var(--o-color-control2-light);
+  border: 1px solid var(--o-color-control1-light);
   padding: var(--o-gap-4);
 
   h4 {

@@ -26,7 +26,7 @@ export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
   );
 };
 
-export const mockUpload = (file: File, onProgress: (p: number) => void, onFinished: (success: boolean) => void) => {
+export const mockUpload = (file: File, onFinished: (success: boolean) => void, onProgress?: (p: number) => void) => {
   let c = 0;
   const size = file.size;
   const speed = Math.floor(size * 0.01);
@@ -40,11 +40,15 @@ export const mockUpload = (file: File, onProgress: (p: number) => void, onFinish
     } else {
       c += speed;
       if (c >= size) {
-        onProgress(100);
+        if (onProgress) {
+          onProgress(100);
+        }
         clearInterval(timer);
         onFinished(true);
       } else {
-        onProgress(Math.floor((c * 100) / size));
+        if (onProgress) {
+          onProgress(Math.floor((c * 100) / size));
+        }
       }
     }
   }, 200);
@@ -54,22 +58,25 @@ export const mockUpload = (file: File, onProgress: (p: number) => void, onFinish
   };
 };
 
-export const uploadRequest = (options: UploadRequestOptionT) => {
+export const uploadRequest = (options: UploadRequestOptionT, hasProgress: boolean = true) => {
   const { onSuccess, onProgress, onError, file } = options;
 
-  const abort = mockUpload(file.file, onProgress, (success) => {
-    if (success) {
-      onSuccess(success);
-    } else {
-      onError(
-        {
-          message:
-            '上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败上传失败',
-        },
-        true
-      );
-    }
-  });
+  const abort = mockUpload(
+    file.file,
+    (success) => {
+      if (success) {
+        onSuccess(success);
+      } else {
+        onError(
+          {
+            message: '上传失败:失败原因',
+          },
+          true
+        );
+      }
+    },
+    hasProgress ? onProgress : undefined
+  );
 
   return {
     abort: () => {

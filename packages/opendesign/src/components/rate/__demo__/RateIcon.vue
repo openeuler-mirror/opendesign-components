@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ORate } from '../index';
-import { OIconAdd } from '../../icon-svgs';
-import { OIconX } from '../../icon-svgs';
+import { OIconAdd } from '../../icon-components';
+import { OIconX } from '../../icon-components';
 
 const rateVal1 = ref(4);
 const rateVal2 = ref(0);

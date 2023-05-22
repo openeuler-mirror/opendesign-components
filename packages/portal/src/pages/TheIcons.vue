@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { OIcon } from '@components/icon';
-import * as OIcons from '@components/icon-svgs';
+import * as OIcons from '@components/icon-components';
 import '@components/style';
 import '@components/icon/style';
 import { shallowRef } from 'vue';

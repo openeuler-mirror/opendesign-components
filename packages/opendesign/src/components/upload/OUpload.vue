@@ -1,23 +1,26 @@
 <script setup lang="ts">
-import { defaultSize } from '../_shared/global';
-import { IconLoading, IconAdd, IconLinkPrefix, IconRefresh, IconDelete } from '../_shared/icons';
+import { IconAdd } from '../_shared/icons';
 import { uploadProps, UploadFileT } from './types';
 import OButton from '../button/OButton.vue';
 import { computed, ref } from 'vue';
 import { isFunction } from '../_shared/is';
-import { OIcon } from '../icon';
+import UploadFileItem from './UploadFileItem.vue';
+import { doUploadAll, doUploadFile } from './upload';
+
+// TODO 控制按钮样式、拖拽上传、图片上传
 
 const props = defineProps(uploadProps);
+
+const uploadOption = computed(() => {
+  return {
+    uploadRequest: props.uploadRequest,
+    onBeforeUpload: props.onBeforeUpload,
+  };
+});
 
 const Label = {
   upload: '上传文件',
 };
-const selectLabel = computed(() => {
-  if (props.selectLabel !== undefined) {
-    return props.selectLabel;
-  }
-  return Label.upload;
-});
 
 const inputRef = ref<HTMLInputElement | null>(null);
 const onSelectClick = () => {
@@ -25,67 +28,15 @@ const onSelectClick = () => {
 };
 
 const fileList = ref<UploadFileT[]>([]);
-
-/**
- * 发起上传请求
- */
-const requestUploadFile = (file: UploadFileT) => {
-  if (isFunction(props.uploadRequest)) {
-    file.status = 'uploading';
-
-    file.request = props.uploadRequest({
-      file: file,
-      onProgress(percent: number) {
-        file.percent = percent;
-      },
-      onSuccess() {
-        file.status = 'finished';
-        file.retry = false;
-      },
-      onError(response?: any, retry?: boolean) {
-        file.status = 'failed';
-        file.message = response?.message;
-        file.retry = retry;
-        file.percent = 0;
-      },
-    });
-  }
-};
-
-/**
- * 上传单个文件
- */
-const doUploadFile = (file: UploadFileT) => {
-  if (isFunction(props.onBeforeUpload)) {
-    props.onBeforeUpload(file).then((res) => {
-      if (res === false) {
-        return;
-      }
-
-      if (res instanceof File) {
-        file.file = res;
-      }
-
-      requestUploadFile(file);
-    });
-  } else {
-    requestUploadFile(file);
-  }
-};
-
 /**
  * 上传所有文件
  */
-const doUpload = () => {
-  if (fileList.value.length === 0) {
-    return;
-  }
-
-  fileList.value.forEach((f) => {
-    doUploadFile(f);
-  });
+const uploadAll = () => {
+  return doUploadAll(fileList.value, uploadOption.value);
 };
-
+/**
+ * 选择文件回调
+ */
 const onInputChange = function (e: Event) {
   const target = e.target as HTMLInputElement;
   if (!target.files) {
@@ -100,7 +51,7 @@ const onInputChange = function (e: Event) {
       fileList.value = files;
 
       if (!props.lazyUpload) {
-        doUpload();
+        uploadAll();
       }
     });
   } else {
@@ -112,11 +63,13 @@ const onInputChange = function (e: Event) {
       };
     });
     if (!props.lazyUpload) {
-      doUpload();
+      uploadAll();
     }
   }
 };
-
+/**
+ * 删除文件
+ */
 const onFileRemove = (file: UploadFileT) => {
   if (isFunction(props.onBeforeRemove)) {
     props.onBeforeRemove(file).then((res) => {
@@ -127,18 +80,25 @@ const onFileRemove = (file: UploadFileT) => {
         }
       }
     });
+  } else {
+    fileList.value = fileList.value.filter((f) => f.file.name !== file.file.name);
+    if (file.request) {
+      file.request.abort();
+    }
   }
 };
-
+/**
+ * 重新上传文件
+ */
 const onFileUploadRetry = (file: UploadFileT) => {
-  console.log('retry file upload', file.file.name);
-  file.retry = false;
-  file.message = '';
-  doUploadFile(file);
+  if (!file.retry) {
+    return;
+  }
+  doUploadFile(file, uploadOption.value);
 };
 
 defineExpose({
-  upload: doUpload,
+  upload: uploadAll,
 });
 </script>
 <template>
@@ -146,8 +106,8 @@ defineExpose({
     <div class="o-upload-select" @click="onSelectClick">
       <input ref="inputRef" type="file" class="o-upload-select-input" :multiple="props.multiple" @change="onInputChange" />
       <slot name="select">
-        <OButton>
-          <template #icon><IconAdd /></template>{{ selectLabel }}
+        <OButton :color="props.color" :round="props.round" :size="props.size" :variant="props.variant" :disabled="props.disabled" :icon="IconAdd">
+          {{ props.selectLabel ?? Label.upload }}
         </OButton>
       </slot>
     </div>
@@ -155,51 +115,7 @@ defineExpose({
       <slot name="tip"></slot>
     </div>
     <div class="o-upload-file-result">
-      <div v-for="item in fileList" :key="item.id" class="o-upload-file-item">
-        <slot name="file-item" :item="item">
-          <div
-            class="o-upload-file-item-wrap"
-            :class="{
-              'is-error': item.status === 'failed',
-            }"
-          >
-            <slot name="file-item-prefix" :item="item"> </slot>
-            <div v-if="item.icon !== false" class="o-upload-icon-link">
-              <component :is="item.icon" v-if="item.icon" />
-              <IconLinkPrefix v-else />
-            </div>
-            <div class="o-upload-file-label">{{ item.name }}</div>
-            <div class="o-upload-icons">
-              <OIcon v-if="item.retry" button class="o-upload-icon o-upload-icon-retry" @click="onFileUploadRetry(item)">
-                <IconRefresh />
-              </OIcon>
-              <OIcon button class="o-upload-icon o-upload-icon-remove" @click="onFileRemove(item)">
-                <IconDelete />
-              </OIcon>
-            </div>
-
-            <OIcon v-if="props.showUploadingIcon && item.status === 'uploading'" class="o-upload-icon-loading">
-              <IconLoading class="o-rotating" />
-            </OIcon>
-            <div v-if="item.status === 'uploading'" class="o-upload-file-progress">
-              <div class="o-upload-file-progress-bar" :style="{ width: item.percent + '%' }"></div>
-            </div>
-            <slot name="file-item-suffix" :item="item"></slot>
-          </div>
-
-          <slot name="file-item-tip" :item="item">
-            <div
-              v-if="item.message"
-              class="o-upload-file-item-tip"
-              :class="{
-                'is-error': item.status === 'failed',
-              }"
-            >
-              {{ item.message }}
-            </div>
-          </slot>
-        </slot>
-      </div>
+      <UploadFileItem v-for="item in fileList" :key="item.id" :file="item" @remove="onFileRemove" @retry="onFileUploadRetry" />
     </div>
   </div>
 </template>

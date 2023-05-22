@@ -1,5 +1,5 @@
-/* theme: a-light */
-[data-o-theme='a-light'] {
+/* theme: light */
+[data-o-theme="light"] {
   /**
    * @name 
    * @type palette
@@ -993,56 +993,56 @@
    * @group primary
    * @description 常规
    */
-  --o-color-primary1: rgb(var(--o-mixedgray-12));
+  --o-color-primary1: rgb(var(--o-deepblue-6));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-mixedgray-11));
+  --o-color-primary2: rgb(var(--o-deepblue-5));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-mixedgray-13));
+  --o-color-primary3: rgb(var(--o-deepblue-7));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用
    */
-  --o-color-primary4: rgb(var(--o-mixedgray-6));
+  --o-color-primary4: rgb(var(--o-deepblue-3));
   /**
    * @name 
    * @type color
    * @group primary
-   * @description 常规-浅
+   * @description 浅/常规
    */
-  --o-color-primary1-light: rgb(var(--o-mixedgray-4));
+  --o-color-primary1-light: rgb(var(--o-deepblue-2));
   /**
    * @name 
    * @type color
    * @group primary
-   * @description 悬浮-浅
+   * @description 浅/悬浮
    */
-  --o-color-primary2-light: rgb(var(--o-mixedgray-5));
+  --o-color-primary2-light: rgb(var(--o-deepblue-3));
   /**
    * @name 
    * @type color
    * @group primary
-   * @description 激活-浅
+   * @description 浅/激活
    */
-  --o-color-primary3-light: rgb(var(--o-mixedgray-6));
+  --o-color-primary3-light: rgb(var(--o-deepblue-4));
   /**
    * @name 
    * @type color
    * @group primary
-   * @description 禁用-浅
+   * @description 浅/禁用
    */
-  --o-color-primary4-light: rgb(var(--o-mixedgray-5));
+  --o-color-primary4-light: rgb(var(--o-deepblue-1));
   /**
    * @name 
    * @type color
@@ -1238,28 +1238,28 @@
    * @group control
    * @description 常规，常用于边框
    */
-  --o-color-control1: rgb(var(--o-mixedgray-14), 0.25);
+  --o-color-control1: rgba(var(--o-mixedgray-14), 0.25);
   /**
    * @name 
    * @type color
    * @group control
    * @description 悬浮，常用于边框
    */
-  --o-color-control2: rgb(var(--o-mixedgray-14), 0.6);
+  --o-color-control2: rgba(var(--o-mixedgray-14), 0.6);
   /**
    * @name 
    * @type color
    * @group control
    * @description 激活，常用于边框
    */
-  --o-color-control3: rgb(var(--o-mixedgray-14), 0.8);
+  --o-color-control3: rgba(var(--o-mixedgray-14), 0.8);
   /**
    * @name 
    * @type color
    * @group control
    * @description 禁用，常用于边框
    */
-  --o-color-control4: rgb(var(--o-mixedgray-14), 0.15);
+  --o-color-control4: rgba(var(--o-mixedgray-14), 0.15);
   /**
    * @name 
    * @type color
@@ -1301,56 +1301,56 @@
    * @group info
    * @description 一级/强调/标题
    */
-  --o-color-info1: rgb(var(--o-mixedgray-14), 1);
+  --o-color-info1: rgba(var(--o-mixedgray-14), 1.0);
   /**
    * @name 
    * @type color
    * @group info
    * @description 二级/次强调/正文
    */
-  --o-color-info2: rgb(var(--o-mixedgray-14), 0.8);
+  --o-color-info2: rgba(var(--o-mixedgray-14), 0.8);
   /**
    * @name 
    * @type color
    * @group info
    * @description 三级/辅助信息
    */
-  --o-color-info3: rgb(var(--o-mixedgray-14), 0.6);
+  --o-color-info3: rgba(var(--o-mixedgray-14), 0.6);
   /**
    * @name 
    * @type color
    * @group info
    * @description 置灰/禁用
    */
-  --o-color-info4: rgb(var(--o-mixedgray-14), 0.4);
+  --o-color-info4: rgba(var(--o-mixedgray-14), 0.4);
   /**
    * @name 
    * @type color
    * @group info
    * @description 一级/次强调/正文反色
    */
-  --o-color-info1-inverse: rgb(var(--o-mixedgray-1), 1);
+  --o-color-info1-inverse: rgba(var(--o-mixedgray-1), 1.0);
   /**
    * @name 
    * @type color
    * @group info
    * @description 二级/辅助信息反色
    */
-  --o-color-info2-inverse: rgb(var(--o-mixedgray-1), 0.8);
+  --o-color-info2-inverse: rgba(var(--o-mixedgray-1), 0.8);
   /**
    * @name 
    * @type color
    * @group info
    * @description 三级/辅助信息反色
    */
-  --o-color-info3-inverse: rgb(var(--o-mixedgray-1), 0.6);
+  --o-color-info3-inverse: rgba(var(--o-mixedgray-1), 0.6);
   /**
    * @name 
    * @type color
    * @group info
    * @description 置灰/禁用反色
    */
-  --o-color-info4-inverse: rgb(var(--o-mixedgray-1), 0.4);
+  --o-color-info4-inverse: rgba(var(--o-mixedgray-1), 0.4);
   /**
    * @name 
    * @type color
@@ -1371,28 +1371,28 @@
    * @group link
    * @description 常规
    */
-  --o-color-link1: rgb(var(--o-deepblue-6), 1);
+  --o-color-link1: rgba(var(--o-deepblue-6), 1.0);
   /**
    * @name 
    * @type color
    * @group link
    * @description 悬浮
    */
-  --o-color-link2: rgb(var(--o-deepblue-6), 0.7);
+  --o-color-link2: rgba(var(--o-deepblue-6), 0.7);
   /**
    * @name 
    * @type color
    * @group link
    * @description 激活
    */
-  --o-color-link3: rgb(var(--o-deepblue-6), 0.9);
+  --o-color-link3: rgba(var(--o-deepblue-6), 0.9);
   /**
    * @name 
    * @type color
    * @group link
    * @description 禁用
    */
-  --o-color-link4: rgb(var(--o-deepblue-6), 0.4);
+  --o-color-link4: rgba(var(--o-deepblue-6), 0.4);
   /**
    * @name 阴影1
    * @type shadow
@@ -1469,91 +1469,77 @@
    * @group gap
    * @description 用于组件之间的间距8
    */
-  --o-gap-8: 48px;
-  /**
-   * @name 间距9
-   * @type gap
-   * @group gap
-   * @description 用于组件之间的间距9
-   */
-  --o-gap-9: 64px;
-  /**
-   * @name 间距10
-   * @type gap
-   * @group gap
-   * @description 用于组件之间的间距10
-   */
-  --o-gap-10: 72px;
-  /**
-   * @name 超小尺寸
-   * @type size
-   * @group size
-   * @description 小尺寸
-   */
-  --o-size-xxs: 16px;
+  --o-gap-8: 64px;
   /**
    * @name 小尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 小尺寸
    */
-  --o-size-xs: 24px;
+  --o-control_size-2xs: 12px;
   /**
    * @name 小尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 小尺寸
    */
-  --o-size-s: 32px;
+  --o-control_size-xs: 18px;
+  /**
+   * @name 小尺寸
+   * @type size
+   * @group control_size
+   * @description 小尺寸
+   */
+  --o-control_size-s: 24px;
   /**
    * @name 中尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 尺寸
    */
-  --o-size-m: 40px;
+  --o-control_size-m: 32px;
   /**
    * @name 大尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 尺寸
    */
-  --o-size-l: 48px;
+  --o-control_size-l: 40px;
   /**
    * @name 大尺寸
    * @type size
-   * @group size
+   * @group control_size
    * @description 尺寸
    */
-  --o-size-xl: 56px;
+  --o-control_size-xl: 48px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-2xs: 12px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸
+   */
+  --o-icon_size-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
    * @group icon_size
    * @description 小尺寸
    */
-  --o-icon_size-xxs: 16px;
+  --o-icon_size-s: 24px;
   /**
-   * @name 小尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 小尺寸
-   */
-  --o-icon_size-xs: 24px;
-  /**
-   * @name 小尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 小尺寸
-   */
-  --o-icon_size-s: 32px;
-  /**
-   * @name 大尺寸图标
+   * @name 中尺寸图标
    * @type size
    * @group icon_size
    * @description 尺寸
    */
-  --o-icon_size-m: 40px;
+  --o-icon_size-m: 32px;
   /**
    * @name 大尺寸图标
    * @type size
@@ -1561,27 +1547,6 @@
    * @description 尺寸
    */
   --o-icon_size-l: 48px;
-  /**
-   * @name 大尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 尺寸
-   */
-  --o-icon_size-xl: 64px;
-  /**
-   * @name 大尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 尺寸
-   */
-  --o-icon_size-xxl: 72px;
-  /**
-   * @name 大尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 尺寸
-   */
-  --o-icon_size-xxxl: 96px;
   /**
    * @name 一级数据展示
    * @type font
@@ -1595,210 +1560,175 @@
    * @group font_size
    * @description 二级数据展示
    */
-  --o-font_size-display2: 56px;
+  --o-font_size-display2: 54px;
   /**
    * @name 三级数据展示
    * @type font
    * @group font_size
    * @description 三级数据展示
    */
-  --o-font_size-display3: 48px;
+  --o-font_size-display3: 36px;
   /**
    * @name 四级数据展示
    * @type font
    * @group font_size
    * @description 四级数据展示
    */
-  --o-font_size-display4: 40px;
-  /**
-   * @name 五级数据展示
-   * @type font
-   * @group font_size
-   * @description 五级数据展示
-   */
-  --o-font_size-display5: 36px;
+  --o-font_size-display4: 28px;
   /**
    * @name 一级标题
    * @type font
    * @group font_size
    * @description 一级标题
    */
-  --o-font_size-h1: 32px;
+  --o-font_size-h1: 24px;
   /**
    * @name 二级标题
    * @type font
    * @group font_size
    * @description 二级标题
    */
-  --o-font_size-h2: 28px;
+  --o-font_size-h2: 20px;
   /**
    * @name 三级标题
    * @type font
    * @group font_size
    * @description 三级标题
    */
-  --o-font_size-h3: 24px;
-  /**
-   * @name 四级标题
-   * @type font
-   * @group font_size
-   * @description 四级标题
-   */
-  --o-font_size-h4: 20px;
+  --o-font_size-h3: 18px;
   /**
    * @name 常规正文
    * @type font
    * @group font_size
    * @description 常规正文
    */
-  --o-font_size-text1: 16px;
+  --o-font_size-text1: 14px;
   /**
    * @name 大号正文
    * @type font
    * @group font_size
    * @description 大号正文
    */
-  --o-font_size-text2: 18px;
+  --o-font_size-text2: 16px;
   /**
    * @name 提示文本1
    * @type font
    * @group font_size
    * @description 提示文本1
    */
-  --o-font_size-tip1: 14px;
+  --o-font_size-tip1: 12px;
   /**
    * @name 提示文本2
    * @type font
    * @group font_size
    * @description 提示文本2
    */
-  --o-font_size-tip2: 12px;
+  --o-font_size-tip2: 10px;
   /**
    * @name 一级数据展示
    * @type font
    * @group line_height
    * @description 一级数据展示
    */
-  --o-line_height-display1: 90px;
+  --o-line_height-display1: 84px;
   /**
    * @name 二级数据展示
    * @type font
    * @group line_height
    * @description 二级数据展示
    */
-  --o-line_height-display2: 80px;
+  --o-line_height-display2: 76px;
   /**
    * @name 三级数据展示
    * @type font
    * @group line_height
    * @description 三级数据展示
    */
-  --o-line_height-display3: 64px;
+  --o-line_height-display3: 48px;
   /**
    * @name 四级数据展示
    * @type font
    * @group line_height
    * @description 四级数据展示
    */
-  --o-line_height-display4: 56px;
-  /**
-   * @name 五级数据展示
-   * @type font
-   * @group line_height
-   * @description 五级数据展示
-   */
-  --o-line_height-display5: 48px;
+  --o-line_height-display4: 36px;
   /**
    * @name 一级标题
    * @type font
    * @group line_height
    * @description 一级标题
    */
-  --o-line_height-h1: 44px;
+  --o-line_height-h1: 32px;
   /**
    * @name 二级标题
    * @type font
    * @group line_height
    * @description 二级标题
    */
-  --o-line_height-h2: 40px;
+  --o-line_height-h2: 28px;
   /**
    * @name 三级标题
    * @type font
    * @group line_height
    * @description 三级标题
    */
-  --o-line_height-h3: 32px;
+  --o-line_height-h3: 26px;
   /**
-   * @name 四级标题
+   * @name 常规正文
    * @type font
    * @group line_height
-   * @description 四级标题
+   * @description 常规正文
    */
-  --o-line_height-h4: 28px;
+  --o-line_height-text1: 22px;
   /**
-   * @name 正文
+   * @name 大号正文
    * @type font
    * @group line_height
-   * @description 正文
+   * @description 大号正文
    */
-  --o-line_height-text1: 24px;
-  /**
-   * @name 正文-大
-   * @type font
-   * @group line_height
-   * @description 正文-大
-   */
-  --o-line_height-text2: 26px;
+  --o-line_height-text2: 24px;
   /**
    * @name 提示文本1
    * @type font
    * @group line_height
    * @description 提示文本1
    */
-  --o-line_height-tip1: 22px;
+  --o-line_height-tip1: 18px;
   /**
    * @name 提示文本2
    * @type font
    * @group line_height
    * @description 提示文本2
    */
-  --o-line_height-tip2: 18px;
+  --o-line_height-tip2: 14px;
   /**
    * @name 小尺寸圆角
    * @type size
    * @group radius
    * @description 小尺寸圆角
    */
-  --o-radius-s: 4px;
+  --o-radius-s: 2px;
   /**
    * @name 中尺寸圆角
    * @type size
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 8px;
+  --o-radius-m: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 16px;
+  --o-radius-l: 8px;
   /**
-   * @name 大尺寸圆角
+   * @name 小尺寸控件圆角
    * @type size
    * @group radius
-   * @description 大尺寸圆角
+   * @description 小尺寸控件圆角
    */
-  --o-radius-xl: 24px;
-  /**
-   * @name 大尺寸控件圆角
-   * @type size
-   * @group radius
-   * @description 大尺寸控件圆角
-   */
-  --o-radius-control-l: var(--o-radius-l);
+  --o-radius-control-s: var(--o-radius-s);
   /**
    * @name 中尺寸控件圆角
    * @type size
@@ -1807,12 +1737,12 @@
    */
   --o-radius-control-m: var(--o-radius-m);
   /**
-   * @name 小尺寸控件圆角
+   * @name 大尺寸控件圆角
    * @type size
    * @group radius
-   * @description 小尺寸控件圆角
+   * @description 大尺寸控件圆角
    */
-  --o-radius-control-s: var(--o-radius-s);
+  --o-radius-control-l: var(--o-radius-l);
   /**
    * @name 持续时间
    * @type animation

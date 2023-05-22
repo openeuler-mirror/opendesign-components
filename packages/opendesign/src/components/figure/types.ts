@@ -49,6 +49,12 @@ export const figureProps = {
   preview: {
     type: Boolean,
   },
+  /**
+   * 支持通过实例接口调用预览
+   */
+  lazyPreiew: {
+    type: Boolean,
+  },
 };
 
 export type FigurePropsT = ExtractPropTypes<typeof figureProps>;

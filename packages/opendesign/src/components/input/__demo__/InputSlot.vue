@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OInput } from '../index';
-import { OIconDone } from '../../icon-svgs';
+import { OIconDone } from '../../icon-components';
 
 const val1 = ref('');
 const val2 = ref('this is input value');

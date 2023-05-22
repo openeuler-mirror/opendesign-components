@@ -19,7 +19,7 @@ import {
   OIconRefresh,
   OIconDelete,
   OIconPoint,
-} from '../icon-svgs';
+} from '../icon-components';
 
 /**
  * 全局loading图标

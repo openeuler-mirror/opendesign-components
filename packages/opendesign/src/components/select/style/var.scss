@@ -84,28 +84,28 @@
 }
 
 .o-select-size-small {
-  --select-height: var(--o-size-s);
+  --select-height: var(--o-control_size-s);
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
   --select-padding: 0 6px 0 8px;
   --select-radius: var(--o-radius-control-s);
 }
 .o-select-size-medium {
-  --select-height: var(--o-size-m);
+  --select-height: var(--o-control_size-m);
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
   --select-padding: 4px 8px 4px 12px;
   --select-radius: var(--o-radius-control-m);
 }
 .o-select-size-large {
-  --select-height: var(--o-size-l);
+  --select-height: var(--o-control_size-l);
   --select-text-size: var(--o-font_size-text2);
   --select-text-height: var(--o-line_height-text2);
   --select-padding: 4px 12px 4px 16px;
   --select-radius: var(--o-radius-control-l);
 }
 .o-select-round-pill {
-  --select-radius: var(--o-size-l);
+  --select-radius: var(--o-control_size-l);
 }
 
 .o-option {

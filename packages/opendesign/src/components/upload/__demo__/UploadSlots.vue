@@ -2,7 +2,7 @@
 import { shallowRef } from 'vue';
 import { OUpload, UploadFileT } from '../index';
 import { OIcon } from '../../icon';
-import { OIconDone, OIconStar, OIconCalendar } from '../../icon-svgs';
+import { OIconDone, OIconStar, OIconCalendar } from '../../icon-components';
 import { uploadRequest } from './upload';
 
 const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
@@ -32,8 +32,8 @@ const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
       <p>自定义文件列表图标</p>
       <OUpload multiple :upload-request="uploadRequest" show-uploading-icon>
         <template #file-item-suffix="{ item }">
-          <OIcon class="diy-icon"><OIconStar /></OIcon>
-          <OIcon v-if="item.status === 'finished'" class="diy-icon done"><OIconDone /></OIcon>
+          <OIcon class="diy-icon" :icon="OIconStar" />
+          <OIcon v-if="item.status === 'finished'" class="diy-icon done" :icon="OIconDone" />
         </template>
       </OUpload>
     </div>
@@ -41,7 +41,7 @@ const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
       <p>通过slot添加文件列表前缀图标</p>
       <OUpload multiple :upload-request="uploadRequest" show-uploading-icon>
         <template #file-item-prefix="{ item }">
-          <OIcon class="prefix-icon" :class="item.name"><OIconStar /></OIcon>
+          <OIcon class="prefix-icon" :class="item.name" :icon="OIconStar" />
         </template>
       </OUpload>
     </div>

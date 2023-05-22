@@ -8,7 +8,7 @@ import { OButton } from '../index';
       <p>color: normal</p>
       <div class="block">
         <div class="row">
-          <OButton variant="outline">Outline Button</OButton>
+          <OButton variant="outline"><div>Outline Button</div></OButton>
           <OButton variant="solid">Solid Button</OButton>
           <OButton variant="text">Text Button</OButton>
         </div>

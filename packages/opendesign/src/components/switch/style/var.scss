@@ -9,11 +9,11 @@
   --switch-bg-color-checked: var(--o-color-primary1);
   --switch-bg-color-checked-disabled: var(--o-color-primary4);
 
-  --switch-size: var(--o-size-xs);
+  --switch-size: var(--o-control_size-xs);
   --switch-radius: var(--o-radius-control-s);
   --switch-label-padding: 6px;
 
-  --switch-handler-size: var(--o-size-xxs);
+  --switch-handler-size: var(--o-control_size-xxs);
   --switch-handler-offset: var(--o-gap-1);
   --switch-handler-bg-color: rgb(var(--o-color-white));
 }
@@ -25,5 +25,5 @@
 }
 
 .o-switch-round-pill {
-  --switch-radius: var(--o-size-l);
+  --switch-radius: var(--o-control_size-l);
 }

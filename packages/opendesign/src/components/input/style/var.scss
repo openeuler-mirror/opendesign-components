@@ -89,7 +89,7 @@
 }
 
 .o-input-size-small {
-  --input-height: var(--o-size-s);
+  --input-height: var(--o-control_size-s);
   --input-text-size: var(--o-font_size-tip1);
   --input-text-height: var(--o-line_height-tip1);
 
@@ -105,7 +105,7 @@
 }
 
 .o-input-size-medium {
-  --input-height: var(--o-size-m);
+  --input-height: var(--o-control_size-m);
   --input-text-size: var(--o-font_size-text1);
   --input-text-height: var(--o-line_height-text1);
 
@@ -121,7 +121,7 @@
 }
 
 .o-input-size-large {
-  --input-height: var(--o-size-l);
+  --input-height: var(--o-control_size-l);
   --input-text-size: var(--o-font_size-text2);
   --input-text-height: var(--o-font_size-text2);
 
@@ -137,5 +137,5 @@
 }
 
 .o-input-round-pill {
-  --input-radius: var(--o-size-l);
+  --input-radius: var(--o-control_size-l);
 }

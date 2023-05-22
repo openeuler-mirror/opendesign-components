@@ -1,8 +1,17 @@
 module.exports = {
   prefix: '--o-',
   output: '../components/style/',
-  themes: ['light', 'dark'],
-  defaultTheme: 'light',
+  themeMap: [
+    {
+      key: 'light',
+      name: 'light',
+    },
+    {
+      key: 'dark',
+      name: 'dark',
+    },
+  ],
+  defaultTheme: '',
   tokenFile: ['./opendesign-token.json'],
   codeSnippetsFile: '../../../../.vscode/opendesign.token.code-snippets',
 };

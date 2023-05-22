@@ -8,7 +8,10 @@ import { figureProps } from './types';
 
 const props = defineProps(figureProps);
 
-const emits = defineEmits<{ (e: 'error'): void }>();
+const emits = defineEmits<{
+  (e: 'error'): void;
+  (e: 'preview', visible: boolean): void;
+}>();
 const imgRef = ref<HTMLImageElement | null>(null);
 
 const isLoading = ref(true);
@@ -60,10 +63,15 @@ onMounted(() => {
 
 // 全屏预览图片
 const previewVisible = ref(false);
+const canPreview = computed(() => props.preview || props.lazyPreiew);
 const preview = () => {
-  previewVisible.value = true;
+  if (canPreview.value) {
+    previewVisible.value = true;
+  }
 };
-const onPreviewChange = () => {};
+const onPreviewChange = (visible: boolean) => {
+  emits('preview', visible);
+};
 
 const onFigureClick = () => {
   if (props.preview) {
@@ -117,7 +125,8 @@ defineExpose({
       <img v-else-if="!isError" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
     <slot></slot>
-    <OLayer v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">
+
+    <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">
       <div class="o-figure-preview-img"><img :src="props.src" /></div>
     </OLayer>
   </HtmlTag>

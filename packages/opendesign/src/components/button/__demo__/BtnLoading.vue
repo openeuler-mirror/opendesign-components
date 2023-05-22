@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { OIconAdd } from '../../icon-svgs';
+import { OIconAdd } from '../../icon-components';
 import { OButton } from '../index';
 const rlt = reactive({
   loading1: false,

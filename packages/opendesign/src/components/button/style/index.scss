@@ -11,6 +11,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  max-width: var(--btn-max-width);
 
   &:hover {
     cursor: pointer;
@@ -81,65 +82,46 @@
   }
 }
 
-.o-btn-mini {
-  padding: 0 4px;
-  height: var(--o-size-xs);
-  font-size: var(--o-font_size-tip2);
-  line-height: var(--o-line_height-tip2);
-
-  &.o-btn-icon-only {
-    width: var(--o-size-xs);
-  }
-  .o-btn-icon {
-    margin-right: 2px;
-  }
-}
 .o-btn-small {
   padding: 0 7px;
-  height: var(--o-size-s);
+  height: var(--o-control_size-s);
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
 
   &.o-btn-icon-only {
-    width: var(--o-size-s);
-  }
-  .o-btn-icon {
-    margin-right: 2px;
+    width: var(--o-control_size-s);
   }
 }
 
 .o-btn-medium {
   padding: 0 15px;
-  height: var(--o-size-m);
+  height: var(--o-control_size-m);
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
 
   &.o-btn-icon-only {
-    width: var(--o-size-m);
+    width: var(--o-control_size-m);
   }
 }
 
 .o-btn-large {
   padding: 0 19px;
-  height: var(--o-size-l);
+  height: var(--o-control_size-l);
   font-size: var(--o-font_size-text2);
   line-height: var(--o-line_height-text2);
 
   &.o-btn-icon-only {
-    width: var(--o-size-l);
+    width: var(--o-control_size-l);
   }
 }
 
 .o-btn-icon-only {
   padding: 0;
 }
-.o-btn-icon {
+.o-btn-prefix {
   display: inline-flex;
   align-items: center;
-  margin-right: 6px;
-  > svg {
-    vertical-align: top;
-  }
+  margin-right: var(--btn-gap);
 
   .o-btn-icon-only & {
     margin-right: 0;
@@ -147,4 +129,9 @@
     align-items: center;
     justify-content: center;
   }
+}
+.o-btn-suffix {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--btn-gap);
 }
