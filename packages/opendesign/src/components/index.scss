@@ -1,5 +1,6 @@
 @use './style/index.scss' as *;
 
+@use './icon/style/index.scss' as *;
 @use './button/style/index.scss' as *;
 @use './switch/style/index.scss' as *;
 @use './link/style/index.scss' as *;
@@ -36,6 +37,5 @@
 @use './cascader/style/index.scss' as *;
 @use './flex/style/index.scss' as *;
 @use './result/style/index.scss' as *;
-
-// 待废弃
-@use './grid/style/index.scss' as *;
+@use './scroller/style/index.scss' as *;
+@use './upload/style/index.scss' as *;

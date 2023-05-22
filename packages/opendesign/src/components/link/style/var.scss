@@ -8,12 +8,12 @@
 }
 
 .o-link-primary {
-  --link-color: var(--o-color-primary1);
-  --link-color-hover: var(--o-color-primary2);
-  --link-color-active: var(--o-color-primary3);
-  --link-color-disabled: var(--o-color-primary4);
-  --link-bg-color-hover: var(--o-color-primary1-light);
-  --link-bg-color-active: var(--o-color-primary2-light);
+  --link-color: var(--o-color-link1);
+  --link-color-hover: var(--o-color-link2);
+  --link-color-active: var(--o-color-link3);
+  --link-color-disabled: var(--o-color-link4);
+  --link-bg-color-hover: var(--o-color-link1-light);
+  --link-bg-color-active: var(--o-color-link2-light);
 }
 
 .o-link-success {

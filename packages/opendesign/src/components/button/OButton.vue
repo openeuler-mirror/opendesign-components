@@ -30,7 +30,7 @@ const round = getRoundClass(props, 'btn');
   >
     <span v-if="props.icon || $slots.icon || props.loading" class="o-btn-prefix" :class="{ loading: props.loading }">
       <IconLoading v-if="props.loading" class="o-rotating" />
-      <slot name="icon">
+      <slot v-else name="icon">
         <component :is="props.icon" />
       </slot>
     </span>

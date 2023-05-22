@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 import { ColorT } from '../_shared/types';
 
 export const linkProps = {
@@ -36,13 +36,13 @@ export const linkProps = {
   /**
    * 前缀图标
    */
-  iconPrefix: {
-    type: Boolean,
+  icon: {
+    type: Object as PropType<Component>,
   },
   /**
-   * 后缀图标
+   * 后缀
    */
-  iconSuffix: {
+  suffix: {
     type: Boolean,
   },
   /**

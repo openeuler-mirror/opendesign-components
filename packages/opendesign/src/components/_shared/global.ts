@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { ColorPool } from './utils';
-import { RoundT, SizeT } from './types';
+import { SizeT } from './types';
 
 // 尺寸
 export const defaultSize = ref<SizeT>('medium');
@@ -9,8 +9,8 @@ export function initSize(val: SizeT) {
 }
 
 // 圆角
-export const defaultRound = ref<'pill' | string>('');
-export function initRound(type: RoundT) {
+export const defaultRound = ref<'pill' | undefined>();
+export function initRound(type?: 'pill') {
   defaultRound.value = type;
 }
 
