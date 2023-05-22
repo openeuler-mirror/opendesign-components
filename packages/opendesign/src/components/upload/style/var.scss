@@ -1,10 +1,13 @@
 .o-upload {
   --upload-icon-size: var(--o-icon_size-xs);
+  --upload-icon-size-l: var(--o-icon_size-s);
+  --upload-icon-size-xl: var(--o-icon_size-m);
 
-  --upload-file-item-color: var(--o-color-info1);
-  --upload-file-item-color-error: var(--o-color-danger1);
-  --upload-file-item-bg-hover: var(--o-color-control2-light);
-  --upload-file-item-radius: var(--o-radius-control-m);
+  --upload-color: var(--o-color-info1);
+  --upload-color-error: var(--o-color-danger1);
+
+  --upload-item-bg-hover: var(--o-color-control2-light);
+  --upload-item-radius: var(--o-radius-control-m);
 
   --upload-progress-height: 1px;
   --upload-progress-radius: var(--upload-progress-height);
@@ -23,4 +26,16 @@
   --upload-drag-border-hover: 2px dashed var(--o-color-primary2);
   --upload-drag-border-dragging: 2px dashed var(--o-color-primary2);
   --upload-drag-border-disabled: var(--o-color-control4);
+
+  --upload-card-radius: var(--o-radius-control-m);
+  --upload-card-width: 120px;
+  --upload-card-height: var(--upload-card-width);
+  --upload-card-gap: 8px;
+  --upload-card-border: 1px solid var(--o-color-control1);
+  --upload-card-border-error: 1px solid var(--o-color-danger1);
+  --upload-card-img-fit: cover;
+  --upload-card-mask: var(--o-color-mask1);
+  --upload-card-icon-color: var(--o-color-info1-inverse);
+  --upload-card-icon-color-hover: var(--o-color-info2-inverse);
+  --upload-card-icon-color-active: var(--o-color-info3-inverse);
 }

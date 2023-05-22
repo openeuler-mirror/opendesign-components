@@ -35,23 +35,6 @@ const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
       </OUpload>
     </div>
     <div class="upload-item">
-      <p>自定义文件列表后缀图标</p>
-      <OUpload multiple :upload-request="uploadRequest" show-uploading-icon>
-        <template #item-suffix="{ item }">
-          <OIcon class="diy-icon" :icon="OIconStar" />
-          <OIcon v-if="item.status === 'finished'" class="diy-icon done" :icon="OIconDone" />
-        </template>
-      </OUpload>
-    </div>
-    <div class="upload-item">
-      <p>通过slot添加文件列表前缀图标</p>
-      <OUpload multiple :upload-request="uploadRequest" show-uploading-icon>
-        <template #item-prefix="{ item }">
-          <OIcon class="prefix-icon" :class="item.name" :icon="OIconStar" />
-        </template>
-      </OUpload>
-    </div>
-    <div class="upload-item">
       <p>通过自定义文件列表文件图标2</p>
       <OUpload multiple :on-after-select="onAfterSelect2" :upload-request="uploadRequest" show-uploading-icon />
     </div>

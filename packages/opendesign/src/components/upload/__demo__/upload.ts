@@ -25,7 +25,10 @@ export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
   );
 };
 
-export const mockUpload = (file: File, onFinished: (success: boolean) => void, onProgress?: (p: number) => void) => {
+export const mockUpload = (file?: File, onFinished?: (success: boolean) => void, onProgress?: (p: number) => void) => {
+  if (!file) {
+    return;
+  }
   let c = 0;
   const size = file.size;
   const speed = Math.floor(size * 0.01);
@@ -35,7 +38,9 @@ export const mockUpload = (file: File, onFinished: (success: boolean) => void, o
       console.log(r);
 
       clearInterval(timer);
-      onFinished(false);
+      if (onFinished) {
+        onFinished(false);
+      }
     } else {
       c += speed;
       if (c >= size) {
@@ -43,7 +48,9 @@ export const mockUpload = (file: File, onFinished: (success: boolean) => void, o
           onProgress(100);
         }
         clearInterval(timer);
-        onFinished(true);
+        if (onFinished) {
+          onFinished(true);
+        }
       } else {
         if (onProgress) {
           onProgress(Math.floor((c * 100) / size));
@@ -53,7 +60,9 @@ export const mockUpload = (file: File, onFinished: (success: boolean) => void, o
   }, 200);
   return () => {
     clearInterval(timer);
-    onFinished(false);
+    if (onFinished) {
+      onFinished(false);
+    }
   };
 };
 
@@ -79,13 +88,15 @@ export const uploadRequest = (options: UploadRequestOptionT, hasProgress: boolea
 
   return {
     abort: () => {
-      abort();
+      if (abort) {
+        abort();
+      }
     },
   };
 };
 
 export const onBeforeUpload = (file: UploadFileT) => {
-  return Promise.resolve(file.file);
+  return Promise.resolve(file.file || true);
 };
 
 export const onBeforeRemove = (file: UploadFileT) => {

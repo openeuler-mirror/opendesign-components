@@ -1,21 +1,24 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, ColorT, VariantT } from '../_shared/types';
 
 export interface UploadRequestT {
   abort: () => void; // 取消上传
 }
 
+export const UploadFileStatusTypes = ['pending', 'uploading', 'finished', 'failed'] as const;
+export type UploadFileStatusT = (typeof UploadFileStatusTypes)[number];
+
 export interface UploadFileT {
   id: string;
   name: string;
-  file: File; // 上传文件
-  status?: 'pending' | 'uploading' | 'finished' | 'failed'; // 校验/上传结果
+  file?: File; // 上传文件
+  status?: UploadFileStatusT; // 校验/上传结果
   message?: string; // 提示
   messageClass?: string; // 提示消息类名
   retry?: boolean; // 是否重新上传
   percent?: number; // 上传进度 0~100,
   request?: UploadRequestT;
   icon?: any;
+  imgUrl?: any;
 }
 export interface UploadRequestOptionT {
   onProgress: (percent: number, event?: ProgressEvent) => void;
@@ -24,32 +27,15 @@ export interface UploadRequestOptionT {
   file: UploadFileT;
 }
 
+export const UploadListTypes = ['text', 'picture', 'picture-card'] as const;
+export type UploadListTypeT = (typeof UploadListTypes)[number];
+
 export const uploadProps = {
   /**
-   * 按钮颜色类型 ColorT
+   * 文件列表(非受控)
    */
-  color: {
-    type: String as PropType<ColorT>,
-    default: 'normal',
-  },
-  /**
-   * 按钮类型 VariantT
-   */
-  variant: {
-    type: String as PropType<VariantT>,
-    default: 'outline',
-  },
-  /**
-   * 按钮尺寸 SizeT
-   */
-  size: {
-    type: String as PropType<SizeT>,
-  },
-  /**
-   * 按钮圆角值 RoundT
-   */
-  round: {
-    type: String as PropType<RoundT>,
+  defaultFileList: {
+    type: Array as PropType<UploadFileT[]>,
   },
   /**
    * 是否为禁用状态
@@ -117,6 +103,12 @@ export const uploadProps = {
   listType: {
     type: String as PropType<'text' | 'picture' | 'picture-card'>,
     default: 'text',
+  },
+  /**
+   * 生成缩略图
+   */
+  createThumbnail: {
+    type: Function as PropType<(file: File) => Promise<string>>,
   },
 };
 
