@@ -12,6 +12,8 @@
   align-items: center;
   justify-content: center;
   max-width: var(--btn-max-width);
+  min-width: var(--btn-min-width);
+  padding: var(--btn-padding);
 
   &:hover {
     cursor: pointer;
@@ -83,7 +85,6 @@
 }
 
 .o-btn-small {
-  padding: 0 7px;
   height: var(--o-control_size-s);
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
@@ -94,7 +95,6 @@
 }
 
 .o-btn-medium {
-  padding: 0 15px;
   height: var(--o-control_size-m);
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
@@ -105,7 +105,6 @@
 }
 
 .o-btn-large {
-  padding: 0 19px;
   height: var(--o-control_size-l);
   font-size: var(--o-font_size-text2);
   line-height: var(--o-line_height-text2);
@@ -115,13 +114,11 @@
   }
 }
 
-.o-btn-icon-only {
-  padding: 0;
-}
 .o-btn-prefix {
   display: inline-flex;
   align-items: center;
   margin-right: var(--btn-gap);
+  font-size: var(--btn-icon-size);
 
   .o-btn-icon-only & {
     margin-right: 0;
@@ -134,4 +131,5 @@
   display: inline-flex;
   align-items: center;
   margin-left: var(--btn-gap);
+  font-size: var(--btn-icon-size);
 }

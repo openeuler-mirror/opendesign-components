@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
-import { ColorT } from '../_shared/types';
+import { ColorT, SizeT } from '../_shared/types';
 
 export const linkProps = {
   /**
@@ -26,6 +26,12 @@ export const linkProps = {
   color: {
     type: String as PropType<ColorT>,
     default: 'normal',
+  },
+  /**
+   * 按钮尺寸 SizeT
+   */
+  size: {
+    type: String as PropType<SizeT>,
   },
   /**
    * 是否禁用

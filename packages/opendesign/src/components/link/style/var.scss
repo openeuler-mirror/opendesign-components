@@ -1,19 +1,22 @@
 .o-link {
+  --link-gap: 4px;
+}
+.o-link-normal {
   --link-color: var(--o-color-info2);
-  --link-color-hover: var(--o-color-primary2);
-  --link-color-active: var(--o-color-primary3);
+  --link-color-hover: var(--o-color-link2);
+  --link-color-active: var(--o-color-link3);
   --link-color-disabled: var(--o-color-info4);
   --link-bg-color-hover: var(--o-color-control1-light);
   --link-bg-color-active: var(--o-color-control2-light);
 }
 
 .o-link-primary {
-  --link-color: var(--o-color-link1);
-  --link-color-hover: var(--o-color-link2);
-  --link-color-active: var(--o-color-link3);
-  --link-color-disabled: var(--o-color-link4);
-  --link-bg-color-hover: var(--o-color-link1-light);
-  --link-bg-color-active: var(--o-color-link2-light);
+  --link-color: var(--o-color-primary1);
+  --link-color-hover: var(--o-color-primary2);
+  --link-color-active: var(--o-color-primary3);
+  --link-color-disabled: var(--o-color-primary4);
+  --link-bg-color-hover: var(--o-color-primary1-light);
+  --link-bg-color-active: var(--o-color-primary2-light);
 }
 
 .o-link-success {
@@ -41,4 +44,16 @@
   --link-color-disabled: var(--o-color-danger4);
   --link-bg-color-hover: var(--o-color-danger1-light);
   --link-bg-color-active: var(--o-color-danger2-light);
+}
+
+.o-link-small {
+  --link-icon-size: var(--o-icon_size-2xs);
+}
+
+.o-link-medium {
+  --link-icon-size: var(--o-icon_size-xs);
+}
+
+.o-link-large {
+  --link-icon-size: var(--o-icon_size-s);
 }

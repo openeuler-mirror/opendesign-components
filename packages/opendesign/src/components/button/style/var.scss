@@ -163,16 +163,21 @@
 .o-btn-small {
   --btn-radius: var(--o-radius-control-s);
   --btn-gap: 2px;
+  --btn-padding: 0 11px;
 }
 .o-btn-medium {
   --btn-radius: var(--o-radius-control-m);
-  --btn-gap: 6px;
+  --btn-gap: 8px;
+  --btn-padding: 0 15px;
 }
 .o-btn-large {
   --btn-radius: var(--o-radius-control-l);
-  --btn-gap: 6px;
+  --btn-gap: 8px;
+  --btn-padding: 0 23px;
 }
-
+.o-btn-icon-only {
+  --btn-padding: 0;
+}
 .o-btn-round-pill {
   --btn-radius: var(--o-control_size-l);
   --btn-gap: 6px;

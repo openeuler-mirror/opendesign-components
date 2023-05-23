@@ -4,6 +4,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--icon-size);
 }
 
 .o-icon-btn {
@@ -18,6 +19,7 @@
   }
 }
 .o-icon-btn-disabled {
+  cursor: not-allowed;
   &,
   &:hover,
   &:focus-visible,

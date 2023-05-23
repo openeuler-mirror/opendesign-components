@@ -5,10 +5,13 @@ const props = defineProps(iconProps);
 <template>
   <div
     class="o-icon"
-    :class="{
-      'o-icon-btn': props.button,
-      'o-icon-btn-disabled': props.disabled,
-    }"
+    :class="[
+      {
+        'o-icon-btn': props.button,
+        'o-icon-btn-disabled': props.disabled,
+      },
+      props.size ? `o-icon-${props.size}` : '',
+    ]"
     :tabindex="props.button ? 0 : ''"
   >
     <slot>

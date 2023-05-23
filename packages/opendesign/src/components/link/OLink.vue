@@ -26,18 +26,19 @@ const onClick = (e: MouseEvent) => {
         'o-link-hover-underline': props.hoverUnderline,
       },
       `o-link-${props.color}`,
+      props.size ? `o-link-${props.size}` : '',
     ]"
     v-bind="$attrs"
     @click="onClick"
   >
-    <span v-if="$slots.icon || props.icon || props.loading" class="o-link-icon-wrap prefix">
+    <span v-if="$slots.icon || props.icon || props.loading" class="o-link-prefix">
       <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else name="icon">
         <component :is="props.icon" />
       </slot>
     </span>
     <slot></slot>
-    <span v-if="$slots.suffix || props.suffix" class="o-link-icon-wrap suffix">
+    <span v-if="$slots.suffix || props.suffix" class="o-link-suffix">
       <slot name="suffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
     </span>
   </a>
