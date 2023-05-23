@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OSWitch } from '../index';
+import { OSwitch } from '../index';
 const switchVal1 = ref(false);
 const switchVal2 = ref(true);
 const switchVal3 = ref(true);
@@ -15,24 +15,24 @@ const r4 = '4px';
     <div>
       <p>round = 'pill'</p>
       <section>
-        <OSWitch v-model="switchVal1" round="pill" size="small" />
-        <OSWitch v-model="switchVal1" round="pill" size="medium" />
+        <OSwitch v-model="switchVal1" round="pill" size="small" />
+        <OSwitch v-model="switchVal1" round="pill" size="medium" />
       </section>
     </div>
 
     <div>
       <p>round = {{ r2 }}</p>
       <section>
-        <OSWitch v-model="switchVal2" :round="r2" size="small" />
-        <OSWitch v-model="switchVal2" :round="r2" size="medium" />
+        <OSwitch v-model="switchVal2" :round="r2" size="small" />
+        <OSwitch v-model="switchVal2" :round="r2" size="medium" />
       </section>
     </div>
 
     <div>
       <p>round = {{ r4 }}</p>
       <section>
-        <OSWitch v-model="switchVal3" :round="r4" size="small" />
-        <OSWitch v-model="switchVal3" :round="r4" size="medium" />
+        <OSwitch v-model="switchVal3" :round="r4" size="small" />
+        <OSwitch v-model="switchVal3" :round="r4" size="medium" />
       </section>
     </div>
   </section>

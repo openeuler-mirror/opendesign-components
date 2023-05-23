@@ -36,7 +36,7 @@ export const routes = [
     path: '/switch',
     name: 'Switch',
     label: '开关 Switch',
-    component: () => import('@components/switch/__demo__/IndexSwitch.vue'),
+    component: () => import('./pages/switch/TheIndex.vue'),
   },
   {
     path: '/popup',
@@ -84,13 +84,13 @@ export const routes = [
     path: '/radio',
     name: 'Radio',
     label: '单选框 Radio',
-    component: () => import('@components/radio/__demo__/IndexRadio.vue'),
+    component: () => import('./pages/radio/TheIndex.vue'),
   },
   {
     path: '/checkbox',
     name: 'Checkbox',
     label: '多选框 Checkbox',
-    component: () => import('@components/checkbox/__demo__/IndexCheckbox.vue'),
+    component: () => import('./pages/checkbox/TheIndex.vue'),
   },
   {
     path: '/tab',

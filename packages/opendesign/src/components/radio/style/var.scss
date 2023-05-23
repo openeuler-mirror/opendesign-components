@@ -5,21 +5,28 @@
   --radio-color: var(--o-color-info1);
   --radio-color-disabled: var(--o-color-info4);
 
-  --radio-input-size: calc(var(--o-control_size-s) / 2);
+  --radio-input-size: var(--o-control_size-xs);
 
   --radio-input-bg-color: var(--o-color-control-light);
-  --radio-input-bg-color-checked: var(--o-color-primary1);
   --radio-input-bg-color-disabled: var(--o-color-control4-light);
+
+  --radio-input-bg-color-checked: var(--o-color-primary1);
+  --radio-input-bg-color-checked-hover: var(--o-color-primary2);
+  --radio-input-bg-color-checked-active: var(--o-color-primary3);
   --radio-input-bg-color-checked-disabled: var(--o-color-primary4);
 
   --radio-input-bd-color: var(--o-color-control1);
-  --radio-input-bd-color-hover: var(--o-color-primary1);
-  --radio-input-bd-color-checked: var(--o-color-primary1);
+  --radio-input-bd-color-hover: var(--o-color-control2);
+  --radio-input-bd-color-active: var(--o-color-control3);
   --radio-input-bd-color-disabled: var(--o-color-control4);
+
+  --radio-input-bd-color-checked: var(--o-color-primary1);
+  --radio-input-bd-color-checked-hover: var(--o-color-primary2);
+  --radio-input-bd-color-checked-active: var(--o-color-primary3);
   --radio-input-bd-color-checked-disabled: var(--o-color-primary4);
 
-  --radio-input-inner-size: calc(var(--o-control_size-s) / 4);
-  --radio-input-inner-bg-color: transparent;
-  --radio-input-inner-bg-color-checked: rgb(var(--o-color-white));
-  --radio-input-inner-bg-color-checked-disabled: rgb(var(--o-color-white));
+  --radio-input-icon-size: calc(var(--radio-input-size) / 2);
+  --radio-input-icon-color: rgb(var(--o-color-white));
+
+  --radio-label-margin: 12px;
 }
