@@ -1490,42 +1490,49 @@
    * @group control_size
    * @description 小尺寸
    */
-  --o-control_size-2xs: 16px;
+  --o-control_size-2xs: 14px;
   /**
    * @name 小尺寸
    * @type size
    * @group control_size
    * @description 小尺寸
    */
-  --o-control_size-xs: 24px;
+  --o-control_size-xs: 16px;
   /**
    * @name 小尺寸
    * @type size
    * @group control_size
    * @description 小尺寸
    */
-  --o-control_size-s: 32px;
+  --o-control_size-s: 24px;
   /**
    * @name 中尺寸
    * @type size
    * @group control_size
    * @description 尺寸
    */
-  --o-control_size-m: 40px;
+  --o-control_size-m: 32px;
   /**
    * @name 大尺寸
    * @type size
    * @group control_size
    * @description 尺寸
    */
-  --o-control_size-l: 48px;
+  --o-control_size-l: 40px;
   /**
    * @name 大尺寸
    * @type size
    * @group control_size
    * @description 尺寸
    */
-  --o-control_size-xl: 56px;
+  --o-control_size-xl: 48px;
+  /**
+   * @name 大尺寸
+   * @type size
+   * @group control_size
+   * @description 尺寸
+   */
+  --o-control_size-2xl: 56px;
   /**
    * @name 小尺寸图标
    * @type size
