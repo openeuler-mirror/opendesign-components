@@ -11,7 +11,22 @@
   --btn-icon-size: var(--o-icon_size-s);
 }
 
+.o-btn-outline:not(.o-btn-disabled) {
+  --btn-color-hover: var(--o-color-info1-inverse);
+  --btn-color-active: var(--o-color-info1-inverse);
+  --btn-bg-color-hover: var(--o-color-primary2);
+  --btn-bg-color-active: var(--o-color-primary3);
+  &:hover {
+    background-color: var(--btn-bg-color-hover);
+  }
+
+  &:active {
+    background-color: var(--btn-bg-color-active);
+  }
+}
+
 .btn-ascend {
+  color: rgb(var(--o-color-white)) !important;
   background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
   border-color: transparent;
   &:hover {
