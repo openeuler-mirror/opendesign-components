@@ -27,12 +27,6 @@ export const routes = [
     component: () => import('./pages/button/TheIndex.vue'),
   },
   {
-    path: '/link',
-    name: 'Link',
-    label: '链接 Link',
-    component: () => import('@components/link/__demo__/IndexLink.vue'),
-  },
-  {
     path: '/switch',
     name: 'Switch',
     label: '开关 Switch',
