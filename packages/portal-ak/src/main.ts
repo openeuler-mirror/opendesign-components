@@ -17,9 +17,12 @@ import './assets/theme/index.scss';
 import { router } from '@/router';
 
 import App from './App.vue';
+import TheFrame from './components/TheFrame.vue';
 
 const app = createApp(App);
 
 app.use(router);
+
+app.component('TheFrame', TheFrame);
 
 app.mount('#app');

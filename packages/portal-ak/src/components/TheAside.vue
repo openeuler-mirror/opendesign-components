@@ -14,20 +14,18 @@ watch(
     currentNav.value = val as string;
   }
 );
-
-const navList = routes
-  .filter((item) => !item.exclude)
-  .map((item) => {
-    const { path, name, label } = item;
-    return {
-      path,
-      name,
-      label,
-    };
-  });
-const navClick = (item: (typeof navList)[0]) => {
+const component = routes.find((item) => item.name == 'component');
+const navList = component?.children?.map((item) => {
+  const { path, name, label } = item;
+  return {
+    path,
+    name,
+    label,
+  };
+});
+const navClick = (item: any) => {
   console.log(item.path);
-  router.push(item.path);
+  router.push(`${component?.path}/${item.path}`);
 };
 </script>
 <template>
