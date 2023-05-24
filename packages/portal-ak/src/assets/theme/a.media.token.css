@@ -1,0 +1,8 @@
+/* theme: dark */
+@media screen and (max-width: 1200px) {
+
+  [data-o-theme="a.dark"],
+  [data-o-theme="a.light"] {
+    --o-control_size-m: 28px
+  }
+}

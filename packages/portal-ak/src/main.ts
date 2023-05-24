@@ -5,9 +5,11 @@ import 'normalize.css';
 
 import './assets/theme/a.light.token.css';
 import './assets/theme/a.dark.token.css';
+import './assets/theme/a.media.token.css';
 
 import './assets/theme/k.light.token.css';
 import './assets/theme/k.dark.token.css';
+import './assets/theme/k.media.token.css';
 
 import '@opensig/opendesign/src/components/index.scss';
 import './assets/theme/index.scss';
