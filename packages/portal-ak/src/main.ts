@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import './assets/fonts/HarmonyOS/harmonyos-fonts.scss';
 import './assets/style/style.scss';
 import 'normalize.css';
 

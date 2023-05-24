@@ -15,7 +15,6 @@ import TheAside from './components/TheAside.vue';
 body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
-  font-family: 'Helvetica', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 .app-header {
   position: fixed;

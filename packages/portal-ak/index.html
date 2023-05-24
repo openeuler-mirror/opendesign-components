@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-otheme="a.light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>opendesign-AK</title>
+    <script>
+      const ua = window.navigator.userAgent.toLowerCase();
+      if (/windows/.test(ua)) {
+        document.documentElement.dataset.system = 'window';
+      }
+    </script>
   </head>
-  <body data-o-theme="a.light">
+  <body>
     <div id="app"></div>
     <script type="module" src="src/main.ts"></script>
   </body>

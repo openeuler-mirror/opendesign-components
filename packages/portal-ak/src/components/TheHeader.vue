@@ -37,7 +37,7 @@ const currentThemeAttr = computed(() => {
 watch(
   () => currentThemeAttr.value,
   (val) => {
-    document.body.dataset.OTheme = val;
+    document.documentElement.dataset.otheme = val;
     localStorage.setItem('o-theme', `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`);
 
     if (val.startsWith('a.')) {
