@@ -144,7 +144,7 @@ const round = getRoundClass(props, 'input');
     :class="[
       `o-input-${props.color}`,
       `o-input-${props.variant}`,
-      `o-input-size-${props.size || defaultSize}`,
+      `o-input-${props.size || defaultSize}`,
       round.class.value,
       {
         'o-input-disabled': props.disabled,

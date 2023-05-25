@@ -88,7 +88,7 @@
   --input-prepend-append-bg-color: var(--o-color-control1-light);
 }
 
-.o-input-size-small {
+.o-input-small {
   --input-height: var(--o-control_size-s);
   --input-text-size: var(--o-font_size-tip1);
   --input-text-height: var(--o-line_height-tip1);
@@ -104,7 +104,7 @@
   }
 }
 
-.o-input-size-medium {
+.o-input-medium {
   --input-height: var(--o-control_size-m);
   --input-text-size: var(--o-font_size-text1);
   --input-text-height: var(--o-line_height-text1);
@@ -120,10 +120,10 @@
   }
 }
 
-.o-input-size-large {
+.o-input-large {
   --input-height: var(--o-control_size-l);
   --input-text-size: var(--o-font_size-text2);
-  --input-text-height: var(--o-font_size-text2);
+  --input-text-height: var(--o-line_height-text2);
 
   --input-padding: 0 16px;
   --input-append-padding: 0 12px;

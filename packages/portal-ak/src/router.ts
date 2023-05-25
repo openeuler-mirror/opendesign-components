@@ -52,6 +52,12 @@ export const routes = [
         label: '多选框 Checkbox',
         component: () => import('./pages/checkbox/TheIndex.vue'),
       },
+      {
+        path: 'input',
+        name: 'input',
+        label: '输入框 input',
+        component: () => import('./pages/input/TheIndex.vue'),
+      },
     ],
   },
   {
