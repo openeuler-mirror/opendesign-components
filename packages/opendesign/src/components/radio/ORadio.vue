@@ -75,7 +75,9 @@ const onChange = (ev: Event) => {
     <div class="o-radio-wrap">
       <input type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="radio" :checked="isChecked" :disabled="isDisabled">
-        <span class="o-radio-input"></span>
+        <div class="o-radio-input-wrap">
+          <span class="o-radio-input"></span>
+        </div>
         <span class="o-radio-label">
           <slot></slot>
         </span>
