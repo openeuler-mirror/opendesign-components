@@ -21,11 +21,6 @@
       background-color: var(--btn-bg-color-hover);
     }
   }
-  @include hoverable {
-    &:hover {
-      background-color: var(--btn-bg-color-hover);
-    }
-  }
 
   &:active {
     background-color: var(--btn-bg-color-active);
