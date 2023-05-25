@@ -16,7 +16,12 @@
   --btn-color-active: var(--o-color-info1-inverse);
   --btn-bg-color-hover: var(--o-color-primary2);
   --btn-bg-color-active: var(--o-color-primary3);
-  @media (any-hover: hover) {
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--btn-bg-color-hover);
+    }
+  }
+  @include hoverable {
     &:hover {
       background-color: var(--btn-bg-color-hover);
     }
@@ -31,7 +36,7 @@
   color: rgb(var(--o-color-white)) !important;
   background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
   border-color: transparent;
-  @media (any-hover: hover) {
+  @media (hover: hover) {
     &:hover {
       background: linear-gradient(90deg, rgba(46, 83, 250, 0.8) 0%, rgba(123, 37, 244, 0.8) 100%);
       border-color: transparent;
