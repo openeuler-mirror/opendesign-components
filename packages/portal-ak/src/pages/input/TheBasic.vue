@@ -35,6 +35,11 @@ const val2 = ref('This is detail');
       <OInput class="input" size="large" placeholder="hint" color="danger" />
       <OInput v-model="val2" class="input" size="large" placeholder="hint" color="danger" disabled />
     </section>
+    <h3>其他组合</h3>
+    <section>
+      <span class="name"> M:</span>
+      <OInput v-model="val2" class="input" type="password" placeholder="请输入密码" :clearable="false" />
+    </section>
   </div>
 </template>
 <style lang="scss">

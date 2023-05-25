@@ -237,7 +237,7 @@ const onEyeMouseDown = () => {
           </OResizeObserver>
         </ClientOnly>
       </div>
-      <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
+      <div v-if="props.clearable || $slots.suffix || props.type === 'password'" class="o-input-suffix">
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>
         </span>
