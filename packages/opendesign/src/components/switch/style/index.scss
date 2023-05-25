@@ -10,6 +10,7 @@
   border-radius: var(--switch-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
+  min-width: var(--switch-min-width);
 
   &:hover {
     background-color: var(--switch-bg-color-hover);

@@ -21,7 +21,7 @@
 }
 
 .o-switch-medium {
-  min-width: 40px;
+  --switch-min-width: 40px;
 
   --switch-size: var(--o-control_size-s);
 
@@ -35,7 +35,7 @@
 }
 
 .o-switch-small {
-  min-width: 28px;
+  --switch-min-width: 28px;
 
   --switch-size: var(--o-control_size-xs);
 
