@@ -1,5 +1,26 @@
+.o-input {
+  --input-bg-color: var(--o-color-control-light);
+  --input-bg-color-disabled: var(--o-color-control4-light);
+}
+.o-input-normal {
+  --input-bd-color-hover: var(--o-color-control2);
+  --input-bd-color-focus: var(--o-color-control3);
+}
+
 .o-input-medium {
   --input-padding: 0 16px;
   --input-text-size: var(--o-font_size-tip1);
   --input-text-height: var(--o-line_height-tip1);
+}
+
+.o-input-large {
+  --input-text-size: var(--o-font_size-text1);
+  --input-text-height: var(--o-line_height-text1);
+}
+
+@media screen and (max-width: 1200px) {
+  .o-input-large {
+    --input-text-size: var(--o-font_size-tip1);
+    --input-text-height: var(--o-line_height-tip1);
+  }
 }

@@ -11,6 +11,14 @@
   --btn-icon-size: var(--o-icon_size-s);
 }
 
+@media screen and (max-width: 1200px) and (min-width: 721px) {
+  .o-btn-large {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-font_size-tip1);
+    --btn-padding: 0 15px;
+  }
+}
+
 .o-btn-outline:not(.o-btn-disabled) {
   --btn-color-hover: var(--o-color-info1-inverse);
   --btn-color-active: var(--o-color-info1-inverse);
