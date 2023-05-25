@@ -16,8 +16,10 @@
   --btn-color-active: var(--o-color-info1-inverse);
   --btn-bg-color-hover: var(--o-color-primary2);
   --btn-bg-color-active: var(--o-color-primary3);
-  &:hover {
-    background-color: var(--btn-bg-color-hover);
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: var(--btn-bg-color-hover);
+    }
   }
 
   &:active {
@@ -29,9 +31,11 @@
   color: rgb(var(--o-color-white)) !important;
   background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
   border-color: transparent;
-  &:hover {
-    background: linear-gradient(90deg, rgba(46, 83, 250, 0.8) 0%, rgba(123, 37, 244, 0.8) 100%);
-    border-color: transparent;
+  @media (any-hover: hover) {
+    &:hover {
+      background: linear-gradient(90deg, rgba(46, 83, 250, 0.8) 0%, rgba(123, 37, 244, 0.8) 100%);
+      border-color: transparent;
+    }
   }
   &:active {
     background: linear-gradient(90deg, rgba(46, 83, 250, 0.9) 0%, rgba(123, 37, 244, 0.9) 100%);

@@ -14,20 +14,16 @@
   max-width: var(--btn-max-width);
   min-width: var(--btn-min-width);
   padding: var(--btn-padding);
-
-  &:hover {
-    cursor: pointer;
-  }
-  &.o-btn-disabled {
-    cursor: not-allowed;
-  }
+  cursor: pointer;
 }
 .o-btn-outline {
   color: var(--btn-color);
   border: 1px solid var(--btn-bd-color);
-  &:hover {
-    color: var(--btn-color-hover);
-    border: 1px solid var(--btn-bd-color-hover);
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--btn-color-hover);
+      border: 1px solid var(--btn-bd-color-hover);
+    }
   }
 
   &:active {
@@ -43,10 +39,12 @@
   color: var(--btn-color);
   border: 1px solid var(--btn-bd-color);
   background-color: var(--btn-bg-color);
-  &:hover {
-    color: var(--btn-color-hover);
-    border: 1px solid var(--btn-bd-color-hover);
-    background-color: var(--btn-bg-color-hover);
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--btn-color-hover);
+      border: 1px solid var(--btn-bd-color-hover);
+      background-color: var(--btn-bg-color-hover);
+    }
   }
 
   &:active {
@@ -62,9 +60,11 @@
   color: var(--btn-color);
   background-color: transparent;
 
-  &:hover {
-    color: var(--btn-color-hover);
-    background-color: var(--btn-bg-color-hover);
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--btn-color-hover);
+      background-color: var(--btn-bg-color-hover);
+    }
   }
 
   &:active {
@@ -78,6 +78,8 @@
   &:active,
   &:hover,
   &:focus-visible {
+    cursor: not-allowed;
+
     color: var(--btn-color-disabled);
     border: 1px solid var(--btn-bd-color-disabled);
     background-color: var(--btn-bg-color-disabled);
