@@ -73,11 +73,11 @@
   &:hover,
   &:active {
     background-color: var(--switch-bg-color-disabled);
-  }
-  .o-switch-handler {
-    background-color: var(--switch-handler-bg-color-disabled);
-    .o-switch-icon-loading {
-      color: var(--switch-icon-loading-color);
+    .o-switch-handler {
+      background-color: var(--switch-handler-bg-color-disabled);
+      .o-switch-icon-loading {
+        color: var(--switch-icon-loading-color);
+      }
     }
   }
 }
@@ -88,10 +88,9 @@
   &:hover,
   &:active {
     background-color: var(--switch-bg-color-checked-disabled);
-  }
-
-  .o-switch-handler {
-    background-color: var(--switch-handler-bg-color-checked-disabled);
+    .o-switch-handler {
+      background-color: var(--switch-handler-bg-color-checked-disabled);
+    }
   }
 }
 

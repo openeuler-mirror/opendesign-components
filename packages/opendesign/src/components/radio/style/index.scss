@@ -6,17 +6,6 @@
   line-height: var(--radio-text-height);
   cursor: pointer;
 
-  input[type='radio'] {
-    position: absolute;
-    outline: none;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-  }
-
   &:hover {
     .o-radio-input {
       border-color: var(--radio-input-bd-color-hover);
@@ -31,14 +20,32 @@
 
 .o-radio-wrap {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   height: 100%;
+
+  input[type='radio'] {
+    position: absolute;
+    outline: none;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+.o-radio-input-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--radio-input-wrap-size);
+  height: var(--radio-input-wrap-size);
 }
 
 .o-radio-input {
   position: relative;
-  display: inline-block;
   width: var(--radio-input-size);
   height: var(--radio-input-size);
   background-color: var(--radio-input-bg-color);
@@ -63,7 +70,7 @@
 }
 
 .o-radio-label {
-  margin-left: var(--radio-label-margin);
+  margin-left: var(--radio-label-gap);
 }
 
 .o-radio-checked {
@@ -91,11 +98,11 @@
 }
 
 .o-radio-disabled {
-  cursor: not-allowed;
-  color: var(--radio-color-disabled);
   &,
   &:hover,
   &.active {
+    cursor: not-allowed;
+    color: var(--radio-color-disabled);
     .o-radio-input {
       background-color: var(--radio-input-bg-color-disabled);
       border-color: var(--radio-input-bd-color-disabled);
