@@ -109,6 +109,17 @@
       }
     }
   }
+  @media (hover: none) {
+    .o-input-suffix-wrap {
+      visibility: hidden;
+      opacity: 0;
+    }
+    .o-input-clear {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 }
 
 .o-input-suffix-wrap {

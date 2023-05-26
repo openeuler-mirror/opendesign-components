@@ -129,7 +129,8 @@ const startGettingCode = () => {
   color: var(--o-color-primary1);
 }
 .area-select {
-  width: 120px;
+  width: 160px;
+  padding-right: 8px;
 }
 .tel-input {
   width: 320px;

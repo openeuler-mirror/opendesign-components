@@ -39,10 +39,12 @@
   > .o-scrollbar-dragging {
     opacity: 1;
   }
-  &:hover {
-    > .o-scrollbar {
-      opacity: 1;
-      pointer-events: auto;
+  @media (hover: hover) {
+    &:hover {
+      > .o-scrollbar {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
   }
 }
@@ -52,8 +54,16 @@
   scrollbar-width: none;
   height: 100%;
   width: 100%;
+  max-height: inherit;
+  max-width: inherit;
   &::-webkit-scrollbar {
     display: none;
+  }
+  &.is-x-disabled {
+    overflow-x: hidden;
+  }
+  &.is-y-disabled {
+    overflow-y: hidden;
   }
 }
 .o-scrollbar {
@@ -61,19 +71,22 @@
 
   position: absolute;
   background-color: var(--scrollbar-bg-color);
-  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
-
-  &:hover {
-    .o-scrollbar-x-thumb-bar {
-      height: var(--scrollbar-thumb-width-hover);
-      margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
-    }
-    .o-scrollbar-y-thumb-bar {
-      width: var(--scrollbar-thumb-width-hover);
-      margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
-    }
-    .o-scrollbar-track {
-      opacity: 1;
+  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
+  @media (hover: hover) {
+    &:hover {
+      .o-scrollbar-x-thumb-bar {
+        height: var(--scrollbar-thumb-width-hover);
+        margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
+        background-color: var(--scrollbar-thumb-bg-color-hover);
+      }
+      .o-scrollbar-y-thumb-bar {
+        width: var(--scrollbar-thumb-width-hover);
+        margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
+        background-color: var(--scrollbar-thumb-bg-color-hover);
+      }
+      .o-scrollbar-track {
+        opacity: 1;
+      }
     }
   }
 }
@@ -108,7 +121,7 @@
   border-radius: var(--scrollbar-thumb-radius);
   background-color: var(--scrollbar-track-bg-color);
   opacity: 0;
-  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
+  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
 }
 .o-scrollbar-y-track {
   width: var(--scrollbar-track-width);
@@ -140,11 +153,7 @@
 .o-scrollbar-y-thumb-bar {
   background-color: var(--scrollbar-thumb-bg-color);
   border-radius: var(--scrollbar-thumb-radius);
-  transition: all var(--o-easing-standard-in) var(--o-duration-m1);
-
-  &:hover {
-    background-color: var(--scrollbar-thumb-bg-color-hover);
-  }
+  transition: all var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
 }
 .o-scrollbar-x-thumb-bar {
   width: 100%;

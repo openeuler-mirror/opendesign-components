@@ -1,30 +1,29 @@
 .o-scroller {
-  --scrollbar-height: 100%;
+  --scrollbar-delay: 100ms; // 延迟时间，避免hover是频繁触发
+  --scrollbar-height: 90%;
   --scrollbar-y-right: 0;
   --scrollbar-y-left: auto;
   --scrollbar-x-top: auto;
   --scrollbar-x-bottom: 0;
   --scrollbar-bg-color: transparent;
 
-  --scrollbar-track-bg-color: var(--o-color-control1-light);
-  --scrollbar-track-width: 8px;
-  --scrollbar-thumb-radius: 4px;
+  --scrollbar-track-bg-color: var(--o-color-control4);
+  --scrollbar-track-width: 6px;
 
-  --scrollbar-thumb-bg-color: var(--o-color-control2-light);
-  --scrollbar-thumb-bg-color-hover: var(--o-color-control3-light);
-  --scrollbar-thumb-width: 8px;
-  --scrollbar-thumb-width-hover: 12px;
-  --scrollbar-thumb-radius: 12px;
-  --scrollbar-width: 12px;
+  --scrollbar-thumb-bg-color: var(--o-color-control1);
+  --scrollbar-thumb-bg-color-hover: var(--o-color-control2);
+  --scrollbar-thumb-width: 6px;
+  --scrollbar-thumb-width-hover: 10px;
+  --scrollbar-thumb-radius: 10px;
+  --scrollbar-width: 16px;
 }
 .o-scroller-both {
-  --scrollbar-height: calc(100% - var(--scrollbar-width) * 2);
+  --scrollbar-height: min(calc(100% - var(--scrollbar-width) * 2), 90%);
 }
 .o-scroller-small {
-  --scrollbar-track-width: 4px;
-  --scrollbar-thumb-radius: 2px;
-  --scrollbar-thumb-width: 4px;
-  --scrollbar-thumb-width-hover: 8px;
-  --scrollbar-thumb-radius: 10px;
-  --scrollbar-width: 10px;
+  --scrollbar-track-width: 3px;
+  --scrollbar-thumb-width: 3px;
+  --scrollbar-thumb-width-hover: 6px;
+  --scrollbar-thumb-radius: 6px;
+  --scrollbar-width: 12px;
 }
