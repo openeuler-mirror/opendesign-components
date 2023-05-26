@@ -112,7 +112,7 @@
 }
 
 .o-input-suffix-wrap {
-  transition: all var(var(--o-duration-m1)) var(--o-easing-standard-out);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-out);
 }
 .o-input-suffix {
   display: flex;
@@ -189,4 +189,8 @@
   margin-left: 4px;
   display: flex;
   align-items: center;
+}
+
+input[type='password'] {
+  font-family: Arial, 'Helvetica Neue', Helvetica, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
