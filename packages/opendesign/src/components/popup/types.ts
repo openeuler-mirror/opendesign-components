@@ -1,10 +1,10 @@
 import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 
 export const PopupPositionTypes = ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'] as const;
-export type PopupPositionT = typeof PopupPositionTypes[number];
+export type PopupPositionT = (typeof PopupPositionTypes)[number];
 
 export const PopupTriggerTypes = ['hover', 'click', 'focus', 'contextmenu', 'none', 'hover-outclick'] as const;
-export type PopupTriggerT = typeof PopupTriggerTypes[number];
+export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
 export const popupProps = {
   /**
@@ -117,6 +117,18 @@ export const popupProps = {
   autoHide: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * 显示前回调，根据返回值判断是否显示
+   */
+  beforeShow: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
+  },
+  /**
+   * 隐藏前回调，根据返回值判断是否隐藏
+   */
+  beforeHide: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
   },
 };
 

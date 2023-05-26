@@ -5,6 +5,11 @@ import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/types';
 export const OptionWidthModeTypes = ['auto', 'min-width', 'width'] as const;
 export type OptionWidthModeT = (typeof OptionWidthModeTypes)[number];
 
+export interface SelectOptionT {
+  label: string;
+  value: string | number;
+}
+
 export const selectProps = {
   /**
    * 下拉框的值
@@ -107,11 +112,30 @@ export const selectProps = {
   transition: {
     type: String,
   },
+  /**
+   * 加载状态
+   */
+  loading: {
+    type: Boolean,
+  },
+  /**
+   * 选择前回调，根据返回值判断是否显示
+   */
+  beforeSelect: {
+    type: Function as PropType<(value: SelectOptionT, currentValue: SelectOptionT) => Promise<boolean> | boolean>,
+  },
+  /**
+   * 显示前回调，根据返回值判断是否显示
+   */
+  beforeOptionsShow: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
+  },
+  /**
+   * 隐藏前回调，根据返回值判断是否隐藏
+   */
+  beforeOptionsHide: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
+  },
 };
 
 export type SelectPropsT = ExtractPropTypes<typeof selectProps>;
-
-export interface SelectOptionT {
-  label: string;
-  value: string | number;
-}
