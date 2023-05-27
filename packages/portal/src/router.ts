@@ -72,7 +72,7 @@ export const routes = [
     path: '/select',
     name: 'Select',
     label: '下拉选择器 Select',
-    component: () => import('@components/select/__demo__/IndexSelect.vue'),
+    component: () => import('@components/select/__demo__/TheIndex.vue'),
   },
   {
     path: '/cascader',

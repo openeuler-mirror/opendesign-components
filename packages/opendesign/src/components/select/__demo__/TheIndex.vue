@@ -4,10 +4,12 @@ import '../../option/style';
 
 import SelectBasic from './SelectBasic.vue';
 import SelectPopupposition from './SelectPopupposition.vue';
+import SelectLoading from './SelectLoading.vue';
 </script>
 <template>
   <div class="page-demo">
     <SelectBasic />
+    <SelectLoading />
     <SelectPopupposition />
   </div>
 </template>
