@@ -25,6 +25,9 @@
     --select-text-size: var(--o-font_size-tip1);
     --select-text-height: var(--o-line_height-tip1);
   }
+  .o-select-medium {
+    --select-icon-size: var(--o-icon_size-xs);
+  }
 }
 .o-select-options {
   --select-options-radius: 12px;
