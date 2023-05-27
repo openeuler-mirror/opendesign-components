@@ -1,22 +1,43 @@
 .o-progress {
-  --o-progress-track-bg-color: var(--o-color-control1-light);
+  --o-progress-track-bg-color: var(--o-color-control4);
+  --o-progress-color: var(--o-color-info1);
+
+  --o-progress-label-gap: 8px;
+
+  --o-progress-inner-label-color: rgb(var(--o-color-white));
+  --o-progress-inner-label-gap: 8px;
+}
+
+.o-progress-medium {
   --o-progress-text-size: var(--o-font_size-text1);
-  --o-progress-text-height: var(--o-font_size-text1);
-  --o-progress-color: var(--o-color-info2);
+  --o-progress-text-height: var(--o-line_height-text1);
+
+  --o-progress-icon-size: var(--o-icon_size-s);
+}
+
+.o-progress-small {
+  --o-progress-text-size: var(--o-font_size-tip2);
+  --o-progress-text-height: var(--o-line_height-tip2);
+
+  --o-progress-icon-size: var(--o-icon_size-xs);
 }
 
 .o-progress-primary {
   --o-progress-bar-bg-color: var(--o-color-primary1);
+  --o-progress-icon-color: var(--o-color-primary1);
 }
 
 .o-progress-success {
   --o-progress-bar-bg-color: var(--o-color-success1);
+  --o-progress-icon-color: var(--o-color-success1);
 }
 
 .o-progress-warning {
   --o-progress-bar-bg-color: var(--o-color-warning1);
+  --o-progress-icon-color: var(--o-color-warning1);
 }
 
 .o-progress-danger {
   --o-progress-bar-bg-color: var(--o-color-danger1);
+  --o-progress-icon-color: var(--o-color-danger1);
 }

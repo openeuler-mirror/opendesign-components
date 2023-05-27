@@ -58,6 +58,18 @@ export const routes = [
         label: '输入框 input',
         component: () => import('./pages/input/TheIndex.vue'),
       },
+      {
+        path: 'divider',
+        name: 'Divider',
+        label: '分割线 Divider',
+        component: () => import('./pages/divider/TheIndex.vue'),
+      },
+      {
+        path: 'progress',
+        name: 'Progress',
+        label: '进度条 Progress',
+        component: () => import('./pages/progress/TheIndex.vue'),
+      },
     ],
   },
   {

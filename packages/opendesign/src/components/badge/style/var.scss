@@ -2,14 +2,16 @@
   --badge-text-size: var(--o-font_size-tip1);
   --badge-text-height: var(--o-line_height-tip1);
 
-  --badge-color: var(--o-color-info1);
-  --badge-bg-color: var(--o-color-control1);
-
   --badge-radius: var(--o-control_size-l);
 
   --badge-padding: 8px;
 
   --badge-dot-size: 8px;
+}
+
+.o-badge-normal {
+  --badge-color: var(--o-color-info1);
+  --badge-bg-color: var(--o-color-control1);
 }
 
 .o-badge-primary {
