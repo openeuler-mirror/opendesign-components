@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OSelect, OOption, SelectOptionT } from '@components/index';
+import { OSelect, OOption, SelectOptionT, OIconAdd } from '@components/index';
 import { ref } from 'vue';
 const options = [
   { label: '选项 1', value: '1' },
@@ -62,6 +62,10 @@ const beforeSelect = (val: SelectOptionT, currentValue: SelectOptionT) => {
   const rlt = confirm(`确认选择选项(val: ${val.label})吗？`);
   return rlt;
 };
+
+const onAdd = () => {
+  alert('Add Option');
+};
 </script>
 <template>
   <div class="page-demo">
@@ -102,18 +106,12 @@ const beforeSelect = (val: SelectOptionT, currentValue: SelectOptionT) => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value === '3'" />
       </OSelect>
     </section>
-    <h3>Loading</h3>
+    <h3>Loading & 空状态</h3>
     <section>
       <OSelect v-model="lazySelectVal" placeholder="选项加载2s" style="width: 240px" :loading="isLoaded === 0" @options-visible-change="onOptionsVisible">
         <OOption v-for="item in lazyOptions" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-      <OSelect
-        v-model="lazySelectVal2"
-        placeholder="选项加载2s，但无数据返回"
-        style="width: 240px"
-        :loading="isLoaded2 === 0"
-        @options-visible-change="onOptionsVisible2"
-      >
+      <OSelect v-model="lazySelectVal2" placeholder="选项空状态" style="width: 240px" :loading="isLoaded2 === 0" @options-visible-change="onOptionsVisible2">
         <OOption v-for="item in lazyOptions2" :key="item.value" :label="item.label" :value="item.value" />
         <template #empty>很遗憾，没有数据哦</template>
       </OSelect>
@@ -132,6 +130,30 @@ const beforeSelect = (val: SelectOptionT, currentValue: SelectOptionT) => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </section>
+
+    <h3>扩展菜单</h3>
+    <section>
+      <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 160px">
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <template #action>
+          <div class="select-add" @click="onAdd"><OIconAdd /> 创建新选项</div>
+        </template>
+      </OSelect>
+    </section>
   </div>
 </template>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.page-demo {
+  padding-bottom: 400px;
+}
+.select-add {
+  border-top: 1px solid var(--o-color-control1);
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &:hover {
+    color: var(--o-color-link1);
+  }
+}
+</style>

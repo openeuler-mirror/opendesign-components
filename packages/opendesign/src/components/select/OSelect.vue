@@ -123,7 +123,7 @@ defineExpose({
       <teleport :to="optionsRef" :disabled="!optionsRef">
         <div v-show="optionsRef" class="o-select-option-wrap">
           <slot>
-            <div class="o-select-options-empty">
+            <div class="o-select-empty">
               <slot name="empty">
                 <span>{{ Labels.empty }}</span>
               </slot>
@@ -146,10 +146,15 @@ defineExpose({
         :before-hide="props.beforeOptionsHide"
         @change="onOptionPopupChange"
       >
-        <OScroller size="small" show-type="hover" :wrap-class="['o-select-options', `o-select-options-${props.size || defaultSize}`, props.optionWrapClass]">
-          <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
-          <div v-else ref="optionsRef"></div>
-        </OScroller>
+        <div class="o-select-options" :class="`o-select-options-${props.size || defaultSize}`">
+          <OScroller class="o-select-options-container" size="small" show-type="hover" :wrap-class="props.optionWrapClass">
+            <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
+            <div v-else ref="optionsRef"></div>
+          </OScroller>
+          <div class="o-select-actions">
+            <slot name="action"></slot>
+          </div>
+        </div>
       </OPopup>
     </ClientOnly>
   </div>

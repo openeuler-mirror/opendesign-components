@@ -132,11 +132,16 @@
 }
 
 .o-select-options {
-  max-height: var(--select-max-height);
   background-color: var(--select-options-bg-color);
   border-radius: var(--select-options-radius);
   box-shadow: var(--select-options-shadow);
   border: var(--select-options-bd);
+  overflow: hidden;
+}
+.o-select-options-container {
+  max-height: var(--select-max-height);
+}
+.o-select-option-wrap {
   padding: var(--select-options-padding);
 }
 
@@ -148,7 +153,7 @@
   font-size: var(--o-icon_size-s);
 }
 
-.o-select-options-empty {
+.o-select-empty {
   padding: var(--select-empty-padding);
   display: flex;
   align-items: center;
