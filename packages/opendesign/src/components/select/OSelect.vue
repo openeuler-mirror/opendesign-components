@@ -18,6 +18,10 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
 }>();
 
+const Labels = {
+  empty: '暂无数据',
+};
+
 const optionsRef = ref<HTMLElement | null>(null);
 
 const round = getRoundClass(props, 'select');
@@ -113,11 +117,18 @@ defineExpose({
           </slot>
         </div>
       </div>
+      <slot name="suffix" :active="isSelecting"></slot>
     </div>
     <ClientOnly>
       <teleport :to="optionsRef" :disabled="!optionsRef">
         <div v-show="optionsRef" class="o-select-option-wrap">
-          <slot></slot>
+          <slot>
+            <div class="o-select-options-empty">
+              <slot name="empty">
+                <span>{{ Labels.empty }}</span>
+              </slot>
+            </div>
+          </slot>
         </div>
       </teleport>
       <OPopup

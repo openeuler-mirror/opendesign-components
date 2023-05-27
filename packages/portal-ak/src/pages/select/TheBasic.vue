@@ -22,11 +22,28 @@ const lazySelectVal = ref();
 const isLoaded = ref(-1); // -1 未加载 0：正在加载 1： 已加载
 const lazyOptions = ref<typeof options>([]);
 const onOptionsVisible = (visible: boolean) => {
-  if (visible && isLoaded.value === -1) isLoaded.value = 0;
+  if (visible && isLoaded.value === -1) {
+    isLoaded.value = 0;
+  }
 
   setTimeout(() => {
     isLoaded.value = 1;
     lazyOptions.value = options;
+  }, 2000);
+};
+
+// loading2
+const lazySelectVal2 = ref();
+const isLoaded2 = ref(-1); // -1 未加载 0：正在加载 1： 已加载
+const lazyOptions2 = ref<typeof options>([]);
+const onOptionsVisible2 = (visible: boolean) => {
+  if (visible && (isLoaded2.value === -1 || lazyOptions2.value.length === 0)) {
+    isLoaded2.value = 0;
+  }
+
+  setTimeout(() => {
+    isLoaded2.value = 1;
+    lazyOptions2.value = [];
   }, 2000);
 };
 
@@ -87,8 +104,18 @@ const beforeSelect = (val: SelectOptionT, currentValue: SelectOptionT) => {
     </section>
     <h3>Loading</h3>
     <section>
-      <OSelect v-model="lazySelectVal" placeholder="延迟2s加载选项" style="width: 240px" :loading="isLoaded === 0" @options-visible-change="onOptionsVisible">
+      <OSelect v-model="lazySelectVal" placeholder="选项加载2s" style="width: 240px" :loading="isLoaded === 0" @options-visible-change="onOptionsVisible">
         <OOption v-for="item in lazyOptions" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+      <OSelect
+        v-model="lazySelectVal2"
+        placeholder="选项加载2s，但无数据返回"
+        style="width: 240px"
+        :loading="isLoaded2 === 0"
+        @options-visible-change="onOptionsVisible2"
+      >
+        <OOption v-for="item in lazyOptions2" :key="item.value" :label="item.label" :value="item.value" />
+        <template #empty>很遗憾，没有数据哦</template>
       </OSelect>
     </section>
 

@@ -147,3 +147,13 @@
   padding: 12px;
   font-size: var(--o-icon_size-s);
 }
+
+.o-select-options-empty {
+  padding: var(--select-empty-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  color: var(--o-color-info3);
+}
