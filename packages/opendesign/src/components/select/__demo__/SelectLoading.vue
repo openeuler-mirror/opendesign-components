@@ -52,13 +52,13 @@ const beforeOptionsShow = () => {
   return rlt;
 };
 
-const beforeSelect = (val: SelectOptionT, currentValue: SelectOptionT) => {
-  if (currentValue.value == val.value) {
+const beforeSelect = (value: string | number, currentValue: string | number) => {
+  if (currentValue == value) {
     return true;
   }
   console.log(currentValue);
 
-  const rlt = confirm(`确认选择选项(val: ${val.label})吗？`);
+  const rlt = confirm(`确认选择选项(val: ${value})吗？`);
   return rlt;
 };
 

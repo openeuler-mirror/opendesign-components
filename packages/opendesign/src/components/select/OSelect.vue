@@ -12,8 +12,8 @@ import { isFunction } from '../_shared/is';
 
 const props = defineProps(selectProps);
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-  (e: 'change', value: string | number): void;
+  (e: 'update:modelValue', value: string | number | Array<string | number>): void;
+  (e: 'change', value: string | number | Array<string | number>): void;
   (e: 'options-visible-change', value: boolean): void;
   (e: 'clear', evt: Event): void;
 }>();
@@ -22,27 +22,43 @@ const Labels = {
   empty: '暂无数据',
 };
 
+// 存储每个value对应的label
+const currentLabels = ref<Record<string | number, string>>({});
+
+// 使用数组存储当前value
+const valueList = ref<Array<string | number>>([]);
+if (props.multiple) {
+  valueList.value = ((props.modelValue || props.defaultValue) as Array<string | number>) || [];
+} else {
+  valueList.value = [((props.modelValue || props.defaultValue) as string | number) || ''];
+}
+
 const optionsRef = ref<HTMLElement | null>(null);
 
 const round = getRoundClass(props, 'select');
 
-const activeLabel = ref(props.modelValue || props.defaultValue);
-const activeVal = ref(props.modelValue || props.defaultValue || '');
-
 watch(
   () => props.modelValue,
   (v) => {
-    activeVal.value = v || '';
+    if (props.multiple) {
+      if (Array.isArray(v)) {
+        valueList.value = v;
+      } else {
+        valueList.value = [];
+      }
+    } else {
+      valueList.value = [v as string | number];
+    }
   }
 );
 
-const isClearable = computed(() => props.clearable && !props.disabled);
+const isClearable = computed(() => props.clearable && !props.disabled && valueList.value.length > 0);
 
 // 清除值
 const clearClick = (e: Event) => {
   e.stopPropagation();
-  activeLabel.value = '';
-  activeVal.value = '';
+
+  valueList.value = [];
   emits('clear', e);
 };
 
@@ -50,43 +66,63 @@ const selectRef = ref<HTMLElement>();
 
 const isSelecting = ref(false);
 provide(selectOptionInjectKey, {
-  value: activeVal,
-  update: async (val: SelectOptionT, userSelect?: boolean) => {
-    activeLabel.value = val.label;
-
+  multiple: props.multiple,
+  selectValue: valueList,
+  select: async (option: SelectOptionT, userSelect?: boolean) => {
+    console.log('select option', option.value, userSelect);
     if (userSelect) {
+      let toOption: SelectOptionT | boolean = option;
       if (isFunction(props.beforeSelect)) {
-        const rlt = await props.beforeSelect(val, {
-          label: activeLabel.value,
-          value: activeVal.value,
-        });
+        const rlt = await props.beforeSelect(option.value, props.multiple ? valueList.value : valueList.value[0]);
         if (rlt === false) {
           return;
         }
+        if (typeof rlt !== 'boolean') {
+          toOption = rlt;
+        }
       }
-      if (activeVal.value !== val.value) {
-        emits('change', val.value);
-        activeVal.value = val.value;
-        // console.log('选中change', val.value, activeLabel.value);
+      if (!props.multiple) {
+        //单选
+
+        if (valueList.value[0] !== toOption.value) {
+          emits('change', toOption.value);
+
+          valueList.value[0] = toOption.value;
+        }
+
+        emits('update:modelValue', toOption.value);
+        isSelecting.value = false;
+      } else {
+        // 多选
+
+        const idx = valueList.value.indexOf(toOption.value);
+        if (idx > -1) {
+          valueList.value.splice(idx, 1);
+        } else {
+          valueList.value.push(toOption.value);
+        }
+        emits('change', valueList.value);
+
+        emits('update:modelValue', valueList.value);
       }
-      emits('update:modelValue', val.value);
-      isSelecting.value = false;
+    } else {
+      currentLabels.value[option.value] = isFunction(props.formatLabel) ? props.formatLabel(option) : option.label;
     }
   },
 });
-
-const updateLabel = (label: string, isVisible: boolean = false) => {
-  activeLabel.value = label;
-  isSelecting.value = isVisible;
-};
 
 const onOptionPopupChange = (visible: boolean) => {
   emits('options-visible-change', visible);
 };
 
-defineExpose({
-  updateLabel,
-});
+const onRemoveTag = (value: string | number, e: MouseEvent) => {
+  e.stopPropagation();
+
+  const idx = valueList.value.indexOf(value);
+  if (idx > -1) {
+    valueList.value.splice(idx, 1);
+  }
+};
 </script>
 <template>
   <div
@@ -99,18 +135,32 @@ defineExpose({
       round.class.value,
       {
         'is-selecting': isSelecting,
+        'is-multiple': props.multiple,
         'o-select-disabled': props.disabled,
-        'o-select-clearable': isClearable && activeVal !== '',
+        'o-select-clearable': isClearable,
         'o-select-is-loading': props.loading,
       },
     ]"
     :style="round.style.value"
   >
-    <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
+    <input
+      v-if="!props.multiple || (props.multiple && valueList.length === 0)"
+      :value="currentLabels[valueList[0]]"
+      type="text"
+      :placeholder="props.placeholder"
+      class="o-select-input"
+      readonly
+    />
+    <div v-else class="o-select-value-list">
+      <div v-for="item in valueList" :key="item" class="o-select-value-item">
+        {{ currentLabels[item] }}
+        <div class="o-select-tag-remove" @click="(e) => onRemoveTag(item, e)"><IconClose /></div>
+      </div>
+    </div>
     <div class="o-select-suffix">
       <div class="o-select-suffix-icon">
         <div v-if="props.loading" class="o-select-loading"><IconLoading class="o-rotating" /></div>
-        <div v-else-if="isClearable && activeVal !== ''" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
+        <div v-else-if="isClearable" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
         <div class="o-select-arrow" :class="{ active: isSelecting }">
           <slot name="arrow" :active="isSelecting">
             <IconChevronDown />
@@ -137,6 +187,7 @@ defineExpose({
         :transition="props.transition"
         :unmount-on-hide="props.unmountOnHide"
         :position="props.optionPosition"
+        :wrapper="props.optionsWrapper"
         :target="selectRef"
         :trigger="props.trigger"
         :offset="4"

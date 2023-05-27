@@ -82,7 +82,7 @@ const onAdd = () => {
     </section>
     <section>
       <span style="width: 40px"> L:</span>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px">
+      <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px" multiple>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 

@@ -16,6 +16,7 @@
     margin-bottom: 0;
   }
   @media (hover: hover) {
+    &.o-option-multiple:hover,
     &:hover {
       background-color: var(--option-bg-color-hover);
       color: var(--option-color-hover);

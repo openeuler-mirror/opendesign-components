@@ -16,14 +16,14 @@ export const selectProps = {
    * v-model
    */
   modelValue: {
-    type: [String, Number],
+    type: [String, Number, Array] as PropType<string | number | (string | number)[]>,
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [String, Number],
+    type: [String, Number, Array] as PropType<string | number | (string | number)[]>,
   },
   /**
    * 大小 SizeT
@@ -57,6 +57,12 @@ export const selectProps = {
   placeholder: {
     type: String,
     default: 'please select...',
+  },
+  /**
+   * 是否支持多选
+   */
+  multiple: {
+    type: Boolean,
   },
   /**
    * 是否可以清除
@@ -122,7 +128,9 @@ export const selectProps = {
    * 选择前回调，根据返回值判断是否显示
    */
   beforeSelect: {
-    type: Function as PropType<(value: SelectOptionT, currentValue: SelectOptionT) => Promise<boolean> | boolean>,
+    type: Function as PropType<
+      (value: string | number, currentValue: string | number | Array<string | number>) => Promise<boolean | SelectOptionT> | boolean | SelectOptionT
+    >,
   },
   /**
    * 显示前回调，根据返回值判断是否显示
@@ -135,6 +143,19 @@ export const selectProps = {
    */
   beforeOptionsHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
+  },
+  /**
+   * 挂载容器，默认为body
+   */
+  optionsWrapper: {
+    type: [String, Object] as PropType<string | HTMLElement | null>,
+    default: 'body',
+  },
+  /**
+   * 格式化显示文本
+   */
+  formatLabel: {
+    type: Function as PropType<(value: SelectOptionT) => string>,
   },
 };
 

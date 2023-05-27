@@ -2,6 +2,7 @@
 
 .o-select {
   display: inline-flex;
+  align-items: center;
   padding: var(--select-padding);
   color: var(--select-color);
   height: var(--select-height);
@@ -20,6 +21,12 @@
     color: var(--select-color-focus);
     border-color: var(--select-bd-color-focus);
     background-color: var(--select-bg-color-focus);
+  }
+
+  &.is-multiple {
+    padding: var(--select-multiple-padding);
+    min-height: var(--select-height);
+    height: auto;
   }
 }
 
@@ -161,4 +168,37 @@
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
   color: var(--o-color-info3);
+}
+
+// 多选
+.o-select-value-list {
+  display: inline-flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: -2px;
+}
+.o-select-value-item {
+  padding: var(--select-tag-padding);
+  height: var(--select-tag-height);
+  background-color: var(--select-tag-bg-color);
+  border-radius: var(--select-tag-radius);
+  margin: 0 4px 2px 0;
+  font-size: var(--select-tag-text-size);
+  line-height: var(--select-tag-text-height);
+  display: inline-flex;
+  align-items: center;
+}
+.o-select-tag-remove {
+  font-size: var(--o-icon_size-xs);
+  margin-left: 4px;
+  transition: transform var(--o-duration-m1) var(--o-easing-standard-in);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (hover: hover) {
+    &:hover {
+      transform: rotate(180deg);
+    }
+  }
 }

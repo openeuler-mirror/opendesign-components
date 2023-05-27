@@ -3,9 +3,10 @@ import { SelectOptionT } from './types';
 
 export const selectOptionInjectKey: InjectionKey<{
   /**
-   * @param val 选项
+   * @param option 选中的选项
    * @param emit 是否为用户选择
    */
-  update: (val: SelectOptionT, userSelect?: boolean) => Promise<void>;
-  value: Ref<string | number>;
+  select: (option: SelectOptionT, userSelect?: boolean) => Promise<void>;
+  selectValue: Ref<Array<string | number>>;
+  multiple: boolean;
 }> = Symbol('provide-select-option');

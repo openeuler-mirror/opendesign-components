@@ -13,6 +13,15 @@
 
   --select-icon-color: var(--o-color-info3);
   --select-icon-color-disabled: var(--o-color-info4);
+
+  --select-tag-bg-color: var(--o-color-control1-light);
+  --select-tag-radius: var(--o-radius-control-m);
+
+  --select-tag-text-size: var(--o-font_size-tip1);
+  --select-tag-text-height: var(--o-line_height-tip1);
+  --select-multiple-padding: 2px 4px;
+  --select-tag-padding: 0 12px;
+  --select-tag-height: var(--o-control_size-s);
 }
 
 .o-select-normal {
@@ -98,6 +107,11 @@
   --select-padding: 0 6px 0 8px;
   --select-radius: var(--o-radius-control-s);
   --select-icon-size: var(--o-icon_size-xs);
+
+  --select-multiple-padding: 2px;
+  --select-tag-height: var(--o-control_size-xs);
+  --select-tag-text-size: var(--o-font_size-tip2);
+  --select-tag-text-height: var(--o-line_height-tip2);
 }
 .o-select-medium {
   --select-icon-size: var(--o-icon_size-s);
@@ -105,7 +119,7 @@
   --select-height: var(--o-control_size-m);
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
-  --select-padding: 4px 8px 4px 12px;
+  --select-padding: 0 8px 0 12px;
   --select-radius: var(--o-radius-control-m);
 }
 .o-select-large {
@@ -114,8 +128,10 @@
   --select-height: var(--o-control_size-l);
   --select-text-size: var(--o-font_size-text2);
   --select-text-height: var(--o-line_height-text2);
-  --select-padding: 4px 12px 4px 16px;
+  --select-padding: 0 12px 0 16px;
   --select-radius: var(--o-radius-control-l);
+
+  --select-multiple-padding: 4px 8px;
 }
 .o-select-round-pill {
   --select-radius: var(--o-control_size-l);
