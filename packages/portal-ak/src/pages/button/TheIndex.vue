@@ -7,8 +7,4 @@ import Btnbasic from './BtnBasic.vue';
     <!-- <TheFrame src="/mb/button" /> -->
   </div>
 </template>
-<style lang="scss">
-.the-home {
-  color: #333;
-}
-</style>
+<style lang="scss"></style>

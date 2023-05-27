@@ -6,12 +6,15 @@ const router = useRouter();
 const route = useRoute();
 
 const title = '组件';
-const currentNav = ref('Home');
+const currentNav = ref('');
 
 watch(
   () => route.name,
   (val) => {
     currentNav.value = val as string;
+  },
+  {
+    immediate: true,
   }
 );
 const component = routes.find((item) => item.name == 'component');

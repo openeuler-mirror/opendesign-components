@@ -54,6 +54,22 @@ const link = `${window.location.href}/body`;
         <div class="section">3</div>
       </OScroller>
     </div>
+    <div>
+      <h3>禁用横向滚动</h3>
+      <OScroller class="container" show-type="hover" size="small" disabled-x>
+        <div class="section">禁用横向滚动</div>
+        <div class="section">禁用横向滚动</div>
+        <div class="section">禁用横向滚动</div>
+      </OScroller>
+    </div>
+    <div>
+      <h3>禁用竖向滚动</h3>
+      <OScroller class="container" show-type="hover" size="small" disabled-y>
+        <div class="section">禁用竖向滚动</div>
+        <div class="section">禁用竖向滚动</div>
+        <div class="section">禁用竖向滚动</div>
+      </OScroller>
+    </div>
   </section>
   <h4>Scroller target</h4>
   <section>
@@ -83,7 +99,7 @@ const link = `${window.location.href}/body`;
   <iframe :src="link" frameborder="0" width="100%" height="500px"></iframe>
   <br />
 </template>
-<style lang="scss" scoped>
+<style lang="scss">
 .container {
   width: 100%;
   height: 300px;
@@ -94,7 +110,7 @@ const link = `${window.location.href}/body`;
   overflow: auto;
 }
 section > div {
-  flex: 0 1 33%;
+  flex: 0 1 30%;
 }
 .section {
   height: 75%;

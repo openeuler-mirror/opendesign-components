@@ -70,6 +70,18 @@ export const routes = [
         label: '进度条 Progress',
         component: () => import('./pages/progress/TheIndex.vue'),
       },
+      {
+        path: 'scroller',
+        name: 'scroller',
+        label: '滚动条 scroller',
+        component: () => import('./pages/scroller/TheIndex.vue'),
+      },
+      {
+        path: 'select',
+        name: 'select',
+        label: '下拉选择器 select',
+        component: () => import('./pages/select/TheIndex.vue'),
+      },
     ],
   },
   {

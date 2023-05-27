@@ -11,10 +11,15 @@
   border-radius: var(--option-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--option-bg-color-hover);
-    color: var(--option-color-hover);
+  margin-bottom: var(--option-gap);
+  &:last-child {
+    margin-bottom: 0;
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--option-bg-color-hover);
+      color: var(--option-color-hover);
+    }
   }
   &.active {
     font-weight: 500;

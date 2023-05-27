@@ -73,9 +73,12 @@ const initVars = () => {
   vThumbRate.value = clientHeight / scrollHeight;
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
-
-  hasX.value = clientWidth < scrollWidth;
-  hasY.value = clientHeight < scrollHeight;
+  if (!props.disabledX) {
+    hasX.value = clientWidth < scrollWidth;
+  }
+  if (!props.disabledY) {
+    hasY.value = clientHeight < scrollHeight;
+  }
 };
 const init = () => {
   if (!wrapperEl) {
@@ -188,7 +191,18 @@ const scrollerClass = computed(() => {
 
 <template>
   <div class="o-scroller" :class="scrollerClass">
-    <div v-if="$slots.default" ref="containerEl" class="o-scroller-container">
+    <div
+      v-if="$slots.default"
+      ref="containerEl"
+      class="o-scroller-container"
+      :class="[
+        {
+          'is-x-disabled': props.disabledX,
+          'is-y-disabled': props.disabledY,
+        },
+        props.wrapClass,
+      ]"
+    >
       <slot></slot>
     </div>
     <OScrollbar

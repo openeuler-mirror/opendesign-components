@@ -1,0 +1,31 @@
+.o-select-outline {
+  --select-bg-color: var(--o-color-control-light);
+  --select-bg-color-disabled: var(--o-color-control4-light);
+}
+.o-select-text {
+  --select-color: var(--o-color-info1);
+  --select-color-hover: var(--o-color-info2);
+  --select-color-focus: var(--o-color-info2);
+  --select-bg-color-hover: transparent;
+  --select-bg-color-focus: transparent;
+}
+.o-select-medium {
+  --select-padding: 0 16px;
+  --select-text-size: var(--o-font_size-tip1);
+  --select-text-height: var(--o-line_height-tip1);
+}
+.o-select-large {
+  --select-padding: 0 16px;
+  --select-text-size: var(--o-font_size-text1);
+  --select-text-height: var(--o-line_height-text1);
+}
+
+@media screen and (max-width: 1200px) {
+  .o-select-large {
+    --select-text-size: var(--o-font_size-tip1);
+    --select-text-height: var(--o-line_height-tip1);
+  }
+}
+.o-select-options {
+  --select-options-radius: 12px;
+}

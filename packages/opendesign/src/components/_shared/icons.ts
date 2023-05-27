@@ -20,6 +20,7 @@ import {
   OIconDelete,
   OIconPoint,
   OIconEye,
+  OIconEyeOff,
   OIconFile,
   OIconEdit,
 } from '../icon-components';
@@ -118,3 +119,13 @@ export const IconFile = shallowRef<Component>(OIconFile);
  * 文件图标
  */
 export const IconEdit = shallowRef<Component>(OIconEdit);
+
+/**
+ * 可见图标，用于密码框等
+ */
+export const IconEyeOn = shallowRef<Component>(OIconEye);
+
+/**
+ * 不可见图标，用于密码框等
+ */
+export const IconEyeOff = shallowRef<Component>(OIconEyeOff);

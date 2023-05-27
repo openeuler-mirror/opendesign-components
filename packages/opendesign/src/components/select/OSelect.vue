@@ -1,31 +1,38 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
-import { IconChevronDown, IconClose } from '../_shared/icons';
+import { IconChevronDown, IconClose, IconLoading } from '../_shared/icons';
 import { OPopup } from '../popup';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 import ClientOnly from '../_shared/components/client-only';
+import { OScroller } from '../scroller';
+import { isFunction } from '../_shared/is';
 
 const props = defineProps(selectProps);
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
   (e: 'change', value: string | number): void;
+  (e: 'options-visible-change', value: boolean): void;
   (e: 'clear', evt: Event): void;
 }>();
+
+const Labels = {
+  empty: '暂无数据',
+};
 
 const optionsRef = ref<HTMLElement | null>(null);
 
 const round = getRoundClass(props, 'select');
 
-const activeLabel = ref(props.modelValue);
-const activeVal = ref(props.modelValue);
+const activeLabel = ref(props.modelValue || props.defaultValue);
+const activeVal = ref(props.modelValue || props.defaultValue || '');
 
 watch(
   () => props.modelValue,
   (v) => {
-    activeVal.value = v;
+    activeVal.value = v || '';
   }
 );
 
@@ -41,27 +48,40 @@ const clearClick = (e: Event) => {
 
 const selectRef = ref<HTMLElement>();
 
-const showOption = ref(false);
+const isSelecting = ref(false);
 provide(selectOptionInjectKey, {
   value: activeVal,
-  update: (val: SelectOptionT, emit?: boolean) => {
+  update: async (val: SelectOptionT, userSelect?: boolean) => {
     activeLabel.value = val.label;
 
-    if (emit) {
+    if (userSelect) {
+      if (isFunction(props.beforeSelect)) {
+        const rlt = await props.beforeSelect(val, {
+          label: activeLabel.value,
+          value: activeVal.value,
+        });
+        if (rlt === false) {
+          return;
+        }
+      }
       if (activeVal.value !== val.value) {
         emits('change', val.value);
         activeVal.value = val.value;
         // console.log('选中change', val.value, activeLabel.value);
       }
       emits('update:modelValue', val.value);
-      showOption.value = false;
+      isSelecting.value = false;
     }
   },
 });
 
 const updateLabel = (label: string, isVisible: boolean = false) => {
   activeLabel.value = label;
-  showOption.value = isVisible;
+  isSelecting.value = isVisible;
+};
+
+const onOptionPopupChange = (visible: boolean) => {
+  emits('options-visible-change', visible);
 };
 
 defineExpose({
@@ -75,36 +95,45 @@ defineExpose({
     :class="[
       `o-select-${props.color}`,
       `o-select-${props.variant}`,
-      `o-select-size-${props.size || defaultSize}`,
+      `o-select-${props.size || defaultSize}`,
       round.class.value,
       {
-        'is-selecting': showOption,
+        'is-selecting': isSelecting,
         'o-select-disabled': props.disabled,
-        'o-input-clearable': isClearable && activeVal !== '',
+        'o-select-clearable': isClearable && activeVal !== '',
+        'o-select-is-loading': props.loading,
       },
     ]"
     :style="round.style.value"
   >
     <input :value="activeLabel" type="text" :placeholder="props.placeholder" class="o-select-input" readonly />
     <div class="o-select-suffix">
-      <div class="o-select-suffix-wrap">
-        <slot name="suffix">
-          <div class="o-select-icon-arrow" :class="{ active: showOption }">
+      <div class="o-select-suffix-icon">
+        <div v-if="props.loading" class="o-select-loading"><IconLoading class="o-rotating" /></div>
+        <div v-else-if="isClearable && activeVal !== ''" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
+        <div class="o-select-arrow" :class="{ active: isSelecting }">
+          <slot name="arrow" :active="isSelecting">
             <IconChevronDown />
-          </div>
-        </slot>
+          </slot>
+        </div>
       </div>
-      <div v-if="isClearable" class="o-select-clear" @click="clearClick"><IconClose class="o-select-clear-icon" /></div>
+      <slot name="suffix" :active="isSelecting"></slot>
     </div>
     <ClientOnly>
       <teleport :to="optionsRef" :disabled="!optionsRef">
         <div v-show="optionsRef" class="o-select-option-wrap">
-          <slot></slot>
+          <slot>
+            <div class="o-select-empty">
+              <slot name="empty">
+                <span>{{ Labels.empty }}</span>
+              </slot>
+            </div>
+          </slot>
         </div>
       </teleport>
       <OPopup
         v-if="!props.disabled"
-        v-model:visible="showOption"
+        v-model:visible="isSelecting"
         :transition="props.transition"
         :unmount-on-hide="props.unmountOnHide"
         :position="props.optionPosition"
@@ -113,8 +142,19 @@ defineExpose({
         :offset="4"
         :adjust-min-width="props.optionWidthMode === 'min-width'"
         :adjust-width="props.optionWidthMode === 'width'"
+        :before-show="props.beforeOptionsShow"
+        :before-hide="props.beforeOptionsHide"
+        @change="onOptionPopupChange"
       >
-        <div ref="optionsRef" class="o-select-options" :class="[`o-select-options-size-${props.size || defaultSize}`, props.optionWrapClass]"></div>
+        <div class="o-select-options" :class="`o-select-options-${props.size || defaultSize}`">
+          <OScroller class="o-select-options-container" size="small" show-type="hover" :wrap-class="props.optionWrapClass">
+            <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
+            <div v-else ref="optionsRef"></div>
+          </OScroller>
+          <div class="o-select-actions">
+            <slot name="action"></slot>
+          </div>
+        </div>
       </OPopup>
     </ClientOnly>
   </div>

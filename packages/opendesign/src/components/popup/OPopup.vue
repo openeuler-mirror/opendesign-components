@@ -8,7 +8,7 @@ import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentP
 import { popupProps } from './types';
 import { isHtmlElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
-import { isArray } from '../_shared/is';
+import { isArray, isFunction } from '../_shared/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
@@ -216,7 +216,7 @@ const clearVisibleTimer = () => {
 };
 
 // 更新可见状态，支持延迟更新
-const updateVisible = (isVisible?: boolean, delay?: number) => {
+const updateVisible = async (isVisible?: boolean, delay?: number) => {
   if (props.disabled) {
     return;
   }
@@ -244,6 +244,20 @@ const updateVisible = (isVisible?: boolean, delay?: number) => {
       }
     }
   };
+
+  if (v && isFunction(props.beforeShow)) {
+    const toChange = await props.beforeShow();
+    if (toChange === false) {
+      return;
+    }
+  }
+
+  if (!v && isFunction(props.beforeHide)) {
+    const toChange = await props.beforeHide();
+    if (toChange === false) {
+      return;
+    }
+  }
 
   if (delay) {
     clearVisibleTimer();
