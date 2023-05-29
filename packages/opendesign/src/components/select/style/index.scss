@@ -11,7 +11,7 @@
   border: 1px solid var(--select-bd-color);
   background-color: var(--select-bg-color);
   cursor: pointer;
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       color: var(--select-color-hover);
       border-color: var(--select-bd-color-hover);
@@ -111,7 +111,7 @@
   }
 }
 .o-select-clearable {
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       .o-select-arrow {
         visibility: hidden;
@@ -126,15 +126,16 @@
       }
     }
   }
-  @media (hover: none) {
-    .o-select-suffix-wrap {
-      visibility: hidden;
-      opacity: 0;
-    }
+  @include noneHover {
     .o-select-clear {
       visibility: visible;
       opacity: 1;
       transform: scale(1);
+    }
+
+    .o-select-arrow {
+      visibility: hidden;
+      opacity: 0;
     }
   }
 }
@@ -203,7 +204,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       transform: rotate(180deg);
     }

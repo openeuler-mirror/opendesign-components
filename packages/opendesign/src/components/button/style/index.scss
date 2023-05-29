@@ -20,7 +20,7 @@
 .o-btn-outline {
   color: var(--btn-color);
   border: 1px solid var(--btn-bd-color);
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       color: var(--btn-color-hover);
       border: 1px solid var(--btn-bd-color-hover);
@@ -40,7 +40,7 @@
   color: var(--btn-color);
   border: 1px solid var(--btn-bd-color);
   background-color: var(--btn-bg-color);
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       color: var(--btn-color-hover);
       border: 1px solid var(--btn-bd-color-hover);
@@ -61,7 +61,7 @@
   color: var(--btn-color);
   background-color: transparent;
 
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       color: var(--btn-color-hover);
       background-color: var(--btn-bg-color-hover);

@@ -20,8 +20,14 @@
   }
 }
 
-@mixin hoverable {
+@mixin hover {
   @media (hover: hover) {
+    @content;
+  }
+}
+
+@mixin noneHover {
+  @media (hover: none) {
     @content;
   }
 }

@@ -33,7 +33,7 @@
     pointer-events: none;
   }
 
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       > .o-scrollbar {
         opacity: 1;
@@ -76,7 +76,7 @@
   position: absolute;
   background-color: var(--scrollbar-bg-color);
   transition: opacity var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       .o-scrollbar-x-thumb-bar {
         height: var(--scrollbar-thumb-width-hover);

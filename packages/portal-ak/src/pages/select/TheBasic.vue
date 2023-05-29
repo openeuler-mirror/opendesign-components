@@ -74,7 +74,7 @@ const onAdd = () => {
     <h3>类型 & 尺寸</h3>
     <section>
       <span style="width: 40px"> M:</span>
-      <OSelect :default-value="selectVal1" placeholder="normal + outline" style="width: 240px" @change="onChange">
+      <OSelect :default-value="selectVal1" placeholder="normal + outline" style="width: 240px" clearable @change="onChange">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 

@@ -21,7 +21,7 @@
   border-radius: var(--input-radius);
   border: 1px solid var(--input-bd-color);
   background-color: var(--input-bg-color);
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       border-color: var(--input-bd-color-hover);
       background-color: var(--input-bg-color-hover);
@@ -85,7 +85,7 @@
   color: var(--input-icon-color);
   background-color: var(--input-icon-bg-color);
   border-radius: 50%;
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       color: var(--input-icon-color-hover);
     }
@@ -97,7 +97,7 @@
 }
 
 .o-input-clearable {
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       .o-input-suffix-wrap {
         visibility: hidden;
@@ -114,7 +114,7 @@
       }
     }
   }
-  @media (hover: none) {
+  @include noneHover {
     .o-input-suffix-wrap {
       visibility: hidden;
       opacity: 0;
