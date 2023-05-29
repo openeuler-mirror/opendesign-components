@@ -83,6 +83,12 @@ export const routes = [
         component: () => import('./pages/popover/TheIndex.vue'),
       },
       {
+        path: 'dialog',
+        name: 'dialog',
+        label: '弹窗 dialog',
+        component: () => import('./pages/dialog/TheIndex.vue'),
+      },
+      {
         path: 'select',
         name: 'select',
         label: '下拉选择器 select',
