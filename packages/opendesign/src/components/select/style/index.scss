@@ -172,15 +172,18 @@
 
 // 多选
 .o-select-value-list {
-  display: inline-flex;
-  width: 100%;
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   margin-bottom: -2px;
+  max-height: var(--select-multiple-max-height);
 }
-.o-select-value-item {
+.o-select-tags-scroller {
+  width: 100%;
+}
+.o-select-tag {
   padding: var(--select-tag-padding);
-  height: var(--select-tag-height);
+  min-height: var(--select-tag-min-height);
   background-color: var(--select-tag-bg-color);
   border-radius: var(--select-tag-radius);
   margin: 0 4px 2px 0;
@@ -201,4 +204,7 @@
       transform: rotate(180deg);
     }
   }
+}
+.o-select-tag-popover {
+  max-width: var(--select-tag-popover-max-width);
 }

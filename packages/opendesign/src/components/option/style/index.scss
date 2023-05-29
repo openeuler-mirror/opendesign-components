@@ -31,7 +31,8 @@
 
 .o-option-disabled {
   &,
-  &:hover {
+  &:hover,
+  &.o-option-multiple:hover {
     cursor: not-allowed;
     color: var(--option-color-disabled);
     background-color: var(--option-bg-color-disabled);

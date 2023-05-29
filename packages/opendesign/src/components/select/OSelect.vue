@@ -3,6 +3,7 @@ import { computed, provide, ref, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_shared/icons';
 import { OPopup } from '../popup';
+import { OPopover } from '../popover';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
@@ -23,10 +24,34 @@ const Labels = {
 };
 
 // 存储每个value对应的label
-const currentLabels = ref<Record<string | number, string>>({});
+const optionLabels = ref<Record<string | number, string>>({});
 
 // 使用数组存储当前value
 const valueList = ref<Array<string | number>>([]);
+const valueListDisplay = computed(() => {
+  if (!props.maxTagCount) {
+    return valueList.value;
+  }
+  return valueList.value.slice(0, props.maxTagCount);
+});
+const valueListFold = computed(() => {
+  if (!props.maxTagCount) {
+    return [];
+  }
+  return valueList.value.slice(props.maxTagCount);
+});
+const foldLabel = computed(() => {
+  if (props.foldLabel) {
+    const tags = valueListFold.value.map((item) => ({
+      value: item,
+      label: optionLabels.value[item],
+    }));
+    return props.foldLabel(tags);
+  }
+  return `+${valueListFold.value.length}`;
+});
+const foldTrigger = typeof props.showFoldTags === 'string' ? props.showFoldTags : 'hover';
+
 if (props.multiple) {
   valueList.value = ((props.modelValue || props.defaultValue) as Array<string | number>) || [];
 } else {
@@ -106,7 +131,9 @@ provide(selectOptionInjectKey, {
         emits('update:modelValue', valueList.value);
       }
     } else {
-      currentLabels.value[option.value] = isFunction(props.formatLabel) ? props.formatLabel(option) : option.label;
+      if (!optionLabels.value[option.value]) {
+        optionLabels.value[option.value] = option.label;
+      }
     }
   },
 });
@@ -123,6 +150,11 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
     valueList.value.splice(idx, 1);
   }
 };
+const onFoldTagClick = (e: MouseEvent) => {
+  if (foldTrigger === 'click') {
+    e.stopPropagation();
+  }
+};
 </script>
 <template>
   <div
@@ -135,7 +167,7 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
       round.class.value,
       {
         'is-selecting': isSelecting,
-        'is-multiple': props.multiple,
+        'is-multiple': props.multiple && valueList.length > 0,
         'o-select-disabled': props.disabled,
         'o-select-clearable': isClearable,
         'o-select-is-loading': props.loading,
@@ -145,18 +177,29 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
   >
     <input
       v-if="!props.multiple || (props.multiple && valueList.length === 0)"
-      :value="currentLabels[valueList[0]]"
+      :value="optionLabels[valueList[0]]"
       type="text"
       :placeholder="props.placeholder"
       class="o-select-input"
       readonly
     />
-    <div v-else class="o-select-value-list">
-      <div v-for="item in valueList" :key="item" class="o-select-value-item">
-        {{ currentLabels[item] }}
+    <OScroller v-else class="o-select-tags-scroller" wrap-class="o-select-value-list" show-type="hover" size="small" disabled-x>
+      <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
+        {{ optionLabels[item] }}
         <div class="o-select-tag-remove" @click="(e) => onRemoveTag(item, e)"><IconClose /></div>
       </div>
-    </div>
+      <OPopover v-if="showFoldTags && valueListFold.length > 0" :disabled="isSelecting" :trigger="foldTrigger" class="o-select-tag-popover" position="bottom">
+        <template #target>
+          <div class="o-select-tag" @click="onFoldTagClick">{{ foldLabel }}</div>
+        </template>
+        <div class="o-select-tags">
+          <div v-for="item in valueListFold" :key="item" class="o-select-tag">
+            {{ optionLabels[item] }}
+            <div class="o-select-tag-remove" @click="(e) => onRemoveTag(item, e)"><IconClose /></div>
+          </div>
+        </div>
+      </OPopover>
+    </OScroller>
     <div class="o-select-suffix">
       <div class="o-select-suffix-icon">
         <div v-if="props.loading" class="o-select-loading"><IconLoading class="o-rotating" /></div>

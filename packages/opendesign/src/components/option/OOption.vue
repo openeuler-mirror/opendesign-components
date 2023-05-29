@@ -56,7 +56,7 @@ const clickOption = () => {
     ]"
     @click="clickOption"
   >
-    <OCheckbox v-if="isMultiple" :model-value="(currentVal as Array<string|number>)" :value="props.value" class="o-option-checkbox">
+    <OCheckbox v-if="isMultiple" :model-value="(currentVal as Array<string|number>)" :value="props.value" class="o-option-checkbox" :disabled="props.disabled">
       <slot>{{ props.label || `${props.value}` }}</slot>
     </OCheckbox>
     <slot v-else>{{ props.label || `${props.value}` }}</slot>

@@ -65,6 +65,12 @@ export const selectProps = {
     type: Boolean,
   },
   /**
+   * 多选标签最大显示数量
+   */
+  maxTagCount: {
+    type: Number,
+  },
+  /**
    * 是否可以清除
    */
   clearable: {
@@ -152,10 +158,17 @@ export const selectProps = {
     default: 'body',
   },
   /**
-   * 格式化显示文本
+   * 多选超过最大tag是，文本显示
    */
-  formatLabel: {
-    type: Function as PropType<(value: SelectOptionT) => string>,
+  foldLabel: {
+    type: Function as PropType<(tags: Array<SelectOptionT>) => string>,
+  },
+  /**
+   * 浮层显示收起的多选tag
+   */
+  showFoldTags: {
+    type: [Boolean, String] as PropType<boolean | 'hover' | 'click'>,
+    default: 'hover',
   },
 };
 
