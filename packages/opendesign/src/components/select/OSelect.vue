@@ -29,6 +29,7 @@ const optionLabels = ref<Record<string | number, string>>({});
 
 // 使用数组存储当前value
 const valueList = ref<Array<string | number>>([]);
+
 const valueListDisplay = computed(() => {
   if (!props.maxTagCount) {
     return valueList.value;
@@ -95,40 +96,45 @@ provide(selectOptionInjectKey, {
   multiple: props.multiple,
   selectValue: valueList,
   select: async (option: SelectOptionT, userSelect?: boolean) => {
-    console.log('select option', option.value, userSelect);
     if (userSelect) {
-      let toOption: SelectOptionT | boolean = option;
+      let toValue: string | number | Array<string | number> = option.value;
       if (isFunction(props.beforeSelect)) {
         const rlt = await props.beforeSelect(option.value, props.multiple ? valueList.value : valueList.value[0]);
         if (rlt === false) {
           return;
         }
         if (typeof rlt !== 'boolean') {
-          toOption = rlt;
+          toValue = rlt;
         }
       }
       if (!props.multiple) {
         //单选
 
-        if (valueList.value[0] !== toOption.value) {
-          emits('change', toOption.value);
+        if (valueList.value[0] !== toValue) {
+          emits('change', toValue);
 
-          valueList.value[0] = toOption.value;
+          valueList.value[0] = toValue as string | number;
         }
 
-        emits('update:modelValue', toOption.value);
+        emits('update:modelValue', toValue);
         isSelecting.value = false;
       } else {
         // 多选
 
-        const idx = valueList.value.indexOf(toOption.value);
-        if (idx > -1) {
-          valueList.value.splice(idx, 1);
-        } else {
-          valueList.value.push(toOption.value);
+        if (!Array.isArray(toValue)) {
+          toValue = [toValue];
         }
-        emits('change', valueList.value);
 
+        toValue.forEach((item) => {
+          const idx = valueList.value.indexOf(item);
+          if (idx > -1) {
+            valueList.value.splice(idx, 1);
+          } else {
+            valueList.value.push(item);
+          }
+        });
+
+        emits('change', valueList.value);
         emits('update:modelValue', valueList.value);
       }
     } else {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OSelect, OOption, SelectOptionT, OIconAdd } from '@components/index';
+import { OSelect, OOption, OIconAdd } from '@components/index';
 import { ref } from 'vue';
 const options = [
   { label: '选项 1', value: '1' },
@@ -13,9 +13,11 @@ const options = [
   { label: '选项 9', value: '9' },
 ];
 const selectVal1 = ref('1');
-const onChange = (value: string | number) => {
+const onChange = (value: string | number | (string | number)[]) => {
   console.log(value);
 };
+const selectVal2 = ref(['1']);
+const selectVal3 = ref(['1', '3', '5']);
 
 // loading
 const lazySelectVal = ref();
@@ -53,13 +55,13 @@ const beforeOptionsShow = () => {
   return rlt;
 };
 
-const beforeSelect = (val: SelectOptionT, currentValue: SelectOptionT) => {
-  if (currentValue.value == val.value) {
+const beforeSelect = (value: string | number, currentValue: string | number) => {
+  if (currentValue == value) {
     return true;
   }
   console.log(currentValue);
 
-  const rlt = confirm(`确认选择选项(val: ${val.label})吗？`);
+  const rlt = confirm(`确认选择选项(val: ${value})吗？`);
   return rlt;
 };
 
@@ -79,14 +81,29 @@ const onAdd = () => {
       <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" style="width: 160px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
+
+      <OSelect v-model="selectVal2" placeholder="normal + outline" style="width: 240px" multiple>
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+
+      <OSelect v-model="selectVal2" variant="text" placeholder="normal + outline" style="width: 160px" multiple>
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
     </section>
     <section>
       <span style="width: 40px"> L:</span>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px" multiple>
+      <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
       <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" size="large" style="width: 160px">
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+      <OSelect v-model="selectVal3" placeholder="normal + outline" size="large" style="width: 280px" multiple :max-tag-count="2">
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+
+      <OSelect v-model="selectVal2" variant="text" placeholder="normal + outline" size="large" style="width: 160px" multiple>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </section>

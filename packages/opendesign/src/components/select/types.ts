@@ -135,7 +135,10 @@ export const selectProps = {
    */
   beforeSelect: {
     type: Function as PropType<
-      (value: string | number, currentValue: string | number | Array<string | number>) => Promise<boolean | SelectOptionT> | boolean | SelectOptionT
+      (
+        value: string | number,
+        currentValue: string | number | Array<string | number>
+      ) => Promise<boolean | string | number | Array<string | number>> | boolean | string | number | Array<string | number>
     >,
   },
   /**

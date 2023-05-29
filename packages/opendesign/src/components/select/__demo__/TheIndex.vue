@@ -9,10 +9,10 @@ import SelectLoading from './SelectLoading.vue';
 </script>
 <template>
   <div class="page-demo">
-    <!-- <SelectBasic /> -->
+    <SelectBasic />
     <SelectMultiple />
-    <!-- <SelectLoading /> -->
-    <!-- <SelectPopupposition /> -->
+    <SelectLoading />
+    <SelectPopupposition />
   </div>
 </template>
 <style lang="scss">

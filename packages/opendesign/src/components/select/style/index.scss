@@ -175,7 +175,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: -2px;
   max-height: var(--select-multiple-max-height);
 }
 .o-select-tags-scroller {
@@ -183,14 +182,17 @@
 }
 .o-select-tag {
   padding: var(--select-tag-padding);
+  margin: var(--select-tag-margin);
   min-height: var(--select-tag-min-height);
   background-color: var(--select-tag-bg-color);
   border-radius: var(--select-tag-radius);
-  margin: 0 4px 2px 0;
   font-size: var(--select-tag-text-size);
   line-height: var(--select-tag-text-height);
   display: inline-flex;
   align-items: center;
+  &:last-child {
+    margin-right: 0;
+  }
 }
 .o-select-tag-remove {
   font-size: var(--o-icon_size-2xs);

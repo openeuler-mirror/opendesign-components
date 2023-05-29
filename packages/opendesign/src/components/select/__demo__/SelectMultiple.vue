@@ -14,7 +14,6 @@ const options = [
   { label: '选项 9', value: '9' },
 ];
 const val = ref(['1', '4', '3', '5']);
-const val2 = ref('1');
 
 const exceededLabel = (tags: SelectOptionT[]) => {
   return tags.map((item) => item.label).join(',');
@@ -30,9 +29,6 @@ const exceededLabel = (tags: SelectOptionT[]) => {
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </OSelect>
     <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple size="small">
-      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-    </OSelect>
-    <OSelect v-model="val2" placeholder="多选" style="width: 240px">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </OSelect>
   </section>
