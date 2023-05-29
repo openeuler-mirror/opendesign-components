@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, computed, onUnmounted, toRefs } from 'vue';
+import { onMounted, ref, onUnmounted, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
 import { useResizeObserver } from '../hooks';
@@ -174,29 +174,6 @@ const onBarHoverOut = (d: ScrollerDirection) => {
     }, props.duration);
   }
 };
-
-// const scrollerClass = computed(() => {
-//   const classList: Array<string | Record<string, boolean>> = [`o-scroller-${props.size}`];
-
-//   if (props.showType === 'auto') {
-//     classList.push('o-scroller-auto-show');
-//   } else if (props.showType === 'hover') {
-//     classList.push('o-scroller-hover-show');
-//   }
-
-//   classList.push({
-//     'o-scroller-show-x': showXBar.value,
-//     'o-scroller-show-y': showYBar.value,
-//   });
-
-//   if (hasX.value && hasY.value) {
-//     classList.push('o-scroller-both');
-//   }
-//   if (isBody.value) {
-//     classList.push('o-scroller-to-body');
-//   }
-//   return classList;
-// });
 </script>
 
 <template>
