@@ -1,3 +1,5 @@
+@use './mixin.scss' as *;
+
 .o-select-outline {
   --select-bg-color: var(--o-color-control-light);
   --select-bg-color-disabled: var(--o-color-control4-light);
@@ -13,20 +15,18 @@
   --select-padding: 0 16px;
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
+  @include respond-to('not-pc') {
+    --select-icon-size: var(--o-icon_size-xs);
+  }
 }
 .o-select-large {
   --select-padding: 0 16px;
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
-}
 
-@media screen and (max-width: 1200px) {
-  .o-select-large {
+  @include respond-to('not-pc') {
     --select-text-size: var(--o-font_size-tip1);
     --select-text-height: var(--o-line_height-tip1);
-  }
-  .o-select-medium {
-    --select-icon-size: var(--o-icon_size-xs);
   }
 }
 .o-select-options {

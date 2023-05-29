@@ -1,3 +1,5 @@
+@use './mixin.scss' as *;
+
 .o-btn-medium {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-font_size-tip1);
@@ -9,10 +11,8 @@
   line-height: var(--o-font_size-text1);
   --btn-min-width: 96px;
   --btn-icon-size: var(--o-icon_size-s);
-}
 
-@media screen and (max-width: 1200px) and (min-width: 721px) {
-  .o-btn-large {
+  @include respond-to('pad') {
     font-size: var(--o-font_size-tip1);
     line-height: var(--o-font_size-tip1);
     --btn-padding: 0 15px;
@@ -24,7 +24,7 @@
   --btn-color-active: var(--o-color-info1-inverse);
   --btn-bg-color-hover: var(--o-color-primary2);
   --btn-bg-color-active: var(--o-color-primary3);
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       background-color: var(--btn-bg-color-hover);
     }
@@ -39,7 +39,7 @@
   color: rgb(var(--o-color-white)) !important;
   background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
   border-color: transparent;
-  @media (hover: hover) {
+  @include hover {
     &:hover {
       background: linear-gradient(90deg, rgba(46, 83, 250, 0.8) 0%, rgba(123, 37, 244, 0.8) 100%);
       border-color: transparent;

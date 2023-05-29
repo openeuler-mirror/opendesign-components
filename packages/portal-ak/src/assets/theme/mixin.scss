@@ -1,0 +1,44 @@
+// 断点定义
+$breakpoints: (
+  'phone': (
+    0,
+    720px,
+  ),
+  'not-phone': 720px,
+  'pad': (
+    721px,
+    1200px,
+  ),
+  'pc': 1201px,
+  'not-pc': (
+    0,
+    1200px,
+  ),
+);
+
+@mixin respond-to($breakname) {
+  $bp: map-get($breakpoints, $breakname);
+  @if type-of($bp) == 'list' {
+    $min: nth($bp, 1);
+    $max: nth($bp, 2);
+    @if $min == 0 {
+      @media (max-width: $max) {
+        @content;
+      }
+    } @else {
+      @media (min-width: $min) and (max-width: $max) {
+        @content;
+      }
+    }
+  } @else {
+    @media (min-width: $bp) {
+      @content;
+    }
+  }
+}
+
+@mixin hover($hover: hover) {
+  @media (hover: $hover) {
+    @content;
+  }
+}
