@@ -24,6 +24,20 @@ const Labels = {
   empty: '暂无数据',
 };
 
+const selectRef = ref<HTMLElement>();
+
+const isSelecting = ref(false);
+
+const tagPopoverVisible = ref(false);
+watch(
+  () => isSelecting.value,
+  () => {
+    if (isSelecting.value) {
+      tagPopoverVisible.value = false;
+    }
+  }
+);
+
 // 存储每个value对应的label
 const optionLabels = ref<Record<string | number, string>>({});
 
@@ -88,10 +102,6 @@ const clearClick = (e: Event) => {
   valueList.value = [];
   emits('clear', e);
 };
-
-const selectRef = ref<HTMLElement>();
-
-const isSelecting = ref(false);
 provide(selectOptionInjectKey, {
   multiple: props.multiple,
   selectValue: valueList,
@@ -162,6 +172,12 @@ const onFoldTagClick = (e: MouseEvent) => {
     e.stopPropagation();
   }
 };
+const beforeTagPopoverShow = () => {
+  if (isSelecting.value) {
+    return false;
+  }
+  return true;
+};
 </script>
 <template>
   <div
@@ -195,7 +211,14 @@ const onFoldTagClick = (e: MouseEvent) => {
         {{ optionLabels[item] }}
         <div class="o-select-tag-remove" @click="(e) => onRemoveTag(item, e)"><IconClose /></div>
       </div>
-      <OPopover v-if="showFoldTags && valueListFold.length > 0" :disabled="isSelecting" :trigger="foldTrigger" class="o-select-tag-popover" position="bottom">
+      <OPopover
+        v-if="showFoldTags && valueListFold.length > 0"
+        v-model:visible="tagPopoverVisible"
+        :trigger="foldTrigger"
+        class="o-select-tag-popover"
+        position="bottom"
+        :before-show="beforeTagPopoverShow"
+      >
         <template #target>
           <div class="o-select-tag" @click="onFoldTagClick">
             <slot name="tag-fold">{{ foldLabel }}</slot>

@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
-import { popupProps } from './types';
+import { popupProps, PopupTriggerT } from './types';
 import { isHtmlElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
 import { isArray, isFunction } from '../_shared/is';
@@ -17,13 +17,19 @@ import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
 import { getHtmlElement } from '../_shared/vue-utils';
+import { isNotPC } from '../_shared/global';
 
 // TODO 处理嵌套
 
 const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
-const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
+const triggers = computed<PopupTriggerT[]>(() => {
+  if (isNotPC.value) {
+    return ['click'];
+  }
+  return isArray(props.trigger) ? props.trigger : [props.trigger];
+});
 
 const visible = ref(false);
 const targetElRef = ref<ComponentPublicInstance | null>(null);
@@ -117,7 +123,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
     popStyle.width = `${targetEl.offsetWidth}px`;
   }
 
-  triggerListener = bindTrigger(el, popupRef, triggers, {
+  triggerListener = bindTrigger(el, popupRef, triggers.value, {
     updateFn: updateVisible,
     hoverDelay: props.hoverDelay,
     autoHide: props.autoHide,
@@ -363,12 +369,12 @@ watch(popupRef, (popEl) => {
   }
 });
 const onPopupHoverIn = () => {
-  if (triggers.includes('hover')) {
+  if (triggers.value.includes('hover')) {
     updateVisible(true, props.hoverDelay);
   }
 };
 const onPopupHoverOut = () => {
-  if (triggers.includes('hover') && props.autoHide) {
+  if (triggers.value.includes('hover') && props.autoHide) {
     updateVisible(false, props.hoverDelay);
   }
 };

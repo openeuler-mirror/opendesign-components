@@ -77,6 +77,12 @@ export const routes = [
         component: () => import('./pages/scroller/TheIndex.vue'),
       },
       {
+        path: 'popover',
+        name: 'popover',
+        label: '气泡提示 popover',
+        component: () => import('./pages/popover/TheIndex.vue'),
+      },
+      {
         path: 'select',
         name: 'select',
         label: '下拉选择器 select',

@@ -1,5 +1,5 @@
 .o-scroller {
-  --scrollbar-delay: 100ms; // 延迟时间，避免hover是频繁触发
+  --scrollbar-delay: 0;
   --scrollbar-height: 90%;
   --scrollbar-y-right: 0;
   --scrollbar-y-left: auto;
@@ -16,6 +16,9 @@
   --scrollbar-thumb-width-hover: 10px;
   --scrollbar-thumb-radius: 10px;
   --scrollbar-width: 16px;
+}
+.o-scroller-hover-show {
+  --scrollbar-delay: 100ms; // 延迟时间，避免hover时频繁触发
 }
 .o-scroller-both {
   --scrollbar-height: min(calc(100% - var(--scrollbar-width) * 2), 90%);

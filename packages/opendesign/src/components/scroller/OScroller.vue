@@ -4,6 +4,7 @@ import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
 import { useResizeObserver } from '../hooks';
 import { getHtmlElement } from '../_shared/vue-utils';
+import { isNotPC } from '../_shared/global';
 
 const ScrollerClass = {
   BODY: 'o-hide-scrollbar',
@@ -170,7 +171,8 @@ const onBarHoverOut = (d: ScrollerDirection) => {
 
 const scrollerClass = computed(() => {
   const classList: Array<string | Record<string, boolean>> = [`o-scroller-${props.size}`];
-  if (props.showType === 'auto') {
+
+  if (props.showType === 'auto' || (props.showType === 'hover' && isNotPC.value)) {
     classList.push('o-scroller-auto-show', {
       'o-scroller-show-x': showXBar.value,
       'o-scroller-show-y': showYBar.value,
