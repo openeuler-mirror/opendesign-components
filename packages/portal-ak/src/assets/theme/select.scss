@@ -33,3 +33,12 @@
   --select-options-radius: 12px;
   --select-max-height: 302px;
 }
+.o-select,
+.o-select-tag-popover {
+  --select-tag-radius: var(--o-control_size-s);
+  --select-tag-text-size: var(--o-font_size-tip2);
+  --select-tag-text-height: var(--o-line_height-tip2);
+}
+.o-select {
+  --select-multiple-padding: 3px 16px;
+}

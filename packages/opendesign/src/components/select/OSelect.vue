@@ -50,7 +50,7 @@ const foldLabel = computed(() => {
     }));
     return props.foldLabel(tags);
   }
-  return `+${valueListFold.value.length}`;
+  return `+${valueListFold.value.length}...`;
 });
 const foldTrigger = typeof props.showFoldTags === 'string' ? props.showFoldTags : 'hover';
 
@@ -197,7 +197,9 @@ const onFoldTagClick = (e: MouseEvent) => {
       </div>
       <OPopover v-if="showFoldTags && valueListFold.length > 0" :disabled="isSelecting" :trigger="foldTrigger" class="o-select-tag-popover" position="bottom">
         <template #target>
-          <div class="o-select-tag" @click="onFoldTagClick">{{ foldLabel }}</div>
+          <div class="o-select-tag" @click="onFoldTagClick">
+            <slot name="tag-fold">{{ foldLabel }}</slot>
+          </div>
         </template>
         <div class="o-select-tags">
           <div v-for="item in valueListFold" :key="item" class="o-select-tag">

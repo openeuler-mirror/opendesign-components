@@ -15,7 +15,6 @@
   --select-icon-color-disabled: var(--o-color-info4);
 
   --select-multiple-padding: 3px 12px 3px 5px;
-  --select-tag-margin: 2px 4px 2px 0;
 }
 .o-select,
 .o-select-tag-popover {
@@ -26,6 +25,7 @@
   --select-tag-text-height: var(--o-line_height-tip1);
   --select-tag-padding: 3px 12px;
   --select-tag-min-height: var(--o-control_size-s);
+  --select-tag-margin: 2px 4px 2px 0;
 }
 
 .o-select-tag-popover {

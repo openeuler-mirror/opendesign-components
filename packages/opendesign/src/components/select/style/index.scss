@@ -201,6 +201,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   @media (hover: hover) {
     &:hover {
       transform: rotate(180deg);
@@ -209,4 +210,5 @@
 }
 .o-select-tag-popover {
   max-width: var(--select-tag-popover-max-width);
+  --popover-padding: 6px 8px;
 }
