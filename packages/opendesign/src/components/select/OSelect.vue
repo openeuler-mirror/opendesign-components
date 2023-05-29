@@ -11,6 +11,7 @@ import ClientOnly from '../_shared/components/client-only';
 import { OScroller } from '../scroller';
 import { isFunction } from '../_shared/is';
 
+// TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number | Array<string | number>): void;
