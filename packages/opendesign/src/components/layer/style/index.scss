@@ -1,5 +1,5 @@
-@use './var.scss';
 @use '../../style/mixin.scss' as *;
+@use './var.scss';
 
 .o-layer {
   position: var(--layer-position, 'fixed');
