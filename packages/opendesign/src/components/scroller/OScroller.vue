@@ -142,6 +142,9 @@ const onVBarScroll = (ratio: number) => {
 };
 
 const onBarHoverIn = (d: ScrollerDirection) => {
+  if (isNotPC.value) {
+    return;
+  }
   if (d === 'x') {
     showXBar.value = true;
     if (xTimer) {
@@ -158,6 +161,9 @@ const onBarHoverIn = (d: ScrollerDirection) => {
 };
 
 const onBarHoverOut = (d: ScrollerDirection) => {
+  if (isNotPC.value) {
+    return;
+  }
   if (d === 'x') {
     xTimer = window.setTimeout(() => {
       showXBar.value = false;
@@ -169,30 +175,46 @@ const onBarHoverOut = (d: ScrollerDirection) => {
   }
 };
 
-const scrollerClass = computed(() => {
-  const classList: Array<string | Record<string, boolean>> = [`o-scroller-${props.size}`];
+// const scrollerClass = computed(() => {
+//   const classList: Array<string | Record<string, boolean>> = [`o-scroller-${props.size}`];
 
-  if (props.showType === 'auto' || (props.showType === 'hover' && isNotPC.value)) {
-    classList.push('o-scroller-auto-show', {
-      'o-scroller-show-x': showXBar.value,
-      'o-scroller-show-y': showYBar.value,
-    });
-  } else if (props.showType === 'hover') {
-    classList.push('o-scroller-hover-show');
-  }
+//   if (props.showType === 'auto') {
+//     classList.push('o-scroller-auto-show');
+//   } else if (props.showType === 'hover') {
+//     classList.push('o-scroller-hover-show');
+//   }
 
-  if (hasX.value && hasY.value) {
-    classList.push('o-scroller-both');
-  }
-  if (isBody.value) {
-    classList.push('o-scroller-to-body');
-  }
-  return classList;
-});
+//   classList.push({
+//     'o-scroller-show-x': showXBar.value,
+//     'o-scroller-show-y': showYBar.value,
+//   });
+
+//   if (hasX.value && hasY.value) {
+//     classList.push('o-scroller-both');
+//   }
+//   if (isBody.value) {
+//     classList.push('o-scroller-to-body');
+//   }
+//   return classList;
+// });
 </script>
 
 <template>
-  <div class="o-scroller" :class="scrollerClass">
+  <div
+    class="o-scroller"
+    :class="[
+      `o-scroller-${props.size}`,
+      {
+        'o-scroller-auto-show': props.showType === 'auto',
+        'o-scroller-always-show': props.showType === 'always',
+        'o-scroller-hover-show': props.showType === 'hover' && !isNotPC,
+        'o-scroller-both': hasX && hasY,
+        'o-scroller-to-body': isBody,
+        'o-scroller-show-x': showXBar,
+        'o-scroller-show-y': showYBar,
+      },
+    ]"
+  >
     <div
       v-if="$slots.default"
       ref="containerEl"
