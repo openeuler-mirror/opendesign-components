@@ -33,6 +33,7 @@
 .o-option-disabled {
   &,
   &:hover,
+  &:active,
   &.o-option-multiple:hover {
     cursor: not-allowed;
     color: var(--option-color-disabled);

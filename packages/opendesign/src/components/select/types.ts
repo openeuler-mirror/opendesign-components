@@ -173,6 +173,12 @@ export const selectProps = {
     type: [Boolean, String] as PropType<boolean | 'hover' | 'click'>,
     default: 'hover',
   },
+  /**
+   * 选项标题（pad、phone显示）
+   */
+  optionTitle: {
+    type: String,
+  },
 };
 
 export type SelectPropsT = ExtractPropTypes<typeof selectProps>;

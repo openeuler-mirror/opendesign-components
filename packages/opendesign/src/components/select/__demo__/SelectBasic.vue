@@ -21,7 +21,7 @@ const changeVal = () => {
       <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" loading>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-      <OSelect v-model="selectVal1" variant="text" color="success" placeholder="normal + success">
+      <OSelect v-model="selectVal1" variant="text" color="success" placeholder="normal + success" option-title="请选择">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" variant="text" color="warning" placeholder="normal + warning">

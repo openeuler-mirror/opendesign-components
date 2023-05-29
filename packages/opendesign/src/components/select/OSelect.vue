@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch } from 'vue';
-import { defaultSize } from '../_shared/global';
+import { defaultSize, isNotPC } from '../_shared/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_shared/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
+import { OLayer } from '../layer';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 import ClientOnly from '../_shared/components/client-only';
 import { OScroller } from '../scroller';
 import { isFunction } from '../_shared/is';
+import SelectOption, { OptionSlotNames } from './SelectOption.vue';
+import { filterSlots } from '../upload/util';
 
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
@@ -25,6 +28,7 @@ const Labels = {
 };
 
 const selectRef = ref<HTMLElement>();
+const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
 
@@ -73,8 +77,6 @@ if (props.multiple) {
 } else {
   valueList.value = [((props.modelValue || props.defaultValue) as string | number) || ''];
 }
-
-const optionsRef = ref<HTMLElement | null>(null);
 
 const round = getRoundClass(props, 'select');
 
@@ -178,6 +180,14 @@ const beforeTagPopoverShow = () => {
   }
   return true;
 };
+
+const onSelectClick = () => {
+  if (isNotPC.value) {
+    if (!props.disabled) {
+      isSelecting.value = true;
+    }
+  }
+};
 </script>
 <template>
   <div
@@ -197,6 +207,7 @@ const beforeTagPopoverShow = () => {
       },
     ]"
     :style="round.style.value"
+    @click="onSelectClick"
   >
     <input
       v-if="!props.multiple || (props.multiple && valueList.length === 0)"
@@ -256,32 +267,47 @@ const beforeTagPopoverShow = () => {
           </slot>
         </div>
       </teleport>
-      <OPopup
-        v-if="!props.disabled"
-        v-model:visible="isSelecting"
-        :transition="props.transition"
-        :unmount-on-hide="props.unmountOnHide"
-        :position="props.optionPosition"
-        :wrapper="props.optionsWrapper"
-        :target="selectRef"
-        :trigger="props.trigger"
-        :offset="4"
-        :adjust-min-width="props.optionWidthMode === 'min-width'"
-        :adjust-width="props.optionWidthMode === 'width'"
-        :before-show="props.beforeOptionsShow"
-        :before-hide="props.beforeOptionsHide"
-        @change="onOptionPopupChange"
-      >
-        <div class="o-select-options" :class="`o-select-options-${props.size || defaultSize}`">
-          <OScroller class="o-select-options-container" size="small" show-type="hover" :wrap-class="props.optionWrapClass">
-            <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
-            <div v-else ref="optionsRef"></div>
-          </OScroller>
-          <div class="o-select-actions">
-            <slot name="action"></slot>
-          </div>
-        </div>
-      </OPopup>
+      <template v-if="isNotPC">
+        <OLayer v-model:visible="isSelecting">
+          <SelectOption
+            :size="props.size"
+            :wrap-class="props.optionWrapClass"
+            :loading="props.loading"
+            class="o-select-layer"
+            :option-title="props.optionTitle"
+          >
+            <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
+              <slot :name="name" v-bind="slotData"></slot>
+            </template>
+            <template #option-target><div ref="optionsRef"></div></template>
+          </SelectOption>
+        </OLayer>
+      </template>
+      <template v-else>
+        <OPopup
+          v-if="!props.disabled"
+          v-model:visible="isSelecting"
+          :transition="props.transition"
+          :unmount-on-hide="props.unmountOnHide"
+          :position="props.optionPosition"
+          :wrapper="props.optionsWrapper"
+          :target="selectRef"
+          :trigger="props.trigger"
+          :offset="4"
+          :adjust-min-width="props.optionWidthMode === 'min-width'"
+          :adjust-width="props.optionWidthMode === 'width'"
+          :before-show="props.beforeOptionsShow"
+          :before-hide="props.beforeOptionsHide"
+          @change="onOptionPopupChange"
+        >
+          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading">
+            <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
+              <slot :name="name" v-bind="slotData"></slot>
+            </template>
+            <template #option-target><div ref="optionsRef"></div></template>
+          </SelectOption>
+        </OPopup>
+      </template>
     </ClientOnly>
   </div>
 </template>
