@@ -37,9 +37,3 @@
 .o-dlg-foot {
   padding: var(--dlg-foot-padding);
 }
-
-@include max-phone {
-  .o-dlg-main {
-    background-color: red;
-  }
-}

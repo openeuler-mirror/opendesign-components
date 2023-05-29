@@ -114,7 +114,7 @@
       }
     }
   }
-  @include noneHover {
+  @include hover(none) {
     .o-input-suffix-wrap {
       visibility: hidden;
       opacity: 0;

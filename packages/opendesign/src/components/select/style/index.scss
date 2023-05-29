@@ -126,7 +126,7 @@
       }
     }
   }
-  @include noneHover {
+  @include hover(none) {
     .o-select-clear {
       visibility: visible;
       opacity: 1;
