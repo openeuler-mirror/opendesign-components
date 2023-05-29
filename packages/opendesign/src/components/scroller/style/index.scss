@@ -1,4 +1,5 @@
 @use './var.scss';
+@use '../../style/mixin.scss' as *;
 /*
  * ::-webkit-scrollbar 兼容chrome 4+, edge 79+, safari 4+, opera 15+, 
  * scrollbar-width 兼容firefox 64+

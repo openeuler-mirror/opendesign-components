@@ -1,4 +1,5 @@
 @use './var.scss';
+@use '../../style/mixin.scss' as *;
 
 .o-table {
   position: relative;

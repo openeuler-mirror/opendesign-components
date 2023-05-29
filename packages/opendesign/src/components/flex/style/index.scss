@@ -1,4 +1,5 @@
 @use './var.scss';
+@use '../../style/mixin.scss' as *;
 $media-xs: 576px;
 $media-sm: 720px;
 $media-md: 960px;

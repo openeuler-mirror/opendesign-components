@@ -1,4 +1,5 @@
 @use './var.scss';
+@use '../../style/mixin.scss' as *;
 
 .o-rate {
   display: inline-flex;
@@ -11,13 +12,13 @@
 .o-rate-item {
   position: relative;
 
-  &.is-half{
+  &.is-half {
     .o-rate-icon-top {
       opacity: 1;
     }
   }
 
-  &.is-full{
+  &.is-full {
     .o-rate-icon-bottom {
       color: var(--rate-color-active);
     }

@@ -1,4 +1,5 @@
 @use './var.scss';
+@use '../../style/mixin.scss' as *;
 
 .o-dlg-main {
   position: relative;
@@ -35,4 +36,10 @@
 }
 .o-dlg-foot {
   padding: var(--dlg-foot-padding);
+}
+
+@include max-phone {
+  .o-dlg-main {
+    background-color: red;
+  }
 }
