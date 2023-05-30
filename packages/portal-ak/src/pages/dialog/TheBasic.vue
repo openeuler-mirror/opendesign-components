@@ -3,6 +3,7 @@ import { OButton, ODialog } from '@components/index';
 import { reactive } from 'vue';
 
 const values = reactive({
+  show0: false,
   show1: false,
   show2: false,
 });
@@ -33,21 +34,32 @@ const beforeHide = (): Promise<boolean> => {
     }, 1000);
   });
 };
+
+const dlgAction = [
+  {
+    id: 'cancel',
+    label: '取消',
+    onClick: () => {
+      console.log('cancel');
+    },
+  },
+  {
+    id: 'ok',
+    label: '确认',
+    onClick: () => {
+      console.log('cancel');
+    },
+  },
+];
 </script>
 <template>
   <div class="page-demo">
-    <h3>类型 & 尺寸</h3>
+    <h3>基本</h3>
     <section>
-      <OButton @click="toggle('show1', true)">Open</OButton>
-      <ODialog v-model:visible="values.show1" @change="onChane">
+      <OButton @click="toggle('show0', true)">Open</OButton>
+      <ODialog v-model:visible="values.show0" :actions="dlgAction" @change="onChane">
         <template #header>Dialog Title</template>
         This is Dialog
-        <template #footer>
-          <div class="dlg-action">
-            <OButton color="primary" variant="solid" @click="toggle('show1', false)">确定</OButton>
-            <OButton @click="toggle('show1', false)">取消</OButton>
-          </div>
-        </template>
       </ODialog>
     </section>
     <h3>延迟响应</h3>
@@ -60,6 +72,20 @@ const beforeHide = (): Promise<boolean> => {
           <div class="dlg-action">
             <OButton color="primary" variant="solid" @click="toggle('show2', false)">确定</OButton>
             <OButton @click="toggle('show2', false)">取消</OButton>
+          </div>
+        </template>
+      </ODialog>
+    </section>
+    <h3>插槽</h3>
+    <section>
+      <OButton @click="toggle('show1', true)">Open</OButton>
+      <ODialog v-model:visible="values.show1" @change="onChane">
+        <template #header>Dialog Title</template>
+        This is Dialog
+        <template #footer>
+          <div class="dlg-action">
+            <OButton color="primary" variant="solid" @click="toggle('show1', false)">确定</OButton>
+            <OButton @click="toggle('show1', false)">取消</OButton>
           </div>
         </template>
       </ODialog>

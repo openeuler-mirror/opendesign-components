@@ -2,19 +2,19 @@
 
 .o-btn-medium {
   font-size: var(--o-font_size-tip1);
-  line-height: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
   --btn-min-width: 80px;
   --btn-icon-size: var(--o-icon_size-xs);
 }
 .o-btn-large {
   font-size: var(--o-font_size-text1);
-  line-height: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
   --btn-min-width: 96px;
   --btn-icon-size: var(--o-icon_size-s);
 
   @include respond-to('pad') {
     font-size: var(--o-font_size-tip1);
-    line-height: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
     --btn-padding: 0 15px;
   }
 }

@@ -34,12 +34,25 @@
   --select-max-height: 302px;
 }
 // 移动端响应式
-.o-select-options-layer {
+.o-select-options-dlg {
   --select-max-height: 350px;
   .o-select-options-multiple {
     --select-max-height: 360px;
   }
+  @include respond-to('phone-h') {
+    --select-max-height: 272px;
+    .o-select-options-multiple {
+      --select-max-height: 292px;
+    }
+  }
+  @include respond-to('phone-v') {
+    --select-max-height: 90vh;
+    .o-select-options-multiple {
+      --select-max-height: 90vh;
+    }
+  }
 }
+
 .o-select,
 .o-select-tag-popover {
   --select-tag-radius: var(--o-control_size-s);
