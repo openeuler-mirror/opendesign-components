@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OProgress, OIconAlert, OIconPoint } from '@components/index';
+import { OProgress, OIconWarning, OIconPoint } from '@components/index';
 const val1 = ref(0);
 const val2 = ref(30);
 const val3 = ref(100);
@@ -14,7 +14,7 @@ const val3 = ref(100);
     <OProgress :percentage="val3" :track-width="300" />
     <OProgress :percentage="val2" color="warning" :track-width="300">
       <template #icon>
-        <OIconAlert />
+        <OIconWarning />
       </template>
     </OProgress>
     <OProgress :percentage="val2" color="danger" :track-width="300">
@@ -31,7 +31,7 @@ const val3 = ref(100);
     <OProgress :percentage="val3" :track-width="300" size="small" />
     <OProgress :percentage="val2" color="warning" :track-width="300" size="small">
       <template #icon>
-        <OIconAlert />
+        <OIconWarning />
       </template>
     </OProgress>
     <OProgress :percentage="val2" color="danger" :track-width="300" size="small">

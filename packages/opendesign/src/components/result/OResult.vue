@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { resultProps } from './types';
-import { OIconAlert, OIconError, OIconPoint, OIconSuccess } from '../icon-components';
+import { OIconWarning, OIconDanger, OIconPoint, OIconSuccess } from '../icon-components';
 import { computed } from 'vue';
 
 const props = defineProps(resultProps);
@@ -9,8 +9,8 @@ const props = defineProps(resultProps);
 const iconMap = {
   info: OIconPoint,
   success: OIconSuccess,
-  warning: OIconAlert,
-  danger: OIconError,
+  warning: OIconWarning,
+  danger: OIconDanger,
 };
 
 const icon: any = computed(() => (props.status ? iconMap[props.status] : undefined));

@@ -7,7 +7,7 @@ import { OBadge } from '../index';
 <template>
   <h4>基础用法</h4>
   <section>
-    <OBadge :value="9">
+    <OBadge>
       <OButton variant="solid" />
     </OBadge>
     <OBadge :value="100">

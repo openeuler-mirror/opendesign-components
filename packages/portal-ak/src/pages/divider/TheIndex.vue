@@ -8,7 +8,7 @@ import { ODivider } from '@components/index';
     <section :style="{ width: '200px', gap: 0 }">
       <ODivider />
       <span :style="{ 'margin-bottom': '8px' }">浅色背景</span>
-      <ODivider class="o-divider-dark" />
+      <ODivider darker />
       <span>深色背景</span>
     </section>
 
@@ -21,7 +21,7 @@ import { ODivider } from '@components/index';
       </div>
       <div>
         <span>深色背景</span>
-        <ODivider direction="v" class="o-divider-dark" />
+        <ODivider direction="v" darker />
         <span>深色背景</span>
       </div>
     </section>

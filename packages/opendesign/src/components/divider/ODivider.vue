@@ -8,7 +8,11 @@ const props = defineProps(dividerProps);
   <div
     role="separator"
     class="o-divider"
-    :class="[`o-divider-${props.variant}`, `o-divider-${props.direction}`, { [`o-divider-label-${props.labelPosition}`]: $slots.default }]"
+    :class="[
+      `o-divider-${props.variant}`,
+      `o-divider-${props.direction}`,
+      { 'o-divider-darker': props.darker, [`o-divider-label-${props.labelPosition}`]: $slots.default },
+    ]"
   >
     <template v-if="props.direction === 'h'">
       <div class="o-divider-line"></div>

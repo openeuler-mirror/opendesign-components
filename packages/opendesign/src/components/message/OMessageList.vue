@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { Ref, shallowRef } from 'vue';
-import { ref } from 'vue';
-import { MessagePositionT, MessageParamsT } from './types';
+import { ComponentPublicInstance, ref, Ref, shallowRef } from 'vue';
+import { messageListProps, MessageParamsT } from './types';
 import OMessage from './OMessage.vue';
+import { isString } from '../_shared/is';
 
-interface MessageListPropsT {
-  position?: MessagePositionT;
-  onDestory?: () => void;
-}
-
-const props = withDefaults(defineProps<MessageListPropsT>(), {
-  position: 'top',
-  onDestory: undefined,
-});
+const props = defineProps(messageListProps);
 
 const getUniqueId = (() => {
   let id = 0;
@@ -46,28 +38,51 @@ const removeAll = () => {
   optionList.value = [];
 };
 
-const handleClose = (item: MessageListOptionT) => {
-  const { id, onClose } = item;
-  onClose?.();
-
+const close = (id: number) => {
   const idx = optionList.value.findIndex((option) => option.id === id);
   remove(idx);
-
   if (optionList.value.length === 0 && props.onDestory) {
     props.onDestory();
   }
+};
+
+const handleDurationEnd = (item: MessageListOptionT) => {
+  const { id, onDurationEnd } = item;
+  onDurationEnd?.();
+  close(id);
+};
+
+const handleClose = (item: MessageListOptionT, ev?: MouseEvent) => {
+  const { id, onClose } = item;
+  onClose?.(ev);
+  close(id);
 };
 
 defineExpose({ add, remove, removeAll });
 </script>
 
 <template>
-  <div v-if="optionList.length" class="o-message-list" :class="[`o-message-${props.position}`]">
-    <TransitionGroup name="fade-message">
-      <OMessage v-for="item in optionList" :key="item.id" :content="item.content" :status="item.status" :duration="item.duration" @close="handleClose(item)">
+  <div v-if="optionList.length" class="o-message-list" :class="[`o-message-list-${props.position}`]">
+    <TransitionGroup name="o-message-fade">
+      <OMessage
+        v-for="item in optionList"
+        :key="item.id"
+        :status="item.status"
+        :duration="item.duration"
+        :closable="item.closable"
+        @duration-end="handleDurationEnd(item)"
+        @close="
+          (ev) => {
+            handleClose(item, ev);
+          }
+        "
+      >
         <template v-if="item.icon" #icon>
           <component :is="item.icon" />
         </template>
+
+        <template v-if="isString(item.content)">{{ item.content }}</template>
+        <component :is="item.content" v-else />
       </OMessage>
     </TransitionGroup>
   </div>

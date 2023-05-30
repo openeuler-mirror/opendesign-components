@@ -31,7 +31,9 @@ const style = computed(() => {
   <div class="o-badge" :class="[`o-badge-${props.color}`, { 'o-badge-dot': props.dot, 'o-badge-only': !$slots.default }]">
     <slot></slot>
     <sup class="o-badge-content" :style="style">
-      <slot name="content"> {{ content }}</slot>
+      <slot name="content">
+        <div class="o-badge-label">{{ content }}</div>
+      </slot>
     </sup>
   </div>
 </template>

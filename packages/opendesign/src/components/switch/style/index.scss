@@ -13,8 +13,10 @@
   cursor: pointer;
   min-width: var(--switch-min-width);
 
-  &:hover {
-    background-color: var(--switch-bg-color-hover);
+  @include hover {
+    &:hover {
+      background-color: var(--switch-bg-color-hover);
+    }
   }
   &:active {
     background-color: var(--switch-bg-color-active);
@@ -59,10 +61,12 @@
     padding-right: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-label-padding));
   }
 
-  &:not(.o-switch-disabled):hover {
-    background-color: var(--switch-bg-color-checked-hover);
+  @include hover {
+    &:hover {
+      background-color: var(--switch-bg-color-checked-hover);
+    }
   }
-  &:not(.o-switch-disabled):active {
+  &:active {
     background-color: var(--switch-bg-color-checked-active);
   }
 }
