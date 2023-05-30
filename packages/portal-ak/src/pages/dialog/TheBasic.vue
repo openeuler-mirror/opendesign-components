@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { OButton, ODialog } from '@components/index';
-import { ref } from 'vue';
+import { reactive } from 'vue';
 
-const showDlg = ref(false);
-const toggle = (show?: boolean) => {
+const values = reactive({
+  show1: false,
+  show2: false,
+});
+const toggle = (key: keyof typeof values, show?: boolean) => {
   if (show === undefined) {
-    showDlg.value = !showDlg.value;
+    values[key] = !values[key];
   } else {
-    showDlg.value = show;
+    values[key] = show;
   }
 };
 
@@ -35,14 +38,28 @@ const beforeHide = (): Promise<boolean> => {
   <div class="page-demo">
     <h3>类型 & 尺寸</h3>
     <section>
-      <OButton @click="toggle(true)">Open</OButton>
-      <ODialog v-model:visible="showDlg" :before-hide="beforeHide" :before-show="beforeShow" @change="onChane">
+      <OButton @click="toggle('show1', true)">Open</OButton>
+      <ODialog v-model:visible="values.show1" @change="onChane">
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>
           <div class="dlg-action">
-            <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
-            <OButton @click="toggle(false)">取消</OButton>
+            <OButton color="primary" variant="solid" @click="toggle('show1', false)">确定</OButton>
+            <OButton @click="toggle('show1', false)">取消</OButton>
+          </div>
+        </template>
+      </ODialog>
+    </section>
+    <h3>延迟响应</h3>
+    <section>
+      <OButton @click="toggle('show2', true)">Open</OButton>
+      <ODialog v-model:visible="values.show2" :before-hide="beforeHide" :before-show="beforeShow" @change="onChane">
+        <template #header>Dialog Title</template>
+        This is Dialog
+        <template #footer>
+          <div class="dlg-action">
+            <OButton color="primary" variant="solid" @click="toggle('show2', false)">确定</OButton>
+            <OButton @click="toggle('show2', false)">取消</OButton>
           </div>
         </template>
       </ODialog>
