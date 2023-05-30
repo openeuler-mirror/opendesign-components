@@ -33,6 +33,13 @@
   --select-options-radius: 12px;
   --select-max-height: 302px;
 }
+// 移动端响应式
+.o-select-options-layer {
+  --select-max-height: 350px;
+  .o-select-options-multiple {
+    --select-max-height: 360px;
+  }
+}
 .o-select,
 .o-select-tag-popover {
   --select-tag-radius: var(--o-control_size-s);

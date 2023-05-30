@@ -78,7 +78,7 @@ const onAdd = () => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" style="width: 160px">
+      <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" style="width: 160px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
@@ -86,7 +86,7 @@ const onAdd = () => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal2" variant="text" placeholder="normal + outline" style="width: 160px" multiple>
+      <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" style="width: 160px" multiple>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </section>
@@ -96,14 +96,14 @@ const onAdd = () => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" size="large" style="width: 160px">
+      <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal3" placeholder="normal + outline" size="large" style="width: 280px" multiple :max-tag-count="2">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal2" variant="text" placeholder="normal + outline" size="large" style="width: 160px" multiple>
+      <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px" multiple>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </section>
@@ -116,7 +116,7 @@ const onAdd = () => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" size="large" style="width: 160px" disabled>
+      <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px" disabled>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 240px">

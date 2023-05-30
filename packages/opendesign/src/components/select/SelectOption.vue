@@ -12,11 +12,20 @@ interface OptionPropT {
   wrapClass?: string | any[];
   loading?: boolean;
   optionTitle?: string;
+  multiple?: boolean;
 }
 const props = defineProps<OptionPropT>();
 </script>
 <template>
-  <div class="o-select-options" :class="`o-select-options-${props.size || defaultSize}`">
+  <div
+    class="o-select-options"
+    :class="[
+      `o-select-options-${props.size || defaultSize}`,
+      {
+        'o-select-options-multiple': props.multiple,
+      },
+    ]"
+  >
     <OScroller class="o-select-options-scroller" size="small" show-type="hover" :wrap-class="props.wrapClass">
       <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
       <template v-else>

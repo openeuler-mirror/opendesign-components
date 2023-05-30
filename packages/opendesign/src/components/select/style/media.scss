@@ -1,15 +1,25 @@
 @use '../../style/mixin.scss' as *;
 @include respond-to('not-pc') {
-  .o-select-options {
-    --select-options-padding: 0;
-    --select-max-height: 80vh;
-  }
-  .o-select-layer {
+  .o-select-options-layer {
     min-width: 312px;
     --select-options-padding: 12px 16px 16px;
+    --select-max-height: 80vh;
 
     .o-option-checkbox {
       width: 100%;
+    }
+
+    .o-option-multiple {
+      border-radius: 0;
+      --option-padding: 12px 0;
+      --option-gap: 0;
+
+      + .o-option-multiple {
+        border-top: 1px solid var(--o-color-control4);
+      }
+    }
+    .o-checkbox-label {
+      margin-left: 0;
     }
   }
 
@@ -22,7 +32,7 @@
   }
 }
 @include respond-to('phone') {
-  .o-select-layer {
+  .o-select-options-layer {
     min-width: 312px;
 
     .o-checkbox-wrap {

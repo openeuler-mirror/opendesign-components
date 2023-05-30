@@ -182,6 +182,9 @@ const beforeTagPopoverShow = () => {
 };
 
 const onSelectClick = () => {
+  if (props.noResponsive) {
+    return;
+  }
   if (isNotPC.value) {
     if (!props.disabled) {
       isSelecting.value = true;
@@ -267,14 +270,15 @@ const onSelectClick = () => {
           </slot>
         </div>
       </teleport>
-      <template v-if="isNotPC">
+      <template v-if="!props.noResponsive && isNotPC">
         <OLayer v-model:visible="isSelecting">
           <SelectOption
             :size="props.size"
             :wrap-class="props.optionWrapClass"
             :loading="props.loading"
-            class="o-select-layer"
+            class="o-select-options-layer"
             :option-title="props.optionTitle"
+            :multiple="props.multiple"
           >
             <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
               <slot :name="name" v-bind="slotData"></slot>
@@ -300,7 +304,7 @@ const onSelectClick = () => {
           :before-hide="props.beforeOptionsHide"
           @change="onOptionPopupChange"
         >
-          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading">
+          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
             <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
               <slot :name="name" v-bind="slotData"></slot>
             </template>
