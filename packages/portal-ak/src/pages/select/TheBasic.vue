@@ -70,94 +70,92 @@ const onAdd = () => {
 };
 </script>
 <template>
-  <div class="page-demo">
-    <h3>类型 & 尺寸</h3>
-    <section>
-      <span style="width: 40px"> M:</span>
-      <OSelect :default-value="selectVal1" placeholder="normal + outline" style="width: 240px" clearable @change="onChange">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
+  <h3>类型 & 尺寸</h3>
+  <section>
+    <span style="width: 40px"> M:</span>
+    <!-- <OSelect :default-value="selectVal1" placeholder="normal + outline" style="width: 240px" clearable option-title="选项" @change="onChange">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
 
-      <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" style="width: 160px">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
+    <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" style="width: 160px">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect> -->
 
-      <OSelect v-model="selectVal2" placeholder="normal + outline" style="width: 240px" multiple>
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
+    <OSelect v-model="selectVal2" placeholder="normal + outline" style="width: 240px" multiple option-title="选项">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
 
-      <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" style="width: 160px" multiple>
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-    </section>
-    <section>
-      <span style="width: 40px"> L:</span>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
+    <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" style="width: 160px" multiple>
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+    <!-- </section>
+  <section>
+    <span style="width: 40px"> L:</span>
+    <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px" option-title="选项">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
 
-      <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-      <OSelect v-model="selectVal3" placeholder="normal + outline" size="large" style="width: 280px" multiple :max-tag-count="2">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
+    <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+    <OSelect v-model="selectVal3" placeholder="normal + outline" size="large" style="width: 280px" multiple :max-tag-count="2" option-title="选项">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
 
-      <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px" multiple>
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-    </section>
-    <h3>禁用</h3>
-    <section>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 240px" disabled>
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px" disabled>
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
+    <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px" multiple>
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+  </section>
+  <h3>禁用</h3>
+  <section>
+    <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 240px" disabled>
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+    <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px" disabled>
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
 
-      <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px" disabled>
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 240px">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value === '3'" />
-      </OSelect>
-    </section>
-    <h3>Loading & 空状态</h3>
-    <section>
-      <OSelect v-model="lazySelectVal" placeholder="选项加载2s" style="width: 240px" :loading="isLoaded === 0" @options-visible-change="onOptionsVisible">
-        <OOption v-for="item in lazyOptions" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-      <OSelect v-model="lazySelectVal2" placeholder="选项空状态" style="width: 240px" :loading="isLoaded2 === 0" @options-visible-change="onOptionsVisible2">
-        <OOption v-for="item in lazyOptions2" :key="item.value" :label="item.label" :value="item.value" />
-        <template #empty>很遗憾，没有数据哦</template>
-      </OSelect>
-    </section>
+    <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" size="large" style="width: 160px" disabled>
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+    <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 240px">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value === '3'" />
+    </OSelect>
+  </section>
+  <h3>Loading & 空状态</h3>
+  <section>
+    <OSelect v-model="lazySelectVal" placeholder="选项加载2s" style="width: 240px" :loading="isLoaded === 0" @options-visible-change="onOptionsVisible">
+      <OOption v-for="item in lazyOptions" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+    <OSelect v-model="lazySelectVal2" placeholder="选项空状态" style="width: 240px" :loading="isLoaded2 === 0" @options-visible-change="onOptionsVisible2">
+      <OOption v-for="item in lazyOptions2" :key="item.value" :label="item.label" :value="item.value" />
+      <template #empty>很遗憾，没有数据哦</template>
+    </OSelect>
+  </section>
 
-    <h3>下拉项显示/隐藏前确认</h3>
-    <section>
-      <OSelect
-        v-model="selectVal1"
-        placeholder="normal + outline"
-        style="width: 160px"
-        :before-options-show="beforeOptionsShow"
-        :before-options-hide="beforeOptionsShow"
-        :before-select="beforeSelect"
-      >
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-      </OSelect>
-    </section>
+  <h3>下拉项显示/隐藏前确认</h3>
+  <section>
+    <OSelect
+      v-model="selectVal1"
+      placeholder="normal + outline"
+      style="width: 160px"
+      :before-options-show="beforeOptionsShow"
+      :before-options-hide="beforeOptionsShow"
+      :before-select="beforeSelect"
+    >
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </OSelect>
+  </section>
 
-    <h3>扩展菜单</h3>
-    <section>
-      <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 160px">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        <template #action>
-          <div class="select-add" @click="onAdd"><OIconAdd /> 创建新选项</div>
-        </template>
-      </OSelect>
-    </section>
-  </div>
+  <h3>扩展菜单</h3>
+  <section>
+    <OSelect v-model="selectVal1" placeholder="normal + outline" style="width: 160px">
+      <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      <template #action>
+        <div class="select-add" @click="onAdd"><OIconAdd /> 创建新选项</div>
+      </template>
+    </OSelect> -->
+  </section>
 </template>
 <style lang="scss" scoped>
 .page-demo {

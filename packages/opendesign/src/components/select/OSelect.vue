@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch } from 'vue';
+import { computed, provide, ref, watch, watchEffect } from 'vue';
 import { defaultSize, isNotPC } from '../_shared/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_shared/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
-import { OLayer } from '../layer';
+import { ODialog, DialogActionT } from '../dialog';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_shared/style-class';
@@ -25,12 +25,17 @@ const emits = defineEmits<{
 
 const Labels = {
   empty: '暂无数据',
+  cancel: '取消',
+  confirm: '确定',
 };
 
 const selectRef = ref<HTMLElement>();
 const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
+const isResponding = computed(() => {
+  return !props.noResponsive && isNotPC.value;
+});
 
 const tagPopoverVisible = ref(false);
 watch(
@@ -46,19 +51,33 @@ watch(
 const optionLabels = ref<Record<string | number, string>>({});
 
 // 使用数组存储当前value
-const valueList = ref<Array<string | number>>([]);
+const valueList = ref<Array<string | number>>([]); // 选项选中的记录
+const finalValueList = ref<Array<string | number>>([]); // 最终选择值
+// 初始化valuelist
+if (props.multiple) {
+  if (Array.isArray(props.modelValue)) {
+    valueList.value = [...props.modelValue];
+  } else if (Array.isArray(props.defaultValue)) {
+    valueList.value = [...props.defaultValue];
+  } else {
+    valueList.value = [];
+  }
+} else {
+  valueList.value = [((props.modelValue || props.defaultValue) as string | number) || ''];
+}
+finalValueList.value = [...valueList.value];
 
 const valueListDisplay = computed(() => {
   if (!props.maxTagCount) {
-    return valueList.value;
+    return finalValueList.value;
   }
-  return valueList.value.slice(0, props.maxTagCount);
+  return finalValueList.value.slice(0, props.maxTagCount);
 });
 const valueListFold = computed(() => {
   if (!props.maxTagCount) {
     return [];
   }
-  return valueList.value.slice(props.maxTagCount);
+  return finalValueList.value.slice(props.maxTagCount);
 });
 const foldLabel = computed(() => {
   if (props.foldLabel) {
@@ -72,12 +91,6 @@ const foldLabel = computed(() => {
 });
 const foldTrigger = typeof props.showFoldTags === 'string' ? props.showFoldTags : 'hover';
 
-if (props.multiple) {
-  valueList.value = ((props.modelValue || props.defaultValue) as Array<string | number>) || [];
-} else {
-  valueList.value = [((props.modelValue || props.defaultValue) as string | number) || ''];
-}
-
 const round = getRoundClass(props, 'select');
 
 watch(
@@ -85,15 +98,22 @@ watch(
   (v) => {
     if (props.multiple) {
       if (Array.isArray(v)) {
-        valueList.value = v;
+        valueList.value = [...v];
       } else {
         valueList.value = [];
       }
     } else {
       valueList.value = [v as string | number];
     }
+    finalValueList.value = [...valueList.value];
   }
 );
+
+watchEffect(() => {
+  if (!isResponding.value) {
+    finalValueList.value = [...valueList.value];
+  }
+});
 
 const isClearable = computed(() => props.clearable && !props.disabled && valueList.value.length > 0);
 
@@ -104,21 +124,30 @@ const clearClick = (e: Event) => {
   valueList.value = [];
   emits('clear', e);
 };
+const beforeSelect = async (value: string | number) => {
+  if (isFunction(props.beforeSelect)) {
+    const rlt = await props.beforeSelect(value, props.multiple ? valueList.value : valueList.value[0]);
+    return rlt;
+  }
+  return true;
+};
+
 provide(selectOptionInjectKey, {
   multiple: props.multiple,
   selectValue: valueList,
   select: async (option: SelectOptionT, userSelect?: boolean) => {
     if (userSelect) {
       let toValue: SelectValueT = option.value;
-      if (isFunction(props.beforeSelect)) {
-        const rlt = await props.beforeSelect(option.value, props.multiple ? valueList.value : valueList.value[0]);
-        if (rlt === false) {
-          return;
-        }
-        if (typeof rlt !== 'boolean') {
-          toValue = rlt;
-        }
+
+      const rlt = await beforeSelect(option.value);
+
+      if (rlt === false) {
+        return;
       }
+      if (typeof rlt !== 'boolean') {
+        toValue = rlt;
+      }
+
       if (!props.multiple) {
         //单选
 
@@ -136,7 +165,6 @@ provide(selectOptionInjectKey, {
         if (!Array.isArray(toValue)) {
           toValue = [toValue];
         }
-
         toValue.forEach((item) => {
           const idx = valueList.value.indexOf(item);
           if (idx > -1) {
@@ -146,8 +174,10 @@ provide(selectOptionInjectKey, {
           }
         });
 
-        emits('change', valueList.value);
-        emits('update:modelValue', valueList.value);
+        if (!isResponding.value) {
+          emits('change', [...valueList.value]);
+          emits('update:modelValue', [...valueList.value]);
+        }
       }
     } else {
       if (!optionLabels.value[option.value]) {
@@ -156,6 +186,13 @@ provide(selectOptionInjectKey, {
     }
   },
 });
+
+watch(
+  () => valueList.value,
+  (v) => {
+    console.log('change', v);
+  }
+);
 
 const onOptionVisibleChange = (visible: boolean) => {
   emits('options-visible-change', visible);
@@ -182,15 +219,40 @@ const beforeTagPopoverShow = () => {
 };
 
 const onSelectClick = () => {
-  if (props.noResponsive) {
-    return;
-  }
-  if (isNotPC.value) {
+  if (isResponding.value) {
     if (!props.disabled) {
       isSelecting.value = true;
     }
   }
 };
+
+const onSelectDlgChange = (visible: boolean) => {
+  onOptionVisibleChange(visible);
+};
+const selectDlgAction: DialogActionT[] = [
+  {
+    id: 'cancel',
+    label: Labels.cancel,
+    variant: 'text',
+    onClick: () => {
+      isSelecting.value = false;
+      valueList.value = [...finalValueList.value];
+    },
+  },
+  {
+    id: 'ok',
+    label: Labels.confirm,
+    variant: 'text',
+    onClick: () => {
+      isSelecting.value = false;
+
+      finalValueList.value = [...valueList.value];
+
+      emits('change', finalValueList.value);
+      emits('update:modelValue', finalValueList.value);
+    },
+  },
+];
 </script>
 <template>
   <div
@@ -270,13 +332,25 @@ const onSelectClick = () => {
           </slot>
         </div>
       </teleport>
-      <template v-if="!props.noResponsive && isNotPC">
-        <OLayer v-model:visible="isSelecting" :before-show="props.beforeOptionsShow" :before-hide="props.beforeOptionsHide" @change="onOptionVisibleChange">
+      <template v-if="isResponding">
+        <ODialog
+          v-model:visible="isSelecting"
+          :before-show="props.beforeOptionsShow"
+          :before-hide="props.beforeOptionsHide"
+          hide-close
+          class="o-select-dlg"
+          :actions="props.multiple ? selectDlgAction : undefined"
+          :mask-close="!props.multiple"
+          @change="onSelectDlgChange"
+        >
+          <template #header>
+            <div class="o-select-options-head">{{ props.optionTitle }}</div>
+          </template>
           <SelectOption
             :size="props.size"
             :wrap-class="props.optionWrapClass"
             :loading="props.loading"
-            class="o-select-options-layer"
+            class="o-select-options-dlg"
             :option-title="props.optionTitle"
             :multiple="props.multiple"
           >
@@ -285,7 +359,7 @@ const onSelectClick = () => {
             </template>
             <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
-        </OLayer>
+        </ODialog>
       </template>
       <template v-else>
         <OPopup

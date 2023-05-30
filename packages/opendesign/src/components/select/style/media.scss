@@ -1,12 +1,40 @@
 @use '../../style/mixin.scss' as *;
 @include respond-to('not-pc') {
-  .o-select-options-layer {
-    min-width: 312px;
-    --select-options-padding: 12px 16px 16px;
+  .o-select-dlg {
+    --dlg-body-padding: 16px 0 0;
+    --dlg-head-padding: 16px 16px 0;
+
+    .o-dlg-btn {
+      width: 50%;
+      margin-left: 0;
+      + .o-dlg-btn {
+        position: relative;
+        &::before {
+          content: '';
+          border-left: 1px solid var(--o-color-control1-light);
+          position: absolute;
+          height: var(--o-line_height-tip1);
+          left: 0;
+        }
+      }
+    }
+  }
+  .o-select-options-dlg {
+    box-shadow: none;
+    --select-options-padding: 0 16px 16px;
     --select-max-height: 80vh;
 
     .o-option-checkbox {
       width: 100%;
+    }
+
+    .o-checkbox-label {
+      margin-left: 0;
+    }
+    .o-checkbox-wrap {
+      width: 100%;
+      flex-direction: row-reverse;
+      justify-content: space-between;
     }
 
     .o-option-multiple {
@@ -15,11 +43,16 @@
       --option-gap: 0;
 
       + .o-option-multiple {
-        border-top: 1px solid var(--o-color-control4);
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          border-top: 1px solid var(--o-color-control4);
+        }
       }
-    }
-    .o-checkbox-label {
-      margin-left: 0;
     }
   }
 
@@ -28,17 +61,5 @@
     font-size: var(--o-font_size-text2);
     line-height: var(--o-line_height-text2);
     font-weight: 500;
-    margin-top: 16px;
-  }
-}
-@include respond-to('phone') {
-  .o-select-options-layer {
-    min-width: 312px;
-
-    .o-checkbox-wrap {
-      width: 100%;
-      flex-direction: row-reverse;
-      justify-content: space-between;
-    }
   }
 }
