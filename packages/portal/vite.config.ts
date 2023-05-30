@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
   build: {
     target: ['chrome74'],
+    outDir: '../../output/o',
   },
   plugins: [vue()],
   resolve: {

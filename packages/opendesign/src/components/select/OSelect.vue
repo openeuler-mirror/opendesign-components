@@ -6,7 +6,7 @@ import { OPopup } from '../popup';
 import { OPopover } from '../popover';
 import { OLayer } from '../layer';
 import { selectOptionInjectKey } from './provide';
-import { SelectOptionT, selectProps } from './types';
+import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_shared/style-class';
 import ClientOnly from '../_shared/components/client-only';
 import { OScroller } from '../scroller';
@@ -17,8 +17,8 @@ import { filterSlots } from '../upload/util';
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number | Array<string | number>): void;
-  (e: 'change', value: string | number | Array<string | number>): void;
+  (e: 'update:modelValue', value: SelectValueT): void;
+  (e: 'change', value: SelectValueT): void;
   (e: 'options-visible-change', value: boolean): void;
   (e: 'clear', evt: Event): void;
 }>();
@@ -109,7 +109,7 @@ provide(selectOptionInjectKey, {
   selectValue: valueList,
   select: async (option: SelectOptionT, userSelect?: boolean) => {
     if (userSelect) {
-      let toValue: string | number | Array<string | number> = option.value;
+      let toValue: SelectValueT = option.value;
       if (isFunction(props.beforeSelect)) {
         const rlt = await props.beforeSelect(option.value, props.multiple ? valueList.value : valueList.value[0]);
         if (rlt === false) {

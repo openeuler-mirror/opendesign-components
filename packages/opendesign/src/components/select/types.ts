@@ -9,6 +9,7 @@ export interface SelectOptionT {
   label: string;
   value: string | number;
 }
+export type SelectValueT = string | number | string[] | number[] | (string | number)[];
 
 export const selectProps = {
   /**
@@ -16,14 +17,14 @@ export const selectProps = {
    * v-model
    */
   modelValue: {
-    type: [String, Number, Array] as PropType<string | number | (string | number)[]>,
+    type: [String, Number, Array] as PropType<SelectValueT>,
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [String, Number, Array] as PropType<string | number | (string | number)[]>,
+    type: [String, Number, Array] as PropType<SelectValueT>,
   },
   /**
    * 大小 SizeT
@@ -135,10 +136,7 @@ export const selectProps = {
    */
   beforeSelect: {
     type: Function as PropType<
-      (
-        value: string | number,
-        currentValue: string | number | Array<string | number>
-      ) => Promise<boolean | string | number | Array<string | number>> | boolean | string | number | Array<string | number>
+      (value: string | number, currentValue: string | number | Array<string | number>) => Promise<boolean | SelectValueT> | boolean | SelectValueT
     >,
   },
   /**

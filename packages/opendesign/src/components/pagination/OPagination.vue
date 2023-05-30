@@ -3,7 +3,7 @@ import { computed, ref, nextTick, watch } from 'vue';
 import { getPagerItem, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
-import { OSelect } from '../select';
+import { OSelect, SelectValueT } from '../select';
 import { OOption } from '../option';
 import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_shared/icons';
 import { paginationProps } from './types';
@@ -96,7 +96,7 @@ const goToChange = (val: string | number) => {
   updateCurrentPage(Number(val));
 };
 
-const pageSizeChange = (val: string | number) => {
+const pageSizeChange = (val: SelectValueT) => {
   // updateCurrentPage(Number(val));
   const currentIndex = currentPageSize.value * (currentPage.value - 1);
   const oldPage = currentPage.value;

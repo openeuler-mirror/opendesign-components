@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OSelect, OOption, OIconAdd } from '@components/index';
+import { OSelect, OOption, OIconAdd, SelectValueT } from '@components/index';
 import { ref } from 'vue';
 const options = [
   { label: '选项 1', value: '1' },
@@ -13,7 +13,7 @@ const options = [
   { label: '选项 9', value: '9' },
 ];
 const selectVal1 = ref('1');
-const onChange = (value: string | number | (string | number)[]) => {
+const onChange = (value: SelectValueT) => {
   console.log(value);
 };
 const selectVal2 = ref(['1']);
@@ -55,7 +55,7 @@ const beforeOptionsShow = () => {
   return rlt;
 };
 
-const beforeSelect = (value: string | number, currentValue: string | number) => {
+const beforeSelect = (value: SelectValueT, currentValue: SelectValueT) => {
   if (currentValue == value) {
     return true;
   }
