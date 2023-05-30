@@ -26,6 +26,13 @@ export const dividerProps = {
     type: String as PropType<'left' | 'center' | 'right'>,
     default: 'center',
   },
+  /**
+   * 是否颜色加深
+   */
+  darker: {
+    type: Boolean,
+    default: false,
+  },
 };
 
 export type DividerPropsT = ExtractPropTypes<typeof dividerProps>;

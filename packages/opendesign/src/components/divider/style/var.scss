@@ -18,3 +18,7 @@
 .o-divider-v {
   --o-divider-gap: 12px;
 }
+
+.o-divider-darker {
+  --o-divider-bd-color: var(--o-color-control1);
+}
