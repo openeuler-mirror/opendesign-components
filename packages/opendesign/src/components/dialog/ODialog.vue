@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { IconClose } from '../_shared/icons';
 import { OLayer } from '../layer';
+import { OButton } from '../button';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_shared/dom';
@@ -9,8 +10,8 @@ import { ref } from 'vue';
 const props = defineProps(dialogProps);
 
 const emits = defineEmits<{
-  (e: 'change', val: boolean): void;
-  (e: 'update:visible', val: boolean, evt?: MouseEvent): void;
+  (e: 'change', visible: boolean): void;
+  (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
 }>();
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
@@ -48,8 +49,22 @@ defineExpose({
     <div class="o-dlg-body">
       <slot></slot>
     </div>
-    <div v-if="$slots.footer" class="o-dlg-foot">
-      <slot name="footer"></slot>
+    <div v-if="$slots.footer || props.actions" class="o-dlg-foot">
+      <slot name="footer">
+        <div class="o-dlg-actions">
+          <OButton
+            v-for="item in props.actions"
+            :key="item.id"
+            class="o-dlg-btn"
+            :color="item.color"
+            :variant="item.variant"
+            :size="item.size"
+            @click="item.onClick"
+          >
+            {{ item.label }}
+          </OButton>
+        </div>
+      </slot>
     </div>
   </OLayer>
 </template>

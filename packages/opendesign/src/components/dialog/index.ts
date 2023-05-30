@@ -7,6 +7,6 @@ const ODialog = Object.assign(_ODialog, {
   },
 });
 
-export {
-  ODialog,
-};
+export { ODialog };
+
+export * from './types';

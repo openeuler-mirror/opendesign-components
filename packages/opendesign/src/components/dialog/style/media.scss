@@ -1,0 +1,12 @@
+@use '../../style/mixin.scss' as *;
+
+.o-layer.is-responsive {
+  @include respond-to('phone-v') {
+    --layer-align: flex-end;
+    --dlg-min-width: calc(100vw - 48px);
+    padding-bottom: 24px;
+  }
+  @include respond-to('not-phone') {
+    --dlg-min-width: 360px;
+  }
+}
