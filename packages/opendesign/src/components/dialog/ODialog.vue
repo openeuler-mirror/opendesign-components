@@ -36,6 +36,8 @@ defineExpose({
     :mask-transition="props.maskTransition"
     :mask="props.mask"
     :mask-close="props.maskClose"
+    :before-hide="props.beforeHide"
+    :before-show="props.beforeShow"
     @change="(v) => emits('change', v)"
     @update:visible="(v, e) => emits('update:visible', v, e)"
   >

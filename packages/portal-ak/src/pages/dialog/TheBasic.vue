@@ -14,13 +14,29 @@ const toggle = (show?: boolean) => {
 const onChane = (v: boolean) => {
   console.log('dialog change', v);
 };
+
+const beforeShow = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1000);
+  });
+};
+
+const beforeHide = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1000);
+  });
+};
 </script>
 <template>
   <div class="page-demo">
     <h3>类型 & 尺寸</h3>
     <section>
       <OButton @click="toggle(true)">Open</OButton>
-      <ODialog v-model:visible="showDlg" @change="onChane">
+      <ODialog v-model:visible="showDlg" :before-hide="beforeHide" :before-show="beforeShow" @change="onChane">
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>

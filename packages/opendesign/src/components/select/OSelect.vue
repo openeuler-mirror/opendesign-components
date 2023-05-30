@@ -157,7 +157,7 @@ provide(selectOptionInjectKey, {
   },
 });
 
-const onOptionPopupChange = (visible: boolean) => {
+const onOptionVisibleChange = (visible: boolean) => {
   emits('options-visible-change', visible);
 };
 
@@ -271,7 +271,7 @@ const onSelectClick = () => {
         </div>
       </teleport>
       <template v-if="!props.noResponsive && isNotPC">
-        <OLayer v-model:visible="isSelecting">
+        <OLayer v-model:visible="isSelecting" :before-show="props.beforeOptionsShow" :before-hide="props.beforeOptionsHide" @change="onOptionVisibleChange">
           <SelectOption
             :size="props.size"
             :wrap-class="props.optionWrapClass"
@@ -302,7 +302,7 @@ const onSelectClick = () => {
           :adjust-width="props.optionWidthMode === 'width'"
           :before-show="props.beforeOptionsShow"
           :before-hide="props.beforeOptionsHide"
-          @change="onOptionPopupChange"
+          @change="onOptionVisibleChange"
         >
           <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
             <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
