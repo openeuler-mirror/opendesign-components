@@ -6,6 +6,7 @@ import { OButton } from '../button';
 import { dialogProps } from './types';
 import { mergeClass } from '../_shared/dom';
 import { ref } from 'vue';
+import { isNotPC } from '../_shared/global';
 
 const props = defineProps(dialogProps);
 
@@ -29,6 +30,9 @@ defineExpose({
   <OLayer
     ref="layerRef"
     class="o-dialog"
+    :class="{
+      'is-responsive': !props.noResponsive,
+    }"
     :visible="props.visible"
     :wrapper="props.wrapper"
     :unmount-on-hide="props.unmountOnHide"
@@ -39,6 +43,7 @@ defineExpose({
     :mask-close="props.maskClose"
     :before-hide="props.beforeHide"
     :before-show="props.beforeShow"
+    :transition-orign="isNotPC ? 'css' : 'mouse'"
     @change="(v) => emits('change', v)"
     @update:visible="(v, e) => emits('update:visible', v, e)"
   >

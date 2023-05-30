@@ -28,5 +28,5 @@
 }
 
 .o-layer-main {
-  transform-origin: center;
+  transform-origin: var(--layer-origin);
 }

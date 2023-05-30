@@ -41,8 +41,8 @@
   }
   @include respond-to('phone-h') {
     --select-max-height: 272px;
-    .o-select-options-multiple {
-      --select-max-height: 292px;
+    &.o-select-options-multiple {
+      --select-max-height: 216px;
     }
   }
   @include respond-to('phone-v') {

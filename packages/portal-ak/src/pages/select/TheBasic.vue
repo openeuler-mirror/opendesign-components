@@ -73,13 +73,13 @@ const onAdd = () => {
   <h3>类型 & 尺寸</h3>
   <section>
     <span style="width: 40px"> M:</span>
-    <!-- <OSelect :default-value="selectVal1" placeholder="normal + outline" style="width: 240px" clearable option-title="选项" @change="onChange">
+    <OSelect :default-value="selectVal1" placeholder="normal + outline" style="width: 240px" clearable option-title="选项" @change="onChange">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </OSelect>
 
     <OSelect v-model="selectVal1" variant="text" no-responsive placeholder="normal + outline" style="width: 160px">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-    </OSelect> -->
+    </OSelect>
 
     <OSelect v-model="selectVal2" placeholder="normal + outline" style="width: 240px" multiple option-title="选项">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -88,7 +88,7 @@ const onAdd = () => {
     <OSelect v-model="selectVal2" variant="text" no-responsive placeholder="normal + outline" style="width: 160px" multiple>
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </OSelect>
-    <!-- </section>
+  </section>
   <section>
     <span style="width: 40px"> L:</span>
     <OSelect v-model="selectVal1" placeholder="normal + outline" size="large" style="width: 240px" option-title="选项">
@@ -154,7 +154,7 @@ const onAdd = () => {
       <template #action>
         <div class="select-add" @click="onAdd"><OIconAdd /> 创建新选项</div>
       </template>
-    </OSelect> -->
+    </OSelect>
   </section>
 </template>
 <style lang="scss" scoped>

@@ -10,7 +10,7 @@ import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_shared/style-class';
 import ClientOnly from '../_shared/components/client-only';
 import { OScroller } from '../scroller';
-import { isFunction } from '../_shared/is';
+import { isArray, isFunction } from '../_shared/is';
 import SelectOption, { OptionSlotNames } from './SelectOption.vue';
 import { filterSlots } from '../upload/util';
 
@@ -55,9 +55,9 @@ const valueList = ref<Array<string | number>>([]); // 选项选中的记录
 const finalValueList = ref<Array<string | number>>([]); // 最终选择值
 // 初始化valuelist
 if (props.multiple) {
-  if (Array.isArray(props.modelValue)) {
+  if (isArray(props.modelValue)) {
     valueList.value = [...props.modelValue];
-  } else if (Array.isArray(props.defaultValue)) {
+  } else if (isArray(props.defaultValue)) {
     valueList.value = [...props.defaultValue];
   } else {
     valueList.value = [];
@@ -97,7 +97,7 @@ watch(
   () => props.modelValue,
   (v) => {
     if (props.multiple) {
-      if (Array.isArray(v)) {
+      if (isArray(v)) {
         valueList.value = [...v];
       } else {
         valueList.value = [];
@@ -162,7 +162,7 @@ provide(selectOptionInjectKey, {
       } else {
         // 多选
 
-        if (!Array.isArray(toValue)) {
+        if (!isArray(toValue)) {
           toValue = [toValue];
         }
         toValue.forEach((item) => {

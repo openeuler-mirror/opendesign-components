@@ -22,6 +22,12 @@ export const dialogProps = {
   actions: {
     type: Array as PropType<DialogActionT[]>,
   },
+  /**
+   * 是否响应式
+   */
+  noResponsive: {
+    type: Boolean,
+  },
 };
 
 export type DialogPropsT = ExtractPropTypes<typeof dialogProps>;

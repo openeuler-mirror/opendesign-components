@@ -63,3 +63,9 @@
     font-weight: 500;
   }
 }
+
+@include respond-to('not-phone') {
+  .o-select-dlg {
+    --dlg-min-width: 360px;
+  }
+}
