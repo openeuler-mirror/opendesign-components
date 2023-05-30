@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import '../style';
-import useMessage from '../use-message';
-
-import { OButton } from '../../button';
-import '../../button/style';
+import { OButton, useMessage } from '@components/index';
 
 const message = useMessage();
 
@@ -76,7 +72,7 @@ const handleLoadingBtnClick2 = () => {
 </script>
 
 <template>
-  <h4>基础用法</h4>
+  <h3>基础用法</h3>
   <section>
     <OButton color="primary" @click="handleInfoBtnClick">Info Message</OButton>
     <OButton color="success" @click="handleSuccessBtnClick">Success Message</OButton>
@@ -85,7 +81,7 @@ const handleLoadingBtnClick2 = () => {
     <OButton color="primary" @click="handleLoadingBtnClick">Loading Message</OButton>
   </section>
 
-  <h4>底部弹出</h4>
+  <h3>底部弹出</h3>
   <section>
     <OButton color="primary" @click="handleInfoBtnClick2">Info Message</OButton>
     <OButton color="success" @click="handleSuccessBtnClick2">Success Message</OButton>

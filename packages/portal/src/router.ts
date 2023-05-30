@@ -114,7 +114,7 @@ export const routes = [
     path: '/divider',
     name: 'Divider',
     label: '分割线 Divider',
-    component: () => import('@components/divider/__demo__/IndexDivider.vue'),
+    component: () => import('@components/divider/__demo__/TheIndex.vue'),
   },
   {
     path: '/tag',
@@ -126,7 +126,7 @@ export const routes = [
     path: '/badge',
     name: 'Badge',
     label: '徽标 Badge',
-    component: () => import('@components/badge/__demo__/IndexBadge.vue'),
+    component: () => import('@components/badge/__demo__/TheIndex.vue'),
   },
   {
     path: '/rate',
@@ -192,7 +192,7 @@ export const routes = [
     path: '/message',
     name: 'Message',
     label: '消息提示 Message',
-    component: () => import('@components/message/__demo__/IndexMessage.vue'),
+    component: () => import('@components/message/__demo__/TheIndex.vue'),
   },
   {
     path: '/carousel',

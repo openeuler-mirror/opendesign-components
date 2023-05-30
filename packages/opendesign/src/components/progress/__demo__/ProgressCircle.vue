@@ -6,7 +6,7 @@ import { OProgress } from '../index';
 import '../../button/style';
 import { OButton } from '../../button';
 import { OIconAdd, OIconMinus } from '../../icon-components';
-import { OIconAlert } from '../../icon-components';
+import { OIconWarning } from '../../icon-components';
 
 const val = ref(60);
 const increaseVal = () => {
@@ -37,7 +37,7 @@ const decreaseVal = () => {
       <OProgress :percentage="val" color="success" variant="circle" />
       <OProgress :percentage="val" color="warning" variant="circle" size="small">
         <template #icon>
-          <OIconAlert />
+          <OIconWarning />
         </template>
       </OProgress>
       <OProgress :percentage="val" color="danger" variant="circle" size="small" />

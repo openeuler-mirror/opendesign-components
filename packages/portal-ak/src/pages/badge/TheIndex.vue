@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import '../style';
-import MessageBasic from './MessageBasic.vue';
+import BadgeBasic from './BadgeBasic.vue';
 </script>
-
 <template>
   <div class="page-demo">
-    <MessageBasic />
+    <BadgeBasic />
   </div>
 </template>

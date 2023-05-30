@@ -1,35 +1,32 @@
 .o-badge {
-  --badge-text-size: var(--o-font_size-tip1);
-  --badge-text-height: var(--o-line_height-tip1);
+  --badge-text-size: var(--o-font_size-tip2);
+  --badge-text-height: var(--o-line_height-tip2);
 
   --badge-radius: var(--o-control_size-l);
 
-  --badge-padding: 8px;
+  --badge-padding: 2px;
 
-  --badge-dot-size: 8px;
-}
+  --badge-min-width: 12px;
 
-.o-badge-normal {
-  --badge-color: var(--o-color-info1);
-  --badge-bg-color: var(--o-color-control1);
+  --badge-dot-size: 4px;
 }
 
 .o-badge-primary {
-  --badge-color: var(--o-color-fill1);
+  --badge-color: rgb(var(--o-color-white));
   --badge-bg-color: var(--o-color-primary1);
 }
 
 .o-badge-success {
-  --badge-color: var(--o-color-fill1);
+  --badge-color: rgb(var(--o-color-white));
   --badge-bg-color: var(--o-color-success1);
 }
 
 .o-badge-warning {
-  --badge-color: var(--o-color-fill1);
+  --badge-color: rgb(var(--o-color-white));
   --badge-bg-color: var(--o-color-warning1);
 }
 
 .o-badge-danger {
-  --badge-color: var(--o-color-fill1);
+  --badge-color: rgb(var(--o-color-white));
   --badge-bg-color: var(--o-color-danger1);
 }

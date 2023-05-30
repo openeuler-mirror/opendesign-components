@@ -94,6 +94,18 @@ export const routes = [
         label: '下拉选择器 select',
         component: () => import('./pages/select/TheIndex.vue'),
       },
+      {
+        path: 'badge',
+        name: 'Badge',
+        label: '徽标 Badge',
+        component: () => import('./pages/badge/TheIndex.vue'),
+      },
+      {
+        path: 'message',
+        name: 'Message',
+        label: '消息 Message',
+        component: () => import('./pages/message/TheIndex.vue'),
+      },
     ],
   },
   {
