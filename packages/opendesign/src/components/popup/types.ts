@@ -119,13 +119,13 @@ export const popupProps = {
     default: true,
   },
   /**
-   * 显示前回调，根据返回值判断是否显示
+   * 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
    */
   beforeShow: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * 隐藏前回调，根据返回值判断是否隐藏
+   * 隐藏前回调，根据返回值判断是否隐藏，false: 不隐藏； true|undefined: 隐藏
    */
   beforeHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,

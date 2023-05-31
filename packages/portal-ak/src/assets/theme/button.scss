@@ -2,24 +2,24 @@
 
 .o-btn-medium {
   font-size: var(--o-font_size-tip1);
-  line-height: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
   --btn-min-width: 80px;
   --btn-icon-size: var(--o-icon_size-xs);
 }
 .o-btn-large {
   font-size: var(--o-font_size-text1);
-  line-height: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
   --btn-min-width: 96px;
   --btn-icon-size: var(--o-icon_size-s);
 
   @include respond-to('pad') {
     font-size: var(--o-font_size-tip1);
-    line-height: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
     --btn-padding: 0 15px;
   }
 }
 
-.o-btn-outline:not(.o-btn-disabled) {
+.o-btn-outline.o-btn-primary:not(.o-btn-disabled) {
   --btn-color-hover: var(--o-color-info1-inverse);
   --btn-color-active: var(--o-color-info1-inverse);
   --btn-bg-color-hover: var(--o-color-primary2);

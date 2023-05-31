@@ -4,16 +4,29 @@ $breakpoints: (
     0,
     720px,
   ),
-  'not-phone': 720px,
+  'phone-v': (
+    0,
+    576px,
+  ),
+  'phone-h': (
+    577px,
+    720px,
+  ),
+  'up-phone': 720px,
   'pad': (
     721px,
     1200px,
   ),
-  'pc': 1201px,
-  'not-pc': (
+  'phone-pad': (
     0,
     1200px,
   ),
+  'up-pad': 1201px,
+  'laptop': (
+    1201px,
+    1400px,
+  ),
+  'pc': 1441px,
 );
 
 @mixin respond-to($breakname) {

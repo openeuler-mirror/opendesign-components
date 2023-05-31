@@ -105,7 +105,7 @@ const globalSetting = () => {
   display: flex;
   align-items: center;
   font-size: var(--o-font_size-h3);
-  line-height: var(--o-font_size-h3);
+  line-height: var(--o-line_height-h3);
   justify-content: center;
   background-color: var(--o-color-fill2);
   box-shadow: 0px 1px 1px rgba(var(--o-gray-10), 0.1);

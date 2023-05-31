@@ -177,6 +177,12 @@ export const selectProps = {
   optionTitle: {
     type: String,
   },
+  /**
+   * 下拉浮层是否响应式
+   */
+  noResponsive: {
+    type: Boolean,
+  },
 };
 
 export type SelectPropsT = ExtractPropTypes<typeof selectProps>;

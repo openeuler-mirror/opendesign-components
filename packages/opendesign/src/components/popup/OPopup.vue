@@ -17,7 +17,7 @@ import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
 import { getHtmlElement } from '../_shared/vue-utils';
-import { isNotPC } from '../_shared/global';
+import { isPhonePad } from '../_shared/global';
 
 // TODO 处理嵌套
 
@@ -25,7 +25,7 @@ const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = computed<PopupTriggerT[]>(() => {
-  if (isNotPC.value) {
+  if (isPhonePad.value) {
     return ['click'];
   }
   return isArray(props.trigger) ? props.trigger : [props.trigger];
@@ -198,12 +198,33 @@ const onTargetInterscting: IntersectionListenerT = (entry: IntersectionObserverE
   oldIntersecting = isTargetInViewport.value;
 };
 
+const beforeToggle = async (show: boolean) => {
+  let goon = true;
+  if (show) {
+    if (isFunction(props.beforeShow)) {
+      goon = await props.beforeShow();
+    }
+  } else {
+    if (isFunction(props.beforeHide)) {
+      goon = await props.beforeHide();
+    }
+  }
+  return goon !== false;
+};
+
 watch(
   () => props.visible,
-  (val) => {
+  async (val) => {
     if (visible.value === val) {
       return;
     }
+
+    const goon = await beforeToggle(val);
+    if (!goon) {
+      emits('update:visible', visible.value);
+      return;
+    }
+
     visible.value = val;
     if (val) {
       nextTick(() => {
@@ -251,18 +272,9 @@ const updateVisible = async (isVisible?: boolean, delay?: number) => {
     }
   };
 
-  if (v && isFunction(props.beforeShow)) {
-    const toChange = await props.beforeShow();
-    if (toChange === false) {
-      return;
-    }
-  }
-
-  if (!v && isFunction(props.beforeHide)) {
-    const toChange = await props.beforeHide();
-    if (toChange === false) {
-      return;
-    }
+  const goon = await beforeToggle(v);
+  if (!goon) {
+    return;
   }
 
   if (delay) {

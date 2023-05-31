@@ -7,6 +7,7 @@ export default {
 import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties } from 'vue';
 import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
+import { isFunction } from '../_shared/is';
 
 const props = defineProps(layerProps);
 
@@ -36,14 +37,19 @@ let wrapperEl: HTMLElement | null = null;
 const initWrapperEl = () => {
   if (!wrapperEl && layerRef.value) {
     wrapperEl = layerRef.value.offsetParent as HTMLElement;
-    isToBody.value = wrapperEl === document.body;
+    if (!wrapperEl) {
+      wrapperEl = document.body;
+      isToBody.value = true;
+    } else {
+      isToBody.value = wrapperEl === document.body;
+    }
   }
   return wrapperEl;
 };
 
 const handleWrapperScroll = () => {
-  initWrapperEl();
   nextTick(() => {
+    initWrapperEl();
     if (wrapperEl) {
       if (visible.value) {
         wrapperEl.classList.add(LayerClass.OPEN);
@@ -80,10 +86,31 @@ const updateOrigin = (el: HTMLElement | null) => {
     mainStyle.value.transformOrigin = getOriginStyle();
   }
 };
+
+const beforeToggle = async (show: boolean) => {
+  let goon = true;
+  if (show) {
+    if (isFunction(props.beforeShow)) {
+      goon = await props.beforeShow();
+    }
+  } else {
+    if (isFunction(props.beforeHide)) {
+      goon = await props.beforeHide();
+    }
+  }
+  return goon !== false;
+};
+
 watch(
   () => props.visible,
-  (v: boolean) => {
+  async (v: boolean) => {
     if (visible.value !== v) {
+      const goon = await beforeToggle(v);
+      if (!goon) {
+        emits('update:visible', visible.value);
+        return;
+      }
+
       visible.value = v;
       emits('change', v);
       handleWrapperScroll();
@@ -91,16 +118,20 @@ watch(
   }
 );
 
-const toggle = (show?: boolean) => {
+const toggle = async (show?: boolean) => {
   if (visible.value === show) {
     return;
   }
 
-  if (show === undefined) {
-    visible.value = !visible.value;
-  } else {
-    visible.value = show;
+  let toShow = show === undefined ? !visible.value : show;
+
+  const goon = await beforeToggle(toShow);
+  if (!goon) {
+    return;
   }
+
+  visible.value = toShow;
+
   emits('update:visible', visible.value);
   emits('change', visible.value);
   handleWrapperScroll();

@@ -15,6 +15,9 @@ import TheAside from '../components/TheAside.vue';
 body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
+  @media (max-width: 720px) {
+    --app-aside-width: 0;
+  }
 }
 .app-header {
   position: fixed;

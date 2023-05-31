@@ -15,7 +15,7 @@
   --select-padding: 0 16px;
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
-  @include respond-to('not-pc') {
+  @include respond-to('phone-pad') {
     --select-icon-size: var(--o-icon_size-xs);
   }
 }
@@ -24,7 +24,7 @@
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
 
-  @include respond-to('not-pc') {
+  @include respond-to('phone-pad') {
     --select-text-size: var(--o-font_size-tip1);
     --select-text-height: var(--o-line_height-tip1);
   }
@@ -33,6 +33,27 @@
   --select-options-radius: 12px;
   --select-max-height: 302px;
 }
+// 移动端响应式
+.o-select-options-dlg {
+  --select-options-radius: 0;
+  --select-max-height: 350px;
+  .o-select-options-multiple {
+    --select-max-height: 360px;
+  }
+  @include respond-to('phone-h') {
+    --select-max-height: 272px;
+    &.o-select-options-multiple {
+      --select-max-height: 216px;
+    }
+  }
+  @include respond-to('phone-v') {
+    --select-max-height: 90vh;
+    .o-select-options-multiple {
+      --select-max-height: 90vh;
+    }
+  }
+}
+
 .o-select,
 .o-select-tag-popover {
   --select-tag-radius: var(--o-control_size-s);

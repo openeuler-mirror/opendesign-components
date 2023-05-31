@@ -49,6 +49,6 @@ export const isPhoneSize = computed(() => {
   return false;
 });
 
-export const isNotPC = computed(() => {
+export const isPhonePad = computed(() => {
   return isTouchDevice && (isPadSize.value || isPhoneSize.value);
 });
