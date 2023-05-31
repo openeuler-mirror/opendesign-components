@@ -94,7 +94,7 @@ const dlgAction: DialogActionT[] = [
     <h3>插槽</h3>
     <section>
       <OButton @click="toggle('show1', true)">Open</OButton>
-      <ODialog v-model:visible="values.show1" @change="onChane">
+      <ODialog v-model:visible="values.show1" class="o-dialog-phone-full" @change="onChane">
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>

@@ -58,14 +58,31 @@
     --dlg-width: 1170px;
   }
 }
-.o-dialog-large,
-.o-dialog-exlarge {
-  @include respond-to('phone') {
+
+.o-dialog-responsive {
+  @include respond-to('phone-v') {
+    .o-dlg-btn-close {
+      display: none;
+    }
+  }
+
+  &.o-dialog-large,
+  &.o-dialog-exlarge {
+    @include respond-to('phone') {
+      --dlg-width: 100%;
+      --dlg-margin: 0;
+      --dlg-radius: 0;
+      .o-dlg-main {
+        height: 100%;
+      }
+    }
+  }
+}
+
+.o-dialog-phone-full {
+  @include respond-to('phone-v') {
     --dlg-width: 100%;
     --dlg-margin: 0;
     --dlg-radius: 0;
-    .o-dlg-main {
-      height: 100%;
-    }
   }
 }
