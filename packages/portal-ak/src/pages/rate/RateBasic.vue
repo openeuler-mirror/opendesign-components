@@ -1,0 +1,41 @@
+<script setup lang="ts">
+import { ORate } from '@components/index';
+</script>
+
+<template>
+  <h4>基础用法</h4>
+  <section>
+    <div class="display-box">
+      <ORate :default-value="1" readonly :count="1" />
+      <span class="rate-label">4.0</span>
+    </div>
+
+    <div class="display-box">
+      <ORate :default-value="0" readonly :count="1" />
+      <span class="rate-label">暂无评分</span>
+    </div>
+
+    <div class="display-box">
+      <ORate :default-value="3" size="large" />
+    </div>
+  </section>
+</template>
+
+<style scoped>
+section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.display-box {
+  display: flex;
+  align-items: center;
+}
+
+.rate-label {
+  color: var(--o-color-info2);
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  margin-left: 8px;
+}
+</style>
