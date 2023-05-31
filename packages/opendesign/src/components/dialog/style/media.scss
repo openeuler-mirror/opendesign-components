@@ -3,6 +3,9 @@
 .o-dialog-responsive {
   @include respond-to('phone-pad') {
     --layer-position: fixed;
+    .o-dlg-btn {
+      flex: 1;
+    }
   }
   @include respond-to('phone-v') {
     --layer-align: flex-end;

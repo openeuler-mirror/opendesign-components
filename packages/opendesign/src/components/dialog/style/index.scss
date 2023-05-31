@@ -31,6 +31,10 @@
 
 .o-dlg-head {
   padding: var(--dlg-head-padding);
+  text-align: center;
+  font-size: var(--o-font_size-text2);
+  line-height: var(--o-line_height-text2);
+  font-weight: 500;
 }
 .o-dlg-scroller-body,
 .o-dlg-body {
@@ -50,7 +54,6 @@
   justify-content: center;
 }
 .o-dlg-btn {
-  flex: 1;
   + .o-dlg-btn {
     margin-left: 16px;
   }
