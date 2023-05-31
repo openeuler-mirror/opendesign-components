@@ -14,6 +14,13 @@ export interface DialogActionT {
   onClick: () => void;
 }
 
+export interface DialogScrollerT {
+  showType?: 'auto' | 'always' | 'hover';
+  size?: 'medium' | 'small';
+  disabledX?: boolean;
+  disabledY?: boolean;
+}
+
 export const dialogProps = {
   ...layerProps,
   /**
@@ -45,7 +52,7 @@ export const dialogProps = {
    * 是否使用scroller
    */
   scroller: {
-    type: Boolean,
+    type: [Boolean, Object] as PropType<boolean | DialogScrollerT>,
     default: true,
   },
 };

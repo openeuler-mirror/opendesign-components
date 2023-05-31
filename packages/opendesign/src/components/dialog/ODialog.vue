@@ -55,7 +55,7 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-head">
       <slot name="header"></slot>
     </div>
-    <OScroller v-if="props.scroller" class="o-dlg-scroller" wrap-class="o-dlg-scroller-body" size="small" show-type="hover">
+    <OScroller v-if="props.scroller" class="o-dlg-scroller" wrap-class="o-dlg-scroller-body" size="small" show-type="hover" v-bind="props.scroller">
       <slot></slot>
     </OScroller>
     <div v-else class="o-dlg-body">
