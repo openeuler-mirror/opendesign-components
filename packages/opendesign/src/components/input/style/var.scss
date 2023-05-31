@@ -8,8 +8,16 @@
   --input-bg-color-focus: var(--o-color-control-light);
 
   --input-prepend-append-bd-color: var(--o-color-control1);
+  --input-prepend-append-bd-color-disabled: var(--o-color-control4-light);
+
   --o-input-icon-size: var(--o-icon_size-s);
 }
+
+.o-input-solid {
+  --input-prepend-append-bg-color: var(--o-color-control1-light);
+  --input-prepend-append-bd-color: var(--o-color-control2-light);
+}
+
 .o-input-normal {
   --input-bd-color: var(--o-color-control1);
   --input-bd-color-hover: var(--o-color-primary2);
@@ -24,11 +32,6 @@
     --input-bg-color: var(--o-color-control1-light);
     --input-bg-color-hover: var(--o-color-control-light);
     --input-bg-color-disabled: var(--o-color-control4-light);
-
-    --input-prepend-append-bd-color: var(--o-color-control2-light);
-    &.o-input-disabled {
-      --input-prepend-append-bd-color: var(--o-color-control4-light);
-    }
   }
 }
 .o-input-success {
@@ -83,10 +86,6 @@
     --input-bg-color-hover: var(--o-color-danger-light);
     --input-bg-color-disabled: var(--o-color-danger4-light);
   }
-}
-
-.o-input-solid {
-  --input-prepend-append-bg-color: var(--o-color-control1-light);
 }
 
 .o-input-small {

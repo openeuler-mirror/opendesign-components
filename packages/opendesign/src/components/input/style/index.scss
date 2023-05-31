@@ -148,6 +148,10 @@
   align-items: center;
   background-color: var(--input-prepend-append-bg-color);
   border: 1px solid var(--input-prepend-append-bd-color);
+
+  .o-input-disabled & {
+    border-color: var(--input-prepend-append-bd-color-disabled);
+  }
 }
 
 .o-input-append {
