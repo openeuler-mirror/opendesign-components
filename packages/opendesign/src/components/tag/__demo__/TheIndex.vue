@@ -7,7 +7,6 @@ import TagSize from './TagSize.vue';
 import TagShape from './TagRound.vue';
 import TagOutline from './TagOutline.vue';
 import TagClosable from './TagClosable.vue';
-import TagCheckable from './TagCheckable.vue';
 </script>
 
 <template>
@@ -18,6 +17,5 @@ import TagCheckable from './TagCheckable.vue';
     <TagShape />
     <TagClosable />
     <TagOutline />
-    <TagCheckable />
   </div>
 </template>

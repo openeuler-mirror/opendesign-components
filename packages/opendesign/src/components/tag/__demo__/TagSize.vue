@@ -5,7 +5,6 @@ import { OTag } from '../index';
 <template>
   <h4>Size</h4>
   <section>
-    <OTag size="large">Large Tag</OTag>
     <OTag>Medium Tag</OTag>
     <OTag size="small">Small Tag</OTag>
   </section>
