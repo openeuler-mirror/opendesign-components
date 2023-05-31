@@ -4,8 +4,8 @@ import { OScroller } from '@components/index';
 <template>
   <div class="page-demo">
     <h3>类型 & 尺寸</h3>
+    <h4 style="width: 40px">M:</h4>
     <section>
-      <span style="width: 40px"> M:</span>
       <OScroller class="container" show-type="hover" size="small">
         <div class="section">横、竖向滚动</div>
         <div class="section">横、竖向滚动</div>
@@ -22,8 +22,8 @@ import { OScroller } from '@components/index';
         <div class="section">禁用竖向滚动</div>
       </OScroller>
     </section>
+    <h4 style="width: 40px">L:</h4>
     <section>
-      <span style="width: 40px"> L:</span>
       <OScroller class="container" show-type="hover">
         <div class="section">横、竖向滚动</div>
         <div class="section">横、竖向滚动</div>
