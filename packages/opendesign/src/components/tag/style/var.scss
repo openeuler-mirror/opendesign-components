@@ -1,6 +1,6 @@
 .o-tag {
-  --tag-icon-size: var(--o-icon_size-xs);
   --tag-icon-gap: 4px;
+  --tag-radius: var(--o-radius-control-s);
   --tag-icon-close-color: var(--o-color-info2);
   --tag-icon-close-color-hover: var(--o-color-info1);
   --tag-icon-close-color-active: var(--o-color-info1);
@@ -66,15 +66,15 @@
   --tag-text-size: var(--o-font_size-tip2);
   --tag-text-height: var(--o-line_height-tip2);
   --tag-height: var(--o-control_size-s);
-  --tag-radius: var(--o-radius-control-s);
+  --tag-icon-size: var(--o-icon_size-xs);
 }
 
 .o-tag-small {
   --tag-padding: 0 6px;
-  --tag-text-size: var(--o-font_size-tip1);
-  --tag-text-height: var(--o-line_height-tip1);
-  --tag-radius: var(--o-radius-control-s);
+  --tag-text-size: var(--o-font_size-tip2);
+  --tag-text-height: var(--o-line_height-tip2);
   --tag-height: var(--o-control_size-xs);
+  --tag-icon-size: var(--o-icon_size-2xs);
 }
 
 .o-tag-round-pill {

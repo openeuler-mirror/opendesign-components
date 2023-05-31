@@ -3,8 +3,9 @@ import { inject } from 'vue';
 import { breadcrumbItemProps } from './types';
 import { breadcrumbInjectKey } from './provide';
 import { IconChevronRight } from '../_shared/icons';
+import htmlTag from '../_shared/components/html-tag';
 
-defineProps(breadcrumbItemProps);
+const props = defineProps(breadcrumbItemProps);
 
 const breadcrumbInjection = inject(breadcrumbInjectKey, null);
 </script>
@@ -12,21 +13,20 @@ const breadcrumbInjection = inject(breadcrumbInjectKey, null);
 <template>
   <div class="o-breadcrumb-item">
     <!-- label -->
-    <a v-if="href" :href="href" :target="target" class="o-breadcrumb-item-label">
-      <slot></slot>
-    </a>
-    <router-link v-else-if="to" :to="to" :replace="replace" class="o-breadcrumb-item-label">
+    <router-link v-if="props.to" :to="props.to" :replace="props.replace" class="o-breadcrumb-item-label">
       <slot></slot>
     </router-link>
-    <span v-else class="o-breadcrumb-item-label">
+    <htmlTag v-else :tag="!!props.href ? 'a' : 'span'" :href="props.href" :target="props.href ? props.target : undefined" class="o-breadcrumb-item-label">
       <slot></slot>
-    </span>
+    </htmlTag>
+
     <!-- separator -->
     <span class="o-breadcrumb-item-separator">
-      <slot v-if="$slots.separator" name="separator"></slot>
-      <template v-else-if="separator"> {{ separator }}</template>
-      <template v-else-if="breadcrumbInjection?.separator.value">{{ breadcrumbInjection?.separator.value }} </template>
-      <IconChevronRight v-else />
+      <slot name="separator">
+        <template v-if="props.separator"> {{ props.separator }}</template>
+        <template v-else-if="breadcrumbInjection?.separator.value">{{ breadcrumbInjection?.separator.value }} </template>
+        <IconChevronRight v-else />
+      </slot>
     </span>
   </div>
 </template>

@@ -106,6 +106,24 @@ export const routes = [
         label: '消息 Message',
         component: () => import('./pages/message/TheIndex.vue'),
       },
+      {
+        path: 'rate',
+        name: 'Rate',
+        label: '评分 Rate',
+        component: () => import('./pages/rate/TheIndex.vue'),
+      },
+      {
+        path: 'tag',
+        name: 'Tag',
+        label: '标签 Tag',
+        component: () => import('./pages/tag/TheIndex.vue'),
+      },
+      {
+        path: 'breadcrumb',
+        name: 'Breadcrumb',
+        label: '面包屑 Breadcrumb',
+        component: () => import('./pages/breadcrumb/TheIndex.vue'),
+      },
     ],
   },
   {

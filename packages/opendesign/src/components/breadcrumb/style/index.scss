@@ -19,11 +19,12 @@
   align-items: center;
 
   &:last-child {
-    color: var(--breadcrumb-color-active);
+    color: var(--breadcrumb-color-selected);
     font-weight: 500;
 
     .o-breadcrumb-item-label {
       cursor: default;
+      max-width: none;
     }
 
     .o-breadcrumb-item-separator {
@@ -34,7 +35,18 @@
 
 .o-breadcrumb-item-label {
   cursor: pointer;
-  &:hover {
+  max-width: var(--breadcrumb-label-max-width);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--o-duration-s) var(--o-easing-standard);
+  @include hover {
+    &:hover {
+      color: var(--breadcrumb-color-hover);
+    }
+  }
+
+  &:active {
     color: var(--breadcrumb-color-active);
   }
 }
@@ -46,5 +58,6 @@
   min-width: var(--breadcrumb-seperator-size);
   font-size: var(--breadcrumb-seperator-size);
   line-height: 1;
+  transition: color var(--o-duration-s) var(--o-easing-standard);
   margin: 0 var(--breadcrumb-gap);
 }

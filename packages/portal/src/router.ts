@@ -120,7 +120,7 @@ export const routes = [
     path: '/tag',
     name: 'Tag',
     label: '标签 Tag',
-    component: () => import('@components/tag/__demo__/IndexTag.vue'),
+    component: () => import('@components/tag/__demo__/TheIndex.vue'),
   },
   {
     path: '/badge',
@@ -132,13 +132,13 @@ export const routes = [
     path: '/rate',
     name: 'Rate',
     label: '评分 Rate',
-    component: () => import('@components/rate/__demo__/IndexRate.vue'),
+    component: () => import('@components/rate/__demo__/TheIndex.vue'),
   },
   {
     path: '/breadcrumb',
     name: 'Breadcrumb',
     label: '面包屑 Breadcrumb',
-    component: () => import('@components/breadcrumb/__demo__/IndexBreadcrumb.vue'),
+    component: () => import('@components/breadcrumb/__demo__/TheIndex.vue'),
   },
   {
     path: '/menu',
