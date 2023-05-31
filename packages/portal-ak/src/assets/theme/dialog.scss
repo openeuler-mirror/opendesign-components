@@ -4,10 +4,15 @@
   --dlg-head-padding: 32px 32px 0;
   --dlg-body-padding: 24px 32px;
   --dlg-foot-padding: 0 32px 32px;
+
+  @include respond-to('phone-pad') {
+    --dlg-head-padding: 16px 16px 0;
+    --dlg-body-padding: 12px 16px 12px;
+    --dlg-foot-padding: 0 16px 16px;
+  }
 }
 .o-dialog-small {
   --dlg-width: 35%;
-  --dlg-body-max-height: 96px;
 
   @include respond-to('pc') {
     --dlg-width: 450px;
@@ -19,6 +24,7 @@
   }
 
   @include respond-to('phone-v') {
+    --dlg-body-max-height: calc(100vh - 170px);
     --dlg-width: calc(100vw - 48px);
   }
 }
@@ -37,6 +43,7 @@
   }
 
   @include respond-to('phone-v') {
+    --dlg-body-max-height: calc(100vh - 170px);
     --dlg-width: calc(100vw - 48px);
   }
 }
@@ -60,9 +67,29 @@
 }
 
 .o-dialog-responsive {
+  @include respond-to('phone-pad') {
+    .o-dlg-head {
+      text-align: center;
+      font-size: var(--o-font_size-text2);
+      line-height: var(--o-line_height-text2);
+      font-weight: 500;
+    }
+  }
   @include respond-to('phone-v') {
     .o-dlg-btn-close {
       display: none;
+    }
+    .o-dlg-btn {
+      + .o-dlg-btn.o-btn-text {
+        position: relative;
+        &::before {
+          content: '';
+          border-left: 1px solid var(--o-color-control1-light);
+          position: absolute;
+          height: 24px;
+          left: -8px;
+        }
+      }
     }
   }
 

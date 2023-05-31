@@ -50,6 +50,7 @@
   justify-content: center;
 }
 .o-dlg-btn {
+  flex: 1;
   + .o-dlg-btn {
     margin-left: 16px;
   }

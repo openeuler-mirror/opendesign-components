@@ -13,6 +13,7 @@ interface OptionPropT {
   loading?: boolean;
   optionTitle?: string;
   multiple?: boolean;
+  scroller?: boolean;
 }
 const props = defineProps<OptionPropT>();
 </script>
@@ -26,12 +27,18 @@ const props = defineProps<OptionPropT>();
       },
     ]"
   >
-    <OScroller class="o-select-options-scroller" size="small" show-type="hover" :wrap-class="props.wrapClass">
+    <OScroller v-if="props.scroller" class="o-select-options-scroller" size="small" show-type="hover" :wrap-class="props.wrapClass">
       <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
       <slot v-else name="option-target">
         <div ref="optionsRef"></div>
       </slot>
     </OScroller>
+    <div v-else class="o-select-options-wrap" :class="props.wrapClass">
+      <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
+      <slot v-else name="option-target">
+        <div ref="optionsRef"></div>
+      </slot>
+    </div>
     <div class="o-select-actions">
       <slot name="action"></slot>
     </div>

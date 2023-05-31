@@ -11,6 +11,13 @@ const options = [
   { label: '选项 7', value: '7' },
   { label: '选项 8', value: '8' },
   { label: '选项 9', value: '9' },
+  { label: '选项 10', value: '10' },
+  { label: '选项 11', value: '11' },
+  { label: '选项 12', value: '12' },
+  { label: '选项 13', value: '13' },
+  { label: '选项 14', value: '14' },
+  { label: '选项 15', value: '15' },
+  { label: '选项 16', value: '16' },
 ];
 const selectVal1 = ref('1');
 const onChange = (value: SelectValueT) => {

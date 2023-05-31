@@ -344,6 +344,7 @@ const selectDlgAction: DialogActionT[] = [
           :class="{
             'is-loading': props.loading,
           }"
+          size="small"
           @change="onSelectDlgChange"
         >
           <template v-if="props.optionTitle" #header>
@@ -381,7 +382,7 @@ const selectDlgAction: DialogActionT[] = [
           :before-hide="props.beforeOptionsHide"
           @change="onOptionVisibleChange"
         >
-          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
+          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" scroller>
             <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
               <slot :name="name" v-bind="slotData"></slot>
             </template>

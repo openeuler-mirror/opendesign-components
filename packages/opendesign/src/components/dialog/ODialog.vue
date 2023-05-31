@@ -69,8 +69,8 @@ defineExpose({
             :key="item.id"
             class="o-dlg-btn"
             :color="item.color"
-            :variant="item.variant"
-            :size="item.size"
+            :variant="!item.variant && isPhonePad ? 'text' : item.variant"
+            :size="!item.size && isPhonePad ? 'large' : item.size"
             @click="item.onClick"
           >
             {{ item.label }}

@@ -1,31 +1,11 @@
 @use '../../style/mixin.scss' as *;
-@include respond-to('phone-pad') {
-  .o-select-dlg {
-    --dlg-body-padding: 16px 0 0;
-    --dlg-head-padding: 16px 16px 0;
-    &.is-loading {
-      --dlg-body-padding: 12px 0;
-    }
 
-    .o-dlg-btn {
-      width: 50%;
-      margin-left: 0;
-      + .o-dlg-btn {
-        position: relative;
-        &::before {
-          content: '';
-          border-left: 1px solid var(--o-color-control1-light);
-          position: absolute;
-          height: var(--o-line_height-tip1);
-          left: 0;
-        }
-      }
-    }
-  }
+@include respond-to('phone-pad') {
   .o-select-options-dlg {
     box-shadow: none;
-    --select-options-padding: 0 16px 16px;
+    --select-options-padding: 0;
     --select-max-height: 80vh;
+    --select-options-radius: 0;
 
     .o-option-checkbox {
       width: 100%;
@@ -57,18 +37,5 @@
         }
       }
     }
-  }
-
-  .o-select-options-head {
-    text-align: center;
-    font-size: var(--o-font_size-text2);
-    line-height: var(--o-line_height-text2);
-    font-weight: 500;
-  }
-}
-
-@include respond-to('up-phone') {
-  .o-select-dlg {
-    --dlg-min-width: 360px;
   }
 }

@@ -35,6 +35,7 @@
 }
 // 移动端响应式
 .o-select-options-dlg {
+  --select-options-radius: 0;
   --select-max-height: 350px;
   .o-select-options-multiple {
     --select-max-height: 360px;
