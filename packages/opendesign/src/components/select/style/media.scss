@@ -3,6 +3,9 @@
   .o-select-dlg {
     --dlg-body-padding: 16px 0 0;
     --dlg-head-padding: 16px 16px 0;
+    &.is-loading {
+      --dlg-body-padding: 12px 0;
+    }
 
     .o-dlg-btn {
       width: 50%;

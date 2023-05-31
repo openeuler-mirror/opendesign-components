@@ -37,14 +37,19 @@ let wrapperEl: HTMLElement | null = null;
 const initWrapperEl = () => {
   if (!wrapperEl && layerRef.value) {
     wrapperEl = layerRef.value.offsetParent as HTMLElement;
-    isToBody.value = wrapperEl === document.body;
+    if (!wrapperEl) {
+      wrapperEl = document.body;
+      isToBody.value = true;
+    } else {
+      isToBody.value = wrapperEl === document.body;
+    }
   }
   return wrapperEl;
 };
 
 const handleWrapperScroll = () => {
-  initWrapperEl();
   nextTick(() => {
+    initWrapperEl();
     if (wrapperEl) {
       if (visible.value) {
         wrapperEl.classList.add(LayerClass.OPEN);

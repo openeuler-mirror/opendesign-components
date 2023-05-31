@@ -341,9 +341,12 @@ const selectDlgAction: DialogActionT[] = [
           class="o-select-dlg"
           :actions="props.multiple ? selectDlgAction : undefined"
           :mask-close="!props.multiple"
+          :class="{
+            'is-loading': props.loading,
+          }"
           @change="onSelectDlgChange"
         >
-          <template #header>
+          <template v-if="props.optionTitle" #header>
             <div class="o-select-options-head">{{ props.optionTitle }}</div>
           </template>
           <SelectOption

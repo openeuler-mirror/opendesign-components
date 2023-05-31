@@ -1,6 +1,7 @@
 @use '../../style/mixin.scss' as *;
 
 .o-dialog.is-responsive {
+  --layer-position: fixed;
   @include respond-to('phone-v') {
     --layer-align: flex-end;
     --dlg-min-width: calc(100vw - 48px);
