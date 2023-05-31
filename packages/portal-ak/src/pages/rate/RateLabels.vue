@@ -8,7 +8,7 @@ const labels = ref(['非常不满意', '不满意', ' 一般', '满意', '非常
 </script>
 
 <template>
-  <h4>带文字提示</h4>
+  <h3>带文字提示</h3>
   <section>
     <ORate :default-value="rateVal" :labels="labels" size="large" />
   </section>

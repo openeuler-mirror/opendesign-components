@@ -1,4 +1,5 @@
-@media screen and (max-width: 1200px) {
+@use '../../style/mixin.scss' as *;
+@include respond-to('phone-pad') {
   .o-divider {
     --o-divider-text-size: var(--o-font_size-tip1);
     --o-divider-text-height: var(--o-line_height-tip1);

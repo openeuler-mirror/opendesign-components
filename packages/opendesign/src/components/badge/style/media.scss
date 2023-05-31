@@ -1,4 +1,5 @@
-@media screen and (max-width: 1200px) {
+@use '../../style/mixin.scss' as *;
+@include respond-to('phone-pad') {
   .o-badge {
     --badge-dot-size: 6px;
   }

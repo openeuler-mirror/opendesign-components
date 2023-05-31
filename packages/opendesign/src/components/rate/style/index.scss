@@ -23,7 +23,7 @@
 
   &.is-full {
     .o-rate-icon-bottom {
-      color: var(--rate-color-active);
+      color: var(--rate-color-selected);
     }
   }
 
@@ -44,7 +44,7 @@
   width: 50%;
   opacity: 0;
   overflow: hidden;
-  color: var(--rate-color-active);
+  color: var(--rate-color-selected);
 }
 
 .o-rate-popover {

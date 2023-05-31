@@ -3,7 +3,7 @@ import { ORate } from '@components/index';
 </script>
 
 <template>
-  <h4>基础用法</h4>
+  <h3>基础用法</h3>
   <section>
     <div class="display-box">
       <ORate :default-value="1" readonly :count="1" />
