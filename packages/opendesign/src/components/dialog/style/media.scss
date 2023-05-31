@@ -1,15 +1,16 @@
 @use '../../style/mixin.scss' as *;
 
-.o-dialog.is-responsive {
-  --layer-position: fixed;
+.o-dialog-responsive {
+  @include respond-to('phone-pad') {
+    --layer-position: fixed;
+  }
   @include respond-to('phone-v') {
     --layer-align: flex-end;
-    --dlg-min-width: calc(100vw - 48px);
-    padding-bottom: 24px;
+    --dlg-width: calc(100vw - 48px);
     --layer-origin: center bottom;
+    --dlg-min-width: none;
   }
-  @include respond-to('not-phone') {
-    --dlg-min-width: 360px;
+  @include respond-to('up-phone') {
     --layer-origin: center;
   }
 }

@@ -4,7 +4,7 @@ import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
 import { useResizeObserver } from '../hooks';
 import { getHtmlElement } from '../_shared/vue-utils';
-import { isNotPC } from '../_shared/global';
+import { isPhonePad } from '../_shared/global';
 
 const ScrollerClass = {
   BODY: 'o-hide-scrollbar',
@@ -142,7 +142,7 @@ const onVBarScroll = (ratio: number) => {
 };
 
 const onBarHoverIn = (d: ScrollerDirection) => {
-  if (isNotPC.value) {
+  if (isPhonePad.value) {
     return;
   }
   if (d === 'x') {
@@ -161,7 +161,7 @@ const onBarHoverIn = (d: ScrollerDirection) => {
 };
 
 const onBarHoverOut = (d: ScrollerDirection) => {
-  if (isNotPC.value) {
+  if (isPhonePad.value) {
     return;
   }
   if (d === 'x') {
@@ -184,7 +184,7 @@ const onBarHoverOut = (d: ScrollerDirection) => {
       {
         'o-scroller-auto-show': props.showType === 'auto',
         'o-scroller-always-show': props.showType === 'always',
-        'o-scroller-hover-show': props.showType === 'hover' && !isNotPC,
+        'o-scroller-hover-show': props.showType === 'hover' && !isPhonePad,
         'o-scroller-both': hasX && hasY,
         'o-scroller-to-body': isBody,
         'o-scroller-show-x': showXBar,

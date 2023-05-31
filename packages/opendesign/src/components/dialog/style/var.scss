@@ -1,5 +1,5 @@
 .o-dialog {
-  --dlg-close-size: var(--o-icon_size-xs);
+  --dlg-close-size: var(--o-icon_size-s);
   --dlg-close-color: var(--o-color-info2);
   --dlg-close-color-hover: var(--o-color-primary2);
   --dlg-close-color-active: var(--o-color-primary3);
@@ -12,4 +12,29 @@
   --dlg-head-padding: 16px 24px;
   --dlg-body-padding: 0 24px;
   --dlg-foot-padding: 16px 24px;
+  --dlg-margin: 24px;
+}
+
+.o-dialog-auto {
+  &.o-layer-to-body {
+    --dlg-body-max-height: calc(100vh - 216px);
+  }
+}
+
+.o-dialog-small {
+  --dlg-width: 448px;
+  --dlg-body-max-height: 160px;
+}
+.o-dialog-medium {
+  --dlg-width: 40%;
+  --dlg-body-max-height: 360px;
+}
+
+.o-dialog-large {
+  --dlg-width: 60%;
+  --dlg-body-max-height: 640px;
+}
+.o-dialog-exlarge {
+  --dlg-width: 80%;
+  --dlg-body-max-height: 640px;
 }

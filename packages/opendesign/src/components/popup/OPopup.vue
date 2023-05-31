@@ -17,7 +17,7 @@ import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
 import { getHtmlElement } from '../_shared/vue-utils';
-import { isNotPC } from '../_shared/global';
+import { isPhonePad } from '../_shared/global';
 
 // TODO 处理嵌套
 
@@ -25,7 +25,7 @@ const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = computed<PopupTriggerT[]>(() => {
-  if (isNotPC.value) {
+  if (isPhonePad.value) {
     return ['click'];
   }
   return isArray(props.trigger) ? props.trigger : [props.trigger];

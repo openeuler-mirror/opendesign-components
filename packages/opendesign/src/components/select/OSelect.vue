@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch, watchEffect } from 'vue';
-import { defaultSize, isNotPC } from '../_shared/global';
+import { defaultSize, isPhonePad } from '../_shared/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_shared/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
@@ -34,7 +34,7 @@ const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
 const isResponding = computed(() => {
-  return !props.noResponsive && isNotPC.value;
+  return !props.noResponsive && isPhonePad.value;
 });
 
 const tagPopoverVisible = ref(false);

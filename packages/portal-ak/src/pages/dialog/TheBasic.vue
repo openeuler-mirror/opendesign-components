@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { OButton, ODialog } from '@components/index';
-import { reactive } from 'vue';
+import { OButton, ODialog, DialogSizeT, DialogActionT } from '@components/index';
+import { reactive, ref } from 'vue';
 
 const values = reactive({
   show0: false,
   show1: false,
   show2: false,
 });
-const toggle = (key: keyof typeof values, show?: boolean) => {
+const dlgSize = ref<DialogSizeT>('medium');
+const toggle = (key: keyof typeof values, show?: boolean, size?: DialogSizeT) => {
+  if (size) {
+    dlgSize.value = size;
+  }
   if (show === undefined) {
     values[key] = !values[key];
   } else {
@@ -35,19 +39,23 @@ const beforeHide = (): Promise<boolean> => {
   });
 };
 
-const dlgAction = [
+const dlgAction: DialogActionT[] = [
   {
     id: 'cancel',
     label: '取消',
     onClick: () => {
       console.log('cancel');
+      toggle('show0');
     },
   },
   {
     id: 'ok',
     label: '确认',
+    color: 'primary',
+    variant: 'solid',
     onClick: () => {
       console.log('cancel');
+      toggle('show0');
     },
   },
 ];
@@ -57,9 +65,16 @@ const dlgAction = [
     <h3>基本</h3>
     <section>
       <OButton @click="toggle('show0', true)">Open</OButton>
-      <ODialog v-model:visible="values.show0" :actions="dlgAction" @change="onChane">
+      <OButton @click="toggle('show0', true, 'auto')">Open auto</OButton>
+      <OButton @click="toggle('show0', true, 'small')">Open Small</OButton>
+      <OButton @click="toggle('show0', true, 'medium')">Open Medium</OButton>
+      <OButton @click="toggle('show0', true, 'large')">Open Large</OButton>
+      <OButton @click="toggle('show0', true, 'exlarge')">Open exlarge</OButton>
+      <ODialog v-model:visible="values.show0" :actions="dlgAction" :size="dlgSize" @change="onChane">
         <template #header>Dialog Title</template>
-        This is Dialog
+        <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">
+          This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
+        </div>
       </ODialog>
     </section>
     <h3>延迟响应</h3>

@@ -1,0 +1,71 @@
+@use './mixin.scss' as *;
+
+.o-dialog {
+  --dlg-head-padding: 32px 32px 0;
+  --dlg-body-padding: 24px 32px;
+  --dlg-foot-padding: 0 32px 32px;
+}
+.o-dialog-small {
+  --dlg-width: 35%;
+  --dlg-body-max-height: 96px;
+
+  @include respond-to('pc') {
+    --dlg-width: 450px;
+  }
+
+  @include respond-to('phone-h') {
+    --dlg-width: 65%;
+    --dlg-body-max-height: calc(100vh - 212px);
+  }
+
+  @include respond-to('phone-v') {
+    --dlg-width: calc(100vw - 48px);
+  }
+}
+
+.o-dialog-medium {
+  --dlg-width: 50%;
+  --dlg-body-max-height: 296px;
+
+  @include respond-to('pc') {
+    --dlg-width: 690px;
+  }
+
+  @include respond-to('phone-h') {
+    --dlg-width: 65%;
+    --dlg-body-max-height: calc(100vh - 212px);
+  }
+
+  @include respond-to('phone-v') {
+    --dlg-width: calc(100vw - 48px);
+  }
+}
+
+.o-dialog-large {
+  --dlg-width: 65%;
+  --dlg-body-max-height: 596px;
+
+  @include respond-to('pc') {
+    --dlg-width: 930px;
+  }
+}
+
+.o-dialog-exlarge {
+  --dlg-width: 80%;
+  --dlg-body-max-height: 596px;
+
+  @include respond-to('pc') {
+    --dlg-width: 1170px;
+  }
+}
+.o-dialog-large,
+.o-dialog-exlarge {
+  @include respond-to('phone') {
+    --dlg-width: 100%;
+    --dlg-margin: 0;
+    --dlg-radius: 0;
+    .o-dlg-main {
+      height: 100%;
+    }
+  }
+}

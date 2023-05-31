@@ -1,5 +1,5 @@
 @use '../../style/mixin.scss' as *;
-@include respond-to('not-pc') {
+@include respond-to('phone-pad') {
   .o-select-dlg {
     --dlg-body-padding: 16px 0 0;
     --dlg-head-padding: 16px 16px 0;
@@ -67,7 +67,7 @@
   }
 }
 
-@include respond-to('not-phone') {
+@include respond-to('up-phone') {
   .o-select-dlg {
     --dlg-min-width: 360px;
   }

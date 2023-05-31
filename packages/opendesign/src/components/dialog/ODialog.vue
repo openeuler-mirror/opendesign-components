@@ -2,11 +2,12 @@
 import { IconClose } from '../_shared/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
+import { OScroller } from '../scroller';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_shared/dom';
 import { ref } from 'vue';
-import { isNotPC } from '../_shared/global';
+import { isPhonePad } from '../_shared/global';
 
 const props = defineProps(dialogProps);
 
@@ -30,9 +31,12 @@ defineExpose({
   <OLayer
     ref="layerRef"
     class="o-dialog"
-    :class="{
-      'is-responsive': !props.noResponsive,
-    }"
+    :class="[
+      `o-dialog-${props.size}`,
+      {
+        'o-dialog-responsive': !props.noResponsive,
+      },
+    ]"
     :visible="props.visible"
     :wrapper="props.wrapper"
     :unmount-on-hide="props.unmountOnHide"
@@ -43,7 +47,7 @@ defineExpose({
     :mask-close="props.maskClose"
     :before-hide="props.beforeHide"
     :before-show="props.beforeShow"
-    :transition-orign="isNotPC ? 'css' : 'mouse'"
+    :transition-orign="isPhonePad ? 'css' : 'mouse'"
     @change="(v) => emits('change', v)"
     @update:visible="(v, e) => emits('update:visible', v, e)"
   >
@@ -51,7 +55,10 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-head">
       <slot name="header"></slot>
     </div>
-    <div class="o-dlg-body">
+    <OScroller v-if="props.scroller" class="o-dlg-scroller" wrap-class="o-dlg-scroller-body" size="small" show-type="hover">
+      <slot></slot>
+    </OScroller>
+    <div v-else class="o-dlg-body">
       <slot></slot>
     </div>
     <div v-if="$slots.footer || props.actions" class="o-dlg-foot">

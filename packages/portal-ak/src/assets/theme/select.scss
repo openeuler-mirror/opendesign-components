@@ -15,7 +15,7 @@
   --select-padding: 0 16px;
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
-  @include respond-to('not-pc') {
+  @include respond-to('phone-pad') {
     --select-icon-size: var(--o-icon_size-xs);
   }
 }
@@ -24,7 +24,7 @@
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
 
-  @include respond-to('not-pc') {
+  @include respond-to('phone-pad') {
     --select-text-size: var(--o-font_size-tip1);
     --select-text-height: var(--o-line_height-tip1);
   }
