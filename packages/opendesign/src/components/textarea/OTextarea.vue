@@ -155,6 +155,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
         'o-textarea-disabled': props.disabled,
         'o-textarea-focus': isFocus,
         'o-textarea-auto-height': props.autoHeight,
+        'o-textarea-max-length': props.maxLength,
       },
     ]"
     :style="round.style.value"
@@ -170,6 +171,10 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
       <textarea
         ref="textareaRef"
         class="o-textarea-textarea"
+        :class="{
+          'is-focus': isFocus,
+          'is-disabled': props.disabled,
+        }"
         :placeholder="props.placeholder"
         :value="realValue"
         :readonly="props.readonly"
