@@ -17,11 +17,16 @@ $breakpoints: (
     721px,
     1200px,
   ),
-  'pc': 1201px,
   'phone-pad': (
     0,
     1200px,
   ),
+  'up-pad': 1201px,
+  'laptop': (
+    1201px,
+    1400px,
+  ),
+  'pc': 1441px,
 );
 
 @mixin respond-to($breakname) {
