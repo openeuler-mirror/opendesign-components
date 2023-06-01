@@ -2,19 +2,20 @@
   --textarea-color: var(--o-color-info2);
   --textarea-color-disabled: var(--o-color-info4);
 
-  --textarea-bg-color: transparent;
-  --textarea-bg-color-hover: var(--o-color-control-light);
-  --textarea-bg-color-focus: var(--o-color-control-light);
-
   --textarea-icon-color: var(--o-color-control3);
   --textarea-icon-color-hover: var(--o-color-primary1);
-  --textarea-icon-bg-color: var(--o-color-control1-light);
+  --textarea-icon-size: var(--o-icon_size-xs);
 
-  --textarea-limit-color: var(--o-color-text3);
+  --textarea-limit-color: var(--o-color-info4);
   --textarea-limit-color-error: var(--o-color-danger1);
   --textarea-limit-text-size: var(--o-font_size-tip2);
   --textarea-limit-text-height: var(--o-line_height-tip2);
 
+  --textarea-bg-color: transparent;
+  --textarea-bg-color-hover: var(--o-color-control-light);
+  --textarea-bg-color-focus: var(--o-color-control-light);
+}
+.o-textarea-normal {
   --textarea-bd-color: var(--o-color-control1);
   --textarea-bd-color-hover: var(--o-color-primary2);
   --textarea-bd-color-focus: var(--o-color-primary3);
@@ -29,7 +30,6 @@
     --textarea-bg-color-disabled: var(--o-color-control4-light);
   }
 }
-
 .o-textarea-success {
   --textarea-bd-color: var(--o-color-success1);
   --textarea-bd-color-hover: var(--o-color-success2);

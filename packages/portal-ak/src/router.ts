@@ -59,6 +59,12 @@ export const routes = [
         component: () => import('./pages/input/TheIndex.vue'),
       },
       {
+        path: 'textarea',
+        name: 'textarea',
+        label: '文本域 textarea',
+        component: () => import('./pages/textarea/TheIndex.vue'),
+      },
+      {
         path: 'divider',
         name: 'Divider',
         label: '分割线 Divider',

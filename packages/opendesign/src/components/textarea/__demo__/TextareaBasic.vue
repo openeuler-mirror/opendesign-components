@@ -36,15 +36,15 @@ const printEvent = (event: string, val?: string | number) => {
     <section>
       <div>default</div>
       <div class="row" style="align-items: flex-start">
-        <OTextarea v-model="val1" size="small" />
-        <OTextarea v-model="val1" size="medium" resize="both" />
-        <OTextarea v-model="val1" size="large" />
+        <OTextarea v-model="val1" size="small" placeholder="small" />
+        <OTextarea v-model="val1" size="medium" resize="both" placeholder="medium" />
+        <OTextarea v-model="val1" size="large" placeholder="large" />
       </div>
       <div>round="pill"</div>
       <div class="row" style="align-items: flex-start">
-        <OTextarea v-model="val1" size="small" round="pill" />
-        <OTextarea v-model="val1" size="medium" resize="both" round="pill" />
-        <OTextarea v-model="val1" size="large" round="pill" />
+        <OTextarea v-model="val1" size="small" round="pill" placeholder="small" />
+        <OTextarea v-model="val1" size="medium" resize="both" round="pill" placeholder="medium" />
+        <OTextarea v-model="val1" size="large" round="pill" placeholder="large" />
       </div>
       <div>round="12px"</div>
       <div class="row" style="align-items: flex-start">
