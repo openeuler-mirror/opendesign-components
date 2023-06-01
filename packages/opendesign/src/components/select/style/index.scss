@@ -148,9 +148,10 @@
   overflow: hidden;
 }
 .o-select-options-scroller {
-  max-height: var(--select-max-height);
+  max-height: var(--select-options-max-height);
 }
-.o-select-option-wrap {
+.o-select-options-scroller,
+.o-select-options-wrap {
   padding: var(--select-options-padding);
 }
 
@@ -213,4 +214,7 @@
 .o-select-tag-popover {
   max-width: var(--select-tag-popover-max-width);
   --popover-padding: 6px 8px;
+}
+.o-select-options-dlg {
+  padding-bottom: 4px;
 }
