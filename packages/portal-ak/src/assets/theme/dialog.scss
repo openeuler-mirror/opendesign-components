@@ -7,6 +7,7 @@
 }
 .o-dialog-small {
   --dlg-width: 35%;
+  --dlg-max-height: 272px;
 
   --dlg-head-padding: 16px 24px 0;
   --dlg-body-padding: 12px 24px;
@@ -18,12 +19,11 @@
 
   @include respond-to('phone-h') {
     --dlg-width: 65%;
-    --dlg-body-max-height: calc(80vh - 212px);
   }
 
   @include respond-to('phone-v') {
     --dlg-width: calc(100vw - 48px);
-    --dlg-body-max-height: calc(80vh - 170px);
+    --dlg-max-height: 80vh;
   }
 
   @include respond-to('phone-pad') {
@@ -35,7 +35,6 @@
 
 .o-dialog-medium {
   --dlg-width: 50%;
-  --dlg-body-max-height: 296px;
 
   @include respond-to('pc') {
     --dlg-width: 690px;
@@ -45,22 +44,20 @@
     --dlg-head-padding: 16px 16px 0;
     --dlg-body-padding: 12px 16px 12px;
     --dlg-foot-padding: 0 16px 16px;
+    --dlg-max-height: 80vh;
   }
 
   @include respond-to('phone-h') {
     --dlg-width: 65%;
-    --dlg-body-max-height: calc(80vh - 212px);
   }
 
   @include respond-to('phone-v') {
     --dlg-width: calc(100vw - 48px);
-    --dlg-body-max-height: calc(80vh - 170px);
   }
 }
 
 .o-dialog-large {
   --dlg-width: 65%;
-  --dlg-body-max-height: 596px;
 
   @include respond-to('pc') {
     --dlg-width: 930px;
@@ -69,7 +66,6 @@
 
 .o-dialog-exlarge {
   --dlg-width: 80%;
-  --dlg-body-max-height: 596px;
 
   @include respond-to('pc') {
     --dlg-width: 1170px;
@@ -83,6 +79,8 @@
     --dlg-head-padding: 24px 24px 0;
     --dlg-body-padding: 16px 24px;
     --dlg-foot-padding: 0 24px 24px;
+
+    --dlg-max-height: 80vh;
   }
 }
 
@@ -125,7 +123,7 @@
       --dlg-foot-padding: 0 24px 24px;
 
       .o-dlg-main {
-        height: 100%;
+        max-height: 100%;
       }
     }
   }

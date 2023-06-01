@@ -17,13 +17,13 @@
 
 .o-dialog-auto {
   &.o-layer-to-body {
-    --dlg-body-max-height: calc(100vh - 216px);
+    --dlg-max-height: 80vh;
   }
 }
 
 .o-dialog-small {
   --dlg-width: 448px;
-  --dlg-body-max-height: 360px;
+  --dlg-max-height: 40vh;
 
   --dlg-head-padding: 16px 24px 0;
   --dlg-body-padding: 12px 24px;
@@ -31,14 +31,14 @@
 }
 .o-dialog-medium {
   --dlg-width: 40%;
-  --dlg-body-max-height: 360px;
+  --dlg-max-height: 60%;
 }
 
 .o-dialog-large {
   --dlg-width: 60%;
-  --dlg-body-max-height: 640px;
+  --dlg-max-height: 80%;
 }
 .o-dialog-exlarge {
   --dlg-width: 80%;
-  --dlg-body-max-height: 640px;
+  --dlg-max-height: 90%;
 }

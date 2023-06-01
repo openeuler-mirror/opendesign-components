@@ -6,9 +6,13 @@
   background-color: var(--dlg-bg-color);
   box-shadow: var(--dlg-shadow);
   border-radius: var(--dlg-radius);
-  min-width: var(--dlg-min-width);
-  width: var(--dlg-width);
   margin: var(--dlg-margin);
+  width: var(--dlg-width);
+  min-width: var(--dlg-min-width);
+  max-height: var(--dlg-max-height);
+
+  display: flex;
+  flex-direction: column;
 }
 .o-dlg-btn-close {
   position: absolute;
@@ -36,15 +40,14 @@
   line-height: var(--o-line_height-text2);
   font-weight: 500;
 }
-.o-dlg-scroller-body,
+
 .o-dlg-body {
-  max-height: var(--dlg-body-max-height);
-}
-.o-dlg-body,
-.o-dlg-scroller {
   padding: var(--dlg-body-padding);
+  flex: 1;
+  overflow: hidden;
 }
 .o-dlg-foot {
+  margin-top: auto;
   padding: var(--dlg-foot-padding);
 }
 
