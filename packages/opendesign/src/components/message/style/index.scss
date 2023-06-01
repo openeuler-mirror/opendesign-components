@@ -30,6 +30,7 @@
   margin-left: var(--message-icon-gap);
   font-size: var(--message-icon-size);
   color: var(--message-icon-close-color);
+  transition: color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
     &:hover {

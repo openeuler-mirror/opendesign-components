@@ -12,7 +12,7 @@ const round = getRoundClass(props, 'btn');
 </script>
 <template>
   <HtmlTag
-    :tag="!!props.href ? 'a' : 'button'"
+    :tag="!!props.href ? 'a' : props.tag"
     :href="props.href"
     type="button"
     class="o-btn"
