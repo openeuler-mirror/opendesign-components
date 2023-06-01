@@ -9,9 +9,9 @@
   --dlg-shadow: var(--o-shadow-1);
 
   --dlg-min-width: 272px;
-  --dlg-head-padding: 16px 24px;
-  --dlg-body-padding: 0 24px;
-  --dlg-foot-padding: 16px 24px;
+  --dlg-head-padding: 24px 24px 0;
+  --dlg-body-padding: 16px 24px;
+  --dlg-foot-padding: 0 24px 24px;
   --dlg-margin: 24px;
 }
 
@@ -24,6 +24,10 @@
 .o-dialog-small {
   --dlg-width: 448px;
   --dlg-body-max-height: 360px;
+
+  --dlg-head-padding: 16px 24px 0;
+  --dlg-body-padding: 12px 24px;
+  --dlg-foot-padding: 0 24px 16px;
 }
 .o-dialog-medium {
   --dlg-width: 40%;

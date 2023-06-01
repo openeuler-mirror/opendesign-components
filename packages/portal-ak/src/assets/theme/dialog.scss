@@ -2,17 +2,15 @@
 
 .o-dialog {
   --dlg-head-padding: 32px 32px 0;
-  --dlg-body-padding: 24px 32px;
+  --dlg-body-padding: 16px 32px 24px;
   --dlg-foot-padding: 0 32px 32px;
-
-  @include respond-to('phone-pad') {
-    --dlg-head-padding: 16px 16px 0;
-    --dlg-body-padding: 12px 16px 12px;
-    --dlg-foot-padding: 0 16px 16px;
-  }
 }
 .o-dialog-small {
   --dlg-width: 35%;
+
+  --dlg-head-padding: 16px 24px 0;
+  --dlg-body-padding: 12px 24px;
+  --dlg-foot-padding: 0 24px 16px;
 
   @include respond-to('pc') {
     --dlg-width: 450px;
@@ -20,12 +18,18 @@
 
   @include respond-to('phone-h') {
     --dlg-width: 65%;
-    --dlg-body-max-height: calc(100vh - 212px);
+    --dlg-body-max-height: calc(80vh - 212px);
   }
 
   @include respond-to('phone-v') {
-    --dlg-body-max-height: calc(100vh - 170px);
     --dlg-width: calc(100vw - 48px);
+    --dlg-body-max-height: calc(80vh - 170px);
+  }
+
+  @include respond-to('phone-pad') {
+    --dlg-head-padding: 16px 16px 0;
+    --dlg-body-padding: 12px 16px 12px;
+    --dlg-foot-padding: 0 16px 16px;
   }
 }
 
@@ -37,14 +41,20 @@
     --dlg-width: 690px;
   }
 
+  @include respond-to('phone') {
+    --dlg-head-padding: 16px 16px 0;
+    --dlg-body-padding: 12px 16px 12px;
+    --dlg-foot-padding: 0 16px 16px;
+  }
+
   @include respond-to('phone-h') {
     --dlg-width: 65%;
-    --dlg-body-max-height: calc(100vh - 212px);
+    --dlg-body-max-height: calc(80vh - 212px);
   }
 
   @include respond-to('phone-v') {
-    --dlg-body-max-height: calc(100vh - 170px);
     --dlg-width: calc(100vw - 48px);
+    --dlg-body-max-height: calc(80vh - 170px);
   }
 }
 
@@ -63,6 +73,16 @@
 
   @include respond-to('pc') {
     --dlg-width: 1170px;
+  }
+}
+
+.o-dialog-medium,
+.o-dialog-large,
+.o-dialog-exlarge {
+  @include respond-to('pad') {
+    --dlg-head-padding: 24px 24px 0;
+    --dlg-body-padding: 16px 24px;
+    --dlg-foot-padding: 0 24px 24px;
   }
 }
 
@@ -99,6 +119,11 @@
       --dlg-width: 100%;
       --dlg-margin: 0;
       --dlg-radius: 0;
+
+      --dlg-head-padding: 24px 24px 0;
+      --dlg-body-padding: 16px 24px;
+      --dlg-foot-padding: 0 24px 24px;
+
       .o-dlg-main {
         height: 100%;
       }

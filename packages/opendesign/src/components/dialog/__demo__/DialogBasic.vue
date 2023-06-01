@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
-import { ODialog, DialogSizeT } from '../index';
+import { ODialog, DialogSizeT, DialogActionT } from '../index';
 
 const content =
   'This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog';
@@ -16,6 +16,26 @@ const toggle = (show?: boolean, size: DialogSizeT = 'medium') => {
     showDlg.value = show;
   }
 };
+const dlgAction: DialogActionT[] = [
+  {
+    id: 'cancel',
+    label: '取消',
+    onClick: () => {
+      console.log('cancel');
+      toggle();
+    },
+  },
+  {
+    id: 'ok',
+    label: '确认',
+    color: 'primary',
+    variant: 'solid',
+    onClick: () => {
+      console.log('cancel');
+      toggle();
+    },
+  },
+];
 
 const showDlg2 = ref(false);
 const toggle2 = (show?: boolean) => {
@@ -56,16 +76,9 @@ const onChane = (v: boolean) => {
     <OButton @click="toggle(true, 'medium')">Open Medium</OButton>
     <OButton @click="toggle(true, 'large')">Open Large</OButton>
     <OButton @click="toggle(true, 'exlarge')">Open exlarge</OButton>
-    <ODialog v-model:visible="showDlg" :size="dlgSize" @change="onChane">
+    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" @change="onChane">
       <template #header>Dialog Title</template>
       <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">{{ content }}</div>
-
-      <template #footer>
-        <div class="dlg-action">
-          <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
-          <OButton @click="toggle(false)">取消</OButton>
-        </div>
-      </template>
     </ODialog>
     <OButton @click="toggle2(true)">Open unmount-on-hide: false</OButton>
     <ODialog v-model:visible="showDlg2" :unmount-on-hide="false" @change="onChane">
