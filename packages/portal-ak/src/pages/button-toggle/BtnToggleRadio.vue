@@ -5,7 +5,7 @@ const radioVal = ref(1);
 </script>
 
 <template>
-  <h3>多选</h3>
+  <h3>单选</h3>
   <section>
     <ORadioGroup v-model="radioVal">
       <ORadio :value="1">
