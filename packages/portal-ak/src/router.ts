@@ -130,6 +130,12 @@ export const routes = [
         label: '面包屑 Breadcrumb',
         component: () => import('./pages/breadcrumb/TheIndex.vue'),
       },
+      {
+        path: 'button-toggle',
+        name: 'ButtonToggle',
+        label: '选择块 Button Toggle',
+        component: () => import('./pages/button-toggle/TheIndex.vue'),
+      },
     ],
   },
   {
