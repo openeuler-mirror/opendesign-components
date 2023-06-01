@@ -135,9 +135,7 @@ export const selectProps = {
    * 选择前回调，根据返回值判断是否显示
    */
   beforeSelect: {
-    type: Function as PropType<
-      (value: string | number, currentValue: string | number | Array<string | number>) => Promise<boolean | SelectValueT> | boolean | SelectValueT
-    >,
+    type: Function as PropType<(value: string | number, currentValue: SelectValueT) => Promise<boolean | SelectValueT> | boolean | SelectValueT>,
   },
   /**
    * 显示前回调，根据返回值判断是否显示
