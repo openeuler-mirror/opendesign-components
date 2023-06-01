@@ -6,17 +6,17 @@ import { ORate } from '@components/index';
   <h3>基础用法</h3>
   <section>
     <div class="display-box">
-      <ORate :default-value="1" readonly :count="1" />
+      <ORate color="primary" :default-value="1" readonly :count="1" />
       <span class="rate-label">4.0</span>
     </div>
 
     <div class="display-box">
-      <ORate :default-value="0" readonly :count="1" />
+      <ORate :default-value="0" color="primary" readonly :count="1" class="rate-empty" />
       <span class="rate-label">暂无评分</span>
     </div>
 
     <div class="display-box">
-      <ORate :default-value="3" size="large" />
+      <ORate :default-value="3" color="primary" size="large" />
     </div>
   </section>
 </template>

@@ -13,8 +13,8 @@ const handleChange = (val: number) => {
 <template>
   <h3>不同尺寸</h3>
   <section>
-    <ORate v-model="rateVal1" @change="handleChange" />
-    <ORate :default-value="rateVal2" size="large" @change="handleChange" />
+    <ORate v-model="rateVal1" color="primary" @change="handleChange" />
+    <ORate :default-value="rateVal2" color="primary" size="large" @change="handleChange" />
   </section>
 </template>
 

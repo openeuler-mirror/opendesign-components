@@ -10,7 +10,7 @@ const labels = ref(['非常不满意', '不满意', ' 一般', '满意', '非常
 <template>
   <h3>带文字提示</h3>
   <section>
-    <ORate :default-value="rateVal" :labels="labels" size="large" />
+    <ORate :default-value="rateVal" color="primary" :labels="labels" size="large" />
   </section>
 </template>
 
