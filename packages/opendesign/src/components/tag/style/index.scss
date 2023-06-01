@@ -2,41 +2,38 @@
 @use './var.scss';
 
 .o-tag {
-  font-size: var(--tag-text-size);
-  line-height: var(--tag-text-height);
   height: var(--tag-height);
   border: 1px solid var(--tag-bd-color);
   border-radius: var(--tag-radius);
   padding: var(--tag-padding);
   background-color: var(--tag-bg-color);
   color: var(--tag-color);
-  white-space: nowrap;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
+.o-tag-label {
+  white-space: nowrap;
+  font-size: var(--tag-text-size);
+  line-height: var(--tag-text-height);
+}
+
+.o-tag-small {
+  .o-tag-label,
+  .o-tag-icon,
+  .o-tag-close {
+    zoom: 0.833334;
+  }
+}
+
 .o-tag-icon {
-  display: inline-flex;
-  align-items: center;
-  > svg {
-    vertical-align: top;
-  }
-
-  &.prefix {
-    margin-right: 6px;
-  }
-
-  &.suffix {
-    margin-left: 6px;
-  }
+  font-size: var(--tag-icon-size);
+  margin-right: var(--tag-icon-gap);
 }
 
-.o-tag-icon-close {
+.o-tag-close {
   cursor: pointer;
-}
-
-.o-tag-checkable {
-  cursor: pointer;
+  font-size: var(--tag-icon-size);
+  margin-left: var(--tag-icon-gap);
 }

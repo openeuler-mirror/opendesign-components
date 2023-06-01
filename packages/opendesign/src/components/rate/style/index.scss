@@ -6,7 +6,10 @@
   align-items: center;
   user-select: none;
   font-size: var(--rate-size);
-  cursor: pointer;
+
+  &:not(.o-rate-readonly) {
+    cursor: pointer;
+  }
 }
 
 .o-rate-item {
@@ -20,7 +23,7 @@
 
   &.is-full {
     .o-rate-icon-bottom {
-      color: var(--rate-color-active);
+      color: var(--rate-color-selected);
     }
   }
 
@@ -41,5 +44,16 @@
   width: 50%;
   opacity: 0;
   overflow: hidden;
-  color: var(--rate-color-active);
+  color: var(--rate-color-selected);
+}
+
+.o-rate-popover {
+  border-radius: var(--rate-popover-radius);
+  .o-popover-body {
+    color: var(--rate-popover-color);
+    font-size: var(--rate-popover-text-size);
+    line-height: var(--rate-popover-text-height);
+    padding: var(--rate-popover-padding);
+    min-width: auto;
+  }
 }

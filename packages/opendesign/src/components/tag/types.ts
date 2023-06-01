@@ -1,8 +1,14 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { SizeT, RoundT, ColorT } from '../_shared/types';
+import { RoundT, ColorT } from '../_shared/types';
+
+export const TagColorTypes = ['normal', 'info', 'primary', 'success', 'warning', 'danger'] as const;
+export type TagColorT = (typeof TagColorTypes)[number];
 
 export const TagVariantTypes = ['solid', 'outline'] as const;
 export type TagVariantT = (typeof TagVariantTypes)[number];
+
+export const TagSizeTypes = ['medium', 'small'] as const;
+export type TagSizeT = (typeof TagSizeTypes)[number];
 
 export const tagProps = {
   /**
@@ -20,10 +26,11 @@ export const tagProps = {
     default: 'solid',
   },
   /**
-   * 标签尺寸 SizeT
+   * 标签尺寸 TagSizeT
    */
   size: {
-    type: String as PropType<SizeT>,
+    type: String as PropType<TagSizeT>,
+    default: 'medium',
   },
   /**
    * 圆角值 RoundT
@@ -39,25 +46,24 @@ export const tagProps = {
     default: false,
   },
   /**
-   * 是否可选中
+   * tag是否可见 v-model
    */
-  checkable: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * 双向绑定值，是否被选中(标签可选中时该属性生效)
-   */
-  checked: {
+  visible: {
     type: Boolean,
     default: undefined,
   },
   /**
-   * 非受控状态时，默认是否选中(标签可选中时该属性生效)
+   * 非受控模式，tag是否默认可见
    */
-  defaultChecked: {
+  defaultVisible: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * 关闭前的钩子函数
+   */
+  beforeClose: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
   },
 };
 

@@ -7,7 +7,7 @@ export type MessagePositionT = 'top' | 'bottom';
 
 export const messageProps = {
   /**
-   * 消息是否可见
+   * 消息是否可见 v-model
    */
   visible: {
     type: Boolean,

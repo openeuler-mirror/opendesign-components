@@ -1,1 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<title>edit</title>
+<path d="M17.229 5.282l2.176 2.176c0.376 0.376 0.376 0.984 0 1.36l-9.66 9.66c-0.344 0.344-0.785 0.576-1.264 0.664l-2.912 0.536c-0.261 0.048-0.512-0.125-0.56-0.386-0.011-0.058-0.011-0.117 0-0.174l0.536-2.912c0.088-0.479 0.32-0.92 0.664-1.264l9.66-9.66c0.376-0.376 0.984-0.376 1.36 0z"></path>
+</svg>
