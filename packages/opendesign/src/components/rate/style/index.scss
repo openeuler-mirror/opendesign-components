@@ -6,10 +6,11 @@
   align-items: center;
   user-select: none;
   font-size: var(--rate-size);
+  cursor: pointer;
+}
 
-  &:not(.o-rate-readonly) {
-    cursor: pointer;
-  }
+.o-rate-readonly {
+  cursor: auto;
 }
 
 .o-rate-item {

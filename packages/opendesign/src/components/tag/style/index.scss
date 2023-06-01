@@ -34,6 +34,18 @@
 
 .o-tag-close {
   cursor: pointer;
+  color: var(--tag-icon-close-color);
   font-size: var(--tag-icon-size);
   margin-left: var(--tag-icon-gap);
+  transition: color var(--o-duration-s) var(--o-easing-standard);
+
+  @include hover {
+    &:hover {
+      color: var(--tag-icon-close-color-hover);
+    }
+  }
+
+  &:active {
+    color: var(--tag-icon-close-color-active);
+  }
 }
