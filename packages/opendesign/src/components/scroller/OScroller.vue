@@ -75,9 +75,6 @@ const initVars = () => {
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
 
-  console.log(clientWidth, scrollWidth);
-  console.log(clientHeight, scrollHeight);
-
   if (!props.disabledX) {
     hasX.value = clientWidth < scrollWidth;
   }
