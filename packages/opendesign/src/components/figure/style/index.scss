@@ -105,6 +105,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
-  color: var(--o-color-info4);
+  font-size: var(--figure-error-size);
+  color: var(--figure-error-color);
 }
