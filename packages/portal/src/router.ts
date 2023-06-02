@@ -264,7 +264,7 @@ export const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory('./'),
   routes,
   scrollBehavior(to, from, savePosition) {
     if (savePosition) {

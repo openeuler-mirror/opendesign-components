@@ -168,6 +168,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     :size="props.size"
     :placeholder="props.placeholder"
     :color="props.color"
+    :variant="props.variant"
     :round="props.round"
     :disabled="props.disabled"
     :readonly="props.readonly"

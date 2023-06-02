@@ -43,6 +43,7 @@ const dlgAction: DialogActionT[] = [
   {
     id: 'cancel',
     label: '取消',
+    size: 'large',
     onClick: () => {
       console.log('cancel');
       toggle('show0');
@@ -53,6 +54,7 @@ const dlgAction: DialogActionT[] = [
     label: '确认',
     color: 'primary',
     variant: 'solid',
+    size: 'large',
     onClick: () => {
       console.log('cancel');
       toggle('show0');
@@ -71,7 +73,7 @@ const dlgAction: DialogActionT[] = [
       <OButton @click="toggle('show0', true, 'large')">Open Large</OButton>
       <OButton @click="toggle('show0', true, 'exlarge')">Open exlarge</OButton>
       <ODialog v-model:visible="values.show0" :actions="dlgAction" :size="dlgSize" @change="onChane">
-        <template #header>Dialog Title</template>
+        <template #header> {{ dlgSize }} Dialog</template>
         <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">
           This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
         </div>

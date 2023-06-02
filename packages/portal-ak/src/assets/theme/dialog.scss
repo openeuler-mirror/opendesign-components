@@ -2,55 +2,67 @@
 
 .o-dialog {
   --dlg-head-padding: 32px 32px 0;
-  --dlg-body-padding: 24px 32px;
+  --dlg-body-padding: 16px 32px 24px;
   --dlg-foot-padding: 0 32px 32px;
-
-  @include respond-to('phone-pad') {
-    --dlg-head-padding: 16px 16px 0;
-    --dlg-body-padding: 12px 16px 12px;
-    --dlg-foot-padding: 0 16px 16px;
-  }
 }
 .o-dialog-small {
   --dlg-width: 35%;
+  --dlg-max-height: 272px;
+
+  --dlg-head-padding: 16px 24px 0;
+  --dlg-body-padding: 12px 24px;
+  --dlg-foot-padding: 0 24px 16px;
 
   @include respond-to('pc') {
     --dlg-width: 450px;
   }
 
+  @include respond-to('pad-v') {
+    --dlg-width: 50%;
+  }
+
   @include respond-to('phone-h') {
     --dlg-width: 65%;
-    --dlg-body-max-height: calc(100vh - 212px);
   }
 
   @include respond-to('phone-v') {
-    --dlg-body-max-height: calc(100vh - 170px);
     --dlg-width: calc(100vw - 48px);
+    --dlg-max-height: 80vh;
+  }
+
+  @include respond-to('phone-pad') {
+    --dlg-head-padding: 16px 16px 0;
+    --dlg-body-padding: 12px 16px 12px;
+    --dlg-foot-padding: 0 16px 16px;
+    --dlg-max-height: 50%;
   }
 }
 
 .o-dialog-medium {
   --dlg-width: 50%;
-  --dlg-body-max-height: 296px;
 
   @include respond-to('pc') {
     --dlg-width: 690px;
   }
 
+  @include respond-to('phone') {
+    --dlg-head-padding: 16px 16px 0;
+    --dlg-body-padding: 12px 16px 12px;
+    --dlg-foot-padding: 0 16px 16px;
+    --dlg-max-height: 80vh;
+  }
+
   @include respond-to('phone-h') {
     --dlg-width: 65%;
-    --dlg-body-max-height: calc(100vh - 212px);
   }
 
   @include respond-to('phone-v') {
-    --dlg-body-max-height: calc(100vh - 170px);
     --dlg-width: calc(100vw - 48px);
   }
 }
 
 .o-dialog-large {
   --dlg-width: 65%;
-  --dlg-body-max-height: 596px;
 
   @include respond-to('pc') {
     --dlg-width: 930px;
@@ -59,10 +71,21 @@
 
 .o-dialog-exlarge {
   --dlg-width: 80%;
-  --dlg-body-max-height: 596px;
 
   @include respond-to('pc') {
     --dlg-width: 1170px;
+  }
+}
+
+.o-dialog-medium,
+.o-dialog-large,
+.o-dialog-exlarge {
+  @include respond-to('pad') {
+    --dlg-head-padding: 24px 24px 0;
+    --dlg-body-padding: 16px 24px;
+    --dlg-foot-padding: 0 24px 24px;
+
+    --dlg-max-height: 80vh;
   }
 }
 
@@ -74,11 +97,7 @@
       line-height: var(--o-line_height-text2);
       font-weight: 500;
     }
-  }
-  @include respond-to('phone-v') {
-    .o-dlg-btn-close {
-      display: none;
-    }
+
     .o-dlg-btn {
       + .o-dlg-btn.o-btn-text {
         position: relative;
@@ -92,6 +111,11 @@
       }
     }
   }
+  @include respond-to('phone-v') {
+    .o-dlg-btn-close {
+      display: none;
+    }
+  }
 
   &.o-dialog-large,
   &.o-dialog-exlarge {
@@ -99,8 +123,13 @@
       --dlg-width: 100%;
       --dlg-margin: 0;
       --dlg-radius: 0;
+
+      --dlg-head-padding: 24px 24px 0;
+      --dlg-body-padding: 16px 24px;
+      --dlg-foot-padding: 0 24px 24px;
+
       .o-dlg-main {
-        height: 100%;
+        max-height: 100%;
       }
     }
   }

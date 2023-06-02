@@ -7,6 +7,7 @@
 
 .o-scroller {
   position: relative;
+  display: flex;
 
   > .o-scrollbar-dragging {
     opacity: 1;
@@ -51,12 +52,10 @@
 }
 
 .o-scroller-container {
+  flex: 1; // 撑满父容器
   overflow: auto;
   scrollbar-width: none;
-  height: 100%;
-  width: 100%;
-  max-height: inherit;
-  max-width: inherit;
+
   &::-webkit-scrollbar {
     display: none;
   }

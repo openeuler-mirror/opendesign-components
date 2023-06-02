@@ -234,6 +234,7 @@ const selectDlgAction: DialogActionT[] = [
     id: 'cancel',
     label: Labels.cancel,
     variant: 'text',
+    size: 'large',
     onClick: () => {
       isSelecting.value = false;
       valueList.value = [...finalValueList.value];
@@ -243,6 +244,7 @@ const selectDlgAction: DialogActionT[] = [
     id: 'ok',
     label: Labels.confirm,
     variant: 'text',
+    size: 'large',
     onClick: () => {
       isSelecting.value = false;
 
@@ -322,7 +324,7 @@ const selectDlgAction: DialogActionT[] = [
     </div>
     <ClientOnly>
       <teleport :to="optionsRef" :disabled="!optionsRef">
-        <div v-show="optionsRef" class="o-select-option-wrap">
+        <div v-show="optionsRef">
           <slot>
             <div class="o-select-empty">
               <slot name="empty">

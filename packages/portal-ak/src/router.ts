@@ -136,6 +136,25 @@ export const routes = [
         label: '选择块 Button Toggle',
         component: () => import('./pages/button-toggle/TheIndex.vue'),
       },
+      {
+        path: 'upload',
+        name: 'upload',
+        label: '上传 upload',
+        component: () => import('./pages/upload/TheIndex.vue'),
+      },
+
+      {
+        path: 'figure',
+        name: 'figure',
+        label: '图片 figure',
+        component: () => import('./pages/figure/TheIndex.vue'),
+      },
+      {
+        path: 'pagination',
+        name: 'pagination',
+        label: '分页 pagination',
+        component: () => import('./pages/pagination/TheIndex.vue'),
+      },
     ],
   },
   {
@@ -147,7 +166,7 @@ export const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory('./'),
   routes,
   scrollBehavior(to, from, savePosition) {
     if (savePosition) {

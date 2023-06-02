@@ -4,7 +4,6 @@
   .o-select-options-dlg {
     box-shadow: none;
     --select-options-padding: 0;
-    --select-max-height: 80vh;
     --select-options-radius: 0;
 
     .o-option-checkbox {
@@ -25,16 +24,14 @@
       --option-padding: 12px 0;
       --option-gap: 0;
 
-      + .o-option-multiple {
-        position: relative;
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          border-top: 1px solid var(--o-color-control4);
-        }
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--o-color-control4);
       }
     }
   }

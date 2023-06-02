@@ -55,7 +55,7 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-head">
       <slot name="header"></slot>
     </div>
-    <OScroller v-if="props.scroller" class="o-dlg-scroller" wrap-class="o-dlg-scroller-body" size="small" show-type="hover" v-bind="props.scroller">
+    <OScroller v-if="props.scroller" class="o-dlg-body" size="small" show-type="hover" v-bind="props.scroller">
       <slot></slot>
     </OScroller>
     <div v-else class="o-dlg-body">
@@ -70,7 +70,7 @@ defineExpose({
             class="o-dlg-btn"
             :color="item.color"
             :variant="!item.variant && isPhonePad ? 'text' : item.variant"
-            :size="!item.size && isPhonePad ? 'large' : item.size"
+            :size="item.size"
             @click="item.onClick"
           >
             {{ item.label }}

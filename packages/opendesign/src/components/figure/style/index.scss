@@ -95,3 +95,16 @@
     max-height: 100vh;
   }
 }
+
+.o-figure-error-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--figure-error-size);
+  color: var(--figure-error-color);
+}

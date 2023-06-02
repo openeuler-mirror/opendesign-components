@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OSelect, SelectOptionT } from '../index';
+import { OSelect, SelectValueT } from '../index';
 import { OOption } from '../../option';
 import { OIconAdd } from '../../icon-components';
 import { ref } from 'vue';
@@ -52,7 +52,7 @@ const beforeOptionsShow = () => {
   return rlt;
 };
 
-const beforeSelect = (value: string | number, currentValue: string | number) => {
+const beforeSelect = (value: string | number, currentValue: SelectValueT) => {
   if (currentValue == value) {
     return true;
   }

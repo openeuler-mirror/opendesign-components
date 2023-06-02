@@ -6,12 +6,19 @@ export const figureProps = {
    */
   src: {
     type: String,
+    required: true,
   },
   /**
    * 长宽比
    */
   ratio: {
     type: Number,
+  },
+  /**
+   * 填充方式 cover | contain | fill | none | scale-down
+   */
+  fit: {
+    type: String,
   },
   /**
    * img alt

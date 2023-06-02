@@ -74,6 +74,7 @@ const initVars = () => {
   vThumbRate.value = clientHeight / scrollHeight;
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
+
   if (!props.disabledX) {
     hasX.value = clientWidth < scrollWidth;
   }
@@ -86,7 +87,7 @@ const init = () => {
     return;
   }
 
-  initVars();
+  // initVars();
 
   ro?.observe(wrapperEl, initVars);
   const listenEl = isBody.value ? window : wrapperEl;
