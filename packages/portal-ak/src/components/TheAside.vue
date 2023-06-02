@@ -2,6 +2,8 @@
 import { routes } from '@/router';
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { OScroller } from '@components/index';
+
 const router = useRouter();
 const route = useRoute();
 
@@ -33,21 +35,24 @@ const navClick = (item: any) => {
 </script>
 <template>
   <aside class="the-aside">
-    <div class="aside-title">
-      {{ title }}
-    </div>
-    <div class="nav-list">
-      <div v-for="item in navList" :key="item.path" class="nav-item" :class="{ active: currentNav === item.name }" @click="navClick(item)">
-        {{ item.label }}
+    <OScroller class="the-aside-scroller">
+      <div class="aside-title">
+        {{ title }}
       </div>
-    </div>
+      <div class="nav-list">
+        <div v-for="item in navList" :key="item.path" class="nav-item" :class="{ active: currentNav === item.name }" @click="navClick(item)">
+          {{ item.label }}
+        </div>
+      </div>
+    </OScroller>
   </aside>
 </template>
 <style lang="scss" scoped>
 .the-aside {
   background-color: var(--o-color-fill2);
   color: var(--o-color-info1);
-  overflow: auto;
+}
+.the-aside-scroller {
   height: calc(100vh - 48px);
 }
 .aside-title {
@@ -60,7 +65,6 @@ const navClick = (item: any) => {
   padding: 8px 16px;
   cursor: pointer;
   &:hover {
-    color: var(--o-color-info1-inverse);
     background-color: var(--o-color-primary1-light);
   }
   &.active {
