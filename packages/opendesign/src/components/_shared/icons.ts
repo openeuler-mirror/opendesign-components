@@ -82,7 +82,7 @@ export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
 export const IconDone = shallowRef<Component>(OIconDone);
 
 /**
- * 更多...图标
+ * 更多...图标，用于pagition
  */
 export const IconEllipsis = shallowRef<Component>(OIconEllipsis);
 

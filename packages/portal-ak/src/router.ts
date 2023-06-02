@@ -149,6 +149,12 @@ export const routes = [
         label: '图片 figure',
         component: () => import('./pages/figure/TheIndex.vue'),
       },
+      {
+        path: 'pagination',
+        name: 'pagination',
+        label: '分页 pagination',
+        component: () => import('./pages/pagination/TheIndex.vue'),
+      },
     ],
   },
   {
