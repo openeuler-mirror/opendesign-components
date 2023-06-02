@@ -142,6 +142,13 @@ export const routes = [
         label: '上传 upload',
         component: () => import('./pages/upload/TheIndex.vue'),
       },
+
+      {
+        path: 'figure',
+        name: 'figure',
+        label: '图片 figure',
+        component: () => import('./pages/figure/TheIndex.vue'),
+      },
     ],
   },
   {

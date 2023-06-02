@@ -23,6 +23,7 @@ import {
   OIconEyeOff,
   OIconFile,
   OIconEdit,
+  OIconImageError,
 } from '../icon-components';
 
 /**
@@ -129,3 +130,8 @@ export const IconEyeOn = shallowRef<Component>(OIconEye);
  * 不可见图标，用于密码框等
  */
 export const IconEyeOff = shallowRef<Component>(OIconEyeOff);
+
+/**
+ * 加载失败的图片
+ */
+export const IconImageError = shallowRef<Component>(OIconImageError);
