@@ -34,6 +34,9 @@ let dragCnt = 0;
 
 const onDragEnter = (e: DragEvent) => {
   e.preventDefault();
+  if (props.disabled) {
+    return;
+  }
   dragCnt++;
 };
 
@@ -46,6 +49,9 @@ const onDragOver = (e: DragEvent) => {
 };
 
 const onDragLeave = (e: DragEvent) => {
+  if (props.disabled) {
+    return;
+  }
   dragCnt--;
   if (dragCnt === 0) {
     isDragging.value = false;
@@ -53,6 +59,9 @@ const onDragLeave = (e: DragEvent) => {
 };
 const onDrap = (e: DragEvent) => {
   e.preventDefault();
+  if (props.disabled) {
+    return;
+  }
   const files = e.dataTransfer?.files;
   if (files && files.length > 0) {
     emits('selected', files);
@@ -85,7 +94,9 @@ const onDrap = (e: DragEvent) => {
         <slot :name="selectSlotNames[1]">
           <IconAdd class="o-upload-drag-icon" />
           <div class="o-upload-drag-label">{{ props.dragLabel ?? UploadLabel.dragLabel }}</div>
-          <slot :name="selectSlotNames[2]"></slot>
+          <div v-if="$slots[selectSlotNames[2]]" class="o-upload-select-extra">
+            <slot :name="selectSlotNames[2]"></slot>
+          </div>
         </slot>
       </div>
       <OButton v-else :disabled="props.disabled" :icon="IconAdd">

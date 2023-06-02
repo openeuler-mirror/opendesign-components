@@ -136,6 +136,12 @@ export const routes = [
         label: '选择块 Button Toggle',
         component: () => import('./pages/button-toggle/TheIndex.vue'),
       },
+      {
+        path: 'upload',
+        name: 'upload',
+        label: '上传 upload',
+        component: () => import('./pages/upload/TheIndex.vue'),
+      },
     ],
   },
   {
