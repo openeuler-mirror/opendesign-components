@@ -40,7 +40,7 @@ const handleDangerBtnClick = () => {
 };
 
 const handleLoadingBtnClick = () => {
-  message.open({
+  message.show({
     content: '排队中，请稍后',
     status: 'loading',
     closable: true,

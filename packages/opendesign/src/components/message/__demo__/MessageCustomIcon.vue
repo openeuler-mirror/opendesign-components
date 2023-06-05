@@ -11,7 +11,7 @@ import '../../button/style';
 const message = useMessage();
 
 const handleClick1 = () => {
-  message.open({
+  message.show({
     content: '自定义Icon1',
     status: 'info',
     icon: OIconAdd,
@@ -19,7 +19,7 @@ const handleClick1 = () => {
 };
 
 const handleClick2 = () => {
-  message.open({
+  message.show({
     content: '自定义Icon2',
     status: 'info',
     icon: h(OIconEyeOff, { class: 'o-rotating' }),

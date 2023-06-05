@@ -11,14 +11,14 @@ import '../../button/style';
 const message = useMessage();
 
 const handleClick1 = () => {
-  message.open({
+  message.show({
     content: h('strong', ['这是自定义', h('i', 'content')]),
     status: 'info',
   });
 };
 
 const handleClick2 = () => {
-  message.open({
+  message.show({
     content: OIconAdd,
     status: 'info',
   });

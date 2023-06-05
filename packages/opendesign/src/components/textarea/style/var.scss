@@ -78,7 +78,7 @@
   --textarea-text-height: var(--o-line_height-tip1);
   --textarea-padding-v: 2px;
   --textarea-padding-h: 8px;
-  --textarea-radius: var(--o-radius-control-xs);
+  --textarea-radius: var(--o-radius_control-xs);
   --textarea-radius-pill: 12px;
 }
 .o-textarea-size-medium {
@@ -86,7 +86,7 @@
   --textarea-text-height: var(--o-line_height-text1);
   --textarea-padding-v: 4px;
   --textarea-padding-h: 12px;
-  --textarea-radius: var(--o-radius-control-s);
+  --textarea-radius: var(--o-radius_control-s);
   --textarea-radius-pill: 16px;
 }
 .o-textarea-size-large {
@@ -94,6 +94,6 @@
   --textarea-text-height: var(--o-line_height-text2);
   --textarea-padding-v: 6px;
   --textarea-padding-h: 12px;
-  --textarea-radius: var(--o-radius-control-l);
+  --textarea-radius: var(--o-radius_control-l);
   --textarea-radius-pill: 20px;
 }

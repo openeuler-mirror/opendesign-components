@@ -32,7 +32,7 @@ const handleDangerBtnClick = () => {
 };
 
 const handleLoadingBtnClick = () => {
-  message.open({
+  message.show({
     content: '排队中，请稍后',
     status: 'loading',
   });
@@ -67,7 +67,7 @@ const handleDangerBtnClick2 = () => {
 };
 
 const handleLoadingBtnClick2 = () => {
-  message.open({
+  message.show({
     content: '排队中，请稍后',
     status: 'loading',
     position: 'bottom',

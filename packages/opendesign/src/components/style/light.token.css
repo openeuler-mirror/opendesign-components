@@ -1728,21 +1728,21 @@
    * @group radius
    * @description 小尺寸控件圆角
    */
-  --o-radius-control-s: var(--o-radius-s);
+  --o-radius_control-s: var(--o-radius-s);
   /**
    * @name 中尺寸控件圆角
    * @type size
    * @group radius
    * @description 中尺寸控件圆角
    */
-  --o-radius-control-m: var(--o-radius-m);
+  --o-radius_control-m: var(--o-radius-m);
   /**
    * @name 大尺寸控件圆角
    * @type size
    * @group radius
    * @description 大尺寸控件圆角
    */
-  --o-radius-control-l: var(--o-radius-l);
+  --o-radius_control-l: var(--o-radius-l);
   /**
    * @name 持续时间
    * @type animation
