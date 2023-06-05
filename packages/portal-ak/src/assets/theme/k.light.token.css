@@ -1,5 +1,5 @@
 /* theme: k.light */
-[data-o-theme="k.light"] {
+[data-o-theme='k.light'] {
   /**
    * @name 
    * @type palette
@@ -1751,6 +1751,13 @@
    */
   --o-line_height-tip2: 18px;
   /**
+   * @name 超小尺寸圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸圆角
+   */
+  --o-radius-xs: 4px;
+  /**
    * @name 小尺寸圆角
    * @type size
    * @group radius
@@ -1763,21 +1770,21 @@
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 8px;
+  --o-radius-m: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 16px;
+  --o-radius-l: 8px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-xl: 24px;
+  --o-radius-xl: 8px;
   /**
    * @name 大尺寸控件圆角
    * @type size
@@ -1799,6 +1806,13 @@
    * @description 小尺寸控件圆角
    */
   --o-radius-control-s: var(--o-radius-s);
+  /**
+   * @name 超小尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸控件圆角
+   */
+  --o-radius-control-xs: var(--o-radius-xs);
   /**
    * @name 持续时间
    * @type animation

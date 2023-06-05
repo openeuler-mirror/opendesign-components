@@ -2,7 +2,7 @@
 
 @include respond-to('phone-pad') {
   .o-card {
-    --card-radius: var(--o-radius-control-m);
+    --card-radius: var(--o-radius-control-s);
 
     --card-main-padding: 16px;
 
