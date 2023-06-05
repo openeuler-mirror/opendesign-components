@@ -38,3 +38,4 @@ import './flex/style';
 import './result/style';
 import './scroller/style';
 import './upload/style';
+import './button-toggle/style';
