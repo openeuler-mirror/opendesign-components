@@ -12,9 +12,9 @@ const cardInfo = {
   <section>
     <div class="display-item">
       <h4>单体卡片（无操作按钮）</h4>
-      <OCard hoverable cursor="pointer" class="g-ascend-card-hover" :detail="cardInfo.detail">
+      <OCard hoverable cursor="pointer" class="g-ascend-card-hover" :detail="cardInfo.detail" :href="cardInfo.href" target="_blank">
         <template #header>
-          <span>{{ cardInfo.title }}</span>
+          <span :style="{ fontWeight: 500 }">{{ cardInfo.title }}</span>
           <div class="card-tags">
             <OTag class="card-tag">标签1</OTag>
             <OTag class="card-tag">标签2</OTag>
@@ -32,7 +32,7 @@ const cardInfo = {
       <h4>单体卡片（有操作按钮）</h4>
       <OCard hoverable class="g-ascend-card-hover" :detail="cardInfo.detail">
         <template #header>
-          <span>{{ cardInfo.title }}</span>
+          <span :style="{ fontWeight: 500 }">{{ cardInfo.title }}</span>
           <div class="card-tags">
             <OTag class="card-tag">标签1</OTag>
             <OTag class="card-tag">标签2</OTag>
@@ -40,7 +40,7 @@ const cardInfo = {
           </div>
         </template>
         <template #footer>
-          <OButton color="primary">按钮按钮</OButton>
+          <OButton color="primary">操作按钮</OButton>
         </template>
       </OCard>
     </div>
@@ -49,8 +49,8 @@ const cardInfo = {
       <h4>复合卡片</h4>
       <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" class="g-ascend-card-hover">
         <template #footer>
-          <OButton round="pill" color="primary" variant="outline">按钮按钮</OButton>
-          <OButton round="pill" color="primary" variant="outline">按钮按钮</OButton>
+          <OButton round="pill" color="primary" variant="outline">操作按钮1</OButton>
+          <OButton round="pill" color="primary" variant="outline">操作按钮2</OButton>
         </template>
       </OCard>
     </div>

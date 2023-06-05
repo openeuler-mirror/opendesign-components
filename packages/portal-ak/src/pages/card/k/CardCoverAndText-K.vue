@@ -14,24 +14,55 @@ const cardInfo = {
   <section>
     <div class="display-item">
       <h4>单体卡片（不带操作）</h4>
-      <OCard hoverable cursor="pointer" :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9" />
+      <OCard
+        hoverable
+        cursor="pointer"
+        :cover="cardInfo.cover"
+        :title="cardInfo.title"
+        :detail="cardInfo.detail"
+        :cover-ratio="16 / 9"
+        :href="cardInfo.href"
+        target="_blank"
+      />
     </div>
 
     <div class="display-item">
       <h4>单体卡片（不带操作）</h4>
-      <OCard hoverable cursor="pointer" :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9" layout="h" />
+      <OCard
+        hoverable
+        cursor="pointer"
+        :cover="cardInfo.cover"
+        :title="cardInfo.title"
+        :detail="cardInfo.detail"
+        :cover-ratio="16 / 9"
+        layout="h"
+        :style="{ '--card-detail-max-row': 2 }"
+        :href="cardInfo.href"
+        target="_blank"
+      />
     </div>
 
     <div class="display-item">
       <h4>单体卡片（不带操作）</h4>
-      <OCard hoverable cursor="pointer" :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" layout="hr" :cover-ratio="16 / 9" />
+      <OCard
+        hoverable
+        cursor="pointer"
+        :cover="cardInfo.cover"
+        :title="cardInfo.title"
+        :detail="cardInfo.detail"
+        layout="hr"
+        :cover-ratio="16 / 9"
+        :style="{ '--card-detail-max-row': 2 }"
+        :href="cardInfo.href"
+        target="_blank"
+      />
     </div>
 
     <div class="display-item">
       <h4>单体卡片（带操作）</h4>
       <OCard hoverable :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9">
         <template #footer>
-          <OButton color="primary" round="pill">操作按钮1</OButton>
+          <OButton color="primary" round="pill">操作按钮</OButton>
         </template>
       </OCard>
     </div>
