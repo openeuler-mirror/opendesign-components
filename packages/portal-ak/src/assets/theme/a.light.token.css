@@ -1,5 +1,5 @@
 /* theme: a.light */
-[data-o-theme="a.light"] {
+[data-o-theme='a.light'] {
   /**
    * @name 
    * @type palette
@@ -1751,19 +1751,26 @@
    */
   --o-line_height-tip2: 18px;
   /**
+   * @name 超小尺寸圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸圆角
+   */
+  --o-radius-xs: 4px;
+  /**
    * @name 小尺寸圆角
    * @type size
    * @group radius
    * @description 小尺寸圆角
    */
-  --o-radius-s: 4px;
+  --o-radius-s: 8px;
   /**
    * @name 中尺寸圆角
    * @type size
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 8px;
+  --o-radius-m: 12px;
   /**
    * @name 大尺寸圆角
    * @type size
@@ -1799,6 +1806,13 @@
    * @description 小尺寸控件圆角
    */
   --o-radius-control-s: var(--o-radius-s);
+  /**
+   * @name 超小尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸控件圆角
+   */
+  --o-radius-control-xs: var(--o-radius-xs);
   /**
    * @name 持续时间
    * @type animation

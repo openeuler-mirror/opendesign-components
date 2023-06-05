@@ -19,7 +19,7 @@ import PopupTarget from './PopupTarget.vue';
   background-color: var(--o-color-fill2);
   box-shadow: var(--o-shadow-1);
   padding: 4px 8px;
-  border-radius: var(--o-radius-control-m);
+  border-radius: var(--o-radius-control-s);
   border: 1px solid red;
 }
 </style>

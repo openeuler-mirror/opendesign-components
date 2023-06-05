@@ -10,7 +10,7 @@
   --sub-menu-text-height: var(--o-line_height-text1);
   --sub-menu-icon-size: var(--o-icon_size-s);
   --sub-menu-icon-arrow-size: var(--o-icon_size-xs);
-  --sub-menu-radius: var(--o-radius-control-m);
+  --sub-menu-radius: var(--o-radius-control-s);
 }
 
 .o-menu-item {
@@ -20,5 +20,5 @@
   --menu-item-text-height: var(--o-line_height-text1);
   --menu-item-bg-color-active: var(--o-color-control3-light);
   --menu-item-bg-color-hover: var(--o-color-control2-light);
-  --menu-item-radius: var(--o-radius-control-m);
+  --menu-item-radius: var(--o-radius-control-s);
 }
