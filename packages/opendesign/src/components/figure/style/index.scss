@@ -3,10 +3,12 @@
 
 .o-figure {
   display: inline-flex;
+  align-items: center;
   vertical-align: top;
   overflow: hidden;
   transition: background-color var(--o-duration-m2);
   border-radius: var(--figure-radius);
+  position: relative;
 
   &.is-loading {
     &.is-colorful {
@@ -107,4 +109,12 @@
   justify-content: center;
   font-size: var(--figure-error-size);
   color: var(--figure-error-color);
+}
+
+.o-figure-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }

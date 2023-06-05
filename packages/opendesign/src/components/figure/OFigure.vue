@@ -121,7 +121,9 @@ defineExpose({
       </div>
       <img v-else-if="!isError" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
-    <slot></slot>
+    <div class="o-figure-content">
+      <slot></slot>
+    </div>
 
     <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">
       <div class="o-figure-preview-img"><img :src="props.src" /></div>

@@ -21,18 +21,4 @@ import { OPopover } from '@components/index';
     </section>
   </div>
 </template>
-<style lang="scss" scoped>
-.page-demo {
-  padding-bottom: 400px;
-}
-.select-add {
-  border-top: 1px solid var(--o-color-control1);
-  padding: 8px 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  &:hover {
-    color: var(--o-color-link1);
-  }
-}
-</style>
+<style lang="scss" scoped></style>

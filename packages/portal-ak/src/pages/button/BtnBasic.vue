@@ -51,8 +51,4 @@ import { OButton, OLink, OIcon, OIconRefresh, OIconAdd, OIconChevronRight } from
     </section>
   </div>
 </template>
-<style lang="scss">
-.the-home {
-  color: #333;
-}
-</style>
+<style lang="scss"></style>

@@ -1,4 +1,4 @@
-// @use './mixin.scss' as *;
+@use './base.scss' as *;
 @use './button.scss' as *;
 @use './button-toggle.scss' as *;
 @use './link.scss' as *;
@@ -16,4 +16,5 @@
 @use './upload.scss' as *;
 @use './pagination.scss' as *;
 @use './card.scss' as *;
-
+@use './tab.scss' as *;
+@use './figure.scss' as *;

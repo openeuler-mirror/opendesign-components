@@ -86,7 +86,7 @@ const dlgAction: DialogActionT[] = [
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>
-          <div class="dlg-action">
+          <div class="c-dlg-action-end">
             <OButton color="primary" variant="solid" @click="toggle('show2', false)">确定</OButton>
             <OButton @click="toggle('show2', false)">取消</OButton>
           </div>
@@ -100,7 +100,7 @@ const dlgAction: DialogActionT[] = [
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>
-          <div class="dlg-action">
+          <div class="c-dlg-action-end">
             <OButton color="primary" variant="solid" @click="toggle('show1', false)">确定</OButton>
             <OButton @click="toggle('show1', false)">取消</OButton>
           </div>
@@ -109,13 +109,4 @@ const dlgAction: DialogActionT[] = [
     </section>
   </div>
 </template>
-<style lang="scss" scoped>
-.dlg-action {
-  display: flex;
-
-  justify-content: flex-end;
-  > * + * {
-    margin-left: 8px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

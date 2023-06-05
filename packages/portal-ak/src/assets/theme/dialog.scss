@@ -142,3 +142,12 @@
     --dlg-radius: 0;
   }
 }
+
+.c-dlg-action-end {
+  display: flex;
+
+  justify-content: flex-end;
+  > * + * {
+    margin-left: 8px;
+  }
+}

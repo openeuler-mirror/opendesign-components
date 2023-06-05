@@ -2,6 +2,7 @@
 import { OFigure, OIconArrowTraingleRight } from '@components/index';
 
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
+const img2 = 'https://www.hikunpeng.com/_static3/7.875f5cf6.jpg';
 
 const onVideoClick = () => {
   alert('开始播放视频');
@@ -20,42 +21,23 @@ const onVideoClick = () => {
   <h4>图片可预览</h4>
   <OFigure style="width: 25%" :src="img" preview />
   <h4>视频</h4>
-  <OFigure style="width: 25%" :src="img" hoverable class="figure-video" @click="onVideoClick">
-    <div class="video-poster-mask">
-      <div class="video-play-btn">
+  <OFigure style="width: 25%" :src="img" hoverable class="c-figure-video" @click="onVideoClick">
+    <div class="c-video-poster-mask">
+      <div class="c-video-play-btn">
         <OIconArrowTraingleRight />
       </div>
     </div>
   </OFigure>
+  <h4>图文</h4>
+  <OFigure style="width: 25%" :src="img" hoverable>
+    <div class="c-figure-content-bottom">
+      <div class="c-figure-title">标题文本</div>
+    </div>
+  </OFigure>
+  <OFigure style="width: 25%; margin-left: 24px" :src="img" hoverable>
+    <div class="c-figure-content-bottom">
+      <div class="c-figure-title">标题文本</div>
+    </div>
+  </OFigure>
 </template>
-<style lang="scss">
-.figure-video {
-  position: relative;
-  --figure-radius: 16px;
-}
-
-.video-poster-mask {
-  background-color: rgba($color: #000000, $alpha: 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-}
-.video-play-btn {
-  box-sizing: border-box;
-  --play-btn-size: 48px;
-  font-size: var(--play-btn-size);
-  width: var(--play-btn-size);
-  height: var(--play-btn-size);
-  border-radius: 50%;
-  color: #fff;
-  background-color: rgba($color: #fff, $alpha: 0.2);
-  border: 1px solid rgba($color: #fff, $alpha: 0.6);
-  backdrop-filter: blur(1px);
-}
-</style>
+<style lang="scss"></style>
