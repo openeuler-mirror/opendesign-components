@@ -12,6 +12,9 @@ import './assets/theme/k.dark.token.css';
 import './assets/theme/k.media.token.css';
 
 import '@opensig/opendesign/src/components/css';
+
+import './assets/theme/index.a.scss';
+import './assets/theme/index.k.scss';
 import './assets/theme/index.scss';
 
 import { router } from '@/router';
