@@ -5,8 +5,8 @@
 </template>
 
 <style lang="scss">
-section{
+section {
   padding: 16px;
-  border: 1px solid var(--o-color-control1);
+  border: 1px solid var(--o-color-control1-light);
 }
 </style>

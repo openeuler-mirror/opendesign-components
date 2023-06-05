@@ -30,7 +30,7 @@
   }
 }
 .o-select-options {
-  --select-options-radius: 12px;
+  --select-options-radius: var(--o-radius-control-m);
   --select-options-max-height: 302px;
 }
 // 移动端响应式

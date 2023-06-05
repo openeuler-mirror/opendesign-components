@@ -102,6 +102,7 @@
   bottom: 0;
   background-color: var(--table-loading-mask);
   color: var(--table-loading-color);
+  border-radius: var(--table-radius);
 }
 
 .o-table-loading-label {

@@ -20,18 +20,12 @@ const loading = ref(true);
   <p>M</p>
   <OTable :columns="table1.columns" :data="table1.data" />
 
-  <p>s</p>
+  <p>S</p>
   <OTable :columns="table1.columns" :data="table1.data" small />
 
   <h4>loading & Empty</h4>
-  <div class="sec">
-    <OTable :columns="table1.columns" :loading="loading" />
-    <br />
-    <OTable :columns="table1.columns" />
-  </div>
+  <OTable :columns="table1.columns" :loading="loading" />
+  <br />
+  <OTable :columns="table1.columns" />
 </template>
-<style lang="scss">
-.sec {
-  margin-bottom: 24px;
-}
-</style>
+<style lang="scss"></style>
