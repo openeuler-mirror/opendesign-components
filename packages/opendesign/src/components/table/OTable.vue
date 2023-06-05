@@ -44,7 +44,7 @@ const boderClass = computed(() => {
         </thead>
         <tbody v-if="tableData.length > 0">
           <slot>
-            <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx">
+            <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ last: rIdx + 1 === tableData.length }">
               <template v-for="(col, cIdx) in row.data" :key="col.key || cIdx">
                 <td :rowspan="col.rowspan" :colspan="col.colspan" :class="{ last: col.last }">{{ col.value }}</td>
               </template>

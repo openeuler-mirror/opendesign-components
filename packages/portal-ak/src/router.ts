@@ -166,6 +166,12 @@ export const routes = [
         label: '页签 tab',
         component: () => import('./pages/tab/TheIndex.vue'),
       },
+      {
+        path: 'table',
+        name: 'table',
+        label: '表格 table',
+        component: () => import('./pages/table/TheIndex.vue'),
+      },
     ],
   },
   {
