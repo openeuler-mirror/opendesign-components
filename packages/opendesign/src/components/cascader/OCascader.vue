@@ -63,7 +63,7 @@ watch(
 watch(
   () => inputLabel.value,
   (val) => {
-    selectRef.value?.updateLabel(val);
+    // selectRef.value?.updateLabel(val);
   }
 );
 

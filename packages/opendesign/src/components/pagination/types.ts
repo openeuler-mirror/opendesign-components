@@ -56,6 +56,12 @@ export const paginationProps = {
     default: 9,
   },
   /**
+   * 显示总数据量
+   */
+  showTotal: {
+    type: Boolean,
+  },
+  /**
    * 显示页面数 > 3
    */
   showJumper: {

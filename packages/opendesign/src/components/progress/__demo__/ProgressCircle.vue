@@ -6,6 +6,7 @@ import { OProgress } from '../index';
 import '../../button/style';
 import { OButton } from '../../button';
 import { OIconAdd, OIconMinus } from '../../icon-components';
+import { OIconWarning } from '../../icon-components';
 
 const val = ref(60);
 const increaseVal = () => {
@@ -30,10 +31,16 @@ const decreaseVal = () => {
     </div>
 
     <div :style="{ display: 'flex', gap: '16px', flexWrap: 'wrap' }">
-      <OProgress :percentage="val" color="primary" variant="circle" :width="120" />
-      <OProgress :percentage="val" color="success" variant="circle" :width="120" />
-      <OProgress :percentage="val" color="warning" variant="circle" :width="120" />
-      <OProgress :percentage="val" color="danger" variant="circle" :width="120" />
+      <OProgress :percentage="val" color="primary" variant="circle" :track-width="200" />
+      <OProgress :percentage="val" color="success" variant="circle" :track-width="200" />
+      <OProgress :percentage="val" color="primary" variant="circle" />
+      <OProgress :percentage="val" color="success" variant="circle" />
+      <OProgress :percentage="val" color="warning" variant="circle" size="small">
+        <template #icon>
+          <OIconWarning />
+        </template>
+      </OProgress>
+      <OProgress :percentage="val" color="danger" variant="circle" size="small" />
     </div>
   </section>
 </template>

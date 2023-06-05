@@ -35,10 +35,10 @@ const decreaseVal = () => {
     <OProgress :percentage="val + 20" color="danger" :stroke-width="20" />
 
     <div :style="{ display: 'flex', gap: '16px', flexWrap: 'wrap' }">
-      <OProgress :percentage="val" color="primary" variant="circle" :width="200" :stroke-width="20" />
-      <OProgress :percentage="val" color="success" variant="circle" :width="200" :stroke-width="20" />
-      <OProgress :percentage="val" color="warning" variant="circle" :width="200" :stroke-width="20" />
-      <OProgress :percentage="val" color="danger" variant="circle" :width="200" :stroke-width="20" />
+      <OProgress :percentage="val" color="primary" variant="circle" :track-width="200" :stroke-width="20" />
+      <OProgress :percentage="val" color="success" variant="circle" :track-width="200" :stroke-width="20" />
+      <OProgress :percentage="val" color="warning" variant="circle" :track-width="200" :stroke-width="20" />
+      <OProgress :percentage="val" color="danger" variant="circle" :track-width="200" :stroke-width="20" />
     </div>
   </section>
 </template>

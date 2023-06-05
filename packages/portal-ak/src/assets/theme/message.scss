@@ -1,0 +1,6 @@
+.o-message-info {
+  --message-icon-color: rgb(var(--o-deepblue-6));
+  &.o-message-colorful {
+    --message-bg-color: rgb(var(--o-deepblue-1));
+  }
+}

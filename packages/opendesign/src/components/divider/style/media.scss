@@ -1,0 +1,15 @@
+@use '../../style/mixin.scss' as *;
+@include respond-to('phone-pad') {
+  .o-divider {
+    --o-divider-text-size: var(--o-font_size-tip1);
+    --o-divider-text-height: var(--o-line_height-tip1);
+  }
+
+  .o-divider-line {
+    transform: scaleY(0.5);
+  }
+
+  .o-divider-v {
+    transform: scaleX(0.5);
+  }
+}

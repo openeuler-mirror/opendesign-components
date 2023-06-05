@@ -5,7 +5,7 @@ import { OIconStar } from '../../icon-components';
 const card = {
   cover: 'https://www.openeuler.org/img/banners/20230418-odd.png',
   title: '一文了解openEuler Developer Day2023亮点！',
-  content:
+  detail:
     'openEuler Developer Day 2023 （简称 ODD 2023）是开放原子开源基金会旗下 openEuler 社区发起的顶级开发者峰会。ODD 2023 将于4月20日-21日在上海浦东嘉里大酒店举办。整体大会以线下会议及线上直播方式进行。大会看点满满，赶紧来一睹为快',
 };
 </script>
@@ -13,8 +13,8 @@ const card = {
   <h4>基本</h4>
   <section>
     <div class="row">
-      <OCard class="card col3" asdf :cover="card.cover" :cover-ratio="16 / 9" :title="card.title" :content="card.content" />
-      <OCard class="card col3" :cover="card.cover" :cover-ratio="16 / 9" :title="card.title" :content="card.content" hoverable />
+      <OCard class="card col3" asdf :cover="card.cover" :cover-ratio="16 / 9" :title="card.title" :detail="card.detail" />
+      <OCard class="card col3" :cover="card.cover" :cover-ratio="16 / 9" :title="card.title" :detail="card.detail" hoverable />
     </div>
 
     <div class="flex">
@@ -23,14 +23,14 @@ const card = {
         :cover="card.cover"
         :cover-ratio="16 / 9"
         :title="card.title"
-        :content="card.content"
+        :detail="card.detail"
         layout="h"
         cover-class="card-cover"
         :title-max-row="1"
         :detail-max-row="2"
       >
-        <template #actions>
-          <div class="actions">
+        <template #footer>
+          <div class="footer">
             <div class="date">2023/02/09</div>
             <div class="btns">
               <div class="btn"><OIconStar /> 文本</div>
@@ -43,14 +43,14 @@ const card = {
         :cover="card.cover"
         :cover-ratio="16 / 9"
         :title="card.title"
-        :content="card.content"
+        :detail="card.detail"
         layout="hr"
         cover-class="card-cover"
         :title-max-row="1"
         :detail-max-row="2"
       >
-        <template #actions>
-          <div class="actions">
+        <template #footer>
+          <div class="footer">
             <div class="date">2023/02/09</div>
             <div class="btns">
               <div class="btn"><OIconStar /> 文本</div>
@@ -66,12 +66,12 @@ const card = {
         :cover-ratio="16 / 9"
         size="large"
         :title="card.title"
-        :content="card.content"
+        :detail="card.detail"
         layout="h"
         cover-class="card-cover"
       >
-        <template #actions>
-          <div class="actions">
+        <template #footer>
+          <div class="footer">
             <div class="date">2023/02/09</div>
             <div class="btns">
               <div class="btn"><OIconStar /> 文本</div>
@@ -82,10 +82,10 @@ const card = {
     </div>
 
     <div class="flex">
-      <OCard class="card col3" :title="card.title" :content="card.content" />
-      <OCard class="card col3" :title="card.title" :content="card.content" hoverable>
-        <template #actions>
-          <div class="actions">
+      <OCard class="card col3" :title="card.title" :detail="card.detail" />
+      <OCard class="card col3" :title="card.title" :detail="card.detail" hoverable>
+        <template #footer>
+          <div class="footer">
             <div class="date">2023/02/09</div>
             <div class="btns">
               <div class="btn"><OIconStar /> 文本</div>
@@ -101,7 +101,7 @@ const card = {
             <div class="icon"><OIconStar /></div>
             <div>
               <div class="title">{{ card.title }}</div>
-              <div class="btns">{{ card.content }}</div>
+              <div class="btns">{{ card.detail }}</div>
             </div>
           </div>
           1123
@@ -127,10 +127,10 @@ const card = {
 .col4 {
   width: calc(25% - 6px);
 }
-.actions {
+.footer {
   // margin-top: ;
   display: flex;
-  justify-content: space-between;
+  justify-detail: space-between;
 }
 // .card2 {
 // height: 260px;

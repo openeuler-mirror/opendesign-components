@@ -81,6 +81,13 @@ export const inputProps = {
     default: 'text',
   },
   /**
+   * 是否是密码输入
+   */
+  showPasswordOn: {
+    type: String as PropType<'click' | 'mousedown'>,
+    default: 'mousedown',
+  },
+  /**
    * 解析输入框的值
    */
   parse: {

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { onMounted, ref, computed, onUnmounted, toRefs } from 'vue';
+import { onMounted, ref, onUnmounted, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
 import { useResizeObserver } from '../hooks';
 import { getHtmlElement } from '../_shared/vue-utils';
+import { isPhonePad } from '../_shared/global';
 
 const ScrollerClass = {
   BODY: 'o-hide-scrollbar',
@@ -74,15 +75,19 @@ const initVars = () => {
   hOffsetRate.value = scrollLeft / scrollWidth;
   vOffsetRate.value = scrollTop / scrollHeight;
 
-  hasX.value = clientWidth < scrollWidth;
-  hasY.value = clientHeight < scrollHeight;
+  if (!props.disabledX) {
+    hasX.value = clientWidth < scrollWidth;
+  }
+  if (!props.disabledY) {
+    hasY.value = clientHeight < scrollHeight;
+  }
 };
 const init = () => {
   if (!wrapperEl) {
     return;
   }
 
-  initVars();
+  // initVars();
 
   ro?.observe(wrapperEl, initVars);
   const listenEl = isBody.value ? window : wrapperEl;
@@ -138,6 +143,9 @@ const onVBarScroll = (ratio: number) => {
 };
 
 const onBarHoverIn = (d: ScrollerDirection) => {
+  if (isPhonePad.value) {
+    return;
+  }
   if (d === 'x') {
     showXBar.value = true;
     if (xTimer) {
@@ -154,6 +162,9 @@ const onBarHoverIn = (d: ScrollerDirection) => {
 };
 
 const onBarHoverOut = (d: ScrollerDirection) => {
+  if (isPhonePad.value) {
+    return;
+  }
   if (d === 'x') {
     xTimer = window.setTimeout(() => {
       showXBar.value = false;
@@ -164,31 +175,36 @@ const onBarHoverOut = (d: ScrollerDirection) => {
     }, props.duration);
   }
 };
-
-const scrollerClass = computed(() => {
-  const classList: Array<string | Record<string, boolean>> = [`o-scroller-${props.size}`];
-  if (props.showType === 'auto') {
-    classList.push('o-scroller-auto-show', {
-      'o-scroller-show-x': showXBar.value,
-      'o-scroller-show-y': showYBar.value,
-    });
-  } else if (props.showType === 'hover') {
-    classList.push('o-scroller-hover-show');
-  }
-
-  if (hasX.value && hasY.value) {
-    classList.push('o-scroller-both');
-  }
-  if (isBody.value) {
-    classList.push('o-scroller-to-body');
-  }
-  return classList;
-});
 </script>
 
 <template>
-  <div class="o-scroller" :class="scrollerClass">
-    <div v-if="$slots.default" ref="containerEl" class="o-scroller-container">
+  <div
+    class="o-scroller"
+    :class="[
+      `o-scroller-${props.size}`,
+      {
+        'o-scroller-auto-show': props.showType === 'auto',
+        'o-scroller-always-show': props.showType === 'always',
+        'o-scroller-hover-show': props.showType === 'hover' && !isPhonePad,
+        'o-scroller-both': hasX && hasY,
+        'o-scroller-to-body': isBody,
+        'o-scroller-show-x': showXBar,
+        'o-scroller-show-y': showYBar,
+      },
+    ]"
+  >
+    <div
+      v-if="$slots.default"
+      ref="containerEl"
+      class="o-scroller-container"
+      :class="[
+        {
+          'is-x-disabled': props.disabledX,
+          'is-y-disabled': props.disabledY,
+        },
+        props.wrapClass,
+      ]"
+    >
       <slot></slot>
     </div>
     <OScrollbar

@@ -50,20 +50,25 @@ const onPreview = () => {
 };
 </script>
 <template>
-  <div :key="props.file.id" class="o-upload-item">
+  <div
+    class="o-upload-item"
+    :class="{
+      'o-upload-item-error': props.file.status === 'failed',
+    }"
+  >
     <slot :name="ItemSlotNames[0]" :item="file">
       <div
-        class="o-upload-item-wrap"
-        :class="[
-          {
-            'is-error': props.file.status === 'failed',
-          },
-          `o-upload-item-${props.listType}`,
-        ]"
+        v-if="props.listType === 'picture-card'"
+        class="o-upload-card-item"
+        :class="{
+          'is-error': props.file.status === 'failed',
+        }"
       >
-        <template v-if="props.listType === 'picture-card'">
-          <OFigure v-if="props.file.imgUrl" ref="figureRef" lazy-preiew class="o-upload-thumbnail" :src="props.file.imgUrl" />
-          <IconFile v-else class="o-upload-icon-file" />
+        <div class="o-upload-card-item-wrap">
+          <div class="o-upload-card-file">
+            <OFigure v-if="props.file.imgUrl" ref="figureRef" lazy-preiew class="o-upload-thumbnail" :src="props.file.imgUrl" />
+            <IconFile v-else class="o-upload-icon-file" />
+          </div>
           <div
             class="o-upload-card-icons"
             :class="{
@@ -76,34 +81,41 @@ const onPreview = () => {
             <IconEdit v-if="props.file.status === 'finished'" class="o-upload-icon-btn o-upload-icon-edit" @click="onFileReplace(props.file)" />
             <IconDelete class="o-upload-icon-btn o-upload-icon-remove" @click="onFileRemove(props.file)" />
           </div>
-          <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-item-progress">
-            <div class="o-upload-item-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
-          </div>
-        </template>
-        <template v-else>
-          <div v-if="props.file.icon !== false" class="o-upload-icon-link">
-            <component :is="props.file.icon" v-if="props.file.icon" />
-            <IconLinkPrefix v-else />
-          </div>
-          <div class="o-upload-item-label">{{ props.file.name }}</div>
-          <div class="o-upload-item-icons">
-            <OIcon v-if="showLoading(props.file)" class="o-upload-icon-loading">
-              <IconLoading class="o-rotating" />
-            </OIcon>
-            <OIcon
-              v-if="props.file.retry"
-              button
-              class="o-upload-item-icon o-upload-item-hover-in o-upload-icon-retry"
-              :icon="IconRefresh"
-              @click="onFileUploadRetry(props.file)"
-            />
-            <OIcon button class="o-upload-item-icon o-upload-icon-remove o-upload-item-hover-in" :icon="IconDelete" @click="onFileRemove(props.file)" />
-          </div>
 
-          <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-item-progress">
-            <div class="o-upload-item-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
+          <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-card-progress">
+            <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
           </div>
-        </template>
+        </div>
+      </div>
+      <div
+        v-else
+        class="o-upload-row-item"
+        :class="{
+          'is-error': props.file.status === 'failed',
+        }"
+      >
+        <div v-if="props.file.icon !== false" class="o-upload-icon-link">
+          <component :is="props.file.icon" v-if="props.file.icon" />
+          <IconLinkPrefix v-else />
+        </div>
+        <div class="o-upload-row-label">{{ props.file.name }}</div>
+        <div class="o-upload-row-icons">
+          <OIcon v-if="showLoading(props.file)" class="o-upload-icon-loading">
+            <IconLoading class="o-rotating" />
+          </OIcon>
+          <OIcon
+            v-if="props.file.retry"
+            button
+            class="o-upload-row-icon o-upload-icon-hover-in o-upload-icon-retry"
+            :icon="IconRefresh"
+            @click="onFileUploadRetry(props.file)"
+          />
+          <OIcon button class="o-upload-row-icon o-upload-icon-remove o-upload-icon-hover-in" :icon="IconDelete" @click="onFileRemove(props.file)" />
+        </div>
+
+        <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-row-progress">
+          <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
+        </div>
       </div>
 
       <div

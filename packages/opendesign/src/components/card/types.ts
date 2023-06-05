@@ -1,10 +1,10 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 
 export const DirectionTypes = ['h', 'v', 'hr'] as const;
-export type DirectionT = typeof DirectionTypes[number];
+export type DirectionT = (typeof DirectionTypes)[number];
 
-export const CardSizeTypes = ['medium', 'large'] as const;
-export type CardSizeT = typeof CardSizeTypes[number];
+export const CardHoverCursorTypes = ['auto', 'pointer'] as const;
+export type CardHoverCursorT = (typeof CardHoverCursorTypes)[number];
 
 export const cardProps = {
   /**
@@ -27,15 +27,21 @@ export const cardProps = {
     type: Number,
   },
   /**
+   * 图标
+   */
+  icon: {
+    type: Object as PropType<Component>,
+  },
+  /**
    * 标题
    */
   title: {
     type: String,
   },
   /**
-   * 标题
+   * 详情
    */
-  content: {
+  detail: {
     type: String,
   },
   /**
@@ -45,17 +51,17 @@ export const cardProps = {
     type: Boolean,
   },
   /**
+   * 鼠标样式
+   */
+  cursor: {
+    type: String as PropType<CardHoverCursorT>,
+    default: 'auto',
+  },
+  /**
    * cover classname
    */
   coverClass: {
     type: [String, Array] as PropType<string | any[]>,
-  },
-  /**
-   * 尺寸 CardSizeT
-   */
-  size: {
-    type: String as PropType<CardSizeT>,
-    default: 'medium',
   },
   /**
    * 链接跳转

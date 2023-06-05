@@ -16,9 +16,24 @@ const changeVal = () => {
 <template>
   <h4>Color & Variant</h4>
   <section>
+    <div @click="changeVal">Text</div>
+    <div class="row">
+      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" loading>
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+      <OSelect v-model="selectVal1" variant="text" color="success" placeholder="normal + success" option-title="请选择">
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+      <OSelect v-model="selectVal1" variant="text" color="warning" placeholder="normal + warning">
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+      <OSelect v-model="selectVal1" variant="text" color="danger" placeholder="normal + danger">
+        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+    </div>
     <div @click="changeVal">Outline</div>
     <div class="row">
-      <OSelect v-model="selectVal1" placeholder="normal + outline">
+      <OSelect v-model="selectVal1" placeholder="normal + outline" loading>
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" color="success" placeholder="normal + success">
@@ -135,7 +150,7 @@ const changeVal = () => {
   </section>
   <h4>Clearable</h4>
   <section>
-    <OSelect v-model="selectVal1" placeholder="select..." clearable>
+    <OSelect v-model="selectVal1" placeholder="select..." clearable loading>
       <OOption :label="options[0].label" :value="options[0].value" />
       <OOption :label="options[1].label" :value="options[1].value" />
       <OOption :label="options[2].label" :value="options[2].value" />

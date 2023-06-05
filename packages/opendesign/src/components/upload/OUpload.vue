@@ -66,7 +66,12 @@ const afterSelected = (files: UploadFileT[]) => {
       }
     }
   } else {
-    fileList.value = fileList.value.concat(files);
+    if (props.multiple) {
+      fileList.value = fileList.value.concat(files);
+    } else {
+      fileList.value[0]?.request?.abort();
+      fileList.value = files;
+    }
     if (!props.lazyUpload) {
       uploadAll();
     }
@@ -152,6 +157,9 @@ const onFileReplace = (file: UploadFileT) => {
  * 选择文件
  */
 const doSelect = () => {
+  if (props.disabled) {
+    return;
+  }
   selectRef.value?.select(props.multiple);
 };
 
@@ -185,7 +193,12 @@ defineExpose({
       </div>
     </div>
 
-    <div class="o-upload-list" :class="`o-upload-list-${props.listType}`">
+    <div
+      class="o-upload-list"
+      :class="{
+        'o-upload-card-list': props.listType === 'picture-card',
+      }"
+    >
       <UploadItem
         v-for="item in fileList"
         :key="item.id"
@@ -199,7 +212,14 @@ defineExpose({
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadItem>
-      <div v-if="props.listType === 'picture-card'" class="o-upload-card-add" @click="doSelect">
+      <div
+        v-if="props.listType === 'picture-card'"
+        class="o-upload-card-add"
+        :class="{
+          'is-disabled': props.disabled,
+        }"
+        @click="doSelect"
+      >
         <div>
           <IconAdd class="o-upload-card-add-icon" />
           <div class="o-upload-card-label">{{ props.btnLabel ?? UploadLabel.btnLabel }}</div>

@@ -1,10 +1,13 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
 export const ProgressVariantTypes = ['line', 'circle'] as const;
-export type ProgressVariantT = typeof ProgressVariantTypes[number];
+export type ProgressVariantT = (typeof ProgressVariantTypes)[number];
+
+export const ProgressSizeTypes = ['medium', 'small'] as const;
+export type ProgressSizeT = (typeof ProgressSizeTypes)[number];
 
 export const ProgressColorTypes = ['primary', 'success', 'warning', 'danger'] as const;
-export type ProgressColorT = typeof ProgressColorTypes[number];
+export type ProgressColorT = (typeof ProgressColorTypes)[number];
 
 export const progressProps = {
   /**
@@ -27,7 +30,13 @@ export const progressProps = {
    */
   strokeWidth: {
     type: Number,
-    default: 6,
+  },
+  /**
+   * 进度条尺寸类型 ProgressSizeT
+   */
+  size: {
+    type: String as PropType<ProgressSizeT>,
+    default: 'medium',
   },
   /**
    * 进度条颜色类型 ProgressColorT
@@ -37,11 +46,10 @@ export const progressProps = {
     default: 'primary',
   },
   /**
-   * 环形进度条尺寸
+   * 进度条轨道宽度，当为环形进度条时，仅支持Number
    */
-  width: {
-    type: Number,
-    default: 80,
+  trackWidth: {
+    type: [Number, String],
   },
   /**
    * 格式化文字

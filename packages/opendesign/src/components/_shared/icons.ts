@@ -20,8 +20,10 @@ import {
   OIconDelete,
   OIconPoint,
   OIconEye,
+  OIconEyeOff,
   OIconFile,
   OIconEdit,
+  OIconImageError,
 } from '../icon-components';
 
 /**
@@ -80,7 +82,7 @@ export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
 export const IconDone = shallowRef<Component>(OIconDone);
 
 /**
- * 更多...图标
+ * 更多...图标，用于pagition
  */
 export const IconEllipsis = shallowRef<Component>(OIconEllipsis);
 
@@ -118,3 +120,18 @@ export const IconFile = shallowRef<Component>(OIconFile);
  * 文件图标
  */
 export const IconEdit = shallowRef<Component>(OIconEdit);
+
+/**
+ * 可见图标，用于密码框等
+ */
+export const IconEyeOn = shallowRef<Component>(OIconEye);
+
+/**
+ * 不可见图标，用于密码框等
+ */
+export const IconEyeOff = shallowRef<Component>(OIconEyeOff);
+
+/**
+ * 加载失败的图片
+ */
+export const IconImageError = shallowRef<Component>(OIconImageError);

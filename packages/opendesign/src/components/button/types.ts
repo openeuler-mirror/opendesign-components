@@ -55,6 +55,13 @@ export const buttonProps = {
   icon: {
     type: Object as PropType<Component>,
   },
+  /**
+   * 自定义元素标签
+   */
+  tag: {
+    type: String,
+    default: 'button',
+  },
 };
 
 export type ButtonPropsT = ExtractPropTypes<typeof buttonProps>;

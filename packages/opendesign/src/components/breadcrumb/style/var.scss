@@ -1,10 +1,14 @@
 .o-breadcrumb {
   --breadcrumb-color: var(--o-color-info3);
+  --breadcrumb-color-hover: var(--o-color-info1);
   --breadcrumb-color-active: var(--o-color-info1);
+  --breadcrumb-color-selected: var(--o-color-info1);
 
-  --breadcrumb-text-size: var(--o-font_size-text1);
-  --breadcrumb-text-height: var(--o-line_height-text1);
+  --breadcrumb-text-size: var(--o-font_size-tip1);
+  --breadcrumb-text-height: var(--o-line_height-tip1);
 
-  --breadcrumb-gap: var(--o-gap-1);
-  --breadcrumb-seperator-size: var(--o-icon_size-xs);
+  --breadcrumb-gap: 4px;
+  --breadcrumb-seperator-size: var(--o-icon_size-s);
+
+  --breadcrumb-label-max-width: 140px;
 }

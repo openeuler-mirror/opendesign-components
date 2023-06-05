@@ -29,10 +29,10 @@ const decreaseVal = () => {
       </OButton>
     </div>
 
-    <OProgress :percentage="val" color="primary" :style="{ width: '300px' }" />
-    <OProgress :percentage="val" color="success" :style="{ width: '300px' }" />
-    <OProgress :percentage="val" color="warning" :style="{ width: '300px' }" />
-    <OProgress :percentage="val" color="danger" :style="{ width: '300px' }" />
+    <OProgress :percentage="val" color="primary" :track-width="300" />
+    <OProgress :percentage="val" color="success" :track-width="300" />
+    <OProgress :percentage="val" color="warning" :track-width="300" />
+    <OProgress :percentage="val" color="danger" :track-width="300" />
   </section>
 </template>
 

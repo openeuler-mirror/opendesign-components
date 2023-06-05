@@ -9,7 +9,7 @@ const handleChange = (val: number) => {
   console.log(val);
 };
 
-let labels = ref(['1', '2', '3', '4', '5']);
+let labels = ref(['非常不满意', '不满意', ' 一般', '满意', '非常满意']);
 </script>
 
 <template>

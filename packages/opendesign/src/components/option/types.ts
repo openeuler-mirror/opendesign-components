@@ -6,20 +6,20 @@ export const optionProps = {
    */
   label: {
     type: String,
-    default: ''
+    default: '',
   },
   /**
    * 值
    */
   value: {
     type: [String, Number],
-    default: ''
+    default: '',
   },
   /**
    * 禁用
    */
   disabled: {
-    type: Boolean
+    type: Boolean,
   },
 };
 

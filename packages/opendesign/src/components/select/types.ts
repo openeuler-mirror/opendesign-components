@@ -5,20 +5,26 @@ import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/types';
 export const OptionWidthModeTypes = ['auto', 'min-width', 'width'] as const;
 export type OptionWidthModeT = (typeof OptionWidthModeTypes)[number];
 
+export interface SelectOptionT {
+  label: string;
+  value: string | number;
+}
+export type SelectValueT = string | number | string[] | number[] | (string | number)[];
+
 export const selectProps = {
   /**
    * 下拉框的值
    * v-model
    */
   modelValue: {
-    type: [String, Number],
+    type: [String, Number, Array] as PropType<SelectValueT>,
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [String, Number],
+    type: [String, Number, Array] as PropType<SelectValueT>,
   },
   /**
    * 大小 SizeT
@@ -52,6 +58,18 @@ export const selectProps = {
   placeholder: {
     type: String,
     default: 'please select...',
+  },
+  /**
+   * 是否支持多选
+   */
+  multiple: {
+    type: Boolean,
+  },
+  /**
+   * 多选标签最大显示数量
+   */
+  maxTagCount: {
+    type: Number,
   },
   /**
    * 是否可以清除
@@ -107,11 +125,62 @@ export const selectProps = {
   transition: {
     type: String,
   },
+  /**
+   * 加载状态
+   */
+  loading: {
+    type: Boolean,
+  },
+  /**
+   * 选择前回调，根据返回值判断是否显示
+   */
+  beforeSelect: {
+    type: Function as PropType<(value: string | number, currentValue: SelectValueT) => Promise<boolean | SelectValueT> | boolean | SelectValueT>,
+  },
+  /**
+   * 显示前回调，根据返回值判断是否显示
+   */
+  beforeOptionsShow: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
+  },
+  /**
+   * 隐藏前回调，根据返回值判断是否隐藏
+   */
+  beforeOptionsHide: {
+    type: Function as PropType<() => Promise<boolean> | boolean>,
+  },
+  /**
+   * 挂载容器，默认为body
+   */
+  optionsWrapper: {
+    type: [String, Object] as PropType<string | HTMLElement | null>,
+    default: 'body',
+  },
+  /**
+   * 多选超过最大tag是，文本显示
+   */
+  foldLabel: {
+    type: Function as PropType<(tags: Array<SelectOptionT>) => string>,
+  },
+  /**
+   * 浮层显示收起的多选tag
+   */
+  showFoldTags: {
+    type: [Boolean, String] as PropType<boolean | 'hover' | 'click'>,
+    default: 'hover',
+  },
+  /**
+   * 选项标题（pad、phone显示）
+   */
+  optionTitle: {
+    type: String,
+  },
+  /**
+   * 下拉浮层是否响应式
+   */
+  noResponsive: {
+    type: Boolean,
+  },
 };
 
 export type SelectPropsT = ExtractPropTypes<typeof selectProps>;
-
-export interface SelectOptionT {
-  label: string;
-  value: string | number;
-}

@@ -1,5 +1,7 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { ColorT } from '../_shared/types';
+
+export const BadgeColorTypes = ['primary', 'success', 'warning', 'danger'] as const;
+export type BadgeColorT = (typeof BadgeColorTypes)[number];
 
 export const badgeProps = {
   /**
@@ -17,11 +19,11 @@ export const badgeProps = {
     default: 99,
   },
   /**
-   * 颜色类型 ColorT
+   * 颜色类型 BadgeColorT
    */
   color: {
-    type: String as PropType<ColorT>,
-    default: 'normal',
+    type: String as PropType<BadgeColorT>,
+    default: 'primary',
   },
   /**
    * 是否显示为小红点

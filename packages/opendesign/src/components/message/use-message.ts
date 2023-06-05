@@ -25,7 +25,7 @@ const normalizeOptions = (params: MessageParamsT) => {
 const showMessage = (params: MessageParamsT) => {
   const { position } = params;
 
-  const instance = instanceMap.get(position);
+  let instance = instanceMap.get(position);
   if (!instance) {
     let wrap: HTMLDivElement | null = document.createElement('div');
 
@@ -45,7 +45,9 @@ const showMessage = (params: MessageParamsT) => {
     const vm = vnode.component!;
     vm.exposed?.add(params);
 
-    instanceMap.set(position, vm);
+    instance = vm;
+
+    instanceMap.set(position, instance);
 
     document.body.appendChild(wrap);
   } else {
@@ -53,17 +55,9 @@ const showMessage = (params: MessageParamsT) => {
   }
 };
 
-const normal = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  showMessage({
-    ...options,
-    status: 'info',
-  });
-};
-
 const info = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
-  showMessage({
+  return showMessage({
     ...options,
     status: 'info',
   });
@@ -71,7 +65,7 @@ const info = (params: MessageParamsT): void => {
 
 const success = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
-  showMessage({
+  return showMessage({
     ...options,
     status: 'success',
   });
@@ -79,7 +73,7 @@ const success = (params: MessageParamsT): void => {
 
 const warning = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
-  showMessage({
+  return showMessage({
     ...options,
     status: 'warning',
   });
@@ -87,26 +81,41 @@ const warning = (params: MessageParamsT): void => {
 
 const danger = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
-  showMessage({
+  return showMessage({
     ...options,
     status: 'danger',
   });
 };
 
+const loading = (params: MessageParamsT): void => {
+  const options: MessageParamsT = normalizeOptions(params);
+  return showMessage({
+    ...options,
+    status: 'loading',
+  });
+};
+
 const open = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
-  showMessage({
+  return showMessage({
     ...options,
   });
 };
 
+const closeAll = () => {
+  for (let ins of instanceMap.values()) {
+    ins.exposed?.removeAll();
+  }
+};
+
 const Message = {
-  normal,
   info,
   success,
   warning,
   danger,
+  loading,
   open,
+  closeAll,
 };
 
 const useMessage = () => {

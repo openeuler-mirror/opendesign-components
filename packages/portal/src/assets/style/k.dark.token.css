@@ -1,5 +1,5 @@
 /* theme: k.dark */
-[data-o-theme="k.dark"] {
+[data-o-theme='k.dark'] {
   /**
    * @name 
    * @type palette
@@ -1371,21 +1371,21 @@
    * @group shadow
    * @description 用于卡片、小弹窗、楼层阴影
    */
-  --o-shadow-1: 0 3px 8px rgba(var(--o-mixedgray-13), 0.08);
+  --o-shadow-1: 0 3px 8px rgba(var(--o-gray-14), 0.08);
   /**
    * @name 阴影2
    * @type shadow
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 6px 24px rgba(var(--o-mixedgray-13), 0.08);
+  --o-shadow-2: 0 4px 24px rgba(var(--o-gray-14), 0.1);
   /**
    * @name 阴影3
    * @type shadow
    * @group shadow
    * @description 用于提示阴影
    */
-  --o-shadow-3: 0 10px 40px rgba(var(--o-mixedgray-13), 0.08);
+  --o-shadow-3: 0 8px 40px rgba(var(--o-gray-14), 0.1);
   /**
    * @name 
    * @type color
@@ -1602,35 +1602,21 @@
    * @group font_size
    * @description 一级数据展示
    */
-  --o-font_size-display1: 64px;
+  --o-font_size-display1: 56px;
   /**
    * @name 二级数据展示
    * @type font
    * @group font_size
    * @description 二级数据展示
    */
-  --o-font_size-display2: 56px;
+  --o-font_size-display2: 48px;
   /**
    * @name 三级数据展示
    * @type font
    * @group font_size
    * @description 三级数据展示
    */
-  --o-font_size-display3: 48px;
-  /**
-   * @name 四级数据展示
-   * @type font
-   * @group font_size
-   * @description 四级数据展示
-   */
-  --o-font_size-display4: 40px;
-  /**
-   * @name 五级数据展示
-   * @type font
-   * @group font_size
-   * @description 五级数据展示
-   */
-  --o-font_size-display5: 36px;
+  --o-font_size-display3: 40px;
   /**
    * @name 一级标题
    * @type font
@@ -1644,14 +1630,14 @@
    * @group font_size
    * @description 二级标题
    */
-  --o-font_size-h2: 28px;
+  --o-font_size-h2: 24px;
   /**
    * @name 三级标题
    * @type font
    * @group font_size
    * @description 三级标题
    */
-  --o-font_size-h3: 24px;
+  --o-font_size-h3: 22px;
   /**
    * @name 四级标题
    * @type font
@@ -1693,35 +1679,21 @@
    * @group line_height
    * @description 一级数据展示
    */
-  --o-line_height-display1: 90px;
+  --o-line_height-display1: 80px;
   /**
    * @name 二级数据展示
    * @type font
    * @group line_height
    * @description 二级数据展示
    */
-  --o-line_height-display2: 80px;
+  --o-line_height-display2: 64px;
   /**
    * @name 三级数据展示
    * @type font
    * @group line_height
    * @description 三级数据展示
    */
-  --o-line_height-display3: 64px;
-  /**
-   * @name 四级数据展示
-   * @type font
-   * @group line_height
-   * @description 四级数据展示
-   */
-  --o-line_height-display4: 56px;
-  /**
-   * @name 五级数据展示
-   * @type font
-   * @group line_height
-   * @description 五级数据展示
-   */
-  --o-line_height-display5: 48px;
+  --o-line_height-display3: 56px;
   /**
    * @name 一级标题
    * @type font
@@ -1735,14 +1707,14 @@
    * @group line_height
    * @description 二级标题
    */
-  --o-line_height-h2: 40px;
+  --o-line_height-h2: 32px;
   /**
    * @name 三级标题
    * @type font
    * @group line_height
    * @description 三级标题
    */
-  --o-line_height-h3: 32px;
+  --o-line_height-h3: 30px;
   /**
    * @name 四级标题
    * @type font
@@ -1779,6 +1751,13 @@
    */
   --o-line_height-tip2: 18px;
   /**
+   * @name 超小尺寸圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸圆角
+   */
+  --o-radius-xs: 4px;
+  /**
    * @name 小尺寸圆角
    * @type size
    * @group radius
@@ -1791,21 +1770,21 @@
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 8px;
+  --o-radius-m: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 16px;
+  --o-radius-l: 8px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-xl: 24px;
+  --o-radius-xl: 8px;
   /**
    * @name 大尺寸控件圆角
    * @type size
@@ -1827,6 +1806,13 @@
    * @description 小尺寸控件圆角
    */
   --o-radius-control-s: var(--o-radius-s);
+  /**
+   * @name 超小尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸控件圆角
+   */
+  --o-radius-control-xs: var(--o-radius-xs);
   /**
    * @name 持续时间
    * @type animation

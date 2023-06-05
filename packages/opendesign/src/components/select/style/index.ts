@@ -1,3 +1,6 @@
 import '../../style';
-import '../../popup/style';
+import '../../popover/style';
+import '../../scroller/style';
+import '../../dialog/style';
 import './index.scss';
+import './media.scss';

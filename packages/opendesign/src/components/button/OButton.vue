@@ -12,7 +12,7 @@ const round = getRoundClass(props, 'btn');
 </script>
 <template>
   <HtmlTag
-    :tag="!!props.href ? 'a' : 'button'"
+    :tag="!!props.href ? 'a' : props.tag"
     :href="props.href"
     type="button"
     class="o-btn"
@@ -30,7 +30,7 @@ const round = getRoundClass(props, 'btn');
   >
     <span v-if="props.icon || $slots.icon || props.loading" class="o-btn-prefix" :class="{ loading: props.loading }">
       <IconLoading v-if="props.loading" class="o-rotating" />
-      <slot name="icon">
+      <slot v-else name="icon">
         <component :is="props.icon" />
       </slot>
     </span>

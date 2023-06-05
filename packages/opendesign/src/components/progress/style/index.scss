@@ -1,3 +1,4 @@
+@use '../../style/mixin.scss' as *;
 @use './var.scss';
 
 .o-progress-line {
@@ -21,22 +22,25 @@
   background-color: var(--o-progress-bar-bg-color);
   transition: all var(--o-duration-m1) var(--o-easing-standard);
   text-align: right;
-
 }
 
 .o-progress-line-label {
   color: var(--o-progress-color);
   font-size: var(--o-progress-text-size);
   line-height: var(--o-progress-text-height);
-  margin-left: 8px;
+  margin-left: var(--o-progress-label-gap);
   white-space: nowrap;
+  &.is-icon {
+    color: var(--o-progress-icon-color);
+    font-size: var(--o-progress-icon-size);
+  }
 }
 
 .o-progress-line-inner-label {
   display: inline-block;
-  color: rgb(var(--o-color-white));
-  margin-left: 8px;
-  margin-right: 8px;
+  color: var(--o-progress-inner-label-color);
+  margin-left: var(--o-progress-inner-label-gap);
+  margin-right: var(--o-progress-inner-label-gap);
 }
 
 .o-progress-circle {
@@ -67,4 +71,9 @@
   color: var(--o-progress-color);
   font-size: var(--o-progress-text-size);
   line-height: var(--o-progress-text-height);
+
+  &.is-icon {
+    color: var(--o-progress-icon-color);
+    font-size: var(--o-progress-icon-size);
+  }
 }
