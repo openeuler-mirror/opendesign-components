@@ -23,6 +23,7 @@ const cardInfo = {
         :cover-ratio="16 / 9"
         :href="cardInfo.href"
         target="_blank"
+        class="c-card-kunpeng"
       />
     </div>
 
@@ -39,6 +40,7 @@ const cardInfo = {
         :style="{ '--card-detail-max-row': 2 }"
         :href="cardInfo.href"
         target="_blank"
+        class="c-card-kunpeng"
       />
     </div>
 
@@ -55,12 +57,13 @@ const cardInfo = {
         :style="{ '--card-detail-max-row': 2 }"
         :href="cardInfo.href"
         target="_blank"
+        class="c-card-kunpeng"
       />
     </div>
 
     <div class="display-item">
       <h4>单体卡片（带操作）</h4>
-      <OCard hoverable :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9">
+      <OCard hoverable :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9" class="c-card-kunpeng">
         <template #footer>
           <OButton color="primary" round="pill">操作按钮</OButton>
         </template>
@@ -69,7 +72,7 @@ const cardInfo = {
 
     <div class="display-item">
       <h4>复合卡片</h4>
-      <OCard hoverable :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9">
+      <OCard hoverable :cover="cardInfo.cover" :title="cardInfo.title" :detail="cardInfo.detail" :cover-ratio="16 / 9" class="c-card-kunpeng">
         <template #footer>
           <OButton color="primary" round="pill">操作按钮1</OButton>
           <OButton color="primary" round="pill">操作按钮2</OButton>

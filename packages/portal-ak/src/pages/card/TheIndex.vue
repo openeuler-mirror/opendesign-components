@@ -14,12 +14,12 @@ const prefix = computed(() => theme.value.split('.')[0]);
 </script>
 
 <template>
-  <div v-if="prefix === 'a'" class="page-demo card-a">
+  <div v-if="prefix === 'a'" class="page-demo">
     <CardTextA />
     <CardIconA />
     <CardCoverAndTextA />
   </div>
-  <div v-if="prefix === 'k'" class="page-demo card-k">
+  <div v-if="prefix === 'k'" class="page-demo">
     <CardTextK />
     <CardIconK />
     <CardCoverAndTextK />
