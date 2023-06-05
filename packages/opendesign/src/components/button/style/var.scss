@@ -156,17 +156,17 @@
 }
 
 .o-btn-small {
-  --btn-radius: var(--o-radius-control-xs);
+  --btn-radius: var(--o-radius_control-xs);
   --btn-gap: 2px;
   --btn-padding: 0 11px;
 }
 .o-btn-medium {
-  --btn-radius: var(--o-radius-control-s);
+  --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
   --btn-padding: 0 15px;
 }
 .o-btn-large {
-  --btn-radius: var(--o-radius-control-l);
+  --btn-radius: var(--o-radius_control-l);
   --btn-gap: 8px;
   --btn-padding: 0 23px;
 }

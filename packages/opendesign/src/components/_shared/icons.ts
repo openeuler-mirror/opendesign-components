@@ -18,7 +18,6 @@ import {
   OIconStar,
   OIconRefresh,
   OIconDelete,
-  OIconPoint,
   OIconEye,
   OIconEyeOff,
   OIconFile,
@@ -102,11 +101,6 @@ export const IconRefresh = shallowRef<Component>(OIconRefresh);
 export const IconDelete = shallowRef<Component>(OIconDelete);
 
 /**
- * 错误/失败图标
- */
-export const IconError = shallowRef<Component>(OIconPoint);
-
-/**
  * 预览图标
  */
 export const IconPreview = shallowRef<Component>(OIconEye);
@@ -117,7 +111,7 @@ export const IconPreview = shallowRef<Component>(OIconEye);
 export const IconFile = shallowRef<Component>(OIconFile);
 
 /**
- * 文件图标
+ * 编辑图标
  */
 export const IconEdit = shallowRef<Component>(OIconEdit);
 

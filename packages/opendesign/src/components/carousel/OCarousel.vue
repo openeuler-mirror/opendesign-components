@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
+// TODO 支持图标可配置
 import { OIconChevronLeft, OIconChevronRight } from '../icon-components';
 import Gallery from './gallery';
 import Toggle from './toggle';

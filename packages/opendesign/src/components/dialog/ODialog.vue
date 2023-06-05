@@ -71,6 +71,7 @@ defineExpose({
             :color="item.color"
             :variant="!item.variant && isPhonePad ? 'text' : item.variant"
             :size="item.size"
+            :round="item.round"
             @click="item.onClick"
           >
             {{ item.label }}
