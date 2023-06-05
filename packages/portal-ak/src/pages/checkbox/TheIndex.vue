@@ -13,4 +13,3 @@ import CheckboxIndeterminate from './CheckboxIndeterminate.vue';
     <CheckboxIndeterminate />
   </div>
 </template>
-'

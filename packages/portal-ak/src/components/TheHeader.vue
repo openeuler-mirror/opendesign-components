@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import theme from '../shared/theme';
 import { initIconLoading, initSize, ODropdown, ODropdownItem, initRound } from '@opensig/opendesign/src/components';
 import { OIconAdd } from '@opensig/opendesign/src/components/icon-components';
 
@@ -39,7 +40,7 @@ watch(
   (val) => {
     document.documentElement.dataset.oTheme = val;
     localStorage.setItem('o-theme', `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`);
-
+    theme.value = `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`;
     if (val.startsWith('a.')) {
       initRound('pill');
     } else {

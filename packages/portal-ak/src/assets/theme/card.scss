@@ -1,0 +1,76 @@
+@use './mixin.scss' as *;
+
+.card-k {
+  .o-card {
+    --card-shadow: none;
+    --card-shadow-hover: none;
+    --card-shadow-active: none;
+    --card-radius: 0;
+  }
+
+  .o-card-cover-v,
+  .o-card-cover-h,
+  .o-card-cover-hr {
+    --card-cover-padding: 0;
+  }
+
+  .o-card-hoverable {
+    .o-card-icon {
+      transition: color var(--o-duration-s) var(--o-easing-standard);
+    }
+    @include hover {
+      &:hover {
+        .o-card-icon {
+          color: rgb(var(--o-red-huawei));
+        }
+      }
+    }
+  }
+
+  .o-card-hoverable.o-card-cursor-pointer {
+    .o-card-title {
+      transition: color var(--o-duration-s) var(--o-easing-standard);
+    }
+    @include hover {
+      &:hover {
+        .o-card-title {
+          color: rgb(var(--o-red-huawei));
+        }
+      }
+    }
+  }
+}
+
+@include respond-to('up-pad') {
+  .g-ascend-card-hover {
+    position: relative;
+  }
+
+  .g-ascend-card-hover:before {
+    background-image: linear-gradient(269deg, #e0f4f5, #e5f3f9 24%, #bac2ea 58%, #d0b4e5 97%);
+    content: '';
+    height: 100%;
+    left: 0;
+    -webkit-mask-image: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0.34) 22%, hsla(0, 0%, 100%, 0) 61%);
+    mask-image: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0.34) 22%, hsla(0, 0%, 100%, 0) 61%);
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.3s;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .g-ascend-card-hover > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .g-ascend-card-hover:hover:before {
+    opacity: 1;
+  }
+
+  .g-ascend-card-shadow:hover {
+    box-shadow: var(--o-shadow-2);
+  }
+}
