@@ -3,6 +3,7 @@
 .o-table {
   --table-cell-height: 56px;
   --table-head-cell-height: 48px;
+  --table-cell-padding: 8px 16px 7px;
   @include respond-to('pad') {
     --table-cell-height: 48px;
     --table-head-cell-height: 40px;
