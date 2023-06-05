@@ -23,26 +23,15 @@ const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
   <h4>Slots</h4>
   <section>
     <div class="upload-item">
+      <p>自定义上传区域</p>
+      <OUpload :upload-request="uploadRequest" show-uploading-icon>
+        <div style="width: 200px; height: 100px; background-color: #ccc; display: flex; justify-content: center; align-items: center">这是自定义上传区域</div>
+      </OUpload>
+    </div>
+    <div class="upload-item">
       <p>上传说明</p>
       <OUpload :upload-request="uploadRequest" show-uploading-icon>
-        <template #tip>这是上传说明</template>
-      </OUpload>
-    </div>
-    <div class="upload-item">
-      <p>自定义文件列表图标</p>
-      <OUpload multiple :upload-request="uploadRequest" show-uploading-icon>
-        <template #file-item-suffix="{ item }">
-          <OIcon class="diy-icon" :icon="OIconStar" />
-          <OIcon v-if="item.status === 'finished'" class="diy-icon done" :icon="OIconDone" />
-        </template>
-      </OUpload>
-    </div>
-    <div class="upload-item">
-      <p>通过slot添加文件列表前缀图标</p>
-      <OUpload multiple :upload-request="uploadRequest" show-uploading-icon>
-        <template #file-item-prefix="{ item }">
-          <OIcon class="prefix-icon" :class="item.name" :icon="OIconStar" />
-        </template>
+        <template #select-extra>这是上传说明</template>
       </OUpload>
     </div>
     <div class="upload-item">

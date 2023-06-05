@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OUpload } from '../index';
+import { OUpload, UploadFileT } from '../index';
 import { OButton } from '../../button';
 import '../../button/style';
 import { onAfterSelect, uploadRequest, onBeforeUpload, onBeforeRemove } from './upload';
@@ -14,27 +14,86 @@ const doUpload = () => {
     console.log('Failed', f.map((item) => item.name).join(', '));
   });
 };
+
+const defaultFileList: UploadFileT[] = [
+  {
+    id: '1',
+    name: 'test.png',
+    status: 'finished',
+  },
+];
+
+const defaultFileList2: UploadFileT[] = [
+  {
+    id: '1',
+    name: 'test.png',
+    status: 'finished',
+  },
+  {
+    id: '2',
+    name: 'test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2.png',
+    status: 'failed',
+    message: '上传失败',
+  },
+];
+
+const onProgress = (f: UploadFileT) => {
+  console.log(f.name, f.percent);
+};
+
+const onChange = (f: UploadFileT[]) => {
+  const r = f.map((item) => `${item.name}:${item.status}`);
+  console.log(r.join(', '));
+};
 </script>
 <template>
   <h4>Basic</h4>
   <section style="flex-wrap: wrap; align-items: flex-start">
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="" />
+      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="" :default-file-list="defaultFileList" @progress="onProgress" />
     </div>
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" select-label="上传(单选)" color="normal" variant="solid" />
-    </div>
-    <div class="upload-item">
-      <OUpload multiple select-label="上传(多选)" :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" />
+      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="上传(单选)" color="normal" variant="solid" />
     </div>
     <div class="upload-item">
       <OUpload
         multiple
-        select-label="上传(多选)"
+        btn-label="上传(多选)"
+        :default-file-list="defaultFileList2"
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        :on-before-upload="onBeforeUpload"
+        @change="onChange"
+      />
+    </div>
+    <div class="upload-item">
+      <OUpload
+        multiple
+        btn-label="上传(多选)"
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
         :on-before-upload="onBeforeUpload"
         color="primary"
+      />
+    </div>
+    <div class="upload-item">
+      <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" color="primary" draggable>
+        <template #select-drag-extra><div>请不要上传个人敏感数据</div></template>
+      </OUpload>
+    </div>
+    <div class="upload-item">
+      <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" list-type="picture-card" />
+    </div>
+  </section>
+  <section style="flex-wrap: wrap; align-items: flex-start">
+    <div class="upload-item">
+      <p>无进度上传</p>
+      <OUpload
+        multiple
+        btn-label="上传(多选)"
+        :on-after-select="onAfterSelect"
+        :upload-request="(e) => uploadRequest(e, false)"
+        :on-before-upload="onBeforeUpload"
       />
     </div>
 
@@ -42,16 +101,16 @@ const doUpload = () => {
       <p>无进度上传</p>
       <OUpload
         multiple
-        select-label="上传(多选)"
         :on-after-select="onAfterSelect"
         :upload-request="(e) => uploadRequest(e, false)"
         :on-before-upload="onBeforeUpload"
+        list-type="picture-card"
       />
     </div>
     <div class="upload-item">
       <p>延迟上传</p>
       <OButton class="btn" @click="doUpload">开始上传</OButton>
-      <OUpload ref="uploadRef" multiple :upload-request="uploadRequest" lazy-upload select-label="选择文件" />
+      <OUpload ref="uploadRef" multiple :upload-request="uploadRequest" lazy-upload btn-label="选择文件" />
     </div>
     <div class="upload-item">
       <p>删除前确认 onBeforeRemove</p>
