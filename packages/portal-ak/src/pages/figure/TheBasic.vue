@@ -2,6 +2,7 @@
 import { OFigure, OIconArrowTraingleRight } from '@components/index';
 
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
+const img2 = 'https://www.hikunpeng.com/_static3/7.875f5cf6.jpg';
 
 const onVideoClick = () => {
   alert('开始播放视频');
@@ -33,7 +34,7 @@ const onVideoClick = () => {
       <div class="c-figure-title">标题文本</div>
     </div>
   </OFigure>
-  <OFigure :ratio="16 / 9" style="width: 25%" :src="img" hoverable>
+  <OFigure style="width: 25%; margin-left: 24px" :src="img" hoverable>
     <div class="c-figure-content-bottom">
       <div class="c-figure-title">标题文本</div>
     </div>
