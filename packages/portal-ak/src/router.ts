@@ -142,7 +142,6 @@ export const routes = [
         label: '上传 upload',
         component: () => import('./pages/upload/TheIndex.vue'),
       },
-
       {
         path: 'figure',
         name: 'figure',
@@ -154,6 +153,12 @@ export const routes = [
         name: 'pagination',
         label: '分页 pagination',
         component: () => import('./pages/pagination/TheIndex.vue'),
+      },
+      {
+        path: 'tab',
+        name: 'tab',
+        label: '页签 tab',
+        component: () => import('./pages/tab/TheIndex.vue'),
       },
     ],
   },

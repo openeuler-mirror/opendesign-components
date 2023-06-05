@@ -78,6 +78,8 @@
   margin-right: var(--tab-nav-gap);
   z-index: 1;
   color: var(--tab-icon-color);
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
   &:last-child {
     margin-right: 0;
   }
@@ -109,6 +111,8 @@
 }
 .o-tab-nav-title {
   padding: 4px 16px;
+  display: flex;
+  align-items: center;
 }
 .o-tab-text {
   .o-tab-nav {
@@ -131,7 +135,7 @@
 }
 .o-tab-nav-archor-line {
   width: 100%;
-  height: 3px;
+  height: var(--tab-nav-archor-height);
   background-color: var(--tab-nav-archor-color);
 }
 .o-tab-nav-close {
