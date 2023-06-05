@@ -37,3 +37,12 @@
     --input-text-height: var(--o-line_height-tip1);
   }
 }
+
+.c-input-verify-code {
+  color: var(--o-color-info4);
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  .c-code-loading {
+    color: var(--o-color-primary1);
+  }
+}

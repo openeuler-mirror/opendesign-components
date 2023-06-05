@@ -16,26 +16,4 @@ const val2 = ref('This is detail This is detail This is detail');
     </section>
   </div>
 </template>
-<style lang="scss">
-.input {
-  width: 240px;
-}
-.code-actions {
-  color: var(--o-color-info4);
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
-}
-.code-loading {
-  color: var(--o-color-primary1);
-}
-.area-select {
-  width: 160px;
-  padding-right: 8px;
-}
-.tel-input {
-  width: 320px;
-}
-.code-input {
-  width: 220px;
-}
-</style>
+<style lang="scss"></style>

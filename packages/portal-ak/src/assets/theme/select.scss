@@ -47,3 +47,18 @@
 .o-select {
   --select-multiple-padding: 3px 16px;
 }
+
+.c-select-action {
+  border-top: 1px solid var(--o-color-control1);
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &:hover {
+    color: var(--o-color-link1);
+  }
+  > .o-icon {
+    font-size: var(--o-icon_size-xs);
+    margin-right: 4px;
+  }
+}

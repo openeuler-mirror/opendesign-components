@@ -45,17 +45,4 @@ const onChange = (f: UploadFileT[]) => {
     <template #select-drag-extra><div>请不要上传个人敏感数据, 只能上传doc、xlsm、pptx文件格式，且文件最大不超过1M</div></template>
   </OUpload>
 </template>
-<style lang="scss" scoped>
-p {
-  font-size: 14px;
-  margin: 16px 0 12px;
-  color: var(--o-color-info2);
-}
-.upload-item {
-  width: calc(50% - 16px);
-  flex-shrink: 0;
-}
-.btn {
-  margin-bottom: 8px;
-}
-</style>
+<style lang="scss" scoped></style>
