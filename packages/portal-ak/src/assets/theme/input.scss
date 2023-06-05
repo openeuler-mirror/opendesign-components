@@ -18,6 +18,7 @@
   --input-padding: 0 16px;
   --input-text-size: var(--o-font_size-tip1);
   --input-text-height: var(--o-line_height-tip1);
+  &,
   &.o-input-round-pill {
     --input-prepend-padding: 0;
   }
@@ -26,6 +27,7 @@
 .o-input-large {
   --input-text-size: var(--o-font_size-text1);
   --input-text-height: var(--o-line_height-text1);
+  &,
   &.o-input-round-pill {
     --input-prepend-padding: 0;
   }

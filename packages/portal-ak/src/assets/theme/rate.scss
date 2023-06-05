@@ -36,12 +36,18 @@
     }
   }
 }
-.rate-empty {
-  --rate-color: var(--o-color-info4);
-  --rate-color-selected: var(--o-color-info4);
-  .o-rate-icon {
-    path {
-      color: currentColor !important;
-    }
-  }
+
+.c-star-full {
+  color: rgb(var(--o-red-huawei));
+}
+
+.c-star-empty {
+  color: var(--o-color-info4);
+}
+
+.c-star-label {
+  color: var(--o-color-info2);
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  margin-left: 8px;
 }

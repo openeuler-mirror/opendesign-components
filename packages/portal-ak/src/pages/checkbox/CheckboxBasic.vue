@@ -12,4 +12,3 @@ const checkboxVal = ref([1]);
     <OCheckbox v-model="checkboxVal" :value="2">选项2</OCheckbox>
   </section>
 </template>
-'

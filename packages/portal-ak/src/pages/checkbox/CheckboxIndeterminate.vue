@@ -31,9 +31,9 @@ const handleChange = (val: Array<string | number>) => {
 
 <template>
   <h3>半选</h3>
-  <section>
+  <section class="block">
     <OCheckbox v-model="checkboxVal1" value="a" :indeterminate="indeterminate" @change="handleChangeAll">Check All </OCheckbox>
-
+    <br />
     <OCheckboxGroup v-model="checkboxVal2" @change="handleChange">
       <OCheckbox :value="1">Option 1</OCheckbox>
       <OCheckbox :value="2">Option 2</OCheckbox>
@@ -42,9 +42,4 @@ const handleChange = (val: Array<string | number>) => {
   </section>
 </template>
 
-<style scoped>
-section {
-  flex-direction: column;
-  align-items: flex-start;
-}
-</style>
+<style scoped></style>

@@ -42,9 +42,4 @@ const val3 = ref(100);
   </section>
 </template>
 
-<style lang="scss" scoped>
-section {
-  flex-direction: column;
-  align-items: flex-start;
-}
-</style>
+<style lang="scss" scoped></style>

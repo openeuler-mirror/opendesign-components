@@ -95,7 +95,7 @@ const loading = (params: MessageParamsT): void => {
   });
 };
 
-const open = (params: MessageParamsT): void => {
+const show = (params: MessageParamsT): void => {
   const options: MessageParamsT = normalizeOptions(params);
   return showMessage({
     ...options,
@@ -114,7 +114,7 @@ const Message = {
   warning,
   danger,
   loading,
-  open,
+  show,
   closeAll,
 };
 

@@ -33,7 +33,7 @@
   margin-block-end: 0;
   font-size: var(--badge-text-size);
   line-height: var(--badge-text-height);
-  zoom: 0.66667;
+  transform: scale(0.66667);
 }
 
 .o-badge-dot {

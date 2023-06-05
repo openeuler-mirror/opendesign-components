@@ -1967,27 +1967,27 @@
     "description": "大尺寸圆角[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
-  "--o-radius-control-s": {
+  "--o-radius_control-s": {
     "prefix": [
-      "var(--o-radius-control-s)"
+      "var(--o-radius_control-s)"
     ],
-    "body": "var(--o-radius-control-s)",
+    "body": "var(--o-radius_control-s)",
     "description": "小尺寸控件圆角[light: var(--o-radius-s), dark: var(--o-radius-s)]",
     "scope": "css,scss,less"
   },
-  "--o-radius-control-m": {
+  "--o-radius_control-m": {
     "prefix": [
-      "var(--o-radius-control-m)"
+      "var(--o-radius_control-m)"
     ],
-    "body": "var(--o-radius-control-m)",
+    "body": "var(--o-radius_control-m)",
     "description": "中尺寸控件圆角[light: var(--o-radius-m), dark: var(--o-radius-m)]",
     "scope": "css,scss,less"
   },
-  "--o-radius-control-l": {
+  "--o-radius_control-l": {
     "prefix": [
-      "var(--o-radius-control-l)"
+      "var(--o-radius_control-l)"
     ],
-    "body": "var(--o-radius-control-l)",
+    "body": "var(--o-radius_control-l)",
     "description": "大尺寸控件圆角[light: var(--o-radius-l), dark: var(--o-radius-l)]",
     "scope": "css,scss,less"
   },
