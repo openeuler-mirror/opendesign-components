@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { h } from 'vue';
-
 import '../style';
 import useMessage from '../use-message';
-import { OIconAdd, OIconLoading } from '../../icon-components';
 
 import { OButton } from '../../button';
 import '../../button/style';
@@ -34,19 +31,46 @@ const handleDangerBtnClick = () => {
   });
 };
 
-const handleInfoBtnClick2 = () => {
+const handleLoadingBtnClick = () => {
   message.open({
-    content: '自定义Icon',
-    status: 'info',
-    icon: OIconAdd,
+    content: '排队中，请稍后',
+    status: 'loading',
   });
 };
 
-const handleInfoWarningClick2 = () => {
+const handleInfoBtnClick2 = () => {
+  message.info({
+    content: '用于表示普通操作信息提示，3秒后消失',
+    position: 'bottom',
+  });
+};
+
+const handleSuccessBtnClick2 = () => {
+  message.success({
+    content: '用于表示操作顺利达成，3秒后消失',
+    position: 'bottom',
+  });
+};
+
+const handleWarningBtnClick2 = () => {
+  message.warning({
+    content: '用于表示操作引起一定后果，3秒后消失',
+    position: 'bottom',
+  });
+};
+
+const handleDangerBtnClick2 = () => {
+  message.danger({
+    content: '用于表示操作引起严重的后果，3秒后消失',
+    position: 'bottom',
+  });
+};
+
+const handleLoadingBtnClick2 = () => {
   message.open({
     content: '排队中，请稍后',
-    status: 'warning',
-    icon: h(OIconLoading, { class: 'o-rotating' }),
+    status: 'loading',
+    position: 'bottom',
   });
 };
 </script>
@@ -58,11 +82,15 @@ const handleInfoWarningClick2 = () => {
     <OButton color="success" @click="handleSuccessBtnClick">Success Message</OButton>
     <OButton color="warning" @click="handleWarningBtnClick">Warning Message</OButton>
     <OButton color="danger" @click="handleDangerBtnClick">Danger Message</OButton>
+    <OButton color="primary" @click="handleLoadingBtnClick">Loading Message</OButton>
   </section>
 
-  <h4>自定义Icon</h4>
+  <h4>底部弹出</h4>
   <section>
-    <OButton color="primary" @click="handleInfoBtnClick2">自定义Icon</OButton>
-    <OButton color="warning" @click="handleInfoWarningClick2">loading</OButton>
+    <OButton color="primary" @click="handleInfoBtnClick2">Info Message</OButton>
+    <OButton color="success" @click="handleSuccessBtnClick2">Success Message</OButton>
+    <OButton color="warning" @click="handleWarningBtnClick2">Warning Message</OButton>
+    <OButton color="danger" @click="handleDangerBtnClick2">Danger Message</OButton>
+    <OButton color="primary" @click="handleLoadingBtnClick2">Loading Message</OButton>
   </section>
 </template>

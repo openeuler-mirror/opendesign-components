@@ -3,6 +3,7 @@ import { ref, watch, computed, onMounted } from 'vue';
 import { defaultPrestColorPool } from '../_shared/global';
 import HtmlTag from '../_shared/components/html-tag';
 import OLayer from '../layer/OLayer.vue';
+import { IconImageError } from '../_shared/icons';
 
 import { figureProps } from './types';
 
@@ -92,18 +93,19 @@ defineExpose({
       'is-loading': isLoading,
       'is-error': isError,
       'is-colorful': props.colorful,
-      'o-figure-hoverable': props.hoverable || !!props.href,
+      'o-figure-hoverable': props.hoverable || !!props.href || props.preview,
       'o-figure-previewable': props.preview,
     }"
     :style="{
       '--figure-prest-color': prestColor,
       '--figure-padding-top': paddingTop,
+      '--figure-fit': props.fit,
     }"
     @click="onFigureClick"
   >
     <template v-if="props.src">
       <div
-        v-if="paddingTop"
+        v-if="paddingTop || isError"
         class="o-figure-wrapper"
         :class="{
           'o-figure-bg': props.background,
@@ -112,19 +114,16 @@ defineExpose({
           backgroundImage: bgSrc,
         }"
       >
-        <img
-          v-if="!props.background && !isError"
-          ref="imgRef"
-          :src="props.src"
-          :alt="props.alt"
-          class="o-figure-img-ratio"
-          @load="onImgLoaded"
-          @error="onImgError"
-        />
+        <div v-if="isError" class="o-figure-error-wrap">
+          <slot name="error"><IconImageError /></slot>
+        </div>
+        <img v-else-if="!props.background" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img-ratio" @load="onImgLoaded" @error="onImgError" />
       </div>
       <img v-else-if="!isError" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
-    <slot></slot>
+    <div class="o-figure-content">
+      <slot></slot>
+    </div>
 
     <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">
       <div class="o-figure-preview-img"><img :src="props.src" /></div>

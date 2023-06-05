@@ -8,7 +8,17 @@
   --input-bg-color-focus: var(--o-color-control-light);
 
   --input-prepend-append-bd-color: var(--o-color-control1);
+  --input-prepend-append-bd-color-disabled: var(--o-color-control4-light);
 
+  --o-input-icon-size: var(--o-icon_size-s);
+}
+
+.o-input-solid {
+  --input-prepend-append-bg-color: var(--o-color-control1-light);
+  --input-prepend-append-bd-color: var(--o-color-control2-light);
+}
+
+.o-input-normal {
   --input-bd-color: var(--o-color-control1);
   --input-bd-color-hover: var(--o-color-primary2);
   --input-bd-color-focus: var(--o-color-primary3);
@@ -22,14 +32,8 @@
     --input-bg-color: var(--o-color-control1-light);
     --input-bg-color-hover: var(--o-color-control-light);
     --input-bg-color-disabled: var(--o-color-control4-light);
-
-    --input-prepend-append-bd-color: var(--o-color-control2-light);
-    &.o-input-disabled {
-      --input-prepend-append-bd-color: var(--o-color-control4-light);
-    }
   }
 }
-
 .o-input-success {
   --input-bd-color: var(--o-color-success1);
   --input-bd-color-hover: var(--o-color-success2);
@@ -84,11 +88,7 @@
   }
 }
 
-.o-input-solid {
-  --input-prepend-append-bg-color: var(--o-color-control1-light);
-}
-
-.o-input-size-small {
+.o-input-small {
   --input-height: var(--o-control_size-s);
   --input-text-size: var(--o-font_size-tip1);
   --input-text-height: var(--o-line_height-tip1);
@@ -96,7 +96,7 @@
   --input-padding: 0 8px;
   --input-append-padding: 0 4px;
   --input-prepend-padding: 0 4px;
-  --input-radius: var(--o-radius-control-s);
+  --input-radius: var(--o-radius-control-xs);
 
   &.o-input-round-pill {
     --input-append-padding: 0 6px 0 4px;
@@ -104,7 +104,7 @@
   }
 }
 
-.o-input-size-medium {
+.o-input-medium {
   --input-height: var(--o-control_size-m);
   --input-text-size: var(--o-font_size-text1);
   --input-text-height: var(--o-line_height-text1);
@@ -112,7 +112,7 @@
   --input-padding: 0 12px;
   --input-append-padding: 0 8px;
   --input-prepend-padding: 0 8px;
-  --input-radius: var(--o-radius-control-m);
+  --input-radius: var(--o-radius-control-s);
 
   &.o-input-round-pill {
     --input-append-padding: 0 12px 0 8px;
@@ -120,10 +120,10 @@
   }
 }
 
-.o-input-size-large {
+.o-input-large {
   --input-height: var(--o-control_size-l);
   --input-text-size: var(--o-font_size-text2);
-  --input-text-height: var(--o-font_size-text2);
+  --input-text-height: var(--o-line_height-text2);
 
   --input-padding: 0 16px;
   --input-append-padding: 0 12px;

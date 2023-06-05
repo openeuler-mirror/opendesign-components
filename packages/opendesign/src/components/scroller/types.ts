@@ -45,6 +45,12 @@ export const scrollerProps = {
     type: String as PropType<'medium' | 'small'>,
     default: 'medium',
   },
+  /**
+   * 滚动容器类
+   */
+  wrapClass: {
+    type: [String, Array] as PropType<string | any[]>,
+  },
 };
 
 export type ScrollerPropsT = ExtractPropTypes<typeof scrollerProps>;

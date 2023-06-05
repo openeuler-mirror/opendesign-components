@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
 import { isFunction } from '../_shared/is';
-import { IconClose } from '../_shared/icons';
+import { IconClose, IconEyeOn, IconEyeOff } from '../_shared/icons';
 import { trigger } from '../_shared/event';
 import { Enter } from '../_shared/keycode';
 import { toInputString } from './input';
@@ -22,6 +22,8 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
+
+const inputType = ref(props.type);
 
 const inputRef = ref<HTMLElement | null>(null);
 const inputWidth = ref();
@@ -137,6 +139,41 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
   inputWidth.value = en.target.clientWidth + 1;
 };
 const round = getRoundClass(props, 'input');
+
+const isEyeOn = ref(false);
+const toggleEye = (show?: boolean) => {
+  if (show === undefined) {
+    isEyeOn.value = !isEyeOn.value;
+  } else {
+    isEyeOn.value = show;
+  }
+  if (isEyeOn.value) {
+    inputType.value = 'text';
+  } else {
+    inputType.value = 'password';
+  }
+};
+
+const onEyeClick = () => {
+  if (props.showPasswordOn === 'click') {
+    toggleEye();
+  }
+};
+
+const onEyeMouseUp = () => {
+  if (isEyeOn.value) {
+    toggleEye(false);
+    console.log('up');
+
+    window.removeEventListener('mouseup', onEyeMouseUp);
+  }
+};
+const onEyeMouseDown = () => {
+  if (props.showPasswordOn === 'mousedown') {
+    toggleEye(true);
+    window.addEventListener('mouseup', onEyeMouseUp);
+  }
+};
 </script>
 <template>
   <label
@@ -144,7 +181,7 @@ const round = getRoundClass(props, 'input');
     :class="[
       `o-input-${props.color}`,
       `o-input-${props.variant}`,
-      `o-input-size-${props.size || defaultSize}`,
+      `o-input-${props.size || defaultSize}`,
       round.class.value,
       {
         'o-input-disabled': props.disabled,
@@ -176,7 +213,7 @@ const round = getRoundClass(props, 'input');
         <input
           ref="inputRef"
           :value="displayValue"
-          :type="type"
+          :type="inputType"
           :placeholder="props.placeholder"
           class="o-input-input"
           :class="{
@@ -200,11 +237,14 @@ const round = getRoundClass(props, 'input');
           </OResizeObserver>
         </ClientOnly>
       </div>
-      <div v-if="props.clearable || $slots.suffix" class="o-input-suffix">
+      <div v-if="props.clearable || $slots.suffix || props.type === 'password'" class="o-input-suffix">
         <span v-if="$slots.suffix" class="o-input-suffix-wrap">
           <slot name="suffix"></slot>
         </span>
         <div v-if="isClearable" class="o-input-clear" @click="clearClick"><IconClose class="o-input-clear-icon" /></div>
+        <div v-if="props.type === 'password'" class="o-input-eye" @click="onEyeClick" @mousedown="onEyeMouseDown" @mouseup="onEyeMouseUp">
+          <IconEyeOn v-if="isEyeOn" class="o-input-eye-icon" /><IconEyeOff v-else class="o-input-eye-icon" />
+        </div>
       </div>
     </div>
     <span v-if="$slots.append" class="o-input-append">

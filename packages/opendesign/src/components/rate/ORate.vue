@@ -4,8 +4,8 @@ import { computed, ref, watch } from 'vue';
 import { OPopover } from '../popover';
 import { rateProps } from './types';
 import { defaultSize } from '../_shared/global';
-import { OIconStar } from '../icon-components';
 import { isArray, isUndefined } from '../_shared/is';
+import ORateItem from './ORateItem.vue';
 
 const props = defineProps(rateProps);
 
@@ -87,45 +87,53 @@ const showLabel = computed(() => {
 </script>
 
 <template>
-  <div class="o-rate" :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`]" @mouseleave="resetHoverIndex">
+  <div
+    class="o-rate"
+    :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`, { 'o-rate-readonly': props.readonly }]"
+    @mouseleave="resetHoverIndex"
+  >
     <template v-if="showLabel">
-      <OPopover v-for="(item, key) in count" :key="key" :adjust-width="false" :adjust-min-width="false" :visible="false" wrap-class="o-rate-popover">
+      <OPopover v-for="(item, idx) in count" :key="item" :adjust-width="false" :adjust-min-width="false" :visible="false" wrap-class="o-rate-popover">
         <template #target>
-          <div class="o-rate-item" :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }">
-            <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
-              <slot name="icon" :index="item" :status="iconStatus[key]">
-                <OIconStar />
-              </slot>
-            </span>
-            <span class="o-rate-icon o-rate-icon-bottom" @mouseenter="setHoverIndex(key, false)" @click="setValue(key, false)">
-              <slot name="icon" :index="item" :status="iconStatus[key]">
-                <OIconStar />
-              </slot>
-            </span>
-          </div>
+          <ORateItem
+            :status="iconStatus[idx]"
+            @hover="
+              (isHalf) => {
+                setHoverIndex(idx, isHalf);
+              }
+            "
+            @change="
+              (isHalf) => {
+                setValue(idx, isHalf);
+              }
+            "
+          >
+            <slot name="icon" :index="idx" :status="iconStatus[idx]"> </slot>
+          </ORateItem>
         </template>
-        <span>{{ labels && labels[key] }}</span>
+        <span>{{ labels && labels[idx] }}</span>
       </OPopover>
     </template>
 
     <template v-else>
-      <div
-        v-for="(item, key) in count"
-        :key="key"
-        class="o-rate-item"
-        :class="{ 'is-full': iconStatus[key] === 'full', 'is-half': iconStatus[key] === 'half' }"
+      <ORateItem
+        v-for="(item, idx) in count"
+        :key="item"
+        :index="idx"
+        :status="iconStatus[idx]"
+        @hover="
+          (isHalf) => {
+            setHoverIndex(idx, isHalf);
+          }
+        "
+        @change="
+          (isHalf) => {
+            setValue(idx, isHalf);
+          }
+        "
       >
-        <span class="o-rate-icon o-rate-icon-top" @mouseenter="setHoverIndex(key, true)" @click="setValue(key, true)">
-          <slot name="icon" :index="item" :status="iconStatus[key]">
-            <OIconStar />
-          </slot>
-        </span>
-        <span class="o-rate-icon o-rate-icon-bottom" @mouseenter="setHoverIndex(key, false)" @click="setValue(key, false)">
-          <slot name="icon" :index="item" :status="iconStatus[key]">
-            <OIconStar />
-          </slot>
-        </span>
-      </div>
+        <slot name="icon" :index="idx" :status="iconStatus[idx]"> </slot>
+      </ORateItem>
     </template>
   </div>
 </template>

@@ -5,10 +5,10 @@ export default {
 </script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
-import { popupProps } from './types';
+import { popupProps, PopupTriggerT } from './types';
 import { isHtmlElement, getScrollParents } from '../_shared/dom';
 import { throttleRAF } from '../_shared/utils';
-import { isArray } from '../_shared/is';
+import { isArray, isFunction } from '../_shared/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
@@ -17,13 +17,19 @@ import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
 import { getHtmlElement } from '../_shared/vue-utils';
+import { isPhonePad } from '../_shared/global';
 
 // TODO 处理嵌套
 
 const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
-const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
+const triggers = computed<PopupTriggerT[]>(() => {
+  if (isPhonePad.value) {
+    return ['click'];
+  }
+  return isArray(props.trigger) ? props.trigger : [props.trigger];
+});
 
 const visible = ref(false);
 const targetElRef = ref<ComponentPublicInstance | null>(null);
@@ -117,7 +123,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
     popStyle.width = `${targetEl.offsetWidth}px`;
   }
 
-  triggerListener = bindTrigger(el, popupRef, triggers, {
+  triggerListener = bindTrigger(el, popupRef, triggers.value, {
     updateFn: updateVisible,
     hoverDelay: props.hoverDelay,
     autoHide: props.autoHide,
@@ -192,12 +198,33 @@ const onTargetInterscting: IntersectionListenerT = (entry: IntersectionObserverE
   oldIntersecting = isTargetInViewport.value;
 };
 
+const beforeToggle = async (show: boolean) => {
+  let goon = true;
+  if (show) {
+    if (isFunction(props.beforeShow)) {
+      goon = await props.beforeShow();
+    }
+  } else {
+    if (isFunction(props.beforeHide)) {
+      goon = await props.beforeHide();
+    }
+  }
+  return goon !== false;
+};
+
 watch(
   () => props.visible,
-  (val) => {
+  async (val) => {
     if (visible.value === val) {
       return;
     }
+
+    const goon = await beforeToggle(val);
+    if (!goon) {
+      emits('update:visible', visible.value);
+      return;
+    }
+
     visible.value = val;
     if (val) {
       nextTick(() => {
@@ -216,7 +243,7 @@ const clearVisibleTimer = () => {
 };
 
 // 更新可见状态，支持延迟更新
-const updateVisible = (isVisible?: boolean, delay?: number) => {
+const updateVisible = async (isVisible?: boolean, delay?: number) => {
   if (props.disabled) {
     return;
   }
@@ -244,6 +271,11 @@ const updateVisible = (isVisible?: boolean, delay?: number) => {
       }
     }
   };
+
+  const goon = await beforeToggle(v);
+  if (!goon) {
+    return;
+  }
 
   if (delay) {
     clearVisibleTimer();
@@ -349,12 +381,12 @@ watch(popupRef, (popEl) => {
   }
 });
 const onPopupHoverIn = () => {
-  if (triggers.includes('hover')) {
+  if (triggers.value.includes('hover')) {
     updateVisible(true, props.hoverDelay);
   }
 };
 const onPopupHoverOut = () => {
-  if (triggers.includes('hover') && props.autoHide) {
+  if (triggers.value.includes('hover') && props.autoHide) {
     updateVisible(false, props.hoverDelay);
   }
 };

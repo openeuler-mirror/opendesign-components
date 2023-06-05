@@ -1,3 +1,4 @@
+@use '../../style/mixin.scss' as *;
 @use './var.scss';
 
 .o-input {
@@ -20,11 +21,13 @@
   border-radius: var(--input-radius);
   border: 1px solid var(--input-bd-color);
   background-color: var(--input-bg-color);
-
-  &:hover {
-    border-color: var(--input-bd-color-hover);
-    background-color: var(--input-bg-color-hover);
+  @include hover {
+    &:hover {
+      border-color: var(--input-bd-color-hover);
+      background-color: var(--input-bg-color-hover);
+    }
   }
+
   &.is-focus {
     border-color: var(--input-bd-color-focus);
     background-color: var(--input-bg-color-focus);
@@ -74,7 +77,6 @@
 .o-input-clear {
   visibility: hidden;
   opacity: 0;
-  transform: scale(0.1);
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
   display: flex;
   align-items: center;
@@ -82,9 +84,12 @@
   color: var(--input-icon-color);
   background-color: var(--input-icon-bg-color);
   border-radius: 50%;
-
-  &:hover {
-    color: var(--input-icon-color-hover);
+  font-size: var(--o-input-icon-size);
+  @include hover {
+    &:hover {
+      color: var(--input-icon-color-hover);
+      transform: rotate(180deg);
+    }
   }
   .o-input-suffix-wrap + & {
     position: absolute;
@@ -93,7 +98,19 @@
 }
 
 .o-input-clearable {
-  &:hover {
+  @include hover {
+    &:hover {
+      .o-input-suffix-wrap {
+        visibility: hidden;
+        opacity: 0;
+      }
+      .o-input-clear {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+  @include hover(none) {
     .o-input-suffix-wrap {
       visibility: hidden;
       opacity: 0;
@@ -101,13 +118,12 @@
     .o-input-clear {
       visibility: visible;
       opacity: 1;
-      transform: scale(1);
     }
   }
 }
 
 .o-input-suffix-wrap {
-  transition: all var(var(--o-duration-m1)) var(--o-easing-standard-out);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-out);
 }
 .o-input-suffix {
   display: flex;
@@ -132,6 +148,10 @@
   align-items: center;
   background-color: var(--input-prepend-append-bg-color);
   border: 1px solid var(--input-prepend-append-bd-color);
+
+  .o-input-disabled & {
+    border-color: var(--input-prepend-append-bd-color-disabled);
+  }
 }
 
 .o-input-append {
@@ -178,4 +198,15 @@
   left: 0;
   top: 100%;
   pointer-events: none;
+}
+
+.o-input-eye {
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+  font-size: var(--o-input-icon-size);
+}
+
+input[type='password'] {
+  font-family: Arial, 'Helvetica Neue', Helvetica, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }

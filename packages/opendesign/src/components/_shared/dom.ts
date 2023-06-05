@@ -107,7 +107,7 @@ export function mergeClass(...classList: Array<string | any[] | undefined>) {
   let rlt: any[] = [];
 
   classList.forEach((item) => {
-    if (Array.isArray(item)) {
+    if (isArray(item)) {
       rlt = rlt.concat(item);
     } else {
       rlt.push(item);

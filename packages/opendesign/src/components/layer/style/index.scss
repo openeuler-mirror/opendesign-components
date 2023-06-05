@@ -1,3 +1,4 @@
+@use '../../style/mixin.scss' as *;
 @use './var.scss';
 
 .o-layer {
@@ -8,8 +9,8 @@
   bottom: 0;
   z-index: var(--layer-z-index);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: var(--layer-align);
+  justify-content: var(--layer-justify);
 }
 
 .o-layer-mask {
@@ -27,5 +28,5 @@
 }
 
 .o-layer-main {
-  transform-origin: center;
+  transform-origin: var(--layer-origin);
 }

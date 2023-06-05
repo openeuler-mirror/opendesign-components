@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconLinkPrefix, IconLinkArrow, IconLoading } from '../_shared/icons';
+import { IconLinkArrow, IconLoading } from '../_shared/icons';
 
 import { linkProps } from './types';
 
@@ -26,19 +26,20 @@ const onClick = (e: MouseEvent) => {
         'o-link-hover-underline': props.hoverUnderline,
       },
       `o-link-${props.color}`,
+      props.size ? `o-link-${props.size}` : '',
     ]"
     v-bind="$attrs"
     @click="onClick"
   >
-    <span v-if="$slots.iconPrefix || props.iconPrefix || props.loading" class="o-link-icon-wrap prefix">
+    <span v-if="$slots.icon || props.icon || props.loading" class="o-link-prefix">
       <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else name="icon">
-        <IconLinkPrefix />
+        <component :is="props.icon" />
       </slot>
     </span>
     <slot></slot>
-    <span v-if="$slots.iconSuffix || props.iconSuffix" class="o-link-icon-wrap suffix">
-      <slot name="iconSuffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
+    <span v-if="$slots.suffix || props.suffix" class="o-link-suffix">
+      <slot name="suffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
     </span>
   </a>
 </template>

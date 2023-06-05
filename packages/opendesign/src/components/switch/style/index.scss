@@ -1,3 +1,4 @@
+@use '../../style/mixin.scss' as *;
 @use './var.scss';
 
 .o-switch {
@@ -10,15 +11,15 @@
   border-radius: var(--switch-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
-}
+  min-width: var(--switch-min-width);
 
-.o-switch-disabled.o-switch-checked,
-.o-switch-loading.o-switch-checked {
-  background-color: var(--switch-bg-color-checked-disabled);
-  .o-switch-handler {
-    .o-switch-icon-loading {
-      color: var(--switch-bg-color-checked-disabled);
+  @include hover {
+    &:hover {
+      background-color: var(--switch-bg-color-hover);
     }
+  }
+  &:active {
+    background-color: var(--switch-bg-color-active);
   }
 }
 
@@ -48,16 +49,6 @@
   }
 }
 
-.o-switch-label {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-label-padding));
-  padding-right: var(--switch-label-padding);
-}
-
 .o-switch-checked {
   background-color: var(--switch-bg-color-checked);
 
@@ -69,18 +60,51 @@
     padding-left: var(--switch-label-padding);
     padding-right: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-label-padding));
   }
+
+  @include hover {
+    &:hover {
+      background-color: var(--switch-bg-color-checked-hover);
+    }
+  }
+  &:active {
+    background-color: var(--switch-bg-color-checked-active);
+  }
 }
 
 .o-switch-disabled,
 .o-switch-loading {
   cursor: not-allowed;
-  background-color: var(--switch-bg-color-disabled);
+  &,
+  &:hover,
+  &:active {
+    background-color: var(--switch-bg-color-disabled);
+    .o-switch-handler {
+      background-color: var(--switch-handler-bg-color-disabled);
+      .o-switch-icon-loading {
+        color: var(--switch-icon-loading-color);
+      }
+    }
+  }
 }
 
-.o-switch-medium {
-  min-width: 40px;
+.o-switch-disabled.o-switch-checked,
+.o-switch-loading.o-switch-checked {
+  &,
+  &:hover,
+  &:active {
+    background-color: var(--switch-bg-color-checked-disabled);
+    .o-switch-handler {
+      background-color: var(--switch-handler-bg-color-checked-disabled);
+    }
+  }
 }
 
-.o-switch-small {
-  min-width: 40px;
+.o-switch-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: calc(var(--switch-handler-offset) + var(--switch-handler-size) + var(--switch-label-padding));
+  padding-right: var(--switch-label-padding);
 }

@@ -1,5 +1,11 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { ColorT, SizeT } from '../_shared/types';
+import type { ColorT } from '../_shared/types';
+
+export const RateItemStatusTypes = ['full', 'half', 'empty'] as const;
+export type RateItemStatusT = (typeof RateItemStatusTypes)[number];
+
+export const RateSizeTypes = ['large', 'medium'] as const;
+export type RateSizeT = (typeof RateSizeTypes)[number];
 
 export const rateProps = {
   /**
@@ -23,10 +29,10 @@ export const rateProps = {
     default: 0,
   },
   /**
-   * 尺寸 SizeT
+   * 尺寸 RateSizeT
    */
   size: {
-    type: String as PropType<SizeT>,
+    type: String as PropType<RateSizeT>,
   },
   /**
    * 颜色类型 ColorT
@@ -61,6 +67,22 @@ export const rateProps = {
    */
   labels: {
     type: Array as PropType<Array<string>>,
+  },
+};
+
+export const rateItemProps = {
+  /**
+   * 序号
+   */
+  index: {
+    type: Number,
+  },
+  /**
+   * 状态
+   */
+  status: {
+    type: String as PropType<RateItemStatusT>,
+    default: 'empty',
   },
 };
 

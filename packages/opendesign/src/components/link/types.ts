@@ -1,5 +1,5 @@
-import { ExtractPropTypes, PropType } from 'vue';
-import { ColorT } from '../_shared/types';
+import { ExtractPropTypes, PropType, Component } from 'vue';
+import { ColorT, SizeT } from '../_shared/types';
 
 export const linkProps = {
   /**
@@ -28,6 +28,12 @@ export const linkProps = {
     default: 'normal',
   },
   /**
+   * 按钮尺寸 SizeT
+   */
+  size: {
+    type: String as PropType<SizeT>,
+  },
+  /**
    * 是否禁用
    */
   disabled: {
@@ -36,13 +42,13 @@ export const linkProps = {
   /**
    * 前缀图标
    */
-  iconPrefix: {
-    type: Boolean,
+  icon: {
+    type: Object as PropType<Component>,
   },
   /**
-   * 后缀图标
+   * 后缀
    */
-  iconSuffix: {
+  suffix: {
     type: Boolean,
   },
   /**

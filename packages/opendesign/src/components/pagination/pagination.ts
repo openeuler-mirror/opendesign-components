@@ -5,11 +5,11 @@ function getNumbers(min: number, max: number) {
   }
   return arr;
 }
-export function getPagerItem(totalPage: number, currentPage = 1, showPageCount = 9) {
+export function getPagerList(totalPage: number, currentPage = 1, showPageCount = 9) {
   const activePage = currentPage > totalPage ? totalPage : currentPage;
 
   const maxCount = showPageCount > 3 ? showPageCount : 3;
-  let pages: Array<{ value: number | 'left' | 'right', isMore?: boolean, list?: number[] }> = [];
+  let pages: Array<{ value: number | 'left' | 'right'; isMore?: boolean; list?: number[] }> = [];
 
   /**
    * 如果页码小于最大显示页码数，直接显示全部
@@ -33,7 +33,7 @@ export function getPagerItem(totalPage: number, currentPage = 1, showPageCount =
     pages[1] = {
       isMore: true,
       value: 'left',
-      list: getNumbers(2, totalPage - 1)
+      list: getNumbers(2, totalPage - 1),
     };
   } else {
     const d = (maxCount - 3) / 2;
@@ -43,11 +43,11 @@ export function getPagerItem(totalPage: number, currentPage = 1, showPageCount =
 
     // 处理边缘问题
     if (max > totalPage - 1) {
-      min -= (max - totalPage + 1);
+      min -= max - totalPage + 1;
       max = totalPage - 1;
     }
     if (min < 2) {
-      max += (2 - min);
+      max += 2 - min;
       min = 2;
     }
 
@@ -59,7 +59,7 @@ export function getPagerItem(totalPage: number, currentPage = 1, showPageCount =
       pages[1] = {
         isMore: true,
         value: 'left',
-        list: getNumbers(2, min)
+        list: getNumbers(2, min),
       };
     }
 
@@ -71,26 +71,26 @@ export function getPagerItem(totalPage: number, currentPage = 1, showPageCount =
       pages[maxCount - 2] = {
         isMore: true,
         value: 'right',
-        list: getNumbers(max, totalPage - 1)
+        list: getNumbers(max, totalPage - 1),
       };
     }
 
     // 处理中间显示的页码
     getNumbers(min + 1, max - 1).forEach((item, idx) => {
-      pages[2 + idx] = ({ value: item });
+      pages[2 + idx] = { value: item };
     });
   }
 
   return pages;
 }
 
-export type PagerItemT = ReturnType<typeof getPagerItem>
-
+export type PagerListT = ReturnType<typeof getPagerList>;
+export type PagerItemT = PagerListT[0];
 
 export function getSizeOptions(pageSizes: number[], sufix: string, currentPageSize?: number) {
-  return pageSizes.map(item => ({
+  return pageSizes.map((item) => ({
     label: item + sufix,
     value: item,
-    active: currentPageSize === item
+    active: currentPageSize === item,
   }));
 }

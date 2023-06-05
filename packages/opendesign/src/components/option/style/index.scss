@@ -1,3 +1,4 @@
+@use '../../style/mixin.scss' as *;
 @use './var.scss';
 
 .o-option {
@@ -11,10 +12,16 @@
   border-radius: var(--option-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--option-bg-color-hover);
-    color: var(--option-color-hover);
+  margin-bottom: var(--option-gap);
+  &:last-child {
+    margin-bottom: 0;
+  }
+  @include hover {
+    &.o-option-multiple:hover,
+    &:hover {
+      background-color: var(--option-bg-color-hover);
+      color: var(--option-color-hover);
+    }
   }
   &.active {
     font-weight: 500;
@@ -25,7 +32,9 @@
 
 .o-option-disabled {
   &,
-  &:hover {
+  &:hover,
+  &:active,
+  &.o-option-multiple:hover {
     cursor: not-allowed;
     color: var(--option-color-disabled);
     background-color: var(--option-bg-color-disabled);

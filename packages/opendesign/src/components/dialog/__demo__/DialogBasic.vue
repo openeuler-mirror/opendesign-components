@@ -2,16 +2,40 @@
 import { ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
-import { ODialog } from '../index';
+import { ODialog, DialogSizeT, DialogActionT } from '../index';
 
+const content =
+  'This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog';
 const showDlg = ref(false);
-const toggle = (show?: boolean) => {
+const dlgSize = ref<DialogSizeT>('medium');
+const toggle = (show?: boolean, size: DialogSizeT = 'medium') => {
+  dlgSize.value = size;
   if (show === undefined) {
     showDlg.value = !showDlg.value;
   } else {
     showDlg.value = show;
   }
 };
+const dlgAction: DialogActionT[] = [
+  {
+    id: 'cancel',
+    label: '取消',
+    onClick: () => {
+      console.log('cancel');
+      toggle();
+    },
+  },
+  {
+    id: 'ok',
+    label: '确认',
+    color: 'primary',
+    variant: 'solid',
+    onClick: () => {
+      console.log('cancel');
+      toggle();
+    },
+  },
+];
 
 const showDlg2 = ref(false);
 const toggle2 = (show?: boolean) => {
@@ -47,16 +71,14 @@ const onChane = (v: boolean) => {
 <template>
   <h4>基本</h4>
   <section class="wrap">
-    <OButton @click="toggle(true)">Open</OButton>
-    <ODialog v-model:visible="showDlg" @change="onChane">
+    <OButton @click="toggle(true, 'auto')">Open auto</OButton>
+    <OButton @click="toggle(true, 'small')">Open Small</OButton>
+    <OButton @click="toggle(true, 'medium')">Open Medium</OButton>
+    <OButton @click="toggle(true, 'large')">Open Large</OButton>
+    <OButton @click="toggle(true, 'exlarge')">Open exlarge</OButton>
+    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" @change="onChane">
       <template #header>Dialog Title</template>
-      This is Dialog
-      <template #footer>
-        <div class="dlg-action">
-          <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
-          <OButton @click="toggle(false)">取消</OButton>
-        </div>
-      </template>
+      <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">{{ content }}</div>
     </ODialog>
     <OButton @click="toggle2(true)">Open unmount-on-hide: false</OButton>
     <ODialog v-model:visible="showDlg2" :unmount-on-hide="false" @change="onChane">

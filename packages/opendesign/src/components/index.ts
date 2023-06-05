@@ -40,11 +40,10 @@ export * from './carousel';
 export * from './cascader';
 export * from './flex';
 export * from './result';
+export * from './scroller';
+export * from './upload';
+export * from './button-toggle';
 
-// export * from './scrollbar';
 export * from './intersection-observer';
 export * from './resize-observer';
 export * from './child-only';
-
-// 待废弃
-export * from './grid';

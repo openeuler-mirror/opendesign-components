@@ -1,3 +1,4 @@
+@use '../../style/mixin.scss' as *;
 @use './var.scss';
 
 .o-divider {
@@ -22,7 +23,7 @@
 }
 
 .o-divider-label {
-  margin: 0 16px;
+  margin: var(--o-divider-label-gap);
   white-space: nowrap;
 }
 
@@ -46,7 +47,7 @@
   display: inline-block;
   width: 1px;
   height: 1em;
-  margin: 0 var(--o-divider-gap);
+  margin: var(--o-divider-label-gap);
   vertical-align: middle;
   border-width: 0 0 0 1px;
   border-color: var(--o-divider-bd-color);

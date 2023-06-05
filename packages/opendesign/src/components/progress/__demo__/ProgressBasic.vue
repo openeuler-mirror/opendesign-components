@@ -28,8 +28,11 @@ const decreaseVal = () => {
         <OIconMinus />
       </OButton>
     </div>
-    <OProgress :percentage="val" :width="200" :style="{ width: '300px' }" />
-    <OProgress :percentage="val" :width="200" :style="{ width: '300px' }" :show-label="false" />
+    <OProgress :percentage="val" :track-width="200" />
+    <OProgress :percentage="val" :track-width="200" :show-label="false" />
+
+    <OProgress :percentage="val" :track-width="200" size="small" />
+    <OProgress :percentage="val" :track-width="200" :show-label="false" size="small" />
   </section>
 </template>
 

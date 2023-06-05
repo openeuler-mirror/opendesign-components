@@ -1,36 +1,42 @@
 .o-table {
   --table-text-size: var(--o-font_size-text1);
   --table-text-height: var(--o-line_height-text1);
+
+  --table-head-text-size: var(--table-text-size);
+  --table-head-text-height: var(--table-text-height);
+
   --table-color: var(--o-color-info2);
 
   --table-tip-text-size: var(--o-font_size-tip1);
   --table-tip-text-height: var(--o-line_height-tip1);
   --table-tip-color: var(--o-color-info3);
 
-  --table-cell-padding: 13px 16px;
+  --table-head-bg: var(--o-color-control3-light);
+  --table-row-hover: var(--o-color-control2-light);
+  --table-row-active: var(--o-color-control3-light);
 
-  --table-head-bg: var(--o-color-control1);
-  --table-row-hover: var(--o-color-control1-light);
-
-  --table-border: 1px solid var(--o-color-control1-light);
+  --table-border: 1px solid var(--o-color-control4-light);
   --table-loading-mask: var(--o-color-mask2);
   --table-loading-color: var(--o-color-info2);
 
   --table-body-min-height: 200px;
-}
 
-.o-table-border-all,
-.o-table-border-row {
-  --table-cell-padding: 13px 16px 12px;
+  --table-bg-color: var(--o-color-control-light);
+  --table-radius: var(--o-radius-control-m);
+
+  --table-cell-padding: 8px 12px;
+  --table-cell-height: 48px;
+  --table-head-cell-height: 48px;
 }
 
 .o-table-small {
   --table-text-size: var(--o-font_size-tip1);
   --table-text-height: var(--o-line_height-tip1);
 
-  --table-cell-padding: 7px 8px;
-  .o-table-border-all,
-  .o-table-border-row {
-    --table-cell-padding: 7px 8px 6px;
-  }
+  --table-head-text-size: var(--table-text-size);
+  --table-head-text-height: var(--table-text-height);
+
+  --table-cell-padding: 4px 12px;
+  --table-cell-height: 32px;
+  --table-head-cell-height: 32px;
 }

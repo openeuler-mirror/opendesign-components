@@ -1,6 +1,7 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { ColorPool } from './utils';
-import { RoundT, SizeT } from './types';
+import { SizeT } from './types';
+import { isClient, isTouchDevice } from './is';
 
 // 尺寸
 export const defaultSize = ref<SizeT>('medium');
@@ -9,8 +10,8 @@ export function initSize(val: SizeT) {
 }
 
 // 圆角
-export const defaultRound = ref<'pill' | string>('');
-export function initRound(type: RoundT) {
+export const defaultRound = ref<'pill' | undefined>();
+export function initRound(type?: 'pill') {
   defaultRound.value = type;
 }
 
@@ -20,3 +21,34 @@ export const defaultPrestColorPool = ref(new ColorPool(defaultPrestColor));
 export function initPrestColor(colors: string[]) {
   defaultPrestColorPool.value = new ColorPool(colors);
 }
+
+// 断点
+export const mediaPoint = ref<Record<'phone' | 'pad', number>>({
+  phone: 720,
+  pad: 1200,
+});
+export function initMediaPoint(point: Record<'phone' | 'pad', number>) {
+  mediaPoint.value = point;
+}
+
+// 当前是否为pad
+export const isPadSize = computed(() => {
+  if (isClient) {
+    const { innerWidth } = window;
+    return innerWidth > mediaPoint.value.phone && innerWidth <= mediaPoint.value.pad;
+  }
+  return false;
+});
+
+// 当前是否为手机
+export const isPhoneSize = computed(() => {
+  if (isClient) {
+    const { innerWidth } = window;
+    return innerWidth <= mediaPoint.value.phone;
+  }
+  return false;
+});
+
+export const isPhonePad = computed(() => {
+  return isTouchDevice && (isPadSize.value || isPhoneSize.value);
+});

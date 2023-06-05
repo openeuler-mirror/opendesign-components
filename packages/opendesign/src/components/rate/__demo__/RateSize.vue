@@ -8,7 +8,6 @@ const rateVal = ref(0);
 <template>
   <h4>不同尺寸</h4>
   <section>
-    <ORate v-model="rateVal" size="small" />
     <ORate v-model="rateVal" />
     <ORate v-model="rateVal" size="large" />
   </section>

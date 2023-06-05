@@ -40,6 +40,8 @@ const targetElRef = ref<ComponentPublicInstance | null>(null);
     :adjust-min-width="props.adjustMinWidth"
     :hide-when-target-invisible="props.hideWhenTargetInvisible"
     :hover-delay="props.hoverDelay"
+    :before-hide="props.beforeHide"
+    :before-show="props.beforeShow"
     @update:visible="updateVisible"
   >
     <div class="o-popover-body" v-bind="$attrs">

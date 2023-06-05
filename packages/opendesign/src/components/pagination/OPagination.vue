@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed, ref, nextTick, watch } from 'vue';
-import { getPagerItem, PagerItemT, getSizeOptions } from './pagination';
+import { getPagerList, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
-import { OSelect } from '../select';
+import { OSelect, SelectValueT } from '../select';
 import { OOption } from '../option';
 import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_shared/icons';
 import { paginationProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
+import { OIcon } from '../icon';
 
 const props = defineProps(paginationProps);
 
@@ -34,11 +35,12 @@ const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
 
 const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
 
-const pages = ref(getPagerItem(totalPage.value, currentPage.value, props.showPageCount));
+const pages = ref(getPagerList(totalPage.value, currentPage.value, props.showPageCount));
+
 watch(
   () => totalPage.value,
   () => {
-    pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
   }
 );
 
@@ -54,7 +56,7 @@ const setCurrentPage = (page: number) => {
   } else {
     currentPage.value = page;
   }
-  pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+  pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
 };
 
 const updateCurrentPage = (page: number) => {
@@ -83,7 +85,7 @@ const clickPageBtn = (Increase: boolean) => {
   updateCurrentPage(Increase ? currentPage.value + 1 : currentPage.value - 1);
 };
 
-const moreClick = (more: PagerItemT[0]) => {
+const moreClick = (more: PagerItemT) => {
   const { value, list } = more;
   if (value === 'left' && list) {
     updateCurrentPage(list[list.length - 1]);
@@ -96,16 +98,15 @@ const goToChange = (val: string | number) => {
   updateCurrentPage(Number(val));
 };
 
-const pageSizeChange = (val: string | number) => {
+const pageSizeChange = (val: SelectValueT) => {
   // updateCurrentPage(Number(val));
   const currentIndex = currentPageSize.value * (currentPage.value - 1);
   const oldPage = currentPage.value;
   currentPageSize.value = Number(val);
   nextTick(() => {
     currentPage.value = Math.floor(currentIndex / currentPageSize.value) + 1;
-    // console.log(currentIndex, totalPage.value, currentPage.value, currentPageSize.value);
 
-    pages.value = getPagerItem(totalPage.value, currentPage.value, props.showPageCount);
+    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
 
     if (oldPage !== currentPage.value) {
       emits('update:page', currentPage.value);
@@ -118,6 +119,10 @@ const pageSizeChange = (val: string | number) => {
   });
 };
 
+const onMoreItemClick = (item: number) => {
+  selectPage(item);
+};
+
 defineExpose({
   pageCount: totalPage,
 });
@@ -126,11 +131,18 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <div v-if="props.showTotal" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
       <!-- sizes -->
       <template v-if="!props.simple">
         <div class="o-pagination-size">
-          <OSelect :model-value="currentPageSize" class="o-pagination-select" :default-label="defaultSizeLabel" :round="props.round" @change="pageSizeChange">
+          <OSelect
+            :model-value="currentPageSize"
+            class="o-pagination-select"
+            :default-label="defaultSizeLabel"
+            :round="props.round"
+            :variant="props.variant"
+            @change="pageSizeChange"
+          >
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
         </div>
@@ -158,6 +170,7 @@ defineExpose({
                 :min="1"
                 :max="totalPage"
                 :round="props.round"
+                :variant="props.variant"
                 @change="goToChange"
               />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
@@ -175,10 +188,10 @@ defineExpose({
               <template v-else>
                 <OPopover position="bottom" class="o-pagination-more-popup">
                   <div class="o-pagination-more-list">
-                    <div v-for="p in item.list" :key="p" class="o-pagination-more-item">{{ p }}</div>
+                    <div v-for="p in item.list" :key="p" class="o-pagination-more-item" @click="onMoreItemClick(p)">{{ p }}</div>
                   </div>
                   <template #target>
-                    <span @click="moreClick(item)"><IconEllipsis /></span>
+                    <OIcon class="o-pagination-more-icon" @click="moreClick(item)"><IconEllipsis /></OIcon>
                   </template>
                 </OPopover>
               </template>
@@ -197,7 +210,7 @@ defineExpose({
         </div>
       </div>
       <!-- jumper -->
-      <template v-if="props.showJumper && !props.simple">
+      <template v-if="props.showJumper && !props.simple && totalPage > 0">
         <div class="o-pagination-goto">
           {{ Labels.goto }}&nbsp;<OInputNumber
             :model-value="currentPage"
@@ -206,6 +219,7 @@ defineExpose({
             :min="1"
             :max="totalPage"
             :round="props.round"
+            :variant="props.variant"
             @change="goToChange"
           />
         </div>

@@ -6,6 +6,7 @@ import { OProgress } from '../index';
 import '../../button/style';
 import { OButton } from '../../button';
 import { OIconAdd, OIconMinus } from '../../icon-components';
+import { OIconWarning } from '../../icon-components';
 
 const val = ref(10);
 
@@ -48,6 +49,16 @@ const format = (percentage: number) => {
           <OProgress :percentage="val" :style="{ width: '400px' }">
             <template #default="{ percentage }">
               {{ `content ${percentage}` }}
+            </template>
+          </OProgress>
+        </section>
+      </div>
+      <div>
+        <p>图标</p>
+        <section>
+          <OProgress :percentage="val" color="warning" :style="{ width: '400px' }">
+            <template #icon>
+              <OIconWarning />
             </template>
           </OProgress>
         </section>
