@@ -155,6 +155,12 @@ export const routes = [
         component: () => import('./pages/pagination/TheIndex.vue'),
       },
       {
+        path: 'card',
+        name: 'card',
+        label: '卡片 Card',
+        component: () => import('./pages/card/TheIndex.vue'),
+      },
+      {
         path: 'tab',
         name: 'tab',
         label: '页签 tab',
