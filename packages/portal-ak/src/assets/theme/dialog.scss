@@ -91,7 +91,7 @@
 
 .o-dialog-responsive {
   @include respond-to('phone-pad') {
-    .o-dlg-head {
+    .o-dlg-header {
       text-align: center;
       font-size: var(--o-font_size-text2);
       line-height: var(--o-line_height-text2);
