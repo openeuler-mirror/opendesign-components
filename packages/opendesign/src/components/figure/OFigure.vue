@@ -106,7 +106,7 @@ defineExpose({
     <template v-if="props.src">
       <div
         v-if="paddingTop || isError"
-        class="o-figure-wrapper"
+        class="o-figure-wrap"
         :class="{
           'o-figure-bg': props.background,
         }"

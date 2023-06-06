@@ -52,7 +52,7 @@ defineExpose({
     @update:visible="(v, e) => emits('update:visible', v, e)"
   >
     <div v-if="!props.hideClose" class="o-dlg-btn-close" @click="onCloseClick"><IconClose /></div>
-    <div v-if="$slots.header" class="o-dlg-head">
+    <div v-if="$slots.header" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
     <OScroller v-if="props.scroller" class="o-dlg-body" size="small" show-type="hover" v-bind="props.scroller">
@@ -61,7 +61,7 @@ defineExpose({
     <div v-else class="o-dlg-body">
       <slot></slot>
     </div>
-    <div v-if="$slots.footer || props.actions" class="o-dlg-foot">
+    <div v-if="$slots.footer || props.actions" class="o-dlg-footer">
       <slot name="footer">
         <div class="o-dlg-actions">
           <OButton

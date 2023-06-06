@@ -33,7 +33,7 @@
   }
 }
 
-.o-dlg-head {
+.o-dlg-header {
   padding: var(--dlg-head-padding);
   text-align: center;
   font-size: var(--o-font_size-text2);
@@ -46,7 +46,7 @@
   flex: 1;
   overflow: hidden;
 }
-.o-dlg-foot {
+.o-dlg-footer {
   margin-top: auto;
   padding: var(--dlg-foot-padding);
 }
