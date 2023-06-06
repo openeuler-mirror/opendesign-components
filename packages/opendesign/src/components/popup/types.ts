@@ -25,7 +25,7 @@ export const popupProps = {
    * 触发事件 PopupTriggerT | PopupTriggerT[]
    */
   trigger: {
-    type: [String, Array<String>] as PropType<PopupTriggerT | PopupTriggerT[]>,
+    type: [String, Array] as PropType<PopupTriggerT | PopupTriggerT[]>,
     default: 'hover',
   },
   /**
