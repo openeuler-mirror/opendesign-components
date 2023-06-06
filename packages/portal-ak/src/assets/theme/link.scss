@@ -1,3 +1,5 @@
+@use './mixin.scss' as *;
+
 .o-link-normal {
   --link-color: var(--o-color-link1);
 }
@@ -10,4 +12,68 @@
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
   --link-icon-size: var(--o-icon_size-s);
+}
+.o-link-suffix {
+  --link-icon-size: var(--o-icon_size-s);
+}
+
+.c-link-ascend {
+  .o-link-suffix {
+    width: 24px;
+    height: 24px;
+  }
+  --arrow-width: 6px;
+  @include respond-to('up-pad') {
+    &:not(.o-link-disabled):hover {
+      .c-link-ascend-arrow {
+        transform: translate3d(0, 0, 0);
+        &::before {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotate(45deg);
+        }
+        &::after {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotate(-45deg);
+        }
+      }
+    }
+  }
+}
+.c-link-ascend-arrow {
+  width: var(--arrow-width);
+  height: 1px;
+  background-color: currentColor;
+  display: inline-flex;
+  position: relative;
+  transform: translate3d(-5px, 0.3em, 0);
+  transform-origin: 0 center;
+  transition: transform var(--o-easing-standard-in) var(--o-duration-m2);
+  border-radius: 1px;
+  margin-left: 3px;
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 0;
+    width: 130%;
+    height: 100%;
+    background-color: currentColor;
+    flex-shrink: 0;
+    transform-origin: 100% center;
+    transform: translate3d(-6px, 0, 0) scale(0.5);
+    opacity: 0;
+    transition: transform var(--o-easing-standard-in) var(--o-duration-m2), opacity var(--o-duration-m2);
+    border-radius: 1px;
+  }
+}
+
+.c-link-kunpeng {
+  --link-underline-x: calc(100% - var(--o-icon_size-s) - var(--link-gap));
+  background-position-x: var(--link-underline-x);
+
+  &:hover {
+    background-size: var(--link-underline-x) 1px;
+    --link-color-hover: rgb(var(--o-red-huawei));
+  }
 }
