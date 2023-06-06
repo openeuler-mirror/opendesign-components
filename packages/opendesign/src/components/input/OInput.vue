@@ -24,7 +24,7 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
-const inputId = uniqueId('input', 12);
+const inputId = uniqueId('input');
 const inputType = ref(props.type);
 
 const inputRef = ref<HTMLElement | null>(null);
