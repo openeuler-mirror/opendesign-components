@@ -1,4 +1,4 @@
-import { UploadRequestOptionT, UploadFileT } from '../index';
+import { UploadRequestOptionT, UploadFileT } from '@components/index';
 
 export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
   const files: File[] = [];
