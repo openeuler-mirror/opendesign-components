@@ -35,7 +35,6 @@ const textareaText = ref(realValue.value);
 watch(
   () => props.modelValue,
   (val) => {
-    // console.log('watch', val);
     realValue.value = toInputString(val);
     textareaText.value = `${realValue.value}\r\n`;
   }

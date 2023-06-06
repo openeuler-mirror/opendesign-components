@@ -59,7 +59,6 @@ export function useSlotElement(componentName?: string) {
 
   onMounted(() => {
     children?.forEach((child) => {
-      // console.log(child, isComponent(child));
       if (isComponent(child, child.type)) {
         if (componentName && child.type.name === componentName) {
           components.push(child);
@@ -142,14 +141,12 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   onMounted(() => {
     if (children) {
       fistElement.value = getFirstElement(children);
-      // console.log(fistElement.value);
     }
   });
   return {
     setSlot(nodes: VNode[] | undefined) {
       if (nodes) {
         children = nodes;
-        // console.log(children);
       }
     },
     fistElement,

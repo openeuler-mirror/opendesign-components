@@ -42,7 +42,6 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
   const rlt = [];
   let span = null;
   const skipCell: Record<string, boolean> = {};
-  // console.log(s, t);
   const end = Math.min(s + t, bodyData.length);
 
   for (let r = s; r < end; r += 1) {

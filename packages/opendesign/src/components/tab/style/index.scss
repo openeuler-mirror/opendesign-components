@@ -137,6 +137,7 @@
   width: 100%;
   height: var(--tab-nav-archor-height);
   background-color: var(--tab-nav-archor-color);
+  border-radius: var(--tab-nav-archor-height);
 }
 .o-tab-nav-close {
   position: absolute;

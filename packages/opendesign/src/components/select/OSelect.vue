@@ -187,13 +187,6 @@ provide(selectOptionInjectKey, {
   },
 });
 
-watch(
-  () => valueList.value,
-  (v) => {
-    console.log('change', v);
-  }
-);
-
 const onOptionVisibleChange = (visible: boolean) => {
   emits('options-visible-change', visible);
 };

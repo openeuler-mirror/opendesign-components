@@ -165,7 +165,6 @@ const onEyeClick = () => {
 const onEyeMouseUp = () => {
   if (isEyeOn.value) {
     toggleEye(false);
-    console.log('up');
 
     window.removeEventListener('mouseup', onEyeMouseUp);
   }
