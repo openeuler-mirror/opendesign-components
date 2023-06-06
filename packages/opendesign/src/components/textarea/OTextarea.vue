@@ -22,6 +22,7 @@ const emits = defineEmits<{
   (e: 'keydown', value: string, evt: KeyboardEvent): void;
 }>();
 
+const insId = uniqueId('radio');
 const textareaHeight = ref();
 
 const textareaRef = ref<HTMLElement | null>(null);
@@ -158,6 +159,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
         'o-textarea-max-length': props.maxLength,
       },
     ]"
+    :for="insId"
     :style="round.style.value"
     @mousedown="onMouseDown"
   >
@@ -169,6 +171,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
       }"
     >
       <textarea
+        :id="insId"
         ref="textareaRef"
         class="o-textarea-textarea"
         :class="{

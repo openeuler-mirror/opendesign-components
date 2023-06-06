@@ -37,17 +37,23 @@ function removeListener(el: HTMLElement, listener?: () => void) {
 
 function bindEvents() {
   if (!isBindEvent) {
-    window.addEventListener('mousedown', (e) => {
-      elList.forEach((handlers, el) => {
-        if (!el.contains(e.target as HTMLElement)) {
-          handlers.forEach((item) => {
-            if (!item.exception || !item.exception(e)) {
-              item.handler();
-            }
-          });
-        }
-      });
-    });
+    window.addEventListener(
+      'mousedown',
+      (e) => {
+        elList.forEach((handlers, el) => {
+          if (!el.contains(e.target as HTMLElement)) {
+            handlers.forEach((item) => {
+              if (!item.exception || !item.exception(e)) {
+                item.handler();
+              }
+            });
+          }
+        });
+      },
+      {
+        passive: true,
+      }
+    );
     isBindEvent = true;
   }
 }

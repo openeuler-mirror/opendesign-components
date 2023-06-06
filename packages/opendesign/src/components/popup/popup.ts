@@ -448,7 +448,11 @@ export function bindTrigger(
       }
     },
     click: () => {
-      el?.addEventListener('click', toggleFn);
+      el?.addEventListener('click', (e) => {
+        console.log(e.target);
+
+        toggleFn();
+      });
 
       listeners.push(() => {
         el?.removeEventListener('click', toggleFn);

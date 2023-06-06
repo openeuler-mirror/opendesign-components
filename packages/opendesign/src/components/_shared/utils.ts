@@ -66,3 +66,17 @@ export class ColorPool {
     return color;
   }
 }
+
+export function uniqueId(prefix: string = '', length: number = 8): string {
+  const gen = (len: number): string => {
+    if (len <= 11) {
+      return Math.random()
+        .toString(36)
+        .slice(2, 2 + len)
+        .padEnd(len, '0');
+    } else {
+      return gen(11) + gen(len - 11);
+    }
+  };
+  return prefix ? `${prefix}-${gen(length)}` : gen(length);
+}

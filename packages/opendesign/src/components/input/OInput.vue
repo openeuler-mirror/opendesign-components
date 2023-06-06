@@ -10,6 +10,7 @@ import { OResizeObserver } from '../resize-observer';
 import { inputProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 import ClientOnly from '../_shared/components/client-only';
+import { uniqueId } from '../_shared/utils';
 
 const props = defineProps(inputProps);
 
@@ -23,6 +24,7 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
+const inputId = uniqueId('input', 12);
 const inputType = ref(props.type);
 
 const inputRef = ref<HTMLElement | null>(null);
@@ -189,6 +191,7 @@ const onEyeMouseDown = () => {
       },
     ]"
     :style="round.style.value"
+    :for="inputId"
     @mousedown="onMouseDown"
   >
     <span v-if="$slots.prepend" class="o-input-prepend">
@@ -211,6 +214,7 @@ const onEyeMouseDown = () => {
       </div>
       <div class="o-input-input-wrap">
         <input
+          :id="inputId"
           ref="inputRef"
           :value="displayValue"
           :type="inputType"

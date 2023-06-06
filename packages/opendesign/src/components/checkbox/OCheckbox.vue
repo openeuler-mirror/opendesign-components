@@ -4,6 +4,7 @@ import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
 import { IconDone } from '../_shared/icons';
 import { isArray, isUndefined } from '../_shared/is';
+import { uniqueId } from '../_shared/utils';
 
 const props = defineProps(checkboxProps);
 
@@ -12,6 +13,7 @@ const emits = defineEmits<{
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
+const insId = uniqueId('checkbox');
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
 
 // 是否选中
@@ -93,9 +95,10 @@ defineExpose({
       'o-checkbox-disabled': isDisabled,
       'o-checkbox-indeterminate': props.indeterminate,
     }"
+    :for="insId"
   >
     <div class="o-checkbox-wrap">
-      <input type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input :id="insId" type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="checkbox" :checked="isChecked" :disabled="isDisabled">
         <div class="o-checkbox-input-wrap">
           <span class="o-checkbox-input">

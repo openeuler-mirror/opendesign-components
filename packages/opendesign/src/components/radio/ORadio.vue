@@ -3,6 +3,7 @@ import { computed, inject, nextTick, ref, watch } from 'vue';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_shared/is';
+import { uniqueId } from '../_shared/utils';
 
 const props = defineProps(radioProps);
 
@@ -11,6 +12,7 @@ const emits = defineEmits<{
   (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
+const insId = uniqueId('radio');
 const radioGroupInjection = inject(radioGroupInjectKey, null);
 
 // 是否选中
@@ -71,9 +73,10 @@ const onChange = (ev: Event) => {
       'o-radio-checked': isChecked,
       'o-radio-disabled': isDisabled,
     }"
+    :for="insId"
   >
     <div class="o-radio-wrap">
-      <input type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input :id="insId" type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="radio" :checked="isChecked" :disabled="isDisabled">
         <div class="o-radio-input-wrap">
           <span class="o-radio-input"></span>
