@@ -9,6 +9,7 @@ import { OResizeObserver } from '../resize-observer';
 import { textareaProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
 import ClientOnly from '../_shared/components/client-only';
+import { uniqueId } from '../_shared/utils';
 
 const props = defineProps(textareaProps);
 
@@ -22,7 +23,7 @@ const emits = defineEmits<{
   (e: 'keydown', value: string, evt: KeyboardEvent): void;
 }>();
 
-const insId = uniqueId('radio');
+const insId = uniqueId('textarea');
 const textareaHeight = ref();
 
 const textareaRef = ref<HTMLElement | null>(null);

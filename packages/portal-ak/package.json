@@ -8,7 +8,7 @@
     "build": "vue-tsc && vite build"
   },
   "dependencies": {
-    "@opensig/opendesign": "workspace:^0.0.39",
+    "@opensig/opendesign": "workspace:^0.0.40",
     "normalize.css": "^8.0.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",

@@ -135,7 +135,7 @@ export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {
   return null;
 };
 
-export function useSlotFirstElement() {
+export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) => void; fistElement: Ref<HTMLElement | null> } {
   let children: VNode[] | null = null;
   const fistElement = ref<HTMLElement | null>(null);
 

@@ -66,7 +66,11 @@ export class ColorPool {
     return color;
   }
 }
-
+/**
+ * 生成随机字符串
+ * @param prefix 前缀
+ * @param length 字符串长度
+ */
 export function uniqueId(prefix: string = '', length: number = 8): string {
   const gen = (len: number): string => {
     if (len <= 11) {
