@@ -27,7 +27,7 @@ const onClick = (e: MouseEvent) => {
         'o-link-hover-underline': props.hoverUnderline,
       },
       `o-link-${props.color}`,
-      `o-btn-${props.size || defaultSize}`,
+      `o-link-${props.size || defaultSize}`,
     ]"
     v-bind="$attrs"
     @click="onClick"

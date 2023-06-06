@@ -1,6 +1,9 @@
 import { ExtractPropTypes, PropType, ComponentPublicInstance } from 'vue';
 export type ScrollerDirection = 'x' | 'y';
 
+export const ScrollerSizeTypes = ['medium', 'small'] as const;
+export type ScrollerSizeT = (typeof ScrollerSizeTypes)[number];
+
 export const scrollerProps = {
   /**
    * 禁用横向滚动
@@ -42,7 +45,7 @@ export const scrollerProps = {
    * 滚动条尺寸大小
    */
   size: {
-    type: String as PropType<'medium' | 'small'>,
+    type: String as PropType<ScrollerSizeT>,
     default: 'medium',
   },
   /**
@@ -86,7 +89,7 @@ export const scrollbarProps = {
    * 滚动条尺寸大小
    */
   size: {
-    type: String as PropType<'medium' | 'small'>,
+    type: String as PropType<ScrollerSizeT>,
     default: 'medium',
   },
 };
