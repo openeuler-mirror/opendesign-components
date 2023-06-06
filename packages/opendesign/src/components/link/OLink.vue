@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { defaultSize } from '../_shared/global';
 import { IconLinkArrow, IconLoading } from '../_shared/icons';
 
 import { linkProps } from './types';
@@ -26,7 +27,7 @@ const onClick = (e: MouseEvent) => {
         'o-link-hover-underline': props.hoverUnderline,
       },
       `o-link-${props.color}`,
-      props.size ? `o-link-${props.size}` : '',
+      `o-btn-${props.size || defaultSize}`,
     ]"
     v-bind="$attrs"
     @click="onClick"

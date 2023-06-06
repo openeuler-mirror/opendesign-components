@@ -2,46 +2,44 @@
 import { OScroller } from '@components/index';
 </script>
 <template>
-  <div class="page-demo">
-    <h3>类型 & 尺寸</h3>
-    <h4 style="width: 40px">M:</h4>
-    <section>
-      <OScroller class="container" show-type="hover" size="small">
-        <div class="section">横、竖向滚动</div>
-        <div class="section">横、竖向滚动</div>
-        <div class="section">横、竖向滚动</div>
-      </OScroller>
-      <OScroller class="container" show-type="hover" size="small" disabled-x>
-        <div class="section">禁用横向滚动</div>
-        <div class="section">禁用横向滚动</div>
-        <div class="section">禁用横向滚动</div>
-      </OScroller>
-      <OScroller class="container" show-type="hover" size="small" disabled-y>
-        <div class="section">禁用竖向滚动</div>
-        <div class="section">禁用竖向滚动</div>
-        <div class="section">禁用竖向滚动</div>
-      </OScroller>
-    </section>
-    <h4 style="width: 40px">L:</h4>
-    <section>
-      <OScroller class="container" show-type="hover">
-        <div class="section">横、竖向滚动</div>
-        <div class="section">横、竖向滚动</div>
-        <div class="section">横、竖向滚动</div>
-      </OScroller>
-      <OScroller class="container" show-type="hover" disabled-x>
-        <div class="section">禁用横向滚动</div>
-        <div class="section">禁用横向滚动</div>
-        <div class="section">禁用横向滚动</div>
-      </OScroller>
+  <h3>类型 & 尺寸</h3>
+  <h4 style="width: 40px">M:</h4>
+  <section>
+    <OScroller class="container" show-type="hover" size="small">
+      <div class="section">横、竖向滚动</div>
+      <div class="section">横、竖向滚动</div>
+      <div class="section">横、竖向滚动</div>
+    </OScroller>
+    <OScroller class="container" show-type="hover" size="small" disabled-x>
+      <div class="section">禁用横向滚动</div>
+      <div class="section">禁用横向滚动</div>
+      <div class="section">禁用横向滚动</div>
+    </OScroller>
+    <OScroller class="container" show-type="hover" size="small" disabled-y>
+      <div class="section">禁用竖向滚动</div>
+      <div class="section">禁用竖向滚动</div>
+      <div class="section">禁用竖向滚动</div>
+    </OScroller>
+  </section>
+  <h4 style="width: 40px">L:</h4>
+  <section>
+    <OScroller class="container" show-type="hover">
+      <div class="section">横、竖向滚动</div>
+      <div class="section">横、竖向滚动</div>
+      <div class="section">横、竖向滚动</div>
+    </OScroller>
+    <OScroller class="container" show-type="hover" disabled-x>
+      <div class="section">禁用横向滚动</div>
+      <div class="section">禁用横向滚动</div>
+      <div class="section">禁用横向滚动</div>
+    </OScroller>
 
-      <OScroller class="container" show-type="hover" disabled-y>
-        <div class="section">禁用竖向滚动</div>
-        <div class="section">禁用竖向滚动</div>
-        <div class="section">禁用竖向滚动</div>
-      </OScroller>
-    </section>
-  </div>
+    <OScroller class="container" show-type="hover" disabled-y>
+      <div class="section">禁用竖向滚动</div>
+      <div class="section">禁用竖向滚动</div>
+      <div class="section">禁用竖向滚动</div>
+    </OScroller>
+  </section>
 </template>
 <style lang="scss">
 .section {
