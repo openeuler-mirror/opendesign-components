@@ -6,6 +6,7 @@ const values = reactive({
   show0: false,
   show1: false,
   show2: false,
+  show3: false,
 });
 const dlgSize = ref<DialogSizeT>('medium');
 const toggle = (key: keyof typeof values, show?: boolean, size?: DialogSizeT) => {
@@ -54,12 +55,36 @@ const dlgAction: DialogActionT[] = [
     id: 'ok',
     label: '确认',
     color: 'primary',
-    variant: 'solid',
     size: 'large',
     round: 'pill',
     onClick: () => {
       console.log('cancel');
       toggle('show0');
+    },
+  },
+];
+
+const dlgAction2: DialogActionT[] = [
+  {
+    id: 'cancel',
+    label: '取消',
+    size: 'large',
+    round: 'pill',
+    onClick: () => {
+      console.log('cancel');
+      toggle('show3');
+    },
+  },
+  {
+    id: 'ok',
+    label: '确认',
+    color: 'primary',
+    variant: 'solid',
+    size: 'large',
+    round: 'pill',
+    onClick: () => {
+      console.log('cancel');
+      toggle('show3');
     },
   },
 ];
@@ -74,9 +99,16 @@ const dlgAction: DialogActionT[] = [
       <OButton @click="toggle('show0', true, 'medium')">Open Medium</OButton>
       <OButton @click="toggle('show0', true, 'large')">Open Large</OButton>
       <OButton @click="toggle('show0', true, 'exlarge')">Open exlarge</OButton>
+      <OButton @click="toggle('show3', true, 'exlarge')">Open Medium 强调按钮</OButton>
       <ODialog v-model:visible="values.show0" :actions="dlgAction" :size="dlgSize" @change="onChane">
         <template #header> {{ dlgSize }} Dialog</template>
-        <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">
+        <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
+          This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
+        </div>
+      </ODialog>
+      <ODialog v-model:visible="values.show3" :actions="dlgAction2" :size="dlgSize" @change="onChane">
+        <template #header> {{ dlgSize }} Dialog</template>
+        <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
           This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
         </div>
       </ODialog>
