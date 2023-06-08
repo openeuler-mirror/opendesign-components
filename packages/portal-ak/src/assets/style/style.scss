@@ -52,3 +52,8 @@ section {
     display: block;
   }
 }
+
+[data-o-theme*='dark'] {
+  color: var(--o-color-info1);
+  background-color: var(--o-color-fill1);
+}
