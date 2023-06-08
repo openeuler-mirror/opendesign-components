@@ -3,6 +3,12 @@ import { ColorPool } from './utils';
 import { SizeT } from './types';
 import { isClient, isTouchDevice } from './is';
 
+// popup\popover\layer\dialog的初始z-index
+export const defaultZIndex = ref<number>(1000);
+export function initZIndex(val: number) {
+  defaultZIndex.value = val;
+}
+
 // 尺寸
 export const defaultSize = ref<SizeT>('medium');
 export function initSize(val: SizeT) {

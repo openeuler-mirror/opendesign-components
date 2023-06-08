@@ -18,6 +18,7 @@ import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
 import { getHtmlElement } from '../_shared/vue-utils';
 import { isPhonePad } from '../_shared/global';
+import { createTopZIndex, minusZIndex } from '../_shared/z-index';
 
 // TODO 处理嵌套
 
@@ -46,6 +47,7 @@ const popStyle = reactive<{
   bottom?: string;
   minWidth?: string;
   width?: string;
+  '--popup-z-index'?: number;
 }>({});
 const popPosition = ref(props.position);
 
@@ -63,12 +65,23 @@ const isAnimating = ref(false);
 let ro: ReturnType<typeof useResizeObserver> | null = null;
 let io: ReturnType<typeof useIntersectionObserver> | null = null;
 
+const updateZIndex = (show: boolean) => {
+  if (show) {
+    popStyle['--popup-z-index'] = createTopZIndex();
+  } else {
+    minusZIndex();
+  }
+};
+
 onMounted(() => {
   ro = useResizeObserver();
   io = useIntersectionObserver();
 
   // 在mounted事件后再显示，避免找不到wrapper
   visible.value = props.visible;
+  if (props.visible) {
+    updateZIndex(props.visible);
+  }
 
   const { target, wrapper } = toRefs(props);
   // 绑定触发元素事件
@@ -225,6 +238,7 @@ watch(
     }
 
     visible.value = val;
+    updateZIndex(val);
     if (val) {
       nextTick(() => {
         updatePopupStyle();
@@ -259,6 +273,8 @@ const updateVisible = async (isVisible?: boolean, delay?: number) => {
     }
     // 设置popup是否显示，不需要手动触发计算位置，显示时会触发resize，计算位置
     visible.value = v;
+    updateZIndex(v);
+
     emits('update:visible', v);
     emits('change', v);
 

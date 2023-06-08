@@ -1,7 +1,7 @@
 .o-layer {
   --layer-position: absolute;
   --layer-mask: var(--o-color-mask1);
-  --layer-z-index: calc(var(--o-z-index-base) + 10);
+  // --layer-z-index: calc(var(--o-z-index-base) + 10);
   --layer-align: center;
   --layer-justify: center;
   --layer-origin: center;

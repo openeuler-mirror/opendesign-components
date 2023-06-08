@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { OButton, ODialog, DialogSizeT, DialogActionT } from '@components/index';
+import { OButton, ODialog, DialogSizeT, DialogActionT, OPopover, initZIndex } from '@components/index';
 import { reactive, ref } from 'vue';
 
 const values = reactive({
   show0: false,
   show1: false,
   show2: false,
-  show3: false,
+  show3: true,
 });
 const dlgSize = ref<DialogSizeT>('medium');
 const toggle = (key: keyof typeof values, show?: boolean, size?: DialogSizeT) => {
@@ -59,7 +59,7 @@ const dlgAction: DialogActionT[] = [
     round: 'pill',
     onClick: () => {
       console.log('cancel');
-      toggle('show0');
+      toggle('show1');
     },
   },
 ];
@@ -84,7 +84,7 @@ const dlgAction2: DialogActionT[] = [
     round: 'pill',
     onClick: () => {
       console.log('cancel');
-      toggle('show3');
+      toggle('show0', true, 'small');
     },
   },
 ];
@@ -101,12 +101,20 @@ const dlgAction2: DialogActionT[] = [
       <OButton @click="toggle('show0', true, 'exlarge')">Open exlarge</OButton>
       <OButton @click="toggle('show3', true, 'exlarge')">Open Medium 强调按钮</OButton>
       <ODialog v-model:visible="values.show0" :actions="dlgAction" :size="dlgSize" @change="onChane">
-        <template #header> {{ dlgSize }} Dialog</template>
+        <template #header>
+          <OPopover>
+            <template #target>
+              <span>{{ dlgSize }} Dialog</span>
+            </template>
+
+            This is Dialog This is Dialog This is Dialog This is
+          </OPopover>
+        </template>
         <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
           This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
         </div>
       </ODialog>
-      <ODialog v-model:visible="values.show3" :actions="dlgAction2" :size="dlgSize" @change="onChane">
+      <ODialog v-model:visible="values.show3" :actions="dlgAction2" @change="onChane">
         <template #header> {{ dlgSize }} Dialog</template>
         <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
           This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog

@@ -8,6 +8,7 @@ import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties }
 import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_shared/is';
+import { createTopZIndex, minusZIndex } from '../_shared/z-index';
 
 const props = defineProps(layerProps);
 
@@ -19,6 +20,8 @@ const emits = defineEmits<{
 
 const visible = ref(props.visible);
 const toMount = ref(props.visible);
+
+const zIndex = ref(visible.value ? createTopZIndex() : 0);
 
 const isToBody = ref(false);
 const LayerClass = {
@@ -101,6 +104,13 @@ const beforeToggle = async (show: boolean) => {
   return goon !== false;
 };
 
+const updateZIndex = (show: boolean) => {
+  if (show) {
+    zIndex.value = createTopZIndex();
+  } else {
+    minusZIndex();
+  }
+};
 watch(
   () => props.visible,
   async (v: boolean) => {
@@ -111,7 +121,9 @@ watch(
         return;
       }
 
+      updateZIndex(v);
       visible.value = v;
+
       emits('change', v);
       handleWrapperScroll();
     }
@@ -130,6 +142,7 @@ const toggle = async (show?: boolean) => {
     return;
   }
 
+  updateZIndex(toShow);
   visible.value = toShow;
 
   emits('update:visible', visible.value);
@@ -180,7 +193,17 @@ defineExpose({
 </script>
 <template>
   <teleport :to="props.wrapper" :disabled="!props.wrapper">
-    <div v-if="isMounted" v-show="visible || toMount" ref="layerRef" class="o-layer" :class="{ 'o-layer-to-body': isToBody }" v-bind="$attrs">
+    <div
+      v-if="isMounted"
+      v-show="visible || toMount"
+      ref="layerRef"
+      class="o-layer"
+      :class="{ 'o-layer-to-body': isToBody }"
+      v-bind="$attrs"
+      :style="{
+        '--layer-z-index': zIndex,
+      }"
+    >
       <template v-if="props.mask">
         <transition :name="props.maskTransition" :appear="true">
           <div v-show="visible" class="o-layer-mask" @click="onMaskClick"></div>
