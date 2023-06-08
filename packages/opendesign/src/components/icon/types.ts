@@ -23,6 +23,12 @@ export const iconProps = {
   disabled: {
     type: Boolean,
   },
+  /**
+   * 是否为loading状态
+   */
+  loading: {
+    type: Boolean,
+  },
 };
 
 export type IconPropsT = ExtractPropTypes<typeof iconProps>;

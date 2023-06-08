@@ -9,12 +9,14 @@
   display: inline-flex;
   align-items: center;
 
-  &:hover {
-    text-decoration: none;
-    color: var(--link-color-hover);
-    text-underline-offset: 4px;
-    .o-link-arrow {
-      transform: translate3d(4px, 0, 0);
+  @include hover {
+    &:hover {
+      text-decoration: none;
+      color: var(--link-color-hover);
+      text-underline-offset: 4px;
+      .o-link-arrow {
+        transform: translate3d(4px, 0, 0);
+      }
     }
   }
 
@@ -30,19 +32,22 @@
   background: linear-gradient(0deg, var(--link-color-hover), var(--link-color-hover)) no-repeat var(--link-underline-x) bottom;
   background-size: 0 1px;
   transition: background-size var(--o-easing-standard) var(--o-duration-m2);
-  &:hover {
-    background-size: var(--link-underline-x) 1px;
-    background-position-x: left;
+  @include hover {
+    &:hover {
+      background-size: var(--link-underline-x) 1px;
+      background-position-x: left;
+    }
   }
 }
 
 .o-link-hover-bg {
   transition: background-color var(--o-easing-standard) var(--o-duration-m2);
-
-  &:hover {
-    text-decoration: none;
-    color: var(--link-color);
-    background-color: var(--link-bg-color-hover);
+  @include hover {
+    &:hover {
+      text-decoration: none;
+      color: var(--link-color);
+      background-color: var(--link-bg-color-hover);
+    }
   }
   &:active {
     color: var(--link-color);

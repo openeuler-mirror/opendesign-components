@@ -41,6 +41,24 @@ import { darkTheme } from '@/shared/theme';
     <OLink hover-underline size="large">链接按钮</OLink>
     <OIcon :icon="OIconRefresh" button size="large" />
   </section>
+  <h3>加载中</h3>
+  <section>
+    <OButton round="pill" class="c-btn-ascend" variant="solid" color="primary" loading>运营按钮</OButton>
+    <OButton round="pill" variant="solid" color="primary" loading>强调按钮</OButton>
+    <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd" loading>强调按钮</OButton>
+    <OButton round="pill" variant="outline" color="primary" loading>描边按钮</OButton>
+    <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd" loading>描边按钮</OButton>
+    <OLink color="primary" loading>文本按钮</OLink>
+    <OLink color="primary" :icon="OIconAdd" loading>文本按钮</OLink>
+    <OLink color="primary" class="c-link-kunpeng" loading>
+      鲲鹏文本按钮 <template #suffix><OIconChevronRight /></template>
+    </OLink>
+    <OLink color="primary" class="c-link-ascend" loading>
+      昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
+    </OLink>
+    <OLink hover-underline loading>链接按钮</OLink>
+    <OIcon :icon="OIconRefresh" button loading />
+  </section>
   <h3>禁用</h3>
   <section>
     <OButton round="pill" disabled class="c-btn-ascend" variant="solid" color="primary">运营按钮</OButton>

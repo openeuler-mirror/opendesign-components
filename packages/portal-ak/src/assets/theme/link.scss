@@ -24,16 +24,18 @@
   }
   --arrow-width: 6px;
   @include respond-to('up-pad') {
-    &:not(.o-link-disabled):hover {
-      .c-link-ascend-arrow {
-        transform: translate3d(0, 0, 0);
-        &::before {
-          opacity: 1;
-          transform: translate3d(0, 0, 0) rotate(45deg);
-        }
-        &::after {
-          opacity: 1;
-          transform: translate3d(0, 0, 0) rotate(-45deg);
+    @include hover {
+      &:not(.o-link-disabled):hover {
+        .c-link-ascend-arrow {
+          transform: translate3d(0, 0, 0);
+          &::before {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(45deg);
+          }
+          &::after {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(-45deg);
+          }
         }
       }
     }
@@ -82,9 +84,10 @@
 .c-link-kunpeng {
   --link-underline-x: calc(100% - var(--o-icon_size-s) - var(--link-gap));
   background-position-x: var(--link-underline-x);
-
-  &:hover {
-    background-size: var(--link-underline-x) 1px;
-    --link-color-hover: rgb(var(--o-red-huawei));
+  @include hover {
+    &:hover {
+      background-size: var(--link-underline-x) 1px;
+      --link-color-hover: rgb(var(--o-red-huawei));
+    }
   }
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { IconLoading } from '../_shared/icons';
 import { iconProps } from './types';
 const props = defineProps(iconProps);
 </script>
@@ -15,7 +16,8 @@ const props = defineProps(iconProps);
     :tabindex="props.button ? 0 : ''"
   >
     <slot>
-      <component :is="props.icon" />
+      <IconLoading v-if="props.loading" class="o-rotating" />
+      <component :is="props.icon" v-else />
     </slot>
   </div>
 </template>

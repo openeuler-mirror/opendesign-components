@@ -9,8 +9,4 @@ const title = 'Text';
     <div v-for="t in list" :key="t" :class="[`o-txt-${t}`]">{{ t }}</div>
   </div>
 </template>
-<style lang="scss">
-.the-home {
-  color: #333;
-}
-</style>
+<style lang="scss"></style>
