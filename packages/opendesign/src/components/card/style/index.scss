@@ -44,6 +44,7 @@
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: var(--card-title-align);
   display: -webkit-box;
   -webkit-line-clamp: var(--card-title-max-row);
   -webkit-box-orient: vertical;
@@ -73,6 +74,7 @@
 .o-card-detail {
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: var(--card-detail-align);
   display: -webkit-box;
   -webkit-line-clamp: var(--card-detail-max-row);
   -webkit-box-orient: vertical;

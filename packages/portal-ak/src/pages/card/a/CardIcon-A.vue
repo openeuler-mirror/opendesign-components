@@ -12,11 +12,7 @@ const cardInfo = {
   <section>
     <div class="display-item">
       <h4>单体卡片（带操作）</h4>
-      <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconStar">
-        <template #footer>
-          <OButton round="pill" color="primary">操作按钮</OButton>
-        </template>
-      </OCard>
+      <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconStar" />
     </div>
     <div class="display-item">
       <h4>复合卡片</h4>
