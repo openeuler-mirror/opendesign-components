@@ -1,4 +1,5 @@
 @use '../../style/mixin.scss' as *;
+
 @include respond-to('phone-pad') {
   .o-divider {
     --o-divider-text-size: var(--o-font_size-tip1);
