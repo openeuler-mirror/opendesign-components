@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { OButton, ODialog, DialogSizeT, DialogActionT, OPopover, initZIndex } from '@components/index';
+import { OButton, ODialog, DialogSizeT, DialogActionT, OPopover } from '@components/index';
 import { reactive, ref } from 'vue';
 
 const values = reactive({
   show0: false,
   show1: false,
   show2: false,
-  show3: true,
+  show3: false,
 });
 const dlgSize = ref<DialogSizeT>('medium');
 const toggle = (key: keyof typeof values, show?: boolean, size?: DialogSizeT) => {
