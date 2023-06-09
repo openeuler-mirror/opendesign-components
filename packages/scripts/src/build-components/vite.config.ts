@@ -17,7 +17,7 @@ export default (): InlineConfig => {
       emptyOutDir: false,
       minify: false,
       rollupOptions: {
-        input: ['src/components/index.ts', 'src/components/icon/index.ts', 'src/components/css.ts'],
+        input: ['src/components/index.ts', 'src/components/icon/index.ts'],
         output: [
           {
             format: 'es',
