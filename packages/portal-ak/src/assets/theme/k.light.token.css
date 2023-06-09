@@ -1,5 +1,5 @@
 /* theme: k.light */
-[data-o-theme='k.light'] {
+[data-o-theme="k.light"] {
   /**
    * @name 
    * @type palette
@@ -1777,14 +1777,14 @@
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 8px;
+  --o-radius-l: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-xl: 8px;
+  --o-radius-xl: 4px;
   /**
    * @name 大尺寸控件圆角
    * @type size

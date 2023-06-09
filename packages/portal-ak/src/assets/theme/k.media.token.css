@@ -1,25 +1,34 @@
 /* theme: dark */
 @media screen and (max-width: 1200px) {
+  [data-o-theme='k.dark'],
+  [data-o-theme='k.light'] {
+    --o-control_size-m: 28px;
 
-  [data-o-theme="k.dark"],
-  [data-o-theme="k.light"] {
-    --o-control_size-m: 28px
+    --o-radius-xs: 8px;
+    --o-radius-s: 8px;
+    --o-radius-m: 8px;
+    --o-radius-l: 8px;
+    --o-radius-xl: 8px;
   }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 721px) {
-
-  [data-o-theme="k.dark"],
-  [data-o-theme="k.light"] {
+  [data-o-theme='k.dark'],
+  [data-o-theme='k.light'] {
     --o-control_size-l: 36px;
     --o-icon_size-s: 20px;
   }
 }
 
 @media screen and (max-width: 1200px) {
+  [data-o-theme='dark'],
+  [data-o-theme='light'] {
+    --o-control_size-m: 28px;
 
-  [data-o-theme="dark"],
-  [data-o-theme="light"] {
-    --o-control_size-m: 28px
+    --o-radius-xs: 8px;
+    --o-radius-s: 8px;
+    --o-radius-m: 8px;
+    --o-radius-l: 8px;
+    --o-radius-xl: 8px;
   }
 }
