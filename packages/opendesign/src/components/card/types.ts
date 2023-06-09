@@ -30,7 +30,7 @@ export const cardProps = {
    * 图标
    */
   icon: {
-    type: Object as PropType<Component>,
+    type: [String, Object] as PropType<string | Component>,
   },
   /**
    * 标题

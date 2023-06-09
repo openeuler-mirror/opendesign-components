@@ -26,6 +26,21 @@ const cardInfo = {
     </div>
 
     <div class="display-item">
+      <h4>单体卡片（居中）</h4>
+      <OCard
+        hoverable
+        :title="cardInfo.title"
+        :detail="cardInfo.detail"
+        :icon="OIconSkill"
+        cursor="pointer"
+        :href="cardInfo.href"
+        target="_blank"
+        class="c-card-kunpeng"
+        :style="{ '--card-icon-align': 'center', '--card-title-align': 'center', '--card-detail-align': 'center' }"
+      />
+    </div>
+
+    <div class="display-item">
       <h4>单体卡片（带操作）</h4>
       <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconSkill" class="c-card-kunpeng">
         <template #footer>
@@ -45,12 +60,12 @@ const cardInfo = {
     </div>
 
     <div class="display-item">
-      <h4>单体卡片（不带操作、横向布局）</h4>
+      <h4>单体卡片（不带操作、横向布局、Icon传图片）</h4>
       <OCard
         hoverable
         :title="cardInfo.title"
         :detail="cardInfo.detail"
-        :icon="OIconSkill"
+        icon="https://www.hikunpeng.com/_static3/dev-plat.bc24a9e5.png"
         layout="h"
         cursor="pointer"
         :href="cardInfo.href"
