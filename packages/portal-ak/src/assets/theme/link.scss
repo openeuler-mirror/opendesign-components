@@ -1,7 +1,14 @@
 @use './mixin.scss' as *;
 
 .o-link-normal {
+  --link-color: var(--o-color-info2);
+  --link-color-hover: var(--o-color-info1);
+  --link-color-active: var(--o-color-info1);
+}
+.o-link-primary {
   --link-color: var(--o-color-link1);
+  --link-color-hover: var(--o-color-link1);
+  --link-color-active: var(--o-color-link1);
 }
 .o-link-medium {
   font-size: var(--o-font_size-tip1);

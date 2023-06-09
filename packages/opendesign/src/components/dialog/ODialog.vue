@@ -21,6 +21,14 @@ const onCloseClick = () => {
   layerRef.value?.toggle(false);
 };
 
+const onChange = (visible: boolean) => {
+  emits('change', visible);
+};
+
+const onUpdateVisible = (value: boolean, e: MouseEvent) => {
+  emits('update:visible', value, e);
+};
+
 defineExpose({
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
@@ -48,8 +56,8 @@ defineExpose({
     :before-hide="props.beforeHide"
     :before-show="props.beforeShow"
     :transition-orign="isPhonePad ? 'css' : 'mouse'"
-    @change="(v) => emits('change', v)"
-    @update:visible="(v, e) => emits('update:visible', v, e)"
+    @change="onChange"
+    @update:visible="onUpdateVisible"
   >
     <div v-if="!props.hideClose" class="o-dlg-btn-close" @click="onCloseClick"><IconClose /></div>
     <div v-if="$slots.header" class="o-dlg-header">

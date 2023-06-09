@@ -12,15 +12,15 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary">描边按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd">描边按钮</OButton>
-    <OLink color="primary">文本按钮</OLink>
-    <OLink color="primary" :icon="OIconAdd">文本按钮</OLink>
-    <OLink color="primary" class="c-link-kunpeng" hover-underline>
-      文本按钮 <template #suffix><OIconChevronRight class="c-link-kunpeng-arrow" /></template>
+    <OLink>文本按钮</OLink>
+    <OLink :icon="OIconAdd">文本按钮</OLink>
+    <OLink class="c-link-kunpeng" hover-underline>
+      鲲鹏文本按钮 <template #suffix><OIconChevronRight class="c-link-kunpeng-arrow" /></template>
     </OLink>
-    <OLink color="primary" class="c-link-ascend">
+    <OLink class="c-link-ascend">
       昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
     </OLink>
-    <OLink hover-underline>链接按钮</OLink>
+    <OLink color="primary" hover-underline>链接按钮</OLink>
     <OIcon :icon="OIconRefresh" button />
   </section>
   <section>
@@ -30,15 +30,15 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd" size="large">强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" size="large">描边按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd" size="large">描边按钮</OButton>
-    <OLink color="primary" size="large">文本按钮</OLink>
-    <OLink color="primary" :icon="OIconAdd" size="large">文本按钮</OLink>
-    <OLink color="primary" size="large" class="c-link-kunpeng" hover-underline>
+    <OLink size="large">文本按钮</OLink>
+    <OLink :icon="OIconAdd" size="large">文本按钮</OLink>
+    <OLink size="large" class="c-link-kunpeng" hover-underline>
       鲲鹏文本按钮 <template #suffix><OIconChevronRight class="c-link-kunpeng-arrow" /></template>
     </OLink>
-    <OLink color="primary" size="large" class="c-link-ascend">
+    <OLink size="large" class="c-link-ascend">
       昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
     </OLink>
-    <OLink hover-underline size="large">链接按钮</OLink>
+    <OLink hover-underline color="primary" size="large">链接按钮</OLink>
     <OIcon :icon="OIconRefresh" button size="large" />
   </section>
   <h3>加载中</h3>
@@ -48,15 +48,15 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd" loading>强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" loading>描边按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd" loading>描边按钮</OButton>
-    <OLink color="primary" loading>文本按钮</OLink>
-    <OLink color="primary" :icon="OIconAdd" loading>文本按钮</OLink>
-    <OLink color="primary" class="c-link-kunpeng" loading>
+    <OLink loading>文本按钮</OLink>
+    <OLink :icon="OIconAdd" loading>文本按钮</OLink>
+    <OLink class="c-link-kunpeng" loading>
       鲲鹏文本按钮 <template #suffix><OIconChevronRight /></template>
     </OLink>
-    <OLink color="primary" class="c-link-ascend" loading>
+    <OLink class="c-link-ascend" loading>
       昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
     </OLink>
-    <OLink hover-underline loading>链接按钮</OLink>
+    <OLink hover-underline loading color="primary">链接按钮</OLink>
     <OIcon :icon="OIconRefresh" button loading />
   </section>
   <h3>禁用</h3>
@@ -66,15 +66,15 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" disabled variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
     <OButton round="pill" disabled variant="outline" color="primary">描边按钮</OButton>
     <OButton round="pill" disabled variant="outline" color="primary" :icon="OIconAdd">描边按钮</OButton>
-    <OLink disabled color="primary">文本按钮</OLink>
-    <OLink disabled color="primary" :icon="OIconAdd">文本按钮</OLink>
-    <OLink disabled color="primary" class="c-link-kunpeng">
+    <OLink disabled>文本按钮</OLink>
+    <OLink disabled :icon="OIconAdd">文本按钮</OLink>
+    <OLink disabled class="c-link-kunpeng">
       鲲鹏文本按钮 <template #suffix><OIconChevronRight /></template>
     </OLink>
-    <OLink disabled color="primary" class="c-link-ascend">
+    <OLink disabled class="c-link-ascend">
       昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
     </OLink>
-    <OLink disabled hover-underline>链接按钮</OLink>
+    <OLink disabled color="primary" hover-underline>链接按钮</OLink>
     <OIcon disabled :icon="OIconRefresh" button />
   </section>
 
@@ -87,15 +87,15 @@ import { darkTheme } from '@/shared/theme';
       <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
       <OButton round="pill" variant="outline" color="primary">描边按钮</OButton>
       <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd">描边按钮</OButton>
-      <OLink color="primary">文本按钮</OLink>
-      <OLink color="primary" :icon="OIconAdd">文本按钮</OLink>
-      <OLink color="primary" class="c-link-kunpeng" hover-underline>
+      <OLink>文本按钮</OLink>
+      <OLink :icon="OIconAdd">文本按钮</OLink>
+      <OLink class="c-link-kunpeng" hover-underline>
         文本按钮 <template #suffix><OIconChevronRight class="c-link-kunpeng-arrow" /></template>
       </OLink>
-      <OLink color="primary" class="c-link-ascend">
+      <OLink class="c-link-ascend">
         昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
       </OLink>
-      <OLink hover-underline>链接按钮</OLink>
+      <OLink color="primary" hover-underline>链接按钮</OLink>
       <OIcon :icon="OIconRefresh" button />
     </section>
     <section>
@@ -105,15 +105,15 @@ import { darkTheme } from '@/shared/theme';
       <OButton round="pill" disabled variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
       <OButton round="pill" disabled variant="outline" color="primary">描边按钮</OButton>
       <OButton round="pill" disabled variant="outline" color="primary" :icon="OIconAdd">描边按钮</OButton>
-      <OLink disabled color="primary">文本按钮</OLink>
-      <OLink disabled color="primary" :icon="OIconAdd">文本按钮</OLink>
-      <OLink disabled color="primary" class="c-link-kunpeng">
+      <OLink disabled>文本按钮</OLink>
+      <OLink disabled :icon="OIconAdd">文本按钮</OLink>
+      <OLink disabled class="c-link-kunpeng">
         鲲鹏文本按钮 <template #suffix><OIconChevronRight /></template>
       </OLink>
-      <OLink disabled color="primary" class="c-link-ascend">
+      <OLink disabled class="c-link-ascend">
         昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
       </OLink>
-      <OLink disabled hover-underline>链接按钮</OLink>
+      <OLink color="primary" disabled hover-underline>链接按钮</OLink>
       <OIcon disabled :icon="OIconRefresh" button />
     </section>
   </div>

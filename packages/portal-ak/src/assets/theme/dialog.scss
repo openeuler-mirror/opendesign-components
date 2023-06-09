@@ -139,7 +139,7 @@
   @include respond-to('phone-v') {
     --dlg-width: 100%;
     --dlg-margin: 0;
-    --dlg-radius: 0;
+    --dlg-radius: var(--o-radius_control-l) var(--o-radius_control-l) 0 0;
   }
 }
 
