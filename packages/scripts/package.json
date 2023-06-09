@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opensig-scripts",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "opendesign component Scripts",
   "main": "dist/index.js",
   "bin": "dist/index.js",
