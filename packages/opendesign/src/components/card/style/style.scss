@@ -31,6 +31,7 @@
 .o-card-icon {
   color: var(--card-icon-color);
   font-size: var(--card-icon-size);
+  text-align: var(--card-title-align);
 }
 
 .o-card-header {
@@ -140,6 +141,7 @@
 
   .o-card-icon {
     margin-right: var(--card-icon-gap);
+    width: var(--card-icon-size);
   }
 }
 
@@ -154,12 +156,13 @@
 
   .o-card-icon {
     margin-left: var(--card-icon-gap);
+    width: var(--card-icon-size);
   }
 }
 
 .o-card-cover-h,
 .o-card-cover-hr {
-  min-width: var(--card-h-cover-width);
+  min-width: var(--card-h-cover-min-width);
 }
 
 .o-card-cursor-pointer {
