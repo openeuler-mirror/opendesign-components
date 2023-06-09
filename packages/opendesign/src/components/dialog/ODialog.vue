@@ -25,7 +25,7 @@ const onChange = (visible: boolean) => {
   emits('change', visible);
 };
 
-const onUpdateVisible = (value: boolean, e: MouseEvent) => {
+const onUpdateVisible = (value: boolean, e?: MouseEvent) => {
   emits('update:visible', value, e);
 };
 
