@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_shared/components/html-tag';
+import { isString } from '../_shared/is';
 
 const props = defineProps(cardProps);
 const hasContent = computed(() => {
@@ -46,7 +47,8 @@ const hasContent = computed(() => {
           <!-- icon -->
           <div v-if="props.icon || $slots.icon" class="o-card-icon">
             <slot name="icon">
-              <component :is="props.icon" />
+              <OFigure v-if="isString(props.icon)" :src="props.icon" />
+              <component :is="props.icon" v-else />
             </slot>
           </div>
           <div class="o-card-main-wrap">
