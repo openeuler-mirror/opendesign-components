@@ -11,7 +11,7 @@ import './assets/theme/k.light.token.css';
 import './assets/theme/k.dark.token.css';
 import './assets/theme/k.media.token.css';
 
-import '@opensig/opendesign/src/components/css';
+import '@opensig/opendesign/src/components/index.scss';
 
 import './assets/theme/index.a.scss';
 import './assets/theme/index.k.scss';
