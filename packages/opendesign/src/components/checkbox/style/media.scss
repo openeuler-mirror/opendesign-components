@@ -1,0 +1,7 @@
+@use '../../style/mixin.scss' as *;
+@include respond-to('phone-pad') {
+  .o-checkbox {
+    --checkbox-text-size: var(--o-font_size-tip1);
+    --checkbox-text-height: var(--o-line_height-tip1);
+  }
+}

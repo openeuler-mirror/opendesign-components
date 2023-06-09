@@ -13,6 +13,8 @@ const radioVal2 = ref('a');
       <ORadio :value="1">选项1</ORadio>
       <ORadio :value="2">选项2</ORadio>
       <ORadio :value="3">选项3</ORadio>
+      <ORadio :value="4" :style="{ width: '80px' }">文本换行1</ORadio>
+      <ORadio :value="5" :style="{ width: '80px', '--radio-align': 'flex-start' }">文本换行2</ORadio>
     </ORadioGroup>
   </section>
 

@@ -12,6 +12,8 @@ const checkboxVal2 = ref(['a']);
       <OCheckbox :value="1">选项1</OCheckbox>
       <OCheckbox :value="2">选项2</OCheckbox>
       <OCheckbox :value="3">选项3</OCheckbox>
+      <OCheckbox :value="4" :style="{ width: '80px' }">文本换行1</OCheckbox>
+      <OCheckbox :value="5" :style="{ width: '80px', '--checkbox-align': 'flex-start' }">文本换行2</OCheckbox>
     </OCheckboxGroup>
   </section>
   <h4>竖向</h4>

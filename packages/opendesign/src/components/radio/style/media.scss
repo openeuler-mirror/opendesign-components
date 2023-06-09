@@ -1,0 +1,7 @@
+@use '../../style/mixin.scss' as *;
+@include respond-to('phone-pad') {
+  .o-radio {
+    --radio-text-size: var(--o-font_size-tip1);
+    --radio-text-height: var(--o-line_height-tip1);
+  }
+}
