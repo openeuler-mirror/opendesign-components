@@ -5,7 +5,6 @@ import { computed } from 'vue';
 
 const props = defineProps(resultProps);
 
-// TODO:修改图标命名-->IconInfo、OIconSuccess、IconWarning、IconDanger、Icon500...支持全局配置图标
 const iconMap = {
   info: IconInfo.value,
   success: IconSuccess.value,

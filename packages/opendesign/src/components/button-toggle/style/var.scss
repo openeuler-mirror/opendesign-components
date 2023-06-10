@@ -1,0 +1,38 @@
+.o-toggle {
+  --toggle-size: var(--o-control_size-m);
+  --toggle-text-size: var(--o-font_size-text1);
+  --toggle-text-height: var(--o-line_height-text1);
+
+  --toggle-radius: var(--o-radius_control-s);
+
+  --toggle-gap: 4px;
+
+  --toggle-icon-size: var(--o-icon_size-s);
+
+  --toggle-padding: 0 15px;
+
+  --toggle-color: var(--o-color-info2);
+  --toggle-color-hover: var(--o-color-info1);
+  --toggle-color-active: var(--o-color-info1);
+  --toggle-color-disabled: var(--o-color-info4);
+
+  --toggle-bg-color: var(--o-color-control1-light);
+  --toggle-bg-color-hover: var(--o-color-control2-light);
+  --toggle-bg-color-active: var(--o-color-control3-light);
+  --toggle-bg-color-disabled: var(--o-color-control4-light);
+
+  --toggle-bd-color: var(--o-color-control1-light);
+  --toggle-bd-color-hover: var(--o-color-control2-light);
+  --toggle-bd-color-active: var(--o-color-control3-light);
+  --toggle-bd-color-disabled: var(--o-color-control4-light);
+
+  --toggle-color-checked: var(--o-color-primary1);
+  --toggle-color-checked-hover: var(--o-color-primary2);
+  --toggle-color-checked-active: var(--o-color-primary3);
+  --toggle-color-checked-disabled: var(--o-color-primary4);
+
+  --toggle-bd-color-checked: var(--o-color-primary1);
+  --toggle-bd-color-checked-hover: var(--o-color-primary2);
+  --toggle-bd-color-checked-active: var(--o-color-primary3);
+  --toggle-bd-color-checked-disabled: var(--o-color-primary4);
+}

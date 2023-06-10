@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { OButton } from '../button';
+import { ref, watch } from 'vue';
 import { buttonToggleProps } from './types';
+import { getRoundClass } from '../_shared/style-class';
 import { isUndefined } from '../_shared/is';
 
 const props = defineProps(buttonToggleProps);
+
+const round = getRoundClass(props, 'btn');
+
 const isChecked = ref(props.checked ?? props.defaultChecked);
-
-const btnVariant = computed(() => (isChecked.value ? 'outline' : 'solid'));
-
-const btnColor = computed(() => (isChecked.value ? 'primary' : 'normal'));
 
 const emits = defineEmits<{
   (e: 'update:checked', val: boolean): void;
@@ -36,21 +35,22 @@ const onClick = (ev: MouseEvent) => {
 </script>
 
 <template>
-  <OButton
-    class="o-btn-toggle"
-    :class="{ 'o-btn-toggle-checked': props.checked }"
-    tag="div"
-    size="medium"
-    :round="props.round"
-    :variant="btnVariant"
-    :color="btnColor"
-    :disabled="props.disabled"
-    :icon="props.icon"
+  <div
+    class="o-toggle"
+    :class="[
+      round.class.value,
+      {
+        'o-toggle-disabled': props.disabled,
+        'o-toggle-checked': isChecked,
+      },
+    ]"
     @click="onClick"
   >
+    <span v-if="props.icon || $slots.icon" class="o-toggle-prefix">
+      <slot name="icon">
+        <component :is="props.icon" />
+      </slot>
+    </span>
     <slot></slot>
-    <template #icon>
-      <slot name="icon"></slot>
-    </template>
-  </OButton>
+  </div>
 </template>

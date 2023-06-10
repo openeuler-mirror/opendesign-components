@@ -1,25 +1,18 @@
-.o-btn-toggle.o-btn-toggle-checked.o-btn {
-  &.o-btn-outline.o-btn-primary:not(.o-btn-disabled) {
-    --btn-color-hover: var(--o-color-primary2);
-    --btn-color-active: var(--o-color-primary3);
-    --btn-color-disabled: var(--o-color-primary4);
+@use './mixin.scss' as *;
 
-    background-color: transparent;
-  }
+.o-toggle {
+  --toggle-bg-color: var(--o-color-fill1);
+  --toggle-bg-color-hover: var(--o-color-fill3);
+
+  --toggle-bd-color: var(--o-color-fill1);
+  --toggle-bd-color-hover: var(--o-color-fill3);
 }
 
-.o-btn-toggle.o-btn {
-  &.o-btn-solid.o-btn-normal:not(.o-btn-disabled) {
-    --btn-color: var(--o-color-info1);
-    --btn-color-hover: var(--o-color-info1);
-    --btn-color-active: var(--o-color-info1);
-
-    --btn-bd-color: var(--o-color-fill1);
-    --btn-bd-color-hover: var(--o-color-control3-light);
-    --btn-bd-color-active: var(--o-color-control1-light);
-
-    --btn-bg-color: var(--o-color-fill1);
-    --btn-bg-color-hover: var(--o-color-control3-light);
-    --btn-bg-color-active: var(--o-color-control1-light);
+@include respond-to('pad') {
+  .o-toggle {
+    --toggle-text-size: var(--o-font_size-tip2);
+    --toggle-text-height: var(--o-line_height-tip2);
+    --toggle-icon-size: var(--o-icon_size-xs);
+    --toggle-padding: 0 11px;
   }
 }
