@@ -69,6 +69,12 @@ export const cardProps = {
   href: {
     type: String,
   },
+  /**
+   * 卡片是否响应式
+   */
+  noResponsive: {
+    type: Boolean,
+  },
 };
 
 export type CardPropsT = ExtractPropTypes<typeof cardProps>;

@@ -163,6 +163,8 @@
 .o-card-cover-h,
 .o-card-cover-hr {
   min-width: var(--card-h-cover-min-width);
+  display: flex;
+  align-items: center;
 }
 
 .o-card-cursor-pointer {
