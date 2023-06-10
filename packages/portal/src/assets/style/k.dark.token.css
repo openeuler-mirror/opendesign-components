@@ -1,5 +1,5 @@
 /* theme: k.dark */
-[data-o-theme='k.dark'] {
+[data-o-theme="k.dark"] {
   /**
    * @name 
    * @type palette
@@ -1000,14 +1000,14 @@
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-gray-12));
+  --o-color-primary2: rgb(var(--o-gray-13));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-gray-13));
+  --o-color-primary3: rgb(var(--o-gray-12));
   /**
    * @name 
    * @type color
@@ -1371,21 +1371,21 @@
    * @group shadow
    * @description 用于卡片、小弹窗、楼层阴影
    */
-  --o-shadow-1: 0 3px 8px rgba(var(--o-gray-14), 0.08);
+  --o-shadow-1: 0 3px 8px rgba(var(--o-gray-1), 0.08);
   /**
    * @name 阴影2
    * @type shadow
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 4px 24px rgba(var(--o-gray-14), 0.1);
+  --o-shadow-2: 0 4px 24px rgba(var(--o-gray-1), 0.1);
   /**
    * @name 阴影3
    * @type shadow
    * @group shadow
    * @description 用于提示阴影
    */
-  --o-shadow-3: 0 8px 40px rgba(var(--o-gray-14), 0.1);
+  --o-shadow-3: 0 8px 40px rgba(var(--o-gray-1), 0.1);
   /**
    * @name 
    * @type color
@@ -1777,14 +1777,14 @@
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 8px;
+  --o-radius-l: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-xl: 8px;
+  --o-radius-xl: 4px;
   /**
    * @name 大尺寸控件圆角
    * @type size
