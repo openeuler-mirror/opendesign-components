@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { ORate } from '../index';
 import { OIconAdd } from '../../icon-components';
-import { OIconX } from '../../icon-components';
+import { OIconClose } from '../../icon-components';
 
 const rateVal1 = ref(4);
 const rateVal2 = ref(0);
@@ -18,7 +18,7 @@ const rateVal2 = ref(0);
     </ORate>
     <ORate :default-value="rateVal2" allow-half>
       <template #icon>
-        <OIconX />
+        <OIconClose />
       </template>
     </ORate>
   </section>
