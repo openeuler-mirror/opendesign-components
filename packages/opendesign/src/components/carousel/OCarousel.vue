@@ -239,10 +239,12 @@ defineExpose({
           <div
             class="o-carousel-indicator-bar"
             :class="{
-              'o-carousel-indicator-bar-active': item - 1 === activeIndex,
+              'o-carousel-indicator-bar-selected': item - 1 === activeIndex,
               'is-autoplay': isAutoPlay,
             }"
-          ></div>
+          >
+            <div class="o-carousel-indicator-line"></div>
+          </div>
         </slot>
       </div>
     </div>
