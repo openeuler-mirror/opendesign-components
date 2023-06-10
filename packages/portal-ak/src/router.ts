@@ -131,10 +131,10 @@ export const routes = [
         component: () => import('./pages/breadcrumb/TheIndex.vue'),
       },
       {
-        path: 'button-toggle',
-        name: 'ButtonToggle',
-        label: '选择块 Button Toggle',
-        component: () => import('./pages/button-toggle/TheIndex.vue'),
+        path: 'toggle',
+        name: 'Toggle',
+        label: '选择块 Toggle',
+        component: () => import('./pages/toggle/TheIndex.vue'),
       },
       {
         path: 'upload',

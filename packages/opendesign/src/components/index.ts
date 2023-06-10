@@ -42,7 +42,7 @@ export * from './flex';
 export * from './result';
 export * from './scroller';
 export * from './upload';
-export * from './button-toggle';
+export * from './toggle';
 
 export * from './intersection-observer';
 export * from './resize-observer';

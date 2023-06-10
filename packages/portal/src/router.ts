@@ -238,10 +238,10 @@ export const routes = [
     component: () => import('@components/upload/__demo__/TheIndex.vue'),
   },
   {
-    path: '/button-toggle',
-    name: 'Button Toggle',
-    label: '选择块 Button Toggle',
-    component: () => import('@components/button-toggle/__demo__/TheIndex.vue'),
+    path: '/toggle',
+    name: 'Toggle',
+    label: '选择块 Toggle',
+    component: () => import('@components/toggle/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',

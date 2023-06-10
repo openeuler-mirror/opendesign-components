@@ -1,12 +1,12 @@
-import _OButtonToggle from './OButtonToggle.vue';
+import _OButtonToggle from './OToggle.vue';
 import type { App } from 'vue';
 
-const OButtonToggle = Object.assign(_OButtonToggle, {
+const OToggle = Object.assign(_OButtonToggle, {
   install(app: App) {
     app.component(_OButtonToggle.name, _OButtonToggle);
   },
 });
 
-export { OButtonToggle };
+export { OToggle };
 
 export * from './types';
