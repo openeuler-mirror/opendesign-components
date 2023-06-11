@@ -172,6 +172,12 @@ export const routes = [
         label: '表格 table',
         component: () => import('./pages/table/TheIndex.vue'),
       },
+      {
+        path: 'menu',
+        name: 'Menu',
+        label: '菜单 Menu',
+        component: () => import('./pages/menu/TheIndex.vue'),
+      },
     ],
   },
   {
