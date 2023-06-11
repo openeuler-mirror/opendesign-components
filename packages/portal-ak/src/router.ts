@@ -178,6 +178,12 @@ export const routes = [
         label: '菜单 Menu',
         component: () => import('./pages/menu/TheIndex.vue'),
       },
+      {
+        path: 'carousel',
+        name: 'carousel',
+        label: '轮播 Carousel',
+        component: () => import('./pages/carousel/TheIndex.vue'),
+      },
     ],
   },
   {

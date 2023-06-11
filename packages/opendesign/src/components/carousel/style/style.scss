@@ -4,6 +4,7 @@
 .o-carousel {
   position: relative;
   visibility: hidden;
+  background: transparent;
   opacity: 0;
   transition: opacity var(--o-duration-m1);
 }
