@@ -1,5 +1,8 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
-import { ColorT, SizeT } from '../_shared/types';
+import { ColorT } from '../_shared/types';
+
+export const LinkSizeTypes = ['large', 'medium', 'small', 'auto'] as const;
+export type LinkSizeT = (typeof LinkSizeTypes)[number];
 
 export const linkProps = {
   /**
@@ -31,7 +34,8 @@ export const linkProps = {
    * 按钮尺寸 SizeT
    */
   size: {
-    type: String as PropType<SizeT>,
+    type: String as PropType<LinkSizeT>,
+    default: 'auto',
   },
   /**
    * 是否禁用
