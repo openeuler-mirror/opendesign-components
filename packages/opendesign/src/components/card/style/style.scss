@@ -31,7 +31,7 @@
 .o-card-icon {
   color: var(--card-icon-color);
   font-size: var(--card-icon-size);
-  text-align: var(--card-title-align);
+  text-align: var(--card-icon-text-align);
 }
 
 .o-card-header {
@@ -45,7 +45,8 @@
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: var(--card-title-align);
+  text-align: var(--card-title-text-align);
+  word-break: var(--card-title-word-break);
   display: -webkit-box;
   -webkit-line-clamp: var(--card-title-max-row);
   -webkit-box-orient: vertical;
@@ -75,7 +76,8 @@
 .o-card-detail {
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: var(--card-detail-align);
+  text-align: var(--card-detail-text-align);
+  word-break: var(--card-detail-word-break);
   display: -webkit-box;
   -webkit-line-clamp: var(--card-detail-max-row);
   -webkit-box-orient: vertical;

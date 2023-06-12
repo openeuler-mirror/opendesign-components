@@ -98,7 +98,7 @@ defineExpose({
       </slot>
     </span>
 
-    <span class="o-message-label">
+    <span class="o-message-content">
       <slot></slot>
     </span>
 

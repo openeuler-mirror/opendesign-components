@@ -36,7 +36,7 @@ const cardInfo = {
         :href="cardInfo.href"
         target="_blank"
         class="c-card-kunpeng"
-        :style="{ '--card-icon-align': 'center', '--card-title-align': 'center', '--card-detail-align': 'center' }"
+        :style="{ '--card-icon-text-align': 'center', '--card-title-text-align': 'center', '--card-detail-text-align': 'center' }"
       />
     </div>
 

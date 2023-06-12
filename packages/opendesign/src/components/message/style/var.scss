@@ -8,6 +8,8 @@
 
   --message-shadow: var(--o-shadow-2);
 
+  --message-align: flex-start;
+
   --message-radius: var(--o-radius_control-s);
 
   --message-padding: 8px 16px;
@@ -18,6 +20,9 @@
   --message-icon-close-color: var(--o-color-info2);
   --message-icon-close-color-hover: var(--o-color-info1);
   --message-icon-close-color-active: var(--o-color-info1);
+
+  --message-word-break:break-all;
+  --message-content-max-row:0
 
   --message-gap: 16px;
 }
