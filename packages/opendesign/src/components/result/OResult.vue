@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import { resultProps } from './types';
-import { OIconWarning, OIconDanger, OIconPoint, OIconSuccess } from '../icon-components';
+import { IconInfo, IconSuccess, IconWarning, IconDanger } from '../_shared/icons';
 import { computed } from 'vue';
 
 const props = defineProps(resultProps);
 
-// TODO:修改图标命名-->IconInfo、OIconSuccess、IconWarning、IconDanger、Icon500...支持全局配置图标
 const iconMap = {
-  info: OIconPoint,
-  success: OIconSuccess,
-  warning: OIconWarning,
-  danger: OIconDanger,
+  info: IconInfo.value,
+  success: IconSuccess.value,
+  warning: IconWarning.value,
+  danger: IconDanger.value,
 };
 
 const icon: any = computed(() => (props.status ? iconMap[props.status] : undefined));

@@ -11,8 +11,8 @@ const cardInfo = {
   <h3>图标卡片</h3>
   <section>
     <div class="display-item">
-      <h4>单体卡片（带操作）</h4>
-      <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconStar" />
+      <h4>单体卡片（带操作，非响应式）</h4>
+      <OCard no-responsive hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconStar" />
     </div>
     <div class="display-item">
       <h4>复合卡片</h4>

@@ -131,10 +131,10 @@ export const routes = [
         component: () => import('./pages/breadcrumb/TheIndex.vue'),
       },
       {
-        path: 'button-toggle',
-        name: 'ButtonToggle',
-        label: '选择块 Button Toggle',
-        component: () => import('./pages/button-toggle/TheIndex.vue'),
+        path: 'toggle',
+        name: 'Toggle',
+        label: '选择块 Toggle',
+        component: () => import('./pages/toggle/TheIndex.vue'),
       },
       {
         path: 'upload',
@@ -171,6 +171,18 @@ export const routes = [
         name: 'table',
         label: '表格 table',
         component: () => import('./pages/table/TheIndex.vue'),
+      },
+      {
+        path: 'menu',
+        name: 'Menu',
+        label: '菜单 Menu',
+        component: () => import('./pages/menu/TheIndex.vue'),
+      },
+      {
+        path: 'carousel',
+        name: 'carousel',
+        label: '轮播 Carousel',
+        component: () => import('./pages/carousel/TheIndex.vue'),
       },
     ],
   },

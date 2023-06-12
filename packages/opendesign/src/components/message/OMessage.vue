@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { messageProps } from './types';
-import { OIconWarning, OIconDanger, OIconLoading, OIconInfo, OIconSuccess, OIconX } from '../icon-components';
+import { IconWarning, IconDanger, IconLoading, IconInfo, IconSuccess, IconClose } from '../_shared/icons';
 import { isFunction, isUndefined } from '../_shared/is';
 
 const props = defineProps(messageProps);
 
 const iconMap = {
-  info: OIconInfo,
-  success: OIconSuccess,
-  warning: OIconWarning,
-  danger: OIconDanger,
-  loading: OIconLoading,
+  info: IconInfo.value,
+  success: IconSuccess.value,
+  warning: IconWarning.value,
+  danger: IconDanger.value,
+  loading: IconLoading.value,
 };
 
 const icon = computed(() => iconMap[props.status]);
@@ -103,7 +103,7 @@ defineExpose({
     </span>
 
     <span v-if="props.closable" class="o-message-close" @click="onClose">
-      <OIconX />
+      <IconClose />
     </span>
   </div>
 </template>

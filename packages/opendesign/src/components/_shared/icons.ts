@@ -3,17 +3,24 @@
  */
 import { Component, shallowRef } from 'vue';
 import {
-  OIconLoading,
-  OIconLink,
+  OIconArrowUp,
+  OIconArrowDown,
+  OIconArrowLeft,
   OIconArrowRight,
-  OIconX,
-  OIconAdd,
-  OIconMinus,
-  OIconDone,
   OIconChevronUp,
   OIconChevronDown,
   OIconChevronLeft,
   OIconChevronRight,
+  OIconInfo,
+  OIconSuccess,
+  OIconWarning,
+  OIconDanger,
+  OIconLoading,
+  OIconLink,
+  OIconClose,
+  OIconAdd,
+  OIconMinus,
+  OIconDone,
   OIconEllipsis,
   OIconStar,
   OIconRefresh,
@@ -24,6 +31,66 @@ import {
   OIconEdit,
   OIconImageError,
 } from '../icon-components';
+
+/**
+ * 向上箭头图标
+ */
+export const IconArrowUp = shallowRef<Component>(OIconArrowUp);
+
+/**
+ * 向右箭头图标
+ */
+export const IconArrowDown = shallowRef<Component>(OIconArrowDown);
+
+/**
+ * 向左箭头图标
+ */
+export const IconArrowLeft = shallowRef<Component>(OIconArrowLeft);
+
+/**
+ * 向右箭头图标
+ */
+export const IconArrowRight = shallowRef<Component>(OIconArrowRight);
+
+/**
+ * v形向上图标
+ */
+export const IconChevronUp = shallowRef<Component>(OIconChevronUp);
+
+/**
+ * v形向下图标
+ */
+export const IconChevronDown = shallowRef<Component>(OIconChevronDown);
+
+/**
+ * v形向左图标
+ */
+export const IconChevronLeft = shallowRef<Component>(OIconChevronLeft);
+
+/**
+ * v形向右图标
+ */
+export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
+
+/**
+ * info图标
+ */
+export const IconInfo = shallowRef<Component>(OIconInfo);
+
+/**
+ * success图标
+ */
+export const IconSuccess = shallowRef<Component>(OIconSuccess);
+
+/**
+ * warning图标
+ */
+export const IconWarning = shallowRef<Component>(OIconWarning);
+
+/**
+ * danger图标
+ */
+export const IconDanger = shallowRef<Component>(OIconDanger);
 
 /**
  * 全局loading图标
@@ -41,9 +108,14 @@ export const IconLinkPrefix = shallowRef<Component>(OIconLink);
 export const IconLinkArrow = shallowRef<Component>(OIconArrowRight);
 
 /**
+ * done图标
+ */
+export const IconDone = shallowRef<Component>(OIconDone);
+
+/**
  * close图标
  */
-export const IconClose = shallowRef<Component>(OIconX);
+export const IconClose = shallowRef<Component>(OIconClose);
 
 /**
  * add图标
@@ -54,31 +126,6 @@ export const IconAdd = shallowRef<Component>(OIconAdd);
  * minus图标
  */
 export const IconMinus = shallowRef<Component>(OIconMinus);
-
-/**
- * up图标
- */
-export const IconChevronUp = shallowRef<Component>(OIconChevronUp);
-
-/**
- * down图标
- */
-export const IconChevronDown = shallowRef<Component>(OIconChevronDown);
-
-/**
- * left图标
- */
-export const IconChevronLeft = shallowRef<Component>(OIconChevronLeft);
-
-/**
- * right图标
- */
-export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
-
-/**
- * done图标
- */
-export const IconDone = shallowRef<Component>(OIconDone);
 
 /**
  * 更多...图标，用于pagition

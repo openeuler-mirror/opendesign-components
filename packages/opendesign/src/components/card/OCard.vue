@@ -22,6 +22,7 @@ const hasContent = computed(() => {
       {
         'o-card-hoverable': props.hoverable || !!props.href,
         'o-card-cursor-pointer': props.cursor === 'pointer' || !!props.href,
+        'o-card-no-responsive':props.noResponsive
       },
     ]"
   >

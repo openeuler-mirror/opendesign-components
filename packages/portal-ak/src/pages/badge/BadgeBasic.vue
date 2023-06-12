@@ -7,7 +7,6 @@ import { OBadge } from '@components/index';
   <section>
     <OBadge :value="9"> 消息 </OBadge>
     <OBadge :value="100"> 消息 </OBadge>
-    <OBadge value="hot"> 消息 </OBadge>
     <OBadge dot> 消息 </OBadge>
   </section>
 </template>

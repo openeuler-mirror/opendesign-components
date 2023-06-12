@@ -22,7 +22,7 @@ const isExpanded = computed(() => {
   return false;
 });
 
-const isActive = computed(() => {
+const isSelected = computed(() => {
   if (menuInjection) {
     return menuInjection.activeNodes.value.includes(props.value);
   }
@@ -60,7 +60,15 @@ const onSubItemClick = (ev: Event) => {
 
 const depth = subMenuInjection ? subMenuInjection.depth + 1 : 1;
 
-const paddingLeft = computed(() => `${(menuInjection?.levelIndent.value ?? 24) * depth}px`);
+const style = computed(() => {
+  if (depth === 1) {
+    return {};
+  } else {
+    return {
+      paddingLeft: `${(menuInjection?.levelIndent.value ?? 20) * depth}px`,
+    };
+  }
+});
 
 provide(subMenuInjectKey, { value: props.value, depth });
 
@@ -88,8 +96,8 @@ const onLeave = (el: HTMLUListElement) => {
 </script>
 
 <template>
-  <li class="o-sub-menu" :class="{ 'o-sub-menu-active': isActive, 'o-sub-menu-expanded': isExpanded }" @click="onSubItemClick">
-    <div class="o-sub-menu-title" :style="{ 'padding-left': paddingLeft }">
+  <li class="o-sub-menu" :class="{ 'o-sub-menu-selected': isSelected, 'o-sub-menu-expanded': isExpanded }" @click="onSubItemClick">
+    <div class="o-sub-menu-title" :style="style">
       <span v-if="$slots.icon" class="o-sub-menu-title-icon">
         <slot name="icon"></slot>
       </span>

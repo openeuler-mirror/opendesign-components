@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OSwitch } from '../index';
-import { OIconDone, OIconX } from '../../icon-components';
+import { OIconDone, OIconClose } from '../../icon-components';
 
 const switchVal1 = ref(false);
 const switchVal2 = ref(true);
@@ -19,7 +19,7 @@ const switchVal4 = ref(true);
 
     <OSwitch v-model="switchVal2">
       <template #on><OIconDone /></template>
-      <template #off><OIconX /></template>
+      <template #off><OIconClose /></template>
     </OSwitch>
 
     <OSwitch v-model="switchVal3" round="pill">
@@ -29,7 +29,7 @@ const switchVal4 = ref(true);
 
     <OSwitch v-model="switchVal4" round="pill">
       <template #on><OIconDone /></template>
-      <template #off><OIconX /></template>
+      <template #off><OIconClose /></template>
     </OSwitch>
   </section>
 </template>

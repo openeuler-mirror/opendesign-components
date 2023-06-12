@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { rateItemProps } from './types';
-import { OIconStar } from '../icon-components';
+import { IconStar } from '../_shared/icons';
 const props = defineProps(rateItemProps);
 
 const emits = defineEmits<{
@@ -21,12 +21,12 @@ const onClick = (isHalf: boolean) => {
   <div class="o-rate-item" :class="{ 'is-full': props.status === 'full', 'is-half': props.status === 'half' }">
     <span class="o-rate-icon o-rate-icon-top" @mouseenter="onHover(true)" @click="onClick(true)">
       <slot>
-        <OIconStar />
+        <IconStar />
       </slot>
     </span>
     <span class="o-rate-icon o-rate-icon-bottom" @mouseenter="onHover(false)" @click="onClick(false)">
       <slot>
-        <OIconStar />
+        <IconStar />
       </slot>
     </span>
   </div>

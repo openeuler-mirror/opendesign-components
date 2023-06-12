@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes, PropType, Component } from 'vue';
 
 // MenuProps
 export const menuProps = {
@@ -14,7 +14,7 @@ export const menuProps = {
    */
   levelIndent: {
     type: Number,
-    default: 24,
+    default: 20,
   },
   /**
    * 默认选中值 v-model
@@ -60,6 +60,12 @@ export const menuItemProps = {
   value: {
     type: String,
     required: true,
+  },
+  /**
+   * 前缀图标
+   */
+  icon: {
+    type: Object as PropType<Component>,
   },
   disabled: {
     type: Boolean,

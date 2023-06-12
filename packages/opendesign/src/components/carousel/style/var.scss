@@ -1,16 +1,19 @@
 .o-carousel {
   // arrow
-  --carousel-arrow-size: var(--o-icon_size-l);
-  --carousel-arrow-opacity: 0.6;
-  --carousel-arrow-opacity-hover: 1;
-  --carousel-arrow-color: var(--o-color-control-light);
-  --carousel-arrow-color-hover: var(--o-color-control-light);
-  --carousel-arrow-bg-color: rgba(var(--o-gray-1), 0.3);
-  --carousel-arrow-bg-color-hover: rgba(var(--o-gray-1), 0.3);
+  --carousel-arrow-size: var(--o-icon_size-m);
+  --carousel-arrow-color: var(--o-color-info1);
+  --carousel-arrow-color-hover: var(--o-color-info2);
+  --carousel-arrow-color-active: var(--o-color-info3);
+
   // indicator
+  --carousel-indicator-width: 48px;
   --carousel-indicator-height: 3px;
-  --carousel-indicator-opacity: 0.3;
-  --carousel-indicator-opacity-active: 1;
-  --carousel-indicator-bg-color: var(--o-color-control-light);
-  --carousel-indicator-bg-color-active: var(--o-color-control-light);
+  --carousel-indicator-gap: 12px;
+
+  --carousel-indicator-offset: 12px;
+
+  --carousel-indicator-bg-color: var(--o-color-control1);
+  --carousel-indicator-bg-color-hover: var(--o-color-control2);
+  --carousel-indicator-bg-color-active: var(--o-color-control3);
+  --carousel-indicator-bg-color-selected: var(--o-color-info1);
 }

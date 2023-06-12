@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
-// TODO 支持图标可配置
-import { OIconChevronLeft, OIconChevronRight } from '../icon-components';
+import { IconChevronLeft, IconChevronRight } from '../_shared/icons';
 import Gallery from './gallery';
 import Toggle from './toggle';
 import { carouselInjectKey } from './provide';
@@ -239,10 +238,12 @@ defineExpose({
           <div
             class="o-carousel-indicator-bar"
             :class="{
-              'o-carousel-indicator-bar-active': item - 1 === activeIndex,
+              'o-carousel-indicator-bar-selected': item - 1 === activeIndex,
               'is-autoplay': isAutoPlay,
             }"
-          ></div>
+          >
+            <div class="o-carousel-indicator-line"></div>
+          </div>
         </slot>
       </div>
     </div>
@@ -252,7 +253,7 @@ defineExpose({
           <div class="o-carousel-arrow-prev">
             <div class="o-carousel-arrow-icon">
               <slot name="arrow-prev-icon">
-                <OIconChevronLeft />
+                <IconChevronLeft />
               </slot>
             </div>
           </div>
@@ -263,7 +264,7 @@ defineExpose({
           <div class="o-carousel-arrow-next">
             <div class="o-carousel-arrow-icon">
               <slot name="arrow-next-icon">
-                <OIconChevronRight />
+                <IconChevronRight />
               </slot>
             </div>
           </div>

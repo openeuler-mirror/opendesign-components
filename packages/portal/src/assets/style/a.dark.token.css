@@ -1,5 +1,5 @@
 /* theme: a.dark */
-[data-o-theme='a.dark'] {
+[data-o-theme="a.dark"] {
   /**
    * @name 
    * @type palette
@@ -1000,14 +1000,14 @@
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-mixedgray-12));
+  --o-color-primary2: rgb(var(--o-mixedgray-13));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-mixedgray-13));
+  --o-color-primary3: rgb(var(--o-mixedgray-12));
   /**
    * @name 
    * @type color
@@ -1399,21 +1399,21 @@
    * @group shadow
    * @description 用于卡片、小弹窗、楼层阴影
    */
-  --o-shadow-1: 0 3px 8px rgba(var(--o-mixedgray-13), 0.08);
+  --o-shadow-1: 0 3px 8px rgba(var(--o-mixedgray-1), 0.08);
   /**
    * @name 阴影2
    * @type shadow
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 4px 24px rgba(var(--o-mixedgray-13), 0.1);
+  --o-shadow-2: 0 4px 24px rgba(var(--o-mixedgray-1), 0.1);
   /**
    * @name 阴影3
    * @type shadow
    * @group shadow
    * @description 用于提示阴影
    */
-  --o-shadow-3: 0 8px 40px rgba(var(--o-mixedgray-13), 0.1);
+  --o-shadow-3: 0 8px 40px rgba(var(--o-mixedgray-1), 0.1);
   /**
    * @name 间距1
    * @type gap

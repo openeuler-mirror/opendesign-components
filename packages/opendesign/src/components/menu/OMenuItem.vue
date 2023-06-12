@@ -13,7 +13,7 @@ const emits = defineEmits<{
 const menuInjection = inject(menuInjectKey, null);
 const subMenuInjection = inject(subMenuInjectKey, null);
 
-const isActive = computed(() => {
+const isSelected = computed(() => {
   if (menuInjection) {
     return menuInjection.realValue.value === props.value;
   }
@@ -37,7 +37,16 @@ const onItemClick = (ev: MouseEvent) => {
 };
 
 const depth = subMenuInjection ? subMenuInjection.depth + 1 : 1;
-const paddingLeft = computed(() => `${(menuInjection?.levelIndent.value ?? 24) * depth}px`);
+
+const style = computed(() => {
+  if (depth === 1) {
+    return {};
+  } else {
+    return {
+      paddingLeft: `${(menuInjection?.levelIndent.value ?? 20) * depth}px`,
+    };
+  }
+});
 
 menuInjection?.menuTree.addChild({
   value: props.value as string,
@@ -46,12 +55,12 @@ menuInjection?.menuTree.addChild({
 </script>
 
 <template>
-  <li
-    class="o-menu-item"
-    :class="{ 'o-menu-item-active': isActive, 'o-menu-item-disabled': $props.disabled }"
-    :style="{ 'padding-left': paddingLeft }"
-    @click="onItemClick"
-  >
+  <li class="o-menu-item" :class="{ 'o-menu-item-selected': isSelected, 'o-menu-item-disabled': $props.disabled }" :style="style" @click="onItemClick">
+    <span v-if="props.icon || $slots.icon" class="o-menu-item-icon">
+      <slot name="icon">
+        <component :is="props.icon" />
+      </slot>
+    </span>
     <slot></slot>
   </li>
 </template>

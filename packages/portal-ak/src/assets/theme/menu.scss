@@ -1,0 +1,11 @@
+@use './mixin.scss' as *;
+
+.o-sub-menu {
+  --sub-menu-color-selected: var(--o-color-info1);
+  --sub-menu-icon-color-selected: var(--o-color-info1);
+}
+
+.o-menu-item {
+  --menu-item-color-selected: var(--o-color-info1);
+  --menu-item-icon-color-selected: var(--o-color-info1);
+}
