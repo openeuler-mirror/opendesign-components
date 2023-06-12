@@ -23,7 +23,14 @@ const onChange = (f: UploadFileT[]) => {
 </script>
 <template>
   <h4>单文件上传</h4>
-  <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="上传(单选)" color="normal" variant="solid">
+  <OUpload
+    :on-after-select="onAfterSelect"
+    :upload-request="uploadRequest"
+    btn-label="上传(单选)"
+    :btn-props="{
+      round: 'pill',
+    }"
+  >
     <template #select-extra><div>只能上传doc、xlsm、pptx文件格式，且文件最大不超过1M</div></template>
   </OUpload>
   <h4>多文件上传</h4>
@@ -34,6 +41,7 @@ const onChange = (f: UploadFileT[]) => {
     :on-after-select="onAfterSelect"
     :upload-request="uploadRequest"
     :on-before-upload="onBeforeUpload"
+    :btn-props="{ round: 'pill' }"
     @change="onChange"
   >
     <template #select-extra><div>只能上传doc、xlsm、pptx文件格式，且文件最大不超过1M</div></template>
