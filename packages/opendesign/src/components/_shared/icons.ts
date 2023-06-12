@@ -30,6 +30,7 @@ import {
   OIconFile,
   OIconEdit,
   OIconImageError,
+  OIconChecked,
 } from '../icon-components';
 
 /**
@@ -176,3 +177,5 @@ export const IconEyeOff = shallowRef<Component>(OIconEyeOff);
  * 加载失败的图片
  */
 export const IconImageError = shallowRef<Component>(OIconImageError);
+
+export const IconChecked = shallowRef<Component>(OIconChecked);

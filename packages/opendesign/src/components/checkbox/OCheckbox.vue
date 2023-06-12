@@ -2,7 +2,7 @@
 import { computed, inject, nextTick, ref, watch } from 'vue';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
-import { IconDone } from '../_shared/icons';
+import { IconChecked } from '../_shared/icons';
 import { isArray, isUndefined } from '../_shared/is';
 import { uniqueId } from '../_shared/utils';
 
@@ -104,7 +104,7 @@ defineExpose({
           <span class="o-checkbox-input">
             <Transition name="o-fade-in">
               <span v-if="props.indeterminate" class="o-checkbox-input-icon-indeterminate"></span>
-              <IconDone v-else-if="isChecked" />
+              <IconChecked v-else-if="isChecked" />
             </Transition>
           </span>
         </div>
