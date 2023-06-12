@@ -8,7 +8,18 @@ import { isEmptySlot } from '../_shared/vue-utils';
 
 const props = defineProps(buttonProps);
 
+const emit = defineEmits<{
+  (e: 'click', evt: MouseEvent): void;
+}>();
+
 const round = getRoundClass(props, 'btn');
+
+const onClick = (e: MouseEvent) => {
+  if (props.disabled) {
+    return;
+  }
+  emit('click', e);
+};
 </script>
 <template>
   <HtmlTag
@@ -27,6 +38,7 @@ const round = getRoundClass(props, 'btn');
       },
     ]"
     :style="round.style.value"
+    @click="onClick"
   >
     <span v-if="props.icon || $slots.icon || props.loading" class="o-btn-prefix" :class="{ loading: props.loading }">
       <IconLoading v-if="props.loading" class="o-rotating" />

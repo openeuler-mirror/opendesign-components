@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OFigure, OIconArrowTraingleRight } from '@components/index';
+import { OFigure, OIconChevronRight } from '@components/index';
 
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 const img2 = 'https://www.hikunpeng.com/_static3/7.875f5cf6.jpg';
@@ -24,7 +24,7 @@ const onVideoClick = () => {
   <OFigure style="width: 25%" :src="img" hoverable class="c-figure-video" @click="onVideoClick">
     <div class="c-video-poster-mask">
       <div class="c-video-play-btn">
-        <OIconArrowTraingleRight />
+        <OIconChevronRight />
       </div>
     </div>
   </OFigure>
