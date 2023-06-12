@@ -12,7 +12,7 @@ const cardInfo = {
   <h3>图标卡片</h3>
   <section>
     <div class="display-item">
-      <h4>单体卡片（不带操作）</h4>
+      <h4>单体卡片（不带操作按钮）</h4>
       <OCard
         hoverable
         :title="cardInfo.title"
@@ -41,7 +41,7 @@ const cardInfo = {
     </div>
 
     <div class="display-item">
-      <h4>单体卡片（带操作）</h4>
+      <h4>单体卡片（带操作按钮）</h4>
       <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconSkill" class="c-card-kunpeng">
         <template #footer>
           <OButton round="pill" color="primary" variant="outline">操作按钮</OButton>
@@ -60,7 +60,7 @@ const cardInfo = {
     </div>
 
     <div class="display-item">
-      <h4>单体卡片（不带操作、横向布局、Icon传图片）</h4>
+      <h4>单体卡片（不带操作按钮、横向布局、Icon传图片）</h4>
       <OCard
         hoverable
         :title="cardInfo.title"
@@ -75,7 +75,7 @@ const cardInfo = {
     </div>
 
     <div class="display-item">
-      <h4>单体卡片（带操作、横向布局）</h4>
+      <h4>单体卡片（带操作按钮、横向布局）</h4>
       <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :icon="OIconSkill" layout="h" class="c-card-kunpeng">
         <template #footer>
           <OButton round="pill" color="primary" variant="outline">操作按钮</OButton>
