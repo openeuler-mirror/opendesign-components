@@ -19,6 +19,10 @@
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
   --link-icon-size: var(--o-icon_size-s);
+  @include respond-to('pad') {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
 }
 .o-link-suffix {
   --link-icon-size: var(--o-icon_size-s);
