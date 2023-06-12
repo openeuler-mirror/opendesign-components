@@ -181,6 +181,7 @@ defineExpose({
         :draggable="props.draggable"
         :btn-label="props.btnLabel"
         :drag-label="props.dragLabel"
+        :btn-props="props.btnProps"
         @to-select="doSelect"
         @selected="onFileSelected"
       >

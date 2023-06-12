@@ -6,12 +6,14 @@ import { ref } from 'vue';
 import { IconAdd } from '../_shared/icons';
 import OButton from '../button/OButton.vue';
 import { UploadLabel } from './util';
+import { UploadBtnType } from './types';
 
 interface UploadSelectPropsT {
   draggable?: boolean;
   dragLabel?: string;
   btnLabel?: string;
   disabled?: boolean;
+  btnProps?: UploadBtnType;
 }
 
 const props = defineProps<UploadSelectPropsT>();
@@ -99,7 +101,7 @@ const onDrap = (e: DragEvent) => {
           </div>
         </slot>
       </div>
-      <OButton v-else :disabled="props.disabled" :icon="IconAdd">
+      <OButton v-else :disabled="props.disabled" v-bind="props.btnProps" :icon="IconAdd">
         {{ props.btnLabel ?? UploadLabel.btnLabel }}
       </OButton>
     </slot>
