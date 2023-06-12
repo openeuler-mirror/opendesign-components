@@ -48,6 +48,8 @@ const onChange = (f: UploadFileT[]) => {
   </OUpload>
   <h4>图片上传</h4>
   <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" list-type="picture-card" />
+  <br />
+  <OUpload multiple disabled :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" list-type="picture-card" />
   <h4>拖拽上传</h4>
   <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" color="primary" draggable>
     <template #select-drag-extra><div>请不要上传个人敏感数据, 只能上传doc、xlsm、pptx文件格式，且文件最大不超过1M</div></template>

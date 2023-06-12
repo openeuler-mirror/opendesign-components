@@ -3,6 +3,7 @@
 .o-tab {
   --tab-nav-justify: center;
   --tab-nav-gap: 32px;
+
   @include respond-to('pad') {
     --tab-nav-gap: 24px;
   }
@@ -10,7 +11,10 @@
     --tab-nav-gap: 16px;
   }
 }
-
+.o-tab-text {
+  --tab-nav-color-hover: var(--o-color-info1);
+  --tab-nav-color-active: var(--o-color-info1);
+}
 .o-tab-nav-title {
   padding: 0;
 

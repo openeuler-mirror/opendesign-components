@@ -34,23 +34,36 @@
     background-color: var(--btn-bg-color-active);
   }
 }
-
+.c-btn-ascend {
+  --btn-ak-bg-color-start: 46, 83, 250;
+  --btn-ak-bg-color-end: 123, 37, 244;
+}
+.c-btn-kunpeng {
+  --btn-ak-bg-color-start: 255, 153, 204;
+  --btn-ak-bg-color-end: 247, 77, 97;
+}
+.c-btn-kunpeng,
 .c-btn-ascend {
   color: rgb(var(--o-color-white)) !important;
-  background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
+  background: linear-gradient(90deg, rgb(var(--btn-ak-bg-color-start)) 0%, rgb(var(--btn-ak-bg-color-end)) 100%);
   border-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
   @include hover {
     &:hover {
-      background: linear-gradient(90deg, rgba(46, 83, 250, 0.8) 0%, rgba(123, 37, 244, 0.8) 100%);
+      background: linear-gradient(90deg, rgba(var(--btn-ak-bg-color-start), 0.8) 0%, rgba(var(--btn-ak-bg-color-end), 0.8) 100%);
       border-color: transparent;
+      border: none;
     }
   }
   &:active {
-    background: linear-gradient(90deg, rgba(46, 83, 250, 0.9) 0%, rgba(123, 37, 244, 0.9) 100%);
+    background: linear-gradient(90deg, rgba(var(--btn-ak-bg-color-start), 0.9) 0%, rgba(var(--btn-ak-bg-color-end), 0.9) 100%);
     border-color: transparent;
+    border: none;
   }
   &.o-btn-disabled {
     opacity: 0.4;
-    background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
+    background: linear-gradient(90deg, rgb(var(--btn-ak-bg-color-start)) 0%, rgb(var(--btn-ak-bg-color-end)) 100%);
+    border: none;
   }
 }

@@ -7,8 +7,8 @@ import { darkTheme } from '@/shared/theme';
   <h3>类型 & 尺寸</h3>
   <section>
     M:
-    <OButton round="pill" class="c-btn-ascend" variant="solid" color="primary">运营按钮</OButton>
-    <OButton round="pill" variant="solid" color="primary">强调按钮</OButton>
+    <OButton round="pill" class="c-btn-ascend" variant="solid" color="primary">昇腾运营按钮</OButton>
+    <OButton round="pill" class="c-btn-kunpeng" variant="solid" color="primary">鲲鹏运营按钮</OButton>
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary">描边按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd">描边按钮</OButton>
@@ -26,6 +26,7 @@ import { darkTheme } from '@/shared/theme';
   <section>
     L:
     <OButton round="pill" class="c-btn-ascend" variant="solid" color="primary" size="large">运营按钮</OButton>
+    <OButton round="pill" class="c-btn-kunpeng" variant="solid" color="primary" size="large">鲲鹏运营按钮</OButton>
     <OButton round="pill" variant="solid" color="primary" size="large">强调按钮</OButton>
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd" size="large">强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" size="large">描边按钮</OButton>
@@ -44,6 +45,7 @@ import { darkTheme } from '@/shared/theme';
   <h3>加载中</h3>
   <section>
     <OButton round="pill" class="c-btn-ascend" variant="solid" color="primary" loading>运营按钮</OButton>
+    <OButton round="pill" class="c-btn-kunpeng" variant="solid" color="primary" loading>鲲鹏运营按钮</OButton>
     <OButton round="pill" variant="solid" color="primary" loading>强调按钮</OButton>
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd" loading>强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" loading>描边按钮</OButton>
@@ -62,6 +64,7 @@ import { darkTheme } from '@/shared/theme';
   <h3>禁用</h3>
   <section>
     <OButton round="pill" disabled class="c-btn-ascend" variant="solid" color="primary">运营按钮</OButton>
+    <OButton round="pill" disabled class="c-btn-kunpeng" variant="solid" color="primary">鲲鹏运营按钮</OButton>
     <OButton round="pill" disabled variant="solid" color="primary">强调按钮</OButton>
     <OButton round="pill" disabled variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
     <OButton round="pill" disabled variant="outline" color="primary">描边按钮</OButton>

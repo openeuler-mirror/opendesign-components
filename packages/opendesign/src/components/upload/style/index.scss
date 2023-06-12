@@ -136,6 +136,12 @@
   cursor: pointer;
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-text1);
+  @include hover {
+    &:hover {
+      border: var(--upload-card-bd-hover);
+      background-color: var(--upload-card-bg-color-hover);
+    }
+  }
   &.is-disabled {
     cursor: not-allowed;
     color: var(--upload-color-disabled);

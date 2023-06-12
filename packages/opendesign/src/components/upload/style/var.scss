@@ -37,10 +37,12 @@
   --upload-card-height: var(--upload-card-width);
   --upload-card-gap: 8px;
   --upload-card-bd: 1px solid var(--o-color-control1);
+  --upload-card-bd-hover: 1px solid var(--o-color-control2);
   --upload-card-bd-disabled: 1px solid var(--o-color-control4);
   --upload-card-bd-error: 1px solid var(--o-color-danger1);
 
   --upload-card-bg-color: transparent;
+  --upload-card-bg-color-hover: transparent;
   --upload-card-bg-color-disabled: var(--o-color-control4-light);
 
   --upload-card-img-fit: cover;
