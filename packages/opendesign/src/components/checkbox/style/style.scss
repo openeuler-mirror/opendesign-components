@@ -63,8 +63,10 @@
   transition: border-color var(--o-duration-s) var(--o-easing-standard), background-color var(--o-duration-s) var(--o-easing-standard);
 
   svg {
-    width: var(--checkbox-input-size);
-    height: var(--checkbox-input-size);
+    // width: var(--checkbox-input-size);
+    // height: var(--checkbox-input-size);
+    width: 24px;
+    height: 24px;
     color: var(--checkbox-input-icon-color);
   }
 }

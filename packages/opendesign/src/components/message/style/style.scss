@@ -3,7 +3,7 @@
 
 .o-message {
   display: flex;
-  align-items: center;
+  align-items: var(--message-align);
   padding: var(--message-padding);
   background-color: var(--message-bg-color);
   border-radius: var(--message-radius);
@@ -13,10 +13,17 @@
   text-align: center;
 }
 
-.o-message-label {
+.o-message-content {
   font-size: var(--message-text-size);
   line-height: var(--message-text-height);
   color: var(--message-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: var(--message-text-align);
+  word-break: var(--message-word-break);
+  display: -webkit-box;
+  -webkit-line-clamp: var(--message-content-max-row);
+  -webkit-box-orient: vertical;
 }
 
 .o-message-icon {

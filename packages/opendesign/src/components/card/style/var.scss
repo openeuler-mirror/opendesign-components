@@ -7,7 +7,9 @@
   --card-shadow-active: var(--o-shadow-1);
 
   --card-cover-radius: calc(var(--card-radius) / 2);
-  --card-h-cover-min-width: 274px;
+
+  --card-h-cover-width: 45%;
+  --card-h-cover-max-width: 320px;
 
   --card-main-padding: 24px 32px;
 
@@ -20,6 +22,7 @@
   --card-header-text-height: var(--o-line_height-h3);
 
   --card-title-max-row: 0;
+  --card-title-word-break: break-all;
 
   --card-content-gap: 12px;
   --card-content-color: var(--o-color-info2);
@@ -27,6 +30,7 @@
   --card-content-text-height: var(--o-line_height-text1);
 
   --card-detail-max-row: 0;
+  --card-detail-word-break: break-all;
 
   --card-footer-gap: 24px;
   --card-footer-color: var(--o-color-info2);
