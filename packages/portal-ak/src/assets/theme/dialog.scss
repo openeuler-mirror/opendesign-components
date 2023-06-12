@@ -4,6 +4,13 @@
   --dlg-head-padding: 32px 32px 0;
   --dlg-body-padding: 16px 32px 24px;
   --dlg-foot-padding: 0 32px 32px;
+
+  @include respond-to('phone') {
+    --dlg-head-padding: 16px 16px 0;
+    --dlg-body-padding: 12px 16px 12px;
+    --dlg-foot-padding: 0 16px 16px;
+    --dlg-max-height: 80vh;
+  }
 }
 .o-dialog-small {
   --dlg-width: 35%;
@@ -149,5 +156,20 @@
   justify-content: flex-end;
   > * + * {
     margin-left: 8px;
+  }
+}
+
+.c-dlg-operation {
+  --layer-align: center !important;
+  --dlg-margin: 40px;
+  .o-dlg-btn-close {
+    right: 50%;
+    top: calc(100% + 16px);
+    border: 1px solid var(--o-color-info1-inverse);
+    border-radius: 50%;
+    font-size: var(--o-icon_size-xs);
+    color: var(--o-color-info1-inverse);
+    padding: 4px;
+    display: flex;
   }
 }
