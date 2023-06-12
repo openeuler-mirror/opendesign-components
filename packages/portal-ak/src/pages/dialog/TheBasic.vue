@@ -128,7 +128,6 @@ const dlgAction2: DialogActionT[] = [
     <section>
       <OButton @click="toggle('show4', true)">Open</OButton>
       <ODialog v-model:visible="values.show4" class="c-dlg-operation" @change="onChane">
-        <template #header> {{ dlgSize }} Dialog</template>
         <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
           This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
         </div>

@@ -42,16 +42,35 @@
   font-size: var(--o-font_size-h2);
   line-height: var(--o-line_height-h2);
   font-weight: 500;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .o-dlg-body {
   padding: var(--dlg-body-padding);
   flex: 1;
   overflow: hidden;
+
+  border-radius: inherit;
+  .o-dlg-header + & {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  &:has(+ .o-dlg-footer) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 .o-dlg-footer {
   margin-top: auto;
   padding: var(--dlg-foot-padding);
+  overflow: hidden;
+  flex-shrink: 0;
+
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
 
 .o-dlg-actions {
