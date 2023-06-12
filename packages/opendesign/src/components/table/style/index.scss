@@ -30,8 +30,10 @@
   }
 
   tbody tr {
-    &:hover {
-      background-color: var(--table-row-hover);
+    @include hover {
+      &:hover {
+        background-color: var(--table-row-hover);
+      }
     }
     &:active {
       background-color: var(--table-row-active);

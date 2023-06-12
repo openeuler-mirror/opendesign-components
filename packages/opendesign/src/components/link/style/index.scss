@@ -76,9 +76,11 @@
     text-decoration: none;
     color: var(--link-color-disabled);
   }
-  &:hover {
-    .o-link-arrow {
-      transform: translate3d(0, 0, 0);
+  @include hover {
+    &:hover {
+      .o-link-arrow {
+        transform: translate3d(0, 0, 0);
+      }
     }
   }
   &.o-link-hover-underline {

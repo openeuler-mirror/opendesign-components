@@ -280,7 +280,7 @@ const selectDlgAction: DialogActionT[] = [
     <OScroller v-else class="o-select-tags-scroller" wrap-class="o-select-value-list" show-type="hover" size="small" disabled-x>
       <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
         {{ optionLabels[item] }}
-        <div class="o-select-tag-remove" @click="(e) => onRemoveTag(item, e)"><IconClose /></div>
+        <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
       </div>
       <OPopover
         v-if="showFoldTags && valueListFold.length > 0"
@@ -298,7 +298,7 @@ const selectDlgAction: DialogActionT[] = [
         <div class="o-select-tags">
           <div v-for="item in valueListFold" :key="item" class="o-select-tag">
             {{ optionLabels[item] }}
-            <div class="o-select-tag-remove" @click="(e) => onRemoveTag(item, e)"><IconClose /></div>
+            <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
           </div>
         </div>
       </OPopover>

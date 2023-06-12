@@ -48,9 +48,10 @@
   cursor: pointer;
   font-size: var(--tab-nav-btn-icon-size);
   margin: 0 8px;
-
-  &:hover {
-    color: var(--tab-icon-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--tab-icon-color-hover);
+    }
   }
 }
 .o-tab-nav-btn-disabled {
@@ -83,10 +84,12 @@
   &:last-child {
     margin-right: 0;
   }
-  &:hover {
-    color: var(--tab-nav-color-hover);
-    border-color: var(--tab-nav-bd-color-hover);
-    background-color: var(--tab-nav-bg-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--tab-nav-color-hover);
+      border-color: var(--tab-nav-bd-color-hover);
+      background-color: var(--tab-nav-bg-color-hover);
+    }
   }
 }
 .o-tab-nav-active {
@@ -150,8 +153,10 @@
   justify-content: center;
   color: var(--tab-icon-color);
   border-radius: 50%;
-  &:hover {
-    color: var(--tab-icon-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--tab-icon-color-hover);
+    }
   }
 }
 
@@ -167,9 +172,11 @@
   color: var(--tab-icon-color);
   font-size: var(--tab-nav-btn-icon-size);
   border-radius: 50%;
-  &:hover {
-    color: var(--tab-icon-color-hover);
-    background-color: var(--tab-nav-bg-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--tab-icon-color-hover);
+      background-color: var(--tab-nav-bg-color-hover);
+    }
   }
 }
 

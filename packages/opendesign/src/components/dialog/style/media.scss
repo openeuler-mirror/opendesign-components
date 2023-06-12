@@ -3,15 +3,15 @@
 .o-dialog-responsive {
   @include respond-to('phone-pad') {
     --layer-position: fixed;
-    .o-dlg-btn {
-      flex: 1;
-    }
   }
   @include respond-to('phone-v') {
     --layer-align: flex-end;
     --dlg-width: calc(100vw - 48px);
     --layer-origin: center bottom;
     --dlg-min-width: none;
+    .o-dlg-btn {
+      flex: 1;
+    }
   }
   @include respond-to('up-phone') {
     --layer-origin: center;
@@ -23,5 +23,12 @@
     --dlg-head-padding: 16px 24px 0;
     --dlg-body-padding: 12px 24px;
     --dlg-foot-padding: 0 24px 16px;
+  }
+}
+
+.o-dlg-header {
+  @include respond-to('phone-pad') {
+    font-size: var(--o-font_size-text2);
+    line-height: var(--o-line_height-text2);
   }
 }

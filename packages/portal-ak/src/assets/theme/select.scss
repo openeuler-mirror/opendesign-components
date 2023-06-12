@@ -54,8 +54,10 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  &:hover {
-    color: var(--o-color-link1);
+  @include hover {
+    &:hover {
+      color: var(--o-color-link1);
+    }
   }
   > .o-icon {
     font-size: var(--o-icon_size-xs);

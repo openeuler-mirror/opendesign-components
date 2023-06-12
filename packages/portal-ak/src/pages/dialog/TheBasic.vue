@@ -44,6 +44,7 @@ const dlgAction: DialogActionT[] = [
   {
     id: 'cancel',
     label: '取消',
+    color: 'primary',
     size: 'large',
     round: 'pill',
     onClick: () => {
@@ -69,6 +70,7 @@ const dlgAction2: DialogActionT[] = [
     id: 'cancel',
     label: '取消',
     size: 'large',
+    color: 'primary',
     round: 'pill',
     onClick: () => {
       console.log('cancel');

@@ -11,8 +11,10 @@
 .o-icon-btn {
   color: var(--icon-btn-color);
   cursor: pointer;
-  &:hover {
-    color: var(--icon-btn-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--icon-btn-color-hover);
+    }
   }
   &:active,
   &:focus-visible {

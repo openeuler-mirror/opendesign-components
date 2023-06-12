@@ -24,8 +24,11 @@
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
   cursor: pointer;
   z-index: 1;
-  &:hover {
-    color: var(--dlg-close-color-hover);
+  @include x-hover;
+  @include hover {
+    &:hover {
+      color: var(--dlg-close-color-hover);
+    }
   }
   &:active {
     color: var(--dlg-close-color-active);
@@ -36,8 +39,8 @@
 .o-dlg-header {
   padding: var(--dlg-head-padding);
   text-align: center;
-  font-size: var(--o-font_size-text2);
-  line-height: var(--o-line_height-text2);
+  font-size: var(--o-font_size-h2);
+  line-height: var(--o-line_height-h2);
   font-weight: 500;
 }
 

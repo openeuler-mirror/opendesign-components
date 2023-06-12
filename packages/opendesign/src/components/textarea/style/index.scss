@@ -44,9 +44,11 @@
   border: 1px solid var(--textarea-bd-color);
   border-radius: var(--textarea-radius);
   background-color: var(--textarea-bg-color);
-  &:hover {
-    border-color: var(--textarea-bd-color-hover);
-    background-color: var(--textarea-bg-color-hover);
+  @include hover {
+    &:hover {
+      border-color: var(--textarea-bd-color-hover);
+      background-color: var(--textarea-bg-color-hover);
+    }
   }
   &.is-focus {
     border-color: var(--textarea-bd-color-focus);
@@ -77,9 +79,10 @@
   justify-content: center;
   color: var(--textarea-icon-color);
   background-color: var(--textarea-icon-bg-color);
-
-  &:hover {
-    color: var(--textarea-icon-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--textarea-icon-color-hover);
+    }
   }
 }
 
@@ -88,11 +91,13 @@
 }
 
 .o-textarea-clearable {
-  &:hover {
-    .o-textarea-clear {
-      visibility: visible;
-      opacity: 1;
-      transform: scale(1);
+  @include hover {
+    &:hover {
+      .o-textarea-clear {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   }
 }

@@ -33,9 +33,11 @@
 .o-figure-hoverable {
   cursor: pointer;
 
-  &:hover {
-    img {
-      transform: scale(1.05);
+  @include hover {
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
     }
   }
   &:active {
