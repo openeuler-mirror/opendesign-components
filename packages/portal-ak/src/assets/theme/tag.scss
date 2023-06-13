@@ -24,13 +24,13 @@
 }
 
 .o-tag-normal.tag-normal-inverse {
-  --tag-color: var(--o-color-info1-inverse);
+  --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: rgba(var(--o-mixedgray-14), 0.2);
   --tag-bd-color: transparent;
 }
 
 .o-tag-normal.tag-unstart {
-  --tag-color: var(--o-color-info1-inverse);
+  --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: rgba(var(--o-mixedgray-14), 0.4);
   --tag-bd-color: transparent;
 }
