@@ -18,6 +18,7 @@ export const cascaderProps = {
    */
   modelValue: {
     type: [String, Number, Array] as PropType<CascaderValueT>,
+    default: '',
   },
   /**
    * 级联选择器选项值 CascaderOptionT
@@ -79,6 +80,30 @@ export const cascaderProps = {
    */
   transition: {
     type: String,
+  },
+};
+
+export const cascaderPanelProps = {
+  /**
+   * 级联选择器双向绑定值 CascaderValueT
+   */
+  modelValue: {
+    type: [String, Number, Array] as PropType<CascaderValueT>,
+    default: '',
+  },
+  /**
+   * 级联选择器选项值 CascaderOptionT
+   * */
+  options: {
+    type: Array as PropType<Array<CascaderOptionT>>,
+  },
+  /**
+   * 是否使用路径模式
+   *
+   * */
+  pathMode: {
+    type: Boolean,
+    default: false,
   },
 };
 
