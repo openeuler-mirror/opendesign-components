@@ -184,6 +184,12 @@ export const routes = [
         label: '轮播 Carousel',
         component: () => import('./pages/carousel/TheIndex.vue'),
       },
+      {
+        path: 'loading',
+        name: 'loading',
+        label: '加载 Loading',
+        component: () => import('./pages/loading/TheIndex.vue'),
+      },
     ],
   },
   {

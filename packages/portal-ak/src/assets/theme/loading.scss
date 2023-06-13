@@ -1,0 +1,23 @@
+.c-loading-icon {
+  width: var(--loading-icon-size);
+  height: var(--loading-icon-size);
+  background-image: url(../loading-circle-s.png);
+  background-size: contain;
+  --o-rotate-duration: 1s;
+}
+
+.c-loading-xl {
+  --loading-icon-size: 64px;
+}
+
+.c-loading-lg {
+  --loading-icon-size: 48px;
+}
+
+.c-loading-md {
+  --loading-icon-size: 24px;
+}
+
+.c-loading-sm {
+  --loading-icon-size: 16px;
+}
