@@ -20,7 +20,9 @@ const isVisible = ref(props.visible ?? props.defaultVisible);
 watch(
   () => props.visible,
   (val) => {
-    isVisible.value = isUndefined(val) ? false : true;
+    if (!isUndefined(val)) {
+      isVisible.value = val;
+    }
   }
 );
 
