@@ -61,14 +61,14 @@
 }
 
 .o-message-list-top {
-  top: var(--message-list-offset);
+  top: var(--message-list-top-offset);
   .o-message + .o-message {
     margin-top: var(--message-gap);
   }
 }
 
 .o-message-list-bottom {
-  bottom: var(--message-list-offset);
+  bottom: var(--message-list-bottom-offset);
   .o-message + .o-message {
     margin-top: var(--message-gap);
   }

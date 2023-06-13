@@ -6,7 +6,7 @@ import { isUndefined } from '../_shared/is';
 
 const props = defineProps(buttonToggleProps);
 
-const round = getRoundClass(props, 'btn');
+const round = getRoundClass(props, 'toggle');
 
 const isChecked = ref(props.checked ?? props.defaultChecked);
 

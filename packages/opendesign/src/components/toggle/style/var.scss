@@ -36,3 +36,7 @@
   --toggle-bd-color-checked-active: var(--o-color-primary3);
   --toggle-bd-color-checked-disabled: var(--o-color-primary4);
 }
+
+.o-toggle-round-pill {
+  --toggle-radius: var(--o-control_size-l);
+}

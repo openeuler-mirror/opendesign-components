@@ -12,9 +12,12 @@ import TheAside from '../components/TheAside.vue';
 </template>
 
 <style lang="scss">
-body {
+:root {
   --app-header-height: 48px;
+  --app-footer-height: 80px;
   --app-aside-width: 240px;
+}
+body {
   @media (max-width: 720px) {
     --app-aside-width: 0;
   }
