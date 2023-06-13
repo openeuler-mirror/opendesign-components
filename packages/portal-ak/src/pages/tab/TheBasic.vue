@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { OTab, OTabPane, OIcon, OIconCalendar, OIconAdd } from '@components/index';
+import { ref } from 'vue';
 
 const tabList = [
-  { id: 1, label: '页签文字1', icon: OIconCalendar },
+  { id: 0, label: '页签文字1', icon: OIconCalendar },
   { id: 2, label: '页签文字2', icon: OIconAdd },
   { id: 3, label: '页签文字3', icon: OIconCalendar },
   { id: 4, label: '页签文字4', icon: OIconAdd },
@@ -11,10 +12,12 @@ const tabList = [
   { id: 7, label: '页签文字7', icon: OIconCalendar },
   { id: 8, label: '页签文字8', icon: OIconAdd },
 ];
+
+const activeKey = ref(2);
 </script>
 <template>
   <h4>无图标页签 L</h4>
-  <OTab variant="text" :line="false">
+  <OTab v-model="activeKey" variant="text" :line="false">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :label="item.label" :value="item.id">
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
     </OTabPane>

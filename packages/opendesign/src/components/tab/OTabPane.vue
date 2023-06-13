@@ -9,6 +9,7 @@ import { tabInjectKey } from './provide';
 import { tabPaneProps } from './types';
 import { IconClose } from '../_shared/icons';
 import ClientOnly from '../_shared/components/client-only';
+import { isUndefined } from '../_shared/is';
 
 const props = defineProps(tabPaneProps);
 
@@ -21,11 +22,11 @@ const tabInjection = inject(tabInjectKey, null);
 const { navsRef, activeValue, lazy } = tabInjection || {};
 
 const instance = getCurrentInstance();
-if (!props.value && !props.label) {
+if (isUndefined(props.value) && isUndefined(props.label)) {
   console.warn('OTabPane is missing prop: value or lable');
 }
 const paneKey = computed(() => {
-  return props.value || props.label || instance?.uid || Math.random();
+  return props.value ?? props.label ?? instance?.uid ?? Math.random();
 });
 
 const isActive = computed(() => paneKey.value === activeValue?.value);
