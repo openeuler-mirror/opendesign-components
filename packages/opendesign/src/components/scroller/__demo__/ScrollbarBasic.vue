@@ -7,6 +7,16 @@ const containerRef = ref<HTMLElement | null>(null);
 const compRef = ref<HTMLElement | null>(null);
 
 const link = `${window.location.href}/body`;
+const height = ref(200);
+let d = 1;
+const changeHeight = () => {
+  if (height.value > 700) {
+    d = -1;
+  } else if (height.value < 300) {
+    d = 1;
+  }
+  height.value += d * 200;
+};
 </script>
 <template>
   <h4>Scroller basic</h4>
@@ -68,6 +78,15 @@ const link = `${window.location.href}/body`;
         <div class="section">禁用竖向滚动</div>
         <div class="section">禁用竖向滚动</div>
         <div class="section">禁用竖向滚动</div>
+      </OScroller>
+    </div>
+  </section>
+  <h4>动态</h4>
+  <section>
+    <div>
+      <h3 @click="changeHeight">高度动态变化 {{ height }}</h3>
+      <OScroller class="container" show-type="always" size="small">
+        <div class="section" :style="{ height: `${height}px` }">高度动态变化</div>
       </OScroller>
     </div>
   </section>

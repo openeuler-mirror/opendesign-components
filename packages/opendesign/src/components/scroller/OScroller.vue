@@ -2,9 +2,9 @@
 import { onMounted, ref, onUnmounted, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
-import { useResizeObserver } from '../hooks';
 import { getHtmlElement } from '../_shared/vue-utils';
 import { isPhonePad } from '../_shared/global';
+import { OResizeObserver } from '../resize-observer';
 
 const ScrollerClass = {
   BODY: 'o-hide-scrollbar',
@@ -19,7 +19,6 @@ const vThumbRate = ref(0);
 const hOffsetRate = ref(0);
 const vOffsetRate = ref(0);
 let wrapperEl: HTMLElement | null = null;
-let ro: ReturnType<typeof useResizeObserver> | null = null;
 const isBody = ref(false);
 
 const showXBar = ref(false);
@@ -87,16 +86,13 @@ const init = () => {
     return;
   }
 
-  // initVars();
+  initVars();
 
-  ro?.observe(wrapperEl, initVars);
   const listenEl = isBody.value ? window : wrapperEl;
   listenEl.addEventListener('scroll', onScroll, { passive: true });
 };
 
 onMounted(() => {
-  ro = useResizeObserver();
-
   if (containerEl.value) {
     wrapperEl = containerEl.value;
     init();
@@ -117,8 +113,6 @@ onMounted(() => {
 });
 onUnmounted(() => {
   if (wrapperEl) {
-    ro?.unobserve(wrapperEl, initVars);
-
     const listenEl = isBody.value ? window : wrapperEl;
     listenEl.removeEventListener('scroll', onScroll);
   }
@@ -205,7 +199,10 @@ const onBarHoverOut = (d: ScrollerDirection) => {
         props.wrapClass,
       ]"
     >
-      <slot></slot>
+      <OResizeObserver @resize="initVars">
+        <div></div>
+        <slot></slot>
+      </OResizeObserver>
     </div>
     <OScrollbar
       v-if="hasX && !props.disabledX"

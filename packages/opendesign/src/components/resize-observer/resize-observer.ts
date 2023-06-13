@@ -1,6 +1,7 @@
-import { defineComponent, cloneVNode, withDirectives } from 'vue';
+import { defineComponent, cloneVNode, withDirectives, VNode } from 'vue';
 import { useReiszeObserverDirective } from '../hooks';
-
+import { isArrayChildren } from '../_shared/vue-utils';
+import { isArray } from '../_shared/is';
 /**
  * 子元素resize监听
  * 如果有多个子元素，每个子元素都会被监听到
@@ -16,7 +17,20 @@ export default defineComponent({
 
     return () => {
       const children = slots.default?.();
-      return children?.map((item) => withDirectives(cloneVNode(item), [[vResizeObserver]]));
+
+      return children?.map((item) => {
+        // 解决resize嵌套slot
+        if (isArrayChildren(item)) {
+          if (isArray(item.children)) {
+            item.children = item.children.map((child) => {
+              return withDirectives(cloneVNode(child as VNode), [[vResizeObserver]]);
+            });
+          }
+          return item;
+        } else {
+          return withDirectives(cloneVNode(item), [[vResizeObserver]]);
+        }
+      });
     };
   },
 });
