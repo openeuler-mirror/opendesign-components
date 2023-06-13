@@ -20,9 +20,9 @@ const activeVal3 = ref('1-1');
 </script>
 
 <template>
-  <h4>基础菜单</h4>
+  <h3>基础菜单</h3>
   <section>
-    <OMenu v-model="activeVal1" :style="{ width: '120px' }" @change="handleChange">
+    <OMenu v-model="activeVal1" :style="{ width: '200px' }" @change="handleChange">
       <OMenuItem value="1-1">
         <template #icon><OIconMore /></template>
         菜单1-1
@@ -57,10 +57,12 @@ const activeVal3 = ref('1-1');
       </OMenuItem>
     </OMenu>
   </section>
-  <h4>手风琴菜单（带图标）</h4>
+  <h3>手风琴菜单</h3>
   <section>
     <div>
-      <OMenu v-model="activeVal2" v-model:expanded="expandedArr2" @change="handleChange" @expanded-change="handleExpandedChange">
+      <h4>带图标：</h4>
+      <hr />
+      <OMenu v-model="activeVal2" v-model:expanded="expandedArr2" accordion @change="handleChange" @expanded-change="handleExpandedChange">
         <OSubMenu value="1">
           <template #title>一级菜单1一级菜单1一级菜单1</template>
           <template #icon><OIconMore /></template>
@@ -88,23 +90,25 @@ const activeVal3 = ref('1-1');
       </OMenu>
     </div>
 
-    <div>
-      <OMenu v-model="activeVal3" v-model:expanded="expandedArr3" :level-indent="12" @change="handleChange" @expanded-change="handleExpandedChange">
-        <OSubMenu value="1">
+    <div :style="{ marginLeft: '100px' }">
+      <h4>不带图标，父节点可选中：</h4>
+      <hr />
+      <OMenu v-model="activeVal3" v-model:expanded="expandedArr3" accordion :level-indent="12" @change="handleChange" @expanded-change="handleExpandedChange">
+        <OSubMenu value="1" selectable>
           <template #title>一级菜单1一级菜单1一级菜单1</template>
           <OMenuItem value="1-1">二级菜单1-1</OMenuItem>
           <OMenuItem value="1-2" disabled>二级菜单1-2</OMenuItem>
           <OMenuItem value="1-3">二级菜单1-3</OMenuItem>
           <OMenuItem value="1-4">二级菜单1-4</OMenuItem>
         </OSubMenu>
-        <OSubMenu value="2">
+        <OSubMenu value="2" selectable>
           <template #title>一级菜单2</template>
           <OMenuItem value="2-1">二级菜单2-1</OMenuItem>
           <OMenuItem value="2-2">二级菜单2-2</OMenuItem>
           <OMenuItem value="2-3">二级菜单2-3</OMenuItem>
           <OMenuItem value="2-4">二级菜单2-4</OMenuItem>
         </OSubMenu>
-        <OSubMenu value="3">
+        <OSubMenu value="3" selectable>
           <template #title>一级菜单3</template>
           <OMenuItem value="3-2">二级菜单3-2</OMenuItem>
           <OMenuItem value="3-3">二级菜单3-3</OMenuItem>

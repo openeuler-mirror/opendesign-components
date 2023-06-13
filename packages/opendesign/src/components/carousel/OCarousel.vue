@@ -220,6 +220,7 @@ defineExpose({
       {
         'o-carousel-visible': initialized,
         'o-carousel-click-to-switch': props.clickToSwitch,
+        'o-carousel-hover-arrow': props.arrow === 'hover',
       },
       `o-carousel-effect-${props.effect}`,
     ]"
@@ -247,7 +248,7 @@ defineExpose({
         </slot>
       </div>
     </div>
-    <div v-if="!props.hideArrow" class="o-carousel-arrow-wrap" :class="props.arrowWrapClass">
+    <div v-if="props.arrow !== 'never'" class="o-carousel-arrow-wrap" :class="props.arrowWrapClass">
       <div @click="activeSlide(activeIndex - 1)">
         <slot name="arrow-prev">
           <div class="o-carousel-arrow-prev">

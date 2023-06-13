@@ -27,11 +27,10 @@ export const carouselProps = {
     type: Number,
     default: 5000,
   },
-  /**
-   * 是否显示切换箭头
-   */
-  hideArrow: {
-    type: Boolean,
+  // 切换箭头的显示时机
+  arrow: {
+    type: String as PropType<'always' | 'hover' | 'never'>,
+    default: 'hover',
   },
   /**
    * 设置切换箭头容器类

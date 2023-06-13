@@ -2,3 +2,9 @@
   --radio-input-bd-color-hover: var(--o-color-control2);
   --radio-input-bd-color-active: var(--o-color-control3);
 }
+
+[data-o-theme*='dark'] {
+  .o-radio {
+    --radio-input-icon-color: var(--o-color-control1-light);
+  }
+}

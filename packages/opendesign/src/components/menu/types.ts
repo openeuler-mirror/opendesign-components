@@ -57,6 +57,9 @@ export const subMenuProps = {
     type: String,
     required: true,
   },
+  selectable: {
+    type: Boolean,
+  },
 };
 export type SubMenuPropsT = ExtractPropTypes<typeof subMenuProps>;
 

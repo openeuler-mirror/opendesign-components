@@ -38,11 +38,11 @@
 }
 
 .c-star-full {
-  color: rgb(var(--o-red-huawei));
+  color: rgb(var(--o-red-huawei)) !important;
 }
 
 .c-star-empty {
-  color: var(--o-color-info4);
+  color: var(--o-color-info4) !important;
 }
 
 .c-star-label {
