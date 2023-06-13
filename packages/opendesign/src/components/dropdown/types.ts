@@ -51,6 +51,13 @@ export const dropdownProps = {
     default: 'min-width',
   },
   /**
+   * 挂载容器，默认为body
+   */
+  optionsWrapper: {
+    type: [String, Object] as PropType<string | HTMLElement | null>,
+    default: 'body',
+  },
+  /**
    * 下拉容器自定义类
    */
   optionWrapClass: {

@@ -47,6 +47,7 @@ provide(dropdownInjectKey, { updateVisible });
       :transition="props.transition"
       :unmount-on-hide="props.unmountOnHide"
       :position="props.optionPosition"
+      :wrapper="props.optionsWrapper"
       :target="dropdownRef"
       :trigger="props.trigger"
       :offset="4"
