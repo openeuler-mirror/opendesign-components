@@ -3,8 +3,8 @@
   --menu-bg-color: transparent;
   --menu-padding-v: 16px;
   --menu-secondary-padding-v: 12px;
-  --menu-padding-h: 8px;
-  --menu-secondary-padding-h: 8px;
+  --menu-padding-h: 16px;
+  --menu-secondary-padding-h: 16px;
 }
 
 .o-sub-menu {
@@ -29,6 +29,7 @@
   --sub-menu-arrow-size: var(--o-icon_size-s);
 
   --sub-menu-bg-color-hover: var(--o-color-control2-light);
+  --sub-menu-bg-color-selected: var(--o-color-control3-light);
 }
 
 .o-menu-item {

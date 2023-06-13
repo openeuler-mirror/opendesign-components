@@ -10,6 +10,7 @@ const props = defineProps(subMenuProps);
 const menuInjection = inject(menuInjectKey, null);
 const subMenuInjection = inject(subMenuInjectKey, null);
 
+// 是否展开
 const isExpanded = computed(() => {
   if (isUndefined(props.value)) {
     return false;
@@ -22,11 +23,20 @@ const isExpanded = computed(() => {
   return false;
 });
 
-const isSelected = computed(() => {
+// 是否关联选中
+const isAssociatedSelected = computed(() => {
   if (menuInjection) {
     return menuInjection.activeNodes.value.includes(props.value);
   }
 
+  return false;
+});
+
+// 是否选中
+const isSelected = computed(() => {
+  if (menuInjection) {
+    return menuInjection.realValue.value === props.value;
+  }
   return false;
 });
 
@@ -56,6 +66,10 @@ const onSubItemClick = (ev: Event) => {
   const expandedVal = Array.from(set);
 
   menuInjection?.updateExpanded(expandedVal);
+
+  if (props.selectable) {
+    menuInjection?.updateModelValue(props.value);
+  }
 };
 
 const depth = subMenuInjection ? subMenuInjection.depth + 1 : 1;
@@ -96,7 +110,11 @@ const onLeave = (el: HTMLUListElement) => {
 </script>
 
 <template>
-  <li class="o-sub-menu" :class="{ 'o-sub-menu-selected': isSelected, 'o-sub-menu-expanded': isExpanded }" @click="onSubItemClick">
+  <li
+    class="o-sub-menu"
+    :class="{ 'o-sub-menu-selected': isSelected, 'o-sub-menu-associated-selected': isAssociatedSelected, 'o-sub-menu-expanded': isExpanded }"
+    @click="onSubItemClick"
+  >
     <div class="o-sub-menu-title" :style="style">
       <span v-if="$slots.icon" class="o-sub-menu-title-icon">
         <slot name="icon"></slot>

@@ -20,9 +20,18 @@
   & > .o-sub-menu-title {
     font-weight: 500;
     color: var(--sub-menu-color-selected);
+    background-color: var(--sub-menu-bg-color-selected);
+
     .o-sub-menu-title-icon {
       color: var(--sub-menu-icon-color-selected);
     }
+  }
+}
+
+.o-sub-menu-associated-selected {
+  & > .o-sub-menu-title {
+    font-weight: 500;
+    color: var(--sub-menu-color-selected);
   }
 }
 
@@ -56,6 +65,7 @@
 }
 
 .o-sub-menu-title-icon {
+  margin-left: calc(-1 * var(--sub-menu-icon-gap));
   margin-right: var(--sub-menu-icon-gap);
   font-size: var(--sub-menu-icon-size);
   color: var(--sub-menu-icon-color);
@@ -124,6 +134,7 @@
 }
 
 .o-menu-item-icon {
+  margin-left: calc(-1 * var(--menu-item-icon-gap));
   margin-right: var(--menu-item-icon-gap);
   font-size: var(--menu-item-icon-size);
   color: var(--menu-item-icon-color);
