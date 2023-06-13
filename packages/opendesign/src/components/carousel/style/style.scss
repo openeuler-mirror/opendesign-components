@@ -30,6 +30,19 @@
   z-index: 2;
   user-select: none;
   cursor: pointer;
+  opacity: 1;
+  transition: opacity var(--o-duration-m1) var(--o-easing-standard);
+}
+
+.o-carousel-hover-arrow {
+  opacity: 0;
+  @include hover {
+    &:hover {
+      .o-carousel-arrow {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .o-carousel-arrow-prev {
