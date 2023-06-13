@@ -8,7 +8,7 @@ export interface UploadRequestT {
 export const UploadFileStatusTypes = ['pending', 'uploading', 'finished', 'failed'] as const;
 export type UploadFileStatusT = (typeof UploadFileStatusTypes)[number];
 
-export type UploadBtnType = Pick<ButtonPropsT, 'size' | 'color' | 'variant' | 'round' | 'icon'>;
+export type UploadBtnType = Partial<Pick<ButtonPropsT, 'size' | 'color' | 'variant' | 'round' | 'icon'>>;
 
 export interface UploadFileT {
   id: string;

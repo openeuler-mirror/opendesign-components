@@ -64,6 +64,14 @@ $breakpoints: (
   }
 }
 
+@mixin on-hover() {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
 @mixin x-hover() {
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
   @include hover {

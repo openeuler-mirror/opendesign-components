@@ -59,7 +59,6 @@ defineExpose({
     @change="onChange"
     @update:visible="onUpdateVisible"
   >
-    <div v-if="!props.hideClose" class="o-dlg-btn-close" @click="onCloseClick"><IconClose /></div>
     <div v-if="$slots.header" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
@@ -87,5 +86,6 @@ defineExpose({
         </div>
       </slot>
     </div>
+    <div v-if="!props.hideClose" class="o-dlg-btn-close" @click="onCloseClick"><IconClose /></div>
   </OLayer>
 </template>

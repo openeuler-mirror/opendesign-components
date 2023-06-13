@@ -93,6 +93,7 @@
   }
 }
 .o-tab-nav-active {
+  font-weight: 500;
   &,
   &:hover {
     color: var(--tab-nav-color-active);

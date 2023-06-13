@@ -19,12 +19,19 @@
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
   --link-icon-size: var(--o-icon_size-s);
-}
-.o-link-suffix {
-  --link-icon-size: var(--o-icon_size-s);
+  @include respond-to('pad') {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
 }
 
 .c-link-ascend {
+  &.o-link-medium {
+    .o-link-suffix {
+      width: 16px;
+      height: 16px;
+    }
+  }
   .o-link-suffix {
     width: 24px;
     height: 24px;
