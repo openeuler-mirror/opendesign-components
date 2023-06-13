@@ -22,7 +22,7 @@ const hasContent = computed(() => {
       {
         'o-card-hoverable': props.hoverable || !!props.href,
         'o-card-cursor-pointer': props.cursor === 'pointer' || !!props.href,
-        'o-card-no-responsive':props.noResponsive
+        'o-card-no-responsive': props.noResponsive,
       },
     ]"
   >
@@ -40,7 +40,7 @@ const hasContent = computed(() => {
         ]"
       >
         <slot name="cover">
-          <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :class="{ 'is-full': !props.coverRatio }" />
+          <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :fit="props.coverFit" :class="{ 'is-full': !props.coverRatio }" />
         </slot>
       </div>
       <div v-if="hasContent || $slots.header || $slots.main || $slots.default" class="o-card-main">

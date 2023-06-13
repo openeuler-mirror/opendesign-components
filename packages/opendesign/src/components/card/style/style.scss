@@ -16,6 +16,7 @@
 }
 
 .o-card-cover-img {
+  max-height: 100%;
   width: 100%;
   border-radius: var(--card-cover-radius);
 
@@ -41,6 +42,7 @@
 }
 
 .o-card-title {
+  height: calc(var(--card-title-row) * var(--card-header-text-height));
   margin: 0;
   font-weight: 500;
   overflow: hidden;
@@ -75,6 +77,7 @@
 }
 
 .o-card-detail {
+  height: calc(var(--card-detail-row) * var(--card-content-text-height));
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: var(--card-detail-text-align);

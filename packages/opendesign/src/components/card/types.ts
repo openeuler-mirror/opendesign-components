@@ -3,6 +3,9 @@ import { ExtractPropTypes, PropType, Component } from 'vue';
 export const DirectionTypes = ['h', 'v', 'hr'] as const;
 export type DirectionT = (typeof DirectionTypes)[number];
 
+export const CardCoverFitTypes = ['cover', 'contain', 'fill', 'none', ' scale-down'] as const;
+export type CardCoverFitT = (typeof CardCoverFitTypes)[number];
+
 export const CardHoverCursorTypes = ['auto', 'pointer'] as const;
 export type CardHoverCursorT = (typeof CardHoverCursorTypes)[number];
 
@@ -25,6 +28,13 @@ export const cardProps = {
    */
   coverRatio: {
     type: Number,
+  },
+  /**
+   * 填充方式 cover | contain | fill | none | scale-down
+   */
+  coverFit: {
+    type: String as PropType<CardCoverFitT>,
+    default: 'cover',
   },
   /**
    * 图标
