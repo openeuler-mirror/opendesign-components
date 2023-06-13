@@ -17,16 +17,22 @@
   }
 }
 
-.o-tag-normal.tag-normal-inverse {
+.o-tag-normal.c-tag-normal-inverse {
   --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: rgba(var(--o-mixedgray-14), 0.2);
   --tag-bd-color: transparent;
 }
 
-.o-tag-normal.tag-unstart {
+.o-tag-normal.c-tag-unstart {
   --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: rgba(var(--o-mixedgray-14), 0.4);
   --tag-bd-color: transparent;
+}
+
+.o-tag-normal.c-tag-processing {
+  --tag-color: rgb(var(--o-color-white));
+  --tag-bg-color: rgba(var(--o-blue-6));
+  --tag-bd-color: rgba(var(--o-blue-6));
 }
 
 .c-tag-ascend {
