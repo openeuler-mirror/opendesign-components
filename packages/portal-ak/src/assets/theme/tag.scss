@@ -17,12 +17,6 @@
   }
 }
 
-.tag-ascend {
-  --tag-color: rgb(var(--o-color-white));
-  background: linear-gradient(90deg, #2e53fa 0%, #7b25f4 100%);
-  --tag-bd-color: transparent;
-}
-
 .o-tag-normal.tag-normal-inverse {
   --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: rgba(var(--o-mixedgray-14), 0.2);
@@ -32,5 +26,21 @@
 .o-tag-normal.tag-unstart {
   --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: rgba(var(--o-mixedgray-14), 0.4);
+  --tag-bd-color: transparent;
+}
+
+.c-tag-ascend {
+  --tag-ak-bg-color-start: 46, 83, 250;
+  --tag-ak-bg-color-end: 123, 37, 244;
+}
+.c-tag-kunpeng {
+  --tag-ak-bg-color-start: 255, 153, 51;
+  --tag-ak-bg-color-end: 247, 77, 97;
+}
+
+.c-tag-ascend,
+.c-tag-kunpeng {
+  --tag-color: rgb(var(--o-color-white));
+  background: linear-gradient(90deg, rgb(var(--tag-ak-bg-color-start)) 0%, rgb(var(--tag-ak-bg-color-end)) 100%);
   --tag-bd-color: transparent;
 }
