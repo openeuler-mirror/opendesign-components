@@ -35,10 +35,14 @@
 }
 
 .o-carousel-hover-arrow {
-  opacity: 0;
+  .o-carousel-arrow-prev,
+  .o-carousel-arrow-next {
+    opacity: 0;
+  }
   @include hover {
     &:hover {
-      .o-carousel-arrow {
+      .o-carousel-arrow-prev,
+      .o-carousel-arrow-next {
         opacity: 1;
       }
     }
