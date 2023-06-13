@@ -140,7 +140,7 @@ const dlgAction2: DialogActionT[] = [
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>
-          <div class="c-dlg-action-end">
+          <div class="c-dlg-action-center">
             <OButton color="primary" variant="solid" @click="toggle('show2', false)">确定</OButton>
             <OButton @click="toggle('show2', false)">取消</OButton>
           </div>
@@ -150,11 +150,11 @@ const dlgAction2: DialogActionT[] = [
     <h3>插槽</h3>
     <section>
       <OButton @click="toggle('show1', true)">Open</OButton>
-      <ODialog v-model:visible="values.show1" class="o-dialog-phone-full" @change="onChane">
+      <ODialog v-model:visible="values.show1" class="c-dialog-phone-full" @change="onChane">
         <template #header>Dialog Title</template>
         This is Dialog
         <template #footer>
-          <div class="c-dlg-action-end">
+          <div class="c-dlg-action-center">
             <OButton color="primary" variant="solid" @click="toggle('show1', false)">确定</OButton>
             <OButton @click="toggle('show1', false)">取消</OButton>
           </div>

@@ -9,8 +9,6 @@
 
   --input-prepend-append-bd-color: var(--o-color-control1);
   --input-prepend-append-bd-color-disabled: var(--o-color-control4-light);
-
-  --o-input-icon-size: var(--o-icon_size-s);
 }
 
 .o-input-solid {
@@ -97,6 +95,7 @@
   --input-append-padding: 0 4px;
   --input-prepend-padding: 0 4px;
   --input-radius: var(--o-radius_control-xs);
+  --o-input-icon-size: var(--o-icon_size-2xs);
 
   &.o-input-round-pill {
     --input-append-padding: 0 6px 0 4px;
@@ -113,6 +112,7 @@
   --input-append-padding: 0 8px;
   --input-prepend-padding: 0 8px;
   --input-radius: var(--o-radius_control-s);
+  --o-input-icon-size: var(--o-icon_size-xs);
 
   &.o-input-round-pill {
     --input-append-padding: 0 12px 0 8px;
@@ -129,6 +129,7 @@
   --input-append-padding: 0 12px;
   --input-prepend-padding: 0 12px;
   --input-radius: var(--o-radius_control-l);
+  --o-input-icon-size: var(--o-icon_size-s);
 
   &.o-input-round-pill {
     --input-append-padding: 0 16px 0 12px;

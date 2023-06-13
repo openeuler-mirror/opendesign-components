@@ -12,7 +12,7 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd">强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary">描边按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd">描边按钮</OButton>
-    <OLink>文本按钮</OLink>
+    <OLink size="medium">文本按钮</OLink>
     <OLink :icon="OIconAdd" size="medium">文本按钮</OLink>
     <OLink class="c-link-kunpeng" hover-underline size="medium">
       鲲鹏文本按钮 <template #suffix><OIconChevronRight class="c-link-kunpeng-arrow" /></template>

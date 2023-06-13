@@ -24,11 +24,14 @@
     line-height: var(--o-line_height-tip1);
   }
 }
-.o-link-suffix {
-  --link-icon-size: var(--o-icon_size-s);
-}
 
 .c-link-ascend {
+  &.o-link-medium {
+    .o-link-suffix {
+      width: 16px;
+      height: 16px;
+    }
+  }
   .o-link-suffix {
     width: 24px;
     height: 24px;
