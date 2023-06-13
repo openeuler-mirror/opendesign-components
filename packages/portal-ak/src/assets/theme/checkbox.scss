@@ -2,3 +2,9 @@
   --checkbox-input-bd-color-hover: var(--o-color-control2);
   --checkbox-input-bd-color-active: var(--o-color-control3);
 }
+
+[data-o-theme*='dark'] {
+  .o-checkbox {
+    --checkbox-input-icon-color: var(--o-color-control1-light);
+  }
+}
