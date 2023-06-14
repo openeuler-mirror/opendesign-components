@@ -204,25 +204,27 @@ const onBarHoverOut = (d: ScrollerDirection) => {
         <slot></slot>
       </OResizeObserver>
     </div>
-    <OScrollbar
-      v-if="hasX && !props.disabledX"
-      :size="props.size"
-      direction="x"
-      :thumb-rate="hThumbRate"
-      :offset-rate="hOffsetRate"
-      @scroll="onHBarScroll"
-      @mouseenter="onBarHoverIn('x')"
-      @mouseleave="onBarHoverOut('x')"
-    />
-    <OScrollbar
-      v-if="hasY && !props.disabledY"
-      direction="y"
-      :size="props.size"
-      :thumb-rate="vThumbRate"
-      :offset-rate="vOffsetRate"
-      @scroll="onVBarScroll"
-      @mouseenter="onBarHoverIn('y')"
-      @mouseleave="onBarHoverOut('y')"
-    />
+    <template v-if="props.showType !== 'never'">
+      <OScrollbar
+        v-if="hasX && !props.disabledX"
+        :size="props.size"
+        direction="x"
+        :thumb-rate="hThumbRate"
+        :offset-rate="hOffsetRate"
+        @scroll="onHBarScroll"
+        @mouseenter="onBarHoverIn('x')"
+        @mouseleave="onBarHoverOut('x')"
+      />
+      <OScrollbar
+        v-if="hasY && !props.disabledY"
+        direction="y"
+        :size="props.size"
+        :thumb-rate="vThumbRate"
+        :offset-rate="vOffsetRate"
+        @scroll="onVBarScroll"
+        @mouseenter="onBarHoverIn('y')"
+        @mouseleave="onBarHoverOut('y')"
+      />
+    </template>
   </div>
 </template>

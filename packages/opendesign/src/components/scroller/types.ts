@@ -36,9 +36,10 @@ export const scrollerProps = {
    * always：一直显示
    * auto: 滚动中、滚动后hover滚动条、拖拽时显示
    * hover: 滚动条hover时显示
+   * never: 不显示滚动条
    */
   showType: {
-    type: String as PropType<'auto' | 'always' | 'hover'>,
+    type: String as PropType<'auto' | 'always' | 'hover' | 'never'>,
     default: 'auto',
   },
   /**
