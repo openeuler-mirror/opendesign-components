@@ -14,6 +14,7 @@ const emits = defineEmits<{
   (e: 'success', value: UploadFileT): void;
   (e: 'error', value: UploadFileT): void;
   (e: 'change', value: UploadFileT[]): void;
+  (e: 'select', value: UploadFileT[]): void;
 }>();
 
 // 先不做受控模式
@@ -61,6 +62,9 @@ const afterSelected = (files: UploadFileT[]) => {
 
       fileList.value[idx] = files[0];
       replaceId = '';
+
+      emits('select', fileList.value);
+
       if (!props.lazyUpload) {
         doUploadFile(fileList.value[idx], uploadOption.value);
       }
@@ -72,6 +76,9 @@ const afterSelected = (files: UploadFileT[]) => {
       fileList.value[0]?.request?.abort();
       fileList.value = files;
     }
+
+    emits('select', fileList.value);
+
     if (!props.lazyUpload) {
       uploadAll();
     }

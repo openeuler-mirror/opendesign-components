@@ -10,7 +10,7 @@ const initLoading = (opt?: Partial<LoadingPropsT>, el?: HTMLElement) => {
   return vnode.component;
 };
 
-const useLoading = (wrap: Ref<HTMLElement> | HTMLElement | string = 'body', opt?: Partial<LoadingPropsT>) => {
+const useLoading = (opt?: Partial<LoadingPropsT>, wrap: Ref<HTMLElement> | HTMLElement | string = 'body') => {
   let instance: ComponentInternalInstance | null = null;
   if (isRef(wrap)) {
     watch(

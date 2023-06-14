@@ -96,6 +96,14 @@ export const uploadRequest = (options: UploadRequestOptionT, hasProgress: boolea
 };
 
 export const onBeforeUpload = (file: UploadFileT) => {
+  const reader = new FileReader();
+  reader.onload = () => {
+    console.log(reader.result);
+  };
+  if (file.file) {
+    reader.readAsDataURL(file.file);
+  }
+
   return Promise.resolve(file.file || true);
 };
 
