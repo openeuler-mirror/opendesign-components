@@ -44,6 +44,7 @@
   border: 1px solid var(--textarea-bd-color);
   border-radius: var(--textarea-radius);
   background-color: var(--textarea-bg-color);
+
   @include hover {
     &:hover {
       border-color: var(--textarea-bd-color-hover);
