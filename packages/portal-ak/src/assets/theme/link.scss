@@ -26,17 +26,21 @@
 }
 
 .c-link-ascend {
+  --arrow-width: 0.375em;
   &.o-link-medium {
+    --arrow-width: 5px;
     .o-link-suffix {
-      width: 16px;
-      height: 16px;
+      width: var(--o-icon_size-xs);
+      height: var(--o-icon_size-xs);
     }
   }
-  .o-link-suffix {
-    width: 24px;
-    height: 24px;
+  &.o-link-large {
+    --arrow-width: 6px;
+    .o-link-suffix {
+      width: var(--o-icon_size-s);
+      height: var(--o-icon_size-s);
+    }
   }
-  --arrow-width: 6px;
   @include respond-to('up-pad') {
     @include hover {
       &:not(.o-link-disabled):hover {
@@ -69,7 +73,7 @@
   &::before {
     content: '';
     position: absolute;
-    right: -6px;
+    right: -0.375em;
     top: 0;
     width: 130%;
     height: 100%;
