@@ -67,3 +67,10 @@
     border: none;
   }
 }
+
+[data-o-theme='a.dark'] {
+  .c-btn-ascend {
+    --btn-ak-bg-color-start: 84, 120, 251;
+    --btn-ak-bg-color-end: 152, 74, 246;
+  }
+}
