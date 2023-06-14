@@ -22,13 +22,13 @@
 }
 
 .o-tag-primary {
-  --tag-color: var(--o-color-info1-inverse);
+  --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: var(--o-color-primary1);
   --tag-bd-color: var(--o-color-primary1);
 
-  --tag-icon-close-color: var(--o-color-info2-inverse);
-  --tag-icon-close-color-hover: var(--o-color-info1-inverse);
-  --tag-icon-close-color-active: var(--o-color-info1-inverse);
+  --tag-icon-close-color: rgb(var(--o-color-white));
+  --tag-icon-close-color-hover: rgb(var(--o-color-white));
+  --tag-icon-close-color-active: rgb(var(--o-color-white));
 
   &.o-tag-outline {
     --tag-bg-color: transparent;
@@ -41,13 +41,13 @@
 }
 
 .o-tag-success {
-  --tag-color: var(--o-color-info1-inverse);
+  --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: var(--o-color-success1);
   --tag-bd-color: var(--o-color-success1);
 
-  --tag-icon-close-color: var(--o-color-info2-inverse);
-  --tag-icon-close-color-hover: var(--o-color-info1-inverse);
-  --tag-icon-close-color-active: var(--o-color-info1-inverse);
+  --tag-icon-close-color: rgb(var(--o-color-white));
+  --tag-icon-close-color-hover: rgb(var(--o-color-white));
+  --tag-icon-close-color-active: rgb(var(--o-color-white));
 
   &.o-tag-outline {
     --tag-bg-color: transparent;
@@ -60,13 +60,13 @@
 }
 
 .o-tag-warning {
-  --tag-color: var(--o-color-info1-inverse);
+  --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: var(--o-color-warning1);
   --tag-bd-color: var(--o-color-warning1);
 
-  --tag-icon-close-color: var(--o-color-info2-inverse);
-  --tag-icon-close-color-hover: var(--o-color-info1-inverse);
-  --tag-icon-close-color-active: var(--o-color-info1-inverse);
+  --tag-icon-close-color: rgb(var(--o-color-white));
+  --tag-icon-close-color-hover: rgb(var(--o-color-white));
+  --tag-icon-close-color-active: rgb(var(--o-color-white));
 
   &.o-tag-outline {
     --tag-bg-color: transparent;
@@ -79,13 +79,13 @@
 }
 
 .o-tag-danger {
-  --tag-color: var(--o-color-info1-inverse);
+  --tag-color: rgb(var(--o-color-white));
   --tag-bg-color: var(--o-color-danger1);
   --tag-bd-color: var(--o-color-danger1);
 
-  --tag-icon-close-color: var(--o-color-info2-inverse);
-  --tag-icon-close-color-hover: var(--o-color-info1-inverse);
-  --tag-icon-close-color-active: var(--o-color-info1-inverse);
+  --tag-icon-close-color: rgb(var(--o-color-white));
+  --tag-icon-close-color-hover: rgb(var(--o-color-white));
+  --tag-icon-close-color-active: rgb(var(--o-color-white));
 
   &.o-tag-outline {
     --tag-bg-color: transparent;

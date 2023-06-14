@@ -1,6 +1,38 @@
 @use '../../style/mixin.scss' as *;
 
-@include respond-to('phone-pad') {
+@include respond-to('laptop') {
+  .o-card {
+    &:not(.o-card-no-responsive) {
+      --card-header-text-size: var(--o-font_size-h4);
+      --card-header-text-height: var(--o-line_height-h4);
+
+      --card-content-text-size: var(--o-font_size-tip1);
+      --card-content-text-height: var(--o-line_height-tip1);
+
+      --card-footer-text-size: var(--o-font_size-tip2);
+      --card-footer-text-height: var(--o-line_height-tip2);
+    }
+  }
+}
+
+@include respond-to('pad') {
+  .o-card {
+    &:not(.o-card-no-responsive) {
+      --card-header-text-size: var(--o-font_size-text2);
+      --card-header-text-height: var(--o-line_height-text2);
+
+      --card-icon-size: var(--o-icon_size-l);
+
+      --card-content-text-size: var(--o-font_size-tip2);
+      --card-content-text-height: var(--o-line_height-tip2);
+
+      --card-footer-text-size: var(--o-font_size-tip2);
+      --card-footer-text-height: var(--o-line_height-tip2);
+    }
+  }
+}
+
+@include respond-to('phone') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-s);
@@ -10,7 +42,7 @@
       --card-header-text-size: var(--o-font_size-tip1);
       --card-header-text-height: var(--o-line_height-tip1);
 
-      --card-icon-size: var(--o-icon_size-l);
+      --card-icon-size: var(--o-icon_size-m);
 
       --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip2);
@@ -18,7 +50,7 @@
 
       --card-footer-gap: 16px;
       --card-footer-text-size: 10px;
-      --card-footer-text-height: 18px;
+      --card-footer-text-height: 16px;
 
       .o-card-cover-v {
         --card-cover-padding: 4px 4px 0;

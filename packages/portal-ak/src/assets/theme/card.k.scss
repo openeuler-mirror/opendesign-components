@@ -6,12 +6,14 @@
     --card-shadow-hover: none;
     --card-shadow-active: none;
     --card-radius: 0;
+    --card-cover-radius: 0;
+    --card-icon-size: 56px;
   }
 
   .o-card-cover-v,
   .o-card-cover-h,
   .o-card-cover-hr {
-    --card-cover-padding: 0;
+    --card-cover-padding: 0 !important;
   }
 
   &.o-card-hoverable {
@@ -35,6 +37,74 @@
       &:hover {
         .o-card-title {
           color: rgb(var(--o-red-huawei));
+        }
+      }
+    }
+  }
+}
+
+@include respond-to('pad') {
+  .c-card-kunpeng {
+    &.o-card {
+      &:not(.o-card-no-responsive) {
+        --card-icon-size: var(--o-icon_size-l);
+      }
+    }
+  }
+}
+
+@include respond-to('phone') {
+  .c-card-kunpeng {
+    &.o-card {
+      --card-radius: var(--o-radius_control-m);
+      --card-cover-radius: var(--o-radius_control-m);
+      --card-icon-size: var(--o-icon_size-l);
+
+      .o-card-cover-v {
+        .o-card-cover-img {
+          border-top-left-radius: var(--card-cover-radius);
+          border-top-right-radius: var(--card-cover-radius);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+
+          img {
+            border-top-left-radius: var(--card-cover-radius);
+            border-top-right-radius: var(--card-cover-radius);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        }
+      }
+
+      .o-card-cover-h {
+        .o-card-cover-img {
+          border-top-left-radius: var(--card-cover-radius);
+          border-top-right-radius: 0;
+          border-bottom-left-radius: var(--card-cover-radius);
+          border-bottom-right-radius: 0;
+
+          img {
+            border-top-left-radius: var(--card-cover-radius);
+            border-top-right-radius: 0;
+            border-bottom-left-radius: var(--card-cover-radius);
+            border-bottom-right-radius: 0;
+          }
+        }
+      }
+
+      .o-card-cover-hr {
+        .o-card-cover-img {
+          border-top-left-radius: 0;
+          border-top-right-radius: var(--card-cover-radius);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: var(--card-cover-radius);
+
+          img {
+            border-top-left-radius: 0;
+            border-top-right-radius: var(--card-cover-radius);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: var(--card-cover-radius);
+          }
         }
       }
     }

@@ -20,7 +20,9 @@ const isVisible = ref(props.visible ?? props.defaultVisible);
 watch(
   () => props.visible,
   (val) => {
-    isVisible.value = isUndefined(val) ? false : true;
+    if (!isUndefined(val)) {
+      isVisible.value = val;
+    }
   }
 );
 
@@ -45,6 +47,7 @@ provide(dropdownInjectKey, { updateVisible });
       :transition="props.transition"
       :unmount-on-hide="props.unmountOnHide"
       :position="props.optionPosition"
+      :wrapper="props.optionsWrapper"
       :target="dropdownRef"
       :trigger="props.trigger"
       :offset="4"

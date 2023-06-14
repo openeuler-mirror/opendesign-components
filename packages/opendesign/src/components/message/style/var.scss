@@ -21,8 +21,8 @@
   --message-icon-close-color-hover: var(--o-color-info1);
   --message-icon-close-color-active: var(--o-color-info1);
 
-  --message-word-break:break-all;
-  --message-content-max-row:0
+  --message-word-break: break-all;
+  --message-content-max-row: 0;
 
   --message-gap: 16px;
 }
@@ -67,5 +67,6 @@
 }
 
 .o-message-list {
-  --message-list-offset: 32px;
+  --message-list-top-offset: 32px;
+  --message-list-bottom-offset: 32px;
 }
