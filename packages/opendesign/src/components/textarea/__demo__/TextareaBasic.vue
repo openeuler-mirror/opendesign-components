@@ -18,7 +18,7 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>Outline</div>
     <div class="row">
-      <OTextarea v-model="val1" placeholder="normal + outline" />
+      <OTextarea v-model="val1" placeholder="normal + outline" resize="none" />
       <OTextarea v-model="val1" color="success" placeholder="success + outline" />
       <OTextarea v-model="val1" color="warning" placeholder="warning + outline" />
       <OTextarea v-model="val1" color="danger" placeholder="danger + outline" />

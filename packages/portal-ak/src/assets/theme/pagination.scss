@@ -15,3 +15,7 @@
   --pagination-item-color-active: var(--o-color-info1-inverse);
   --pagination-item-color-current: var(--o-color-info1-inverse);
 }
+.o-pagination-wrap > .o-pagination-pager {
+  margin-left: 24px;
+  margin-right: 12px;
+}

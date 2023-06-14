@@ -1357,7 +1357,7 @@
    * @group mask
    * @description 全局遮罩
    */
-  --o-color-mask1: rgba(var(--o-gray-14), 0.3);
+  --o-color-mask1: rgba(var(--o-gray-1), 0.3);
   /**
    * @name 
    * @type color

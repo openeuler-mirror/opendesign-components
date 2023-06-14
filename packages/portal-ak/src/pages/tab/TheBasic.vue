@@ -16,7 +16,7 @@ const tabList = [
 const activeKey = ref(2);
 </script>
 <template>
-  <h4>无图标页签 L</h4>
+  <h4>无图标页签 M</h4>
   <OTab v-model="activeKey" variant="text" :line="false">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :label="item.label" :value="item.id">
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
@@ -24,6 +24,7 @@ const activeKey = ref(2);
   </OTab>
   <br />
 
+  <h4>带图标页签 M</h4>
   <OTab variant="text" :line="false">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :value="item.id">
       <template #nav>
@@ -35,13 +36,13 @@ const activeKey = ref(2);
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
     </OTabPane>
   </OTab>
-  <h4>带图标页签 L</h4>
+  <h4>无图标页签 L</h4>
   <OTab variant="text" :line="false" class="c-tab-large">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :label="item.label" :value="item.id">
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
     </OTabPane>
   </OTab>
-  <br />
+  <h4>带图标页签 L</h4>
   <OTab variant="text" :line="false" class="c-tab-large">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :value="item.id">
       <template #nav>

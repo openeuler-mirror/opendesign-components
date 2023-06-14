@@ -21,7 +21,7 @@ setTimeout(() => {
     </div>
     <div>
       min-height: 200px:
-      <OTextarea v-model="val2" auto-height style="min-height: 120px" />
+      <OTextarea v-model="val2" auto-height style="min-height: 200px" />
     </div>
   </section>
 </template>

@@ -12,7 +12,7 @@
   --select-bg-color-focus: transparent;
 }
 .o-select-medium {
-  --select-padding: 0 16px;
+  --select-padding: 0 15px;
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
   @include respond-to('phone-pad') {
@@ -20,7 +20,7 @@
   }
 }
 .o-select-large {
-  --select-padding: 0 16px;
+  --select-padding: 0 15px;
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
 

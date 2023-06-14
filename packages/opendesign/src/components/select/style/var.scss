@@ -110,10 +110,10 @@
 }
 
 .o-select-small {
+  --select-padding: 0 5px 0 7px;
   --select-height: var(--o-control_size-s);
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
-  --select-padding: 0 6px 0 8px;
   --select-radius: var(--o-radius_control-xs);
   --select-icon-size: var(--o-icon_size-xs);
 
@@ -126,23 +126,23 @@
   --select-tag-margin: 1px 2px 1px 0;
 }
 .o-select-medium {
+  --select-padding: 0 7px 0 11px;
   --select-icon-size: var(--o-icon_size-s);
 
   --select-height: var(--o-control_size-m);
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
-  --select-padding: 0 8px 0 12px;
   --select-radius: var(--o-radius_control-s);
 
   // --select-multiple-max-height: 60px;
 }
 .o-select-large {
+  --select-padding: 0 11px 0 15px;
   --select-icon-size: var(--o-icon_size-s);
 
   --select-height: var(--o-control_size-l);
   --select-text-size: var(--o-font_size-text2);
   --select-text-height: var(--o-line_height-text2);
-  --select-padding: 0 12px 0 16px;
   --select-radius: var(--o-radius_control-l);
 
   // --select-multiple-max-height: 60px;
