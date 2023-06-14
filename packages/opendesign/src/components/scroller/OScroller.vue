@@ -200,8 +200,9 @@ const onBarHoverOut = (d: ScrollerDirection) => {
       ]"
     >
       <OResizeObserver @resize="initVars">
-        <div></div>
-        <slot></slot>
+        <div class="o-scroller-body">
+          <slot></slot>
+        </div>
       </OResizeObserver>
     </div>
     <template v-if="props.showType !== 'never'">

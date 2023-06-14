@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OScroller } from '../index';
+import { OPopover } from '../../popover';
+import '../../popover/style';
 import TheComp from './TheComp.vue';
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -86,7 +88,12 @@ const changeHeight = () => {
     <div>
       <h3 @click="changeHeight">高度动态变化 {{ height }}</h3>
       <OScroller class="container" show-type="always" size="small">
-        <div class="section" :style="{ height: `${height}px` }">高度动态变化</div>
+        <OPopover>
+          <template #target>
+            <div class="section" :style="{ height: `${height}px` }">高度动态变化</div>
+          </template>
+          <div>123</div>
+        </OPopover>
       </OScroller>
     </div>
   </section>
