@@ -48,3 +48,9 @@
     --table-radius: var(--o-radius_control-s);
   }
 }
+.o-table-border-all,
+.o-table-border-row {
+  th {
+    border-bottom: none;
+  }
+}
