@@ -5,7 +5,7 @@
   --tab-nav-gap: 32px;
 
   @include respond-to('pad') {
-    --tab-nav-gap: 24px;
+    --tab-nav-gap: 32px;
   }
   @include respond-to('phone') {
     --tab-nav-gap: 16px;
@@ -46,6 +46,9 @@
 
   @include respond-to('pad') {
     --tab-nav-gap: 32px;
+  }
+  @include respond-to('phone') {
+    --tab-nav-gap: 16px;
   }
   .o-tab-nav {
     padding-bottom: 16px;

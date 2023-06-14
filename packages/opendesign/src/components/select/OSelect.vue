@@ -63,7 +63,7 @@ if (props.multiple) {
     valueList.value = [];
   }
 } else {
-  valueList.value = [((props.modelValue || props.defaultValue) as string | number) || ''];
+  valueList.value = [((props.modelValue ?? props.defaultValue) as string | number) ?? ''];
 }
 finalValueList.value = [...valueList.value];
 

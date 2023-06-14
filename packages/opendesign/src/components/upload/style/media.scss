@@ -1,0 +1,7 @@
+@use '../../style/mixin.scss' as *;
+
+@include respond-to('phone-pad') {
+  .o-upload-card-icons {
+    opacity: 1;
+  }
+}

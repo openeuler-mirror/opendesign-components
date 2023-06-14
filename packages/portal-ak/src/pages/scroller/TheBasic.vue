@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { OScroller } from '@components/index';
+import { ref } from 'vue';
+
+const height = ref(300);
 </script>
 <template>
   <h3>类型 & 尺寸</h3>

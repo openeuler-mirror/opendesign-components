@@ -111,7 +111,7 @@ export const textareaProps = {
     default: true,
   },
   /**
-   * 是否自动计算高度
+   * 根据内容自动计算高度
    */
   autoHeight: {
     type: Boolean,

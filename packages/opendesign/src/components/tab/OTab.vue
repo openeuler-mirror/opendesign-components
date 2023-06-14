@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { provide, ref, nextTick, watch } from 'vue';
+import { provide, ref, nextTick, watch, computed } from 'vue';
 import { tabInjectKey } from './provide';
 import { IconAdd, IconChevronLeft, IconChevronRight } from '../_shared/icons';
 import { tabProps } from './types';
 import { vOnResize } from '../directves';
 import { debounceRAF } from '../_shared/utils';
+import { isPhonePad } from '../_shared/global';
 
 const props = defineProps(tabProps);
 
@@ -29,10 +30,21 @@ let activeNavEl: HTMLElement | null = null;
 const isScroll = ref(false);
 const prevDisabled = ref(true);
 const nextDisabled = ref(true);
+const showArrow = computed(() => {
+  return !isPhonePad.value && isScroll.value;
+});
 
 const scrollActiveNavIntoView = () => {
-  if (isScroll.value) {
-    activeNavEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+  if (isScroll.value && activeNavEl && navWrapRef.value) {
+    const { offsetLeft } = activeNavEl;
+    const { scrollLeft, clientWidth } = navWrapRef.value;
+    const center = scrollLeft + clientWidth / 2;
+    if (offsetLeft > center || offsetLeft < center) {
+      navWrapRef.value?.scrollTo({
+        left: offsetLeft - clientWidth / 2,
+        behavior: 'smooth',
+      });
+    }
   }
 };
 
@@ -172,7 +184,7 @@ const navScroll = (to: 'prev' | 'next') => {
       </div>
       <div class="o-tab-navs">
         <div :class="{ 'o-tab-navs-scrollable': isScroll }">
-          <div v-if="isScroll" class="o-tab-nav-btn prev" :class="{ 'o-tab-nav-btn-disabled': prevDisabled }" @click="navScroll('prev')">
+          <div v-if="showArrow" class="o-tab-nav-btn prev" :class="{ 'o-tab-nav-btn-disabled': prevDisabled }" @click="navScroll('prev')">
             <IconChevronLeft />
           </div>
           <div ref="navWrapRef" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
@@ -183,7 +195,7 @@ const navScroll = (to: 'prev' | 'next') => {
               </slot>
             </div>
           </div>
-          <div v-if="isScroll" class="o-tab-nav-btn next" :class="{ 'o-tab-nav-btn-disabled': nextDisabled }" @click="navScroll('next')">
+          <div v-if="showArrow" class="o-tab-nav-btn next" :class="{ 'o-tab-nav-btn-disabled': nextDisabled }" @click="navScroll('next')">
             <IconChevronRight />
           </div>
         </div>

@@ -1,0 +1,25 @@
+.c-loading-xl {
+  --loading-icon-size: 64px;
+  flex-direction: column;
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+}
+
+.c-loading-lg {
+  --loading-icon-size: 48px;
+  flex-direction: column;
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+}
+
+.c-loading-md {
+  --loading-icon-size: 24px;
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+}
+
+.c-loading-sm {
+  --loading-icon-size: 16px;
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+}

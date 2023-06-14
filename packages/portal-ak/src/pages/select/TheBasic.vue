@@ -2,7 +2,7 @@
 import { OSelect, OOption, OIcon, OIconAdd, SelectValueT } from '@components/index';
 import { ref } from 'vue';
 const options = [
-  { label: '选项 1', value: '1' },
+  { label: '选项 1', value: 0 },
   { label: '选项 2', value: '2' },
   { label: '选项 3', value: '3' },
   { label: '选项 4', value: '4' },
@@ -19,12 +19,12 @@ const options = [
   { label: '选项 15', value: '15' },
   { label: '选项 16', value: '16' },
 ];
-const selectVal1 = ref('1');
+const selectVal1 = ref(0);
 const onChange = (value: SelectValueT) => {
   console.log(value);
 };
-const selectVal2 = ref(['1']);
-const selectVal3 = ref(['1', '3', '5']);
+const selectVal2 = ref([0]);
+const selectVal3 = ref([0, '3', '5']);
 
 // loading
 const lazySelectVal = ref();

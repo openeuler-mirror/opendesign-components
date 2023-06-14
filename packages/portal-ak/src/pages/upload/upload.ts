@@ -31,10 +31,10 @@ export const mockUpload = (file?: File, onFinished?: (success: boolean) => void,
   }
   let c = 0;
   const size = file.size;
-  const speed = Math.floor(size * 0.005);
+  const speed = Math.floor(size * 0.05);
   const timer = setInterval(() => {
     const r = Math.random();
-    if (r > 0.999) {
+    if (r > 0.9) {
       console.log(r);
 
       clearInterval(timer);
@@ -96,6 +96,14 @@ export const uploadRequest = (options: UploadRequestOptionT, hasProgress: boolea
 };
 
 export const onBeforeUpload = (file: UploadFileT) => {
+  const reader = new FileReader();
+  reader.onload = () => {
+    console.log(reader.result);
+  };
+  if (file.file) {
+    reader.readAsDataURL(file.file);
+  }
+
   return Promise.resolve(file.file || true);
 };
 

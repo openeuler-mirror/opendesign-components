@@ -30,10 +30,11 @@ defineExpose({
     :main-class="mergeClass('o-loading-main', props.mainClass)"
     :main-transition="props.mainTransition"
     :mask-transition="props.maskTransition"
+    transition-orign="css"
     :mask="props.mask"
     :mask-close="false"
-    @change="(v) => emits('change', v)"
-    @update:visible="(v, e) => emits('update:visible', v, e)"
+    @change="(v: boolean) => emits('change', v)"
+    @update:visible="(v:boolean, e?:MouseEvent) => emits('update:visible', v, e)"
   >
     <slot>
       <div class="o-loading-icon">

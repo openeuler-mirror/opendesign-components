@@ -3,7 +3,7 @@ import { uploadProps, UploadFileT } from './types';
 import { computed, ref } from 'vue';
 import { isFunction } from '../_shared/is';
 import UploadItem, { ItemSlotNames } from './UploadItem.vue';
-import { UploadLabel, doUploadAll, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
+import { UploadLabel, doUploadFileList, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
 import UploadSelect, { selectSlotNames } from './UploadSelect.vue';
 import { IconAdd } from '../_shared/icons';
 import InputSelect from './InputSelect.vue';
@@ -14,6 +14,7 @@ const emits = defineEmits<{
   (e: 'success', value: UploadFileT): void;
   (e: 'error', value: UploadFileT): void;
   (e: 'change', value: UploadFileT[]): void;
+  (e: 'select', value: UploadFileT[]): void;
 }>();
 
 // 先不做受控模式
@@ -46,7 +47,7 @@ let replaceId = '';
  * 上传所有文件
  */
 const uploadAll = () => {
-  return doUploadAll(fileList.value, uploadOption.value);
+  return doUploadFileList(fileList.value, uploadOption.value);
 };
 
 /**
@@ -61,19 +62,29 @@ const afterSelected = (files: UploadFileT[]) => {
 
       fileList.value[idx] = files[0];
       replaceId = '';
+
+      emits('select', fileList.value);
+
       if (!props.lazyUpload) {
         doUploadFile(fileList.value[idx], uploadOption.value);
       }
     }
   } else {
+    let s = fileList.value.length;
+    let l = files.length;
     if (props.multiple) {
       fileList.value = fileList.value.concat(files);
     } else {
       fileList.value[0]?.request?.abort();
       fileList.value = files;
+      s = 0;
+      l = 1;
     }
+
+    emits('select', fileList.value);
+
     if (!props.lazyUpload) {
-      uploadAll();
+      doUploadFileList(fileList.value.slice(s, s + l), uploadOption.value);
     }
   }
 };
@@ -222,8 +233,14 @@ defineExpose({
         @click="doSelect"
       >
         <div>
-          <IconAdd class="o-upload-card-add-icon" />
-          <div class="o-upload-card-label">{{ props.btnLabel ?? UploadLabel.btnLabel }}</div>
+          <slot name="select-add">
+            <IconAdd class="o-upload-card-add-icon" />
+            <div class="o-upload-card-label">
+              <slot name="select-add-label">
+                {{ props.btnLabel ?? UploadLabel.btnLabel }}
+              </slot>
+            </div>
+          </slot>
         </div>
       </div>
     </div>

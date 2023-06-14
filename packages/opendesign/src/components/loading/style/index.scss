@@ -1,6 +1,11 @@
 @use '../../style/mixin.scss' as *;
 @use './var.scss';
 
+.o-loading {
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+  color: var(--o-loading-color);
+}
 .o-loading-main {
   position: relative;
   z-index: 1;
@@ -15,9 +20,4 @@
   + .o-loading-label {
     margin-left: 4px;
   }
-}
-.o-loading-label {
-  font-size: var(--loading-txt-size);
-  line-height: var(--loading-txt-height);
-  color: var(--o-loading-color);
 }
