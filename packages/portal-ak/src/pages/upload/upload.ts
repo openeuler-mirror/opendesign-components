@@ -31,7 +31,7 @@ export const mockUpload = (file?: File, onFinished?: (success: boolean) => void,
   }
   let c = 0;
   const size = file.size;
-  const speed = Math.floor(size * 0.005);
+  const speed = Math.floor(size * 0.05);
   const timer = setInterval(() => {
     const r = Math.random();
     if (r > 0.9) {

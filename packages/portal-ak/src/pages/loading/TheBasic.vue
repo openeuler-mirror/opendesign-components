@@ -80,7 +80,7 @@ const toggleLoading2 = () => {
     <div id="box1" ref="box1" class="box">box</div>
   </section>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .box {
   width: 500px;
   height: 300px;

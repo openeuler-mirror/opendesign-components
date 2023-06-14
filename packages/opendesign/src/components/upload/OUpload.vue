@@ -233,8 +233,14 @@ defineExpose({
         @click="doSelect"
       >
         <div>
-          <IconAdd class="o-upload-card-add-icon" />
-          <div class="o-upload-card-label">{{ props.btnLabel ?? UploadLabel.btnLabel }}</div>
+          <slot name="select-add">
+            <IconAdd class="o-upload-card-add-icon" />
+            <div class="o-upload-card-label">
+              <slot name="select-add-label">
+                {{ props.btnLabel ?? UploadLabel.btnLabel }}
+              </slot>
+            </div>
+          </slot>
         </div>
       </div>
     </div>
