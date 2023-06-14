@@ -7,7 +7,7 @@
     --card-shadow-active: none;
     --card-radius: 0;
     --card-cover-radius: 0;
-    --card-icon-size: var(--o-icon_size-2xl);
+    --card-icon-size: 56px;
   }
 
   .o-card-cover-v,
@@ -47,7 +47,7 @@
   .c-card-kunpeng {
     &.o-card {
       &:not(.o-card-no-responsive) {
-        --card-icon-size: var(--o-icon_size-xl);
+        --card-icon-size: var(--o-icon_size-l);
       }
     }
   }
