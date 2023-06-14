@@ -7,6 +7,7 @@
     --card-shadow-active: none;
     --card-radius: 0;
     --card-cover-radius: 0;
+    --card-icon-size: var(--o-icon_size-2xl);
   }
 
   .o-card-cover-v,
@@ -42,11 +43,22 @@
   }
 }
 
-@include respond-to('phone-pad') {
+@include respond-to('pad') {
+  .c-card-kunpeng {
+    &.o-card {
+      &:not(.o-card-no-responsive) {
+        --card-icon-size: var(--o-icon_size-xl);
+      }
+    }
+  }
+}
+
+@include respond-to('phone') {
   .c-card-kunpeng {
     &.o-card {
       --card-radius: var(--o-radius_control-m);
       --card-cover-radius: var(--o-radius_control-m);
+      --card-icon-size: var(--o-icon_size-l);
 
       .o-card-cover-v {
         .o-card-cover-img {
