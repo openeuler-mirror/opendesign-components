@@ -24,7 +24,7 @@ const onChange = (value: SelectValueT) => {
   console.log(value);
 };
 const selectVal2 = ref([0]);
-const selectVal3 = ref(['1', '3', '5']);
+const selectVal3 = ref([0, '3', '5']);
 
 // loading
 const lazySelectVal = ref();

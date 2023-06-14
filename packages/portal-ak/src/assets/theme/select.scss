@@ -1,5 +1,7 @@
 @use './mixin.scss' as *;
-
+.o-select {
+  --select-multiple-padding: 3px 7px;
+}
 .o-select-outline {
   --select-bg-color: var(--o-color-control-light);
   --select-bg-color-disabled: var(--o-color-control4-light);
@@ -15,9 +17,6 @@
   --select-padding: 0 15px;
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
-  @include respond-to('phone-pad') {
-    --select-icon-size: var(--o-icon_size-xs);
-  }
 }
 .o-select-large {
   --select-padding: 0 15px;
@@ -43,9 +42,6 @@
   --select-tag-radius: var(--o-control_size-s);
   --select-tag-text-size: var(--o-font_size-tip2);
   --select-tag-text-height: var(--o-line_height-tip2);
-}
-.o-select {
-  --select-multiple-padding: 3px 16px;
 }
 
 .c-select-action {
