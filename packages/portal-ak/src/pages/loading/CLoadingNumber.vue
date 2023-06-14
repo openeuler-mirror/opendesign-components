@@ -33,6 +33,7 @@ import CLoadingIcon from './CLoadingIcon.vue';
   height: var(--loading-icon-size);
   background-size: contain;
   display: flex;
+  position: relative;
   > img {
     width: 100%;
   }
