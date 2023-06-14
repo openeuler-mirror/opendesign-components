@@ -14,6 +14,10 @@
   font-size: var(--sub-menu-text-size);
   line-height: var(--sub-menu-text-height);
   color: var(--sub-menu-color);
+
+  & + .o-sub-menu {
+    margin-top: 2px;
+  }
 }
 
 .o-sub-menu-selected {
@@ -94,6 +98,7 @@
 }
 
 .o-sub-menu-children {
+  margin-top: 2px;
   .o-sub-menu-title {
     font-size: var(--sub-menu-secondary-text-size);
     line-height: var(--sub-menu-item-secondary-text-height);
@@ -130,6 +135,10 @@
     &:hover {
       background-color: var(--menu-item-bg-color-hover);
     }
+  }
+
+  & + .o-menu-item {
+    margin-top: 2px;
   }
 }
 

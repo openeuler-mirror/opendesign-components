@@ -48,5 +48,5 @@
 .c-tag-kunpeng {
   --tag-color: rgb(var(--o-color-white));
   background: linear-gradient(90deg, rgb(var(--tag-ak-bg-color-start)) 0%, rgb(var(--tag-ak-bg-color-end)) 100%);
-  --tag-bd-color: transparent;
+  border: none;
 }
