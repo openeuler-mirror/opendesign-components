@@ -1,0 +1,15 @@
+@use '../../style/mixin.scss' as *;
+
+@include respond-to('phone-pad') {
+  .o-upload-card-item {
+    &.is-error {
+      --upload-card-icon-color-hover: var(--o-color-info2);
+      --upload-card-icon-color-active: var(--o-color-info3);
+      .o-upload-card-icons {
+        opacity: 1;
+        background-color: var(--o-color-mask2);
+        color: var(--o-color-info1);
+      }
+    }
+  }
+}

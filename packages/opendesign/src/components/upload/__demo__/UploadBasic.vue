@@ -45,12 +45,23 @@ const onChange = (f: UploadFileT[]) => {
   const r = f.map((item) => `${item.name}:${item.status}`);
   console.log(r.join(', '));
 };
+const onSelect = (f: UploadFileT[]) => {
+  const r = f.map((item) => `${item.name}:${item.status}`);
+  console.log(r.join(', '));
+};
 </script>
 <template>
   <h4>Basic</h4>
   <section style="flex-wrap: wrap; align-items: flex-start">
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="" :default-file-list="defaultFileList" @progress="onProgress" />
+      <OUpload
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        btn-label=""
+        :default-file-list="defaultFileList"
+        @select="onSelect"
+        @progress="onProgress"
+      />
     </div>
     <div class="upload-item">
       <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="上传(单选)" color="normal" variant="solid" />
@@ -63,6 +74,7 @@ const onChange = (f: UploadFileT[]) => {
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
         :on-before-upload="onBeforeUpload"
+        @select="onSelect"
         @change="onChange"
       />
     </div>

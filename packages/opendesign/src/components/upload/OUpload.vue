@@ -3,7 +3,7 @@ import { uploadProps, UploadFileT } from './types';
 import { computed, ref } from 'vue';
 import { isFunction } from '../_shared/is';
 import UploadItem, { ItemSlotNames } from './UploadItem.vue';
-import { UploadLabel, doUploadAll, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
+import { UploadLabel, doUploadFileList, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
 import UploadSelect, { selectSlotNames } from './UploadSelect.vue';
 import { IconAdd } from '../_shared/icons';
 import InputSelect from './InputSelect.vue';
@@ -47,7 +47,7 @@ let replaceId = '';
  * 上传所有文件
  */
 const uploadAll = () => {
-  return doUploadAll(fileList.value, uploadOption.value);
+  return doUploadFileList(fileList.value, uploadOption.value);
 };
 
 /**
@@ -70,17 +70,21 @@ const afterSelected = (files: UploadFileT[]) => {
       }
     }
   } else {
+    let s = fileList.value.length;
+    let l = files.length;
     if (props.multiple) {
       fileList.value = fileList.value.concat(files);
     } else {
       fileList.value[0]?.request?.abort();
       fileList.value = files;
+      s = 0;
+      l = 1;
     }
 
     emits('select', fileList.value);
 
     if (!props.lazyUpload) {
-      uploadAll();
+      doUploadFileList(fileList.value.slice(s, s + l), uploadOption.value);
     }
   }
 };

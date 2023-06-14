@@ -34,7 +34,7 @@ export const mockUpload = (file?: File, onFinished?: (success: boolean) => void,
   const speed = Math.floor(size * 0.005);
   const timer = setInterval(() => {
     const r = Math.random();
-    if (r > 0.999) {
+    if (r > 0.9) {
       console.log(r);
 
       clearInterval(timer);

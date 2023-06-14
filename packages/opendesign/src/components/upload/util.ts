@@ -85,7 +85,7 @@ export const doUploadFile = (file: UploadFileT, options: OptionsT) => {
 /**
  * 上传所有文件
  */
-export const doUploadAll = (fileList: UploadFileT[], options: OptionsT) => {
+export const doUploadFileList = (fileList: UploadFileT[], options: OptionsT) => {
   if (fileList.length === 0) {
     return;
   }
