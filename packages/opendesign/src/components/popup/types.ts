@@ -56,6 +56,13 @@ export const popupProps = {
     default: 0,
   },
   /**
+   * 距离容器（如屏幕）边缘偏移量
+   */
+  edgeOffset: {
+    type: Number,
+    default: 0,
+  },
+  /**
    * hover事件延时触发的时间（毫秒）
    */
   hoverDelay: {

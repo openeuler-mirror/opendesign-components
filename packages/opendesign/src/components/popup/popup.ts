@@ -104,12 +104,12 @@ function getPopupViewOffset(
 }
 
 // 根据视窗与相对容器，返回popup的位置范围
-function getWrapperViewEdge(popupSize: ElementSize, wrapperRect?: DomContentRect) {
+function getWrapperViewEdge(popupSize: ElementSize, wrapperRect?: DomContentRect, edgeOffset: number = 0) {
   const viewport = {
-    left: 0,
-    right: window.innerWidth - popupSize.width,
-    top: 0,
-    bottom: window.innerHeight - popupSize.height,
+    left: edgeOffset,
+    right: window.innerWidth - popupSize.width - edgeOffset,
+    top: edgeOffset,
+    bottom: window.innerHeight - popupSize.height - edgeOffset,
   };
 
   if (!wrapperRect) {
@@ -235,13 +235,15 @@ function adjustOffset(
   {
     anchorOffset,
     offset,
+    edgeOffset,
   }: {
     anchorOffset?: number;
     offset?: number;
+    edgeOffset?: number;
   } = {}
 ) {
   const { top, left } = popupPosition;
-  const edge = getWrapperViewEdge(popupSize, wRect);
+  const edge = getWrapperViewEdge(popupSize, wRect, edgeOffset);
 
   let fixedPosition = position;
   let style = popupPosition;
@@ -343,10 +345,12 @@ export function calcPopupStyle(
     adaptive = true,
     anchorOffset = 8,
     offset = 8,
+    edgeOffset = 0,
   }: {
     adaptive?: boolean;
     anchorOffset?: number;
     offset?: number;
+    edgeOffset?: number;
   } = {}
 ) {
   const tRect = targetEl.getBoundingClientRect();
@@ -377,7 +381,7 @@ export function calcPopupStyle(
   let fixedPosition = position;
   // 自适应容器边缘
   if (adaptive) {
-    const rlt = adjustOffset(position, popupStyle, popupSize, pRect, tRect, wrapperContentRect, { offset: offset, anchorOffset });
+    const rlt = adjustOffset(position, popupStyle, popupSize, pRect, tRect, wrapperContentRect, { offset: offset, anchorOffset, edgeOffset: edgeOffset });
     fixedPosition = rlt.position;
     popupStyle = rlt.popupStyle;
   }

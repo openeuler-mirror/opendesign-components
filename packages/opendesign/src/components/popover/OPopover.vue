@@ -19,6 +19,7 @@ const updateVisible = (val: boolean) => {
   <OPopup
     class="o-popover"
     :offset="props.offset"
+    :edge-offset="props.edgeOffset"
     :visible="props.visible"
     :position="props.position"
     :trigger="props.trigger"

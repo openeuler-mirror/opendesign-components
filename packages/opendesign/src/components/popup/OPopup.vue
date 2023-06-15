@@ -48,7 +48,10 @@ const popStyle = reactive<{
   minWidth?: string;
   width?: string;
   '--popup-z-index'?: number;
-}>({});
+  '--popup-edge-offset'?: string;
+}>({
+  '--popup-edge-offset': `${props.edgeOffset}px`,
+});
 const popPosition = ref(props.position);
 
 const wrapOrigin = ref<{ left: string; top: string }>({ left: '0px', top: '0px' });
@@ -177,6 +180,7 @@ const updatePopupStyle = () => {
     anchorStyle: aStyle,
   } = calcPopupStyle(popupRef.value, targetEl, props.position, {
     offset: props.offset,
+    edgeOffset: props.edgeOffset,
   });
 
   wrapOrigin.value = getTransformOrigin(position);
