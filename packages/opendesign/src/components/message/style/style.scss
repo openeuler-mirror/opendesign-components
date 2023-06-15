@@ -30,9 +30,13 @@
   font-size: var(--message-icon-size);
   color: var(--message-icon-color);
   margin-right: var(--message-icon-gap);
+  display: inline-flex;
+  align-items: center;
 }
 
 .o-message-close {
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
   margin-left: var(--message-icon-gap);
   font-size: var(--message-icon-size);
