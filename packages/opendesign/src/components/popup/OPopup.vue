@@ -18,7 +18,7 @@ import { OChildOnly } from '../child-only';
 import ClientOnly from '../_shared/components/client-only';
 import { getHtmlElement } from '../_shared/vue-utils';
 import { isPhonePad } from '../_shared/global';
-import { createTopZIndex, minusZIndex } from '../_shared/z-index';
+import { createTopZIndex, removeZIndex } from '../_shared/z-index';
 
 // TODO 处理嵌套
 
@@ -69,7 +69,7 @@ const updateZIndex = (show: boolean) => {
   if (show) {
     popStyle['--popup-z-index'] = createTopZIndex();
   } else {
-    minusZIndex();
+    removeZIndex(popStyle['--popup-z-index']);
   }
 };
 
@@ -411,9 +411,10 @@ const onPopupHoverOut = () => {
     <slot name="target"></slot>
   </OChildOnly>
   <ClientOnly>
-    <teleport v-if="wrapperEl" :to="props.wrapper" :disabled="!props.wrapper">
-      <OResizeObserver v-if="toMount || visible || !props.unmountOnHide" @resize="onPopupResize">
+    <teleport :to="props.wrapper" :disabled="!props.wrapper">
+      <OResizeObserver @resize="onPopupResize">
         <div
+          v-if="toMount || visible || !props.unmountOnHide"
           ref="popupRef"
           class="o-popup"
           :style="popStyle"

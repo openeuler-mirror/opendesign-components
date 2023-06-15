@@ -8,7 +8,7 @@ import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties }
 import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_shared/is';
-import { createTopZIndex, minusZIndex } from '../_shared/z-index';
+import { createTopZIndex, removeZIndex } from '../_shared/z-index';
 
 const props = defineProps(layerProps);
 
@@ -108,7 +108,7 @@ const updateZIndex = (show: boolean) => {
   if (show) {
     zIndex.value = createTopZIndex();
   } else {
-    minusZIndex();
+    removeZIndex(zIndex.value);
   }
 };
 watch(
