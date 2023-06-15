@@ -50,12 +50,12 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" variant="solid" color="primary" :icon="OIconAdd" loading>强调按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" loading>描边按钮</OButton>
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd" loading>描边按钮</OButton>
-    <OLink loading>文本按钮</OLink>
-    <OLink :icon="OIconAdd" loading>文本按钮</OLink>
-    <OLink class="c-link-kunpeng" loading>
+    <OLink size="medium" loading>文本按钮</OLink>
+    <OLink size="medium" :icon="OIconAdd" loading>文本按钮</OLink>
+    <OLink size="medium" class="c-link-kunpeng" loading hover-underline>
       鲲鹏文本按钮 <template #suffix><OIconChevronRight /></template>
     </OLink>
-    <OLink class="c-link-ascend" loading>
+    <OLink size="medium" class="c-link-ascend" loading>
       昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
     </OLink>
     <OLink size="medium" hover-underline loading color="primary">链接按钮</OLink>

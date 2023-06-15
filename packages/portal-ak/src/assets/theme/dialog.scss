@@ -181,6 +181,7 @@
   --dlg-margin: 40px;
   .o-dlg-btn-close {
     right: 50%;
+    transform: translateX(50%);
     top: calc(100% + 16px);
     border: 1px solid var(--o-color-info1-inverse);
     border-radius: 50%;
