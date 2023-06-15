@@ -1,0 +1,51 @@
+@use './mixin.scss' as *;
+
+.c-loading-lg {
+  --loading-icon-size: 24px;
+  --loading-number-icon-size: 80px;
+  flex-direction: column;
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+  @include respond-to('pad') {
+    --loading-number-icon-size: 64px;
+  }
+  @include respond-to('phone') {
+    --loading-number-icon-size: 48px;
+  }
+  .o-loading-label {
+    margin-left: 0;
+    margin-top: 16px;
+    @include respond-to('phone-pad') {
+      font-size: var(--o-font_size-tip1);
+      line-height: var(--o-line_height-tip1);
+      margin-top: 12px;
+    }
+  }
+}
+
+.c-loading-md {
+  --loading-number-icon-size: 48px;
+  --loading-icon-size: 16px;
+  flex-direction: column;
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+  .o-loading-label {
+    margin-left: 0;
+    margin-top: 8px;
+    @include respond-to('phone-pad') {
+      margin-top: 4px;
+    }
+  }
+}
+
+.c-loading-sm {
+  --loading-icon-size: 24px;
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+}
+
+.c-loading-xs {
+  --loading-icon-size: 16px;
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+}

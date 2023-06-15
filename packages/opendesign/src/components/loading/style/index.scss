@@ -4,7 +4,6 @@
 .o-loading {
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
-  color: var(--o-loading-color);
 }
 .o-loading-main {
   position: relative;
@@ -19,5 +18,11 @@
   color: var(--loading-icon-color);
   + .o-loading-label {
     margin-left: 4px;
+  }
+}
+.o-layer-mask + .o-loading-main {
+  color: var(--loading-mask-color);
+  .o-loading-icon {
+    color: var(--loading-mask-icon-color);
   }
 }

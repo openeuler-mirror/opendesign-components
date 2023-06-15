@@ -2,9 +2,12 @@
   --loading-mask: var(--o-color-mask1);
 
   --loading-icon-size: var(--o-icon_size-s);
-  --loading-icon-color: var(--o-color-info1-inverse);
 
-  --loading-color: var(--o-color-info2-inverse);
+  --loading-icon-color: var(--o-color-info2);
+  --loading-mask-icon-color: var(--o-color-info2-inverse);
+
+  --loading-color: var(--o-color-info2);
+  --loading-mask-color: var(--o-color-info2-inverse);
 
   --loading-z-index: calc(var(--o-z-index-base) + 10);
 }

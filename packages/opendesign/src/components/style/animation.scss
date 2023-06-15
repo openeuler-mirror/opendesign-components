@@ -9,7 +9,7 @@
 }
 
 .o-rotating {
-  animation: o-rotating var(--o-rotate-duration, 2s) var(--o-easing-linear) infinite;
+  animation: o-rotating var(--o-rotate-duration, 1s) var(--o-easing-linear) infinite;
 }
 
 @keyframes o-zoom-fade-in {

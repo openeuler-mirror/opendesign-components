@@ -87,5 +87,8 @@
   @include respond-to('phone') {
     width: 16px;
     margin: auto;
+    .c-tab-large & {
+      width: 100%;
+    }
   }
 }

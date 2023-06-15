@@ -1,13 +1,24 @@
 import { ObjectDirective, DirectiveBinding, createVNode, render } from 'vue';
 import OLoading from './OLoading.vue';
 
+import { LoadingPropsT } from './types';
+
+let vLoadingOption = {};
+
+const setVLoadingOption = (option: Partial<LoadingPropsT>) => {
+  vLoadingOption = option;
+};
+
 const vLoading: ObjectDirective = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const vnode = createVNode(OLoading, {
-      visible: binding.value,
-      wrapper: binding.modifiers.body ? 'body' : null,
-      mask: !binding.modifiers.nomask,
-    });
+    const vnode = createVNode(
+      OLoading,
+      Object.assign(vLoadingOption, {
+        visible: binding.value,
+        wrapper: binding.modifiers.body ? 'body' : null,
+        mask: !binding.modifiers.nomask,
+      })
+    );
 
     if (binding.modifiers.body) {
       render(vnode, document.body);
@@ -31,4 +42,4 @@ const vLoading: ObjectDirective = {
   },
 };
 
-export { vLoading };
+export { vLoading, setVLoadingOption };

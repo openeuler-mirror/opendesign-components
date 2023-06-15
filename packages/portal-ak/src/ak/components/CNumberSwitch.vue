@@ -43,7 +43,6 @@ onUnmounted(() => {
   position: relative;
   width: var(--number-size, 32px);
   height: var(--number-size, 32px);
-  color: var(--number-color, #4f4f4f);
   display: flex;
   align-items: center;
   justify-content: center;

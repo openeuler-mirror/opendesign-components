@@ -1,21 +1,22 @@
 import { createApp } from 'vue';
-import './assets/fonts/HarmonyOS/harmonyos-hans-fonts.scss';
 import './assets/style/style.scss';
 import 'normalize.css';
 
-import './assets/theme/a.light.token.css';
-import './assets/theme/a.dark.token.css';
-import './assets/theme/a.media.token.css';
+import './ak/fonts/HarmonyOS/harmonyos-hans-fonts.scss';
 
-import './assets/theme/k.light.token.css';
-import './assets/theme/k.dark.token.css';
-import './assets/theme/k.media.token.css';
+import './ak/theme/a.light.token.css';
+import './ak/theme/a.dark.token.css';
+import './ak/theme/a.media.token.css';
+
+import './ak/theme/k.light.token.css';
+import './ak/theme/k.dark.token.css';
+import './ak/theme/k.media.token.css';
 
 import '@opensig/opendesign/src/components/index.scss';
 
-import './assets/theme/index.a.scss';
-import './assets/theme/index.k.scss';
-import './assets/theme/index.scss';
+import './ak/theme/index.a.scss';
+import './ak/theme/index.k.scss';
+import './ak/theme/index.scss';
 
 import { router } from '@/router';
 
