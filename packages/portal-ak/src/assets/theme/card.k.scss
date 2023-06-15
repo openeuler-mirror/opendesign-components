@@ -1,5 +1,26 @@
 @use './mixin.scss' as *;
 
+.o-card-detail-limited {
+  --card-detail-mask-bg-color: var(--o-color-control-light);
+  --card-detail-mask-width: 4em;
+  --card-detail-mask-heigt: var(--card-content-text-height);
+
+  position: relative;
+  display: block;
+  text-overflow: clip;
+
+  &::after {
+    background-image: linear-gradient(90deg, hsla(0, 0%, 93%, 0), hsla(0, 0%, 100%, 0.8) 59%, var(--card-detail-mask-bg-color) 100%);
+    bottom: 0;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    width: var(--card-detail-mask-width);
+    height: var(--card-content-text-height);
+  }
+}
+
 .c-card-kunpeng {
   &.o-card {
     --card-shadow: none;

@@ -36,7 +36,7 @@ const cardInfo = {
         :detail="cardInfo.detail"
         :cover-ratio="16 / 9"
         layout="h"
-        :style="{ '--card-detail-max-row': 2 }"
+        :detai-max-row="2"
         :href="cardInfo.href"
         target="_blank"
       />
@@ -52,7 +52,7 @@ const cardInfo = {
         :detail="cardInfo.detail"
         layout="hr"
         cover-fit="fill"
-        :style="{ '--card-detail-max-row': 2 }"
+        :detai-max-row="2"
         :href="cardInfo.href"
         target="_blank"
       />
