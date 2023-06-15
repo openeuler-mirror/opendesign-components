@@ -5,7 +5,7 @@ import ScrollerHeight from './ScrollerHeight.vue';
 </script>
 <template>
   <div class="page-demo">
-    <!-- <ScrollerBasic /> -->
+    <ScrollerBasic />
     <ScrollerHeight />
   </div>
 </template>
