@@ -10,10 +10,10 @@ const round = getRoundClass(props, 'toggle');
 
 const isChecked = ref(props.checked ?? props.defaultChecked);
 
-const emits = defineEmits<{
-  (e: 'update:checked', val: boolean): void;
-  (e: 'change', val: boolean, ev: MouseEvent): void;
-}>();
+// const emits = defineEmits<{
+//   (e: 'update:checked', val: boolean): void;
+//   (e: 'change', val: boolean, ev: MouseEvent): void;
+// }>();
 
 watch(
   () => props.checked,
@@ -24,14 +24,14 @@ watch(
   }
 );
 
-const onClick = (ev: MouseEvent) => {
-  if (props.disabled) {
-    return;
-  }
-  isChecked.value = !isChecked.value;
-  emits('update:checked', isChecked.value);
-  emits('change', isChecked.value, ev);
-};
+// const onClick = (ev: MouseEvent) => {
+//   if (props.disabled) {
+//     return;
+//   }
+//   isChecked.value = !isChecked.value;
+//   emits('update:checked', isChecked.value);
+//   emits('change', isChecked.value, ev);
+// };
 </script>
 
 <template>
@@ -44,7 +44,6 @@ const onClick = (ev: MouseEvent) => {
         'o-toggle-checked': isChecked,
       },
     ]"
-    @click="onClick"
   >
     <span v-if="props.icon || $slots.icon" class="o-toggle-prefix">
       <slot name="icon">
