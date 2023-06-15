@@ -61,6 +61,8 @@ menuInjection?.menuTree.addChild({
         <component :is="props.icon" />
       </slot>
     </span>
-    <slot></slot>
+    <span class="o-menu-item-content">
+      <slot></slot>
+    </span>
   </li>
 </template>

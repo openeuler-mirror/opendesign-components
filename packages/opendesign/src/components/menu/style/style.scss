@@ -126,9 +126,7 @@
   padding-left: var(--menu-padding-h);
   padding-right: var(--menu-item-padding-right);
   cursor: pointer;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
@@ -147,6 +145,12 @@
   margin-right: var(--menu-item-icon-gap);
   font-size: var(--menu-item-icon-size);
   color: var(--menu-item-icon-color);
+}
+
+.o-menu-item-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .o-menu-item-selected {
