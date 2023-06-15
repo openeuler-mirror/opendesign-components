@@ -1,3 +1,5 @@
+@use './mixin.scss' as *;
+
 .o-message-info {
   --message-icon-color: rgb(var(--o-deepblue-6));
   &.o-message-colorful {
@@ -6,6 +8,21 @@
 }
 
 .o-message-list {
+  --app-header-height: 80px;
+  --app-footer-height: 316px;
+
+  @include respond-to('laptop') {
+    --app-footer-height: 310px;
+  }
+
+  @include respond-to('pad') {
+    --app-footer-height: 292px;
+  }
+
+  @include respond-to('phone') {
+    --app-header-height: 48px;
+    --app-footer-height: 200px;
+  }
   --message-list-top-offset: calc(var(--app-header-height) + 32px);
   --message-list-bottom-offset: calc(var(--app-footer-height) + 32px);
 }
