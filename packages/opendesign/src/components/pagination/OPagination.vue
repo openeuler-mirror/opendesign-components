@@ -22,7 +22,7 @@ const emits = defineEmits<{
 
 const Labels = {
   total: '总条数:',
-  goto: '跳转至',
+  goto: '前往',
   page: '页',
   sizeLabel: '条/页',
 };
@@ -212,7 +212,8 @@ defineExpose({
       <!-- jumper -->
       <template v-if="props.showJumper && !props.simple && totalPage > 0">
         <div class="o-pagination-goto">
-          {{ Labels.goto }}&nbsp;<OInputNumber
+          <span>{{ Labels.goto }}</span>
+          <OInputNumber
             :model-value="currentPage"
             class="o-pagination-input"
             controls="none"
