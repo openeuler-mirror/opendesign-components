@@ -52,7 +52,7 @@ import { darkTheme } from '@/shared/theme';
     <OButton round="pill" variant="outline" color="primary" :icon="OIconAdd" loading>描边按钮</OButton>
     <OLink size="medium" loading>文本按钮</OLink>
     <OLink size="medium" :icon="OIconAdd" loading>文本按钮</OLink>
-    <OLink size="medium" class="c-link-kunpeng" loading>
+    <OLink size="medium" class="c-link-kunpeng" loading hover-underline>
       鲲鹏文本按钮 <template #suffix><OIconChevronRight /></template>
     </OLink>
     <OLink size="medium" class="c-link-ascend" loading>

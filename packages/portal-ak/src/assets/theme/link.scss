@@ -100,11 +100,8 @@
 }
 
 .c-link-kunpeng {
-  --link-underline-x: calc(100% - var(--o-icon_size-s) - var(--link-gap));
-  background-position-x: var(--link-underline-x);
   @include hover {
     &:hover {
-      background-size: var(--link-underline-x) 1px;
       --link-color-hover: rgb(var(--o-red-huawei));
     }
   }
