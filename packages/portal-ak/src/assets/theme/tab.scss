@@ -82,3 +82,10 @@
     }
   }
 }
+
+.o-tab-nav-archor-line {
+  @include respond-to('phone') {
+    width: 16px;
+    margin: auto;
+  }
+}
