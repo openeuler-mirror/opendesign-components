@@ -3,11 +3,18 @@ import { computed } from 'vue';
 import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_shared/components/html-tag';
-import { isString } from '../_shared/is';
+import { isString, isUndefined } from '../_shared/is';
 
 const props = defineProps(cardProps);
 const hasContent = computed(() => {
   return props.icon || props.title || props.detail;
+});
+
+const isTitleLimited = computed(() => {
+  return !isUndefined(props.titleMaxRow);
+});
+const isDetailLimited = computed(() => {
+  return !isUndefined(props.detaiMaxRow);
 });
 </script>
 
@@ -57,12 +64,26 @@ const hasContent = computed(() => {
               <!-- header -->
               <div v-if="props.title || $slots.header" class="o-card-header">
                 <slot name="header">
-                  <div v-if="props.title" class="o-card-title">{{ props.title }}</div>
+                  <div
+                    v-if="props.title"
+                    class="o-card-title"
+                    :class="{ 'o-card-title-limited': isTitleLimited }"
+                    :style="{ '--card-title-row': props.titleRow, '--card-title-max-row': props.titleMaxRow }"
+                  >
+                    {{ props.title }}
+                  </div>
                 </slot>
               </div>
               <!-- content -->
               <div class="o-card-content">
-                <div v-if="props.detail" class="o-card-detail">{{ props.detail }}</div>
+                <div
+                  v-if="props.detail"
+                  class="o-card-detail"
+                  :class="{ 'o-card-detail-limited': isDetailLimited }"
+                  :style="{ '--card-detail-row': props.detailRow, '--card-detail-max-row': props.detaiMaxRow }"
+                >
+                  {{ props.detail }}
+                </div>
                 <slot></slot>
               </div>
             </div>
