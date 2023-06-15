@@ -20,6 +20,7 @@
 }
 
 .o-btn-outline.o-btn-primary:not(.o-btn-disabled) {
+  --btn-color: var(--o-color-info1);
   --btn-color-hover: var(--o-color-info1-inverse);
   --btn-color-active: var(--o-color-info1-inverse);
   --btn-bg-color-hover: var(--o-color-primary2);
