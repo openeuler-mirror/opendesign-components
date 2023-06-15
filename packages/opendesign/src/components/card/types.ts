@@ -49,10 +49,34 @@ export const cardProps = {
     type: String,
   },
   /**
+   * 标题行数
+   */
+  titleRow: {
+    type: Number,
+  },
+  /**
+   * 标题最大行数
+   */
+  titleMaxRow: {
+    type: Number,
+  },
+  /**
    * 详情
    */
   detail: {
     type: String,
+  },
+  /**
+   * 详情行数
+   */
+  detailRow: {
+    type: Number,
+  },
+  /**
+   * 详情最大行数
+   */
+  detaiMaxRow: {
+    type: Number,
   },
   /**
    * 可hover
