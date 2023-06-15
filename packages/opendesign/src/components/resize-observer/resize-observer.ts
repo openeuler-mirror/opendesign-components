@@ -1,11 +1,11 @@
 import { defineComponent, cloneVNode, withDirectives, VNode, Directive } from 'vue';
 import { useReiszeObserverDirective } from '../hooks';
-import { isElement } from '../_shared/vue-utils';
+import { isComponent, isElement } from '../_shared/vue-utils';
 import { isArray } from '../_shared/is';
 
 // 递归绑定
 const bindEvent = (child: VNode, vResizeObserver: Directive) => {
-  if (isElement(child)) {
+  if (isElement(child) || isComponent(child)) {
     return withDirectives(cloneVNode(child), [[vResizeObserver]]);
   } else if (isArray(child.children)) {
     child.children = child.children.map((item) => {
@@ -13,6 +13,7 @@ const bindEvent = (child: VNode, vResizeObserver: Directive) => {
     });
     return child;
   } else {
+    // 如果为slot，无法监听子元素
     return child;
   }
 };

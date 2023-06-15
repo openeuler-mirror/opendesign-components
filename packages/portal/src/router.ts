@@ -229,7 +229,7 @@ export const routes = [
     path: '/scroller/body',
     name: 'Scroller-body',
     label: '全局滚动条 Scroller-body',
-    component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
+    component: () => import('@components/scroller/__demo__/ScrollerBody.vue'),
   },
   {
     path: '/upload',

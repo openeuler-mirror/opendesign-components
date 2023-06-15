@@ -22,8 +22,10 @@ const btn12 = ref(null);
   <h4>popup position</h4>
   <div class="position-wrap">
     <div class="top">
-      <OButton ref="btn1"> TL </OButton>
-      <OPopover position="tl" :target="btn1" trigger="click">
+      <OPopover position="tl" trigger="click">
+        <template #target>
+          <OButton ref="btn1"> TL </OButton>
+        </template>
         <div class="box">TL {{ content }}</div>
       </OPopover>
       <OButton ref="btn2"> TOP </OButton>
@@ -31,7 +33,7 @@ const btn12 = ref(null);
         <div class="box">T {{ content }}</div>
       </OPopover>
       <OButton ref="btn3">TR</OButton>
-      <OPopover position="tr" :target="btn3">
+      <OPopover position="tr" :target="btn3" trigger="click">
         <div class="box">TR {{ content }}</div>
       </OPopover>
     </div>

@@ -407,7 +407,7 @@ const onPopupHoverOut = () => {
 };
 </script>
 <template>
-  <OChildOnly ref="targetElRef">
+  <OChildOnly v-if="$slots.target" ref="targetElRef">
     <slot name="target"></slot>
   </OChildOnly>
   <ClientOnly>

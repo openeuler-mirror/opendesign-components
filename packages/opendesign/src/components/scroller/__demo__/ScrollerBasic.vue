@@ -83,20 +83,6 @@ const changeHeight = () => {
       </OScroller>
     </div>
   </section>
-  <h4>动态</h4>
-  <section>
-    <div>
-      <h3 @click="changeHeight">高度动态变化 {{ height }}</h3>
-      <OScroller class="container" show-type="always" size="small">
-        <OPopover>
-          <template #target>
-            <div class="section" :style="{ height: `${height}px` }">高度动态变化</div>
-          </template>
-          <div>123</div>
-        </OPopover>
-      </OScroller>
-    </div>
-  </section>
   <h4>Scroller target</h4>
   <section>
     <div>
