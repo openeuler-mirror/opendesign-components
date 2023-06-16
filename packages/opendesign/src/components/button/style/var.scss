@@ -156,12 +156,12 @@
 }
 
 .o-btn-small {
-  --btn-radius: var(--o-radius_control-xs);
+  --btn-radius: var(--o-radius_control-s);
   --btn-gap: 2px;
   --btn-padding: 0 11px;
 }
 .o-btn-medium {
-  --btn-radius: var(--o-radius_control-s);
+  --btn-radius: var(--o-radius_control-m);
   --btn-gap: 8px;
   --btn-padding: 0 15px;
 }

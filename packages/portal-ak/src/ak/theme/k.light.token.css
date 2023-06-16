@@ -1807,13 +1807,6 @@
    */
   --o-radius_control-s: var(--o-radius-s);
   /**
-   * @name 超小尺寸控件圆角
-   * @type size
-   * @group radius
-   * @description 超小尺寸控件圆角
-   */
-  --o-radius_control-xs: var(--o-radius-xs);
-  /**
    * @name 持续时间
    * @type animation
    * @group duration

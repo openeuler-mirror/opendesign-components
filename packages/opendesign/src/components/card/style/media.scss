@@ -35,7 +35,7 @@
 @include respond-to('phone') {
   .o-card {
     &:not(.o-card-no-responsive) {
-      --card-radius: var(--o-radius_control-s);
+      --card-radius: var(--o-radius_control-m);
 
       --card-main-padding: 16px;
 

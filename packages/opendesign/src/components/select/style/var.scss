@@ -19,7 +19,7 @@
 .o-select,
 .o-select-tag-popover {
   --select-tag-bg-color: var(--o-color-control1-light);
-  --select-tag-radius: var(--o-radius_control-s);
+  --select-tag-radius: var(--o-radius_control-m);
 
   --select-tag-text-size: var(--o-font_size-tip1);
   --select-tag-text-height: var(--o-line_height-tip1);
@@ -114,7 +114,7 @@
   --select-height: var(--o-control_size-s);
   --select-text-size: var(--o-font_size-tip1);
   --select-text-height: var(--o-line_height-tip1);
-  --select-radius: var(--o-radius_control-xs);
+  --select-radius: var(--o-radius_control-s);
   --select-icon-size: var(--o-icon_size-xs);
 
   --select-tag-min-height: var(--o-control_size-xs);
@@ -132,7 +132,7 @@
   --select-height: var(--o-control_size-m);
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
-  --select-radius: var(--o-radius_control-s);
+  --select-radius: var(--o-radius_control-m);
 
   // --select-multiple-max-height: 60px;
 }
@@ -158,7 +158,7 @@
   --select-options-bg-color: var(--o-color-control-light);
   --select-options-shadow: var(--o-shadow-2);
   --select-options-bd: none;
-  --select-options-radius: var(--o-radius_control-s);
+  --select-options-radius: var(--o-radius_control-m);
   --select-options-padding: 4px;
 
   --select-empty-padding: 16px;
