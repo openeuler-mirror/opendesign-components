@@ -459,7 +459,7 @@ export function bindTrigger(
       });
 
       if (autoHide) {
-        outClick.addListener(el, hideFn, (e: MouseEvent) => {
+        outClick.addListener(el, hideFn, (e: Event) => {
           return !!popupRef.value?.contains(e.target as HTMLElement);
         });
 
@@ -493,7 +493,7 @@ export function bindTrigger(
       });
 
       if (autoHide) {
-        outClick.addListener(el, hideFn, (e: MouseEvent) => {
+        outClick.addListener(el, hideFn, (e: Event) => {
           return !!popupRef.value?.contains(e.target as HTMLElement);
         });
         listeners.push(() => {
@@ -511,7 +511,7 @@ export function bindTrigger(
       });
 
       if (autoHide) {
-        outClick.addListener(el, hideFn, (e: MouseEvent) => {
+        outClick.addListener(el, hideFn, (e: Event) => {
           return !!popupRef.value?.contains(e.target as HTMLElement);
         });
         listeners.push(() => {

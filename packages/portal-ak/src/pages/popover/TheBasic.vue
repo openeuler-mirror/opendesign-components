@@ -9,14 +9,14 @@ import { OPopover } from '@components/index';
       <OPopover position="tl" trigger="click" :edge-offset="24">
         <div class="box">OPopover content OPopover content OPopover content</div>
         <template #target>
-          <div>Target Click</div>
+          <div>Target Click1</div>
         </template>
       </OPopover>
 
       <OPopover position="tl" trigger="hover" :edge-offset="24">
         <div class="box">OPopover content OPopover content OPopover content</div>
         <template #target>
-          <div>Target hover</div>
+          <div>Target hover2</div>
         </template>
       </OPopover>
     </section>
@@ -26,7 +26,7 @@ import { OPopover } from '@components/index';
         <div class="title">title</div>
         <div class="detail">OPopover content OPopover content</div>
         <template #target>
-          <div>Target click</div>
+          <div>Target click3</div>
         </template>
       </OPopover>
     </section>
