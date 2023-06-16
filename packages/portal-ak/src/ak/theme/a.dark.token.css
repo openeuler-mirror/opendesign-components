@@ -1782,30 +1782,30 @@
    * @name 大尺寸圆角
    * @type size
    * @group radius
-   * @description 大尺寸圆角
+   * @description 大尺寸圆角,一般用于卡片
    */
   --o-radius-xl: 24px;
   /**
    * @name 大尺寸控件圆角
    * @type size
    * @group radius
-   * @description 大尺寸控件圆角
+   * @description 大尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: var(--o-radius-l);
+  --o-radius_control-l: 16px;
   /**
    * @name 中尺寸控件圆角
    * @type size
    * @group radius
-   * @description 中尺寸控件圆角
+   * @description 中尺寸控件圆角(组件使用)
    */
-  --o-radius_control-m: var(--o-radius-s);
+  --o-radius_control-m: 8px;
   /**
    * @name 小尺寸控件圆角
    * @type size
    * @group radius
-   * @description 小尺寸控件圆角
+   * @description 小尺寸控件圆角(组件使用)
    */
-  --o-radius_control-s: var(--o-radius-xs);
+  --o-radius_control-s: 4px;
   /**
    * @name 持续时间
    * @type animation
