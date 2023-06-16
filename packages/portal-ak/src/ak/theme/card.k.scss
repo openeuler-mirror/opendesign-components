@@ -26,8 +26,8 @@
     --card-shadow: none;
     --card-shadow-hover: none;
     --card-shadow-active: none;
-    --card-radius: 0;
-    --card-cover-radius: 0;
+    --card-radius: var(--o-radius-xl);
+    --card-cover-radius: var(--o-radius-xl);
     --card-icon-size: 56px;
   }
 
@@ -77,8 +77,6 @@
 @include respond-to('phone') {
   .c-card-kunpeng {
     &.o-card {
-      --card-radius: 8px;
-      --card-cover-radius: 8px;
       --card-icon-size: var(--o-icon_size-l);
 
       .o-card-cover-v {

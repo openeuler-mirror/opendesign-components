@@ -20,3 +20,10 @@
     --o-control_size-m: 28px;
   }
 }
+
+@media screen and (max-width: 721px) {
+  [data-o-theme='dark'],
+  [data-o-theme='light'] {
+    --o-radius-xl: 8px;
+  }
+}
