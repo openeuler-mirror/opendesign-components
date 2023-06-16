@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const props = defineProps<{
+  accept?: String;
+}>();
 const emits = defineEmits<{
   (e: 'selected', files: FileList): void;
 }>();
@@ -36,7 +39,7 @@ defineExpose({
 </script>
 <template>
   <div class="o-upload-select-input">
-    <input ref="multipleInputRef" type="file" class="o-upload-input" multiple @change="onInputChange" />
-    <input ref="inputRef" type="file" class="o-upload-input" @change="onInputChange" />
+    <input ref="multipleInputRef" type="file" class="o-upload-input" multiple :accept="props.accept" @change="onInputChange" />
+    <input ref="inputRef" type="file" class="o-upload-input" :accept="props.accept" @change="onInputChange" />
   </div>
 </template>

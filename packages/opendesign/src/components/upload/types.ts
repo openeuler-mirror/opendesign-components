@@ -41,6 +41,13 @@ export const uploadProps = {
     type: Array as PropType<UploadFileT[]>,
   },
   /**
+   * 文件选择 MIME类型
+   * image/jpeg;image/jpg;image/png;image/gif;video/mp4;
+   */
+  accept: {
+    type: String,
+  },
+  /**
    * 是否为禁用状态
    */
   disabled: {

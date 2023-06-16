@@ -64,12 +64,20 @@ const onSelect = (f: UploadFileT[]) => {
       />
     </div>
     <div class="upload-item">
-      <OUpload :on-after-select="onAfterSelect" :upload-request="uploadRequest" btn-label="上传(单选)" color="normal" variant="solid" />
+      <OUpload
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        btn-label="上传(单选)"
+        color="normal"
+        variant="solid"
+        accept=".docx,.xlsx,.xls,.doc,.pdf"
+      />
     </div>
     <div class="upload-item">
       <OUpload
         multiple
         btn-label="上传(多选)"
+        accept=".jpg,.png,.svg"
         :default-file-list="defaultFileList2"
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
