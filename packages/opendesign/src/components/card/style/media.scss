@@ -21,6 +21,8 @@
       --card-header-text-size: var(--o-font_size-text2);
       --card-header-text-height: var(--o-line_height-text2);
 
+      --card-main-padding: 24px 24px;
+
       --card-icon-size: var(--o-icon_size-l);
 
       --card-content-text-size: var(--o-font_size-tip2);
@@ -37,7 +39,7 @@
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-m);
 
-      --card-main-padding: 16px;
+      --card-main-padding: 16px 16px;
 
       --card-header-text-size: var(--o-font_size-tip1);
       --card-header-text-height: var(--o-line_height-tip1);
