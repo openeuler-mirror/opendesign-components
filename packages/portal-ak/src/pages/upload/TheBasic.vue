@@ -29,6 +29,7 @@ const onChange = (f: UploadFileT[]) => {
     btn-label="上传(单选)"
     :btn-props="{
       round: 'pill',
+      color: 'primary',
     }"
   >
     <template #select-extra><div>只能上传doc、xlsm、pptx文件格式，且文件最大不超过1M</div></template>
@@ -41,7 +42,10 @@ const onChange = (f: UploadFileT[]) => {
     :on-after-select="onAfterSelect"
     :upload-request="uploadRequest"
     :on-before-upload="onBeforeUpload"
-    :btn-props="{ round: 'pill' }"
+    :btn-props="{
+      round: 'pill',
+      color: 'primary',
+    }"
     @change="onChange"
   >
     <template #select-extra><div>只能上传doc、xlsm、pptx文件格式，且文件最大不超过1M</div></template>
