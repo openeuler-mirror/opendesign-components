@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 const props = defineProps<{
-  accept?: String;
+  accept?: string;
 }>();
 const emits = defineEmits<{
   (e: 'selected', files: FileList): void;
