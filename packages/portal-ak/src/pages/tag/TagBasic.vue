@@ -8,8 +8,7 @@ import { OTag } from '@components/index';
     <OTag color="primary" round="pill">NEW</OTag>
     <OTag color="primary" round="pill">HOT</OTag>
     <OTag color="primary" round="pill">推荐</OTag>
-    <OTag round="pill" class="c-tag-ascend">昇腾标签</OTag>
-    <OTag round="pill" class="c-tag-kunpeng">鲲鹏标签</OTag>
+    <OTag round="pill" class="c-tag-activity">运营标签</OTag>
   </section>
 
   <h3>信息标签</h3>

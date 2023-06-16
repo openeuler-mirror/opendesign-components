@@ -35,18 +35,10 @@
   --tag-bd-color: rgba(var(--o-blue-6));
 }
 
-.c-tag-ascend {
-  --tag-ak-bg-color-start: 46, 83, 250;
-  --tag-ak-bg-color-end: 123, 37, 244;
-}
-.c-tag-kunpeng {
-  --tag-ak-bg-color-start: 255, 153, 51;
-  --tag-ak-bg-color-end: 247, 77, 97;
-}
-
+.c-tag-activity,
 .c-tag-ascend,
 .c-tag-kunpeng {
   --tag-color: rgb(var(--o-color-white));
-  background: linear-gradient(90deg, rgb(var(--tag-ak-bg-color-start)) 0%, rgb(var(--tag-ak-bg-color-end)) 100%);
+  background: linear-gradient(90deg, rgb(var(--ak-color-band-start)) 0%, rgb(var(--ak-color-band-end)) 100%);
   border: none;
 }
