@@ -40,7 +40,7 @@ import { darkTheme } from '@/shared/theme';
       昇腾文本按钮 <template #suffix><div class="c-link-ascend-arrow"></div></template>
     </OLink>
     <OLink hover-underline color="primary" size="large">链接按钮</OLink>
-    <OIcon :icon="OIconRefresh" button size="large" />
+    <OIcon :icon="OIconRefresh" button class="c-icon-large" />
   </section>
   <h3>加载中</h3>
   <section>

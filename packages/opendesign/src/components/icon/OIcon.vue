@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { IconLoading } from '../_shared/icons';
 import { iconProps } from './types';
-import { defaultSize } from '../_shared/global';
 const props = defineProps(iconProps);
 </script>
 <template>
@@ -12,7 +11,6 @@ const props = defineProps(iconProps);
         'o-icon-btn': props.button,
         'o-icon-btn-disabled': props.disabled,
       },
-      `o-icon-${props.size || defaultSize}`,
     ]"
     :tabindex="props.button ? 0 : ''"
   >

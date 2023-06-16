@@ -3,16 +3,5 @@
   --icon-btn-color-hover: var(--o-color-info2);
   --icon-btn-color-active: var(--o-color-info3);
   --icon-btn-color-disabled: var(--o-color-info4);
-}
-
-.o-icon-small {
-  --icon-size: var(--o-icon_size-2xs);
-}
-
-.o-icon-medium {
-  --icon-size: var(--o-icon_size-xs);
-}
-
-.o-icon-large {
-  --icon-size: var(--o-icon_size-s);
+  --icon-size: 1em;
 }
