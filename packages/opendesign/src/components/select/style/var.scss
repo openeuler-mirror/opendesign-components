@@ -149,6 +149,7 @@
 }
 .o-select-round-pill {
   --select-radius: var(--o-control_size-l);
+  overflow: hidden;
 }
 
 .o-select-options {

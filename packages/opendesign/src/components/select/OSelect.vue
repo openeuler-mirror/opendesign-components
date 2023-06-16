@@ -278,30 +278,32 @@ const selectDlgAction: DialogActionT[] = [
       readonly
     />
     <OScroller v-else class="o-select-tags-scroller" wrap-class="o-select-value-list" show-type="hover" size="small" disabled-x>
-      <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
-        {{ optionLabels[item] }}
-        <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
-      </div>
-      <OPopover
-        v-if="showFoldTags && valueListFold.length > 0"
-        v-model:visible="tagPopoverVisible"
-        :trigger="foldTrigger"
-        class="o-select-tag-popover"
-        position="bottom"
-        :before-show="beforeTagPopoverShow"
-      >
-        <template #target>
-          <div class="o-select-tag" @click="onFoldTagClick">
-            <slot name="tag-fold">{{ foldLabel }}</slot>
-          </div>
-        </template>
-        <div class="o-select-tags">
-          <div v-for="item in valueListFold" :key="item" class="o-select-tag">
-            {{ optionLabels[item] }}
-            <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
-          </div>
+      <div>
+        <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
+          {{ optionLabels[item] }}
+          <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
         </div>
-      </OPopover>
+        <OPopover
+          v-if="showFoldTags && valueListFold.length > 0"
+          v-model:visible="tagPopoverVisible"
+          :trigger="foldTrigger"
+          class="o-select-tag-popover"
+          position="bottom"
+          :before-show="beforeTagPopoverShow"
+        >
+          <template #target>
+            <div class="o-select-tag" @click="onFoldTagClick">
+              <slot name="tag-fold">{{ foldLabel }}</slot>
+            </div>
+          </template>
+          <div class="o-select-tags">
+            <div v-for="item in valueListFold" :key="item" class="o-select-tag">
+              {{ optionLabels[item] }}
+              <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
+            </div>
+          </div>
+        </OPopover>
+      </div>
     </OScroller>
     <div class="o-select-suffix">
       <div class="o-select-suffix-icon">
