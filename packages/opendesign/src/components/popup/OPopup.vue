@@ -422,7 +422,13 @@ const onPopupHoverOut = () => {
           ref="popupRef"
           class="o-popup"
           :style="popStyle"
-          :class="[`o-popup-pos-${popPosition}`, { 'out-view': props.hideWhenTargetInvisible && !isTargetInViewport, animating: isAnimating }]"
+          :class="[
+            `o-popup-pos-${popPosition}`,
+            {
+              'out-view': props.hideWhenTargetInvisible && !isTargetInViewport,
+              animating: isAnimating,
+            },
+          ]"
           v-bind="$attrs"
           @mouseover="onPopupHoverIn"
           @mouseleave="onPopupHoverOut"

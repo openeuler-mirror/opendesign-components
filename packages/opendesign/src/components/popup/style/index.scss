@@ -6,7 +6,8 @@
   z-index: var(--popup-z-index);
   opacity: 1;
   transition: opacity var(--o-duration-m1) var(--o-easing-standard);
-  max-width: calc(100% - var(--popup-edge-offset, 0) * 2);
+  max-width: calc(100vw - var(--popup-edge-offset, 0) * 2);
+
   &.out-view {
     opacity: 0;
     pointer-events: none;

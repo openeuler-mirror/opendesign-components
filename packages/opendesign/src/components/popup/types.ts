@@ -56,7 +56,7 @@ export const popupProps = {
     default: 0,
   },
   /**
-   * 距离容器（如屏幕）边缘偏移量
+   * 距离viewport(屏幕)边缘偏移量
    */
   edgeOffset: {
     type: Number,
