@@ -204,6 +204,7 @@ const onEyeMouseDown = () => {
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
         'is-focus': isFocus,
+        'is-invalid': props.invalid,
         'is-readonly': props.readonly,
         'is-disabled': props.disabled,
       }"

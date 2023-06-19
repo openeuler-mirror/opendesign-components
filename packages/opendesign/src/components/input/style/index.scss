@@ -52,6 +52,12 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
+
+  &.is-invalid {
+    .o-input-input {
+      text-decoration: line-through;
+    }
+  }
 }
 .o-input-input-wrap {
   width: 100%;

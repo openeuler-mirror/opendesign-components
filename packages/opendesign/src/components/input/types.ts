@@ -61,6 +61,12 @@ export const inputProps = {
     type: Boolean,
   },
   /**
+   * 非法值
+   */
+  invalid: {
+    type: Boolean,
+  },
+  /**
    * 是否可以清除
    */
   clearable: {

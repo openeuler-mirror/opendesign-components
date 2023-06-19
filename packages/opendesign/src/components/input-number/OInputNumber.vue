@@ -164,7 +164,8 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
   <OInput
     :model-value="currentValue"
     class="o-input-number"
-    :class="[`o-input-number-size-${props.size || defaultSize}`, { 'is-invalid': !isValid }]"
+    :class="[`o-input-number-size-${props.size || defaultSize}`]"
+    :invalid="!isValid"
     :size="props.size"
     :placeholder="props.placeholder"
     :color="props.color"
@@ -190,7 +191,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
           :class="{
             'is-disabled': !canMinus,
           }"
-          @click="(e) => controlClick('minus', e)"
+          @click="(e:MouseEvent) => controlClick('minus', e)"
         >
           <slot name="minus"><IconMinus /></slot>
         </div>
@@ -201,7 +202,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
               'is-disabled': !canAdd,
             }"
             tabindex="-1"
-            @click="(e) => controlClick('plus', e)"
+            @click="(e:MouseEvent) => controlClick('plus', e)"
           >
             <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
           </div>
@@ -211,7 +212,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
               'is-disabled': !canMinus,
             }"
             tabindex="-1"
-            @click="(e) => controlClick('minus', e)"
+            @click="(e:MouseEvent) => controlClick('minus', e)"
           >
             <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
           </div>
@@ -227,7 +228,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
             'is-disabled': !canAdd,
           }"
           tabindex="-1"
-          @click="(e) => controlClick('plus', e)"
+          @click="(e:MouseEvent) => controlClick('plus', e)"
         >
           <slot name="add"><IconAdd /></slot>
         </div>
@@ -238,7 +239,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
             :class="{
               'is-disabled': !canAdd,
             }"
-            @click="(e) => controlClick('plus', e)"
+            @click="(e:MouseEvent) => controlClick('plus', e)"
           >
             <slot name="add"><IconChevronUp class="o-input-number-icon-plus" /></slot>
           </div>
@@ -248,7 +249,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
             :class="{
               'is-disabled': !canMinus,
             }"
-            @click="(e) => controlClick('minus', e)"
+            @click="(e:MouseEvent) => controlClick('minus', e)"
           >
             <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
           </div>

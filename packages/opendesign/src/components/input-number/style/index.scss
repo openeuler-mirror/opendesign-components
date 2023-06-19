@@ -9,12 +9,6 @@
     align-items: stretch;
     overflow: hidden;
   }
-
-  &.is-invalid {
-    .o-input-input {
-      text-decoration: line-through;
-    }
-  }
 }
 
 .o-input-number-btn-wrap {
