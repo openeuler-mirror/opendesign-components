@@ -16,12 +16,14 @@ const multipleInputRef = ref<HTMLInputElement | null>(null);
  * 上传按钮
  */
 const onInputChange = function (e: Event) {
-  const files = (e.target as HTMLInputElement).files;
+  const target = e.target as HTMLInputElement;
+
+  const files = target.files;
   if (files && files.length > 0) {
     emits('selected', files);
   }
   // 解决重复选择文件，无法触发change事件问题
-  (e.target as HTMLInputElement).value = '';
+  target.value = '';
 };
 
 /**
