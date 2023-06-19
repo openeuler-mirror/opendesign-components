@@ -9,6 +9,12 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/date-picker',
+    name: 'DatePicker',
+    label: '日期选择器 DatePicker',
+    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/text',
     name: 'Text',
     label: '文本 Text',
