@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { ODatePicker } from '../index';
 
-const val1 = ref('');
+const val1 = ref(1687156310181);
 </script>
 <template>
   <h4>Color & Variant</h4>
