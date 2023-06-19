@@ -57,16 +57,6 @@ const onSelect = (f: UploadFileT[]) => {
       <OUpload
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
-        btn-label=""
-        :default-file-list="defaultFileList"
-        @select="onSelect"
-        @progress="onProgress"
-      />
-    </div>
-    <div class="upload-item">
-      <OUpload
-        :on-after-select="onAfterSelect"
-        :upload-request="uploadRequest"
         btn-label="上传(单选)"
         color="normal"
         variant="solid"
@@ -94,6 +84,17 @@ const onSelect = (f: UploadFileT[]) => {
         :upload-request="uploadRequest"
         :on-before-upload="onBeforeUpload"
         color="primary"
+      />
+    </div>
+    <div class="upload-item">
+      <OUpload
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        btn-label="上传(单选)"
+        :default-file-list="defaultFileList"
+        disabled
+        @select="onSelect"
+        @progress="onProgress"
       />
     </div>
     <div class="upload-item">

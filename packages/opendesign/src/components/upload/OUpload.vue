@@ -130,6 +130,7 @@ const removeFile = async (file: UploadFileT) => {
   }
   file.request?.abort();
   fileList.value = fileList.value.filter((f) => f.id !== file.id);
+
   return true;
 };
 const removeFileByIndex = (index: number) => {
@@ -168,9 +169,6 @@ const onFileReplace = (file: UploadFileT) => {
  * 选择文件
  */
 const doSelect = () => {
-  if (props.disabled) {
-    return;
-  }
   selectRef.value?.select(props.multiple);
 };
 
@@ -185,7 +183,7 @@ defineExpose({
 </script>
 <template>
   <div class="o-upload">
-    <InputSelect ref="selectRef" :accept="props.accept" @selected="onFileSelected" />
+    <InputSelect ref="selectRef" :accept="props.accept" :disabled="props.disabled" @selected="onFileSelected" />
     <div v-if="['text', 'picture'].includes(props.listType)" class="o-upload-select-wrap">
       <UploadSelect
         :disabled="props.disabled"
