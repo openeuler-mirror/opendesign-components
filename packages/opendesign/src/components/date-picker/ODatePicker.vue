@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { defaultSize } from '../_shared/global';
 import { datePickerProps } from './types';
 import { getRoundClass } from '../_shared/style-class';
+import { OInput } from '../input';
 
 const props = defineProps(datePickerProps);
 
@@ -14,11 +15,7 @@ const emits = defineEmits<{
 
 const round = getRoundClass(props, 'textarea');
 
-// 清除值
-const clearClick = (e: Event) => {
-  // updateValue('');
-  emits('clear', e);
-};
+const value1 = ref<string>('');
 </script>
 <template>
   <label
@@ -34,6 +31,10 @@ const clearClick = (e: Event) => {
     ]"
     :style="round.style.value"
   >
-    <div class="o-date-picker-wrap"></div>
+    <div class="o-date-picker-wrap">
+      <div class="o-date-picker-input1">
+        <input v-model="value1" type="text" />
+      </div>
+    </div>
   </label>
 </template>
