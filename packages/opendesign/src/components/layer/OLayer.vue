@@ -185,6 +185,8 @@ onMounted(() => {
 
 onUnmounted(() => {
   mouse?.destroy();
+  // 卸载时移除类
+  wrapperEl?.classList.remove(LayerClass.OPEN);
 });
 
 defineExpose({
