@@ -1,4 +1,4 @@
-import '../../style';
+import '../../_styles';
 import '../../button/style';
 import '../../popover/style';
 import '../../icon/style';
