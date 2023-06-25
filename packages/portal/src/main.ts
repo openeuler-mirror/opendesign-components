@@ -2,8 +2,8 @@ import { createApp } from 'vue';
 import './assets/style/style.scss';
 import 'normalize.css';
 
-import '@opensig/opendesign/src/components/style/light.token.css';
-import '@opensig/opendesign/src/components/style/dark.token.css';
+import '@opensig/opendesign/src/_styles/light.token.css';
+import '@opensig/opendesign/src/_styles/dark.token.css';
 
 import './assets/style/a.light.token.css';
 import './assets/style/a.dark.token.css';

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { initIconLoading, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src/components';
-import { OIconAdd } from '@opensig/opendesign/src/components/icon-components';
+import { initIconLoading, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src';
+import { OIconAdd } from '@opensig/opendesign/src/icon-components';
 
-import '../../../opendesign/src/components/dropdown/style';
+import '../../../opendesign/src/dropdown/style';
 
 const themeInfo = [
   {
