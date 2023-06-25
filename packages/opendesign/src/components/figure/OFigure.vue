@@ -2,7 +2,7 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import { defaultPrestColorPool } from '../_shared/global';
 import HtmlTag from '../_shared/components/html-tag';
-import OLayer from '../layer/OLayer.vue';
+import { OLayer } from '../layer';
 import { IconImageError } from '../_shared/icons';
 
 import { figureProps } from './types';
