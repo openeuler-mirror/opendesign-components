@@ -2,10 +2,10 @@
 export const OptionSlotNames = ['action', 'default', 'empty'];
 </script>
 <script setup lang="ts">
-import { defaultSize } from '../_shared/global';
-import { IconLoading } from '../_shared/icons';
+import { defaultSize } from '../_utils/global';
+import { IconLoading } from '../_utils/icons';
 import { OScroller } from '../scroller';
-import type { SizeT } from '../_shared/types';
+import type { SizeT } from '../_utils/types';
 
 interface OptionPropT {
   size?: SizeT;

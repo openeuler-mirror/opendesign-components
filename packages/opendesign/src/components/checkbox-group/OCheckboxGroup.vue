@@ -2,7 +2,7 @@
 import { computed, provide, ref, toRef, watch } from 'vue';
 import { checkboxGroupProps } from './types';
 import { checkboxGroupInjectKey } from './provide';
-import { isArray, isUndefined } from '../_shared/is';
+import { isArray, isUndefined } from '../_utils/is';
 
 const props = defineProps(checkboxGroupProps);
 

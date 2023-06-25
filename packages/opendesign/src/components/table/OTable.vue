@@ -2,8 +2,8 @@
 import { tableProps } from './types';
 import { getColumnData, getBodyData } from './table';
 import { computed } from 'vue';
-import { IconLoading } from '../_shared/icons';
-import { isString } from '../_shared/is';
+import { IconLoading } from '../_utils/icons';
+import { isString } from '../_utils/is';
 
 const props = defineProps(tableProps);
 

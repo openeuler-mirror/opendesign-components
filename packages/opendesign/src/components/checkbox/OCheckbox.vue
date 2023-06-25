@@ -2,9 +2,9 @@
 import { computed, inject, nextTick, ref, watch } from 'vue';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
-import { IconChecked } from '../_shared/icons';
-import { isArray, isUndefined } from '../_shared/is';
-import { uniqueId } from '../_shared/utils';
+import { IconChecked } from '../_utils/icons';
+import { isArray, isUndefined } from '../_utils/is';
+import { uniqueId } from '../_utils/utils';
 
 const props = defineProps(checkboxProps);
 

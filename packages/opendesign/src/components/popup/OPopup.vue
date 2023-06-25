@@ -6,19 +6,19 @@ export default {
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
 import { popupProps, PopupTriggerT } from './types';
-import { isHtmlElement, getScrollParents } from '../_shared/dom';
-import { throttleRAF } from '../_shared/utils';
-import { isArray, isFunction } from '../_shared/is';
+import { isHtmlElement, getScrollParents } from '../_utils/dom';
+import { throttleRAF } from '../_utils/utils';
+import { isArray, isFunction } from '../_utils/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
 import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
-import ClientOnly from '../_shared/components/client-only';
-import { getHtmlElement } from '../_shared/vue-utils';
-import { isPhonePad } from '../_shared/global';
-import { createTopZIndex, removeZIndex } from '../_shared/z-index';
+import ClientOnly from '../_components/client-only';
+import { getHtmlElement } from '../_utils/vue-utils';
+import { isPhonePad } from '../_utils/global';
+import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
 // TODO 处理嵌套
 

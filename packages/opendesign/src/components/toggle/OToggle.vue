@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { buttonToggleProps } from './types';
-import { getRoundClass } from '../_shared/style-class';
-import { isUndefined } from '../_shared/is';
+import { getRoundClass } from '../_utils/style-class';
+import { isUndefined } from '../_utils/is';
 
 const props = defineProps(buttonToggleProps);
 

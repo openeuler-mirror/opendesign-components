@@ -2,7 +2,7 @@
 import { provide, ref, toRef, watch } from 'vue';
 import { radioGroupProps } from './types';
 import { radioGroupInjectKey } from './provide';
-import { isUndefined } from '../_shared/is';
+import { isUndefined } from '../_utils/is';
 
 const props = defineProps(radioGroupProps);
 

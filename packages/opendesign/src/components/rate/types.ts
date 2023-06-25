@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, PropType } from 'vue';
-import type { ColorT } from '../_shared/types';
+import type { ColorT } from '../_utils/types';
 
 export const RateItemStatusTypes = ['full', 'half', 'empty'] as const;
 export type RateItemStatusT = (typeof RateItemStatusTypes)[number];

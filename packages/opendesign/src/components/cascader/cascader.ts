@@ -1,4 +1,4 @@
-import { isArray, isUndefined } from '../_shared/is';
+import { isArray, isUndefined } from '../_utils/is';
 import { CascaderValueT } from './types';
 import { CascaderOptionT } from './types';
 

@@ -2,7 +2,7 @@
 export const ItemSlotNames = ['item'];
 </script>
 <script setup lang="ts">
-import { IconLoading, IconLinkPrefix, IconRefresh, IconDelete, IconPreview, IconFile, IconEdit } from '../_shared/icons';
+import { IconLoading, IconLinkPrefix, IconRefresh, IconDelete, IconPreview, IconFile, IconEdit } from '../_utils/icons';
 import { UploadFileT, UploadListTypeT } from './types';
 import { OIcon } from '../icon';
 import { OFigure } from '../figure';

@@ -1,8 +1,7 @@
 import { computed } from 'vue';
-import { defaultRound } from '../_shared/global';
+import { defaultRound } from '../_utils/global';
 
 export function getRoundClass(props: any, name: string) {
-
   return {
     class: computed(() => {
       if (props.round === 'pill' || (!props.round && defaultRound.value === 'pill')) {
@@ -13,10 +12,10 @@ export function getRoundClass(props: any, name: string) {
     style: computed(() => {
       if (props.round && props.round !== 'pill') {
         return {
-          [`--${name}-radius`]: props.round
+          [`--${name}-radius`]: props.round,
         };
       }
       return {};
-    })
+    }),
   };
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { defaultSize } from '../_shared/global';
-import { IconLinkArrow, IconLoading } from '../_shared/icons';
+import { defaultSize } from '../_utils/global';
+import { IconLinkArrow, IconLoading } from '../_utils/icons';
 
 import { linkProps } from './types';
 

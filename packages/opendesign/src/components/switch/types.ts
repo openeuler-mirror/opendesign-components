@@ -1,4 +1,4 @@
-import type { RoundT } from '../_shared/types';
+import type { RoundT } from '../_utils/types';
 import type { ExtractPropTypes, PropType } from 'vue';
 
 export const SwitchSizeTypes = ['medium', 'small'] as const;

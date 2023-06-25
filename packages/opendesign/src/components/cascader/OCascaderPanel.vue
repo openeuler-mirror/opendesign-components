@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, inject, ref, watch, watchEffect } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
-import { IconChevronRight } from '../_shared/icons';
+import { IconChevronRight } from '../_utils/icons';
 import CascaderTree from './cascader';
 import type { ColumnInfoT } from './cascader';
-import { isArray, isUndefined } from '../_shared/is';
+import { isArray, isUndefined } from '../_utils/is';
 import type { CascaderValueT, CascaderNodePathT } from './types';
 
 import { cascaderPanelProps } from './types';

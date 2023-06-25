@@ -1,6 +1,6 @@
 import { DirectiveBinding, ObjectDirective } from 'vue';
 import { useIntersectionObserver, IntersectionListenerT } from '../hooks';
-import { isFunction } from '../_shared/is';
+import { isFunction } from '../_utils/is';
 
 let io: ReturnType<typeof useIntersectionObserver> | null = null;
 let listener: IntersectionListenerT = () => null;

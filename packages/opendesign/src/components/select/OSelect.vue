@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch, watchEffect } from 'vue';
-import { defaultSize, isPhonePad } from '../_shared/global';
-import { IconChevronDown, IconClose, IconLoading } from '../_shared/icons';
+import { defaultSize, isPhonePad } from '../_utils/global';
+import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
 import { ODialog, DialogActionT } from '../dialog';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps, SelectValueT } from './types';
-import { getRoundClass } from '../_shared/style-class';
-import ClientOnly from '../_shared/components/client-only';
+import { getRoundClass } from '../_utils/style-class';
+import ClientOnly from '../_components/client-only';
 import { OScroller } from '../scroller';
-import { isArray, isFunction } from '../_shared/is';
+import { isArray, isFunction } from '../_utils/is';
 import SelectOption, { OptionSlotNames } from './SelectOption.vue';
 import { filterSlots } from '../upload/util';
 

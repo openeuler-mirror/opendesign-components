@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CSSProperties, computed } from 'vue';
 import { progressProps } from './types';
-import { isNumber, isUndefined } from '../_shared/is';
+import { isNumber, isUndefined } from '../_utils/is';
 
 const DEFAULT_STROKE_WIDTH = {
   medium: 8,

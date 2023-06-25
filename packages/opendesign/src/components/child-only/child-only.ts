@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { getFirstComponent } from '../_shared/vue-utils';
+import { getFirstComponent } from '../_utils/vue-utils';
 
 /**
  * 只渲染一个子元素

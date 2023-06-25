@@ -7,8 +7,8 @@ export default {
 import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties } from 'vue';
 import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
-import { isFunction } from '../_shared/is';
-import { createTopZIndex, removeZIndex } from '../_shared/z-index';
+import { isFunction } from '../_utils/is';
+import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
 const props = defineProps(layerProps);
 

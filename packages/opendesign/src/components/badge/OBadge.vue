@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { badgeProps } from './types';
 
-import { isNumber } from '../_shared/is';
+import { isNumber } from '../_utils/is';
 
 const props = defineProps(badgeProps);
 

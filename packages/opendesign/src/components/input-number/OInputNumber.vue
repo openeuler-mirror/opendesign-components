@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import { defaultSize } from '../_shared/global';
-import { IconMinus, IconAdd, IconChevronUp, IconChevronDown } from '../_shared/icons';
+import { defaultSize } from '../_utils/global';
+import { IconMinus, IconAdd, IconChevronUp, IconChevronDown } from '../_utils/icons';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, getRealValue } from './input-number';
-import { isFunction, isUndefined } from '../_shared/is';
+import { isFunction, isUndefined } from '../_utils/is';
 import { inputNumberPorps } from './types';
 
 const props = defineProps(inputNumberPorps);

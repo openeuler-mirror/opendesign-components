@@ -3,8 +3,8 @@ import { computed, ref, watch } from 'vue';
 
 import { OPopover } from '../popover';
 import { rateProps } from './types';
-import { defaultSize } from '../_shared/global';
-import { isArray, isUndefined } from '../_shared/is';
+import { defaultSize } from '../_utils/global';
+import { isArray, isUndefined } from '../_utils/is';
 import ORateItem from './ORateItem.vue';
 
 const props = defineProps(rateProps);

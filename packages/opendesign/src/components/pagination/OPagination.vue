@@ -5,9 +5,9 @@ import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect, SelectValueT } from '../select';
 import { OOption } from '../option';
-import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_shared/icons';
+import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_utils/icons';
 import { paginationProps } from './types';
-import { getRoundClass } from '../_shared/style-class';
+import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
 
 const props = defineProps(paginationProps);

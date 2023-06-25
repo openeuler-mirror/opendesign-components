@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { getRoundClass } from '../_shared/style-class';
+import { getRoundClass } from '../_utils/style-class';
 import { tagProps } from './types';
-import { IconClose } from '../_shared/icons';
-import { isFunction, isUndefined } from '../_shared/is';
+import { IconClose } from '../_utils/icons';
+import { isFunction, isUndefined } from '../_utils/is';
 
 const props = defineProps(tagProps);
 

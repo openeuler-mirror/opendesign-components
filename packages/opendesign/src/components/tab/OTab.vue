@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { provide, ref, nextTick, watch, computed } from 'vue';
 import { tabInjectKey } from './provide';
-import { IconAdd, IconChevronLeft, IconChevronRight } from '../_shared/icons';
+import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import { tabProps } from './types';
 import { vOnResize } from '../directves';
-import { debounceRAF } from '../_shared/utils';
-import { isPhonePad } from '../_shared/global';
+import { debounceRAF } from '../_utils/utils';
+import { isPhonePad } from '../_utils/global';
 
 const props = defineProps(tabProps);
 

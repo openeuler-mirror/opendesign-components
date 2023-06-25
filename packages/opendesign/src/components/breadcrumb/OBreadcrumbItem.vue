@@ -2,8 +2,8 @@
 import { inject } from 'vue';
 import { breadcrumbItemProps } from './types';
 import { breadcrumbInjectKey } from './provide';
-import { IconChevronRight } from '../_shared/icons';
-import htmlTag from '../_shared/components/html-tag';
+import { IconChevronRight } from '../_utils/icons';
+import htmlTag from '../_components/html-tag';
 
 const props = defineProps(breadcrumbItemProps);
 

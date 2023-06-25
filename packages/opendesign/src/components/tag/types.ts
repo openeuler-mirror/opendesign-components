@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT, ColorT } from '../_shared/types';
+import { RoundT, ColorT } from '../_utils/types';
 
 export const TagColorTypes = ['normal', 'info', 'primary', 'success', 'warning', 'danger'] as const;
 export type TagColorT = (typeof TagColorTypes)[number];

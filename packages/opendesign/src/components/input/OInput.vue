@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { defaultSize } from '../_shared/global';
-import { isFunction } from '../_shared/is';
-import { IconClose, IconEyeOn, IconEyeOff } from '../_shared/icons';
-import { trigger } from '../_shared/event';
-import { Enter } from '../_shared/keycode';
+import { defaultSize } from '../_utils/global';
+import { isFunction } from '../_utils/is';
+import { IconClose, IconEyeOn, IconEyeOff } from '../_utils/icons';
+import { trigger } from '../_utils/event';
+import { Enter } from '../_utils/keycode';
 import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
 import { inputProps } from './types';
-import { getRoundClass } from '../_shared/style-class';
-import ClientOnly from '../_shared/components/client-only';
-import { uniqueId } from '../_shared/utils';
+import { getRoundClass } from '../_utils/style-class';
+import ClientOnly from '../_components/client-only';
+import { uniqueId } from '../_utils/utils';
 
 const props = defineProps(inputProps);
 

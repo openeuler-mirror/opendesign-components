@@ -2,7 +2,7 @@
 import { computed, inject } from 'vue';
 import { menuItemProps } from './types';
 import { menuInjectKey, subMenuInjectKey } from './provide';
-import { isUndefined } from '../_shared/is';
+import { isUndefined } from '../_utils/is';
 
 const props = defineProps(menuItemProps);
 

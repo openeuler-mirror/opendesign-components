@@ -1,6 +1,6 @@
 import { PopupPositionT, PopupTriggerT } from '../popup';
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/types';
+import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
 
 export const OptionWidthModeTypes = ['auto', 'min-width', 'width'] as const;
 export type OptionWidthModeT = (typeof OptionWidthModeTypes)[number];

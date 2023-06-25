@@ -1,6 +1,6 @@
-import { VTree } from '../_shared/tree';
-import type { TreeNodeT } from '../_shared/tree';
-import { isString, isUndefined } from '../_shared/is';
+import { VTree } from '../_utils/tree';
+import type { TreeNodeT } from '../_utils/tree';
+import { isString, isUndefined } from '../_utils/is';
 
 interface MenuNodeT extends TreeNodeT {}
 

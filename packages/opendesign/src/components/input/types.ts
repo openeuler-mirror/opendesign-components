@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT, Color2T } from '../_shared/types';
+import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
 
 export const inputProps = {
   /**

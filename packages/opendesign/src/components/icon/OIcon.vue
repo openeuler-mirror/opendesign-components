@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconLoading } from '../_shared/icons';
+import { IconLoading } from '../_utils/icons';
 import { iconProps } from './types';
 const props = defineProps(iconProps);
 </script>

@@ -1,7 +1,7 @@
 import { ref } from 'vue';
-import { PointT } from '../_shared/types';
-import { isClient } from '../_shared/is';
-import { trigger } from '../_shared/event';
+import { PointT } from '../_utils/types';
+import { isClient } from '../_utils/is';
+import { trigger } from '../_utils/event';
 
 export type PointerTypeT = 'mouse' | 'touch';
 export type PositionTypeT = 'page' | 'client' | 'screen' | 'offset';

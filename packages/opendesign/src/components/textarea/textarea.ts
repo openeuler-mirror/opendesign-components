@@ -1,4 +1,4 @@
-import { isNull, isUndefined } from '../_shared/is';
+import { isNull, isUndefined } from '../_utils/is';
 import { TextareaResizeT } from './types';
 
 export function toInputString(val: unknown): string {

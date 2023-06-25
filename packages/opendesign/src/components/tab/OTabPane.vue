@@ -7,9 +7,9 @@ export default {
 import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch } from 'vue';
 import { tabInjectKey } from './provide';
 import { tabPaneProps } from './types';
-import { IconClose } from '../_shared/icons';
-import ClientOnly from '../_shared/components/client-only';
-import { isUndefined } from '../_shared/is';
+import { IconClose } from '../_utils/icons';
+import ClientOnly from '../_components/client-only';
+import { isUndefined } from '../_utils/is';
 
 const props = defineProps(tabPaneProps);
 

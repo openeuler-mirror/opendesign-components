@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { switchProps } from './types';
-import { getRoundClass } from '../_shared/style-class';
-import { IconLoading } from '../_shared/icons';
-import { isPromise, isBoolean, isUndefined } from '../_shared/is';
+import { getRoundClass } from '../_utils/style-class';
+import { IconLoading } from '../_utils/icons';
+import { isPromise, isBoolean, isUndefined } from '../_utils/is';
 
 const props = defineProps(switchProps);
 

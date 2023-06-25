@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ODivider } from '../index';
-import { IconAdd } from '../../_shared/icons';
+import { IconAdd } from '../../_utils/icons';
 </script>
 
 <template>

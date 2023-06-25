@@ -1,21 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
+import type { SizeT, RoundT, VariantT, Color2T } from '../../_utils/types';
 
 export const datePickerProps = {
-  /**
-   * 下拉框的值
-   * v-model
-   */
-  modelValue: {
-    type: [Number],
-  },
-  /**
-   * 下拉框的默认值
-   * 非受控
-   */
-  defaultValue: {
-    type: [Number],
-  },
   /**
    * 大小 SizeT
    */
@@ -43,30 +29,16 @@ export const datePickerProps = {
     default: 'outline',
   },
   /**
-   * 提示文本
-   */
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  /**
    * 是否禁用
    */
   disabled: {
     type: Boolean,
   },
   /**
-   * 是否只读
+   * 关联 input
    */
-  readonly: {
-    type: Boolean,
-  },
-  /**
-   * 是否可以清除
-   */
-  clearable: {
-    type: Boolean,
-    default: true,
+  for: {
+    type: String,
   },
 };
 

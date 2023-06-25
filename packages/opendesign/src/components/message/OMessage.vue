@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { messageProps } from './types';
-import { IconWarning, IconDanger, IconLoading, IconInfo, IconSuccess, IconClose } from '../_shared/icons';
-import { isFunction, isUndefined } from '../_shared/is';
+import { IconWarning, IconDanger, IconLoading, IconInfo, IconSuccess, IconClose } from '../_utils/icons';
+import { isFunction, isUndefined } from '../_utils/is';
 
 const props = defineProps(messageProps);
 

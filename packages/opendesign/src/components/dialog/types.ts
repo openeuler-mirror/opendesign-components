@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { layerProps } from '../layer/types';
-import { ColorT, SizeT, VariantT, RoundT } from '../_shared/types';
+import { ColorT, SizeT, VariantT, RoundT } from '../_utils/types';
 
 export const DialogSizeTypes = ['exlarge', 'large', 'medium', 'small', 'auto'] as const;
 export type DialogSizeT = (typeof DialogSizeTypes)[number];

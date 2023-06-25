@@ -1,5 +1,5 @@
 import { createVNode, render } from 'vue';
-import { isString } from '../_shared/is';
+import { isString } from '../_utils/is';
 import { MessageParamsT } from './types';
 import OMessageList from './OMessageList.vue';
 

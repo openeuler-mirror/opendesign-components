@@ -3,7 +3,7 @@ import { onMounted, provide, ref, toRefs, watch } from 'vue';
 import { menuInjectKey } from './provide';
 import { menuProps } from './types';
 import MenuTree from './menu';
-import { isArray, isUndefined } from '../_shared/is';
+import { isArray, isUndefined } from '../_utils/is';
 
 const props = defineProps(menuProps);
 

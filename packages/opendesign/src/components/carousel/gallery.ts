@@ -1,8 +1,8 @@
-import { isFunction } from '../_shared/is';
-import { PointMoveT } from '../_shared/types';
+import { isFunction } from '../_utils/is';
+import { PointMoveT } from '../_utils/types';
 import Effect, { EffectOptionT } from './effect';
 import { useResizeObserver } from '../hooks';
-import { debounceRAF } from '../_shared/utils';
+import { debounceRAF } from '../_utils/utils';
 
 interface GalleryItemT {
   index: number;

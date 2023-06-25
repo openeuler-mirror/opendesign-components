@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
-import { RoundT } from '../_shared/types';
+import { RoundT } from '../_utils/types';
 
 export const buttonToggleProps = {
   /**

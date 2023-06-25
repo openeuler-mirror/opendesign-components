@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
-import { ColorT } from '../_shared/types';
+import { ColorT } from '../_utils/types';
 
 export const LinkSizeTypes = ['large', 'medium', 'small', 'auto'] as const;
 export type LinkSizeT = (typeof LinkSizeTypes)[number];

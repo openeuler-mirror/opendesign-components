@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { isArray, isFunction, isString } from '../_shared/is';
+import { isArray, isFunction, isString } from '../_utils/is';
 import { TableColumnT, TableRowT, CellSpanT, TableCellT } from './types';
 
 export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT[] {

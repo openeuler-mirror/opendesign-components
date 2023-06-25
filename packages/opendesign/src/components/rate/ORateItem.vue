@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { rateItemProps } from './types';
-import { IconStar } from '../_shared/icons';
+import { IconStar } from '../_utils/icons';
 const props = defineProps(rateItemProps);
 
 const emits = defineEmits<{

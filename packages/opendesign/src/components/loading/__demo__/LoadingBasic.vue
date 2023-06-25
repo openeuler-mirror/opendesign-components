@@ -19,11 +19,14 @@ const show4 = ref(false);
 
 const box1 = ref();
 const l1 = useLoading();
-const l2 = useLoading(box1, {
-  label: 'loading',
-  icon: OIconAdd,
-  iconRotating: true,
-});
+const l2 = useLoading(
+  {
+    label: 'loading',
+    icon: OIconAdd,
+    iconRotating: true,
+  },
+  box1
+);
 const toggleLoading1 = () => {
   l1.toggle(true);
   setTimeout(() => {

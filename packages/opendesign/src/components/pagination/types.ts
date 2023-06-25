@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT } from '../_shared/types';
+import { RoundT } from '../_utils/types';
 
 const pageSizes = [6, 12, 24, 48];
 

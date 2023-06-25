@@ -1,4 +1,4 @@
-import { isFunction, isNumber, isUndefined } from '../_shared/is';
+import { isFunction, isNumber, isUndefined } from '../_utils/is';
 
 export function isValidNumber(val?: string | number, min?: number, max?: number, parse?: (value: string) => string) {
   if (Number.isNaN(val)) {
@@ -20,7 +20,6 @@ export function isValidNumber(val?: string | number, min?: number, max?: number,
 }
 
 export function getRealValue(val?: string | number, min?: number, max?: number, parse?: (value: string) => string) {
-
   const value = isFunction(parse) ? parse(String(val)) : val;
 
   let rlt: number = NaN;
@@ -41,7 +40,8 @@ export function correctValue(val: string | number, lastVal: number, min?: number
   if (isNumber(v)) {
     if (!isUndefined(max) && v > max) {
       return max;
-    } if (!isUndefined(min) && v < min) {
+    }
+    if (!isUndefined(min) && v < min) {
       return min;
     }
     return v;

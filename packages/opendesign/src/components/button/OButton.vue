@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { defaultSize } from '../_shared/global';
-import { IconLoading } from '../_shared/icons';
-import { getRoundClass } from '../_shared/style-class';
+import { defaultSize } from '../_utils/global';
+import { IconLoading } from '../_utils/icons';
+import { getRoundClass } from '../_utils/style-class';
 import { buttonProps } from './types';
-import HtmlTag from '../_shared/components/html-tag';
-import { isEmptySlot } from '../_shared/vue-utils';
+import HtmlTag from '../_components/html-tag';
+import { isEmptySlot } from '../_utils/vue-utils';
 
 const props = defineProps(buttonProps);
 

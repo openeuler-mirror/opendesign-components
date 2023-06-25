@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { IconClose } from '../_shared/icons';
+import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
 import { OScroller } from '../scroller';
 
 import { dialogProps } from './types';
-import { mergeClass } from '../_shared/dom';
+import { mergeClass } from '../_utils/dom';
 import { ref } from 'vue';
-import { isPhonePad } from '../_shared/global';
+import { isPhonePad } from '../_utils/global';
 
 const props = defineProps(dialogProps);
 

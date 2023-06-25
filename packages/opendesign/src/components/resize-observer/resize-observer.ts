@@ -1,7 +1,7 @@
 import { defineComponent, cloneVNode, withDirectives, VNode, Directive } from 'vue';
 import { useReiszeObserverDirective } from '../hooks';
-import { isComponent, isElement } from '../_shared/vue-utils';
-import { isArray } from '../_shared/is';
+import { isComponent, isElement } from '../_utils/vue-utils';
+import { isArray } from '../_utils/is';
 
 // 递归绑定
 const bindEvent = (child: VNode, vResizeObserver: Directive) => {

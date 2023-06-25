@@ -1,6 +1,6 @@
 import { DirectiveBinding, ObjectDirective } from 'vue';
 import { useResizeObserver, ResizeListenerT } from '../hooks';
-import { isFunction } from '../_shared/is';
+import { isFunction } from '../_utils/is';
 
 let listener: ResizeListenerT = () => null;
 let ro: ReturnType<typeof useResizeObserver> | null = null;
@@ -22,6 +22,4 @@ const vOnResize: ObjectDirective = {
   },
 };
 
-export {
-  vOnResize
-};
+export { vOnResize };

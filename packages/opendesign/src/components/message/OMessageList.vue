@@ -2,7 +2,7 @@
 import { ComponentPublicInstance, ref, Ref, shallowRef } from 'vue';
 import { messageListProps, MessageParamsT } from './types';
 import OMessage from './OMessage.vue';
-import { isString } from '../_shared/is';
+import { isString } from '../_utils/is';
 
 const props = defineProps(messageListProps);
 

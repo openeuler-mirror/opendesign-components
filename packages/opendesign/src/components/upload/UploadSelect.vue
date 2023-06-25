@@ -3,7 +3,7 @@ export const selectSlotNames = ['default', 'select-drag', 'select-drag-extra'];
 </script>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IconAdd } from '../_shared/icons';
+import { IconAdd } from '../_utils/icons';
 import OButton from '../button/OButton.vue';
 import { UploadLabel } from './util';
 import { UploadBtnType } from './types';

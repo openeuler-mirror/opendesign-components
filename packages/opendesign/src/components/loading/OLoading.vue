@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { IconLoading } from '../_shared/icons';
+import { IconLoading } from '../_utils/icons';
 import { OLayer } from '../layer';
 
 import { loadingProps } from './types';
-import { mergeClass } from '../_shared/dom';
+import { mergeClass } from '../_utils/dom';
 import { ref } from 'vue';
 
 const props = defineProps(loadingProps);

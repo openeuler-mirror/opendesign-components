@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { resultProps } from './types';
-import { IconInfo, IconSuccess, IconWarning, IconDanger } from '../_shared/icons';
+import { IconInfo, IconSuccess, IconWarning, IconDanger } from '../_utils/icons';
 import { computed } from 'vue';
 
 const props = defineProps(resultProps);

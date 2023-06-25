@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { computed, inject, provide } from 'vue';
 import { subMenuProps } from './types';
-import { IconChevronRight } from '../_shared/icons';
+import { IconChevronRight } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
-import { isUndefined } from '../_shared/is';
+import { isUndefined } from '../_utils/is';
 
 const props = defineProps(subMenuProps);
 

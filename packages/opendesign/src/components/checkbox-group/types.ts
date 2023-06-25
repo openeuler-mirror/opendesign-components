@@ -1,4 +1,4 @@
-import type { DirectionT } from '../_shared/types';
+import type { DirectionT } from '../_utils/types';
 import type { ExtractPropTypes, PropType } from 'vue';
 
 export const checkboxGroupProps = {

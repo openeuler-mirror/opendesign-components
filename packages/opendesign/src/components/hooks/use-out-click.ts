@@ -1,4 +1,4 @@
-import { isTouchDevice } from '../_shared/is';
+import { isTouchDevice } from '../_utils/is';
 
 // type mEvent =  isTouchDevice ? TouchEvent : MouseEvent;
 

@@ -2,8 +2,8 @@
 import { onMounted, ref, onUnmounted, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
-import { getHtmlElement } from '../_shared/vue-utils';
-import { isPhonePad } from '../_shared/global';
+import { getHtmlElement } from '../_utils/vue-utils';
+import { isPhonePad } from '../_utils/global';
 import { OResizeObserver } from '../resize-observer';
 
 const ScrollerClass = {

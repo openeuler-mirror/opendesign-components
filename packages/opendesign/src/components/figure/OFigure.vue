@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from 'vue';
-import { defaultPrestColorPool } from '../_shared/global';
-import HtmlTag from '../_shared/components/html-tag';
+import { defaultPrestColorPool } from '../_utils/global';
+import HtmlTag from '../_components/html-tag';
 import { OLayer } from '../layer';
-import { IconImageError } from '../_shared/icons';
+import { IconImageError } from '../_utils/icons';
 
 import { figureProps } from './types';
 

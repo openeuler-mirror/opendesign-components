@@ -1,5 +1,5 @@
 import { UploadFileT, UploadRequestT, UploadRequestOptionT } from './types';
-import { isFunction } from '../_shared/is';
+import { isFunction } from '../_utils/is';
 import { Slots } from 'vue';
 
 interface OptionsT {

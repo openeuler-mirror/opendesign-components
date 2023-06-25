@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { defaultSize } from '../_shared/global';
-import { isFunction } from '../_shared/is';
-import { IconClose } from '../_shared/icons';
-import { trigger } from '../_shared/event';
+import { defaultSize } from '../_utils/global';
+import { isFunction } from '../_utils/is';
+import { IconClose } from '../_utils/icons';
+import { trigger } from '../_utils/event';
 import { getResizeValue, toInputString } from './textarea';
 import { OResizeObserver } from '../resize-observer';
 import { textareaProps } from './types';
-import { getRoundClass } from '../_shared/style-class';
-import ClientOnly from '../_shared/components/client-only';
-import { uniqueId } from '../_shared/utils';
+import { getRoundClass } from '../_utils/style-class';
+import ClientOnly from '../_components/client-only';
+import { uniqueId } from '../_utils/utils';
 
 const props = defineProps(textareaProps);
 

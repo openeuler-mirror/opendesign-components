@@ -4,7 +4,7 @@ import { provide, ref, watch } from 'vue';
 import { OPopup } from '../popup';
 import { dropdownProps } from './types';
 import { dropdownInjectKey } from './provide';
-import { isUndefined } from '../_shared/is';
+import { isUndefined } from '../_utils/is';
 
 const props = defineProps(dropdownProps);
 

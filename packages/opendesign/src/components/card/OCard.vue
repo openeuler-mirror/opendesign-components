@@ -2,8 +2,8 @@
 import { computed } from 'vue';
 import { cardProps } from './types';
 import { OFigure } from '../figure';
-import HtmlTag from '../_shared/components/html-tag';
-import { isString, isUndefined } from '../_shared/is';
+import HtmlTag from '../_components/html-tag';
+import { isString, isUndefined } from '../_utils/is';
 
 const props = defineProps(cardProps);
 const hasContent = computed(() => {

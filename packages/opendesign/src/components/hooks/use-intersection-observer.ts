@@ -1,4 +1,4 @@
-import { isFunction } from '../_shared/is';
+import { isFunction } from '../_utils/is';
 
 export type IntersectionListenerT = (entry: IntersectionObserverEntry) => void;
 

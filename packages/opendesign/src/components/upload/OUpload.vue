@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { uploadProps, UploadFileT } from './types';
 import { computed, ref } from 'vue';
-import { isFunction } from '../_shared/is';
+import { isFunction } from '../_utils/is';
 import UploadItem, { ItemSlotNames } from './UploadItem.vue';
 import { UploadLabel, doUploadFileList, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
 import UploadSelect, { selectSlotNames } from './UploadSelect.vue';
-import { IconAdd } from '../_shared/icons';
+import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
 
 const props = defineProps(uploadProps);

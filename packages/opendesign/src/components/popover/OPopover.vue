@@ -6,7 +6,7 @@ export default {
 <script setup lang="ts">
 import { OPopup } from '../popup';
 import { popoverProps } from './types';
-import { mergeClass } from '../_shared/dom';
+import { mergeClass } from '../_utils/dom';
 
 const props = defineProps(popoverProps);
 
