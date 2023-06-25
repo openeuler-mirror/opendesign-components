@@ -1,6 +1,6 @@
 module.exports = {
   prefix: '--o-',
-  output: '../components/style/',
+  output: '../src/_styles/',
   themeMap: [
     {
       key: 'light',

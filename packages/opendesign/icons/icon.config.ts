@@ -1,6 +1,6 @@
 module.exports = {
   input: './svgs',
-  output: '../components/icon-components/',
+  output: '../src/icon-components/',
   componentClass: 'o-svg-icon',
   prefix: 'o-',
 };
