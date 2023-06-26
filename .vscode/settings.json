@@ -7,8 +7,8 @@
   },
   "outline.showFiles": true,
   "files.exclude": {
-    // "packages/opendesign/dist": true,
-    // "packages/opendesign/es": true,
-    // "packages/opendesign/lib": true
+    "packages/opendesign/dist": true,
+    "packages/opendesign/es": true,
+    "packages/opendesign/lib": true
   }
 }
