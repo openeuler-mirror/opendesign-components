@@ -108,7 +108,7 @@ export const routes = [
     path: '/table',
     name: 'Table',
     label: '表格 Table',
-    component: () => import('@components/table/__demo__/IndexTable.vue'),
+    component: () => import('@components/table/__demo__/TheIndex.vue'),
   },
   {
     path: '/pagination',

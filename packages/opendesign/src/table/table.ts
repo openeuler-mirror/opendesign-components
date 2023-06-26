@@ -2,7 +2,10 @@ import { Ref } from 'vue';
 import { isArray, isFunction, isString } from '../_utils/is';
 import { TableColumnT, TableRowT, CellSpanT, TableCellT } from './types';
 
-export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT[] {
+interface TableRenderColumnT extends TableColumnT {
+  thKey: string;
+}
+export function getColumnData(columns?: string[] | TableColumnT[]): TableRenderColumnT[] {
   if (!isArray(columns)) {
     return [];
   }
@@ -10,11 +13,15 @@ export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT
   return columns.map((item) => {
     if (isString(item)) {
       return {
+        thKey: `th-${item}`,
         key: item,
+        label: item,
       };
     }
-
-    return item;
+    return {
+      thKey: `th-${item.key}`,
+      ...item,
+    };
   });
 }
 function getSkipCell(rowIndex: number, columnIndex: number, span: { rowspan?: number; colspan?: number }) {
@@ -50,7 +57,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
     for (let c = 0; c < colLenght; c += 1) {
       const col = columnData.value[c];
       if (isFunction(cellSpan)) {
-        span = cellSpan(r, c);
+        span = cellSpan(r, c, row, col);
       }
       const cell: TableCellT = {
         value: row[col.key],

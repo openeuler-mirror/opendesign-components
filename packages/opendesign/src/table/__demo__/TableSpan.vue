@@ -42,7 +42,9 @@ function cellSpanFn(rowIdx: number, colIdx: number) {
 <template>
   <h4>单元格合并</h4>
   <div class="sec">
-    <OTable border="all" :data="tableData" :columns="columns2" :cell-span="cellSpanFn" />
+    <OTable border="all" :data="tableData" :columns="columns2" :cell-span="cellSpanFn">
+      <template #name="{ row }">name: {{ row.name }}</template>
+    </OTable>
   </div>
 </template>
 <style lang="scss">

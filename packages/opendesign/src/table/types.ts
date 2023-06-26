@@ -21,10 +21,15 @@ export interface TableCellT {
 
 export type ColumnKeysT = Array<string>;
 
-export type CellSpanT = (rowIndex: number, columnIndex: number) => { rowspan?: number; colspan?: number } | undefined;
+export type CellSpanT = (
+  rowIndex: number,
+  columnIndex: number,
+  rowData?: TableRowT,
+  column?: TableColumnT
+) => { rowspan?: number; colspan?: number } | undefined;
 
 export const TableBorderTypes = ['all', 'row', 'column', 'frame', 'row-column', 'row-frame', 'column-frame', 'none'] as const;
-export type TableBorderT = typeof TableBorderTypes[number];
+export type TableBorderT = (typeof TableBorderTypes)[number];
 
 export const tableProps = {
   /**
