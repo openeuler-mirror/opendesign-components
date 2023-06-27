@@ -4,7 +4,7 @@ import { tabInjectKey } from './provide';
 import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import { tabProps } from './types';
 import { vOnResize } from '../directves';
-import { debounceRAF } from '../_utils/utils';
+import { debounceRAF } from '../_utils/helper';
 import { isPhonePad } from '../_utils/global';
 
 const props = defineProps(tabProps);

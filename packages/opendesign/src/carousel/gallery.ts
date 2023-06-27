@@ -2,7 +2,7 @@ import { isFunction } from '../_utils/is';
 import { PointMoveT } from '../_utils/types';
 import Effect, { EffectOptionT } from './effect';
 import { useResizeObserver } from '../hooks';
-import { debounceRAF } from '../_utils/utils';
+import { debounceRAF } from '../_utils/helper';
 
 interface GalleryItemT {
   index: number;

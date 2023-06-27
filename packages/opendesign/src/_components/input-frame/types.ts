@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT, Color2T } from '../../_utils/types';
 
-export const datePickerProps = {
+export const inputFrameProps = {
   /**
    * 大小 SizeT
    */
@@ -35,6 +35,12 @@ export const datePickerProps = {
     type: Boolean,
   },
   /**
+   * 是否只读
+   */
+  readonly: {
+    type: Boolean,
+  },
+  /**
    * 关联 input
    */
   for: {
@@ -42,4 +48,4 @@ export const datePickerProps = {
   },
 };
 
-export type DatePickerPropsT = ExtractPropTypes<typeof datePickerProps>;
+export type InputFrameProps = ExtractPropTypes<typeof inputFrameProps>;

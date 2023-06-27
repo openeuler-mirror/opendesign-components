@@ -3,7 +3,7 @@ import { computed, inject, nextTick, ref, watch } from 'vue';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_utils/is';
-import { uniqueId } from '../_utils/utils';
+import { uniqueId } from '../_utils/helper';
 
 const props = defineProps(radioProps);
 

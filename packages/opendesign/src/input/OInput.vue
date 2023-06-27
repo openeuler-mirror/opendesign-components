@@ -10,7 +10,7 @@ import { OResizeObserver } from '../resize-observer';
 import { inputProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
-import { uniqueId } from '../_utils/utils';
+import { uniqueId } from '../_utils/helper';
 
 const props = defineProps(inputProps);
 

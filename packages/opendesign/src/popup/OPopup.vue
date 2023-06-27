@@ -7,7 +7,7 @@ export default {
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
 import { popupProps, PopupTriggerT } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
-import { throttleRAF } from '../_utils/utils';
+import { throttleRAF } from '../_utils/helper';
 import { isArray, isFunction } from '../_utils/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';

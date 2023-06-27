@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { ColorPool } from './utils';
+import { ColorPool } from './helper';
 import { SizeT } from './types';
 import { isClient, isTouchDevice } from './is';
 
