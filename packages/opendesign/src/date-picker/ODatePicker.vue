@@ -51,7 +51,7 @@ const onBlur = (e: FocusEvent) => {
     :readonly="props.readonly"
     :for="inputId"
   >
-    <template #prepend>prepend</template>
+    <!-- <template #prepend>prepend</template> -->
     <div class="o-date-picker-wrap">
       <div class="o-date-picker-input1">
         <input
@@ -66,6 +66,6 @@ const onBlur = (e: FocusEvent) => {
         />
       </div>
     </div>
-    <template #append>append</template>
+    <!-- <template #append>append</template> -->
   </InputFrame>
 </template>
