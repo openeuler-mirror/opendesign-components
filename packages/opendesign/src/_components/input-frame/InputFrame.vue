@@ -5,7 +5,7 @@ import { getRoundClass } from '../../_utils/style-class';
 
 const props = defineProps(inputFrameProps);
 
-const round = getRoundClass(props, 'textarea');
+const round = getRoundClass(props, 'if');
 </script>
 <template>
   <label
