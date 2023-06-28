@@ -26,21 +26,21 @@ const val1 = ref(1687156310181);
     </div>
 
     <div class="row">
-      <ODatePicker v-model="val1" placeholder="normal + solid" resize="none" color="normal" variant="outline" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="success + solid" resize="none" color="success" variant="outline" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="outline" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="outline" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="outline" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="outline" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid" resize="none" color="normal" variant="solid" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="success + solid" resize="none" color="success" variant="solid" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="solid" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="solid" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="solid" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="solid" size="small" round="pill" />
     </div>
 
     <div class="row">
-      <ODatePicker v-model="val1" placeholder="normal + solid" resize="none" color="normal" variant="outline" size="large" round="pill" />
-      <ODatePicker v-model="val1" placeholder="success + solid" resize="none" color="success" variant="outline" size="large" round="pill" />
-      <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="outline" size="large" round="pill" />
-      <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="outline" size="large" round="pill" />
-      <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="outline" size="large" round="pill" />
-      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="outline" size="large" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid" resize="none" color="normal" variant="text" size="small" />
+      <ODatePicker v-model="val1" placeholder="success + solid" resize="none" color="success" variant="text" size="small" />
+      <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="text" size="small" />
+      <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="text" size="small" />
+      <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="text" size="small" />
+      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="text" size="small" />
     </div>
   </section>
 </template>
