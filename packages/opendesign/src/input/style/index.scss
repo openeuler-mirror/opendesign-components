@@ -83,7 +83,6 @@
 .o-input-clear {
   visibility: hidden;
   opacity: 0;
-  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,10 +108,12 @@
       .o-input-suffix-wrap {
         visibility: hidden;
         opacity: 0;
+        transition: none;
       }
       .o-input-clear {
         visibility: visible;
         opacity: 1;
+        transition: all var(--o-duration-m1) var(--o-easing-standard-in);
       }
     }
   }

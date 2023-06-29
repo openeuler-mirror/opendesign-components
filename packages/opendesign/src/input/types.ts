@@ -87,7 +87,7 @@ export const inputProps = {
     default: 'text',
   },
   /**
-   * 是否是密码输入
+   * 显示密码的方式
    */
   showPasswordOn: {
     type: String as PropType<'click' | 'mousedown'>,

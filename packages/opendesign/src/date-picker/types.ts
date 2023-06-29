@@ -7,14 +7,14 @@ export const datePickerProps = {
    * v-model
    */
   modelValue: {
-    type: [Number],
+    type: [Number, String],
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [Number],
+    type: [Number, String],
   },
   /**
    * 大小 SizeT

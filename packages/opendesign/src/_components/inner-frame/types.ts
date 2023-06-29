@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT, Color2T } from '../../_utils/types';
 
-export const inputFrameProps = {
+export const innerFrameProps = {
   /**
    * 大小 SizeT
    */
@@ -29,6 +29,12 @@ export const inputFrameProps = {
     default: 'outline',
   },
   /**
+   * 是否聚焦
+   */
+  focused: {
+    type: Boolean,
+  },
+  /**
    * 是否禁用
    */
   disabled: {
@@ -48,4 +54,4 @@ export const inputFrameProps = {
   },
 };
 
-export type InputFrameProps = ExtractPropTypes<typeof inputFrameProps>;
+export type InnerFrameProps = ExtractPropTypes<typeof innerFrameProps>;

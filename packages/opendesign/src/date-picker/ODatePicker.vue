@@ -1,71 +1,110 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { defaultSize } from '../_utils/global';
 import { datePickerProps } from './types';
-import { getRoundClass } from '../_utils/style-class';
-import { InputFrame } from '../_components/input-frame';
+import { InnerFrame } from '../_components/inner-frame';
+import { InnerInput } from '../_components/inner-input';
 import { uniqueId } from '../_utils/helper';
+import { vOutClick } from '../directves';
 
 const props = defineProps(datePickerProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
+  (e: 'input', value: string, evt: Event): void;
+  (e: 'blur', value: string, evt: FocusEvent): void;
+  (e: 'focus', value: string, evt: FocusEvent): void;
   (e: 'clear', evt: Event): void;
+  (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
-const value1 = ref<string>('');
 const inputId = uniqueId('input');
 
 // 是否聚焦状态
+let isClickInside = false;
 const isFocus = ref(false);
+// const onOutClick = () => {
+//   isClickOutside = true;
+// };
+const onPointerStart = () => {
+  isClickInside = true;
+};
 
-const onFocus = (e: FocusEvent) => {
-  // clickInside = false;
+const onFocus = (value: string, e: FocusEvent) => {
+  isClickInside = false;
+
   if (isFocus.value) {
     return;
   }
+
   isFocus.value = true;
-  // emits('focus', realValue.value, e);
+  emits('focus', value, e);
 };
 
-const onBlur = (e: FocusEvent) => {
-  // if (clickInside) {
-  //   clickInside = false;
-  //   return;
-  // }
+const onBlur = (value: string, e: FocusEvent) => {
+  if (isClickInside) {
+    isClickInside = false;
+    return;
+  }
   isFocus.value = false;
-  // const val = (e.target as HTMLInputElement)?.value;
-  // const v = updateValue(val);
-  // emits('blur', v, e);
+
+  emits('blur', value, e);
+};
+
+const onUpdateModelValue = (value: string) => {
+  emits('update:modelValue', value);
+};
+
+const onChange = (value: string) => {
+  emits('change', value);
+};
+
+const onInput = (value: string, e: Event) => {
+  emits('input', value, e);
+};
+
+const onClear = (e: Event) => {
+  emits('clear', e);
+};
+
+const onPressEnter = (value: string, e: KeyboardEvent) => {
+  emits('pressEnter', value, e);
 };
 </script>
 <template>
-  <InputFrame
+  <InnerFrame
     class="o-date-picker"
     :variant="props.variant"
     :color="props.color"
     :disabled="props.disabled"
+    :focused="isFocus"
     :size="props.size"
     :round="props.round"
     :readonly="props.readonly"
     :for="inputId"
+    @mousedown="onPointerStart"
+    @touchstart="onPointerStart"
   >
-    <!-- <template #prepend>prepend</template> -->
-    <div class="o-date-picker-wrap">
-      <div class="o-date-picker-input1">
-        <input
-          :id="inputId"
-          v-model="value1"
-          type="text"
-          :placeholder="props.placeholder"
-          :disabled="props.disabled"
-          :readonly="props.readonly"
-          @focus="onFocus"
-          @blur="onBlur"
-        />
-      </div>
-    </div>
-    <!-- <template #append>append</template> -->
-  </InputFrame>
+    <template #prepend>prepend</template>
+    <InnerInput
+      :model-value="props.modelValue"
+      :default-value="props.defaultValue"
+      :input-id="inputId"
+      type="text"
+      :placeholder="props.placeholder"
+      :disabled="props.disabled"
+      :readonly="props.readonly"
+      @focus="onFocus"
+      @blur="onBlur"
+      @input="onInput"
+      @update:model-value="onUpdateModelValue"
+      @change="onChange"
+      @clear="onClear"
+      @press-enter="onPressEnter"
+    >
+      <template #prefix>p</template>
+      <template #suffix>s</template>
+    </InnerInput>
+    <template #append>append</template>
+  </InnerFrame>
 </template>

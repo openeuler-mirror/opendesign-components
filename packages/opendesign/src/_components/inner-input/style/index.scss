@@ -1,0 +1,89 @@
+@use '../../../_styles/mixin.scss' as *;
+@use './var.scss';
+.o-ii {
+  display: flex;
+}
+.o-ii-input {
+  outline: none;
+  border: none;
+  color: inherit;
+  cursor: inherit;
+  background-color: transparent;
+  display: inline-flex;
+  padding: 0;
+  line-height: inherit;
+  height: 100%;
+  width: 100%;
+  font-size: inherit;
+  min-width: 20px;
+  &::-webkit-input-placeholder {
+    color: var(--ii-placeholder);
+  }
+}
+
+.o-ii-suffix {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  position: relative;
+  margin-left: 4px;
+}
+.o-ii-prefix {
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+}
+
+.o-ii-suffix-wrap {
+  display: flex;
+  transition: all var(--o-duration-m1) var(--o-easing-standard-out);
+}
+
+.o-ii-clear {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ii-icon-color);
+  background-color: var(--ii-icon-bg-color);
+  border-radius: 50%;
+  font-size: var(--o-ii-icon-size);
+  @include hover {
+    &:hover {
+      color: var(--ii-icon-color-hover);
+      transform: rotate(180deg);
+    }
+    .o-ii-suffix-wrap + & {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+.o-ii-clearable {
+  @include hover {
+    &:hover {
+      .o-ii-suffix-wrap {
+        visibility: hidden;
+        opacity: 0;
+        transition: none;
+      }
+      .o-ii-clear {
+        visibility: visible;
+        opacity: 1;
+        transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+      }
+    }
+  }
+  @include hover(none) {
+    .o-ii-suffix-wrap,
+    .o-ii-clear {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+input[type='password'] {
+  font-family: Arial, 'Helvetica Neue', Helvetica, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}

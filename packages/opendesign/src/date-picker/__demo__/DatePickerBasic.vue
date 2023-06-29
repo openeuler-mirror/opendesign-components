@@ -1,16 +1,49 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { ODatePicker } from '../index';
 
 const val1 = ref(1687156310181);
+
+const onChange = (value: string) => {
+  console.log('change', value);
+};
+
+const onInput = (value: string, e: Event) => {
+  console.log('input', value, e);
+};
+const onFocus = (value: string, e: Event) => {
+  console.log('focus', value, e);
+};
+const onBlur = (value: string, e: Event) => {
+  console.log('blur', value, e);
+};
+
+const onClear = (e: Event) => {
+  console.log('clear', e);
+};
+
+const onPressEnter = (value: string, e: KeyboardEvent) => {
+  console.log('pressEnter', value, e);
+};
 </script>
 <template>
   <h4>Color & Variant</h4>
   <section>
     <div>Outline</div>
     <div class="row">
-      <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="normal" />
-      <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="success" />
+      <ODatePicker
+        v-model="val1"
+        placeholder="normal + outline"
+        resize="none"
+        color="normal"
+        @focus="onFocus"
+        @blur="onBlur"
+        @input="onInput"
+        @change="onChange"
+        @clear="onClear"
+        @press-enter="onPressEnter"
+      />
+      <!-- <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="success" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="warning" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="danger" />
       <ODatePicker v-model="val1" placeholder="normal + outline disabled" resize="none" disabled />
@@ -40,7 +73,7 @@ const val1 = ref(1687156310181);
       <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="text" size="small" />
       <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="text" size="small" />
       <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="text" size="small" />
-      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="text" size="small" />
+      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="text" size="small" />-->
     </div>
   </section>
 </template>

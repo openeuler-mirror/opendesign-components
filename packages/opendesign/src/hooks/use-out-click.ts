@@ -8,6 +8,7 @@ interface handlerItemT {
 }
 
 const elList = new Map<HTMLElement, Array<handlerItemT>>();
+const elListFast = new Map<HTMLElement, Array<handlerItemT>>();
 let isBindEvent = false;
 
 const Event = {
@@ -15,16 +16,25 @@ const Event = {
   end: isTouchDevice ? 'touchend' : 'mouseup',
 };
 
-function addListener(el: HTMLElement, fn: () => void, exception?: (e: Event) => boolean) {
-  if (!elList.has(el)) {
-    elList.set(el, []);
+function addListener(
+  el: HTMLElement,
+  fn: () => void,
+  params?: {
+    fast?: boolean;
+    exception?: (e: Event) => boolean;
+  }
+) {
+  const list = params?.fast ? elListFast : elList;
+
+  if (!list.has(el)) {
+    list.set(el, []);
   }
 
-  const handlers = elList.get(el);
+  const handlers = list.get(el);
   if (handlers) {
     handlers.push({
       handler: fn,
-      exception: exception,
+      exception: params?.exception,
     });
   }
 }
@@ -48,11 +58,24 @@ function bindEvents() {
   if (!isBindEvent) {
     let isOutSide = false;
 
+    const runHandlers = (list: typeof elList, e: Event) => {
+      list.forEach((handlers, el) => {
+        if (!el.contains(e.target as HTMLElement)) {
+          handlers.forEach((item) => {
+            if (!item.exception || !item.exception(e)) {
+              item.handler();
+            }
+          });
+        }
+      });
+    };
+
     window.addEventListener(Event.start, (e: Event) => {
+      // 处理fast
+      runHandlers(elListFast, e);
+
       const keys = Array.from(elList.keys());
-
       isOutSide = false;
-
       keys.some((el) => {
         if (!el.contains(e.target as HTMLElement)) {
           const handlers = elList.get(el);
@@ -74,21 +97,17 @@ function bindEvents() {
         return;
       }
 
-      elList.forEach((handlers, el) => {
-        if (!el.contains(e.target as HTMLElement)) {
-          handlers.forEach((item) => {
-            if (!item.exception || !item.exception(e)) {
-              item.handler();
-            }
-          });
-        }
-      });
+      runHandlers(elList, e);
     });
 
     isBindEvent = true;
   }
 }
 
+/**
+ * 外部点击
+ * @param fast 是否在mousedown、touchstart时就触发事件，主要用于在blur事件之前处理回调
+ */
 export function useOutClick() {
   bindEvents();
 

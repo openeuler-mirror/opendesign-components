@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { defaultSize } from '../../_utils/global';
-import { inputFrameProps } from './types';
+import { innerFrameProps } from './types';
 import { getRoundClass } from '../../_utils/style-class';
 
-const props = defineProps(inputFrameProps);
+const props = defineProps(innerFrameProps);
 
 const round = getRoundClass(props, 'if');
 </script>
@@ -29,6 +29,7 @@ const round = getRoundClass(props, 'if');
     <div
       class="o-if-main"
       :class="{
+        'is-focused': props.focused,
         'is-disabled': props.disabled,
         'is-readonly': props.readonly,
         'has-prepend': $slots.prepend,

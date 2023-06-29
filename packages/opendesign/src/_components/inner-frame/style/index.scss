@@ -26,7 +26,7 @@
     }
   }
 
-  &:focus-within {
+  &.is-focused {
     border-color: var(--if-bd-color-focus);
     background-color: var(--if-bg-color-focus);
   }
