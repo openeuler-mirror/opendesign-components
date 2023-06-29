@@ -4,9 +4,8 @@ import { innerInputProps } from './types';
 import { trigger } from '../../_utils/event';
 import { Enter } from '../../_utils/keycode';
 import { toInputString } from './input';
-import { isFunction } from '../../_utils/is';
+import { isFunction, isTouchDevice } from '../../_utils/is';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
-import { defaultSize } from '../../_utils/global';
 
 const props = defineProps(innerInputProps);
 
@@ -16,25 +15,22 @@ const emits = defineEmits<{
   (e: 'input', value: string, evt: Event): void;
   (e: 'blur', value: string, evt: FocusEvent): void;
   (e: 'focus', value: string, evt: FocusEvent): void;
-  (e: 'clear', evt: Event): void;
+  (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
+const inputRef = ref<HTMLInputElement | null>(null);
 // input类型 password|text
 const inputType = ref(props.type);
 
 // 输入框当前真实值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
 
-// 当前input文本值
-// const inputText = ref(realValue.value);
-
 // 监听属性变化，刷新值
 watch(
   () => props.modelValue,
   (val) => {
     realValue.value = toInputString(val);
-    // inputText.value = realValue.value;
   }
 );
 
@@ -81,18 +77,29 @@ const onInput = (e: Event) => {
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
 
-  // inputText.value = val;
-
   if (!props.parse) {
     emits('update:modelValue', val);
   }
 };
 
+// 是否聚焦
+let isFocus = false;
+const doFocus = () => {
+  inputRef.value?.focus();
+};
+
 const onFocus = (e: FocusEvent) => {
+  if (isFocus) {
+    return;
+  }
+
+  isFocus = true;
   emits('focus', realValue.value, e);
 };
 
 const onBlur = (e: FocusEvent) => {
+  isFocus = false;
+
   const val = (e.target as HTMLInputElement)?.value;
   const v = updateValue(val);
   emits('blur', v, e);
@@ -110,27 +117,33 @@ const onKeyDown = (e: KeyboardEvent) => {
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 // 清除值
-const clearClick = (e: Event) => {
+const doClearValue = (e?: Event) => {
   updateValue('');
   emits('clear', e);
 };
 
 // 密码输入框
 const isEyeOn = ref(false);
+const togglePassword = (visible: boolean) => {
+  if (visible) {
+    inputType.value = 'text';
+  } else {
+    inputType.value = 'password';
+  }
+};
 const toggleEye = (show?: boolean) => {
   if (show === undefined) {
     isEyeOn.value = !isEyeOn.value;
   } else {
     isEyeOn.value = show;
   }
-  if (isEyeOn.value) {
-    inputType.value = 'text';
-  } else {
-    inputType.value = 'password';
-  }
+  togglePassword(isEyeOn.value);
 };
 
 const onEyeClick = () => {
+  if (props.disabled) {
+    return;
+  }
   if (props.showPasswordEvent === 'click') {
     toggleEye();
   }
@@ -140,58 +153,75 @@ const onEyeMouseUp = () => {
   if (isEyeOn.value) {
     toggleEye(false);
 
-    window.removeEventListener('mouseup', onEyeMouseUp);
+    if (isTouchDevice) {
+      window.removeEventListener('touchend', onEyeMouseUp);
+      window.removeEventListener('touchcancel', onEyeMouseUp);
+    } else {
+      window.removeEventListener('mouseup', onEyeMouseUp);
+    }
   }
 };
 const onEyeMouseDown = () => {
-  if (props.showPasswordEvent === 'mousedown') {
+  if (props.disabled) {
+    return;
+  }
+  if (props.showPasswordEvent === 'pointerdown') {
     toggleEye(true);
-    window.addEventListener('mouseup', onEyeMouseUp);
+    if (isTouchDevice) {
+      window.addEventListener('touchend', onEyeMouseUp);
+      window.addEventListener('touchcancel', onEyeMouseUp);
+    } else {
+      window.addEventListener('mouseup', onEyeMouseUp);
+    }
   }
 };
+
+defineExpose({
+  focus: doFocus,
+  clear: doClearValue,
+  togglePassword,
+});
 </script>
 <template>
   <div
     class="o-ii"
-    :class="[
-      `o-ii-${props.size || defaultSize}`,
-      {
-        'o-ii-clearable': isClearable && realValue !== '',
-      },
-    ]"
+    :class="{
+      'o-ii-clearable': isClearable,
+      'o-ii-disabled': props.disabled,
+      'o-ii-readonly': props.readonly,
+    }"
   >
-    <div v-if="$slots.prefix" class="o-ii-prefix">
-      <slot name="prefix"></slot>
+    <input
+      :id="props.inputId"
+      ref="inputRef"
+      class="o-ii-input"
+      :value="displayValue"
+      :type="inputType"
+      :placeholder="props.placeholder"
+      :readonly="props.readonly"
+      :disabled="props.disabled"
+      @focus="onFocus"
+      @blur="onBlur"
+      @input="onInput"
+      @keydown="onKeyDown"
+      @compositionstart="onCompositionStart"
+      @compositionend="onCompositionEnd"
+    />
+    <div v-if="isClearable" class="o-ii-clear" @click="doClearValue" @mousedown.prevent>
+      <IconClose class="o-ii-clear-icon" />
     </div>
-    <div class="o-ii-wrap">
-      <input
-        :id="props.inputId"
-        ref="inputRef"
-        :value="displayValue"
-        :type="inputType"
-        :placeholder="props.placeholder"
-        class="o-ii-input"
-        :readonly="props.readonly"
-        :disabled="props.disabled"
-        @focus="onFocus"
-        @blur="onBlur"
-        @input="onInput"
-        @keydown="onKeyDown"
-        @compositionstart="onCompositionStart"
-        @compositionend="onCompositionEnd"
-      />
-    </div>
-    <div v-if="props.clearable || $slots.suffix || props.type === 'password'" class="o-ii-suffix">
-      <div v-if="$slots.suffix" class="o-ii-suffix-wrap">
-        <slot name="suffix"></slot>
-      </div>
-      <div v-if="isClearable" class="o-ii-clear" @click="clearClick">
-        <IconClose class="o-ii-clear-icon" />
-      </div>
-      <div v-if="props.type === 'password'" class="o-ii-eye" @click="onEyeClick" @mousedown="onEyeMouseDown" @mouseup="onEyeMouseUp">
-        <IconEyeOn v-if="isEyeOn" class="o-ii-eye-icon" />
-        <IconEyeOff v-else class="o-ii-eye-icon" />
-      </div>
+    <div
+      v-if="props.type === 'password'"
+      class="o-ii-eye"
+      @click="onEyeClick"
+      @mousedown.prevent="onEyeMouseDown"
+      @mouseup.prevent="onEyeMouseUp"
+      @touchstart="onEyeMouseDown"
+      @touchend="onEyeMouseUp"
+      @touchcancel="onEyeMouseUp"
+    >
+      <IconEyeOn v-if="isEyeOn" class="o-ii-eye-icon" />
+      <IconEyeOff v-else class="o-ii-eye-icon" />
     </div>
   </div>
 </template>

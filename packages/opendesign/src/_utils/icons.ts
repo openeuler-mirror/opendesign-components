@@ -31,6 +31,7 @@ import {
   OIconEdit,
   OIconImageError,
   OIconChecked,
+  OIconCalendar,
 } from '../icon-components';
 
 /**
@@ -179,3 +180,8 @@ export const IconEyeOff = shallowRef<Component>(OIconEyeOff);
 export const IconImageError = shallowRef<Component>(OIconImageError);
 
 export const IconChecked = shallowRef<Component>(OIconChecked);
+
+/**
+ * 日期组件图标
+ */
+export const IconCalendar = shallowRef<Component>(OIconCalendar);

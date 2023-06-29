@@ -2,6 +2,7 @@
 @use './var.scss';
 .o-ii {
   display: flex;
+  width: 100%;
 }
 .o-ii-input {
   outline: none;
@@ -16,8 +17,9 @@
   width: 100%;
   font-size: inherit;
   min-width: 20px;
+
   &::-webkit-input-placeholder {
-    color: var(--ii-placeholder);
+    color: var(--ii-placeholder-color);
   }
 }
 
@@ -41,17 +43,16 @@
 
 .o-ii-clear {
   visibility: hidden;
+  flex-shrink: 0;
   opacity: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ii-icon-color);
-  background-color: var(--ii-icon-bg-color);
-  border-radius: 50%;
-  font-size: var(--o-ii-icon-size);
+  color: var(--icon-color);
+  font-size: var(--icon-size);
   @include hover {
     &:hover {
-      color: var(--ii-icon-color-hover);
+      color: var(--icon-color-hover);
       transform: rotate(180deg);
     }
     .o-ii-suffix-wrap + & {
@@ -81,6 +82,27 @@
       visibility: visible;
       opacity: 1;
     }
+  }
+}
+.o-ii-eye {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+  @include hover {
+    &:hover {
+      color: var(--icon-color-hover);
+    }
+  }
+
+  .o-ii-clear + & {
+    margin-left: 4px;
+  }
+  .o-ii-disabled &,
+  .o-ii-readonly & {
+    color: var(--icon-color-disabled);
   }
 }
 

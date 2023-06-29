@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { initIconLoading, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src';
+import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src';
 import { OIconAdd } from '@opensig/opendesign/src/icon-components';
 
 import '../../../opendesign/src/dropdown/style';
@@ -24,6 +24,7 @@ const ATTR_NAME = 'data-o-theme';
 const THEME_KEY = 'o-theme';
 
 const localTheme = localStorage.getItem(THEME_KEY);
+initRound(localTheme?.startsWith('a') ? 'pill' : void 0);
 
 const currentStyle = ref(localTheme?.split('.')[1] || 'light');
 const currentThemeIdx = ref(
@@ -56,6 +57,11 @@ watch(
 
 const changeTheme = (idx: number) => {
   currentThemeIdx.value = idx;
+  if (idx === 1) {
+    initRound('pill');
+  } else {
+    initRound();
+  }
 };
 
 const changeStyle = () => {

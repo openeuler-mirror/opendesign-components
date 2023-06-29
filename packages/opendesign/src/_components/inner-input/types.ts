@@ -64,7 +64,6 @@ export const innerInputProps = {
    */
   clearable: {
     type: Boolean,
-    default: true,
   },
   /**
    * 解析输入框的值
@@ -83,8 +82,8 @@ export const innerInputProps = {
    * 显示密码的方式
    */
   showPasswordEvent: {
-    type: String as PropType<'click' | 'mousedown'>,
-    default: 'mousedown',
+    type: String as PropType<'click' | 'pointerdown'>,
+    default: 'pointerdown',
   },
 };
 

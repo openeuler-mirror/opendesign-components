@@ -1,32 +1,9 @@
 @use '../../_styles/mixin.scss' as *;
 @use './var.scss';
 
-.o-date-picker {
-  input {
-    outline: none;
-    border: none;
-    color: inherit;
-    cursor: inherit;
-    background-color: transparent;
-    display: inline-flex;
-    padding: 0;
-    line-height: inherit;
-    height: 100%;
-    width: 100%;
-    font-size: inherit;
-    min-width: 20px;
-    &::-webkit-input-placeholder {
-      color: var(--date-picker-placeholder);
-    }
-  }
-}
-.o-date-picker-wrap {
+.o-dp-icon {
   display: flex;
-  padding: var(--date-picker-padding);
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  border-radius: var(--date-picker-radius);
-  border: 1px solid var(--date-picker-bd-color);
-  background-color: var(--date-picker-bg-color, var(--o-red-huawei));
+  align-items: center;
+  font-size: var(--icon-size);
+  color: var(--icon-color);
 }

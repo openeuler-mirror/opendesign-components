@@ -4,7 +4,7 @@ import { datePickerProps } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
 import { uniqueId } from '../_utils/helper';
-import { vOutClick } from '../directves';
+import { IconCalendar } from '../_utils/icons';
 
 const props = defineProps(datePickerProps);
 
@@ -14,40 +14,22 @@ const emits = defineEmits<{
   (e: 'input', value: string, evt: Event): void;
   (e: 'blur', value: string, evt: FocusEvent): void;
   (e: 'focus', value: string, evt: FocusEvent): void;
-  (e: 'clear', evt: Event): void;
+  (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
 const inputId = uniqueId('input');
+const inputRef = ref<InstanceType<typeof InnerInput>>();
 
 // 是否聚焦状态
-let isClickInside = false;
 const isFocus = ref(false);
-// const onOutClick = () => {
-//   isClickOutside = true;
-// };
-const onPointerStart = () => {
-  isClickInside = true;
-};
-
 const onFocus = (value: string, e: FocusEvent) => {
-  isClickInside = false;
-
-  if (isFocus.value) {
-    return;
-  }
-
   isFocus.value = true;
   emits('focus', value, e);
 };
 
 const onBlur = (value: string, e: FocusEvent) => {
-  if (isClickInside) {
-    isClickInside = false;
-    return;
-  }
   isFocus.value = false;
-
   emits('blur', value, e);
 };
 
@@ -63,7 +45,7 @@ const onInput = (value: string, e: Event) => {
   emits('input', value, e);
 };
 
-const onClear = (e: Event) => {
+const onClear = (e?: Event) => {
   emits('clear', e);
 };
 
@@ -82,11 +64,9 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
     :round="props.round"
     :readonly="props.readonly"
     :for="inputId"
-    @mousedown="onPointerStart"
-    @touchstart="onPointerStart"
   >
-    <template #prepend>prepend</template>
     <InnerInput
+      ref="inputRef"
       :model-value="props.modelValue"
       :default-value="props.defaultValue"
       :input-id="inputId"
@@ -105,6 +85,6 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
       <template #prefix>p</template>
       <template #suffix>s</template>
     </InnerInput>
-    <template #append>append</template>
+    <div class="o-dp-icon" @mousedown.prevent><IconCalendar /></div>
   </InnerFrame>
 </template>

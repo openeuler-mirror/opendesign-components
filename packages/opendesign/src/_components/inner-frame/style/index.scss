@@ -18,6 +18,8 @@
   border-radius: var(--if-radius);
   border: var(--if-bd);
   background-color: var(--if-bg-color);
+  transition: all var(--o-duration-s) var(--o-easing-standard);
+
   cursor: pointer;
   @include hover {
     &:hover {
@@ -26,22 +28,22 @@
     }
   }
 
-  &.is-focused {
+  .o-if-focused & {
     border-color: var(--if-bd-color-focus);
     background-color: var(--if-bg-color-focus);
   }
 
-  &.is-disabled,
-  &.is-readonly {
+  .o-if-disabled &,
+  .o-if-readonly & {
     color: var(--if-color-disabled);
     border-color: var(--if-bd-color-disabled);
     background-color: var(--if-bg-color-disabled);
   }
-  &.is-readonly {
-    cursor: default;
-  }
-  &.is-disabled {
+  .o-if-disabled & {
     cursor: not-allowed;
+  }
+  .o-if-readonly & {
+    cursor: default;
   }
 
   &.has-prepend {

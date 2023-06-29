@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { ODatePicker } from '../index';
 
-const val1 = ref(1687156310181);
+const val1 = ref(123123123);
 
 const onChange = (value: string) => {
   console.log('change', value);
@@ -18,7 +18,7 @@ const onBlur = (value: string, e: Event) => {
   console.log('blur', value, e);
 };
 
-const onClear = (e: Event) => {
+const onClear = (e?: Event) => {
   console.log('clear', e);
 };
 
@@ -33,6 +33,7 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
     <div class="row">
       <ODatePicker
         v-model="val1"
+        style="width: 320px"
         placeholder="normal + outline"
         resize="none"
         color="normal"
@@ -59,12 +60,12 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
     </div>
 
     <div class="row">
-      <ODatePicker v-model="val1" placeholder="normal + solid" resize="none" color="normal" variant="solid" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="success + solid" resize="none" color="success" variant="solid" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="solid" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="solid" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="solid" size="small" round="pill" />
-      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="solid" size="small" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid" resize="none" color="normal" variant="solid" size="large" round="pill" />
+      <ODatePicker v-model="val1" placeholder="success + solid" resize="none" color="success" variant="solid" size="large" round="pill" />
+      <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="solid" size="large" round="pill" />
+      <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="solid" size="large" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="solid" size="large" round="pill" />
+      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="solid" size="large" round="pill" />
     </div>
 
     <div class="row">
@@ -73,7 +74,7 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
       <ODatePicker v-model="val1" placeholder="warning + solid" resize="none" color="warning" variant="text" size="small" />
       <ODatePicker v-model="val1" placeholder="danger + solid" resize="none" color="danger" variant="text" size="small" />
       <ODatePicker v-model="val1" placeholder="normal + solid disabled" resize="none" disabled variant="text" size="small" />
-      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="text" size="small" />-->
+      <ODatePicker v-model="val1" placeholder="normal + solid readonly" resize="none" readonly variant="text" size="small" /> -->
     </div>
   </section>
 </template>

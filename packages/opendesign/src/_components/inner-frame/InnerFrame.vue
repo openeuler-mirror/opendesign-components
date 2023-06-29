@@ -17,28 +17,33 @@ const round = getRoundClass(props, 'if');
       {
         'o-if-disabled': props.disabled,
         'o-if-readonly': props.readonly,
+        'o-if-focused': props.focused,
       },
       round.class.value,
     ]"
     :style="round.style.value"
     :for="props.for"
   >
-    <div v-if="$slots.prepend" class="o-if-prepend">
+    <div v-if="$slots.prepend" class="o-if-prepend" @mousedown.prevent>
       <slot name="prepend"></slot>
     </div>
     <div
       class="o-if-main"
       :class="{
-        'is-focused': props.focused,
-        'is-disabled': props.disabled,
-        'is-readonly': props.readonly,
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
       }"
     >
+      <div v-if="$slots.prefix" class="o-if-prefix" @mousedown.prevent>
+        <slot name="prefix"></slot>
+      </div>
       <slot></slot>
+
+      <div v-if="$slots.suffix" class="o-if-suffix" @mousedown.prevent>
+        <slot name="suffix"></slot>
+      </div>
     </div>
-    <div v-if="$slots.append" class="o-if-append">
+    <div v-if="$slots.append" class="o-if-append" @mousedown.prevent>
       <slot name="append"></slot>
     </div>
   </label>
