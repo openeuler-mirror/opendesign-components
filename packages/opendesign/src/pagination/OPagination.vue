@@ -28,7 +28,7 @@ const Labels = {
 };
 
 let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
-let currentPage = ref(props.page);
+let currentPage = ref(Math.floor(props.page));
 
 const pageSizeList = getSizeOptions(props.pageSizes, Labels.sizeLabel, currentPageSize.value);
 const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
@@ -95,7 +95,11 @@ const moreClick = (more: PagerItemT) => {
 };
 
 const goToChange = (val: string | number) => {
-  updateCurrentPage(Number(val));
+  updateCurrentPage(val as number);
+};
+
+const parseJumperVal = (val: string | number) => {
+  return Math.round(Number(val));
 };
 
 const pageSizeChange = (val: SelectValueT) => {
@@ -221,6 +225,7 @@ defineExpose({
             :max="totalPage"
             :round="props.round"
             :variant="props.variant"
+            :parse="parseJumperVal"
             @change="goToChange"
           />
         </div>
