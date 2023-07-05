@@ -181,6 +181,7 @@ const updatePopupStyle = () => {
   } = calcPopupStyle(popupRef.value, targetEl, props.position, {
     offset: props.offset,
     edgeOffset: props.edgeOffset,
+    anchor: props.anchor,
   });
 
   wrapOrigin.value = getTransformOrigin(position);
@@ -442,10 +443,10 @@ const onPopupHoverOut = () => {
             @after-leave="handleTransitionEnd"
           >
             <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
-              <div class="o-popup-body">
+              <div class="o-popup-body" :class="props.bodyClass">
                 <slot></slot>
               </div>
-              <div class="o-popup-anchor" :style="anchorStyle" :class="anchorClass">
+              <div v-if="props.anchor" class="o-popup-anchor" :style="anchorStyle" :class="props.anchorClass">
                 <slot name="anchor"></slot>
               </div>
             </div>

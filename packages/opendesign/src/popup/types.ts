@@ -3,7 +3,7 @@ import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 export const PopupPositionTypes = ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'] as const;
 export type PopupPositionT = (typeof PopupPositionTypes)[number];
 
-export const PopupTriggerTypes = ['hover', 'click', 'focus', 'contextmenu', 'none', 'hover-outclick'] as const;
+export const PopupTriggerTypes = ['hover', 'click', 'focus', 'contextmenu', 'none', 'hover-outclick', 'click-outclick'] as const;
 export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
 export const popupProps = {
@@ -26,7 +26,7 @@ export const popupProps = {
    */
   trigger: {
     type: [String, Array] as PropType<PopupTriggerT | PopupTriggerT[]>,
-    default: 'hover',
+    default: 'click',
   },
   /**
    * 触发元素或组件
@@ -77,6 +77,13 @@ export const popupProps = {
     default: true,
   },
   /**
+   * 是否计算箭头位置
+   */
+  anchor: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * 锚点自定义class
    */
   anchorClass: {
@@ -94,6 +101,13 @@ export const popupProps = {
    * popup wrap自定义class
    */
   wrapClass: {
+    type: [String, Array] as PropType<string | any[]>,
+    default: undefined,
+  },
+  /**
+   * popup body自定义class
+   */
+  bodyClass: {
     type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },

@@ -294,9 +294,9 @@ function adjustOffset(
   };
 }
 
-function getAnchorOffset(position: PopupPositionT, tRect: DOMRect, popupStyle: Pos, popupSize: ElementSize): AnchorPosition {
+function getAnchorOffset(position: PopupPositionT, tRect: DOMRect, popupStyle: Pos, popupSize: ElementSize, anchorOffset: number = 8): AnchorPosition {
   const pos: AnchorPosition = {};
-  const limit = 8;
+  const limit = anchorOffset;
 
   const { left: pl, top: pt } = popupStyle;
   if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
@@ -342,12 +342,14 @@ export function calcPopupStyle(
   targetEl: HTMLElement,
   position: PopupPositionT,
   {
-    adaptive = true,
-    anchorOffset = 8,
-    offset = 8,
-    edgeOffset = 0,
+    adaptive = true, // 自适应容器边缘
+    anchor = true, // 是否计算anchor
+    anchorOffset = 8, // anchor与容器边缘偏移量
+    offset = 8, // popup 距离target偏移量
+    edgeOffset = 0, // popup 与容器边缘最小距离
   }: {
     adaptive?: boolean;
+    anchor?: boolean;
     anchorOffset?: number;
     offset?: number;
     edgeOffset?: number;
@@ -381,12 +383,18 @@ export function calcPopupStyle(
   let fixedPosition = position;
   // 自适应容器边缘
   if (adaptive) {
-    const rlt = adjustOffset(position, popupStyle, popupSize, pRect, tRect, wrapperContentRect, { offset: offset, anchorOffset, edgeOffset: edgeOffset });
+    const rlt = adjustOffset(position, popupStyle, popupSize, pRect, tRect, wrapperContentRect, {
+      offset: offset,
+      anchorOffset: anchor ? anchorOffset : 0,
+      edgeOffset: edgeOffset,
+    });
     fixedPosition = rlt.position;
     popupStyle = rlt.popupStyle;
   }
   // 获取锚点相对popup的位置
-  anchorStyle = getAnchorOffset(fixedPosition, tRect, popupStyle, popupSize);
+  if (anchor) {
+    anchorStyle = getAnchorOffset(fixedPosition, tRect, popupStyle, popupSize, anchorOffset);
+  }
   // 计算相对容器的位置
   popupStyle = getPopupWrapOffset(popupStyle, wrapperEl, wrapperContentRect);
 
@@ -437,6 +445,28 @@ export function bindTrigger(
     updateFn(false, hoverDelay);
   };
 
+  const clickFn = (toggle: boolean) => {
+    const handlerFn = toggle ? toggleFn : showFn;
+    return () => {
+      el?.addEventListener('click', handlerFn);
+
+      listeners.push(() => {
+        el?.removeEventListener('click', handlerFn);
+      });
+
+      if (autoHide) {
+        outClick.addListener(el, hideFn, {
+          exception: (e: Event) => {
+            return !!popupRef.value?.contains(e.target as HTMLElement);
+          },
+        });
+
+        listeners.push(() => {
+          outClick.removeListener(el, hideFn);
+        });
+      }
+    };
+  };
   const triggerHandlers: Record<PopupTriggerT, () => void> = {
     hover: () => {
       el?.addEventListener('mouseover', enterFn);
@@ -451,25 +481,8 @@ export function bindTrigger(
         });
       }
     },
-    click: () => {
-      el?.addEventListener('click', toggleFn);
-
-      listeners.push(() => {
-        el?.removeEventListener('click', toggleFn);
-      });
-
-      if (autoHide) {
-        outClick.addListener(el, hideFn, {
-          exception: (e: Event) => {
-            return !!popupRef.value?.contains(e.target as HTMLElement);
-          },
-        });
-
-        listeners.push(() => {
-          outClick.removeListener(el, hideFn);
-        });
-      }
-    },
+    click: clickFn(true),
+    'click-outclick': clickFn(false),
     focus: () => {
       el?.addEventListener('focusin', showFn);
       listeners.push(() => {
@@ -495,8 +508,10 @@ export function bindTrigger(
       });
 
       if (autoHide) {
-        outClick.addListener(el, hideFn, (e: Event) => {
-          return !!popupRef.value?.contains(e.target as HTMLElement);
+        outClick.addListener(el, hideFn, {
+          exception: (e: Event) => {
+            return !!popupRef.value?.contains(e.target as HTMLElement);
+          },
         });
         listeners.push(() => {
           outClick.removeListener(el, hideFn);
@@ -513,8 +528,10 @@ export function bindTrigger(
       });
 
       if (autoHide) {
-        outClick.addListener(el, hideFn, (e: Event) => {
-          return !!popupRef.value?.contains(e.target as HTMLElement);
+        outClick.addListener(el, hideFn, {
+          exception: (e: Event) => {
+            return !!popupRef.value?.contains(e.target as HTMLElement);
+          },
         });
         listeners.push(() => {
           outClick.removeListener(el, hideFn);
@@ -524,7 +541,10 @@ export function bindTrigger(
   };
 
   triggers.forEach((tr: PopupTriggerT) => {
-    triggerHandlers[tr]();
+    const fn = triggerHandlers[tr];
+    if (fn) {
+      fn();
+    }
   });
 
   return listeners;

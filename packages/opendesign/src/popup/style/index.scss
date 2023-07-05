@@ -21,7 +21,15 @@
   position: absolute;
   z-index: 0;
 }
+.o-popup-wrap {
+  box-shadow: var(--popup-shadow);
+}
 .o-popup-body {
   position: relative;
   z-index: 1;
+  background-color: var(--popup-bg-color);
+  border-radius: var(--popup-radius);
+  border: var(--popup-bd);
+  min-width: var(--popup-min-width);
+  padding: var(--popup-padding);
 }

@@ -10,7 +10,9 @@ import { mergeClass } from '../_utils/dom';
 
 const props = defineProps(popoverProps);
 
-const emits = defineEmits<{ (e: 'update:visible', val: boolean): void }>();
+const emits = defineEmits<{
+  (e: 'update:visible', val: boolean): void;
+}>();
 const updateVisible = (val: boolean) => {
   emits('update:visible', val);
 };
@@ -39,7 +41,7 @@ const updateVisible = (val: boolean) => {
     :before-show="props.beforeShow"
     @update:visible="updateVisible"
   >
-    <div class="o-popover-body" v-bind="$attrs">
+    <div v-bind="$attrs">
       <slot></slot>
     </div>
     <template #target>
