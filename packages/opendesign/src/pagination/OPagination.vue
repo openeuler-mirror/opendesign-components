@@ -28,7 +28,7 @@ const Labels = {
 };
 
 let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
-let currentPage = ref(Math.floor(props.page));
+let currentPage = ref(Math.round(props.page));
 
 const pageSizeList = getSizeOptions(props.pageSizes, Labels.sizeLabel, currentPageSize.value);
 const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
