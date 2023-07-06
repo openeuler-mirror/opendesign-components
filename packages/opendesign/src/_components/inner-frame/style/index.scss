@@ -1,7 +1,7 @@
 @use '../../../_styles/mixin.scss' as *;
 @use './var.scss';
 
-.o-if {
+.o-i-frame {
   color: var(--if-color);
   display: inline-flex;
   height: var(--if-height);
@@ -110,4 +110,9 @@
     border-top-width: 0;
     border-left-width: 0;
   }
+}
+.o-if-prefix,
+.o-if-suffix {
+  display: flex;
+  align-items: center;
 }

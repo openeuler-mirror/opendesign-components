@@ -2,15 +2,12 @@
 import { onMounted, ref } from 'vue';
 import { ODatePicker } from '../index';
 
-const val1 = ref(123123123);
+const val1 = ref(new Date());
 
 const onChange = (value: string) => {
   console.log('change', value);
 };
 
-const onInput = (value: string, e: Event) => {
-  console.log('input', value, e);
-};
 const onFocus = (value: string, e: Event) => {
   console.log('focus', value, e);
 };
@@ -30,16 +27,15 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
   <h4>Color & Variant</h4>
   <section>
     <div>Outline</div>
+    <p>value: {{ val1 }}</p>
     <div class="row">
       <ODatePicker
         v-model="val1"
-        style="width: 320px"
         placeholder="normal + outline"
         resize="none"
         color="normal"
         @focus="onFocus"
         @blur="onBlur"
-        @input="onInput"
         @change="onChange"
         @clear="onClear"
         @press-enter="onPressEnter"

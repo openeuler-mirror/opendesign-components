@@ -9,7 +9,7 @@ const round = getRoundClass(props, 'if');
 </script>
 <template>
   <label
-    class="o-if"
+    class="o-i-frame"
     :class="[
       `o-if-${props.color}`,
       `o-if-${props.variant}`,

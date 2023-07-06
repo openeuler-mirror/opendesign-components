@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, watchEffect } from 'vue';
 import { datePickerProps } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
+import { InnerPanel } from '../_components/inner-panel';
 import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
+import DatePane from './DatePane.vue';
+import { format } from 'date-fns';
+import { isFunction } from '../_utils/is';
 
 const props = defineProps(datePickerProps);
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
+  (e: 'update:modelValue', value: Number): void;
   (e: 'change', value: string): void;
-  (e: 'input', value: string, evt: Event): void;
   (e: 'blur', value: string, evt: FocusEvent): void;
   (e: 'focus', value: string, evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
@@ -20,41 +23,53 @@ const emits = defineEmits<{
 
 const inputId = uniqueId('input');
 const inputRef = ref<InstanceType<typeof InnerInput>>();
+const inputFrameRef = ref<InstanceType<typeof InnerFrame>>();
+
+const formatFn = isFunction(props.format) ? props.format : (d: Date) => format(d, 'yyyy-MM-dd');
+
+const inputVal = ref(props.modelValue ? formatFn(props.modelValue) : '');
+const inputDefVal = ref(props.defaultValue ? formatFn(props.defaultValue) : '');
+
+const currentValue = ref(props.modelValue ?? props.defaultValue);
+
+watchEffect(() => {
+  if (currentValue.value) {
+    inputVal.value = formatFn(currentValue.value);
+  }
+});
+// panel
+const isPicking = ref(true);
+const autoHidePanel = ref(false);
 
 // 是否聚焦状态
 const isFocus = ref(false);
-const onFocus = (value: string, e: FocusEvent) => {
+const onFocus = () => {
   isFocus.value = true;
-  emits('focus', value, e);
+  isPicking.value = true;
+  // emits('focus', value, e);
 };
 
-const onBlur = (value: string, e: FocusEvent) => {
+const onBlur = () => {
   isFocus.value = false;
-  emits('blur', value, e);
-};
-
-const onUpdateModelValue = (value: string) => {
-  emits('update:modelValue', value);
+  // emits('blur', value, e);
 };
 
 const onChange = (value: string) => {
   emits('change', value);
+  emits('update:modelValue', Number(value));
 };
 
-const onInput = (value: string, e: Event) => {
-  emits('input', value, e);
+// panel
+const togglePanel = (visible: boolean) => {
+  isPicking.value = visible;
 };
-
-const onClear = (e?: Event) => {
-  emits('clear', e);
-};
-
-const onPressEnter = (value: string, e: KeyboardEvent) => {
-  emits('pressEnter', value, e);
+const onConfirm = () => {
+  togglePanel(false);
 };
 </script>
 <template>
   <InnerFrame
+    ref="inputFrameRef"
     class="o-date-picker"
     :variant="props.variant"
     :color="props.color"
@@ -67,8 +82,8 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
   >
     <InnerInput
       ref="inputRef"
-      :model-value="props.modelValue"
-      :default-value="props.defaultValue"
+      :model-value="inputVal"
+      :default-value="inputDefVal"
       :input-id="inputId"
       type="text"
       :placeholder="props.placeholder"
@@ -76,15 +91,17 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
       :readonly="props.readonly"
       @focus="onFocus"
       @blur="onBlur"
-      @input="onInput"
-      @update:model-value="onUpdateModelValue"
       @change="onChange"
-      @clear="onClear"
-      @press-enter="onPressEnter"
-    >
-      <template #prefix>p</template>
-      <template #suffix>s</template>
-    </InnerInput>
-    <div class="o-dp-icon" @mousedown.prevent><IconCalendar /></div>
+    />
+    <template #suffix>
+      <div class="o-dp-icon" @mousedown.prevent>
+        <IconCalendar />
+      </div>
+    </template>
+    <InnerPanel v-if="!props.disabled" v-model:visible="isPicking" :target="inputFrameRef" :auto-hide="autoHidePanel" class="o-date-picker-panel">
+      <div>
+        <DatePane v-model:value="currentValue" @confirm="onConfirm" />
+      </div>
+    </InnerPanel>
   </InnerFrame>
 </template>

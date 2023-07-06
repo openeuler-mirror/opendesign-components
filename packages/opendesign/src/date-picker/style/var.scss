@@ -1,24 +1,19 @@
 .o-date-picker {
-  --date-picker-color: var(--o-color-info2);
-  --date-picker-color-disabled: var(--o-color-info4);
-  --date-picker-placeholder: var(--o-color-info4);
-
-  // --date-picker-bg-color: transparent;
-  --date-picker-bg-color-hover: var(--o-color-control-light);
-  --date-picker-bg-color-focus: var(--o-color-control-light);
-}
-.o-textarea-normal {
-}
-.o-textarea-success {
-}
-.o-textarea-warning {
-}
-.o-textarea-danger {
 }
 
-.o-textarea-size-small {
-}
-.o-textarea-size-medium {
-}
-.o-textarea-size-large {
+.o-date-picker-panel {
+  --dp-panel-color: var(--o-color-info1);
+  --dp-panel-color-out: var(--o-color-info4);
+
+  --dp-panel-icon-size: var(--o-icon_size-s);
+  --dp-panel-text-size: var(--o-font_size-text1);
+  --dp-panel-text-height: var(--o-line_height-text1);
+
+  --dp-cell-radius-selected: 24px;
+  --dp-cell-color-selected: var(--o-color-info1-inverse);
+  --dp-cell-bg-color-hover: var(--o-color-control2-light);
+  --dp-cell-bg-color-selected: var(--o-color-primary1);
+  --dp-cell-today-color: var(--o-color-primary1);
+
+  --dp-cell-in-range-bg-color: var(--o-color-control1-light);
 }

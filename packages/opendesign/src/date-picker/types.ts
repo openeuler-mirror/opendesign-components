@@ -7,14 +7,14 @@ export const datePickerProps = {
    * v-model
    */
   modelValue: {
-    type: [Number, String],
+    type: [Date],
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [Number, String],
+    type: [Date],
   },
   /**
    * 大小 SizeT
@@ -67,6 +67,12 @@ export const datePickerProps = {
   clearable: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * 时间格式化函数
+   */
+  format: {
+    type: Function as PropType<(d: Date) => string>,
   },
 };
 

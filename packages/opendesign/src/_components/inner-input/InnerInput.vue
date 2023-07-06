@@ -184,11 +184,12 @@ defineExpose({
 </script>
 <template>
   <div
-    class="o-ii"
+    class="o-i-input"
     :class="{
       'o-ii-clearable': isClearable,
       'o-ii-disabled': props.disabled,
       'o-ii-readonly': props.readonly,
+      'o-ii-password': props.type === 'password',
     }"
   >
     <input

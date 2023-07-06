@@ -1,3 +1,5 @@
+import { arrayBuffer } from 'stream/consumers';
+
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   let handle = 0;
@@ -83,4 +85,18 @@ export function uniqueId(prefix: string = '', length: number = 8): string {
     }
   };
   return prefix ? `${prefix}-${gen(length)}` : gen(length);
+}
+
+/**
+ * 将数组拆分成多个指定长度的区块
+ * @param arr 被拆分数组
+ * @param size 区块长度
+ */
+export function chunk(arr: any[] = [], size = 1) {
+  return Array.from(
+    {
+      length: Math.ceil(arr.length / size),
+    },
+    (v, i) => arr.slice(i * size, i * size + size)
+  );
 }

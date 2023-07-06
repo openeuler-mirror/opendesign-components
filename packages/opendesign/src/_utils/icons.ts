@@ -32,6 +32,8 @@ import {
   OIconImageError,
   OIconChecked,
   OIconCalendar,
+  OIconDoubleArrowLeft,
+  OIconDoubleArrowRight,
 } from '../icon-components';
 
 /**
@@ -185,3 +187,7 @@ export const IconChecked = shallowRef<Component>(OIconChecked);
  * 日期组件图标
  */
 export const IconCalendar = shallowRef<Component>(OIconCalendar);
+export const IconCalendarPrevYear = shallowRef<Component>(OIconDoubleArrowLeft);
+export const IconCalendarNextYear = shallowRef<Component>(OIconDoubleArrowRight);
+export const IconCalendarPrevMonth = shallowRef<Component>(OIconChevronLeft);
+export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
