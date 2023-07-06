@@ -7,8 +7,10 @@ import { InnerPanel } from '../_components/inner-panel';
 import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
 import DatePane from './DatePane.vue';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
+import zh from 'date-fns/locale/zh-CN';
 import { isFunction } from '../_utils/is';
+import { isValidDate } from './date';
 
 const props = defineProps(datePickerProps);
 
@@ -26,6 +28,7 @@ const inputRef = ref<InstanceType<typeof InnerInput>>();
 const inputFrameRef = ref<InstanceType<typeof InnerFrame>>();
 
 const formatFn = isFunction(props.format) ? props.format : (d: Date) => format(d, 'yyyy-MM-dd');
+const parseFn = isFunction(props.parse) ? props.parse : (str: string) => parse(str, 'yyyy-MM-dd', new Date());
 
 const inputVal = ref(props.modelValue ? formatFn(props.modelValue) : '');
 const inputDefVal = ref(props.defaultValue ? formatFn(props.defaultValue) : '');
@@ -57,6 +60,16 @@ const onBlur = () => {
 const onChange = (value: string) => {
   emits('change', value);
   emits('update:modelValue', Number(value));
+};
+
+const onUpdateModelValue = (value: string) => {
+  const d = parseFn(value);
+  if (isValidDate(d)) {
+    // 严格匹配
+    if (formatFn(d) === value) {
+      currentValue.value = d;
+    }
+  }
 };
 
 // panel
@@ -91,7 +104,7 @@ const onConfirm = () => {
       :readonly="props.readonly"
       @focus="onFocus"
       @blur="onBlur"
-      @change="onChange"
+      @update:model-value="onUpdateModelValue"
     />
     <template #suffix>
       <div class="o-dp-icon" @mousedown.prevent>

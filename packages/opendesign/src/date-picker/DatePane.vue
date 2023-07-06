@@ -65,6 +65,17 @@ const dayListByWeek = computed(() => {
   return chunk(list, 7);
 });
 
+watch(
+  () => props.value,
+  (v: Date | undefined) => {
+    if (v) {
+      selectDate.value = getDate(v);
+
+      viewMonthDate.value = getDate(startOfMonth(v));
+      dayList.value = getDayListByWeek(viewMonthDate.value);
+    }
+  }
+);
 const selectDay = (cell: CellT) => {
   if (!props.range) {
     selectDate.value = cell.data;

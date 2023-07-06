@@ -29,10 +29,12 @@ export const Labels = {
   month: '月',
   day: '日',
 };
-
 const DateTypes = ['years', 'months', 'dayOfweek', 'days', 'hours', 'minutes', 'seconds'] as const;
 type DateKeyT = (typeof DateTypes)[number];
 
+export function isValidDate(d: Date): boolean {
+  return !Number.isNaN(d.valueOf());
+}
 export function getMonthLabel(date: DateT) {
   let label = [];
 

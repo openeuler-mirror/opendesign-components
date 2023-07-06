@@ -69,10 +69,16 @@ export const datePickerProps = {
     default: true,
   },
   /**
-   * 时间格式化函数
+   * 时间格式化为字符串函数
    */
   format: {
     type: Function as PropType<(d: Date) => string>,
+  },
+  /**
+   * 时间字符串处理为时间函数
+   */
+  parse: {
+    type: Function as PropType<(d: string) => Date>,
   },
 };
 
