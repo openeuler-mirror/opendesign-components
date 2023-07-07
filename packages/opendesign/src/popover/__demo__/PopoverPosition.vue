@@ -31,6 +31,7 @@ const btn12 = ref(null);
       <OButton ref="btn2"> TOP </OButton>
       <OPopover position="top" :target="btn2">
         <div class="box">T {{ content }}</div>
+        <div>{{ content }}</div>
       </OPopover>
       <OButton ref="btn3">TR</OButton>
       <OPopover position="tr" :target="btn3" trigger="click">
