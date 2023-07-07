@@ -469,9 +469,9 @@ export function bindTrigger(
   };
   const triggerHandlers: Record<PopupTriggerT, () => void> = {
     hover: () => {
-      el?.addEventListener('mouseover', enterFn);
+      el?.addEventListener('mouseenter', enterFn);
       listeners.push(() => {
-        el?.removeEventListener('mouseover', enterFn);
+        el?.removeEventListener('mouseenter', enterFn);
       });
 
       if (autoHide) {
@@ -521,10 +521,10 @@ export function bindTrigger(
     none: () => {},
     // hover 显示 outclick隐藏
     'hover-outclick': () => {
-      el?.addEventListener('mouseover', enterFn);
+      el?.addEventListener('mouseenter', enterFn);
 
       listeners.push(() => {
-        el?.removeEventListener('mouseover', enterFn);
+        el?.removeEventListener('mouseenter', enterFn);
       });
 
       if (autoHide) {

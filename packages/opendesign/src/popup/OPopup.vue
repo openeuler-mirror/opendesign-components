@@ -431,7 +431,7 @@ const onPopupHoverOut = () => {
             },
           ]"
           v-bind="$attrs"
-          @mouseover="onPopupHoverIn"
+          @mouseenter="onPopupHoverIn"
           @mouseleave="onPopupHoverOut"
         >
           <Transition
