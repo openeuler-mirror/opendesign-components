@@ -53,7 +53,7 @@ export const scrollerProps = {
    * 滚动容器类
    */
   wrapClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | any[] | object>,
   },
 };
 

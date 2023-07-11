@@ -47,6 +47,8 @@
   cursor: pointer;
   --cell-today-size: 4px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     --dp-cell-val-bg-color: var(--dp-cell-bg-color-hover);
@@ -55,8 +57,7 @@
 .o-dp-cell-range-start,
 .o-dp-cell-range-end,
 .o-dp-cell-selected {
-  &,
-  &:hover {
+  @include me-on-hover {
     color: var(--dp-cell-color-selected);
     --dp-cell-val-bg-color: var(--dp-cell-bg-color-selected);
   }
@@ -86,8 +87,8 @@
 
 .o-dp-cell-out-view {
   color: var(--dp-panel-color-out);
-  &,
-  &:hover {
+
+  @include me-on-hover {
     color: var(--dp-panel-color-out);
     --dp-cell-val-bg-color: transparent;
   }
@@ -128,4 +129,81 @@
 }
 .o-dp-pane-shortcut-item {
   margin-right: 4px;
+}
+
+// time pane
+.o-time-pane {
+  display: flex;
+  color: var(--dp-panel-color);
+  font-size: var(--dp-panel-text-size);
+  line-height: var(--dp-panel-text-height);
+}
+.o-time-col {
+  height: 100%;
+  height: 264px;
+  + .o-time-col {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 2px;
+      bottom: 2px;
+      border-left: var(--dp-col-bd);
+    }
+  }
+}
+.o-time-cell {
+  padding: 2px 30px;
+  cursor: pointer;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include on-hover {
+    --dp-cell-val-bg-color: var(--dp-time-cell-bg-color-hover);
+  }
+}
+.o-time-cell-val {
+  padding: 0 8px;
+
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  background-color: var(--dp-cell-val-bg-color);
+}
+.o-time-cell-selected {
+  @include me-on-hover {
+    color: var(--dp-time-cell-color-selected);
+    --dp-cell-val-bg-color: var(--dp-time-cell-bg-color-selected);
+  }
+}
+
+.o-time-col-align-top {
+  &::after {
+    content: '';
+    display: block;
+    height: calc(100% - var(--dp-time-cell-height));
+  }
+}
+.o-time-col-align-bottom {
+  &::before {
+    content: '';
+    display: block;
+    height: calc(100% - var(--dp-time-cell-height));
+  }
+}
+.o-time-col-align-center {
+  &::before {
+    content: '';
+    display: block;
+    height: calc(50% - var(--dp-time-cell-height) / 2);
+  }
+  &::after {
+    content: '';
+    display: block;
+    height: calc(50% - var(--dp-time-cell-height) / 2);
+  }
 }

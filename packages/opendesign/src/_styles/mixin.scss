@@ -71,6 +71,14 @@ $breakpoints: (
     }
   }
 }
+@mixin me-on-hover() {
+  @content;
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
 
 @mixin x-hover() {
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);

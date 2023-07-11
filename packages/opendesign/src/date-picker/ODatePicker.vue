@@ -7,6 +7,7 @@ import { InnerPanel } from '../_components/inner-panel';
 import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
 import DatePane from './DatePane.vue';
+import TimePane from './TimePane.vue';
 import { format, parse } from 'date-fns';
 import { isFunction, isValidDate } from '../_utils/is';
 import { getRealDateValue, normalizeDateValue, DateFormatString } from './date';
@@ -52,7 +53,7 @@ const inputVal = ref(dateValue.value.value ? formatFn(dateValue.value.value) : '
 
 const currentValue = ref<Date | null>(dateValue.value.value);
 
-const isPicking = ref(false);
+const isPicking = ref(true);
 const autoHidePanel = ref(false);
 
 watchEffect(() => {
@@ -99,7 +100,7 @@ const onFocus = (value: string, evt: FocusEvent) => {
 
 const onBlur = (value: string, evt: FocusEvent) => {
   isFocus.value = false;
-  togglePanel(false);
+  // togglePanel(false);
 
   emits('blur', realValue, value, evt);
 };
@@ -158,7 +159,7 @@ const onUpdateModelValue = (value: string) => {
       @mousedown.prevent
     >
       <div>
-        <DatePane
+        <!-- <DatePane
           v-model:value="currentValue"
           :shortcuts="props.shortcuts"
           :confirm-btn="props.needConfirm"
@@ -169,7 +170,8 @@ const onUpdateModelValue = (value: string) => {
           <template #day-cell="data">
             <slot name="day-cell" v-bind="data"></slot>
           </template>
-        </DatePane>
+        </DatePane> -->
+        <TimePane view-align="top" />
       </div>
     </InnerPanel>
   </InnerFrame>
