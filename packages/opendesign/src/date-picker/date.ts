@@ -23,13 +23,20 @@ export interface DateRangeT {
 
 export function normalizeDateValue(
   value: string | Date | number | undefined,
-  parseFn: (v: string) => Date
+  parseFn: (v: string) => Date | null
 ): { type: 'string' | 'number' | 'Date'; value: Date | null } {
   if (typeof value === 'string') {
-    return {
-      type: 'string',
-      value: value ? parseFn(value) : null,
-    };
+    try {
+      return {
+        type: 'string',
+        value: value ? parseFn(value) : null,
+      };
+    } catch {
+      return {
+        type: 'string',
+        value: null,
+      };
+    }
   }
   if (typeof value === 'number') {
     return {
@@ -77,6 +84,13 @@ export const Labels = {
 };
 const DateTypes = ['years', 'months', 'dayOfweek', 'days', 'hours', 'minutes', 'seconds'] as const;
 type DateKeyT = (typeof DateTypes)[number];
+
+export const DateFormatString = {
+  date: 'yyyy-MM-dd',
+  year: 'yyyy',
+  dateTime: 'yyyy-MM-dd HH:mm:ss',
+  time: 'HH:mm:ss',
+};
 
 export function getMonthLabel(date: DateT) {
   let label = [];

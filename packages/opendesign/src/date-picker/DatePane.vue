@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { IconCalendarPrevMonth, IconCalendarPrevYear, IconCalendarNextMonth, IconCalendarNextYear } from '../_utils/icons';
 import { OButton } from '../button';
-import { ShortcutParamT, ShortcutT } from './types';
+import { ShortcutParamT, ShortcutT, DatePickerTypeT } from './types';
 import { OLink } from '../link';
 import { OIcon } from '../icon';
 import { Labels, getDate, getMonthLabel, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth } from './date';
@@ -27,13 +27,16 @@ const props = withDefaults(
     range?: boolean;
     value?: Date | null;
     shortcuts?: Array<ShortcutParamT>;
-    confirmBtn?: boolean | string;
+    needConfirm?: boolean;
+    confirmLabel?: string;
+    type?: DatePickerTypeT;
   }>(),
   {
     range: false,
     value: undefined,
     shortcuts: undefined,
-    confirmBtn: false,
+    confirmLabel: '',
+    type: 'date',
   }
 );
 
@@ -43,9 +46,12 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
-const confirmLabel = computed(() => (typeof props.confirmBtn === 'string' ? props.confirmBtn : Labels.confirm));
+const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
 const needConfirm = computed(() => {
-  if (props.confirmBtn) {
+  if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(props.type)) {
+    return true;
+  }
+  if (props.needConfirm) {
     return true;
   }
   return false;

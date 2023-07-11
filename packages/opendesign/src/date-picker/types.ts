@@ -8,21 +8,31 @@ export interface ShortcutT {
 export type ReservedShortcutT = 'today';
 export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 
+export const DatePickerTypes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter'] as const;
+export type DatePickerTypeT = (typeof DatePickerTypes)[number];
+
 export const datePickerProps = {
   /**
-   * 下拉框的值
+   * 值
    * v-model
    */
   modelValue: {
     type: [Date, String, Number],
   },
   /**
-   * 下拉框的默认值
-   * 非受控
+   * 默认值
    */
   defaultValue: {
     type: [Date, String, Number],
   },
+  /**
+   * 下拉框的默认值
+   */
+  type: {
+    type: [String] as PropType<DatePickerTypeT>,
+    default: 'date',
+  },
+
   /**
    * 大小 SizeT
    */
@@ -96,8 +106,14 @@ export const datePickerProps = {
   /**
    * 面板上是否显示确认按钮
    */
-  confirmBtn: {
-    type: [String, Boolean],
+  needConfirm: {
+    type: [Boolean],
+  },
+  /**
+   * 面板上确认按钮文本
+   */
+  confirmLabel: {
+    type: [String],
   },
 };
 

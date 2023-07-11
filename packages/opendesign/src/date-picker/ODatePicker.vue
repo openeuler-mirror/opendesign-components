@@ -9,7 +9,7 @@ import { IconCalendar } from '../_utils/icons';
 import DatePane from './DatePane.vue';
 import { format, parse } from 'date-fns';
 import { isFunction, isValidDate } from '../_utils/is';
-import { getRealDateValue, normalizeDateValue } from './date';
+import { getRealDateValue, normalizeDateValue, DateFormatString } from './date';
 
 const props = defineProps(datePickerProps);
 
@@ -26,8 +26,25 @@ const inputId = uniqueId('input');
 const inputRef = ref<InstanceType<typeof InnerInput>>();
 const inputFrameRef = ref<InstanceType<typeof InnerFrame>>();
 
-const formatFn = isFunction(props.format) ? props.format : (d: Date) => format(d, 'yyyy-MM-dd');
-const parseFn = isFunction(props.parse) ? props.parse : (str: string) => parse(str, 'yyyy-MM-dd', new Date());
+const formateString = DateFormatString[props.type as keyof typeof DateFormatString];
+const formatFn = isFunction(props.format)
+  ? props.format
+  : (d: Date) => {
+      try {
+        return format(d, formateString);
+      } catch {
+        return '';
+      }
+    };
+const parseFn = isFunction(props.parse)
+  ? props.parse
+  : (str: string) => {
+      try {
+        return parse(str, formateString, new Date());
+      } catch {
+        return null;
+      }
+    };
 
 const dateValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
 
@@ -71,13 +88,19 @@ const onConfirm = (visible?: boolean) => {
 // 是否聚焦状态
 const isFocus = ref(false);
 const onFocus = (value: string, evt: FocusEvent) => {
+  if (isFocus.value) {
+    return;
+  }
   isFocus.value = true;
-  isPicking.value = true;
+  togglePanel(true);
+
   emits('focus', realValue, value, evt);
 };
 
 const onBlur = (value: string, evt: FocusEvent) => {
   isFocus.value = false;
+  togglePanel(false);
+
   emits('blur', realValue, value, evt);
 };
 
@@ -87,7 +110,7 @@ const onPressEnter = () => {
 
 const onUpdateModelValue = (value: string) => {
   const d = parseFn(value);
-  if (isValidDate(d)) {
+  if (d && isValidDate(d)) {
     // 严格匹配
     if (formatFn(d) === value) {
       currentValue.value = d;
@@ -126,9 +149,23 @@ const onUpdateModelValue = (value: string) => {
         <IconCalendar />
       </div>
     </template>
-    <InnerPanel v-if="!props.disabled" v-model:visible="isPicking" :target="inputFrameRef" :auto-hide="autoHidePanel" class="o-date-picker-panel">
+    <InnerPanel
+      v-if="!props.disabled"
+      v-model:visible="isPicking"
+      :target="inputFrameRef"
+      :auto-hide="autoHidePanel"
+      class="o-date-picker-panel"
+      @mousedown.prevent
+    >
       <div>
-        <DatePane v-model:value="currentValue" :shortcuts="props.shortcuts" :confirm-btn="props.confirmBtn" @confirm="() => onConfirm(false)">
+        <DatePane
+          v-model:value="currentValue"
+          :shortcuts="props.shortcuts"
+          :confirm-btn="props.needConfirm"
+          :confirm-label="props.confirmLabel"
+          :type="props.type"
+          @confirm="() => onConfirm(false)"
+        >
           <template #day-cell="data">
             <slot name="day-cell" v-bind="data"></slot>
           </template>

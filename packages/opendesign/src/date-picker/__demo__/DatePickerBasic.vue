@@ -43,11 +43,12 @@ const shortcuts: ShortcutParamT[] = [
     <div class="row">
       <ODatePicker
         v-model="val1"
+        type="datetime"
         placeholder="normal + outline"
         resize="none"
         color="normal"
         :shortcuts="shortcuts"
-        confirm-btn="ok"
+        confirm-label="ok"
         @focus="onFocus"
         @blur="onBlur"
         @change="onChange"
