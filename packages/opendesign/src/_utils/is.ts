@@ -27,6 +27,13 @@ export function isFunction(val: unknown): val is Function {
 export function isArray(val: unknown): val is Array<any> {
   return Array.isArray(val);
 }
+/**
+ * 判断日期是否合法
+ * @param d
+ */
+export function isValidDate(val: Date): val is Date {
+  return !Number.isNaN(val.valueOf());
+}
 
 // 是否是对象或者数组等（key:value 形式）
 export function isObject(val: unknown): val is Record<any, any> {

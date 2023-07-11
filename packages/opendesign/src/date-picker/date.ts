@@ -1,3 +1,6 @@
+import { isNull, isValidDate } from '../_utils/is';
+import { getWeeksByDate, startOfMonth } from '../_utils/date';
+
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
 export const HOUR_TIME = 60 * MINUTE_TIME;
@@ -18,9 +21,50 @@ export interface DateRangeT {
   end: DateT;
 }
 
-export function normalizeDateValue(value: string) {
-  const date = new Date(value);
-  return date;
+export function normalizeDateValue(
+  value: string | Date | number | undefined,
+  parseFn: (v: string) => Date
+): { type: 'string' | 'number' | 'Date'; value: Date | null } {
+  if (typeof value === 'string') {
+    return {
+      type: 'string',
+      value: value ? parseFn(value) : null,
+    };
+  }
+  if (typeof value === 'number') {
+    return {
+      type: 'number',
+      value: new Date(value),
+    };
+  }
+  if (value instanceof Date) {
+    return {
+      type: 'Date',
+      value: value,
+    };
+  }
+
+  const d = value ? new Date(value) : null;
+  return {
+    type: 'Date',
+    value: d && isValidDate(d) ? d : null,
+  };
+}
+
+export function getRealDateValue(value: Date | null, type: 'string' | 'number' | 'Date', formatFn: (d: Date) => string): string | number | Date {
+  if (isNull(value)) {
+    return '';
+  }
+  if (type === 'string') {
+    return formatFn(value);
+  }
+  if (type === 'number') {
+    return value.getTime();
+  }
+  if (type === 'Date') {
+    return value;
+  }
+  return '';
 }
 
 export const Labels = {
@@ -28,13 +72,12 @@ export const Labels = {
   year: '年',
   month: '月',
   day: '日',
+  today: '今天',
+  confirm: '确定',
 };
 const DateTypes = ['years', 'months', 'dayOfweek', 'days', 'hours', 'minutes', 'seconds'] as const;
 type DateKeyT = (typeof DateTypes)[number];
 
-export function isValidDate(d: Date): boolean {
-  return !Number.isNaN(d.valueOf());
-}
 export function getMonthLabel(date: DateT) {
   let label = [];
 
@@ -74,47 +117,12 @@ export function getDate(date: Date, type: string = 'years|months|days|hours|minu
   return rlt;
 }
 
-export function getWeeksByDate(
-  date: Date,
-  {
-    weekStartsOn = 0,
-  }: {
-    weekStartsOn?: number;
-  } = {}
-): DateT[] {
-  const time = date.getTime();
-  const day = date.getDay();
-
-  const weeks: DateT[] = [];
-  const dis = (weekStartsOn % WEEK_DAYS) - day;
-  const first = time + DAY_TIME * dis;
-
-  for (let i = 0; i < WEEK_DAYS; i++) {
-    if (i === dis) {
-      weeks.push(getDate(date));
-    } else {
-      const d = new Date(first + DAY_TIME * i);
-      weeks.push(getDate(d));
-    }
-  }
-
-  return weeks;
-}
-
-export function getDayListByWeek(date: DateT, weekLength: number = 6): DateT[] {
-  const dayList: DateT[] = [];
+export function getDaysofMonth(date: Date, weekLength: number = 6): DateT[] {
   // 获取该月第一天
-  let cDate = date;
-  if (!cDate.years || !cDate.months) {
-    cDate = getDate(new Date());
-  }
-
-  const mDate = new Date(cDate.years || new Date().getFullYear(), cDate.months ? cDate.months - 1 : 0, 1);
-
+  const mDate = startOfMonth(date);
   // 以该月第一周开始，获取weekLength周的日期列表
-  for (let i = 0; i < weekLength; i++) {
-    dayList.push(...getWeeksByDate(new Date(mDate.getTime() + WEEK_TIME * i)));
-  }
+
+  let dayList = getWeeksByDate(mDate, weekLength, { parse: getDate });
 
   return dayList;
 }

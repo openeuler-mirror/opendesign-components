@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { ODatePicker } from '../index';
+import { ref } from 'vue';
+import { ODatePicker, ShortcutParamT } from '../index';
 
-const val1 = ref(new Date());
+const val1 = ref<string | Date | number>('2020-9-1');
 
-const onChange = (value: string) => {
+const onChange = (value: string | Date | number) => {
   console.log('change', value);
 };
 
-const onFocus = (value: string, e: Event) => {
-  console.log('focus', value, e);
+const onFocus = (value: string | Date | number) => {
+  console.log('focus', value);
 };
-const onBlur = (value: string, e: Event) => {
-  console.log('blur', value, e);
+const onBlur = (value: string | Date | number) => {
+  console.log('blur', value);
 };
 
 const onClear = (e?: Event) => {
@@ -22,6 +22,18 @@ const onClear = (e?: Event) => {
 const onPressEnter = (value: string, e: KeyboardEvent) => {
   console.log('pressEnter', value, e);
 };
+
+const shortcuts: ShortcutParamT[] = [
+  'today',
+  {
+    label: 'yesterday',
+    value: () => new Date(new Date().getTime() - 24 * 1000 * 60 * 60),
+  },
+  {
+    label: '20天前',
+    value: () => new Date(new Date().getTime() - 20 * 24 * 1000 * 60 * 60),
+  },
+];
 </script>
 <template>
   <h4>Color & Variant</h4>
@@ -34,12 +46,16 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
         placeholder="normal + outline"
         resize="none"
         color="normal"
+        :shortcuts="shortcuts"
+        confirm-btn="ok"
         @focus="onFocus"
         @blur="onBlur"
         @change="onChange"
         @clear="onClear"
         @press-enter="onPressEnter"
-      />
+      >
+        <template #day-cell="cell">{{ !cell.outView ? cell.data.days : `_${cell.data.days}` }}</template>
+      </ODatePicker>
       <!-- <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="success" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="warning" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="danger" />

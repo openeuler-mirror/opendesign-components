@@ -13,7 +13,9 @@
   --dp-cell-color-selected: var(--o-color-info1-inverse);
   --dp-cell-bg-color-hover: var(--o-color-control2-light);
   --dp-cell-bg-color-selected: var(--o-color-primary1);
-  --dp-cell-today-color: var(--o-color-primary1);
 
   --dp-cell-in-range-bg-color: var(--o-color-control1-light);
+
+  --dp-cell-today-size: 4px;
+  --dp-cell-today-dot-color: var(--o-color-primary1);
 }

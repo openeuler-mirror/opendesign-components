@@ -1,20 +1,27 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
 
+export interface ShortcutT {
+  label: string;
+  value: Date | (() => Date);
+}
+export type ReservedShortcutT = 'today';
+export type ShortcutParamT = ReservedShortcutT | ShortcutT;
+
 export const datePickerProps = {
   /**
    * 下拉框的值
    * v-model
    */
   modelValue: {
-    type: [Date],
+    type: [Date, String, Number],
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [Date],
+    type: [Date, String, Number],
   },
   /**
    * 大小 SizeT
@@ -79,6 +86,18 @@ export const datePickerProps = {
    */
   parse: {
     type: Function as PropType<(d: string) => Date>,
+  },
+  /**
+   * 面板上的快捷按钮
+   */
+  shortcuts: {
+    type: [String, Object] as PropType<Array<ShortcutParamT>>,
+  },
+  /**
+   * 面板上是否显示确认按钮
+   */
+  confirmBtn: {
+    type: [String, Boolean],
   },
 };
 

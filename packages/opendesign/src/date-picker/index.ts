@@ -7,3 +7,4 @@ const ODatePicker = Object.assign(_ODatePicker, {
   },
 });
 export { ODatePicker };
+export * from './types';
