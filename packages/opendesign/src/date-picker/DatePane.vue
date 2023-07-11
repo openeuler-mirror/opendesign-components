@@ -56,6 +56,7 @@ const viewMonthDate = ref<DateT>(getDate(startOfMonth(props.value || new Date())
 const currentMonthLabel = computed(() => getMonthLabel(viewMonthDate.value));
 
 const selectDate = ref<DateT | null>(props.value ? getDate(props.value) : null);
+let lastDate: DateT | null = selectDate.value;
 
 const shortcuts = computed(() => {
   if (props.shortcuts && props.shortcuts.length > 0) {
@@ -109,6 +110,7 @@ watch(
   (v: Date | null | undefined) => {
     if (v) {
       selectDate.value = getDate(v);
+      lastDate = selectDate.value;
 
       viewMonthDate.value = getDate(startOfMonth(v));
       dayList.value = getDaysofMonth(viewMonthDate.value.date);
@@ -154,7 +156,6 @@ const onDayCellClick = (cell: DayCellT, e?: Event) => {
 /*
  * 快捷按钮shortcut
  */
-let lastDate: DateT | null = selectDate.value;
 const onShortcutClick = (e: Event, shortcut: ShortcutT) => {
   const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
   selectDate.value = getDate(v);
@@ -163,19 +164,43 @@ const onShortcutClick = (e: Event, shortcut: ShortcutT) => {
   emits('update:value', selectDate.value.date);
   onConfirm(false, e);
 };
+// 避免频繁更新dom
+let hoverInTimer: number = 0;
+let hoverOutTimer: number = 0;
+const hoverDelay = 100;
+const clearTimer = () => {
+  if (hoverInTimer) {
+    clearTimeout(hoverInTimer);
+    hoverInTimer = 0;
+  }
+  if (hoverOutTimer) {
+    clearTimeout(hoverOutTimer);
+    hoverOutTimer = 0;
+  }
+};
 // hover in时快速显示
 const onShortcutMouseEnter = (e: Event, shortcut: ShortcutT) => {
-  const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
-  lastDate = selectDate.value;
-  selectDate.value = getDate(v);
-  emits('update:value', selectDate.value.date);
+  clearTimer();
+
+  hoverInTimer = window.setTimeout(() => {
+    hoverInTimer = 0;
+    const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
+    selectDate.value = getDate(v);
+    emits('update:value', selectDate.value.date);
+  }, hoverDelay);
 };
 // hover out恢复之前值
 const onShortcutMouseLeave = () => {
-  if (selectDate.value !== lastDate) {
-    selectDate.value = lastDate;
-    emits('update:value', selectDate.value ? selectDate.value.date : null);
-  }
+  clearTimer();
+
+  hoverOutTimer = window.setTimeout(() => {
+    hoverOutTimer = 0;
+
+    if (selectDate.value !== lastDate) {
+      selectDate.value = lastDate;
+      emits('update:value', selectDate.value ? selectDate.value.date : null);
+    }
+  }, hoverDelay);
 };
 </script>
 <template>

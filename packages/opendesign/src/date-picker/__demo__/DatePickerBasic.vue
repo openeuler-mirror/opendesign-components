@@ -26,12 +26,12 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
 const shortcuts: ShortcutParamT[] = [
   'today',
   {
-    label: 'yesterday',
-    value: () => new Date(new Date().getTime() - 24 * 1000 * 60 * 60),
-  },
-  {
     label: '20天前',
     value: () => new Date(new Date().getTime() - 20 * 24 * 1000 * 60 * 60),
+  },
+  {
+    label: 'yesterday',
+    value: () => new Date(new Date().getTime() - 24 * 1000 * 60 * 60),
   },
 ];
 </script>

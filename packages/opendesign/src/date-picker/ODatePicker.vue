@@ -35,9 +35,16 @@ const inputVal = ref(dateValue.value.value ? formatFn(dateValue.value.value) : '
 
 const currentValue = ref<Date | null>(dateValue.value.value);
 
+const isPicking = ref(false);
+const autoHidePanel = ref(false);
+
 watchEffect(() => {
   if (currentValue.value) {
     inputVal.value = formatFn(currentValue.value);
+
+    if (isPicking.value) {
+      inputRef.value?.focus();
+    }
   }
 });
 
@@ -49,8 +56,17 @@ const onChange = (value: Date | null) => {
 };
 
 // panel
-const isPicking = ref(true);
-const autoHidePanel = ref(false);
+const togglePanel = (visible?: boolean) => {
+  if (visible === undefined) {
+    isPicking.value = !isPicking.value;
+  } else {
+    isPicking.value = visible;
+  }
+};
+const onConfirm = (visible?: boolean) => {
+  togglePanel(visible);
+  onChange(currentValue.value);
+};
 
 // 是否聚焦状态
 const isFocus = ref(false);
@@ -65,6 +81,10 @@ const onBlur = (value: string, evt: FocusEvent) => {
   emits('blur', realValue, value, evt);
 };
 
+const onPressEnter = () => {
+  onConfirm();
+};
+
 const onUpdateModelValue = (value: string) => {
   const d = parseFn(value);
   if (isValidDate(d)) {
@@ -73,15 +93,6 @@ const onUpdateModelValue = (value: string) => {
       currentValue.value = d;
     }
   }
-};
-
-// panel
-const togglePanel = (visible: boolean) => {
-  isPicking.value = visible;
-};
-const onConfirm = () => {
-  togglePanel(false);
-  onChange(currentValue.value);
 };
 </script>
 <template>
@@ -107,6 +118,7 @@ const onConfirm = () => {
       :readonly="props.readonly"
       @focus="onFocus"
       @blur="onBlur"
+      @press-enter="onPressEnter"
       @update:model-value="onUpdateModelValue"
     />
     <template #suffix>
@@ -116,7 +128,7 @@ const onConfirm = () => {
     </template>
     <InnerPanel v-if="!props.disabled" v-model:visible="isPicking" :target="inputFrameRef" :auto-hide="autoHidePanel" class="o-date-picker-panel">
       <div>
-        <DatePane v-model:value="currentValue" :shortcuts="props.shortcuts" :confirm-btn="props.confirmBtn" @confirm="onConfirm">
+        <DatePane v-model:value="currentValue" :shortcuts="props.shortcuts" :confirm-btn="props.confirmBtn" @confirm="() => onConfirm(false)">
           <template #day-cell="data">
             <slot name="day-cell" v-bind="data"></slot>
           </template>
