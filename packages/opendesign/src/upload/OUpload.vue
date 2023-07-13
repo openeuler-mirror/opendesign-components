@@ -168,7 +168,14 @@ const onFileReplace = (file: UploadFileT) => {
 /**
  * 选择文件
  */
-const doSelect = () => {
+const doSelect = async () => {
+  if (isFunction(props.beforeSelect)) {
+    const goon = await props.beforeSelect(fileList.value);
+
+    if (goon === false) {
+      return;
+    }
+  }
   selectRef.value?.select(props.multiple);
 };
 

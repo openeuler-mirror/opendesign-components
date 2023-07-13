@@ -60,6 +60,12 @@ export const uploadProps = {
     type: Boolean,
   },
   /**
+   * 选择文件前回调，根据返回值判断是否继续选择文件
+   */
+  beforeSelect: {
+    type: Function as PropType<(value: UploadFileT[]) => Promise<boolean> | boolean>,
+  },
+  /**
    * 选择后触发
    */
   onAfterSelect: {

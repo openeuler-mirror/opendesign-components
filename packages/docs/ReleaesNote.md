@@ -16,3 +16,4 @@
 2. 表格插槽支持自定义 td、th 内容；
 3. 修复 pagination 跳转输入框能输入小数问题；
 4. todo carousel 增加鼠标 hover 停止轮播功能，支持是否循环
+5. upload 增加 beforeSelect 入参
