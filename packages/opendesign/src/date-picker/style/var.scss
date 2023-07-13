@@ -2,30 +2,30 @@
 }
 
 .o-date-picker-panel {
-  --dp-cell-height: 24px;
-  --dp-panel-color: var(--o-color-info1);
-  --dp-panel-color-out: var(--o-color-info4);
+  --picker-cell-height: 24px;
+  --picker-panel-color: var(--o-color-info1);
+  --picker-panel-color-out: var(--o-color-info4);
 
-  --dp-panel-icon-size: var(--o-icon_size-s);
-  --dp-panel-text-size: var(--o-font_size-text1);
-  --dp-panel-text-height: var(--o-line_height-text1);
+  --picker-panel-icon-size: var(--o-icon_size-s);
+  --picker-panel-text-size: var(--o-font_size-text1);
+  --picker-panel-text-height: var(--o-line_height-text1);
 
-  --dp-cell-radius-selected: 24px;
-  --dp-cell-color-selected: var(--o-color-info1-inverse);
-  --dp-cell-bg-color-hover: var(--o-color-control2-light);
-  --dp-cell-bg-color-selected: var(--o-color-primary1);
+  --picker-cell-radius-selected: 24px;
+  --picker-cell-color-selected: var(--o-color-info1-inverse);
+  --picker-cell-bg-color-hover: var(--o-color-control2-light);
+  --picker-cell-bg-color-selected: var(--o-color-primary1);
 
-  --dp-cell-in-range-bg-color: var(--o-color-control1-light);
+  --picker-cell-in-range-bg-color: var(--o-color-control1-light);
 
-  --dp-cell-today-size: 4px;
-  --dp-cell-today-dot-color: var(--o-color-primary1);
+  --picker-cell-today-size: 4px;
+  --picker-cell-today-dot-color: var(--o-color-primary1);
 
-  --dp-col-bd: 1px solid var(--o-color-control4);
+  --picker-col-bd: 1px solid var(--o-color-control4);
 
-  --dp-time-cell-height: 24px;
-  --dp-time-cell-color-selected: var(--o-color-info1);
-  --dp-time-cell-bg-color-hover: var(--o-color-control2-light);
-  --dp-time-cell-bg-color-selected: var(--o-color-control3-light);
+  --picker-time-cell-height: 24px;
+  --picker-time-cell-color-selected: var(--o-color-info1);
+  --picker-time-cell-bg-color-hover: var(--o-color-control2-light);
+  --picker-time-cell-bg-color-selected: var(--o-color-control3-light);
 
   --picker-head-height: 48px;
 }

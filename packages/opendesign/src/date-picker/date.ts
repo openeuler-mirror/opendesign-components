@@ -71,14 +71,14 @@ export const Labels = {
   year: '年',
   month: '月',
   day: '日',
-  today: '今天',
+  now: '此刻',
   confirm: '确定',
 };
 
 export const DateFormatString = {
   date: 'yyyy-MM-dd',
   year: 'yyyy',
-  dateTime: 'yyyy-MM-dd HH:mm:ss',
+  datetime: 'yyyy-MM-dd HH:mm:ss',
   time: 'HH:mm:ss',
 };
 

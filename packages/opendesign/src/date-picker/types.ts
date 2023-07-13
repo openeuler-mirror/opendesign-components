@@ -5,7 +5,7 @@ export interface ShortcutT {
   label: string;
   value: Date | (() => Date);
 }
-export type ReservedShortcutT = 'today';
+export type ReservedShortcutT = 'now';
 export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 
 export const DatePickerTypes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter', 'time'] as const;

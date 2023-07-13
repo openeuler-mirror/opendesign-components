@@ -85,11 +85,11 @@ const onChange = (value: Date) => {
 
 // panel
 const togglePanel = (visible?: boolean) => {
-  // if (visible === undefined) {
-  //   isPicking.value = !isPicking.value;
-  // } else {
-  //   isPicking.value = visible;
-  // }
+  if (visible === undefined) {
+    isPicking.value = !isPicking.value;
+  } else {
+    isPicking.value = visible;
+  }
 };
 const onConfirm = (visible?: boolean) => {
   togglePanel(visible);

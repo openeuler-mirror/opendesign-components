@@ -61,11 +61,6 @@ for (let i = 0; i < 60; i++) {
 }
 
 const selectValue = reactive<TimeValueT>(props.value);
-const selectValueLabel = reactive<Record<keyof TimeValueT, string>>({
-  hours: '00',
-  minutes: '00',
-  seconds: '00',
-});
 
 const validValue = computed(() => !(isUndefined(selectValue.hours) || isUndefined(selectValue.minutes) || isUndefined(selectValue.seconds)));
 
@@ -111,7 +106,10 @@ watch(
 );
 
 const currentValueLabel = computed(() => {
-  return `${selectValueLabel.hours} : ${selectValueLabel.minutes} : ${selectValueLabel.seconds} `;
+  const h = (selectValue.hours || 0).toString().padStart(2, '0');
+  const m = (selectValue.minutes || 0).toString().padStart(2, '0');
+  const s = (selectValue.seconds || 0).toString().padStart(2, '0');
+  return `${h} : ${m} : ${s} `;
 });
 
 const alinClass = computed(() => {
@@ -120,8 +118,6 @@ const alinClass = computed(() => {
 
 const selectCell = (cell: CellT, type: keyof TimeValueT) => {
   selectValue[type] = cell.value;
-
-  selectValueLabel[type] = cell.label;
 
   emits('select', selectValue);
   emits('update:value', selectValue);

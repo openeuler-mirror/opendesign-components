@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { ODatePicker, ShortcutParamT } from '../index';
 
-const val1 = ref<string | Date | number>('2022-1-1');
+const val1 = ref<string | Date | number>('2022-1-1 11:00:00');
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);
@@ -24,7 +24,7 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
 };
 
 const shortcuts: ShortcutParamT[] = [
-  'today',
+  'now',
   {
     label: '20天前',
     value: () => new Date(new Date().getTime() - 20 * 24 * 1000 * 60 * 60),
@@ -43,7 +43,7 @@ const shortcuts: ShortcutParamT[] = [
     <div class="row">
       <ODatePicker
         v-model="val1"
-        type="time"
+        type="datetime"
         placeholder="请选择..."
         resize="none"
         color="normal"

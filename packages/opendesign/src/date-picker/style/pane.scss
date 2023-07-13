@@ -2,9 +2,9 @@
 @use './var.scss';
 
 .o-picker-pane {
-  color: var(--dp-panel-color);
-  font-size: var(--dp-panel-text-size);
-  line-height: var(--dp-panel-text-height);
+  color: var(--picker-panel-color);
+  font-size: var(--picker-panel-text-size);
+  line-height: var(--picker-panel-text-height);
 }
 .o-picker-wrap {
   display: flex;
@@ -32,7 +32,7 @@
 }
 
 .o-picker-btn {
-  --icon-size: var(--dp-panel-icon-size);
+  --icon-size: var(--picker-panel-icon-size);
   + .o-picker-btn {
     margin-left: 4px;
   }
@@ -93,23 +93,23 @@
   justify-content: center;
 
   &:hover {
-    --dp-cell-val-bg-color: var(--dp-cell-bg-color-hover);
+    --picker-cell-val-bg-color: var(--picker-cell-bg-color-hover);
   }
 }
 .o-dp-cell-range-start,
 .o-dp-cell-range-end,
 .o-dp-cell-selected {
   @include me-on-hover {
-    color: var(--dp-cell-color-selected);
-    --dp-cell-val-bg-color: var(--dp-cell-bg-color-selected);
+    color: var(--picker-cell-color-selected);
+    --picker-cell-val-bg-color: var(--picker-cell-bg-color-selected);
   }
 }
 .o-dp-cell-in-range {
-  background-color: var(--dp-cell-in-range-bg-color);
+  background-color: var(--picker-cell-in-range-bg-color);
 }
 .o-dp-cell-range-start {
-  border-top-left-radius: var(--dp-cell-radius-selected);
-  border-bottom-left-radius: var(--dp-cell-radius-selected);
+  border-top-left-radius: var(--picker-cell-radius-selected);
+  border-bottom-left-radius: var(--picker-cell-radius-selected);
 }
 
 .o-dp-cell-today {
@@ -117,28 +117,28 @@
   &::after {
     content: '';
     border-radius: 50%;
-    width: var(--dp-cell-today-size);
-    height: var(--dp-cell-today-size);
-    background-color: var(--dp-cell-today-dot-color);
+    width: var(--picker-cell-today-size);
+    height: var(--picker-cell-today-size);
+    background-color: var(--picker-cell-today-dot-color);
     position: absolute;
     left: 50%;
     bottom: -8px;
-    margin-left: calc(-0.5 * var(--dp-cell-today-size));
+    margin-left: calc(-0.5 * var(--picker-cell-today-size));
   }
 }
 
 .o-dp-cell-out-view {
-  color: var(--dp-panel-color-out);
+  color: var(--picker-panel-color-out);
 
   @include me-on-hover {
-    color: var(--dp-panel-color-out);
-    --dp-cell-val-bg-color: transparent;
+    color: var(--picker-panel-color-out);
+    --picker-cell-val-bg-color: transparent;
   }
 }
 
 .o-dp-cell-range-end {
-  border-top-right-radius: var(--dp-cell-radius-selected);
-  border-bottom-right-radius: var(--dp-cell-radius-selected);
+  border-top-right-radius: var(--picker-cell-radius-selected);
+  border-bottom-right-radius: var(--picker-cell-radius-selected);
 }
 .o-dp-cell-val {
   flex: 1;
@@ -146,7 +146,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 24px;
-  background-color: var(--dp-cell-val-bg-color);
+  background-color: var(--picker-cell-val-bg-color);
 }
 
 // time pane
@@ -171,7 +171,7 @@
       left: 0;
       top: 2px;
       bottom: 2px;
-      border-left: var(--dp-col-bd);
+      border-left: var(--picker-col-bd);
     }
   }
 }
@@ -183,7 +183,7 @@
   align-items: center;
   justify-content: center;
   @include on-hover {
-    --dp-cell-val-bg-color: var(--dp-time-cell-bg-color-hover);
+    --picker-cell-val-bg-color: var(--picker-time-cell-bg-color-hover);
   }
 }
 .o-tp-cell-val {
@@ -194,12 +194,12 @@
   justify-content: center;
   align-items: center;
   border-radius: 24px;
-  background-color: var(--dp-cell-val-bg-color);
+  background-color: var(--picker-cell-val-bg-color);
 }
 .o-tp-cell-selected {
   @include me-on-hover {
-    color: var(--dp-time-cell-color-selected);
-    --dp-cell-val-bg-color: var(--dp-time-cell-bg-color-selected);
+    color: var(--picker-time-cell-color-selected);
+    --picker-cell-val-bg-color: var(--picker-time-cell-bg-color-selected);
   }
 }
 
@@ -207,25 +207,25 @@
   &::after {
     content: '';
     display: block;
-    height: calc(100% - var(--dp-time-cell-height));
+    height: calc(100% - var(--picker-time-cell-height));
   }
 }
 .o-tp-col-align-bottom {
   &::before {
     content: '';
     display: block;
-    height: calc(100% - var(--dp-time-cell-height));
+    height: calc(100% - var(--picker-time-cell-height));
   }
 }
 .o-tp-col-align-center {
   &::before {
     content: '';
     display: block;
-    height: calc(50% - var(--dp-time-cell-height) / 2);
+    height: calc(50% - var(--picker-time-cell-height) / 2);
   }
   &::after {
     content: '';
     display: block;
-    height: calc(50% - var(--dp-time-cell-height) / 2);
+    height: calc(50% - var(--picker-time-cell-height) / 2);
   }
 }

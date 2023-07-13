@@ -39,6 +39,7 @@ const emits = defineEmits<{
 const initValue = computed(() => new PickerDate(props.value));
 const pickerValue = ref<InstanceType<typeof PickerDate>>(initValue.value);
 let lastDate: Date = pickerValue.value.date;
+console.log(pickerValue.value.date);
 
 watch(
   () => props.value,
@@ -133,9 +134,9 @@ const onTimeSelect = (v: TimeValueT, e?: Event) => {
 const shortcuts = computed(() => {
   if (props.shortcuts && props.shortcuts.length > 0) {
     return props.shortcuts.map((item) => {
-      if (item === 'today') {
+      if (item === 'now') {
         return {
-          label: Labels.today,
+          label: Labels.now,
           value: () => new Date(),
         };
       }

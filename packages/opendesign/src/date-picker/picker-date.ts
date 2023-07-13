@@ -26,7 +26,7 @@ export class PickerDate {
   set(value: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number }) {
     const { years = this.years, months = this.months, days = this.days, hours = this.hours, minutes = this.minutes, seconds = this.seconds } = value;
 
-    this._date = new Date(years || 0, months || 0, days || 1, hours || 0, minutes || 0, seconds || 0);
+    this._date = new Date(years || 0, !months && months !== 0 ? 0 : months - 1, days || 1, hours || 0, minutes || 0, seconds || 0);
     this._cache = {};
   }
 
