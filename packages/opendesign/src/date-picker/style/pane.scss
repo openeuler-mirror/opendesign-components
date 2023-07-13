@@ -154,6 +154,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  .o-date-picker + & {
+    border-left: var(--picker-col-bd);
+  }
 }
 .o-picker-main-time {
   flex: 1;
