@@ -445,28 +445,32 @@ export function bindTrigger(
     updateFn(false, hoverDelay);
   };
 
+  const onClickFn = () => {
+    hideFn();
+    outClick.removeListener(el, onClickFn);
+  };
+
   const clickFn = (toggle: boolean) => {
     const handlerFn = toggle ? toggleFn : showFn;
     return () => {
-      el?.addEventListener('click', handlerFn);
+      el?.addEventListener('click', () => {
+        handlerFn();
+        if (autoHide) {
+          outClick.addListener(el, onClickFn, {
+            exception: (e: Event) => {
+              return !!popupRef.value?.contains(e.target as HTMLElement);
+            },
+          });
+        }
+      });
 
       listeners.push(() => {
         el?.removeEventListener('click', handlerFn);
       });
-
-      if (autoHide) {
-        outClick.addListener(el, hideFn, {
-          exception: (e: Event) => {
-            return !!popupRef.value?.contains(e.target as HTMLElement);
-          },
-        });
-
-        listeners.push(() => {
-          outClick.removeListener(el, hideFn);
-        });
-      }
     };
   };
+
+  // TODO 将trigger分为两段 showEvent hideEvent
   const triggerHandlers: Record<PopupTriggerT, () => void> = {
     hover: () => {
       el?.addEventListener('mouseenter', enterFn);
@@ -481,7 +485,9 @@ export function bindTrigger(
         });
       }
     },
+    // 点击目标，切换显示
     click: clickFn(true),
+    // 点击目标，始终显示，当点击外部才隐藏
     'click-outclick': clickFn(false),
     focus: () => {
       el?.addEventListener('focusin', showFn);

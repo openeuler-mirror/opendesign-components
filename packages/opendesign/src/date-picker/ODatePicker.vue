@@ -53,8 +53,7 @@ const inputVal = ref(initValue.value.value ? formatFn(initValue.value.value) : '
 
 const currentValue = ref<Date>(initValue.value.value);
 
-const isPicking = ref(true);
-const autoHidePanel = ref(false);
+const isPicking = ref(false);
 
 watchEffect(() => {
   if (currentValue.value) {
@@ -172,7 +171,7 @@ const onTimePaneChange = (value: TimeValueT) => {
       v-if="!props.disabled"
       v-model:visible="isPicking"
       :target="inputFrameRef"
-      :auto-hide="autoHidePanel"
+      :auto-hide="false"
       class="o-date-picker-panel"
       :adjust-min-width="false"
       :adjust-width="false"

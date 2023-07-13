@@ -242,7 +242,8 @@ watch(
       return;
     }
 
-    visible.value = val;
+    // visible.value = val;
+    updateVisible(val);
     updateZIndex(val);
     if (val) {
       nextTick(() => {
@@ -410,6 +411,11 @@ const onPopupHoverOut = () => {
     updateVisible(false, props.hoverDelay);
   }
 };
+const sholdUmMount = computed(() => {
+  const f = toMount.value || visible.value || !props.unmountOnHide;
+
+  return toMount.value || visible.value || !props.unmountOnHide;
+});
 </script>
 <template>
   <OChildOnly v-if="$slots.target" ref="targetElRef">
@@ -419,7 +425,7 @@ const onPopupHoverOut = () => {
     <teleport :to="props.wrapper" :disabled="!props.wrapper">
       <OResizeObserver @resize="onPopupResize">
         <div
-          v-if="toMount || visible || !props.unmountOnHide"
+          v-if="sholdUmMount"
           ref="popupRef"
           class="o-popup"
           :style="popStyle"

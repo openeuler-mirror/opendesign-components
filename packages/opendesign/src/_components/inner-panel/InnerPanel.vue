@@ -7,7 +7,6 @@ import { OPopup } from '../../popup';
 const props = defineProps(innerPanelProps);
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
   (e: 'update:visible', val: boolean): void;
 }>();

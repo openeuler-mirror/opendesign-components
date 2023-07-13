@@ -22,7 +22,7 @@ const btn12 = ref(null);
   <h4>popup position</h4>
   <div class="position-wrap">
     <div class="top">
-      <OPopover position="tl" trigger="click">
+      <OPopover position="tl" trigger="click-outclick">
         <template #target>
           <OButton ref="btn1"> TL </OButton>
         </template>

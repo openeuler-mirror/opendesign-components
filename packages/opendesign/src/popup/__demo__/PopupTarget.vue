@@ -16,8 +16,8 @@ const content = 'this is popup content';
     <template #target><div class="btn">hover 123</div></template>
   </OPopup>
   <OPopup position="tl" trigger="hover-outclick" :unmount-on-hide="false">
-    <div class="popup-box">hover-click {{ content }}</div>
-    <template #target><div class="btn">hover-click 123</div></template>
+    <div class="popup-box">hover-outclick {{ content }}</div>
+    <template #target><div class="btn">hover-outclick 123</div></template>
   </OPopup>
   <OPopup position="tl" trigger="hover" :auto-hide="false" :unmount-on-hide="false">
     <div class="popup-box">hover not autohide {{ content }}</div>
