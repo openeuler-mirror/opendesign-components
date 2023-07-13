@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from 'vue';
-import { datePickerProps } from './types';
+import { datePickerProps, TimeValueT } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
 import { InnerPanel } from '../_components/inner-panel';
 import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
-import DatePane from './DatePane.vue';
-import TimePane from './TimePane.vue';
+import PickerPane from './PickerPane.vue';
 import { format, parse } from 'date-fns';
 import { isFunction, isValidDate } from '../_utils/is';
 import { getRealDateValue, normalizeDateValue, DateFormatString } from './date';
@@ -43,15 +42,16 @@ const parseFn = isFunction(props.parse)
       try {
         return parse(str, formateString, new Date());
       } catch {
-        return null;
+        return new Date(NaN);
       }
     };
 
-const dateValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
+// 外部输入值，包含类型及值
+const initValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
 
-const inputVal = ref(dateValue.value.value ? formatFn(dateValue.value.value) : '');
+const inputVal = ref(initValue.value.value ? formatFn(initValue.value.value) : '');
 
-const currentValue = ref<Date | null>(dateValue.value.value);
+const currentValue = ref<Date>(initValue.value.value);
 
 const isPicking = ref(true);
 const autoHidePanel = ref(false);
@@ -66,20 +66,30 @@ watchEffect(() => {
   }
 });
 
-let realValue = getRealDateValue(dateValue.value.value, dateValue.value.type, formatFn);
-const onChange = (value: Date | null) => {
-  realValue = getRealDateValue(value, dateValue.value.type, formatFn);
+let realValue = getRealDateValue(initValue.value.value, initValue.value.type, formatFn);
+
+let lastValue = 0;
+const onChange = (value: Date) => {
+  if (lastValue === value.getTime()) {
+    return;
+  }
+  inputVal.value = formatFn(value);
+
+  lastValue = value.getTime();
+
+  realValue = getRealDateValue(value, initValue.value.type, formatFn);
+
   emits('change', realValue);
   emits('update:modelValue', realValue);
 };
 
 // panel
 const togglePanel = (visible?: boolean) => {
-  if (visible === undefined) {
-    isPicking.value = !isPicking.value;
-  } else {
-    isPicking.value = visible;
-  }
+  // if (visible === undefined) {
+  //   isPicking.value = !isPicking.value;
+  // } else {
+  //   isPicking.value = visible;
+  // }
 };
 const onConfirm = (visible?: boolean) => {
   togglePanel(visible);
@@ -100,7 +110,9 @@ const onFocus = (value: string, evt: FocusEvent) => {
 
 const onBlur = (value: string, evt: FocusEvent) => {
   isFocus.value = false;
-  // togglePanel(false);
+  togglePanel(false);
+
+  onChange(currentValue.value);
 
   emits('blur', realValue, value, evt);
 };
@@ -110,6 +122,8 @@ const onPressEnter = () => {
 };
 
 const onUpdateModelValue = (value: string) => {
+  inputVal.value = value;
+
   const d = parseFn(value);
   if (d && isValidDate(d)) {
     // 严格匹配
@@ -117,6 +131,10 @@ const onUpdateModelValue = (value: string) => {
       currentValue.value = d;
     }
   }
+};
+
+const onTimePaneChange = (value: TimeValueT) => {
+  console.log(value);
 };
 </script>
 <template>
@@ -156,10 +174,12 @@ const onUpdateModelValue = (value: string) => {
       :target="inputFrameRef"
       :auto-hide="autoHidePanel"
       class="o-date-picker-panel"
+      :adjust-min-width="false"
+      :adjust-width="false"
       @mousedown.prevent
     >
       <div>
-        <!-- <DatePane
+        <PickerPane
           v-model:value="currentValue"
           :shortcuts="props.shortcuts"
           :confirm-btn="props.needConfirm"
@@ -170,8 +190,8 @@ const onUpdateModelValue = (value: string) => {
           <template #day-cell="data">
             <slot name="day-cell" v-bind="data"></slot>
           </template>
-        </DatePane> -->
-        <TimePane view-align="top" />
+        </PickerPane>
+        <!-- <TimePane view-align="top" @change="onTimePaneChange" /> -->
       </div>
     </InnerPanel>
   </InnerFrame>

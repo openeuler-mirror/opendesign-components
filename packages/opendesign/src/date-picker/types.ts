@@ -8,8 +8,14 @@ export interface ShortcutT {
 export type ReservedShortcutT = 'today';
 export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 
-export const DatePickerTypes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter'] as const;
+export const DatePickerTypes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter', 'time'] as const;
 export type DatePickerTypeT = (typeof DatePickerTypes)[number];
+
+export interface TimeValueT {
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}
 
 export const datePickerProps = {
   /**

@@ -32,7 +32,7 @@ export function isArray(val: unknown): val is Array<any> {
  * @param d
  */
 export function isValidDate(val: Date): val is Date {
-  return !Number.isNaN(val.valueOf());
+  return val instanceof Date && !Number.isNaN(val.valueOf());
 }
 
 // 是否是对象或者数组等（key:value 形式）

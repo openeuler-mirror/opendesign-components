@@ -1,40 +1,32 @@
-import { isNull, isValidDate } from '../_utils/is';
+import { isNull } from '../_utils/is';
 import { getWeeksByDate, startOfMonth } from '../_utils/date';
+import { PickerDate } from './picker-date';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
 export const HOUR_TIME = 60 * MINUTE_TIME;
 export const DAY_TIME = 24 * HOUR_TIME;
 export const WEEK_TIME = WEEK_DAYS * DAY_TIME;
-export interface DateT {
-  date: Date;
-  years?: number;
-  months?: number;
-  dayOfweek?: number;
-  days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
-}
+
 export interface DateRangeT {
-  start: DateT;
-  end: DateT;
+  start: PickerDate;
+  end: PickerDate;
 }
 
 export function normalizeDateValue(
   value: string | Date | number | undefined,
-  parseFn: (v: string) => Date | null
-): { type: 'string' | 'number' | 'Date'; value: Date | null } {
+  parseFn: (v: string) => Date
+): { type: 'string' | 'number' | 'Date'; value: Date } {
   if (typeof value === 'string') {
     try {
       return {
         type: 'string',
-        value: value ? parseFn(value) : null,
+        value: parseFn(value),
       };
     } catch {
       return {
         type: 'string',
-        value: null,
+        value: new Date(NaN),
       };
     }
   }
@@ -51,10 +43,10 @@ export function normalizeDateValue(
     };
   }
 
-  const d = value ? new Date(value) : null;
+  const d = new Date(value || NaN);
   return {
     type: 'Date',
-    value: d && isValidDate(d) ? d : null,
+    value: d,
   };
 }
 
@@ -82,8 +74,6 @@ export const Labels = {
   today: '今天',
   confirm: '确定',
 };
-const DateTypes = ['years', 'months', 'dayOfweek', 'days', 'hours', 'minutes', 'seconds'] as const;
-type DateKeyT = (typeof DateTypes)[number];
 
 export const DateFormatString = {
   date: 'yyyy-MM-dd',
@@ -92,7 +82,7 @@ export const DateFormatString = {
   time: 'HH:mm:ss',
 };
 
-export function getMonthLabel(date: DateT) {
+export function getMonthLabel(date: PickerDate) {
   let label = [];
 
   if (date.years) {
@@ -104,50 +94,23 @@ export function getMonthLabel(date: DateT) {
   return label.join(' ');
 }
 
-const dateKeyFn: Record<DateKeyT, (d: Date) => number> = {
-  years: (d: Date) => d.getFullYear(),
-  months: (d: Date) => d.getMonth() + 1,
-  dayOfweek: (d: Date) => d.getDay(),
-  days: (d: Date) => d.getDate(),
-  hours: (d: Date) => d.getHours(),
-  minutes: (d: Date) => d.getMinutes(),
-  seconds: (d: Date) => d.getSeconds(),
-};
-// TODO 完善该函数类型定义
-export function getDate(date: Date, type: string = 'years|months|days|hours|minutes|seconds'): DateT {
-  const rlt: DateT = {
-    date: date,
-  };
-
-  const keys = type.split('|');
-
-  keys.forEach((key) => {
-    const k = key as DateKeyT;
-    if (dateKeyFn[k]) {
-      rlt[k] = dateKeyFn[k](date);
-    }
-  });
-
-  return rlt;
-}
-
-export function getDaysofMonth(date: Date, weekLength: number = 6): DateT[] {
+export function getDaysofMonth(date: Date | null, weekLength: number = 6): PickerDate[] {
   // 获取该月第一天
-  const mDate = startOfMonth(date);
+  const mDate = startOfMonth(date ?? new Date());
   // 以该月第一周开始，获取weekLength周的日期列表
 
-  let dayList = getWeeksByDate(mDate, weekLength, { parse: getDate });
+  let dayList = getWeeksByDate(mDate, weekLength, { parse: (d: Date | null) => new PickerDate(d) });
 
   return dayList;
 }
 
-export function isSameYear(date1: DateT, date2: DateT): boolean {
+export function isSameYear(date1: { years?: number }, date2: { years?: number }): boolean {
   return date1.years === date2.years;
 }
-export function isSameMonth(date1: DateT, date2: DateT): boolean {
+export function isSameMonth(date1: { years?: number; months?: number }, date2: { years?: number; months?: number }): boolean {
   return date1.years === date2.years && date1.months === date2.months;
 }
-export function isSameDay(date1: DateT, date2: DateT): boolean {
+export function isSameDay(date1: { years?: number; months?: number; days?: number }, date2: { years?: number; months?: number; days?: number }): boolean {
   return date1.years === date2.years && date1.months === date2.months && date1.days === date2.days;
 }
 
@@ -157,12 +120,12 @@ export function isSameDay(date1: DateT, date2: DateT): boolean {
  * @param range
  * @returns {in: boolean, start: boolean, end: boolean}
  */
-export function getDateRangeStatus(date: DateT, range: DateRangeT) {
+export function getDateRangeStatus(date: PickerDate, range: DateRangeT) {
   const { start, end } = range;
 
-  const dt = date.date.getTime();
-  const st = range.start.date.getTime();
-  const et = range.end.date.getTime();
+  const dt = date.date?.getTime();
+  const st = range.start.date?.getTime();
+  const et = range.end.date?.getTime();
 
   return {
     in: dt >= st && dt <= et,
