@@ -24,6 +24,18 @@ export const Labels = {
   confirm: '确定',
 };
 
+export function getYearLabel(value: number): string {
+  return `${value}${Labels.year}`;
+}
+
+export function getMonthLabel(value: number): string {
+  return `${value}${Labels.month}`;
+}
+
+export function getDayLabel(value: number): string {
+  return `${value}${Labels.day}`;
+}
+
 export const DefaultFormatString = {
   date: 'yyyy-MM-dd',
   year: 'yyyy',
@@ -96,18 +108,6 @@ export function getRealDateValue(value: Date | null, type: 'string' | 'number' |
     return value;
   }
   return '';
-}
-
-export function getMonthLabel(date: PickerDate) {
-  let label = [];
-
-  if (date.years) {
-    label.push(date.years + Labels.year);
-    if (date.months) {
-      label.push(date.months + Labels.month);
-    }
-  }
-  return label.join(' ');
 }
 
 export function getDaysofMonth(date: Date | null, weekLength: number = 6): PickerDate[] {

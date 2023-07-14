@@ -4,7 +4,7 @@ import { OScroller } from '../scroller';
 import { OIcon } from '../icon';
 import { IconCalendarPrevYear, IconCalendarNextYear } from '../_utils/icons';
 import { chunk } from '../_utils/helper';
-import { Labels, isSameMonth } from './date';
+import { Labels, getYearLabel, isSameMonth } from './date';
 import { PickerDate } from './picker-date';
 
 export interface MonthValueT {
@@ -33,10 +33,10 @@ const props = withDefaults(
 const emits = defineEmits<{
   (e: 'update:value', value: MonthValueT): void;
   (e: 'select', value: MonthValueT): void;
+  (e: 'select-year'): void;
 }>();
 
 const selectValue = ref<MonthValueT>(props.value);
-const yearLabel = ref<number>();
 const monthList = ref<CellT[][]>([]);
 const viewYear = ref<number>(0);
 
@@ -66,7 +66,6 @@ const updateViewMonth = (year?: number) => {
 
   viewYear.value = year ?? now.years;
   monthList.value = chunk(list, 3);
-  yearLabel.value = year ?? now.years;
 };
 
 updateViewMonth(props.value.years);
@@ -93,6 +92,10 @@ const selectCell = (cell: CellT) => {
   emits('select', selectValue.value);
   emits('update:value', selectValue.value);
 };
+
+const onYearClick = () => {
+  emits('select-year');
+};
 </script>
 <template>
   <div class="o-picker-year">
@@ -100,20 +103,22 @@ const selectCell = (cell: CellT) => {
       <div class="o-picker-head-btns">
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevYear" @click="headBtnClick('sub')" />
       </div>
-      <div class="o-picker-value">
-        <slot name="month-head-label" :view-year="viewYear" :select-value="selectValue.months">{{ yearLabel }}</slot>
+      <div class="o-picker-head-value" @click="onYearClick">
+        <slot name="month-head-label" :view-year="viewYear" :select-value="selectValue.months">
+          <div class="o-picker-head-year">{{ getYearLabel(viewYear) }}</div>
+        </slot>
       </div>
       <div class="o-picker-head-btns">
         <OIcon class="o-picker-btn" button :icon="IconCalendarNextYear" @click="headBtnClick('add')" />
       </div>
     </div>
     <div class="o-picker-main">
-      <OScroller ref="hScrollRef" class="o-py-wrap" size="small">
+      <OScroller ref="hScrollRef" size="small">
         <div v-for="(row, idx) in monthList" :key="idx" class="o-picker-row">
           <div
             v-for="item in row"
             :key="item.data.months"
-            class="o-picker-cell o-py-cell"
+            class="o-picker-cell o-pm-cell"
             :class="{
               'o-picker-cell-selected': isSameMonth(item.data, selectValue),
               'o-picker-cell-now': item.isNow,

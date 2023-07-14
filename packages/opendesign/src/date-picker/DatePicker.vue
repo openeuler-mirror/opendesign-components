@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { IconCalendarPrevMonth, IconCalendarPrevYear, IconCalendarNextMonth, IconCalendarNextYear } from '../_utils/icons';
 import { PickerModeT } from './types';
 import { OIcon } from '../icon';
-import { Labels, getMonthLabel, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth } from './date';
+import { Labels, getMonthLabel, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth, getYearLabel } from './date';
 import type { DateRangeT } from './date';
 import { chunk } from '../_utils/helper';
 import { addYears, subYears, addMonths, subMonths, startOfMonth } from '../_utils/date';
@@ -45,6 +45,8 @@ const props = withDefaults(
 const emits = defineEmits<{
   (e: 'update:value', value: DateValueT): void;
   (e: 'select', value: DateValueT, evt?: Event): void;
+  (e: 'select-year'): void;
+  (e: 'select-month'): void;
 }>();
 
 const getDateByValue = (value: DateValueT) => {
@@ -109,8 +111,6 @@ watch(
   { immediate: true }
 );
 
-const currentMonthLabel = computed(() => getMonthLabel(viewMonthDate.value as PickerDate));
-
 const selectDate = ref<DateValueT>(props.value);
 
 /**
@@ -149,6 +149,15 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
     }
   }
 };
+
+const toSelectFn = {
+  onYearClick: () => {
+    emits('select-year');
+  },
+  onMonthClick: () => {
+    emits('select-month');
+  },
+};
 </script>
 <template>
   <div class="o-picker-date">
@@ -157,9 +166,10 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevYear" @click="headBtnClick('year', 'sub')" />
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
       </div>
-      <div class="o-picker-value">
-        <slot name="date-head-label" :select-value="selectValue" :view-month="viewMonthDate.months" :view-year="viewMonthDate.years">
-          {{ currentMonthLabel }}
+      <div class="o-picker-head-value">
+        <slot name="date-head-label" :select-value="selectValue" :view-month="viewMonthDate.months" :view-year="viewMonthDate.years" :to-select-fn="toSelectFn">
+          <div class="o-picker-head-year" @click="toSelectFn.onYearClick">{{ getYearLabel(viewMonthDate.years) }}</div>
+          <div class="o-picker-head-month" @click="toSelectFn.onMonthClick">{{ getMonthLabel(viewMonthDate.months) }}</div>
         </slot>
       </div>
       <div class="o-picker-head-btns">

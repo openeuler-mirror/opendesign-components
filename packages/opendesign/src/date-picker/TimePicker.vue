@@ -30,6 +30,9 @@ const props = withDefaults(
   }
 );
 
+// 是否传入参数为全部隐藏，如果是，则默认都展示
+const hideAll = computed(() => props.hideHour && props.hideMinute && props.hideSecond);
+
 const emits = defineEmits<{
   (e: 'update:value', value: TimeValueT): void;
   (e: 'select', value: TimeValueT): void;
@@ -104,13 +107,13 @@ watch(
 
 const currentValueLabel = computed(() => {
   const t: string[] = [];
-  if (!props.hideHour) {
+  if (!props.hideHour || hideAll.value) {
     t.push((selectValue.hours || 0).toString().padStart(2, '0'));
   }
-  if (!props.hideMinute) {
+  if (!props.hideMinute || hideAll.value) {
     t.push((selectValue.minutes || 0).toString().padStart(2, '0'));
   }
-  if (!props.hideSecond) {
+  if (!props.hideSecond || hideAll.value) {
     t.push((selectValue.seconds || 0).toString().padStart(2, '0'));
   }
   return t.join(':');
@@ -136,12 +139,12 @@ onMounted(() => {
 <template>
   <div class="o-picker-time">
     <div v-if="showValue" class="o-picker-head">
-      <div class="o-picker-value">
+      <div class="o-picker-head-value">
         <slot name="time-head-label" v-bind="selectValue">{{ currentValueLabel }}</slot>
       </div>
     </div>
     <div class="o-picker-main o-pt-main">
-      <OScroller v-if="!props.hideHour" ref="hScrollRef" class="o-pt-col-wrap o-pt-hour" size="small" :wrap-class="[alinClass, 'o-pt-col']">
+      <OScroller v-if="!props.hideHour || hideAll" ref="hScrollRef" class="o-pt-col-wrap o-pt-hour" size="small" :wrap-class="[alinClass, 'o-pt-col']">
         <div
           v-for="item in hourList"
           :key="item.value"
@@ -156,7 +159,7 @@ onMounted(() => {
           </div>
         </div>
       </OScroller>
-      <OScroller v-if="!props.hideMinute" ref="mScrollRef" class="o-pt-col-wrap o-pt-minute" size="small" :wrap-class="[alinClass, 'o-pt-col']">
+      <OScroller v-if="!props.hideMinute || hideAll" ref="mScrollRef" class="o-pt-col-wrap o-pt-minute" size="small" :wrap-class="[alinClass, 'o-pt-col']">
         <div
           v-for="item in msList"
           :key="item.value"
@@ -171,7 +174,7 @@ onMounted(() => {
           </div>
         </div>
       </OScroller>
-      <OScroller v-if="!props.hideSecond" ref="sScrollRef" class="o-pt-col-wrap o-pt-second" size="small" :wrap-class="[alinClass, 'o-pt-col']">
+      <OScroller v-if="!props.hideSecond || hideAll" ref="sScrollRef" class="o-pt-col-wrap o-pt-second" size="small" :wrap-class="[alinClass, 'o-pt-col']">
         <div
           v-for="item in msList"
           :key="item.value"

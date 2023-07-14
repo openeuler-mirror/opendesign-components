@@ -2,7 +2,6 @@
 }
 
 .o-date-picker-panel {
-  --picker-cell-height: 24px;
   --picker-panel-color: var(--o-color-info1);
   --picker-panel-color-out: var(--o-color-info4);
 
@@ -22,17 +21,15 @@
 
   --picker-col-bd: 1px solid var(--o-color-control4);
 
-  --picker-time-cell-height: 24px;
   --picker-time-cell-color-selected: var(--o-color-info1);
-  --picker-time-cell-bg-color-hover: var(--o-color-control2-light);
   --picker-time-cell-bg-color-selected: var(--o-color-control3-light);
 
-  --picker-day-cell-width: 40px;
-
   --picker-head-height: 48px;
-  --picker-time-cell-width: 96px;
 
+  --picker-time-cell-height: 24px;
   --picker-pane-date-width: 312px;
   --picker-pane-time-item-width: 96px;
-  --picker-pane-year-width: 265px;
+  --picker-pane-year-width: 312px;
+
+  --picker-link-color-hover: var(--o-color-primary1);
 }

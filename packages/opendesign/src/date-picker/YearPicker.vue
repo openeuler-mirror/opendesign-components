@@ -51,7 +51,7 @@ const updateViewYears = (year?: number) => {
   console.log(selectValue.value);
 
   viewYear.value = sy;
-  yearList.value = chunk(list, 4);
+  yearList.value = chunk(list, 3);
   yearRangeLabel.value = `${list[1].label} - ${list[10].value}`;
 };
 
@@ -87,7 +87,7 @@ const selectCell = (cell: CellT) => {
       <div class="o-picker-head-btns">
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevYear" @click="headBtnClick('sub')" />
       </div>
-      <div class="o-picker-value">
+      <div class="o-picker-head-value">
         <slot name="year-head-label" :select-value="selectValue" :view-year-list="yearList">{{ yearRangeLabel }}</slot>
       </div>
       <div class="o-picker-head-btns">
@@ -95,7 +95,7 @@ const selectCell = (cell: CellT) => {
       </div>
     </div>
     <div class="o-picker-main">
-      <OScroller ref="hScrollRef" class="o-py-wrap" size="small">
+      <OScroller ref="hScrollRef" size="small">
         <div v-for="(row, idx) in yearList" :key="idx" class="o-picker-row">
           <div
             v-for="item in row"

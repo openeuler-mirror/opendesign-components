@@ -19,12 +19,16 @@
   flex-shrink: 0;
 }
 
-.o-picker-value {
+.o-picker-head-value {
   flex: 1;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .o-picker-main {
+  padding: 16px;
+
   .o-picker-head + & {
     border-top: 1px solid var(--o-color-control1-light);
   }
@@ -118,8 +122,23 @@
     --picker-cell-val-bg-color: transparent;
   }
 }
+
+.o-picker-head-year,
+.o-picker-head-month {
+  cursor: pointer;
+  @include on-hover {
+    color: var(--picker-link-color-hover);
+  }
+}
+.o-picker-head-month {
+  .o-picker-head-year + & {
+    margin-left: 8px;
+  }
+}
+
 // pane foot
 .o-picker-foot {
+  margin-top: -4px;
   padding: 12px 16px;
   display: flex;
   justify-content: center;
@@ -145,10 +164,6 @@
 // date picker
 .o-picker-date {
   width: var(--picker-pane-date-width);
-}
-
-.o-pd-main {
-  padding: 16px 16px 12px;
 }
 
 // time pane
@@ -227,18 +242,22 @@
   }
 }
 
-// time pane
+// year pane
 .o-picker-year {
   width: var(--picker-pane-year-width);
 }
-.o-py-wrap {
-  flex: 1;
-  padding: 12px;
-}
+
 .o-py-cell {
   flex: 1;
-  margin: 0 4px;
-  // .o-picker-cell-val {
-  //   flex: 0;
-  // }
+  .o-picker-cell-val {
+    flex: 0;
+  }
+}
+
+.o-pm-cell {
+  flex: 1;
+  .o-picker-cell-val {
+    flex: 0;
+    white-space: nowrap;
+  }
 }

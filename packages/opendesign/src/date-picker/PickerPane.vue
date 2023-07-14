@@ -83,19 +83,19 @@ watchEffect(() => {
   };
 });
 
-const pickerType = ref(props.mode);
+const currentMode = ref(props.mode);
 const showPicker = computed(() => {
   return {
-    year: ['year', 'year-range'].includes(pickerType.value),
-    month: ['month', 'month-range'].includes(pickerType.value),
-    date: ['date', 'datetime'].includes(pickerType.value),
-    time: ['time', 'datetime'].includes(pickerType.value),
+    year: ['year', 'year-range'].includes(currentMode.value),
+    month: ['month', 'month-range'].includes(currentMode.value),
+    date: ['date', 'datetime'].includes(currentMode.value),
+    time: ['time', 'datetime'].includes(currentMode.value),
   };
 });
 
 const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
 const needConfirm = computed(() => {
-  if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(props.mode)) {
+  if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(currentMode.value)) {
     return true;
   }
   if (props.needConfirm) {
@@ -110,6 +110,10 @@ const needConfirm = computed(() => {
  * @param e
  */
 const onConfirm = (force: boolean, e?: Event) => {
+  if (currentMode.value !== props.mode) {
+    currentMode.value = props.mode;
+    return;
+  }
   if (needConfirm.value && !force) {
     return;
   }
@@ -162,7 +166,14 @@ const onMonthSelect = (v: MonthValueT, e?: Event) => {
   onConfirm(false, e);
 };
 
-//
+const toSelectYear = () => {
+  currentMode.value = 'year';
+};
+const toSelectMonth = () => {
+  currentMode.value = 'month';
+};
+
+//shortcuts
 const shortcuts = computed(() => {
   if (props.shortcuts && props.shortcuts.length > 0) {
     return props.shortcuts.map((item) => {
@@ -231,7 +242,14 @@ const onShortcutMouseLeave = () => {
 <template>
   <div class="o-picker-pane">
     <div class="o-picker-wrap">
-      <DatePicker v-if="showPicker.date" :value="dateValue" @update:value="onDateValueUpdate" @select="onDateSelect" />
+      <DatePicker
+        v-if="showPicker.date"
+        :value="dateValue"
+        @update:value="onDateValueUpdate"
+        @select="onDateSelect"
+        @select-month="toSelectMonth"
+        @select-year="toSelectYear"
+      />
       <TimePicker
         v-if="showPicker.time"
         :value="timeValue"
@@ -242,7 +260,7 @@ const onShortcutMouseLeave = () => {
         @select="onTimeSelect"
       />
       <YearPicker v-if="showPicker.year" :value="yearValue" @select="onYearSelect" />
-      <MonthPicker v-if="showPicker.month" :value="monthValue" @select="onMonthSelect" />
+      <MonthPicker v-if="showPicker.month" :value="monthValue" @select="onMonthSelect" @select-year="toSelectYear" />
     </div>
     <div v-if="$slots.footer" class="o-picker-extra">
       <slot name="extra"></slot>
