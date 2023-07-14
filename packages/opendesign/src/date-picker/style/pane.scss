@@ -191,6 +191,9 @@
   .o-picker-cell-val {
     flex: 0;
   }
+  + .o-pt-cell {
+    margin-top: 4px;
+  }
 }
 
 .o-pt-cell-selected {
