@@ -1,3 +1,4 @@
+import { isNumber } from '../_utils/is';
 import { isUndefined } from '../_utils/is';
 
 interface DateT {
@@ -26,7 +27,16 @@ export class PickerDate {
   set(value: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number }) {
     const { years = this.years, months = this.months, days = this.days, hours = this.hours, minutes = this.minutes, seconds = this.seconds } = value;
 
-    this._date = new Date(years || 0, !months && months !== 0 ? 0 : months - 1, days || 1, hours || 0, minutes || 0, seconds || 0);
+    const now = new Date();
+    const y = !isNumber(years) ? now.getFullYear() : years;
+    const m = !isNumber(months) ? now.getMonth() : months - 1;
+    const d = !isNumber(days) ? now.getDate() : days;
+
+    const h = !isNumber(hours) ? now.getHours() : hours;
+    const mt = !isNumber(minutes) ? now.getMinutes() : minutes;
+    const s = !isNumber(seconds) ? now.getSeconds() : seconds;
+
+    this._date = new Date(y, m, d, h, mt, s);
     this._cache = {};
   }
 
@@ -40,7 +50,7 @@ export class PickerDate {
   }
 
   // years
-  get years(): number | undefined {
+  get years(): number {
     if (isUndefined(this._cache.years)) {
       this._cache.years = this._date.getFullYear();
     }
@@ -51,10 +61,10 @@ export class PickerDate {
   }
 
   // months
-  get months(): number | undefined {
+  get months(): number {
     if (isUndefined(this._cache.months)) {
       const m = this._date.getMonth();
-      this._cache.months = m === undefined ? undefined : m + 1;
+      this._cache.months = m + 1;
     }
     return this._cache.months;
   }
@@ -63,7 +73,7 @@ export class PickerDate {
   }
 
   // days
-  get days(): number | undefined {
+  get days(): number {
     if (isUndefined(this._cache.days)) {
       this._cache.days = this._date.getDate();
     }
@@ -74,7 +84,7 @@ export class PickerDate {
   }
 
   // hours
-  get hours(): number | undefined {
+  get hours(): number {
     if (isUndefined(this._cache.hours)) {
       this._cache.hours = this._date.getHours();
     }
@@ -85,7 +95,7 @@ export class PickerDate {
   }
 
   // minutes
-  get minutes(): number | undefined {
+  get minutes(): number {
     if (isUndefined(this._cache.minutes)) {
       this._cache.minutes = this._date.getMinutes();
     }
@@ -96,7 +106,7 @@ export class PickerDate {
   }
 
   // seconds
-  get seconds(): number | undefined {
+  get seconds(): number {
     if (isUndefined(this._cache.seconds)) {
       this._cache.seconds = this._date.getSeconds();
     }

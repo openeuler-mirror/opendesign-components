@@ -30,7 +30,7 @@ const formateString = computed(() => {
   if (props.formatString) {
     return props.formatString;
   }
-  return DefaultFormatString[props.type as keyof typeof DefaultFormatString];
+  return DefaultFormatString[props.mode as keyof typeof DefaultFormatString];
 });
 
 const hideHour = computed(() => !formateString.value.includes('H'));
@@ -195,7 +195,7 @@ const onTimePaneChange = (value: TimeValueT) => {
           :shortcuts="props.shortcuts"
           :confirm-btn="props.needConfirm"
           :confirm-label="props.confirmLabel"
-          :type="props.type"
+          :mode="props.mode"
           :hide-hour="hideHour"
           :hide-minute="hideMinute"
           :hide-second="hideSecond"

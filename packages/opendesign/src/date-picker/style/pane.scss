@@ -8,7 +8,7 @@
 }
 .o-picker-wrap {
   display: flex;
-  height: 321px;
+  max-height: 321px;
 }
 
 .o-picker-head {
@@ -43,6 +43,12 @@
   }
 }
 
+.o-picker-row {
+  display: flex;
+  + .o-picker-row {
+    margin-top: 12px;
+  }
+}
 .o-picker-cell {
   text-align: center;
   height: 24px;
@@ -89,6 +95,29 @@
   border-bottom-right-radius: var(--picker-cell-radius-selected);
 }
 
+.o-picker-cell-now {
+  position: relative;
+  &::after {
+    content: '';
+    border-radius: 50%;
+    width: var(--picker-cell-today-size);
+    height: var(--picker-cell-today-size);
+    background-color: var(--picker-cell-today-dot-color);
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    margin-left: calc(-0.5 * var(--picker-cell-today-size));
+  }
+}
+
+.o-picker-cell-out-view {
+  color: var(--picker-panel-color-out);
+
+  @include me-on-hover {
+    color: var(--picker-panel-color-out);
+    --picker-cell-val-bg-color: transparent;
+  }
+}
 // pane foot
 .o-picker-foot {
   padding: 12px 16px;
@@ -120,38 +149,6 @@
 
 .o-pd-main {
   padding: 16px 16px 12px;
-}
-
-.o-pd-head,
-.o-pd-week-list {
-  display: flex;
-}
-.o-pd-week-list {
-  margin-top: 12px;
-}
-
-.o-pd-cell-today {
-  position: relative;
-  &::after {
-    content: '';
-    border-radius: 50%;
-    width: var(--picker-cell-today-size);
-    height: var(--picker-cell-today-size);
-    background-color: var(--picker-cell-today-dot-color);
-    position: absolute;
-    left: 50%;
-    bottom: -8px;
-    margin-left: calc(-0.5 * var(--picker-cell-today-size));
-  }
-}
-
-.o-pd-cell-out-view {
-  color: var(--picker-panel-color-out);
-
-  @include me-on-hover {
-    color: var(--picker-panel-color-out);
-    --picker-cell-val-bg-color: transparent;
-  }
 }
 
 // time pane
@@ -228,4 +225,20 @@
     display: block;
     height: calc(50% - var(--picker-time-cell-height) / 2);
   }
+}
+
+// time pane
+.o-picker-year {
+  width: var(--picker-pane-year-width);
+}
+.o-py-wrap {
+  flex: 1;
+  padding: 12px;
+}
+.o-py-cell {
+  flex: 1;
+  margin: 0 4px;
+  // .o-picker-cell-val {
+  //   flex: 0;
+  // }
 }

@@ -17,7 +17,7 @@ export function isString(val: unknown): val is string {
 }
 
 export function isNumber(val: unknown): val is number {
-  return opt.call(val) === '[object Number]' && !isNaN(val as number);
+  return opt.call(val) === '[object Number]' && !Number.isNaN(val as number);
 }
 
 export function isFunction(val: unknown): val is Function {

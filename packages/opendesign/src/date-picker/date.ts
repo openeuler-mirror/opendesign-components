@@ -1,7 +1,7 @@
 import { isNull } from '../_utils/is';
 import { getWeeksByDate, startOfMonth } from '../_utils/date';
 import { PickerDate } from './picker-date';
-import { PickerTypeT } from './types';
+import { PickerModeT } from './types';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -18,6 +18,7 @@ export const Labels = {
   weeks: ['日', '一', '二', '三', '四', '五', '六'],
   year: '年',
   month: '月',
+  months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
   day: '日',
   now: '此刻',
   confirm: '确定',
@@ -34,7 +35,7 @@ export const DefaultFormatString = {
  * 根据formatString决定type
  * @param formatString
  */
-export function getPickerType(formatString: string): PickerTypeT {
+export function getPickerType(formatString: string): PickerModeT {
   // const y = formatString.includes('y');
   // const m = formatString.includes('M');
   const d = formatString.includes('d');

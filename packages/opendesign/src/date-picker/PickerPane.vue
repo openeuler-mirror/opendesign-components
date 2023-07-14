@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from 'vue';
 import { OButton } from '../button';
-import { ShortcutParamT, ShortcutT, PickerTypeT } from './types';
+import { ShortcutParamT, ShortcutT, PickerModeT } from './types';
 import { OLink } from '../link';
 import { Labels } from './date';
 import { isFunction } from '../_utils/is';
@@ -10,6 +10,9 @@ import TimePicker from './TimePicker.vue';
 import type { TimeValueT } from './TimePicker.vue';
 import DatePicker from './DatePicker.vue';
 import type { DateValueT } from './DatePicker.vue';
+import YearPicker from './YearPicker.vue';
+import MonthPicker from './MonthPicker.vue';
+import type { MonthValueT } from './MonthPicker.vue';
 
 const props = withDefaults(
   defineProps<{
@@ -18,7 +21,7 @@ const props = withDefaults(
     shortcuts?: Array<ShortcutParamT>;
     needConfirm?: boolean;
     confirmLabel?: string;
-    type?: PickerTypeT;
+    mode?: PickerModeT;
     hideHour?: boolean;
     hideMinute?: boolean;
     hideSecond?: boolean;
@@ -28,7 +31,7 @@ const props = withDefaults(
     value: undefined,
     shortcuts: undefined,
     confirmLabel: '',
-    type: 'date',
+    mode: 'date',
   }
 );
 
@@ -56,8 +59,17 @@ watch(
 
 const dateValue = ref<DateValueT>({});
 const timeValue = ref<TimeValueT>({});
+const yearValue = ref<number>();
+const monthValue = ref<MonthValueT>();
 
 watchEffect(() => {
+  yearValue.value = initValue.value.years;
+
+  monthValue.value = {
+    years: initValue.value.years,
+    months: initValue.value.months,
+  };
+
   dateValue.value = {
     years: initValue.value.years,
     months: initValue.value.months,
@@ -71,9 +83,11 @@ watchEffect(() => {
   };
 });
 
-const pickerType = ref(props.type);
+const pickerType = ref(props.mode);
 const showPicker = computed(() => {
   return {
+    year: ['year', 'year-range'].includes(pickerType.value),
+    month: ['month', 'month-range'].includes(pickerType.value),
     date: ['date', 'datetime'].includes(pickerType.value),
     time: ['time', 'datetime'].includes(pickerType.value),
   };
@@ -81,7 +95,7 @@ const showPicker = computed(() => {
 
 const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
 const needConfirm = computed(() => {
-  if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(props.type)) {
+  if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(props.mode)) {
     return true;
   }
   if (props.needConfirm) {
@@ -134,6 +148,21 @@ const onTimeSelect = (v: TimeValueT, e?: Event) => {
   onConfirm(false, e);
 };
 
+const onYearSelect = (v: number, e?: Event) => {
+  pickerValue.value.years = v;
+  lastDate = pickerValue.value.date;
+  emits('update:value', pickerValue.value.date);
+  onConfirm(false, e);
+};
+
+const onMonthSelect = (v: MonthValueT, e?: Event) => {
+  pickerValue.value.set(v);
+  lastDate = pickerValue.value.date;
+  emits('update:value', pickerValue.value.date);
+  onConfirm(false, e);
+};
+
+//
 const shortcuts = computed(() => {
   if (props.shortcuts && props.shortcuts.length > 0) {
     return props.shortcuts.map((item) => {
@@ -212,6 +241,8 @@ const onShortcutMouseLeave = () => {
         @update:value="onTimeValueUpdate"
         @select="onTimeSelect"
       />
+      <YearPicker v-if="showPicker.year" :value="yearValue" @select="onYearSelect" />
+      <MonthPicker v-if="showPicker.month" :value="monthValue" @select="onMonthSelect" />
     </div>
     <div v-if="$slots.footer" class="o-picker-extra">
       <slot name="extra"></slot>

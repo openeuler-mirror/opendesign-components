@@ -137,7 +137,7 @@ onMounted(() => {
   <div class="o-picker-time">
     <div v-if="showValue" class="o-picker-head">
       <div class="o-picker-value">
-        <slot name="time-value-label" v-bind="selectValue">{{ currentValueLabel }}</slot>
+        <slot name="time-head-label" v-bind="selectValue">{{ currentValueLabel }}</slot>
       </div>
     </div>
     <div class="o-picker-main o-pt-main">

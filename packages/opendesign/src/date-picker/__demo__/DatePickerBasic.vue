@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { ODatePicker, ShortcutParamT } from '../index';
 
-const val1 = ref<string | Date | number>('2022-01-01 11:00');
+const val1 = ref<string | Date | number>('2022-11');
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);
@@ -43,8 +43,8 @@ const shortcuts: ShortcutParamT[] = [
     <div class="row">
       <ODatePicker
         v-model="val1"
-        type="datetime"
-        format-string="MM-dd HH:ss"
+        mode="month"
+        format-string="yyyy-MM"
         placeholder="请选择..."
         resize="none"
         color="normal"

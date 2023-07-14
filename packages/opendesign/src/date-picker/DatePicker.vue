@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { IconCalendarPrevMonth, IconCalendarPrevYear, IconCalendarNextMonth, IconCalendarNextYear } from '../_utils/icons';
-import { PickerTypeT } from './types';
+import { PickerModeT } from './types';
 import { OIcon } from '../icon';
 import { Labels, getMonthLabel, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth } from './date';
 import type { DateRangeT } from './date';
@@ -18,7 +18,7 @@ export interface DateValueT {
 
 interface DayCellT {
   data: PickerDate;
-  today: boolean;
+  isNow: boolean;
   outView: boolean;
   rangeStatus?: {
     in: boolean;
@@ -30,7 +30,7 @@ interface DayCellT {
 const props = withDefaults(
   defineProps<{
     value: DateValueT;
-    type?: PickerTypeT;
+    type?: PickerModeT;
     range?: boolean;
   }>(),
   {
@@ -91,7 +91,7 @@ const dayListByWeek = computed<DayCellT[][]>(() => {
     return {
       data: item,
       outView: isOutView,
-      today: isSameDay(item, todayDate),
+      isNow: isSameDay(item, todayDate),
       rangeStatus: props.range && !isOutView ? getDateRangeStatus(item, selectRange.value as DateRangeT) : null,
     };
   });
@@ -158,7 +158,9 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
       </div>
       <div class="o-picker-value">
-        <slot name="date-value-label" v-bind="selectValue">{{ currentMonthLabel }}</slot>
+        <slot name="date-head-label" :select-value="selectValue" :view-month="viewMonthDate.months" :view-year="viewMonthDate.years">
+          {{ currentMonthLabel }}
+        </slot>
       </div>
       <div class="o-picker-head-btns">
         <OIcon class="o-picker-btn" button :icon="IconCalendarNextMonth" @click="headBtnClick('month', 'add')" />
@@ -166,10 +168,10 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
       </div>
     </div>
     <div class="o-picker-main o-pd-main">
-      <div class="o-pd-head">
+      <div class="o-picker-row">
         <div v-for="item in Labels.weeks" :key="item" class="o-picker-cell o-pd-cell">{{ item }}</div>
       </div>
-      <div v-for="(week, idx) in dayListByWeek" :key="idx" class="o-pd-week-list">
+      <div v-for="(week, idx) in dayListByWeek" :key="idx" class="o-picker-row">
         <div
           v-for="item in week"
           :key="item.data.days"
@@ -179,8 +181,8 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
             'o-picker-cell-range-start': item.rangeStatus?.start,
             'o-picker-cell-in-range': item.rangeStatus?.in,
             'o-picker-cell-range-end': item.rangeStatus?.end,
-            'o-pd-cell-out-view': item.outView,
-            'o-pd-cell-today': item.today,
+            'o-picker-cell-out-view': item.outView,
+            'o-picker-cell-now': item.isNow,
           }"
           @click="(e) => onDayCellClick(item, e)"
         >
