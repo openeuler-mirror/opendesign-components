@@ -87,7 +87,7 @@ const togglePanel = (visible?: boolean) => {
   if (visible === undefined) {
     isPicking.value = !isPicking.value;
   } else {
-    isPicking.value = visible;
+    // isPicking.value = visible;
   }
 };
 const onConfirm = (visible?: boolean) => {

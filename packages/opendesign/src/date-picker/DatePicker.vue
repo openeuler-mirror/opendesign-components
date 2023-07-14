@@ -143,9 +143,6 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
 
     if (cell.outView) {
       updateViewMonth(selectValue.value);
-
-      // viewMonthDate.value = getDate(startOfMonth(cell.data.date));
-      // dayList.value = getDaysofMonth(cell.data.date);
     }
   } else {
     if (!selectRange.value.start || (selectRange.value.start && selectRange.value.end)) {
@@ -156,13 +153,13 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
 };
 </script>
 <template>
-  <div class="o-date-picker">
+  <div class="o-picker-date">
     <div class="o-picker-head">
       <div class="o-picker-head-btns">
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevYear" @click="headBtnClick('year', 'sub')" />
         <OIcon class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
       </div>
-      <div class="o-dp-value">
+      <div class="o-picker-value">
         <slot name="date-value-label" v-bind="selectValue">{{ currentMonthLabel }}</slot>
       </div>
       <div class="o-picker-head-btns">
@@ -170,26 +167,26 @@ const onDayCellClick = (cell: DayCellT, e: Event) => {
         <OIcon class="o-picker-btn" button :icon="IconCalendarNextYear" @click="headBtnClick('year', 'add')" />
       </div>
     </div>
-    <div class="o-picker-main o-dp-main">
-      <div class="o-dp-head">
-        <div v-for="item in Labels.weeks" :key="item" class="o-dp-cell">{{ item }}</div>
+    <div class="o-picker-main o-pd-main">
+      <div class="o-pd-head">
+        <div v-for="item in Labels.weeks" :key="item" class="o-picker-cell o-pd-cell">{{ item }}</div>
       </div>
-      <div v-for="(week, idx) in dayListByWeek" :key="idx" class="o-dp-week-list">
+      <div v-for="(week, idx) in dayListByWeek" :key="idx" class="o-pd-week-list">
         <div
           v-for="item in week"
           :key="item.data.days"
-          class="o-dp-cell"
+          class="o-picker-cell o-pd-cell"
           :class="{
-            'o-dp-cell-selected': !props.range && selectDate ? isSameDay(item.data, selectValue) : false,
-            'o-dp-cell-range-start': item.rangeStatus?.start,
-            'o-dp-cell-in-range': item.rangeStatus?.in,
-            'o-dp-cell-range-end': item.rangeStatus?.end,
-            'o-dp-cell-out-view': item.outView,
-            'o-dp-cell-today': item.today,
+            'o-picker-cell-selected': !props.range && selectDate ? isSameDay(item.data, selectValue) : false,
+            'o-picker-cell-range-start': item.rangeStatus?.start,
+            'o-picker-cell-in-range': item.rangeStatus?.in,
+            'o-picker-cell-range-end': item.rangeStatus?.end,
+            'o-pd-cell-out-view': item.outView,
+            'o-pd-cell-today': item.today,
           }"
           @click="(e) => onDayCellClick(item, e)"
         >
-          <div class="o-dp-cell-val">
+          <div class="o-picker-cell-val o-pd-cell-val">
             <slot name="day-cell" v-bind="item">{{ item.data.days }}</slot>
           </div>
         </div>

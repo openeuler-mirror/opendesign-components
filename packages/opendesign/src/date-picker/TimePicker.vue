@@ -68,7 +68,7 @@ const scrollCellToView = (scroller?: InstanceType<typeof OScroller>, smooth?: bo
   if (!scroller) {
     return;
   }
-  const el = scroller?.$el.querySelector('.o-tp-cell-selected');
+  const el = scroller?.$el.querySelector('.o-pt-cell-selected');
   if (!el || !scroller.containerRef) {
     return;
   }
@@ -113,7 +113,7 @@ const currentValueLabel = computed(() => {
 });
 
 const alinClass = computed(() => {
-  return validValue.value ? `o-tp-col-align-${props.viewAlign}` : '';
+  return validValue.value ? `o-pt-col-align-${props.viewAlign}` : '';
 });
 
 const selectCell = (cell: CellT, type: keyof TimeValueT) => {
@@ -130,54 +130,54 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="o-time-picker">
+  <div class="o-picker-time">
     <div v-if="showValue" class="o-picker-head">
-      <div class="o-dp-value">
+      <div class="o-picker-value">
         <slot name="time-value-label" v-bind="selectValue">{{ currentValueLabel }}</slot>
       </div>
     </div>
-    <div class="o-picker-main o-picker-main-time">
-      <OScroller v-if="props.hour" ref="hScrollRef" class="o-tp-col o-tp-hour" size="small" :wrap-class="alinClass">
+    <div class="o-picker-main o-pt-main">
+      <OScroller v-if="props.hour" ref="hScrollRef" class="o-pt-col-wrap o-pt-hour" size="small" :wrap-class="[alinClass, 'o-pt-col']">
         <div
           v-for="item in hourList"
           :key="item.value"
-          class="o-tp-cell"
+          class="o-picker-cell o-pt-cell"
           :class="{
-            'o-tp-cell-selected': selectValue.hours === item.value,
+            'o-pt-cell-selected': selectValue.hours === item.value,
           }"
           @click="(e) => selectCell(item, 'hours')"
         >
-          <div class="o-tp-cell-val">
+          <div class="o-picker-cell-val">
             <slot name="cell-hour" v-bind="item">{{ item.label }}</slot>
           </div>
         </div>
       </OScroller>
-      <OScroller v-if="props.minute" ref="mScrollRef" class="o-tp-col o-tp-minute" size="small" :wrap-class="alinClass">
+      <OScroller v-if="props.minute" ref="mScrollRef" class="o-pt-col-wrap o-pt-minute" size="small" :wrap-class="[alinClass, 'o-pt-col']">
         <div
           v-for="item in msList"
           :key="item.value"
-          class="o-tp-cell"
+          class="o-picker-cell o-pt-cell"
           :class="{
-            'o-tp-cell-selected': selectValue.minutes === item.value,
+            'o-pt-cell-selected': selectValue.minutes === item.value,
           }"
           @click="(e) => selectCell(item, 'minutes')"
         >
-          <div class="o-tp-cell-val">
+          <div class="o-picker-cell-val">
             <slot name="cell-minute" v-bind="item">{{ item.label }}</slot>
           </div>
         </div>
       </OScroller>
-      <OScroller v-if="props.second" ref="sScrollRef" class="o-tp-col o-tp-second" size="small" :wrap-class="alinClass">
+      <OScroller v-if="props.second" ref="sScrollRef" class="o-pt-col-wrap o-pt-second" size="small" :wrap-class="[alinClass, 'o-pt-col']">
         <div
           v-for="item in msList"
           :key="item.value"
-          class="o-tp-cell"
+          class="o-picker-cell o-pt-cell"
           :class="{
-            'o-tp-cell-selected': selectValue.seconds === item.value,
+            'o-pt-cell-selected': selectValue.seconds === item.value,
           }"
           @click="(e) => selectCell(item, 'seconds')"
         >
-          <div class="o-tp-cell-val">
+          <div class="o-picker-cell-val">
             <slot name="cell-second" v-bind="item">{{ item.label }}</slot>
           </div>
         </div>
