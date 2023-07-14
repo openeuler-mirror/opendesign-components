@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from 'vue';
 import { OButton } from '../button';
-import { ShortcutParamT, ShortcutT, DatePickerTypeT } from './types';
+import { ShortcutParamT, ShortcutT, PickerTypeT } from './types';
 import { OLink } from '../link';
 import { Labels } from './date';
 import { isFunction } from '../_utils/is';
@@ -18,7 +18,10 @@ const props = withDefaults(
     shortcuts?: Array<ShortcutParamT>;
     needConfirm?: boolean;
     confirmLabel?: string;
-    type?: DatePickerTypeT;
+    type?: PickerTypeT;
+    hideHour?: boolean;
+    hideMinute?: boolean;
+    hideSecond?: boolean;
   }>(),
   {
     range: false,
@@ -200,7 +203,15 @@ const onShortcutMouseLeave = () => {
   <div class="o-picker-pane">
     <div class="o-picker-wrap">
       <DatePicker v-if="showPicker.date" :value="dateValue" @update:value="onDateValueUpdate" @select="onDateSelect" />
-      <TimePicker v-if="showPicker.time" :value="timeValue" @update:value="onTimeValueUpdate" @select="onTimeSelect" />
+      <TimePicker
+        v-if="showPicker.time"
+        :value="timeValue"
+        :hide-hour="props.hideHour"
+        :hide-minute="props.hideMinute"
+        :hide-second="props.hideSecond"
+        @update:value="onTimeValueUpdate"
+        @select="onTimeSelect"
+      />
     </div>
     <div v-if="$slots.footer" class="o-picker-extra">
       <slot name="extra"></slot>

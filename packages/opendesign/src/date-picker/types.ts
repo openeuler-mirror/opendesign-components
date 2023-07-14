@@ -8,8 +8,8 @@ export interface ShortcutT {
 export type ReservedShortcutT = 'now';
 export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 
-export const DatePickerTypes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter', 'time'] as const;
-export type DatePickerTypeT = (typeof DatePickerTypes)[number];
+export const PickerTypes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter', 'time'] as const;
+export type PickerTypeT = (typeof PickerTypes)[number];
 
 export interface TimeValueT {
   hours?: number;
@@ -35,10 +35,15 @@ export const datePickerProps = {
    * 下拉框的默认值
    */
   type: {
-    type: [String] as PropType<DatePickerTypeT>,
+    type: [String] as PropType<PickerTypeT>,
     default: 'date',
   },
-
+  /**
+   * 格式化字符串
+   */
+  formatString: {
+    type: [String],
+  },
   /**
    * 大小 SizeT
    */

@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, watch, reactive, Ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { IconCalendarPrevMonth, IconCalendarPrevYear, IconCalendarNextMonth, IconCalendarNextYear } from '../_utils/icons';
-import { OButton } from '../button';
-import { ShortcutParamT, ShortcutT, DatePickerTypeT } from './types';
-import { OLink } from '../link';
+import { PickerTypeT } from './types';
 import { OIcon } from '../icon';
 import { Labels, getMonthLabel, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth } from './date';
 import type { DateRangeT } from './date';
 import { chunk } from '../_utils/helper';
 import { addYears, subYears, addMonths, subMonths, startOfMonth } from '../_utils/date';
-import { isFunction, isUndefined, isValidDate } from '../_utils/is';
+import { isValidDate } from '../_utils/is';
 import { PickerDate } from './picker-date';
 
 export interface DateValueT {
@@ -32,7 +30,7 @@ interface DayCellT {
 const props = withDefaults(
   defineProps<{
     value: DateValueT;
-    type?: DatePickerTypeT;
+    type?: PickerTypeT;
     range?: boolean;
   }>(),
   {

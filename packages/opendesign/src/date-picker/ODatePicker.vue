@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import { datePickerProps, TimeValueT } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
@@ -9,7 +9,7 @@ import { IconCalendar } from '../_utils/icons';
 import PickerPane from './PickerPane.vue';
 import { format, parse } from 'date-fns';
 import { isFunction, isValidDate } from '../_utils/is';
-import { getRealDateValue, normalizeDateValue, DateFormatString } from './date';
+import { getRealDateValue, normalizeDateValue, DefaultFormatString } from './date';
 
 const props = defineProps(datePickerProps);
 
@@ -26,12 +26,23 @@ const inputId = uniqueId('input');
 const inputRef = ref<InstanceType<typeof InnerInput>>();
 const inputFrameRef = ref<InstanceType<typeof InnerFrame>>();
 
-const formateString = DateFormatString[props.type as keyof typeof DateFormatString];
+const formateString = computed(() => {
+  if (props.formatString) {
+    return props.formatString;
+  }
+  return DefaultFormatString[props.type as keyof typeof DefaultFormatString];
+});
+
+const hideHour = computed(() => !formateString.value.includes('H'));
+const hideMinute = computed(() => !formateString.value.includes('m'));
+const hideSecond = computed(() => !formateString.value.includes('s'));
+console.log(hideHour.value, hideMinute.value, hideSecond.value);
+
 const formatFn = isFunction(props.format)
   ? props.format
   : (d: Date) => {
       try {
-        return format(d, formateString);
+        return format(d, formateString.value);
       } catch {
         return '';
       }
@@ -40,7 +51,7 @@ const parseFn = isFunction(props.parse)
   ? props.parse
   : (str: string) => {
       try {
-        return parse(str, formateString, new Date());
+        return parse(str, formateString.value, new Date());
       } catch {
         return new Date(NaN);
       }
@@ -48,6 +59,7 @@ const parseFn = isFunction(props.parse)
 
 // 外部输入值，包含类型及值
 const initValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
+console.log('initValue', initValue.value);
 
 const inputVal = ref(initValue.value.value ? formatFn(initValue.value.value) : '');
 
@@ -184,6 +196,9 @@ const onTimePaneChange = (value: TimeValueT) => {
           :confirm-btn="props.needConfirm"
           :confirm-label="props.confirmLabel"
           :type="props.type"
+          :hide-hour="hideHour"
+          :hide-minute="hideMinute"
+          :hide-second="hideSecond"
           @confirm="() => onConfirm(false)"
         >
           <template #day-cell="data">

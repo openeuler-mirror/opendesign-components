@@ -1,6 +1,7 @@
 import { isNull } from '../_utils/is';
 import { getWeeksByDate, startOfMonth } from '../_utils/date';
 import { PickerDate } from './picker-date';
+import { PickerTypeT } from './types';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -11,6 +12,36 @@ export const WEEK_TIME = WEEK_DAYS * DAY_TIME;
 export interface DateRangeT {
   start: PickerDate;
   end: PickerDate;
+}
+
+export const Labels = {
+  weeks: ['日', '一', '二', '三', '四', '五', '六'],
+  year: '年',
+  month: '月',
+  day: '日',
+  now: '此刻',
+  confirm: '确定',
+};
+
+export const DefaultFormatString = {
+  date: 'yyyy-MM-dd',
+  year: 'yyyy',
+  datetime: 'yyyy-MM-dd HH:mm:ss',
+  time: 'HH:mm:ss',
+};
+
+/**
+ * 根据formatString决定type
+ * @param formatString
+ */
+export function getPickerType(formatString: string): PickerTypeT {
+  // const y = formatString.includes('y');
+  // const m = formatString.includes('M');
+  const d = formatString.includes('d');
+  if (d) {
+    return 'date';
+  }
+  return 'date';
 }
 
 export function normalizeDateValue(
@@ -65,22 +96,6 @@ export function getRealDateValue(value: Date | null, type: 'string' | 'number' |
   }
   return '';
 }
-
-export const Labels = {
-  weeks: ['日', '一', '二', '三', '四', '五', '六'],
-  year: '年',
-  month: '月',
-  day: '日',
-  now: '此刻',
-  confirm: '确定',
-};
-
-export const DateFormatString = {
-  date: 'yyyy-MM-dd',
-  year: 'yyyy',
-  datetime: 'yyyy-MM-dd HH:mm:ss',
-  time: 'HH:mm:ss',
-};
 
 export function getMonthLabel(date: PickerDate) {
   let label = [];
