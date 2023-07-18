@@ -10,6 +10,9 @@ import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
 const props = defineProps(innerInputProps);
 
 const emits = defineEmits<{
+  /**
+   * 失焦或者enter键触发，如果传入parse，则在input时触发
+   */
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
   (e: 'input', value: string, evt: Event): void;
@@ -43,10 +46,10 @@ const displayValue = computed(() => {
 let lastValue: string = realValue.value;
 function updateValue(val: string) {
   const value = isFunction(props.parse) ? props.parse(val) : val;
-  emits('update:modelValue', value);
   realValue.value = value;
 
   if (lastValue !== value) {
+    emits('update:modelValue', value);
     emits('change', value);
     lastValue = value;
   }

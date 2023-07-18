@@ -2,6 +2,7 @@ import { isNull } from '../_utils/is';
 import { getWeeksByDate, startOfMonth } from '../_utils/date';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
+import { OScroller } from '../scroller';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -148,4 +149,41 @@ export function getDateRangeStatus(date: PickerDate, range: DateRangeT) {
     start: isSameDay(date, start),
     end: isSameDay(date, end),
   };
+}
+
+export function scrollCellToView(
+  scroller: InstanceType<typeof OScroller> | undefined,
+  selector: string,
+  {
+    smooth,
+    align,
+  }: {
+    smooth?: boolean;
+    align?: 'center' | 'top' | 'bottom';
+  } = {
+    smooth: true,
+    align: 'top',
+  }
+): void {
+  if (!scroller) {
+    return;
+  }
+
+  const el = scroller?.$el.querySelector(selector);
+  if (!el || !scroller.containerRef) {
+    return;
+  }
+  const { offsetTop, clientHeight } = el;
+  const { clientHeight: outHeight } = scroller.containerRef;
+
+  let top = offsetTop;
+  if (align === 'center') {
+    top = offsetTop - outHeight / 2 + clientHeight / 2;
+  } else if (align === 'bottom') {
+    top = offsetTop - outHeight + clientHeight;
+  }
+  scroller.scrollTo({
+    top,
+    behavior: smooth ? 'smooth' : 'auto',
+  });
 }

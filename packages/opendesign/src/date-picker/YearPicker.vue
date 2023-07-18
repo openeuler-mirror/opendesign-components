@@ -33,7 +33,6 @@ const emits = defineEmits<{
 }>();
 
 const selectValue = ref<number>(props.value.years);
-const yearRangeLabel = ref<string>();
 const yearList = ref<CellT[][]>([]);
 
 const hScrollRef = ref<InstanceType<typeof OScroller>>();
@@ -68,14 +67,13 @@ const updateViewYears = (year: number) => {
   const list = yl.map((item) => {
     return {
       label: item.label,
-      value: item,
+      years: item.value,
       isNow: item.value === nowYear,
       disabled: props.disableDate(new Date(item.value, 0)),
     };
   });
 
   yearList.value = chunk(list, props.column);
-  yearRangeLabel.value = `${list[1].label} - ${list[10].value}`;
 };
 
 updateViewYears(props.value.years);

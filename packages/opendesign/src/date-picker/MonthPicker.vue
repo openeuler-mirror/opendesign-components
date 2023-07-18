@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { OScroller } from '../scroller';
-import { OIcon } from '../icon';
-import { IconCalendarPrevYear, IconCalendarNextYear } from '../_utils/icons';
 import { chunk } from '../_utils/helper';
-import { Labels, getYearLabel, isSameMonth } from './date';
+import { Labels, isSameMonth } from './date';
 import { PickerDate } from './picker-date';
+import { isFunction } from '../_utils/is';
 
 export interface MonthValueT {
   years?: number;
@@ -19,14 +18,24 @@ interface CellT {
   };
   monthLabel: string;
   isNow: boolean;
+  disabled: boolean;
 }
 
 const props = withDefaults(
   defineProps<{
-    value: MonthValueT;
+    value: InstanceType<typeof PickerDate>;
+    column?: number;
+    currentYears?: number;
+    selectYear?: boolean;
+    disableDate: (current: Date, type?: 'start' | 'end') => boolean;
+    displayMonths?: (currentYear: number) => Array<{ value: number; label: string }>;
   }>(),
   {
     value: undefined,
+    column: 3,
+    displayMonths: undefined,
+    selectYear: true,
+    currentYears: new Date().getFullYear(),
   }
 );
 
@@ -36,101 +45,107 @@ const emits = defineEmits<{
   (e: 'select-year'): void;
 }>();
 
-const selectValue = ref<MonthValueT>(props.value);
+const selectValue = ref<MonthValueT>({
+  years: props.value.years,
+  months: props.value.months,
+});
+
 const monthList = ref<CellT[][]>([]);
 const viewYear = ref<number>(0);
+const selectYear = computed(() => props.selectYear);
 
-const getMonthLabel = (monthIndex: number) => {
-  return Labels.months[monthIndex];
+const getMonthList = () => {
+  return Labels.months.map((item, idx) => {
+    return {
+      value: idx,
+      label: item,
+    };
+  });
 };
-const MonthList = Labels.months.map((item, idx) => {
-  return {
-    value: idx + 1,
-    label: item,
-  };
-});
 
 const updateViewMonth = (year?: number) => {
   const now = new PickerDate(new Date());
+  viewYear.value = year ?? now.years;
 
-  const list = MonthList.map((item) => {
+  const mlist = isFunction(props.displayMonths) ? props.displayMonths(viewYear.value) : getMonthList();
+
+  const list = mlist.map((item) => {
+    const data = {
+      years: year,
+      months: item.value + 1,
+    };
     return {
-      data: {
-        years: year,
-        months: item.value,
-      },
-      isNow: isSameMonth({ months: item.value, years: selectValue.value.years }, now),
-      monthLabel: getMonthLabel(item.value - 1),
+      data,
+      isNow: isSameMonth(data, now),
+      monthLabel: item.label,
+      disabled: props.disableDate(new Date(viewYear.value, item.value - 1)),
     };
   });
 
-  viewYear.value = year ?? now.years;
-  monthList.value = chunk(list, 3);
+  monthList.value = chunk(list, props.column);
 };
 
-updateViewMonth(props.value.years);
+updateViewMonth(props.value.years || props.currentYears);
 
 watch(
+  () => props.currentYears,
+  (v) => {
+    updateViewMonth(v);
+  }
+);
+watch(
   () => props.value,
-  (v: MonthValueT) => {
-    selectValue.value = v;
-    updateViewMonth(v.years);
+  (v: PickerDate) => {
+    selectValue.value = {
+      years: v.years,
+      months: v.months,
+    };
+
+    if (viewYear.value !== v.years) {
+      updateViewMonth(v.years);
+    }
   }
 );
 
-/**
- * head 操作
- */
-const headBtnClick = (actionType: 'sub' | 'add') => {
-  const sign = actionType === 'add' ? 1 : -1;
-  updateViewMonth(viewYear.value + sign);
-};
-
 const selectCell = (cell: CellT) => {
-  selectValue.value = cell.data;
+  if (cell.disabled) {
+    return;
+  }
+  if (selectYear.value) {
+    selectValue.value = cell.data;
+  } else {
+    selectValue.value = { months: cell.data.months };
+  }
 
   emits('select', selectValue.value);
   emits('update:value', selectValue.value);
 };
-
-const onYearClick = () => {
-  emits('select-year');
-};
 </script>
 <template>
-  <div class="o-picker-year">
-    <div class="o-picker-head">
-      <div class="o-picker-head-btns">
-        <OIcon class="o-picker-btn" button :icon="IconCalendarPrevYear" @click="headBtnClick('sub')" />
-      </div>
-      <div class="o-picker-head-value" @click="onYearClick">
-        <slot name="month-head-label" :view-year="viewYear" :select-value="selectValue.months">
-          <div class="o-picker-head-year">{{ getYearLabel(viewYear) }}</div>
-        </slot>
-      </div>
-      <div class="o-picker-head-btns">
-        <OIcon class="o-picker-btn" button :icon="IconCalendarNextYear" @click="headBtnClick('add')" />
-      </div>
-    </div>
-    <div class="o-picker-main">
-      <OScroller ref="hScrollRef" size="small">
-        <div v-for="(row, idx) in monthList" :key="idx" class="o-picker-row">
-          <div
-            v-for="item in row"
-            :key="item.data.months"
-            class="o-picker-cell o-pm-cell"
-            :class="{
-              'o-picker-cell-selected': isSameMonth(item.data, selectValue),
-              'o-picker-cell-now': item.isNow,
-            }"
-            @click="(e) => selectCell(item)"
-          >
-            <div class="o-picker-cell-val">
-              <slot name="cell-year" v-bind="item">{{ item.monthLabel }}</slot>
-            </div>
-          </div>
+  <OScroller size="small" class="o-picker-month">
+    <div
+      v-for="(row, idx) in monthList"
+      :key="idx"
+      class="o-picker-row"
+      :style="{
+        '--column': props.column,
+      }"
+    >
+      <div
+        v-for="item in row"
+        :key="item.data.months"
+        class="o-picker-cell o-pm-cell"
+        :class="{
+          'o-picker-cell-selected': isSameMonth(item.data, selectValue),
+          'o-picker-cell-now': item.isNow,
+          'o-picker-cell-disabled': item.disabled,
+        }"
+        @click="(e) => selectCell(item)"
+      >
+        <div class="o-picker-cell-val">
+          <slot name="cell-month" v-bind="item">{{ item.monthLabel }}</slot>
         </div>
-      </OScroller>
+      </div>
     </div>
-  </div>
+  </OScroller>
 </template>

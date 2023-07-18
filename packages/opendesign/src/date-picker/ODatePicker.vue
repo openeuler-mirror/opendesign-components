@@ -36,7 +36,6 @@ const formateString = computed(() => {
 const hideHour = computed(() => !formateString.value.includes('H'));
 const hideMinute = computed(() => !formateString.value.includes('m'));
 const hideSecond = computed(() => !formateString.value.includes('s'));
-console.log(hideHour.value, hideMinute.value, hideSecond.value);
 
 const formatFn = isFunction(props.format)
   ? props.format
@@ -133,6 +132,9 @@ const onPressEnter = () => {
 };
 
 const onUpdateModelValue = (value: string) => {
+  if (inputVal.value === value) {
+    return;
+  }
   inputVal.value = value;
 
   const d = parseFn(value);
@@ -196,9 +198,11 @@ const onTimePaneChange = (value: TimeValueT) => {
           :confirm-btn="props.needConfirm"
           :confirm-label="props.confirmLabel"
           :mode="props.mode"
+          :select-year="props.selectYear"
           :hide-hour="hideHour"
           :hide-minute="hideMinute"
           :hide-second="hideSecond"
+          :disable-date="props.disableDate"
           @confirm="() => onConfirm(false)"
         >
           <template #day-cell="data">

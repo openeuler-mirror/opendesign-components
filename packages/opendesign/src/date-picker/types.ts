@@ -1,5 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
+import { PickerDate } from './picker-date';
 
 export interface ShortcutT {
   label: string;
@@ -126,6 +127,27 @@ export const datePickerProps = {
   confirmLabel: {
     type: [String],
   },
+  /**
+   * 日期禁用
+   */
+  disableDate: {
+    type: Function as PropType<(current: Date, type?: 'start' | 'end') => boolean>,
+  },
+  /**
+   * 时间禁用
+   */
+  disableTime: {
+    type: Function as PropType<(current: Date, type?: 'start' | 'end') => boolean>,
+  },
+  /****** month */
+  /**
+   * 是否支持选择年份
+   */
+  selectYear: {
+    type: [Boolean],
+    default: true,
+  },
 };
 
 export type DatePickerPropsT = ExtractPropTypes<typeof datePickerProps>;
+export { PickerDate };
