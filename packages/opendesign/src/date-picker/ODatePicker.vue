@@ -30,7 +30,13 @@ const formateString = computed(() => {
   if (props.formatString) {
     return props.formatString;
   }
-  return DefaultFormatString[props.mode as keyof typeof DefaultFormatString];
+  type FST = keyof typeof DefaultFormatString;
+
+  let key: FST = props.mode as FST;
+  if (props.mode === 'month' && !props.yearSelectable) {
+    key = 'monthOnly';
+  }
+  return DefaultFormatString[key];
 });
 
 const hideHour = computed(() => !formateString.value.includes('H'));
@@ -198,11 +204,14 @@ const onTimePaneChange = (value: TimeValueT) => {
           :confirm-btn="props.needConfirm"
           :confirm-label="props.confirmLabel"
           :mode="props.mode"
-          :select-year="props.selectYear"
+          :year-selectable="props.yearSelectable"
           :hide-hour="hideHour"
           :hide-minute="hideMinute"
           :hide-second="hideSecond"
-          :disable-date="props.disableDate"
+          :disable-cell="props.disableCell"
+          :display-year-list="props.displayYearList"
+          :display-month-list="props.displayMonthList"
+          :display-day-list="props.displayDayList"
           @confirm="() => onConfirm(false)"
         >
           <template #day-cell="data">

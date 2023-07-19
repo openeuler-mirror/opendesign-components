@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { IconCalendarPrevMonth, IconCalendarPrevYear, IconCalendarNextMonth, IconCalendarNextYear } from '../_utils/icons';
-import { PickerModeT } from './types';
-import { OIcon } from '../icon';
-import { Labels, getMonthLabel, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth, getYearLabel } from './date';
+import { ref, computed, watch, watchEffect } from 'vue';
+import { Labels, getDateRangeStatus, getDaysofMonth, isSameDay, isSameMonth } from './date';
 import type { DateRangeT } from './date';
 import { chunk } from '../_utils/helper';
-import { addYears, subYears, addMonths, subMonths, startOfMonth } from '../_utils/date';
-import { isValidDate } from '../_utils/is';
+import { startOfMonth } from '../_utils/date';
+import { isFunction, isValidDate } from '../_utils/is';
 import { PickerDate } from './picker-date';
+import { OScroller } from '../scroller';
 
 export interface DateValueT {
-  years?: number;
-  months?: number;
-  days?: number;
+  year?: number;
+  month?: number;
+  day?: number;
 }
 
 interface DayCellT {
   data: PickerDate;
   isNow: boolean;
   outView: boolean;
+  disabled: boolean;
   rangeStatus?: {
     in: boolean;
     start: boolean;
@@ -29,178 +28,145 @@ interface DayCellT {
 
 const props = withDefaults(
   defineProps<{
-    value: DateValueT;
-    type?: PickerModeT;
-    range?: boolean;
+    value: InstanceType<typeof PickerDate>;
+    currentYears?: number;
+    currentMonths?: number;
+    disableDate: (current: Date, type?: 'start' | 'end') => boolean;
+    displayDates?: (year: number, month: number) => Array<{ value: Date; label: string }>;
   }>(),
   {
-    range: false,
     value: undefined,
-    shortcuts: undefined,
-    confirmLabel: '',
-    type: 'date',
+    displayDates: undefined,
+    currentYears: undefined,
+    currentMonths: undefined,
   }
 );
 
 const emits = defineEmits<{
   (e: 'update:value', value: DateValueT): void;
   (e: 'select', value: DateValueT, evt?: Event): void;
-  (e: 'select-year'): void;
-  (e: 'select-month'): void;
 }>();
 
 const getDateByValue = (value: DateValueT) => {
-  const m = typeof value.months === 'number' ? value.months - 1 : 0;
-  let d = new Date(value.years || 0, m, value.days);
+  const m = typeof value.month === 'number' ? value.month - 1 : 0;
+  let d = new Date(value.year || 0, m, value.day);
   if (!isValidDate(d)) {
     d = new Date();
   }
   return startOfMonth(d);
 };
+
 const todayDate = new PickerDate(new Date());
 
-const selectValue = ref<DateValueT>({});
+const selectValue = ref<DateValueT>({
+  year: props.value.year,
+  month: props.value.month,
+  day: props.value.day,
+});
 
-const viewMonthDate = ref<PickerDate>(new PickerDate(new Date()));
+// 当前显示的月份
+const viewMonth = ref<{ year: number; month: number }>({
+  year: 0,
+  month: 0,
+});
+
+watchEffect(() => {
+  viewMonth.value = {
+    year: props.currentYears || new Date().getFullYear(),
+    month: props.currentMonths || new Date().getMonth(),
+  };
+});
 
 const selectRange = ref<DateRangeT>({
   start: new PickerDate(new Date()),
-  end: new PickerDate(new Date(viewMonthDate.value.date.getTime() + 7 * 24 * 60 * 60 * 1000)),
+  end: new PickerDate(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)),
 });
 
-/**
- * 处理每月日期列表
- */
-const updateViewMonth = (date: DateValueT | Date) => {
-  if (date instanceof Date) {
-    const pd = new PickerDate(date);
-    if (!isSameMonth(pd, viewMonthDate.value as PickerDate)) {
-      viewMonthDate.value.date = date;
-    }
-  } else {
-    if (date.years === viewMonthDate.value.years && date.months === viewMonthDate.value.months) {
-      return;
-    }
-    const d = getDateByValue(date);
-
-    viewMonthDate.value.date = d;
-  }
-};
+const column = 7; //一周七天
 const dayListByWeek = computed<DayCellT[][]>(() => {
-  const dayList = getDaysofMonth(viewMonthDate.value.date);
+  const dayList = isFunction(props.displayDates)
+    ? props.displayDates(viewMonth.value.year, viewMonth.value.month)
+    : getDaysofMonth(viewMonth.value.year, viewMonth.value.month);
+  console.log(dayList);
+
   const list: DayCellT[] = dayList.map((item) => {
-    const isOutView = !isSameMonth(item, viewMonthDate.value as PickerDate);
+    const isOutView = !isSameMonth(item, viewMonth.value);
     return {
       data: item,
       outView: isOutView,
       isNow: isSameDay(item, todayDate),
-      rangeStatus: props.range && !isOutView ? getDateRangeStatus(item, selectRange.value as DateRangeT) : null,
+      rangeStatus: !isOutView ? getDateRangeStatus(item, selectRange.value as DateRangeT) : null,
+      disabled: props.disableDate(item.date),
     };
   });
-  return chunk(list, 7);
+  return chunk(list, column);
 });
 
 watch(
   () => props.value,
-  (v: DateValueT) => {
+  (v: PickerDate) => {
     if (v) {
       selectValue.value = v;
-      updateViewMonth(v);
     }
-  },
-  { immediate: true }
+  }
 );
 
 const selectDate = ref<DateValueT>(props.value);
 
-/**
- * head 操作
- */
-const headActionFn = {
-  year: {
-    add: addYears,
-    sub: subYears,
-  },
-  month: {
-    add: addMonths,
-    sub: subMonths,
-  },
-};
-const headBtnClick = (dateType: 'year' | 'month', actionType: 'sub' | 'add') => {
-  updateViewMonth(headActionFn[dateType][actionType](viewMonthDate.value.date, 1));
-};
-
 const onDayCellClick = (cell: DayCellT, e: Event) => {
-  if (!props.range) {
-    selectValue.value.days = cell.data.days;
-    selectValue.value.months = cell.data.months;
-    selectValue.value.years = cell.data.years;
-
-    emits('update:value', selectValue.value);
-    emits('select', selectValue.value, e);
-
-    if (cell.outView) {
-      updateViewMonth(selectValue.value);
-    }
-  } else {
-    if (!selectRange.value.start || (selectRange.value.start && selectRange.value.end)) {
-      selectRange.value.start = cell.data;
-      // selectRange.value.end = null;
-    }
+  if (cell.disabled) {
+    return;
   }
-};
 
-const toSelectFn = {
-  onYearClick: () => {
-    emits('select-year');
-  },
-  onMonthClick: () => {
-    emits('select-month');
-  },
+  selectValue.value.day = cell.data.day;
+  selectValue.value.month = cell.data.month;
+  selectValue.value.year = cell.data.year;
+
+  emits('update:value', selectValue.value);
+  emits('select', selectValue.value, e);
+
+  if (cell.outView) {
+    // updateViewDates(selectValue.value);
+  }
 };
 </script>
 <template>
-  <div class="o-picker-date">
-    <div class="o-picker-head">
-      <div class="o-picker-head-btns">
-        <OIcon class="o-picker-btn" button :icon="IconCalendarPrevYear" @click="headBtnClick('year', 'sub')" />
-        <OIcon class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
-      </div>
-      <div class="o-picker-head-value">
-        <slot name="date-head-label" :select-value="selectValue" :view-month="viewMonthDate.months" :view-year="viewMonthDate.years" :to-select-fn="toSelectFn">
-          <div class="o-picker-head-year" @click="toSelectFn.onYearClick">{{ getYearLabel(viewMonthDate.years) }}</div>
-          <div class="o-picker-head-month" @click="toSelectFn.onMonthClick">{{ getMonthLabel(viewMonthDate.months) }}</div>
-        </slot>
-      </div>
-      <div class="o-picker-head-btns">
-        <OIcon class="o-picker-btn" button :icon="IconCalendarNextMonth" @click="headBtnClick('month', 'add')" />
-        <OIcon class="o-picker-btn" button :icon="IconCalendarNextYear" @click="headBtnClick('year', 'add')" />
-      </div>
+  <OScroller size="small" class="o-picker-date" show-type="hover">
+    <div
+      class="o-picker-row"
+      :style="{
+        '--column': column,
+      }"
+    >
+      <div v-for="item in Labels.weeks" :key="item" class="o-picker-cell o-pd-cell-head">{{ item }}</div>
     </div>
-    <div class="o-picker-main o-pd-main">
-      <div class="o-picker-row">
-        <div v-for="item in Labels.weeks" :key="item" class="o-picker-cell o-pd-cell">{{ item }}</div>
-      </div>
-      <div v-for="(week, idx) in dayListByWeek" :key="idx" class="o-picker-row">
-        <div
-          v-for="item in week"
-          :key="item.data.days"
-          class="o-picker-cell o-pd-cell"
-          :class="{
-            'o-picker-cell-selected': !props.range && selectDate ? isSameDay(item.data, selectValue) : false,
-            'o-picker-cell-range-start': item.rangeStatus?.start,
-            'o-picker-cell-in-range': item.rangeStatus?.in,
-            'o-picker-cell-range-end': item.rangeStatus?.end,
-            'o-picker-cell-out-view': item.outView,
-            'o-picker-cell-now': item.isNow,
-          }"
-          @click="(e) => onDayCellClick(item, e)"
-        >
-          <div class="o-picker-cell-val o-pd-cell-val">
-            <slot name="day-cell" v-bind="item">{{ item.data.days }}</slot>
-          </div>
+    <div
+      v-for="(week, idx) in dayListByWeek"
+      :key="idx"
+      class="o-picker-row"
+      :style="{
+        '--column': column,
+      }"
+    >
+      <div
+        v-for="item in week"
+        :key="item.data.day"
+        class="o-picker-cell o-pd-cell"
+        :class="{
+          'o-picker-cell-selected': selectDate ? isSameDay(item.data, selectValue) : false,
+          'o-picker-cell-range-start': item.rangeStatus?.start,
+          'o-picker-cell-in-range': item.rangeStatus?.in,
+          'o-picker-cell-range-end': item.rangeStatus?.end,
+          'o-picker-cell-out-view': item.outView,
+          'o-picker-cell-now': item.isNow,
+          'o-picker-cell-disabled': item.disabled,
+        }"
+        @click="(e) => onDayCellClick(item, e)"
+      >
+        <div class="o-picker-cell-val o-pd-cell-val">
+          <slot name="day-cell" v-bind="item">{{ item.data.day }}</slot>
         </div>
       </div>
     </div>
-  </div>
+  </OScroller>
 </template>

@@ -4,10 +4,13 @@ import { OScroller } from '../scroller';
 import { chunk } from '../_utils/helper';
 import { PickerDate } from './picker-date';
 import { isFunction } from '../_utils/is';
-import { scrollCellToView } from './date';
+import { scrollSelectOrNowCellInToView } from './date';
+import { DisaplyYearListT, YearCellT } from './types';
 
 interface CellT {
-  years: number;
+  data: {
+    year: number;
+  };
   label: string;
   isNow: boolean;
   disabled: boolean;
@@ -15,15 +18,16 @@ interface CellT {
 
 const props = withDefaults(
   defineProps<{
+    visible: boolean;
     value: PickerDate;
-    displayYears?: (currentYear: number) => Array<{ value: number; label: string }>;
     column?: number;
-    disableDate: (current: Date, type?: 'start' | 'end') => boolean;
+    disableCell: (cell: YearCellT) => boolean;
+    displayYearList?: DisaplyYearListT;
   }>(),
   {
     value: undefined,
     column: 3,
-    displayYears: undefined,
+    displayYearList: undefined,
   }
 );
 
@@ -32,27 +36,26 @@ const emits = defineEmits<{
   (e: 'select', value: number): void;
 }>();
 
-const selectValue = ref<number>(props.value.years);
+const selectValue = ref<number>(props.value.year);
 const yearList = ref<CellT[][]>([]);
 
 const hScrollRef = ref<InstanceType<typeof OScroller>>();
 const scrollIntoView = (smooth?: boolean) => {
   nextTick(() => {
-    scrollCellToView(hScrollRef.value, '.o-picker-cell-selected', {
+    scrollSelectOrNowCellInToView(hScrollRef.value, {
       smooth,
       align: 'center',
     });
   });
 };
 
-const getYearList = (year?: number) => {
-  const nowYear = year ?? new Date().getFullYear();
-  const start = nowYear - (nowYear % 100) - 100;
+const getYearList = (year: number) => {
+  const start = year - (year % 100) - 100;
 
-  const list: Array<{ value: number; label: string }> = [];
+  const list: Array<{ year: number; label: string }> = [];
   for (let i = 0; i < 201; i++) {
     list.push({
-      value: i + start,
+      year: i + start,
       label: `${i + start}`,
     });
   }
@@ -61,50 +64,72 @@ const getYearList = (year?: number) => {
 
 const updateViewYears = (year: number) => {
   const nowYear = new Date().getFullYear();
+  const cy = Number.isNaN(year) ? nowYear : year;
 
-  const yl = isFunction(props.displayYears) ? props.displayYears(year) : getYearList(year);
+  const yl = isFunction(props.displayYearList) ? props.displayYearList(cy) : getYearList(cy);
 
   const list = yl.map((item) => {
+    const data = {
+      year: item.year,
+    };
     return {
+      data,
       label: item.label,
-      years: item.value,
-      isNow: item.value === nowYear,
-      disabled: props.disableDate(new Date(item.value, 0)),
+      isNow: item.year === nowYear,
+      disabled: props.disableCell(data),
     };
   });
 
   yearList.value = chunk(list, props.column);
 };
 
-updateViewYears(props.value.years);
+updateViewYears(props.value.year);
 
 watch(
   () => props.value,
   (v: PickerDate) => {
-    if (selectValue.value !== v.years) {
-      selectValue.value = v.years;
+    if (selectValue.value !== v.year) {
+      selectValue.value = v.year;
       scrollIntoView(true);
     }
   }
 );
 
 const selectCell = (cell: CellT) => {
-  if (cell.disabled || cell.years === selectValue.value) {
+  if (cell.disabled || cell.data.year === selectValue.value) {
     return;
   }
 
-  selectValue.value = cell.years;
+  selectValue.value = cell.data.year;
 
   emits('select', selectValue.value);
   emits('update:value', selectValue.value);
 };
+
+watch(
+  () => props.visible,
+  (v) => {
+    selectValue.value = props.value.year;
+    if (v) {
+      scrollIntoView();
+    }
+  }
+);
 
 onMounted(() => {
   scrollIntoView();
 });
 </script>
 <template>
-  <OScroller ref="hScrollRef" size="small" class="o-picker-year">
+  <OScroller
+    ref="hScrollRef"
+    size="small"
+    class="o-picker-year"
+    show-type="hover"
+    :class="{
+      'o-picker-hidden': !props.visible,
+    }"
+  >
     <div class="more-top"></div>
     <div
       v-for="(row, idx) in yearList"
@@ -116,10 +141,10 @@ onMounted(() => {
     >
       <div
         v-for="item in row"
-        :key="item.years"
+        :key="item.data.year"
         class="o-picker-cell o-py-cell"
         :class="{
-          'o-picker-cell-selected': selectValue === item.years,
+          'o-picker-cell-selected': selectValue === item.data.year,
           'o-picker-cell-now': item.isNow,
           'o-picker-cell-disabled': item.disabled,
         }"

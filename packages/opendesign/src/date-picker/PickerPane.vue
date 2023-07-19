@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from 'vue';
+import { ref, computed, watch, watchEffect, reactive, Ref } from 'vue';
 import { OButton } from '../button';
-import { ShortcutParamT, ShortcutT, PickerModeT } from './types';
+import { ShortcutParamT, ShortcutT, PickerModeT, DisaplyDayListT, DisaplyYearListT, DisaplyMonthListT, disableCellT } from './types';
 import { OLink } from '../link';
 import { Labels } from './date';
 import { isFunction } from '../_utils/is';
@@ -26,12 +26,15 @@ const props = withDefaults(
     needConfirm?: boolean;
     confirmLabel?: string;
     mode?: PickerModeT;
-    selectYear?: boolean;
+    yearSelectable?: boolean;
     selectMonth?: boolean;
     hideHour?: boolean;
     hideMinute?: boolean;
     hideSecond?: boolean;
-    disableDate?: (current: Date, type?: 'start' | 'end') => boolean;
+    disableCell?: disableCellT;
+    displayYearList?: DisaplyYearListT;
+    displayMonthList?: DisaplyMonthListT;
+    displayDateList?: DisaplyDayListT;
   }>(),
   {
     range: false,
@@ -39,9 +42,12 @@ const props = withDefaults(
     shortcuts: undefined,
     confirmLabel: '',
     mode: 'date',
-    disableDate: undefined,
-    selectYear: true,
+    yearSelectable: true,
     selectMonth: true,
+    disableCell: undefined,
+    displayYearList: undefined,
+    displayMonthList: undefined,
+    displayDateList: undefined,
   }
 );
 
@@ -52,48 +58,7 @@ const emits = defineEmits<{
   (e: 'confirm', value: Date, evt?: Event): void;
 }>();
 
-const initValue = computed(() => new PickerDate(props.value));
-const pickerValue = ref<InstanceType<typeof PickerDate>>(initValue.value);
-const viewValue = ref<InstanceType<typeof PickerDate>>(initValue.value);
-let lastDate: Date = pickerValue.value.date;
-console.log(pickerValue.value.date);
-const disableDate = isFunction(props.disableDate) ? props.disableDate : () => false;
-
-watch(
-  () => props.value,
-  (v: Date) => {
-    if (pickerValue.value.date !== v) {
-      pickerValue.value = new PickerDate(v);
-      viewValue.value = new PickerDate(v);
-
-      lastDate = v;
-    }
-  }
-);
-
-const dateValue = ref<DateValueT>({});
-const timeValue = ref<TimeValueT>({});
-const monthValue = ref<MonthValueT>();
-
-watchEffect(() => {
-  monthValue.value = {
-    years: initValue.value.years,
-    months: initValue.value.months,
-  };
-
-  dateValue.value = {
-    years: initValue.value.years,
-    months: initValue.value.months,
-    days: initValue.value.days,
-  };
-  // time picker
-  timeValue.value = {
-    hours: initValue.value.hours,
-    minutes: initValue.value.minutes,
-    seconds: initValue.value.seconds,
-  };
-});
-
+// 控制面板显示
 const currentMode = ref(props.mode);
 const showPicker = computed(() => {
   return {
@@ -104,6 +69,53 @@ const showPicker = computed(() => {
   };
 });
 
+const today = new PickerDate(new Date());
+
+// 传入的初始值
+const initValue = computed(() => new PickerDate(props.value));
+
+const viewDate = reactive({
+  year: initValue.value.year || today.year,
+  month: initValue.value.month || today.month,
+});
+
+// 当前面板值
+const pickerValue: PickerDate = new PickerDate(props.value, (p: PickerDate) => {
+  viewDate.year = p.year || today.year;
+  viewDate.month = p.month || today.month;
+});
+
+let lastDate: Date = pickerValue.date;
+
+console.log(pickerValue.date);
+
+const disableCellFn = isFunction(props.disableCell) ? props.disableCell : () => false;
+const isShortcutSelecting = ref(false);
+
+watch(
+  () => props.value,
+  (v: Date) => {
+    if (pickerValue.date !== v) {
+      pickerValue.date = v;
+
+      lastDate = v;
+    }
+  }
+);
+
+const dateValue = ref<DateValueT>({});
+const timeValue = ref<TimeValueT>({});
+
+watchEffect(() => {
+  // time picker
+  timeValue.value = {
+    hour: initValue.value.hour,
+    minute: initValue.value.minute,
+    second: initValue.value.second,
+  };
+});
+
+// 是否需要确认按钮
 const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
 const needConfirm = computed(() => {
   if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(currentMode.value)) {
@@ -121,6 +133,8 @@ const needConfirm = computed(() => {
  * @param e
  */
 const onConfirm = (force: boolean, e?: Event) => {
+  isShortcutSelecting.value = false;
+
   if (currentMode.value !== props.mode) {
     currentMode.value = props.mode;
     return;
@@ -128,7 +142,7 @@ const onConfirm = (force: boolean, e?: Event) => {
   if (needConfirm.value && !force) {
     return;
   }
-  emits('confirm', pickerValue.value.date, e);
+  emits('confirm', pickerValue.date, e);
 };
 
 /**
@@ -141,10 +155,10 @@ const onDateValueUpdate = (v: DateValueT) => {
 
 const onDateSelect = (v: DateValueT, e?: Event) => {
   dateValue.value = v;
-  pickerValue.value.set(v);
+  pickerValue.set(v);
 
-  lastDate = pickerValue.value.date;
-  emits('update:value', pickerValue.value.date);
+  lastDate = pickerValue.date;
+  emits('update:value', pickerValue.date);
   onConfirm(false, e);
 };
 
@@ -157,23 +171,28 @@ const onTimeSelect = (v: TimeValueT, e?: Event) => {
   timeValue.value = v;
   console.log('4', v);
 
-  pickerValue.value.set(v);
-  lastDate = pickerValue.value.date;
-  emits('update:value', pickerValue.value.date);
+  pickerValue.set(v);
+  lastDate = pickerValue.date;
+  emits('update:value', pickerValue.date);
   onConfirm(false, e);
 };
 
 const onYearSelect = (v: number, e?: Event) => {
-  pickerValue.value.years = v;
-  lastDate = pickerValue.value.date;
-  emits('update:value', pickerValue.value.date);
+  console.log(currentMode.value, props.mode);
+  pickerValue.year = v;
+
+  if (props.mode === 'year') {
+    lastDate = pickerValue.date;
+    emits('update:value', pickerValue.date);
+  }
+
   onConfirm(false, e);
 };
 
 const onMonthSelect = (v: MonthValueT, e?: Event) => {
-  pickerValue.value.set(v);
-  lastDate = pickerValue.value.date;
-  emits('update:value', pickerValue.value.date);
+  pickerValue.set(v);
+  lastDate = pickerValue.date;
+  emits('update:value', pickerValue.date);
   onConfirm(false, e);
 };
 
@@ -187,73 +206,67 @@ const toSelectMonth = () => {
 /**
  * head 操作
  */
-const headActionFn = {
-  year: {
-    add: addYears,
-    sub: subYears,
-  },
-  month: {
-    add: addMonths,
-    sub: subMonths,
-  },
-};
 const headBtnClick = (dateType: 'year' | 'month', actionType: 'sub' | 'add') => {
-  const value = headActionFn[dateType][actionType](pickerValue.value.date, 1);
-  pickerValue.value.date = value;
+  const sign = actionType === 'add' ? 1 : -1;
+  if (dateType === 'year') {
+    pickerValue.year = viewDate.year + sign;
+  } else if (dateType === 'month') {
+    pickerValue.month = viewDate.month + sign;
+  }
 };
 
 const showHead = computed(() => {
-  const selectYear = ['month', 'date'].includes(props.mode) && props.selectYear;
+  const yearSelectable = ['month', 'date'].includes(props.mode) && props.yearSelectable;
   const selectMonth = ['date'].includes(props.mode) && props.selectMonth;
-  return selectYear || selectMonth;
+  return yearSelectable || selectMonth;
 });
 
 const headYearValue = computed(() => {
   if (props.mode === 'month') {
-    return pickerValue.value.years || '';
+    return viewDate.year || '';
   }
-
+  if (props.mode === 'date') {
+    return viewDate.year || '';
+  }
   return '';
 });
 
 const headMonthValue = computed(() => {
   if (currentMode.value === 'date') {
-    return pickerValue.value.months || '';
+    return pickerValue.month || '';
   }
 
   return '';
 });
 
 const headBtns = computed(() => {
-  let years = -1;
-  let months = -1;
+  let year = -1;
+  let month = -1;
   if (['month', 'date'].includes(props.mode)) {
-    years += 1;
+    year += 1;
   }
   if (['date'].includes(props.mode)) {
-    months += 1;
+    month += 1;
   }
   if (['month', 'date'].includes(currentMode.value)) {
-    years += 1;
+    year += 1;
   }
   if (['date'].includes(currentMode.value)) {
-    months += 1;
+    month += 1;
   }
 
-  if (props.selectYear === false) {
-    years = -1;
+  if (props.yearSelectable === false) {
+    year = -1;
   }
   return {
-    months,
-    years,
+    month,
+    year,
   };
 });
 const onHeadYearClick = () => {
-  // emits('select-year');
   currentMode.value = 'year';
 };
 const onHeadMonthClick = () => {
-  // emits('select-month');
   currentMode.value = 'month';
 };
 //shortcuts
@@ -276,10 +289,10 @@ const shortcuts = computed(() => {
  */
 const onShortcutClick = (e: Event, shortcut: ShortcutT) => {
   const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
-  pickerValue.value.date = v;
+  pickerValue.date = v;
   lastDate = v;
 
-  emits('update:value', pickerValue.value.date);
+  emits('update:value', pickerValue.date);
   onConfirm(false, e);
 };
 // 避免频繁更新dom
@@ -301,10 +314,11 @@ const onShortcutMouseEnter = (e: Event, shortcut: ShortcutT) => {
   clearTimer();
 
   hoverInTimer = window.setTimeout(() => {
+    isShortcutSelecting.value = true;
     hoverInTimer = 0;
     const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
-    pickerValue.value.date = v;
-    emits('update:value', pickerValue.value.date);
+    pickerValue.date = v;
+    emits('update:value', pickerValue.date);
   }, hoverDelay);
 };
 // hover out恢复之前值
@@ -315,21 +329,12 @@ const onShortcutMouseLeave = () => {
     hoverOutTimer = 0;
 
     if (dateValue.value !== lastDate) {
-      pickerValue.value.date = lastDate;
-      emits('update:value', pickerValue.value.date);
+      isShortcutSelecting.value = false;
+      pickerValue.date = lastDate;
+
+      emits('update:value', pickerValue.date);
     }
   }, hoverDelay);
-};
-
-const displayMonths = (year: number) => {
-  console.log('displayMonths', year);
-
-  return ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月'].map((item, idx) => {
-    return {
-      value: idx,
-      label: item,
-    };
-  });
 };
 </script>
 <template>
@@ -337,43 +342,37 @@ const displayMonths = (year: number) => {
     <div v-if="showHead" class="o-picker-head">
       <div class="o-picker-head-btns">
         <OIcon
-          v-if="headBtns.years > -1"
+          v-if="headBtns.year > -1"
           class="o-picker-btn"
           button
           :icon="IconCalendarPrevYear"
-          :disabled="headBtns.years === 0"
+          :disabled="headBtns.year === 0"
           @click="headBtnClick('year', 'sub')"
         />
-        <OIcon v-if="headBtns.months > -1" class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
+        <OIcon v-if="headBtns.month > -1" class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
       </div>
       <div class="o-picker-head-value">
-        <!-- <slot name="date-head-label" :select-value="selectValue" :view-month="viewMonthDate.months" :view-year="viewMonthDate.years" :to-select-fn="toSelectFn">
-
-        </slot> -->
         <div v-if="headYearValue" class="o-picker-head-year" @click="onHeadYearClick">{{ headYearValue }}</div>
         <div v-if="headMonthValue" class="o-picker-head-month" @click="onHeadMonthClick">{{ headMonthValue }}</div>
       </div>
       <div class="o-picker-head-btns">
-        <OIcon v-if="headBtns.months > -1" class="o-picker-btn" button :icon="IconCalendarNextMonth" @click="headBtnClick('month', 'add')" />
+        <OIcon v-if="headBtns.month > -1" class="o-picker-btn" button :icon="IconCalendarNextMonth" @click="headBtnClick('month', 'add')" />
         <OIcon
-          v-if="headBtns.years > -1"
+          v-if="headBtns.year > -1"
           class="o-picker-btn"
           button
           :icon="IconCalendarNextYear"
-          :disabled="headBtns.years === 0"
+          :disabled="headBtns.year === 0"
           @click="headBtnClick('year', 'add')"
         />
       </div>
     </div>
-    <div class="o-picker-main">
-      <DatePicker
-        v-if="showPicker.date"
-        :value="dateValue"
-        @update:value="onDateValueUpdate"
-        @select="onDateSelect"
-        @select-month="toSelectMonth"
-        @select-year="toSelectYear"
-      />
+    <div
+      class="o-picker-main"
+      :class="{
+        'o-picker-selecting': isShortcutSelecting,
+      }"
+    >
       <TimePicker
         v-if="showPicker.time"
         :value="timeValue"
@@ -383,17 +382,36 @@ const displayMonths = (year: number) => {
         @update:value="onTimeValueUpdate"
         @select="onTimeSelect"
       />
-      <YearPicker v-if="showPicker.year" class="o-picker-pane-year" :value="initValue" :disable-date="disableDate" @select="onYearSelect" />
-      <MonthPicker
-        v-if="showPicker.month"
-        class="o-picker-pane-month"
+      <YearPicker
+        class="o-picker-pane-year"
+        :visible="showPicker.year"
         :value="initValue"
-        :current-years="pickerValue.years"
-        :disable-date="disableDate"
-        :display-months="displayMonths"
+        :disable-cell="disableCellFn"
+        :display-year-list="props.displayYearList"
+        @select="onYearSelect"
+      />
+      <MonthPicker
+        class="o-picker-pane-month"
+        :visible="showPicker.month"
+        :value="initValue"
         :column="3"
-        :select-year="props.selectYear"
+        :current-year="viewDate.year"
+        :disable-cell="disableCellFn"
+        :display-month="props.displayMonthList"
+        :year-selectable="props.yearSelectable"
         @select="onMonthSelect"
+        @select-year="toSelectYear"
+      />
+      <DatePicker
+        v-if="showPicker.date"
+        class="o-picker-pane-date"
+        :value="initValue"
+        :current-year="pickerValue.year"
+        :current-month="pickerValue.month"
+        :disable-date="disableCellFn"
+        @update:value="onDateValueUpdate"
+        @select="onDateSelect"
+        @select-month="toSelectMonth"
         @select-year="toSelectYear"
       />
     </div>

@@ -1,20 +1,20 @@
-import { isNumber } from '../_utils/is';
-import { isUndefined } from '../_utils/is';
+import { isUndefined, isFunction, isNumber } from '../_utils/is';
 
 interface DateT {
-  years?: number;
-  months?: number;
+  year?: number;
+  month?: number;
   dayOfweek?: number;
-  days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+  day?: number;
+  hour?: number;
+  minute?: number;
+  second?: number;
 }
 
 export class PickerDate {
   private _cache: DateT;
   private _date: Date;
-  constructor(date: string | number | Date | null) {
+  private _onChange?: (d: PickerDate) => void;
+  constructor(date: string | number | Date | null, onChange?: (d: PickerDate) => void) {
     if (!date) {
       this._date = new Date(NaN);
     } else {
@@ -22,22 +22,31 @@ export class PickerDate {
     }
 
     this._cache = {};
+    this._onChange = onChange;
   }
 
-  set(value: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number }) {
-    const { years = this.years, months = this.months, days = this.days, hours = this.hours, minutes = this.minutes, seconds = this.seconds } = value;
+  set(value: { year?: number; month?: number; day?: number; hour?: number; minute?: number; second?: number }) {
+    const { year = this.year, month = this.month, day = this.day, hour = this.hour, minute = this.minute, second = this.second } = value;
 
     const now = new Date();
-    const y = !isNumber(years) ? now.getFullYear() : years;
-    const m = !isNumber(months) ? now.getMonth() : months - 1;
-    const d = !isNumber(days) ? now.getDate() : days;
+    const y = !isNumber(year) ? now.getFullYear() : year;
+    const m = !isNumber(month) ? now.getMonth() : month;
+    const d = !isNumber(day) ? now.getDate() : day;
 
-    const h = !isNumber(hours) ? now.getHours() : hours;
-    const mt = !isNumber(minutes) ? now.getMinutes() : minutes;
-    const s = !isNumber(seconds) ? now.getSeconds() : seconds;
+    const h = !isNumber(hour) ? now.getHours() : hour;
+    const mt = !isNumber(minute) ? now.getMinutes() : minute;
+    const s = !isNumber(second) ? now.getSeconds() : second;
 
+    const last = this._date.getTime();
     this._date = new Date(y, m, d, h, mt, s);
-    this._cache = {};
+
+    if (last !== this._date.getTime()) {
+      this._cache = {};
+
+      if (isFunction(this._onChange)) {
+        this._onChange(this);
+      }
+    }
   }
 
   get date(): Date {
@@ -45,74 +54,82 @@ export class PickerDate {
   }
 
   set date(date: Date | null) {
+    const last = this._date.getTime();
     this._date = date ?? new Date(NaN);
-    this._cache = {};
-  }
 
-  // years
-  get years(): number {
-    if (isUndefined(this._cache.years)) {
-      this._cache.years = this._date.getFullYear();
+    if (last !== this._date.getTime()) {
+      this._cache = {};
+
+      if (isFunction(this._onChange)) {
+        this._onChange(this);
+      }
     }
-    return this._cache.years;
-  }
-  set years(value: number) {
-    this.set({ years: value });
   }
 
-  // months
-  get months(): number {
-    if (isUndefined(this._cache.months)) {
+  // year
+  get year(): number {
+    if (isUndefined(this._cache.year)) {
+      this._cache.year = this._date.getFullYear();
+    }
+    return this._cache.year;
+  }
+  set year(value: number) {
+    this.set({ year: value });
+  }
+
+  // month
+  get month(): number {
+    if (isUndefined(this._cache.month)) {
       const m = this._date.getMonth();
-      this._cache.months = m + 1;
+      this._cache.month = m;
     }
-    return this._cache.months;
+    return this._cache.month;
   }
-  set months(value: number) {
-    this.set({ months: value });
+  set month(value: number) {
+    this.set({ month: value });
   }
 
-  // days
-  get days(): number {
-    if (isUndefined(this._cache.days)) {
-      this._cache.days = this._date.getDate();
+  // day
+  get day(): number {
+    if (isUndefined(this._cache.day)) {
+      this._cache.day = this._date.getDate();
     }
-    return this._cache.days;
+    return this._cache.day;
   }
-  set days(value: number) {
-    this.set({ days: value });
+  set day(value: number) {
+    this.set({ day: value });
   }
 
-  // hours
-  get hours(): number {
-    if (isUndefined(this._cache.hours)) {
-      this._cache.hours = this._date.getHours();
+  // hour
+  get hour(): number {
+    if (isUndefined(this._cache.hour)) {
+      this._cache.hour = this._date.getHours();
     }
-    return this._cache.hours;
+    return this._cache.hour;
   }
-  set hours(value: number) {
-    this.set({ hours: value });
+  set hour(value: number) {
+    this.set({ hour: value });
   }
 
-  // minutes
-  get minutes(): number {
-    if (isUndefined(this._cache.minutes)) {
-      this._cache.minutes = this._date.getMinutes();
+  // minute
+  get minute(): number {
+    if (isUndefined(this._cache.minute)) {
+      this._cache.minute = this._date.getMinutes();
     }
-    return this._cache.minutes;
+    return this._cache.minute;
   }
-  set minutes(value: number) {
-    this.set({ minutes: value });
+  set minute(value: number) {
+    this.set({ minute: value });
   }
 
-  // seconds
-  get seconds(): number {
-    if (isUndefined(this._cache.seconds)) {
-      this._cache.seconds = this._date.getSeconds();
+  // second
+  get second(): number {
+    if (isUndefined(this._cache.second)) {
+      this._cache.second = this._date.getSeconds();
     }
-    return this._cache.seconds;
+    return this._cache.second;
   }
-  set seconds(value: number) {
-    this.set({ seconds: value });
+  set second(value: number) {
+    this.set({ second: value });
   }
 }

@@ -1,5 +1,5 @@
 import { isNull } from '../_utils/is';
-import { getWeeksByDate, startOfMonth } from '../_utils/date';
+import { getWeeksByDate } from '../_utils/date';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
 import { OScroller } from '../scroller';
@@ -38,8 +38,10 @@ export function getDayLabel(value: number): string {
 }
 
 export const DefaultFormatString = {
-  date: 'yyyy-MM-dd',
   year: 'yyyy',
+  month: 'yyyy-MM',
+  monthOnly: 'MM',
+  date: 'yyyy-MM-dd',
   datetime: 'yyyy-MM-dd HH:mm:ss',
   time: 'HH:mm:ss',
 };
@@ -111,24 +113,35 @@ export function getRealDateValue(value: Date | null, type: 'string' | 'number' |
   return '';
 }
 
-export function getDaysofMonth(date: Date | null, weekLength: number = 6): PickerDate[] {
+export function getDaysofMonth(
+  year: number,
+  month: number
+): Array<{
+  value: Date;
+  label: string;
+}> {
   // 获取该月第一天
-  const mDate = startOfMonth(date ?? new Date());
+  const mDate = new Date(year, month, 1);
   // 以该月第一周开始，获取weekLength周的日期列表
 
-  let dayList = getWeeksByDate(mDate, weekLength, { parse: (d: Date | null) => new PickerDate(d) });
-
-  return dayList;
+  return getWeeksByDate(mDate, 6, {
+    parse: (d: Date) => {
+      return {
+        value: d,
+        label: `${d.getDate()}`,
+      };
+    },
+  });
 }
 
-export function isSameYear(date1: { years?: number }, date2: { years?: number }): boolean {
-  return date1.years === date2.years;
+export function isSameYear(date1: { year?: number }, date2: { year?: number }): boolean {
+  return date1.year === date2.year;
 }
-export function isSameMonth(date1: { years?: number; months?: number }, date2: { years?: number; months?: number }): boolean {
-  return date1.years === date2.years && date1.months === date2.months;
+export function isSameMonth(date1: { year?: number; month?: number }, date2: { year?: number; month?: number }): boolean {
+  return date1.year === date2.year && date1.month === date2.month;
 }
-export function isSameDay(date1: { years?: number; months?: number; days?: number }, date2: { years?: number; months?: number; days?: number }): boolean {
-  return date1.years === date2.years && date1.months === date2.months && date1.days === date2.days;
+export function isSameDay(date1: { year?: number; month?: number; day?: number }, date2: { year?: number; month?: number; day?: number }): boolean {
+  return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
 }
 
 /**
@@ -151,9 +164,8 @@ export function getDateRangeStatus(date: PickerDate, range: DateRangeT) {
   };
 }
 
-export function scrollCellToView(
+export function scrollSelectOrNowCellInToView(
   scroller: InstanceType<typeof OScroller> | undefined,
-  selector: string,
   {
     smooth,
     align,
@@ -169,7 +181,10 @@ export function scrollCellToView(
     return;
   }
 
-  const el = scroller?.$el.querySelector(selector);
+  let el = scroller?.$el.querySelector('.o-picker-cell-selected');
+  if (!el) {
+    el = scroller?.$el.querySelector('.o-picker-cell-now');
+  }
   if (!el || !scroller.containerRef) {
     return;
   }

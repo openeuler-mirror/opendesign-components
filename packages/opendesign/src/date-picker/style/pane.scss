@@ -1,6 +1,9 @@
 @use '../../_styles/mixin.scss' as *;
 @use './var.scss';
 
+.o-picker-hidden {
+  display: none;
+}
 .o-picker-pane {
   color: var(--picker-panel-color);
   font-size: var(--picker-panel-text-size);
@@ -11,11 +14,16 @@
   max-height: 321px;
 }
 .o-picker-pane-year {
-  height: 321px;
+  height: var(--picker-pane-year-height);
   width: var(--picker-pane-year-width);
 }
 .o-picker-pane-month {
   width: var(--picker-pane-month-width);
+  height: var(--picker-pane-month-height);
+}
+.o-picker-pane-date {
+  width: var(--picker-pane-date-width);
+  height: var(--picker-pane-date-height);
 }
 
 .o-picker-head {
@@ -66,6 +74,8 @@
   align-items: center;
   justify-content: center;
   flex: 1;
+  padding: 7px 0;
+  flex: calc(100% / var(--column)) 0 0;
 
   &:hover {
     --picker-cell-val-bg-color: var(--picker-cell-bg-color-hover);
@@ -79,7 +89,7 @@
   border-radius: 24px;
   background-color: var(--picker-cell-val-bg-color);
   flex: 1;
-  transition: background-color var(--o-easing-standard) var(--o-duration-m2);
+  transition: all var(--o-easing-standard) var(--o-duration-m2);
 }
 
 .o-picker-cell-range-start,
@@ -88,6 +98,11 @@
   @include me-on-hover {
     color: var(--picker-cell-color-selected);
     --picker-cell-val-bg-color: var(--picker-cell-bg-color-selected);
+  }
+
+  .o-picker-selecting & {
+    color: var(--picker-cell-color-selecting);
+    --picker-cell-val-bg-color: var(--picker-cell-bg-color-selecting);
   }
 }
 .o-picker-cell-in-range {
@@ -169,11 +184,6 @@
 }
 .o-picker-shortcut-item {
   margin-right: 4px;
-}
-
-// date picker
-.o-picker-date {
-  width: var(--picker-pane-date-width);
 }
 
 // time pane
@@ -258,20 +268,30 @@
 }
 
 .o-py-cell {
-  flex: calc(100% / var(--column)) 0 0;
   padding: 7px;
   .o-picker-cell-val {
     flex: 0;
   }
 }
+
+// month pane
 .o-picker-month {
   padding: 4px;
 }
 .o-pm-cell {
-  flex: calc(100% / var(--column)) 0 0;
-  padding: 7px;
+  padding: 6px;
   .o-picker-cell-val {
     flex: 0;
     white-space: nowrap;
   }
+}
+
+// date pane
+.o-picker-date {
+  padding: 10px 16px;
+}
+
+.o-pd-cell-head {
+  cursor: default;
+  color: var(--o-color-info3);
 }

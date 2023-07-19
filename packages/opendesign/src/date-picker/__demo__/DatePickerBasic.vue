@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ODatePicker, ShortcutParamT } from '../index';
+import { MonthCellT, ODatePicker, ShortcutParamT, YearCellT } from '../index';
 
-const val1 = ref<string | Date | number>('2022-11-01 11:24:00');
+const val1 = ref<string | Date | number>('');
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);
@@ -34,6 +34,17 @@ const shortcuts: ShortcutParamT[] = [
     value: () => new Date(new Date().getTime() - 24 * 1000 * 60 * 60),
   },
 ];
+
+const disabledCell = (cell: MonthCellT): boolean => {
+  // const y = date.getFullYear();
+  // const m = date.getMonth();
+  // const d = date.getDate();
+  // return y < 2022 || y > 2027 || Boolean(m % 2) || Boolean(d % 2);
+  // return Boolean(d % 2);
+  // console.log(cell);
+
+  return false;
+};
 </script>
 <template>
   <h4>Color & Variant</h4>
@@ -43,14 +54,16 @@ const shortcuts: ShortcutParamT[] = [
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="datetime"
-        format-string="yyyy-MM-dd HH:mm:ss"
+        mode="month"
         placeholder="请选择..."
         resize="none"
         color="normal"
         :shortcuts="shortcuts"
+        :year-selectable="true"
         confirm-label="ok"
         style="width: 400px"
+        :disable-cell="disabledCell"
+        :select-year="true"
         @focus="onFocus"
         @blur="onBlur"
         @change="onChange"

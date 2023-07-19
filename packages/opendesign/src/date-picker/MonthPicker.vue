@@ -5,16 +5,17 @@ import { chunk } from '../_utils/helper';
 import { Labels, isSameMonth } from './date';
 import { PickerDate } from './picker-date';
 import { isFunction } from '../_utils/is';
+import { DisaplyMonthListT, MonthCellT } from './types';
 
 export interface MonthValueT {
-  years?: number;
-  months?: number;
+  year?: number;
+  month?: number;
 }
 
 interface CellT {
   data: {
-    years: number;
-    months: number;
+    year: number;
+    month: number;
   };
   monthLabel: string;
   isNow: boolean;
@@ -23,86 +24,90 @@ interface CellT {
 
 const props = withDefaults(
   defineProps<{
+    visible: boolean;
     value: InstanceType<typeof PickerDate>;
     column?: number;
-    currentYears?: number;
-    selectYear?: boolean;
-    disableDate: (current: Date, type?: 'start' | 'end') => boolean;
-    displayMonths?: (currentYear: number) => Array<{ value: number; label: string }>;
+    currentYear?: number;
+    yearSelectable?: boolean;
+    disableCell: (cell: MonthCellT) => boolean;
+    displayMonthList?: DisaplyMonthListT;
   }>(),
   {
     value: undefined,
     column: 3,
-    displayMonths: undefined,
-    selectYear: true,
-    currentYears: new Date().getFullYear(),
+    currentYear: new Date().getFullYear(),
+    displayMonthList: undefined,
+    yearSelectable: true,
   }
 );
 
 const emits = defineEmits<{
   (e: 'update:value', value: MonthValueT): void;
   (e: 'select', value: MonthValueT): void;
-  (e: 'select-year'): void;
 }>();
 
 const selectValue = ref<MonthValueT>({
-  years: props.value.years,
-  months: props.value.months,
+  year: props.value.year,
+  month: props.value.month,
 });
 
 const monthList = ref<CellT[][]>([]);
-const viewYear = ref<number>(0);
-const selectYear = computed(() => props.selectYear);
+let currentViewYear = 0;
 
-const getMonthList = () => {
+const getMonthList = (year?: number) => {
   return Labels.months.map((item, idx) => {
     return {
-      value: idx,
+      year,
+      month: idx,
       label: item,
     };
   });
 };
 
-const updateViewMonth = (year?: number) => {
-  const now = new PickerDate(new Date());
-  viewYear.value = year ?? now.years;
+const today = new PickerDate(new Date());
 
-  const mlist = isFunction(props.displayMonths) ? props.displayMonths(viewYear.value) : getMonthList();
+const updateViewMonths = (year: number) => {
+  if (currentViewYear === year) {
+    return;
+  }
+  currentViewYear = year;
+
+  const mlist = isFunction(props.displayMonthList) ? props.displayMonthList(currentViewYear) : getMonthList(currentViewYear);
 
   const list = mlist.map((item) => {
     const data = {
-      years: year,
-      months: item.value + 1,
+      year: item.year,
+      month: item.month,
     };
     return {
       data,
-      isNow: isSameMonth(data, now),
+      isNow: isSameMonth(data, today),
       monthLabel: item.label,
-      disabled: props.disableDate(new Date(viewYear.value, item.value - 1)),
+      disabled: props.disableCell(data),
     };
   });
 
   monthList.value = chunk(list, props.column);
 };
 
-updateViewMonth(props.value.years || props.currentYears);
+updateViewMonths(props.value.year || props.currentYear);
 
 watch(
-  () => props.currentYears,
+  () => props.currentYear,
   (v) => {
-    updateViewMonth(v);
+    updateViewMonths(v);
   }
 );
 watch(
   () => props.value,
   (v: PickerDate) => {
     selectValue.value = {
-      years: v.years,
-      months: v.months,
+      year: v.year,
+      month: v.month,
     };
 
-    if (viewYear.value !== v.years) {
-      updateViewMonth(v.years);
+    if (currentViewYear !== v.year) {
+      updateViewMonths(v.year);
     }
   }
 );
@@ -111,10 +116,10 @@ const selectCell = (cell: CellT) => {
   if (cell.disabled) {
     return;
   }
-  if (selectYear.value) {
+  if (props.yearSelectable) {
     selectValue.value = cell.data;
   } else {
-    selectValue.value = { months: cell.data.months };
+    selectValue.value = { month: cell.data.month };
   }
 
   emits('select', selectValue.value);
@@ -122,7 +127,14 @@ const selectCell = (cell: CellT) => {
 };
 </script>
 <template>
-  <OScroller size="small" class="o-picker-month">
+  <OScroller
+    size="small"
+    class="o-picker-month"
+    show-type="hover"
+    :class="{
+      'o-picker-hidden': !props.visible,
+    }"
+  >
     <div
       v-for="(row, idx) in monthList"
       :key="idx"
@@ -133,7 +145,7 @@ const selectCell = (cell: CellT) => {
     >
       <div
         v-for="item in row"
-        :key="item.data.months"
+        :key="item.data.month"
         class="o-picker-cell o-pm-cell"
         :class="{
           'o-picker-cell-selected': isSameMonth(item.data, selectValue),

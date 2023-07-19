@@ -2,6 +2,7 @@
 import { reactive, ref, watch, nextTick, computed, onMounted } from 'vue';
 import { OScroller } from '../scroller';
 import { isUndefined } from '../_utils/is';
+import { scrollSelectOrNowCellInToView } from './date';
 
 export interface TimeValueT {
   hours?: number;
@@ -64,33 +65,11 @@ const selectValue = reactive<TimeValueT>(props.value);
 
 const validValue = computed(() => !(isUndefined(selectValue.hours) || isUndefined(selectValue.minutes) || isUndefined(selectValue.seconds)));
 
-const scrollCellToView = (scroller?: InstanceType<typeof OScroller>, smooth?: boolean) => {
-  if (!scroller) {
-    return;
-  }
-  const el = scroller?.$el.querySelector('.o-pt-cell-selected');
-  if (!el || !scroller.containerRef) {
-    return;
-  }
-  const { offsetTop, clientHeight } = el;
-  const { clientHeight: outHeight } = scroller.containerRef;
-
-  let top = offsetTop;
-  if (props.viewAlign === 'center') {
-    top = offsetTop - outHeight / 2 + clientHeight / 2;
-  } else if (props.viewAlign === 'bottom') {
-    top = offsetTop - outHeight + clientHeight;
-  }
-  scroller.scrollTo({
-    top,
-    behavior: smooth ? 'smooth' : 'auto',
-  });
-};
 const scrollAllCellToTop = (smooth: boolean = true) => {
   nextTick(() => {
-    scrollCellToView(hScrollRef.value, smooth);
-    scrollCellToView(mScrollRef.value, smooth);
-    scrollCellToView(sScrollRef.value, smooth);
+    scrollSelectOrNowCellInToView(hScrollRef.value, { smooth });
+    scrollSelectOrNowCellInToView(mScrollRef.value, { smooth });
+    scrollSelectOrNowCellInToView(sScrollRef.value, { smooth });
   });
 };
 
