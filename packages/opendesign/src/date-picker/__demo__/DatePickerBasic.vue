@@ -54,7 +54,7 @@ const disabledCell = (cell: DayCellT): boolean => {
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="date"
+        mode="time"
         placeholder="请选择..."
         resize="none"
         color="normal"

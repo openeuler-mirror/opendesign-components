@@ -1,4 +1,4 @@
-import { isUndefined, isFunction, isNumber } from '../_utils/is';
+import { isUndefined, isFunction, isNumber, isValidDate } from '../_utils/is';
 
 interface DateT {
   year?: number;
@@ -14,13 +14,12 @@ export class PickerDate {
   private _cache: DateT;
   private _date: Date;
   private _onChange?: (d: PickerDate) => void;
-  constructor(date: string | number | Date | null, onChange?: (d: PickerDate) => void) {
+  constructor(date?: string | number | Date | null, onChange?: (d: PickerDate) => void) {
     if (!date) {
       this._date = new Date(NaN);
     } else {
       this._date = new Date(date);
     }
-
     this._cache = {};
     this._onChange = onChange;
   }
@@ -48,6 +47,10 @@ export class PickerDate {
       }
     }
     return this;
+  }
+
+  get valid(): Boolean {
+    return isValidDate(this._date);
   }
 
   get date(): Date {

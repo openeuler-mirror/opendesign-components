@@ -35,8 +35,8 @@ const props = withDefaults(
   {
     value: undefined,
     column: 3,
-    displayMonthList: undefined,
     yearSelectable: true,
+    displayMonthList: undefined,
   }
 );
 
@@ -48,10 +48,10 @@ const emits = defineEmits<{
 const today = new PickerDate(new Date());
 
 const viewValue = computed(() => new PickerDate(props.viewValue));
-const initValue = new PickerDate(props.value);
+const inValue = new PickerDate(props.value);
 const selectValue = ref<MonthValueT>({
-  year: initValue.year,
-  month: initValue.month,
+  year: inValue.year,
+  month: inValue.month,
 });
 
 const monthList = ref<CellT[][]>([]);
@@ -96,14 +96,14 @@ watchEffect(() => updateViewMonths(viewValue.value.year));
 watch(
   () => props.value,
   (v: Date) => {
-    initValue.date = v;
+    inValue.date = v;
 
     selectValue.value = {
-      year: initValue.year,
-      month: initValue.month,
+      year: inValue.year,
+      month: inValue.month,
     };
 
-    updateViewMonths(initValue.year);
+    updateViewMonths(inValue.year);
   }
 );
 

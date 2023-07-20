@@ -57,12 +57,12 @@ const emits = defineEmits<{
 
 const today = new PickerDate(new Date());
 const viewValue = computed(() => new PickerDate(props.viewValue));
-const initValue = new PickerDate(props.value);
+const inValue = new PickerDate(props.value);
 
 const selectValue = ref<DayValueT>({
-  year: initValue.year,
-  month: initValue.month,
-  day: initValue.day,
+  year: inValue.year,
+  month: inValue.month,
+  day: inValue.day,
 });
 
 const selectRange = ref<DateRangeT>({
@@ -142,11 +142,11 @@ watchEffect(() => updateViewDays(viewValue.value.year, viewValue.value.month));
 watch(
   () => props.value,
   (v: Date) => {
-    initValue.date = v;
+    inValue.date = v;
     selectValue.value = {
-      year: initValue.year,
-      month: initValue.month,
-      day: initValue.day,
+      year: inValue.year,
+      month: inValue.month,
+      day: inValue.day,
     };
 
     updateViewDays(currentViewMonth.year, currentViewMonth.month);

@@ -36,8 +36,8 @@ const emits = defineEmits<{
   (e: 'select', value: number): void;
 }>();
 
-const initValue = new PickerDate(props.value);
-const selectValue = ref<number>(initValue.year);
+const inValue = new PickerDate(props.value);
+const selectValue = ref<number>(inValue.year);
 const yearList = ref<CellT[][]>([]);
 
 const hScrollRef = ref<InstanceType<typeof OScroller>>();
@@ -84,14 +84,14 @@ const updateViewYears = (year: number) => {
   yearList.value = chunk(list, props.column);
 };
 
-updateViewYears(initValue.year);
+updateViewYears(inValue.year);
 
 watch(
   () => props.value,
   (v: Date) => {
-    initValue.date = v;
-    if (selectValue.value !== initValue.year) {
-      selectValue.value = initValue.year;
+    inValue.date = v;
+    if (selectValue.value !== inValue.year) {
+      selectValue.value = inValue.year;
       scrollIntoView(true);
     }
   }
@@ -115,7 +115,7 @@ const selectCell = (cell: CellT) => {
 watch(
   () => props.visible,
   (v) => {
-    selectValue.value = initValue.year;
+    selectValue.value = inValue.year;
     if (v) {
       scrollIntoView();
     }

@@ -30,14 +30,14 @@
 
   --picker-head-height: 48px;
 
-  --picker-time-cell-height: 24px;
-  --picker-pane-time-item-width: 96px;
   --picker-pane-year-width: 312px;
-  --picker-pane-year-height: 272px;
+  --picker-pane-year-height: 256px;
   --picker-pane-month-width: 312px;
   --picker-pane-month-height: auto;
   --picker-pane-date-width: 312px;
   --picker-pane-date-height: auto;
+  --picker-pane-time-cell-width: 64px;
+  --picker-pane-time-height: 256px;
 
   --picker-link-color-hover: var(--o-color-primary1);
 }

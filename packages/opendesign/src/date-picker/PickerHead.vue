@@ -21,7 +21,7 @@ const emits = defineEmits<{
   (e: 'value-click', type: 'year' | 'month'): void;
 }>();
 
-const currentValue = computed(() => new PickerDate(props.value));
+const inValue = computed(() => new PickerDate(props.value));
 
 const btns = reactive({
   year: {
@@ -41,14 +41,14 @@ const headYearValue = computed(() => {
     return '';
   }
   if (['month', 'date'].includes(props.mode)) {
-    return currentValue.value.year + Labels.year || '';
+    return inValue.value.year + Labels.year || '';
   }
   return '';
 });
 
 const headMonthValue = computed(() => {
   if (['date'].includes(props.mode)) {
-    return currentValue.value.month + 1 + Labels.month || '';
+    return inValue.value.month + 1 + Labels.month || '';
   }
 
   return '';

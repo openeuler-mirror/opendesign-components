@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { reactive, ref, watch, nextTick, computed, onMounted } from 'vue';
+import { ref, watch, nextTick, computed, onMounted, watchEffect } from 'vue';
 import { OScroller } from '../scroller';
-import { isUndefined } from '../_utils/is';
-import { scrollSelectOrNowCellInToView } from './date';
+import { isFunction } from '../_utils/is';
+import { getNumberList, isSameDay, scrollSelectOrNowCellInToView } from './date';
 import { PickerDate } from './picker-date';
+import { DisaplyTimeListT } from './types';
 
 export interface TimeValueT {
   hour?: number;
@@ -19,16 +20,22 @@ interface CellT {
 const props = withDefaults(
   defineProps<{
     value: Date;
+    viewValue: Date;
     hideHour?: boolean;
     hideMinute?: boolean;
     hideSecond?: boolean;
     viewAlign?: 'top' | 'bottom' | 'center';
-    showValue?: boolean;
+    displayHourList?: DisaplyTimeListT;
+    displayMinuteList?: DisaplyTimeListT;
+    displaySecondList?: DisaplyTimeListT;
   }>(),
   {
     value: undefined,
     viewAlign: 'top',
     showValue: true,
+    displayHourList: undefined,
+    displayMinuteList: undefined,
+    displaySecondList: undefined,
   }
 );
 
@@ -37,7 +44,15 @@ const emits = defineEmits<{
   (e: 'select', value: TimeValueT): void;
 }>();
 
-const initValue = new PickerDate(props.value);
+const rootEl = ref<HTMLElement>();
+const inValue = new PickerDate(props.value);
+const currentDate = new PickerDate();
+
+const selectValue = ref<TimeValueT>({
+  hour: inValue.hour,
+  minute: inValue.minute,
+  second: inValue.second,
+});
 
 // 是否传入参数为全部隐藏，如果是，则默认都展示
 const hideAll = computed(() => props.hideHour && props.hideMinute && props.hideSecond);
@@ -45,32 +60,45 @@ const hideAll = computed(() => props.hideHour && props.hideMinute && props.hideS
 const hScrollRef = ref<InstanceType<typeof OScroller>>();
 const mScrollRef = ref<InstanceType<typeof OScroller>>();
 const sScrollRef = ref<InstanceType<typeof OScroller>>();
+const alinClass = computed(() => `o-pt-col-align-${props.viewAlign}`);
 
 /**
  * 处理时间列表
  */
-const hourList: CellT[] = [];
-const msList: CellT[] = [];
-for (let i = 0; i < 24; i++) {
-  hourList.push({
-    value: i,
-    label: i.toString().padStart(2, '0'),
-  });
-}
-for (let i = 0; i < 60; i++) {
-  msList.push({
-    value: i,
-    label: i.toString().padStart(2, '0'),
-  });
-}
+const hourList = ref<CellT[]>();
+const minuteList = ref<CellT[]>();
+const secondList = ref<CellT[]>();
 
-const selectValue = reactive<TimeValueT>({
-  hour: initValue.hour,
-  minute: initValue.minute,
-  second: initValue.second,
-});
+const getTimeList = (date: Date) => {
+  const pd = new PickerDate(date);
+  if (isSameDay(pd, currentDate)) {
+    return;
+  }
+  currentDate.date = pd.date;
 
-const validValue = computed(() => !(isUndefined(selectValue.hour) || isUndefined(selectValue.minute) || isUndefined(selectValue.second)));
+  hourList.value = isFunction(props.displayHourList)
+    ? props.displayHourList(date)
+    : getNumberList(0, 24, (v: number) => ({
+        value: v,
+        label: v.toString().padStart(2, '0'),
+      }));
+
+  minuteList.value = isFunction(props.displayHourList)
+    ? props.displayHourList(date)
+    : getNumberList(0, 60, (v: number) => ({
+        value: v,
+        label: v.toString().padStart(2, '0'),
+      }));
+
+  secondList.value = isFunction(props.displayHourList)
+    ? props.displayHourList(date)
+    : getNumberList(0, 60, (v: number) => ({
+        value: v,
+        label: v.toString().padStart(2, '0'),
+      }));
+};
+
+watchEffect(() => getTimeList(props.viewValue));
 
 const scrollAllCellToTop = (smooth: boolean = true) => {
   nextTick(() => {
@@ -83,100 +111,92 @@ const scrollAllCellToTop = (smooth: boolean = true) => {
 watch(
   () => props.value,
   (v: Date) => {
-    initValue.date = v;
+    inValue.date = v;
 
-    selectValue.hour = initValue.hour;
-    selectValue.minute = initValue.minute;
-    selectValue.second = initValue.second;
+    selectValue.value = {
+      hour: inValue.hour,
+      minute: inValue.minute,
+      second: inValue.second,
+    };
     scrollAllCellToTop();
   },
   { immediate: true }
 );
 
-const currentValueLabel = computed(() => {
-  const t: string[] = [];
-  if (!props.hideHour || hideAll.value) {
-    t.push((selectValue.hour || 0).toString().padStart(2, '0'));
-  }
-  if (!props.hideMinute || hideAll.value) {
-    t.push((selectValue.minute || 0).toString().padStart(2, '0'));
-  }
-  if (!props.hideSecond || hideAll.value) {
-    t.push((selectValue.second || 0).toString().padStart(2, '0'));
-  }
-  return t.join(':');
-});
-
-const alinClass = computed(() => {
-  return validValue.value ? `o-pt-col-align-${props.viewAlign}` : '';
-});
-
 const selectCell = (cell: CellT, type: keyof TimeValueT) => {
-  selectValue[type] = cell.value;
+  selectValue.value[type] = cell.value;
 
-  emits('select', selectValue);
-  emits('update:value', selectValue);
+  emits('select', selectValue.value);
+  emits('update:value', selectValue.value);
 
   scrollAllCellToTop();
 };
 
+const cellHeight = ref('34px');
 onMounted(() => {
   scrollAllCellToTop(false);
+
+  // 获取cell高度，撑高容器，滚动到顶部
+  if (rootEl.value) {
+    const cell = rootEl.value.querySelector('.o-picker-cell');
+    if (cell) {
+      cellHeight.value = `${cell.clientHeight}px`;
+    }
+  }
 });
 </script>
 <template>
-  <div class="o-picker-time">
-    <div v-if="showValue" class="o-picker-head">
-      <div class="o-picker-head-value">
-        <slot name="time-head-label" v-bind="selectValue">{{ currentValueLabel }}</slot>
+  <div
+    ref="rootEl"
+    class="o-picker-time"
+    :style="{
+      '--cell-height': cellHeight,
+    }"
+  >
+    <OScroller v-if="!props.hideHour || hideAll" ref="hScrollRef" class="o-pt-col-wrap o-pt-hour" size="small" :wrap-class="[alinClass, 'o-pt-col']">
+      <div
+        v-for="item in hourList"
+        :key="item.value"
+        class="o-picker-cell o-pt-cell"
+        :class="{
+          'o-picker-cell-selected': selectValue.hour === item.value,
+        }"
+        @click="(e) => selectCell(item, 'hour')"
+      >
+        <div class="o-picker-cell-val">
+          <slot name="cell-hour" v-bind="item">{{ item.label }}</slot>
+        </div>
       </div>
-    </div>
-    <div class="o-picker-main o-pt-main">
-      <OScroller v-if="!props.hideHour || hideAll" ref="hScrollRef" class="o-pt-col-wrap o-pt-hour" size="small" :wrap-class="[alinClass, 'o-pt-col']">
-        <div
-          v-for="item in hourList"
-          :key="item.value"
-          class="o-picker-cell o-pt-cell"
-          :class="{
-            'o-picker-cell-selected': selectValue.hour === item.value,
-          }"
-          @click="(e) => selectCell(item, 'hour')"
-        >
-          <div class="o-picker-cell-val">
-            <slot name="cell-hour" v-bind="item">{{ item.label }}</slot>
-          </div>
+    </OScroller>
+    <OScroller v-if="!props.hideMinute || hideAll" ref="mScrollRef" class="o-pt-col-wrap o-pt-minute" size="small" :wrap-class="[alinClass, 'o-pt-col']">
+      <div
+        v-for="item in minuteList"
+        :key="item.value"
+        class="o-picker-cell o-pt-cell"
+        :class="{
+          'o-picker-cell-selected': selectValue.minute === item.value,
+        }"
+        @click="(e) => selectCell(item, 'minute')"
+      >
+        <div class="o-picker-cell-val">
+          <slot name="cell-minute" v-bind="item">{{ item.label }}</slot>
         </div>
-      </OScroller>
-      <OScroller v-if="!props.hideMinute || hideAll" ref="mScrollRef" class="o-pt-col-wrap o-pt-minute" size="small" :wrap-class="[alinClass, 'o-pt-col']">
-        <div
-          v-for="item in msList"
-          :key="item.value"
-          class="o-picker-cell o-pt-cell"
-          :class="{
-            'o-picker-cell-selected': selectValue.minute === item.value,
-          }"
-          @click="(e) => selectCell(item, 'minute')"
-        >
-          <div class="o-picker-cell-val">
-            <slot name="cell-minute" v-bind="item">{{ item.label }}</slot>
-          </div>
+      </div>
+    </OScroller>
+    <OScroller v-if="!props.hideSecond || hideAll" ref="sScrollRef" class="o-pt-col-wrap o-pt-second" size="small" :wrap-class="[alinClass, 'o-pt-col']">
+      <div
+        v-for="item in secondList"
+        :key="item.value"
+        class="o-picker-cell o-pt-cell"
+        :class="{
+          'o-picker-cell-selected': selectValue.second === item.value,
+        }"
+        @click="(e) => selectCell(item, 'second')"
+      >
+        <div class="o-picker-cell-val">
+          <slot name="cell-second" v-bind="item">{{ item.label }}</slot>
         </div>
-      </OScroller>
-      <OScroller v-if="!props.hideSecond || hideAll" ref="sScrollRef" class="o-pt-col-wrap o-pt-second" size="small" :wrap-class="[alinClass, 'o-pt-col']">
-        <div
-          v-for="item in msList"
-          :key="item.value"
-          class="o-picker-cell o-pt-cell"
-          :class="{
-            'o-picker-cell-selected': selectValue.second === item.value,
-          }"
-          @click="(e) => selectCell(item, 'second')"
-        >
-          <div class="o-picker-cell-val">
-            <slot name="cell-second" v-bind="item">{{ item.label }}</slot>
-          </div>
-        </div>
-      </OScroller>
-    </div>
+      </div>
+    </OScroller>
   </div>
 </template>

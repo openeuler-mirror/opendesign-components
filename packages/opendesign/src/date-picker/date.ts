@@ -1,7 +1,8 @@
-import { isNull } from '../_utils/is';
+import { isFunction, isNull } from '../_utils/is';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
 import { OScroller } from '../scroller';
+import { DayValueT } from './DayPicker.vue';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -179,4 +180,12 @@ export function scrollSelectOrNowCellInToView(
     top,
     behavior: smooth ? 'smooth' : 'auto',
   });
+}
+
+export function getNumberList<T>(start: number, length: number, handler: (v: number) => T): T[] {
+  const rlt = [];
+  for (let i = start; i < length; i++) {
+    rlt.push(handler(i));
+  }
+  return rlt;
 }

@@ -18,6 +18,8 @@ export type DisaplyMonthListT = (year: number) => Array<{ year?: number; month: 
 
 export type DisaplyDayListT = (year: number, month: number) => Array<{ year?: number; month?: number; day: number; label: string }>;
 
+export type DisaplyTimeListT = (date: Date) => Array<{ value: number; label: string }>;
+
 export interface YearCellT {
   year: number;
 }

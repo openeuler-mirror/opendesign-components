@@ -63,12 +63,12 @@ const parseFn = isFunction(props.parse)
     };
 
 // 外部输入值，包含类型及值
-const initValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
-console.log('initValue', initValue.value);
+const inValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
+console.log('inValue', inValue.value);
 
-const inputVal = ref(initValue.value.value ? formatFn(initValue.value.value) : '');
+const inputVal = ref(inValue.value.value ? formatFn(inValue.value.value) : '');
 
-const currentValue = ref<Date>(initValue.value.value);
+const currentValue = ref<Date>(inValue.value.value);
 
 const isPicking = ref(false);
 
@@ -82,7 +82,7 @@ watchEffect(() => {
   }
 });
 
-let realValue = getRealDateValue(initValue.value.value, initValue.value.type, formatFn);
+let realValue = getRealDateValue(inValue.value.value, inValue.value.type, formatFn);
 
 let lastValue = 0;
 const onChange = (value: Date) => {
@@ -93,7 +93,7 @@ const onChange = (value: Date) => {
 
   lastValue = value.getTime();
 
-  realValue = getRealDateValue(value, initValue.value.type, formatFn);
+  realValue = getRealDateValue(value, inValue.value.type, formatFn);
 
   emits('change', realValue);
   emits('update:modelValue', realValue);
@@ -205,7 +205,6 @@ const onTimePaneChange = (value: TimeValueT) => {
           :confirm-label="props.confirmLabel"
           :mode="props.mode"
           :year-selectable="props.yearSelectable"
-          :month-selectable="props.monthSelectable"
           :hide-hour="hideHour"
           :hide-minute="hideMinute"
           :hide-second="hideSecond"
