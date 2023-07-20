@@ -1,5 +1,4 @@
 import { isNull } from '../_utils/is';
-import { getWeeksByDate } from '../_utils/date';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
 import { OScroller } from '../scroller';
@@ -111,27 +110,6 @@ export function getRealDateValue(value: Date | null, type: 'string' | 'number' |
     return value;
   }
   return '';
-}
-
-export function getDaysofMonth(
-  year: number,
-  month: number
-): Array<{
-  value: Date;
-  label: string;
-}> {
-  // 获取该月第一天
-  const mDate = new Date(year, month, 1);
-  // 以该月第一周开始，获取weekLength周的日期列表
-
-  return getWeeksByDate(mDate, 6, {
-    parse: (d: Date) => {
-      return {
-        value: d,
-        label: `${d.getDate()}`,
-      };
-    },
-  });
 }
 
 export function isSameYear(date1: { year?: number }, date2: { year?: number }): boolean {

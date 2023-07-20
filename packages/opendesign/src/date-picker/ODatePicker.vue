@@ -104,7 +104,7 @@ const togglePanel = (visible?: boolean) => {
   if (visible === undefined) {
     isPicking.value = !isPicking.value;
   } else {
-    isPicking.value = visible;
+    // isPicking.value = visible;
   }
 };
 const onConfirm = (visible?: boolean) => {
@@ -205,6 +205,7 @@ const onTimePaneChange = (value: TimeValueT) => {
           :confirm-label="props.confirmLabel"
           :mode="props.mode"
           :year-selectable="props.yearSelectable"
+          :month-selectable="props.monthSelectable"
           :hide-hour="hideHour"
           :hide-minute="hideMinute"
           :hide-second="hideSecond"

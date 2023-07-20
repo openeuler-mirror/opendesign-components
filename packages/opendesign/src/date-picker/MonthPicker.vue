@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { OScroller } from '../scroller';
 import { chunk } from '../_utils/helper';
 import { Labels, isSameMonth } from './date';
@@ -27,7 +27,7 @@ const props = withDefaults(
     visible: boolean;
     value: InstanceType<typeof PickerDate>;
     column?: number;
-    currentYear?: number;
+    currentYear: number;
     yearSelectable?: boolean;
     disableCell: (cell: MonthCellT) => boolean;
     displayMonthList?: DisaplyMonthListT;
@@ -35,7 +35,7 @@ const props = withDefaults(
   {
     value: undefined,
     column: 3,
-    currentYear: new Date().getFullYear(),
+    currentYear: undefined,
     displayMonthList: undefined,
     yearSelectable: true,
   }
@@ -45,6 +45,8 @@ const emits = defineEmits<{
   (e: 'update:value', value: MonthValueT): void;
   (e: 'select', value: MonthValueT): void;
 }>();
+
+const today = new PickerDate(new Date());
 
 const selectValue = ref<MonthValueT>({
   year: props.value.year,
@@ -64,10 +66,8 @@ const getMonthList = (year?: number) => {
   });
 };
 
-const today = new PickerDate(new Date());
-
 const updateViewMonths = (year: number) => {
-  if (currentViewYear === year) {
+  if (currentViewYear === year || Number.isNaN(year)) {
     return;
   }
   currentViewYear = year;
@@ -90,14 +90,8 @@ const updateViewMonths = (year: number) => {
   monthList.value = chunk(list, props.column);
 };
 
-updateViewMonths(props.value.year || props.currentYear);
+watchEffect(() => updateViewMonths(props.currentYear));
 
-watch(
-  () => props.currentYear,
-  (v) => {
-    updateViewMonths(v);
-  }
-);
 watch(
   () => props.value,
   (v: PickerDate) => {
@@ -106,9 +100,7 @@ watch(
       month: v.month,
     };
 
-    if (currentViewYear !== v.year) {
-      updateViewMonths(v.year);
-    }
+    updateViewMonths(v.year);
   }
 );
 

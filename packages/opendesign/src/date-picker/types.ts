@@ -12,11 +12,11 @@ export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 export const PickerModes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter', 'time'] as const;
 export type PickerModeT = (typeof PickerModes)[number];
 
-export type DisaplyDayListT = (year: number, month: number) => Array<{ year?: number; month: number; day: number; label: string }>;
+export type DisaplyYearListT = (year: number) => Array<{ year: number; label: string }>;
 
 export type DisaplyMonthListT = (year: number) => Array<{ year?: number; month: number; label: string }>;
 
-export type DisaplyYearListT = (year: number) => Array<{ year: number; label: string }>;
+export type DisaplyDayListT = (year: number, month: number) => Array<{ year?: number; month?: number; day: number; label: string }>;
 
 export interface YearCellT {
   year: number;
@@ -28,7 +28,9 @@ export interface DayCellT extends Partial<MonthCellT> {
   day: number;
 }
 
-export type disableCellT = (cell: YearCellT | MonthCellT | DayCellT) => boolean;
+export type disableYearCellT = (cell: YearCellT) => boolean;
+export type disableMonthCellT = (cell: MonthCellT) => boolean;
+export type disableDayCellT = (cell: DayCellT) => boolean;
 
 export interface TimeValueT {
   hours?: number;
@@ -149,7 +151,7 @@ export const datePickerProps = {
    * 日期禁用
    */
   disableCell: {
-    type: Function as PropType<disableCellT>,
+    type: Function as PropType<disableYearCellT | disableMonthCellT | disableDayCellT>,
   },
   /**
    * 时间禁用
@@ -165,6 +167,13 @@ export const datePickerProps = {
     type: [Boolean],
     default: true,
   },
+  /**
+   * 是否支持选择年份
+   */
+  // monthSelectable: {
+  //   type: [Boolean],
+  //   default: true,
+  // },
   /**
    * 控制面板展示的年份
    */

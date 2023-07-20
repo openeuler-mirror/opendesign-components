@@ -1,22 +1,31 @@
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect, reactive, Ref } from 'vue';
 import { OButton } from '../button';
-import { ShortcutParamT, ShortcutT, PickerModeT, DisaplyDayListT, DisaplyYearListT, DisaplyMonthListT, disableCellT } from './types';
+import {
+  ShortcutParamT,
+  ShortcutT,
+  PickerModeT,
+  DisaplyDayListT,
+  DisaplyYearListT,
+  DisaplyMonthListT,
+  disableYearCellT,
+  disableMonthCellT,
+  disableDayCellT,
+} from './types';
 import { OLink } from '../link';
 import { Labels } from './date';
 import { isFunction } from '../_utils/is';
 import { PickerDate } from './picker-date';
 import TimePicker from './TimePicker.vue';
 import type { TimeValueT } from './TimePicker.vue';
-import DatePicker from './DatePicker.vue';
-import type { DateValueT } from './DatePicker.vue';
+import DayPicker from './DayPicker.vue';
+import type { DayValueT } from './DayPicker.vue';
 import YearPicker from './YearPicker.vue';
 import MonthPicker from './MonthPicker.vue';
 import type { MonthValueT } from './MonthPicker.vue';
 
 import { OIcon } from '../icon';
 import { IconCalendarPrevYear, IconCalendarNextYear, IconCalendarPrevMonth, IconCalendarNextMonth } from '../_utils/icons';
-import { addYears, subYears, addMonths, subMonths } from '../_utils/date';
 
 const props = withDefaults(
   defineProps<{
@@ -27,14 +36,15 @@ const props = withDefaults(
     confirmLabel?: string;
     mode?: PickerModeT;
     yearSelectable?: boolean;
+    monthSelectable?: boolean;
     selectMonth?: boolean;
     hideHour?: boolean;
     hideMinute?: boolean;
     hideSecond?: boolean;
-    disableCell?: disableCellT;
+    disableCell?: disableYearCellT | disableMonthCellT | disableDayCellT;
     displayYearList?: DisaplyYearListT;
     displayMonthList?: DisaplyMonthListT;
-    displayDateList?: DisaplyDayListT;
+    displayDayList?: DisaplyDayListT;
   }>(),
   {
     range: false,
@@ -43,11 +53,12 @@ const props = withDefaults(
     confirmLabel: '',
     mode: 'date',
     yearSelectable: true,
+    monthSelectable: true,
     selectMonth: true,
     disableCell: undefined,
     displayYearList: undefined,
     displayMonthList: undefined,
-    displayDateList: undefined,
+    displayDayList: undefined,
   }
 );
 
@@ -64,8 +75,21 @@ const showPicker = computed(() => {
   return {
     year: ['year', 'year-range'].includes(currentMode.value),
     month: ['month', 'month-range'].includes(currentMode.value),
-    date: ['date', 'datetime'].includes(currentMode.value),
+    day: ['date', 'datetime'].includes(currentMode.value),
     time: ['time', 'datetime'].includes(currentMode.value),
+  };
+});
+const mountPicker = computed(() => {
+  const time = ['time', 'datetime'].includes(currentMode.value);
+  const day = ['date', 'datetime'].includes(currentMode.value);
+  const month = (props.monthSelectable && day) || ['month', 'month-range'].includes(currentMode.value);
+  const year = (props.yearSelectable && month) || (props.yearSelectable && day) || ['year', 'year-range'].includes(currentMode.value);
+
+  return {
+    year,
+    month,
+    day,
+    time,
   };
 });
 
@@ -81,8 +105,12 @@ const viewDate = reactive({
 
 // 当前面板值
 const pickerValue: PickerDate = new PickerDate(props.value, (p: PickerDate) => {
-  viewDate.year = p.year || today.year;
-  viewDate.month = p.month || today.month;
+  if (mountPicker.value.year) {
+    viewDate.year = Number.isNaN(p.year) ? today.year : p.year;
+  }
+  if (mountPicker.value.month) {
+    viewDate.month = Number.isNaN(p.month) ? today.month : p.month;
+  }
 });
 
 let lastDate: Date = pickerValue.date;
@@ -103,7 +131,7 @@ watch(
   }
 );
 
-const dateValue = ref<DateValueT>({});
+const dateValue = ref<DayValueT>({});
 const timeValue = ref<TimeValueT>({});
 
 watchEffect(() => {
@@ -146,37 +174,8 @@ const onConfirm = (force: boolean, e?: Event) => {
 };
 
 /**
- * date picker
+ * year picker
  */
-const onDateValueUpdate = (v: DateValueT) => {
-  // 范围选择时，需要hover时刷新输入框值
-  console.log('onDateValueUpdate', v);
-};
-
-const onDateSelect = (v: DateValueT, e?: Event) => {
-  dateValue.value = v;
-  pickerValue.set(v);
-
-  lastDate = pickerValue.date;
-  emits('update:value', pickerValue.date);
-  onConfirm(false, e);
-};
-
-const onTimeValueUpdate = (v: TimeValueT) => {
-  // 范围选择时，需要hover时刷新输入框值
-  console.log('onDateValueUpdate', v);
-};
-
-const onTimeSelect = (v: TimeValueT, e?: Event) => {
-  timeValue.value = v;
-  console.log('4', v);
-
-  pickerValue.set(v);
-  lastDate = pickerValue.date;
-  emits('update:value', pickerValue.date);
-  onConfirm(false, e);
-};
-
 const onYearSelect = (v: number, e?: Event) => {
   console.log(currentMode.value, props.mode);
   pickerValue.year = v;
@@ -189,6 +188,9 @@ const onYearSelect = (v: number, e?: Event) => {
   onConfirm(false, e);
 };
 
+/**
+ * month picker
+ */
 const onMonthSelect = (v: MonthValueT, e?: Event) => {
   pickerValue.set(v);
   lastDate = pickerValue.date;
@@ -196,11 +198,58 @@ const onMonthSelect = (v: MonthValueT, e?: Event) => {
   onConfirm(false, e);
 };
 
+/**
+ * date picker
+ */
+const onDayValueUpdate = (v: DayValueT) => {
+  // 范围选择时，需要hover时刷新输入框值
+  console.log('onDayValueUpdate', v);
+};
+
+const onDaySelect = (v: DayValueT, e?: Event) => {
+  dateValue.value = v;
+  pickerValue.set(v);
+
+  lastDate = pickerValue.date;
+  emits('update:value', pickerValue.date);
+  onConfirm(false, e);
+};
+
+/**
+ * time picker
+ */
+const onTimeValueUpdate = (v: TimeValueT) => {
+  // 范围选择时，需要hover时刷新输入框值
+  console.log('onDayValueUpdate', v);
+};
+
+const onTimeSelect = (v: TimeValueT, e?: Event) => {
+  timeValue.value = v;
+  console.log('4', v);
+
+  pickerValue.set(v);
+  lastDate = pickerValue.date;
+  emits('update:value', pickerValue.date);
+  onConfirm(false, e);
+};
+
 const toSelectYear = () => {
-  currentMode.value = 'year';
+  if (props.yearSelectable === false) {
+    return;
+  }
+
+  if (currentMode.value !== 'year') {
+    currentMode.value = 'year';
+  } else {
+    currentMode.value = props.mode;
+  }
 };
 const toSelectMonth = () => {
-  currentMode.value = 'month';
+  if (currentMode.value !== 'month') {
+    currentMode.value = 'month';
+  } else {
+    currentMode.value = props.mode;
+  }
 };
 
 /**
@@ -216,24 +265,25 @@ const headBtnClick = (dateType: 'year' | 'month', actionType: 'sub' | 'add') => 
 };
 
 const showHead = computed(() => {
-  const yearSelectable = ['month', 'date'].includes(props.mode) && props.yearSelectable;
-  const selectMonth = ['date'].includes(props.mode) && props.selectMonth;
-  return yearSelectable || selectMonth;
+  // const yearSelectable = ['month', 'date'].includes(props.mode) && props.yearSelectable;
+  // const monthSelectable = ['date'].includes(props.mode) && props.monthSelectable;
+  // return yearSelectable || monthSelectable;
+  return ['date'].includes(props.mode) || props.yearSelectable;
 });
 
 const headYearValue = computed(() => {
-  if (props.mode === 'month') {
-    return viewDate.year || '';
+  if (!props.yearSelectable) {
+    return '';
   }
-  if (props.mode === 'date') {
-    return viewDate.year || '';
+  if (['month', 'date'].includes(props.mode)) {
+    return viewDate.year + Labels.year || '';
   }
   return '';
 });
 
 const headMonthValue = computed(() => {
-  if (currentMode.value === 'date') {
-    return pickerValue.month || '';
+  if (['date'].includes(props.mode)) {
+    return viewDate.month + 1 + Labels.month || '';
   }
 
   return '';
@@ -242,32 +292,31 @@ const headMonthValue = computed(() => {
 const headBtns = computed(() => {
   let year = -1;
   let month = -1;
-  if (['month', 'date'].includes(props.mode)) {
-    year += 1;
+  if (props.yearSelectable) {
+    if (['month', 'date'].includes(props.mode)) {
+      year += 1;
+    }
+    if (['month', 'date'].includes(currentMode.value)) {
+      year += 1;
+    }
   }
   if (['date'].includes(props.mode)) {
     month += 1;
-  }
-  if (['month', 'date'].includes(currentMode.value)) {
-    year += 1;
   }
   if (['date'].includes(currentMode.value)) {
     month += 1;
   }
 
-  if (props.yearSelectable === false) {
-    year = -1;
-  }
   return {
     month,
     year,
   };
 });
 const onHeadYearClick = () => {
-  currentMode.value = 'year';
+  toSelectYear();
 };
 const onHeadMonthClick = () => {
-  currentMode.value = 'month';
+  toSelectMonth();
 };
 //shortcuts
 const shortcuts = computed(() => {
@@ -352,8 +401,12 @@ const onShortcutMouseLeave = () => {
         <OIcon v-if="headBtns.month > -1" class="o-picker-btn" button :icon="IconCalendarPrevMonth" @click="headBtnClick('month', 'sub')" />
       </div>
       <div class="o-picker-head-value">
-        <div v-if="headYearValue" class="o-picker-head-year" @click="onHeadYearClick">{{ headYearValue }}</div>
-        <div v-if="headMonthValue" class="o-picker-head-month" @click="onHeadMonthClick">{{ headMonthValue }}</div>
+        <div v-if="headYearValue" class="o-picker-head-year" @click="onHeadYearClick">
+          {{ headYearValue }}
+        </div>
+        <div v-if="headMonthValue" class="o-picker-head-month" @click="onHeadMonthClick">
+          {{ headMonthValue }}
+        </div>
       </div>
       <div class="o-picker-head-btns">
         <OIcon v-if="headBtns.month > -1" class="o-picker-btn" button :icon="IconCalendarNextMonth" @click="headBtnClick('month', 'add')" />
@@ -373,6 +426,42 @@ const onShortcutMouseLeave = () => {
         'o-picker-selecting': isShortcutSelecting,
       }"
     >
+      <YearPicker
+        v-if="mountPicker.year"
+        class="o-picker-pane-year"
+        :visible="showPicker.year"
+        :value="initValue"
+        :disable-cell="(disableCellFn as disableYearCellT)"
+        :display-year-list="props.displayYearList"
+        @select="onYearSelect"
+      />
+      <MonthPicker
+        v-if="mountPicker.month"
+        class="o-picker-pane-month"
+        :visible="showPicker.month"
+        :value="initValue"
+        :column="3"
+        :current-year="viewDate.year"
+        :disable-cell="(disableCellFn as disableMonthCellT)"
+        :display-month-list="props.displayMonthList"
+        :year-selectable="props.yearSelectable"
+        @select="onMonthSelect"
+        @select-year="toSelectYear"
+      />
+      <DayPicker
+        v-if="mountPicker.day"
+        class="o-picker-pane-date"
+        :visible="showPicker.day"
+        :value="initValue"
+        :current-year="viewDate.year"
+        :current-month="viewDate.month"
+        :disable-cell="(disableCellFn as disableDayCellT)"
+        :display-day-list="props.displayDayList"
+        @update:value="onDayValueUpdate"
+        @select="onDaySelect"
+        @select-month="toSelectMonth"
+        @select-year="toSelectYear"
+      />
       <TimePicker
         v-if="showPicker.time"
         :value="timeValue"
@@ -381,38 +470,6 @@ const onShortcutMouseLeave = () => {
         :hide-second="props.hideSecond"
         @update:value="onTimeValueUpdate"
         @select="onTimeSelect"
-      />
-      <YearPicker
-        class="o-picker-pane-year"
-        :visible="showPicker.year"
-        :value="initValue"
-        :disable-cell="disableCellFn"
-        :display-year-list="props.displayYearList"
-        @select="onYearSelect"
-      />
-      <MonthPicker
-        class="o-picker-pane-month"
-        :visible="showPicker.month"
-        :value="initValue"
-        :column="3"
-        :current-year="viewDate.year"
-        :disable-cell="disableCellFn"
-        :display-month="props.displayMonthList"
-        :year-selectable="props.yearSelectable"
-        @select="onMonthSelect"
-        @select-year="toSelectYear"
-      />
-      <DatePicker
-        v-if="showPicker.date"
-        class="o-picker-pane-date"
-        :value="initValue"
-        :current-year="pickerValue.year"
-        :current-month="pickerValue.month"
-        :disable-date="disableCellFn"
-        @update:value="onDateValueUpdate"
-        @select="onDateSelect"
-        @select-month="toSelectMonth"
-        @select-year="toSelectYear"
       />
     </div>
     <div v-if="$slots.footer" class="o-picker-extra">

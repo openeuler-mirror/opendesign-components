@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { MonthCellT, ODatePicker, ShortcutParamT, YearCellT } from '../index';
+import { DayCellT, MonthCellT, ODatePicker, ShortcutParamT, YearCellT } from '../index';
 
 const val1 = ref<string | Date | number>('');
 
@@ -26,8 +26,8 @@ const onPressEnter = (value: string, e: KeyboardEvent) => {
 const shortcuts: ShortcutParamT[] = [
   'now',
   {
-    label: '20天前',
-    value: () => new Date(new Date().getTime() - 20 * 24 * 1000 * 60 * 60),
+    label: '30天前',
+    value: () => new Date(new Date().getTime() - 30 * 24 * 1000 * 60 * 60),
   },
   {
     label: 'yesterday',
@@ -35,7 +35,7 @@ const shortcuts: ShortcutParamT[] = [
   },
 ];
 
-const disabledCell = (cell: MonthCellT): boolean => {
+const disabledCell = (cell: DayCellT): boolean => {
   // const y = date.getFullYear();
   // const m = date.getMonth();
   // const d = date.getDate();
@@ -43,7 +43,7 @@ const disabledCell = (cell: MonthCellT): boolean => {
   // return Boolean(d % 2);
   // console.log(cell);
 
-  return false;
+  return cell.year < 2020 || Boolean(cell.day % 2);
 };
 </script>
 <template>
@@ -54,7 +54,7 @@ const disabledCell = (cell: MonthCellT): boolean => {
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="month"
+        mode="date"
         placeholder="请选择..."
         resize="none"
         color="normal"
