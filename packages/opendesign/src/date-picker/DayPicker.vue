@@ -104,7 +104,6 @@ function getDaysofMonth(
 }
 
 const updateViewDays = (year: number, month: number) => {
-  console.log('update daylist', year, month);
   if ((currentViewMonth.year === year || Number.isNaN(year)) && (currentViewMonth.month === month || Number.isNaN(month))) {
     return;
   }

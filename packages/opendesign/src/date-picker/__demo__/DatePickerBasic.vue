@@ -55,7 +55,7 @@ const fs = '';
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="time"
+        mode="datetime"
         :format-string="fs"
         placeholder="请选择..."
         resize="none"
