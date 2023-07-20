@@ -47,6 +47,7 @@ export class PickerDate {
         this._onChange(this);
       }
     }
+    return this;
   }
 
   get date(): Date {

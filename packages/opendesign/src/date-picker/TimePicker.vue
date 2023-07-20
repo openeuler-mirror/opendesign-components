@@ -3,11 +3,12 @@ import { reactive, ref, watch, nextTick, computed, onMounted } from 'vue';
 import { OScroller } from '../scroller';
 import { isUndefined } from '../_utils/is';
 import { scrollSelectOrNowCellInToView } from './date';
+import { PickerDate } from './picker-date';
 
 export interface TimeValueT {
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+  hour?: number;
+  minute?: number;
+  second?: number;
 }
 
 interface CellT {
@@ -17,7 +18,7 @@ interface CellT {
 
 const props = withDefaults(
   defineProps<{
-    value: TimeValueT;
+    value: Date;
     hideHour?: boolean;
     hideMinute?: boolean;
     hideSecond?: boolean;
@@ -31,13 +32,15 @@ const props = withDefaults(
   }
 );
 
-// 是否传入参数为全部隐藏，如果是，则默认都展示
-const hideAll = computed(() => props.hideHour && props.hideMinute && props.hideSecond);
-
 const emits = defineEmits<{
   (e: 'update:value', value: TimeValueT): void;
   (e: 'select', value: TimeValueT): void;
 }>();
+
+const initValue = new PickerDate(props.value);
+
+// 是否传入参数为全部隐藏，如果是，则默认都展示
+const hideAll = computed(() => props.hideHour && props.hideMinute && props.hideSecond);
 
 const hScrollRef = ref<InstanceType<typeof OScroller>>();
 const mScrollRef = ref<InstanceType<typeof OScroller>>();
@@ -61,9 +64,13 @@ for (let i = 0; i < 60; i++) {
   });
 }
 
-const selectValue = reactive<TimeValueT>(props.value);
+const selectValue = reactive<TimeValueT>({
+  hour: initValue.hour,
+  minute: initValue.minute,
+  second: initValue.second,
+});
 
-const validValue = computed(() => !(isUndefined(selectValue.hours) || isUndefined(selectValue.minutes) || isUndefined(selectValue.seconds)));
+const validValue = computed(() => !(isUndefined(selectValue.hour) || isUndefined(selectValue.minute) || isUndefined(selectValue.second)));
 
 const scrollAllCellToTop = (smooth: boolean = true) => {
   nextTick(() => {
@@ -75,10 +82,12 @@ const scrollAllCellToTop = (smooth: boolean = true) => {
 
 watch(
   () => props.value,
-  (v: TimeValueT | undefined | null) => {
-    selectValue.hours = v?.hours;
-    selectValue.minutes = v?.minutes;
-    selectValue.seconds = v?.seconds;
+  (v: Date) => {
+    initValue.date = v;
+
+    selectValue.hour = initValue.hour;
+    selectValue.minute = initValue.minute;
+    selectValue.second = initValue.second;
     scrollAllCellToTop();
   },
   { immediate: true }
@@ -87,13 +96,13 @@ watch(
 const currentValueLabel = computed(() => {
   const t: string[] = [];
   if (!props.hideHour || hideAll.value) {
-    t.push((selectValue.hours || 0).toString().padStart(2, '0'));
+    t.push((selectValue.hour || 0).toString().padStart(2, '0'));
   }
   if (!props.hideMinute || hideAll.value) {
-    t.push((selectValue.minutes || 0).toString().padStart(2, '0'));
+    t.push((selectValue.minute || 0).toString().padStart(2, '0'));
   }
   if (!props.hideSecond || hideAll.value) {
-    t.push((selectValue.seconds || 0).toString().padStart(2, '0'));
+    t.push((selectValue.second || 0).toString().padStart(2, '0'));
   }
   return t.join(':');
 });
@@ -129,9 +138,9 @@ onMounted(() => {
           :key="item.value"
           class="o-picker-cell o-pt-cell"
           :class="{
-            'o-pt-cell-selected': selectValue.hours === item.value,
+            'o-picker-cell-selected': selectValue.hour === item.value,
           }"
-          @click="(e) => selectCell(item, 'hours')"
+          @click="(e) => selectCell(item, 'hour')"
         >
           <div class="o-picker-cell-val">
             <slot name="cell-hour" v-bind="item">{{ item.label }}</slot>
@@ -144,9 +153,9 @@ onMounted(() => {
           :key="item.value"
           class="o-picker-cell o-pt-cell"
           :class="{
-            'o-pt-cell-selected': selectValue.minutes === item.value,
+            'o-picker-cell-selected': selectValue.minute === item.value,
           }"
-          @click="(e) => selectCell(item, 'minutes')"
+          @click="(e) => selectCell(item, 'minute')"
         >
           <div class="o-picker-cell-val">
             <slot name="cell-minute" v-bind="item">{{ item.label }}</slot>
@@ -159,9 +168,9 @@ onMounted(() => {
           :key="item.value"
           class="o-picker-cell o-pt-cell"
           :class="{
-            'o-pt-cell-selected': selectValue.seconds === item.value,
+            'o-picker-cell-selected': selectValue.second === item.value,
           }"
-          @click="(e) => selectCell(item, 'seconds')"
+          @click="(e) => selectCell(item, 'second')"
         >
           <div class="o-picker-cell-val">
             <slot name="cell-second" v-bind="item">{{ item.label }}</slot>

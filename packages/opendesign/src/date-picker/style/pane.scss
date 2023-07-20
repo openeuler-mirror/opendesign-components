@@ -228,7 +228,7 @@
   }
 }
 
-.o-pt-cell-selected {
+.o-pt-cell.o-picker-cell-selected {
   @include me-on-hover {
     color: var(--picker-time-cell-color-selected);
     --picker-cell-val-bg-color: var(--picker-time-cell-bg-color-selected);

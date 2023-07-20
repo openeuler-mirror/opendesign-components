@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import { Labels, getDateRangeStatus, isSameDay, isSameMonth } from './date';
 import type { DateRangeT } from './date';
 import { chunk } from '../_utils/helper';
@@ -34,10 +34,9 @@ interface CellT {
 
 const props = withDefaults(
   defineProps<{
+    value: Date;
+    viewValue: Date;
     visible: boolean;
-    value: InstanceType<typeof PickerDate>;
-    currentYear: number;
-    currentMonth: number;
     yearSelectable?: boolean;
     monthSelectable?: boolean;
     disableCell: (cell: DayCellT) => boolean;
@@ -45,8 +44,6 @@ const props = withDefaults(
   }>(),
   {
     value: undefined,
-    currentYear: undefined,
-    currentMonth: undefined,
     yearSelectable: true,
     monthSelectable: true,
     displayDayList: undefined,
@@ -59,11 +56,13 @@ const emits = defineEmits<{
 }>();
 
 const today = new PickerDate(new Date());
+const viewValue = computed(() => new PickerDate(props.viewValue));
+const initValue = new PickerDate(props.value);
 
 const selectValue = ref<DayValueT>({
-  year: props.value.year,
-  month: props.value.month,
-  day: props.value.day,
+  year: initValue.year,
+  month: initValue.month,
+  day: initValue.day,
 });
 
 const selectRange = ref<DateRangeT>({
@@ -138,15 +137,16 @@ const updateViewDays = (year: number, month: number) => {
   dayList.value = chunk(list, column);
 };
 
-watchEffect(() => updateViewDays(props.currentYear, props.currentMonth));
+watchEffect(() => updateViewDays(viewValue.value.year, viewValue.value.month));
 
 watch(
   () => props.value,
-  (v: PickerDate) => {
+  (v: Date) => {
+    initValue.date = v;
     selectValue.value = {
-      year: v.year,
-      month: v.month,
-      day: v.day,
+      year: initValue.year,
+      month: initValue.month,
+      day: initValue.day,
     };
 
     updateViewDays(currentViewMonth.year, currentViewMonth.month);
@@ -157,10 +157,15 @@ const onDayCellClick = (cell: CellT, e: Event) => {
   if (cell.disabled) {
     return;
   }
-  selectValue.value = cell.data;
 
-  emits('update:value', selectValue.value);
-  emits('select', selectValue.value, e);
+  const { year, month, day } = cell.data;
+
+  if (selectValue.value.year !== year || selectValue.value.month !== month || selectValue.value.day !== day) {
+    selectValue.value = cell.data;
+    emits('update:value', selectValue.value);
+  }
+
+  emits('select', cell.data, e);
 
   if (cell.outView) {
     updateViewDays(cell.data.year, cell.data.month);

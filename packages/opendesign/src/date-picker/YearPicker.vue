@@ -19,7 +19,7 @@ interface CellT {
 const props = withDefaults(
   defineProps<{
     visible: boolean;
-    value: PickerDate;
+    value: Date;
     column?: number;
     disableCell: (cell: YearCellT) => boolean;
     displayYearList?: DisaplyYearListT;
@@ -36,7 +36,8 @@ const emits = defineEmits<{
   (e: 'select', value: number): void;
 }>();
 
-const selectValue = ref<number>(props.value.year);
+const initValue = new PickerDate(props.value);
+const selectValue = ref<number>(initValue.year);
 const yearList = ref<CellT[][]>([]);
 
 const hScrollRef = ref<InstanceType<typeof OScroller>>();
@@ -83,33 +84,38 @@ const updateViewYears = (year: number) => {
   yearList.value = chunk(list, props.column);
 };
 
-updateViewYears(props.value.year);
+updateViewYears(initValue.year);
 
 watch(
   () => props.value,
-  (v: PickerDate) => {
-    if (selectValue.value !== v.year) {
-      selectValue.value = v.year;
+  (v: Date) => {
+    initValue.date = v;
+    if (selectValue.value !== initValue.year) {
+      selectValue.value = initValue.year;
       scrollIntoView(true);
     }
   }
 );
 
 const selectCell = (cell: CellT) => {
-  if (cell.disabled || cell.data.year === selectValue.value) {
+  if (cell.disabled) {
     return;
   }
 
-  selectValue.value = cell.data.year;
+  const { year } = cell.data;
 
-  emits('select', selectValue.value);
-  emits('update:value', selectValue.value);
+  if (year !== selectValue.value) {
+    selectValue.value = year;
+
+    emits('update:value', selectValue.value);
+  }
+  emits('select', year);
 };
 
 watch(
   () => props.visible,
   (v) => {
-    selectValue.value = props.value.year;
+    selectValue.value = initValue.year;
     if (v) {
       scrollIntoView();
     }

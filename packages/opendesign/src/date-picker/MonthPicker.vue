@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import { OScroller } from '../scroller';
 import { chunk } from '../_utils/helper';
 import { Labels, isSameMonth } from './date';
@@ -25,9 +25,9 @@ interface CellT {
 const props = withDefaults(
   defineProps<{
     visible: boolean;
-    value: InstanceType<typeof PickerDate>;
+    value: Date;
+    viewValue: Date;
     column?: number;
-    currentYear: number;
     yearSelectable?: boolean;
     disableCell: (cell: MonthCellT) => boolean;
     displayMonthList?: DisaplyMonthListT;
@@ -35,7 +35,6 @@ const props = withDefaults(
   {
     value: undefined,
     column: 3,
-    currentYear: undefined,
     displayMonthList: undefined,
     yearSelectable: true,
   }
@@ -48,9 +47,11 @@ const emits = defineEmits<{
 
 const today = new PickerDate(new Date());
 
+const viewValue = computed(() => new PickerDate(props.viewValue));
+const initValue = new PickerDate(props.value);
 const selectValue = ref<MonthValueT>({
-  year: props.value.year,
-  month: props.value.month,
+  year: initValue.year,
+  month: initValue.month,
 });
 
 const monthList = ref<CellT[][]>([]);
@@ -90,17 +91,19 @@ const updateViewMonths = (year: number) => {
   monthList.value = chunk(list, props.column);
 };
 
-watchEffect(() => updateViewMonths(props.currentYear));
+watchEffect(() => updateViewMonths(viewValue.value.year));
 
 watch(
   () => props.value,
-  (v: PickerDate) => {
+  (v: Date) => {
+    initValue.date = v;
+
     selectValue.value = {
-      year: v.year,
-      month: v.month,
+      year: initValue.year,
+      month: initValue.month,
     };
 
-    updateViewMonths(v.year);
+    updateViewMonths(initValue.year);
   }
 );
 
@@ -108,14 +111,15 @@ const selectCell = (cell: CellT) => {
   if (cell.disabled) {
     return;
   }
-  if (props.yearSelectable) {
+
+  const { year, month } = cell.data;
+
+  if (selectValue.value.year !== year || selectValue.value.month !== month) {
     selectValue.value = cell.data;
-  } else {
-    selectValue.value = { month: cell.data.month };
+    emits('update:value', selectValue.value);
   }
 
-  emits('select', selectValue.value);
-  emits('update:value', selectValue.value);
+  emits('select', cell.data);
 };
 </script>
 <template>
