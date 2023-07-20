@@ -116,7 +116,7 @@ const isShortcutSelecting = ref(false);
 watch(
   () => props.value,
   (v: Date) => {
-    if (isSameDate(pickerValue.date, v)) {
+    if (!isSameDate(pickerValue.date, v)) {
       pickerValue.date = v;
 
       lastDate = v;
@@ -203,7 +203,13 @@ const onTimeValueUpdate = (v: TimeValueT) => {
 };
 
 const onTimeSelect = (v: TimeValueT, e?: Event) => {
-  pickerValue.set(v);
+  console.log(v);
+
+  pickerValue.set({
+    hour: v.hour || 0,
+    minute: v.minute || 0,
+    second: v.second || 0,
+  });
   emits('update:value', pickerValue.date);
   lastDate = pickerValue.date;
   onConfirm(false, e);

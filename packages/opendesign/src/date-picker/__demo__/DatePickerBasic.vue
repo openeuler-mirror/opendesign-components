@@ -45,6 +45,7 @@ const disabledCell = (cell: DayCellT): boolean => {
 
   return cell.year < 2020 || Boolean(cell.day % 2);
 };
+const fs = '';
 </script>
 <template>
   <h4>Color & Variant</h4>
@@ -55,6 +56,7 @@ const disabledCell = (cell: DayCellT): boolean => {
       <ODatePicker
         v-model="val1"
         mode="time"
+        :format-string="fs"
         placeholder="请选择..."
         resize="none"
         color="normal"
