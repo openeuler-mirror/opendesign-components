@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, watch } from 'vue';
 import { datePickerProps, TimeValueT } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
@@ -68,6 +68,13 @@ const currentValue = ref<Date>(inValue.value.value);
 
 const isPicking = ref(false);
 
+watch(
+  () => inValue.value,
+  (v) => {
+    currentValue.value = v.value;
+  }
+);
+
 watchEffect(() => {
   if (currentValue.value) {
     inputVal.value = formatFn(currentValue.value);
@@ -126,7 +133,7 @@ const onFocus = (value: string, evt: FocusEvent) => {
 
 const onBlur = (value: string, evt: FocusEvent) => {
   isFocus.value = false;
-  togglePanel(false);
+  // togglePanel(false);
 
   onChange(currentValue.value);
 
@@ -195,7 +202,6 @@ const onTimePaneChange = (value: TimeValueT) => {
       v-if="!props.disabled"
       v-model:visible="isPicking"
       :target="inputFrameRef"
-      :auto-hide="false"
       class="o-date-picker-panel"
       :adjust-min-width="false"
       :adjust-width="false"
@@ -218,9 +224,9 @@ const onTimePaneChange = (value: TimeValueT) => {
           @confirm="() => onConfirm(false)"
           @clear="onClear"
         >
-          <template #day-cell="data">
+          <!-- <template #day-cell="data">
             <slot name="day-cell" v-bind="data"></slot>
-          </template>
+          </template> -->
         </PickerPane>
         <!-- <TimePane view-align="top" @change="onTimePaneChange" /> -->
       </div>
