@@ -118,7 +118,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 };
 
 // 是否可清除
-const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
+const isClearable = computed(() => realValue.value && props.clearable && !props.disabled && !props.readonly);
 // 清除值
 const doClearValue = (e?: Event) => {
   updateValue('');
@@ -143,6 +143,11 @@ const toggleEye = (show?: boolean) => {
   togglePassword(isEyeOn.value);
 };
 
+const onClearClick = (e: Event) => {
+  e.stopPropagation();
+  e.preventDefault();
+  doClearValue();
+};
 const onEyeClick = () => {
   if (props.disabled) {
     return;
@@ -195,6 +200,9 @@ defineExpose({
       'o-ii-password': props.type === 'password',
     }"
   >
+    <div v-if="$slots.prefix" class="o-ii-prefix" @mousedown.prevent>
+      <slot name="prefix"></slot>
+    </div>
     <input
       :id="props.inputId"
       ref="inputRef"
@@ -211,21 +219,29 @@ defineExpose({
       @compositionstart="onCompositionStart"
       @compositionend="onCompositionEnd"
     />
-    <div v-if="isClearable" class="o-ii-clear" @click="doClearValue" @mousedown.prevent>
-      <IconClose class="o-ii-clear-icon" />
-    </div>
-    <div
-      v-if="props.type === 'password'"
-      class="o-ii-eye"
-      @click="onEyeClick"
-      @mousedown.prevent="onEyeMouseDown"
-      @mouseup.prevent="onEyeMouseUp"
-      @touchstart="onEyeMouseDown"
-      @touchend="onEyeMouseUp"
-      @touchcancel="onEyeMouseUp"
-    >
-      <IconEyeOn v-if="isEyeOn" class="o-ii-eye-icon" />
-      <IconEyeOff v-else class="o-ii-eye-icon" />
+    <div v-if="$slots.suffix || props.clearable || props.type === 'password'" class="o-ii-suffix" @mousedown.prevent>
+      <span v-if="$slots.suffix" class="o-ii-suffix-icon">
+        <slot name="suffix"></slot>
+      </span>
+      <div v-if="isClearable" class="o-ii-clear" @click="onClearClick" @mousedown.prevent>
+        <IconClose class="o-ii-clear-icon" />
+      </div>
+      <div
+        v-if="props.type === 'password'"
+        class="o-ii-eye"
+        @click="onEyeClick"
+        @mousedown.prevent="onEyeMouseDown"
+        @mouseup.prevent="onEyeMouseUp"
+        @touchstart="onEyeMouseDown"
+        @touchend="onEyeMouseUp"
+        @touchcancel="onEyeMouseUp"
+      >
+        <IconEyeOn v-if="isEyeOn" class="o-ii-eye-icon" />
+        <IconEyeOff v-else class="o-ii-eye-icon" />
+      </div>
+      <span v-if="$slots.extra">
+        <slot name="extra"></slot>
+      </span>
     </div>
   </div>
 </template>

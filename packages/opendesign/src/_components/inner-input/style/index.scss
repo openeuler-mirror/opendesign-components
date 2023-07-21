@@ -36,7 +36,7 @@
   margin-right: 4px;
 }
 
-.o-ii-suffix-wrap {
+.o-ii-suffix-icon {
   display: flex;
   transition: all var(--o-duration-m1) var(--o-easing-standard-out);
 }
@@ -55,16 +55,15 @@
       color: var(--icon-color-hover);
       transform: rotate(180deg);
     }
-    .o-ii-suffix-wrap + & {
+    .o-ii-suffix-icon + & {
       position: absolute;
-      right: 0;
     }
   }
 }
 .o-ii-clearable {
   @include hover {
     &:hover {
-      .o-ii-suffix-wrap {
+      .o-ii-suffix-icon {
         visibility: hidden;
         opacity: 0;
         transition: none;
@@ -77,7 +76,7 @@
     }
   }
   @include hover(none) {
-    .o-ii-suffix-wrap,
+    .o-ii-suffix-icon,
     .o-ii-clear {
       visibility: visible;
       opacity: 1;
@@ -91,14 +90,16 @@
   flex-shrink: 0;
   font-size: var(--icon-size);
   color: var(--icon-color);
+  margin-left: 4px;
+
   @include hover {
     &:hover {
       color: var(--icon-color-hover);
     }
   }
 
-  .o-ii-clear + & {
-    margin-left: 4px;
+  :first-child {
+    margin-left: 0;
   }
   .o-ii-disabled &,
   .o-ii-readonly & {
