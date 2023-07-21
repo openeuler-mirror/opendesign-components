@@ -144,7 +144,7 @@ const onUpdateModelValue = (value: string) => {
   inputVal.value = value;
 
   const d = parseFn(value);
-  if (d && isValidDate(d)) {
+  if (isValidDate(d)) {
     // 严格匹配
     if (formatFn(d) === value) {
       currentValue.value = d;
@@ -177,16 +177,20 @@ const onTimePaneChange = (value: TimeValueT) => {
       :placeholder="props.placeholder"
       :disabled="props.disabled"
       :readonly="props.readonly"
+      :clearable="props.clearable"
+      @clear="onClear"
       @focus="onFocus"
       @blur="onBlur"
       @press-enter="onPressEnter"
       @update:model-value="onUpdateModelValue"
-    />
-    <template #suffix>
-      <div class="o-dp-icon" @mousedown.prevent>
-        <IconCalendar />
-      </div>
-    </template>
+    >
+      <template #suffix>
+        <div class="o-dp-icon" @mousedown.prevent>
+          <IconCalendar />
+        </div>
+      </template>
+    </InnerInput>
+
     <InnerPanel
       v-if="!props.disabled"
       v-model:visible="isPicking"
