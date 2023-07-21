@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { OButton } from '../button';
 import {
   ShortcutParamT,
-  ShortcutT,
   PickerModeT,
   DisaplyDayListT,
   DisaplyYearListT,
@@ -13,7 +11,6 @@ import {
   disableDayCellT,
   disableTimeCellT,
 } from './types';
-import { OLink } from '../link';
 import { Labels } from './date';
 import { isFunction, isValidDate } from '../_utils/is';
 import { PickerDate } from './picker-date';
@@ -25,6 +22,7 @@ import YearPicker from './YearPicker.vue';
 import MonthPicker from './MonthPicker.vue';
 import type { MonthValueT } from './MonthPicker.vue';
 import PickerHead from './PickerHead.vue';
+import PickerFoot from './PickerFoot.vue';
 import { isSameDate } from '../_utils/date';
 import { format } from 'date-fns';
 
@@ -128,9 +126,9 @@ watch(
   }
 );
 
-// 是否需要确认按钮
-const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
-const clearLabel = computed(() => (props.clearLabel ? props.clearLabel : Labels.clear));
+// // 是否需要确认按钮
+// const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
+// const clearLabel = computed(() => (props.clearLabel ? props.clearLabel : Labels.clear));
 
 const needConfirm = computed(() => {
   if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(currentMode.value)) {
@@ -316,54 +314,27 @@ const shortcuts = computed(() => {
 /*
  * 快捷按钮shortcut
  */
-const onShortcutClick = (e: Event, shortcut: ShortcutT) => {
-  const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
-  pickerValue.date = v;
+const onShortcutClick = (value: Date, e: Event) => {
+  pickerValue.date = value;
 
-  emits('update:value', pickerValue.date);
-  lastDate = v;
+  emits('update:value', value);
+  lastDate = value;
   onConfirm(false, e);
 };
-// 避免频繁更新dom
-let hoverInTimer: number = 0;
-let hoverOutTimer: number = 0;
-const hoverDelay = 100;
-const clearTimer = () => {
-  if (hoverInTimer) {
-    clearTimeout(hoverInTimer);
-    hoverInTimer = 0;
-  }
-  if (hoverOutTimer) {
-    clearTimeout(hoverOutTimer);
-    hoverOutTimer = 0;
-  }
-};
 // hover in时快速显示
-const onShortcutMouseEnter = (e: Event, shortcut: ShortcutT) => {
-  clearTimer();
-
-  hoverInTimer = window.setTimeout(() => {
-    isShortcutSelecting.value = true;
-    hoverInTimer = 0;
-    const v = isFunction(shortcut.value) ? shortcut.value() : shortcut.value;
-    pickerValue.date = v;
-    emits('update:value', pickerValue.date);
-  }, hoverDelay);
+const onShortcutHoverin = (value: Date) => {
+  isShortcutSelecting.value = true;
+  pickerValue.date = value;
+  emits('update:value', value);
 };
 // hover out恢复之前值
-const onShortcutMouseLeave = () => {
-  clearTimer();
+const onShortcutHoverout = () => {
+  if (pickerValue.date !== lastDate) {
+    isShortcutSelecting.value = false;
+    pickerValue.date = lastDate;
 
-  hoverOutTimer = window.setTimeout(() => {
-    hoverOutTimer = 0;
-
-    if (pickerValue.date !== lastDate) {
-      isShortcutSelecting.value = false;
-      pickerValue.date = lastDate;
-
-      emits('update:value', pickerValue.date);
-    }
-  }, hoverDelay);
+    emits('update:value', lastDate);
+  }
 };
 </script>
 <template>
@@ -440,33 +411,16 @@ const onShortcutMouseLeave = () => {
         />
       </div>
     </div>
-    <div v-if="$slots.footer" class="o-picker-extra">
-      <slot name="extra"></slot>
-    </div>
-    <div
-      class="o-picker-foot"
-      :class="{
-        'has-confirm': needConfirm,
-      }"
-    >
-      <div v-if="shortcuts" class="o-picker-shortcut">
-        <template v-for="item in shortcuts" :key="item">
-          <div
-            class="o-picker-shortcut-item"
-            @click="(e) => onShortcutClick(e, item)"
-            @mouseenter="(e:Event) => onShortcutMouseEnter(e, item)"
-            @mouseleave="(e:Event) => onShortcutMouseLeave()"
-          >
-            <slot name="shortcut" :shortcut="item">
-              <OLink color="primary">{{ item.label }}</OLink>
-            </slot>
-          </div>
-        </template>
-      </div>
-      <div v-if="needConfirm" class="o-picker-shortcut">
-        <OButton class="o-picker-shortcut-btn" color="primary" size="small" @click="onClear">{{ clearLabel }}</OButton>
-        <OButton class="o-picker-shortcut-btn" color="primary" size="small" @click="(e) => onConfirm(true, e)">{{ confirmLabel }}</OButton>
-      </div>
-    </div>
+    <PickerFoot
+      :shortcuts="shortcuts"
+      :need-confirm="needConfirm"
+      :confirm-label="props.confirmLabel"
+      :clear-label="props.clearLabel"
+      @clear="onClear"
+      @confirm="(e:Event) => onConfirm(true, e)"
+      @shortcut:click="onShortcutClick"
+      @shortcut:hoverin="onShortcutHoverin"
+      @shortcut:hoverout="onShortcutHoverout"
+    />
   </div>
 </template>
