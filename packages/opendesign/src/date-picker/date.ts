@@ -22,6 +22,7 @@ export const Labels = {
   day: '日',
   now: '此刻',
   confirm: '确定',
+  clear: '清除',
 };
 
 export function getYearLabel(value: number): string {

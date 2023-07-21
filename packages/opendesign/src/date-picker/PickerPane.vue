@@ -35,6 +35,7 @@ const props = withDefaults(
     shortcuts?: Array<ShortcutParamT>;
     needConfirm?: boolean;
     confirmLabel?: string;
+    clearLabel?: string;
     mode?: PickerModeT;
     yearSelectable?: boolean;
     monthSelectable?: boolean;
@@ -48,6 +49,7 @@ const props = withDefaults(
     value: undefined,
     shortcuts: undefined,
     confirmLabel: '',
+    clearLabel: '',
     mode: 'date',
     yearSelectable: true,
     monthSelectable: true,
@@ -63,6 +65,7 @@ const emits = defineEmits<{
   (e: 'update:value', value: Date): void;
   // 最终值
   (e: 'confirm', value: Date, evt?: Event): void;
+  (e: 'clear', evt: Event): void;
 }>();
 
 // 控制面板显示
@@ -123,6 +126,8 @@ watch(
 
 // 是否需要确认按钮
 const confirmLabel = computed(() => (props.confirmLabel ? props.confirmLabel : Labels.confirm));
+const clearLabel = computed(() => (props.clearLabel ? props.clearLabel : Labels.clear));
+
 const needConfirm = computed(() => {
   if (['datetime', 'daterange', 'datetimerange', 'monthrange'].includes(currentMode.value)) {
     return true;
@@ -149,6 +154,14 @@ const onConfirm = (force: boolean, e?: Event) => {
     return;
   }
   emits('confirm', pickerValue.date, e);
+};
+/**
+ * 清除已选择
+ * @param force 强制提交
+ * @param e
+ */
+const onClear = (e: Event) => {
+  emits('clear', e);
 };
 
 /**
@@ -446,7 +459,8 @@ const onShortcutMouseLeave = () => {
         </template>
       </div>
       <div v-if="needConfirm" class="o-picker-shortcut">
-        <OButton color="primary" size="small" @click="(e) => onConfirm(true, e)">{{ confirmLabel }}</OButton>
+        <OButton class="o-picker-shortcut-btn" color="primary" size="small" @click="onClear">{{ clearLabel }}</OButton>
+        <OButton class="o-picker-shortcut-btn" color="primary" size="small" @click="(e) => onConfirm(true, e)">{{ confirmLabel }}</OButton>
       </div>
     </div>
   </div>

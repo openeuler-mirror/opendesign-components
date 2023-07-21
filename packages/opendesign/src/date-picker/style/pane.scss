@@ -176,12 +176,13 @@
 
 // pane foot
 .o-picker-foot {
-  // margin-top: -4px;
   padding: 12px 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-top: 1px solid var(--o-color-control1-light);
+  justify-content: space-between;
+
   &.has-confirm {
     justify-content: space-between;
   }
@@ -197,6 +198,12 @@
 }
 .o-picker-shortcut-item {
   margin-right: 4px;
+}
+.o-picker-shortcut-btn {
+  margin-left: 4px;
+  &:first-child {
+    margin-left: 0;
+  }
 }
 
 // year pane

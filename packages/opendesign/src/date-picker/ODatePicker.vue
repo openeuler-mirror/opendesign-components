@@ -108,6 +108,10 @@ const onConfirm = (visible?: boolean) => {
   onChange(currentValue.value);
 };
 
+const onClear = () => {
+  currentValue.value = new Date(NaN);
+};
+
 // 是否聚焦状态
 const isFocus = ref(false);
 const onFocus = (value: string, evt: FocusEvent) => {
@@ -207,6 +211,7 @@ const onTimePaneChange = (value: TimeValueT) => {
           :display-day-list="props.displayDayList"
           :formate-string="formateString"
           @confirm="() => onConfirm(false)"
+          @clear="onClear"
         >
           <template #day-cell="data">
             <slot name="day-cell" v-bind="data"></slot>
