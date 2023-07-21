@@ -32,9 +32,9 @@ export class PickerDate {
     const m = !isNumber(month) ? now.getMonth() : month;
     const d = !isNumber(day) ? now.getDate() : day;
 
-    const h = !isNumber(hour) ? now.getHours() : hour;
-    const mt = !isNumber(minute) ? now.getMinutes() : minute;
-    const s = !isNumber(second) ? now.getSeconds() : second;
+    const h = !isNumber(hour) ? 0 : hour;
+    const mt = !isNumber(minute) ? 0 : minute;
+    const s = !isNumber(second) ? 0 : second;
 
     const last = this._date.getTime();
     this._date = new Date(y, m, d, h, mt, s);

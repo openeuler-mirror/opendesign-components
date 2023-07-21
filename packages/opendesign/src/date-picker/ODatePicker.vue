@@ -39,10 +39,6 @@ const formateString = computed(() => {
   return DefaultFormatString[key];
 });
 
-const hideHour = computed(() => !formateString.value.includes('H'));
-const hideMinute = computed(() => !formateString.value.includes('m'));
-const hideSecond = computed(() => !formateString.value.includes('s'));
-
 const formatFn = isFunction(props.format)
   ? props.format
   : (d: Date) => {
@@ -104,7 +100,7 @@ const togglePanel = (visible?: boolean) => {
   if (visible === undefined) {
     isPicking.value = !isPicking.value;
   } else {
-    // isPicking.value = visible;
+    isPicking.value = visible;
   }
 };
 const onConfirm = (visible?: boolean) => {
@@ -205,13 +201,11 @@ const onTimePaneChange = (value: TimeValueT) => {
           :confirm-label="props.confirmLabel"
           :mode="props.mode"
           :year-selectable="props.yearSelectable"
-          :hide-hour="hideHour"
-          :hide-minute="hideMinute"
-          :hide-second="hideSecond"
           :disable-cell="props.disableCell"
           :display-year-list="props.displayYearList"
           :display-month-list="props.displayMonthList"
           :display-day-list="props.displayDayList"
+          :formate-string="formateString"
           @confirm="() => onConfirm(false)"
         >
           <template #day-cell="data">

@@ -9,10 +9,17 @@
   font-size: var(--picker-panel-text-size);
   line-height: var(--picker-panel-text-height);
 }
+.o-picker-main-wrap {
+  display: flex;
+  justify-content: center;
+}
 .o-picker-main {
   display: flex;
   justify-content: center;
   max-height: 321px;
+}
+.o-picker-main-date {
+  flex-shrink: 0;
 }
 .o-picker-pane-year {
   height: var(--picker-pane-year-height);
@@ -28,35 +35,6 @@
 }
 .o-picker-pane-time {
   height: var(--picker-pane-time-height);
-}
-
-.o-picker-head {
-  display: flex;
-  align-items: center;
-  padding: 12px 24px;
-  height: var(--picker-head-height);
-  flex-shrink: 0;
-  border-bottom: 1px solid var(--o-color-control1-light);
-}
-
-.o-picker-head-value {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.o-picker-head-btns {
-  display: flex;
-  align-items: center;
-  user-select: none;
-}
-
-.o-picker-btn {
-  --icon-size: var(--picker-panel-icon-size);
-  + .o-picker-btn {
-    margin-left: 4px;
-  }
 }
 
 .o-picker-row {
@@ -144,6 +122,40 @@
     --picker-cell-val-bg-color: transparent;
     cursor: not-allowed;
   }
+  .o-picker-selecting & {
+    color: var(--picker-panel-color-out);
+    --picker-cell-val-bg-color: transparent;
+    cursor: not-allowed;
+  }
+}
+
+// head
+.o-picker-head {
+  display: flex;
+  align-items: center;
+  height: var(--picker-head-height);
+  padding: 12px 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--o-color-control1-light);
+}
+.o-picker-head-value {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.o-picker-head-btns {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.o-picker-head-btn {
+  --icon-size: var(--picker-panel-icon-size);
+  + .o-picker-head-btn {
+    margin-left: 4px;
+  }
 }
 
 .o-picker-head-year,
@@ -157,6 +169,9 @@
   .o-picker-head-year + & {
     margin-left: 8px;
   }
+}
+.o-picker-head-time {
+  width: var();
 }
 
 // pane foot
@@ -199,7 +214,7 @@
   padding: 10px 16px;
 }
 
-.o-pd-cell-head {
+.o-pd-cell-week {
   cursor: default;
   color: var(--o-color-info3);
 }
@@ -213,14 +228,18 @@
 }
 
 // time pane
-.o-picker-time {
-  display: flex;
+.o-picker-main-time {
+  flex: 1;
   &:not(:first-child) {
     border-left: var(--picker-col-bd);
   }
 }
+.o-picker-time {
+  display: flex;
+}
 
 .o-pt-col-wrap {
+  flex: 1;
   height: 100%;
   + .o-pt-col-wrap {
     position: relative;
@@ -235,7 +254,8 @@
   }
 }
 .o-pt-col {
-  width: var(--picker-pane-time-cell-width);
+  flex: 1;
+  min-width: var(--picker-pane-time-cell-width);
 }
 
 .o-pt-cell.o-picker-cell-selected {

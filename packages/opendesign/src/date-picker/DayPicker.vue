@@ -186,7 +186,7 @@ const onDayCellClick = (cell: CellT, e: Event) => {
         '--column': column,
       }"
     >
-      <div v-for="item in Labels.weeks" :key="item" class="o-picker-cell o-pd-cell-head">{{ item }}</div>
+      <div v-for="item in Labels.weeks" :key="item" class="o-picker-cell o-pd-cell-week">{{ item }}</div>
     </div>
     <div
       v-for="(week, idx) in dayList"

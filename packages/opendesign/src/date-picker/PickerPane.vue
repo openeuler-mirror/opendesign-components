@@ -25,21 +25,19 @@ import MonthPicker from './MonthPicker.vue';
 import type { MonthValueT } from './MonthPicker.vue';
 import PickerHead from './PickerHead.vue';
 import { isSameDate } from '../_utils/date';
+import { format } from 'date-fns';
 
 const props = withDefaults(
   defineProps<{
-    range?: boolean;
     value: Date;
+    formateString: string;
+    range?: boolean;
     shortcuts?: Array<ShortcutParamT>;
     needConfirm?: boolean;
     confirmLabel?: string;
     mode?: PickerModeT;
     yearSelectable?: boolean;
     monthSelectable?: boolean;
-    selectMonth?: boolean;
-    hideHour?: boolean;
-    hideMinute?: boolean;
-    hideSecond?: boolean;
     disableCell?: disableYearCellT | disableMonthCellT | disableDayCellT;
     displayYearList?: DisaplyYearListT;
     displayMonthList?: DisaplyMonthListT;
@@ -53,7 +51,6 @@ const props = withDefaults(
     mode: 'date',
     yearSelectable: true,
     monthSelectable: true,
-    selectMonth: true,
     disableCell: undefined,
     displayYearList: undefined,
     displayMonthList: undefined,
@@ -78,7 +75,7 @@ const showPicker = computed(() => {
   };
 });
 const mountPicker = computed(() => {
-  const time = ['time', 'datetime'].includes(currentMode.value);
+  const time = ['time', 'datetime'].includes(props.mode);
   const day = ['date', 'datetime'].includes(currentMode.value);
   const month = (props.monthSelectable && day) || ['month', 'month-range'].includes(currentMode.value);
   const year = (props.yearSelectable && month) || (props.yearSelectable && day) || ['year', 'year-range'].includes(currentMode.value);
@@ -197,6 +194,24 @@ const onDaySelect = (v: DayValueT, e?: Event) => {
 /**
  * time picker
  */
+
+const hideHour = computed(() => !props.formateString.includes('H'));
+const hideMinute = computed(() => !props.formateString.includes('m'));
+const hideSecond = computed(() => !props.formateString.includes('s'));
+
+const timeHeadValue = computed(() => {
+  const fs: string[] = [];
+  if (!hideHour.value) {
+    fs.push('HH');
+  }
+  if (!hideMinute.value) {
+    fs.push('mm');
+  }
+  if (!hideSecond.value) {
+    fs.push('ss');
+  }
+  return format(viewValue.value, fs.join(':'));
+});
 const onTimeValueUpdate = (v: TimeValueT) => {
   // 范围选择时，需要hover时刷新输入框值
   console.log('onDayValueUpdate', v);
@@ -336,67 +351,76 @@ const onShortcutMouseLeave = () => {
 </script>
 <template>
   <div class="o-picker-pane">
-    <PickerHead
-      v-if="!noHead"
-      :mode="props.mode"
-      :current-mode="currentMode"
-      :value="viewValue"
-      :show-year="props.yearSelectable"
-      @value-click="onHeadValueClick"
-      @btn-click="onHeadBtnClick"
-    />
-    <div
-      class="o-picker-main"
-      :class="{
-        'o-picker-selecting': isShortcutSelecting,
-      }"
-    >
-      <YearPicker
-        v-if="mountPicker.year"
-        class="o-picker-pane-year"
-        :visible="showPicker.year"
-        :value="props.value"
-        :disable-cell="(disableCellFn as disableYearCellT)"
-        :display-year-list="props.displayYearList"
-        @select="onYearSelect"
-      />
-      <MonthPicker
-        v-if="mountPicker.month"
-        class="o-picker-pane-month"
-        :visible="showPicker.month"
-        :value="props.value"
-        :column="3"
-        :view-value="viewValue"
-        :disable-cell="(disableCellFn as disableMonthCellT)"
-        :display-month-list="props.displayMonthList"
-        :year-selectable="props.yearSelectable"
-        @select="onMonthSelect"
-        @select-year="toSelectYear"
-      />
-      <DayPicker
-        v-if="mountPicker.day"
-        class="o-picker-pane-date"
-        :visible="showPicker.day"
-        :value="props.value"
-        :view-value="viewValue"
-        :disable-cell="(disableCellFn as disableDayCellT)"
-        :display-day-list="props.displayDayList"
-        @update:value="onDayValueUpdate"
-        @select="onDaySelect"
-        @select-month="toSelectMonth"
-        @select-year="toSelectYear"
-      />
-      <TimePicker
-        v-if="mountPicker.time"
-        class="o-picker-pane-time"
-        :value="props.value"
-        :view-value="viewValue"
-        :hide-hour="props.hideHour"
-        :hide-minute="props.hideMinute"
-        :hide-second="props.hideSecond"
-        @update:value="onTimeValueUpdate"
-        @select="onTimeSelect"
-      />
+    <div class="o-picker-main-wrap">
+      <div v-if="mountPicker.year || mountPicker.month || mountPicker.day" class="o-picker-main-date">
+        <PickerHead
+          v-if="!noHead"
+          :mode="props.mode"
+          :current-mode="currentMode"
+          :value="viewValue"
+          :show-year="props.yearSelectable"
+          @value-click="onHeadValueClick"
+          @btn-click="onHeadBtnClick"
+        />
+        <div
+          class="o-picker-main"
+          :class="{
+            'o-picker-selecting': isShortcutSelecting,
+          }"
+        >
+          <YearPicker
+            v-if="mountPicker.year"
+            class="o-picker-pane-year"
+            :visible="showPicker.year"
+            :value="props.value"
+            :disable-cell="(disableCellFn as disableYearCellT)"
+            :display-year-list="props.displayYearList"
+            @select="onYearSelect"
+          />
+          <MonthPicker
+            v-if="mountPicker.month"
+            class="o-picker-pane-month"
+            :visible="showPicker.month"
+            :value="props.value"
+            :column="3"
+            :view-value="viewValue"
+            :disable-cell="(disableCellFn as disableMonthCellT)"
+            :display-month-list="props.displayMonthList"
+            :year-selectable="props.yearSelectable"
+            @select="onMonthSelect"
+            @select-year="toSelectYear"
+          />
+          <DayPicker
+            v-if="mountPicker.day"
+            class="o-picker-pane-date"
+            :visible="showPicker.day"
+            :value="props.value"
+            :view-value="viewValue"
+            :disable-cell="(disableCellFn as disableDayCellT)"
+            :display-day-list="props.displayDayList"
+            @update:value="onDayValueUpdate"
+            @select="onDaySelect"
+            @select-month="toSelectMonth"
+            @select-year="toSelectYear"
+          />
+        </div>
+      </div>
+      <div class="o-picker-main-time">
+        <div v-if="$props.mode === 'datetime'" class="o-picker-head">
+          <div class="o-picker-head-value">{{ timeHeadValue }}</div>
+        </div>
+        <TimePicker
+          v-if="mountPicker.time"
+          class="o-picker-pane-time"
+          :value="props.value"
+          :view-value="viewValue"
+          :hide-hour="hideHour"
+          :hide-minute="hideMinute"
+          :hide-second="hideSecond"
+          @update:value="onTimeValueUpdate"
+          @select="onTimeSelect"
+        />
+      </div>
     </div>
     <div v-if="$slots.footer" class="o-picker-extra">
       <slot name="extra"></slot>

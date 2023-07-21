@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { DayCellT, MonthCellT, ODatePicker, ShortcutParamT, YearCellT } from '../index';
 
-const val1 = ref<string | Date | number>('');
+const val1 = ref<string | Date | number>();
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);

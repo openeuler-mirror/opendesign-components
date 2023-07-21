@@ -30,7 +30,7 @@ const btns = reactive({
     sub: true,
   },
   month: {
-    show: ['data'],
+    show: true,
     add: true,
     sub: true,
   },
@@ -40,14 +40,14 @@ const headYearValue = computed(() => {
   if (!props.showYear) {
     return '';
   }
-  if (['month', 'date'].includes(props.mode)) {
+  if (['month', 'date', 'datetime'].includes(props.mode)) {
     return inValue.value.year + Labels.year || '';
   }
   return '';
 });
 
 const headMonthValue = computed(() => {
-  if (['date'].includes(props.mode)) {
+  if (['date', 'datetime'].includes(props.mode)) {
     return inValue.value.month + 1 + Labels.month || '';
   }
 
@@ -72,10 +72,17 @@ const onHeadMonthClick = () => {
 <template>
   <div class="o-picker-head">
     <div class="o-picker-head-btns">
-      <OIcon v-if="btns.year.show" class="o-picker-btn" button :icon="IconCalendarPrevYear" :disabled="!btns.year.sub" @click="headBtnClick('year', 'sub')" />
       <OIcon
         v-if="btns.year.show"
-        class="o-picker-btn"
+        class="o-picker-head-btn"
+        button
+        :icon="IconCalendarPrevYear"
+        :disabled="!btns.year.sub"
+        @click="headBtnClick('year', 'sub')"
+      />
+      <OIcon
+        v-if="btns.year.show"
+        class="o-picker-head-btn"
         button
         :icon="IconCalendarPrevMonth"
         :disabled="!btns.month.sub"
@@ -93,13 +100,20 @@ const onHeadMonthClick = () => {
     <div class="o-picker-head-btns">
       <OIcon
         v-if="btns.year.show"
-        class="o-picker-btn"
+        class="o-picker-head-btn"
         button
         :icon="IconCalendarNextMonth"
         :disabled="!btns.month.add"
         @click="headBtnClick('month', 'add')"
       />
-      <OIcon v-if="btns.year.show" class="o-picker-btn" button :icon="IconCalendarNextYear" :disabled="!btns.year.add" @click="headBtnClick('year', 'add')" />
+      <OIcon
+        v-if="btns.year.show"
+        class="o-picker-head-btn"
+        button
+        :icon="IconCalendarNextYear"
+        :disabled="!btns.year.add"
+        @click="headBtnClick('year', 'add')"
+      />
     </div>
   </div>
 </template>

@@ -1,8 +1,7 @@
-import { isFunction, isNull } from '../_utils/is';
+import { isNull } from '../_utils/is';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
 import { OScroller } from '../scroller';
-import { DayValueT } from './DayPicker.vue';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -182,10 +181,29 @@ export function scrollSelectOrNowCellInToView(
   });
 }
 
+/**
+ * 获取连续数字
+ * @param start
+ * @param length
+ * @param handler
+ */
 export function getNumberList<T>(start: number, length: number, handler: (v: number) => T): T[] {
   const rlt = [];
   for (let i = start; i < length; i++) {
     rlt.push(handler(i));
   }
   return rlt;
+}
+
+export function formatTime(date: PickerDate, formatString: string = 'HH:mm:ss'): string {
+  const h = date.hour ? '0' : date.hour.toString();
+  const m = date.minute ? '0' : date.minute.toString();
+  const s = date.second ? '0' : date.second.toString();
+  return formatString
+    .replace('HH', h.padStart(2, '0'))
+    .replace('mm', m.padStart(2, '0'))
+    .replace('ss', s.padStart(2, '0'))
+    .replace('H', h)
+    .replace('m', m)
+    .replace('s', s);
 }

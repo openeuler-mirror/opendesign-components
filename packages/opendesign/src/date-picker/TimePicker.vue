@@ -45,6 +45,19 @@ const emits = defineEmits<{
 }>();
 
 const rootEl = ref<HTMLElement>();
+const columns = computed(() => {
+  let cols = 3;
+  if (props.hideHour) {
+    cols -= 1;
+  }
+  if (props.hideMinute) {
+    cols -= 1;
+  }
+  if (props.hideSecond) {
+    cols -= 1;
+  }
+  return cols;
+});
 const inValue = new PickerDate(props.value);
 const currentDate = new PickerDate();
 
@@ -151,6 +164,7 @@ onMounted(() => {
     class="o-picker-time"
     :style="{
       '--cell-height': cellHeight,
+      '--columns': columns,
     }"
   >
     <OScroller v-if="!props.hideHour || hideAll" ref="hScrollRef" class="o-pt-col-wrap o-pt-hour" size="small" :wrap-class="[alinClass, 'o-pt-col']">
