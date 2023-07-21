@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DayCellT, MonthCellT, ODatePicker, ShortcutParamT, YearCellT } from '../index';
+import { DayCellT, ODatePicker, ShortcutParamT } from '../index';
 
 const val1 = ref<string | Date | number>();
 
@@ -35,15 +35,24 @@ const shortcuts: ShortcutParamT[] = [
   },
 ];
 
-const disabledCell = (cell: DayCellT): boolean => {
+const disableCell = (cell: DayCellT): boolean => {
   // const y = date.getFullYear();
   // const m = date.getMonth();
   // const d = date.getDate();
   // return y < 2022 || y > 2027 || Boolean(m % 2) || Boolean(d % 2);
   // return Boolean(d % 2);
-  // console.log(cell);
+  console.log(cell);
 
-  return cell.year < 2020 || Boolean(cell.day % 2);
+  return Boolean(cell.day % 2);
+};
+
+const displayMonthList = () => {
+  return [
+    { month: 0, label: '1月' },
+    { month: 1, label: '2月' },
+    { month: 2, label: '3月' },
+    { month: 3, label: '4月' },
+  ];
 };
 const fs = '';
 </script>
@@ -55,17 +64,18 @@ const fs = '';
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="date"
+        mode="datetime"
         :format-string="fs"
         placeholder="请选择..."
         resize="none"
         color="normal"
         :shortcuts="shortcuts"
-        :year-selectable="true"
+        :year-selectable="false"
         confirm-label="ok"
         style="width: 400px"
-        :disable-cell="disabledCell"
+        :disable-cell="disableCell"
         :select-year="true"
+        :display-month-list="displayMonthList"
         @focus="onFocus"
         @blur="onBlur"
         @change="onChange"

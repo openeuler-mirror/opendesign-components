@@ -80,6 +80,7 @@ const updateViewMonths = (year: number) => {
       year: item.year,
       month: item.month,
     };
+
     return {
       data,
       isNow: isSameMonth(data, today),

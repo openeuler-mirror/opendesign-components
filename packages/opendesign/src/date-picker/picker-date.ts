@@ -24,17 +24,18 @@ export class PickerDate {
     this._onChange = onChange;
   }
 
-  set(value: { year?: number; month?: number; day?: number; hour?: number; minute?: number; second?: number }) {
+  set(value: { year?: number; month?: number; day?: number; hour?: number; minute?: number; second?: number }, defaultValue?: Date) {
     const { year = this.year, month = this.month, day = this.day, hour = this.hour, minute = this.minute, second = this.second } = value;
+    const now = new Date(new Date().setHours(0, 0, 0, 0));
 
-    const now = new Date();
-    const y = !isNumber(year) ? now.getFullYear() : year;
-    const m = !isNumber(month) ? now.getMonth() : month;
-    const d = !isNumber(day) ? now.getDate() : day;
+    const def = defaultValue && isValidDate(defaultValue) ? defaultValue : now;
+    const y = !isNumber(year) ? def.getFullYear() : year;
+    const m = !isNumber(month) ? def.getMonth() : month;
+    const d = !isNumber(day) ? def.getDate() : day;
 
-    const h = !isNumber(hour) ? 0 : hour;
-    const mt = !isNumber(minute) ? 0 : minute;
-    const s = !isNumber(second) ? 0 : second;
+    const h = !isNumber(hour) ? def.getHours() : hour;
+    const mt = !isNumber(minute) ? def.getMinutes() : minute;
+    const s = !isNumber(second) ? def.getSeconds() : second;
 
     const last = this._date.getTime();
     this._date = new Date(y, m, d, h, mt, s);
