@@ -11,6 +11,7 @@ import {
   disableYearCellT,
   disableMonthCellT,
   disableDayCellT,
+  disableTimeCellT,
 } from './types';
 import { OLink } from '../link';
 import { Labels } from './date';
@@ -40,6 +41,7 @@ const props = withDefaults(
     yearSelectable?: boolean;
     monthSelectable?: boolean;
     disableCell?: disableYearCellT | disableMonthCellT | disableDayCellT;
+    disableTimeCell?: disableTimeCellT;
     displayYearList?: DisaplyYearListT;
     displayMonthList?: DisaplyMonthListT;
     displayDayList?: DisaplyDayListT;
@@ -54,6 +56,7 @@ const props = withDefaults(
     yearSelectable: true,
     monthSelectable: true,
     disableCell: undefined,
+    disableTimeCell: undefined,
     displayYearList: undefined,
     displayMonthList: undefined,
     displayDayList: undefined,
@@ -111,6 +114,7 @@ let lastDate: Date = pickerValue.date;
 console.log(pickerValue.date);
 
 const disableCellFn = isFunction(props.disableCell) ? props.disableCell : () => false;
+const disableTimeCellFn = isFunction(props.disableTimeCell) ? props.disableTimeCell : () => false;
 const isShortcutSelecting = ref(false);
 
 watch(
@@ -430,6 +434,7 @@ const onShortcutMouseLeave = () => {
           :hide-hour="hideHour"
           :hide-minute="hideMinute"
           :hide-second="hideSecond"
+          :disable-cell="(disableTimeCellFn as disableTimeCellT)"
           @update:value="onTimeValueUpdate"
           @select="onTimeSelect"
         />

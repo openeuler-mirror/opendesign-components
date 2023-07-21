@@ -54,6 +54,10 @@ const displayMonthList = () => {
     { month: 3, label: '4月' },
   ];
 };
+
+const disableTimeCell = (value: number, type: 'hour' | 'minute' | 'second'): boolean => {
+  return !Boolean(value % 3);
+};
 const fs = '';
 </script>
 <template>
@@ -74,6 +78,7 @@ const fs = '';
         confirm-label="ok"
         style="width: 400px"
         :disable-cell="disableCell"
+        :disable-time-cell="disableTimeCell"
         :select-year="true"
         :display-month-list="displayMonthList"
         @focus="onFocus"

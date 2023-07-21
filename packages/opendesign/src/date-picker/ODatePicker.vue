@@ -210,6 +210,7 @@ const onTimePaneChange = (value: TimeValueT) => {
           :mode="props.mode"
           :year-selectable="props.yearSelectable"
           :disable-cell="props.disableCell"
+          :disable-time-cell="props.disableTimeCell"
           :display-year-list="props.displayYearList"
           :display-month-list="props.displayMonthList"
           :display-day-list="props.displayDayList"

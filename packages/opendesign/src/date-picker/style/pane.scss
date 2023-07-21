@@ -265,7 +265,7 @@
   min-width: var(--picker-pane-time-cell-width);
 }
 
-.o-pt-cell.o-picker-cell-selected {
+.o-pt-cell.o-picker-cell-selected:not(.o-picker-cell-disabled) {
   @include me-on-hover {
     color: var(--picker-time-cell-color-selected);
     --picker-cell-val-bg-color: var(--picker-time-cell-bg-color-selected);

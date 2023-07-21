@@ -4,7 +4,9 @@ import { OScroller } from '../scroller';
 import { isFunction } from '../_utils/is';
 import { getNumberList, isSameDay, scrollSelectOrNowCellInToView } from './date';
 import { PickerDate } from './picker-date';
-import { DisaplyTimeListT } from './types';
+import { DisaplyTimeListT, disableTimeCellT } from './types';
+
+// TODO: 1. 时间选择禁用，时分秒相互影响禁用状态； 2. 禁用的时间在属性传入时怎么避免选中？
 
 export interface TimeValueT {
   hour?: number;
@@ -15,6 +17,7 @@ export interface TimeValueT {
 interface CellT {
   value: number;
   label: string;
+  disabled: boolean;
 }
 
 const props = withDefaults(
@@ -25,6 +28,7 @@ const props = withDefaults(
     hideMinute?: boolean;
     hideSecond?: boolean;
     viewAlign?: 'top' | 'bottom' | 'center';
+    disableCell: disableTimeCellT;
     displayHourList?: DisaplyTimeListT;
     displayMinuteList?: DisaplyTimeListT;
     displaySecondList?: DisaplyTimeListT;
@@ -89,26 +93,41 @@ const getTimeList = (date: Date) => {
   }
   currentDate.date = pd.date;
 
-  hourList.value = isFunction(props.displayHourList)
+  const hlist = isFunction(props.displayHourList)
     ? props.displayHourList(date)
     : getNumberList(0, 24, (v: number) => ({
         value: v,
         label: v.toString().padStart(2, '0'),
       }));
 
-  minuteList.value = isFunction(props.displayHourList)
+  const mlist = isFunction(props.displayHourList)
     ? props.displayHourList(date)
     : getNumberList(0, 60, (v: number) => ({
         value: v,
         label: v.toString().padStart(2, '0'),
       }));
 
-  secondList.value = isFunction(props.displayHourList)
+  const slist = isFunction(props.displayHourList)
     ? props.displayHourList(date)
     : getNumberList(0, 60, (v: number) => ({
         value: v,
         label: v.toString().padStart(2, '0'),
+        disabled: props.disableCell(v, 'second'),
       }));
+
+  hourList.value = hlist.map((item) => ({
+    ...item,
+    disabled: props.disableCell(item.value, 'hour'),
+  }));
+
+  minuteList.value = mlist.map((item) => ({
+    ...item,
+    disabled: props.disableCell(item.value, 'minute'),
+  }));
+  secondList.value = slist.map((item) => ({
+    ...item,
+    disabled: props.disableCell(item.value, 'second'),
+  }));
 };
 
 watchEffect(() => getTimeList(props.viewValue));
@@ -137,6 +156,10 @@ watch(
 );
 
 const selectCell = (cell: CellT, type: keyof TimeValueT) => {
+  if (cell.disabled) {
+    return;
+  }
+
   selectValue.value[type] = cell.value;
 
   emits('select', selectValue.value);
@@ -174,6 +197,7 @@ onMounted(() => {
         class="o-picker-cell o-pt-cell"
         :class="{
           'o-picker-cell-selected': selectValue.hour === item.value,
+          'o-picker-cell-disabled': item.disabled,
         }"
         @click="(e) => selectCell(item, 'hour')"
       >
@@ -189,6 +213,7 @@ onMounted(() => {
         class="o-picker-cell o-pt-cell"
         :class="{
           'o-picker-cell-selected': selectValue.minute === item.value,
+          'o-picker-cell-disabled': item.disabled,
         }"
         @click="(e) => selectCell(item, 'minute')"
       >
@@ -204,6 +229,7 @@ onMounted(() => {
         class="o-picker-cell o-pt-cell"
         :class="{
           'o-picker-cell-selected': selectValue.second === item.value,
+          'o-picker-cell-disabled': item.disabled,
         }"
         @click="(e) => selectCell(item, 'second')"
       >

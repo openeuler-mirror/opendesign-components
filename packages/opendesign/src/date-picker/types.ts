@@ -33,6 +33,7 @@ export interface DayCellT extends Partial<MonthCellT> {
 export type disableYearCellT = (cell: YearCellT) => boolean;
 export type disableMonthCellT = (cell: MonthCellT) => boolean;
 export type disableDayCellT = (cell: DayCellT) => boolean;
+export type disableTimeCellT = (value: number, type: 'hour' | 'minute' | 'second') => boolean;
 
 export interface TimeValueT {
   hours?: number;
@@ -154,6 +155,12 @@ export const datePickerProps = {
    */
   disableCell: {
     type: Function as PropType<disableYearCellT | disableMonthCellT | disableDayCellT>,
+  },
+  /**
+   * 时间禁用
+   */
+  disableTimeCell: {
+    type: Function as PropType<disableTimeCellT>,
   },
   /**
    * 时间禁用
