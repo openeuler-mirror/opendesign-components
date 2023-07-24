@@ -9,6 +9,12 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/date-picker',
+    name: 'DatePicker',
+    label: '日期选择器 DatePicker',
+    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/text',
     name: 'Text',
     label: '文本 Text',
@@ -18,7 +24,7 @@ export const routes = [
     path: '/icons',
     name: 'Icons',
     label: '图标 Icon',
-    component: () => import('./pages/TheIcons.vue'),
+    component: () => import('@components/icon/__demo__/TheIndex.vue'),
   },
   {
     path: '/button',
@@ -36,7 +42,7 @@ export const routes = [
     path: '/switch',
     name: 'Switch',
     label: '开关 Switch',
-    component: () => import('@components/switch/__demo__/IndexSwitch.vue'),
+    component: () => import('@components/switch/__demo__/TheIndex.vue'),
   },
   {
     path: '/popup',
@@ -72,7 +78,7 @@ export const routes = [
     path: '/select',
     name: 'Select',
     label: '下拉选择器 Select',
-    component: () => import('@components/select/__demo__/IndexSelect.vue'),
+    component: () => import('@components/select/__demo__/TheIndex.vue'),
   },
   {
     path: '/cascader',
@@ -84,13 +90,13 @@ export const routes = [
     path: '/radio',
     name: 'Radio',
     label: '单选框 Radio',
-    component: () => import('@components/radio/__demo__/IndexRadio.vue'),
+    component: () => import('@components/radio/__demo__/TheIndex.vue'),
   },
   {
     path: '/checkbox',
     name: 'Checkbox',
     label: '多选框 Checkbox',
-    component: () => import('@components/checkbox/__demo__/IndexCheckbox.vue'),
+    component: () => import('@components/checkbox/__demo__/TheIndex.vue'),
   },
   {
     path: '/tab',
@@ -102,7 +108,7 @@ export const routes = [
     path: '/table',
     name: 'Table',
     label: '表格 Table',
-    component: () => import('@components/table/__demo__/IndexTable.vue'),
+    component: () => import('@components/table/__demo__/TheIndex.vue'),
   },
   {
     path: '/pagination',
@@ -114,31 +120,31 @@ export const routes = [
     path: '/divider',
     name: 'Divider',
     label: '分割线 Divider',
-    component: () => import('@components/divider/__demo__/IndexDivider.vue'),
+    component: () => import('@components/divider/__demo__/TheIndex.vue'),
   },
   {
     path: '/tag',
     name: 'Tag',
     label: '标签 Tag',
-    component: () => import('@components/tag/__demo__/IndexTag.vue'),
+    component: () => import('@components/tag/__demo__/TheIndex.vue'),
   },
   {
     path: '/badge',
     name: 'Badge',
     label: '徽标 Badge',
-    component: () => import('@components/badge/__demo__/IndexBadge.vue'),
+    component: () => import('@components/badge/__demo__/TheIndex.vue'),
   },
   {
     path: '/rate',
     name: 'Rate',
     label: '评分 Rate',
-    component: () => import('@components/rate/__demo__/IndexRate.vue'),
+    component: () => import('@components/rate/__demo__/TheIndex.vue'),
   },
   {
     path: '/breadcrumb',
     name: 'Breadcrumb',
     label: '面包屑 Breadcrumb',
-    component: () => import('@components/breadcrumb/__demo__/IndexBreadcrumb.vue'),
+    component: () => import('@components/breadcrumb/__demo__/TheIndex.vue'),
   },
   {
     path: '/menu',
@@ -192,7 +198,7 @@ export const routes = [
     path: '/message',
     name: 'Message',
     label: '消息提示 Message',
-    component: () => import('@components/message/__demo__/IndexMessage.vue'),
+    component: () => import('@components/message/__demo__/TheIndex.vue'),
   },
   {
     path: '/carousel',
@@ -229,7 +235,19 @@ export const routes = [
     path: '/scroller/body',
     name: 'Scroller-body',
     label: '全局滚动条 Scroller-body',
-    component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
+    component: () => import('@components/scroller/__demo__/ScrollerBody.vue'),
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    label: '上传 Upload',
+    component: () => import('@components/upload/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/toggle',
+    name: 'Toggle',
+    label: '选择块 Toggle',
+    component: () => import('@components/toggle/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',
@@ -252,7 +270,7 @@ export const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory('./'),
   routes,
   scrollBehavior(to, from, savePosition) {
     if (savePosition) {

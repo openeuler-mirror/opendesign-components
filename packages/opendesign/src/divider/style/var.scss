@@ -1,0 +1,24 @@
+.o-divider {
+  --o-divider-color: var(--o-color-info1);
+
+  --o-divider-text-size: var(--o-font_size-text1);
+  --o-divider-text-height: var(--o-line_height-text1);
+
+  --o-divider-label-gap: 0 12px;
+
+  --o-divider-bd-color: var(--o-color-control4);
+
+  --o-divider-gap: 12px;
+}
+
+.o-divider-h {
+  --o-divider-gap: 12px;
+}
+
+.o-divider-v {
+  --o-divider-gap: 12px;
+}
+
+.o-divider-darker {
+  --o-divider-bd-color: var(--o-color-control1);
+}

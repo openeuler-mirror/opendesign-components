@@ -1,0 +1,19 @@
+.o-carousel {
+  // arrow
+  --carousel-arrow-size: var(--o-icon_size-m);
+  --carousel-arrow-color: var(--o-color-info1);
+  --carousel-arrow-color-hover: var(--o-color-info2);
+  --carousel-arrow-color-active: var(--o-color-info3);
+
+  // indicator
+  --carousel-indicator-width: 48px;
+  --carousel-indicator-height: 3px;
+  --carousel-indicator-gap: 12px;
+
+  --carousel-indicator-offset: 24px;
+
+  --carousel-indicator-bg-color: var(--o-color-control1);
+  --carousel-indicator-bg-color-hover: var(--o-color-control2);
+  --carousel-indicator-bg-color-active: var(--o-color-control3);
+  --carousel-indicator-bg-color-selected: var(--o-color-info1);
+}

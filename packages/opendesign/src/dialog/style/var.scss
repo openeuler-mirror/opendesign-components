@@ -1,0 +1,44 @@
+.o-dialog {
+  --dlg-close-size: var(--o-icon_size-s);
+  --dlg-close-color: var(--o-color-info2);
+  --dlg-close-color-hover: var(--o-color-primary2);
+  --dlg-close-color-active: var(--o-color-primary3);
+
+  --dlg-bg-color: var(--o-color-control-light);
+  --dlg-radius: var(--o-radius_control-l);
+  --dlg-shadow: var(--o-shadow-1);
+
+  --dlg-min-width: 272px;
+  --dlg-head-padding: 24px 24px 0;
+  --dlg-body-padding: 16px 24px;
+  --dlg-foot-padding: 0 24px 24px;
+  --dlg-margin: 24px;
+}
+
+.o-dialog-auto {
+  &.o-layer-to-body {
+    --dlg-max-height: 80vh;
+  }
+}
+
+.o-dialog-small {
+  --dlg-width: 448px;
+  --dlg-max-height: 40vh;
+
+  --dlg-head-padding: 16px 24px 0;
+  --dlg-body-padding: 12px 24px;
+  --dlg-foot-padding: 0 24px 16px;
+}
+.o-dialog-medium {
+  --dlg-width: 40%;
+  --dlg-max-height: 60%;
+}
+
+.o-dialog-large {
+  --dlg-width: 60%;
+  --dlg-max-height: 80%;
+}
+.o-dialog-exlarge {
+  --dlg-width: 80%;
+  --dlg-max-height: 90%;
+}

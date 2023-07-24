@@ -1,0 +1,108 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-link {
+  cursor: pointer;
+  padding: 0 2px;
+  color: var(--link-color);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+
+  @include hover {
+    &:hover {
+      color: var(--link-color-hover);
+      .o-link-arrow {
+        transform: translate3d(4px, 0, 0);
+      }
+    }
+  }
+
+  &:active {
+    color: var(--link-color-active);
+  }
+}
+.o-link-arrow {
+  transition: transform var(--o-easing-standard) var(--o-duration-m2);
+}
+.o-link-hover-underline {
+  --link-underline-x: 100%;
+  .o-link-label {
+    background: linear-gradient(0deg, var(--link-color-hover), var(--link-color-hover)) no-repeat var(--link-underline-x) bottom;
+    background-size: 0 1px;
+    transition: background-size var(--o-easing-standard) var(--o-duration-m2);
+  }
+
+  @include hover {
+    &:hover {
+      .o-link-label {
+        background-size: var(--link-underline-x) 1px;
+        background-position-x: left;
+      }
+    }
+  }
+}
+
+.o-link-hover-bg {
+  transition: background-color var(--o-easing-standard) var(--o-duration-m2);
+  @include hover {
+    &:hover {
+      color: var(--link-color);
+      background-color: var(--link-bg-color-hover);
+    }
+  }
+  &:active {
+    color: var(--link-color);
+    background-color: var(--link-bg-color-active);
+  }
+}
+
+.o-link-prefix {
+  display: flex;
+  align-items: center;
+  margin-right: var(--link-gap);
+  font-size: var(--link-icon-size);
+}
+.o-link-suffix {
+  display: flex;
+  align-items: center;
+  margin-left: var(--link-gap);
+  font-size: var(--link-icon-size);
+}
+
+.o-link-disabled {
+  &,
+  &:hover,
+  &:active {
+    cursor: not-allowed;
+    color: var(--link-color-disabled);
+  }
+  @include hover {
+    &:hover {
+      .o-link-arrow {
+        transform: translate3d(0, 0, 0);
+      }
+      .o-link-label {
+        background: none;
+      }
+    }
+  }
+  &.o-link-hover-underline {
+    background: none;
+  }
+}
+
+.o-link-small {
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+}
+
+.o-link-medium {
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+}
+
+.o-link-large {
+  font-size: var(--o-font_size-text2);
+  line-height: var(--o-line_height-text2);
+}

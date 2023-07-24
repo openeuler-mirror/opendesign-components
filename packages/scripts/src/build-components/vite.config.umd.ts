@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import terser from '@rollup/plugin-terser';
 
 export default (type: 'component' | 'icon'): InlineConfig => {
-  const entry = type === 'component' ? 'src/components/index.ts' : 'src/components/icon/index.ts';
+  const entry = type === 'component' ? 'src/index.ts' : 'src/icon/index.ts';
 
   const entryFileName = type === 'component' ? 'opendesign' : 'opendesign-icon';
 

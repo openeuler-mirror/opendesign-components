@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import '@components/style';
+import '@components/_styles';
+
 const list = ['display1', 'display2', 'display3', 'display4', 'h1', 'h2', 'h3', 'text1', 'text2', 'tip1', 'tip2'];
 const title = 'Text';
 </script>
@@ -9,8 +10,4 @@ const title = 'Text';
     <div v-for="t in list" :key="t" :class="[`o-txt-${t}`]">{{ t }}</div>
   </div>
 </template>
-<style lang="scss">
-.the-home {
-  color: #333;
-}
-</style>
+<style lang="scss"></style>

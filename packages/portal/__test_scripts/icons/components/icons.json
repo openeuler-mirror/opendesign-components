@@ -1,0 +1,38 @@
+[
+  {
+    "type": "fill",
+    "name": "icon-add",
+    "componentName": "IconAdd",
+    "path": "fill/add.svg"
+  },
+  {
+    "type": "fill",
+    "name": "icon-alert",
+    "componentName": "IconAlert",
+    "path": "fill/alert.svg"
+  },
+  {
+    "type": "fill",
+    "name": "icon-x-circle",
+    "componentName": "IconXCircle",
+    "path": "fill/x-circle.svg"
+  },
+  {
+    "type": "fill",
+    "name": "icon-x",
+    "componentName": "IconX",
+    "path": "fill/x.svg"
+  },
+  {
+    "type": "color",
+    "name": "icon-ascend",
+    "componentName": "IconAscend",
+    "path": "color/ascend.svg"
+  },
+  {
+    "type": "color",
+    "name": "icon-kunpeng",
+    "componentName": "IconKunpeng",
+    "path": "color/kunpeng.svg"
+  }
+]

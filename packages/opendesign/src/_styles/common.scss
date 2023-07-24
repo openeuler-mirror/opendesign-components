@@ -1,0 +1,34 @@
+$text-types: display1, display2, display3, display4, display5, h1, h2, h3, h4, text1, text2, tip1, tip2;
+
+@each $type in $text-types {
+  .o-txt-#{$type} {
+    font-size: var(--o-font_size-#{$type});
+    line-height: var(--o-line_height-#{$type});
+  }
+}
+
+.o-hide-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.o-svg-icon {
+  --icon-g1: var(--o-color-info1);
+  --icon-g2: var(--o-color-primary1);
+
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.2em;
+  color: inherit;
+  font-style: normal;
+  outline: none;
+  &.type-stroke {
+    stroke: currentColor;
+  }
+  &.type-fill {
+    fill: currentColor;
+  }
+}

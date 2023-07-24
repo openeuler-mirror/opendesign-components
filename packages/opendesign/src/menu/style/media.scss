@@ -1,0 +1,18 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('phone-pad') {
+  .o-menu {
+    --menu-padding-v: 11px;
+    --menu-secondary-padding-v: 11px;
+  }
+
+  .o-sub-menu {
+    --sub-menu-text-size: var(--o-font_size-tip1);
+    --sub-menu-text-height: var(--o-line_height-tip1);
+  }
+
+  .o-menu-item {
+    --menu-item-text-size: var(--o-font_size-text1);
+    --menu-item-text-height: var(--o-line_height-text1);
+  }
+}

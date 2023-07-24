@@ -8,6 +8,8 @@ export interface IconsConfig {
   };
   input: string;
   output: string;
+  prefix: string; // 'o-'
+  componentClass: string;
   template: typeof template;
 }
 export const basePlugins: PluginConfig[] = [
@@ -91,14 +93,26 @@ const colorSvgoConfig: Config = {
   ],
 };
 
-const template = ({ name, componentName, svg, type }: { name: string; componentName: string; svg: string; type: 'fill' | 'stroke' | 'color' }) => {
+const template = ({
+  name,
+  componentName,
+  svg,
+  type,
+  componentClass,
+}: {
+  name: string;
+  componentName: string;
+  svg: string;
+  type: 'fill' | 'stroke' | 'color';
+  componentClass: string;
+}) => {
   return `<script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: '${componentName}',
   svgType: '${type}',
   setup() {
-    const classnames = ['o-icon', '${name}', 'type-${type}'];
+    const classnames = ['${componentClass}', '${name}', 'type-${type}'];
     return {
       classnames,
     };
@@ -116,7 +130,9 @@ export const defaultConfig: IconsConfig = {
     stroke: strokeSvgoConfig,
     fill: fillSvgoConfig,
   },
-  input: './src/icons/svgs',
-  output: './src/components/icons/',
+  input: './svgs',
+  output: './components/',
+  componentClass: 'svg-icon',
+  prefix: '',
   template,
 };

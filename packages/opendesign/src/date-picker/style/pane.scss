@@ -1,0 +1,301 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-picker-hidden {
+  display: none;
+}
+.o-picker-pane {
+  color: var(--picker-panel-color);
+  font-size: var(--picker-panel-text-size);
+  line-height: var(--picker-panel-text-height);
+}
+.o-picker-main-wrap {
+  display: flex;
+  justify-content: center;
+}
+.o-picker-main {
+  display: flex;
+  justify-content: center;
+  max-height: 321px;
+}
+.o-picker-main-date {
+  flex-shrink: 0;
+}
+.o-picker-pane-year {
+  height: var(--picker-pane-year-height);
+  width: var(--picker-pane-year-width);
+}
+.o-picker-pane-month {
+  width: var(--picker-pane-month-width);
+  height: var(--picker-pane-month-height);
+}
+.o-picker-pane-date {
+  width: var(--picker-pane-date-width);
+  height: var(--picker-pane-date-height);
+}
+.o-picker-pane-time {
+  height: var(--picker-pane-time-height);
+}
+
+.o-picker-row {
+  display: flex;
+}
+.o-picker-cell {
+  text-align: center;
+  cursor: pointer;
+  --cell-today-size: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 6px 0;
+  flex: calc(100% / var(--column)) 0 0;
+
+  &:hover {
+    --picker-cell-val-bg-color: var(--picker-cell-bg-color-hover);
+  }
+}
+.o-picker-cell-val {
+  padding: 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  background-color: var(--picker-cell-val-bg-color);
+  flex: 0;
+  white-space: nowrap;
+
+  transition: all var(--o-easing-standard) var(--o-duration-m2);
+}
+
+.o-picker-cell-range-start,
+.o-picker-cell-range-end,
+.o-picker-cell-selected {
+  @include me-on-hover {
+    color: var(--picker-cell-color-selected);
+    --picker-cell-val-bg-color: var(--picker-cell-bg-color-selected);
+  }
+
+  .o-picker-selecting & {
+    color: var(--picker-cell-color-selecting);
+    --picker-cell-val-bg-color: var(--picker-cell-bg-color-selecting);
+  }
+}
+.o-picker-cell-in-range {
+  background-color: var(--picker-cell-in-range-bg-color);
+}
+.o-picker-cell-range-start {
+  border-top-left-radius: var(--picker-cell-radius-selected);
+  border-bottom-left-radius: var(--picker-cell-radius-selected);
+}
+
+.o-picker-cell-range-end {
+  border-top-right-radius: var(--picker-cell-radius-selected);
+  border-bottom-right-radius: var(--picker-cell-radius-selected);
+}
+
+.o-picker-cell-now {
+  position: relative;
+  &::after {
+    content: '';
+    border-radius: 50%;
+    width: var(--picker-cell-today-size);
+    height: var(--picker-cell-today-size);
+    background-color: var(--picker-cell-today-dot-color);
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: calc(-0.5 * var(--picker-cell-today-size));
+  }
+}
+
+.o-picker-cell-out-view {
+  @include me-on-hover {
+    color: var(--picker-panel-color-out);
+    --picker-cell-val-bg-color: transparent;
+  }
+}
+
+.o-picker-cell-disabled {
+  @include me-on-hover {
+    color: var(--picker-panel-color-out);
+    --picker-cell-val-bg-color: transparent;
+    cursor: not-allowed;
+  }
+  .o-picker-selecting & {
+    color: var(--picker-panel-color-out);
+    --picker-cell-val-bg-color: transparent;
+    cursor: not-allowed;
+  }
+}
+
+// head
+.o-picker-head {
+  display: flex;
+  align-items: center;
+  height: var(--picker-head-height);
+  padding: 12px 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--o-color-control1-light);
+}
+.o-picker-head-value {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.o-picker-head-btns {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.o-picker-head-btn {
+  --icon-size: var(--picker-panel-icon-size);
+  + .o-picker-head-btn {
+    margin-left: 4px;
+  }
+}
+
+.o-picker-head-year,
+.o-picker-head-month {
+  cursor: pointer;
+  @include on-hover {
+    color: var(--picker-link-color-hover);
+  }
+}
+.o-picker-head-month {
+  .o-picker-head-year + & {
+    margin-left: 8px;
+  }
+}
+.o-picker-head-time {
+  width: var();
+}
+
+// pane foot
+.o-picker-foot {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid var(--o-color-control1-light);
+  justify-content: space-between;
+
+  &.has-confirm {
+    justify-content: space-between;
+  }
+}
+
+.o-picker-extra {
+  border-top: 1px solid var(--o-color-control1-light);
+}
+
+.o-picker-shortcut {
+  display: flex;
+  flex-wrap: wrap;
+}
+.o-picker-shortcut-item {
+  margin-right: 4px;
+}
+.o-picker-shortcut-btn {
+  margin-left: 4px;
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+// year pane
+.o-picker-year {
+  padding: 4px;
+}
+
+// month pane
+.o-picker-month {
+  padding: 4px;
+}
+
+// date pane
+.o-picker-date {
+  padding: 10px 16px;
+}
+
+.o-pd-cell-week {
+  cursor: default;
+  color: var(--o-color-info3);
+}
+.o-pd-cell-val {
+  flex: 1;
+}
+
+// time pane
+.o-picker-time {
+  display: flex;
+}
+
+// time pane
+.o-picker-main-time {
+  flex: 1;
+  &:not(:first-child) {
+    border-left: var(--picker-col-bd);
+  }
+}
+.o-picker-time {
+  display: flex;
+}
+
+.o-pt-col-wrap {
+  flex: 1;
+  height: 100%;
+  + .o-pt-col-wrap {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 2px;
+      bottom: 2px;
+      border-left: var(--picker-col-bd);
+    }
+  }
+}
+.o-pt-col {
+  flex: 1;
+  min-width: var(--picker-pane-time-cell-width);
+}
+
+.o-pt-cell.o-picker-cell-selected:not(.o-picker-cell-disabled) {
+  @include me-on-hover {
+    color: var(--picker-time-cell-color-selected);
+    --picker-cell-val-bg-color: var(--picker-time-cell-bg-color-selected);
+  }
+}
+
+.o-pt-col-align-top {
+  &::after {
+    content: '';
+    display: block;
+    height: calc(100% - var(--cell-height));
+  }
+}
+.o-pt-col-align-bottom {
+  &::before {
+    content: '';
+    display: block;
+    height: calc(100% - var(--cell-height));
+  }
+}
+.o-pt-col-align-center {
+  --height: calc(50% - var(--cell-height) / 2);
+  &::before {
+    content: '';
+    display: block;
+    height: var(--height);
+  }
+  &::after {
+    content: '';
+    display: block;
+    height: var(--height);
+  }
+}

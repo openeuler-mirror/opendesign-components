@@ -1,0 +1,11 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-form {
+  cursor: pointer;
+  color: var(--input-color);
+  display: inline-flex;
+  height: var(--input-height);
+  font-size: var(--input-text-size);
+  line-height: var(--input-text-height);
+}
