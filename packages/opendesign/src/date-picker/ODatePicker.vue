@@ -7,9 +7,9 @@ import { InnerPanel } from '../_components/inner-panel';
 import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
 import PickerPane from './PickerPane.vue';
-import { format, parse } from 'date-fns';
 import { isArray, isFunction, isValidDate } from '../_utils/is';
 import { getRealDateValue, normalizeDateValue, DefaultFormatString } from './date';
+import { formatDate, parseDate } from '../_utils/date';
 
 const props = defineProps(datePickerProps);
 
@@ -45,7 +45,7 @@ const formatFn = isFunction(props.format)
   ? props.format
   : (d: Date) => {
       try {
-        return format(d, formateString.value);
+        return formatDate(d, formateString.value);
       } catch {
         return '';
       }
@@ -54,7 +54,7 @@ const parseFn = isFunction(props.parse)
   ? props.parse
   : (str: string) => {
       try {
-        return parse(str, formateString.value, new Date());
+        return parseDate(str, formateString.value, new Date());
       } catch {
         return new Date(NaN);
       }

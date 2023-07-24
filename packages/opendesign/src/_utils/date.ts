@@ -1,4 +1,4 @@
-import { startOfMonth, addYears, subYears, addMonths, subMonths } from 'date-fns';
+import { startOfMonth, addYears, subYears, addMonths, subMonths, format as formatDate, parse as parseDate } from 'date-fns';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -44,7 +44,7 @@ export function getWeeksByDate<T = Date>(
   return weeks;
 }
 
-export { startOfMonth, addYears, subYears, addMonths, subMonths };
+export { startOfMonth, addYears, subYears, addMonths, subMonths, formatDate, parseDate };
 
 export function isSameDate(date1: Date, date2: Date): boolean {
   return date1.getTime() === date2.getTime();

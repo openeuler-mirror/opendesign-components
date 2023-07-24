@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, computed, onMounted, watchEffect } from 'vue';
-import { OScroller } from '../scroller';
-import { isFunction } from '../_utils/is';
-import { getNumberList, isSameDay, scrollSelectOrNowCellInToView } from './date';
-import { PickerDate } from './picker-date';
-import { DisaplyTimeListT, disableTimeCellT } from './types';
+import { OScroller } from '../../scroller';
+import { isFunction } from '../../_utils/is';
+import { getNumberList, isSameDay, scrollSelectOrNowCellInToView } from '../date';
+import { PickerDate } from '../picker-date';
+import { DisaplyTimeListT, disableTimeCellT } from '../types';
 
 // TODO: 1. 时间选择禁用，时分秒相互影响禁用状态； 2. 禁用的时间在属性传入时怎么避免选中？
 

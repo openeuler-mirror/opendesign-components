@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue';
-import { OScroller } from '../scroller';
-import { chunk } from '../_utils/helper';
-import { PickerDate } from './picker-date';
-import { isFunction } from '../_utils/is';
-import { scrollSelectOrNowCellInToView } from './date';
-import { DisaplyYearListT, YearCellT } from './types';
+import { OScroller } from '../../scroller';
+import { chunk } from '../../_utils/helper';
+import { PickerDate } from '../picker-date';
+import { isFunction } from '../../_utils/is';
+import { scrollSelectOrNowCellInToView } from '../date';
+import { DisaplyYearListT, YearCellT } from '../types';
 
 interface CellT {
   data: {

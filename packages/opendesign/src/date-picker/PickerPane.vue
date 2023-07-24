@@ -14,17 +14,17 @@ import {
 import { Labels } from './date';
 import { isFunction, isValidDate } from '../_utils/is';
 import { PickerDate } from './picker-date';
-import TimePicker from './TimePicker.vue';
-import type { TimeValueT } from './TimePicker.vue';
-import DayPicker from './DayPicker.vue';
-import type { DayValueT } from './DayPicker.vue';
-import YearPicker from './YearPicker.vue';
-import MonthPicker from './MonthPicker.vue';
-import type { MonthValueT } from './MonthPicker.vue';
+import TimePicker from './picker/TimePicker.vue';
+import type { TimeValueT } from './picker/TimePicker.vue';
+import DayPicker from './picker/DayPicker.vue';
+import type { DayValueT } from './picker/DayPicker.vue';
+import MonthPicker from './picker/MonthPicker.vue';
+import type { MonthValueT } from './picker/MonthPicker.vue';
+import YearPicker from './picker/YearPicker.vue';
 import PickerHead from './PickerHead.vue';
 import PickerFoot from './PickerFoot.vue';
 import { isSameDate } from '../_utils/date';
-import { format } from 'date-fns';
+import { formatDate } from '../_utils/date';
 
 const props = withDefaults(
   defineProps<{
@@ -225,7 +225,7 @@ const timeHeadValue = computed(() => {
   if (!hideSecond.value) {
     fs.push('ss');
   }
-  return format(viewValue.value, fs.join(':'));
+  return formatDate(viewValue.value, fs.join(':'));
 });
 const onTimeValueUpdate = (v: TimeValueT) => {
   // 范围选择时，需要hover时刷新输入框值
