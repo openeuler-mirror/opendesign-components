@@ -1,5 +1,7 @@
 # Input 输入框
 
+输入框组件，支持用户输入内容
+
 ## 说明
 
 > `realValue: number|string` 数字输入框当前值
