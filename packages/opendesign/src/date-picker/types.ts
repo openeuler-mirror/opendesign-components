@@ -9,7 +9,20 @@ export interface ShortcutT {
 export type ReservedShortcutT = 'now';
 export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 
-export const PickerModes = ['date', 'datetime', 'daterange', 'datetimerange', 'month', 'monthrange', 'year', 'quarter', 'time'] as const;
+export const PickerModes = [
+  'year',
+  'year-range',
+  'month',
+  'month-range',
+  'date',
+  'date-range',
+  'datetime',
+  'datetime-range',
+  'quarter',
+  'quarter-range',
+  'time',
+  'time-range',
+] as const;
 export type PickerModeT = (typeof PickerModes)[number];
 
 export type DisaplyYearListT = (year: number) => Array<{ year: number; label: string }>;
@@ -47,26 +60,26 @@ export const datePickerProps = {
    * v-model
    */
   modelValue: {
-    type: [Date, String, Number],
+    type: [Date, String, Number, Array] as PropType<Date | string | number | Array<Date | string | number>>,
   },
   /**
    * 默认值
    */
   defaultValue: {
-    type: [Date, String, Number],
+    type: [Date, String, Number, Array] as PropType<Date | string | number | Array<Date | string | number>>,
   },
   /**
    * 选择器模式
    */
   mode: {
-    type: [String] as PropType<PickerModeT>,
+    type: String as PropType<PickerModeT>,
     default: 'date',
   },
   /**
    * 格式化字符串
    */
   formatString: {
-    type: [String],
+    type: String,
   },
   /**
    * 大小 SizeT
@@ -142,13 +155,13 @@ export const datePickerProps = {
    * 面板上是否显示确认按钮
    */
   needConfirm: {
-    type: [Boolean],
+    type: Boolean,
   },
   /**
    * 面板上确认按钮文本
    */
   confirmLabel: {
-    type: [String],
+    type: String,
   },
   /**
    * 日期禁用
@@ -173,7 +186,7 @@ export const datePickerProps = {
    * 是否支持选择年份
    */
   yearSelectable: {
-    type: [Boolean],
+    type: Boolean,
     default: true,
   },
   /**

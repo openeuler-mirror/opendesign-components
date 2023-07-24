@@ -8,14 +8,14 @@ import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
 import PickerPane from './PickerPane.vue';
 import { format, parse } from 'date-fns';
-import { isFunction, isValidDate } from '../_utils/is';
+import { isArray, isFunction, isValidDate } from '../_utils/is';
 import { getRealDateValue, normalizeDateValue, DefaultFormatString } from './date';
 
 const props = defineProps(datePickerProps);
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | Date | number): void;
-  (e: 'change', value: string | Date | number): void;
+  (e: 'update:modelValue', value: string | Date | number | Array<Date | string | number>): void;
+  (e: 'change', value: string | Date | number | Array<Date | string | number>): void;
   (e: 'blur', value: string | Date | number, inputValue?: string, evt?: FocusEvent): void;
   (e: 'focus', value: string | Date | number, inputValue?: string, evt?: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
@@ -32,8 +32,10 @@ const formateString = computed(() => {
   }
   type FST = keyof typeof DefaultFormatString;
 
+  const m = props.mode.replace('-range', '');
+
   let key: FST = props.mode as FST;
-  if (props.mode === 'month' && !props.yearSelectable) {
+  if (m === 'month' && !props.yearSelectable) {
     key = 'monthOnly';
   }
   return DefaultFormatString[key];
@@ -59,7 +61,12 @@ const parseFn = isFunction(props.parse)
     };
 
 // 外部输入值，包含类型及值
-const inValue = computed(() => normalizeDateValue(props.modelValue ?? props.defaultValue, parseFn));
+
+const inValue = computed(() => {
+  const value = props.modelValue ?? props.defaultValue;
+  const v = isArray(value) ? value[0] : value;
+  return normalizeDateValue(v, parseFn);
+});
 console.log('inValue', inValue.value);
 
 const inputVal = ref(inValue.value.value ? formatFn(inValue.value.value) : '');

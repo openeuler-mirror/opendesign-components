@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { DayCellT, ODatePicker, ShortcutParamT } from '../index';
 
 const val1 = ref<string | Date | number>();
+const val2 = ref<Array<string | Date | number>>();
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);
@@ -41,7 +42,7 @@ const disableCell = (cell: DayCellT): boolean => {
   // const d = date.getDate();
   // return y < 2022 || y > 2027 || Boolean(m % 2) || Boolean(d % 2);
   // return Boolean(d % 2);
-  console.log(cell);
+  // console.log(cell);
 
   return Boolean(cell.day % 2);
 };
@@ -86,9 +87,28 @@ const fs = '';
         @change="onChange"
         @clear="onClear"
         @press-enter="onPressEnter"
-      >
-        <template #day-cell="cell">{{ !cell.outView ? cell.data.days : `_${cell.data.days}` }}</template>
-      </ODatePicker>
+      />
+      <ODatePicker
+        v-model="val2"
+        mode="year-range"
+        :format-string="fs"
+        placeholder="请选择..."
+        resize="none"
+        color="normal"
+        :shortcuts="shortcuts"
+        :year-selectable="false"
+        confirm-label="ok"
+        style="width: 400px"
+        :disable-cell="disableCell"
+        :disable-time-cell="disableTimeCell"
+        :select-year="true"
+        :display-month-list="displayMonthList"
+        @focus="onFocus"
+        @blur="onBlur"
+        @change="onChange"
+        @clear="onClear"
+        @press-enter="onPressEnter"
+      />
       <!-- <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="success" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="warning" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="danger" />
