@@ -3,14 +3,14 @@ import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
 
 export const inputProps = {
   /**
-   * 下拉框的值
+   * 输入框的值
    * v-model
    */
   modelValue: {
     type: [String, Number],
   },
   /**
-   * 下拉框的默认值
+   * 输入框的默认值
    * 非受控
    */
   defaultValue: {
