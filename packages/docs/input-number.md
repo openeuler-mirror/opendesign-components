@@ -1,4 +1,4 @@
-# Divider 分割线
+# input-number 数字输入框
 
 ## 说明
 
@@ -36,5 +36,3 @@
 parse/format
 
 1. 当 change 事件时，执行 format
-
-2.

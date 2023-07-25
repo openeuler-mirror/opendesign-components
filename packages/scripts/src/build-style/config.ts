@@ -1,6 +1,5 @@
-
 const config = {
-  input: './src/components',
+  input: './src',
 };
 
 export default config;

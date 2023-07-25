@@ -1,0 +1,118 @@
+@use '../../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-i-frame {
+  color: var(--if-color);
+  display: inline-flex;
+  height: var(--if-height);
+  font-size: var(--if-text-size);
+  line-height: var(--if-text-height);
+}
+
+.o-if-main {
+  display: flex;
+  padding: var(--if-padding);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--if-radius);
+  border: var(--if-bd);
+  background-color: var(--if-bg-color);
+  transition: all var(--o-duration-s) var(--o-easing-standard);
+
+  cursor: pointer;
+  @include hover {
+    &:hover {
+      border-color: var(--if-bd-color-hover);
+      background-color: var(--if-bg-color-hover);
+    }
+  }
+
+  .o-if-focused & {
+    border-color: var(--if-bd-color-focus);
+    background-color: var(--if-bg-color-focus);
+  }
+
+  .o-if-disabled &,
+  .o-if-readonly & {
+    color: var(--if-color-disabled);
+    border-color: var(--if-bd-color-disabled);
+    background-color: var(--if-bg-color-disabled);
+  }
+  .o-if-disabled & {
+    cursor: not-allowed;
+  }
+  .o-if-readonly & {
+    cursor: default;
+  }
+
+  &.has-prepend {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  &.has-append {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.o-if-append,
+.o-if-prepend {
+  display: flex;
+  align-items: center;
+  border: var(--if-ap-bd);
+  background-color: var(--if-ap-bg-color);
+
+  .o-if-readonly &,
+  .o-if-disabled & {
+    border: var(--if-ap-bd-disabled);
+  }
+}
+
+.o-if-append {
+  flex-shrink: 0;
+  padding: var(--if-append-padding);
+  border-top-right-radius: var(--if-radius);
+  border-bottom-right-radius: var(--if-radius);
+}
+
+.o-if-prepend {
+  flex-shrink: 0;
+  padding: var(--if-prepend-padding);
+  border-top-left-radius: var(--if-radius);
+  border-bottom-left-radius: var(--if-radius);
+}
+
+.o-if-solid {
+  .o-if-prepend {
+    border-left-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+  .o-if-append {
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+}
+
+.o-if-outline {
+  .o-if-prepend {
+    border-right-width: 0;
+  }
+  .o-if-append {
+    border-left-width: 0;
+  }
+}
+.o-if-text {
+  .o-if-main {
+    border-right-width: 0;
+    border-top-width: 0;
+    border-left-width: 0;
+  }
+}
+.o-if-prefix,
+.o-if-suffix {
+  display: flex;
+  align-items: center;
+}

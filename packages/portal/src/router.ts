@@ -9,6 +9,12 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/date-picker',
+    name: 'DatePicker',
+    label: '日期选择器 DatePicker',
+    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/text',
     name: 'Text',
     label: '文本 Text',
@@ -102,7 +108,7 @@ export const routes = [
     path: '/table',
     name: 'Table',
     label: '表格 Table',
-    component: () => import('@components/table/__demo__/IndexTable.vue'),
+    component: () => import('@components/table/__demo__/TheIndex.vue'),
   },
   {
     path: '/pagination',
@@ -229,7 +235,7 @@ export const routes = [
     path: '/scroller/body',
     name: 'Scroller-body',
     label: '全局滚动条 Scroller-body',
-    component: () => import('@components/scroller/__demo__/ScrollbarBody.vue'),
+    component: () => import('@components/scroller/__demo__/ScrollerBody.vue'),
   },
   {
     path: '/upload',
@@ -238,10 +244,10 @@ export const routes = [
     component: () => import('@components/upload/__demo__/TheIndex.vue'),
   },
   {
-    path: '/button-toggle',
-    name: 'Button Toggle',
-    label: '选择块 Button Toggle',
-    component: () => import('@components/button-toggle/__demo__/TheIndex.vue'),
+    path: '/toggle',
+    name: 'Toggle',
+    label: '选择块 Toggle',
+    component: () => import('@components/toggle/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',

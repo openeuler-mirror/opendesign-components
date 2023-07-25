@@ -1,0 +1,21 @@
+.o-option {
+  --option-color: var(--o-color-info2);
+  --option-color-hover: var(--o-color-info2);
+  --option-color-active: var(--o-color-info1);
+  --option-color-disabled: var(--o-color-info4);
+
+  --option-bg-color: transparent;
+  --option-bg-color-hover: var(--o-color-control2-light);
+  --option-bg-color-active: var(--o-color-control3-light);
+  --option-bg-color-disabled: transparent;
+
+  --option-text-size: var(--o-font_size-text1);
+  --option-text-height: var(--o-line_height-text1);
+
+  --option-padding: 7px 12px;
+  --option-gap: 2px;
+  --option-radius: var(--o-radius_control-m);
+}
+.o-option-multiple {
+  --option-bg-color-active: transparent;
+}

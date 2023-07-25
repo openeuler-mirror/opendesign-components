@@ -1,5 +1,5 @@
 /* theme: a.dark */
-[data-o-theme='a.dark'] {
+[data-o-theme="a.dark"] {
   /**
    * @name 
    * @type palette
@@ -1000,14 +1000,14 @@
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-mixedgray-12));
+  --o-color-primary2: rgb(var(--o-mixedgray-13));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-mixedgray-13));
+  --o-color-primary3: rgb(var(--o-mixedgray-12));
   /**
    * @name 
    * @type color
@@ -1399,21 +1399,21 @@
    * @group shadow
    * @description 用于卡片、小弹窗、楼层阴影
    */
-  --o-shadow-1: 0 3px 8px rgba(var(--o-mixedgray-13), 0.08);
+  --o-shadow-1: 0 3px 8px rgba(var(--o-mixedgray-1), 0.08);
   /**
    * @name 阴影2
    * @type shadow
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 4px 24px rgba(var(--o-mixedgray-13), 0.1);
+  --o-shadow-2: 0 4px 24px rgba(var(--o-mixedgray-1), 0.1);
   /**
    * @name 阴影3
    * @type shadow
    * @group shadow
    * @description 用于提示阴影
    */
-  --o-shadow-3: 0 8px 40px rgba(var(--o-mixedgray-13), 0.1);
+  --o-shadow-3: 0 8px 40px rgba(var(--o-mixedgray-1), 0.1);
   /**
    * @name 间距1
    * @type gap
@@ -1782,37 +1782,30 @@
    * @name 大尺寸圆角
    * @type size
    * @group radius
-   * @description 大尺寸圆角
+   * @description 大尺寸圆角,一般用于卡片
    */
   --o-radius-xl: 24px;
   /**
    * @name 大尺寸控件圆角
    * @type size
    * @group radius
-   * @description 大尺寸控件圆角
+   * @description 大尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: var(--o-radius-l);
+  --o-radius_control-l: 16px;
   /**
    * @name 中尺寸控件圆角
    * @type size
    * @group radius
-   * @description 中尺寸控件圆角
+   * @description 中尺寸控件圆角(组件使用)
    */
-  --o-radius_control-m: var(--o-radius-m);
+  --o-radius_control-m: 8px;
   /**
    * @name 小尺寸控件圆角
    * @type size
    * @group radius
-   * @description 小尺寸控件圆角
+   * @description 小尺寸控件圆角(组件使用)
    */
-  --o-radius_control-s: var(--o-radius-s);
-  /**
-   * @name 超小尺寸控件圆角
-   * @type size
-   * @group radius
-   * @description 超小尺寸控件圆角
-   */
-  --o-radius_control-xs: var(--o-radius-xs);
+  --o-radius_control-s: 4px;
   /**
    * @name 持续时间
    * @type animation

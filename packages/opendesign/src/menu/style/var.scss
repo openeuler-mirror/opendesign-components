@@ -1,0 +1,57 @@
+.o-menu {
+  --menu-width: 240px;
+  --menu-bg-color: transparent;
+  --menu-padding-v: 15px;
+  --menu-secondary-padding-v: 11px;
+  --menu-padding-h: 16px;
+  --menu-secondary-padding-h: 16px;
+}
+
+.o-sub-menu {
+  --sub-menu-color: var(--o-color-info1);
+  --sub-menu-color-selected: var(--o-color-primary1);
+
+  --sub-menu-radius: var(--o-radius_control-m);
+
+  --sub-menu-text-size: var(--o-font_size-text1);
+  --sub-menu-text-height: var(--o-line_height-text1);
+
+  --sub-menu-secondary-text-size: var(--o-font_size-tip1);
+  --sub-menu-secondary-text-height: var(--o-line_height-tip1);
+
+  --sub-menu-icon-size: var(--o-icon_size-s);
+  --sub-menu-icon-color: var(--o-color-info1);
+  --sub-menu-icon-color-selected: var(--o-color-primary1);
+  --sub-menu-icon-gap: 8px;
+
+  --sub-menu-padding-right: calc(var(--menu-padding-h) + var(--sub-menu-icon-size) + var(--sub-menu-icon-gap));
+
+  --sub-menu-arrow-size: var(--o-icon_size-s);
+
+  --sub-menu-bg-color-hover: var(--o-color-control2-light);
+  --sub-menu-bg-color-selected: var(--o-color-control3-light);
+}
+
+.o-menu-item {
+  --menu-item-color: var(--o-color-info1);
+  --menu-item-color-disabled: var(--o-color-info4);
+  --menu-item-color-selected: var(--o-color-primary1);
+
+  --menu-item-radius: var(--o-radius_control-m);
+
+  --menu-item-icon-size: var(--o-icon_size-s);
+  --menu-item-icon-color: var(--o-color-info1);
+  --menu-item-icon-color-selected: var(--o-color-primary1);
+  --menu-item-icon-gap: 8px;
+
+  --menu-item-padding-right: calc(var(--menu-padding-h) + var(--menu-item-icon-gap));
+
+  --menu-item-text-size: var(--o-font_size-text1);
+  --menu-item-text-height: var(--o-line_height-text1);
+
+  --menu-item-secondary-text-size: var(--o-font_size-tip1);
+  --menu-item-secondary-text-height: var(--o-line_height-tip1);
+
+  --menu-item-bg-color-hover: var(--o-color-control2-light);
+  --menu-item-bg-color-selected: var(--o-color-control3-light);
+}
