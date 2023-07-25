@@ -1,0 +1,175 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-menu {
+  width: var(--menu-width);
+  background-color: var(--menu-bg-color);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// submenu
+.o-sub-menu {
+  font-size: var(--sub-menu-text-size);
+  line-height: var(--sub-menu-text-height);
+  color: var(--sub-menu-color);
+
+  & + .o-sub-menu {
+    margin-top: 2px;
+  }
+}
+
+.o-sub-menu-selected {
+  & > .o-sub-menu-title {
+    font-weight: 500;
+    color: var(--sub-menu-color-selected);
+    background-color: var(--sub-menu-bg-color-selected);
+
+    .o-sub-menu-title-icon {
+      color: var(--sub-menu-icon-color-selected);
+    }
+  }
+}
+
+.o-sub-menu-associated-selected {
+  & > .o-sub-menu-title {
+    font-weight: 500;
+    color: var(--sub-menu-color-selected);
+  }
+}
+
+.o-sub-menu-expanded {
+  & > .o-sub-menu-title {
+    .o-sub-menu-title-arrow {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.o-sub-menu-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 48px 16px 8px;
+  padding-top: var(--menu-padding-v);
+  padding-bottom: var(--menu-padding-v);
+  padding-left: var(--menu-padding-h);
+  padding-right: var(--sub-menu-padding-right);
+
+  border-radius: var(--sub-menu-radius);
+  cursor: pointer;
+  transition: background-color var(--o-duration-s) var(--o-easing-standard);
+
+  @include hover {
+    &:hover {
+      background-color: var(--sub-menu-bg-color-hover);
+    }
+  }
+}
+
+.o-sub-menu-title-icon {
+  margin-left: calc(-1 * var(--sub-menu-icon-gap));
+  margin-right: var(--sub-menu-icon-gap);
+  font-size: var(--sub-menu-icon-size);
+  color: var(--sub-menu-icon-color);
+}
+
+.o-sub-menu-title-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.o-sub-menu-title-arrow {
+  position: absolute;
+  right: 16px;
+  transform: rotate(0);
+  font-size: var(--sub-menu-arrow-size);
+  transition: transform var(--o-duration-m2) var(--o-easing-standard);
+}
+
+.o-sub-menu-children {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  transition: height var(--o-duration-m2) var(--o-easing-standard);
+}
+
+.o-sub-menu-children {
+  margin-top: 2px;
+  .o-sub-menu-title {
+    font-size: var(--sub-menu-secondary-text-size);
+    line-height: var(--sub-menu-item-secondary-text-height);
+    padding-top: var(--menu-secondary-padding-v);
+    padding-bottom: var(--menu-secondary-padding-v);
+  }
+  .o-menu-item {
+    font-size: var(--menu-item-secondary-text-size);
+    line-height: var(--menu-item-secondary-text-height);
+    padding-top: var(--menu-secondary-padding-v);
+    padding-bottom: var(--menu-secondary-padding-v);
+  }
+}
+
+//menu-item
+.o-menu-item {
+  display: flex;
+  align-items: center;
+  color: var(--menu-item-color);
+  font-size: var(--menu-item-text-size);
+  line-height: var(--menu-item-text-height);
+  border-radius: var(--menu-item-radius);
+  padding-top: var(--menu-padding-v);
+  padding-bottom: var(--menu-padding-v);
+  padding-left: var(--menu-padding-h);
+  padding-right: var(--menu-item-padding-right);
+  cursor: pointer;
+
+  transition: background-color var(--o-duration-s) var(--o-easing-standard);
+
+  @include hover {
+    &:hover {
+      background-color: var(--menu-item-bg-color-hover);
+    }
+  }
+
+  & + .o-menu-item {
+    margin-top: 2px;
+  }
+}
+
+.o-menu-item-icon {
+  margin-left: calc(-1 * var(--menu-item-icon-gap));
+  margin-right: var(--menu-item-icon-gap);
+  font-size: var(--menu-item-icon-size);
+  color: var(--menu-item-icon-color);
+}
+
+.o-menu-item-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.o-menu-item-selected {
+  font-weight: 500;
+  color: var(--menu-item-color-selected);
+  background-color: var(--menu-item-bg-color-selected);
+
+  .o-sub-menu-title-icon {
+    color: var(--menu-item-color-selected);
+  }
+
+  @include hover {
+    &:hover {
+      background-color: var(--menu-item-bg-color-selected);
+    }
+  }
+}
+
+.o-menu-item-disabled {
+  cursor: not-allowed;
+  color: var(--menu-item-color-disabled);
+}

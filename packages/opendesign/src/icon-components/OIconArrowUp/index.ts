@@ -1,0 +1,1 @@
+export { default as OIconArrowUp } from './OIconArrowUp.vue';

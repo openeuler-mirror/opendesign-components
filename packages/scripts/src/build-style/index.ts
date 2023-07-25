@@ -16,8 +16,7 @@ export default function main() {
     cwd: input,
   });
 
-
-  files.forEach(fl => {
+  files.forEach((fl) => {
     const fPath = path.resolve(input, fl);
     fs.copySync(fPath, `es/${fl}`);
     fs.copySync(fPath, `lib/${fl}`);
@@ -37,10 +36,7 @@ export default function main() {
         const compress = new CleanCSS().minify(result.css);
         fs.outputFile('dist/opendesign.min.css', compress.styles);
 
-        fs.writeFileSync(
-          'dist/opendesign.scss',
-          "@import '../es/index.scss';",
-        );
+        fs.writeFileSync('dist/opendesign.scss', "@import '../es/index.scss';");
       }
     }
   });
@@ -48,16 +44,21 @@ export default function main() {
   const idxFiles = glob.sync('**/style/**/index.ts', {
     cwd: input,
   });
-  idxFiles.forEach(fl => {
+  idxFiles.forEach((fl) => {
     const fpath = path.resolve(input, fl);
     const toFl = fl.replace(/\.ts$/, '.js');
     fs.copySync(fpath, `es/${toFl}`);
     fs.copySync(fpath, `lib/${toFl}`);
 
     const content = fs.readFileSync(fpath, 'utf-8');
-    const css = content.replace('.scss', '.css');
+    const css = content.replace('.scss', '.css').replace(/\/style';/g, "/style/css';");
     const cssFile = fl.replace(/index\.ts$/, 'css.js');
     fs.outputFile(`es/${cssFile}`, css);
     fs.outputFile(`lib/${cssFile}`, css);
   });
+
+  // copy scss index
+  const scssIndexContent = "import './index.scss';";
+  fs.outputFile('es/scss.mjs', scssIndexContent);
+  fs.outputFile('lib/scss.js', scssIndexContent);
 }

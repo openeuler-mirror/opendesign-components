@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import '@components/style';
+import '@components/_styles';
 
 const title = 'Home';
 </script>

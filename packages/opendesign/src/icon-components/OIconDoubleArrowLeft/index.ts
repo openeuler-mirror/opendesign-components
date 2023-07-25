@@ -1,0 +1,1 @@
+export { default as OIconDoubleArrowLeft } from './OIconDoubleArrowLeft.vue';

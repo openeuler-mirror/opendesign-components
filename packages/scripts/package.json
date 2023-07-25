@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opensig-scripts",
-  "version": "0.0.11",
+  "version": "0.0.13",
   "description": "opendesign component Scripts",
   "main": "dist/index.js",
   "bin": "dist/index.js",
@@ -12,6 +12,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@rollup/plugin-terser": "^0.2.1",
     "@vitejs/plugin-vue": "^3.2.0",
     "clean-css": "^5.3.1",
     "commander": "^9.4.1",
@@ -19,9 +20,8 @@
     "glob": "^8.0.3",
     "sass": "^1.56.1",
     "svgo": "^3.0.2",
-    "vite-plugin-dts": "^1.7.1",
-    "vue": "^3.2.41",
-    "@rollup/plugin-terser": "^0.2.1"
+    "vite-plugin-dts": "^2.3.0",
+    "vue": "^3.2.45"
   },
   "devDependencies": {
     "@types/clean-css": "^4.2.6",

@@ -1,0 +1,43 @@
+.o-date-picker {
+}
+
+.o-date-picker-panel {
+  --picker-panel-color: var(--o-color-info1);
+  --picker-panel-color-out: var(--o-color-info4);
+
+  --picker-panel-icon-size: var(--o-icon_size-s);
+  --picker-panel-text-size: var(--o-font_size-text1);
+  --picker-panel-text-height: var(--o-line_height-text1);
+
+  --picker-cell-radius-selected: 24px;
+  --picker-cell-bg-color-hover: var(--o-color-control2-light);
+
+  --picker-cell-color-selected: var(--o-color-info1-inverse);
+  --picker-cell-bg-color-selected: var(--o-color-primary1);
+
+  --picker-cell-color-selecting: var(--o-color-info3);
+  --picker-cell-bg-color-selecting: var(--o-color-primary4);
+
+  --picker-cell-in-range-bg-color: var(--o-color-control1-light);
+
+  --picker-cell-today-size: 4px;
+  --picker-cell-today-dot-color: var(--o-color-primary1);
+
+  --picker-col-bd: 1px solid var(--o-color-control4);
+
+  --picker-time-cell-color-selected: var(--o-color-info1);
+  --picker-time-cell-bg-color-selected: var(--o-color-control3-light);
+
+  --picker-head-height: 48px;
+
+  --picker-pane-year-width: 312px;
+  --picker-pane-year-height: 256px;
+  --picker-pane-month-width: 312px;
+  --picker-pane-month-height: auto;
+  --picker-pane-date-width: 312px;
+  --picker-pane-date-height: auto;
+  --picker-pane-time-cell-width: 64px;
+  --picker-pane-time-height: 256px;
+
+  --picker-link-color-hover: var(--o-color-primary1);
+}

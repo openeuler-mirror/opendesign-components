@@ -1,5 +1,5 @@
 /* theme: k.light */
-[data-o-theme='k.light'] {
+[data-o-theme="k.light"] {
   /**
    * @name 
    * @type palette
@@ -1364,7 +1364,7 @@
    * @group mask
    * @description 局部遮罩
    */
-  --o-color-mask2: rgba(var(--o-gray-14), 0.2);
+  --o-color-mask2: rgba(var(--o-gray-1), 0.2);
   /**
    * @name 阴影1
    * @type shadow
@@ -1777,42 +1777,35 @@
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 8px;
+  --o-radius-l: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
-   * @description 大尺寸圆角
+   * @description 大尺寸圆角,一般用于卡片
    */
-  --o-radius-xl: 8px;
+  --o-radius-xl: 0px;
   /**
    * @name 大尺寸控件圆角
    * @type size
    * @group radius
-   * @description 大尺寸控件圆角
+   * @description 大尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: var(--o-radius-l);
+  --o-radius_control-l: 4px;
   /**
    * @name 中尺寸控件圆角
    * @type size
    * @group radius
-   * @description 中尺寸控件圆角
+   * @description 中尺寸控件圆角(组件使用)
    */
-  --o-radius_control-m: var(--o-radius-m);
+  --o-radius_control-m: 4px;
   /**
    * @name 小尺寸控件圆角
    * @type size
    * @group radius
-   * @description 小尺寸控件圆角
+   * @description 小尺寸控件圆角(组件使用)
    */
-  --o-radius_control-s: var(--o-radius-s);
-  /**
-   * @name 超小尺寸控件圆角
-   * @type size
-   * @group radius
-   * @description 超小尺寸控件圆角
-   */
-  --o-radius_control-xs: var(--o-radius-xs);
+  --o-radius_control-s: 4px;
   /**
    * @name 持续时间
    * @type animation

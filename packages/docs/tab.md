@@ -1,14 +1,19 @@
 # Tab 页签
 
+页签组件，支持切换页签显示不同内容
+
 ## props
 
 ### OTab
 
-| name       | type                        | 默认值 | 说明                                 |
-| :--------- | :-------------------------- | :----- | ------------------------------------ |
-| modelValue | string \| number（v-model） | ''     | 可选，开关状态                       |
-| lazy       | boolean                     | false  | 可选，是否在首次激活标签时再挂载内容 |
-| addable    | boolean                     | false  | 可选，是否可以添加页签               |
+| name        | type                           | 默认值    | 说明                                 |
+| :---------- | :----------------------------- | :-------- | ------------------------------------ |
+| modelValue  | string \| number（v-model）    | ''        | 可选，开关状态                       |
+| lazy        | boolean                        | false     | 可选，是否在首次激活标签时再挂载内容 |
+| addable     | boolean                        | false     | 可选，是否可以添加页签               |
+| variant     | "solid" \| "outline" \| "text" | 'outline' | 可选，按钮类型                       |
+| addInactive | boolean                        | false     | 可选，不激活新添加页签               |
+| line        | boolean                        | true      | 可选，是否展示 nav 线                |
 
 ### OTabPane
 
@@ -26,10 +31,12 @@
 
 ### OTab
 
-| name   | 参数                                                  | 说明           |
-| :----- | :---------------------------------------------------- | :------------- |
-| change | (value: string \| number, oldValue: string \| number) | 页签切换后触发 |
-| delete | (value: string \| number )                            | 页签删除后触发 |
+| name   | 参数                                                    | 说明             |
+| :----- | :------------------------------------------------------ | :--------------- |
+| change | (value: string \| number, oldValue: string \| number)   | 页签切换后触发   |
+| change | (value: string \| number, oldValue?: string \| number ) | 页签切换变化触发 |
+| delete | (value: string \| number )                              | 页签删除后触发   |
+| add    | (evt: MouseEvent )                                      | 页签添加后触发   |
 
 ## expose
 
@@ -37,12 +44,15 @@
 
 ### OTab
 
-| name | 说明                 |
-| :--- | :------------------- |
-| act  | 页签右侧额外内容插槽 |
+| name   | 说明     |
+| :----- | :------- |
+| prefix | 前缀插槽 |
+| suffix | 后缀插槽 |
+| archor | 高亮插槽 |
 
 ### OTabPane
 
-| name | 说明     |
-| :--- | :------- |
-| nav  | 页签插槽 |
+| name    | 说明         |
+| :------ | :----------- |
+| nav     | 页签头部插槽 |
+| default | 页签内容插槽 |

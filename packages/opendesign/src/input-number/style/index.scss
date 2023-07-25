@@ -1,0 +1,81 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-input-number {
+  .o-input-prepend,
+  .o-input-append {
+    font-size: var(--o-font_size-text1);
+    padding: 0;
+    align-items: stretch;
+    overflow: hidden;
+  }
+}
+
+.o-input-number-btn-wrap {
+  user-select: none;
+  justify-content: center;
+  display: flex;
+  min-width: var(--input-height);
+  font-size: 16px;
+  flex-wrap: wrap;
+  color: var(--input-number-btn-color);
+}
+
+.o-input-number-btn,
+.o-input-number-btn {
+  width: 100%;
+  height: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--input-number-btn-bg-color);
+  &.both-left,
+  &.both-right {
+    height: 100%;
+  }
+  @include hover {
+    &:hover {
+      color: var(--input-number-btn-color-hover);
+      background-color: var(--input-number-btn-bg-color-hover);
+    }
+  }
+  &:focus {
+    color: var(--input-number-btn-color-active);
+    background-color: var(--input-number-btn-bg-color-active);
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+    color: var(--input-number-btn-color-disabled);
+    background-color: var(--input-number-btn-bg-color-disabled);
+  }
+
+  .o-input-round-pill & {
+    &.both-right {
+      padding-right: var(--input-number-btn-pill-fix);
+    }
+    &.both-left {
+      padding-left: var(--input-number-btn-pill-fix);
+    }
+  }
+}
+.o-input-number-icon-minus {
+  position: absolute;
+  margin-top: -4px;
+}
+.o-input-number-icon-plus {
+  position: absolute;
+  margin-bottom: -4px;
+}
+
+.o-input-number-size-small {
+  width: 90px;
+}
+.o-input-number-size-medium {
+  width: 120px;
+}
+.o-input-number-size-large {
+  width: 160px;
+}

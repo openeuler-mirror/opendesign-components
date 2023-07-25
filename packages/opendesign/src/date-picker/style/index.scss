@@ -1,0 +1,9 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-dp-icon {
+  display: flex;
+  align-items: center;
+  font-size: var(--icon-size);
+  color: var(--icon-color);
+}

@@ -1,0 +1,1 @@
+export { default as OIconChevronRight } from './OIconChevronRight.vue';

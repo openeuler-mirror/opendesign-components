@@ -17,27 +17,27 @@ export default (): InlineConfig => {
       emptyOutDir: false,
       minify: false,
       rollupOptions: {
-        input: ['src/components/index.ts', 'src/components/icon/index.ts'],
+        input: ['src/index.ts', 'src/icon/index.ts'],
         output: [
           {
             format: 'es',
             dir: 'es',
             entryFileNames: '[name].mjs',
             preserveModules: true,
-            preserveModulesRoot: 'src/components',
+            preserveModulesRoot: 'src',
           },
           {
             format: 'commonjs',
             dir: 'lib',
             entryFileNames: '[name].js',
             preserveModules: true,
-            preserveModulesRoot: 'src/components',
+            preserveModulesRoot: 'src',
           },
         ],
         external: ['vue'],
       },
       lib: {
-        entry: 'src/components/index.ts',
+        entry: 'src/index.ts',
         formats: ['es', 'cjs'],
       },
     },

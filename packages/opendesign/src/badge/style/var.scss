@@ -1,0 +1,33 @@
+.o-badge {
+  --badge-text-size: var(--o-font_size-tip2);
+  --badge-text-height: var(--o-line_height-tip2);
+
+  --badge-radius: var(--o-control_size-l);
+
+  --badge-padding: 2px;
+
+  --badge-min-width: 12px;
+
+  --badge-dot-size: 4px;
+  --badge-height: 12px;
+}
+
+.o-badge-primary {
+  --badge-color: rgb(var(--o-color-white));
+  --badge-bg-color: var(--o-color-primary1);
+}
+
+.o-badge-success {
+  --badge-color: rgb(var(--o-color-white));
+  --badge-bg-color: var(--o-color-success1);
+}
+
+.o-badge-warning {
+  --badge-color: rgb(var(--o-color-white));
+  --badge-bg-color: var(--o-color-warning1);
+}
+
+.o-badge-danger {
+  --badge-color: rgb(var(--o-color-white));
+  --badge-bg-color: var(--o-color-danger1);
+}

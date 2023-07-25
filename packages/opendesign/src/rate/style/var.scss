@@ -1,0 +1,41 @@
+.o-rate {
+  --rate-color: var(--o-color-control1-light);
+}
+
+.o-rate-normal {
+  --rate-color-selected: rgb(var(--o-yellow-6));
+}
+
+.o-rate-primary {
+  --rate-color-selected: var(--o-color-primary1);
+}
+
+.o-rate-success {
+  --rate-color-selected: var(--o-color-success1);
+}
+
+.o-rate-warning {
+  --rate-color-selected: var(--o-color-warning1);
+}
+
+.o-rate-danger {
+  --rate-color-selected: var(--o-color-danger1);
+}
+
+.o-rate-large {
+  --rate-size: var(--o-icon_size-m);
+  --rate-gap: 4px;
+}
+
+.o-rate-medium {
+  --rate-size: var(--o-icon_size-xs);
+  --rate-gap: 4px;
+}
+
+.o-rate-popover {
+  --rate-popover-color: var(--o-color-info1);
+  --rate-popover-text-size: var(--o-font_size-tip1);
+  --rate-popover-text-height: var(--o-line_height-tip2);
+  --rate-popover-radius: var(--o-radius_control-m);
+  --rate-popover-padding: 2px 8px;
+}
