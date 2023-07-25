@@ -37,10 +37,10 @@ export function getDayLabel(value: number): string {
   return `${value}${Labels.day}`;
 }
 
-export const DefaultFormatString = {
+export const DefaultFormatString: Record<PickerModeT, string> = {
   year: 'yyyy',
   month: 'yyyy-MM',
-  monthOnly: 'MM',
+  quarter: 'Q',
   date: 'yyyy-MM-dd',
   datetime: 'yyyy-MM-dd HH:mm:ss',
   time: 'HH:mm:ss',

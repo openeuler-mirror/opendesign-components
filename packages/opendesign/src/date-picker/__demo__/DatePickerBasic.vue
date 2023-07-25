@@ -2,8 +2,8 @@
 import { ref } from 'vue';
 import { DayCellT, ODatePicker, ShortcutParamT } from '../index';
 
-const val1 = ref<string | Date | number>();
-const val2 = ref<Array<string | Date | number>>();
+const val1 = ref<string | Date | number>('2011');
+const val2 = ref<Array<string | Date | number>>(['2011', '2023']);
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);
@@ -59,7 +59,7 @@ const displayMonthList = () => {
 const disableTimeCell = (value: number, type: 'hour' | 'minute' | 'second'): boolean => {
   return !Boolean(value % 3);
 };
-const fs = '';
+const fs = 'YYYY-MM';
 </script>
 <template>
   <h4>Color & Variant</h4>
@@ -69,13 +69,13 @@ const fs = '';
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="datetime"
+        mode="month"
         :format-string="fs"
         placeholder="请选择..."
         resize="none"
         color="normal"
         :shortcuts="shortcuts"
-        :year-selectable="false"
+        :year-selectable="true"
         confirm-label="ok"
         style="width: 400px"
         :disable-cell="disableCell"
@@ -88,7 +88,7 @@ const fs = '';
         @clear="onClear"
         @press-enter="onPressEnter"
       />
-      <ODatePicker
+      <!-- <ODatePicker
         v-model="val2"
         mode="year-range"
         :format-string="fs"
@@ -108,7 +108,7 @@ const fs = '';
         @change="onChange"
         @clear="onClear"
         @press-enter="onPressEnter"
-      />
+      /> -->
       <!-- <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="success" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="warning" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="danger" />

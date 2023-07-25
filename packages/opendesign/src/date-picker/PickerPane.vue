@@ -30,14 +30,12 @@ const props = withDefaults(
   defineProps<{
     value: Date;
     formateString: string;
-    range?: boolean;
     shortcuts?: Array<ShortcutParamT>;
     needConfirm?: boolean;
     confirmLabel?: string;
     clearLabel?: string;
     mode?: PickerModeT;
-    yearSelectable?: boolean;
-    monthSelectable?: boolean;
+    range?: boolean;
     disableCell?: disableYearCellT | disableMonthCellT | disableDayCellT;
     disableTimeCell?: disableTimeCellT;
     displayYearList?: DisaplyYearListT;
@@ -51,8 +49,6 @@ const props = withDefaults(
     confirmLabel: '',
     clearLabel: '',
     mode: 'date',
-    yearSelectable: true,
-    monthSelectable: true,
     disableCell: undefined,
     disableTimeCell: undefined,
     displayYearList: undefined,
@@ -69,20 +65,22 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
 }>();
 
+const yearSelectable = computed(() => /y/i.test(props.formateString));
+console.log(yearSelectable.value);
 // 控制面板显示
 const currentMode = ref(props.mode);
 const showPicker = computed(() => {
   return {
-    year: ['year', 'year-range'].includes(currentMode.value),
-    month: ['month', 'month-range'].includes(currentMode.value),
+    year: currentMode.value === 'year',
+    month: currentMode.value === 'month',
     day: ['date', 'datetime'].includes(currentMode.value),
   };
 });
 const mountPicker = computed(() => {
   const time = ['time', 'datetime'].includes(props.mode);
   const day = ['date', 'datetime'].includes(currentMode.value);
-  const month = (props.monthSelectable && day) || ['month', 'month-range'].includes(currentMode.value);
-  const year = (props.yearSelectable && month) || (props.yearSelectable && day) || ['year', 'year-range'].includes(currentMode.value);
+  const month = day || currentMode.value === 'month';
+  const year = (yearSelectable.value && month) || (yearSelectable.value && day) || currentMode.value === 'year';
 
   return {
     year,
@@ -246,7 +244,7 @@ const onTimeSelect = (v: TimeValueT, e?: Event) => {
 };
 
 const toSelectYear = () => {
-  if (props.yearSelectable === false) {
+  if (yearSelectable.value === false) {
     return;
   }
 
@@ -281,7 +279,7 @@ const noHead = computed(() => {
     return true;
   }
 
-  if (props.mode === 'month' && !props.yearSelectable) {
+  if (props.mode === 'month' && !yearSelectable.value) {
     return true;
   }
 
@@ -346,7 +344,7 @@ const onShortcutHoverout = () => {
           :mode="props.mode"
           :current-mode="currentMode"
           :value="viewValue"
-          :show-year="props.yearSelectable"
+          :show-year="yearSelectable"
           @value-click="onHeadValueClick"
           @btn-click="onHeadBtnClick"
         />
@@ -374,7 +372,6 @@ const onShortcutHoverout = () => {
             :view-value="viewValue"
             :disable-cell="(disableCellFn as disableMonthCellT)"
             :display-month-list="props.displayMonthList"
-            :year-selectable="props.yearSelectable"
             @select="onMonthSelect"
             @select-year="toSelectYear"
           />

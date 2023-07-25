@@ -23,23 +23,13 @@ const emits = defineEmits<{
 }>();
 
 const inputId = uniqueId('input');
-const inputRef = ref<InstanceType<typeof InnerInput>>();
+const inputRef1 = ref<InstanceType<typeof InnerInput>>();
+const inputRef2 = ref<InstanceType<typeof InnerInput>>();
 const inputFrameRef = ref<InstanceType<typeof InnerFrame>>();
+const isRange = computed(() => /-range/.test(props.mode));
+const pickerMode = computed(() => props.mode.replace('-range', '') as keyof typeof DefaultFormatString);
 
-const formateString = computed(() => {
-  if (props.formatString) {
-    return props.formatString;
-  }
-  type FST = keyof typeof DefaultFormatString;
-
-  const m = props.mode.replace('-range', '');
-
-  let key: FST = props.mode as FST;
-  if (m === 'month' && !props.yearSelectable) {
-    key = 'monthOnly';
-  }
-  return DefaultFormatString[key];
-});
+const formateString = computed(() => props.formatString || DefaultFormatString[pickerMode.value]);
 
 const formatFn = isFunction(props.format)
   ? props.format
@@ -67,9 +57,21 @@ const inValue = computed(() => {
   const v = isArray(value) ? value[0] : value;
   return normalizeDateValue(v, parseFn);
 });
-console.log('inValue', inValue.value);
+const inValue2 = computed(() => {
+  if (!isRange.value) {
+    return '';
+  }
+  const value = props.modelValue ?? props.defaultValue;
+  if (isArray(value)) {
+    return normalizeDateValue(value[1], parseFn);
+  }
+  return '';
+});
 
 const inputVal = ref(inValue.value.value ? formatFn(inValue.value.value) : '');
+const inputVal2 = ref(inValue2.value && inValue2.value?.value ? formatFn(inValue2.value.value) : '');
+
+console.log(inputVal.value, inputVal2.value);
 
 const currentValue = ref<Date>(inValue.value.value);
 
@@ -87,7 +89,7 @@ watchEffect(() => {
     inputVal.value = formatFn(currentValue.value);
 
     if (isPicking.value) {
-      inputRef.value?.focus();
+      inputRef1.value?.focus();
     }
   }
 });
@@ -184,7 +186,7 @@ const onTimePaneChange = (value: TimeValueT) => {
     :for="inputId"
   >
     <InnerInput
-      ref="inputRef"
+      ref="inputRef1"
       :model-value="inputVal"
       :input-id="inputId"
       type="text"
@@ -197,13 +199,27 @@ const onTimePaneChange = (value: TimeValueT) => {
       @blur="onBlur"
       @press-enter="onPressEnter"
       @update:model-value="onUpdateModelValue"
-    >
-      <template #suffix>
-        <div class="o-dp-icon" @mousedown.prevent>
-          <IconCalendar />
-        </div>
-      </template>
-    </InnerInput>
+    />
+    <InnerInput
+      v-if="isRange"
+      ref="inputRef2"
+      :model-value="inputVal2"
+      type="text"
+      :placeholder="props.placeholder"
+      :disabled="props.disabled"
+      :readonly="props.readonly"
+      :clearable="props.clearable"
+      @clear="onClear"
+      @focus="onFocus"
+      @blur="onBlur"
+      @press-enter="onPressEnter"
+      @update:model-value="onUpdateModelValue"
+    />
+    <template #suffix>
+      <div class="o-dp-icon" @mousedown.prevent>
+        <IconCalendar />
+      </div>
+    </template>
 
     <InnerPanel
       v-if="!props.disabled"
@@ -217,17 +233,17 @@ const onTimePaneChange = (value: TimeValueT) => {
       <div>
         <PickerPane
           v-model:value="currentValue"
+          :formate-string="formateString"
           :shortcuts="props.shortcuts"
           :confirm-btn="props.needConfirm"
           :confirm-label="props.confirmLabel"
-          :mode="props.mode"
-          :year-selectable="props.yearSelectable"
+          :mode="pickerMode"
+          :range="isRange"
           :disable-cell="props.disableCell"
           :disable-time-cell="props.disableTimeCell"
           :display-year-list="props.displayYearList"
           :display-month-list="props.displayMonthList"
           :display-day-list="props.displayDayList"
-          :formate-string="formateString"
           @confirm="() => onConfirm(false)"
           @clear="onClear"
         >

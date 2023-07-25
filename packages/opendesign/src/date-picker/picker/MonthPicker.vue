@@ -28,14 +28,12 @@ const props = withDefaults(
     value: Date;
     viewValue: Date;
     column?: number;
-    yearSelectable?: boolean;
     disableCell: (cell: MonthCellT) => boolean;
     displayMonthList?: DisaplyMonthListT;
   }>(),
   {
     value: undefined,
     column: 3,
-    yearSelectable: true,
     displayMonthList: undefined,
   }
 );
