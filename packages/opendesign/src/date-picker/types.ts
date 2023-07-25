@@ -44,20 +44,7 @@ export interface TimeValueT {
   seconds?: number;
 }
 
-export const datePickerProps = {
-  /**
-   * 值
-   * v-model
-   */
-  modelValue: {
-    type: [Date, String, Number, Array] as PropType<Date | string | number | Array<Date | string | number>>,
-  },
-  /**
-   * 默认值
-   */
-  defaultValue: {
-    type: [Date, String, Number, Array] as PropType<Date | string | number | Array<Date | string | number>>,
-  },
+const commonPickerProps = {
   /**
    * 选择器模式
    */
@@ -206,5 +193,41 @@ export const datePickerProps = {
   },
 };
 
+export const datePickerProps = {
+  /**
+   * 值
+   * v-model
+   */
+  modelValue: {
+    type: [Date, String, Number] as PropType<Date | string | number>,
+  },
+  /**
+   * 默认值
+   */
+  defaultValue: {
+    type: [Date, String, Number] as PropType<Date | string | number>,
+  },
+  ...commonPickerProps,
+};
+
 export type DatePickerPropsT = ExtractPropTypes<typeof datePickerProps>;
+
+export const dateRangePickerProps = {
+  /**
+   * 值
+   * v-model
+   */
+  modelValue: {
+    type: Array as PropType<Array<Date | string | number>>,
+  },
+  /**
+   * 默认值
+   */
+  defaultValue: {
+    type: Array as PropType<Array<Date | string | number>>,
+  },
+  ...commonPickerProps,
+};
+export type DateRangePickerPropsT = ExtractPropTypes<typeof dateRangePickerProps>;
+
 export { PickerDate };

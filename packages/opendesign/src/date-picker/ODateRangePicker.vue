@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watchEffect, watch } from 'vue';
-import { datePickerProps, TimeValueT } from './types';
+import { dateRangePickerProps, TimeValueT } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
 import { InnerPanel } from '../_components/inner-panel';
@@ -11,15 +11,15 @@ import { isArray, isFunction, isValidDate } from '../_utils/is';
 import { getRealDateValue, normalizeDateValue, DefaultFormatString } from './date';
 import { formatDate, parseDate } from '../_utils/date';
 
-const props = defineProps(datePickerProps);
+const props = defineProps(dateRangePickerProps);
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | Date | number): void;
-  (e: 'change', value: string | Date | number): void;
-  (e: 'blur', value: string | Date | number, inputValue?: string, evt?: FocusEvent): void;
-  (e: 'focus', value: string | Date | number, inputValue?: string, evt?: FocusEvent): void;
+  (e: 'update:modelValue', value: Array<Date | string | number>): void;
+  (e: 'change', value: Array<Date | string | number>): void;
+  (e: 'blur', value: Array<Date | string | number>, inputValue?: Array<string>, evt?: FocusEvent): void;
+  (e: 'focus', value: Array<Date | string | number>, inputValue?: Array<string>, evt?: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
+  (e: 'pressEnter', value: Array<string>, evt: KeyboardEvent): void;
 }>();
 
 const inputId = uniqueId('input');
