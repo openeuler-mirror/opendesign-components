@@ -64,7 +64,6 @@ function bindEvents() {
           handlers.forEach((item) => {
             if (!item.exception || !item.exception(e)) {
               item.handler();
-              console.log('out click');
             }
           });
         }
