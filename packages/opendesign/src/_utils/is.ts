@@ -52,3 +52,7 @@ export const isPromise = <T>(val: unknown): val is Promise<T> => {
 export const isClient = typeof window !== 'undefined';
 
 export const isTouchDevice = isClient ? 'ontouchstart' in document.documentElement : false;
+
+export function isWindow(val: unknown): val is Window {
+  return val === window;
+}

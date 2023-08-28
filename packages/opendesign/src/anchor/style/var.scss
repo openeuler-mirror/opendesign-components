@@ -1,0 +1,26 @@
+.o-anchor {
+  --anchor-line-width: 2px;
+  --anchor-line-bg-color: var(--o-color-control4);
+
+  --anchor-indicator-width: 2px;
+  --anchor-indicator-bg-color: var(--o-color-primary1);
+}
+
+.o-anchor-item {
+  --anchor-item-width: 144px;
+
+  --anchor-item-color: var(--o-color-info2);
+  --anchor-item-color-active: var(--o-color-info1);
+
+  --anchor-item-text-size: var(--o-font_size-text1);
+  --anchor-item-text-height: var(--o-line_height-text1);
+
+  --anchor-item-bg-color: transparent;
+  --anchor-item-bg-color-hover: var(--o-color-control2-light);
+  --anchor-item-bg-color-active: var(--o-color-control3-light);
+
+  --anchor-item-padding: 8px;
+  --anchor-item-radius: var(--o-radius_control-m);
+
+  --anchor-item-gap: 2px;
+}
