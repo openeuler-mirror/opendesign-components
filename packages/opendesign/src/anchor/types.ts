@@ -1,4 +1,4 @@
-import type { ExtractPropTypes, PropType, VNode } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 export const anchorProps = {
   container: {

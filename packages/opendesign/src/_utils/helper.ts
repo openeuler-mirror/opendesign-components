@@ -1,5 +1,3 @@
-import { arrayBuffer } from 'stream/consumers';
-
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   let handle = 0;

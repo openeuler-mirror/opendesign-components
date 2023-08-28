@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ComponentPublicInstance, ref, Ref, shallowRef } from 'vue';
+import { ref, Ref, shallowRef } from 'vue';
 import { messageListProps, MessageParamsT } from './types';
 import OMessage from './OMessage.vue';
 import { isString } from '../_utils/is';
