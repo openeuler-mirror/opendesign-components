@@ -1,0 +1,3 @@
+@use '../../_styles/mixin.scss' as *;
+@include respond-to('phone-pad') {
+}

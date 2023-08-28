@@ -256,6 +256,12 @@ export const routes = [
     component: () => import('@components/anchor/__demo__/TheIndex.vue'),
   },
   {
+    path: '/collapse',
+    name: 'Collapse',
+    label: '折叠面板 Collapse',
+    component: () => import('@components/collapse/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',
