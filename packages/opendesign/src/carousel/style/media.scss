@@ -2,7 +2,7 @@
 
 @include respond-to('laptop') {
   .o-carousel {
-    --carousel-arrow-size: var(--o-icon_size-s);
+    --carousel-arrow-size: var(--o-icon_size_control-m);
     --carousel-indicator-width: 40px;
     --carousel-indicator-height: 3px;
     --carousel-indicator-gap: 8px;
@@ -12,7 +12,7 @@
 
 @include respond-to('phone-pad') {
   .o-carousel {
-    --carousel-arrow-size: var(--o-icon_size-xs);
+    --carousel-arrow-size: var(--o-icon_size_control-xs);
     --carousel-indicator-width: 24px;
     --carousel-indicator-height: 2px;
     --carousel-indicator-gap: 4px;

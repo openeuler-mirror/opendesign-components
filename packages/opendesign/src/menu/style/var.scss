@@ -11,7 +11,7 @@
   --sub-menu-color: var(--o-color-info1);
   --sub-menu-color-selected: var(--o-color-primary1);
 
-  --sub-menu-radius: var(--o-radius_control-m);
+  --sub-menu-radius: var(--o-radius_control-s);
 
   --sub-menu-text-size: var(--o-font_size-text1);
   --sub-menu-text-height: var(--o-line_height-text1);
@@ -19,14 +19,14 @@
   --sub-menu-secondary-text-size: var(--o-font_size-tip1);
   --sub-menu-secondary-text-height: var(--o-line_height-tip1);
 
-  --sub-menu-icon-size: var(--o-icon_size-s);
+  --sub-menu-icon-size: var(--o-icon_size_control-m);
   --sub-menu-icon-color: var(--o-color-info1);
   --sub-menu-icon-color-selected: var(--o-color-primary1);
   --sub-menu-icon-gap: 8px;
 
   --sub-menu-padding-right: calc(var(--menu-padding-h) + var(--sub-menu-icon-size) + var(--sub-menu-icon-gap));
 
-  --sub-menu-arrow-size: var(--o-icon_size-s);
+  --sub-menu-arrow-size: var(--o-icon_size_control-m);
 
   --sub-menu-bg-color-hover: var(--o-color-control2-light);
   --sub-menu-bg-color-selected: var(--o-color-control3-light);
@@ -37,9 +37,9 @@
   --menu-item-color-disabled: var(--o-color-info4);
   --menu-item-color-selected: var(--o-color-primary1);
 
-  --menu-item-radius: var(--o-radius_control-m);
+  --menu-item-radius: var(--o-radius_control-s);
 
-  --menu-item-icon-size: var(--o-icon_size-s);
+  --menu-item-icon-size: var(--o-icon_size_control-m);
   --menu-item-icon-color: var(--o-color-info1);
   --menu-item-icon-color-selected: var(--o-color-primary1);
   --menu-item-icon-gap: 8px;

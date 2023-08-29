@@ -47,13 +47,13 @@
 }
 
 .o-link-small {
-  --link-icon-size: var(--o-icon_size-2xs);
+  --link-icon-size: var(--o-icon_size_control-xs);
 }
 
 .o-link-medium {
-  --link-icon-size: var(--o-icon_size-xs);
+  --link-icon-size: var(--o-icon_size_control-xs);
 }
 
 .o-link-large {
-  --link-icon-size: var(--o-icon_size-s);
+  --link-icon-size: var(--o-icon_size_control-m);
 }

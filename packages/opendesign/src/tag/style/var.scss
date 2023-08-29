@@ -1,5 +1,5 @@
 .o-tag {
-  --tag-radius: var(--o-radius_control-s);
+  --tag-radius: var(--o-radius_control-xs);
 }
 
 .o-tag-normal {
@@ -102,7 +102,7 @@
   --tag-text-size: var(--o-font_size-tip2);
   --tag-text-height: var(--o-line_height-tip2);
   --tag-height: var(--o-control_size-s);
-  --tag-icon-size: var(--o-icon_size-xs);
+  --tag-icon-size: var(--o-icon_size_control-xs);
   --tag-icon-gap: 4px;
 }
 
@@ -111,7 +111,7 @@
   --tag-text-size: var(--o-font_size-tip2);
   --tag-text-height: var(--o-line_height-tip2);
   --tag-height: var(--o-control_size-xs);
-  --tag-icon-size: var(--o-icon_size-2xs);
+  --tag-icon-size: var(--o-icon_size_control-xs);
   --tag-icon-gap: 2px;
 }
 

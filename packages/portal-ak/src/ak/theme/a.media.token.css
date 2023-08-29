@@ -6,11 +6,10 @@
   }
 }
 
-@media screen and (max-width: 1200px) and (min-width: 721px) {
+@media screen and (max-width: 1200px) and (min-width: 600px) {
   [data-o-theme='a.dark'],
   [data-o-theme='a.light'] {
     --o-control_size-l: 36px;
-    --o-icon_size-s: 20px;
   }
 }
 

@@ -103,12 +103,12 @@
   --if-height: var(--o-control_size-s);
   --if-text-size: var(--o-font_size-tip1);
   --if-text-height: var(--o-line_height-tip1);
-  --icon-size: var(--o-icon_size-xs);
+  --icon-size: var(--o-icon_size_control-xs);
 
   --if-padding: 0 7px;
   --if-prepend-padding: 0 3px 0 4px;
   --if-append-padding: 0 4px 0 3px;
-  --if-radius: var(--o-radius_control-s);
+  --if-radius: var(--o-radius_control-xs);
 
   --icon-c &.o-if-round-pill {
     --if-padding: 0 9px;
@@ -120,10 +120,10 @@
   --if-height: var(--o-control_size-m);
   --if-text-size: var(--o-font_size-text1);
   --if-text-height: var(--o-line_height-text1);
-  --icon-size: var(--o-icon_size-s);
+  --icon-size: var(--o-icon_size_control-m);
 
   --if-padding: 0 11px;
-  --if-radius: var(--o-radius_control-m);
+  --if-radius: var(--o-radius_control-s);
 
   --if-prepend-padding: 0 7px 0 8px;
   --if-append-padding: 0 8px 0 7px;
@@ -137,7 +137,7 @@
   --if-height: var(--o-control_size-l);
   --if-text-size: var(--o-font_size-text2);
   --if-text-height: var(--o-line_height-text2);
-  --icon-size: var(--o-icon_size-s);
+  --icon-size: var(--o-icon_size_control-m);
 
   --if-padding: 0 15px;
   --if-prepend-padding: 0 11px 0 12px;

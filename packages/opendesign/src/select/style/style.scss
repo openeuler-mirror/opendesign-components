@@ -156,7 +156,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px;
-  font-size: var(--o-icon_size-s);
+  font-size: var(--o-icon_size_control-m);
 }
 
 .o-select-empty {
@@ -194,7 +194,7 @@
   }
 }
 .o-select-tag-remove {
-  font-size: var(--o-icon_size-2xs);
+  font-size: var(--o-icon_size_control-xs);
   margin-left: 4px;
   transition: transform var(--o-duration-m1) var(--o-easing-standard-in);
   display: flex;
