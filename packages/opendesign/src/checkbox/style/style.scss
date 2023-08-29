@@ -8,10 +8,8 @@
   cursor: pointer;
 
   @include hover {
-    &:hover {
-      .o-checkbox-input {
-        border-color: var(--checkbox-input-bd-color-hover);
-      }
+    .o-checkbox-input {
+      border-color: var(--checkbox-input-bd-color-hover);
     }
   }
 
@@ -83,11 +81,9 @@
   }
 
   @include hover {
-    &:hover {
-      .o-checkbox-input {
-        background-color: var(--checkbox-input-bg-color-checked-hover);
-        border-color: var(--checkbox-input-bd-color-checked-hover);
-      }
+    .o-checkbox-input {
+      background-color: var(--checkbox-input-bg-color-checked-hover);
+      border-color: var(--checkbox-input-bd-color-checked-hover);
     }
   }
 

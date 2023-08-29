@@ -46,10 +46,8 @@
   background-color: var(--textarea-bg-color);
 
   @include hover {
-    &:hover {
-      border-color: var(--textarea-bd-color-hover);
-      background-color: var(--textarea-bg-color-hover);
-    }
+    border-color: var(--textarea-bd-color-hover);
+    background-color: var(--textarea-bg-color-hover);
   }
   &.is-focus {
     border-color: var(--textarea-bd-color-focus);
@@ -80,20 +78,16 @@
   color: var(--textarea-icon-color);
   background-color: var(--textarea-icon-bg-color);
   @include hover {
-    &:hover {
-      color: var(--textarea-icon-color-hover);
-    }
+    color: var(--textarea-icon-color-hover);
   }
   @include x-hover;
 }
 
 .o-textarea-clearable {
   @include hover {
-    &:hover {
-      .o-textarea-clear {
-        visibility: visible;
-        opacity: 1;
-      }
+    .o-textarea-clear {
+      visibility: visible;
+      opacity: 1;
     }
   }
 }

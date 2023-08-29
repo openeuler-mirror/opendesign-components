@@ -38,9 +38,7 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
-    &:hover {
-      background-color: var(--anchor-item-bg-color-hover);
-    }
+    background-color: var(--anchor-item-bg-color-hover);
   }
 
   a {

@@ -40,9 +40,7 @@
   transition: color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
-    &:hover {
-      color: var(--tag-icon-close-color-hover);
-    }
+    color: var(--tag-icon-close-color-hover);
   }
 
   &:active {

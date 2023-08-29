@@ -79,7 +79,7 @@
 .o-picker-cell-range-start,
 .o-picker-cell-range-end,
 .o-picker-cell-selected {
-  @include me-on-hover {
+  @include me-hover {
     color: var(--picker-cell-color-selected);
     --picker-cell-val-bg-color: var(--picker-cell-bg-color-selected);
   }
@@ -129,14 +129,14 @@
 }
 
 .o-picker-cell-out-view {
-  @include me-on-hover {
+  @include me-hover {
     color: var(--picker-panel-color-out);
     --picker-cell-val-bg-color: transparent;
   }
 }
 
 .o-picker-cell-disabled {
-  @include me-on-hover {
+  @include me-hover {
     color: var(--picker-panel-color-out);
     --picker-cell-val-bg-color: transparent;
     cursor: not-allowed;
@@ -180,7 +180,7 @@
 .o-picker-head-year,
 .o-picker-head-month {
   cursor: pointer;
-  @include on-hover {
+  @include hover {
     color: var(--picker-link-color-hover);
   }
 }
@@ -285,7 +285,7 @@
 }
 
 .o-pt-cell.o-picker-cell-selected:not(.o-picker-cell-disabled) {
-  @include me-on-hover {
+  @include me-hover {
     color: var(--picker-time-cell-color-selected);
     --picker-cell-val-bg-color: var(--picker-time-cell-bg-color-selected);
   }

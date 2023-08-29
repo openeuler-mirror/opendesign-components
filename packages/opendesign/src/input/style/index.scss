@@ -22,10 +22,8 @@
   border: 1px solid var(--input-bd-color);
   background-color: var(--input-bg-color);
   @include hover {
-    &:hover {
-      border-color: var(--input-bd-color-hover);
-      background-color: var(--input-bg-color-hover);
-    }
+    border-color: var(--input-bd-color-hover);
+    background-color: var(--input-bg-color-hover);
   }
 
   &.is-focus {
@@ -91,10 +89,8 @@
   border-radius: 50%;
   font-size: var(--o-input-icon-size);
   @include hover {
-    &:hover {
-      color: var(--input-icon-color-hover);
-      transform: rotate(180deg);
-    }
+    color: var(--input-icon-color-hover);
+    transform: rotate(180deg);
   }
   .o-input-suffix-wrap + & {
     position: absolute;
@@ -104,20 +100,18 @@
 
 .o-input-clearable {
   @include hover {
-    &:hover {
-      .o-input-suffix-wrap {
-        visibility: hidden;
-        opacity: 0;
-        transition: none;
-      }
-      .o-input-clear {
-        visibility: visible;
-        opacity: 1;
-        transition: all var(--o-duration-m1) var(--o-easing-standard-in);
-      }
+    .o-input-suffix-wrap {
+      visibility: hidden;
+      opacity: 0;
+      transition: none;
+    }
+    .o-input-clear {
+      visibility: visible;
+      opacity: 1;
+      transition: all var(--o-duration-m1) var(--o-easing-standard-in);
     }
   }
-  @include hover(none) {
+  @include hoverable(none) {
     .o-input-suffix-wrap {
       visibility: hidden;
       opacity: 0;

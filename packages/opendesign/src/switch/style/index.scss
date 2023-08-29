@@ -14,9 +14,7 @@
   min-width: var(--switch-min-width);
 
   @include hover {
-    &:hover {
-      background-color: var(--switch-bg-color-hover);
-    }
+    background-color: var(--switch-bg-color-hover);
   }
   &:active {
     background-color: var(--switch-bg-color-active);
@@ -62,9 +60,7 @@
   }
 
   @include hover {
-    &:hover {
-      background-color: var(--switch-bg-color-checked-hover);
-    }
+    background-color: var(--switch-bg-color-checked-hover);
   }
   &:active {
     background-color: var(--switch-bg-color-checked-active);

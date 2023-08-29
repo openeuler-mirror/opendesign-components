@@ -43,11 +43,9 @@
   color: var(--upload-color);
   transition: background-color var(--o-easing-standard-in) var(--o-duration-m1);
   @include hover {
-    &:hover {
-      background-color: var(--upload-item-bg-hover);
-      .o-upload-icon-hover-in {
-        opacity: 1;
-      }
+    background-color: var(--upload-item-bg-hover);
+    .o-upload-icon-hover-in {
+      opacity: 1;
     }
   }
   &.is-error {
@@ -139,10 +137,8 @@
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-text1);
   @include hover {
-    &:hover {
-      border: var(--upload-card-bd-hover);
-      background-color: var(--upload-card-bg-color-hover);
-    }
+    border: var(--upload-card-bd-hover);
+    background-color: var(--upload-card-bg-color-hover);
   }
   &.is-disabled {
     cursor: not-allowed;
@@ -226,9 +222,7 @@
   opacity: 0;
   transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
   @include hover {
-    &:hover {
-      opacity: 1;
-    }
+    opacity: 1;
   }
   &.is-show {
     opacity: 1;
@@ -268,10 +262,8 @@
   text-align: center;
   transition: all var(--o-easing-standard) var(--o-duration-m2);
   @include hover {
-    &:hover {
-      border: var(--upload-drag-bd-hover);
-      background-color: var(--upload-drag-bg-color-hover);
-    }
+    border: var(--upload-drag-bd-hover);
+    background-color: var(--upload-drag-bg-color-hover);
   }
   &:active {
     border: var(--upload-drag-bd-active);
@@ -285,10 +277,8 @@
     background-color: var(--upload-drag-bg-color-dragging);
   }
   @include hover {
-    &:hover {
-      border: var(--upload-drag-bd-dragging);
-      background-color: var(--upload-drag-bg-color-dragging);
-    }
+    border: var(--upload-drag-bd-dragging);
+    background-color: var(--upload-drag-bg-color-dragging);
   }
 }
 .o-upload-drag-disabled {

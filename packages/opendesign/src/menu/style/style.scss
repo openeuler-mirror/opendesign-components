@@ -62,9 +62,7 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
-    &:hover {
-      background-color: var(--sub-menu-bg-color-hover);
-    }
+    background-color: var(--sub-menu-bg-color-hover);
   }
 }
 
@@ -130,9 +128,7 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
-    &:hover {
-      background-color: var(--menu-item-bg-color-hover);
-    }
+    background-color: var(--menu-item-bg-color-hover);
   }
 
   & + .o-menu-item {
@@ -163,9 +159,7 @@
   }
 
   @include hover {
-    &:hover {
-      background-color: var(--menu-item-bg-color-selected);
-    }
+    background-color: var(--menu-item-bg-color-selected);
   }
 }
 

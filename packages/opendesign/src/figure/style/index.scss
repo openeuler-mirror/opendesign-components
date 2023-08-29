@@ -34,10 +34,8 @@
   cursor: pointer;
 
   @include hover {
-    &:hover {
-      img {
-        transform: scale(1.05);
-      }
+    img {
+      transform: scale(1.05);
     }
   }
   &:active {

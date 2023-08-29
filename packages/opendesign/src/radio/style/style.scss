@@ -8,10 +8,8 @@
   cursor: pointer;
 
   @include hover {
-    &:hover {
-      .o-radio-input {
-        border-color: var(--radio-input-bd-color-hover);
-      }
+    .o-radio-input {
+      border-color: var(--radio-input-bd-color-hover);
     }
   }
   &:active {
@@ -86,11 +84,9 @@
   }
 
   @include hover {
-    &:hover {
-      .o-radio-input {
-        background-color: var(--radio-input-bg-color-checked-hover);
-        border-color: var(--radio-input-bd-color-checked-hover);
-      }
+    .o-radio-input {
+      background-color: var(--radio-input-bg-color-checked-hover);
+      border-color: var(--radio-input-bd-color-checked-hover);
     }
   }
 

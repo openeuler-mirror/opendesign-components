@@ -26,9 +26,7 @@
   z-index: 1;
   @include x-hover;
   @include hover {
-    &:hover {
-      color: var(--dlg-close-color-hover);
-    }
+    color: var(--dlg-close-color-hover);
   }
   &:active {
     color: var(--dlg-close-color-active);
