@@ -4,13 +4,13 @@
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
   --btn-min-width: 80px;
-  --btn-icon-size: var(--o-icon_size-xs);
+  --btn-icon-size: var(--o-icon_size_control-xs);
 }
 .o-btn-large {
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
   --btn-min-width: 96px;
-  --btn-icon-size: var(--o-icon_size-s);
+  --btn-icon-size: var(--o-icon_size_control-m);
 
   @include respond-to('pad') {
     font-size: var(--o-font_size-tip1);

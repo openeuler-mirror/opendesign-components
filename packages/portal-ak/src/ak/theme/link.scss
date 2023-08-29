@@ -13,12 +13,12 @@
 .o-link-medium {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
-  --link-icon-size: var(--o-icon_size-xs);
+  --link-icon-size: var(--o-icon_size_control-xs);
 }
 .o-link-large {
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
-  --link-icon-size: var(--o-icon_size-s);
+  --link-icon-size: var(--o-icon_size_control-m);
   @include respond-to('pad') {
     font-size: var(--o-font_size-tip1);
     line-height: var(--o-line_height-tip1);
@@ -30,15 +30,15 @@
   &.o-link-medium {
     --arrow-width: 5px;
     .o-link-suffix {
-      width: var(--o-icon_size-xs);
-      height: var(--o-icon_size-xs);
+      width: var(--o-icon_size_control-xs);
+      height: var(--o-icon_size_control-xs);
     }
   }
   &.o-link-large {
     --arrow-width: 6px;
     .o-link-suffix {
-      width: var(--o-icon_size-s);
-      height: var(--o-icon_size-s);
+      width: var(--o-icon_size_control-m);
+      height: var(--o-icon_size_control-m);
     }
   }
   @include respond-to('up-pad') {

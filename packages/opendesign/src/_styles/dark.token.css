@@ -297,13 +297,6 @@
   /**
    * @name 
    * @type palette
-   * @group huaweired
-   * @description 
-   */
-  --o-red-huawei: 199, 0, 11;
-  /**
-   * @name 
-   * @type palette
    * @group gray
    * @description 
    */
@@ -1471,19 +1464,19 @@
    */
   --o-gap-8: 64px;
   /**
-   * @name 小尺寸
+   * @name 超小尺寸
    * @type size
    * @group control_size
-   * @description 小尺寸
+   * @description 超小尺寸
    */
-  --o-control_size-2xs: 12px;
+  --o-control_size-2xs: 14px;
   /**
    * @name 小尺寸
    * @type size
    * @group control_size
    * @description 小尺寸
    */
-  --o-control_size-xs: 18px;
+  --o-control_size-xs: 16px;
   /**
    * @name 小尺寸
    * @type size
@@ -1513,236 +1506,320 @@
    */
   --o-control_size-xl: 48px;
   /**
-   * @name 超小尺寸图标
+   * @name 大尺寸
    * @type size
-   * @group icon_size
-   * @description 小尺寸
+   * @group control_size
+   * @description 尺寸
    */
-  --o-icon_size-2xs: 12px;
+  --o-control_size-2xl: 56px;
   /**
    * @name 超小尺寸图标
    * @type size
    * @group icon_size
-   * @description 小尺寸
+   * @description 超小尺寸图标
    */
   --o-icon_size-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
    * @group icon_size
-   * @description 小尺寸
+   * @description 小尺寸图标
    */
-  --o-icon_size-s: 24px;
+  --o-icon_size-s: 20px;
   /**
    * @name 中尺寸图标
    * @type size
    * @group icon_size
-   * @description 尺寸
+   * @description 中尺寸图标
    */
-  --o-icon_size-m: 32px;
+  --o-icon_size-m: 24px;
   /**
    * @name 大尺寸图标
    * @type size
    * @group icon_size
-   * @description 尺寸
+   * @description 大尺寸图标
    */
-  --o-icon_size-l: 48px;
+  --o-icon_size-l: 32px;
+  /**
+   * @name 超大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 超大尺寸图标
+   */
+  --o-icon_size-xl: 40px;
+  /**
+   * @name 2xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 2xl尺寸图标
+   */
+  --o-icon_size-2xl: 48px;
+  /**
+   * @name 3xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 3xl尺寸图标
+   */
+  --o-icon_size-3xl: 56px;
+  /**
+   * @name 4xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 4xl尺寸图标
+   */
+  --o-icon_size-4xl: 64px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 超小尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-xs: 16px;
+  /**
+   * @name 小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-s: 20px;
+  /**
+   * @name 中尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 中尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-m: 24px;
+  /**
+   * @name 大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 大尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-l: 32px;
+  /**
+   * @name 超大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 超大尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-xl: 40px;
   /**
    * @name 一级数据展示
    * @type font
    * @group font_size
    * @description 一级数据展示
    */
-  --o-font_size-display1: 64px;
+  --o-font_size-display1: 56px;
   /**
    * @name 二级数据展示
    * @type font
    * @group font_size
    * @description 二级数据展示
    */
-  --o-font_size-display2: 54px;
+  --o-font_size-display2: 48px;
   /**
    * @name 三级数据展示
    * @type font
    * @group font_size
    * @description 三级数据展示
    */
-  --o-font_size-display3: 36px;
-  /**
-   * @name 四级数据展示
-   * @type font
-   * @group font_size
-   * @description 四级数据展示
-   */
-  --o-font_size-display4: 28px;
+  --o-font_size-display3: 40px;
   /**
    * @name 一级标题
    * @type font
    * @group font_size
    * @description 一级标题
    */
-  --o-font_size-h1: 24px;
+  --o-font_size-h1: 32px;
   /**
    * @name 二级标题
    * @type font
    * @group font_size
    * @description 二级标题
    */
-  --o-font_size-h2: 20px;
+  --o-font_size-h2: 24px;
   /**
    * @name 三级标题
    * @type font
    * @group font_size
    * @description 三级标题
    */
-  --o-font_size-h3: 18px;
+  --o-font_size-h3: 22px;
+  /**
+   * @name 四级标题
+   * @type font
+   * @group font_size
+   * @description 四级标题
+   */
+  --o-font_size-h4: 20px;
   /**
    * @name 常规正文
    * @type font
    * @group font_size
    * @description 常规正文
    */
-  --o-font_size-text1: 14px;
+  --o-font_size-text1: 16px;
   /**
    * @name 大号正文
    * @type font
    * @group font_size
    * @description 大号正文
    */
-  --o-font_size-text2: 16px;
+  --o-font_size-text2: 18px;
   /**
    * @name 提示文本1
    * @type font
    * @group font_size
    * @description 提示文本1
    */
-  --o-font_size-tip1: 12px;
+  --o-font_size-tip1: 14px;
   /**
    * @name 提示文本2
    * @type font
    * @group font_size
    * @description 提示文本2
    */
-  --o-font_size-tip2: 10px;
+  --o-font_size-tip2: 12px;
   /**
    * @name 一级数据展示
    * @type font
    * @group line_height
    * @description 一级数据展示
    */
-  --o-line_height-display1: 84px;
+  --o-line_height-display1: 80px;
   /**
    * @name 二级数据展示
    * @type font
    * @group line_height
    * @description 二级数据展示
    */
-  --o-line_height-display2: 76px;
+  --o-line_height-display2: 64px;
   /**
    * @name 三级数据展示
    * @type font
    * @group line_height
    * @description 三级数据展示
    */
-  --o-line_height-display3: 48px;
-  /**
-   * @name 四级数据展示
-   * @type font
-   * @group line_height
-   * @description 四级数据展示
-   */
-  --o-line_height-display4: 36px;
+  --o-line_height-display3: 56px;
   /**
    * @name 一级标题
    * @type font
    * @group line_height
    * @description 一级标题
    */
-  --o-line_height-h1: 32px;
+  --o-line_height-h1: 44px;
   /**
    * @name 二级标题
    * @type font
    * @group line_height
    * @description 二级标题
    */
-  --o-line_height-h2: 28px;
+  --o-line_height-h2: 32px;
   /**
    * @name 三级标题
    * @type font
    * @group line_height
    * @description 三级标题
    */
-  --o-line_height-h3: 26px;
+  --o-line_height-h3: 30px;
   /**
-   * @name 常规正文
+   * @name 四级标题
    * @type font
    * @group line_height
-   * @description 常规正文
+   * @description 四级标题
    */
-  --o-line_height-text1: 22px;
+  --o-line_height-h4: 28px;
   /**
-   * @name 大号正文
+   * @name 正文
    * @type font
    * @group line_height
-   * @description 大号正文
+   * @description 正文
    */
-  --o-line_height-text2: 24px;
+  --o-line_height-text1: 24px;
+  /**
+   * @name 正文-大
+   * @type font
+   * @group line_height
+   * @description 正文-大
+   */
+  --o-line_height-text2: 26x;
   /**
    * @name 提示文本1
    * @type font
    * @group line_height
    * @description 提示文本1
    */
-  --o-line_height-tip1: 18px;
+  --o-line_height-tip1: 22px;
   /**
    * @name 提示文本2
    * @type font
    * @group line_height
    * @description 提示文本2
    */
-  --o-line_height-tip2: 14px;
+  --o-line_height-tip2: 18px;
+  /**
+   * @name 超小尺寸圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸圆角
+   */
+  --o-radius-xs: 4px;
   /**
    * @name 小尺寸圆角
    * @type size
    * @group radius
    * @description 小尺寸圆角
    */
-  --o-radius-s: 2px;
+  --o-radius-s: 8px;
   /**
    * @name 中尺寸圆角
    * @type size
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 4px;
+  --o-radius-m: 12px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 8px;
+  --o-radius-l: 16px;
   /**
-   * @name 小尺寸控件圆角
+   * @name 大尺寸圆角
    * @type size
    * @group radius
-   * @description 小尺寸控件圆角
+   * @description 大尺寸圆角,一般用于卡片
    */
-  --o-radius_control-s: var(--o-radius-s);
-  /**
-   * @name 中尺寸控件圆角
-   * @type size
-   * @group radius
-   * @description 中尺寸控件圆角
-   */
-  --o-radius_control-m: var(--o-radius-m);
+  --o-radius-xl: 24px;
   /**
    * @name 大尺寸控件圆角
    * @type size
    * @group radius
-   * @description 大尺寸控件圆角
+   * @description 大尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: var(--o-radius-l);
+  --o-radius_control-l: 16px;
+  /**
+   * @name 中尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 中尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-m: 12px;
+  /**
+   * @name 小尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 小尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-s: 8px;
+  /**
+   * @name 超小尺寸控件圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-xs: 4px;
   /**
    * @name 持续时间
    * @type animation

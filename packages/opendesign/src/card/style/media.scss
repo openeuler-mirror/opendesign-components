@@ -23,7 +23,7 @@
 
       --card-main-padding: 24px 24px;
 
-      --card-icon-size: var(--o-icon_size-l);
+      --card-icon-size: var(--o-icon_size_control-xl);
 
       --card-content-text-size: var(--o-font_size-tip2);
       --card-content-text-height: var(--o-line_height-tip2);
@@ -37,14 +37,14 @@
 @include respond-to('phone') {
   .o-card {
     &:not(.o-card-no-responsive) {
-      --card-radius: var(--o-radius_control-m);
+      --card-radius: var(--o-radius_control-s);
 
       --card-main-padding: 16px 16px;
 
       --card-header-text-size: var(--o-font_size-tip1);
       --card-header-text-height: var(--o-line_height-tip1);
 
-      --card-icon-size: var(--o-icon_size-m);
+      --card-icon-size: var(--o-icon_size_control-l);
 
       --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip2);

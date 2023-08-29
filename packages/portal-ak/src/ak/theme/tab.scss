@@ -19,10 +19,10 @@
   padding: 0;
 
   > .o-icon {
-    font-size: var(--o-icon_size-s);
+    font-size: var(--o-icon_size_control-m);
     margin-right: 8px;
     @include respond-to('phone-pad') {
-      font-size: var(--o-icon_size-xs);
+      font-size: var(--o-icon_size_control-xs);
     }
   }
 }
@@ -74,10 +74,10 @@
     }
 
     > .o-icon {
-      font-size: var(--o-icon_size-m);
+      font-size: var(--o-icon_size_control-l);
       margin-right: 8px;
       @include respond-to('phone-pad') {
-        font-size: var(--o-icon_size-s);
+        font-size: var(--o-icon_size_control-m);
       }
     }
   }

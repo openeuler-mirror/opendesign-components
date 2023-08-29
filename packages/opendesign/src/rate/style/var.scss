@@ -23,12 +23,12 @@
 }
 
 .o-rate-large {
-  --rate-size: var(--o-icon_size-m);
+  --rate-size: var(--o-icon_size_control-l);
   --rate-gap: 4px;
 }
 
 .o-rate-medium {
-  --rate-size: var(--o-icon_size-xs);
+  --rate-size: var(--o-icon_size_control-xs);
   --rate-gap: 4px;
 }
 
@@ -36,6 +36,6 @@
   --rate-popover-color: var(--o-color-info1);
   --rate-popover-text-size: var(--o-font_size-tip1);
   --rate-popover-text-height: var(--o-line_height-tip2);
-  --rate-popover-radius: var(--o-radius_control-m);
+  --rate-popover-radius: var(--o-radius_control-s);
   --rate-popover-padding: 2px 8px;
 }

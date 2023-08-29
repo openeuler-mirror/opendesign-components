@@ -26,8 +26,8 @@
     --card-shadow: none;
     --card-shadow-hover: none;
     --card-shadow-active: none;
-    --card-radius: var(--o-radius-xl);
-    --card-cover-radius: var(--o-radius-xl);
+    --card-radius: var(--o-radius_control-xl);
+    --card-cover-radius: var(--o-radius_control-xl);
     --card-icon-size: 56px;
   }
 
@@ -68,7 +68,7 @@
   .c-card-kunpeng {
     &.o-card {
       &:not(.o-card-no-responsive) {
-        --card-icon-size: var(--o-icon_size-l);
+        --card-icon-size: var(--o-icon_size_control-xl);
       }
     }
   }
@@ -77,7 +77,7 @@
 @include respond-to('phone') {
   .c-card-kunpeng {
     &.o-card {
-      --card-icon-size: var(--o-icon_size-l);
+      --card-icon-size: var(--o-icon_size_control-xl);
 
       .o-card-cover-v {
         .o-card-cover-img {

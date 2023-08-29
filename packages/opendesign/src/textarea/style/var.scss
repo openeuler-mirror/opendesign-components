@@ -4,7 +4,7 @@
 
   --textarea-icon-color: var(--o-color-control3);
   --textarea-icon-color-hover: var(--o-color-primary1);
-  --textarea-icon-size: var(--o-icon_size-xs);
+  --textarea-icon-size: var(--o-icon_size_control-xs);
 
   --textarea-limit-color: var(--o-color-info4);
   --textarea-limit-color-error: var(--o-color-danger1);
@@ -78,7 +78,7 @@
   --textarea-text-height: var(--o-line_height-tip1);
   --textarea-padding-v: 4px;
   --textarea-padding-h: 8px;
-  --textarea-radius: var(--o-radius_control-s);
+  --textarea-radius: var(--o-radius_control-xs);
   --textarea-radius-pill: 12px;
 }
 .o-textarea-size-medium {
@@ -86,7 +86,7 @@
   --textarea-text-height: var(--o-line_height-text1);
   --textarea-padding-v: 8px;
   --textarea-padding-h: 12px;
-  --textarea-radius: var(--o-radius_control-m);
+  --textarea-radius: var(--o-radius_control-s);
   --textarea-radius-pill: 16px;
 }
 .o-textarea-size-large {

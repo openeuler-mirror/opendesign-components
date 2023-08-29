@@ -12,14 +12,14 @@
   --progress-text-size: var(--o-font_size-text1);
   --progress-text-height: var(--o-line_height-text1);
 
-  --progress-icon-size: var(--o-icon_size-s);
+  --progress-icon-size: var(--o-icon_size_control-m);
 }
 
 .o-progress-small {
   --progress-text-size: var(--o-font_size-tip2);
   --progress-text-height: var(--o-line_height-tip2);
 
-  --progress-icon-size: var(--o-icon_size-xs);
+  --progress-icon-size: var(--o-icon_size_control-xs);
 }
 
 .o-progress-primary {
