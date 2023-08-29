@@ -35,11 +35,9 @@
   }
 
   @include hover {
-    &:hover {
-      > .o-scrollbar {
-        opacity: 1;
-        pointer-events: auto;
-      }
+    > .o-scrollbar {
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 }
@@ -76,20 +74,18 @@
   background-color: var(--scrollbar-bg-color);
   transition: opacity var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
   @include hover {
-    &:hover {
-      .o-scrollbar-x-thumb-bar {
-        height: var(--scrollbar-thumb-width-hover);
-        margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
-        background-color: var(--scrollbar-thumb-bg-color-hover);
-      }
-      .o-scrollbar-y-thumb-bar {
-        width: var(--scrollbar-thumb-width-hover);
-        margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
-        background-color: var(--scrollbar-thumb-bg-color-hover);
-      }
-      .o-scrollbar-track {
-        opacity: 1;
-      }
+    .o-scrollbar-x-thumb-bar {
+      height: var(--scrollbar-thumb-width-hover);
+      margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
+      background-color: var(--scrollbar-thumb-bg-color-hover);
+    }
+    .o-scrollbar-y-thumb-bar {
+      width: var(--scrollbar-thumb-width-hover);
+      margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
+      background-color: var(--scrollbar-thumb-bg-color-hover);
+    }
+    .o-scrollbar-track {
+      opacity: 1;
     }
   }
 }

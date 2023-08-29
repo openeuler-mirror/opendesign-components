@@ -55,13 +55,13 @@ $breakpoints: (
   }
 }
 
-@mixin hover($hover: hover) {
+@mixin hoverable($hover: hover) {
   @media (hover: $hover) {
     @content;
   }
 }
 
-@mixin on-hover() {
+@mixin hover() {
   @media (hover: hover) {
     &:hover {
       @content;
@@ -69,7 +69,7 @@ $breakpoints: (
   }
 }
 
-@mixin me-on-hover() {
+@mixin me-hover() {
   @content;
   @media (hover: hover) {
     &:hover {
@@ -78,12 +78,9 @@ $breakpoints: (
   }
 }
 
-
 @mixin x-hover() {
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
   @include hover {
-    &:hover {
-      transform: rotate(180deg);
-    }
+    transform: rotate(180deg);
   }
 }

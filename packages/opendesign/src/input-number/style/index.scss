@@ -37,10 +37,8 @@
     height: 100%;
   }
   @include hover {
-    &:hover {
-      color: var(--input-number-btn-color-hover);
-      background-color: var(--input-number-btn-bg-color-hover);
-    }
+    color: var(--input-number-btn-color-hover);
+    background-color: var(--input-number-btn-bg-color-hover);
   }
   &:focus {
     color: var(--input-number-btn-color-active);

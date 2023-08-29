@@ -17,11 +17,9 @@
   cursor: pointer;
 
   @include hover {
-    &:hover {
-      color: var(--toggle-color-hover);
-      background-color: var(--toggle-bg-color-hover);
-      border: 1px solid var(--toggle-bd-color-hover);
-    }
+    color: var(--toggle-color-hover);
+    background-color: var(--toggle-bg-color-hover);
+    border: 1px solid var(--toggle-bd-color-hover);
   }
 
   &:active {
@@ -37,10 +35,8 @@
   border: 1px solid var(--toggle-bd-color-checked);
 
   @include hover {
-    &:hover {
-      color: var(--toggle-color-checked-hover);
-      border: 1px solid var(--toggle-bd-color-checked-hover);
-    }
+    color: var(--toggle-color-checked-hover);
+    border: 1px solid var(--toggle-bd-color-checked-hover);
   }
 
   &:active {

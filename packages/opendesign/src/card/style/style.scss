@@ -92,9 +92,7 @@
   position: relative;
   transition: box-shadow var(--o-easing-standard) var(--o-duration-m2);
   @include hover {
-    &:hover {
-      box-shadow: var(--card-shadow-hover);
-    }
+    box-shadow: var(--card-shadow-hover);
   }
   &:active {
     box-shadow: var(--card-shadow-active);
@@ -103,10 +101,8 @@
 
 .o-card-hoverable.o-card-cursor-pointer {
   @include hover {
-    &:hover {
-      .o-card-cover img {
-        transform: scale(1.05);
-      }
+    .o-card-cover img {
+      transform: scale(1.05);
     }
   }
   &:active {

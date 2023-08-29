@@ -12,9 +12,7 @@
   color: var(--icon-btn-color);
   cursor: pointer;
   @include hover {
-    &:hover {
-      color: var(--icon-btn-color-hover);
-    }
+    color: var(--icon-btn-color-hover);
   }
   &:active,
   &:focus-visible {

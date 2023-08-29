@@ -22,10 +22,8 @@
 
   cursor: pointer;
   @include hover {
-    &:hover {
-      border-color: var(--if-bd-color-hover);
-      background-color: var(--if-bg-color-hover);
-    }
+    border-color: var(--if-bd-color-hover);
+    background-color: var(--if-bg-color-hover);
   }
 
   .o-if-focused & {

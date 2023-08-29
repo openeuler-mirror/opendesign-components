@@ -49,9 +49,7 @@
   font-size: var(--tab-nav-btn-icon-size);
   margin: 0 8px;
   @include hover {
-    &:hover {
-      color: var(--tab-icon-color-hover);
-    }
+    color: var(--tab-icon-color-hover);
   }
 }
 .o-tab-nav-btn-disabled {
@@ -85,11 +83,9 @@
     margin-right: 0;
   }
   @include hover {
-    &:hover {
-      color: var(--tab-nav-color-hover);
-      border-color: var(--tab-nav-bd-color-hover);
-      background-color: var(--tab-nav-bg-color-hover);
-    }
+    color: var(--tab-nav-color-hover);
+    border-color: var(--tab-nav-bd-color-hover);
+    background-color: var(--tab-nav-bg-color-hover);
   }
 }
 .o-tab-nav-active {
@@ -155,9 +151,7 @@
   color: var(--tab-icon-color);
   border-radius: 50%;
   @include hover {
-    &:hover {
-      color: var(--tab-icon-color-hover);
-    }
+    color: var(--tab-icon-color-hover);
   }
 }
 
@@ -174,10 +168,8 @@
   font-size: var(--tab-nav-btn-icon-size);
   border-radius: 50%;
   @include hover {
-    &:hover {
-      color: var(--tab-icon-color-hover);
-      background-color: var(--tab-nav-bg-color-hover);
-    }
+    color: var(--tab-icon-color-hover);
+    background-color: var(--tab-nav-bg-color-hover);
   }
 }
 

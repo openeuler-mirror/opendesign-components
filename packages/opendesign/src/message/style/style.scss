@@ -44,9 +44,7 @@
   transition: color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
-    &:hover {
-      color: var(--message-icon-close-color-hover);
-    }
+    color: var(--message-icon-close-color-hover);
   }
 
   &:active {

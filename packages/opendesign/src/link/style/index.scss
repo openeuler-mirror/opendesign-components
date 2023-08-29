@@ -10,11 +10,9 @@
   text-decoration: none;
 
   @include hover {
-    &:hover {
-      color: var(--link-color-hover);
-      .o-link-arrow {
-        transform: translate3d(4px, 0, 0);
-      }
+    color: var(--link-color-hover);
+    .o-link-arrow {
+      transform: translate3d(4px, 0, 0);
     }
   }
 
@@ -34,11 +32,9 @@
   }
 
   @include hover {
-    &:hover {
-      .o-link-label {
-        background-size: var(--link-underline-x) 1px;
-        background-position-x: left;
-      }
+    .o-link-label {
+      background-size: var(--link-underline-x) 1px;
+      background-position-x: left;
     }
   }
 }
@@ -46,10 +42,8 @@
 .o-link-hover-bg {
   transition: background-color var(--o-easing-standard) var(--o-duration-m2);
   @include hover {
-    &:hover {
-      color: var(--link-color);
-      background-color: var(--link-bg-color-hover);
-    }
+    color: var(--link-color);
+    background-color: var(--link-bg-color-hover);
   }
   &:active {
     color: var(--link-color);
@@ -78,13 +72,11 @@
     color: var(--link-color-disabled);
   }
   @include hover {
-    &:hover {
-      .o-link-arrow {
-        transform: translate3d(0, 0, 0);
-      }
-      .o-link-label {
-        background: none;
-      }
+    .o-link-arrow {
+      transform: translate3d(0, 0, 0);
+    }
+    .o-link-label {
+      background: none;
     }
   }
   &.o-link-hover-underline {

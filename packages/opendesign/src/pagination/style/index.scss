@@ -34,11 +34,9 @@
   user-select: none;
   border-radius: var(--pagination-radius);
   @include hover {
-    &:hover {
-      color: var(--pagination-arrow-color-hover);
-      border-color: var(--pagination-arrow-bd-color-hover);
-      background-color: var(--pagination-arrow-bg-color-hover);
-    }
+    color: var(--pagination-arrow-color-hover);
+    border-color: var(--pagination-arrow-bd-color-hover);
+    background-color: var(--pagination-arrow-bg-color-hover);
   }
   &:active {
     color: var(--pagination-arrow-color-active);
@@ -75,11 +73,9 @@
     margin-left: 8px;
   }
   @include hover {
-    &:hover {
-      color: var(--pagination-item-color-hover);
-      border: 1px solid var(--pagination-item-bd-color-hover);
-      background-color: var(--pagination-item-bg-color-hover);
-    }
+    color: var(--pagination-item-color-hover);
+    border: 1px solid var(--pagination-item-bd-color-hover);
+    background-color: var(--pagination-item-bg-color-hover);
   }
   &:active {
     color: var(--pagination-item-color-active);
@@ -104,9 +100,7 @@
   padding: 2px 16px;
   cursor: pointer;
   @include hover {
-    &:hover {
-      background-color: var(--pagination-more-item-bg-color-hover);
-    }
+    background-color: var(--pagination-more-item-bg-color-hover);
   }
 }
 
