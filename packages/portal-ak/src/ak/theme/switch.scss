@@ -1,0 +1,5 @@
+[data-o-theme*='dark'] {
+  .o-switch-checked {
+    --switch-handler-bg-color: var(--o-color-control1-light);
+  }
+}

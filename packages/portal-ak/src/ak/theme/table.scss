@@ -1,0 +1,65 @@
+@use './mixin.scss' as *;
+
+.o-table {
+  --table-cell-height: 56px;
+  --table-head-cell-height: 48px;
+  --table-cell-padding: 8px 16px 7px;
+  @include respond-to('laptop') {
+    --table-cell-height: 48px;
+    --table-head-cell-height: 40px;
+    --table-text-size: var(--o-font_size-tip1);
+    --table-text-height: var(--o-line_height-tip1);
+  }
+
+  @include respond-to('laptop') {
+    --table-cell-height: 48px;
+    --table-head-cell-height: 40px;
+    --table-text-size: var(--o-font_size-tip1);
+    --table-text-height: var(--o-line_height-tip1);
+
+    --table-cell-padding: 8px 12px 7px;
+  }
+
+  @include respond-to('phone') {
+    --table-cell-height: 32px;
+    --table-head-cell-height: 32px;
+
+    --table-text-size: var(--o-font_size-tip2);
+    --table-text-height: var(--o-line_height-tip2);
+
+    --table-cell-padding: 8px 12px 7px;
+    --table-radius: var(--o-radius_control-s);
+  }
+}
+
+.o-table-small {
+  --table-text-size: var(--o-font_size-text1);
+  --table-text-height: var(--o-line_height-text1);
+
+  --table-cell-height: 48px;
+  --table-head-cell-height: 40px;
+
+  --table-cell-padding: 8px 12px 7px;
+
+  @include respond-to('pad') {
+    --table-cell-height: 40px;
+    --table-head-cell-height: 32px;
+
+    --table-text-size: var(--o-font_size-tip1);
+    --table-text-height: var(--o-line_height-tip1);
+  }
+  @include respond-to('phone') {
+    --table-cell-height: 34px;
+    --table-head-cell-height: 34px;
+
+    --table-text-size: var(--o-font_size-tip2);
+    --table-text-height: var(--o-line_height-tip2);
+    --table-radius: var(--o-radius_control-s);
+  }
+}
+.o-table-border-all,
+.o-table-border-row {
+  th {
+    border-bottom: none;
+  }
+}

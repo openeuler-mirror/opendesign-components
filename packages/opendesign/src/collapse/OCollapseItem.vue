@@ -56,14 +56,12 @@ const onBeforeEnter = (el: HTMLUListElement) => {
   el.style.height = '0px';
 };
 const onEnter = (el: HTMLUListElement) => {
-  console.log(el.scrollHeight);
   el.style.height = `${el.scrollHeight}px`;
 };
 const onAfterEnter = (el: HTMLUListElement) => {
   el.style.height = 'auto';
 };
 const onBeforeLeave = (el: HTMLUListElement) => {
-  console.log(el.offsetHeight);
   el.style.height = `${el.offsetHeight}px`;
 };
 const onLeave = (el: HTMLUListElement) => {

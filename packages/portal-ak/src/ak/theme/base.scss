@@ -1,0 +1,22 @@
+[class^='c-'],
+[class*=' c-'] {
+  box-sizing: border-box;
+}
+
+[data-o-theme='a.light'] {
+  --ak-color-band-start: 46, 83, 250;
+  --ak-color-band-end: 123, 37, 244;
+}
+[data-o-theme='a.dark'] {
+  --ak-color-band-start: 84, 120, 251;
+  --ak-color-band-end: 152, 74, 246;
+}
+
+[data-o-theme='k.light'] {
+  --ak-color-band-start: 255, 153, 51;
+  --ak-color-band-end: 247, 77, 97;
+}
+[data-o-theme='k.dark'] {
+  --ak-color-band-start: 255, 153, 51;
+  --ak-color-band-end: 247, 77, 97;
+}

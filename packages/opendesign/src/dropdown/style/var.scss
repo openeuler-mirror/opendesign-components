@@ -2,13 +2,13 @@
   --dropdown-list-bg-color: var(--o-color-control-light);
   --dropdown-list-shadow: var(--o-shadow-2);
   --dropdown-list-bd: none;
-  --dropdown-list-radius: var(--o-radius_control-l);
+  --dropdown-list-radius: 12px;
   --dropdown-list-padding: 4px;
 }
 
 .o-dropdown-item {
-  --dropdown-item-color: var(--o-color-info1);
-  --dropdown-item-color-hover: var(--o-color-info1);
+  --dropdown-item-color: var(--o-color-info2);
+  --dropdown-item-color-hover: var(--o-color-primary2);
   --dropdown-item-color-disabled: var(--o-color-info4);
 
   --dropdown-item-bg-color: transparent;
@@ -18,6 +18,7 @@
   --dropdown-item-text-size: var(--o-font_size-text1);
   --dropdown-item-text-height: var(--o-line_height-text1);
 
-  --dropdown-item-padding: 8px 12px;
+  --dropdown-item-padding: 7px 12px;
+  --dropdown-item-gap: 2px;
   --dropdown-item-radius: var(--o-radius_control-m);
 }
