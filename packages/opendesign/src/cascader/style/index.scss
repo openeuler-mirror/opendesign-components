@@ -11,7 +11,7 @@
 .o-cascader-options {
   list-style: none;
   margin: 0;
-  padding: 4px;
+  padding: 0 calc(var(--cascader-options-gap) / 2);
   min-width: 144px;
   max-width: 192px;
   overflow-y: auto;
@@ -39,8 +39,11 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
 
-  &:hover {
-    background-color: var(--cascader-option-bg-color-hover);
+  @include hover {
+    &:hover {
+      color: var(--cascader-option-color-hover);
+      background-color: var(--cascader-option-bg-color-hover);
+    }
   }
 }
 
@@ -58,10 +61,15 @@
   margin-left: auto;
 }
 
-.o-cascader-option-active {
-  &,
-  &:hover {
-    background-color: var(--cascader-option-bg-color-active);
-    font-weight: 500;
+.o-cascader-option-selected {
+  color: var(--cascader-option-color-selected);
+  background-color: var(--cascader-option-bg-color-selected);
+  font-weight: 500;
+
+  @include hover {
+    &:hover {
+      color: var(--cascader-option-color-selected);
+      background-color: var(--cascader-option-bg-color-selected);
+    }
   }
 }

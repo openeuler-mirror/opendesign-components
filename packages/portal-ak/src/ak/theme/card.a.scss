@@ -1,0 +1,52 @@
+@use './mixin.scss' as *;
+
+.o-card-detail-limited {
+  --card-detail-mask-bg-color: var(--o-color-control-light);
+  --card-detail-mask-width: 4em;
+  --card-detail-mask-heigt: var(--card-content-text-height);
+
+  position: relative;
+  display: block;
+  text-overflow: clip;
+
+  &::after {
+    background-image: linear-gradient(90deg, hsla(0, 0%, 93%, 0), hsla(0, 0%, 100%, 0.8) 59%, var(--card-detail-mask-bg-color) 100%);
+    bottom: 0;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    width: var(--card-detail-mask-width);
+    height: var(--card-content-text-height);
+  }
+}
+
+@include respond-to('up-pad') {
+  .c-card-ascend-hover {
+    position: relative;
+  }
+
+  .c-card-ascend-hover:before {
+    background-image: linear-gradient(269deg, #e0f4f5, #e5f3f9 24%, #bac2ea 58%, #d0b4e5 97%);
+    content: '';
+    height: 100%;
+    left: 0;
+    -webkit-mask-image: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0.34) 22%, hsla(0, 0%, 100%, 0) 61%);
+    mask-image: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0.34) 22%, hsla(0, 0%, 100%, 0) 61%);
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.3s;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .c-card-ascend-hover > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .c-card-ascend-hover:hover:before {
+    opacity: 1;
+  }
+}

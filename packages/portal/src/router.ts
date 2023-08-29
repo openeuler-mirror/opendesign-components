@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 import TheHome from './pages/TheHome.vue';
 
 export const routes = [
@@ -250,6 +250,18 @@ export const routes = [
     component: () => import('@components/toggle/__demo__/TheIndex.vue'),
   },
   {
+    path: '/anchor',
+    name: 'Anchor',
+    label: '锚点 Anchor',
+    component: () => import('@components/anchor/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/collapse',
+    name: 'Collapse',
+    label: '折叠面板 Collapse',
+    component: () => import('@components/collapse/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',
@@ -270,7 +282,8 @@ export const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHashHistory('./'),
+  // history: createWebHashHistory('./'),
+  history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savePosition) {
     if (savePosition) {

@@ -43,6 +43,8 @@ export * from './result';
 export * from './scroller';
 export * from './upload';
 export * from './toggle';
+export * from './anchor';
+export * from './collapse';
 
 export * from './intersection-observer';
 export * from './resize-observer';

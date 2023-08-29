@@ -1,0 +1,21 @@
+@use './mixin.scss' as *;
+
+.o-pagination {
+  --pagination-item-bd-color: transparent;
+  --pagination-item-bd-color-hover: transparent;
+  --pagination-item-bd-color-active: transparent;
+  --pagination-item-bd-color-current: transparent;
+  --pagination-item-bd-color-disabled: transparent;
+
+  --pagination-item-bg-color-hover: var(--o-color-primary2);
+  --pagination-item-bg-color-active: var(--o-color-control3);
+  --pagination-item-bg-color-current: var(--o-color-primary1);
+
+  --pagination-item-color-hover: var(--o-color-info1-inverse);
+  --pagination-item-color-active: var(--o-color-info1-inverse);
+  --pagination-item-color-current: var(--o-color-info1-inverse);
+}
+.o-pagination-wrap > .o-pagination-pager {
+  margin-left: 24px;
+  margin-right: 12px;
+}
