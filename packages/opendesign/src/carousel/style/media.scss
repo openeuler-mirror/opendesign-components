@@ -1,20 +1,21 @@
 @use '../../_styles/mixin.scss' as *;
-@include respond-to('phone-pad') {
+
+@include respond-to('laptop') {
   .o-carousel {
     --carousel-arrow-size: var(--o-icon_size-s);
-    --carousel-indicator-width: 32px;
-    --carousel-indicator-height: 2px;
+    --carousel-indicator-width: 40px;
+    --carousel-indicator-height: 3px;
     --carousel-indicator-gap: 8px;
-    --carousel-indicator-offset: 24px;
+    --carousel-indicator-offset: 11px;
   }
 }
 
-@include respond-to('phone') {
+@include respond-to('phone-pad') {
   .o-carousel {
     --carousel-arrow-size: var(--o-icon_size-xs);
     --carousel-indicator-width: 24px;
     --carousel-indicator-height: 2px;
     --carousel-indicator-gap: 4px;
-    --carousel-indicator-offset: 12px;
+    --carousel-indicator-offset: 7px;
   }
 }

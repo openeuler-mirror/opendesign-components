@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
 export const ResultStatusTypes = ['info', 'success', 'warning', 'danger'] as const;
-export type ResultStatusT = typeof ResultStatusTypes[number];
+export type ResultStatusT = (typeof ResultStatusTypes)[number];
 
 export const resultProps = {
   /**

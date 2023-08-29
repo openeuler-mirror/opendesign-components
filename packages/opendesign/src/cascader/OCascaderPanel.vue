@@ -126,7 +126,7 @@ watchEffect(() => {
         v-for="option in columnInfo"
         :key="option.value"
         class="o-cascader-option"
-        :class="{ 'o-cascader-option-active': option.isActive }"
+        :class="{ 'o-cascader-option-selected': option.isActive }"
         @click="onClick(option, columnInfo)"
       >
         <span class="o-cascader-option-label">{{ option.label }}</span>

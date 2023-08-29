@@ -1,9 +1,20 @@
 @use '../../_styles/mixin.scss' as *;
+
+@include respond-to('laptop') {
+  .o-message {
+    --message-text-size: var(--o-font_size-tip1);
+    --message-text-height: var(--o-line_height-tip1);
+    --message-padding: 7px 12px;
+    --message-icon-size: 20px;
+    --message-icon-gap: 8px;
+  }
+}
+
 @include respond-to('phone-pad') {
   .o-message {
     --message-text-size: var(--o-font_size-tip2);
     --message-text-height: var(--o-line_height-tip2);
-    --message-padding: 8px 12px;
+    --message-padding: 7px 12px;
     --message-icon-size: var(--o-icon_size-xs);
     --message-icon-gap: 8px;
   }
