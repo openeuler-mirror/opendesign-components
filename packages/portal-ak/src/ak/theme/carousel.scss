@@ -1,0 +1,13 @@
+@use './mixin.scss' as *;
+
+@include respond-to('phone-pad') {
+  .o-carousel.carousel-floor {
+    --carousel-indicator-width: 24px;
+  }
+}
+
+@include respond-to('phone') {
+  .o-carousel.carousel-floor {
+    --carousel-indicator-width: 16px;
+  }
+}

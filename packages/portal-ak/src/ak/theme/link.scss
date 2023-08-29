@@ -1,0 +1,108 @@
+@use './mixin.scss' as *;
+
+.o-link-normal {
+  --link-color: var(--o-color-info2);
+  --link-color-hover: var(--o-color-info1);
+  --link-color-active: var(--o-color-info1);
+}
+.o-link-primary {
+  --link-color: var(--o-color-link1);
+  --link-color-hover: var(--o-color-link1);
+  --link-color-active: var(--o-color-link1);
+}
+.o-link-medium {
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  --link-icon-size: var(--o-icon_size-xs);
+}
+.o-link-large {
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+  --link-icon-size: var(--o-icon_size-s);
+  @include respond-to('pad') {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
+}
+
+.c-link-ascend {
+  --arrow-width: 0.375em;
+  &.o-link-medium {
+    --arrow-width: 5px;
+    .o-link-suffix {
+      width: var(--o-icon_size-xs);
+      height: var(--o-icon_size-xs);
+    }
+  }
+  &.o-link-large {
+    --arrow-width: 6px;
+    .o-link-suffix {
+      width: var(--o-icon_size-s);
+      height: var(--o-icon_size-s);
+    }
+  }
+  @include respond-to('up-pad') {
+    @include hover {
+      &:not(.o-link-disabled):hover {
+        .c-link-ascend-arrow {
+          transform: translate3d(0, 0, 0);
+          &::before {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(45deg);
+          }
+          &::after {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+}
+.c-link-ascend-arrow {
+  width: var(--arrow-width);
+  height: 1px;
+  background-color: currentColor;
+  display: inline-flex;
+  position: relative;
+  transform-origin: 0 center;
+  transition: transform var(--o-easing-standard-in) var(--o-duration-m2);
+  border-radius: 1px;
+  margin-left: 3px;
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    right: -0.375em;
+    top: 0;
+    width: 130%;
+    height: 100%;
+    background-color: currentColor;
+    flex-shrink: 0;
+    transform-origin: 100% center;
+    transition: transform var(--o-easing-standard-in) var(--o-duration-m2), opacity var(--o-duration-m2);
+    border-radius: 1px;
+  }
+  &::before {
+    transform: translate3d(0, 0, 0) rotate(45deg);
+  }
+  &::after {
+    transform: translate3d(0, 0, 0) rotate(-45deg);
+  }
+  @include respond-to('up-pad') {
+    transform: translate3d(-5px, 0.3em, 0);
+    &::before,
+    &::after {
+      transform: translate3d(-6px, 0, 0) scale(0.5);
+      opacity: 0;
+    }
+  }
+}
+
+.c-link-kunpeng {
+  @include hover {
+    &:hover {
+      --link-color-hover: rgb(var(--o-red-huawei));
+    }
+  }
+}
