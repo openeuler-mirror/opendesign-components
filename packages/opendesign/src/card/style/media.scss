@@ -3,12 +3,21 @@
 @include respond-to('laptop') {
   .o-card {
     &:not(.o-card-no-responsive) {
-      --card-header-text-size: var(--o-font_size-h4);
-      --card-header-text-height: var(--o-line_height-h4);
+      --card-radius: var(--o-radius_control-m);
+      --card-cover-radius: var(--o-radius_control-s);
 
+      --card-header-text-size: var(--o-font_size-text2);
+      --card-header-text-height: var(--o-line_height-text2);
+
+      --card-main-padding: 16px 24px;
+
+      --card-icon-gap: 12px;
+
+      --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip1);
       --card-content-text-height: var(--o-line_height-tip1);
 
+      --card-footer-gap: 16px;
       --card-footer-text-size: var(--o-font_size-tip2);
       --card-footer-text-height: var(--o-line_height-tip2);
     }
@@ -18,18 +27,37 @@
 @include respond-to('pad') {
   .o-card {
     &:not(.o-card-no-responsive) {
-      --card-header-text-size: var(--o-font_size-text2);
-      --card-header-text-height: var(--o-line_height-text2);
+      --card-radius: var(--o-radius_control-s);
 
-      --card-main-padding: 24px 24px;
+      --card-cover-radius: var(--o-radius_control-xs);
 
-      --card-icon-size: var(--o-icon_size_control-xl);
+      --card-header-text-size: var(--o-font_size-text1);
+      --card-header-text-height: var(--o-line_height-text1);
 
-      --card-content-text-size: var(--o-font_size-tip2);
-      --card-content-text-height: var(--o-line_height-tip2);
+      --card-main-padding: 12px 16px;
 
+      --card-icon-gap: 8px;
+      --card-icon-size: var(--o-icon_size_control-l);
+
+      --card-content-gap: 8px;
+      --card-content-text-size: var(--o-font_size-tip1);
+      --card-content-text-height: var(--o-line_height-tip1);
+
+      --card-footer-gap: 12px;
       --card-footer-text-size: var(--o-font_size-tip2);
       --card-footer-text-height: var(--o-line_height-tip2);
+
+      .o-card-cover-v {
+        --card-cover-padding: 4px 4px 0;
+      }
+
+      .o-card-cover-h {
+        --card-cover-padding: 4px 0 4px 4px;
+      }
+
+      .o-card-cover-hr {
+        --card-cover-padding: 4px 4px 4px 0;
+      }
     }
   }
 }
@@ -39,18 +67,21 @@
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-s);
 
-      --card-main-padding: 16px 16px;
+      --card-cover-radius: var(--o-radius_control-xs);
+
+      --card-main-padding: 12px 16px;
 
       --card-header-text-size: var(--o-font_size-tip1);
       --card-header-text-height: var(--o-line_height-tip1);
 
+      --card-icon-gap: 8px;
       --card-icon-size: var(--o-icon_size_control-l);
 
       --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip2);
       --card-content-text-height: var(--o-line_height-tip2);
 
-      --card-footer-gap: 16px;
+      --card-footer-gap: 8px;
       --card-footer-text-size: 10px;
       --card-footer-text-height: 16px;
 

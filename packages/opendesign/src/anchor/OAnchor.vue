@@ -34,7 +34,7 @@ const getContainer = (container: string | AnchorContainerT = window) => {
 };
 
 const updateIndicatorPosition = () => {
-  const el = anchorRef.value?.querySelector('.o-anchor-item-active');
+  const el = anchorRef.value?.querySelector('.o-anchor-item-link.is-active');
 
   if (!el) {
     indicatorStyle.value = {};

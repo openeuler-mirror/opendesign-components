@@ -9,13 +9,16 @@ import { OAnchor, OAnchorItem } from '../index';
       <div id="block1" class="block">block1</div>
       <div id="block2" class="block">block2</div>
       <div id="block3" class="block">block3</div>
+      <div id="block3-1" class="block">block3-1</div>
       <div id="block4" class="block">block4</div>
     </div>
     <div class="demo-anchor">
       <OAnchor>
         <OAnchorItem href="#block1" title="锚点1" />
         <OAnchorItem href="#block2" title="锚点2" />
-        <OAnchorItem href="#block3" title="锚点3" />
+        <OAnchorItem href="#block3" title="锚点3">
+          <OAnchorItem href="#block3-1" title="锚点3-1" />
+        </OAnchorItem>
         <OAnchorItem href="#block4" title="锚点4" />
       </OAnchor>
     </div>

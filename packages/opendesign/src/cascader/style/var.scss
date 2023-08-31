@@ -5,13 +5,13 @@
 
 .o-cascader-option {
   --cascader-option-color: var(--o-color-info2);
-  --cascader-option-color-hover: var(--o-color-primary2);
+  --cascader-option-color-hover: var(--o-color-info2);
   --cascader-option-color-selected: var(--o-color-primary1);
 
   --cascader-option-text-size: var(--o-font_size-text1);
   --cascader-option-text-height: var(--o-line_height-text1);
 
-  --cascader-option-padding: 8px 12px;
+  --cascader-option-padding: 7px 12px;
   --cascader-option-radius: var(--o-radius_control-s);
 
   --cascader-option-bg-color: transparent;
@@ -19,4 +19,6 @@
   --cascader-option-bg-color-selected: var(--o-color-control3-light);
 
   --cascader-option-icon-size: var(--o-icon_size_control-xs);
+
+  --cascader-option-gap: 2px;
 }

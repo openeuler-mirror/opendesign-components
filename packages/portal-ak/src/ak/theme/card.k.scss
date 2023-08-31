@@ -26,9 +26,9 @@
     --card-shadow: none;
     --card-shadow-hover: none;
     --card-shadow-active: none;
-    --card-radius: var(--o-radius_control-xl);
-    --card-cover-radius: var(--o-radius_control-xl);
-    --card-icon-size: 56px;
+    --card-radius: var(--o-radius-xl);
+    --card-cover-radius: var(--o-radius-xl) !important;
+    --card-icon-size: 48px;
   }
 
   .o-card-cover-v,
@@ -64,7 +64,7 @@
   }
 }
 
-@include respond-to('pad') {
+@include respond-to('pad-h') {
   .c-card-kunpeng {
     &.o-card {
       &:not(.o-card-no-responsive) {
@@ -74,10 +74,20 @@
   }
 }
 
+@include respond-to('pad-v') {
+  .c-card-kunpeng {
+    &.o-card {
+      &:not(.o-card-no-responsive) {
+        --card-icon-size: var(--o-icon_size_control-l);
+      }
+    }
+  }
+}
+
 @include respond-to('phone') {
   .c-card-kunpeng {
     &.o-card {
-      --card-icon-size: var(--o-icon_size_control-xl);
+      --card-icon-size: var(--o-icon_size_control-l);
 
       .o-card-cover-v {
         .o-card-cover-img {
