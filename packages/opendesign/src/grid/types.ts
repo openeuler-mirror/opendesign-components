@@ -1,13 +1,12 @@
 import { ExtractPropTypes, PropType } from 'vue';
 export interface RowMediaT {
-  gapY: string;
-  gapX: string;
+  gap?: string;
+  gapY?: string;
+  gapX?: string;
 }
 export interface ColMediaT {
-  width: string;
+  flex: string;
 }
-
-export const mediaSize = ['xs', 's', 'm', 'l', 'xl', 'xxl'];
 
 export const rowProps = {
   /**
@@ -33,12 +32,19 @@ export const rowProps = {
    */
   wrap: {
     type: String as PropType<'nowrap' | 'wrap' | 'wrap-reverse' | 'initial' | 'inherit'>,
+    default: 'wrap',
   },
   /**
    * flex-direction
    */
   direction: {
     type: String as PropType<'row' | 'row-reverse' | 'column' | 'column-reverse'>,
+  },
+  /**
+   * gapX
+   */
+  gap: {
+    type: String,
   },
   /**
    * gapX
@@ -53,39 +59,27 @@ export const rowProps = {
     type: String,
   },
   /**
-   * @media (min-width: 576px)
+   * @media (max-width: 600px)
    */
-  xs: {
+  phone: {
     type: Object as PropType<RowMediaT>,
   },
   /**
-   * @media (min-width: 721px)
+   * @media (max-width: 840px)
    */
-  s: {
+  padV: {
     type: Object as PropType<RowMediaT>,
   },
   /**
-   * @media (min-width: 1201px)
+   * @media (max-width: 1200px)
    */
-  m: {
+  pad: {
     type: Object as PropType<RowMediaT>,
   },
   /**
-   * @media (min-width: 1441px)
+   * @media (max-width: 1440px)
    */
-  l: {
-    type: Object as PropType<RowMediaT>,
-  },
-  /**
-   * @media (min-width: 1681px)
-   */
-  xl: {
-    type: Object as PropType<RowMediaT>,
-  },
-  /**
-   * @media (min-width: 1920px)
-   */
-  xxl: {
+  laptop: {
     type: Object as PropType<RowMediaT>,
   },
 };
@@ -94,26 +88,9 @@ export const colProps = {
   /**
    * flex-grow
    */
-  grow: {
-    type: [Number, String],
-  },
-  /**
-   * flex-shrink
-   */
-  shrink: {
-    type: [Number, String],
-  },
-  /**
-   * flex-basic
-   */
-  width: {
-    type: String,
-  },
-  /**
-   * flex
-   */
   flex: {
     type: String,
+    default: '1 0 auto',
   },
   /**
    * 同 align-self
@@ -122,39 +99,27 @@ export const colProps = {
     type: String as PropType<'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline' | 'inherit' | 'initial'>,
   },
   /**
-   * @media (min-width: 576px)
+   * @media (max-width: 600px)
    */
-  xs: {
+  phone: {
     type: Object as PropType<ColMediaT>,
   },
   /**
-   * @media (min-width: 721px)
+   * @media (max-width: 840px)
    */
-  s: {
+  padV: {
     type: Object as PropType<ColMediaT>,
   },
   /**
-   * @media (min-width: 1201px)
+   * @media (max-width: 1200px)
    */
-  m: {
+  pad: {
     type: Object as PropType<ColMediaT>,
   },
   /**
-   * @media (min-width: 1441px)
+   * @media (max-width: 1440px)
    */
-  l: {
-    type: Object as PropType<ColMediaT>,
-  },
-  /**
-   * @media (min-width: 1681px)
-   */
-  xl: {
-    type: Object as PropType<ColMediaT>,
-  },
-  /**
-   * @media (min-width: 1920px)
-   */
-  xxl: {
+  laptop: {
     type: Object as PropType<ColMediaT>,
   },
 };
