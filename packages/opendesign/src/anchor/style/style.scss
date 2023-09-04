@@ -26,33 +26,44 @@
 }
 
 .o-anchor-item {
-  cursor: pointer;
   width: var(--anchor-item-width);
-  min-width: var(--anchor-item--min-width);
-  color: var(--anchor-item-color);
-  font-size: var(--anchor-item-text-size);
-  line-height: var(--anchor-item-text-height);
-  background-color: var(--anchor-item-bg-color);
-  padding: var(--anchor-item-padding);
-  border-radius: var(--anchor-item-radius);
+  min-width: var(--anchor-item-min-width);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.o-anchor-item-link {
+  cursor: pointer;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+  color: var(--anchor-item-link-color);
+  font-size: var(--anchor-item-link-text-size);
+  line-height: var(--anchor-item-link-text-height);
+  background-color: var(--anchor-item-link-bg-color);
+  padding: var(--anchor-item-link-padding);
+  border-radius: var(--anchor-item-link-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {
-    background-color: var(--anchor-item-bg-color-hover);
+    background-color: var(--anchor-item-link-bg-color-hover);
   }
 
-  a {
-    color: inherit;
-    text-decoration: none;
+  &.is-active {
+    font-weight: 500;
+    color: var(--anchor-item-link-color-active);
+    background-color: var(--anchor-item-link-bg-color-active);
   }
 }
 
 .o-anchor-item + .o-anchor-item {
-  margin-top: var(--anchor-item-gap);
+  margin-top: var(--anchor-item-link-gap);
 }
 
-.o-anchor-item-active {
-  font-weight: 500;
-  color: var(--anchor-item-color-active);
-  background-color: var(--anchor-item-bg-color-active);
+.o-anchor-item {
+  .o-anchor-item {
+    margin-top: var(--anchor-item-link-gap);
+  }
 }

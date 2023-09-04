@@ -5,7 +5,7 @@
     --message-text-size: var(--o-font_size-tip1);
     --message-text-height: var(--o-line_height-tip1);
     --message-padding: 7px 12px;
-    --message-icon-size: 20px;
+    --message-icon-size: var(--o-icon_size_control-s);
     --message-icon-gap: 8px;
   }
 }

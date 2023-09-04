@@ -1791,49 +1791,49 @@
    * @group radius
    * @description 小尺寸圆角
    */
-  --o-radius-s: 8px;
+  --o-radius-s: 4px;
   /**
    * @name 中尺寸圆角
    * @type size
    * @group radius
    * @description 中尺寸圆角
    */
-  --o-radius-m: 12px;
+  --o-radius-m: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角
    */
-  --o-radius-l: 16px;
+  --o-radius-l: 4px;
   /**
    * @name 大尺寸圆角
    * @type size
    * @group radius
    * @description 大尺寸圆角,一般用于卡片
    */
-  --o-radius-xl: 24px;
+  --o-radius-xl: 0px;
   /**
    * @name 大尺寸控件圆角
    * @type size
    * @group radius
    * @description 大尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: 16px;
+  --o-radius_control-l: 0px;
   /**
    * @name 中尺寸控件圆角
    * @type size
    * @group radius
    * @description 中尺寸控件圆角(组件使用)
    */
-  --o-radius_control-m: 12px;
+  --o-radius_control-m: 4px;
   /**
    * @name 小尺寸控件圆角
    * @type size
    * @group radius
    * @description 小尺寸控件圆角(组件使用)
    */
-  --o-radius_control-s: 8px;
+  --o-radius_control-s: 4px;
   /**
    * @name 超小尺寸控件圆角
    * @type size

@@ -49,15 +49,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    :class="[
-      'o-anchor-item',
-      {
-        'o-anchor-item-active': isActive,
-      },
-    ]"
-  >
-    <a :href="props.href" :target="props.target" class="o-anchor-item-link" @click="onClick">
+  <div class="o-anchor-item">
+    <a :href="props.href" :target="props.target" class="o-anchor-item-link" :class="{ 'is-active': isActive }" @click="onClick">
       <slot name="title">{{ props.title }}</slot>
     </a>
     <slot></slot>

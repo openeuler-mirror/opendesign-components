@@ -1,0 +1,79 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-progress-line {
+  width: 100%;
+}
+
+.o-progress-line-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.o-progress-line-track {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--progress-track-bg-color);
+}
+
+.o-progress-line-bar {
+  max-width: 100%;
+  height: 100%;
+  background-color: var(--progress-bar-bg-color);
+  transition: all var(--o-duration-m1) var(--o-easing-standard);
+  text-align: right;
+}
+
+.o-progress-line-label {
+  color: var(--progress-color);
+  font-size: var(--progress-text-size);
+  line-height: var(--progress-text-height);
+  margin-left: var(--progress-label-gap);
+  white-space: nowrap;
+  &.is-icon {
+    color: var(--progress-icon-color);
+    font-size: var(--progress-icon-size);
+  }
+}
+
+.o-progress-line-inner-label {
+  display: inline-block;
+  color: var(--progress-inner-label-color);
+  margin-left: var(--progress-inner-label-gap);
+  margin-right: var(--progress-inner-label-gap);
+}
+
+.o-progress-circle {
+  font-size: 0;
+  line-height: 0;
+}
+
+.o-progress-circle-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.o-progress-circle-track {
+  stroke: var(--progress-track-bg-color);
+}
+
+.o-progress-circle-bar {
+  stroke: var(--progress-bar-bg-color);
+  transition: all var(--o-duration-m1) var(--o-easing-standard);
+}
+
+.o-progress-circle-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--progress-color);
+  font-size: var(--progress-text-size);
+  line-height: var(--progress-text-height);
+
+  &.is-icon {
+    color: var(--progress-icon-color);
+    font-size: var(--progress-icon-size);
+  }
+}
