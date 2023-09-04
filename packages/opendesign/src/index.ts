@@ -39,6 +39,7 @@ export * from './message';
 export * from './carousel';
 export * from './cascader';
 export * from './flex';
+export * from './grid';
 export * from './result';
 export * from './scroller';
 export * from './upload';

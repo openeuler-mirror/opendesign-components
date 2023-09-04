@@ -170,14 +170,16 @@ const onBarHoverOut = (d: ScrollerDirection) => {
   }
 };
 
+const scrollTo = (options?: ScrollToOptions | undefined) => {
+  if (!containerEl.value) {
+    return;
+  }
+  containerEl.value.scrollTo(options);
+};
+
 defineExpose({
-  containerRef: containerEl,
-  scrollTo: (options?: ScrollToOptions | undefined) => {
-    if (!containerEl.value) {
-      return;
-    }
-    containerEl.value.scrollTo(options);
-  },
+  getContainerEl: () => containerEl.value as HTMLElement | null,
+  scrollTo,
 });
 </script>
 
