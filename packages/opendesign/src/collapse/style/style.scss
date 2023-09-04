@@ -21,9 +21,9 @@
 
 .o-collapse-item-title {
   margin: 0;
-  color: var(--o-color-info1);
-  font-size: var(--o-font_size-h3);
-  line-height: var(--o-line_height-h3);
+  color: var(--collapse-item-title-color);
+  font-size: var(--collapse-item-title-text-size);
+  line-height: var(--collapse-item-title-text-height);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -38,7 +38,9 @@
 }
 
 .o-collapse-item-body {
-  margin-bottom: 24px;
+  font-size: var(--collapse-item-body-text-size);
+  line-height: var(--collapse-item-body-text-height);
+  margin-bottom: var(--collapse-item-gap);
   overflow: hidden;
   transition: height var(--o-duration-m2) var(--o-easing-standard);
 }

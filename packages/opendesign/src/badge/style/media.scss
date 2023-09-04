@@ -1,4 +1,5 @@
 @use '../../_styles/mixin.scss' as *;
+
 @include respond-to('phone-pad') {
   .o-badge {
     --badge-dot-size: 6px;

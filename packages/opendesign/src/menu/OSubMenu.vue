@@ -92,20 +92,17 @@ menuInjection?.menuTree.addChild({
 });
 
 // 过渡动画
-const onBeforeEnter = (el: HTMLUListElement) => {
-  el.style.height = '0px';
+const onBeforeEnter = (el: Element) => {
+  (el as HTMLUListElement).style.height = '0px';
 };
-const onEnter = (el: HTMLUListElement) => {
-  el.style.height = `${el.scrollHeight}px`;
+const onEnter = (el: Element) => {
+  (el as HTMLUListElement).style.height = `${el.scrollHeight}px`;
 };
-const onAfterEnter = (el: HTMLUListElement) => {
-  el.style.height = 'auto';
+const onBeforeLeave = (el: Element) => {
+  (el as HTMLUListElement).style.height = `${(el as HTMLUListElement).offsetHeight}px`;
 };
-const onBeforeLeave = (el: HTMLUListElement) => {
-  el.style.height = `${el.offsetHeight}px`;
-};
-const onLeave = (el: HTMLUListElement) => {
-  el.style.height = '0px';
+const onLeave = (el: Element) => {
+  (el as HTMLUListElement).style.height = '0px';
 };
 </script>
 
@@ -126,7 +123,7 @@ const onLeave = (el: HTMLUListElement) => {
         <IconChevronRight />
       </span>
     </div>
-    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave" @leave="onLeave">
+    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @before-leave="onBeforeLeave" @leave="onLeave">
       <ul v-show="isExpanded" class="o-sub-menu-children">
         <slot></slot>
       </ul>

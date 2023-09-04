@@ -9,18 +9,18 @@
 .o-anchor-item {
   --anchor-item-width: 144px;
 
-  --anchor-item-color: var(--o-color-info2);
-  --anchor-item-color-active: var(--o-color-info1);
+  --anchor-item-link-color: var(--o-color-info2);
+  --anchor-item-link-color-active: var(--o-color-primary1);
 
-  --anchor-item-text-size: var(--o-font_size-text1);
-  --anchor-item-text-height: var(--o-line_height-text1);
+  --anchor-item-link-text-size: var(--o-font_size-text1);
+  --anchor-item-link-text-height: var(--o-line_height-text1);
 
-  --anchor-item-bg-color: transparent;
-  --anchor-item-bg-color-hover: var(--o-color-control2-light);
-  --anchor-item-bg-color-active: var(--o-color-control3-light);
+  --anchor-item-link-bg-color: transparent;
+  --anchor-item-link-bg-color-hover: var(--o-color-control2-light);
+  --anchor-item-link-bg-color-active: var(--o-color-control3-light);
 
-  --anchor-item-padding: 8px;
-  --anchor-item-radius: var(--o-radius_control-s);
+  --anchor-item-link-padding: 8px 8px;
+  --anchor-item-link-radius: var(--o-radius_control-s);
 
-  --anchor-item-gap: 2px;
+  --anchor-item-link-gap: 2px;
 }

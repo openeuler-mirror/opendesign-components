@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('phone-pad') {
+@include respond-to('phone-laptop') {
   .o-breadcrumb {
     --breadcrumb-text-size: var(--o-font_size-tip2);
     --breadcrumb-text-height: var(--o-line_height-tip2);
