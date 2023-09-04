@@ -6,18 +6,18 @@ import { ORow, OCol } from '../index';
   <div class="block">
     <ORow justify="space-between">
       <OCol class="colored"><div class="box">box</div></OCol>
-      <OCol width="50%" :shrink="0" class="colored"><div class="box">box</div></OCol>
+      <OCol flex="50%" class="colored"><div class="box">box</div></OCol>
       <OCol class="colored"><div class="box">box</div></OCol>
     </ORow>
     <br />
     <ORow justify="space-between" gap-x="16px">
-      <OCol width="25%" class="colored">
+      <OCol flex="25%" class="colored">
         <div class="box">box</div>
       </OCol>
-      <OCol width="50%" :shrink="0" class="colored">
+      <OCol flex="50%" class="colored">
         <div class="box">box</div>
       </OCol>
-      <OCol width="25%" class="colored">
+      <OCol flex="25%" class="colored">
         <div class="box">box</div>
       </OCol>
     </ORow>
@@ -27,11 +27,11 @@ import { ORow, OCol } from '../index';
       <OCol
         v-for="item in 10"
         :key="item"
-        width="100%"
-        :l="{ width: '20%' }"
-        :m="{ width: '25%' }"
-        :s="{ width: '33.333333%' }"
-        :xs="{ width: '50%' }"
+        flex="100%"
+        :laptop="{ flex: '20%' }"
+        :pad="{ flex: '25%' }"
+        :pad-v="{ flex: '33.333333%' }"
+        :phone="{ flex: '50%' }"
         class="colored"
       >
         <div class="box">{{ item }}</div>
@@ -42,14 +42,12 @@ import { ORow, OCol } from '../index';
       gap-x="16px"
       gap-y="16px"
       wrap="wrap"
-      :xs="{ gapX: '4px', gapY: '4px' }"
-      :s="{ gapX: '8px', gapY: '8px' }"
-      :m="{ gapX: '16px', gapY: '16px' }"
-      :l="{ gapX: '24px', gapY: '24px' }"
-      :xl="{ gapX: '32px', gapY: '32px' }"
-      :xxl="{ gapX: '48px', gapY: '48px' }"
+      :phone="{ gapX: '4px', gapY: '4px' }"
+      :pad-v="{ gapX: '8px', gapY: '8px' }"
+      :pad="{ gapX: '16px', gapY: '16px' }"
+      :laptop="{ gapX: '24px', gapY: '24px' }"
     >
-      <OCol v-for="item in 10" :key="item" width="20%" class="colored">
+      <OCol v-for="item in 10" :key="item" flex="20%" class="colored">
         <div class="box">{{ item }}</div>
       </OCol>
     </ORow>

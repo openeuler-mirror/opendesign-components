@@ -1,93 +1,71 @@
 <script setup lang="ts">
-import { rowProps, mediaSize, RowPropsT, RowMediaT } from './types';
-import { computed, StyleValue } from 'vue';
+import { rowProps, RowMediaT } from './types';
+import { computed } from 'vue';
 
 const props = defineProps(rowProps);
 
-interface Vars {
-  '--row-justify'?: string;
-  '--row-wrap'?: string;
-  '--row-direction'?: string;
-  '--row-align'?: string;
-  '--row-gap-x'?: string;
-  '--col-gap-x'?: string;
-  '--row-gap-y'?: string;
-  '--col-gap-y'?: string;
-  '--row-gap-x-xs'?: string;
-  '--col-gap-x-xs'?: string;
-  '--row-gap-y-xs'?: string;
-  '--col-gap-y-xs'?: string;
-  '--row-gap-x-s'?: string;
-  '--col-gap-x-s'?: string;
-  '--row-gap-y-s'?: string;
-  '--col-gap-y-s'?: string;
-  '--row-gap-x-m'?: string;
-  '--col-gap-x-m'?: string;
-  '--row-gap-y-m'?: string;
-  '--col-gap-y-m'?: string;
-  '--row-gap-x-l'?: string;
-  '--col-gap-x-l'?: string;
-  '--row-gap-y-l'?: string;
-  '--col-gap-y-l'?: string;
-  '--row-gap-x-xl'?: string;
-  '--col-gap-x-xl'?: string;
-  '--row-gap-y-xl'?: string;
-  '--col-gap-y-xl'?: string;
-  '--row-gap-x-xxl'?: string;
-  '--col-gap-x-xxl'?: string;
-  '--row-gap-y-xxl'?: string;
-  '--col-gap-y-xxl'?: string;
-}
-const style = computed(() => {
-  const s: Vars = {};
-  if (props.justify) {
-    s['--row-justify'] = props.justify;
+const getMediaGap = (opts?: RowMediaT) => {
+  if (!opts) {
+    return;
   }
-  if (props.direction) {
-    s['--row-direction'] = props.direction;
+  const { gapX, gapY, gap: gapXY } = opts;
+  let gx = gapX;
+  let gy = gapY;
+  if (gapXY) {
+    const [x, y] = gapXY.split(' ');
+    gx = gx ?? x;
+    gy = gy ?? y ?? gx;
   }
-  if (props.wrap) {
-    s['--row-wrap'] = props.wrap;
-  }
-  if (props.align) {
-    s['--row-align'] = props.align;
-  }
-  if (props.gapX) {
-    s['--col-gap-x'] = `calc(${props.gapX} / 2)`;
-    s['--row-gap-x'] = `calc(-1 * ${props.gapX} / 2)`;
-  }
-  if (props.gapY) {
-    s['--col-gap-y'] = props.gapY;
-    s['--row-gap-y'] = `calc(-1 * ${props.gapY})`;
-  }
+  return {
+    x: gx === 'auto' ? undefined : gx,
+    y: gy === 'auto' ? undefined : gy,
+  };
+};
 
-  mediaSize.forEach((key) => {
-    const v = props[key as keyof RowPropsT] as RowMediaT;
-    if (v) {
-      if (v.gapX) {
-        s[`--col-gap-x-${key}` as keyof Vars] = `calc(${v.gapX} / 2)`;
-        s[`--row-gap-x-${key}` as keyof Vars] = `calc(-1 * ${v.gapX} / 2)`;
-      }
-      if (v.gapY) {
-        s[`--col-gap-y-${key}` as keyof Vars] = `calc(${v.gapY} / 2)`;
-        s[`--row-gap-y-${key}` as keyof Vars] = `calc(-1 * ${v.gapY} / 2)`;
-      }
-    }
-  });
-  return s as StyleValue;
+const gap = computed(() => {
+  return getMediaGap(props);
+});
+
+const lgGap = computed(() => {
+  return getMediaGap(props.laptop);
+});
+
+const mdGap = computed(() => {
+  return getMediaGap(props.pad);
+});
+
+const smGap = computed(() => {
+  return getMediaGap(props.padV);
+});
+
+const xsGap = computed(() => {
+  return getMediaGap(props.phone);
 });
 </script>
 <template>
   <div
     class="o-row"
-    :style="style"
+    :style="{
+      justifyContent: props.justify,
+      flexDirection: props.direction,
+      alignItems: props.align,
+      flexWrap: props.wrap,
+      '--row-gap-x': gap?.x,
+      '--row-gap-y': gap?.y,
+      '--row-phone-gap-x': xsGap?.x,
+      '--row-phone-gap-y': xsGap?.y,
+      '--row-pad-v-gap-x': smGap?.x,
+      '--row-pad-v-gap-y': smGap?.y,
+      '--row-pad-gap-x': mdGap?.x,
+      '--row-pad-gap-y': mdGap?.y,
+      '--row-laptop-gap-x': lgGap?.x,
+      '--row-laptop-gap-y': lgGap?.y,
+    }"
     :class="{
-      'o-row-xs': !!props.xs,
-      'o-row-s': !!props.s,
-      'o-row-m': !!props.m,
-      'o-row-l': !!props.l,
-      'o-row-xl': !!props.xl,
-      'o-row-xxl': !!props.xxl,
+      'o-row-phone': !!props.phone,
+      'o-row-pad-v': !!props.padV,
+      'o-row-pad': !!props.pad,
+      'o-row-laptop': !!props.laptop,
     }"
   >
     <slot></slot>
