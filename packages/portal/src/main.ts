@@ -7,11 +7,9 @@ import '@opensig/opendesign/src/_styles/dark.token.css';
 
 import './assets/style/a.light.token.css';
 import './assets/style/a.dark.token.css';
-import './assets/style/a.media.token.css';
 
 import './assets/style/k.light.token.css';
 import './assets/style/k.dark.token.css';
-import './assets/style/k.media.token.css';
 
 import { router } from '@/router';
 
