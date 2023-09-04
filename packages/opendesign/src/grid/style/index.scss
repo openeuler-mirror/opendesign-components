@@ -1,130 +1,68 @@
 @use '../../_styles/mixin.scss' as *;
 @use './var.scss';
-
-$media-xs: 601px;
-$media-s: 841px;
-$media-m: 1201px;
-$media-l: 1441px;
-$media-xl: 1681px;
-$media-xxl: 1920px;
+$media-phone: 600px;
+$media-pad-v: 840px;
+$media-pad: 1200px;
+$media-laptop: 1440px;
 
 .o-row {
   display: flex;
-  justify-content: var(--row-justify);
-  align-items: var(--row-align);
-  flex-wrap: var(--row-wrap);
-  flex-direction: var(--row-direction);
-  margin-left: var(--row-gap-x);
-  margin-right: var(--row-gap-x);
-  margin-bottom: var(--row-gap-y);
-}
-.o-row-inline {
-  display: inline-flex;
+
+  --col-gap-x: calc(var(--row-gap-x) / 2);
+  --col-gap-y: var(--row-gap-y);
+  --row-shift-x: calc(-1 * var(--col-gap-x));
+  --row-shift-y: calc(-1 * var(--col-gap-y));
+  margin-left: var(--row-shift-x);
+  margin-right: var(--row-shift-x);
+  margin-bottom: var(--row-shift-y);
+
+  > * {
+    padding-left: var(--col-gap-x);
+    padding-right: var(--col-gap-x);
+    margin-bottom: var(--col-gap-y);
+    flex: 1 0 auto; // 默认撑满
+  }
 }
 
 .o-col {
   flex: var(--col-flex);
-  flex-grow: var(--col-grow);
-  flex-shrink: var(--col-shrink);
-  flex-basis: var(--col-basis);
-  align-self: var(--col-align);
-  padding-left: var(--col-gap-x);
-  padding-right: var(--col-gap-x);
-  margin-bottom: var(--col-gap-y);
 }
 
-@media (min-width: $media-xs) {
-  .o-col-xs {
-    flex-basis: var(--col-basis-xs);
+@media (max-width: $media-laptop) {
+  .o-row-laptop {
+    --col-gap-x: calc(var(--row-laptop-gap-x) / 2);
+    --col-gap-y: var(--row-laptop-gap-y);
   }
-  .o-row-xs {
-    margin-left: var(--row-gap-x-xs);
-    margin-right: var(--row-gap-x-xs);
-    margin-bottom: var(--row-gap-y-xs);
-    .o-col {
-      padding-left: var(--col-gap-x-xs);
-      padding-right: var(--col-gap-x-xs);
-      margin-bottom: var(--col-gap-y-xs);
-    }
+  .o-col-laptop {
+    flex: var(--col-laptop-flex);
+  }
+}
+@media (max-width: $media-pad) {
+  .o-row-pad {
+    --col-gap-x: calc(var(--row-pad-gap-x) / 2);
+    --col-gap-y: var(--row-pad-gap-y);
+  }
+  .o-col-pad {
+    flex: var(--col-pad-flex);
   }
 }
 
-@media (min-width: $media-s) {
-  .o-col-s {
-    flex-basis: var(--col-basis-s);
+@media (max-width: $media-pad-v) {
+  .o-row-pad-v {
+    --col-gap-x: calc(var(--row-pad-v-gap-x) / 2);
+    --col-gap-y: var(--row-pad-v-gap-y);
   }
-  .o-row-xs {
-    margin-left: var(--row-gap-x-s);
-    margin-right: var(--row-gap-x-s);
-    margin-bottom: var(--row-gap-y-s);
-    .o-col {
-      padding-left: var(--col-gap-x-s);
-      padding-right: var(--col-gap-x-s);
-      margin-bottom: var(--col-gap-y-s);
-    }
+  .o-col-pad-v {
+    flex: var(--col-pad-v-flex);
   }
 }
 
-@media (min-width: $media-m) {
-  .o-col-m {
-    flex-basis: var(--col-basis-m);
+@media (max-width: $media-phone) {
+  .o-row-phone {
+    --col-gap-x: calc(var(--row-phone-gap-x) / 2);
+    --col-gap-y: var(--row-phone-gap-y);
   }
-  .o-row-m {
-    margin-left: var(--row-gap-x-m);
-    margin-right: var(--row-gap-x-m);
-    margin-bottom: var(--row-gap-y-m);
-    .o-col {
-      padding-left: var(--col-gap-x-m);
-      padding-right: var(--col-gap-x-m);
-      margin-bottom: var(--col-gap-y-m);
-    }
-  }
-}
-
-@media (min-width: $media-l) {
-  .o-col-l {
-    flex-basis: var(--col-basis-l);
-  }
-  .o-row-l {
-    margin-left: var(--row-gap-x-l);
-    margin-right: var(--row-gap-x-l);
-    margin-bottom: var(--row-gap-y-l);
-    .o-col {
-      padding-left: var(--col-gap-x-l);
-      padding-right: var(--col-gap-x-l);
-      margin-bottom: var(--col-gap-y-l);
-    }
-  }
-}
-
-@media (min-width: $media-xl) {
-  .o-col-xl {
-    flex-basis: var(--col-basis-xl);
-  }
-  .o-row-xl {
-    margin-left: var(--row-gap-x-xl);
-    margin-right: var(--row-gap-x-xl);
-    margin-bottom: var(--row-gap-y-xl);
-    .o-col {
-      padding-left: var(--col-gap-x-xl);
-      padding-right: var(--col-gap-x-xl);
-      margin-bottom: var(--col-gap-y-xl);
-    }
-  }
-}
-
-@media (min-width: $media-xxl) {
-  .o-col-xxl {
-    flex-basis: var(--col-basis-xxl);
-  }
-  .o-row-xxl {
-    margin-left: var(--row-gap-x-xxl);
-    margin-right: var(--row-gap-x-xxl);
-    margin-bottom: var(--row-gap-y-xxl);
-    .o-col {
-      padding-left: var(--col-gap-x-xxl);
-      padding-right: var(--col-gap-x-xxl);
-      margin-bottom: var(--col-gap-y-xxl);
-    }
+  .o-col-phone {
+    flex: var(--col-phone-flex);
   }
 }
