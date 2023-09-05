@@ -5,7 +5,6 @@
   position: relative;
   display: inline-flex;
   align-items: stretch;
-  width: d;
 }
 
 .o-anchor-line {
@@ -26,7 +25,6 @@
 }
 
 .o-anchor-item {
-  width: var(--anchor-item-width);
   min-width: var(--anchor-item-min-width);
   overflow: hidden;
   white-space: nowrap;

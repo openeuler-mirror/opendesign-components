@@ -1,4 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('phone-pad') {
+@include respond-to('<laptop') {
+  --anchor-item-link-text-size: var(--o-font_size-tip1);
+  --anchor-item-link-text-height: var(--o-line_height-tip2);
 }

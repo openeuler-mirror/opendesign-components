@@ -10,7 +10,7 @@
   }
 }
 
-@include respond-to('phone-pad') {
+@include respond-to('<pad') {
   .o-carousel {
     --carousel-arrow-size: var(--o-icon_size_control-xs);
     --carousel-indicator-width: 24px;

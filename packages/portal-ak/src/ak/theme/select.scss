@@ -23,7 +23,7 @@
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
 
-  @include respond-to('phone-pad') {
+  @include respond-to('<pad') {
     --select-text-size: var(--o-font_size-tip1);
     --select-text-height: var(--o-line_height-tip1);
   }

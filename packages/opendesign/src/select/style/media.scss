@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('phone-pad') {
+@include respond-to('<pad') {
   .o-select-options-dlg {
     box-shadow: none;
     --select-options-padding: 0;
