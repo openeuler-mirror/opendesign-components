@@ -1,17 +1,13 @@
 import type { App } from 'vue';
 
 import _ODropdown from './ODropdown.vue';
-import _ODropdownItem from './ODropdownItem.vue';
+import ODropdownItem from './ODropdownItem.vue';
 
 const ODropdown = Object.assign(_ODropdown, {
+  ODropdownItem,
   install(app: App) {
     app.component(_ODropdown.name, _ODropdown);
-  },
-});
-
-const ODropdownItem = Object.assign(_ODropdownItem, {
-  install(app: App) {
-    app.component(_ODropdownItem.name, _ODropdownItem);
+    app.component(ODropdownItem.name, ODropdownItem);
   },
 });
 
