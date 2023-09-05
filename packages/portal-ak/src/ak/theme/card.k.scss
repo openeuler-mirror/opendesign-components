@@ -64,7 +64,7 @@
   }
 }
 
-@include respond-to('pad-h') {
+@include respond-to('pad_h') {
   .c-card-kunpeng {
     &.o-card {
       &:not(.o-card-no-responsive) {
@@ -74,7 +74,7 @@
   }
 }
 
-@include respond-to('pad-v') {
+@include respond-to('pad_v') {
   .c-card-kunpeng {
     &.o-card {
       &:not(.o-card-no-responsive) {
