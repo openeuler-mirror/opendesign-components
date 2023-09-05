@@ -1,17 +1,13 @@
 import type { App } from 'vue';
 
 import _OAnchor from './OAnchor.vue';
-import _OAnchorItem from './OAnchorItem.vue';
+import OAnchorItem from './OAnchorItem.vue';
 
 const OAnchor = Object.assign(_OAnchor, {
+  OAnchorItem,
   install(app: App) {
     app.component(_OAnchor.name, _OAnchor);
-  },
-});
-
-const OAnchorItem = Object.assign(_OAnchorItem, {
-  install(app: App) {
-    app.component(_OAnchorItem.name, _OAnchorItem);
+    app.component(OAnchorItem.name, OAnchorItem);
   },
 });
 
