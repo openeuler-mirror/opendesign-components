@@ -1,4 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond-to('<laptop') {
 }
