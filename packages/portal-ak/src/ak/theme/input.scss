@@ -33,7 +33,7 @@
   }
 }
 
-@include respond-to('phone-pad') {
+@include respond-to('<pad') {
   .o-input-large {
     --input-text-size: var(--o-font_size-tip1);
     --input-text-height: var(--o-line_height-tip1);
