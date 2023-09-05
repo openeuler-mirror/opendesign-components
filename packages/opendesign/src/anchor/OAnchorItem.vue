@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, inject, nextTick, onMounted, onUnmounted, watch } from 'vue';
+import { computed, inject, nextTick, onMounted, onUnmounted, provide, watch } from 'vue';
 import { anchorItemProps } from './types';
-import { anchorInjectKey } from './provide';
-import {} from 'process';
+import { anchorInjectKey, anchorItemInjectKey } from './provide';
 
 const props = defineProps(anchorItemProps);
 const anchorInjection = inject(anchorInjectKey, null);
+const anchorItemInjection = inject(anchorItemInjectKey, null);
 
 const isActive = computed(() => {
   return props.href === anchorInjection?.activeLink.value;
@@ -39,6 +39,20 @@ watch(
   }
 );
 
+const depth = anchorItemInjection ? anchorItemInjection.depth + 1 : 1;
+
+const style = computed(() => {
+  if (depth === 1) {
+    return {};
+  } else {
+    return {
+      paddingLeft: `${12 * (depth - 1) + 8}px`,
+    };
+  }
+});
+
+provide(anchorItemInjectKey, { depth });
+
 onMounted(() => {
   addItem();
 });
@@ -50,7 +64,7 @@ onUnmounted(() => {
 
 <template>
   <div class="o-anchor-item">
-    <a :href="props.href" :target="props.target" class="o-anchor-item-link" :class="{ 'is-active': isActive }" @click="onClick">
+    <a :href="props.href" :target="props.target" class="o-anchor-item-link" :class="{ 'is-active': isActive }" :style="style" @click="onClick">
       <slot name="title">{{ props.title }}</slot>
     </a>
     <slot></slot>

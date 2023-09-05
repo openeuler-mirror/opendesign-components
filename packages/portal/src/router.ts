@@ -210,7 +210,7 @@ export const routes = [
     path: '/grid',
     name: 'Grid',
     label: '栅格 Grid',
-    component: () => import('@components/grid/__demo__/IndexGrid.vue'),
+    component: () => import('@components/grid/__demo__/TheIndex.vue'),
   },
   {
     path: '/flex',

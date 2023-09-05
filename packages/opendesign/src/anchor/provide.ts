@@ -6,3 +6,7 @@ export const anchorInjectKey: InjectionKey<{
   handleClick: (ev: MouseEvent, link?: string) => void;
   activeLink: Ref<string>;
 }> = Symbol('provide-anchor');
+
+export const anchorItemInjectKey: InjectionKey<{
+  depth: number;
+}> = Symbol('provide-anchor');

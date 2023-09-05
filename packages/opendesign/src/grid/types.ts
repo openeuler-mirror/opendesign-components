@@ -59,15 +59,9 @@ export const rowProps = {
     type: String,
   },
   /**
-   * @media (max-width: 600px)
+   * @media (max-width: 1440px)
    */
-  phone: {
-    type: Object as PropType<RowMediaT>,
-  },
-  /**
-   * @media (max-width: 840px)
-   */
-  padV: {
+  laptop: {
     type: Object as PropType<RowMediaT>,
   },
   /**
@@ -77,9 +71,15 @@ export const rowProps = {
     type: Object as PropType<RowMediaT>,
   },
   /**
-   * @media (max-width: 1440px)
+   * @media (max-width: 840px)
    */
-  laptop: {
+  padV: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
+   * @media (max-width: 600px)
+   */
+  phone: {
     type: Object as PropType<RowMediaT>,
   },
 };
@@ -99,15 +99,9 @@ export const colProps = {
     type: String as PropType<'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline' | 'inherit' | 'initial'>,
   },
   /**
-   * @media (max-width: 600px)
+   * @media (max-width: 1440px)
    */
-  phone: {
-    type: Object as PropType<ColMediaT>,
-  },
-  /**
-   * @media (max-width: 840px)
-   */
-  padV: {
+  laptop: {
     type: Object as PropType<ColMediaT>,
   },
   /**
@@ -117,9 +111,14 @@ export const colProps = {
     type: Object as PropType<ColMediaT>,
   },
   /**
-   * @media (max-width: 1440px)
+   * @media (max-width: 840px)
+   */ padV: {
+    type: Object as PropType<ColMediaT>,
+  },
+  /**
+   * @media (max-width: 600px)
    */
-  laptop: {
+  phone: {
     type: Object as PropType<ColMediaT>,
   },
 };
