@@ -1,4 +1,11 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<laptop') {
+@include respond-to('laptop') {
+  .o-btn-large {
+    --btn-padding: 0 15px;
+    --btn-icon-size: var(--o-icon_size-s);
+
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
 }
