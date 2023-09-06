@@ -15,7 +15,12 @@
   max-width: var(--btn-max-width);
   min-width: var(--btn-min-width);
   padding: var(--btn-padding);
+  height: var(--btn-height);
+
   cursor: pointer;
+  &.o-btn-icon-only {
+    width: var(--btn-height);
+  }
 }
 .o-btn-outline {
   color: var(--btn-color);
@@ -82,33 +87,18 @@
 }
 
 .o-btn-small {
-  height: var(--o-control_size-s);
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
-
-  &.o-btn-icon-only {
-    width: var(--o-control_size-s);
-  }
 }
 
 .o-btn-medium {
-  height: var(--o-control_size-m);
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
-
-  &.o-btn-icon-only {
-    width: var(--o-control_size-m);
-  }
 }
 
 .o-btn-large {
-  height: var(--o-control_size-l);
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
-
-  &.o-btn-icon-only {
-    width: var(--o-control_size-l);
-  }
 }
 
 .o-btn-prefix {

@@ -1,0 +1,34 @@
+@media (min-width: 1201px) and (max-width: 1440px) {
+
+  [data-o-theme='light'],
+  [data-o-theme='dark'] {
+    /**
+    * @name 中尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-m: 28px;
+    /**
+    * @name 大尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-l: 36px;
+  }
+}
+
+@media (max-width: 1200px) {
+
+  [data-o-theme='light'],
+  [data-o-theme='dark'] {
+    /**
+    * @name 中尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-m: 28px;
+  }
+}
