@@ -163,6 +163,8 @@
   --btn-height: var(--o-control_size-s);
 }
 .o-btn-medium {
+  --btn-min-width: 80px;
+
   --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
   --btn-padding: 0 15px;
@@ -170,6 +172,8 @@
   --btn-height: var(--o-control_size-m);
 }
 .o-btn-large {
+  --btn-min-width: 96px;
+
   --btn-radius: var(--o-radius_control-l);
   --btn-gap: 8px;
   --btn-padding: 0 23px;

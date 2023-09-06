@@ -1,20 +1,5 @@
 @use './mixin.scss' as *;
 
-.o-btn-medium {
-  --btn-min-width: 80px;
-  --btn-icon-size: var(--o-icon_size_control-xs);
-}
-.o-btn-large {
-  --btn-min-width: 96px;
-  --btn-icon-size: var(--o-icon_size_control-m);
-
-  @include respond-to('pad') {
-    font-size: var(--o-font_size-tip1);
-    line-height: var(--o-line_height-tip1);
-    --btn-padding: 0 15px;
-  }
-}
-
 .o-btn-outline.o-btn-primary:not(.o-btn-disabled) {
   --btn-color: var(--o-color-info1);
   --btn-color-hover: var(--o-color-info1-inverse);
