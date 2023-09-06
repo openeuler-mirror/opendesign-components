@@ -159,16 +159,26 @@
   --btn-radius: var(--o-radius_control-xs);
   --btn-gap: 2px;
   --btn-padding: 0 11px;
+  --btn-icon-size: var(--o-icon_size-xs);
+  --btn-height: var(--o-control_size-s);
 }
 .o-btn-medium {
+  --btn-min-width: 80px;
+
   --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
   --btn-padding: 0 15px;
+  --btn-icon-size: var(--o-icon_size-xs);
+  --btn-height: var(--o-control_size-m);
 }
 .o-btn-large {
-  --btn-radius: var(--o-radius_control-l);
+  --btn-min-width: 96px;
+
+  --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
   --btn-padding: 0 23px;
+  --btn-icon-size: var(--o-icon_size-m);
+  --btn-height: var(--o-control_size-l);
 }
 .o-btn-icon-only {
   --btn-padding: 0;
