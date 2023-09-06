@@ -192,7 +192,7 @@ export const routes = [
     path: '/card',
     name: 'Card',
     label: '卡片 Card',
-    component: () => import('@components/card/__demo__/IndexCard.vue'),
+    component: () => import('@components/card/__demo__/TheIndex.vue'),
   },
   {
     path: '/message',

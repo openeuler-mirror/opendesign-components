@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CSSProperties, nextTick, onMounted, onUnmounted, provide, ref, watchEffect } from 'vue';
+import { CSSProperties, nextTick, onMounted, onUnmounted, provide, ref } from 'vue';
 import { anchorProps, AnchorContainerT } from './types';
 import { anchorInjectKey } from './provide';
 import { isString, isUndefined, isWindow } from '../_utils/is';
