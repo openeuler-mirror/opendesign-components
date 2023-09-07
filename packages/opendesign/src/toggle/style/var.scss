@@ -16,20 +16,25 @@
   --toggle-color-active: var(--o-color-info1);
   --toggle-color-disabled: var(--o-color-info4);
 
-  --toggle-bg-color: var(--o-color-control1-light);
+  --toggle-bg-color: var(--o-color-fill1);
   --toggle-bg-color-hover: var(--o-color-control2-light);
   --toggle-bg-color-active: var(--o-color-control3-light);
   --toggle-bg-color-disabled: var(--o-color-control4-light);
 
-  --toggle-bd-color: var(--o-color-control1-light);
-  --toggle-bd-color-hover: var(--o-color-control2-light);
-  --toggle-bd-color-active: var(--o-color-control3-light);
-  --toggle-bd-color-disabled: var(--o-color-control4-light);
+  --toggle-bd-color: var(--o-color-fill1);
+  --toggle-bd-color-hover: transparent;
+  --toggle-bd-color-active: transparent;
+  --toggle-bd-color-disabled: transparent;
 
   --toggle-color-checked: var(--o-color-primary1);
   --toggle-color-checked-hover: var(--o-color-primary2);
   --toggle-color-checked-active: var(--o-color-primary3);
   --toggle-color-checked-disabled: var(--o-color-primary4);
+
+  --toggle-bg-color-checked: transparent;
+  --toggle-bg-color-checked-hover: transparent;
+  --toggle-bg-color-checked-active: transparent;
+  --toggle-bg-color-checked-disabled: transparent;
 
   --toggle-bd-color-checked: var(--o-color-primary1);
   --toggle-bd-color-checked-hover: var(--o-color-primary2);
