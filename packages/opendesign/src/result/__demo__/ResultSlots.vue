@@ -11,8 +11,8 @@ const img = 'https://www.openeuler.org/assets/404.6b1a0d2f.png';
   <h4>插槽</h4>
   <section>
     <OResult description="请修改配置项" status="danger">
-      <template #icon>
-        <OFigure class="img" :src="img" />
+      <template #image>
+        <OFigure :src="img" fit="contain" />
       </template>
       <template #title> 404 </template>
       <template #description> 页面走丢了 </template>
@@ -23,8 +23,4 @@ const img = 'https://www.openeuler.org/assets/404.6b1a0d2f.png';
   </section>
 </template>
 
-<style lang="scss" scoped>
-.img {
-  width: 50%;
-}
-</style>
+<style lang="scss" scoped></style>
