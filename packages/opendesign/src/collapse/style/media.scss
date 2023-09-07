@@ -21,7 +21,7 @@
   }
 }
 
-@include respond-to('<pad') {
+@include respond-to('<=pad') {
   .o-collapse {
     --collapse-radius: var(--o-radius_control-s);
     --collapse-padding: 0px 16px;

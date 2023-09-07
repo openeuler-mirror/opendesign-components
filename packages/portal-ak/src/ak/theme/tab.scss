@@ -21,7 +21,7 @@
   > .o-icon {
     font-size: var(--o-icon_size_control-m);
     margin-right: 8px;
-    @include respond-to('<pad') {
+    @include respond-to('<=pad') {
       font-size: var(--o-icon_size_control-xs);
     }
   }
@@ -31,11 +31,11 @@
   font-size: var(--o-font_size-text2);
   line-height: var(--o-line_height-text2);
 
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     padding-bottom: 2px;
   }
 
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     font-size: var(--o-font_size-tip1);
     line-height: var(--o-line_height-tip1);
   }
@@ -76,7 +76,7 @@
     > .o-icon {
       font-size: var(--o-icon_size_control-l);
       margin-right: 8px;
-      @include respond-to('<pad') {
+      @include respond-to('<=pad') {
         font-size: var(--o-icon_size_control-m);
       }
     }

@@ -5,17 +5,17 @@ $breakpoints: (
   '>phone': 601px,
   // pad
   'pad': (601px, 1200px),
-  '<pad': (0, 1200px),
+  '<=pad': (0, 1200px),
   '>pad': 1201px,
   // pad-v
   'pad_v': (601px, 840px),
-  '<pad_v': (0, 840px),
+  '<=pad_v': (0, 840px),
   '>pad_v': 841px,
   // pad-h
   'pad_h': (841px, 1200px),
   // laptop
   'laptop': (1201px, 1440px),
-  '<laptop': (0, 1440px),
+  '<=laptop': (0, 1440px),
   '>laptop': 1441px,
   'pad-laptop': (601px, 1440px),
   'pad_v-laptop': (841px, 1440px)

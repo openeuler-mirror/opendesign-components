@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<pad') {
+@include respond-to('<=pad') {
   .o-tag-medium {
     --tag-padding: 0 6px;
     --tag-text-size: var(--o-font_size-tip2);

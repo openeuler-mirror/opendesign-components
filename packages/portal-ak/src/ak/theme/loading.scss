@@ -15,7 +15,7 @@
   .o-loading-label {
     margin-left: 0;
     margin-top: 16px;
-    @include respond-to('<pad') {
+    @include respond-to('<=pad') {
       font-size: var(--o-font_size-tip1);
       line-height: var(--o-line_height-tip1);
       margin-top: 12px;
@@ -32,7 +32,7 @@
   .o-loading-label {
     margin-left: 0;
     margin-top: 8px;
-    @include respond-to('<pad') {
+    @include respond-to('<=pad') {
       margin-top: 4px;
     }
   }

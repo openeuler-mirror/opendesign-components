@@ -44,7 +44,7 @@
     --dlg-max-height: 80vh;
   }
 
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     --dlg-head-padding: 16px 16px 0;
     --dlg-body-padding: 12px 16px 12px;
     --dlg-foot-padding: 0 16px 16px;
@@ -106,7 +106,7 @@
 }
 
 .o-dialog-responsive {
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     .o-dlg-header {
       text-align: center;
       font-size: var(--o-font_size-text2);

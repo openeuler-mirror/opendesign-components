@@ -17,7 +17,7 @@
   }
 }
 
-@include respond-to('<pad') {
+@include respond-to('<=pad') {
   .o-result {
     --result-image-width: 160px;
     --result-image-height: 140px;

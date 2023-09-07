@@ -10,7 +10,7 @@
   }
 }
 
-@include respond-to('<pad') {
+@include respond-to('<=pad') {
   .o-message {
     --message-text-size: var(--o-font_size-tip2);
     --message-text-height: var(--o-line_height-tip2);

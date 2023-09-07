@@ -1,7 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-dialog-responsive {
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     --layer-position: fixed;
   }
   @include respond-to('phone-v') {
@@ -19,7 +19,7 @@
 }
 
 .o-dialog {
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     --dlg-head-padding: 16px 24px 0;
     --dlg-body-padding: 12px 24px;
     --dlg-foot-padding: 0 24px 16px;
@@ -27,7 +27,7 @@
 }
 
 .o-dlg-header {
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     font-size: var(--o-font_size-text2);
     line-height: var(--o-line_height-text2);
   }
