@@ -1,28 +1,34 @@
-/* theme: dark */
-@media screen and (max-width: 1200px) {
-  [data-o-theme='k.dark'],
-  [data-o-theme='k.light'] {
-    --o-control_size-m: 28px;
-  }
-}
+@media (min-width: 1201px) and (max-width: 1440px) {
 
-@media screen and (max-width: 1200px) and (min-width: 600px) {
-  [data-o-theme='k.dark'],
-  [data-o-theme='k.light'] {
+  [data-o-theme='k.light'],
+  [data-o-theme='k.dark'] {
+    /**
+    * @name 中尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-m: 28px;
+    /**
+    * @name 大尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
     --o-control_size-l: 36px;
   }
 }
 
-@media screen and (max-width: 1200px) {
-  [data-o-theme='k.dark'],
-  [data-o-theme='k.light'] {
-    --o-control_size-m: 28px;
-  }
-}
+@media (max-width: 1200px) {
 
-@media screen and (max-width: 600px) {
-  [data-o-theme='k.dark'],
-  [data-o-theme='k.light'] {
-    --o-radius-xl: 8px;
+  [data-o-theme='k.light'],
+  [data-o-theme='k.dark'] {
+    /**
+    * @name 中尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-m: 28px;
   }
 }

@@ -1868,7 +1868,14 @@
           "light": "64px",
           "dark": "64px"
         }
-      },
+      }
+    ]
+  },
+  "icon_size_control": {
+    "name": "组件图标尺寸",
+    "type": "size",
+    "typeName": "尺寸",
+    "value": [
       {
         "key": "icon_size_control-xs",
         "name": "超小尺寸图标",
@@ -2179,23 +2186,21 @@
           "light": "24px",
           "dark": "24px"
         }
-      },
+      }
+    ]
+  },
+  "radius_control": {
+    "name": "组件圆角尺寸",
+    "type": "size",
+    "typeName": "尺寸",
+    "value": [
       {
-        "key": "radius_control-l",
-        "name": "大尺寸控件圆角",
-        "description": "大尺寸控件圆角(组件使用)",
+        "key": "radius_control-xs",
+        "name": "超小尺寸控件圆角",
+        "description": "超小尺寸控件圆角(组件使用)",
         "value": {
-          "light": "16px",
-          "dark": "16px"
-        }
-      },
-      {
-        "key": "radius_control-m",
-        "name": "中尺寸控件圆角",
-        "description": "中尺寸控件圆角(组件使用)",
-        "value": {
-          "light": "12px",
-          "dark": "12px"
+          "light": "4px",
+          "dark": "4px"
         }
       },
       {
@@ -2208,16 +2213,26 @@
         }
       },
       {
-        "key": "radius_control-xs",
-        "name": "超小尺寸控件圆角",
-        "description": "超小尺寸控件圆角(组件使用)",
+        "key": "radius_control-m",
+        "name": "中尺寸控件圆角",
+        "description": "中尺寸控件圆角(组件使用)",
         "value": {
-          "light": "4px",
-          "dark": "4px"
+          "light": "12px",
+          "dark": "12px"
+        }
+      },
+      {
+        "key": "radius_control-l",
+        "name": "大尺寸控件圆角",
+        "description": "大尺寸控件圆角(组件使用)",
+        "value": {
+          "light": "16px",
+          "dark": "16px"
         }
       }
     ]
   },
+
   "duration": {
     "name": "动画持续时间",
     "type": "animation",

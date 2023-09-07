@@ -11,7 +11,7 @@
 
   --textarea-height: 126px;
 
-  @include respond-to('<pad') {
+  @include respond-to('<=pad') {
     --textarea-text-size: var(--o-font_size-tip1);
     --textarea-text-height: var(--o-line_height-tip1);
     --textarea-height: 116px;

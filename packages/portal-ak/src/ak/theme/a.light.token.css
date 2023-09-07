@@ -1592,35 +1592,35 @@
   /**
    * @name 超小尺寸图标
    * @type size
-   * @group icon_size
+   * @group icon_size_control
    * @description 超小尺寸控件图标(组件使用)
    */
   --o-icon_size_control-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
-   * @group icon_size
+   * @group icon_size_control
    * @description 小尺寸控件图标(组件使用)
    */
   --o-icon_size_control-s: 20px;
   /**
    * @name 中尺寸图标
    * @type size
-   * @group icon_size
+   * @group icon_size_control
    * @description 中尺寸控件图标(组件使用)
    */
   --o-icon_size_control-m: 24px;
   /**
    * @name 大尺寸图标
    * @type size
-   * @group icon_size
+   * @group icon_size_control
    * @description 大尺寸控件图标(组件使用)
    */
   --o-icon_size_control-l: 32px;
   /**
    * @name 超大尺寸图标
    * @type size
-   * @group icon_size
+   * @group icon_size_control
    * @description 超大尺寸控件图标(组件使用)
    */
   --o-icon_size_control-xl: 40px;
@@ -1814,33 +1814,33 @@
    */
   --o-radius-xl: 24px;
   /**
-   * @name 大尺寸控件圆角
+   * @name 超小尺寸控件圆角
    * @type size
-   * @group radius
-   * @description 大尺寸控件圆角(组件使用)
+   * @group radius_control
+   * @description 超小尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: 16px;
-  /**
-   * @name 中尺寸控件圆角
-   * @type size
-   * @group radius
-   * @description 中尺寸控件圆角(组件使用)
-   */
-  --o-radius_control-m: 12px;
+  --o-radius_control-xs: 4px;
   /**
    * @name 小尺寸控件圆角
    * @type size
-   * @group radius
+   * @group radius_control
    * @description 小尺寸控件圆角(组件使用)
    */
   --o-radius_control-s: 8px;
   /**
-   * @name 超小尺寸控件圆角
+   * @name 中尺寸控件圆角
    * @type size
-   * @group radius
-   * @description 超小尺寸控件圆角(组件使用)
+   * @group radius_control
+   * @description 中尺寸控件圆角(组件使用)
    */
-  --o-radius_control-xs: 4px;
+  --o-radius_control-m: 12px;
+  /**
+   * @name 大尺寸控件圆角
+   * @type size
+   * @group radius_control
+   * @description 大尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-l: 16px;
   /**
    * @name 持续时间
    * @type animation
