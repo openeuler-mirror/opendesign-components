@@ -1,7 +1,6 @@
 @media (min-width: 1201px) and (max-width: 1440px) {
-
-  [data-o-theme='light'],
-  [data-o-theme='dark'] {
+  [data-o-theme='a.light'],
+  [data-o-theme='a.dark'] {
     /**
     * @name 中尺寸
     * @type size
@@ -20,9 +19,8 @@
 }
 
 @media (max-width: 1200px) {
-
-  [data-o-theme='light'],
-  [data-o-theme='dark'] {
+  [data-o-theme='a.light'],
+  [data-o-theme='a.dark'] {
     /**
     * @name 中尺寸
     * @type size
