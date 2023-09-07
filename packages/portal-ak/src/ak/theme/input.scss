@@ -14,20 +14,6 @@
   --input-bd-color-focus: var(--o-color-control3);
 }
 
-.o-input-medium {
-  &,
-  &.o-input-round-pill {
-    --input-prepend-padding: 0;
-  }
-}
-
-.o-input-large {
-  &,
-  &.o-input-round-pill {
-    --input-prepend-padding: 0;
-  }
-}
-
 .c-input-verify-code {
   color: var(--o-color-info4);
   font-size: var(--o-font_size-tip1);

@@ -21,8 +21,8 @@ const printEvent = (evt: string, val?: string | number) => {
       @focus="(v) => printEvent('focus', v)"
       @press-enter="(v) => printEvent('press-enter', v)"
     >
-      <template #prepend>+86</template>
-      <template #append>RMB</template>
+      <template #prepend><span style="padding: 0 8px">+86</span></template>
+      <template #append><span style="padding: 0 8px">手机</span></template>
     </OInput>
     value: {{ val2 }}; event:{{ event }};
   </section>
