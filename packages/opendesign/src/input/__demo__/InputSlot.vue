@@ -22,17 +22,17 @@ const val2 = ref('this is input value');
       </template>
     </OInput>
     <OInput v-model="val2">
-      <template #suffix> 元 </template>
+      <template #suffix>元 </template>
     </OInput>
   </section>
 
   <h4>Prepend & Append</h4>
   <section>
     <OInput v-model="val2">
-      <template #prepend>+86</template>
+      <template #prepend><span style="padding: 0 8px 0 7px">+86</span></template>
     </OInput>
     <OInput v-model="val2">
-      <template #append>RMB</template>
+      <template #append><span style="padding: 0 7px 0 8px">RMB</span></template>
     </OInput>
   </section>
 </template>

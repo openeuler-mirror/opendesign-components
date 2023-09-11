@@ -92,15 +92,8 @@
   --input-text-height: var(--o-line_height-tip1);
 
   --input-padding: 0 7px;
-  --input-append-padding: 0 3px 0 4px;
-  --input-prepend-padding: 0 4px 0 3px;
   --input-radius: var(--o-radius_control-xs);
   --o-input-icon-size: var(--o-icon_size_control-xs);
-
-  &.o-input-round-pill {
-    --input-append-padding: 0 5px 0 4px;
-    --input-prepend-padding: 0 4px 0 5px;
-  }
 
   .has-prepend {
     --input-padding: 0 7px 0 5px;
@@ -113,15 +106,9 @@
   --input-text-height: var(--o-line_height-tip1);
 
   --input-padding: 0 15px;
-  --input-append-padding: 0 7px 0 8px;
-  --input-prepend-padding: 0 8px 0 7px;
   --input-radius: var(--o-radius_control-s);
   --o-input-icon-size: var(--o-icon_size_control-xs);
 
-  &.o-input-round-pill {
-    --input-append-padding: 0 15px 0 8px;
-    --input-prepend-padding: 0 8px 0 15px;
-  }
   .has-prepend {
     --input-padding: 0 15px 0 7px;
   }
@@ -133,15 +120,8 @@
   --input-text-height: var(--o-line_height-text1);
 
   --input-padding: 0 15px;
-  --input-append-padding: 0 11px 0 12px;
-  --input-prepend-padding: 0 12px 0 11px;
   --input-radius: var(--o-radius_control-s);
   --o-input-icon-size: var(--o-icon_size_control-m);
-
-  &.o-input-round-pill {
-    --input-append-padding: 0 15px 0 12px;
-    --input-prepend-padding: 0 12px 0 15px;
-  }
 
   .has-prepend {
     --input-padding: 0 15px 0 7px;
