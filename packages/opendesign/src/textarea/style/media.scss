@@ -1,0 +1,12 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=pad') {
+  .o-textarea {
+    --textarea-text-size: var(--o-font_size-tip1);
+    --textarea-text-height: var(--o-line_height-tip1);
+  }
+  .o-textarea-size-medium {
+    --textarea-radius: var(--o-radius_control-m);
+    --textarea-radius-pill: var(--o-radius_control-m);
+  }
+}

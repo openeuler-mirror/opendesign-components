@@ -6,7 +6,17 @@ const pageSizes = [6, 12, 24, 48];
 export const PaginationVariantTypes = ['solid', 'outline'] as const;
 export type PaginationVariantT = (typeof PaginationVariantTypes)[number];
 
+export const PaginationLayoutTypes = ['total', 'pagesize', 'pager', 'jumper'] as const;
+export type PaginationLayoutT = Array<(typeof PaginationLayoutTypes)[number]>;
+
 export const paginationProps = {
+  /**
+   * 布局：PaginationVariantT
+   */
+  layout: {
+    type: Array as PropType<PaginationLayoutT>,
+    default: ['pagesize', 'pager', 'jumper'],
+  },
   /**
    * 按钮类型：PaginationVariantT
    */
@@ -62,7 +72,7 @@ export const paginationProps = {
     type: Boolean,
   },
   /**
-   * 显示页面数 > 3
+   * 显示输入跳转
    */
   showJumper: {
     type: Boolean,

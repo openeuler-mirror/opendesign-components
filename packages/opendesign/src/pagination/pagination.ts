@@ -87,7 +87,7 @@ export function getPagerList(totalPage: number, currentPage = 1, showPageCount =
 export type PagerListT = ReturnType<typeof getPagerList>;
 export type PagerItemT = PagerListT[0];
 
-export function getSizeOptions(pageSizes: number[], sufix: string, currentPageSize?: number) {
+export function getSizeOptions(currentPageSize: number, sufix: string, pageSizes: number[]) {
   return pageSizes.map((item) => ({
     label: item + sufix,
     value: item,

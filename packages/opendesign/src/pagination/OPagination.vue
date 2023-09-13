@@ -27,11 +27,18 @@ const Labels = {
   sizeLabel: '条/页',
 };
 
+const simpleLayout = ['pager'];
+
 let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
 let currentPage = ref(Math.round(props.page));
 
-const pageSizeList = getSizeOptions(props.pageSizes, Labels.sizeLabel, currentPageSize.value);
+const pageSizeList = getSizeOptions(currentPageSize.value, Labels.sizeLabel, props.pageSizes);
+
 const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
+
+const layout = computed(() => {
+  return props.simple ? simpleLayout : props.layout;
+});
 
 const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
 
@@ -135,11 +142,12 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div v-if="props.showTotal" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <div v-if="layout.includes('total')" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
       <!-- sizes -->
-      <template v-if="!props.simple">
+      <template v-if="layout.includes('pagesize') && totalPage > 1">
         <div class="o-pagination-size">
           <OSelect
+            v-if="pageSizeList.length > 1"
             :model-value="currentPageSize"
             class="o-pagination-select"
             :default-label="defaultSizeLabel"
@@ -149,10 +157,11 @@ defineExpose({
           >
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
+          <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
         </div>
       </template>
       <!-- pager -->
-      <div class="o-pagination-pager">
+      <div v-if="layout.includes('pager')" class="o-pagination-pager">
         <div
           class="o-pagination-prev"
           :class="{
@@ -214,7 +223,7 @@ defineExpose({
         </div>
       </div>
       <!-- jumper -->
-      <template v-if="props.showJumper && !props.simple && totalPage > 0">
+      <template v-if="layout.includes('jumper') && totalPage > 1">
         <div class="o-pagination-goto">
           <span>{{ Labels.goto }}</span>
           <OInputNumber

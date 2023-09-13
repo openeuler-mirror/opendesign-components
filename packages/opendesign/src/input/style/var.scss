@@ -98,6 +98,12 @@
   .has-prepend {
     --input-padding: 0 7px 0 5px;
   }
+  .has-append {
+    --input-padding: 0 5px 0 7px;
+  }
+  .has-prepend.has-append {
+    --input-padding: 0 5px;
+  }
 }
 
 .o-input-medium {
@@ -112,6 +118,12 @@
   .has-prepend {
     --input-padding: 0 15px 0 7px;
   }
+  .has-append {
+    --input-padding: 0 7px 0 15px;
+  }
+  .has-prepend.has-append {
+    --input-padding: 0 7px;
+  }
 }
 
 .o-input-large {
@@ -125,6 +137,12 @@
 
   .has-prepend {
     --input-padding: 0 15px 0 7px;
+  }
+  .has-append {
+    --input-padding: 0 7px 0 15px;
+  }
+  .has-prepend.has-append {
+    --input-padding: 0 7px;
   }
 }
 
