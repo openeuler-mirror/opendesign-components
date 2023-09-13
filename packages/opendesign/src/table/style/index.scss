@@ -3,6 +3,8 @@
 
 .o-table {
   position: relative;
+  color: var(--table-color);
+
   table {
     width: 100%;
     // border-collapse: collapse;
