@@ -78,22 +78,22 @@
   --textarea-text-height: var(--o-line_height-tip1);
   --textarea-padding-v: 4px;
   --textarea-padding-h: 8px;
-  --textarea-radius: var(--o-radius_control-xs);
+  --textarea-radius: var(--o-radius_control-s);
   --textarea-radius-pill: 12px;
 }
 .o-textarea-size-medium {
+  --textarea-text-size: var(--o-font_size-tip1);
+  --textarea-text-height: var(--o-line_height-tip1);
+  --textarea-padding-v: 8px;
+  --textarea-padding-h: 16px;
+  --textarea-radius: var(--o-radius_control-l);
+  --textarea-radius-pill: var(--o-radius_control-l);
+}
+.o-textarea-size-large {
   --textarea-text-size: var(--o-font_size-text1);
   --textarea-text-height: var(--o-line_height-text1);
   --textarea-padding-v: 8px;
   --textarea-padding-h: 16px;
-  --textarea-radius: var(--o-radius_control-s);
-  --textarea-radius-pill: 16px;
-}
-.o-textarea-size-large {
-  --textarea-text-size: var(--o-font_size-text2);
-  --textarea-text-height: var(--o-line_height-text2);
-  --textarea-padding-v: 8px;
-  --textarea-padding-h: 16px;
   --textarea-radius: var(--o-radius_control-l);
-  --textarea-radius-pill: 20px;
+  --textarea-radius-pill: var(--o-radius_control-l);
 }
