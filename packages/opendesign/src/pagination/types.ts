@@ -6,7 +6,17 @@ const pageSizes = [6, 12, 24, 48];
 export const PaginationVariantTypes = ['solid', 'outline'] as const;
 export type PaginationVariantT = (typeof PaginationVariantTypes)[number];
 
+export const PaginationLayoutTypes = ['total', 'pagesize', 'pager', 'jumper'] as const;
+export type PaginationLayoutT = Array<(typeof PaginationLayoutTypes)[number]>;
+
 export const paginationProps = {
+  /**
+   * 布局：PaginationVariantT
+   */
+  layout: {
+    type: Array as PropType<PaginationLayoutT>,
+    default: ['pagesize', 'pager', 'jumper'],
+  },
   /**
    * 按钮类型：PaginationVariantT
    */
@@ -24,7 +34,7 @@ export const paginationProps = {
    * 支持选择的每页数据条数
    */
   pageSizes: {
-    type: [Array, null] as PropType<number[] | null>,
+    type: Array as PropType<number[]>,
     default: () => pageSizes,
   },
   /**
