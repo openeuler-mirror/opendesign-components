@@ -9,16 +9,16 @@ const val2 = ref(1000);
   <h4>add & minus</h4>
   <section>
     <OInputNumber v-model:value="val1" style="width: 150px">
-      <template #minus>Plus</template>
-      <template #add>Minus</template>
+      <template #minus>Minus</template>
+      <template #add>Plus</template>
     </OInputNumber>
     <OInputNumber v-model:value="val1" controls="left" style="width: 150px">
-      <template #minus>+</template>
-      <template #add>-</template>
+      <template #minus><span>-</span></template>
+      <template #add><span>+</span></template>
     </OInputNumber>
     <OInputNumber v-model:value="val1" controls="right" style="width: 150px">
-      <template #minus>+</template>
-      <template #add>-</template>
+      <template #minus><span>-</span></template>
+      <template #add><span>+</span></template>
     </OInputNumber>
   </section>
   <h4>Prefix & Suffix</h4>
