@@ -19,9 +19,9 @@ const onChange = (value: { page: number; pageSize: number }) => {
     <div>
       <div>Outline</div>
       <div class="row">
-        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" show-jumper @change="onChange" />
-        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" round="pill" show-jumper @change="onChange" />
-        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" round="12px" show-jumper @change="onChange" />
+        <OPagination :total="total" :page="currentPage" :page-size="16" :page-sizes="null" show-jumper @change="onChange" />
+        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="null" round="pill" show-jumper show-total @change="onChange" />
+        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" round="12px" show-jumper show-total @change="onChange" />
       </div>
     </div>
     <div>

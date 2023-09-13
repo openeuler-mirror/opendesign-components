@@ -27,10 +27,11 @@ const Labels = {
   sizeLabel: '条/页',
 };
 
-let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
+let currentPageSize = ref(props.pageSize || (Array.isArray(props.pageSizes) ? props.pageSizes[0] : 8));
 let currentPage = ref(Math.round(props.page));
 
-const pageSizeList = getSizeOptions(props.pageSizes, Labels.sizeLabel, currentPageSize.value);
+const pageSizeList = getSizeOptions(currentPageSize.value, Labels.sizeLabel, props.pageSizes);
+
 const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
 
 const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
@@ -140,6 +141,7 @@ defineExpose({
       <template v-if="!props.simple">
         <div class="o-pagination-size">
           <OSelect
+            v-if="pageSizeList.length > 1"
             :model-value="currentPageSize"
             class="o-pagination-select"
             :default-label="defaultSizeLabel"
@@ -149,6 +151,7 @@ defineExpose({
           >
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
+          <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
         </div>
       </template>
       <!-- pager -->

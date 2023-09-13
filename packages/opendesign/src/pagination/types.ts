@@ -24,7 +24,7 @@ export const paginationProps = {
    * 支持选择的每页数据条数
    */
   pageSizes: {
-    type: Array as PropType<number[]>,
+    type: [Array, null] as PropType<number[] | null>,
     default: () => pageSizes,
   },
   /**
@@ -62,7 +62,7 @@ export const paginationProps = {
     type: Boolean,
   },
   /**
-   * 显示页面数 > 3
+   * 显示输入跳转
    */
   showJumper: {
     type: Boolean,

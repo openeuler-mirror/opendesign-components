@@ -5,7 +5,7 @@ import { inputProps } from '../input/types';
 const { size, round, color, variant, placeholder, readonly, disabled, autoWidth, parse, format } = inputProps;
 
 export const InputNumberControlTypes = ['both', 'right', 'left', 'none'] as const;
-export type InputNumberControlT = typeof InputNumberControlTypes[number];
+export type InputNumberControlT = (typeof InputNumberControlTypes)[number];
 
 export const inputNumberPorps = {
   /**
@@ -88,14 +88,16 @@ export const inputNumberPorps = {
    */
   autoWidth,
   /**
-   * 解析输入框的值
-   */
-  parse,
-  /**
    * 对值格式化，控制显示格式
    * 需搭配parse处理，保证值的正确性
    */
   format,
+  /**
+   * 解析输入框的值
+   */
+  parse: {
+    type: Function as PropType<(value: string) => number>,
+  },
 };
 
 export type InputNumberPorpsT = ExtractPropTypes<typeof inputNumberPorps>;

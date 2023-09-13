@@ -132,10 +132,12 @@ const onChange = (val: string) => {
 };
 
 const onUpdateModelValue = (val: string) => {
-  isValid.value = isValidNumber(val, props.min, props.max, props.parse);
+  const parse = props.parse ? (value: string) => (props.parse ? String(props.parse(value)) : '') : void 0;
+
+  isValid.value = isValidNumber(val, props.min, props.max, parse);
 
   if (isValid.value) {
-    numberValue = getRealValue(val, undefined, undefined, props.parse);
+    numberValue = getRealValue(val, undefined, undefined, parse);
     if (!isFunction(props.format)) {
       emits('update:modelValue', numberValue);
     }
