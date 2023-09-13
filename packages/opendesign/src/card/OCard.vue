@@ -17,7 +17,7 @@ const isTitleLimited = computed(() => {
   return !isUndefined(props.titleMaxRow);
 });
 const isDetailLimited = computed(() => {
-  return !isUndefined(props.detaiMaxRow);
+  return !isUndefined(props.detailMaxRow);
 });
 </script>
 
@@ -85,7 +85,7 @@ const isDetailLimited = computed(() => {
                   v-if="props.detail || $slots.detail"
                   class="o-card-detail"
                   :class="{ 'o-card-detail-limited': isDetailLimited }"
-                  :style="{ '--card-detail-row': props.detailRow, '--card-detail-max-row': props.detaiMaxRow }"
+                  :style="{ '--card-detail-row': props.detailRow, '--card-detail-max-row': props.detailMaxRow }"
                 >
                   <slot name="detail">
                     {{ props.detail }}

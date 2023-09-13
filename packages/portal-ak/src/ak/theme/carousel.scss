@@ -1,5 +1,9 @@
 @use './mixin.scss' as *;
 
+.o-carousel {
+  --carousel-indicator-bg-color-selected: var(--o-color-info1);
+}
+
 @include respond-to('<=pad') {
   .o-carousel.carousel-floor {
     --carousel-indicator-width: 24px;

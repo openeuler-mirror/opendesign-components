@@ -75,7 +75,7 @@ export const cardProps = {
   /**
    * 详情最大行数
    */
-  detaiMaxRow: {
+  detailMaxRow: {
     type: Number,
   },
   /**
