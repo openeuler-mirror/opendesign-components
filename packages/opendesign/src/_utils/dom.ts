@@ -146,7 +146,7 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
   const { scrollTop } = getScroll(container);
   const startTime = Date.now();
 
-  return new Promise((res) => {
+  return new Promise((resolve) => {
     const frameFn = () => {
       const timeStamp = Date.now();
       const time = timeStamp - startTime;
@@ -163,7 +163,13 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
       if (time < duration) {
         throttleRAF(frameFn)();
       } else {
-        throttleRAF(res)();
+        // TODO:正确处理ssr中滚动事件执行完毕时机
+        setTimeout(() => {
+          resolve(nextScrollTop);
+        }, 800);
+
+        // 滚动事件可能未执行完成，故下一帧执行resolve
+        // throttleRAF(resolve)();
       }
     };
 

@@ -40,8 +40,8 @@ const updateIndicatorPosition = () => {
     indicatorStyle.value = {};
   } else {
     const { offsetTop, offsetHeight } = el;
-    indicatorStyle.value.top = `${offsetTop}px`;
-    indicatorStyle.value.height = `${offsetHeight}px`;
+    indicatorStyle.value.top = `${offsetTop + 11}px`;
+    indicatorStyle.value.height = `${offsetHeight - 2 * 11}px`;
     indicatorStyle.value.opacity = 1;
   }
 };

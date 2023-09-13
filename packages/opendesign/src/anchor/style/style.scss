@@ -17,8 +17,8 @@
 
 .o-anchor-indicator {
   position: absolute;
-  width: var(--anchor-line-width);
-  border-radius: var(--anchor-line-width);
+  width: var(--anchor-indicator-width);
+  border-radius: var(--anchor-indicator-width);
   background-color: var(--anchor-indicator-bg-color);
   opacity: 0;
   transition: all var(--o-easing-standard-in) var(--o-duration-m1);
