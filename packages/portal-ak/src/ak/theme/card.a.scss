@@ -21,7 +21,7 @@
   }
 }
 
-@include respond-to('up-pad') {
+@include hoverable {
   .c-card-ascend-hover {
     position: relative;
   }
