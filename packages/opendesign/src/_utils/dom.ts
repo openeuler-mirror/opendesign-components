@@ -1,6 +1,6 @@
 import { easeInOutCubic } from './easing';
 import { throttleRAF } from './helper';
-import { isArray, isWindow } from './is';
+import { isArray, isFunction, isWindow } from './is';
 import { PositionT } from './types';
 
 export type ScrollTarget = HTMLElement | Window | Document;
@@ -141,10 +141,18 @@ interface ScrollTopOptions {
   duration?: number;
 }
 
+// 取消上一次未完全执行的滚动事件
+let cancelScrollRAF: Function | null = null;
+
 export function scrollTo(y: number, opts: ScrollTopOptions) {
   const { container = window, duration = 450 } = opts;
   const { scrollTop } = getScroll(container);
   const startTime = Date.now();
+
+  if (isFunction(cancelScrollRAF)) {
+    cancelScrollRAF();
+    cancelScrollRAF = null;
+  }
 
   return new Promise((resolve) => {
     const frameFn = () => {
@@ -161,15 +169,12 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
       }
 
       if (time < duration) {
-        throttleRAF(frameFn)();
+        const fn = throttleRAF(frameFn);
+        cancelScrollRAF = fn.cancel;
+        fn();
       } else {
-        // TODO:正确处理ssr中滚动事件执行完毕时机
-        setTimeout(() => {
-          resolve(nextScrollTop);
-        }, 800);
-
         // 滚动事件可能未执行完成，故下一帧执行resolve
-        // throttleRAF(resolve)();
+        throttleRAF(resolve)();
       }
     };
 
