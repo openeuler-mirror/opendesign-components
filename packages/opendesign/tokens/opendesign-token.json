@@ -1,18 +1,25 @@
 {
-  "base": {
-    "name": "基础色(不同皮肤色相不变)",
+  "white": {
+    "name": "白色",
     "type": "palette",
-    "typeName": "色盘",
+    "typeName": "颜色",
     "value": [
       {
-        "key": "color-white",
+        "key": "white",
         "value": {
           "light": "255, 255, 255",
           "dark": "255, 255, 255"
         }
-      },
+      }
+    ]
+  },
+  "black": {
+    "name": "黑色",
+    "type": "palette",
+    "typeName": "颜色",
+    "value": [
       {
-        "key": "color-black",
+        "key": "black",
         "value": {
           "light": "0, 0, 0",
           "dark": "0, 0, 0"
@@ -1078,6 +1085,27 @@
     ]
   },
 
+  "base": {
+    "name": "基础色(不同皮肤色相不变)",
+    "type": "color",
+    "typeName": "颜色",
+    "value": [
+      {
+        "key": "color-white",
+        "value": {
+          "light": "rgb(var(--o-white))",
+          "dark": "rgb(var(--o-white))"
+        }
+      },
+      {
+        "key": "color-black",
+        "value": {
+          "light": "rgb(var(--o-black))",
+          "dark": "rgb(var(--o-black))"
+        }
+      }
+    ]
+  },
   "primary": {
     "name": "强调色",
     "type": "color",

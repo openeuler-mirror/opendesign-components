@@ -27,7 +27,7 @@
 .c-btn-activity,
 .c-btn-kunpeng,
 .c-btn-ascend {
-  color: rgb(var(--o-color-white)) !important;
+  color: var(--o-color-white) !important;
   background: linear-gradient(90deg, rgb(var(--ak-color-band-start)) 0%, rgb(var(--ak-color-band-end)) 100%);
   border-color: transparent;
   background-repeat: no-repeat;

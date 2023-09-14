@@ -151,10 +151,12 @@
 .o-card-layout-hr {
   display: flex;
   flex-direction: row-reverse;
+  justify-content: space-between;
 
   .o-card-main {
     display: flex;
     flex-direction: row-reverse;
+    justify-content: space-between;
   }
 
   .o-card-icon {
