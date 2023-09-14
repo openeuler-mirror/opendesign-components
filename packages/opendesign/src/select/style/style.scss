@@ -137,10 +137,6 @@
 }
 
 .o-select-options {
-  background-color: var(--select-options-bg-color);
-  border-radius: var(--select-options-radius);
-  box-shadow: var(--select-options-shadow);
-  border: var(--select-options-bd);
   overflow: hidden;
 }
 .o-select-options-scroller {
@@ -167,6 +163,13 @@
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
   color: var(--o-color-info3);
+}
+.o-select-actions {
+  border-top: 1px solid var(--o-color-control4);
+}
+// <=pad
+.o-select-options-dlg {
+  padding-bottom: 4px;
 }
 
 // 多选
@@ -208,7 +211,4 @@
 .o-select-tag-popover {
   max-width: var(--select-tag-popover-max-width);
   --popover-padding: 6px 8px;
-}
-.o-select-options-dlg {
-  padding-bottom: 4px;
 }

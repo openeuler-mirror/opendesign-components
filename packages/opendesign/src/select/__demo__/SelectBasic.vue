@@ -8,6 +8,17 @@ const options = [
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
 ];
+const options2 = [
+  { label: 'option 1', value: 'opt1' },
+  { label: 'option 2', value: 'opt2' },
+  { label: 'option 3', value: 'opt3' },
+  { label: 'option 4', value: 'opt4' },
+  { label: 'option 5', value: 'opt5' },
+  { label: 'option 6', value: 'opt6' },
+  { label: 'option 7', value: 'opt7' },
+  { label: 'option 8', value: 'opt8' },
+  { label: 'option 9', value: 'opt9' },
+];
 const selectVal1 = ref('opt1');
 const changeVal = () => {
   selectVal1.value = 'opt3';
@@ -22,7 +33,7 @@ const changeVal = () => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" variant="text" color="success" placeholder="normal + success" option-title="请选择">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <OOption v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" variant="text" color="warning" placeholder="normal + warning">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -37,7 +48,7 @@ const changeVal = () => {
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" color="success" placeholder="normal + success">
-        <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <OOption v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" color="warning" placeholder="normal + warning">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
