@@ -1,0 +1,114 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-table {
+  position: relative;
+  color: var(--table-color);
+
+  table {
+    width: 100%;
+    // border-collapse: collapse;
+    border-spacing: 0;
+  }
+  th,
+  td {
+    box-sizing: border-box;
+  }
+  th {
+    text-align: left;
+    font-weight: normal;
+    background-color: var(--table-head-bg);
+
+    padding: var(--table-head-cell-padding);
+    font-size: var(--table-head-text-size);
+    line-height: var(--table-head-text-height);
+    height: var(--table-head-cell-height);
+  }
+  td {
+    padding: var(--table-cell-padding);
+    font-size: var(--table-text-size);
+    line-height: var(--table-text-height);
+    height: var(--table-cell-height);
+  }
+
+  tbody tr {
+    @include hover {
+      &:hover {
+        background-color: var(--table-row-hover);
+      }
+    }
+    &:active {
+      background-color: var(--table-row-active);
+    }
+  }
+}
+.o-table-wrap {
+  border-radius: var(--table-radius);
+  overflow: hidden;
+  background-color: var(--table-bg-color);
+}
+
+// border
+.o-table-border-all,
+.o-table-border-frame {
+  border: var(--table-border);
+}
+.o-table-border-all,
+.o-table-border-row {
+  // th,
+  td {
+    border-bottom: var(--table-border);
+  }
+}
+
+.o-table-border-all,
+.o-table-border-frame,
+.o-table-border-row {
+  tr.last {
+    td {
+      border-bottom-color: transparent;
+    }
+  }
+}
+
+.o-table-border-all,
+.o-table-border-column {
+  th,
+  td {
+    border-right: var(--table-border);
+
+    &.last {
+      border-right-color: transparent;
+    }
+  }
+}
+
+// tip
+.o-table-tip-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--table-tip-text-size);
+  line-height: var(--table-tip-text-height);
+  color: var(--table-tip-color);
+  min-height: var(--table-body-min-height);
+}
+.o-table-loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--table-tip-text-size);
+  line-height: var(--table-tip-text-height);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--table-loading-mask);
+  color: var(--table-loading-color);
+  border-radius: var(--table-radius);
+}
+
+.o-table-loading-label {
+  margin-left: 8px;
+}

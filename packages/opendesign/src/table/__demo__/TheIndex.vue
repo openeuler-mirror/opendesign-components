@@ -12,9 +12,9 @@ import TableDiyHead from './TableDiyHead.vue';
   <div class="page-demo">
     <TableDiy />
     <TableSpan />
-    <!-- <TableBasic />
+    <TableBasic />
     <TableDiyHead />
-    <TablePagination /> -->
+    <TablePagination />
   </div>
 </template>
 <style lang="scss"></style>
