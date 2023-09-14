@@ -6,7 +6,7 @@
   align-items: center;
   position: relative;
   width: 100%;
-  justify-content: var(--tab-nav-justify, 'center');
+  justify-content: var(--tab-nav-justify, center);
 }
 .o-tab-head {
   font-size: var(--tab-nav-text-size);
