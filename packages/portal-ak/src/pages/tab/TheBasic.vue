@@ -28,10 +28,8 @@ const activeKey = ref(2);
   <OTab variant="text" :line="false">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :value="item.id">
       <template #nav>
-        <div class="o-tab-nav-title">
-          <OIcon :icon="item.icon" />
-          {{ item.label }}
-        </div>
+        <OIcon :icon="item.icon" />
+        {{ item.label }}
       </template>
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
     </OTabPane>
@@ -46,10 +44,8 @@ const activeKey = ref(2);
   <OTab variant="text" :line="false" class="c-tab-large">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :value="item.id">
       <template #nav>
-        <div class="o-tab-nav-title">
-          <OIcon :icon="item.icon" />
-          {{ item.label }}
-        </div>
+        <OIcon :icon="item.icon" />
+        {{ item.label }}
       </template>
 
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
@@ -59,10 +55,8 @@ const activeKey = ref(2);
   <OTab variant="text" :line="false" class="c-tab-large" :model-value="4">
     <OTabPane v-for="item in tabList" :key="item.id" class="pane" :value="item.id">
       <template #nav>
-        <div class="o-tab-nav-title">
-          <OIcon :icon="item.icon" />
-          {{ item.label }}
-        </div>
+        <OIcon :icon="item.icon" />
+        {{ item.label }}
       </template>
 
       <div style="height: 100px; background-color: #fff">pane {{ item.id }}</div>
