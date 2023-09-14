@@ -3,7 +3,6 @@
 
 .o-upload-select {
   position: relative;
-  display: inline-block;
   cursor: pointer;
 }
 .o-upload-select-input {
@@ -99,14 +98,14 @@
   margin-left: 8px;
 }
 .o-upload-select-extra {
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
   color: var(--o-color-info4);
   margin-top: 8px;
 }
 .o-upload-item-tip {
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
   color: var(--o-color-info1);
   display: flex;
   margin-top: 4px;
@@ -246,9 +245,6 @@
 }
 
 // 拖拽上传
-.o-upload-select-drag {
-  width: 100%;
-}
 .o-upload-drag {
   padding: var(--upload-drag-padding);
   font-size: var(--o-font_size-tip1);
@@ -257,7 +253,7 @@
   background-color: var(--upload-drag-bg-color);
   border: var(--upload-drag-bd);
   text-align: center;
-  width: 100%;
+  width: var(--upload-drag-width);
   border-radius: var(--upload-drag-radius);
   text-align: center;
   transition: all var(--o-easing-standard) var(--o-duration-m2);
@@ -282,83 +278,19 @@
   }
 }
 .o-upload-drag-disabled {
-  &,
-  &:hover {
+  @include me-hover {
     cursor: not-allowed;
     color: var(--upload-drag-color-disabled);
     border: var(--upload-drag-bd-disabled);
     background-color: var(--upload-drag-bg-color-disabled);
   }
 }
+
 .o-upload-drag-icon {
   font-size: var(--upload-icon-size-l);
   vertical-align: top;
   + .o-upload-drag-label {
     margin-top: 12px;
-  }
-}
-
-// 拖拽上传
-.o-upload-select-drag {
-  width: 100%;
-}
-.o-upload-drag {
-  padding: var(--upload-drag-padding);
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-text1);
-  color: var(--upload-drag-color);
-  background-color: var(--upload-drag-bg-color);
-  border: var(--upload-drag-border);
-  text-align: center;
-  width: 100%;
-  border-radius: var(--upload-drag-radius);
-  text-align: center;
-  transition: all var(--o-easing-standard) var(--o-duration-m2);
-  &:hover {
-    border: var(--upload-drag-border-hover);
-  }
-}
-.o-upload-drag-dragging {
-  border: var(--upload-drag-border-dragging);
-  background-color: var(--upload-drag-bg-color-dragging);
-}
-.o-upload-drag-disabled {
-  &,
-  &:hover {
-    cursor: not-allowed;
-    color: var(--upload-drag-color-disabled);
-    border: var(--upload-drag-border-disabled);
-    background-color: var(--upload-drag-bg-color-disabled);
-  }
-}
-.o-upload-drag-icon {
-  font-size: var(--upload-icon-size-l);
-  vertical-align: top;
-  + .o-upload-drag-label {
-    margin-top: 12px;
-  }
-}
-
-// 图片上传
-.o-upload-card-add {
-  border: var(--upload-card-border);
-  width: var(--upload-card-width);
-  height: var(--upload-card-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--upload-card-radius);
-  text-align: center;
-  color: var(--upload-color);
-  cursor: pointer;
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-text1);
-}
-.o-upload-card-add-icon {
-  font-size: var(--upload-icon-size-l);
-  vertical-align: top;
-  + .o-upload-card-label {
-    margin-top: 8px;
   }
 }
 
