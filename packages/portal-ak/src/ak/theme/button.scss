@@ -1,5 +1,12 @@
 @use './mixin.scss' as *;
 
+.o-btn.o-btn-solid {
+  --btn-color: var(--o-color-info1-inverse);
+  --btn-color-hover: var(--o-color-info1-inverse);
+  --btn-color-active: var(--o-color-info1-inverse);
+  --btn-color-disabled: var(--o-color-info1-inverse);
+}
+
 .o-btn-outline.o-btn-primary:not(.o-btn-disabled) {
   --btn-color: var(--o-color-info1);
   --btn-color-hover: var(--o-color-info1-inverse);

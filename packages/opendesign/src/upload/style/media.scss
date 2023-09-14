@@ -5,3 +5,8 @@
     opacity: 1;
   }
 }
+@include respond-to('<=laptop') {
+  .o-upload {
+    --upload-drag-padding: 16px 8px;
+  }
+}

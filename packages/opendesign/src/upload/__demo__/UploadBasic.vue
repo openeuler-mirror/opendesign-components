@@ -58,6 +58,7 @@ const onSelect = (f: UploadFileT[]) => {
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
         btn-label="上传(单选)"
+        :btn-props="{ size: 'large' }"
         color="normal"
         variant="solid"
         accept=".docx,.xlsx,.xls,.doc,.pdf"
