@@ -13,21 +13,21 @@
 }
 
 .o-badge-primary {
-  --badge-color: rgb(var(--o-color-white));
+  --badge-color: var(--o-color-white);
   --badge-bg-color: var(--o-color-primary1);
 }
 
 .o-badge-success {
-  --badge-color: rgb(var(--o-color-white));
+  --badge-color: var(--o-color-white);
   --badge-bg-color: var(--o-color-success1);
 }
 
 .o-badge-warning {
-  --badge-color: rgb(var(--o-color-white));
+  --badge-color: var(--o-color-white);
   --badge-bg-color: var(--o-color-warning1);
 }
 
 .o-badge-danger {
-  --badge-color: rgb(var(--o-color-white));
+  --badge-color: var(--o-color-white);
   --badge-bg-color: var(--o-color-danger1);
 }

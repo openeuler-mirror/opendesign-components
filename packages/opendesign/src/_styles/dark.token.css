@@ -3,17 +3,17 @@
   /**
    * @name 
    * @type palette
-   * @group base
+   * @group white
    * @description 
    */
-  --o-color-white: 255, 255, 255;
+  --o-white: 255, 255, 255;
   /**
    * @name 
    * @type palette
-   * @group base
+   * @group black
    * @description 
    */
-  --o-color-black: 0, 0, 0;
+  --o-black: 0, 0, 0;
   /**
    * @name 
    * @type palette
@@ -980,6 +980,20 @@
    * @description 
    */
   --o-rosyred-10: 255, 242, 247;
+  /**
+   * @name 
+   * @type color
+   * @group base
+   * @description 
+   */
+  --o-color-white: rgb(var(--o-white));
+  /**
+   * @name 
+   * @type color
+   * @group base
+   * @description 
+   */
+  --o-color-black: rgb(var(--o-black));
   /**
    * @name 
    * @type color
