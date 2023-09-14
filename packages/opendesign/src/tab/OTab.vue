@@ -5,7 +5,7 @@ import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import { tabProps } from './types';
 import { vOnResize } from '../directves';
 import { debounceRAF } from '../_utils/helper';
-import { isPhonePad } from '../_utils/global';
+import { defaultSize, isPhonePad } from '../_utils/global';
 
 const props = defineProps(tabProps);
 
@@ -168,7 +168,7 @@ const navScroll = (to: 'prev' | 'next') => {
 };
 </script>
 <template>
-  <div class="o-tab" :class="[`o-tab-${props.variant}`]">
+  <div class="o-tab" :class="[`o-tab-${props.variant}`, `o-tab-${props.size || defaultSize}`]">
     <div
       v-on-resize="onHeadResize"
       class="o-tab-head"

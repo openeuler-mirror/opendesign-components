@@ -88,7 +88,7 @@ onMounted(() => {
         @click="navClick"
       >
         <slot name="nav">
-          <div class="o-tab-nav-title">{{ props.label || props.value }}</div>
+          {{ props.label || props.value }}
         </slot>
         <div v-if="props.closable" class="o-tab-nav-close" @click="navCloseClick"><IconClose /></div>
       </div>

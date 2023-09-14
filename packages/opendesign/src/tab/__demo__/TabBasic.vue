@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { OTab, OTabPane } from '../index';
+import { OIcon } from '../../icon';
 import { OIconSearch } from '../../icon-components';
 const activeTab = ref('Tab A');
 const activeTab2 = ref('1');
@@ -37,33 +38,79 @@ const updateTab = (v: string) => {
 <template>
   <h4>Variant</h4>
   <div class="sec">
-    <p>Solid</p>
+    <h4>Solid</h4>
+    <p>large</p>
+    <OTab variant="solid" size="large" @change="onChange">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" unmount-on-hide>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTab>
+    <p>medium</p>
     <OTab variant="solid" @change="onChange">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
-      <OTabPane class="pane" label="Tab 3" unmount-on-hide>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 3" unmount-on-hide>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTab>
+    <p>small</p>
+    <OTab variant="solid" size="small" @change="onChange">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" unmount-on-hide>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTab>
     <p>line:false</p>
     <OTab variant="solid" :line="false">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
-      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTab>
     <br />
-    <p>Text</p>
+    <h4>Text</h4>
+    <p>large</p>
+    <OTab variant="text" size="large">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTab>
+    <p>medium</p>
     <OTab variant="text">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
-      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+    </OTab>
+    <p>small</p>
+    <OTab variant="text" size="small">
+      <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTab>
     <p>line:false</p>
     <OTab variant="text" :line="false">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
-      <OTabPane class="pane" label="Tab 3" lazy>pane 3</OTabPane>
+      <OTabPane class="pane" label="Tab 3" lazy>
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
+      </OTabPane>
       <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
     </OTab>
   </div>
@@ -77,7 +124,7 @@ const updateTab = (v: string) => {
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
       <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
       <OTabPane value="Tab C" class="pane">
-        <template #nav><OIconSearch /> Nav 3</template>pane 3
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTab>
@@ -88,7 +135,7 @@ const updateTab = (v: string) => {
       <OTabPane value="Tab A" class="pane"><template #nav>Nav 1</template>pane 1 </OTabPane>
       <OTabPane value="Tab B" class="pane">pane 2</OTabPane>
       <OTabPane value="Tab C" class="pane">
-        <template #nav><OIconSearch /> Nav 3</template>pane 3
+        <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
       <OTabPane value="Tab D" class="pane">pane 4</OTabPane>
     </OTab>

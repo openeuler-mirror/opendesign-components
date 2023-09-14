@@ -1,7 +1,5 @@
 .o-tab {
-  --tab-nav-text-size: var(--o-font_size-text1);
-  --tab-nav-text-height: var(--o-line_height-text1);
-  --tab-nav-btn-icon-size: 16px;
+  --tab-nav-btn-icon-size: var(--o-icon_size_control-xs);
   --tab-nav-btn-size: 24px;
 
   --tab-nav-color: var(--o-color-info2);
@@ -19,7 +17,32 @@
 
   --tab-nav-justify: flex-start;
 
-  --tab-nav-gap: 8px;
+  --tab-nav-close-size: var(--o-icon_size_control-xs);
+  --tab-nav-icon-size: var(--o-icon_size_control-m);
+}
+
+.o-tab-large {
+  --tab-nav-text-size: var(--o-font_size-h4);
+  --tab-nav-text-height: var(--o-line_height-h4);
+  --tab-nav-gap: 40px;
+  --tab-nav-icon-size: var(--o-icon_size_control-l);
+  --tab-nav-padding: 0 0 16px;
+}
+.o-tab-medium {
+  --tab-nav-text-size: var(--o-font_size-text2);
+  --tab-nav-text-height: var(--o-line_height-text2);
+  --tab-nav-gap: 32px;
+  --tab-nav-icon-size: var(--o-icon_size_control-m);
+
+  --tab-nav-padding: 0 0 14px;
+}
+.o-tab-small {
+  --tab-nav-text-size: var(--o-font_size-text1);
+  --tab-nav-text-height: var(--o-line_height-text1);
+  --tab-nav-gap: 24px;
+  --tab-nav-icon-size: var(--o-icon_size_control-xs);
+
+  --tab-nav-padding: 0 0 8px;
 }
 
 .o-tab-solid {
@@ -32,6 +55,9 @@
   --tab-nav-bg-color-hover: var(--o-color-control2-light);
   --tab-nav-bg-color-active: var(--o-color-control-light);
   --tab-nav-bg-color-disabled: var(--o-color-control4-light);
+
+  --tab-solid-nav-padding: 4px 16px;
+  --tab-solid-nav-gap: 8px;
 }
 .o-tab-text {
   --tab-nav-color-hover: var(--o-color-primary1);
