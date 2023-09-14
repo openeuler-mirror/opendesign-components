@@ -9,6 +9,7 @@ import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_utils/icons
 import { paginationProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
+import { OOptionList } from '../option';
 
 const props = defineProps(paginationProps);
 
@@ -199,10 +200,17 @@ defineExpose({
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
               <template v-else>
-                <OPopover position="bottom" class="o-pagination-more-popup">
-                  <div class="o-pagination-more-list">
-                    <div v-for="p in item.list" :key="p" class="o-pagination-more-item" @click="onMoreItemClick(p)">{{ p }}</div>
-                  </div>
+                <OPopover position="bottom" wrap-class="o-options-popup">
+                  <OOptionList scroller>
+                    <OOption
+                      v-for="opt in item.list"
+                      :key="opt"
+                      class="o-pagination-more-item"
+                      :label="String(opt)"
+                      :value="opt"
+                      @click="onMoreItemClick(opt)"
+                    />
+                  </OOptionList>
                   <template #target>
                     <OIcon class="o-pagination-more-icon" @click="moreClick(item)"><IconEllipsis /></OIcon>
                   </template>

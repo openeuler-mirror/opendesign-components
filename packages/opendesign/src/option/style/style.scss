@@ -24,9 +24,11 @@
     }
   }
   &.active {
-    font-weight: 500;
-    color: var(--option-color-active);
-    background-color: var(--option-bg-color-active);
+    @include me-hover {
+      font-weight: 500;
+      color: var(--option-color-active);
+      background-color: var(--option-bg-color-active);
+    }
   }
 }
 
@@ -39,4 +41,14 @@
     color: var(--option-color-disabled);
     background-color: var(--option-bg-color-disabled);
   }
+}
+// 列表容器
+.o-options-scroller {
+  max-height: var(--option-list-max-height);
+  --scroller-padding: 4px;
+}
+.o-options-container {
+  padding: 4px;
+  max-height: var(--option-list-max-height);
+  overflow: auto;
 }

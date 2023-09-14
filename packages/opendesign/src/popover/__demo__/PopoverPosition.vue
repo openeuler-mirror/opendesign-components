@@ -92,7 +92,6 @@ const btn12 = ref(null);
   border: 1px solid #333;
 }
 .box {
-  padding: 12px;
   height: 60px;
   display: flex;
   align-items: center;

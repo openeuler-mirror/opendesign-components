@@ -2,10 +2,7 @@
 import { ref } from 'vue';
 import { OPagination } from '../index';
 const currentPage = ref(5);
-const total = ref(0);
-setTimeout(() => {
-  total.value = 100;
-}, 1000);
+const total = ref(400);
 
 const pageSize = 8;
 const pageSizes = [8, 16, 32, 64];
