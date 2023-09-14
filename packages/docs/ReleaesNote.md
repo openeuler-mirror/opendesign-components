@@ -15,10 +15,12 @@
 1. 修复 layer 组件在卸载时，未移除挂载目标的相关类；
 2. 表格插槽支持自定义 td、th 内容；
 3. 修复 pagination 跳转输入框能输入小数问题；
-4. TODO carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
-5. upload 增加 beforeSelect 入参
-6. 浮层蒙层共用，解决闪烁问题 todo
+4. upload 增加 beforeSelect 入参
+5. 浮层蒙层共用，解决闪烁问题 todo
 
 # 0.0.53 -
 
-1. TODO pagination 支持 layout 控制顺序
+TODO
+
+1. pagination 支持 layout 控制顺序
+2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo

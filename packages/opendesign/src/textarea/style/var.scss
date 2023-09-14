@@ -11,9 +11,10 @@
   --textarea-limit-text-size: var(--o-font_size-tip2);
   --textarea-limit-text-height: var(--o-line_height-tip2);
 
-  --textarea-bg-color: transparent;
+  --textarea-bg-color: var(--o-color-control-light);
   --textarea-bg-color-hover: var(--o-color-control-light);
   --textarea-bg-color-focus: var(--o-color-control-light);
+  --textarea-bg-color-disabled: var(--o-color-control4-light);
 }
 .o-textarea-normal {
   --textarea-bd-color: var(--o-color-control1);
