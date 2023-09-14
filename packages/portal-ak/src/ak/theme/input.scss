@@ -1,14 +1,5 @@
 @use './mixin.scss' as *;
 
-.o-input {
-  --input-bg-color: var(--o-color-control-light);
-  --input-bg-color-disabled: var(--o-color-control4-light);
-  --input-prepend-append-bg-color: var(--o-color-control-light);
-
-  .has-prepend {
-    --input-padding: 0 16px 0 8px;
-  }
-}
 .o-input-normal {
   --input-bd-color-hover: var(--o-color-control2);
   --input-bd-color-focus: var(--o-color-control3);
