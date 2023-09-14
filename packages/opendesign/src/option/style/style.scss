@@ -24,9 +24,11 @@
     }
   }
   &.active {
-    font-weight: 500;
-    color: var(--option-color-active);
-    background-color: var(--option-bg-color-active);
+    @include me-hover {
+      font-weight: 500;
+      color: var(--option-color-active);
+      background-color: var(--option-bg-color-active);
+    }
   }
 }
 
