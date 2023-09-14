@@ -1,25 +1,4 @@
 {
-  "base": {
-    "name": "基础色(不同皮肤色相不变)",
-    "type": "palette",
-    "typeName": "色盘",
-    "value": [
-      {
-        "key": "color-white",
-        "value": {
-          "light": "255, 255, 255",
-          "dark": "255, 255, 255"
-        }
-      },
-      {
-        "key": "color-black",
-        "value": {
-          "light": "0, 0, 0",
-          "dark": "0, 0, 0"
-        }
-      }
-    ]
-  },
   "deepblue": {
     "name": "深蓝色",
     "type": "palette",
@@ -1078,6 +1057,27 @@
     ]
   },
 
+  "base": {
+    "name": "基础色(不同皮肤色相不变)",
+    "type": "color",
+    "typeName": "颜色",
+    "value": [
+      {
+        "key": "color-white",
+        "value": {
+          "light": "rgb(255, 255, 255)",
+          "dark": "rgb(255, 255, 255)"
+        }
+      },
+      {
+        "key": "color-black",
+        "value": {
+          "light": "rgb(0, 0, 0)",
+          "dark": "rgb(0, 0, 0)"
+        }
+      }
+    ]
+  },
   "primary": {
     "name": "强调色",
     "type": "color",
