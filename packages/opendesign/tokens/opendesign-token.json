@@ -1,4 +1,32 @@
 {
+  "white": {
+    "name": "白色",
+    "type": "palette",
+    "typeName": "颜色",
+    "value": [
+      {
+        "key": "white",
+        "value": {
+          "light": "255, 255, 255",
+          "dark": "255, 255, 255"
+        }
+      }
+    ]
+  },
+  "black": {
+    "name": "黑色",
+    "type": "palette",
+    "typeName": "颜色",
+    "value": [
+      {
+        "key": "black",
+        "value": {
+          "light": "0, 0, 0",
+          "dark": "0, 0, 0"
+        }
+      }
+    ]
+  },
   "deepblue": {
     "name": "深蓝色",
     "type": "palette",
@@ -1065,15 +1093,15 @@
       {
         "key": "color-white",
         "value": {
-          "light": "rgb(255, 255, 255)",
-          "dark": "rgb(255, 255, 255)"
+          "light": "rgb(var(--o-white))",
+          "dark": "rgb(var(--o-white))"
         }
       },
       {
         "key": "color-black",
         "value": {
-          "light": "rgb(0, 0, 0)",
-          "dark": "rgb(0, 0, 0)"
+          "light": "rgb(var(--o-black))",
+          "dark": "rgb(var(--o-black))"
         }
       }
     ]

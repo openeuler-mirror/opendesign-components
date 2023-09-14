@@ -3,6 +3,20 @@
   /**
    * @name 
    * @type palette
+   * @group white
+   * @description 
+   */
+  --o-white: 255, 255, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group black
+   * @description 
+   */
+  --o-black: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
    * @group deepblue
    * @description 
    */
@@ -972,14 +986,14 @@
    * @group base
    * @description 
    */
-  --o-color-white: rgb(255, 255, 255);
+  --o-color-white: rgb(var(--o-white));
   /**
    * @name 
    * @type color
    * @group base
    * @description 
    */
-  --o-color-black: rgb(0, 0, 0);
+  --o-color-black: rgb(var(--o-black));
   /**
    * @name 
    * @type color
