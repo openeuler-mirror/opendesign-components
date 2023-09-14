@@ -9,10 +9,10 @@
   --btn-bd-color-disabled: var(--o-color-control1);
 
   &.o-btn-solid {
-    --btn-color: var(--o-color-info1-inverse);
-    --btn-color-hover: var(--o-color-info1-inverse);
-    --btn-color-active: var(--o-color-info1-inverse);
-    --btn-color-disabled: var(--o-color-info1-inverse);
+    --btn-color: rgb(var(--o-color-white));
+    --btn-color-hover: rgb(var(--o-color-white));
+    --btn-color-active: rgb(var(--o-color-white));
+    --btn-color-disabled: rgb(var(--o-color-white));
 
     --btn-bg-color: var(--o-color-control1-light);
     --btn-bg-color-hover: var(--o-color-control2-light);
