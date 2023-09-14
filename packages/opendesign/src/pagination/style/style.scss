@@ -91,17 +91,12 @@
 
 .o-pagination-more-popup {
   min-width: 64px;
-  text-align: center;
   max-height: 200px;
   overflow: auto;
-  padding: 4px 0;
 }
 .o-pagination-more-item {
-  padding: 2px 16px;
   cursor: pointer;
-  @include hover {
-    background-color: var(--pagination-more-item-bg-color-hover);
-  }
+  justify-content: center;
 }
 
 .o-pagination-input {

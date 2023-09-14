@@ -366,7 +366,7 @@ const selectDlgAction: DialogActionT[] = [
         <OPopup
           v-if="!props.disabled"
           v-model:visible="isSelecting"
-          wrap-class="o-select-popup"
+          wrap-class="o-options-popup"
           :transition="props.transition"
           :unmount-on-hide="props.unmountOnHide"
           :position="props.optionPosition"
