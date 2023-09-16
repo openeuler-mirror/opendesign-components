@@ -161,7 +161,11 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
       const nextScrollTop = easeInOutCubic(time > duration ? duration : time, scrollTop, y, duration);
 
       if (isWindow(container)) {
-        window.scrollTo(window.scrollX, nextScrollTop);
+        window.scrollTo({
+          top: nextScrollTop,
+          left: window.scrollY,
+          behavior: 'instant',
+        });
       } else if (isDocument(container)) {
         container.documentElement.scrollTop = nextScrollTop;
       } else {
