@@ -162,8 +162,8 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
 
       if (isWindow(container)) {
         window.scrollTo({
+          left: window.scrollX,
           top: nextScrollTop,
-          left: window.scrollY,
           behavior: 'instant',
         });
       } else if (isDocument(container)) {
