@@ -6,7 +6,7 @@ export const anchorProps = {
   },
   bounds: {
     type: Number,
-    default: 0,
+    default: 5,
   },
   targetOffset: {
     type: Number,
