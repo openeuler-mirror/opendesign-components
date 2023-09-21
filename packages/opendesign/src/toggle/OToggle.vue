@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, inject, nextTick } from 'vue';
 import { buttonToggleProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { isUndefined } from '../_utils/is';
+import { checkboxInjectKey } from '../checkbox/provide';
+import { radioInjectKey } from '../radio/provide';
+
+const checkboxInjection = inject(checkboxInjectKey, null);
+const radioInjection = inject(radioInjectKey, null);
 
 const props = defineProps(buttonToggleProps);
 
@@ -10,10 +15,10 @@ const round = getRoundClass(props, 'toggle');
 
 const isChecked = ref(props.checked ?? props.defaultChecked);
 
-// const emits = defineEmits<{
-//   (e: 'update:checked', val: boolean): void;
-//   (e: 'change', val: boolean, ev: MouseEvent): void;
-// }>();
+const emits = defineEmits<{
+  (e: 'update:checked', val: boolean): void;
+  (e: 'change', val: boolean, ev: MouseEvent): void;
+}>();
 
 watch(
   () => props.checked,
@@ -24,14 +29,16 @@ watch(
   }
 );
 
-// const onClick = (ev: MouseEvent) => {
-//   if (props.disabled) {
-//     return;
-//   }
-//   isChecked.value = !isChecked.value;
-//   emits('update:checked', isChecked.value);
-//   emits('change', isChecked.value, ev);
-// };
+const onClick = (ev: MouseEvent) => {
+  if (props.disabled || checkboxInjection || radioInjection) {
+    return;
+  }
+  isChecked.value = !isChecked.value;
+  emits('update:checked', isChecked.value);
+  nextTick(() => {
+    emits('change', isChecked.value, ev);
+  });
+};
 </script>
 
 <template>
@@ -44,6 +51,7 @@ watch(
         'o-toggle-checked': isChecked,
       },
     ]"
+    @click="onClick"
   >
     <span v-if="props.icon || $slots.icon" class="o-toggle-prefix">
       <slot name="icon">
