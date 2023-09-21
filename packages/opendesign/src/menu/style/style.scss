@@ -25,12 +25,15 @@
   & > .o-sub-menu-title {
     font-weight: 500;
     color: var(--sub-menu-color-selected);
-    background-color: var(--sub-menu-bg-color-selected);
 
     .o-sub-menu-title-icon {
       color: var(--sub-menu-icon-color-selected);
     }
   }
+}
+
+.o-sub-menu-selected {
+  background-color: var(--sub-menu-bg-color-selected);
 }
 
 .o-sub-menu-associated-selected {
