@@ -1,10 +1,14 @@
 @use '../../_styles/mixin.scss' as *;
 @use './var.scss';
 
+.o-cascader {
+  height: var(--cascader-height);
+}
+
 .o-cascader-panel {
   position: relative;
   display: inline-flex;
-  height: 200px;
+  height: calc(var(--cascader-height) - 2 * var(--scroller-padding));
 }
 
 .o-cascader-options {
@@ -13,6 +17,7 @@
   padding: 0 calc(var(--cascader-options-gap) / 2);
   min-width: 144px;
   max-width: 192px;
+  height: 100%;
   overflow-y: auto;
 
   & + .o-cascader-options {
