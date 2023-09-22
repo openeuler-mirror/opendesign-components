@@ -7,8 +7,8 @@ const checked1 = ref(true);
 <template>
   <h3>单独使用</h3>
   <section>
-    <OToggle v-model="checked1">1</OToggle>
-    <OToggle>2</OToggle>
-    <OToggle>2</OToggle>
+    <OToggle v-model:checked="checked1">Checked: {{ checked1 }}</OToggle>
+    <OToggle disabled>Disabled</OToggle>
+    <OToggle>3</OToggle>
   </section>
 </template>
