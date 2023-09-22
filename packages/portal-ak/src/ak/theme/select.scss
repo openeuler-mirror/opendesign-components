@@ -6,9 +6,7 @@
   display: flex;
   align-items: center;
   @include hover {
-    &:hover {
-      color: var(--o-color-link1);
-    }
+    color: var(--o-color-link1);
   }
   > .o-icon {
     font-size: var(--o-icon_size_control-xs);
