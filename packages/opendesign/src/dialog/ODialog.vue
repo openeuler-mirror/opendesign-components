@@ -43,6 +43,7 @@ defineExpose({
       `o-dialog-${props.size}`,
       {
         'o-dialog-responsive': !props.noResponsive,
+        'o-dialog-phone-half-full': props.phoneHalfFull,
       },
     ]"
     :visible="props.visible"

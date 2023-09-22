@@ -37,6 +37,7 @@ export const dialogProps = {
     type: String as PropType<DialogSizeT>,
     default: 'auto',
   },
+
   /**
    * 弹窗底部按钮
    */
@@ -47,6 +48,12 @@ export const dialogProps = {
    * 是否响应式
    */
   noResponsive: {
+    type: Boolean,
+  },
+  /**
+   * 移动端响应为半屏
+   */
+  phoneHalfFull: {
     type: Boolean,
   },
   /**
