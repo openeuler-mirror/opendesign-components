@@ -28,6 +28,11 @@
 4. 取消 dropdown 内容左右边距；
 5. 解决 cascader 滚动条重叠问题
 
+# 0.0.57
+
+1. figure 支持视频封面、标题
+2. dialog 新增支持设置移动端半屏
+
 TODO
 
 1. pagination 支持 layout 控制顺序
