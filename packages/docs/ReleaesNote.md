@@ -20,6 +20,14 @@
 
 # 0.0.53 -
 
+# 0.0.56
+
+1. collapse&menu 展开时高度设置为 auto；
+2. toggle 支持单独使用；
+3. 解决 dialog 移动端居中问题；
+4. 取消 dropdown 内容左右边距；
+5. 解决 cascader 滚动条重叠问题
+
 TODO
 
 1. pagination 支持 layout 控制顺序
