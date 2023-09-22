@@ -11,15 +11,15 @@
 
   --toggle-padding: 0 15px;
 
-  --toggle-color: var(--o-color-info2);
+  --toggle-color: var(--o-color-info1);
   --toggle-color-hover: var(--o-color-info1);
   --toggle-color-active: var(--o-color-info1);
   --toggle-color-disabled: var(--o-color-info4);
 
-  --toggle-bg-color: var(--o-color-fill1);
+  --toggle-bg-color: var(--o-color-control2-light);
   --toggle-bg-color-hover: var(--o-color-control2-light);
   --toggle-bg-color-active: var(--o-color-control3-light);
-  --toggle-bg-color-disabled: var(--o-color-control4-light);
+  --toggle-bg-color-disabled: transparent;
 
   --toggle-bd-color: var(--o-color-fill1);
   --toggle-bd-color-hover: transparent;

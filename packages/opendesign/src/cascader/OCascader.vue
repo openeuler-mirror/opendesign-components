@@ -1,8 +1,12 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { OSelect } from '../select';
 import OCascaderPanel from './OCascaderPanel.vue';
 import type { CascaderValueT } from './types';
 import { cascaderProps } from './types';
+import { isString, isUndefined } from '../_utils/is';
+
+const props = defineProps(cascaderProps);
 
 const emits = defineEmits<{
   (e: 'change', val: CascaderValueT): void;
@@ -14,7 +18,16 @@ const handleChange = (val: CascaderValueT) => {
   emits('update:modelValue', val);
 };
 
-const props = defineProps(cascaderProps);
+const wrapClass = computed(() => {
+  const classStr = 'o-cascader';
+  if (isUndefined(props.optionWrapClass)) {
+    return classStr;
+  } else if (isString(props.optionWrapClass)) {
+    return `${classStr} ${props.optionWrapClass}`;
+  } else {
+    return [classStr, ...props.optionWrapClass].join(' ');
+  }
+});
 </script>
 
 <template>
@@ -28,6 +41,7 @@ const props = defineProps(cascaderProps);
     option-width-mode="auto"
     :unmount-on-hide="props.unmountOnHide"
     :transition="props.transition"
+    :option-wrap-class="wrapClass"
   >
     <OCascaderPanel :options="props.options" :model-value="props.modelValue" :path-mode="props.pathMode" @change="handleChange" />
   </OSelect>

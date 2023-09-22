@@ -1,10 +1,13 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-dialog-responsive {
+  @include respond-to('>phone') {
+    --layer-origin: center;
+  }
   @include respond-to('<=pad') {
     --layer-position: fixed;
   }
-  @include respond-to('phone-v') {
+  @include respond-to('phone') {
     --layer-align: flex-end;
     --dlg-width: calc(100vw - 48px);
     --layer-origin: center bottom;
@@ -12,9 +15,6 @@
     .o-dlg-btn {
       flex: 1;
     }
-  }
-  @include respond-to('>phone') {
-    --layer-origin: center;
   }
 }
 

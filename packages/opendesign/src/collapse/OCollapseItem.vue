@@ -58,6 +58,10 @@ const onBeforeEnter = (el: Element) => {
 const onEnter = (el: Element) => {
   (el as HTMLUListElement).style.height = `${el.scrollHeight}px`;
 };
+// 进入动画完成后高度设置为auto，支持嵌套子菜单展开
+const onAfterEnter = (el: Element) => {
+  (el as HTMLUListElement).style.height = 'auto';
+};
 const onBeforeLeave = (el: Element) => {
   (el as HTMLUListElement).style.height = `${(el as HTMLUListElement).offsetHeight}px`;
 };
@@ -76,7 +80,7 @@ const onLeave = (el: Element) => {
         <slot name="title">{{ props.title }}</slot>
       </p>
     </div>
-    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @before-leave="onBeforeLeave" @leave="onLeave">
+    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave" @leave="onLeave">
       <div v-show="isExpanded" class="o-collapse-item-body">
         <slot></slot>
       </div>

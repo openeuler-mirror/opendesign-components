@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch } from 'vue';
+import { radioInjectKey } from './provide';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_utils/is';
@@ -64,6 +65,11 @@ const onChange = (ev: Event) => {
     radioGroupInjection?.onChange(val, ev);
   });
 };
+
+provide(radioInjectKey, {
+  checked: isChecked,
+  disabled: isDisabled,
+});
 </script>
 
 <template>

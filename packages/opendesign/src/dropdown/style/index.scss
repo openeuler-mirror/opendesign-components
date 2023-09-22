@@ -14,7 +14,7 @@
 .o-dropdown-item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: var(--dropdown-item-justify);
   padding: var(--dropdown-item-padding);
   background-color: var(--dropdown-item-bg-color);
   font-size: var(--dropdown-item-text-size);

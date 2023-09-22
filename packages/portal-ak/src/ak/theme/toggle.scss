@@ -2,10 +2,7 @@
 
 .o-toggle {
   --toggle-bg-color: var(--o-color-fill1);
-  --toggle-bg-color-hover: var(--o-color-fill3);
-
   --toggle-bd-color: var(--o-color-fill1);
-  --toggle-bd-color-hover: var(--o-color-fill3);
 }
 
 @include respond-to('pad') {

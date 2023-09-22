@@ -18,7 +18,9 @@
   --dropdown-item-text-size: var(--o-font_size-text1);
   --dropdown-item-text-height: var(--o-line_height-text1);
 
-  --dropdown-item-padding: 7px 12px;
+  --dropdown-item-justify: center;
+
+  --dropdown-item-padding: 7px 0px;
   --dropdown-item-gap: 2px;
   --dropdown-item-radius: var(--o-radius_control-s);
 }
