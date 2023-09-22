@@ -8,6 +8,7 @@ const values = reactive({
   show2: false,
   show3: false,
   show4: false,
+  show5: false,
 });
 const dlgSize = ref<DialogSizeT>('medium');
 const toggle = (key: keyof typeof values, show?: boolean, size?: DialogSizeT) => {
@@ -103,6 +104,7 @@ const dlgAction2: DialogActionT[] = [
       <OButton @click="toggle('show0', true, 'large')">Open Large</OButton>
       <OButton @click="toggle('show0', true, 'exlarge')">Open exlarge</OButton>
       <OButton @click="toggle('show3', true, 'exlarge')">Open Medium 强调按钮</OButton>
+      <OButton @click="toggle('show5', true, 'exlarge')">Open Phone 半屏</OButton>
       <ODialog v-model:visible="values.show0" :actions="dlgAction" :size="dlgSize" @change="onChane">
         <template #header>
           <OPopover>
@@ -118,6 +120,12 @@ const dlgAction2: DialogActionT[] = [
         </div>
       </ODialog>
       <ODialog v-model:visible="values.show3" :actions="dlgAction2" @change="onChane">
+        <template #header> {{ dlgSize }} Dialog</template>
+        <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
+          This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog
+        </div>
+      </ODialog>
+      <ODialog v-model:visible="values.show5" :actions="dlgAction2" phone-half-full @change="onChane">
         <template #header> {{ dlgSize }} Dialog</template>
         <div class="dlg-body" style="height: 100vh; background-color: var(--o-color-fill3)">
           This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog

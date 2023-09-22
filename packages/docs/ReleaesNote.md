@@ -18,7 +18,7 @@
 4. upload 增加 beforeSelect 入参
 5. 浮层蒙层共用，解决闪烁问题 todo
 
-# 0.0.53 -
+# 0.0.53
 
 # 0.0.56
 
@@ -32,3 +32,4 @@ TODO
 
 1. pagination 支持 layout 控制顺序
 2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
+3. 级联重构

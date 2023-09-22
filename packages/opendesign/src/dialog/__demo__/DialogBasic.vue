@@ -20,6 +20,7 @@ const dlgAction: DialogActionT[] = [
   {
     id: 'cancel',
     label: '取消',
+    size: 'large',
     onClick: () => {
       console.log('cancel');
       toggle();
@@ -30,6 +31,7 @@ const dlgAction: DialogActionT[] = [
     label: '确认',
     color: 'primary',
     variant: 'solid',
+    size: 'large',
     onClick: () => {
       console.log('cancel');
       toggle();
@@ -76,7 +78,7 @@ const onChane = (v: boolean) => {
     <OButton @click="toggle(true, 'medium')">Open Medium</OButton>
     <OButton @click="toggle(true, 'large')">Open Large</OButton>
     <OButton @click="toggle(true, 'exlarge')">Open exlarge</OButton>
-    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" @change="onChane">
+    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" half-full @change="onChane">
       <template #header>Dialog Title</template>
       <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">{{ content }}</div>
     </ODialog>
@@ -135,5 +137,10 @@ const onChane = (v: boolean) => {
   height: 500px;
   border: 1px solid red;
   position: relative;
+}
+</style>
+<style>
+.my-dlg {
+  --dlg-margin: 0;
 }
 </style>
