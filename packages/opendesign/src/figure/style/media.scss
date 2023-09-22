@@ -1,0 +1,20 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-figure-title {
+  @include respond-to('pad') {
+    font-size: var(--o-font_size-text1);
+    line-height: var(--o-line_height-text1);
+  }
+  @include respond-to('phone') {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
+}
+.o-figure-content {
+  @include respond-to('pad') {
+    padding: 12px 16px;
+  }
+  @include respond-to('phone') {
+    padding: 4px 8px;
+  }
+}

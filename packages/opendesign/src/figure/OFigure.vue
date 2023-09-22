@@ -3,7 +3,7 @@ import { ref, watch, computed, onMounted } from 'vue';
 import { defaultPrestColorPool } from '../_utils/global';
 import HtmlTag from '../_components/html-tag';
 import { OLayer } from '../layer';
-import { IconImageError } from '../_utils/icons';
+import { IconImageError, IconVideoPlay } from '../_utils/icons';
 
 import { figureProps } from './types';
 
@@ -93,8 +93,9 @@ defineExpose({
       'is-loading': isLoading,
       'is-error': isError,
       'is-colorful': props.colorful,
-      'o-figure-hoverable': props.hoverable || !!props.href || props.preview,
+      'o-figure-hoverable': props.hoverable || !!props.href || props.preview || props.videoPoster,
       'o-figure-previewable': props.preview,
+      'o-figure-video-poster': props.videoPoster,
     }"
     :style="{
       '--figure-prest-color': prestColor,
@@ -121,8 +122,22 @@ defineExpose({
       </div>
       <img v-else-if="!isError" ref="imgRef" :src="props.src" :alt="props.alt" class="o-figure-img" @load="onImgLoaded" @error="onImgError" />
     </template>
-    <div class="o-figure-content">
+    <div class="o-figure-main">
       <slot></slot>
+      <div v-if="props.videoPoster" class="o-figure-mask">
+        <slot name="play-icon">
+          <div class="o-figure-play-icon">
+            <IconVideoPlay />
+          </div>
+        </slot>
+      </div>
+      <div v-if="$slots.content || $slots.title" class="o-figure-content">
+        <slot name="content">
+          <div class="o-figure-title">
+            <slot name="title"></slot>
+          </div>
+        </slot>
+      </div>
     </div>
 
     <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">

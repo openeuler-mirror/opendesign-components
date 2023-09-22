@@ -181,6 +181,11 @@ export const IconEyeOff = shallowRef<Component>(OIconEyeOff);
  */
 export const IconImageError = shallowRef<Component>(OIconImageError);
 
+/**
+ * 加载失败的图片
+ */
+export const IconVideoPlay = shallowRef<Component>(OIconChevronRight);
+
 export const IconChecked = shallowRef<Component>(OIconChecked);
 
 /**
