@@ -189,7 +189,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="o-upload">
+  <div class="o-upload" :class="{ 'o-upload-draggable': draggable }">
     <InputSelect ref="selectRef" :accept="props.accept" :disabled="props.disabled" @selected="onFileSelected" />
     <div v-if="['text', 'picture'].includes(props.listType)" class="o-upload-select-wrap">
       <UploadSelect
