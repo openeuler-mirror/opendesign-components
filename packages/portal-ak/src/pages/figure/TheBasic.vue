@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OFigure, OIconChevronRight } from '@components/index';
+import { OFigure } from '@components/index';
 
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 const img2 = 'https://www.hikunpeng.com/_static3/7.875f5cf6.jpg';
@@ -21,23 +21,13 @@ const onVideoClick = () => {
   <h4>图片可预览</h4>
   <OFigure style="width: 25%" :src="img" preview />
   <h4>视频</h4>
-  <OFigure style="width: 25%" :src="img" hoverable class="c-figure-video" @click="onVideoClick">
-    <div class="c-video-poster-mask">
-      <div class="c-video-play-btn">
-        <OIconChevronRight />
-      </div>
-    </div>
-  </OFigure>
+  <OFigure style="width: 25%" :src="img" video-poster @click="onVideoClick" />
   <h4>图文</h4>
   <OFigure style="width: 25%" :src="img" hoverable>
-    <div class="c-figure-content-bottom">
-      <div class="c-figure-title">标题文本</div>
-    </div>
+    <template #title>标题文本</template>
   </OFigure>
   <OFigure style="width: 25%; margin-left: 24px" :src="img" hoverable>
-    <div class="c-figure-content-bottom">
-      <div class="c-figure-title">标题文本</div>
-    </div>
+    <template #content>标题文本</template>
   </OFigure>
 </template>
 <style lang="scss"></style>
