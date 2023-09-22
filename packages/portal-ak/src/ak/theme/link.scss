@@ -27,8 +27,8 @@
       height: var(--o-icon_size_control-m);
     }
   }
-  @include respond-to('up-pad') {
-    @include hover {
+  @include respond-to('>pad') {
+    @include hoverable {
       &:not(.o-link-disabled):hover {
         .c-link-ascend-arrow {
           transform: translate3d(0, 0, 0);
@@ -75,7 +75,7 @@
   &::after {
     transform: translate3d(0, 0, 0) rotate(-45deg);
   }
-  @include respond-to('up-pad') {
+  @include respond-to('>pad') {
     transform: translate3d(-5px, 0.3em, 0);
     &::before,
     &::after {
@@ -87,8 +87,6 @@
 
 .c-link-kunpeng {
   @include hover {
-    &:hover {
-      --link-color-hover: rgb(var(--o-red-huawei));
-    }
+    --link-color-hover: rgb(var(--o-red-huawei));
   }
 }
