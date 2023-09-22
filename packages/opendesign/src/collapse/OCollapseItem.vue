@@ -58,6 +58,7 @@ const onBeforeEnter = (el: Element) => {
 const onEnter = (el: Element) => {
   (el as HTMLUListElement).style.height = `${el.scrollHeight}px`;
 };
+// 进入动画完成后高度设置为auto，支持嵌套子菜单展开
 const onAfterEnter = (el: Element) => {
   (el as HTMLUListElement).style.height = 'auto';
 };
