@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch } from 'vue';
+import { checkboxInjectKey } from './provide';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
 import { IconChecked } from '../_utils/icons';
@@ -84,6 +85,11 @@ const onChange = (ev: Event) => {
 
 defineExpose({
   checked: isChecked,
+});
+
+provide(checkboxInjectKey, {
+  checked: isChecked,
+  disabled: isDisabled,
 });
 </script>
 

@@ -69,6 +69,12 @@ export const cascaderProps = {
     default: 'bl',
   },
   /**
+   * 下拉容器自定义类
+   */
+  optionWrapClass: {
+    type: [String, Array] as PropType<string | string[]>,
+  },
+  /**
    * 是否在结束选择时，卸载下拉选项
    */
   unmountOnHide: {
