@@ -2,7 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 export const carouselProps = {
   /**
-   * 激活索引
+   * 激活索引 v-model
    */
   activeIndex: {
     type: Number,

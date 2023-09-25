@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted, provide, nextTick } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import Gallery from './gallery';
 import Toggle from './toggle';
@@ -13,6 +13,7 @@ const props = defineProps(carouselProps);
 const emits = defineEmits<{
   (e: 'before-change', to: number, from: number): void;
   (e: 'change', to: number, from: number): void;
+  (e: 'update:activeIndex', value: number): void;
 }>();
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -63,18 +64,21 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     const from = activeIndex.value;
 
     if (isChanging || !slideElList.value) {
-      return Promise.resolve(false);
+      resolve(false);
+      return;
     }
 
     // fix https://gitee.com/openeuler/opendesign-components/issues/I848XL?from=project-issue
     if (to === from) {
-      return Promise.resolve(true);
+      resolve(true);
+      return;
     }
 
     isChanging = true;
 
     if (slidesInstance) {
       activeIndex.value = to;
+      emits('update:activeIndex', to);
       slidesInstance.active(to).then(() => {
         isChanging = false;
         resolve(true);
@@ -87,15 +91,19 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
 };
 
 let timer: number | null = null;
+const isPlaying = ref(isAutoPlay.value);
+
 const pausePlay = () => {
   if (timer) {
     clearInterval(timer);
     timer = null;
+    isPlaying.value = false;
   }
 };
 // TODO 导出增加播放进度
 const startPlay = () => {
   pausePlay();
+  isPlaying.value = true;
   timer = window.setInterval(() => {
     activeSlideByIndex(activeIndex.value + 1);
   }, props.interval);
@@ -105,15 +113,16 @@ const startPlay = () => {
 const activeSlide = (index: number) => {
   // 停止自动播放
   pausePlay();
-
   return activeSlideByIndex(index).then((success) => {
     if (!success) {
       return;
     }
 
     // 恢复自动播放
-    if (props.autoPlay) {
-      startPlay();
+    if (isAutoPlay.value) {
+      setTimeout(() => {
+        startPlay();
+      }, 0);
     }
   });
 };
@@ -130,7 +139,7 @@ const initSlides = () => {
     },
     onTouchend: () => {
       // 恢复自动播放
-      if (props.autoPlay) {
+      if (isAutoPlay.value) {
         startPlay();
       }
     },
@@ -139,6 +148,7 @@ const initSlides = () => {
     },
     onChanged: (to: number, from: number) => {
       activeIndex.value = to;
+      emits('update:activeIndex', to);
       emits('change', to, from);
     },
   };
@@ -183,7 +193,7 @@ watch(
 );
 const init = () => {
   initSlides();
-  if (props.autoPlay) {
+  if (isAutoPlay.value) {
     startPlay();
   }
 };
@@ -227,6 +237,8 @@ defineExpose({
         'o-carousel-visible': initialized,
         'o-carousel-click-to-switch': props.clickToSwitch,
         'o-carousel-hover-arrow': props.arrow === 'hover',
+        'o-carousel-autoplay': isAutoPlay,
+        'is-playing': isPlaying,
       },
       `o-carousel-effect-${props.effect}`,
     ]"
@@ -246,7 +258,6 @@ defineExpose({
             class="o-carousel-indicator-bar"
             :class="{
               'o-carousel-indicator-bar-selected': item - 1 === activeIndex,
-              'is-autoplay': isAutoPlay,
             }"
           >
             <div class="o-carousel-indicator-line"></div>
