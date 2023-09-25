@@ -1,5 +1,19 @@
 @use '../../_styles/mixin.scss' as *;
 
+.o-figure {
+  @include respond-to('laptop') {
+    --figure-play-icon-size: 56px;
+  }
+
+  @include respond-to('pad') {
+    --figure-play-icon-size: 48px;
+  }
+
+  @include respond-to('phone') {
+    --figure-play-icon-size: 40px;
+  }
+}
+
 .o-figure-title {
   @include respond-to('pad') {
     font-size: var(--o-font_size-text1);

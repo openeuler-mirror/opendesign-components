@@ -34,6 +34,7 @@ export { OIconRefresh } from './OIconRefresh';
 export { OIconSearch } from './OIconSearch';
 export { OIconStar } from './OIconStar';
 export { OIconTime } from './OIconTime';
+export { OIconVideoPlay } from './OIconVideoPlay';
 export { OIconAscend } from './OIconAscend';
 export { OIconDanger } from './OIconDanger';
 export { OIconInfo } from './OIconInfo';

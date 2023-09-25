@@ -34,6 +34,7 @@ import {
   OIconCalendar,
   OIconDoubleArrowLeft,
   OIconDoubleArrowRight,
+  OIconVideoPlay,
 } from '../icon-components';
 
 /**
@@ -177,15 +178,16 @@ export const IconEyeOn = shallowRef<Component>(OIconEye);
 export const IconEyeOff = shallowRef<Component>(OIconEyeOff);
 
 /**
- * 加载失败的图片
+ * 加载失败图标
  */
 export const IconImageError = shallowRef<Component>(OIconImageError);
 
 /**
- * 加载失败的图片
+ * 播放图标
  */
-export const IconVideoPlay = shallowRef<Component>(OIconChevronRight);
+export const IconVideoPlay = shallowRef<Component>(OIconVideoPlay);
 
+// 多选框选中图标
 export const IconChecked = shallowRef<Component>(OIconChecked);
 
 /**
