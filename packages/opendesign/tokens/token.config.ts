@@ -13,5 +13,5 @@ module.exports = {
   ],
   defaultTheme: '',
   tokenFile: ['./opendesign-token.json'],
-  codeSnippetsFile: '../../../../.vscode/opendesign.token.code-snippets',
+  codeSnippetsFile: '../../../.vscode/opendesign.token.code-snippets',
 };
