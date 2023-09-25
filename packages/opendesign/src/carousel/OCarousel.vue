@@ -62,9 +62,15 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     const to = fixIndex(index);
     const from = activeIndex.value;
 
-    if (isChanging || !slideElList.value || to === from) {
+    if (isChanging || !slideElList.value) {
       return Promise.resolve(false);
     }
+
+    // fix https://gitee.com/openeuler/opendesign-components/issues/I848XL?from=project-issue
+    if (to === from) {
+      return Promise.resolve(true);
+    }
+
     isChanging = true;
 
     if (slidesInstance) {
