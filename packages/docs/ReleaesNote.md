@@ -33,6 +33,10 @@
 1. figure 支持视频封面、标题
 2. dialog 新增支持设置移动端半屏
 
+# 0.0.58
+
+1. figure 刷新播放图标
+
 TODO
 
 1. pagination 支持 layout 控制顺序
