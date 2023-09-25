@@ -30,8 +30,8 @@
 
 @include respond-to('<=pad') {
   .o-tab-large {
-    --tab-nav-text-size: var(--o-font_size-text1);
-    --tab-nav-text-height: var(--o-line_height-text1);
+    --tab-nav-text-size: var(--o-font_size-tip1);
+    --tab-nav-text-height: var(--o-line_height-tip1);
     --tab-nav-icon-size: var(--o-icon_size_control-s);
     --tab-nav-gap: 16px;
     --tab-nav-archor-height: 1px;
@@ -41,10 +41,9 @@
     }
   }
   .o-tab-medium {
-    --tab-nav-text-size: var(--o-font_size-text1);
-    --tab-nav-text-height: var(--o-line_height-text1);
+    --tab-nav-text-size: var(--o-font_size-tip1);
+    --tab-nav-text-height: var(--o-line_height-tip1);
     --tab-nav-gap: 16px;
-    --tab-nav-archor-height: 1px;
     &.o-tab-text {
       --tab-nav-padding: 0 0 2px;
     }
@@ -56,7 +55,6 @@
     --tab-nav-text-size: var(--o-font_size-tip1);
     --tab-nav-text-height: var(--o-line_height-tip1);
     --tab-nav-gap: 12px;
-    --tab-nav-archor-height: 1px;
     &.o-tab-text {
       --tab-nav-padding: 0 0 2px;
     }
