@@ -1,17 +1,17 @@
 {
-  "--o-color-white": {
+  "--o-white": {
     "prefix": [
-      "var(--o-color-white)"
+      "var(--o-white)"
     ],
-    "body": "var(--o-color-white)",
+    "body": "var(--o-white)",
     "description": "[light: 255, 255, 255, dark: 255, 255, 255]",
     "scope": "css,scss,less"
   },
-  "--o-color-black": {
+  "--o-black": {
     "prefix": [
-      "var(--o-color-black)"
+      "var(--o-black)"
     ],
-    "body": "var(--o-color-black)",
+    "body": "var(--o-black)",
     "description": "[light: 0, 0, 0, dark: 0, 0, 0]",
     "scope": "css,scss,less"
   },
@@ -333,14 +333,6 @@
     ],
     "body": "var(--o-red-10)",
     "description": "[light: 77, 0, 17, dark: 255, 234, 232]",
-    "scope": "css,scss,less"
-  },
-  "--o-red-huawei": {
-    "prefix": [
-      "var(--o-red-huawei)"
-    ],
-    "body": "var(--o-red-huawei)",
-    "description": "[light: 199, 0, 11, dark: 199, 0, 11]",
     "scope": "css,scss,less"
   },
   "--o-gray-1": {
@@ -1127,6 +1119,22 @@
     "description": "[light: 77, 0, 48, dark: 255, 242, 247]",
     "scope": "css,scss,less"
   },
+  "--o-color-white": {
+    "prefix": [
+      "var(--o-color-white)"
+    ],
+    "body": "var(--o-color-white)",
+    "description": "[light: rgb(var(--o-white)), dark: rgb(var(--o-white))]",
+    "scope": "css,scss,less"
+  },
+  "--o-color-black": {
+    "prefix": [
+      "var(--o-color-black)"
+    ],
+    "body": "var(--o-color-black)",
+    "description": "[light: rgb(var(--o-black)), dark: rgb(var(--o-black))]",
+    "scope": "css,scss,less"
+  },
   "--o-color-primary1": {
     "prefix": [
       "var(--o-color-primary1)"
@@ -1436,7 +1444,7 @@
       "var(--o-color-control4)"
     ],
     "body": "var(--o-color-control4)",
-    "description": "禁用，常用于边框[light: rgba(var(--o-mixedgray-14), 0.15), dark: rgba(var(--o-mixedgray-14), 0.15)]",
+    "description": "禁用，常用于边框[light: rgba(var(--o-mixedgray-14), 0.1), dark: rgba(var(--o-mixedgray-14), 0.15)]",
     "scope": "css,scss,less"
   },
   "--o-color-control1-light": {
@@ -1684,7 +1692,7 @@
       "var(--o-control_size-2xs)"
     ],
     "body": "var(--o-control_size-2xs)",
-    "description": "小尺寸[light: 12px, dark: 12px]",
+    "description": "超小尺寸[light: 14px, dark: 14px]",
     "scope": "css,scss,less"
   },
   "--o-control_size-xs": {
@@ -1692,7 +1700,7 @@
       "var(--o-control_size-xs)"
     ],
     "body": "var(--o-control_size-xs)",
-    "description": "小尺寸[light: 18px, dark: 18px]",
+    "description": "小尺寸[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-control_size-s": {
@@ -1727,12 +1735,12 @@
     "description": "尺寸[light: 48px, dark: 48px]",
     "scope": "css,scss,less"
   },
-  "--o-icon_size-2xs": {
+  "--o-control_size-2xl": {
     "prefix": [
-      "var(--o-icon_size-2xs)"
+      "var(--o-control_size-2xl)"
     ],
-    "body": "var(--o-icon_size-2xs)",
-    "description": "小尺寸[light: 12px, dark: 12px]",
+    "body": "var(--o-control_size-2xl)",
+    "description": "尺寸[light: 56px, dark: 56px]",
     "scope": "css,scss,less"
   },
   "--o-icon_size-xs": {
@@ -1740,7 +1748,7 @@
       "var(--o-icon_size-xs)"
     ],
     "body": "var(--o-icon_size-xs)",
-    "description": "小尺寸[light: 16px, dark: 16px]",
+    "description": "超小尺寸图标[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-icon_size-s": {
@@ -1748,7 +1756,7 @@
       "var(--o-icon_size-s)"
     ],
     "body": "var(--o-icon_size-s)",
-    "description": "小尺寸[light: 24px, dark: 24px]",
+    "description": "小尺寸图标[light: 20px, dark: 20px]",
     "scope": "css,scss,less"
   },
   "--o-icon_size-m": {
@@ -1756,7 +1764,7 @@
       "var(--o-icon_size-m)"
     ],
     "body": "var(--o-icon_size-m)",
-    "description": "尺寸[light: 32px, dark: 32px]",
+    "description": "中尺寸图标[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
   "--o-icon_size-l": {
@@ -1764,7 +1772,79 @@
       "var(--o-icon_size-l)"
     ],
     "body": "var(--o-icon_size-l)",
-    "description": "尺寸[light: 48px, dark: 48px]",
+    "description": "大尺寸图标[light: 32px, dark: 32px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size-xl": {
+    "prefix": [
+      "var(--o-icon_size-xl)"
+    ],
+    "body": "var(--o-icon_size-xl)",
+    "description": "超大尺寸图标[light: 40px, dark: 40px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size-2xl": {
+    "prefix": [
+      "var(--o-icon_size-2xl)"
+    ],
+    "body": "var(--o-icon_size-2xl)",
+    "description": "2xl尺寸图标[light: 48px, dark: 48px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size-3xl": {
+    "prefix": [
+      "var(--o-icon_size-3xl)"
+    ],
+    "body": "var(--o-icon_size-3xl)",
+    "description": "3xl尺寸图标[light: 56px, dark: 56px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size-4xl": {
+    "prefix": [
+      "var(--o-icon_size-4xl)"
+    ],
+    "body": "var(--o-icon_size-4xl)",
+    "description": "4xl尺寸图标[light: 64px, dark: 64px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size_control-xs": {
+    "prefix": [
+      "var(--o-icon_size_control-xs)"
+    ],
+    "body": "var(--o-icon_size_control-xs)",
+    "description": "超小尺寸控件图标(组件使用)[light: 16px, dark: 16px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size_control-s": {
+    "prefix": [
+      "var(--o-icon_size_control-s)"
+    ],
+    "body": "var(--o-icon_size_control-s)",
+    "description": "小尺寸控件图标(组件使用)[light: 20px, dark: 20px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size_control-m": {
+    "prefix": [
+      "var(--o-icon_size_control-m)"
+    ],
+    "body": "var(--o-icon_size_control-m)",
+    "description": "中尺寸控件图标(组件使用)[light: 24px, dark: 24px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size_control-l": {
+    "prefix": [
+      "var(--o-icon_size_control-l)"
+    ],
+    "body": "var(--o-icon_size_control-l)",
+    "description": "大尺寸控件图标(组件使用)[light: 32px, dark: 32px]",
+    "scope": "css,scss,less"
+  },
+  "--o-icon_size_control-xl": {
+    "prefix": [
+      "var(--o-icon_size_control-xl)"
+    ],
+    "body": "var(--o-icon_size_control-xl)",
+    "description": "超大尺寸控件图标(组件使用)[light: 40px, dark: 40px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-display1": {
@@ -1772,7 +1852,7 @@
       "var(--o-font_size-display1)"
     ],
     "body": "var(--o-font_size-display1)",
-    "description": "一级数据展示[light: 64px, dark: 64px]",
+    "description": "一级数据展示[light: 56px, dark: 56px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-display2": {
@@ -1780,7 +1860,7 @@
       "var(--o-font_size-display2)"
     ],
     "body": "var(--o-font_size-display2)",
-    "description": "二级数据展示[light: 54px, dark: 54px]",
+    "description": "二级数据展示[light: 48px, dark: 48px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-display3": {
@@ -1788,15 +1868,7 @@
       "var(--o-font_size-display3)"
     ],
     "body": "var(--o-font_size-display3)",
-    "description": "三级数据展示[light: 36px, dark: 36px]",
-    "scope": "css,scss,less"
-  },
-  "--o-font_size-display4": {
-    "prefix": [
-      "var(--o-font_size-display4)"
-    ],
-    "body": "var(--o-font_size-display4)",
-    "description": "四级数据展示[light: 28px, dark: 28px]",
+    "description": "三级数据展示[light: 40px, dark: 40px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-h1": {
@@ -1804,7 +1876,7 @@
       "var(--o-font_size-h1)"
     ],
     "body": "var(--o-font_size-h1)",
-    "description": "一级标题[light: 24px, dark: 24px]",
+    "description": "一级标题[light: 32px, dark: 32px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-h2": {
@@ -1812,7 +1884,7 @@
       "var(--o-font_size-h2)"
     ],
     "body": "var(--o-font_size-h2)",
-    "description": "二级标题[light: 20px, dark: 20px]",
+    "description": "二级标题[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-h3": {
@@ -1820,7 +1892,15 @@
       "var(--o-font_size-h3)"
     ],
     "body": "var(--o-font_size-h3)",
-    "description": "三级标题[light: 18px, dark: 18px]",
+    "description": "三级标题[light: 22px, dark: 22px]",
+    "scope": "css,scss,less"
+  },
+  "--o-font_size-h4": {
+    "prefix": [
+      "var(--o-font_size-h4)"
+    ],
+    "body": "var(--o-font_size-h4)",
+    "description": "四级标题[light: 20px, dark: 20px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-text1": {
@@ -1828,7 +1908,7 @@
       "var(--o-font_size-text1)"
     ],
     "body": "var(--o-font_size-text1)",
-    "description": "常规正文[light: 14px, dark: 14px]",
+    "description": "常规正文[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-text2": {
@@ -1836,7 +1916,7 @@
       "var(--o-font_size-text2)"
     ],
     "body": "var(--o-font_size-text2)",
-    "description": "大号正文[light: 16px, dark: 16px]",
+    "description": "大号正文[light: 18px, dark: 18px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-tip1": {
@@ -1844,7 +1924,7 @@
       "var(--o-font_size-tip1)"
     ],
     "body": "var(--o-font_size-tip1)",
-    "description": "提示文本1[light: 12px, dark: 12px]",
+    "description": "提示文本1[light: 14px, dark: 14px]",
     "scope": "css,scss,less"
   },
   "--o-font_size-tip2": {
@@ -1852,7 +1932,7 @@
       "var(--o-font_size-tip2)"
     ],
     "body": "var(--o-font_size-tip2)",
-    "description": "提示文本2[light: 10px, dark: 10px]",
+    "description": "提示文本2[light: 12px, dark: 12px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-display1": {
@@ -1860,7 +1940,7 @@
       "var(--o-line_height-display1)"
     ],
     "body": "var(--o-line_height-display1)",
-    "description": "一级数据展示[light: 84px, dark: 84px]",
+    "description": "一级数据展示[light: 80px, dark: 80px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-display2": {
@@ -1868,7 +1948,7 @@
       "var(--o-line_height-display2)"
     ],
     "body": "var(--o-line_height-display2)",
-    "description": "二级数据展示[light: 76px, dark: 76px]",
+    "description": "二级数据展示[light: 64px, dark: 64px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-display3": {
@@ -1876,15 +1956,7 @@
       "var(--o-line_height-display3)"
     ],
     "body": "var(--o-line_height-display3)",
-    "description": "三级数据展示[light: 48px, dark: 48px]",
-    "scope": "css,scss,less"
-  },
-  "--o-line_height-display4": {
-    "prefix": [
-      "var(--o-line_height-display4)"
-    ],
-    "body": "var(--o-line_height-display4)",
-    "description": "四级数据展示[light: 36px, dark: 36px]",
+    "description": "三级数据展示[light: 56px, dark: 56px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-h1": {
@@ -1892,7 +1964,7 @@
       "var(--o-line_height-h1)"
     ],
     "body": "var(--o-line_height-h1)",
-    "description": "一级标题[light: 32px, dark: 32px]",
+    "description": "一级标题[light: 44px, dark: 44px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-h2": {
@@ -1900,7 +1972,7 @@
       "var(--o-line_height-h2)"
     ],
     "body": "var(--o-line_height-h2)",
-    "description": "二级标题[light: 28px, dark: 28px]",
+    "description": "二级标题[light: 32px, dark: 32px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-h3": {
@@ -1908,7 +1980,15 @@
       "var(--o-line_height-h3)"
     ],
     "body": "var(--o-line_height-h3)",
-    "description": "三级标题[light: 26px, dark: 26px]",
+    "description": "三级标题[light: 30px, dark: 30px]",
+    "scope": "css,scss,less"
+  },
+  "--o-line_height-h4": {
+    "prefix": [
+      "var(--o-line_height-h4)"
+    ],
+    "body": "var(--o-line_height-h4)",
+    "description": "四级标题[light: 28px, dark: 28px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-text1": {
@@ -1916,7 +1996,7 @@
       "var(--o-line_height-text1)"
     ],
     "body": "var(--o-line_height-text1)",
-    "description": "常规正文[light: 22px, dark: 22px]",
+    "description": "正文[light: 24px, dark: 24px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-text2": {
@@ -1924,7 +2004,7 @@
       "var(--o-line_height-text2)"
     ],
     "body": "var(--o-line_height-text2)",
-    "description": "大号正文[light: 24px, dark: 24px]",
+    "description": "正文-大[light: 26px, dark: 26x]",
     "scope": "css,scss,less"
   },
   "--o-line_height-tip1": {
@@ -1932,7 +2012,7 @@
       "var(--o-line_height-tip1)"
     ],
     "body": "var(--o-line_height-tip1)",
-    "description": "提示文本1[light: 18px, dark: 18px]",
+    "description": "提示文本1[light: 22px, dark: 22px]",
     "scope": "css,scss,less"
   },
   "--o-line_height-tip2": {
@@ -1940,7 +2020,15 @@
       "var(--o-line_height-tip2)"
     ],
     "body": "var(--o-line_height-tip2)",
-    "description": "提示文本2[light: 14px, dark: 14px]",
+    "description": "提示文本2[light: 18px, dark: 18px]",
+    "scope": "css,scss,less"
+  },
+  "--o-radius-xs": {
+    "prefix": [
+      "var(--o-radius-xs)"
+    ],
+    "body": "var(--o-radius-xs)",
+    "description": "超小尺寸圆角[light: 4px, dark: 4px]",
     "scope": "css,scss,less"
   },
   "--o-radius-s": {
@@ -1948,7 +2036,7 @@
       "var(--o-radius-s)"
     ],
     "body": "var(--o-radius-s)",
-    "description": "小尺寸圆角[light: 2px, dark: 2px]",
+    "description": "小尺寸圆角[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
   "--o-radius-m": {
@@ -1956,7 +2044,7 @@
       "var(--o-radius-m)"
     ],
     "body": "var(--o-radius-m)",
-    "description": "中尺寸圆角[light: 4px, dark: 4px]",
+    "description": "中尺寸圆角[light: 12px, dark: 12px]",
     "scope": "css,scss,less"
   },
   "--o-radius-l": {
@@ -1964,7 +2052,23 @@
       "var(--o-radius-l)"
     ],
     "body": "var(--o-radius-l)",
-    "description": "大尺寸圆角[light: 8px, dark: 8px]",
+    "description": "大尺寸圆角[light: 16px, dark: 16px]",
+    "scope": "css,scss,less"
+  },
+  "--o-radius-xl": {
+    "prefix": [
+      "var(--o-radius-xl)"
+    ],
+    "body": "var(--o-radius-xl)",
+    "description": "大尺寸圆角,一般用于卡片[light: 24px, dark: 24px]",
+    "scope": "css,scss,less"
+  },
+  "--o-radius_control-xs": {
+    "prefix": [
+      "var(--o-radius_control-xs)"
+    ],
+    "body": "var(--o-radius_control-xs)",
+    "description": "超小尺寸控件圆角(组件使用)[light: 4px, dark: 4px]",
     "scope": "css,scss,less"
   },
   "--o-radius_control-s": {
@@ -1972,7 +2076,7 @@
       "var(--o-radius_control-s)"
     ],
     "body": "var(--o-radius_control-s)",
-    "description": "小尺寸控件圆角[light: var(--o-radius-s), dark: var(--o-radius-s)]",
+    "description": "小尺寸控件圆角(组件使用)[light: 8px, dark: 8px]",
     "scope": "css,scss,less"
   },
   "--o-radius_control-m": {
@@ -1980,7 +2084,7 @@
       "var(--o-radius_control-m)"
     ],
     "body": "var(--o-radius_control-m)",
-    "description": "中尺寸控件圆角[light: var(--o-radius-m), dark: var(--o-radius-m)]",
+    "description": "中尺寸控件圆角(组件使用)[light: 12px, dark: 12px]",
     "scope": "css,scss,less"
   },
   "--o-radius_control-l": {
@@ -1988,7 +2092,7 @@
       "var(--o-radius_control-l)"
     ],
     "body": "var(--o-radius_control-l)",
-    "description": "大尺寸控件圆角[light: var(--o-radius-l), dark: var(--o-radius-l)]",
+    "description": "大尺寸控件圆角(组件使用)[light: 16px, dark: 16px]",
     "scope": "css,scss,less"
   },
   "--o-duration-s": {
