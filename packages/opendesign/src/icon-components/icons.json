@@ -216,6 +216,12 @@
     "path": "fill/time.svg"
   },
   {
+    "type": "fill",
+    "name": "o-icon-video-play",
+    "componentName": "OIconVideoPlay",
+    "path": "fill/video-play.svg"
+  },
+  {
     "type": "color",
     "name": "o-icon-ascend",
     "componentName": "OIconAscend",

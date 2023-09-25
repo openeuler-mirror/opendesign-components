@@ -142,8 +142,13 @@
   border-radius: inherit;
 }
 .o-figure-play-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
-  font-size: var(--figure-play-icon-size);
+  width: var(--figure-play-icon-size);
+  height: var(--figure-play-icon-size);
+  font-size: calc(var(--figure-play-icon-size) / 64 * 24);
   border-radius: 50%;
   color: var(--o-color-white);
   background-color: rgba(var(--o-white), 0.2);

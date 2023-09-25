@@ -16,6 +16,7 @@ import {
   IconChevronRight,
   IconEllipsis,
   IconStar,
+  IconVideoPlay,
 } from './icons';
 
 /**
@@ -94,15 +95,24 @@ export function initIconChevronRight(icon: Component) {
 export function initIconDone(icon: Component) {
   IconDone.value = icon;
 }
+
 /**
  * 更多...图标
  */
 export function initIconEllipsis(icon: Component) {
   IconEllipsis.value = icon;
 }
+
 /**
  * star图标
  */
 export function initIconStar(icon: Component) {
   IconStar.value = icon;
+}
+
+/**
+ * 播放图标
+ */
+export function initIconVideoPlay(icon: Component) {
+  IconVideoPlay.value = icon;
 }
