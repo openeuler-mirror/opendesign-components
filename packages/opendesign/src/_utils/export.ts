@@ -1,6 +1,6 @@
 export * from './types';
 
-export { initSize, initRound, initZIndex } from './global';
+export { initSize, initRound, initZIndex, initPrestColor, initMediaPoint } from './global';
 
 export * from './init-icons';
 
