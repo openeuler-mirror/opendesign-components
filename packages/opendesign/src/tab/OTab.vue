@@ -17,7 +17,7 @@ const emits = defineEmits<{
 }>();
 
 const activeKey = ref(props.modelValue);
-const archorStyle = ref<Record<string, string>>({});
+const anchorStyle = ref<Record<string, string>>({});
 
 const navWrapRef = ref<HTMLElement | null>(null);
 const navsRef = ref<HTMLElement | null>(null);
@@ -74,19 +74,19 @@ watch(
     activeKey.value = v;
   }
 );
-const updateArchor = () => {
+const updateAnchor = () => {
   nextTick(() => {
     if (!activeNavEl) {
       return;
     }
     const { clientWidth, offsetLeft } = activeNavEl;
-    archorStyle.value = {
+    anchorStyle.value = {
       transform: `translate3d(${offsetLeft}px, 0px, 0px)`,
       width: `${clientWidth}px`,
     };
   });
 };
-watch(() => isScroll.value, updateArchor);
+watch(() => isScroll.value, updateAnchor);
 
 // 更新tab当前选中值
 const updateValue = (value: string | number, navEl: HTMLElement | null) => {
@@ -99,7 +99,7 @@ const updateValue = (value: string | number, navEl: HTMLElement | null) => {
 
   if (navEl) {
     activeNavEl = navEl;
-    updateArchor();
+    updateAnchor();
 
     scrollActiveNavIntoView();
   }
@@ -119,7 +119,7 @@ const initValue = (value: string | number, navEl: HTMLElement | null) => {
 
   if (activeKey.value === value && navEl) {
     activeNavEl = navEl;
-    updateArchor();
+    updateAnchor();
   }
 };
 // 删除页签
@@ -153,7 +153,7 @@ provide(tabInjectKey, {
   initValue,
 });
 const onHeadResize = debounceRAF(() => {
-  updateArchor();
+  updateAnchor();
   updateNavScroll();
   scrollActiveNavIntoView();
 });
@@ -189,9 +189,9 @@ const navScroll = (to: 'prev' | 'next') => {
           </div>
           <div ref="navWrapRef" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
             <div ref="navsRef" class="o-tab-nav-list"></div>
-            <div v-if="props.variant === 'text'" class="o-tab-nav-archor" :style="archorStyle">
-              <slot name="archor">
-                <div class="o-tab-nav-archor-line"></div>
+            <div v-if="props.variant === 'text'" class="o-tab-nav-anchor" :style="anchorStyle">
+              <slot name="anchor">
+                <div class="o-tab-nav-anchor-line"></div>
               </slot>
             </div>
           </div>

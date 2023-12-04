@@ -34,7 +34,7 @@
     --tab-nav-text-height: var(--o-line_height-tip1);
     --tab-nav-icon-size: var(--o-icon_size_control-s);
     --tab-nav-gap: 16px;
-    --tab-nav-archor-height: 1px;
+    --tab-nav-anchor-height: 1px;
 
     &.o-tab-text {
       --tab-nav-padding: 0 0 8px;
@@ -47,7 +47,7 @@
     &.o-tab-text {
       --tab-nav-padding: 0 0 2px;
     }
-    .o-tab-nav-archor-line {
+    .o-tab-nav-anchor-line {
       width: 16px;
     }
   }
@@ -59,7 +59,7 @@
       --tab-nav-padding: 0 0 2px;
     }
 
-    .o-tab-nav-archor-line {
+    .o-tab-nav-anchor-line {
       width: 16px;
     }
   }
