@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+// import { computed, ref, watch } from 'vue';
 import { innerPanelProps } from './types';
-import { isPhonePad } from '../../_utils/global';
+// import { isPhonePad } from '../../_utils/global';
 import { OPopup } from '../../popup';
 
 const props = defineProps(innerPanelProps);
@@ -11,9 +11,9 @@ const emits = defineEmits<{
   (e: 'update:visible', val: boolean): void;
 }>();
 
-const isResponding = computed(() => {
-  return !props.noResponsive && isPhonePad.value;
-});
+// const isResponding = computed(() => {
+//   return !props.noResponsive && isPhonePad.value;
+// });
 const updateVisible = (val: boolean) => {
   emits('update:visible', val);
 };

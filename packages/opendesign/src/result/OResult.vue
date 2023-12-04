@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue';
+import { computed } from 'vue';
 import { resultProps } from './types';
 import { IconInfo, IconSuccess, IconWarning, IconDanger } from '../_utils/icons';
 

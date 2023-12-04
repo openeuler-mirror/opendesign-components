@@ -1,4 +1,4 @@
-import { ComputedRef, InjectionKey, Ref } from 'vue';
+import { ComputedRef, InjectionKey } from 'vue';
 
 export const radioInjectKey: InjectionKey<{
   checked: ComputedRef<boolean>;

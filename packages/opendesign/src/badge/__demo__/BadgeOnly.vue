@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { OButton } from '../../button';
 import '../../button/style';
 import { OBadge } from '../index';
 </script>
