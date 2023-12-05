@@ -29,6 +29,11 @@ const next = () => {
     console.log('done', idx);
   });
 };
+const active1 = () => {
+  slidesRef.value?.active(1).then(() => {
+    console.log('done', 1);
+  });
+};
 const startPlay = () => {
   slidesRef.value?.play();
 };
@@ -46,16 +51,17 @@ const initSlides = () => {
     <h4>gallery</h4>
     <div class="block">
       <div class="btn" @click="next">Next</div>
+      <div class="btn" @click="active1">slide 1</div>
       <div class="btn" @click="startPlay">Start</div>
       <div class="btn" @click="stopPlay">Pause</div>
       <div class="center"></div>
       <OCarousel
         ref="slidesRef"
+        v-model:active-index="idx"
         indicator-click
         loop
         class="gallery-carousel"
         :auto-play="false"
-        :active-index="idx"
         click-to-switch
         @change="onChange"
         @before-change="onBeforeChange"
@@ -88,10 +94,10 @@ const initSlides = () => {
         effect="toggle"
         indicator-click
         active-class="current-slide"
-        @change="onChange"
-        @before-change="onBeforeChange"
         data-o-theme="dark"
         auto-play
+        @change="onChange"
+        @before-change="onBeforeChange"
       >
         <OCarouselItem v-for="(s, idx) in carousel" :key="s">
           <OFigure class="img" :src="s" />

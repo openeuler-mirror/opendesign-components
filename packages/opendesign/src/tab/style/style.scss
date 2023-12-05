@@ -132,7 +132,7 @@
 .o-tab-head-suffix {
   flex-shrink: 0;
 }
-.o-tab-nav-archor {
+.o-tab-nav-anchor {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -142,11 +142,11 @@
   display: flex;
   justify-content: center;
 }
-.o-tab-nav-archor-line {
+.o-tab-nav-anchor-line {
   width: 100%;
-  height: var(--tab-nav-archor-height);
-  background-color: var(--tab-nav-archor-color);
-  border-radius: var(--tab-nav-archor-height);
+  height: var(--tab-nav-anchor-height);
+  background-color: var(--tab-nav-anchor-color);
+  border-radius: var(--tab-nav-anchor-height);
 }
 .o-tab-nav-close {
   font-size: var(--tab-nav-close-size);
