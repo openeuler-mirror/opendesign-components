@@ -197,6 +197,9 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
   const idx = valueList.value.indexOf(value);
   if (idx > -1) {
     valueList.value.splice(idx, 1);
+
+    emits('change', [...valueList.value]);
+    emits('update:modelValue', [...valueList.value]);
   }
 };
 const onFoldTagClick = (e: MouseEvent) => {
