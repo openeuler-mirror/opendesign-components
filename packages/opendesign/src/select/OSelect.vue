@@ -123,6 +123,9 @@ const clearClick = (e: Event) => {
 
   valueList.value = [];
   emits('clear', e);
+
+  emits('change', [...valueList.value]);
+  emits('update:modelValue', [...valueList.value]);
 };
 const beforeSelect = async (value: string | number) => {
   if (isFunction(props.beforeSelect)) {
@@ -197,6 +200,9 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
   const idx = valueList.value.indexOf(value);
   if (idx > -1) {
     valueList.value.splice(idx, 1);
+
+    emits('change', [...valueList.value]);
+    emits('update:modelValue', [...valueList.value]);
   }
 };
 const onFoldTagClick = (e: MouseEvent) => {
