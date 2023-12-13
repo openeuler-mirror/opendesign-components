@@ -123,6 +123,9 @@ const clearClick = (e: Event) => {
 
   valueList.value = [];
   emits('clear', e);
+
+  emits('change', [...valueList.value]);
+  emits('update:modelValue', [...valueList.value]);
 };
 const beforeSelect = async (value: string | number) => {
   if (isFunction(props.beforeSelect)) {
