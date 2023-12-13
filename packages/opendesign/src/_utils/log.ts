@@ -11,9 +11,9 @@ type LogLevel = keyof typeof logFunction;
 
 function getLogFunction(level: LogLevel, prefix?: string) {
   if (prefix) {
-    return console.warn.bind(window.console, prefix);
+    return logFunction[level].bind(window.console, prefix);
   } else {
-    return console.warn.bind(window.console);
+    return logFunction[level].bind(window.console);
   }
 }
 
