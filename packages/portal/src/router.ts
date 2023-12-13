@@ -215,7 +215,7 @@ export const routes = [
   {
     path: '/flex',
     name: 'Flex',
-    label: '布局 Flex',
+    label: '布局 Flex(已废弃)',
     component: () => import('@components/flex/__demo__/TheIndex.vue'),
   },
   {
