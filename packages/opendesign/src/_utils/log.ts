@@ -1,48 +1,42 @@
+/**
+ * 封装日志打印
+ */
 const logFunction = {
   info: console.info,
   warn: console.warn,
   error: console.error,
 };
 
-export type LogLevel = keyof typeof logFunction;
+type LogLevel = keyof typeof logFunction;
 
-function printLog(level: LogLevel, ...msg: any[]) {
-  const fn = logFunction[level];
-  if (fn) {
-    fn(...msg);
+function getLogFunction(level: LogLevel, prefix?: string) {
+  if (prefix) {
+    return console.warn.bind(window.console, prefix);
+  } else {
+    return console.warn.bind(window.console);
   }
 }
 
-export class Log {
-  prefix: string;
-  constructor(namespace?: string) {
-    this.prefix = '';
-    if (namespace) {
-      this.prefix = `[${namespace}]`;
+export class Logger {
+  private prefix: string = '';
+  constructor(prefix?: string) {
+    if (prefix) {
+      this.prefix = `[${prefix}]`;
     }
   }
-  info(...msg: any[]) {
-    if (this.prefix) {
-      msg.unshift(this.prefix);
-    }
-    printLog('info', ...msg);
+  get info() {
+    return getLogFunction('info', this.prefix);
   }
 
-  warn(...msg: any[]) {
-    if (this.prefix) {
-      msg.unshift(this.prefix);
-    }
-    printLog('warn', ...msg);
+  get warn() {
+    return getLogFunction('warn', this.prefix);
   }
 
-  error(...msg: any[]) {
-    if (this.prefix) {
-      msg.unshift(this.prefix);
-    }
-    printLog('error', ...msg);
+  get error() {
+    return getLogFunction('error', this.prefix);
   }
 }
 
-const logger = new Log();
+const logger = new Logger();
 
 export default logger;
