@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OSelect } from '../index';
+import { OSelect, SelectValueT } from '../index';
 import { OOption } from '../../option';
 const options = [
   { label: 'option 1', value: 'opt1' },
@@ -23,13 +23,17 @@ const selectVal1 = ref('opt1');
 const changeVal = () => {
   selectVal1.value = 'opt3';
 };
+
+const onChange = (value: SelectValueT) => {
+  console.log(value);
+};
 </script>
 <template>
   <h4>Color & Variant</h4>
   <section>
     <div @click="changeVal">Text</div>
     <div class="row">
-      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" loading>
+      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" variant="text" color="success" placeholder="normal + success" option-title="请选择">
@@ -44,16 +48,16 @@ const changeVal = () => {
     </div>
     <div @click="changeVal">Outline</div>
     <div class="row">
-      <OSelect v-model="selectVal1" placeholder="normal + outline" loading>
+      <OSelect v-model="selectVal1" placeholder="normal + outline" loading @change="onChange">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-      <OSelect v-model="selectVal1" color="success" placeholder="normal + success">
+      <OSelect v-model="selectVal1" color="success" placeholder="normal + success" clearable @change="onChange">
         <OOption v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-      <OSelect v-model="selectVal1" color="warning" placeholder="normal + warning">
+      <OSelect v-model="selectVal1" color="warning" placeholder="normal + warning" @change="onChange">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-      <OSelect v-model="selectVal1" color="danger" placeholder="normal + danger">
+      <OSelect v-model="selectVal1" color="danger" placeholder="normal + danger" @change="onChange">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </div>
