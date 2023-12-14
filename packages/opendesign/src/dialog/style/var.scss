@@ -10,9 +10,14 @@
 
   --dlg-max-height: 100%;
   --dlg-min-width: 272px;
-  --dlg-head-padding: 24px 24px 0;
-  --dlg-body-padding: 16px 24px;
-  --dlg-foot-padding: 0 24px 24px;
+
+  --dlg-padding: 32px;
+  --dlg-padding-body-top: 24px;
+  --dlg-padding-body-bottom: 24px;
+
+  --dlg-head-padding: var(--dlg-padding) var(--dlg-padding) 0;
+  --dlg-body-padding: var(--dlg-padding);
+  --dlg-foot-padding: 0 var(--dlg-padding) var(--dlg-padding);
 }
 
 .o-dialog-auto {
@@ -40,7 +45,6 @@
   --dlg-max-height: 272px;
   --dlg-min-height: 224px;
 
-  --dlg-head-padding: 16px 24px 0;
-  --dlg-body-padding: 12px 24px;
-  --dlg-foot-padding: 0 24px 16px;
+  --dlg-padding: 32px;
+  --dlg-padding-body-top: 16px;
 }

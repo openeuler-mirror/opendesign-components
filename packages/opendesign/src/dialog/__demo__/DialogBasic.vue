@@ -8,6 +8,15 @@ const content =
   'This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog';
 const showDlg = ref(false);
 const dlgSize = ref<DialogSizeT>('medium');
+const hasHead = ref(false);
+const hasFoot = ref(false);
+const toggleHeadOrFoot = (type: 'foot' | 'head') => {
+  if (type === 'head') {
+    hasHead.value = !hasHead.value;
+  } else if (type === 'foot') {
+    hasFoot.value = !hasFoot.value;
+  }
+};
 const toggle = (show?: boolean, size: DialogSizeT = 'medium') => {
   dlgSize.value = size;
   if (show === undefined) {
@@ -72,21 +81,24 @@ const onChane = (v: boolean) => {
 </script>
 <template>
   <h4>基本</h4>
+  <OButton @click="toggleHeadOrFoot('head')">show Header</OButton>
+  <OButton @click="toggleHeadOrFoot('foot')">show Footer</OButton>
+
   <section class="wrap">
     <OButton @click="toggle(true, 'auto')">Open auto</OButton>
     <OButton @click="toggle(true, 'small')">Open Small</OButton>
     <OButton @click="toggle(true, 'medium')">Open Medium</OButton>
     <OButton @click="toggle(true, 'large')">Open Large</OButton>
     <OButton @click="toggle(true, 'exlarge')">Open exlarge</OButton>
-    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" half-full @change="onChane">
-      <template #header>Dialog Title</template>
+    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" half-full phone-half-full @change="onChane">
+      <template v-if="hasHead" #header>Dialog Title</template>
       <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">{{ content }}</div>
     </ODialog>
     <OButton @click="toggle2(true)">Open unmount-on-hide: false</OButton>
     <ODialog v-model:visible="showDlg2" :unmount-on-hide="false" @change="onChane">
-      <template #header>Dialog Title</template>
+      <template v-if="hasHead" #header>Dialog Title</template>
       This is Dialog
-      <template #footer>
+      <template v-if="hasFoot" #footer>
         <div class="dlg-action">
           <OButton color="primary" variant="solid" @click="toggle2(false)">确定</OButton>
           <OButton @click="toggle2(false)">取消</OButton>
@@ -98,7 +110,7 @@ const onChane = (v: boolean) => {
   <section class="wrap">
     <OButton @click="toggle3(true)">Open to parent</OButton>
     <ODialog v-model:visible="showDlg3" :wrapper="null" @change="onChane">
-      <template #header>Dialog Title</template>
+      <template v-if="hasHead" #header>Dialog Title</template>
       This is Dialog
       <template #footer>
         <div class="dlg-action">
@@ -110,7 +122,7 @@ const onChane = (v: boolean) => {
     <OButton @click="toggle4(true)">Open to box</OButton>
     <div ref="boxRef" class="box">box</div>
     <ODialog v-model:visible="showDlg4" :wrapper="boxRef" @change="onChane">
-      <template #header>Dialog Title</template>
+      <template v-if="hasHead" #header>Dialog Title</template>
       This is Dialog
       <template #footer>
         <div class="dlg-action">
