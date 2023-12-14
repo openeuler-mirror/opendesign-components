@@ -36,3 +36,10 @@
     display: flex;
   }
 }
+
+.o-dlg-body {
+  @include respond-to('<=laptop') {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
+}
