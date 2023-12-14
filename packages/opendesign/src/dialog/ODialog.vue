@@ -6,8 +6,9 @@ import { OScroller } from '../scroller';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_utils/dom';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { isPhonePad } from '../_utils/global';
+import { isBoolean } from '../_utils/is';
 
 const props = defineProps(dialogProps);
 
@@ -28,6 +29,14 @@ const onChange = (visible: boolean) => {
 const onUpdateVisible = (value: boolean, e?: MouseEvent) => {
   emits('update:visible', value, e);
 };
+
+const isBodyScroller = computed(() => !!props.scroller);
+const bodyScrollerOptions = computed(() => {
+  if (isBoolean(props.scroller)) {
+    return {};
+  }
+  return props.scroller;
+});
 
 defineExpose({
   toggle(show?: boolean) {
@@ -63,7 +72,7 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
-    <OScroller v-if="props.scroller" class="o-dlg-body" size="small" show-type="hover" v-bind="props.scroller">
+    <OScroller v-if="isBodyScroller" class="o-dlg-body" size="small" show-type="hover" v-bind="bodyScrollerOptions">
       <slot></slot>
     </OScroller>
     <div v-else class="o-dlg-body">
