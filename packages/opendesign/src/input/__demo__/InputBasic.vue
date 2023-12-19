@@ -9,6 +9,8 @@ const val3 = ref(`${12345}`);
 setTimeout(() => {
   val2.value += '---';
 }, 2000);
+
+const check = (val: string) => Boolean(Number(val) % 2);
 </script>
 <template>
   <div>val1:{{ val1 }}</div>
@@ -28,13 +30,13 @@ setTimeout(() => {
   <h4>color & variant</h4>
   <section>
     <div class="row">
-      <OInput v-model="val1" placeholder="outline + normal" />
+      <OInput v-model="val1" placeholder="outline + normal" :check-valid="check" />
       <OInput v-model="val1" placeholder="outline + success" color="success" />
       <OInput v-model="val1" placeholder="outline + warning" color="warning" />
       <OInput v-model="val1" placeholder="outline + danger" color="danger" />
     </div>
     <div class="row">
-      <OInput v-model="val1" color="normal" placeholder="outline + normal">
+      <OInput v-model="val1" color="normal" placeholder="outline + normal" :check-valid="check">
         <template #prepend><span style="padding: 0 8px">+86</span></template>
         <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>

@@ -104,7 +104,19 @@ export const inputProps = {
    * 需搭配parse处理，保证值的正确性
    */
   format: {
-    type: Function as PropType<(value: string | number) => string | number>,
+    type: Function as PropType<(value: string) => string>,
+  },
+  /**
+   * 无效值判断
+   */
+  checkValid: {
+    type: Function as PropType<(value: string) => boolean>,
+  },
+  /**
+   * 输入为无效值时，在blur
+   */
+  onInvalidChange: {
+    type: Function as PropType<(value: string) => string>,
   },
 };
 

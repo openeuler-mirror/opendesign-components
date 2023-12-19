@@ -3,7 +3,6 @@ import { ref, computed, watch } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { isFunction } from '../_utils/is';
 import { IconClose, IconEyeOn, IconEyeOff } from '../_utils/icons';
-import { trigger } from '../_utils/event';
 import { Enter } from '../_utils/keycode';
 import { toInputString } from './input';
 import { OResizeObserver } from '../resize-observer';
@@ -11,6 +10,7 @@ import { inputProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { uniqueId } from '../_utils/helper';
+import { useComposition } from '../hooks/use-composition';
 
 const props = defineProps(inputProps);
 
@@ -27,74 +27,66 @@ const emits = defineEmits<{
 const inputId = uniqueId('input');
 const inputType = ref(props.type);
 
+const formatFun = computed(() => (isFunction(props.format) ? props.format : (v: string) => v));
+const parseFun = computed(() => (isFunction(props.parse) ? props.parse : (v: string) => v));
+const checkValidFun = computed(() => (isFunction(props.checkValid) ? props.checkValid : () => true));
+
 const inputRef = ref<HTMLElement | null>(null);
 const inputWidth = ref();
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
-// 当前input文本值
-const inputText = ref(realValue.value);
+// 当前input显示值
+const inputText = ref(formatFun.value(realValue.value));
+// 记录上一次值
+let lastValue: string = realValue.value;
+
+// 值可用状态
+const isValid = ref(true);
+
+const doCheckValid = (value: string) => {
+  if (value === '') {
+    isValid.value = true;
+  } else {
+    isValid.value = checkValidFun.value(value);
+  }
+  return isValid.value;
+};
+// 初始可用状态
+doCheckValid(realValue.value);
+
+// 是否聚焦状态
+const isFocus = ref(false);
 // 监听属性变化，刷新值
 watch(
   () => props.modelValue,
   (val) => {
+    if (isFocus.value) {
+      return;
+    }
+
     realValue.value = toInputString(val);
-    inputText.value = realValue.value;
+    inputText.value = formatFun.value(realValue.value);
+    doCheckValid(realValue.value);
   }
 );
 
-// 输入框显示的字符串
-const displayValue = computed(() => {
-  const v = isFunction(props.format) ? props.format(realValue.value) : realValue.value;
-  return v;
-});
-
-// 是否聚焦状态
-const isFocus = ref(false);
-let lastValue: string = realValue.value;
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 
-function updateValue(val: string) {
-  const value = isFunction(props.parse) ? props.parse(val) : val;
-  emits('update:modelValue', value);
-  realValue.value = value;
-
-  if (lastValue !== value) {
-    emits('change', value);
-    lastValue = value;
-  }
-  return value;
-}
-
-// 正在输入中文，处理输入过程中触发input事件
-let isComposing = false;
 let clickInside = false;
 
-// 开始中文输入
-const onCompositionStart = () => {
-  isComposing = true;
-};
-// 结束中文输入
-const onCompositionEnd = (e: Event) => {
-  if (!isComposing) {
-    return;
-  }
-
-  isComposing = false;
-  trigger(e.target as HTMLElement, 'input');
-};
-
+// 正在输入中文，处理输入过程中触发input事件
+const composition = useComposition({ el: inputRef });
 const onInput = (e: Event) => {
-  if (isComposing) {
+  if (composition.isComposing.value) {
     return;
   }
   const val = (e.target as HTMLInputElement)?.value;
-  emits('input', val, e);
-
   inputText.value = val;
 
-  if (!props.parse) {
-    emits('update:modelValue', val);
-  }
+  doCheckValid(val);
+
+  emits('input', val, e);
+  emits('update:modelValue', val);
 };
 
 const onFocus = (e: FocusEvent) => {
@@ -103,8 +95,28 @@ const onFocus = (e: FocusEvent) => {
     return;
   }
   isFocus.value = true;
+  inputText.value = realValue.value;
   emits('focus', realValue.value, e);
 };
+
+function updateValue(val: string) {
+  let nowVal = val;
+  if (!isValid.value) {
+    if (isFunction(props.onInvalidChange)) {
+      nowVal = props.onInvalidChange(val);
+    }
+  }
+  const value = parseFun.value(nowVal);
+  emits('update:modelValue', value);
+  realValue.value = value;
+  inputText.value = formatFun.value(realValue.value);
+
+  if (lastValue !== value) {
+    emits('change', value);
+    lastValue = value;
+  }
+  return value;
+}
 
 const onBlur = (e: FocusEvent) => {
   if (clickInside) {
@@ -119,7 +131,7 @@ const onBlur = (e: FocusEvent) => {
 
 const onKeyDown = (e: KeyboardEvent) => {
   const keyCode = e.key || e.code;
-  if (!isComposing && keyCode === Enter.key) {
+  if (!composition.isComposing.value && keyCode === Enter.key) {
     const val = (e.target as HTMLInputElement)?.value;
     const v = updateValue(val);
     emits('pressEnter', v, e);
@@ -127,6 +139,9 @@ const onKeyDown = (e: KeyboardEvent) => {
 };
 // 清除值
 const clearClick = (e: Event) => {
+  // 清空值后，纠正不可用样式
+  doCheckValid('');
+  // 更新当前值
   updateValue('');
   emits('clear', e);
 };
@@ -204,7 +219,7 @@ const onEyeMouseDown = () => {
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
         'is-focus': isFocus,
-        'is-invalid': props.invalid,
+        'is-invalid': !isValid,
         'is-readonly': props.readonly,
         'is-disabled': props.disabled,
       }"
@@ -212,19 +227,21 @@ const onEyeMouseDown = () => {
       <div v-if="$slots.prefix" class="o-input-prefix">
         <slot name="prefix"></slot>
       </div>
-      <div class="o-input-input-wrap">
+      <div
+        class="o-input-input-wrap"
+        :style="{
+          width: inputWidth + 'px',
+        }"
+      >
         <input
           :id="inputId"
           ref="inputRef"
-          :value="displayValue"
+          :value="inputText"
           :type="inputType"
           :placeholder="props.placeholder"
           class="o-input-input"
           :class="{
             'is-auto-size': props.autoWidth,
-          }"
-          :style="{
-            width: inputWidth + 'px',
           }"
           :readonly="props.readonly"
           :disabled="props.disabled"
@@ -232,8 +249,6 @@ const onEyeMouseDown = () => {
           @blur="onBlur"
           @input="onInput"
           @keydown="onKeyDown"
-          @compositionstart="onCompositionStart"
-          @compositionend="onCompositionEnd"
         />
         <ClientOnly>
           <OResizeObserver v-if="props.autoWidth" @resize="onMirrorResize">
