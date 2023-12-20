@@ -10,12 +10,16 @@ const showDlg = ref(false);
 const dlgSize = ref<DialogSizeT>('medium');
 const hasHead = ref(false);
 const hasFoot = ref(false);
+const halfFull = ref(false);
 const toggleHeadOrFoot = (type: 'foot' | 'head') => {
   if (type === 'head') {
     hasHead.value = !hasHead.value;
   } else if (type === 'foot') {
     hasFoot.value = !hasFoot.value;
   }
+};
+const toggleHalfFull = () => {
+  halfFull.value = !halfFull.value;
 };
 const toggle = (show?: boolean, size: DialogSizeT = 'medium') => {
   dlgSize.value = size;
@@ -83,6 +87,7 @@ const onChane = (v: boolean) => {
   <h4>基本</h4>
   <OButton @click="toggleHeadOrFoot('head')">show Header</OButton>
   <OButton @click="toggleHeadOrFoot('foot')">show Footer</OButton>
+  <OButton @click="toggleHalfFull('foot')">Phone half full</OButton>
 
   <section class="wrap">
     <OButton @click="toggle(true, 'auto')">Open auto</OButton>
@@ -90,7 +95,7 @@ const onChane = (v: boolean) => {
     <OButton @click="toggle(true, 'medium')">Open Medium</OButton>
     <OButton @click="toggle(true, 'large')">Open Large</OButton>
     <OButton @click="toggle(true, 'exlarge')">Open exlarge</OButton>
-    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" half-full phone-half-full @change="onChane">
+    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" half-full :phone-half-full="halfFull" @change="onChane">
       <template v-if="hasHead" #header>Dialog Title</template>
       <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">{{ content }}</div>
     </ODialog>
