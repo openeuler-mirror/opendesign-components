@@ -18,6 +18,8 @@ const printEvent = (evt: string, val?: string | number) => {
       v-model="val2"
       :format="format"
       :parse="parse"
+      placeholder="inputing..."
+      @clear="() => printEvent('clear')"
       @blur="(v) => printEvent('blur', v)"
       @change="(v) => printEvent('change', v)"
       @input="(v) => printEvent('input', v)"

@@ -1,8 +1,14 @@
 import { isFunction, isNumber, isUndefined } from '../_utils/is';
 
-export function isValidNumber(val?: string | number, min?: number, max?: number, parse?: (value: string) => string) {
+export function string2number(value: string): number {
+  return value === '' ? NaN : Number(value);
+}
+export function number2string(value?: number): string {
+  return Number.isNaN(value) || isUndefined(value) ? '' : String(value);
+}
+export function isValidNumber(val?: number, min?: number, max?: number, parse?: (value: string) => string) {
   if (Number.isNaN(val)) {
-    return true;
+    return false;
   }
   const value = isFunction(parse) ? parse(String(val)) : val;
   if (isNumber(Number(value))) {
@@ -19,12 +25,10 @@ export function isValidNumber(val?: string | number, min?: number, max?: number,
   return false;
 }
 
-export function getRealValue(val?: string | number, min?: number, max?: number, parse?: (value: string) => string) {
-  const value = isFunction(parse) ? parse(String(val)) : val;
-
+export function getRealValue(val: number, min?: number, max?: number) {
   let rlt: number = NaN;
-  if (value !== '' && isValidNumber(value, min, max)) {
-    rlt = Number(value);
+  if (isValidNumber(val, min, max)) {
+    rlt = val;
     if (min !== undefined) {
       rlt = rlt < min ? min : rlt;
     }
@@ -35,16 +39,15 @@ export function getRealValue(val?: string | number, min?: number, max?: number, 
   return rlt;
 }
 
-export function correctValue(val: string | number, lastVal: number, min?: number, max?: number) {
-  const v = Number(val);
-  if (isNumber(v)) {
-    if (!isUndefined(max) && v > max) {
+export function correctValue(val: number, lastVal: number, min?: number, max?: number) {
+  if (isNumber(val)) {
+    if (!isUndefined(max) && val > max) {
       return max;
     }
-    if (!isUndefined(min) && v < min) {
+    if (!isUndefined(min) && val < min) {
       return min;
     }
-    return v;
+    return val;
   }
   return lastVal;
 }
