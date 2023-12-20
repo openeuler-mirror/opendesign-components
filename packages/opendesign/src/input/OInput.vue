@@ -37,9 +37,10 @@ const inputWidth = ref();
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
 // 当前input显示值
 const inputText = ref(formatFun.value(realValue.value));
-// 记录上一次值
+// 记录上一次值(chang事件或者外部prop改变后的值)
 let lastValue: string = realValue.value;
-
+// 记录上一次有效输入值
+let lastValidInputText: string = inputText.value;
 // 值可用状态
 const isValid = ref(true);
 
@@ -60,13 +61,16 @@ const isFocus = ref(false);
 watch(
   () => props.modelValue,
   (val) => {
-    if (isFocus.value) {
-      return;
-    }
+    // 内部值与传入不一致时，再处理
+    if (realValue.value !== val) {
+      realValue.value = toInputString(val);
+      inputText.value = formatFun.value(realValue.value);
 
-    realValue.value = toInputString(val);
-    inputText.value = formatFun.value(realValue.value);
-    doCheckValid(realValue.value);
+      if (doCheckValid(realValue.value)) {
+        lastValue = realValue.value;
+        lastValidInputText = realValue.value;
+      }
+    }
   }
 );
 
@@ -81,12 +85,16 @@ const onInput = (e: Event) => {
     return;
   }
   const val = (e.target as HTMLInputElement)?.value;
-  inputText.value = val;
-
-  doCheckValid(val);
 
   emits('input', val, e);
-  emits('update:modelValue', val);
+  realValue.value = val;
+  inputText.value = val;
+
+  // 有效数据再更改modelValue值
+  if (doCheckValid(val)) {
+    lastValidInputText = val;
+    emits('update:modelValue', val);
+  }
 };
 
 const onFocus = (e: FocusEvent) => {
@@ -95,7 +103,9 @@ const onFocus = (e: FocusEvent) => {
     return;
   }
   isFocus.value = true;
-  inputText.value = realValue.value;
+  if (isValid.value) {
+    inputText.value = realValue.value;
+  }
   emits('focus', realValue.value, e);
 };
 
@@ -103,17 +113,25 @@ function updateValue(val: string) {
   let nowVal = val;
   if (!isValid.value) {
     if (isFunction(props.onInvalidChange)) {
-      nowVal = props.onInvalidChange(val);
+      nowVal = props.onInvalidChange(val, lastValidInputText, lastValue);
+      isValid.value = true;
+    } else {
+      return lastValue;
     }
   }
-  const value = parseFun.value(nowVal);
+  let value = nowVal;
+  if (nowVal !== lastValue) {
+    value = parseFun.value(nowVal);
+  }
   emits('update:modelValue', value);
+
   realValue.value = value;
   inputText.value = formatFun.value(realValue.value);
 
   if (lastValue !== value) {
     emits('change', value);
     lastValue = value;
+    lastValidInputText = value;
   }
   return value;
 }

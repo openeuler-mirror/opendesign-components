@@ -116,7 +116,7 @@ export const inputProps = {
    * 输入为无效值时，在blur
    */
   onInvalidChange: {
-    type: Function as PropType<(value: string) => string>,
+    type: Function as PropType<(text: string, lastValidText: string, lastValue: string) => string>,
   },
 };
 
