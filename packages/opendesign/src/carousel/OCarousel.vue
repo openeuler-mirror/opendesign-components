@@ -155,11 +155,15 @@ const initSlides = () => {
 
   let EffectType = null;
   switch (props.effect) {
+    case 'gallery': {
+      EffectType = Gallery;
+      break;
+    }
     case 'toggle': {
       EffectType = Toggle;
       break;
     }
-    case 'gallery': {
+    default: {
       EffectType = Gallery;
       break;
     }
