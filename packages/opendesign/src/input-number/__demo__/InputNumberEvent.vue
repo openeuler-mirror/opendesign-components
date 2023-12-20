@@ -11,7 +11,7 @@ const printEvent = (evt: string, val?: string | number) => {
 };
 
 const format = (val: string | number) => (Number.isNaN(val) ? '' : `$${val ?? ''}`);
-const parse = (val: string) => val.replace(/^\$/g, '');
+const parse = (val: number) => val / 2;
 </script>
 <template>
   <h4>Event</h4>

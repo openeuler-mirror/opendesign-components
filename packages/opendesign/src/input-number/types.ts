@@ -13,14 +13,14 @@ export const inputNumberPorps = {
    * v-model
    */
   modelValue: {
-    type: [String, Number],
+    type: Number,
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [String, Number],
+    type: Number,
   },
   /**
    * 按钮点击时步长
@@ -96,7 +96,13 @@ export const inputNumberPorps = {
    * 解析输入框的值
    */
   parse: {
-    type: Function as PropType<(value: string) => number>,
+    type: Function as PropType<(value: number) => number>,
+  },
+  /**
+   * 无效值判断
+   */
+  checkValid: {
+    type: Function as PropType<(value: number) => boolean>,
   },
 };
 

@@ -8,7 +8,7 @@ setTimeout(() => {
 }, 2000);
 const val2 = ref(100);
 const val3 = ref(3333);
-const val4 = ref('1px');
+const val4 = ref(1);
 </script>
 <template>
   <h4>Base</h4>
