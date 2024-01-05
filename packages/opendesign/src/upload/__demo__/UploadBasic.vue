@@ -20,6 +20,7 @@ const defaultFileList: UploadFileT[] = [
     id: '1',
     name: 'test.png',
     status: 'finished',
+    imgUrl: 'https://www.hiascend.com/p/resource/202309/72a0d66939734783805e01302bb9f53d.png',
   },
 ];
 
@@ -104,7 +105,14 @@ const onSelect = (f: UploadFileT[]) => {
       </OUpload>
     </div>
     <div class="upload-item">
-      <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" list-type="picture-card" />
+      <OUpload
+        multiple
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        :on-before-upload="onBeforeUpload"
+        list-type="picture-card"
+        :default-file-list="defaultFileList"
+      />
     </div>
   </section>
   <section style="flex-wrap: wrap; align-items: flex-start">
