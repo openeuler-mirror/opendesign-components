@@ -15,6 +15,12 @@ export const routes = [
     component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
   },
   {
+    path: '/form',
+    name: 'Form',
+    label: '表单 Form',
+    component: () => import('@components/form/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/text',
     name: 'Text',
     label: '文本 Text',
