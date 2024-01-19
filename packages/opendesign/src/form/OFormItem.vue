@@ -29,7 +29,6 @@ const runValidate = (trigger: TriggerT, value: any) => {
   return asyncSome(rules.value, async (item) => {
     if (item.triggers?.includes(trigger)) {
       const rlt = await item.validator?.(value);
-      console.log(rlt);
       if (rlt?.type === 'danger') {
         fieldResult.value = {
           type: 'danger',

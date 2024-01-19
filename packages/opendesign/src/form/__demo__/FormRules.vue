@@ -9,7 +9,9 @@ import { OOption } from '../../option';
 import '../../textarea/style';
 import { OTextarea } from '../../textarea';
 import { RulesT } from '../types';
+import { ref } from 'vue';
 
+const textValue = ref('');
 const options = [
   { label: 'option 1', value: 'opt1' },
   { label: 'long long long long long long long long long long long long text option 2', value: 'opt2' },
@@ -54,7 +56,6 @@ const rules: RulesT[] = [
       }
     },
   },
-
   {
     validator: (value?: any) => {
       const n = Number(value);
@@ -86,7 +87,7 @@ const rules: RulesT[] = [
         </OSelect>
       </OFormItem>
       <OFormItem label="标题文本3">
-        <OTextarea />
+        <OTextarea v-model="textValue" />
       </OFormItem>
     </OForm>
   </section>
