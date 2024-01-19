@@ -22,10 +22,10 @@ const isRequired = computed(() => {
 });
 const rules = computed(() => normalizeRules(props.rules));
 
-const fieldResult = ref<FieldResultT>();
+const fieldResult = ref<FieldResultT | null>(null);
 
 const runValidate = (trigger: TriggerT, value: any) => {
-  fieldResult.value = undefined;
+  fieldResult.value = null;
   return asyncSome(rules.value, async (item) => {
     if (item.triggers?.includes(trigger)) {
       const rlt = await item.validator?.(value);

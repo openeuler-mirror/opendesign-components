@@ -14,5 +14,5 @@ export const formInjectKey: InjectionKey<{
 
 export const formItemInjectKey: InjectionKey<{
   fieldHandlers: FieldHandlersT;
-  fieldResult: Ref<FieldResultT | undefined>;
+  fieldResult: Ref<FieldResultT | null>;
 }> = Symbol('provide-form-item');
