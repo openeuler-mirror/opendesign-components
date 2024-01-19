@@ -3,6 +3,37 @@ import type { SizeT } from '../_utils/types';
 
 export const TabVariantTypes = ['solid', 'text'] as const;
 export type TabVariantT = (typeof TabVariantTypes)[number];
+export type ValidatorReusltT = 'danger' | 'warning' | 'success';
+export type TriggerT = 'change' | 'input' | 'blur' | 'focus';
+
+type ValidatorResultT = {
+  type: ValidatorReusltT;
+  message?: string;
+};
+export type ValidatorT = (value: any) => ValidatorResultT | void;
+
+export type ValidatorRuleT = {
+  triggers?: TriggerT | TriggerT[];
+  validator?: ValidatorT;
+};
+
+export type FieldResultT = {
+  type: 'warning' | 'danger';
+  message?: string[];
+};
+
+export type RequiredRuleT = {
+  required: boolean;
+  message?: string;
+  triggers?: TriggerT | TriggerT[];
+};
+export type TypeRuleT = {
+  type: 'string' | 'number' | 'boolean' | 'array' | 'object';
+  message?: string;
+  triggers?: TriggerT | TriggerT[];
+};
+
+export type RulesT = ValidatorRuleT | RequiredRuleT | TypeRuleT;
 
 export const formProps = {
   /**
@@ -19,9 +50,9 @@ export const formProps = {
     type: String as PropType<SizeT>,
   },
   /**
-   * 子项是否包含必选，主要用于控制左对齐
+   * 子项是否包含必选，主要用于控制文本左对齐样式
    */
-  required: {
+  hasRequired: {
     type: Boolean,
     default: false,
   },
@@ -85,6 +116,12 @@ export const formItemProps = {
    */
   labelWidth: {
     type: String,
+  },
+  /**
+   * 表单验证规则
+   */
+  rules: {
+    type: Array as PropType<Array<RulesT>>,
   },
 };
 

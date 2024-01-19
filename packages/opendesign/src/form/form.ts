@@ -1,4 +1,5 @@
-import { isNull, isUndefined } from '../_utils/is';
+import { isArray, isFunction, isNull, isUndefined } from '../_utils/is';
+import { RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT } from './types';
 
 export function toInputString(val: unknown): string {
   if (isUndefined(val) || isNull(val) || (typeof val === 'number' && isNaN(val as number))) {
@@ -19,4 +20,37 @@ export function getFlexValue(val?: 'top' | 'center' | 'bottom' | 'left' | 'cente
     return 'center';
   }
   return '';
+}
+
+export function normalizeRules(rules?: RulesT[]): Array<ValidatorRuleT> {
+  if (isArray(rules)) {
+    return rules.map((item) => {
+      const triggers = isArray(item.triggers) ? item.triggers : [item.triggers ?? 'change'];
+      if ((item as RequiredRuleT).required) {
+        return {
+          triggers,
+          validator: (value: any) => ({
+            type: !isNull(value) && !isUndefined(value) && value !== '' ? 'success' : 'danger',
+            message: (item as RequiredRuleT).message,
+          }),
+        };
+      } else if ((item as TypeRuleT).type) {
+        return {
+          triggers,
+          validator: (value: any) => ({
+            type: typeof value === (item as TypeRuleT).type ? 'success' : 'danger',
+            message: (item as TypeRuleT).message,
+          }),
+        };
+      } else if (isFunction((item as ValidatorRuleT).validator)) {
+        return {
+          triggers,
+          validator: (item as ValidatorRuleT).validator,
+        };
+      } else {
+        return {};
+      }
+    });
+  }
+  return [];
 }

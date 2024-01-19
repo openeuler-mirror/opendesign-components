@@ -59,7 +59,7 @@ const changelabelWidth = (l: '30%' | '15%' | '200px') => {
       <span class="link" :class="{ current: labelWidth === '15%' }" @click="changelabelWidth('15%')">15%</span>
       <span class="link" :class="{ current: labelWidth === '200px' }" @click="changelabelWidth('200px')">200px</span>
     </div>
-    <OForm class="form" required :layout="layout" :label-align="labelAlign" :label-justify="labelJustify" :label-width="labelWidth">
+    <OForm class="form" has-required :layout="layout" :label-align="labelAlign" :label-justify="labelJustify" :label-width="labelWidth">
       <OFormItem label="标题文本1" required>
         <OInput />
       </OFormItem>

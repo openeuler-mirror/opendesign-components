@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, inject } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { isFunction } from '../_utils/is';
 import { IconClose, IconEyeOn, IconEyeOff } from '../_utils/icons';
@@ -11,6 +11,7 @@ import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { uniqueId } from '../_utils/helper';
 import { useComposition } from '../hooks/use-composition';
+import { formItemInjectKey } from '../form/provide';
 
 const props = defineProps(inputProps);
 
@@ -26,6 +27,16 @@ const emits = defineEmits<{
 
 const inputId = uniqueId('input');
 const inputType = ref(props.type);
+
+const formItemInjection = inject(formItemInjectKey, null);
+
+const color = computed(() => {
+  if (formItemInjection?.fieldResult.value) {
+    return formItemInjection?.fieldResult.value?.type;
+  } else {
+    return props.color;
+  }
+});
 
 const formatFun = computed(() => (isFunction(props.format) ? props.format : (v: string) => v));
 const parseFun = computed(() => (isFunction(props.parse) ? props.parse : (v: string) => v));
@@ -132,6 +143,7 @@ function updateValue(val: string) {
     emits('change', value);
     lastValue = value;
     lastValidInputText = value;
+    formItemInjection?.fieldHandlers.onChange?.(value);
   }
   return value;
 }
@@ -149,6 +161,7 @@ const onBlur = (e: FocusEvent) => {
 
 const onKeyDown = (e: KeyboardEvent) => {
   const keyCode = e.key || e.code;
+  // 处理回车
   if (!composition.isComposing.value && keyCode === Enter.key) {
     const val = (e.target as HTMLInputElement)?.value;
     const v = updateValue(val);
@@ -213,7 +226,7 @@ const onEyeMouseDown = () => {
   <label
     class="o-input"
     :class="[
-      `o-input-${props.color}`,
+      `o-input-${color}`,
       `o-input-${props.variant}`,
       `o-input-${props.size || defaultSize}`,
       round.class.value,

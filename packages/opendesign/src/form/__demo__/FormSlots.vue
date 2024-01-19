@@ -21,7 +21,7 @@ const options = [
   <h4>插槽</h4>
   <section>
     <div class="row">
-      <OForm class="form" required layout="h">
+      <OForm class="form" has-required layout="h">
         <OFormItem label="标题文本1" required>
           <OInput />
           <template #extra> 这是一段额外的消息 </template>
@@ -31,7 +31,7 @@ const options = [
             <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
         </OFormItem>
-        <OFormItem label="标题文本2 width：20%" label-width="20%">
+        <OFormItem label="标题文本2 ">
           <OTextarea />
           <template #extra> 这是一段额外的消息 </template>
         </OFormItem>

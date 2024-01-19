@@ -62,7 +62,7 @@ importers:
         version: registry.npmmirror.com/vue@3.2.45
       vue-router:
         specifier: ^4.1.6
-        version: 4.1.6(vue@3.2.45)
+        version: registry.npmmirror.com/vue-router@4.1.6(vue@3.2.45)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^3.2.0
@@ -492,10 +492,6 @@ packages:
       '@volar/typescript': 1.0.13
       '@volar/vue-language-core': registry.npmmirror.com/@volar/vue-language-core@1.0.13
     dev: true
-
-  /@vue/devtools-api@6.4.5:
-    resolution: {integrity: sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==}
-    dev: false
 
   /@vue/reactivity@3.2.45:
     resolution: {integrity: sha512-PRvhCcQcyEVohW0P8iQ7HDcIOXRjZfAsOds3N99X/Dzewy8TVhTCT4uXpAHfoKjVTJRA0O0K+6QNkDIZAxNi3A==}
@@ -1647,15 +1643,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /vue-router@4.1.6(vue@3.2.45):
-    resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      '@vue/devtools-api': 6.4.5
-      vue: registry.npmmirror.com/vue@3.2.45
-    dev: false
 
   /vue-template-compiler@2.7.14:
     resolution: {integrity: sha512-zyA5Y3ArvVG0NacJDkkzJuPQDF8RFeRlzV2vLeSnhSpieO6LK2OVbdLPi5MPPs09Ii+gMO8nY4S3iKQxBxDmWQ==}

@@ -98,3 +98,16 @@ export function chunk(arr: any[] = [], size = 1) {
     (v, i) => arr.slice(i * size, i * size + size)
   );
 }
+
+export async function asyncSome(array: Array<any>, judgeFn: (arrayItem: any) => Promise<boolean | undefined>) {
+  for (const iterator of array) {
+    try {
+      if (await judgeFn(iterator)) {
+        return true;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+  return false;
+}

@@ -18,8 +18,17 @@
 
 .o-form-layout-h,
 .o-form-layout-v {
-  .o-form-item + .o-form-item {
-    margin-top: var(--form-item-gap);
+  .o-form-item {
+    margin-bottom: var(--form-item-gap);
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+.o-form-item-danger,
+.o-form-item-warning {
+  &.o-form-item {
+    margin-bottom: 0;
   }
 }
 .o-form-layout-v {
@@ -74,4 +83,17 @@
   font-size: var(--o-font_size-tip2);
   line-height: var(--o-line_height-tip2);
   color: var(--o-color-info3);
+}
+.o-form-item-message {
+  padding-top: 4px;
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+  color: var(--o-color-info3);
+  min-height: var(--form-item-gap);
+  &.type-warning {
+    color: var(--o-color-warning1);
+  }
+  &.type-danger {
+    color: var(--o-color-danger1);
+  }
 }

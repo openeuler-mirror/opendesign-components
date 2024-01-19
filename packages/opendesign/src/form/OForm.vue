@@ -18,7 +18,7 @@ provide(formInjectKey, {
     class="o-form"
     :class="[
       {
-        'o-form-has-required': props.required,
+        'o-form-has-required': props.hasRequired,
       },
       `o-form-layout-${props.layout}`,
     ]"
