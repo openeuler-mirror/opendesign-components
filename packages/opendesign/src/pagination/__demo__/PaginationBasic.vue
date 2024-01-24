@@ -16,21 +16,39 @@ const onChange = (value: { page: number; pageSize: number }) => {
     <div>
       <div>Outline</div>
       <div>
-        <OPagination :total="12" :page="1" :page-size="12" @change="onChange" />
+        <OPagination :total="12" :page="1" :page-size="12" show-total @change="onChange" />
         <br />
-        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" round="pill" @change="onChange" />
+        <OPagination :total="total" :page="currentPage" show-total :page-size="pageSize" :page-sizes="pageSizes" round="pill" @change="onChange" />
         <br />
-        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" round="12px" @change="onChange" />
+        <OPagination :total="total" :page="currentPage" show-total :page-size="pageSize" :page-sizes="pageSizes" round="12px" @change="onChange" />
       </div>
     </div>
     <div>
       <div>Solid</div>
       <div>
-        <OPagination :total="total" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" variant="solid" @change="onChange" />
+        <OPagination :total="total" :page="currentPage" show-total :page-size="pageSize" :page-sizes="pageSizes" variant="solid" @change="onChange" />
         <br />
-        <OPagination :total="total" round="pill" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" variant="solid" @change="onChange" />
+        <OPagination
+          :total="total"
+          round="pill"
+          :page="currentPage"
+          show-total
+          :page-size="pageSize"
+          :page-sizes="pageSizes"
+          variant="solid"
+          @change="onChange"
+        />
         <br />
-        <OPagination :total="total" round="12px" :page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" variant="solid" @change="onChange" />
+        <OPagination
+          :total="total"
+          round="12px"
+          :page="currentPage"
+          show-total
+          :page-size="pageSize"
+          :page-sizes="pageSizes"
+          variant="solid"
+          @change="onChange"
+        />
       </div>
     </div>
   </div>

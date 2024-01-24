@@ -143,7 +143,7 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div v-if="layout.includes('total')" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
       <!-- sizes -->
       <template v-if="layout.includes('pagesize')">
         <div class="o-pagination-size">
