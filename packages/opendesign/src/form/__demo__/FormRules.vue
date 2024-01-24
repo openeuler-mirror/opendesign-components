@@ -51,7 +51,7 @@ const rules: RulesT[] = [
       if (n > 10) {
         return {
           type: 'warning',
-          message: '需要大于10数字',
+          message: '需要小于10数字',
         };
       }
     },
@@ -81,12 +81,12 @@ const rules: RulesT[] = [
         <OInput />
         <template #message="{ type, message }"> type: {{ type }} <br />message: {{ message.join('|') }} </template>
       </OFormItem>
-      <OFormItem label="标题文本2">
-        <OSelect>
+      <OFormItem label="标题文本2" :rules="rules">
+        <OSelect clearable>
           <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </OSelect>
       </OFormItem>
-      <OFormItem label="标题文本3">
+      <OFormItem label="标题文本3" :rules="rules">
         <OTextarea v-model="textValue" />
       </OFormItem>
     </OForm>

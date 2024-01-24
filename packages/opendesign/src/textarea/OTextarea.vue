@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, inject } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { isFunction } from '../_utils/is';
 import { IconClose } from '../_utils/icons';
@@ -10,6 +10,7 @@ import { textareaProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { uniqueId } from '../_utils/helper';
+import { formItemInjectKey } from '../form/provide';
 
 const props = defineProps(textareaProps);
 
@@ -56,9 +57,18 @@ const getValueLength = (val: string): number => {
 const currentLength = computed(() => getValueLength(realValue.value));
 const isOutLengthLimit = computed(() => (props.maxLength !== undefined ? currentLength.value > props.maxLength : false));
 
+const formItemInjection = inject(formItemInjectKey, null);
+
 const color = computed(() => {
-  return isOutLengthLimit.value ? 'danger' : props.color;
+  if (isOutLengthLimit.value) {
+    return 'danger';
+  } else if (formItemInjection?.fieldResult.value) {
+    return formItemInjection?.fieldResult.value?.type;
+  } else {
+    return props.color;
+  }
 });
+
 const round = getRoundClass(props, 'textarea');
 
 // 是否聚焦状态
@@ -73,6 +83,7 @@ const updateValue = (val: string) => {
   if (lastValue !== val) {
     emits('change', val);
     lastValue = val;
+    formItemInjection?.fieldHandlers.onChange?.(val);
   }
   return val;
 };
