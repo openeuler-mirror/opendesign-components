@@ -35,8 +35,10 @@ const textareaText = ref(realValue.value);
 watch(
   () => props.modelValue,
   (val) => {
-    realValue.value = toInputString(val);
-    textareaText.value = `${realValue.value}\r\n`;
+    if (realValue.value !== val) {
+      realValue.value = toInputString(val);
+      textareaText.value = `${realValue.value}\r\n`;
+    }
   }
 );
 
@@ -65,6 +67,8 @@ let lastValue: string = realValue.value;
 
 const updateValue = (val: string) => {
   emits('update:modelValue', val);
+  realValue.value = val;
+  textareaText.value = `${realValue.value}\r\n`;
 
   if (lastValue !== val) {
     emits('change', val);
@@ -98,6 +102,8 @@ const onInput = (e: Event) => {
   }
   const val = (e.target as HTMLInputElement)?.value;
   emits('input', val, e);
+  realValue.value = val;
+
   textareaText.value = `${val}\r\n`;
 
   emits('update:modelValue', val);
