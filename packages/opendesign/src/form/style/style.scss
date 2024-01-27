@@ -77,6 +77,13 @@
 .o-form-item-main {
   flex: 1;
 }
+.o-form-item-main-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 32px;
+}
 
 .o-form-item-extra {
   margin-top: 4px;

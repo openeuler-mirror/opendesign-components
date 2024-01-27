@@ -14,6 +14,10 @@ import '../../checkbox/style';
 import { OCheckbox } from '../../checkbox';
 import '../../checkbox-group/style';
 import { OCheckboxGroup } from '../../checkbox-group';
+import '../../radio/style';
+import { ORadio } from '../../radio';
+import '../../radio-group/style';
+import { ORadioGroup } from '../../radio-group';
 
 const textValue = ref('');
 const options = [
@@ -121,6 +125,25 @@ const checkboxRules: RulesT[] = [
     },
   },
 ];
+
+const radioVal = 1;
+
+const radioRules: RulesT[] = [
+  {
+    required: true,
+    message: 'required message',
+  },
+  {
+    validator: (value: number) => {
+      if (value < 3) {
+        return {
+          type: 'warning',
+          message: '建议选项小于3',
+        };
+      }
+    },
+  },
+];
 </script>
 <template>
   <h4>校验</h4>
@@ -148,6 +171,13 @@ const checkboxRules: RulesT[] = [
           <OCheckbox :value="2">选项2</OCheckbox>
           <OCheckbox :value="3">选项3</OCheckbox>
         </OCheckboxGroup>
+      </OFormItem>
+      <OFormItem label="标题文本3" :rules="radioRules">
+        <ORadioGroup v-model="radioVal">
+          <ORadio ref="ORadioRef2" :value="1">选项1</ORadio>
+          <ORadio :value="2">选项2</ORadio>
+          <ORadio :value="3">选项3</ORadio>
+        </ORadioGroup>
       </OFormItem>
       <div>
         <button @click="submit">提交</button>

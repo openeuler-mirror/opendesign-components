@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { provide, ref, toRef, watch } from 'vue';
+import { provide, ref, toRef, watch, inject } from 'vue';
 import { radioGroupProps } from './types';
 import { radioGroupInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
+import { formItemInjectKey } from '../form/provide';
 
 const props = defineProps(radioGroupProps);
 
@@ -13,6 +14,8 @@ const emits = defineEmits<{
 
 const realValue = ref(props.modelValue ?? props.defaultValue);
 
+// 表单注入，用于规则校验
+const formItemInjection = inject(formItemInjectKey, null);
 watch(
   () => props.modelValue,
   (val) => {
@@ -29,6 +32,7 @@ const updateModelValue = (val: string | number | boolean) => {
 
 const onChange = (val: string | number | boolean, ev: Event) => {
   emits('change', val, ev);
+  formItemInjection?.fieldHandlers.onChange?.(val);
 };
 
 provide(radioGroupInjectKey, {

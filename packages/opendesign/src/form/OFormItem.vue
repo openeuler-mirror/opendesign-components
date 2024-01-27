@@ -103,7 +103,9 @@ provide(formItemInjectKey, {
       </slot>
     </div>
     <div class="o-form-item-main">
-      <slot></slot>
+      <div class="o-form-item-main-wrap">
+        <slot></slot>
+      </div>
       <div v-if="fieldResult?.message" class="o-form-item-message" :class="`type-${fieldResult.type}`">
         <slot name="message" :message="fieldResult?.message" :type="fieldResult?.type">
           <div v-if="!isArray(fieldResult?.message)">{{ fieldResult?.message }}</div>

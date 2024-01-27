@@ -118,6 +118,12 @@ export const formItemProps = {
     type: String,
   },
   /**
+   * 表单项内容类名
+   */
+  mainClass: {
+    type: [String, Array] as PropType<string | any[]>,
+  },
+  /**
    * 表单验证规则
    */
   rules: {

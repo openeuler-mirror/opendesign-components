@@ -1,4 +1,4 @@
-import { isArray, isFunction, isNull, isUndefined } from '../_utils/is';
+import { isArray, isEmptyArray, isEmptyObject, isFunction, isNull, isUndefined } from '../_utils/is';
 import { RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT } from './types';
 
 export function toInputString(val: unknown): string {
@@ -30,7 +30,7 @@ export function normalizeRules(rules?: RulesT[]): Array<ValidatorRuleT> {
         return {
           triggers,
           validator: (value: any) => ({
-            type: !isNull(value) && !isUndefined(value) && value !== '' ? 'success' : 'danger',
+            type: !isNull(value) && !isUndefined(value) && value !== '' && !isEmptyArray(value) && !isEmptyObject(value) ? 'success' : 'danger',
             message: (item as RequiredRuleT).message,
           }),
         };
