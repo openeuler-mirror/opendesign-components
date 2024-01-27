@@ -13,10 +13,10 @@ import { ref } from 'vue';
 
 const textValue = ref('');
 const options = [
-  { label: 'option 1', value: 'opt1' },
-  { label: 'long long long long long long long long long long long long text option 2', value: 'opt2' },
-  { label: 'option 3', value: 'opt3' },
-  { label: 'option 4', value: 'opt4' },
+  { label: 'option 1', value: 1 },
+  { label: 'option 2', value: 2 },
+  { label: 'option 3', value: 3 },
+  { label: 'option 4', value: 4 },
 ];
 
 const rules: RulesT[] = [
@@ -68,6 +68,27 @@ const rules: RulesT[] = [
     },
   },
 ];
+const selectRules: RulesT[] = [
+  {
+    required: true,
+    message: 'required message',
+  },
+  {
+    validator: (value?: any) => {
+      if (value !== 1) {
+        return {
+          type: value > 3 ? 'success' : 'warning',
+          message: '建议大于3',
+        };
+      } else {
+        return {
+          type: 'danger',
+          message: '不能小于2',
+        };
+      }
+    },
+  },
+];
 </script>
 <template>
   <h4>校验</h4>
@@ -81,7 +102,7 @@ const rules: RulesT[] = [
         <OInput />
         <template #message="{ type, message }"> type: {{ type }} <br />message: {{ message.join('|') }} </template>
       </OFormItem>
-      <OFormItem label="标题文本2" :rules="rules">
+      <OFormItem label="标题文本2" :rules="selectRules">
         <OSelect clearable>
           <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </OSelect>

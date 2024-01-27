@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, watchEffect } from 'vue';
+import { computed, provide, ref, watch, watchEffect, inject } from 'vue';
 import { defaultSize, isPhonePad } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
@@ -13,6 +13,7 @@ import { OScroller } from '../scroller';
 import { isArray, isFunction } from '../_utils/is';
 import SelectOption, { OptionSlotNames } from './SelectOption.vue';
 import { filterSlots } from '../upload/util';
+import { formItemInjectKey } from '../form/provide';
 
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
@@ -47,6 +48,17 @@ watch(
   }
 );
 
+// 表单注入，用于规则校验
+const formItemInjection = inject(formItemInjectKey, null);
+
+const color = computed(() => {
+  if (formItemInjection?.fieldResult.value) {
+    return formItemInjection?.fieldResult.value?.type;
+  } else {
+    return props.color;
+  }
+});
+
 // 存储每个value对应的label
 const optionLabels = ref<Record<string | number, string>>({});
 
@@ -54,16 +66,17 @@ const optionLabels = ref<Record<string | number, string>>({});
 const valueList = ref<Array<string | number>>([]); // 选项选中的记录
 const finalValueList = ref<Array<string | number>>([]); // 最终选择值
 // 初始化valuelist
-if (props.multiple) {
-  if (isArray(props.modelValue)) {
-    valueList.value = [...props.modelValue];
-  } else if (isArray(props.defaultValue)) {
-    valueList.value = [...props.defaultValue];
+if (isArray(props.modelValue)) {
+  valueList.value = [...props.modelValue];
+} else if (isArray(props.defaultValue)) {
+  valueList.value = [...props.defaultValue];
+} else {
+  const mrValue = props.modelValue ?? props.defaultValue;
+  if (mrValue) {
+    valueList.value = [mrValue];
   } else {
     valueList.value = [];
   }
-} else {
-  valueList.value = [((props.modelValue ?? props.defaultValue) as string | number) ?? ''];
 }
 finalValueList.value = [...valueList.value];
 
@@ -117,6 +130,10 @@ watchEffect(() => {
 
 const isClearable = computed(() => props.clearable && !props.disabled && valueList.value.length > 0);
 
+const emitChange = (value: SelectValueT) => {
+  emits('change', value);
+  formItemInjection?.fieldHandlers.onChange?.(value);
+};
 // 清除值
 const clearClick = (e: Event) => {
   e.stopPropagation();
@@ -124,7 +141,7 @@ const clearClick = (e: Event) => {
   valueList.value = [];
   emits('clear', e);
 
-  emits('change', [...valueList.value]);
+  emitChange([...valueList.value]);
   emits('update:modelValue', [...valueList.value]);
 };
 const beforeSelect = async (value: string | number) => {
@@ -155,7 +172,7 @@ provide(selectOptionInjectKey, {
         //单选
 
         if (valueList.value[0] !== toValue) {
-          emits('change', toValue);
+          emitChange(toValue);
 
           valueList.value[0] = toValue as string | number;
         }
@@ -178,7 +195,7 @@ provide(selectOptionInjectKey, {
         });
 
         if (!isResponding.value) {
-          emits('change', [...valueList.value]);
+          emitChange([...valueList.value]);
           emits('update:modelValue', [...valueList.value]);
         }
       }
@@ -201,7 +218,7 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
   if (idx > -1) {
     valueList.value.splice(idx, 1);
 
-    emits('change', [...valueList.value]);
+    emitChange([...valueList.value]);
     emits('update:modelValue', [...valueList.value]);
   }
 };
@@ -260,7 +277,7 @@ const selectDlgAction: DialogActionT[] = [
     ref="selectRef"
     class="o-select"
     :class="[
-      `o-select-${props.color}`,
+      `o-select-${color}`,
       `o-select-${props.variant}`,
       `o-select-${props.size || defaultSize}`,
       round.class.value,

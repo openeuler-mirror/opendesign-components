@@ -57,6 +57,7 @@ const getValueLength = (val: string): number => {
 const currentLength = computed(() => getValueLength(realValue.value));
 const isOutLengthLimit = computed(() => (props.maxLength !== undefined ? currentLength.value > props.maxLength : false));
 
+// 表单注入，用于规则校验
 const formItemInjection = inject(formItemInjectKey, null);
 
 const color = computed(() => {
