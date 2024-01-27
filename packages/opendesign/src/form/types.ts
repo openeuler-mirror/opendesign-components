@@ -6,7 +6,7 @@ export type TabVariantT = (typeof TabVariantTypes)[number];
 export type ValidatorReusltT = 'danger' | 'warning' | 'success';
 export type TriggerT = 'change' | 'input' | 'blur' | 'focus';
 
-type ValidatorResultT = {
+export type ValidatorResultT = {
   type: ValidatorReusltT;
   message?: string;
 };

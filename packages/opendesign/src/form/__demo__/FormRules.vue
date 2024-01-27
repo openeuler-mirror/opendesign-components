@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { OForm, OFormItem } from '../index';
+import { RulesT } from '../types';
+import { ref } from 'vue';
 import '../../input/style';
 import { OInput } from '../../input';
 import '../../select/style';
@@ -8,8 +10,10 @@ import '../../option/style';
 import { OOption } from '../../option';
 import '../../textarea/style';
 import { OTextarea } from '../../textarea';
-import { RulesT } from '../types';
-import { ref } from 'vue';
+import '../../checkbox/style';
+import { OCheckbox } from '../../checkbox';
+import '../../checkbox-group/style';
+import { OCheckboxGroup } from '../../checkbox-group';
 
 const textValue = ref('');
 const options = [
@@ -19,7 +23,11 @@ const options = [
   { label: 'option 4', value: 4 },
 ];
 
-const rules: RulesT[] = [
+const submit = () => {
+  console.log('submit');
+};
+
+const inputRules: RulesT[] = [
   {
     required: true,
     message: 'required message',
@@ -89,16 +97,40 @@ const selectRules: RulesT[] = [
     },
   },
 ];
+
+const checkBoxVal = [1];
+const checkboxRules: RulesT[] = [
+  {
+    required: true,
+    message: 'required message',
+  },
+  {
+    validator: (value?: any[]) => {
+      if (!value?.includes(1)) {
+        return {
+          type: 'danger',
+          message: '1必选',
+        };
+      }
+      if (!value?.includes(2)) {
+        return {
+          type: 'warning',
+          message: '建议选择2',
+        };
+      }
+    },
+  },
+];
 </script>
 <template>
   <h4>校验</h4>
 
   <section>
     <OForm class="form" has-required>
-      <OFormItem label="标题文本1" :rules="rules">
+      <OFormItem label="标题文本1" :rules="inputRules">
         <OInput />
       </OFormItem>
-      <OFormItem label="标题文本1" :rules="rules">
+      <OFormItem label="标题文本1" required>
         <OInput />
         <template #message="{ type, message }"> type: {{ type }} <br />message: {{ message.join('|') }} </template>
       </OFormItem>
@@ -107,9 +139,19 @@ const selectRules: RulesT[] = [
           <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </OSelect>
       </OFormItem>
-      <OFormItem label="标题文本3" :rules="rules">
+      <OFormItem label="标题文本3" :rules="inputRules">
         <OTextarea v-model="textValue" />
       </OFormItem>
+      <OFormItem label="标题文本3" :rules="checkboxRules">
+        <OCheckboxGroup v-model="checkBoxVal">
+          <OCheckbox ref="checkBoxRef2" :value="1">选项1</OCheckbox>
+          <OCheckbox :value="2">选项2</OCheckbox>
+          <OCheckbox :value="3">选项3</OCheckbox>
+        </OCheckboxGroup>
+      </OFormItem>
+      <div>
+        <button @click="submit">提交</button>
+      </div>
     </OForm>
   </section>
 </template>

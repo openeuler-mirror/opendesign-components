@@ -99,7 +99,7 @@ export function chunk(arr: any[] = [], size = 1) {
   );
 }
 
-export async function asyncSome(array: Array<any>, judgeFn: (arrayItem: any) => Promise<boolean | undefined>) {
+export async function asyncSome<T>(array: Array<T>, judgeFn: (arrayItem: T) => Promise<boolean | undefined>) {
   for (const iterator of array) {
     try {
       if (await judgeFn(iterator)) {

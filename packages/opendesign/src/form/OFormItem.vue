@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, ref, provide } from 'vue';
-import { RequiredRuleT, formItemProps, TriggerT, FieldResultT } from './types';
+import { RequiredRuleT, formItemProps, TriggerT, FieldResultT, ValidatorResultT } from './types';
 import { formItemInjectKey } from './provide';
 import { getFlexValue, normalizeRules } from './form';
 import { isArray } from '../_utils/is';
 import { asyncSome } from '../_utils/helper';
+import logger from '../_utils/log';
 
 const requireSymbol = '*';
 
@@ -28,24 +29,32 @@ const runValidate = (trigger: TriggerT, value: any) => {
   fieldResult.value = null;
   return asyncSome(rules.value, async (item) => {
     if (item.triggers?.includes(trigger)) {
-      const rlt = await item.validator?.(value);
-      if (rlt?.type === 'danger') {
-        fieldResult.value = {
-          type: 'danger',
-          message: [rlt.message],
-        };
-        return true;
-      } else if (rlt?.type === 'warning') {
-        if (!fieldResult.value) {
-          fieldResult.value = {
-            type: 'warning',
-            message: [rlt.message],
-          };
-        } else if (rlt.message) {
-          fieldResult.value.message?.push(rlt.message);
-        }
+      if (!item.validator) {
         return false;
       }
+      try {
+        const rlt = await item.validator?.(value);
+        if (rlt?.type === 'danger') {
+          fieldResult.value = {
+            type: 'danger',
+            message: rlt.message ? [rlt.message] : [],
+          };
+          return true;
+        } else if (rlt?.type === 'warning') {
+          if (!fieldResult.value) {
+            fieldResult.value = {
+              type: 'warning',
+              message: rlt.message ? [rlt.message] : [],
+            };
+          } else if (rlt.message) {
+            fieldResult.value.message?.push(rlt.message);
+          }
+          return false;
+        }
+      } catch (e) {
+        logger.error('failed to validate rules');
+      }
+
       return false;
     }
   });
