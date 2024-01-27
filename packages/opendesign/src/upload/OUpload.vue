@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { uploadProps, UploadFileT } from './types';
-import { computed, ref } from 'vue';
+import { computed, ref, inject } from 'vue';
 import { isFunction } from '../_utils/is';
 import UploadItem, { ItemSlotNames } from './UploadItem.vue';
 import { UploadLabel, doUploadFileList, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
 import UploadSelect, { selectSlotNames } from './UploadSelect.vue';
 import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
+import { formItemInjectKey } from '../form/provide';
 
 const props = defineProps(uploadProps);
 const emits = defineEmits<{
@@ -19,6 +20,9 @@ const emits = defineEmits<{
 
 // 先不做受控模式
 const fileList = ref<UploadFileT[]>(props.defaultFileList || []);
+
+// 表单注入，用于规则校验
+const formItemInjection = inject(formItemInjectKey, null);
 
 let fileId = 1;
 
@@ -64,6 +68,7 @@ const afterSelected = (files: UploadFileT[]) => {
       replaceId = '';
 
       emits('select', fileList.value);
+      formItemInjection?.fieldHandlers.onChange?.(fileList.value);
 
       if (!props.lazyUpload) {
         doUploadFile(fileList.value[idx], uploadOption.value);
@@ -82,6 +87,7 @@ const afterSelected = (files: UploadFileT[]) => {
     }
 
     emits('select', fileList.value);
+    formItemInjection?.fieldHandlers.onChange?.(fileList.value);
 
     if (!props.lazyUpload) {
       doUploadFileList(fileList.value.slice(s, s + l), uploadOption.value);
@@ -130,6 +136,8 @@ const removeFile = async (file: UploadFileT) => {
   }
   file.request?.abort();
   fileList.value = fileList.value.filter((f) => f.id !== file.id);
+
+  formItemInjection?.fieldHandlers.onChange?.(fileList.value);
 
   return true;
 };

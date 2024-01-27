@@ -16,6 +16,7 @@ const realValue = ref(props.modelValue ?? props.defaultValue);
 
 // 表单注入，用于规则校验
 const formItemInjection = inject(formItemInjectKey, null);
+
 watch(
   () => props.modelValue,
   (val) => {

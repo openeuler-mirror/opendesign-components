@@ -18,6 +18,8 @@ import '../../radio/style';
 import { ORadio } from '../../radio';
 import '../../radio-group/style';
 import { ORadioGroup } from '../../radio-group';
+import '../../upload/style';
+import { OUpload, UploadFileT } from '../../upload';
 
 const textValue = ref('');
 const options = [
@@ -126,7 +128,7 @@ const checkboxRules: RulesT[] = [
   },
 ];
 
-const radioVal = 1;
+const radioVal = 0;
 
 const radioRules: RulesT[] = [
   {
@@ -139,6 +141,23 @@ const radioRules: RulesT[] = [
         return {
           type: 'warning',
           message: '建议选项小于3',
+        };
+      }
+    },
+  },
+];
+
+const uploadRules: RulesT[] = [
+  {
+    required: true,
+    message: '请至少上传一个文件',
+  },
+  {
+    validator: (value: UploadFileT[]) => {
+      if (value.length <= 2) {
+        return {
+          type: 'warning',
+          message: '建议上传多与2个文件',
         };
       }
     },
@@ -178,6 +197,9 @@ const radioRules: RulesT[] = [
           <ORadio :value="2">选项2</ORadio>
           <ORadio :value="3">选项3</ORadio>
         </ORadioGroup>
+      </OFormItem>
+      <OFormItem label="标题文本3" :rules="uploadRules">
+        <OUpload btn-label="上传(单选)" multiple color="normal" variant="solid" />
       </OFormItem>
       <div>
         <button @click="submit">提交</button>
