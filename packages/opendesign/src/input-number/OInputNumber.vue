@@ -113,9 +113,11 @@ const onInput = (val: string, evt: Event) => {
 
 const onFocus = (val: string, evt: FocusEvent) => {
   emits('focus', currentValue.value, evt);
+  formItemInjection?.fieldHandlers.onFocus?.(currentValue.value);
 };
 const onBlur = (val: string, evt: FocusEvent) => {
   emits('blur', currentValue.value, evt);
+  formItemInjection?.fieldHandlers.onBlur?.(currentValue.value);
 };
 const onPressEnter = (val: string, evt: Event): void => {
   emits('pressEnter', currentValue.value, evt);

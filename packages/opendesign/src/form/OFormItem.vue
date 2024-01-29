@@ -62,9 +62,13 @@ const runValidate = (trigger: TriggerT, value: any) => {
 
 const fieldHandlers = {
   onChange(val: any) {
-    runValidate('change', val).then((r) => {
-      console.log('fieldResult', r, fieldResult.value);
-    });
+    runValidate('change', val);
+  },
+  onFocus(val: any) {
+    runValidate('focus', val);
+  },
+  onBlur(val: any) {
+    runValidate('blur', val);
   },
 };
 

@@ -121,6 +121,7 @@ const onFocus = (e: FocusEvent) => {
     inputText.value = realValue.value;
   }
   emits('focus', realValue.value, e);
+  formItemInjection?.fieldHandlers.onFocus?.(realValue.value);
 };
 
 function updateValue(val: string) {
@@ -160,6 +161,7 @@ const onBlur = (e: FocusEvent) => {
   const val = (e.target as HTMLInputElement)?.value;
   const v = updateValue(val);
   emits('blur', v, e);
+  formItemInjection?.fieldHandlers.onBlur?.(v);
 };
 
 const onKeyDown = (e: KeyboardEvent) => {
