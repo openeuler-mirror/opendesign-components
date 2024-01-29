@@ -4,6 +4,8 @@ import { RulesT } from '../types';
 import { ref } from 'vue';
 import '../../input/style';
 import { OInput } from '../../input';
+import '../../input-number/style';
+import { OInputNumber } from '../../input-number';
 import '../../select/style';
 import { OSelect } from '../../select';
 import '../../option/style';
@@ -104,6 +106,30 @@ const selectRules: RulesT[] = [
   },
 ];
 
+const inputNumberVal = 11;
+const inputNumberRules: RulesT[] = [
+  {
+    required: true,
+    message: 'required message',
+  },
+  {
+    validator: (value: number) => {
+      if (value % 2 === 0) {
+        return {
+          type: 'danger',
+          message: '必须是奇数',
+        };
+      }
+      if (value > 10) {
+        return {
+          type: 'warning',
+          message: '数字建议小于10',
+        };
+      }
+    },
+  },
+];
+
 const checkBoxVal = [1];
 const checkboxRules: RulesT[] = [
   {
@@ -171,6 +197,9 @@ const uploadRules: RulesT[] = [
     <OForm class="form" has-required>
       <OFormItem label="标题文本1" :rules="inputRules">
         <OInput />
+      </OFormItem>
+      <OFormItem label="标题文本1" :rules="inputNumberRules">
+        <OInputNumber v-model="inputNumberVal" />
       </OFormItem>
       <OFormItem label="标题文本1" required>
         <OInput />

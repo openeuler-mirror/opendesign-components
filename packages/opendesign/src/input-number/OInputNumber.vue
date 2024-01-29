@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, inject, provide } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { IconMinus, IconAdd, IconChevronUp, IconChevronDown } from '../_utils/icons';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, string2number, number2string } from './input-number';
 import { isFunction, isUndefined } from '../_utils/is';
 import { inputNumberPorps } from './types';
+import { formItemInjectKey } from '../form/provide';
+import { innerComponentInjectKey } from '../_components/provide';
 
 const props = defineProps(inputNumberPorps);
 
@@ -37,6 +39,16 @@ watch(
     }
   }
 );
+
+const formItemInjection = inject(formItemInjectKey, null);
+
+const color = computed(() => {
+  if (formItemInjection?.fieldResult.value) {
+    return formItemInjection?.fieldResult.value?.type;
+  } else {
+    return props.color;
+  }
+});
 
 const parseFun = (v: string) => {
   let val = string2number(v);
@@ -78,13 +90,17 @@ const canMinus = computed(() => {
   return true;
 });
 
+const emitChange = () => {
+  emits('change', currentValue.value);
+  formItemInjection?.fieldHandlers.onChange?.(currentValue.value);
+};
 const updateValue = (val: number) => {
   inputValue.value = number2string(val);
 
   emits('update:modelValue', currentValue.value);
 
   if (currentValue.value !== lastValue) {
-    emits('change', currentValue.value);
+    emitChange();
     lastValue = currentValue.value;
   }
   return currentValue.value;
@@ -107,7 +123,7 @@ const onPressEnter = (val: string, evt: Event): void => {
 
 const onChange = (val: string) => {
   inputValue.value = val;
-  emits('change', currentValue.value);
+  emitChange();
 };
 
 const onUpdateModelValue = (val: string) => {
@@ -134,6 +150,11 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     emits('minus', v, e);
   }
 };
+
+// 表明是否为嵌套子组件
+provide(innerComponentInjectKey, {
+  isInnerInput: true,
+});
 </script>
 <template>
   <OInput
@@ -145,7 +166,7 @@ const controlClick = (type: 'plus' | 'minus', e: MouseEvent) => {
     :on-invalid-change="onInvalidChange"
     :size="props.size"
     :placeholder="props.placeholder"
-    :color="props.color"
+    :color="color"
     :variant="props.variant"
     :round="props.round"
     :disabled="props.disabled"

@@ -12,6 +12,7 @@ import ClientOnly from '../_components/client-only';
 import { uniqueId } from '../_utils/helper';
 import { useComposition } from '../hooks/use-composition';
 import { formItemInjectKey } from '../form/provide';
+import { innerComponentInjectKey } from '../_components/provide';
 
 const props = defineProps(inputProps);
 
@@ -28,7 +29,9 @@ const emits = defineEmits<{
 const inputId = uniqueId('input');
 const inputType = ref(props.type);
 
-const formItemInjection = inject(formItemInjectKey, null);
+const innerComponentInject = inject(innerComponentInjectKey, null);
+const isInnerInput = innerComponentInject?.isInnerInput;
+const formItemInjection = isInnerInput ? null : inject(formItemInjectKey, null);
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
