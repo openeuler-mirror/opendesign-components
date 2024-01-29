@@ -59,7 +59,7 @@
     border-top-right-radius: 0;
     padding-top: var(--dlg-padding-body-top);
   }
-  &:has(+ .o-dlg-footer) {
+  &.with-footer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     padding-bottom: var(--dlg-padding-body-bottom);
