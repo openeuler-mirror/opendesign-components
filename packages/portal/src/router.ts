@@ -262,6 +262,12 @@ export const routes = [
     component: () => import('@components/collapse/__demo__/TheIndex.vue'),
   },
   {
+    path: '/skeleton',
+    name: 'Skeleton',
+    label: '骨架屏 Skeleton',
+    component: () => import('@components/skeleton/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     label: 'Resize监听',

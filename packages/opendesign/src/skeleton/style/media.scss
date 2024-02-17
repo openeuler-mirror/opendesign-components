@@ -1,0 +1,25 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=laptop') {
+  .o-skeleton-avatar-large {
+    --skeleton-width: 64px;
+    --skeleton-height: 64px;
+  }
+
+  .o-skeleton-avatar-medium {
+    --skeleton-width: 48px;
+    --skeleton-height: 48px;
+  }
+
+  .o-skeleton-avatar-small {
+    --skeleton-width: 32px;
+    --skeleton-height: 32px;
+  }
+}
+
+@include respond-to('<=pad') {
+  .o-skeleton-avatar-medium {
+    --skeleton-width: 40px;
+    --skeleton-height: 40px;
+  }
+}

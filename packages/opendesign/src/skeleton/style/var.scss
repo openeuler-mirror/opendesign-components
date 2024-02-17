@@ -1,0 +1,48 @@
+.o-skeleton {
+  --skeleton-bg-color: var(--o-color-control1-light);
+}
+
+.o-skeleton-animation {
+  --skeleton-bg-color: linear-gradient(90deg, var(--o-color-control1-light) 25%, var(--o-color-control2-light) 37%, var(--o-color-control1-light) 63%);
+}
+
+.o-skeleton-text {
+  --skeleton-width: 100%;
+  --skeleton-height: var(--o-font_size-text1);
+  --skeleton-radius: var(--o-radius_control-xs);
+  --skeleton-gap: calc(var(--o-line_height-text1) - var(--o-font_size-text1));
+}
+
+.o-skeleton-figure {
+  --skeleton-width: 320px;
+  --skeleton-height: 180px;
+  --skeleton-radius: var(--o-radius_control-xs);
+}
+
+.o-skeleton-avatar {
+  --skeleton-radius: var(--o-radius_control-xs);
+}
+
+.o-skeleton-avatar-large {
+  --skeleton-width: 80px;
+  --skeleton-height: 80px;
+}
+
+.o-skeleton-avatar-medium {
+  --skeleton-width: 64px;
+  --skeleton-height: 64px;
+}
+
+.o-skeleton-avatar-small {
+  --skeleton-width: 40px;
+  --skeleton-height: 40px;
+}
+
+.o-skeleton-avatar-mini {
+  --skeleton-width: 24px;
+  --skeleton-height: 24px;
+}
+
+.o-skeleton-round-pill {
+  --skeleton-radius: var(--skeleton-height);
+}
