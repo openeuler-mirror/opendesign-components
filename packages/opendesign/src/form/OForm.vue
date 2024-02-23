@@ -41,14 +41,12 @@ const clearValidate = (filed?: string | string[], onClear?: (filed: FiledInfoT) 
 };
 const resetFields = (filed?: string | string[]) => {
   clearValidate(filed, (item: FiledInfoT) => {
+    // 重置表单
     item.resetFiled();
   });
-  console.log('rest fileds');
-  // todo 重置表单
 };
 
 const onSubmit = () => {
-  console.log('submit');
   doValidate();
 };
 
