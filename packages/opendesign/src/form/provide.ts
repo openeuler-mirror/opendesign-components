@@ -1,5 +1,5 @@
-import { InjectionKey, ComputedRef, Ref } from 'vue';
-import { FieldResultT } from './types';
+import { InjectionKey, Ref } from 'vue';
+import { FieldResultT, FiledInfoT } from './types';
 
 type FieldHandlersT = {
   onChange?: (value: any, event?: Event) => void;
@@ -7,12 +7,16 @@ type FieldHandlersT = {
   onFocus?: (value: any, event?: FocusEvent) => void;
   onBlur?: (value: any, event?: FocusEvent) => void;
 };
+export interface formCtx {
+  // labelWidth?: ComputedRef<string | undefined>;
+  model?: object;
+  addFiled: (filed: FiledInfoT) => void;
+  removeFiled: (filed: string) => void;
+}
 
-export const formInjectKey: InjectionKey<{
-  labelWidth?: ComputedRef<string | undefined>;
-}> = Symbol('provide-form');
-
-export const formItemInjectKey: InjectionKey<{
+export const formInjectKey: InjectionKey<formCtx> = Symbol('provide-form');
+export interface formItemCtx {
   fieldHandlers: FieldHandlersT;
   fieldResult: Ref<FieldResultT | null>;
-}> = Symbol('provide-form-item');
+}
+export const formItemInjectKey: InjectionKey<formItemCtx> = Symbol('provide-form-item');

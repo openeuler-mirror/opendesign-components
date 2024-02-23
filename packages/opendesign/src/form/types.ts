@@ -18,8 +18,8 @@ export type ValidatorRuleT = {
 };
 
 export type FieldResultT = {
-  type: 'warning' | 'danger';
-  message?: string[];
+  type: 'warning' | 'danger' | '';
+  message: string[];
 };
 
 export type RequiredRuleT = {
@@ -35,7 +35,20 @@ export type TypeRuleT = {
 
 export type RulesT = ValidatorRuleT | RequiredRuleT | TypeRuleT;
 
+export interface FiledInfoT {
+  filed?: string;
+  validate?: (trigger: TriggerT) => Promise<boolean> | undefined;
+  clearValidate: () => void;
+  resetFiled: () => void;
+}
+
 export const formProps = {
+  /**
+   * 表单数据对象
+   */
+  model: {
+    type: Object,
+  },
   /**
    * 类型 TabVariantT
    */
@@ -85,6 +98,12 @@ export const formProps = {
 export type FormPropsT = ExtractPropTypes<typeof formProps>;
 
 export const formItemProps = {
+  /**
+   * 表单项在数据对象中的path
+   */
+  field: {
+    type: String,
+  },
   /**
    * 是否必选
    */

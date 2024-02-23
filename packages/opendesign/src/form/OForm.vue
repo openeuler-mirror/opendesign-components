@@ -1,20 +1,71 @@
 <script setup lang="ts">
-import { provide, ref, useSlots, onMounted, computed } from 'vue';
+import { provide, computed } from 'vue';
 import { formInjectKey } from './provide';
-import { formProps } from './types';
+import { formProps, FiledInfoT } from './types';
 import { getFlexValue } from './form';
+import { isFunction } from '../_utils/is';
 const props = defineProps(formProps);
 
-const labelWidth = computed(() => props.labelWidth);
 const align = computed(() => getFlexValue(props.labelAlign));
 const justify = computed(() => getFlexValue(props.labelJustify));
 
+const filedList: FiledInfoT[] = [];
+
+const addFiled = (filedItem: FiledInfoT) => {
+  filedList.push(filedItem);
+};
+const removeFiled = (filed: string) => {
+  const idx = filedList.findIndex((item) => item.filed === filed);
+  filedList.splice(idx, 1);
+};
+
+const doValidate = (filed?: string | string[]) => {
+  const filedNames = filed ? ([] as string[]).concat(filed) : [];
+
+  filedList.forEach((item) => {
+    if (filedNames.length === 0 || (item.filed && filedNames.includes(item.filed))) {
+      item?.validate?.('change');
+    }
+  });
+};
+const clearValidate = (filed?: string | string[], onClear?: (filed: FiledInfoT) => void) => {
+  const filedNames = filed ? ([] as string[]).concat(filed) : [];
+  filedList.forEach((item) => {
+    if (filedNames.length === 0 || (item.filed && filedNames.includes(item.filed))) {
+      item.clearValidate();
+      if (isFunction(onClear)) {
+        onClear(item);
+      }
+    }
+  });
+};
+const resetFields = (filed?: string | string[]) => {
+  clearValidate(filed, (item: FiledInfoT) => {
+    item.resetFiled();
+  });
+  console.log('rest fileds');
+  // todo 重置表单
+};
+
+const onSubmit = () => {
+  console.log('submit');
+  doValidate();
+};
+
 provide(formInjectKey, {
-  labelWidth,
+  model: props.model,
+  addFiled,
+  removeFiled,
+});
+
+defineExpose({
+  validate: doValidate,
+  resetFields,
+  clearValidate,
 });
 </script>
 <template>
-  <div
+  <form
     class="o-form"
     :class="[
       {
@@ -28,7 +79,8 @@ provide(formInjectKey, {
       '--form-label-justify': justify,
       '--form-item-align': align,
     }"
+    @submit.prevent="onSubmit"
   >
     <slot></slot>
-  </div>
+  </form>
 </template>

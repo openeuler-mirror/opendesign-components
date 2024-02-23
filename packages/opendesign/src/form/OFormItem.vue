@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { computed, ref, provide } from 'vue';
-import { RequiredRuleT, formItemProps, TriggerT, FieldResultT, ValidatorResultT } from './types';
-import { formItemInjectKey } from './provide';
+import { computed, ref, provide, inject, onMounted, onBeforeUnmount } from 'vue';
+import { RequiredRuleT, formItemProps, TriggerT, FieldResultT } from './types';
+import { formItemInjectKey, formInjectKey, formCtx } from './provide';
 import { getFlexValue, normalizeRules } from './form';
 import { isArray } from '../_utils/is';
-import { asyncSome } from '../_utils/helper';
+import { asyncSome, getValueByPath, setValueByPath } from '../_utils/helper';
 import logger from '../_utils/log';
 
 const requireSymbol = '*';
 
 const props = defineProps(formItemProps);
+
+const formInject = inject<Partial<formCtx>>(formInjectKey, {});
 
 const align = computed(() => getFlexValue(props.labelAlign));
 const justify = computed(() => getFlexValue(props.labelJustify));
@@ -21,11 +23,33 @@ const isRequired = computed(() => {
   }
   return false;
 });
-const rules = computed(() => normalizeRules(props.rules));
+
+const rules = computed(() => normalizeRules(props.rules, props.required));
+const ruleTriggers = computed(() => {
+  let triggers: TriggerT[] = [];
+  rules.value.forEach((item) => {
+    if (item.triggers) {
+      triggers = triggers.concat(item.triggers);
+    }
+  });
+  return Array.from(new Set(triggers));
+});
 
 const fieldResult = ref<FieldResultT | null>(null);
 
-const runValidate = (trigger: TriggerT, value: any) => {
+const initialVal = formInject.model && props.field ? getValueByPath(formInject.model, props.field) : void 0;
+
+const runValidate = (trigger: TriggerT = 'change') => {
+  if (!props.field || !formInject.model) {
+    return;
+  }
+  // 判断该事件是否存在校验规则
+  if (!ruleTriggers.value.includes(trigger)) {
+    return;
+  }
+  const value = getValueByPath(formInject.model, props.field);
+  // logger.info(trigger, props.field, value);
+
   fieldResult.value = null;
   return asyncSome(rules.value, async (item) => {
     if (item.triggers?.includes(trigger)) {
@@ -60,18 +84,49 @@ const runValidate = (trigger: TriggerT, value: any) => {
   });
 };
 
+const clearValidate = () => {
+  if (!props.field || !formInject.model) {
+    return;
+  }
+  fieldResult.value = null;
+};
+
+const resetFiled = () => {
+  if (formInject.model && props.field) {
+    setValueByPath(formInject.model, props.field, initialVal);
+  }
+};
+
 const fieldHandlers = {
-  onChange(val: any) {
-    runValidate('change', val);
+  onChange() {
+    runValidate('change');
   },
-  onFocus(val: any) {
-    runValidate('focus', val);
+  onFocus() {
+    runValidate('focus');
   },
-  onBlur(val: any) {
-    runValidate('blur', val);
+  onBlur() {
+    runValidate('blur');
   },
 };
 
+onMounted(() => {
+  if (props.field) {
+    formInject.addFiled?.({
+      filed: props.field,
+      validate: runValidate,
+      clearValidate,
+      resetFiled,
+    });
+    // logger.info('addFiled', props.field);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (props.field) {
+    formInject.removeFiled?.(props.field);
+    // logger.info('removeFiled', props.field);
+  }
+});
 provide(formItemInjectKey, {
   fieldHandlers,
   fieldResult,
@@ -82,7 +137,7 @@ provide(formItemInjectKey, {
     class="o-form-item"
     :class="[
       {
-        'is-required': isRequired,
+        'o-form-item-required': isRequired,
         'o-form-item-danger': fieldResult?.type === 'danger',
         'o-form-item-warning': fieldResult?.type === 'warning',
       },

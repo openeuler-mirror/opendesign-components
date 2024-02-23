@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { ref, reactive, computed } from 'vue';
 import { OForm, OFormItem } from '../index';
 import { RulesT } from '../types';
-import { ref } from 'vue';
 import '../../input/style';
 import { OInput } from '../../input';
 import '../../input-number/style';
@@ -22,8 +22,9 @@ import '../../radio-group/style';
 import { ORadioGroup } from '../../radio-group';
 import '../../upload/style';
 import { OUpload, UploadFileT } from '../../upload';
+import '../../button/style';
+import { OButton } from '../../button';
 
-const textValue = ref('');
 const options = [
   { label: 'option 1', value: 1 },
   { label: 'option 2', value: 2 },
@@ -35,10 +36,24 @@ const submit = () => {
   console.log('submit');
 };
 
+const formModel = reactive({
+  a: {
+    input1: '',
+  },
+  inputNumber: 1,
+  input2: '123',
+  select1: '',
+  textarea1: '',
+  checkbox: [],
+  radio: '',
+  upload: [],
+});
+
 const inputRules: RulesT[] = [
   {
     required: true,
     message: 'required message',
+    triggers: ['blur', 'change'],
   },
   {
     validator: (value?: any) => {
@@ -106,12 +121,7 @@ const selectRules: RulesT[] = [
   },
 ];
 
-const inputNumberVal = 11;
 const inputNumberRules: RulesT[] = [
-  {
-    required: true,
-    message: 'required message',
-  },
   {
     validator: (value: number) => {
       if (value % 2 === 0) {
@@ -130,7 +140,6 @@ const inputNumberRules: RulesT[] = [
   },
 ];
 
-const checkBoxVal = [1];
 const checkboxRules: RulesT[] = [
   {
     required: true,
@@ -153,8 +162,6 @@ const checkboxRules: RulesT[] = [
     },
   },
 ];
-
-const radioVal = 0;
 
 const radioRules: RulesT[] = [
   {
@@ -189,49 +196,69 @@ const uploadRules: RulesT[] = [
     },
   },
 ];
+
+const values = computed(() =>
+  Object.keys(formModel).map((k) => {
+    return `${k}: ${JSON.stringify(formModel[k as keyof typeof formModel])}`;
+  })
+);
+console.log(values);
+
+const formRef = ref<InstanceType<typeof OForm>>();
+const reset = () => {
+  formRef.value?.resetFields();
+};
+const clear = () => {
+  formRef.value?.clearValidate();
+};
 </script>
 <template>
   <h4>校验</h4>
 
   <section>
-    <OForm class="form" has-required>
-      <OFormItem label="标题文本1" :rules="inputRules">
-        <OInput />
+    <OForm ref="formRef" class="form" has-required :model="formModel">
+      <OFormItem label="必选文本1" required field="input2">
+        <OInput v-model="formModel.input2" />
+        <template #message="{ type, message }"> type: {{ type }} | message: {{ message.join('|') }} </template>
       </OFormItem>
-      <OFormItem label="标题文本1" :rules="inputNumberRules">
-        <OInputNumber v-model="inputNumberVal" />
+      <OFormItem label="标题文本1" :rules="inputRules" field="a.input1">
+        <OInput v-model="formModel.a.input1" />
       </OFormItem>
-      <OFormItem label="标题文本1" required>
-        <OInput />
-        <template #message="{ type, message }"> type: {{ type }} <br />message: {{ message.join('|') }} </template>
+      <OFormItem label="标题文本1" :rules="inputNumberRules" field="inputNumber">
+        <OInputNumber v-model="formModel.inputNumber" />
       </OFormItem>
-      <OFormItem label="标题文本2" :rules="selectRules">
-        <OSelect clearable>
+      <OFormItem label="标题文本2" :rules="selectRules" field="select1">
+        <OSelect v-model="formModel.select1" clearable>
           <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </OSelect>
       </OFormItem>
-      <OFormItem label="标题文本3" :rules="inputRules">
-        <OTextarea v-model="textValue" />
+      <OFormItem label="标题文本3" :rules="inputRules" field="textarea1">
+        <OTextarea v-model="formModel.textarea1" />
       </OFormItem>
-      <OFormItem label="标题文本3" :rules="checkboxRules">
-        <OCheckboxGroup v-model="checkBoxVal">
+      <OFormItem label="标题文本3" :rules="checkboxRules" field="checkbox">
+        <OCheckboxGroup v-model="formModel.checkbox">
           <OCheckbox ref="checkBoxRef2" :value="1">选项1</OCheckbox>
           <OCheckbox :value="2">选项2</OCheckbox>
           <OCheckbox :value="3">选项3</OCheckbox>
         </OCheckboxGroup>
       </OFormItem>
-      <OFormItem label="标题文本3" :rules="radioRules">
-        <ORadioGroup v-model="radioVal">
+      <OFormItem label="标题文本3" :rules="radioRules" field="radio">
+        <ORadioGroup v-model="formModel.radio">
           <ORadio ref="ORadioRef2" :value="1">选项1</ORadio>
           <ORadio :value="2">选项2</ORadio>
           <ORadio :value="3">选项3</ORadio>
         </ORadioGroup>
       </OFormItem>
-      <OFormItem label="标题文本3" :rules="uploadRules">
+      <OFormItem label="标题文本3" :rules="uploadRules" field="upload">
         <OUpload btn-label="上传(单选)" multiple color="normal" variant="solid" />
       </OFormItem>
       <div>
-        <button @click="submit">提交</button>
+        <OButton type="submit">提交</OButton>
+        <OButton @click="reset">重置</OButton>
+        <OButton @click="clear">清除校验</OButton>
+      </div>
+      <div class="values">
+        <p v-for="item in values" :key="item">{{ item }}</p>
       </div>
     </OForm>
   </section>

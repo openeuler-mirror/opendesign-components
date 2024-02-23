@@ -22,35 +22,39 @@ export function getFlexValue(val?: 'top' | 'center' | 'bottom' | 'left' | 'cente
   return '';
 }
 
-export function normalizeRules(rules?: RulesT[]): Array<ValidatorRuleT> {
-  if (isArray(rules)) {
-    return rules.map((item) => {
-      const triggers = isArray(item.triggers) ? item.triggers : [item.triggers ?? 'change'];
-      if ((item as RequiredRuleT).required) {
-        return {
-          triggers,
-          validator: (value: any) => ({
-            type: !isNull(value) && !isUndefined(value) && value !== '' && !isEmptyArray(value) && !isEmptyObject(value) ? 'success' : 'danger',
-            message: (item as RequiredRuleT).message,
-          }),
-        };
-      } else if ((item as TypeRuleT).type) {
-        return {
-          triggers,
-          validator: (value: any) => ({
-            type: typeof value === (item as TypeRuleT).type ? 'success' : 'danger',
-            message: (item as TypeRuleT).message,
-          }),
-        };
-      } else if (isFunction((item as ValidatorRuleT).validator)) {
-        return {
-          triggers,
-          validator: (item as ValidatorRuleT).validator,
-        };
-      } else {
-        return {};
-      }
+export function normalizeRules(rules?: RulesT[], required?: boolean): Array<ValidatorRuleT> {
+  const _rules = rules || [];
+  if (required && (_rules.length == 0 || _rules.some((item) => !(item as RequiredRuleT).required))) {
+    _rules.unshift({
+      required: true,
+      message: 'required',
     });
   }
-  return [];
+  return _rules.map((item) => {
+    const triggers = isArray(item.triggers) ? item.triggers : [item.triggers ?? 'change'];
+    if ((item as RequiredRuleT).required) {
+      return {
+        triggers,
+        validator: (value: any) => ({
+          type: !isNull(value) && !isUndefined(value) && value !== '' && !isEmptyArray(value) && !isEmptyObject(value) ? 'success' : 'danger',
+          message: (item as RequiredRuleT).message,
+        }),
+      };
+    } else if ((item as TypeRuleT).type) {
+      return {
+        triggers,
+        validator: (value: any) => ({
+          type: typeof value === (item as TypeRuleT).type ? 'success' : 'danger',
+          message: (item as TypeRuleT).message,
+        }),
+      };
+    } else if (isFunction((item as ValidatorRuleT).validator)) {
+      return {
+        triggers,
+        validator: (item as ValidatorRuleT).validator,
+      };
+    } else {
+      return {};
+    }
+  });
 }
