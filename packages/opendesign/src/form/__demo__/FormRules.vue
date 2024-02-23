@@ -196,6 +196,9 @@ const uploadRules: RulesT[] = [
     },
   },
 ];
+const onUploadChange = (value: UploadFileT[]) => {
+  (formModel.upload as UploadFileT[]) = value;
+};
 
 const values = computed(() =>
   Object.keys(formModel).map((k) => {
@@ -250,7 +253,7 @@ const clear = () => {
         </ORadioGroup>
       </OFormItem>
       <OFormItem label="标题文本3" :rules="uploadRules" field="upload">
-        <OUpload btn-label="上传(单选)" multiple color="normal" variant="solid" />
+        <OUpload btn-label="上传(单选)" multiple color="normal" variant="solid" @select="onUploadChange" />
       </OFormItem>
       <div>
         <OButton type="submit">提交</OButton>

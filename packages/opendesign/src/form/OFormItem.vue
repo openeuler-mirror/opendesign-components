@@ -157,7 +157,7 @@ provide(formItemInjectKey, {
       >
         <slot name="symbol">{{ requireSymbol }}</slot>
       </span>
-      <slot name="name">
+      <slot name="label">
         <span>{{ props.label }}</span>
       </slot>
     </div>

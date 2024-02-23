@@ -23,6 +23,11 @@ const options = [
     <div class="row">
       <OForm class="form" has-required layout="h">
         <OFormItem label="标题文本1" required>
+          <template #label> 自定义label</template>
+          <OInput />
+          <template #extra> 这是一段额外的消息 </template>
+        </OFormItem>
+        <OFormItem label="标题文本1" required>
           <OInput />
           <template #extra> 这是一段额外的消息 </template>
         </OFormItem>

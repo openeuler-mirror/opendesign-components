@@ -8,8 +8,8 @@ import FormRules from './FormRules.vue';
 <template>
   <div class="page-demo">
     <FormRules />
-    <!-- <FormBasic /> -->
-    <!-- <FormSlots /> -->
+    <FormBasic />
+    <FormSlots />
   </div>
 </template>
 <style lang="scss"></style>
