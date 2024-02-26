@@ -46,6 +46,7 @@ export * from './upload';
 export * from './toggle';
 export * from './anchor';
 export * from './collapse';
+export * from './skeleton';
 
 export * from './intersection-observer';
 export * from './resize-observer';
