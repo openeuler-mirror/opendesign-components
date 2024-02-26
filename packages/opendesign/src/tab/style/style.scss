@@ -159,7 +159,7 @@
   @include hover {
     color: var(--tab-icon-color-hover);
   }
-  @include x-hover;
+  @include x-svg-hover;
 }
 
 .o-tab-nav-add {

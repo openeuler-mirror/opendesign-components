@@ -25,7 +25,7 @@
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
   cursor: pointer;
   z-index: 1;
-  @include x-hover;
+  @include x-svg-hover;
   @include hover {
     color: var(--dlg-close-color-hover);
   }
