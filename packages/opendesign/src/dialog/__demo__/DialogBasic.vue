@@ -87,7 +87,7 @@ const onChane = (v: boolean) => {
   <h4>基本</h4>
   <OButton @click="toggleHeadOrFoot('head')">show Header</OButton>
   <OButton @click="toggleHeadOrFoot('foot')">show Footer</OButton>
-  <OButton @click="toggleHalfFull('foot')">Phone half full</OButton>
+  <OButton @click="toggleHalfFull()">Phone half full</OButton>
 
   <section class="wrap">
     <OButton @click="toggle(true, 'auto')">Open auto</OButton>

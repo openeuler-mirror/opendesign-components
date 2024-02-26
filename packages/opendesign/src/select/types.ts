@@ -46,7 +46,7 @@ export const selectProps = {
     default: 'normal',
   },
   /**
-   * 按钮类型：ColorT
+   * 按钮类型：VariantT
    */
   variant: {
     type: String as PropType<VariantT>,

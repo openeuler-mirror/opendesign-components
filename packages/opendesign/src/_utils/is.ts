@@ -27,6 +27,14 @@ export function isFunction(val: unknown): val is Function {
 export function isArray(val: unknown): val is Array<any> {
   return Array.isArray(val);
 }
+
+export function isEmptyArray(val: unknown): val is Array<any> {
+  return isArray(val) && val.length === 0;
+}
+
+export function isEmptyObject(val: unknown): val is {} {
+  return opt.call(val) === '[object object]' && Object.keys(val as Object).length === 0;
+}
 /**
  * 判断日期是否合法
  * @param d

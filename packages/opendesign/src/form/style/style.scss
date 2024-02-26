@@ -1,0 +1,106 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-form-layout-inline {
+  display: flex;
+  flex-wrap: wrap;
+  .o-form-item {
+    margin: 0 var(--form-item-gap) var(--form-item-gap) 0;
+  }
+}
+.o-form-layout-h {
+  &.o-form-has-required {
+    .o-form-require-symbol {
+      display: block;
+    }
+  }
+}
+
+.o-form-layout-h,
+.o-form-layout-v {
+  .o-form-item {
+    margin-bottom: var(--form-item-gap);
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+.o-form-item-danger,
+.o-form-item-warning {
+  &.o-form-item {
+    margin-bottom: 0;
+  }
+}
+.o-form-layout-v {
+  .o-form-item {
+    display: block;
+  }
+}
+.o-form-item {
+  display: var(--form-item-display, flex);
+  align-items: var(--form-item-align);
+}
+
+.o-form-item-label {
+  display: inline-flex;
+  align-items: center;
+  max-width: var(--form-label-max-width);
+  justify-content: var(--form-label-justify);
+  flex: 0 0 var(--form-label-width);
+  width: var(--form-label-width);
+  .o-form-layout-h &,
+  .o-form-layout-inline & {
+    margin: var(--form-label-gap-top) 0;
+
+    + .o-form-item-main {
+      margin-left: var(--form-label-main-gap);
+    }
+  }
+}
+
+.o-form-require-symbol {
+  color: var(--o-color-danger1);
+  font-size: var(--o-font_size-tip2);
+  line-height: 1;
+  margin-right: 4px;
+  font-family: monospace;
+  opacity: 0;
+  transition: opacity var(--o-easing-linear) var(--o-duration-m3);
+  display: none;
+  font-weight: bold;
+  &.visible {
+    opacity: 1;
+    display: block;
+  }
+}
+
+.o-form-item-main {
+  flex: 1;
+}
+.o-form-item-main-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 32px;
+}
+
+.o-form-item-extra {
+  margin-top: 4px;
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+  color: var(--o-color-info3);
+}
+.o-form-item-message {
+  padding-top: 4px;
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+  color: var(--o-color-info3);
+  min-height: var(--form-item-gap);
+  &.type-warning {
+    color: var(--o-color-warning1);
+  }
+  &.type-danger {
+    color: var(--o-color-danger1);
+  }
+}

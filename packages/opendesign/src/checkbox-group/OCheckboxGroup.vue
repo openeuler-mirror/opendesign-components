@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { computed, provide, ref, toRef, watch } from 'vue';
+import { computed, provide, ref, toRef, watch, inject } from 'vue';
 import { checkboxGroupProps } from './types';
 import { checkboxGroupInjectKey } from './provide';
 import { isArray, isUndefined } from '../_utils/is';
+
+import { formItemInjectKey } from '../form/provide';
 
 const props = defineProps(checkboxGroupProps);
 
@@ -12,6 +14,9 @@ const emits = defineEmits<{
 }>();
 
 const realValue = ref(isArray(props.modelValue) ? props.modelValue : props.defaultValue);
+
+// 表单注入，用于规则校验
+const formItemInjection = inject(formItemInjectKey, null);
 
 watch(
   () => props.modelValue,
@@ -33,6 +38,7 @@ const updateModelValue = (val: Array<string | number>) => {
 
 const onChange = (val: Array<string | number>, ev: Event) => {
   emits('change', val, ev);
+  formItemInjection?.fieldHandlers.onChange?.(val);
 };
 
 provide(checkboxGroupInjectKey, {

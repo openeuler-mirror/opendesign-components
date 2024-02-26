@@ -1,3 +1,4 @@
+import { isObject, isUndefined } from './is';
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   let handle = 0;
@@ -97,4 +98,77 @@ export function chunk(arr: any[] = [], size = 1) {
     },
     (v, i) => arr.slice(i * size, i * size + size)
   );
+}
+
+/**
+ * 异步some
+ * @param array 遍历数组
+ * @param judgeFn 判断函数
+ */
+export async function asyncSome<T>(array: Array<T>, judgeFn: (arrayItem: T) => Promise<boolean | undefined>) {
+  for (const iterator of array) {
+    try {
+      if (await judgeFn(iterator)) {
+        return true;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+  return false;
+}
+
+/**
+ * 根据path从对象中获取值
+ */
+export function getValueByPath(obj: object, path: string) {
+  if (!obj || !path) {
+    return;
+  }
+
+  const keys = path.split('.');
+  if (keys.length === 0) {
+    return;
+  }
+
+  let temp = obj;
+  for (let i = 0; i < keys.length; i++) {
+    if (!isObject(temp)) {
+      return;
+    }
+    temp = temp[keys[i] as keyof typeof temp];
+    if (i === keys.length - 1) {
+      return temp;
+    }
+  }
+}
+
+/**
+ * 根据path设置对象中的值
+ */
+export function setValueByPath(obj: { [k: string]: any }, path: string, value: any) {
+  if (!obj || !path) {
+    return;
+  }
+
+  const keys = path.split('.');
+  if (keys.length === 0) {
+    return;
+  }
+
+  let temp = obj;
+  for (let i = 0; i < keys.length; i++) {
+    if (!isObject(temp)) {
+      throw new TypeError(`Cannot set properties of non-object (setting '${keys[i]}')!`);
+    }
+    const k = keys[i] as keyof typeof temp;
+    if (i === keys.length - 1) {
+      temp[k] = value;
+    } else {
+      if (isUndefined(temp[k])) {
+        temp[k] = Number(keys[i + 1]) ? [] : {};
+      }
+      temp = temp[k];
+    }
+  }
 }

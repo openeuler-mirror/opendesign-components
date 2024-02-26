@@ -16,6 +16,7 @@ const emits = defineEmits<{
   (e: 'change', visible: boolean): void;
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
 }>();
+
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 const onCloseClick = () => {
@@ -72,10 +73,23 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
-    <OScroller v-if="isBodyScroller" class="o-dlg-body" size="small" show-type="hover" v-bind="bodyScrollerOptions">
+    <OScroller
+      v-if="isBodyScroller"
+      class="o-dlg-body"
+      size="small"
+      show-type="hover"
+      v-bind="bodyScrollerOptions"
+      :class="{ 'with-footer': $slots.footer || props.actions }"
+    >
       <slot></slot>
     </OScroller>
-    <div v-else class="o-dlg-body">
+    <div
+      v-else
+      class="o-dlg-body"
+      :class="{
+        'with-footer': $slots.footer || props.actions,
+      }"
+    >
       <slot></slot>
     </div>
     <div v-if="$slots.footer || props.actions" class="o-dlg-footer">
