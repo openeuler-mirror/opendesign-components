@@ -3,7 +3,7 @@ import { inject } from 'vue';
 import { breadcrumbItemProps } from './types';
 import { breadcrumbInjectKey } from './provide';
 import { IconChevronRight } from '../_utils/icons';
-import htmlTag from '../_components/html-tag';
+import HtmlTag from '../_components/html-tag';
 
 const props = defineProps(breadcrumbItemProps);
 
@@ -16,9 +16,9 @@ const breadcrumbInjection = inject(breadcrumbInjectKey, null);
     <router-link v-if="props.to" :to="props.to" :replace="props.replace" class="o-breadcrumb-item-label">
       <slot></slot>
     </router-link>
-    <htmlTag v-else :tag="!!props.href ? 'a' : 'span'" :href="props.href" :target="props.href ? props.target : undefined" class="o-breadcrumb-item-label">
+    <HtmlTag v-else :tag="!!props.href ? 'a' : 'span'" :href="props.href" :target="props.href ? props.target : undefined" class="o-breadcrumb-item-label">
       <slot></slot>
-    </htmlTag>
+    </HtmlTag>
 
     <!-- separator -->
     <span class="o-breadcrumb-item-separator">
