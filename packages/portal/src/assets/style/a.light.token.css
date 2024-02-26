@@ -1420,7 +1420,7 @@
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 4px 24px rgba(var(--o-mixedgray-13), 0.1);
+  --o-shadow-2: 0 2px 24px rgba(var(--o-mixedgray-13), 0.15);
   /**
    * @name 阴影3
    * @type shadow
