@@ -1392,7 +1392,7 @@
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 4px 24px rgba(var(--o-gray-1), 0.1);
+  --o-shadow-2: 0 2px 24px rgba(var(--o-gray-1), 0.15);
   /**
    * @name 阴影3
    * @type shadow
@@ -1406,28 +1406,28 @@
    * @group link
    * @description 常规
    */
-  --o-color-link1: rgb(var(--o-deepblue-6), 1.0);
+  --o-color-link1: rgba(var(--o-deepblue-6), 1.0);
   /**
    * @name 
    * @type color
    * @group link
    * @description 悬浮
    */
-  --o-color-link2: rgb(var(--o-deepblue-6), 0.7);
+  --o-color-link2: rgba(var(--o-deepblue-6), 0.7);
   /**
    * @name 
    * @type color
    * @group link
    * @description 激活
    */
-  --o-color-link3: rgb(var(--o-deepblue-6), 0.9);
+  --o-color-link3: rgba(var(--o-deepblue-6), 0.9);
   /**
    * @name 
    * @type color
    * @group link
    * @description 禁用
    */
-  --o-color-link4: rgb(var(--o-deepblue-6), 0.4);
+  --o-color-link4: rgba(var(--o-deepblue-6), 0.4);
   /**
    * @name 间距1
    * @type gap
