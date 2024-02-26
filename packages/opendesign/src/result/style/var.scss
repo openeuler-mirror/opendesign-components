@@ -4,7 +4,6 @@
   --result-image-gap: 16px;
 
   --result-icon-size: var(--o-icon_size_control-xl);
-  --result-icon-color: var(--o-color-primary1);
   --result-icon-gap: 12px;
 
   --result-title-color: var(--o-color-info1);
@@ -17,6 +16,10 @@
   --result-desc-gap: 12px;
 
   --result-extra-gap: 24px;
+}
+
+.o-result-info {
+  --result-icon-color: var(--o-color-primary1);
 }
 
 .o-result-success {

@@ -6,11 +6,11 @@ import './ak/fonts/HarmonyOS/harmonyos-hans-fonts.scss';
 
 import './ak/theme/a.light.token.css';
 import './ak/theme/a.dark.token.css';
-import './ak/theme/a.media.token.css';
+import './ak/theme/a.media.token.scss';
 
 import './ak/theme/k.light.token.css';
 import './ak/theme/k.dark.token.css';
-import './ak/theme/k.media.token.css';
+import './ak/theme/k.media.token.scss';
 
 import '@opensig/opendesign/src/index.scss';
 
