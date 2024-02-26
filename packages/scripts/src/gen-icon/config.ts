@@ -94,6 +94,53 @@ const colorSvgoConfig: Config = {
   ],
 };
 
+const renderTpl = (name: string, componentName: string, type: 'fill' | 'stroke' | 'color', componentClass: string, svg: string) => {
+  return `<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: '${componentName}',
+  svgType: '${type}',
+  setup() {
+    const classNames = ['${componentClass}', '${name}', 'type-${type}'];
+    return {
+      classNames,
+    };
+  },
+});
+</script>
+<template>
+  ${svg}
+</template>`;
+};
+
+const clientRenderTpl = (name: string, componentName: string, type: 'fill' | 'stroke' | 'color', componentClass: string, svg: string) => {
+  return `<script lang="ts">
+import { defineComponent, onMounted, ref } from 'vue';
+
+export default defineComponent({
+  name: '${componentName}',
+  svgType: '${type}',
+  setup() {
+    const classNames = ['${componentClass}', '${name}', 'type-${type}'];
+    const isClient = ref(false);
+    onMounted(() => {
+      isClient.value = true;
+    });
+    return {
+      isClient,
+      classNames,
+    };
+  },
+});
+</script>
+<template>
+  <template v-if="isClient">
+    ${svg}
+  </template>
+</template>`;
+};
+
 const template = ({
   name,
   componentName,
@@ -109,42 +156,8 @@ const template = ({
   componentClass: string;
   renderOnServer?: boolean;
 }) => {
-  return `<script lang="ts">
-import { defineComponent${renderOnServer ? ', onMounted, ref' : ''} } from 'vue';
-
-export default defineComponent({
-  name: '${componentName}',
-  svgType: '${type}',
-  setup() {
-    const classNames = ['${componentClass}', '${name}', 'type-${type}'];${
-    renderOnServer
-      ? `
-    const isClient = ref(false);
-    onMounted(() => {
-      isClient.value = true;
-    });`
-      : ''
-  }
-    return {${
-      renderOnServer
-        ? `
-      isClient,`
-        : ''
-    }
-      classNames,
-    };
-  },
-});
-</script>
-<template>
-  ${
-    renderOnServer
-      ? `<template v-if="isClient">
-    ${svg}
-  </template>`
-      : svg
-  }
-</template>`;
+  const render = renderOnServer ? renderTpl : clientRenderTpl;
+  return render(name, componentName, type, componentClass, svg);
 };
 
 export const defaultConfig: IconsConfig = {
