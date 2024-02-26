@@ -12,8 +12,12 @@ async function readConfig(cfg: string) {
   const base = process.cwd();
   const configFile = path.resolve(base, cfg || './icon.config.ts');
   const cfgDir = path.dirname(configFile);
-
-  const configData: IconsConfig = await require(configFile);
+  let configData: IconsConfig | null = null;
+  try {
+    configData = await require(configFile);
+  } catch (error) {
+    console.log('no config file');
+  }
 
   const config = Object.assign(defaultConfig, configData);
 
@@ -93,6 +97,7 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
       svg: rlt.data,
       type: item.type,
       componentClass: cfg.componentClass,
+      renderOnServer: cfg.renderOnServer,
     });
 
     fs.outputFile(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content, (err) => {
