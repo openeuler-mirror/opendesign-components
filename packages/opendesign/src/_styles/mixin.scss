@@ -71,3 +71,14 @@ $breakpoints: (
     transform: rotate(180deg);
   }
 }
+
+@mixin x-svg-hover() {
+  svg {
+    transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+  }
+  @include hover {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}

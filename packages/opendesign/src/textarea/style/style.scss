@@ -82,7 +82,7 @@
   @include hover {
     color: var(--textarea-icon-color-hover);
   }
-  @include x-hover;
+  @include x-svg-hover;
 }
 
 .o-textarea-clearable {
