@@ -26,11 +26,11 @@
 }
 
 .o-skeleton-line:last-child:not(:first-child) {
-  width: 50%;
+  width: var(--skeleton-last-line-width);
 }
 
 .o-skeleton-line + .o-skeleton-line {
-  margin-top: var(--skeleton-gap);
+  margin-top: var(--skeleton-line-gap);
 }
 
 .o-skeleton-avatar,
@@ -42,10 +42,12 @@
 }
 
 .o-skeleton-animation {
-  .o-skeleton-line,
-  .o-skeleton-avatar,
-  .o-skeleton-figure {
+  .o-skeleton-item {
     background-size: 400% 100%;
     animation: o-skeleton-ani 1.4s var(--o-easing-linear) infinite;
   }
+}
+
+.o-skeleton-item + .o-skeleton-item {
+  margin-top: var(--skeleton-item-gap);
 }

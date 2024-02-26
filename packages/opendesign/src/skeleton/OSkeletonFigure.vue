@@ -1,9 +1,5 @@
-<script lang="ts" setup>
-import { skeletonFigureProps } from './types';
-
-const props = defineProps(skeletonFigureProps);
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div class="o-skeleton-figure"></div>
+  <div class="o-skeleton-item o-skeleton-figure"></div>
 </template>
