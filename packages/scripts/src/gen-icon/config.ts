@@ -11,6 +11,7 @@ export interface IconsConfig {
   prefix: string; // 'o-'
   componentClass: string;
   template: typeof template;
+  renderOnServer: boolean;
 }
 export const basePlugins: PluginConfig[] = [
   {
@@ -55,7 +56,7 @@ export const basePlugins: PluginConfig[] = [
   {
     name: 'addAttributesToSVGElement',
     params: {
-      attributes: [{ ':class': 'classnames' }],
+      attributes: [{ ':class': 'classNames' }],
     },
   },
 ];
@@ -99,28 +100,50 @@ const template = ({
   svg,
   type,
   componentClass,
+  renderOnServer,
 }: {
   name: string;
   componentName: string;
   svg: string;
   type: 'fill' | 'stroke' | 'color';
   componentClass: string;
+  renderOnServer?: boolean;
 }) => {
   return `<script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent${renderOnServer ? ', onMounted, ref' : ''} } from 'vue';
+
 export default defineComponent({
   name: '${componentName}',
   svgType: '${type}',
   setup() {
-    const classnames = ['${componentClass}', '${name}', 'type-${type}'];
-    return {
-      classnames,
+    const classNames = ['${componentClass}', '${name}', 'type-${type}'];${
+    renderOnServer
+      ? `
+    const isClient = ref(false);
+    onMounted(() => {
+      isClient.value = true;
+    });`
+      : ''
+  }
+    return {${
+      renderOnServer
+        ? `
+      isClient,`
+        : ''
+    }
+      classNames,
     };
   },
 });
 </script>
 <template>
-  ${svg}
+  ${
+    renderOnServer
+      ? `<template v-if="isClient">
+    ${svg}
+  </template>`
+      : svg
+  }
 </template>`;
 };
 
@@ -135,4 +158,5 @@ export const defaultConfig: IconsConfig = {
   componentClass: 'svg-icon',
   prefix: '',
   template,
+  renderOnServer: false,
 };
