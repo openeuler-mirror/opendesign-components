@@ -25,7 +25,7 @@ const changeVal = () => {
 };
 
 const onChange = (value: SelectValueT) => {
-  console.log(value);
+  console.log('change', value);
 };
 </script>
 <template>
