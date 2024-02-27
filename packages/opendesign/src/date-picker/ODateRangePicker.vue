@@ -4,7 +4,6 @@ import { dateRangePickerProps, TimeValueT } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
 import { InnerPanel } from '../_components/inner-panel';
-import { uniqueId } from '../_utils/helper';
 import { IconCalendar } from '../_utils/icons';
 import PickerPane from './PickerPane.vue';
 import { isArray, isFunction, isValidDate } from '../_utils/is';
@@ -22,7 +21,6 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: Array<string>, evt: KeyboardEvent): void;
 }>();
 
-const inputId = uniqueId('input');
 const inputRef1 = ref<InstanceType<typeof InnerInput>>();
 const inputRef2 = ref<InstanceType<typeof InnerInput>>();
 const inputFrameRef = ref<InstanceType<typeof InnerFrame>>();
@@ -182,12 +180,11 @@ const onTimePaneChange = (value: TimeValueT) => {
     :size="props.size"
     :round="props.round"
     :readonly="props.readonly"
-    :for="inputId"
+    :for="inputRef1?.uId"
   >
     <InnerInput
       ref="inputRef1"
       :model-value="inputVal"
-      :input-id="inputId"
       type="text"
       :placeholder="props.placeholder"
       :disabled="props.disabled"

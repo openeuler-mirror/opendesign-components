@@ -9,10 +9,10 @@ import { OResizeObserver } from '../resize-observer';
 import { inputProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
-import { uniqueId } from '../_utils/helper';
 import { useComposition } from '../hooks/use-composition';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
+import { vUid } from '../directves';
 
 const props = defineProps(inputProps);
 
@@ -26,7 +26,6 @@ const emits = defineEmits<{
   (e: 'pressEnter', value: string, evt: KeyboardEvent): void;
 }>();
 
-const inputId = uniqueId('input');
 const inputType = ref(props.type);
 
 const innerComponentInject = inject(innerComponentInjectKey, null);
@@ -45,7 +44,7 @@ const formatFun = computed(() => (isFunction(props.format) ? props.format : (v: 
 const parseFun = computed(() => (isFunction(props.parse) ? props.parse : (v: string) => v));
 const checkValidFun = computed(() => (isFunction(props.checkValid) ? props.checkValid : () => true));
 
-const inputRef = ref<HTMLElement | null>(null);
+const inputEl = ref<HTMLElement | null>(null);
 const inputWidth = ref();
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
@@ -93,7 +92,7 @@ const isClearable = computed(() => props.clearable && !props.disabled && !props.
 let clickInside = false;
 
 // 正在输入中文，处理输入过程中触发input事件
-const composition = useComposition({ el: inputRef });
+const composition = useComposition({ el: inputEl });
 const onInput = (e: Event) => {
   if (composition.isComposing.value) {
     return;
@@ -182,7 +181,7 @@ const clearClick = (e: Event) => {
   emits('clear', e);
 };
 const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== inputRef.value) {
+  if ((e.target as HTMLInputElement) !== inputEl.value) {
     clickInside = true;
   }
 };
@@ -241,7 +240,7 @@ const onEyeMouseDown = () => {
       },
     ]"
     :style="round.style.value"
-    :for="inputId"
+    :for="inputEl?.id"
     @mousedown="onMouseDown"
   >
     <span v-if="$slots.prepend" class="o-input-prepend">
@@ -270,8 +269,8 @@ const onEyeMouseDown = () => {
         }"
       >
         <input
-          :id="inputId"
-          ref="inputRef"
+          ref="inputEl"
+          v-uid
           :value="inputText"
           :type="inputType"
           :placeholder="props.placeholder"

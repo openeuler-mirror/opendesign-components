@@ -9,8 +9,8 @@ import { OResizeObserver } from '../resize-observer';
 import { textareaProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
-import { uniqueId } from '../_utils/helper';
 import { formItemInjectKey } from '../form/provide';
+import { vUid } from '../directves';
 
 const props = defineProps(textareaProps);
 
@@ -24,10 +24,9 @@ const emits = defineEmits<{
   (e: 'keydown', value: string, evt: KeyboardEvent): void;
 }>();
 
-const insId = uniqueId('textarea');
 const textareaHeight = ref();
 
-const textareaRef = ref<HTMLElement | null>(null);
+const textareaEl = ref<HTMLElement | null>(null);
 // 数字输入框当前值
 const realValue = ref(toInputString(props.modelValue ?? props.defaultValue));
 // 当前textarea文本值
@@ -155,7 +154,7 @@ const clearClick = (e: Event) => {
   emits('clear', e);
 };
 const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== textareaRef.value) {
+  if ((e.target as HTMLInputElement) !== textareaEl.value) {
     clickInside = true;
   }
 };
@@ -179,7 +178,7 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
         'o-textarea-max-length': props.maxLength,
       },
     ]"
-    :for="insId"
+    :for="textareaEl?.id"
     :style="round.style.value"
     @mousedown="onMouseDown"
   >
@@ -191,8 +190,8 @@ const onMirrorResize = (en: ResizeObserverEntry) => {
       }"
     >
       <textarea
-        :id="insId"
-        ref="textareaRef"
+        ref="textareaEl"
+        v-uid
         class="o-textarea-textarea"
         :class="{
           'is-focus': isFocus,

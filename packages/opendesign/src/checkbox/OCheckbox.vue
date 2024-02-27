@@ -5,7 +5,7 @@ import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
 import { IconChecked } from '../_utils/icons';
 import { isArray, isUndefined } from '../_utils/is';
-import { uniqueId } from '../_utils/helper';
+import { vUid } from '../directves';
 
 const props = defineProps(checkboxProps);
 
@@ -14,7 +14,8 @@ const emits = defineEmits<{
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
-const insId = uniqueId('checkbox');
+const inputEl = ref<HTMLElement | null>(null);
+
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
 
 // 是否选中
@@ -101,10 +102,10 @@ provide(checkboxInjectKey, {
       'o-checkbox-disabled': isDisabled,
       'o-checkbox-indeterminate': props.indeterminate,
     }"
-    :for="insId"
+    :for="inputEl?.id"
   >
     <div class="o-checkbox-wrap">
-      <input :id="insId" type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input ref="input" v-uid type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="checkbox" :checked="isChecked" :disabled="isDisabled">
         <div class="o-checkbox-input-wrap">
           <span class="o-checkbox-input">
