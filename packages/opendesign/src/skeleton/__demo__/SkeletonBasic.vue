@@ -59,7 +59,7 @@ import { OSkeleton, OSkeletonText, OSkeletonAvatar, OSkeletonFigure } from '../i
     <OSkeleton>
       <template #template>
         <OSkeletonAvatar />
-        <OSkeletonText :rows="3" :style="{ 'margin-top': '24px' }" />
+        <OSkeletonText :rows="3" />
       </template>
     </OSkeleton>
   </section>

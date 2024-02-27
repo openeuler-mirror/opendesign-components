@@ -1,16 +1,22 @@
 .o-skeleton {
-  --skeleton-bg-color: var(--o-color-control1-light);
+  --skeleton-bg-color: var(--o-color-control2-light);
 }
 
 .o-skeleton-animation {
-  --skeleton-bg-color: linear-gradient(90deg, var(--o-color-control1-light) 25%, var(--o-color-control2-light) 37%, var(--o-color-control1-light) 63%);
+  --skeleton-bg-color: linear-gradient(90deg, var(--o-color-control2-light) 25%, var(--o-color-control3-light) 37%, var(--o-color-control2-light) 63%);
+}
+
+.o-skeleton-item {
+  --skeleton-item-gap: 24px;
 }
 
 .o-skeleton-text {
   --skeleton-width: 100%;
   --skeleton-height: var(--o-font_size-text1);
   --skeleton-radius: var(--o-radius_control-xs);
-  --skeleton-gap: calc(var(--o-line_height-text1) - var(--o-font_size-text1));
+
+  --skeleton-last-line-width: 50%;
+  --skeleton-line-gap: calc(var(--o-line_height-text1) - var(--o-font_size-text1));
 }
 
 .o-skeleton-figure {
