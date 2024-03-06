@@ -1,1 +1,0 @@
-export { default as OIconLink } from './OIconLink.vue';

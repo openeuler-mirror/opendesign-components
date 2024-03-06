@@ -1,1 +1,0 @@
-export { default as OIconFilter } from './OIconFilter.vue';

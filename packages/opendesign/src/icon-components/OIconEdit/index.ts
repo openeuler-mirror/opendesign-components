@@ -1,1 +1,0 @@
-export { default as OIconEdit } from './OIconEdit.vue';
