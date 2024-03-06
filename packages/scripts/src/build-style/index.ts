@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import glob from 'glob';
+import { globSync } from 'glob';
 import Config from './config';
 import sass from 'sass';
 import CleanCSS from 'clean-css';
@@ -12,7 +12,7 @@ export default function main() {
   const input = path.resolve(base, Config.input);
 
   // compile scss
-  const files = glob.sync('**/*.{scss,css}', {
+  const files = globSync('**/*.{scss,css}', {
     cwd: input,
   });
 
@@ -41,7 +41,7 @@ export default function main() {
     }
   });
   // build index
-  const idxFiles = glob.sync('**/style/**/index.ts', {
+  const idxFiles = globSync('**/style/**/index.ts', {
     cwd: input,
   });
   idxFiles.forEach((fl) => {
