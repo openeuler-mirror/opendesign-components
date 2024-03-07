@@ -11,8 +11,9 @@ import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { OScroller } from '../scroller';
 import { isArray, isFunction } from '../_utils/is';
-import SelectOption, { OptionSlotNames } from './SelectOption.vue';
-import { filterSlots } from '../upload/util';
+import SelectOption from './SelectOption.vue';
+import slot from './slot';
+import { filterSlots } from '../_utils/vue-utils';
 import { formItemInjectKey } from '../form/provide';
 
 // TODO 下拉展开时，选中值默认在视口里
@@ -378,7 +379,7 @@ const selectDlgAction: DialogActionT[] = [
             :option-title="props.optionTitle"
             :multiple="props.multiple"
           >
-            <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
+            <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
               <slot :name="name" v-bind="slotData"></slot>
             </template>
             <template #option-target><div ref="optionsRef"></div></template>
@@ -404,7 +405,7 @@ const selectDlgAction: DialogActionT[] = [
           @change="onOptionVisibleChange"
         >
           <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" scroller>
-            <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
+            <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
               <slot :name="name" v-bind="slotData"></slot>
             </template>
             <template #option-target><div ref="optionsRef"></div></template>

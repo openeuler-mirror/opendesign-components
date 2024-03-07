@@ -7,11 +7,10 @@ import { isString } from '../_utils/is';
 
 const props = defineProps(tableProps);
 
-// const emits = defineEmits<{}>();
-
 const columnData = computed(() => getColumnData(props.columns));
 
 const tableData = computed(() => getBodyData(columnData, props.data, props.cellSpan));
+console.log(columnData, tableData);
 
 const emptyLabel = props.emptyLabel || '无数据';
 const loadingLabel = props.loadingLabel || '正在加载...';
@@ -41,7 +40,7 @@ const boderClass = computed(() => {
           <slot name="head" :columns="columnData">
             <tr>
               <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ last: idx + 1 === columnData.length }">
-                <slot :name="col.thKey" :column="col">
+                <slot :name="col.thKey" :item="col">
                   {{ col.label }}
                 </slot>
               </th>
@@ -53,7 +52,7 @@ const boderClass = computed(() => {
             <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ last: rIdx + 1 === tableData.length }">
               <template v-for="(col, cIdx) in row.data" :key="col.key || cIdx">
                 <td :rowspan="col.rowspan" :colspan="col.colspan" :class="{ last: col.last }">
-                  <slot :name="col.key" :row="props.data ? props.data[rIdx] : {}">
+                  <slot :name="col.key" :item="props.data ? props.data[rIdx] : {}">
                     {{ col.value }}
                   </slot>
                 </td>

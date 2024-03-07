@@ -5,6 +5,9 @@ export interface TableColumnT {
   label?: string;
   style?: StyleValue;
 }
+export interface TableRenderColumnT extends TableColumnT {
+  thKey: string;
+}
 
 export interface TableRowT {
   key?: string | number;

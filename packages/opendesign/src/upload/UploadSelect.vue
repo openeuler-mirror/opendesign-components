@@ -1,12 +1,11 @@
-<script lang="ts">
-export const selectSlotNames = ['default', 'select-drag', 'select-drag-extra'];
-</script>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IconAdd } from '../_utils/icons';
 import OButton from '../button/OButton.vue';
 import { UploadLabel } from './util';
 import { UploadBtnType } from './types';
+import slot from './slot';
 
 interface UploadSelectPropsT {
   draggable?: boolean;
@@ -50,7 +49,7 @@ const onDragOver = (e: DragEvent) => {
   }
 };
 
-const onDragLeave = (e: DragEvent) => {
+const onDragLeave = () => {
   if (props.disabled) {
     return;
   }
@@ -80,7 +79,7 @@ const onDrap = (e: DragEvent) => {
     }"
     @click="onSelectClick"
   >
-    <slot :name="selectSlotNames[0]">
+    <slot :name="slot.names.select">
       <div
         v-if="props.draggable"
         class="o-upload-drag"
@@ -93,11 +92,11 @@ const onDrap = (e: DragEvent) => {
         @dragleave="onDragLeave"
         @drop="onDrap"
       >
-        <slot :name="selectSlotNames[1]">
+        <slot :name="slot.names.selectDrag">
           <IconAdd class="o-upload-drag-icon" />
           <div class="o-upload-drag-label">{{ props.dragLabel ?? UploadLabel.dragLabel }}</div>
-          <div v-if="$slots[selectSlotNames[2]]" class="o-upload-select-extra">
-            <slot :name="selectSlotNames[2]"></slot>
+          <div v-if="$slots[slot.names.selectDragExtra]" class="o-upload-select-extra">
+            <slot :name="slot.names.selectDragExtra"></slot>
           </div>
         </slot>
       </div>

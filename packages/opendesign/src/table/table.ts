@@ -1,10 +1,7 @@
 import { Ref } from 'vue';
 import { isArray, isFunction, isString } from '../_utils/is';
-import { TableColumnT, TableRowT, CellSpanT, TableCellT } from './types';
+import { TableColumnT, TableRowT, CellSpanT, TableCellT, TableRenderColumnT } from './types';
 
-interface TableRenderColumnT extends TableColumnT {
-  thKey: string;
-}
 export function getColumnData(columns?: string[] | TableColumnT[]): TableRenderColumnT[] {
   if (!isArray(columns)) {
     return [];
@@ -13,13 +10,13 @@ export function getColumnData(columns?: string[] | TableColumnT[]): TableRenderC
   return columns.map((item) => {
     if (isString(item)) {
       return {
-        thKey: `th-${item}`,
+        thKey: `th${item}`,
         key: item,
         label: item,
       };
     }
     return {
-      thKey: `th-${item.key}`,
+      thKey: `th${item.key}`,
       ...item,
     };
   });
@@ -41,8 +38,8 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
   if (!bodyData) {
     return [];
   }
-  let t = bodyData.length;
-  let s = 0;
+  const t = bodyData.length;
+  const s = 0;
 
   const colLenght = columnData.value.length;
 
@@ -53,7 +50,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
 
   for (let r = s; r < end; r += 1) {
     const row = bodyData[r];
-    let cols = [];
+    const cols = [];
     for (let c = 0; c < colLenght; c += 1) {
       const col = columnData.value[c];
       if (isFunction(cellSpan)) {

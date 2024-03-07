@@ -104,8 +104,8 @@ const onChange = (value: Date) => {
 
   realValue = getRealDateValue(value, inValue.value.type, formatFn);
 
-  emits('change', realValue);
-  emits('update:modelValue', realValue);
+  emits('change', [realValue]);
+  emits('update:modelValue', [realValue]);
 };
 
 // panel
@@ -134,7 +134,7 @@ const onFocus = (value: string, evt: FocusEvent) => {
   isFocus.value = true;
   togglePanel(true);
 
-  emits('focus', realValue, value, evt);
+  emits('focus', [realValue], [value], evt);
 };
 
 const onBlur = (value: string, evt: FocusEvent) => {
@@ -143,7 +143,7 @@ const onBlur = (value: string, evt: FocusEvent) => {
 
   onChange(currentValue.value);
 
-  emits('blur', realValue, value, evt);
+  emits('blur', [realValue], [value], evt);
 };
 
 const onPressEnter = () => {

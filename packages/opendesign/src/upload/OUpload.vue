@@ -2,9 +2,11 @@
 import { uploadProps, UploadFileT } from './types';
 import { computed, ref, inject } from 'vue';
 import { isFunction } from '../_utils/is';
-import UploadItem, { ItemSlotNames } from './UploadItem.vue';
-import { UploadLabel, doUploadFileList, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
-import UploadSelect, { selectSlotNames } from './UploadSelect.vue';
+import { filterSlots } from '../_utils/vue-utils';
+import UploadItem from './UploadItem.vue';
+import slot from './slot';
+import { UploadLabel, doUploadFileList, doUploadFile, generateImageDataUrl, isPictureType } from './util';
+import UploadSelect from './UploadSelect.vue';
 import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
 import { formItemInjectKey } from '../form/provide';
@@ -209,7 +211,7 @@ defineExpose({
         @to-select="doSelect"
         @selected="onFileSelected"
       >
-        <template v-for="name in filterSlots($slots, selectSlotNames)" #[name]="slotData">
+        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadSelect>
@@ -233,7 +235,7 @@ defineExpose({
         @retry="onFileUploadRetry"
         @replace="onFileReplace"
       >
-        <template v-for="name in filterSlots($slots, ItemSlotNames)" #[name]="slotData">
+        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadItem>

@@ -44,7 +44,7 @@ const formItemInjection = inject(formItemInjectKey, null);
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type;
+    return formItemInjection.fieldResult.value.type || 'normal';
   } else {
     return props.color;
   }

@@ -190,3 +190,11 @@ export const isEmptySlot = (slot?: Slot) => {
   }
   return false;
 };
+
+/**
+ * 过滤插槽
+ */
+export const filterSlots = (slots: Slots, slotNames: {[key :string]:string}) => {
+  const names = Object.values(slotNames);
+  return Object.keys(slots).filter((item) => names.includes(item));
+};
