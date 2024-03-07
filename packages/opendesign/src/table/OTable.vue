@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import { tableProps } from './types';
+import { tableProps, TableRowT, TableColumnT } from './types';
 import { getColumnData, getBodyData } from './table';
 import { computed } from 'vue';
 import { IconLoading } from '../_utils/icons';
 import { isString } from '../_utils/is';
 
 const props = defineProps(tableProps);
+
+// type getT<T> = T extends (infer R)[] ? (R extends TableColumnT ? R['key'] : R) : never;
+// type keyT = getT<typeof props.columns>;
+
+defineSlots<{
+  head(props: { columns: TableColumnT[] }): any;
+  body(): any;
+  empty(): any;
+  loading(): any;
+  [k: `th_${string}`]: (props: { column: TableColumnT }) => any;
+  [k: `td_${string}`]: (props: { row: TableRowT }) => any;
+}>();
 
 const columnData = computed(() => getColumnData(props.columns));
 
@@ -40,7 +52,7 @@ const boderClass = computed(() => {
           <slot name="head" :columns="columnData">
             <tr>
               <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ last: idx + 1 === columnData.length }">
-                <slot :name="col.thKey" :item="col">
+                <slot :name="`th_${col.key}`" :column="col">
                   {{ col.label }}
                 </slot>
               </th>
@@ -50,13 +62,11 @@ const boderClass = computed(() => {
         <tbody v-if="tableData.length > 0">
           <slot name="body" :body="tableData">
             <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ last: rIdx + 1 === tableData.length }">
-              <template v-for="(col, cIdx) in row.data" :key="col.key || cIdx">
-                <td :rowspan="col.rowspan" :colspan="col.colspan" :class="{ last: col.last }">
-                  <slot :name="col.key" :item="props.data ? props.data[rIdx] : {}">
-                    {{ col.value }}
-                  </slot>
-                </td>
-              </template>
+              <td :rowspan="col.rowspan" :colspan="col.colspan" :class="{ last: col.last }" v-for="(col, idx) in row.data" :key="col.key || idx">
+                <slot :name="`td_${col.key}`" :row="props.data ? props.data[rIdx] : {}">
+                  {{ col.value }}
+                </slot>
+              </td>
             </tr>
           </slot>
         </tbody>

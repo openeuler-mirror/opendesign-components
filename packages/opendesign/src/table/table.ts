@@ -1,8 +1,8 @@
 import { Ref } from 'vue';
 import { isArray, isFunction, isString } from '../_utils/is';
-import { TableColumnT, TableRowT, CellSpanT, TableCellT, TableRenderColumnT } from './types';
+import { TableColumnT, TableRowT, CellSpanT, TableCellT } from './types';
 
-export function getColumnData(columns?: string[] | TableColumnT[]): TableRenderColumnT[] {
+export function getColumnData(columns?: string[] | TableColumnT[]): TableColumnT[] {
   if (!isArray(columns)) {
     return [];
   }
@@ -10,13 +10,11 @@ export function getColumnData(columns?: string[] | TableColumnT[]): TableRenderC
   return columns.map((item) => {
     if (isString(item)) {
       return {
-        thKey: `th${item}`,
         key: item,
         label: item,
       };
     }
     return {
-      thKey: `th${item.key}`,
       ...item,
     };
   });
