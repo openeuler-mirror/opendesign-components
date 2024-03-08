@@ -38,7 +38,7 @@ const updateModelValue = (val: Array<string | number>) => {
 
 const onChange = (val: Array<string | number>, ev: Event) => {
   emits('change', val, ev);
-  formItemInjection?.fieldHandlers.onChange?.(val);
+  formItemInjection?.fieldHandlers.onChange?.();
 };
 
 provide(checkboxGroupInjectKey, {

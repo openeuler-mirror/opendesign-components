@@ -68,7 +68,7 @@ const afterSelected = (files: UploadFileT[]) => {
       replaceId = '';
 
       emits('select', fileList.value);
-      formItemInjection?.fieldHandlers.onChange?.(fileList.value);
+      formItemInjection?.fieldHandlers.onChange?.();
 
       if (!props.lazyUpload) {
         doUploadFile(fileList.value[idx], uploadOption.value);
@@ -87,7 +87,7 @@ const afterSelected = (files: UploadFileT[]) => {
     }
 
     emits('select', fileList.value);
-    formItemInjection?.fieldHandlers.onChange?.(fileList.value);
+    formItemInjection?.fieldHandlers.onChange?.();
 
     if (!props.lazyUpload) {
       doUploadFileList(fileList.value.slice(s, s + l), uploadOption.value);
@@ -137,7 +137,7 @@ const removeFile = async (file: UploadFileT) => {
   file.request?.abort();
   fileList.value = fileList.value.filter((f) => f.id !== file.id);
 
-  formItemInjection?.fieldHandlers.onChange?.(fileList.value);
+  formItemInjection?.fieldHandlers.onChange?.();
 
   return true;
 };

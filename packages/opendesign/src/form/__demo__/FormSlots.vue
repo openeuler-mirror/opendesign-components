@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OForm, OFormItem } from '../index';
+import { OForm, OFormItem, FieldResultT } from '../index';
 import '../../input/style';
 import { OInput } from '../../input';
 import '../../select/style';
@@ -9,6 +9,8 @@ import '../../option/style';
 import { OOption } from '../../option';
 import '../../textarea/style';
 import { OTextarea } from '../../textarea';
+import '../../button/style';
+import { OButton } from '../../button';
 
 const options = [
   { label: 'option 1', value: 'opt1' },
@@ -16,12 +18,19 @@ const options = [
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
 ];
+const onFormSubmit = (results: FieldResultT[]) => {
+  if (results.find((item) => item?.type === 'danger')) {
+    console.error('check failed!');
+  } else {
+    console.error('check done!');
+  }
+};
 </script>
 <template>
   <h4>插槽</h4>
   <section>
     <div class="row">
-      <OForm class="form" has-required layout="h">
+      <OForm class="form" has-required layout="h" @submit="onFormSubmit">
         <OFormItem label="标题文本1" required>
           <template #label> 自定义label</template>
           <OInput />
@@ -40,6 +49,9 @@ const options = [
           <OTextarea />
           <template #extra> 这是一段额外的消息 </template>
         </OFormItem>
+        <div>
+          <OButton type="submit">提交</OButton>
+        </div>
       </OForm>
     </div>
   </section>
