@@ -1,14 +1,14 @@
 import { InjectionKey, Ref } from 'vue';
-import { FieldResultT, FiledInfoT } from './types';
+import { FieldResultT, FiledInfoT, TriggerT } from './types';
 
 type FieldHandlersT = {
-  onChange?: (value: any, event?: Event) => void;
-  onInput?: (value: any, event?: Event) => void;
-  onFocus?: (value: any, event?: FocusEvent) => void;
-  onBlur?: (value: any, event?: FocusEvent) => void;
+  runValidate: (trigger?: TriggerT) => Promise<FieldResultT | null>;
+  onChange?: () => void;
+  onInput?: () => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 };
 export interface formCtx {
-  // labelWidth?: ComputedRef<string | undefined>;
   model?: object;
   addFiled: (filed: FiledInfoT) => void;
   removeFiled: (filed: string) => void;

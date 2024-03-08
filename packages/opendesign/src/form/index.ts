@@ -9,3 +9,4 @@ const OForm = Object.assign(_OForm, {
   },
 });
 export { OForm, OFormItem };
+export * from './types';

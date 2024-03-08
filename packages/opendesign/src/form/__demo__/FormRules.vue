@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
-import { OForm, OFormItem } from '../index';
+import { OForm, OFormItem, FieldResultT } from '../index';
 import { RulesT } from '../types';
 import '../../input/style';
 import { OInput } from '../../input';
@@ -31,10 +31,6 @@ const options = [
   { label: 'option 3', value: 3 },
   { label: 'option 4', value: 4 },
 ];
-
-const submit = () => {
-  console.log('submit');
-};
 
 const formModel = reactive({
   a: {
@@ -205,7 +201,7 @@ const values = computed(() =>
     return `${k}: ${JSON.stringify(formModel[k as keyof typeof formModel])}`;
   })
 );
-console.log(values);
+// console.log(values);
 
 const formRef = ref<InstanceType<typeof OForm>>();
 const reset = () => {
@@ -214,12 +210,20 @@ const reset = () => {
 const clear = () => {
   formRef.value?.clearValidate();
 };
+
+const onFormSubmit = (results: FieldResultT[]) => {
+  if (results.find((item) => item?.type === 'danger')) {
+    console.error('check failed!');
+  } else {
+    console.info('check pass!');
+  }
+};
 </script>
 <template>
   <h4>校验</h4>
 
   <section>
-    <OForm ref="formRef" class="form" has-required :model="formModel">
+    <OForm ref="formRef" class="form" has-required :model="formModel" @submit="onFormSubmit">
       <OFormItem label="必选文本1" required field="input2">
         <OInput v-model="formModel.input2" />
         <template #message="{ type, message }"> type: {{ type }} | message: {{ message.join('|') }} </template>

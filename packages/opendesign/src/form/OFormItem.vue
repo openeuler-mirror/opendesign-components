@@ -2,7 +2,7 @@
 import { computed, ref, provide, inject, onMounted, onBeforeUnmount } from 'vue';
 import { RequiredRuleT, formItemProps, TriggerT, FieldResultT } from './types';
 import { formItemInjectKey, formInjectKey, formCtx } from './provide';
-import { getFlexValue, normalizeRules } from './form';
+import { getFlexValue, groupRules } from './form';
 import { isArray } from '../_utils/is';
 import { asyncSome, getValueByPath, setValueByPath } from '../_utils/helper';
 import { logger } from '../_utils/log';
@@ -24,64 +24,54 @@ const isRequired = computed(() => {
   return false;
 });
 
-const rules = computed(() => normalizeRules(props.rules, props.required));
+const rules = computed(() => groupRules(props.rules, props.required));
 const ruleTriggers = computed(() => {
-  let triggers: TriggerT[] = [];
-  rules.value.forEach((item) => {
-    if (item.triggers) {
-      triggers = triggers.concat(item.triggers);
-    }
-  });
-  return Array.from(new Set(triggers));
+  return Object.keys(rules.value) as TriggerT[];
 });
 
-const fieldResult = ref<FieldResultT | null>(null);
+const fieldResult = ref<FieldResultT>(null);
 
 const initialVal = formInject.model && props.field ? getValueByPath(formInject.model, props.field) : void 0;
 
-const runValidate = (trigger: TriggerT = 'change') => {
+const runValidate = async (trigger?: TriggerT): Promise<FieldResultT> => {
   if (!props.field || !formInject.model) {
-    return;
+    return null;
   }
+
+  const validators = rules.value[trigger || props.defaultTrigger || ruleTriggers.value[0]];
   // 判断该事件是否存在校验规则
-  if (!ruleTriggers.value.includes(trigger)) {
-    return;
+  if (!validators || validators.length === 0) {
+    return null;
   }
+
   const value = getValueByPath(formInject.model, props.field);
-  // logger.info(trigger, props.field, value);
 
   fieldResult.value = null;
-  return asyncSome(rules.value, async (item) => {
-    if (item.triggers?.includes(trigger)) {
-      if (!item.validator) {
-        return false;
-      }
-      try {
-        const rlt = await item.validator?.(value);
-        if (rlt?.type === 'danger') {
+  await asyncSome(validators, async (validatorFn) => {
+    try {
+      const rlt = await validatorFn?.(value);
+      if (rlt?.type === 'danger') {
+        fieldResult.value = {
+          type: 'danger',
+          message: rlt.message ? [rlt.message] : [],
+        };
+        return true;
+      } else if (rlt?.type === 'warning') {
+        if (!fieldResult.value) {
           fieldResult.value = {
-            type: 'danger',
+            type: 'warning',
             message: rlt.message ? [rlt.message] : [],
           };
-          return true;
-        } else if (rlt?.type === 'warning') {
-          if (!fieldResult.value) {
-            fieldResult.value = {
-              type: 'warning',
-              message: rlt.message ? [rlt.message] : [],
-            };
-          } else if (rlt.message) {
-            fieldResult.value.message?.push(rlt.message);
-          }
-          return false;
+        } else if (rlt.message) {
+          fieldResult.value.message?.push(rlt.message);
         }
-      } catch (e) {
-        logger.error('failed to validate rules');
+        return false;
       }
-
-      return false;
+    } catch (e) {
+      logger.error('failed to validate rules');
     }
   });
+  return fieldResult.value;
 };
 
 const clearValidate = () => {
@@ -98,11 +88,15 @@ const resetFiled = () => {
 };
 
 const fieldHandlers = {
+  runValidate: runValidate,
   onChange() {
     runValidate('change');
   },
   onFocus() {
     runValidate('focus');
+  },
+  onInput() {
+    runValidate('input');
   },
   onBlur() {
     runValidate('blur');
@@ -117,14 +111,12 @@ onMounted(() => {
       clearValidate,
       resetFiled,
     });
-    // logger.info('addFiled', props.field);
   }
 });
 
 onBeforeUnmount(() => {
   if (props.field) {
     formInject.removeFiled?.(props.field);
-    // logger.info('removeFiled', props.field);
   }
 });
 provide(formItemInjectKey, {

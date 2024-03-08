@@ -133,7 +133,7 @@ const isClearable = computed(() => props.clearable && !props.disabled && valueLi
 
 const emitChange = (value: SelectValueT) => {
   emits('change', value);
-  formItemInjection?.fieldHandlers.onChange?.(value);
+  formItemInjection?.fieldHandlers.onChange?.();
 };
 // 清除值
 const clearClick = (e: Event) => {
@@ -172,14 +172,13 @@ provide(selectOptionInjectKey, {
       if (!props.multiple) {
         //单选
 
-        if (valueList.value[0] !== toValue) {
-          emitChange(toValue);
-
-          valueList.value[0] = toValue as string | number;
-        }
-
         emits('update:modelValue', toValue);
         isSelecting.value = false;
+
+        if (valueList.value[0] !== toValue) {
+          valueList.value[0] = toValue as string | number;
+          emitChange(toValue);
+        }
       } else {
         // 多选
 
@@ -196,8 +195,8 @@ provide(selectOptionInjectKey, {
         });
 
         if (!isResponding.value) {
-          emitChange([...valueList.value]);
           emits('update:modelValue', [...valueList.value]);
+          emitChange([...valueList.value]);
         }
       }
     } else {

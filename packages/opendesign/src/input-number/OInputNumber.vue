@@ -92,7 +92,7 @@ const canMinus = computed(() => {
 
 const emitChange = () => {
   emits('change', currentValue.value);
-  formItemInjection?.fieldHandlers.onChange?.(currentValue.value);
+  formItemInjection?.fieldHandlers.onChange?.();
 };
 const updateValue = (val: number) => {
   inputValue.value = number2string(val);
@@ -113,11 +113,11 @@ const onInput = (val: string, evt: Event) => {
 
 const onFocus = (val: string, evt: FocusEvent) => {
   emits('focus', currentValue.value, evt);
-  formItemInjection?.fieldHandlers.onFocus?.(currentValue.value);
+  formItemInjection?.fieldHandlers.onFocus?.();
 };
 const onBlur = (val: string, evt: FocusEvent) => {
   emits('blur', currentValue.value, evt);
-  formItemInjection?.fieldHandlers.onBlur?.(currentValue.value);
+  formItemInjection?.fieldHandlers.onBlur?.();
 };
 const onPressEnter = (val: string, evt: Event): void => {
   emits('pressEnter', currentValue.value, evt);

@@ -4,7 +4,7 @@ import type { SizeT } from '../_utils/types';
 export const TabVariantTypes = ['solid', 'text'] as const;
 export type TabVariantT = (typeof TabVariantTypes)[number];
 export type ValidatorReusltT = 'danger' | 'warning' | 'success';
-export type TriggerT = 'change' | 'input' | 'blur' | 'focus';
+export type TriggerT = 'change' | 'input' | 'blur' | 'focus' | `e-${string}`;
 
 export type ValidatorResultT = {
   type: ValidatorReusltT;
@@ -15,11 +15,6 @@ export type ValidatorT = (value: any) => ValidatorResultT | void;
 export type ValidatorRuleT = {
   triggers?: TriggerT | TriggerT[];
   validator?: ValidatorT;
-};
-
-export type FieldResultT = {
-  type: 'warning' | 'danger' | '';
-  message: string[];
 };
 
 export type RequiredRuleT = {
@@ -35,9 +30,18 @@ export type TypeRuleT = {
 
 export type RulesT = ValidatorRuleT | RequiredRuleT | TypeRuleT;
 
+export type TriggerRulesT = {
+  [x in TriggerT]?: ValidatorT[];
+};
+
+export type FieldResultT = {
+  type: 'warning' | 'danger' | '';
+  message: string[];
+} | null;
+
 export interface FiledInfoT {
   filed?: string;
-  validate?: (trigger: TriggerT) => Promise<boolean> | undefined;
+  validate?: (trigger?: TriggerT) => Promise<FieldResultT>;
   clearValidate: () => void;
   resetFiled: () => void;
 }
@@ -147,6 +151,12 @@ export const formItemProps = {
    */
   rules: {
     type: Array as PropType<Array<RulesT>>,
+  },
+  /**
+   * 表单验证的默认触发事件，在手动检验
+   */
+  defaultTrigger: {
+    type: String as PropType<TriggerT>,
   },
 };
 
