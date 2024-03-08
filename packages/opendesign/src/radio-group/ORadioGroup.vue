@@ -33,7 +33,7 @@ const updateModelValue = (val: string | number | boolean) => {
 
 const onChange = (val: string | number | boolean, ev: Event) => {
   emits('change', val, ev);
-  formItemInjection?.fieldHandlers.onChange?.(val);
+  formItemInjection?.fieldHandlers.onChange?.();
 };
 
 provide(radioGroupInjectKey, {

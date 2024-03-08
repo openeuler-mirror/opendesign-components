@@ -1,5 +1,5 @@
 import { isArray, isEmptyArray, isEmptyObject, isFunction, isNull, isUndefined } from '../_utils/is';
-import { RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT } from './types';
+import { RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT, TriggerRulesT, TriggerT, ValidatorT } from './types';
 
 export function toInputString(val: unknown): string {
   if (isUndefined(val) || isNull(val) || (typeof val === 'number' && isNaN(val as number))) {
@@ -22,39 +22,52 @@ export function getFlexValue(val?: 'top' | 'center' | 'bottom' | 'left' | 'cente
   return '';
 }
 
-export function normalizeRules(rules?: RulesT[], required?: boolean): Array<ValidatorRuleT> {
-  const _rules = rules || [];
-  if (required && (_rules.length == 0 || _rules.some((item) => !(item as RequiredRuleT).required))) {
-    _rules.unshift({
-      required: true,
-      message: 'required',
+const defaultCheckRequired = (value: any) => {
+  return !isNull(value) && !isUndefined(value) && value !== '' && !isEmptyArray(value) && !isEmptyObject(value) ? 'success' : 'danger';
+};
+const defaultCheckType = (value: any, type: string) => {
+  return typeof value === type ? 'success' : 'danger';
+};
+
+export function groupRules(rules?: RulesT[], required?: boolean): TriggerRulesT {
+  const tRules: TriggerRulesT = {};
+
+  let hasRequired = false;
+  if (isArray(rules)) {
+    rules.forEach((item) => {
+      const triggers: TriggerT[] = item.triggers ? ([] as TriggerT[]).concat(item.triggers) : ['change'];
+      triggers.forEach((trigger) => {
+        const tr: ValidatorT[] = tRules[trigger] || [];
+
+        if ((item as TypeRuleT).type) {
+          tr.push((value: any) => ({
+            type: defaultCheckType(value, (item as TypeRuleT).type),
+            message: (item as TypeRuleT).message,
+          }));
+        } else if ((item as RequiredRuleT).required) {
+          hasRequired = true;
+          tr.push((value: any) => ({
+            type: defaultCheckRequired(value),
+            message: (item as RequiredRuleT).message,
+          }));
+        } else {
+          const fFn = (item as ValidatorRuleT).validator;
+          if (fFn && isFunction(fFn)) {
+            tr.push(fFn);
+          }
+        }
+        tRules[trigger] = tr;
+      });
     });
   }
-  return _rules.map((item) => {
-    const triggers = isArray(item.triggers) ? item.triggers : [item.triggers ?? 'change'];
-    if ((item as RequiredRuleT).required) {
-      return {
-        triggers,
-        validator: (value: any) => ({
-          type: !isNull(value) && !isUndefined(value) && value !== '' && !isEmptyArray(value) && !isEmptyObject(value) ? 'success' : 'danger',
-          message: (item as RequiredRuleT).message,
-        }),
-      };
-    } else if ((item as TypeRuleT).type) {
-      return {
-        triggers,
-        validator: (value: any) => ({
-          type: typeof value === (item as TypeRuleT).type ? 'success' : 'danger',
-          message: (item as TypeRuleT).message,
-        }),
-      };
-    } else if (isFunction((item as ValidatorRuleT).validator)) {
-      return {
-        triggers,
-        validator: (item as ValidatorRuleT).validator,
-      };
-    } else {
-      return {};
-    }
-  });
+
+  if (!hasRequired && required) {
+    tRules.change = tRules.change || [];
+    tRules.change.push((value: any) => ({
+      type: defaultCheckRequired(value),
+      message: 'required!',
+    }));
+  }
+
+  return tRules;
 }
