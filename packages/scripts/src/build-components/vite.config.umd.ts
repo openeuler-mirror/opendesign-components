@@ -22,6 +22,7 @@ export default (type: 'component' | 'icon'): InlineConfig => {
         output: [
           {
             format: 'umd',
+            name: entryFileName,
             entryFileNames: `${entryFileName}.js`,
             globals: {
               vue: 'Vue',
@@ -29,6 +30,7 @@ export default (type: 'component' | 'icon'): InlineConfig => {
           },
           {
             format: 'umd',
+            name: entryFileName,
             entryFileNames: `${entryFileName}.min.js`,
             globals: {
               vue: 'Vue',
@@ -40,7 +42,7 @@ export default (type: 'component' | 'icon'): InlineConfig => {
       // 开启lib模式
       lib: {
         entry,
-        formats: ['umd'],
+        // formats: ['umd'],
         name,
       },
     },

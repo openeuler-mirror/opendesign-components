@@ -6,9 +6,9 @@ export default (): InlineConfig => {
   return {
     plugins: [
       vue(),
-      dts(),
+      // dts(),
       dts({
-        outputDir: 'lib',
+        outDir: ['es', 'lib'],
       }),
     ],
     build: {
@@ -38,7 +38,7 @@ export default (): InlineConfig => {
       },
       lib: {
         entry: 'src/index.ts',
-        formats: ['es', 'cjs'],
+        // formats: ['es', 'cjs'],
       },
     },
   };

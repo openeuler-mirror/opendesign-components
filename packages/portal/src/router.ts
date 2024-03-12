@@ -8,12 +8,12 @@ export const routes = [
     label: '通用',
     component: TheHome,
   },
-  {
-    path: '/date-picker',
-    name: 'DatePicker',
-    label: '日期选择器 DatePicker',
-    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
-  },
+  // {
+  //   path: '/date-picker',
+  //   name: 'DatePicker',
+  //   label: '日期选择器 DatePicker',
+  //   component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  // },
   {
     path: '/form',
     name: 'Form',

@@ -2,7 +2,6 @@
   "name": "opendesign-components",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm --filter portal dev",
@@ -12,12 +11,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "normalize.css": "^8.0.1",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
+  },
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "eslint": "^8.28.0",
-    "eslint-plugin-vue": "^9.8.0",
-    "typescript": "^4.6.4"
+    "@rushstack/eslint-patch": "^1.7.2",
+    "@types/node": "^20.11.22",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.22.0",
+    "sass": "^1.71.1",
+    "typescript": "~5.3.3",
+    "vite": "^5.1.4",
+    "vue-tsc": "^1.8.27"
   }
 }

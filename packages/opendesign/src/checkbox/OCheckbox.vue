@@ -45,11 +45,16 @@ watch(
 
 // 是否禁用
 const isDisabled = computed(
-  () =>
-    checkboxGroupInjection?.disabled.value ||
+  () => {
+    if (checkboxGroupInjection) {
+      return checkboxGroupInjection.disabled.value ||
     props.disabled ||
-    (isChecked.value && checkboxGroupInjection?.isMinimum.value) ||
-    (!isChecked.value && checkboxGroupInjection?.isMaximum.value)
+    (isChecked.value && checkboxGroupInjection.isMinimum.value) ||
+    (!isChecked.value && checkboxGroupInjection.isMaximum.value);
+    }
+      return false;
+  }
+
 );
 
 const onClick = (ev: Event) => {

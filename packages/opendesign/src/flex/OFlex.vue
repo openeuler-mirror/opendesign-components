@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import log from '../_utils/log';
+import { logger } from '../_utils/log';
 import { flexProps, FlexMediaT } from './types';
 import { computed } from 'vue';
 
@@ -52,7 +52,7 @@ const xsGap = computed(() => {
   return getMediaGap(props.xs);
 });
 
-log.warn('component OFlex|OFlexItem is deprecated, please use ORow|OCol instead');
+logger.warn('component OFlex|OFlexItem is deprecated, please use ORow|OCol instead');
 </script>
 <template>
   <div

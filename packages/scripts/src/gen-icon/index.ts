@@ -1,6 +1,6 @@
 import path from 'path';
 import { defaultConfig, IconsConfig } from './config';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { toPascalCase } from '../utils';
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
@@ -53,7 +53,7 @@ interface IconItem {
 function readSvgData(cfg: IconsConfig) {
   const svgs: Array<IconItem> = [];
   [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach((key) => {
-    const files = glob.sync(`${key}/**/*.svg`, {
+    const files = globSync(`${key}/**/*.svg`, {
       cwd: cfg.input,
       // absolute: true,
     });

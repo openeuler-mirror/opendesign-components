@@ -27,10 +27,7 @@
     "vue": "^3.1.0"
   },
   "devDependencies": {
-    "@opensig/opensig-scripts": "workspace:^",
-    "typescript": "^4.6.4",
-    "vue": "^3.2.45",
-    "vue-tsc": "^1.0.13"
+    "@opensig/opensig-scripts": "workspace:^"
   },
   "dependencies": {
     "date-fns": "^2.30.0"

@@ -164,11 +164,12 @@ export function scrollSelectOrNowCellInToView(
   if (!el) {
     el = scroller?.$el.querySelector('.o-picker-cell-now');
   }
-  if (!el || !scroller.containerRef) {
+  const containerRef = scroller.getContainerEl();
+  if (!el || !containerRef) {
     return;
   }
   const { offsetTop, clientHeight } = el;
-  const { clientHeight: outHeight } = scroller.containerRef;
+  const { clientHeight: outHeight } = containerRef;
 
   let top = offsetTop;
   if (align === 'center') {

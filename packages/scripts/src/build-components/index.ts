@@ -6,17 +6,33 @@ import path from 'path';
 
 const base = process.cwd();
 
-export default function main() {
-  console.log('generating component es/cjs...');
-
+export default async function main() {
   fs.emptyDir(path.resolve(base, 'es'));
   fs.emptyDir(path.resolve(base, 'lib'));
-  build(config());
+  try {
+    console.log('================================================================');
+    console.log('generating component es/cjs...');
+    await build(config());
+  } catch (error) {
+    console.log(error);
+  }
 
   // umd
-  console.log('generating component umd...');
   fs.emptyDir(path.resolve(base, 'dist'));
-  build(configUmd('component'));
-  build(configUmd('icon'));
 
+  try {
+    console.log('================================================================');
+    console.log('generating component es/cjs...');
+    await build(configUmd('component'));
+  } catch (error) {
+    console.log(error);
+  }
+
+  try {
+    console.log('================================================================');
+    console.log('generating icon umd...');
+    await build(configUmd('icon'));
+  } catch (error) {
+    console.log(error);
+  }
 }

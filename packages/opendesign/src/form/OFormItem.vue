@@ -5,7 +5,7 @@ import { formItemInjectKey, formInjectKey, formCtx } from './provide';
 import { getFlexValue, groupRules } from './form';
 import { isArray } from '../_utils/is';
 import { asyncSome, getValueByPath, setValueByPath } from '../_utils/helper';
-import logger from '../_utils/log';
+import { logger } from '../_utils/log';
 
 const requireSymbol = '*';
 

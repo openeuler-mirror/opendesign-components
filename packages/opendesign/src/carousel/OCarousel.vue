@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted, provide, nextTick } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import Gallery from './gallery';
 import Toggle from './toggle';

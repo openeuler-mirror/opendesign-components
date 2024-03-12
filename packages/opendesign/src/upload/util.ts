@@ -102,13 +102,6 @@ export const doUploadFileList = (fileList: UploadFileT[], options: OptionsT) => 
   });
 };
 
-/**
- * 过滤插槽
- */
-export const filterSlots = (slots: Slots, slotNames: string[]) => {
-  return Object.keys(slots).filter((item) => slotNames.includes(item));
-};
-
 export function isImageType(file: File): boolean {
   return file.type?.includes('image/');
 }

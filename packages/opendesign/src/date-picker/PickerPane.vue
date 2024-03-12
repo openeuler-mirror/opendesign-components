@@ -295,20 +295,20 @@ const onHeadValueClick = (type: 'year' | 'month') => {
 };
 
 //shortcuts
-const shortcuts = computed(() => {
-  if (props.shortcuts && props.shortcuts.length > 0) {
-    return props.shortcuts.map((item) => {
-      if (item === 'now') {
-        return {
-          label: Labels.now,
-          value: () => new Date(),
-        };
-      }
-      return item;
-    });
-  }
-  return null;
-});
+// const shortcuts = computed(() => {
+//   if (props.shortcuts && props.shortcuts.length > 0) {
+//     return props.shortcuts.map((item) => {
+//       if (item === 'now') {
+//         return {
+//           label: Labels.now,
+//           value: () => new Date(),
+//         };
+//       }
+//       return item;
+//     });
+//   }
+//   return null;
+// });
 /*
  * 快捷按钮shortcut
  */
@@ -409,7 +409,7 @@ const onShortcutHoverout = () => {
       </div>
     </div>
     <PickerFoot
-      :shortcuts="shortcuts"
+      :shortcuts="props.shortcuts"
       :need-confirm="needConfirm"
       :confirm-label="props.confirmLabel"
       :clear-label="props.clearLabel"

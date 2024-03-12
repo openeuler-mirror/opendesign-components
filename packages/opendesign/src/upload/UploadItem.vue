@@ -1,12 +1,11 @@
-<script lang="ts">
-export const ItemSlotNames = ['item'];
-</script>
+
 <script setup lang="ts">
 import { IconLoading, IconLinkPrefix, IconRefresh, IconDelete, IconPreview, IconFile, IconEdit } from '../_utils/icons';
 import { UploadFileT, UploadListTypeT } from './types';
 import { OIcon } from '../icon';
 import { OFigure } from '../figure';
 import { ref } from 'vue';
+import slots  from './slot';
 
 interface UploadFileItemPropsT {
   file: UploadFileT;
@@ -56,7 +55,7 @@ const onPreview = () => {
       'o-upload-item-error': props.file.status === 'failed',
     }"
   >
-    <slot :name="ItemSlotNames[0]" :item="file">
+    <slot :name="slots.names.uploadItem" :item="file">
       <div
         v-if="props.listType === 'picture-card'"
         class="o-upload-card-item"
