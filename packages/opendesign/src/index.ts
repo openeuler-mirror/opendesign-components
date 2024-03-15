@@ -38,7 +38,6 @@ export * from './card';
 export * from './message';
 export * from './carousel';
 export * from './cascader';
-export * from './flex'; // deprecated
 export * from './grid';
 export * from './result';
 export * from './scroller';
