@@ -21,6 +21,18 @@ export const routes = [
   //   component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
   // },
   {
+    path: '/in-input',
+    name: 'InInput',
+    label: '输入框',
+    component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/date-picker',
+    name: 'DatePicker',
+    label: '日期选择器 DatePicker',
+    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/form',
     name: 'Form',
     label: '表单 Form',

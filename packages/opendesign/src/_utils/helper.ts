@@ -1,4 +1,4 @@
-import { isObject, isUndefined } from './is';
+import { isObject, isUndefined, isNull, isPlainObject } from './is';
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   let handle = 0;
@@ -188,4 +188,16 @@ export function moveToFirst<T>(arr: T[], item: T) {
     return tmp;
   }
   return arr;
+}
+
+/**
+ * 转换为字符串，对于undefined、null、NaN转换为''
+ * @param val
+ * @returns string
+ */
+export function formateToString(val: unknown): string {
+  if (isUndefined(val) || isNull(val) || (typeof val === 'number' && isNaN(val as number)) || isPlainObject(val)) {
+    return '';
+  }
+  return String(val);
 }
