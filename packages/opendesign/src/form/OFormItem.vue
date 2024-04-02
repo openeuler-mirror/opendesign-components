@@ -4,7 +4,7 @@ import { RequiredRuleT, formItemProps, TriggerT, FieldResultT } from './types';
 import { formItemInjectKey, formInjectKey, formCtx } from './provide';
 import { getFlexValue, groupRules } from './form';
 import { isArray } from '../_utils/is';
-import { asyncSome, getValueByPath, setValueByPath } from '../_utils/helper';
+import { asyncSome, getValueByPath, moveToFirst, setValueByPath } from '../_utils/helper';
 import { logger } from '../_utils/log';
 
 const requireSymbol = '*';
@@ -26,7 +26,9 @@ const isRequired = computed(() => {
 
 const rules = computed(() => groupRules(props.rules, props.required));
 const ruleTriggers = computed(() => {
-  return Object.keys(rules.value) as TriggerT[];
+  const t = Object.keys(rules.value) as TriggerT[];
+
+  return moveToFirst(t, 'change');
 });
 
 const fieldResult = ref<FieldResultT>(null);

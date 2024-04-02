@@ -172,3 +172,20 @@ export function setValueByPath(obj: { [k: string]: any }, path: string, value: a
     }
   }
 }
+
+/**
+ * 将数组中的某一项移到第一项
+ * @param arr 被移动的数组
+ * @param item 需要移动的项
+ * @returns Array
+ */
+export function moveToFirst<T>(arr: T[], item: T) {
+  const idx = arr.indexOf(item);
+  if (idx > 0) {
+    const tmp = [...arr];
+    tmp.splice(idx, 1);
+    tmp.unshift(item);
+    return tmp;
+  }
+  return arr;
+}

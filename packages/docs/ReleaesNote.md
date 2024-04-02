@@ -42,3 +42,8 @@ TODO
 1. pagination 支持 layout 控制顺序
 2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
 3. 级联重构
+
+# 0.0.61
+
+1. table 插槽更名：表头 th_xx; 表体 td_xx;
+2. 移除废弃的 flex 组件
