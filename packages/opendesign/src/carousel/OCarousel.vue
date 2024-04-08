@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../_utils/icons';
-import Gallery from './gallery';
-import Toggle from './toggle';
+import Gallery from './effects/gallery';
+import Toggle from './effects/toggle';
 import { carouselInjectKey } from './provide';
 
 import { carouselProps } from './types';
-import Effect from './effect';
+import Effect from './effects/effect';
 
 const props = defineProps(carouselProps);
 
@@ -100,6 +100,14 @@ const pausePlay = () => {
     isPlaying.value = false;
   }
 };
+
+const resumePlay = () => {
+  if (isAutoPlay.value) {
+    setTimeout(() => {
+      startPlay();
+    }, 0);
+  }
+};
 // TODO 导出增加播放进度
 const startPlay = () => {
   pausePlay();
@@ -110,7 +118,7 @@ const startPlay = () => {
 };
 
 // 激活slide
-const activeSlide = (index: number) => {
+const activeSlide = (index: number, resumeAutoPlay = true) => {
   // 停止自动播放
   pausePlay();
   return activeSlideByIndex(index).then((success) => {
@@ -119,10 +127,8 @@ const activeSlide = (index: number) => {
     }
 
     // 恢复自动播放
-    if (isAutoPlay.value) {
-      setTimeout(() => {
-        startPlay();
-      }, 0);
+    if (!props.pauseOnHover || resumeAutoPlay) {
+      resumePlay();
     }
   });
 };
@@ -139,9 +145,7 @@ const initSlides = () => {
     },
     onTouchend: () => {
       // 恢复自动播放
-      if (isAutoPlay.value) {
-        startPlay();
-      }
+      resumePlay();
     },
     onBeforeChange: (to: number, from: number) => {
       emits('before-change', to, from);
@@ -225,6 +229,19 @@ const pause = () => {
   isAutoPlay.value = false;
   pausePlay();
 };
+
+const onHoverIn = () => {
+  if (props.pauseOnHover) {
+    pausePlay();
+  }
+};
+
+const onHoverOut = () => {
+  if (props.pauseOnHover) {
+    resumePlay();
+  }
+};
+
 defineExpose({
   init: init,
   play,
@@ -249,6 +266,8 @@ defineExpose({
     :style="{
       '--carousel-interval': props.interval + 'ms',
     }"
+    @mouseenter="onHoverIn"
+    @mouseleave="onHoverOut"
   >
     <div class="o-carousel-wrap">
       <div ref="containerRef" :class="[`o-carousel-container-${props.effect}`]">
@@ -270,7 +289,7 @@ defineExpose({
       </div>
     </div>
     <div v-if="props.arrow !== 'never'" class="o-carousel-arrow-wrap" :class="props.arrowWrapClass">
-      <div @click="activeSlide(activeIndex - 1)">
+      <div @click="activeSlide(activeIndex - 1, false)">
         <slot name="arrow-prev">
           <div class="o-carousel-arrow-prev">
             <div class="o-carousel-arrow-icon">
@@ -281,7 +300,7 @@ defineExpose({
           </div>
         </slot>
       </div>
-      <div @click="activeSlide(activeIndex + 1)">
+      <div @click="activeSlide(activeIndex + 1, false)">
         <slot name="arrow-next">
           <div class="o-carousel-arrow-next">
             <div class="o-carousel-arrow-icon">

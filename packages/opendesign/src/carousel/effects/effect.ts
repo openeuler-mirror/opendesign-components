@@ -1,7 +1,7 @@
-import { supportTouch } from '../_utils/dom';
-import { isFunction } from '../_utils/is';
-import { OPointer } from '../_utils/pointer';
-import { PointMoveT } from '../_utils/types';
+import { supportTouch } from '../../_utils/dom';
+import { isFunction } from '../../_utils/is';
+import { OPointer } from '../../_utils/pointer';
+import { PointMoveT } from '../../_utils/types';
 
 export interface EffectT {
   active: (slideIndex: number) => Promise<null | number>;
@@ -25,7 +25,7 @@ export default abstract class Effect {
   onChanged: ((to: number, from: number) => void) | undefined;
   private isTouchStart: boolean; // 是否开始touch事件
   private containerEl: HTMLElement;
-  constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: EffectOptionT) {
+  constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, options?: EffectOptionT) {
     this.total = slideElList.length;
 
     this.containerEl = slideContainer;
