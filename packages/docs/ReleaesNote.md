@@ -45,7 +45,7 @@ TODO
 
 # 0.0.61
 
-1. table 插槽更名：表头 th_xx; 表体 td_xx;
+1. [table] 插槽更名：表头 th_xx; 表体 td_xx;
 2. 移除废弃的 flex 组件
 3. 升级 vue 到 3.4
 4. [use-theme] 支持 SSR
