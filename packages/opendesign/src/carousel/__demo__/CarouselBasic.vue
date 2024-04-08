@@ -63,6 +63,7 @@ const initSlides = () => {
         class="gallery-carousel"
         :auto-play="false"
         click-to-switch
+        pause-on-hover
         @change="onChange"
         @before-change="onBeforeChange"
       >

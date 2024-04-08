@@ -127,7 +127,7 @@ const activeSlide = (index: number, resumeAutoPlay = true) => {
     }
 
     // 恢复自动播放
-    if (resumeAutoPlay) {
+    if (!props.pauseOnHover || resumeAutoPlay) {
       resumePlay();
     }
   });
@@ -229,6 +229,19 @@ const pause = () => {
   isAutoPlay.value = false;
   pausePlay();
 };
+
+const onHoverIn = () => {
+  if (props.pauseOnHover) {
+    pausePlay();
+  }
+};
+
+const onHoverOut = () => {
+  if (props.pauseOnHover) {
+    resumePlay();
+  }
+};
+
 defineExpose({
   init: init,
   play,
@@ -253,8 +266,8 @@ defineExpose({
     :style="{
       '--carousel-interval': props.interval + 'ms',
     }"
-    @mouseenter="pausePlay"
-    @mouseleave="resumePlay"
+    @mouseenter="onHoverIn"
+    @mouseleave="onHoverOut"
   >
     <div class="o-carousel-wrap">
       <div ref="containerRef" :class="[`o-carousel-container-${props.effect}`]">

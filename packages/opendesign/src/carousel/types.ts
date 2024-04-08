@@ -68,8 +68,17 @@ export const carouselProps = {
   manualInit: {
     type: Boolean,
   },
+  /**
+   * 自定义激活项的类
+   */
   activeClass: {
     type: String,
+  },
+  /**
+   * 是否在hover时暂停自动轮播
+   */
+  pauseOnHover: {
+    type: Boolean,
   },
 };
 
