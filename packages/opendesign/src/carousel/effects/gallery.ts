@@ -1,8 +1,8 @@
-import { isFunction } from '../_utils/is';
-import { PointMoveT } from '../_utils/types';
+import { isFunction } from '../../_utils/is';
+import { PointMoveT } from '../../_utils/types';
 import Effect, { EffectOptionT } from './effect';
-import { useResizeObserver } from '../hooks';
-import { debounceRAF } from '../_utils/helper';
+import { useResizeObserver } from '../../hooks';
+import { debounceRAF } from '../../_utils/helper';
 
 interface GalleryItemT {
   index: number;
@@ -39,7 +39,7 @@ export default class Gallery extends Effect {
   private destroyObserver: () => void;
   private resolveArr: ((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: GalleryOptionT) {
-    super(slideElList, slideContainer, activeIndex, options);
+    super(slideElList, slideContainer, options);
 
     const { alignType = 'center' } = options || {};
     this.total = slideElList.length;

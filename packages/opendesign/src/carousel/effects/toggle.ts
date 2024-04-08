@@ -1,5 +1,5 @@
-import { isFunction } from '../_utils/is';
-import { PointMoveT } from '../_utils/types';
+import { isFunction } from '../../_utils/is';
+import { PointMoveT } from '../../_utils/types';
 import Effect, { EffectOptionT } from './effect';
 interface ItemT {
   index: number;
@@ -15,7 +15,7 @@ export default class Toggle extends Effect {
   private isChanging: boolean;
   private resolveArr: ((value: null | number) => void)[];
   constructor(slideElList: HTMLElement[], slideContainer: HTMLElement, activeIndex: number, options?: EffectOptionT) {
-    super(slideElList, slideContainer, activeIndex, options);
+    super(slideElList, slideContainer, options);
 
     this.isChanging = false;
     this.resolveArr = [];
