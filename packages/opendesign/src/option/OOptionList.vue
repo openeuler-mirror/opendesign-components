@@ -11,6 +11,8 @@ const props = defineProps<OptionPropT>();
     <OScroller v-if="props.scroller" size="small" show-type="always" :wrap-class="props.wrapClass" class="o-options-scroller">
       <slot></slot>
     </OScroller>
-    <div v-else class="o-options-container" :class="props.wrapClass"><slot></slot></div>
+    <div v-else class="o-options-container" :class="props.wrapClass">
+      <slot></slot>
+    </div>
   </div>
 </template>

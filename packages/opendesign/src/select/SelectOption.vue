@@ -26,12 +26,14 @@ const props = defineProps<OptionPropT>();
     ]"
   >
     <OOptionList :wrap-class="props.wrapClass" :scroller="props.scroller">
-      <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
-      <slot v-else :name="slot.names.optionTarget"> </slot>
+      <div v-if="props.loading" class="o-select-options-loading">
+        <IconLoading class="o-rotating" />
+      </div>
+      <slot v-else :name="slot.names.optionTarget"></slot>
     </OOptionList>
 
     <div v-if="$slots.action" class="o-select-actions">
-      <slot :name="slot.names.action"></slot>
+      <slot :name="slot.option.names.action"></slot>
     </div>
   </div>
 </template>

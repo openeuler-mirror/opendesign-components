@@ -31,3 +31,12 @@
 .o-option-list {
   --option-list-max-height: 200px;
 }
+
+.o-option-group {
+  --option-group-color: var(--o-color-info3);
+  --option-group-text-size: var(--o-font_size-tip1);
+  --option-group-text-height: var(--o-line_height-tip1);
+
+  --option-group-gap: 8px;
+  --option-group-name-padding: 2px 8px;
+}
