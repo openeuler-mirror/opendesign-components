@@ -22,7 +22,6 @@ defineSlots<{
 const columnData = computed(() => getColumnData(props.columns));
 
 const tableData = computed(() => getBodyData(columnData, props.data, props.cellSpan));
-console.log(columnData, tableData);
 
 const emptyLabel = props.emptyLabel || '无数据';
 const loadingLabel = props.loadingLabel || '正在加载...';
