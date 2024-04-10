@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watchEffect } from 'vue';
 import { OForm, OFormItem, FieldResultT } from '../index';
 import { RulesT } from '../types';
 import '../../input/style';
@@ -42,7 +42,7 @@ const formModel = reactive({
   textarea1: '',
   checkbox: [],
   radio: '',
-  upload: [],
+  uploadList: [],
 });
 
 const inputRules: RulesT[] = [
@@ -175,7 +175,6 @@ const radioRules: RulesT[] = [
     },
   },
 ];
-
 const uploadRules: RulesT[] = [
   {
     required: true,
@@ -192,8 +191,8 @@ const uploadRules: RulesT[] = [
     },
   },
 ];
-const onUploadChange = (value: UploadFileT[]) => {
-  (formModel.upload as UploadFileT[]) = value;
+const onUploadChange = () => {
+  console.log(formModel.uploadList);
 };
 
 const values = computed(() =>
@@ -256,8 +255,8 @@ const onFormSubmit = (results: FieldResultT[]) => {
           <ORadio :value="3">选项3</ORadio>
         </ORadioGroup>
       </OFormItem>
-      <OFormItem label="标题文本3" :rules="uploadRules" field="upload">
-        <OUpload btn-label="上传(单选)" multiple color="normal" variant="solid" @select="onUploadChange" />
+      <OFormItem label="标题文本3" :rules="uploadRules" field="uploadList">
+        <OUpload btn-label="上传(单选)" multiple color="normal" variant="solid" @select="onUploadChange" v-model="formModel.uploadList" />
       </OFormItem>
       <div>
         <OButton type="submit">提交</OButton>

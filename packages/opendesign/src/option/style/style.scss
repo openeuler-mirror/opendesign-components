@@ -52,3 +52,17 @@
   max-height: var(--option-list-max-height);
   overflow: auto;
 }
+
+// 选项组
+.o-option-group {
+  + .o-option-group {
+    margin-top: var(--option-group-gap);
+  }
+}
+.o-option-group-name {
+  color: var(--option-group-color);
+  font-size: var(--option-group-text-size);
+  line-height: var(--option-group-text-height);
+
+  padding: var(--option-group-name-padding);
+}

@@ -378,9 +378,11 @@ const selectDlgAction: DialogActionT[] = [
             :option-title="props.optionTitle"
             :multiple="props.multiple"
           >
-            <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
-              <slot :name="name" v-bind="slotData"></slot>
+            <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+              <slot :name="name"></slot>
             </template>
+
+            <!-- option选项单独处理 -->
             <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
         </ODialog>
@@ -404,9 +406,11 @@ const selectDlgAction: DialogActionT[] = [
           @change="onOptionVisibleChange"
         >
           <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" scroller>
-            <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
-              <slot :name="name" v-bind="slotData"></slot>
+            <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+              <slot :name="name"></slot>
             </template>
+
+            <!-- option选项单独处理 -->
             <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
         </OPopup>

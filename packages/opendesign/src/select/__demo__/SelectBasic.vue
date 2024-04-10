@@ -1,3 +1,4 @@
+2
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OSelect, SelectValueT } from '../index';

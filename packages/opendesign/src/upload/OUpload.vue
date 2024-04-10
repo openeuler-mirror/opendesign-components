@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { uploadProps, UploadFileT } from './types';
-import { computed, ref, inject } from 'vue';
-import { isFunction } from '../_utils/is';
+import { computed, ref, inject, watch } from 'vue';
+import { isArray, isFunction } from '../_utils/is';
 import { filterSlots } from '../_utils/vue-utils';
 import UploadItem from './UploadItem.vue';
 import slot from './slot';
@@ -18,10 +18,27 @@ const emits = defineEmits<{
   (e: 'error', value: UploadFileT): void;
   (e: 'change', value: UploadFileT[]): void;
   (e: 'select', value: UploadFileT[]): void;
+  (e: 'update:modelValue', value: UploadFileT[]): void;
 }>();
 
-// 先不做受控模式
-const fileList = ref<UploadFileT[]>(props.defaultFileList || []);
+const emitUpdateValue = (value: UploadFileT[]) => {
+  emits('update:modelValue', value);
+};
+
+const fileList = ref<UploadFileT[]>(props.modelValue ?? props.defaultFileList ?? []);
+watch(
+  () => props.modelValue,
+  (v) => {
+    if (fileList.value === v) {
+      return;
+    }
+    if (isArray(v)) {
+      fileList.value = [...v];
+    } else {
+      fileList.value = [];
+    }
+  }
+);
 
 // 表单注入，用于规则校验
 const formItemInjection = inject(formItemInjectKey, null);
@@ -37,10 +54,12 @@ const uploadOption = computed(() => {
     },
     onSuccess: (file: UploadFileT) => {
       emits('success', file);
+      emitUpdateValue(fileList.value);
       emits('change', fileList.value);
     },
     onError: (file: UploadFileT) => {
       emits('error', file);
+      emitUpdateValue(fileList.value);
       emits('change', fileList.value);
     },
   };
@@ -69,7 +88,9 @@ const afterSelected = (files: UploadFileT[]) => {
       fileList.value[idx] = files[0];
       replaceId = '';
 
+      emitUpdateValue(fileList.value);
       emits('select', fileList.value);
+
       formItemInjection?.fieldHandlers.onChange?.();
 
       if (!props.lazyUpload) {
@@ -88,7 +109,9 @@ const afterSelected = (files: UploadFileT[]) => {
       l = 1;
     }
 
+    emitUpdateValue(fileList.value);
     emits('select', fileList.value);
+
     formItemInjection?.fieldHandlers.onChange?.();
 
     if (!props.lazyUpload) {
@@ -141,6 +164,8 @@ const removeFile = async (file: UploadFileT) => {
 
   formItemInjection?.fieldHandlers.onChange?.();
 
+  emitUpdateValue(fileList.value);
+
   return true;
 };
 const removeFileByIndex = (index: number) => {
@@ -154,6 +179,8 @@ const removeAllFiles = () => {
       resolve(res);
     });
     fileList.value = [];
+
+    emitUpdateValue(fileList.value);
   });
 };
 /**
