@@ -35,6 +35,13 @@ export type UploadListTypeT = (typeof UploadListTypes)[number];
 
 export const uploadProps = {
   /**
+   * 文件列表(受控)
+   * v-model
+   */
+  modelValue: {
+    type: Array as PropType<UploadFileT[]>,
+  },
+  /**
    * 文件列表(非受控)
    */
   defaultFileList: {
