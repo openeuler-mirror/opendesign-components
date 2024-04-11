@@ -55,14 +55,14 @@
 
 // 选项组
 .o-option-group {
+  color: var(--option-group-color);
+  font-size: var(--option-group-text-size);
+  line-height: var(--option-group-text-height);
+
   + .o-option-group {
     margin-top: var(--option-group-gap);
   }
 }
 .o-option-group-name {
-  color: var(--option-group-color);
-  font-size: var(--option-group-text-size);
-  line-height: var(--option-group-text-height);
-
   padding: var(--option-group-name-padding);
 }
