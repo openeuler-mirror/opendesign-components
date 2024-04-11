@@ -6,7 +6,9 @@ const props = defineProps<OptionPropT>();
 </script>
 <template>
   <div class="o-option-group">
-    <div class="o-option-group-name">{{ props.name }}</div>
+    <slot name="name">
+      <div class="o-option-group-name">{{ props.name }}</div>
+    </slot>
     <slot></slot>
   </div>
 </template>

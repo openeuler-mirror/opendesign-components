@@ -39,6 +39,20 @@ const options = [
         <OOption v-for="item in gp.list" :key="item.value" :label="item.label" :value="item.value" />
       </OOptionGroup>
     </OSelect>
+    <OSelect v-model="selectVal1" placeholder="select..." clearable>
+      <OOptionGroup v-for="gp in options" :key="gp.groupName" :name="gp.groupName">
+        <template #name>
+          <div class="diy-group">-- {{ gp.groupName }}--</div>
+        </template>
+        <OOption v-for="item in gp.list" :key="item.value" :label="item.label" :value="item.value" />
+      </OOptionGroup>
+    </OSelect>
   </section>
 </template>
-<style lang="scss"></style>
+<style lang="scss">
+.diy-group {
+  border-top: 1px solid #999;
+  background-color: #efefef;
+  padding: var(--option-group-name-padding);
+}
+</style>
