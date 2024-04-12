@@ -1,10 +1,17 @@
 .o-scroller {
   --scrollbar-delay: 0;
   --scrollbar-height: 90%;
+
+  --scrollbar-y-top: 0;
+  --scrollbar-y-bottom: 0;
   --scrollbar-y-right: 0;
   --scrollbar-y-left: auto;
+
+  --scrollbar-x-left: 0;
+  --scrollbar-x-right: 0;
   --scrollbar-x-top: auto;
   --scrollbar-x-bottom: 0;
+
   --scrollbar-bg-color: transparent;
 
   --scrollbar-track-bg-color: var(--o-color-control4);
