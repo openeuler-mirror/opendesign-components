@@ -10,7 +10,7 @@ import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { OScroller } from '../scroller';
-import { isArray, isFunction } from '../_utils/is';
+import { isArray, isFunction, isArrayEqual } from '../_utils/is';
 import SelectOption from './SelectOption.vue';
 import slot from './slot';
 import { filterSlots } from '../_utils/vue-utils';
@@ -111,12 +111,18 @@ watch(
   () => props.modelValue,
   (v) => {
     if (props.multiple) {
+      // 多选
+
       if (isArray(v)) {
-        valueList.value = [...v];
+        // 判断是否值相等
+        if (isArrayEqual(v, valueList.value)) {
+          valueList.value = [...v];
+        }
       } else {
         valueList.value = [];
       }
-    } else {
+    } else if (valueList.value[0] !== v) {
+      // 单选
       valueList.value = [v as string | number];
     }
     finalValueList.value = [...valueList.value];
@@ -131,9 +137,20 @@ watchEffect(() => {
 
 const isClearable = computed(() => props.clearable && !props.disabled && valueList.value.length > 0);
 
-const emitChange = (value: SelectValueT) => {
-  emits('change', value);
+const emitChange = (value: Array<string | number>) => {
+  if (props.multiple) {
+    emits('change', [...value]);
+  } else {
+    emits('change', value[0]);
+  }
   formItemInjection?.fieldHandlers.onChange?.();
+};
+const emitUpdateValue = (value: Array<string | number>) => {
+  if (props.multiple) {
+    emits('update:modelValue', [...value]);
+  } else {
+    emits('update:modelValue', value[0]);
+  }
 };
 // 清除值
 const clearClick = (e: Event) => {
@@ -142,8 +159,8 @@ const clearClick = (e: Event) => {
   valueList.value = [];
   emits('clear', e);
 
-  emitChange([...valueList.value]);
-  emits('update:modelValue', [...valueList.value]);
+  emitChange(valueList.value);
+  emitUpdateValue(valueList.value);
 };
 const beforeSelect = async (value: string | number) => {
   if (isFunction(props.beforeSelect)) {
@@ -158,7 +175,7 @@ provide(selectOptionInjectKey, {
   selectValue: valueList,
   select: async (option: SelectOptionT, userSelect?: boolean) => {
     if (userSelect) {
-      let toValue: SelectValueT = option.value;
+      let toValue: string | number = option.value;
 
       const rlt = await beforeSelect(option.value);
 
@@ -171,32 +188,25 @@ provide(selectOptionInjectKey, {
 
       if (!props.multiple) {
         //单选
-
-        emits('update:modelValue', toValue);
         isSelecting.value = false;
 
         if (valueList.value[0] !== toValue) {
-          valueList.value[0] = toValue as string | number;
-          emitChange(toValue);
+          valueList.value[0] = toValue;
+          emitUpdateValue(valueList.value);
+          emitChange(valueList.value);
         }
       } else {
         // 多选
-
-        if (!isArray(toValue)) {
-          toValue = [toValue];
+        const idx = valueList.value.indexOf(toValue);
+        if (idx > -1) {
+          valueList.value.splice(idx, 1);
+        } else {
+          valueList.value.push(toValue);
         }
-        toValue.forEach((item) => {
-          const idx = valueList.value.indexOf(item);
-          if (idx > -1) {
-            valueList.value.splice(idx, 1);
-          } else {
-            valueList.value.push(item);
-          }
-        });
 
         if (!isResponding.value) {
-          emits('update:modelValue', [...valueList.value]);
-          emitChange([...valueList.value]);
+          emitUpdateValue(valueList.value);
+          emitChange(valueList.value);
         }
       }
     } else {
@@ -218,8 +228,8 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
   if (idx > -1) {
     valueList.value.splice(idx, 1);
 
-    emitChange([...valueList.value]);
-    emits('update:modelValue', [...valueList.value]);
+    emitChange(valueList.value);
+    emitUpdateValue(valueList.value);
   }
 };
 const onFoldTagClick = (e: MouseEvent) => {
@@ -266,8 +276,8 @@ const selectDlgAction: DialogActionT[] = [
 
       finalValueList.value = [...valueList.value];
 
-      emits('change', finalValueList.value);
-      emits('update:modelValue', finalValueList.value);
+      emitChange(valueList.value);
+      emitUpdateValue(valueList.value);
     },
   },
 ];
@@ -301,7 +311,7 @@ const selectDlgAction: DialogActionT[] = [
       readonly
     />
     <OScroller v-else class="o-select-tags-scroller" wrap-class="o-select-value-list" show-type="hover" size="small" disabled-x>
-      <div>
+      <div class="o-select-tags-wrap">
         <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
           {{ optionLabels[item] }}
           <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>

@@ -53,8 +53,9 @@
   @include hoverable {
     &:hover {
       color: var(--icon-color-hover);
-      transform: rotate(180deg);
     }
+    @include x-svg-hover;
+
     .o-ii-suffix-icon + & {
       position: absolute;
     }
