@@ -51,3 +51,10 @@ TODO
 4. [use-theme] 支持 SSR
 5. [form] 修复提交按钮不触发校验问题
 6. [input] 解决输入框自动填充时背景颜色不正确的问题
+
+# 0.0.62
+
+1. [Carousel] 支持配置 pauseOnHover，控制是否在鼠标 hover 时，自动轮播停止，移除时恢复轮播
+2. [select] 支持下拉分组
+3. [upload] 支持 v-model 受控模式
+4. [scroller] 支持 css 变量控制滚动槽位置
