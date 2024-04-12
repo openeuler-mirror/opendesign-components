@@ -91,22 +91,26 @@
   }
 }
 .o-scrollbar-y {
-  top: 50%;
-  height: var(--scrollbar-height);
-  transform: translateY(-50%);
+  top: var(--scrollbar-y-top);
+  bottom: var(--scrollbar-y-bottom);
+  margin: auto;
 
-  width: var(--scrollbar-width);
   left: var(--scrollbar-y-left);
   right: var(--scrollbar-y-right);
+
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-height);
 }
 
 .o-scrollbar-x {
-  left: 50%;
-  width: var(--scrollbar-height);
-  transform: translateX(-50%);
+  left: var(--scrollbar-x-left);
+  right: var(--scrollbar-x-right);
+  margin: auto;
 
   top: var(--scrollbar-x-top);
   bottom: var(--scrollbar-x-bottom);
+
+  width: var(--scrollbar-height);
   height: var(--scrollbar-width);
 }
 
