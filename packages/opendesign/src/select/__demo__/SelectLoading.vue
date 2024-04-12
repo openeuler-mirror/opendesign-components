@@ -53,7 +53,7 @@ const beforeOptionsShow = () => {
 };
 
 const beforeSelect = (value: string | number, currentValue: SelectValueT) => {
-  if (currentValue == value) {
+  if (currentValue === value) {
     return true;
   }
   console.log(currentValue);

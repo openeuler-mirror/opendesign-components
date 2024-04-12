@@ -182,6 +182,11 @@
 .o-select-tags-scroller {
   width: 100%;
 }
+.o-select-tags-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .o-select-tag {
   padding: var(--select-tag-padding);
   margin: var(--select-tag-margin);
@@ -204,9 +209,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @include hover {
-    transform: rotate(180deg);
-  }
+
+  @include x-svg-hover;
 }
 .o-select-tag-popover {
   max-width: var(--select-tag-popover-max-width);

@@ -16,8 +16,6 @@
 
   --select-icon-color: var(--o-color-info3);
   --select-icon-color-disabled: var(--o-color-info4);
-
-  --select-multiple-padding: 3px 7px;
 }
 
 .o-select,
@@ -142,6 +140,7 @@
   --select-height: var(--o-control_size-l);
 
   --select-multiple-max-height: 64px;
+  --select-multiple-padding: 3px 15px 3px 7px;
 }
 .o-select-medium {
   --select-padding: 0 15px;
@@ -153,6 +152,9 @@
   --select-height: var(--o-control_size-m);
 
   --select-multiple-max-height: 64px;
+
+  --select-multiple-padding: 2px 15px 2px 7px;
+  --select-tag-padding: 2px 8px;
 }
 .o-select-small {
   --select-padding: 0 8px;
@@ -162,10 +164,10 @@
   --select-radius: var(--o-radius_control-xs);
   --select-icon-size: var(--o-icon_size_control-xs);
 
-  --select-tag-padding: 2px 8px;
+  --select-tag-padding: 0 8px;
 
   --select-multiple-max-height: 48px;
-  --select-multiple-padding: 2px 5px;
+  --select-multiple-padding: 1px 8px 1px 5px;
   --select-tag-margin: 1px 2px 1px 0;
 }
 

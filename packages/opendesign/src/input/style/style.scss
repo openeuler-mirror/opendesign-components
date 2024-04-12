@@ -91,12 +91,12 @@
   justify-content: center;
   color: var(--input-icon-color);
   background-color: var(--input-icon-bg-color);
-  border-radius: 50%;
   font-size: var(--o-input-icon-size);
   @include hover {
     color: var(--input-icon-color-hover);
-    transform: rotate(180deg);
   }
+  @include x-svg-hover;
+
   .o-input-suffix-wrap + & {
     position: absolute;
     right: 0;

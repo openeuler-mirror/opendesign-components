@@ -44,18 +44,14 @@ watch(
 );
 
 // 是否禁用
-const isDisabled = computed(
-  () => {
-    if (checkboxGroupInjection) {
-      return checkboxGroupInjection.disabled.value ||
+const isDisabled = computed(() => {
+  return (
+    checkboxGroupInjection?.disabled.value ||
     props.disabled ||
-    (isChecked.value && checkboxGroupInjection.isMinimum.value) ||
-    (!isChecked.value && checkboxGroupInjection.isMaximum.value);
-    }
-      return false;
-  }
-
-);
+    (isChecked.value && checkboxGroupInjection?.isMinimum.value) ||
+    (!isChecked.value && checkboxGroupInjection?.isMaximum.value)
+  );
+});
 
 const onClick = (ev: Event) => {
   ev.stopPropagation();

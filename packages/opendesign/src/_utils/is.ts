@@ -32,6 +32,24 @@ export function isEmptyArray(val: unknown): val is Array<any> {
   return isArray(val) && val.length === 0;
 }
 
+export function isArrayEqual(arr1: Array<any>, arr2: Array<any>): boolean {
+  if (!isArray(arr1) || !isArray(arr2)) {
+    return false;
+  }
+  const len = arr1.length;
+  if (len !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < len; i++) {
+    if (!arr2.includes(arr1[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export function isEmptyObject(val: unknown): val is {} {
   return opt.call(val) === '[object object]' && Object.keys(val as Object).length === 0;
 }
