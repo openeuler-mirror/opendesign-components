@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import TheHome from './pages/TheHome.vue';
 
 export const routes = [
@@ -7,6 +7,12 @@ export const routes = [
     name: 'Home',
     label: '通用',
     component: TheHome,
+  },
+  {
+    path: '/config-provider',
+    name: 'config-provider',
+    label: '全局配置 config-provider',
+    component: () => import('@components/config-provider/__demo__/TheIndex.vue'),
   },
   // {
   //   path: '/date-picker',
