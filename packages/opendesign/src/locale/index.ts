@@ -45,7 +45,7 @@ export function useLocale(localeKey: string) {
 export function useI18n() {
   const configProvider = inject(configProviderInjectKey, {});
   const languages = computed(() => {
-    return configProvider.locale ?? i18nLanguage.value[currentLocal.value];
+    return configProvider?.locale ?? i18nLanguage.value[currentLocal.value];
   });
   const locale = computed(() => languages.value.locale);
 

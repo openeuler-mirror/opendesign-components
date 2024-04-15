@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue';
-import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src';
+import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem, useLocale, addLocale, useI18n } from '@opensig/opendesign/src';
 import { OIconAdd } from '@opensig/opendesign/src/icon-components';
+import enUS from '@opensig/opendesign/src/locale/lang/en-us';
 
 import '../../../opendesign/src/dropdown/style';
 
@@ -56,6 +57,30 @@ const globalSetting = () => {
   initIconLoading(OIconAdd);
   initSize('large');
 };
+
+const locales = [
+  {
+    value: 'zh-CN',
+    label: '中文',
+  },
+  {
+    value: 'en-US',
+    label: 'English',
+  },
+];
+
+addLocale({
+  'en-US': enUS,
+});
+
+const { locale } = useI18n();
+const currentLocale = computed(() => {
+  const rlt = locales.find((item) => item.value === locale.value);
+  return rlt || locales[0];
+});
+const changeLocale = (l: (typeof locales)[0]) => {
+  useLocale(l.value);
+};
 </script>
 <template>
   <div class="the-header">
@@ -71,6 +96,14 @@ const globalSetting = () => {
           </svg>
           <template #dropdown>
             <ODropdownItem v-for="item in themeInfo" :key="item.name" :label="item.name" :value="item.name" @click="changeTheme(item.key)" />
+          </template>
+        </ODropdown>
+      </div>
+      <div class="tool-item">
+        <ODropdown>
+          {{ currentLocale?.label }}
+          <template #dropdown>
+            <ODropdownItem v-for="item in locales" :key="item.value" :label="item.label" :value="item.value" @click="changeLocale(item)" />
           </template>
         </ODropdown>
       </div>
