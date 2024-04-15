@@ -6,7 +6,7 @@ const THEME_KEY = '__theme__';
 export function useTheme(defaultTheme: string = 'light') {
   if (!isClient) {
     return {
-      theme: defaultTheme,
+      theme: ref(defaultTheme),
     };
   }
   const currentTheme = ref<string>(localStorage.getItem(THEME_KEY) || defaultTheme);
