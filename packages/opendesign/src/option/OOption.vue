@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed, inject, ref, watchEffect } from 'vue';
+import { computed, inject, ref, toRefs, watchEffect } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
 import { optionProps } from './types';
 import { OCheckbox } from '../checkbox';
 
 const props = defineProps(optionProps);
+
+// label增加响应式，用于支持国际化切换语言
+const { label, value } = toRefs(props);
 
 const selectInject = inject(selectOptionInjectKey, null);
 
@@ -16,28 +19,25 @@ const currentVal = computed(() => {
 
 const isActive = ref(false);
 watchEffect(() => {
-  const old = isActive.value;
-  isActive.value = !!currentVal.value?.includes(props.value);
+  isActive.value = !!currentVal.value?.includes(value.value);
 
-  if (isActive.value && old !== isActive.value) {
-    // 初始化select的值、相应modelValue变化
+  // 初始化select的值、相应modelValue变化
 
-    selectInject?.select(
-      {
-        label: props.label || `${props.value}`,
-        value: props.value,
-      },
-      false
-    );
-  }
+  selectInject?.select(
+    {
+      label: label.value || `${value.value}`,
+      value: value.value,
+    },
+    false
+  );
 });
 
 const clickOption = () => {
   if (!props.disabled) {
     selectInject?.select(
       {
-        label: props.label || `${props.value}`,
-        value: props.value,
+        label: label.value || `${value.value}`,
+        value: value.value,
       },
       true
     );

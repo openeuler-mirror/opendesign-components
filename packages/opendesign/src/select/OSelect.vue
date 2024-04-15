@@ -210,7 +210,7 @@ provide(selectOptionInjectKey, {
         }
       }
     } else {
-      if (!optionLabels.value[option.value]) {
+      if (optionLabels.value[option.value] !== option.label) {
         optionLabels.value[option.value] = option.label;
       }
     }

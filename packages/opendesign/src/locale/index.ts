@@ -49,7 +49,7 @@ export function useI18n() {
   });
   const locale = computed(() => languages.value.locale);
 
-  const transform = (key: string, ...args: string[]): string => {
+  const transform = (key: string, ...args: any[]): string => {
     if (!languages.value) {
       logger.warn('no languages configed');
       return '';
