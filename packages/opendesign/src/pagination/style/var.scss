@@ -9,14 +9,9 @@
   --pagination-arrow-color-disabled: var(--o-color-info4);
 
   --pagination-item-color: var(--o-color-info2);
-  --pagination-item-color-hover: var(--o-color-info2);
-  --pagination-item-color-active: var(--o-color-info2);
+  --pagination-item-color-hover: var(--o-color-primary2);
+  --pagination-item-color-active: var(--o-color-primary1);
   --pagination-item-color-current: var(--o-color-primary1);
-
-  --pagination-item-bg-color: transparent;
-  --pagination-item-bg-color-hover: var(--o-color-control2-light);
-  --pagination-item-bg-color-active: var(--o-color-control3-light);
-  --pagination-item-bg-color-current: var(--o-color-primary1-light);
 
   --pagination-item-bd-color: transparent;
   --pagination-item-bd-color-hover: transparent;
@@ -35,6 +30,13 @@
 }
 
 .o-pagination-solid {
+  --pagination-item-color-current: var(--o-color-primary1);
+
+  --pagination-item-bg-color: transparent;
+  --pagination-item-bg-color-hover: var(--o-color-control2-light);
+  --pagination-item-bg-color-active: var(--o-color-control3-light);
+  --pagination-item-bg-color-current: var(--o-color-primary1-light);
+
   --pagination-arrow-bg-color: transparent;
   --pagination-arrow-bg-color-hover: var(--o-color-control2-light);
   --pagination-arrow-bg-color-active: var(--o-color-control3-light);

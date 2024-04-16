@@ -21,6 +21,7 @@
   border-radius: var(--input-radius);
   border: 1px solid var(--input-bd-color);
   background-color: var(--input-bg-color);
+  background-clip: padding-box;
   @include hover {
     border-color: var(--input-bd-color-hover);
     background-color: var(--input-bg-color-hover);
