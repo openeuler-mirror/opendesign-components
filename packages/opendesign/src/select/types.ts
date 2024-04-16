@@ -57,7 +57,6 @@ export const selectProps = {
    */
   placeholder: {
     type: String,
-    default: 'please select...',
   },
   /**
    * 是否支持多选

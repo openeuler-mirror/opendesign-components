@@ -2,6 +2,8 @@ export * from './_utils/export';
 export * from './hooks';
 export * from './directves';
 
+export * from './locale';
+
 export * from './icon';
 export * from './icon-components';
 export * from './button';

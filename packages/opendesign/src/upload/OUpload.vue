@@ -5,11 +5,12 @@ import { isArray, isFunction } from '../_utils/is';
 import { filterSlots } from '../_utils/vue-utils';
 import UploadItem from './UploadItem.vue';
 import slot from './slot';
-import { UploadLabel, doUploadFileList, doUploadFile, generateImageDataUrl, isPictureType } from './util';
+import { doUploadFileList, doUploadFile, generateImageDataUrl, isPictureType } from './util';
 import UploadSelect from './UploadSelect.vue';
 import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
 import { formItemInjectKey } from '../form/provide';
+import { useI18n } from '../locale';
 
 const props = defineProps(uploadProps);
 const emits = defineEmits<{
@@ -24,6 +25,8 @@ const emits = defineEmits<{
 const emitUpdateValue = (value: UploadFileT[]) => {
   emits('update:modelValue', value);
 };
+
+const { t } = useI18n();
 
 const fileList = ref<UploadFileT[]>(props.modelValue ?? props.defaultFileList ?? []);
 watch(
@@ -234,6 +237,7 @@ defineExpose({
         :draggable="props.draggable"
         :btn-label="props.btnLabel"
         :drag-label="props.dragLabel"
+        :drag-hover-label="props.dragHoverLabel"
         :btn-props="props.btnProps"
         @to-select="doSelect"
         @selected="onFileSelected"
@@ -279,7 +283,7 @@ defineExpose({
             <IconAdd class="o-upload-card-add-icon" />
             <div class="o-upload-card-label">
               <slot name="select-add-label">
-                {{ props.btnLabel ?? UploadLabel.btnLabel }}
+                {{ props.btnLabel ?? t('upload.buttonLabel') }}
               </slot>
             </div>
           </slot>

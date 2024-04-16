@@ -10,6 +10,7 @@ import { paginationProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
 import { OOptionList } from '../option';
+import { useI18n } from '../locale';
 
 const props = defineProps(paginationProps);
 
@@ -21,21 +22,18 @@ const emits = defineEmits<{
   (e: 'change', value: { page: number; pageSize: number }): void;
 }>();
 
-const Labels = {
-  total: '总条数:',
-  goto: '前往',
-  page: '页',
-  sizeLabel: '条/页',
-};
+const { t } = useI18n();
 
 const simpleLayout = ['pager'];
 
 let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
 let currentPage = ref(Math.round(props.page));
 
-const pageSizeList = getSizeOptions(currentPageSize.value, Labels.sizeLabel, props.pageSizes);
+const pageSizeList = computed(() => {
+  return getSizeOptions(currentPageSize.value, props.pageSizes, t('pagination.countPerPage'));
+});
 
-const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
+const defaultSizeLabel = computed(() => currentPageSize.value + t('pagination.countPerPage'));
 
 const layout = computed(() => {
   return props.simple ? simpleLayout : props.layout;
@@ -143,7 +141,7 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">{{ t('pagination.total', props.total) }}</div>
       <!-- sizes -->
       <template v-if="layout.includes('pagesize')">
         <div class="o-pagination-size">
@@ -233,7 +231,7 @@ defineExpose({
       <!-- jumper -->
       <template v-if="layout.includes('jumper')">
         <div class="o-pagination-goto">
-          <span>{{ Labels.goto }}</span>
+          <span>{{ t('pagination.goto') }}</span>
           <OInputNumber
             :model-value="currentPage"
             class="o-pagination-input"

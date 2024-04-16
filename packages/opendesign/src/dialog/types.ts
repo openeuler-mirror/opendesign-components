@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 import { layerProps } from '../layer/types';
 import { ColorT, SizeT, VariantT, RoundT } from '../_utils/types';
 
@@ -10,8 +10,9 @@ export interface DialogActionT {
   color?: ColorT;
   variant?: VariantT;
   size?: SizeT;
-  label: string;
+  label?: string;
   round?: RoundT;
+  icon?: Component;
   onClick: () => void;
 }
 

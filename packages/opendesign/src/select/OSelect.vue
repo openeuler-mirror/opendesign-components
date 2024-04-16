@@ -4,7 +4,7 @@ import { defaultSize, isPhonePad } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
-import { ODialog, DialogActionT } from '../dialog';
+import { ODialog } from '../dialog';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_utils/style-class';
@@ -15,6 +15,8 @@ import SelectOption from './SelectOption.vue';
 import slot from './slot';
 import { filterSlots } from '../_utils/vue-utils';
 import { formItemInjectKey } from '../form/provide';
+import { useI18n } from '../locale';
+import { OButton } from '../button';
 
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
@@ -25,11 +27,7 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
 }>();
 
-const Labels = {
-  empty: '暂无数据',
-  cancel: '取消',
-  confirm: '确定',
-};
+const { t } = useI18n();
 
 const selectRef = ref<HTMLElement>();
 const optionsRef = ref<HTMLElement | null>(null);
@@ -210,7 +208,7 @@ provide(selectOptionInjectKey, {
         }
       }
     } else {
-      if (!optionLabels.value[option.value]) {
+      if (optionLabels.value[option.value] !== option.label) {
         optionLabels.value[option.value] = option.label;
       }
     }
@@ -255,32 +253,20 @@ const onSelectClick = () => {
 const onSelectDlgChange = (visible: boolean) => {
   onOptionVisibleChange(visible);
 };
-const selectDlgAction: DialogActionT[] = [
-  {
-    id: 'cancel',
-    label: Labels.cancel,
-    variant: 'text',
-    size: 'large',
-    onClick: () => {
-      isSelecting.value = false;
-      valueList.value = [...finalValueList.value];
-    },
-  },
-  {
-    id: 'ok',
-    label: Labels.confirm,
-    variant: 'text',
-    size: 'large',
-    onClick: () => {
-      isSelecting.value = false;
 
-      finalValueList.value = [...valueList.value];
+const onselectDlgCancelClick = () => {
+  isSelecting.value = false;
+  valueList.value = [...finalValueList.value];
+};
 
-      emitChange(valueList.value);
-      emitUpdateValue(valueList.value);
-    },
-  },
-];
+const onselectDlgOkClick = () => {
+  isSelecting.value = false;
+
+  finalValueList.value = [...valueList.value];
+
+  emitChange(valueList.value);
+  emitUpdateValue(valueList.value);
+};
 </script>
 <template>
   <div
@@ -356,7 +342,7 @@ const selectDlgAction: DialogActionT[] = [
           <slot>
             <div class="o-select-empty">
               <slot name="empty">
-                <span>{{ Labels.empty }}</span>
+                <span>{{ t('common.empty') }}</span>
               </slot>
             </div>
           </slot>
@@ -369,7 +355,6 @@ const selectDlgAction: DialogActionT[] = [
           :before-hide="props.beforeOptionsHide"
           hide-close
           class="o-select-dlg"
-          :actions="props.multiple ? selectDlgAction : undefined"
           :mask-close="!props.multiple"
           :class="{
             'is-loading': props.loading,
@@ -379,6 +364,14 @@ const selectDlgAction: DialogActionT[] = [
         >
           <template v-if="props.optionTitle" #header>
             <div class="o-select-options-head">{{ props.optionTitle }}</div>
+          </template>
+          <template #actions v-if="props.multiple">
+            <OButton class="o-dlg-btn" variant="text" size="large" @click="onselectDlgCancelClick">
+              {{ t('select.cancel') }}
+            </OButton>
+            <OButton class="o-dlg-btn" variant="text" size="large" @click="onselectDlgOkClick">
+              {{ t('select.confirm') }}
+            </OButton>
           </template>
           <SelectOption
             :size="props.size"

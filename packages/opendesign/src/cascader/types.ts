@@ -52,7 +52,6 @@ export const cascaderProps = {
    */
   placeholder: {
     type: String,
-    default: 'please select...',
   },
   /**
    * 下拉选项触发方式 PopupTriggerT

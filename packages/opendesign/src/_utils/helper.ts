@@ -131,7 +131,7 @@ export function getValueByPath(obj: object, path: string) {
     return;
   }
 
-  let temp = obj;
+  let temp: any = obj;
   for (let i = 0; i < keys.length; i++) {
     if (!isObject(temp)) {
       return;

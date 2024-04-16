@@ -49,7 +49,6 @@ export const textareaProps = {
    */
   placeholder: {
     type: String,
-    default: '',
   },
   /**
    * 是否禁用

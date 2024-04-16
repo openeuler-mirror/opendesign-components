@@ -77,7 +77,6 @@ const onSelect = (f: UploadFileT[]) => {
         v-model="singleFileList"
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
-        btn-label="上传(单选)"
         :btn-props="{ size: 'large' }"
         color="normal"
         variant="solid"
