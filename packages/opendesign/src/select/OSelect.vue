@@ -342,7 +342,7 @@ const onselectDlgOkClick = () => {
           <slot>
             <div class="o-select-empty">
               <slot name="empty">
-                <span>{{ t('empty.description') }}</span>
+                <span>{{ t('common.empty') }}</span>
               </slot>
             </div>
           </slot>

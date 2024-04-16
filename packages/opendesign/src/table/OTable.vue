@@ -4,6 +4,7 @@ import { getColumnData, getBodyData } from './table';
 import { computed } from 'vue';
 import { IconLoading } from '../_utils/icons';
 import { isString } from '../_utils/is';
+import { useI18n } from '../locale';
 
 const props = defineProps(tableProps);
 
@@ -19,12 +20,14 @@ defineSlots<{
   [k: `td_${string}`]: (props: { row: TableRowT }) => any;
 }>();
 
+const { t } = useI18n();
+
 const columnData = computed(() => getColumnData(props.columns));
 
 const tableData = computed(() => getBodyData(columnData, props.data, props.cellSpan));
 
-const emptyLabel = props.emptyLabel || '无数据';
-const loadingLabel = props.loadingLabel || '正在加载...';
+const emptyLabel = computed(() => props.emptyLabel || t('common.empty'));
+const loadingLabel = computed(() => props.loadingLabel || t('common.loading'));
 
 const boderClass = computed(() => {
   if (isString(props.border)) {

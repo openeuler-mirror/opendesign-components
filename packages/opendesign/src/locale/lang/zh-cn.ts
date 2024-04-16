@@ -1,7 +1,8 @@
 export default {
   locale: 'zh-CN',
-  empty: {
-    description: '暂无数据',
+  common: {
+    empty: '暂无数据',
+    loading: '加载中...',
   },
   pagination: {
     goto: '前往',

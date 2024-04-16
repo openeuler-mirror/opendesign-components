@@ -1,7 +1,8 @@
 export default {
   locale: 'en-US',
-  empty: {
-    description: 'No Data',
+  common: {
+    empty: 'No Data',
+    loading: 'loading...',
   },
   pagination: {
     goto: 'Goto',
