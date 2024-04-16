@@ -11,6 +11,7 @@
   border: 1px solid var(--select-bd-color);
   background-color: var(--select-bg-color);
   cursor: pointer;
+  background-clip: padding-box;
   @include hover {
     color: var(--select-color-hover);
     border-color: var(--select-bd-color-hover);

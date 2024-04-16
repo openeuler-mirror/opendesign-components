@@ -26,6 +26,19 @@
       background-color: var(--textarea-bg-color-hover);
     }
   }
+
+  &.is-focus {
+    .o-textarea-textarea {
+      border-color: var(--textarea-bd-color-focus);
+      background-color: var(--textarea-bg-color-focus);
+    }
+  }
+  .o-textarea-textarea.is-disabled {
+    color: var(--textarea-color-disabled);
+    cursor: not-allowed;
+    border-color: var(--textarea-bd-color-disabled);
+    background-color: var(--textarea-bg-color-disabled);
+  }
 }
 .o-textarea-round-pill {
   .o-textarea-textarea {
@@ -50,18 +63,7 @@
   border: 1px solid var(--textarea-bd-color);
   border-radius: var(--textarea-radius);
   background-color: var(--textarea-bg-color);
-
-  &.is-focus {
-    border-color: var(--textarea-bd-color-focus);
-    background-color: var(--textarea-bg-color-focus);
-  }
-
-  &.is-disabled {
-    color: var(--textarea-color-disabled);
-    cursor: not-allowed;
-    border-color: var(--textarea-bd-color-disabled);
-    background-color: var(--textarea-bg-color-disabled);
-  }
+  background-clip: padding-box;
 }
 
 .o-textarea-clear {

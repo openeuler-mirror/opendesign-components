@@ -81,11 +81,13 @@
     color: var(--pagination-item-color-active);
     border: 1px solid var(--pagination-item-bd-color-active);
     background-color: var(--pagination-item-bg-color-active);
+    font-weight: 500;
   }
   &.active {
     color: var(--pagination-item-color-current);
     border: 1px solid var(--pagination-item-bd-color-current);
     background-color: var(--pagination-item-bg-color-current);
+    font-weight: 500;
   }
 }
 
