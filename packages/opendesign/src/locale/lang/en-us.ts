@@ -1,5 +1,8 @@
 export default {
   locale: 'en-US',
+  empty: {
+    description: 'No Data',
+  },
   pagination: {
     goto: 'Goto',
     page: 'Page',
@@ -14,5 +17,9 @@ export default {
     delete: 'Delete',
     preview: 'Preview',
     edit: 'Edit',
+  },
+  select: {
+    cancel: 'Cancel',
+    confirm: 'Ok',
   },
 };

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
@@ -6,7 +7,6 @@ import { OScroller } from '../scroller';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_utils/dom';
-import { computed, ref } from 'vue';
 import { isPhonePad } from '../_utils/global';
 import { isBoolean } from '../_utils/is';
 
@@ -92,21 +92,24 @@ defineExpose({
     >
       <slot></slot>
     </div>
-    <div v-if="$slots.footer || props.actions" class="o-dlg-footer">
+    <div v-if="$slots.footer || $slots.actions || props.actions" class="o-dlg-footer">
       <slot name="footer">
         <div class="o-dlg-actions">
-          <OButton
-            v-for="item in props.actions"
-            :key="item.id"
-            class="o-dlg-btn"
-            :color="item.color"
-            :variant="!item.variant && isPhonePad ? 'text' : item.variant"
-            :size="item.size"
-            :round="item.round"
-            @click="item.onClick"
-          >
-            {{ item.label }}
-          </OButton>
+          <slot name="actions">
+            <OButton
+              v-for="item in props.actions"
+              :key="item.id"
+              class="o-dlg-btn"
+              :color="item.color"
+              :variant="!item.variant && isPhonePad ? 'text' : item.variant"
+              :size="item.size"
+              :round="item.round"
+              :icon="item.icon"
+              @click="item.onClick"
+            >
+              {{ item.label }}
+            </OButton>
+          </slot>
         </div>
       </slot>
     </div>

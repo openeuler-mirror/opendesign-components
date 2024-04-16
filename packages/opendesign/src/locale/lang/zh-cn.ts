@@ -1,5 +1,8 @@
 export default {
   locale: 'zh-CN',
+  empty: {
+    description: '暂无数据',
+  },
   pagination: {
     goto: '前往',
     page: '页',
@@ -14,5 +17,9 @@ export default {
     delete: '删除',
     preview: '预览',
     edit: '编辑',
+  },
+  select: {
+    cancel: '取消',
+    confirm: '确定',
   },
 };

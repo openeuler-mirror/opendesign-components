@@ -81,6 +81,7 @@ const currentLocale = computed(() => {
 const changeLocale = (l: (typeof locales)[0]) => {
   useLocale(l.value);
 };
+window.setLocale = changeLocale;
 </script>
 <template>
   <div class="the-header">
