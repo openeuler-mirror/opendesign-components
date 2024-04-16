@@ -121,6 +121,12 @@ export const uploadProps = {
     type: String,
   },
   /**
+   * 拖拽区域拖拽中的提示文本
+   */
+  dragHoverLabel: {
+    type: String,
+  },
+  /**
    * 文件列表类型
    */
   listType: {

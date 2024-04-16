@@ -1,15 +1,15 @@
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IconAdd } from '../_utils/icons';
 import OButton from '../button/OButton.vue';
-import { UploadLabel } from './util';
 import { UploadBtnType } from './types';
 import slot from './slot';
+import { useI18n } from '../locale';
 
 interface UploadSelectPropsT {
   draggable?: boolean;
   dragLabel?: string;
+  dragHoverLabel?: string;
   btnLabel?: string;
   disabled?: boolean;
   btnProps?: UploadBtnType;
@@ -21,6 +21,8 @@ const emits = defineEmits<{
   (e: 'to-select'): void;
   (e: 'selected', files: FileList): void;
 }>();
+
+const { t } = useI18n();
 
 const onSelectClick = () => {
   if (props.disabled) {
@@ -94,14 +96,14 @@ const onDrap = (e: DragEvent) => {
       >
         <slot :name="slot.names.selectDrag">
           <IconAdd class="o-upload-drag-icon" />
-          <div class="o-upload-drag-label">{{ props.dragLabel ?? UploadLabel.dragLabel }}</div>
+          <div class="o-upload-drag-label">{{ !isDragging ? props.dragLabel ?? t('upload.drag') : props.dragHoverLabel ?? t('upload.dragHover') }}</div>
           <div v-if="$slots[slot.names.selectDragExtra]" class="o-upload-select-extra">
             <slot :name="slot.names.selectDragExtra"></slot>
           </div>
         </slot>
       </div>
       <OButton v-else :disabled="props.disabled" v-bind="props.btnProps" :icon="IconAdd">
-        {{ props.btnLabel ?? UploadLabel.btnLabel }}
+        {{ props.btnLabel ?? t('upload.buttonLabel') }}
       </OButton>
     </slot>
   </div>

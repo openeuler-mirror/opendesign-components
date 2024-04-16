@@ -1,6 +1,5 @@
 import { UploadFileT, UploadRequestT, UploadRequestOptionT } from './types';
 import { isFunction } from '../_utils/is';
-import { Slots } from 'vue';
 
 interface OptionsT {
   uploadRequest?: (options: UploadRequestOptionT) => UploadRequestT;
@@ -9,11 +8,6 @@ interface OptionsT {
   onSuccess?: (file: UploadFileT) => void;
   onError?: (file: UploadFileT) => void;
 }
-
-export const UploadLabel = {
-  btnLabel: '上传文件',
-  dragLabel: '点击或拖拽文件到此处上传',
-};
 
 /**
  * 发起上传请求

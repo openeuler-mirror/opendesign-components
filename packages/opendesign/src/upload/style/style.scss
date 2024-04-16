@@ -212,8 +212,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--o-color-info1-inverse);
-  font-size: var(--upload-icon-size-l);
 
   background-color: var(--upload-card-mask);
   border-radius: inherit;
@@ -233,6 +231,8 @@
 
   > .o-upload-icon-btn {
     cursor: pointer;
+    color: var(--o-color-info1-inverse);
+    font-size: var(--upload-icon-size-l);
     @include hover {
       &:hover {
         color: var(--upload-card-icon-color-hover);
