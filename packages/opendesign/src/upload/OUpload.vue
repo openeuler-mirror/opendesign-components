@@ -238,7 +238,6 @@ defineExpose({
         :btn-label="props.btnLabel"
         :drag-label="props.dragLabel"
         :drag-hover-label="props.dragHoverLabel"
-        :btn-props="props.btnProps"
         @to-select="doSelect"
         @selected="onFileSelected"
       >
