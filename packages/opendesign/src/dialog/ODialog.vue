@@ -95,7 +95,8 @@ defineExpose({
     <div v-if="$slots.footer || $slots.actions || props.actions" class="o-dlg-footer">
       <slot name="footer">
         <div class="o-dlg-actions">
-          <slot name="actions">
+          <slot name="actions" :isPhonePad="isPhonePad">
+            <!-- 需要审视透传子组件属性 -->
             <OButton
               v-for="item in props.actions"
               :key="item.id"
