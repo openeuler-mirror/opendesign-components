@@ -1,4 +1,4 @@
-/* theme: opendesign.dark */
+/* theme: dark */
 [data-o-theme="dark"] {
   /**
    * @name 
@@ -17,143 +17,143 @@
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-1: 0, 4, 18;
+  --o-brand-1: 11, 21, 55;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-2: 0, 8, 39;
+  --o-brand-2: 16, 30, 77;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-3: 12, 35, 96;
+  --o-brand-3: 27, 48, 113;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-4: 0, 40, 141;
+  --o-brand-4: 40, 68, 149;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-5: 0, 47, 167;
+  --o-brand-5: 55, 91, 184;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-6: 13, 60, 180;
+  --o-brand-6: 72, 116, 220;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-7: 37, 85, 205;
+  --o-brand-7: 105, 143, 227 ;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-8: 64, 111, 231;
+  --o-brand-8: 140, 171, 234;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-9: 89, 136, 255;
+  --o-brand-9: 176, 199, 241;
   /**
    * @name 
    * @type palette
-   * @group blue
+   * @group brand
    * @description 
    */
-  --o-blue-10: 178, 192, 228;
+  --o-brand-10: 215, 227, 248;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-1: 0, 77, 42;
+  --o-yellow-1: 81, 46, 9;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-2: 2, 102, 53;
+  --o-yellow-2: 121, 75, 15;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-3: 10, 127, 66;
+  --o-yellow-3: 161, 107, 22;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-4: 22, 152, 80;
+  --o-yellow-4: 202, 143, 30;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-5: 36, 177, 95;
+  --o-yellow-5: 242, 183, 38;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-6: 51, 193, 104;
+  --o-yellow-6: 245, 202, 80;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-7: 90, 208, 131;
+  --o-yellow-7: 247, 219, 122;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-8: 135, 224, 163;
+  --o-yellow-8: 250, 234, 166;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-9: 185, 239, 200;
+  --o-yellow-9: 252, 246, 210;
   /**
    * @name 
    * @type palette
-   * @group green
+   * @group yellow
    * @description 
    */
-  --o-green-10: 240, 255, 244;
+  --o-yellow-10: 254, 251, 237;
   /**
    * @name 
    * @type palette
@@ -195,7 +195,7 @@
    * @group orange
    * @description 
    */
-  --o-orange-6: 251, 143, 32;
+  --o-orange-6: 251, 143, 43;
   /**
    * @name 
    * @type palette
@@ -297,213 +297,143 @@
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-1: 0, 0, 0;
+  --o-green-1: 0, 77, 42;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-2: 22, 22, 26;
+  --o-green-2: 2, 102, 53;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-3: 28, 31, 35;
+  --o-green-3: 10, 127, 66;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-4: 39, 41, 55;
+  --o-green-4: 22, 152, 80;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-5: 107, 112, 117;
+  --o-green-5: 36, 177, 95;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-6: 136, 141, 146;
+  --o-green-6: 51, 193, 104;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-7: 167, 171, 176;
+  --o-green-7: 90, 208, 131;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-8: 198, 202, 205;
+  --o-green-8: 135, 224, 163;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-9: 245, 246, 248;
+  --o-green-9: 185, 239, 200;
   /**
    * @name 
    * @type palette
-   * @group mixedgray
+   * @group green
    * @description 
    */
-  --o-mixedgray-10: 255,255, 255;
-  /**
-   * @name 
-   * @type palette
-   * @group amber
-   * @description 
-   */
-  --o-amber-1: 81, 36, 5;
+  --o-green-10: 240, 255, 244;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-2: 121, 61, 9;
+  --o-amber-1: 77, 30, 0;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-3: 161, 89, 14;
+  --o-amber-2: 116, 51, 0;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-4: 202, 122, 20;
+  --o-amber-3: 154, 76, 0;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-5: 242, 158, 26;
+  --o-amber-4: 193, 105, 0;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-6: 245, 182, 70;
+  --o-amber-5: 231, 137, 0;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-7: 247, 205, 115;
+  --o-amber-6: 236, 165, 47;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-8: 250, 224, 161;
+  --o-amber-7: 241, 191, 96;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-9: 252, 241, 207;
+  --o-amber-8: 245, 215, 147;
   /**
    * @name 
    * @type palette
    * @group amber
    * @description 
    */
-  --o-amber-10: 254, 250, 236;
+  --o-amber-9: 250, 237, 200;
   /**
    * @name 
    * @type palette
-   * @group cyan
+   * @group amber
    * @description 
    */
-  --o-cyan-1: 1, 53, 61;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-2: 2, 81, 92;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-3: 4, 11, 123;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-4: 7, 141, 153;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-5: 10, 172, 184;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-6: 48, 190, 198;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-7: 92, 208, 212;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-8: 141, 225, 227;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-9: 195, 241, 241;
-  /**
-   * @name 
-   * @type palette
-   * @group cyan
-   * @description 
-   */
-  --o-cyan-10: 229, 248, 248;
+  --o-amber-10: 253, 247, 232;
   /**
    * @name 
    * @type palette
@@ -577,136 +507,136 @@
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-1: 92, 3, 58;
+  --o-light-green-1: 33, 60, 7;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-2: 128, 8, 78;
+  --o-light-green-2: 51, 90, 11;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-3: 164, 15, 97;
+  --o-light-green-3: 70, 119, 16;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-4: 199, 25, 115;
+  --o-light-green-4: 91, 149, 21;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-5: 235, 36, 132;
+  --o-light-green-5: 112, 179, 27;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-6: 239, 77, 150;
+  --o-light-green-6: 184, 220, 48;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-7: 243, 120, 171;
+  --o-light-green-7: 166, 209, 103;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-8: 247, 163, 195;
+  --o-light-green-8: 195, 225, 148;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-9: 251, 208, 223;
+  --o-light-green-9: 225, 240, 199;
   /**
    * @name 
    * @type palette
-   * @group pink
+   * @group light-green
    * @description 
    */
-  --o-pink-10: 253, 237, 242;
-  /**
-   * @name 
-   * @type palette
-   * @group teal
-   * @description 
-   */
-  --o-teal-1: 0, 60, 49;
+  --o-light-green-10: 242, 247, 231;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-2: 0, 90, 72;
+  --o-teal-1: 0, 60, 48;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-3: 1, 119, 95;
+  --o-teal-2: 0, 90, 71;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-4: 3, 149, 116;
+  --o-teal-3: 0, 119, 93;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-5: 5, 179, 137;
+  --o-teal-4: 0, 149, 113;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-6: 43, 194, 155;
+  --o-teal-5: 0, 179, 133;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-7: 87, 209, 176;
+  --o-teal-6: 39, 194, 152;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-8: 137, 225, 199;
+  --o-teal-7: 84, 209, 173;
   /**
    * @name 
    * @type palette
    * @group teal
    * @description 
    */
-  --o-teal-9: 193, 240, 225;
+  --o-teal-8: 135, 225, 197;
+  /**
+   * @name 
+   * @type palette
+   * @group teal
+   * @description 
+   */
+  --o-teal-9: 192, 240, 224;
   /**
    * @name 
    * @type palette
@@ -717,59 +647,367 @@
   /**
    * @name 
    * @type palette
-   * @group indigo
+   * @group cyan
    * @description 
    */
-  --o-indigo-1: 23, 34, 101;
+  --o-cyan-1: 0, 52, 60;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-2: 0, 79, 90;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-3: 0, 107, 119;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-4: 0, 137, 149;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-5: 39, 186, 194;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-6: 84, 205, 209;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-7: 92, 208, 212;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-8: 135, 223, 225;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-9: 192, 240, 240;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-10: 228, 247, 247;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-1: 0, 47, 76;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-2: 0, 72, 115;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-3: 0, 99, 153;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-4: 0, 127, 191;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-5: 0, 156, 229;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-6: 47, 178, 234;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-7: 96, 198, 239;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-8: 147, 218, 245;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-9: 200, 237, 250;
+  /**
+   * @name 
+   * @type palette
+   * @group light-blue
+   * @description 
+   */
+  --o-light-blue-10: 232, 247, 252;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-1: 0, 43, 97;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-2: 0, 61, 133;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-3: 0, 80, 169;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-4: 0, 100, 204;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-5: 0, 122, 240;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-6: 49, 151, 243;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-7: 98, 178, 246;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-8: 149, 205, 249;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-9: 202, 231, 252;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-10: 233, 245, 254;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-1: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-2: 18, 18, 20;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-3: 28, 26, 28;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-4: 36, 36, 39;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-5: 43, 43, 47;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-6: 53, 53, 57;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-7: 63, 63, 67;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-8: 85, 85, 88;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-9: 118, 118, 122;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-10: 156, 156, 159;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-11: 181, 181, 185;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-12: 208, 208, 210;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-13: 235, 235, 238;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-14: 255,255, 255;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-2: 32, 46, 122;
+  --o-indigo-1: 5, 19, 101;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-3: 41, 59, 142;
+  --o-indigo-2: 10, 28, 118;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-4: 52, 73, 163;
+  --o-indigo-3: 16, 38, 138;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-5: 64, 89, 183;
+  --o-indigo-4: 23, 50, 159;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-6: 95, 118, 197;
+  --o-indigo-5: 31, 63, 179;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-7: 129, 149, 212;
+  --o-indigo-6: 66, 96, 194;
   /**
    * @name 
    * @type palette
    * @group indigo
    * @description 
    */
-  --o-indigo-8: 167, 183, 226;
+  --o-indigo-7: 106, 131, 209;
+  /**
+   * @name 
+   * @type palette
+   * @group indigo
+   * @description 
+   */
+  --o-indigo-8: 150, 170, 225;
   /**
    * @name 
    * @type palette
@@ -783,112 +1021,42 @@
    * @group indigo
    * @description 
    */
-  --o-indigo-10: 237, 240, 248;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-1: 65, 12, 97;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-2: 83, 18, 118;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-3: 103, 25, 138;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-4: 124, 33, 159;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-5: 146, 43, 179;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-6: 169, 76, 194;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-7: 193, 114, 209;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-8: 215, 156, 225;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-9: 236, 203, 240;
-  /**
-   * @name 
-   * @type palette
-   * @group purple
-   * @description 
-   */
-  --o-purple-10: 246, 234, 247;
+  --o-indigo-10: 232, 236, 247;
   /**
    * @name 
    * @type palette
    * @group violet
    * @description 
    */
-  --o-violet-1: 77, 0, 17;
+  --o-violet-1: 34, 0, 109;
   /**
    * @name 
    * @type palette
    * @group violet
    * @description 
    */
-  --o-violet-2: 53, 23, 119;
+  --o-violet-2: 39, 2, 130;
   /**
    * @name 
    * @type palette
    * @group violet
    * @description 
    */
-  --o-violet-3: 64, 31, 140;
+  --o-violet-3: 46, 7, 150;
   /**
    * @name 
    * @type palette
    * @group violet
    * @description 
    */
-  --o-violet-4: 74, 40, 160;
+  --o-violet-4: 53, 13, 171;
   /**
    * @name 
    * @type palette
    * @group violet
    * @description 
    */
-  --o-violet-5: 85, 50, 181;
+  --o-violet-5: 61, 20, 191;
   /**
    * @name 
    * @type palette
@@ -927,73 +1095,143 @@
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-1: 84, 49, 0;
+  --o-purple-1: 60, 0, 97;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-2: 126, 80, 0;
+  --o-purple-2: 77, 0, 118;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-3: 168, 116, 1;
+  --o-purple-3: 95, 0, 138;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-4: 210, 156, 3;
+  --o-purple-4: 114, 0, 159;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-5: 252, 200, 6;
+  --o-purple-5: 135, 2, 179;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-6: 253, 217, 55;
+  --o-purple-6: 161, 41, 194;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-7: 253, 232, 105;
+  --o-purple-7: 187, 85, 209;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-8: 254, 243, 155;
+  --o-purple-8: 211, 136, 225;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-9: 254, 251, 205;
+  --o-purple-9: 234, 192, 240;
   /**
    * @name 
    * @type palette
-   * @group yellow
+   * @group purple
    * @description 
    */
-  --o-yellow-10: 255, 253, 235;
+  --o-purple-10: 245, 228, 247;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-1: 81, 0, 51;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-2: 117, 0, 70;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-3: 153, 0, 86;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-4: 188, 0, 100;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-5: 224, 0, 112;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-6: 230, 46, 132;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-7: 236, 95, 156;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-8: 243, 146, 184;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-9: 249, 199, 217;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-10: 252, 232, 239;
   /**
    * @name 
    * @type color
@@ -1014,56 +1252,56 @@
    * @group primary
    * @description 常规
    */
-  --o-color-primary1: rgb(var(--o-blue-5));
+  --o-color-primary1: rgb(var(--o-brand-5));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-blue-4));
+  --o-color-primary2: rgb(var(--o-brand-4));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-blue-7));
+  --o-color-primary3: rgb(var(--o-brand-7));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用
    */
-  --o-color-primary4: rgb(var(--o-blue-3));
+  --o-color-primary4: rgb(var(--o-brand-3));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 常规-浅
    */
-  --o-color-primary1-light: rgb(var(--o-blue-2));
+  --o-color-primary1-light: rgb(var(--o-brand-2));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮-浅
    */
-  --o-color-primary2-light: rgb(var(--o-blue-3));
+  --o-color-primary2-light: rgb(var(--o-brand-3));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活-浅
    */
-  --o-color-primary3-light: rgb(var(--o-blue-4));
+  --o-color-primary3-light: rgb(var(--o-brand-4));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用-浅
    */
-  --o-color-primary4-light: rgb(var(--o-blue-1));
+  --o-color-primary4-light: rgb(var(--o-brand-1));
   /**
    * @name 
    * @type color
@@ -1294,21 +1532,21 @@
    * @group control
    * @description 悬浮-浅，常用于背景
    */
-  --o-color-control2-light: rgb(var(--o-blue-5), 0.1);
+  --o-color-control2-light: rgb(var(--o-brand-5), 0.1);
   /**
    * @name 
    * @type color
    * @group control
    * @description 激活-浅，常用于背景
    */
-  --o-color-control3-light: rgb(var(--o-blue-5), 0.15);
+  --o-color-control3-light: rgb(var(--o-brand-5), 0.15);
   /**
    * @name 
    * @type color
    * @group control
    * @description 禁用-浅，常用于背景
    */
-  --o-color-control4-light: rgb(var(--o-blue-5), 0.1);
+  --o-color-control4-light: rgb(var(--o-brand-5), 0.1);
   /**
    * @name 
    * @type color
@@ -1392,28 +1630,28 @@
    * @group link
    * @description 常规
    */
-  --o-color-link1: rgba(var(--o-blue-5));
+  --o-color-link1: rgba(var(--o-brand-5));
   /**
    * @name 
    * @type color
    * @group link
    * @description 悬浮
    */
-  --o-color-link2: rgba(var(--o-blue-4));
+  --o-color-link2: rgba(var(--o-brand-4));
   /**
    * @name 
    * @type color
    * @group link
    * @description 激活
    */
-  --o-color-link3: rgba(var(--o-blue-7));
+  --o-color-link3: rgba(var(--o-brand-7));
   /**
    * @name 
    * @type color
    * @group link
    * @description 禁用
    */
-  --o-color-link4: rgba(var(--o-blue-3));
+  --o-color-link4: rgba(var(--o-brand-3));
   /**
    * @name 阴影1
    * @type shadow
