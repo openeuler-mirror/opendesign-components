@@ -71,3 +71,5 @@ export function useI18n() {
     t: transform,
   };
 }
+
+export * from './types';

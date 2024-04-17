@@ -8,5 +8,6 @@ const OForm = Object.assign(_OForm, {
     app.component('OForm', _OForm);
   },
 });
+
 export { OForm, OFormItem };
 export * from './types';

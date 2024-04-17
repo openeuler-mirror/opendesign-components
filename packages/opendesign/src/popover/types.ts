@@ -10,4 +10,4 @@ export const popoverProps = {
   ...popupProps,
 };
 
-export type PopupPropsT = ExtractPropTypes<typeof popoverProps>;
+export type PopoverPropsT = ExtractPropTypes<typeof popoverProps>;
