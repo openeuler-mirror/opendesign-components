@@ -17,6 +17,7 @@ watchEffect(() => {
 </script>
 <template>
   <h4>Issue: <a href="https://gitee.com/openeuler/opendesign-components/pulls/190">#I9H2IP</a></h4>
+  <p>修复无法默认选中 value 为 0 的option</p>
 
   <div>selectVal1: {{ selectVal1 }}</div>
   <section>
