@@ -3,10 +3,9 @@ import type { App } from 'vue';
 
 const OTable = Object.assign(_OTable, {
   install(app: App) {
-    app.component(_OTable.name, _OTable);
+    app.component('OTable', _OTable);
   },
 });
 
-export * from './types';
-
 export { OTable };
+export * from './types';

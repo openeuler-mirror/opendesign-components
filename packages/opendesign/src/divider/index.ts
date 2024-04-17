@@ -4,10 +4,9 @@ import _ODivider from './ODivider.vue';
 
 const ODivider = Object.assign(_ODivider, {
   install(app: App) {
-    app.component(_ODivider.name, _ODivider);
+    app.component('ODivider', _ODivider);
   },
 });
 
-export * from './types';
-
 export { ODivider };
+export * from './types';

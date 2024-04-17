@@ -3,10 +3,9 @@ import type { App } from 'vue';
 
 const OCard = Object.assign(_OCard, {
   install(app: App) {
-    app.component(_OCard.name, _OCard);
+    app.component('OCard', _OCard);
   },
 });
 
-export {
-  OCard,
-};
+export { OCard };
+export * from './types';

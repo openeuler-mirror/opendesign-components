@@ -6,9 +6,10 @@ import ODropdownItem from './ODropdownItem.vue';
 const ODropdown = Object.assign(_ODropdown, {
   ODropdownItem,
   install(app: App) {
-    app.component(_ODropdown.name, _ODropdown);
-    app.component(ODropdownItem.name, ODropdownItem);
+    app.component('ODropdown', _ODropdown);
+    app.component('ODropdownItem', ODropdownItem);
   },
 });
 
 export { ODropdown, ODropdownItem };
+export * from './types';

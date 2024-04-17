@@ -8,10 +8,11 @@ const OMenu = Object.assign(_OMenu, {
   OSubMenu,
   OMenuItem,
   install(app: App) {
-    app.component(_OMenu.name, _OMenu);
-    app.component(OMenuItem.name, OMenuItem);
-    app.component(OSubMenu.name, OSubMenu);
+    app.component('OMenu', _OMenu);
+    app.component('OMenuItem', OMenuItem);
+    app.component('OSubMenu', OSubMenu);
   },
 });
 
 export { OMenu, OSubMenu, OMenuItem };
+export * from './types';

@@ -5,10 +5,9 @@ import useMessage from './use-message';
 
 const OMessage = Object.assign(_OMessage, {
   install(app: App) {
-    app.component(_OMessage.name, _OMessage);
+    app.component('OMessage', _OMessage);
   },
 });
 
-export * from './types';
-
 export { OMessage, useMessage };
+export * from './types';
