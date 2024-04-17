@@ -58,3 +58,11 @@ TODO
 2. [select] 支持下拉分组
 3. [upload] 支持 v-model 受控模式
 4. [scroller] 支持 css 变量控制滚动槽位置
+
+# 0.0.63
+
+1. 支持组件国际化(en\cn)
+2. 优化颜色变量
+3. [select|input|textarea] 优化交互样式
+4. [select] 修复无法默认选中 value 为 0 的 option
+5. [upload] 移除 btnProps 属性
