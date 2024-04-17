@@ -5,7 +5,7 @@ import { OSelect } from '../index';
 import { OOption } from '../../option';
 const options = [
   { label: 'option 1', value: 0 },
-  { label: 'long long long long long long long long long long long long text option 2', value: 'opt2' },
+  { label: 'option 2', value: 'opt2' },
   { label: 'option 3', value: '' },
   { label: 'option 4', value: 'opt4' },
 ];
@@ -16,7 +16,8 @@ watchEffect(() => {
 });
 </script>
 <template>
-  <h4>Color & Variant</h4>
+  <h4>Issue: <a href="https://gitee.com/openeuler/opendesign-components/pulls/190">#I9H2IP</a></h4>
+
   <div>selectVal1: {{ selectVal1 }}</div>
   <section>
     <OSelect v-model="selectVal1" placeholder="select..." clearable>
