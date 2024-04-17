@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h } from 'vue';
+import { h, shallowRef } from 'vue';
 
 import '../style';
 import useMessage from '../use-message';
@@ -19,7 +19,7 @@ const handleClick1 = () => {
 
 const handleClick2 = () => {
   message.show({
-    content: OIconAdd,
+    content: shallowRef(OIconAdd),
     status: 'info',
   });
 };
