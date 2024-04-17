@@ -1,8 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT } from '../_utils/types';
 
-export const TabVariantTypes = ['solid', 'text'] as const;
-export type TabVariantT = (typeof TabVariantTypes)[number];
 export type ValidatorReusltT = 'danger' | 'warning' | 'success';
 export type TriggerT = 'change' | 'input' | 'blur' | 'focus' | `e-${string}`;
 
@@ -52,19 +49,6 @@ export const formProps = {
    */
   model: {
     type: Object,
-  },
-  /**
-   * 类型 TabVariantT
-   */
-  variant: {
-    type: String as PropType<TabVariantT>,
-    default: 'text',
-  },
-  /**
-   * 大小 SizeT
-   */
-  size: {
-    type: String as PropType<SizeT>,
   },
   /**
    * 子项是否包含必选，主要用于控制文本左对齐样式
