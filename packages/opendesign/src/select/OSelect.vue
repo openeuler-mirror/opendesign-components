@@ -10,7 +10,7 @@ import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { OScroller } from '../scroller';
-import { isArray, isFunction, isArrayEqual } from '../_utils/is';
+import { isArray, isFunction, isArrayEqual, isUndefined } from '../_utils/is';
 import SelectOption from './SelectOption.vue';
 import slot from './slot';
 import { filterSlots } from '../_utils/vue-utils';
@@ -71,7 +71,7 @@ if (isArray(props.modelValue)) {
   valueList.value = [...props.defaultValue];
 } else {
   const mrValue = props.modelValue ?? props.defaultValue;
-  if (mrValue) {
+  if (!isUndefined(mrValue)) {
     valueList.value = [mrValue];
   } else {
     valueList.value = [];

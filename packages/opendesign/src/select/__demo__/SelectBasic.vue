@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { OSelect, SelectValueT } from '../index';
 import { OOption } from '../../option';
 const options = [
-  { label: 'option 1', value: '' },
+  { label: 'option 1', value: 0 },
   { label: 'long long long long long long long long long long long long text option 2', value: 'opt2' },
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
@@ -20,7 +20,7 @@ const options2 = [
   { label: 'option 8', value: 'opt8' },
   { label: 'option 9', value: 'opt9' },
 ];
-const selectVal1 = ref('opt3');
+const selectVal1 = ref<number | string>(0);
 const changeVal = () => {
   selectVal1.value = 'opt3';
 };
