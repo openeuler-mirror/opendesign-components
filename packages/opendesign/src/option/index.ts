@@ -5,10 +5,10 @@ import type { App } from 'vue';
 
 const OOption = Object.assign(_OOption, {
   install(app: App) {
-    app.component(_OOption.name, _OOption);
-    app.component(OOptionGroup.name, OOptionGroup);
-    app.component(OOptionList.name, OOptionList);
+    app.component('OOption', _OOption);
+    app.component('OOptionGroup', OOptionGroup);
   },
 });
 
 export { OOption, OOptionList, OOptionGroup };
+export * from './types';

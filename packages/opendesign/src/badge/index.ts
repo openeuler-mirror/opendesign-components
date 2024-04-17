@@ -4,10 +4,9 @@ import _OBadge from './OBadge.vue';
 
 const OBadge = Object.assign(_OBadge, {
   install(app: App) {
-    app.component(_OBadge.name, _OBadge);
+    app.component('OBadge', _OBadge);
   },
 });
 
-export * from './types';
-
 export { OBadge };
+export * from './types';

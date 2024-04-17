@@ -6,11 +6,10 @@ import OAnchorItem from './OAnchorItem.vue';
 const OAnchor = Object.assign(_OAnchor, {
   OAnchorItem,
   install(app: App) {
-    app.component(_OAnchor.name, _OAnchor);
-    app.component(OAnchorItem.name, OAnchorItem);
+    app.component('OAnchor', _OAnchor);
+    app.component('OAnchorItem', OAnchorItem);
   },
 });
 
-export * from './types';
-
 export { OAnchor, OAnchorItem };
+export * from './types';

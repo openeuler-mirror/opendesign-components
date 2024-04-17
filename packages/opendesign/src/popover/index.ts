@@ -3,10 +3,9 @@ import type { App } from 'vue';
 
 const OPopover = Object.assign(_OPopover, {
   install(app: App) {
-    app.component(_OPopover.name, _OPopover);
+    app.component('OPopover', _OPopover);
   },
 });
 
-export {
-  OPopover,
-};
+export { OPopover };
+export * from './types';

@@ -3,7 +3,7 @@ import type { App } from 'vue';
 
 const OInput = Object.assign(_OInput, {
   install(app: App) {
-    app.component(_OInput.name, _OInput);
+    app.component('OInput', _OInput);
   },
 });
 export { OInput };

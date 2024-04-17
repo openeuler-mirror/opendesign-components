@@ -4,13 +4,13 @@ import type { App } from 'vue';
 
 const ODatePicker = Object.assign(_ODatePicker, {
   install(app: App) {
-    app.component(_ODatePicker.name, _ODatePicker);
+    app.component('ODatePicker', _ODatePicker);
   },
 });
 
 const ODateRangePicker = Object.assign(_ODateRangePicker, {
   install(app: App) {
-    app.component(_ODateRangePicker.name, _ODateRangePicker);
+    app.component('ODateRangePicker', _ODateRangePicker);
   },
 });
 

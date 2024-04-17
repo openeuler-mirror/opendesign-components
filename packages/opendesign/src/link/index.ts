@@ -3,10 +3,9 @@ import type { App } from 'vue';
 
 const OLink = Object.assign(_OLink, {
   install(app: App) {
-    app.component(_OLink.name, _OLink);
+    app.component('OLink', _OLink);
   },
 });
 
-export {
-  OLink,
-};
+export { OLink };
+export * from './types';

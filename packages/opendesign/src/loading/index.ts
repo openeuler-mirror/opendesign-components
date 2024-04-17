@@ -8,8 +8,9 @@ const OLoading = Object.assign(_OLoading, {
   setVLoadingOption,
   useLoading,
   install(app: App) {
-    app.component(_OLoading.name, _OLoading);
+    app.component('OLoading', _OLoading);
   },
 });
 
 export { OLoading, vLoading, useLoading, setVLoadingOption };
+export * from './types';

@@ -4,10 +4,9 @@ import _OSwitch from './OSwitch.vue';
 
 const OSwitch = Object.assign(_OSwitch, {
   install(app: App) {
-    app.component(_OSwitch.name, _OSwitch);
+    app.component('OSwitch', _OSwitch);
   },
 });
 
-export * from './types';
-
 export { OSwitch };
+export * from './types';

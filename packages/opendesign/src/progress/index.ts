@@ -4,10 +4,9 @@ import _OProgress from './OProgress.vue';
 
 const OProgress = Object.assign(_OProgress, {
   install(app: App) {
-    app.component(_OProgress.name, _OProgress);
+    app.component('OProgress', _OProgress);
   },
 });
 
-export * from './types';
-
 export { OProgress };
+export * from './types';

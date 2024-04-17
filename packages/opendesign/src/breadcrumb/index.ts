@@ -6,11 +6,10 @@ import OBreadcrumbItem from './OBreadcrumbItem.vue';
 const OBreadcrumb = Object.assign(_OBreadcrumb, {
   OBreadcrumbItem,
   install(app: App) {
-    app.component(_OBreadcrumb.name, _OBreadcrumb);
-    app.component(OBreadcrumbItem.name, OBreadcrumbItem);
+    app.component('OBreadcrumb', _OBreadcrumb);
+    app.component('OBreadcrumbItem', OBreadcrumbItem);
   },
 });
 
-export * from './types';
-
 export { OBreadcrumb, OBreadcrumbItem };
+export * from './types';

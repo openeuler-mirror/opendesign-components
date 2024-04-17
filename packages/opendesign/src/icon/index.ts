@@ -3,7 +3,7 @@ import type { App } from 'vue';
 
 const OIcon = Object.assign(_OIcon, {
   install(app: App) {
-    app.component(_OIcon.name, _OIcon);
+    app.component('OIcon', _OIcon);
   },
 });
 export { OIcon };
