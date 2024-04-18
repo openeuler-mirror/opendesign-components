@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { computed, ref, watch, onMounted } from 'vue';
-import { innerInputProps } from './types';
-import { Enter } from '../../_utils/keycode';
-import { isTouchDevice } from '../../_utils/is';
+import { computed, ref, watch, onMounted, toRefs, watchEffect } from 'vue';
+import { inInputProps } from './types';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
 import { vUid } from '../../directves';
 import { formateToString } from '../../_utils/helper';
-import { useComposition } from '../../hooks/use-composition';
 import { useInput } from '../../_headless/use-input';
+import { useInputPassword } from '../../_headless/use-input-password';
 
-const props = defineProps(innerInputProps);
+const props = defineProps(inInputProps);
 
 const emits = defineEmits<{
   /**
@@ -24,79 +22,58 @@ const emits = defineEmits<{
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
 
-const { currentValue, displayValue, clearValue, handleBlur, handleInput, handleFocus, handlePressEnter, handleClear, inputRef } = useInput({
+const {
+  currentValue,
+  displayValue,
+  clearValue: clear,
+  handleBlur,
+  handleInput,
+  handleFocus,
+  handlePressEnter,
+  handleClear,
+  inputRef,
+} = useInput({
   emits: emits,
   defaultValue: props.modelValue ?? props.defaultValue ?? '',
   parse: props.parse,
   format: props.format,
 });
 
+const { disabled, type } = toRefs(props);
+const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassword({
+  type,
+  disabled,
+  showPasswordEvent: props.showPasswordEvent,
+});
+
 // input类型 password|text
 const inputType = ref(props.type);
+console.log(props.type);
+
+const togglePassword = (visible?: boolean) => {
+  inputType.value = visible ? 'text' : 'password';
+};
+
+watchEffect(() => {
+  togglePassword(showPassword.value);
+});
 
 // 监听属性变化，刷新值
 watch(
   () => props.modelValue,
   (val) => {
-    currentValue.value = formateToString(val);
+    const value = formateToString(val);
+    if (value !== currentValue.value) {
+      currentValue.value = value;
+    }
   }
 );
 
 // 是否可清除
 const isClearable = computed(() => currentValue.value && props.clearable && !props.disabled && !props.readonly);
 
-// 密码输入框
-const isEyeOn = ref(false);
-const togglePassword = (visible: boolean) => {
-  if (visible) {
-    inputType.value = 'text';
-  } else {
-    inputType.value = 'password';
-  }
-};
-const toggleEye = (show?: boolean) => {
-  if (show === undefined) {
-    isEyeOn.value = !isEyeOn.value;
-  } else {
-    isEyeOn.value = show;
-  }
-  togglePassword(isEyeOn.value);
-};
-
-const onEyeClick = () => {
-  if (props.disabled) {
-    return;
-  }
-  if (props.showPasswordEvent === 'click') {
-    toggleEye();
-  }
-};
-
-const onEyeMouseUp = () => {
-  if (isEyeOn.value) {
-    toggleEye(false);
-
-    if (isTouchDevice) {
-      window.removeEventListener('touchend', onEyeMouseUp);
-      window.removeEventListener('touchcancel', onEyeMouseUp);
-    } else {
-      window.removeEventListener('mouseup', onEyeMouseUp);
-    }
-  }
-};
-const onEyeMouseDown = () => {
-  if (props.disabled) {
-    return;
-  }
-  if (props.showPasswordEvent === 'pointerdown') {
-    toggleEye(true);
-    if (isTouchDevice) {
-      window.addEventListener('touchend', onEyeMouseUp);
-      window.addEventListener('touchcancel', onEyeMouseUp);
-    } else {
-      window.addEventListener('mouseup', onEyeMouseUp);
-    }
-  }
+const focus = () => {
+  inputRef.value?.focus();
 };
 
 const uId = ref('');
@@ -107,10 +84,8 @@ onMounted(() => {
 });
 
 defineExpose({
-  focus: () => {
-    inputRef.value?.focus();
-  },
-  clear: clearValue,
+  focus,
+  clear,
   togglePassword,
   uId,
 });
@@ -159,7 +134,7 @@ defineExpose({
         @touchend="onEyeMouseUp"
         @touchcancel="onEyeMouseUp"
       >
-        <IconEyeOn v-if="isEyeOn" class="o_input-eye-icon" />
+        <IconEyeOn v-if="showPassword" class="o_input-eye-icon" />
         <IconEyeOff v-else class="o_input-eye-icon" />
       </div>
       <span v-if="$slots.extra">

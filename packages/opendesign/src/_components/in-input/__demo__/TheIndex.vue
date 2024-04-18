@@ -4,32 +4,44 @@ import InInput from '../InInput.vue';
 import { ref, watchEffect } from 'vue';
 const inputVal = ref('123');
 watchEffect(() => {
-  console.log('inputVal:', inputVal.value);
+  console.log('inputVal changed:', inputVal.value);
 });
-const onInput = (value: string, e: Event) => {
-  console.log('onInput:', value, e);
+const onInput = (e: Event) => {
+  console.log('onInput:', e);
 };
 const onChange = (value: string) => {
   console.log('onChange:', value);
 };
-const onfocus = (value: string, e: Event) => {
-  console.log('onfocus:', value, e);
+const onfocus = (e: Event) => {
+  console.log('onfocus:', e);
 };
-const onBlur = (value: string, e: Event) => {
-  console.log('onBlur:', value, e);
+const onBlur = (e: Event) => {
+  console.log('onBlur:', e);
 };
 const onClear = () => {
-  console.log('onClear:');
+  console.log('onClear');
 };
-const onPressEnter = (value: string, e: Event) => {
-  console.log('onPressEnter:', value, e);
+const onPressEnter = (e: Event) => {
+  console.log('onPressEnter:', e);
+};
+
+const disabled = ref(false);
+const toggleDisabled = () => {
+  disabled.value = !disabled.value;
+};
+
+const type = ref<'text' | 'password'>('text');
+const toggleType = () => {
+  type.value = type.value === 'text' ? 'password' : 'text';
 };
 </script>
 
 <template>
   <div class="page-demo">
     <h3>Basic</h3>
-    <div class="frame">
+    <button @click="toggleDisabled">change disabled</button>
+    <button @click="toggleType">change type</button>
+    <section class="frame">
       <InInput
         class="test-input"
         v-model="inputVal"
@@ -41,7 +53,20 @@ const onPressEnter = (value: string, e: Event) => {
         @press-enter="onPressEnter"
         clearable
       />
-    </div>
+      <InInput
+        class="test-input"
+        :type="type"
+        v-model="inputVal"
+        @input="onInput"
+        @focus="onfocus"
+        @blur="onBlur"
+        @clear="onClear"
+        @change="onChange"
+        @press-enter="onPressEnter"
+        :disabled="disabled"
+        clearable
+      />
+    </section>
   </div>
 </template>
 <style lang="scss" scoped>

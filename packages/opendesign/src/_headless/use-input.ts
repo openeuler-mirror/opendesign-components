@@ -21,8 +21,7 @@ export interface InputOptionT {
 }
 
 /**
- * 日期、时间选择器
- * @returns
+ * 输入框
  */
 export function useInput(options: InputOptionT) {
   const { defaultValue, parse, format, emits } = options;
@@ -101,6 +100,7 @@ export function useInput(options: InputOptionT) {
 
     emits('clear');
   };
+
   const handleClear = (e: Event) => {
     e.stopPropagation();
     e.preventDefault();

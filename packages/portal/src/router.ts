@@ -9,6 +9,12 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/in-input',
+    name: 'InInput',
+    label: '_输入框',
+    component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/config-provider',
     name: 'config-provider',
     label: '全局配置 config-provider',
@@ -20,12 +26,6 @@ export const routes = [
   //   label: '日期选择器 DatePicker',
   //   component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
   // },
-  {
-    path: '/in-input',
-    name: 'InInput',
-    label: '输入框',
-    component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
-  },
   {
     path: '/date-picker',
     name: 'DatePicker',

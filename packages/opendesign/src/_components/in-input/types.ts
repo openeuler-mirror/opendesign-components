@@ -1,13 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT } from '../../_utils/types';
 
-export const innerInputProps = {
-  /**
-   * 大小 SizeT
-   */
-  size: {
-    type: String as PropType<SizeT>,
-  },
+export const inInputProps = {
   /**
    * 下拉框的值
    * v-model
@@ -87,4 +80,4 @@ export const innerInputProps = {
   },
 };
 
-export type InnerInputProps = ExtractPropTypes<typeof innerInputProps>;
+export type InInputProps = ExtractPropTypes<typeof inInputProps>;
