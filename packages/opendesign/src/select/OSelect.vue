@@ -112,8 +112,8 @@ watch(
       // 多选
 
       if (isArray(v)) {
-        // 判断是否值相等
-        if (isArrayEqual(v, valueList.value)) {
+        // 判断是否值相等 #I9IJT2
+        if (!isArrayEqual(v, valueList.value)) {
           valueList.value = [...v];
         }
       } else {
