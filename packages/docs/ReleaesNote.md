@@ -66,3 +66,7 @@ TODO
 3. [select|input|textarea] 优化交互样式
 4. [select] 修复无法默认选中 value 为 0 的 option
 5. [upload] 移除 btnProps 属性
+
+# 0.0.64
+
+1. [select] 修复多选时 v-model 失效问题 #I9IJT2
