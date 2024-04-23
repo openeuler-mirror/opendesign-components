@@ -11,6 +11,16 @@
   --input-prepend-append-bd-color: var(--o-color-control1);
   --input-prepend-append-bd-color-disabled: var(--o-color-control4-light);
   --input-prepend-append-bg-color: var(--o-color-control-light);
+
+  // in-input
+  --icon-color: var(--o-color-info3);
+  --icon-color-hover: var(--o-color-info2);
+  --icon-color-disabled: var(--o-color-info4);
+  --icon-size: var(--input-icon-size);
+}
+
+.o-input-disabled {
+  --input-color: var(--input-color-disabled);
 }
 
 .o-input-solid {
@@ -95,7 +105,7 @@
 
   --input-padding: 0 7px;
   --input-radius: var(--o-radius_control-xs);
-  --o-input-icon-size: var(--o-icon_size_control-xs);
+  --input-icon-size: var(--o-icon_size_control-xs);
 
   .has-prepend {
     --input-padding: 0 7px 0 5px;
@@ -115,7 +125,7 @@
 
   --input-padding: 0 15px;
   --input-radius: var(--o-radius_control-s);
-  --o-input-icon-size: var(--o-icon_size_control-xs);
+  --input-icon-size: var(--o-icon_size_control-xs);
 
   .has-prepend {
     --input-padding: 0 15px 0 7px;
@@ -135,7 +145,7 @@
 
   --input-padding: 0 15px;
   --input-radius: var(--o-radius_control-s);
-  --o-input-icon-size: var(--o-icon_size_control-m);
+  --input-icon-size: var(--o-icon_size_control-m);
 
   .has-prepend {
     --input-padding: 0 15px 0 7px;

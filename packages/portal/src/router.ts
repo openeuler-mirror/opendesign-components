@@ -84,7 +84,7 @@ export const routes = [
     path: '/input',
     name: 'Input',
     label: '输入框 Input',
-    component: () => import('@components/input/__demo__/IndexInput.vue'),
+    component: () => import('@components/input/__demo__/TheIndex.vue'),
   },
   {
     path: '/input-number',

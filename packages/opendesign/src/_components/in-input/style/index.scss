@@ -5,6 +5,10 @@
   width: 100%;
   height: 100%;
 }
+.o_input-wrap {
+  width: 100%;
+  margin-right: auto;
+}
 .o_input-input {
   outline: none;
   border: none;
@@ -21,6 +25,13 @@
 
   &::-webkit-input-placeholder {
     color: var(--_input-placeholder-color);
+  }
+
+  &:autofill {
+    box-shadow: 0 0 0px 1000px var(--input-bg-color) inset !important;
+  }
+  .o_input-invalid & {
+    text-decoration: line-through;
   }
 }
 
@@ -39,6 +50,7 @@
 
 .o_input-suffix-icon {
   display: flex;
+  transform: scale(1);
   transition: all var(--o-duration-m1) var(--o-easing-standard-out);
 }
 
@@ -52,6 +64,8 @@
   color: var(--icon-color);
   font-size: var(--icon-size);
   cursor: pointer;
+  transform: scale(0.5);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
 
   @include hoverable {
     &:hover {
@@ -68,12 +82,12 @@
     .o_input-suffix-icon {
       visibility: hidden;
       opacity: 0;
-      transition: none;
+      transform: scale(0.5);
     }
     .o_input-clear {
       visibility: visible;
       opacity: 1;
-      transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+      transform: scale(1);
     }
   }
   @include hoverable(none) {

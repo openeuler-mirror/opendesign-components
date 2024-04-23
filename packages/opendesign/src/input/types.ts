@@ -109,14 +109,22 @@ export const inputProps = {
   /**
    * 无效值判断
    */
-  checkValid: {
+  validate: {
     type: Function as PropType<(value: string) => boolean>,
   },
   /**
    * 输入为无效值时，在blur
    */
   onInvalidChange: {
-    type: Function as PropType<(text: string, lastValidText: string, lastValue: string) => string>,
+    type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,
+  },
+
+  /**
+   * 显示密码的方式
+   */
+  showPasswordEvent: {
+    type: String as PropType<'click' | 'pointerdown'>,
+    default: 'pointerdown',
   },
 };
 

@@ -1,6 +1,6 @@
 import { ObjectDirective } from 'vue';
 import { uniqueId } from '../_utils/helper';
-import { isFunction } from '../_utils/is';
+import { isFunction, isNumber, isString } from '../_utils/is';
 
 const getUId = uniqueId;
 /**
@@ -10,11 +10,13 @@ const getUId = uniqueId;
  */
 const vUid: ObjectDirective = {
   created(el: HTMLElement, binding) {
-    const setIdFn = binding.value;
-    if (isFunction(setIdFn)) {
-      setIdFn(el, uniqueId());
-    } else {
-      el.setAttribute('id', el.id || uniqueId());
+    const value = binding.value;
+    if (isFunction(value)) {
+      value(el, el.id || uniqueId());
+    } else if (isString(value) || isNumber(value)) {
+      el.setAttribute('id', String(value));
+    } else if (!el.id) {
+      el.setAttribute('id', uniqueId());
     }
   },
 };

@@ -233,7 +233,7 @@ export const isEmptySlot = (slot?: Slot) => {
 /**
  * 过滤插槽
  */
-export const filterSlots = (slots: Slots, slotNames: { [key: string]: string }) => {
+export const filterSlots = (slots: Slots, slotNames: { [key: string]: string }): string[] => {
   const names = Object.values(slotNames);
   return Object.keys(slots).filter((item) => names.includes(item));
 };

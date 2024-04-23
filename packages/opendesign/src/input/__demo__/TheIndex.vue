@@ -17,7 +17,7 @@ import InputAutoWidth from './InputAutoWidth.vue';
     <InputSlot />
     <InputEvent />
     <InputMethod />
-    <InputAutoWidth />
+    <!-- <InputAutoWidth /> -->
   </div>
 </template>
 <style lang="scss"></style>

@@ -59,17 +59,22 @@ export const inInputProps = {
     type: Boolean,
   },
   /**
-   * 解析输入框的值
-   */
-  parse: {
-    type: Function as PropType<(value: string) => string>,
-  },
-  /**
    * 对值格式化，控制显示格式
-   * 需搭配parse处理，保证值的正确性
    */
   format: {
     type: Function as PropType<(value: string) => string>,
+  },
+  /**
+   * 判断值的有效性
+   */
+  validate: {
+    type: Function as PropType<(value: string) => boolean>,
+  },
+  /**
+   * 输入为无效值时，在blur
+   */
+  onInvalidChange: {
+    type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,
   },
   /**
    * 显示密码的方式

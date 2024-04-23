@@ -2,12 +2,18 @@
 import { ref } from 'vue';
 import { OInput } from '../index';
 
-const val2 = ref('1234');
-const format = (val: string | number) => (val ? `$${val}` : '');
-const parse = (val: string) => val.replace(/^\$/g, '');
+function numberWithCommas(x: number | string) {
+  return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+const val2 = ref('123456');
+const format = (val: string | number) => {
+  console.log('format', val);
 
-const printEvent = (evt: string, val?: string | number) => {
-  console.log(`[${evt}]`, val);
+  return val ? `$${numberWithCommas(val)}` : '';
+};
+
+const printEvent = (evt: string, v?: string) => {
+  console.log(`[${evt}]`, v ?? '', 'value:', val2.value);
 };
 </script>
 <template>
@@ -17,14 +23,24 @@ const printEvent = (evt: string, val?: string | number) => {
     <OInput
       v-model="val2"
       :format="format"
-      :parse="parse"
       placeholder="inputing..."
       @clear="() => printEvent('clear')"
-      @blur="(v) => printEvent('blur', v)"
+      @blur="() => printEvent('blur')"
       @change="(v) => printEvent('change', v)"
-      @input="(v) => printEvent('input', v)"
-      @focus="(v) => printEvent('focus', v)"
-      @press-enter="(v) => printEvent('press-enter', v)"
+      @input="() => printEvent('input')"
+      @focus="() => printEvent('focus')"
+      @press-enter="() => printEvent('press-enter')"
+    />
+    <OInput
+      v-model="val2"
+      :format="format"
+      placeholder="inputing..."
+      @clear="() => printEvent('clear')"
+      @blur="() => printEvent('blur')"
+      @change="(v) => printEvent('change', v)"
+      @input="() => printEvent('input')"
+      @focus="() => printEvent('focus')"
+      @press-enter="() => printEvent('press-enter')"
     />
   </section>
 </template>
