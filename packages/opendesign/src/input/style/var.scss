@@ -1,8 +1,4 @@
 .o-input {
-  --input-color: var(--o-color-info2);
-  --input-color-disabled: var(--o-color-info4);
-  --input-placeholder: var(--o-color-info4);
-
   --input-bg-color: var(--o-color-control-light);
   --input-bg-color-hover: var(--o-color-control-light);
   --input-bg-color-focus: var(--o-color-control-light);
@@ -13,14 +9,14 @@
   --input-prepend-append-bg-color: var(--o-color-control-light);
 
   // in-input
+  --input-color: var(--o-color-info1);
+  --input-color-disabled: var(--o-color-info4);
+  --input-placeholder: var(--o-color-info4);
+
   --icon-color: var(--o-color-info3);
   --icon-color-hover: var(--o-color-info2);
   --icon-color-disabled: var(--o-color-info4);
   --icon-size: var(--input-icon-size);
-}
-
-.o-input-disabled {
-  --input-color: var(--input-color-disabled);
 }
 
 .o-input-solid {

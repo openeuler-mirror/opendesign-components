@@ -4,6 +4,10 @@
   display: flex;
   width: 100%;
   height: 100%;
+  color: var(--input-color);
+  &.is-disabled {
+    color: var(--input-color-disabled);
+  }
 }
 .o_input-wrap {
   width: 100%;
@@ -24,7 +28,7 @@
   min-width: 20px;
 
   &::-webkit-input-placeholder {
-    color: var(--_input-placeholder-color);
+    color: var(--input-placeholder);
   }
 
   &:autofill {
