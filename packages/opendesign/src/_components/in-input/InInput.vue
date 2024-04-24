@@ -49,6 +49,8 @@ const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassw
   showPasswordEvent: props.showPasswordEvent,
 });
 
+const autoWidth = computed(() => props.autoWidth && props.type !== 'password');
+
 // input类型 password|text
 const inputType = ref(props.type);
 
@@ -102,13 +104,13 @@ defineExpose({
       'o_input-readonly': props.readonly,
       'o_input-password': props.type === 'password',
       'o_input-invalid': !isValid,
-      'o_input-auto-width': props.autoWidth,
+      'o_input-auto-width': autoWidth,
     }"
   >
     <div v-if="$slots.prefix" class="o_input-prefix" @mousedown.prevent>
       <slot :name="slotNames.prefix"></slot>
     </div>
-    <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': props.autoWidth }" :date-value="displayValue">
+    <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': autoWidth }" :date-value="displayValue">
       <input
         :id="props.inputId"
         ref="inputEl"

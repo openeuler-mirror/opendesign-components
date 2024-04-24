@@ -43,20 +43,18 @@ const validate = (value: string): boolean => {
         clearable
       />
     </section>
-    <div>
-      <section>
-        auto width
-        <InInput class="test-input" :type="type" v-model="inputVal" auto-width />
-      </section>
-      <section>
-        auto width: max-width: 300px
-        <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" />
-      </section>
-      <section>
-        auto width: min-width: 100px
-        <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="min-width: 100px" />
-      </section>
-    </div>
+    <section>
+      auto width:
+      <InInput class="test-input" :type="type" v-model="inputVal" auto-width />
+    </section>
+    <section>
+      auto width: max-width: 300px
+      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" />
+    </section>
+    <section>
+      auto width: min-width: 100px
+      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="min-width: 100px" />
+    </section>
   </div>
 </template>
 <style lang="scss" scoped>
