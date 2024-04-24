@@ -1,4 +1,4 @@
-import _OInput from './OInput2.vue';
+import _OInput from './OInput.vue';
 import type { App } from 'vue';
 
 const OInput = Object.assign(_OInput, {
@@ -6,5 +6,6 @@ const OInput = Object.assign(_OInput, {
     app.component('OInput', _OInput);
   },
 });
+
 export { OInput };
 export * from './types';

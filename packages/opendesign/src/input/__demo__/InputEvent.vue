@@ -12,20 +12,8 @@ const printEvent = (evt: string, val?: string) => {
 const changeVal = () => {
   val2.value += `-${Math.floor(Math.random() * 100)}`;
 };
-const check = (v: string) => {
-  return v.length % 2 === 0;
-  // return true;
-};
 const format = (v: string) => {
   return v.replace(/-/g, '.');
-};
-// const parse = (v: string) => {
-//   return v.replace(/\./g, '-');
-// };
-
-const onInvalidChange = (inputValue: string, lastValidInputValue: string, lastValue: string) => {
-  console.log('onInvalidChange', inputValue, lastValidInputValue, lastValue);
-  return lastValue;
 };
 </script>
 <template>
@@ -33,8 +21,6 @@ const onInvalidChange = (inputValue: string, lastValidInputValue: string, lastVa
   <section>
     <OInput
       v-model="val2"
-      :validate="check"
-      :onInvalidChange="onInvalidChange"
       :format="format"
       @blur="() => printEvent('blur')"
       @change="(v) => printEvent('change', v)"
