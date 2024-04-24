@@ -17,7 +17,7 @@ const printEvent = (evt: string, v?: string) => {
 };
 </script>
 <template>
-  <h4>Parse & Format</h4>
+  <h4>Format</h4>
   <section>
     <div>val2:{{ val2 }}</div>
     <OInput

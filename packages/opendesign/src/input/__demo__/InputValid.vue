@@ -25,7 +25,7 @@ const onInvalidChange = (inputValue: string, lastValidInputValue: string, lastVa
 };
 </script>
 <template>
-  <h4>Valid</h4>
+  <h4>Validate</h4>
   <div>
     <p>设置校验函数，默认输入无效时回车或失焦后,值的纠正为上一次输入有效的值</p>
     <section>
