@@ -49,8 +49,6 @@ const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassw
   showPasswordEvent: props.showPasswordEvent,
 });
 
-const autoWidth = computed(() => props.autoWidth && props.type !== 'password');
-
 // input类型 password|text
 const inputType = ref(props.type);
 
@@ -87,6 +85,17 @@ onMounted(() => {
   }
 });
 
+/**
+ * 自适应宽度
+ */
+const autoWidth = computed(() => props.autoWidth);
+const mirrorValue = computed(() => {
+  if (props.type === 'password') {
+    return displayValue.value.replace(/./g, '\u2022');
+  }
+  return displayValue.value;
+});
+
 defineExpose({
   inputEl,
   focus,
@@ -110,7 +119,7 @@ defineExpose({
     <div v-if="$slots.prefix" class="o_input-prefix" @mousedown.prevent>
       <slot :name="slotNames.prefix"></slot>
     </div>
-    <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': autoWidth }" :date-value="displayValue">
+    <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': autoWidth }" :date-value="mirrorValue">
       <input
         :id="props.inputId"
         ref="inputEl"

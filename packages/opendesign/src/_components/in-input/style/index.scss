@@ -139,6 +139,7 @@
 
 .o_input-wrap-auto-width {
   position: relative;
+  min-width: 0; /* 修复子元素超出父元素问题 */
 
   &::after {
     content: attr(date-value) ' ';
