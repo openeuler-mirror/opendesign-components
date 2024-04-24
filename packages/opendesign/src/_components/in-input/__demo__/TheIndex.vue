@@ -29,7 +29,7 @@ const validate = (value: string): boolean => {
     <div>value: {{ inputVal }}</div>
     <button @click="toggleDisabled">change disabled</button>
     <button @click="toggleType">change type</button>
-    <section class="frame">
+    <section>
       <InInput
         class="test-input"
         v-model="inputVal"
@@ -42,20 +42,21 @@ const validate = (value: string): boolean => {
         @press-enter="() => printEvent('press-enter')"
         clearable
       />
-      <!-- <InInput
-        class="test-input"
-        :type="type"
-        v-model="inputVal"
-        @clear="() => printEvent('clear')"
-        @blur="() => printEvent('blur')"
-        @change="(v) => printEvent('change', v)"
-        @input="() => printEvent('input')"
-        @focus="() => printEvent('focus')"
-        @press-enter="() => printEvent('press-enter')"
-        :disabled="disabled"
-        clearable
-      /> -->
     </section>
+    <div>
+      <section>
+        auto width
+        <InInput class="test-input" :type="type" v-model="inputVal" auto-width />
+      </section>
+      <section>
+        auto width: max-width: 300px
+        <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" />
+      </section>
+      <section>
+        auto width: min-width: 100px
+        <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="min-width: 100px" />
+      </section>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -64,7 +65,7 @@ const validate = (value: string): boolean => {
   height: 32px;
   padding: 4px 8px;
   box-sizing: border-box;
-  line-height: 24px;
+  line-height: 22px;
 }
 .frame {
   width: 240px;

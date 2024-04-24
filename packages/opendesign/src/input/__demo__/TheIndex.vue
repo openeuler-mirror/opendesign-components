@@ -19,7 +19,7 @@ import InputValid from './InputValid.vue';
     <InputEvent />
     <InputMethod />
     <InputValid />
-    <!-- <InputAutoWidth /> -->
+    <InputAutoWidth />
   </div>
 </template>
 <style lang="scss"></style>

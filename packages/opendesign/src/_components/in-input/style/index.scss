@@ -1,7 +1,7 @@
 @use '../../../_styles/mixin.scss' as *;
 @use './var.scss';
 .o_input {
-  display: flex;
+  display: inline-flex;
   width: 100%;
   height: 100%;
   color: var(--input-color);
@@ -9,6 +9,7 @@
     color: var(--input-color-disabled);
   }
 }
+
 .o_input-wrap {
   width: 100%;
   margin-right: auto;
@@ -26,6 +27,7 @@
   width: 100%;
   font-size: inherit;
   min-width: 20px;
+  appearance: none;
 
   &::-webkit-input-placeholder {
     color: var(--input-placeholder);
@@ -127,4 +129,32 @@
 
 .o_input-password {
   font-family: Arial, 'Helvetica Neue', Helvetica, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* auto width */
+
+.o_input-auto-width {
+  width: auto;
+}
+
+.o_input-wrap-auto-width {
+  position: relative;
+
+  &::after {
+    content: attr(date-value) ' ';
+    visibility: hidden;
+    white-space: pre;
+    height: 100%;
+    line-height: inherit;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    min-width: var(--input-min-width, 10px);
+    max-width: var(--input-max-width);
+  }
+  .o_input-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }

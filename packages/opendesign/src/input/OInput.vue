@@ -130,6 +130,7 @@ const round = getRoundClass(props, 'input');
       :show-password-event="props.showPasswordEvent"
       :validate="props.validate"
       :onInvalidChange="props.onInvalidChange"
+      :auto-width="props.autoWidth"
       @change="onChange"
       @input="onInput"
       @focus="onFocus"

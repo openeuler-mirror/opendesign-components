@@ -102,12 +102,13 @@ defineExpose({
       'o_input-readonly': props.readonly,
       'o_input-password': props.type === 'password',
       'o_input-invalid': !isValid,
+      'o_input-auto-width': props.autoWidth,
     }"
   >
     <div v-if="$slots.prefix" class="o_input-prefix" @mousedown.prevent>
       <slot :name="slotNames.prefix"></slot>
     </div>
-    <div class="o_input-wrap">
+    <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': props.autoWidth }" :date-value="displayValue">
       <input
         :id="props.inputId"
         ref="inputEl"

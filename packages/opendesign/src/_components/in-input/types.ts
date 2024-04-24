@@ -83,6 +83,12 @@ export const inInputProps = {
     type: String as PropType<'click' | 'pointerdown'>,
     default: 'pointerdown',
   },
+  /**
+   * 是否自动适配内容宽度
+   */
+  autoWidth: {
+    type: Boolean,
+  },
 };
 
 export type InInputProps = ExtractPropTypes<typeof inInputProps>;
