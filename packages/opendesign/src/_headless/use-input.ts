@@ -54,13 +54,12 @@ export function useInput(options: InputOptionT) {
   }
 
   watchEffect(() => {
-    if (isFocus.value) {
-      return;
-    }
-    displayValue.value = formatFn.value(currentValue.value);
-
     if (doValidate()) {
       lastValidValue = currentValue.value;
+    }
+
+    if (!isFocus.value || !format?.value) {
+      displayValue.value = formatFn.value(currentValue.value);
     }
   });
 
@@ -87,7 +86,7 @@ export function useInput(options: InputOptionT) {
     }
   };
 
-  const emitchange = () => {
+  const emitChange = () => {
     if (currentValue.value !== lastValue.value) {
       emits('change', currentValue.value);
       lastValue.value = currentValue.value;
@@ -135,7 +134,7 @@ export function useInput(options: InputOptionT) {
     }
 
     emitValidUpdateValue();
-    emitchange();
+    emitChange();
 
     emits('blur', e);
   };
@@ -145,7 +144,7 @@ export function useInput(options: InputOptionT) {
     const keyCode = e.key || e.code;
     if (!composition.isComposing.value && keyCode === Enter.key) {
       emitValidUpdateValue();
-      emitchange();
+      emitChange();
 
       displayValue.value = currentValue.value;
 
@@ -160,7 +159,7 @@ export function useInput(options: InputOptionT) {
     doValidate();
 
     emitUpdateValue();
-    emitchange();
+    emitChange();
 
     emits('clear');
   };

@@ -6,7 +6,7 @@ const val1 = ref('192-168-1-0192-168-1-0192-168-1-0192-168-1-0192-168-1-0192-168
 const val2 = ref('min width: 100px');
 
 const format = (v: string) => {
-  return `$$$$${v.replace(/-/g, '.')}`;
+  return `$${v.replace(/-/g, '.')}`;
 };
 </script>
 <template>

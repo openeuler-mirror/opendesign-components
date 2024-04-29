@@ -2,14 +2,14 @@
 import { ref, watch, computed, inject, provide } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { IconMinus, IconAdd, IconChevronUp, IconChevronDown } from '../_utils/icons';
-import { InInput } from '../_components/in-input';
+import { OInput } from '../input';
 import { isValidNumber, correctValue, string2number, number2string } from './input-number';
 import { isFunction, isUndefined } from '../_utils/is';
-import { inputNumberPorps } from './types';
+import { inputNumberProps } from './types';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
 
-const props = defineProps(inputNumberPorps);
+const props = defineProps(inputNumberProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number): void;

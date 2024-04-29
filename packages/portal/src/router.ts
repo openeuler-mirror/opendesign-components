@@ -90,7 +90,7 @@ export const routes = [
     path: '/input-number',
     name: 'InputNumber',
     label: '数字输入框 InputNumber',
-    component: () => import('@components/input-number/__demo__/IndexInputNumber.vue'),
+    component: () => import('@components/input-number/__demo__/TheIndex.vue'),
   },
   {
     path: '/textarea',

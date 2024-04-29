@@ -5,13 +5,12 @@ import { OInputNumber } from '../index';
 const val1 = ref(NaN);
 const event = ref('--');
 
-const printEvent = (evt: string, val?: string | number) => {
-  console.log(`[${evt}]`, val);
+const printEvent = (evt: string, val?: number) => {
+  console.log(`[${evt}]`, val ?? '', 'value:', val1.value);
   event.value = evt;
 };
 
 const format = (val: string | number) => (Number.isNaN(val) ? '' : `$${val ?? ''}`);
-const parse = (val: number) => val / 2;
 </script>
 <template>
   <h4>Event</h4>
@@ -23,13 +22,13 @@ const parse = (val: number) => val / 2;
         :min="-2"
         :max="5"
         style="width: 200px"
-        @blur="(v) => printEvent('blur', v)"
+        @blur="() => printEvent('blur')"
         @minus="(v) => printEvent('minus', v)"
         @plus="(v) => printEvent('plus', v)"
         @change="(v) => printEvent('change', v)"
-        @input="(v) => printEvent('input', v)"
-        @focus="(v) => printEvent('focus', v)"
-        @press-enter="(v) => printEvent('press-enter', v)"
+        @input="() => printEvent('input')"
+        @focus="() => printEvent('focus')"
+        @press-enter="() => printEvent('press-enter')"
       />
       value: {{ val1 }}; event:{{ event }};
     </div>
@@ -42,14 +41,13 @@ const parse = (val: number) => val / 2;
         :max="15"
         style="width: 200px"
         :format="format"
-        :parse="parse"
-        @blur="(v) => printEvent('blur', v)"
+        @blur="() => printEvent('blur')"
         @minus="(v) => printEvent('minus', v)"
         @plus="(v) => printEvent('plus', v)"
         @change="(v) => printEvent('change', v)"
-        @input="(v) => printEvent('input', v)"
-        @focus="(v) => printEvent('focus', v)"
-        @press-enter="(v) => printEvent('press-enter', v)"
+        @input="() => printEvent('input')"
+        @focus="() => printEvent('focus')"
+        @press-enter="() => printEvent('press-enter')"
       />
       value: {{ val1 }}; event:{{ event }};
     </div>

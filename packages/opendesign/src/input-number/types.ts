@@ -7,7 +7,7 @@ const { size, round, color, variant, placeholder, readonly, disabled, autoWidth,
 export const InputNumberControlTypes = ['both', 'right', 'left', 'none'] as const;
 export type InputNumberControlT = (typeof InputNumberControlTypes)[number];
 
-export const inputNumberPorps = {
+export const inputNumberProps = {
   /**
    * 下拉框的值
    * v-model
@@ -89,21 +89,14 @@ export const inputNumberPorps = {
   autoWidth,
   /**
    * 对值格式化，控制显示格式
-   * 需搭配parse处理，保证值的正确性
    */
   format,
   /**
-   * 解析输入框的值
-   */
-  parse: {
-    type: Function as PropType<(value: number) => number>,
-  },
-  /**
    * 无效值判断
    */
-  checkValid: {
+  validate: {
     type: Function as PropType<(value: number) => boolean>,
   },
 };
 
-export type InputNumberPorpsT = ExtractPropTypes<typeof inputNumberPorps>;
+export type InputNumberPropsT = ExtractPropTypes<typeof inputNumberProps>;

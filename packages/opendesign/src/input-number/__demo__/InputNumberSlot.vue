@@ -10,15 +10,15 @@ const val2 = ref(1000);
   <section>
     <OInputNumber v-model:value="val1" style="width: 150px">
       <template #minus>Minus</template>
-      <template #add>Plus</template>
+      <template #plus>Plus</template>
     </OInputNumber>
     <OInputNumber v-model:value="val1" controls="left" style="width: 150px">
       <template #minus><span>-</span></template>
-      <template #add><span>+</span></template>
+      <template #plus><span>+</span></template>
     </OInputNumber>
     <OInputNumber v-model:value="val1" controls="right" style="width: 150px">
       <template #minus><span>-</span></template>
-      <template #add><span>+</span></template>
+      <template #plus><span>+</span></template>
     </OInputNumber>
   </section>
   <h4>Prefix & Suffix</h4>

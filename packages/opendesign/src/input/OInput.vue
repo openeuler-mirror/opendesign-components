@@ -39,10 +39,6 @@ const color = computed(() => {
   }
 });
 
-const onChange = (value: string) => {
-  emits('change', value);
-};
-
 const onInput = (e: Event) => {
   emits('input', e);
 };
@@ -81,6 +77,11 @@ const onClear = (e?: Event) => {
 const onUpdatedModelValue = (value: string) => {
   emits('update:modelValue', value);
 };
+
+const onChange = (value: string) => {
+  emits('change', value);
+};
+
 const onMouseDown = (e: MouseEvent) => {
   if ((e.target as HTMLInputElement) !== inInputRef.value?.inputEl) {
     clickInside = true;

@@ -31,8 +31,8 @@
   overflow: hidden;
   position: relative;
   background-color: var(--input-number-btn-bg-color);
-  &.both-left,
-  &.both-right {
+  .o-input-control-left &,
+  .o-input-control-right & {
     height: 100%;
   }
   @include hover {
@@ -50,10 +50,10 @@
   }
 
   .o-input-round-pill & {
-    &.both-right {
+    .o-input-control-right & {
       padding-right: var(--input-number-btn-pill-fix);
     }
-    &.both-left {
+    .o-input-control-left & {
       padding-left: var(--input-number-btn-pill-fix);
     }
   }
