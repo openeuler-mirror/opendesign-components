@@ -50,11 +50,12 @@
   justify-content: center;
   color: var(--icon-color);
   font-size: var(--icon-size);
+  @include x-svg-hover;
+
   @include hoverable {
     &:hover {
       color: var(--icon-color-hover);
     }
-    @include x-svg-hover;
 
     .o-ii-suffix-icon + & {
       position: absolute;
