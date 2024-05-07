@@ -41,11 +41,13 @@ const validate = (value: string): boolean => {
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
+        :max-length="8"
+        :input-on-outlimit="false"
       />
     </section>
     <section>
       auto width:
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width />
+      <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable />
     </section>
     <section>
       auto width: max-width: 300px

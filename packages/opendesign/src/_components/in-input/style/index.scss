@@ -131,6 +131,22 @@
   font-family: Arial, 'Helvetica Neue', Helvetica, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.o_input-limit {
+  margin-left: 4px;
+  right: 8px;
+  bottom: 4px;
+  color: var(--textarea-limit-color);
+  font-size: var(--textarea-limit-text-size);
+  line-height: var(--textarea-limit-text-height);
+  z-index: 0;
+  b {
+    font-weight: normal;
+  }
+}
+.o_input-limit-error > b {
+  color: var(--textarea-limit-color-error, var(--o-color-danger1));
+}
+
 /* auto width */
 .o_input-auto-width {
   width: auto;

@@ -6,6 +6,8 @@ import { formateToString } from '../../_utils/helper';
 import { useInput } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
 import { slotNames } from './slot';
+import { isFunction } from '../../_utils/is';
+import { useI18n } from '../../locale';
 
 const props = defineProps(inInputProps);
 
@@ -18,6 +20,7 @@ const emits = defineEmits<{
   (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
+const { t } = useI18n();
 
 const { disabled, type, format, validate } = toRefs(props);
 
@@ -85,6 +88,15 @@ onMounted(() => {
   }
 });
 
+// 是否超出最大长度限制
+const currentLength = computed(() => {
+  if (isFunction(props.getLength)) {
+    return props.getLength(currentValue.value);
+  }
+  return currentValue.value.length ?? 0;
+});
+const isOutLengthLimit = computed(() => (props.maxLength !== undefined ? currentLength.value > props.maxLength : false));
+
 /**
  * 自适应宽度
  */
@@ -105,7 +117,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div
+  <label
     class="o_input"
     :class="{
       'o_input-clearable': isClearable && displayValue !== '',
@@ -129,19 +141,24 @@ defineExpose({
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
+        :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
         @keydown="handlePressEnter"
       />
     </div>
-    <div v-if="$slots.suffix || props.clearable || props.type === 'password'" class="o_input-suffix" @mousedown.prevent>
+
+    <div v-if="$slots.suffix || props.clearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
+      <!-- 自定义图标 -->
       <span v-if="$slots.suffix" class="o_input-suffix-icon">
         <slot :name="slotNames.suffix"></slot>
       </span>
+      <!--  清除图标 -->
       <div v-if="isClearable" class="o_input-clear" @click="handleClear" @mousedown.prevent>
         <IconClose class="o_input-clear-icon" />
       </div>
+      <!-- 密码图标 -->
       <div
         v-if="props.type === 'password'"
         class="o_input-eye"
@@ -155,9 +172,16 @@ defineExpose({
         <IconEyeOn v-if="showPassword" class="o_input-eye-icon" />
         <IconEyeOff v-else class="o_input-eye-icon" />
       </div>
+      <!-- 长度限制 -->
+      <div
+        v-if="props.maxLength"
+        class="o_input-limit"
+        :class="{ 'o_input-limit-error': isOutLengthLimit }"
+        v-html="t('input.limit', currentLength, props.maxLength)"
+      ></div>
       <span v-if="$slots.extra">
         <slot :name="slotNames.extra"></slot>
       </span>
     </div>
-  </div>
+  </label>
 </template>

@@ -53,6 +53,25 @@ export const inInputProps = {
     type: Boolean,
   },
   /**
+   * 最大字符长度
+   */
+  maxLength: {
+    type: Number,
+  },
+  /**
+   * 获取长度方法
+   */
+  getLength: {
+    type: Function as PropType<(val: string) => number>,
+  },
+  /**
+   * 超过最大字符长度时是否允许输入
+   */
+  inputOnOutlimit: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * 对值格式化，控制显示格式
    */
   format: {

@@ -7,7 +7,7 @@ import { formItemInjectKey } from '../form/provide';
 
 import { InTextarea, slotNames } from '../_components/in-textarea';
 import { filterSlots } from '../_utils/vue-utils';
-import { toInputString } from './textarea';
+import { formateToString } from '../_utils/helper';
 
 const props = defineProps(textareaProps);
 
@@ -108,8 +108,8 @@ const round = getRoundClass(props, 'textarea');
         'is-readonly': props.readonly,
         'is-disabled': props.disabled,
       }"
-      :model-value="toInputString(props.modelValue)"
-      :default-value="toInputString(props.defaultValue)"
+      :model-value="formateToString(props.modelValue)"
+      :default-value="formateToString(props.defaultValue)"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
       :readonly="props.readonly"

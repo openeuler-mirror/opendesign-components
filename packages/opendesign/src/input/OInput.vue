@@ -8,7 +8,7 @@ import { innerComponentInjectKey } from '../_components/provide';
 
 import { InInput, slotNames } from '../_components/in-input';
 import { filterSlots } from '../_utils/vue-utils';
-import { toInputString } from './input';
+import { formateToString } from '../_utils/helper';
 
 const props = defineProps(inputProps);
 
@@ -116,8 +116,8 @@ const round = getRoundClass(props, 'input');
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
       }"
-      :model-value="toInputString(props.modelValue)"
-      :default-value="toInputString(props.defaultValue)"
+      :model-value="formateToString(props.modelValue)"
+      :default-value="formateToString(props.defaultValue)"
       :type="props.type"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
