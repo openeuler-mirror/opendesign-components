@@ -45,6 +45,7 @@ const click = () => {
         @press-enter="() => printEvent('press-enter')"
         clearable
         :max-length="20"
+        :min-length="10"
       >
         <template #suffix>
           <button @click="click">123</button>

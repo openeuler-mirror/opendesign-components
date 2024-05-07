@@ -53,6 +53,12 @@ export const inInputProps = {
     type: Boolean,
   },
   /**
+   * 最小字符长度
+   */
+  minLength: {
+    type: Number,
+  },
+  /**
    * 最大字符长度
    */
   maxLength: {

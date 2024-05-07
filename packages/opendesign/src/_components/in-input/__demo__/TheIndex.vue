@@ -42,6 +42,7 @@ const validate = (value: string): boolean => {
         @press-enter="() => printEvent('press-enter')"
         clearable
         :max-length="8"
+        :min-length="4"
         :input-on-outlimit="false"
       />
     </section>

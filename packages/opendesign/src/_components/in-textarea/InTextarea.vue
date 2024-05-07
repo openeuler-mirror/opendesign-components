@@ -76,15 +76,23 @@ onMounted(() => {
   }
 });
 
-// 是否超出最大长度限制
+// 计算当前长度
 const currentLength = computed(() => {
   if (isFunction(props.getLength)) {
     return props.getLength(currentValue.value);
   }
   return currentValue.value.length ?? 0;
 });
-const isOutLengthLimit = computed(() => (props.maxLength !== undefined ? currentLength.value > props.maxLength : false));
-
+// 是否超出最大长度限制
+const isOutLengthLimit = computed(() => {
+  if (props.maxLength !== undefined && currentLength.value > props.maxLength) {
+    return true;
+  }
+  if (props.minLength !== undefined && currentLength.value < props.minLength) {
+    return true;
+  }
+  return false;
+});
 /**
  * 自适应高度
  */
@@ -120,6 +128,7 @@ defineExpose({
         :readonly="props.readonly"
         :disabled="props.disabled"
         :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
+        :minLength="props.inputOnOutlimit ? '' : props.minLength"
         :rows="props.rows"
         :cols="props.cols"
         :style="{
