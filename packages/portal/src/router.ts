@@ -15,6 +15,12 @@ export const routes = [
     component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
   },
   {
+    path: '/in-textarea',
+    name: 'InTextarea',
+    label: '_文本域',
+    component: () => import('@components/_components/in-textarea/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/config-provider',
     name: 'config-provider',
     label: '全局配置 config-provider',

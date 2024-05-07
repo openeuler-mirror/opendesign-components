@@ -13,9 +13,6 @@ import { toInputString } from './input';
 const props = defineProps(inputProps);
 
 const emits = defineEmits<{
-  /**
-   * 失焦或者enter键触发，如果传入parse，则在input时触发
-   */
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
   (e: 'input', evt: Event): void;
@@ -126,7 +123,6 @@ const round = getRoundClass(props, 'input');
       :disabled="props.disabled"
       :readonly="props.readonly"
       :clearable="props.clearable"
-      :parse="props.parse"
       :format="props.format"
       :show-password-event="props.showPasswordEvent"
       :validate="props.validate"

@@ -72,6 +72,7 @@
   cursor: pointer;
   transform: scale(0.5);
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+  @include x-svg-hover;
 
   @include hoverable {
     &:hover {
@@ -80,7 +81,6 @@
     .o_input-suffix-icon + & {
       position: absolute;
     }
-    @include x-svg-hover;
   }
 }
 .o_input-clearable {

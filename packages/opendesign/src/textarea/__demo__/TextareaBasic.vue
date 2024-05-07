@@ -18,10 +18,10 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>Outline</div>
     <div class="row">
-      <OTextarea v-model="val1" placeholder="normal + outline" resize="none" />
-      <OTextarea v-model="val1" color="success" placeholder="success + outline" />
-      <OTextarea v-model="val1" color="warning" placeholder="warning + outline" />
-      <OTextarea v-model="val1" color="danger" placeholder="danger + outline" />
+      <OTextarea v-model="val1" placeholder="normal + outline" resize="none" clearable style="width: 250px" />
+      <OTextarea v-model="val1" color="success" placeholder="success + outline" clearable />
+      <OTextarea v-model="val1" color="warning" placeholder="warning + outline" clearable />
+      <OTextarea v-model="val1" color="danger" placeholder="danger + outline" clearable />
     </div>
     <div>Solid</div>
     <div class="row">

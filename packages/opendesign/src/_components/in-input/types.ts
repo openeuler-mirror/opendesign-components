@@ -47,12 +47,6 @@ export const inInputProps = {
     type: Boolean,
   },
   /**
-   * 是否非法
-   */
-  invalid: {
-    type: Boolean,
-  },
-  /**
    * 是否可以清除
    */
   clearable: {
