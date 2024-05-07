@@ -2,12 +2,12 @@ export default {
   locale: 'en-US',
   common: {
     empty: 'No Data',
-    loading: 'loading...',
+    loading: 'Loading...',
   },
   pagination: {
-    goto: 'Goto',
+    goto: 'Go to',
     page: 'Page',
-    countPerPage: ' / Page',
+    countPerPage: '/page',
     total: 'Total: {0}',
   },
   upload: {
