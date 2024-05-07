@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import '../style';
 import { InTextarea } from '../index';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 const inputVal = ref('123');
 
 const printEvent = (evt: string, v?: string) => {
@@ -68,10 +68,7 @@ const click = () => {
 <style lang="scss" scoped>
 .test-input {
   border: 1px solid blue;
-  // height: 32px;
-  // padding: 4px 8px;
   box-sizing: border-box;
-  // line-height: 22px;
 }
 .frame {
   width: 240px;

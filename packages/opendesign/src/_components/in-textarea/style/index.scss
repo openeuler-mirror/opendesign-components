@@ -104,8 +104,11 @@
   font-size: var(--textarea-limit-text-size);
   line-height: var(--textarea-limit-text-height);
   z-index: 0;
+  b {
+    font-weight: normal;
+  }
 }
-.o_textarea-limit-error .o_textarea-limit-length {
+.o_textarea-limit-error > b {
   color: var(--textarea-limit-color-error, var(--o-color-danger1));
 }
 

@@ -7,6 +7,7 @@ import { useInput } from '../../_headless/use-input';
 import { getResizeValue } from './textarea';
 import { isFunction } from '../../_utils/is';
 import { slotNames } from './slot';
+import { useI18n } from '../../locale';
 
 const props = defineProps(inTextareaProps);
 
@@ -19,6 +20,8 @@ const emits = defineEmits<{
   (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
+
+const { t } = useI18n();
 
 const { format, validate } = toRefs(props);
 
@@ -131,10 +134,12 @@ defineExpose({
         <div v-if="isClearable" class="o_textarea-suffix o_textarea-clear" @click="handleClear" @mousedown.prevent>
           <IconClose class="o_textarea-clear-icon" />
         </div>
-        <div v-if="props.maxLength" class="o_textarea-suffix o_textarea-limit" :class="{ 'o_textarea-limit-error': isOutLengthLimit }">
-          <span class="o_textarea-limit-length">{{ currentLength }}</span
-          >/{{ props.maxLength }}
-        </div>
+        <div
+          v-if="props.maxLength"
+          class="o_textarea-suffix o_textarea-limit"
+          :class="{ 'o_textarea-limit-error': isOutLengthLimit }"
+          v-html="t('input.limit', currentLength, props.maxLength)"
+        ></div>
         <slot :name="slotNames.suffix"></slot>
       </div>
     </div>

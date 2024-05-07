@@ -23,4 +23,7 @@ export default {
     cancel: 'Cancel',
     confirm: 'Ok',
   },
+  input: {
+    limit: '<b>{0}</b>/{1}',
+  },
 };
