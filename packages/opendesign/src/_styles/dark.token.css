@@ -17,73 +17,73 @@
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-1: 11, 21, 55;
+  --o-kleinblue-1: 11, 21, 55;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-2: 16, 30, 77;
+  --o-kleinblue-2: 16, 30, 77;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-3: 27, 48, 113;
+  --o-kleinblue-3: 27, 48, 113;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-4: 40, 68, 149;
+  --o-kleinblue-4: 40, 68, 149;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-5: 55, 91, 184;
+  --o-kleinblue-5: 55, 91, 184;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-6: 72, 116, 220;
+  --o-kleinblue-6: 72, 116, 220;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-7: 105, 143, 227 ;
+  --o-kleinblue-7: 105, 143, 227 ;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-8: 140, 171, 234;
+  --o-kleinblue-8: 140, 171, 234;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-9: 176, 199, 241;
+  --o-kleinblue-9: 176, 199, 241;
   /**
    * @name 
    * @type palette
-   * @group brand
+   * @group kleinblue
    * @description 
    */
-  --o-brand-10: 215, 227, 248;
+  --o-kleinblue-10: 215, 227, 248;
   /**
    * @name 
    * @type palette
@@ -1252,56 +1252,56 @@
    * @group primary
    * @description 常规
    */
-  --o-color-primary1: rgb(var(--o-brand-5));
+  --o-color-primary1: rgb(var(--o-kleinblue-5));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮
    */
-  --o-color-primary2: rgb(var(--o-brand-4));
+  --o-color-primary2: rgb(var(--o-kleinblue-4));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活
    */
-  --o-color-primary3: rgb(var(--o-brand-7));
+  --o-color-primary3: rgb(var(--o-kleinblue-7));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用
    */
-  --o-color-primary4: rgb(var(--o-brand-3));
+  --o-color-primary4: rgb(var(--o-kleinblue-3));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 常规-浅
    */
-  --o-color-primary1-light: rgb(var(--o-brand-2));
+  --o-color-primary1-light: rgb(var(--o-kleinblue-2));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 悬浮-浅
    */
-  --o-color-primary2-light: rgb(var(--o-brand-3));
+  --o-color-primary2-light: rgb(var(--o-kleinblue-3));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 激活-浅
    */
-  --o-color-primary3-light: rgb(var(--o-brand-4));
+  --o-color-primary3-light: rgb(var(--o-kleinblue-4));
   /**
    * @name 
    * @type color
    * @group primary
    * @description 禁用-浅
    */
-  --o-color-primary4-light: rgb(var(--o-brand-1));
+  --o-color-primary4-light: rgb(var(--o-kleinblue-1));
   /**
    * @name 
    * @type color
@@ -1476,14 +1476,14 @@
    * @group fill
    * @description 一级填充：页面背景
    */
-  --o-color-fill1: rgb(var(--o-mixedgray-1));
+  --o-color-fill1: rgb(var(--o-mixedgray-3));
   /**
    * @name 
    * @type color
    * @group fill
    * @description 二级填充：区块/卡片
    */
-  --o-color-fill2: rgb(var(--o-mixedgray-2));
+  --o-color-fill2: rgb(var(--o-mixedgray-4));
   /**
    * @name 
    * @type color
@@ -1525,63 +1525,63 @@
    * @group control
    * @description 常规-浅，常用于背景
    */
-  --o-color-control1-light: rgb(var(--o-mixedgray-4), 1.0);
+  --o-color-control1-light: rgb(var(--o-mixedgray-7), 1.0);
   /**
    * @name 
    * @type color
    * @group control
    * @description 悬浮-浅，常用于背景
    */
-  --o-color-control2-light: rgb(var(--o-brand-5), 0.1);
+  --o-color-control2-light: rgb(var(--o-mixedgray-5), 1);
   /**
    * @name 
    * @type color
    * @group control
    * @description 激活-浅，常用于背景
    */
-  --o-color-control3-light: rgb(var(--o-brand-5), 0.15);
+  --o-color-control3-light: rgb(var(--o-mixedgray-6), 1);
   /**
    * @name 
    * @type color
    * @group control
    * @description 禁用-浅，常用于背景
    */
-  --o-color-control4-light: rgb(var(--o-brand-5), 0.1);
+  --o-color-control4-light: rgb(var(--o-mixedgray-5), 1);
   /**
    * @name 
    * @type color
    * @group control
    * @description 很浅，常用于表格背景色
    */
-  --o-color-control-light: rgb(var(--o-mixedgray-3), 1.0);
+  --o-color-control-light: rgb(var(--o-mixedgray-4), 1.0);
   /**
    * @name 
    * @type color
    * @group info
    * @description 一级/强调/标题
    */
-  --o-color-info1: rgba(var(--o-mixedgray-10), 1.0);
+  --o-color-info1: rgba(var(--o-mixedgray-14), 1.0);
   /**
    * @name 
    * @type color
    * @group info
    * @description 二级/次强调/正文
    */
-  --o-color-info2: rgba(var(--o-mixedgray-10), 0.8);
+  --o-color-info2: rgba(var(--o-mixedgray-14), 0.8);
   /**
    * @name 
    * @type color
    * @group info
    * @description 三级/辅助信息
    */
-  --o-color-info3: rgba(var(--o-mixedgray-10), 0.6);
+  --o-color-info3: rgba(var(--o-mixedgray-14), 0.6);
   /**
    * @name 
    * @type color
    * @group info
    * @description 置灰/禁用
    */
-  --o-color-info4: rgba(var(--o-mixedgray-10), 0.4);
+  --o-color-info4: rgba(var(--o-mixedgray-14), 0.4);
   /**
    * @name 
    * @type color
@@ -1616,7 +1616,7 @@
    * @group mask
    * @description 全局遮罩
    */
-  --o-color-mask1: rgba(var(--o-mixedgray-1), 0.4);
+  --o-color-mask1: rgba(var(--o-mixedgray-14), 0.4);
   /**
    * @name 
    * @type color
@@ -1630,28 +1630,28 @@
    * @group link
    * @description 常规
    */
-  --o-color-link1: rgba(var(--o-brand-5));
+  --o-color-link1: rgba(var(--o-kleinblue-5));
   /**
    * @name 
    * @type color
    * @group link
    * @description 悬浮
    */
-  --o-color-link2: rgba(var(--o-brand-4));
+  --o-color-link2: rgba(var(--o-kleinblue-4));
   /**
    * @name 
    * @type color
    * @group link
    * @description 激活
    */
-  --o-color-link3: rgba(var(--o-brand-7));
+  --o-color-link3: rgba(var(--o-kleinblue-7));
   /**
    * @name 
    * @type color
    * @group link
    * @description 禁用
    */
-  --o-color-link4: rgba(var(--o-brand-3));
+  --o-color-link4: rgba(var(--o-kleinblue-3));
   /**
    * @name 阴影1
    * @type shadow
