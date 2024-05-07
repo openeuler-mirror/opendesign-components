@@ -5,9 +5,9 @@ import { OInput } from '../input';
 import { isValidNumber, correctValue, string2number, number2string } from './input-number';
 import { isFunction, isUndefined } from '../_utils/is';
 import { inputNumberProps } from './types';
+import NumberControl from './NumberControl.vue';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
-import NumberControl from './NumberControl.vue';
 
 const props = defineProps(inputNumberProps);
 
@@ -26,6 +26,15 @@ const emits = defineEmits<{
 const inputValue = ref(number2string(props.modelValue ?? props.defaultValue));
 const realValue = ref(props.modelValue ?? props.defaultValue ?? NaN);
 let lastValue = realValue.value;
+
+const formItemInjection = inject(formItemInjectKey, null);
+const color = computed(() => {
+  if (formItemInjection?.fieldResult.value) {
+    return formItemInjection?.fieldResult.value?.type || undefined;
+  } else {
+    return props.color;
+  }
+});
 
 watch(
   () => props.modelValue,
@@ -53,6 +62,7 @@ const emitChange = () => {
   if (realValue.value !== lastValue) {
     emits('change', realValue.value);
     lastValue = realValue.value;
+    formItemInjection?.fieldHandlers.onChange?.();
   }
 };
 
@@ -65,11 +75,11 @@ const onInput = (evt: Event) => {
 };
 const onFocus = (evt: FocusEvent) => {
   emits('focus', evt);
-  // formItemInjection?.fieldHandlers.onFocus?.();
+  formItemInjection?.fieldHandlers.onFocus?.();
 };
 const onBlur = (evt: FocusEvent) => {
   emits('blur', evt);
-  // formItemInjection?.fieldHandlers.onBlur?.();
+  formItemInjection?.fieldHandlers.onBlur?.();
 };
 const onPressEnter = (evt: KeyboardEvent): void => {
   emits('pressEnter', evt);
@@ -132,6 +142,11 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
     emits('minus', v, e);
   }
 };
+
+// 表明是否为嵌套子组件
+provide(innerComponentInjectKey, {
+  isInnerInput: true,
+});
 </script>
 <template>
   <OInput

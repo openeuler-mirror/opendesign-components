@@ -118,7 +118,6 @@ export const inputProps = {
   onInvalidChange: {
     type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,
   },
-
   /**
    * 显示密码的方式
    */

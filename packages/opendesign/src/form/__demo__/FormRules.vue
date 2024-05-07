@@ -36,7 +36,7 @@ const formModel = reactive({
   a: {
     input1: '',
   },
-  inputNumber: 1,
+  inputNumber: 10,
   input2: '123',
   select1: '',
   textarea1: '',

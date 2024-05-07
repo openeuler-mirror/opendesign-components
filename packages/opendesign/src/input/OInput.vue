@@ -26,8 +26,7 @@ const emits = defineEmits<{
 }>();
 
 const innerComponentInject = inject(innerComponentInjectKey, null);
-const isInnerInput = innerComponentInject?.isInnerInput;
-const formItemInjection = isInnerInput ? null : inject(formItemInjectKey, null);
+const formItemInjection = innerComponentInject?.isInnerInput ? null : inject(formItemInjectKey, null);
 
 const inInputRef = ref<InstanceType<typeof InInput>>();
 
@@ -80,6 +79,7 @@ const onUpdatedModelValue = (value: string) => {
 
 const onChange = (value: string) => {
   emits('change', value);
+  formItemInjection?.fieldHandlers.onChange?.();
 };
 
 const onMouseDown = (e: MouseEvent) => {
