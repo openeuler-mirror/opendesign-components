@@ -13,12 +13,13 @@ const emit = defineEmits<{
   (e: 'click', evt: MouseEvent): void;
 }>();
 
-const tag = computed(() => (!!props.href ? 'a' : props.tag));
+const tag = computed(() => (props.href ? 'a' : props.tag));
 
 const round = getRoundClass(props, 'btn');
 
 const onClick = (e: MouseEvent) => {
-  if (props.disabled) {
+  if (props.disabled || props.loading) {
+    e.preventDefault();
     return;
   }
   emit('click', e);
