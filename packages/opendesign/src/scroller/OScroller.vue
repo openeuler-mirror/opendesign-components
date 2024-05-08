@@ -2,7 +2,7 @@
 import { onMounted, ref, onUnmounted, toRefs } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps, ScrollerDirection } from './types';
-import { getHtmlElement } from '../_utils/vue-utils';
+import { resolveHtmlElement } from '../_utils/vue-utils';
 import { isPhonePad } from '../_utils/global';
 import { OResizeObserver } from '../resize-observer';
 
@@ -98,7 +98,7 @@ onMounted(() => {
     init();
   } else {
     const { target } = toRefs(props);
-    getHtmlElement(target).then((el) => {
+    resolveHtmlElement(target).then((el) => {
       if (el === document.body) {
         isBody.value = true;
         wrapperEl = document.documentElement;

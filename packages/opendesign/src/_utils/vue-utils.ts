@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
 
@@ -51,6 +51,13 @@ export const isSlotsChildren = (vnode: VNode, children?: VNode['children']): chi
 export const isArrayChildren = (vn: VNode, children?: VNode['children']): children is VNode[] => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.ARRAY_CHILDREN);
 };
+
+/**
+ * 判断val是不是vue组件实例
+ */
+export function isComponentPublicInstance(val: unknown): val is ComponentPublicInstance {
+  return Boolean((val as ComponentPublicInstance).$el);
+}
 
 // TODO
 export function useSlotElement(componentName?: string) {
@@ -153,20 +160,30 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   };
 }
 
-export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
+export const resolveHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string): Promise<HTMLElement | null> => {
+  const queryElement = (el: string | HTMLElement | null): HTMLElement | null => {
+    if (typeof el === 'string') {
+      return document.querySelector(el);
+    } else if (isHtmlElement(el)) {
+      return el;
+    }
+    return null;
+  };
+
   return new Promise((resolve) => {
-    if (isHtmlElement(elRef.value)) {
-      resolve(elRef.value as HTMLElement);
-    } else if (typeof elRef.value === 'string') {
-      resolve(document.querySelector(elRef.value) as HTMLElement);
-    } else {
+    if (isRef(elRef)) {
       watchEffect(() => {
-        if (isHtmlElement(elRef.value)) {
-          resolve(elRef.value as HTMLElement);
-        } else if (elRef.value) {
-          resolve((elRef.value as ComponentPublicInstance).$el);
+        const { value } = elRef;
+        if (value) {
+          if (isComponentPublicInstance(value)) {
+            resolve(value.$el);
+          } else {
+            resolve(queryElement(value));
+          }
         }
       });
+    } else {
+      resolve(queryElement(elRef));
     }
   });
 };
@@ -194,7 +211,7 @@ export const isEmptySlot = (slot?: Slot) => {
 /**
  * 过滤插槽
  */
-export const filterSlots = (slots: Slots, slotNames: {[key :string]:string}) => {
+export const filterSlots = (slots: Slots, slotNames: { [key: string]: string }) => {
   const names = Object.values(slotNames);
   return Object.keys(slots).filter((item) => names.includes(item));
 };
