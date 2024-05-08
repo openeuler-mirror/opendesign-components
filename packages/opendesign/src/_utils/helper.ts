@@ -96,7 +96,7 @@ export function chunk(arr: any[] = [], size = 1) {
     {
       length: Math.ceil(arr.length / size),
     },
-    (v, i) => arr.slice(i * size, i * size + size)
+    (_v, i) => arr.slice(i * size, i * size + size)
   );
 }
 

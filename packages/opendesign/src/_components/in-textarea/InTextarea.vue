@@ -4,7 +4,6 @@ import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
 import { formateToString } from '../../_utils/helper';
 import { useInput } from '../../_headless/use-input';
-import { getResizeValue } from './textarea';
 import { isFunction } from '../../_utils/is';
 import { slotNames } from './slot';
 import { useI18n } from '../../locale';
@@ -48,7 +47,16 @@ const {
 });
 
 const resizeValue = computed(() => {
-  return props.autoSize || props.disabled ? 'none' : getResizeValue(props.resize);
+  if (props.autoSize || props.disabled) {
+    return 'none';
+  } else {
+    if (props.resize === 'h') {
+      return 'horizontal';
+    } else if (props.resize === 'v') {
+      return 'vertical';
+    }
+    return props.resize;
+  }
 });
 
 // 监听属性变化，刷新值
