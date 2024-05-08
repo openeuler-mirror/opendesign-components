@@ -27,76 +27,76 @@
       }
     ]
   },
-  "brand": {
+  "kleinblue": {
     "name": "品牌色",
     "type": "palette",
     "typeName": "色盘",
     "value": [
       {
-        "key": "brand-1",
+        "key": "kleinblue-1",
         "value": {
           "light": "227, 234, 246",
           "dark": "11, 21, 55"
         }
       },
       {
-        "key": "brand-2",
+        "key": "kleinblue-2",
         "value": {
           "light": "190, 206, 237",
           "dark": "16, 30, 77"
         }
       },
       {
-        "key": "brand-3",
+        "key": "kleinblue-3",
         "value": {
           "light": "132, 161, 220",
           "dark": "27, 48, 113"
         }
       },
       {
-        "key": "brand-4",
+        "key": "kleinblue-4",
         "value": {
           "light": "81, 119, 202",
           "dark": "40, 68, 149"
         }
       },
       {
-        "key": "brand-5",
+        "key": "kleinblue-5",
         "value": {
           "light": "37, 81, 185",
           "dark": "55, 91, 184"
         }
       },
       {
-        "key": "brand-6",
+        "key": "kleinblue-6",
         "value": {
           "light": "0, 47, 167",
           "dark": "72, 116, 220"
         }
       },
       {
-        "key": "brand-7",
+        "key": "kleinblue-7",
         "value": {
           "light": "0, 39, 147",
           "dark": "105, 143, 227 "
         }
       },
       {
-        "key": "brand-8",
+        "key": "kleinblue-8",
         "value": {
           "light": "0, 31, 126",
           "dark": "140, 171, 234"
         }
       },
       {
-        "key": "brand-9",
+        "key": "kleinblue-9",
         "value": {
           "light": "0, 24, 126",
           "dark": "176, 199, 241"
         }
       },
       {
-        "key": "brand-10",
+        "key": "kleinblue-10",
         "value": {
           "light": "0, 18, 85",
           "dark": "215, 227, 248"
@@ -1398,64 +1398,64 @@
         "key": "color-primary1",
         "description": "常规",
         "value": {
-          "light": "rgb(var(--o-brand-6))",
-          "dark": "rgb(var(--o-brand-5))"
+          "light": "rgb(var(--o-kleinblue-6))",
+          "dark": "rgb(var(--o-kleinblue-5))"
         }
       },
       {
         "key": "color-primary2",
         "description": "悬浮",
         "value": {
-          "light": "rgb(var(--o-brand-4))",
-          "dark": "rgb(var(--o-brand-4))"
+          "light": "rgb(var(--o-kleinblue-4))",
+          "dark": "rgb(var(--o-kleinblue-4))"
         }
       },
       {
         "key": "color-primary3",
         "description": "激活",
         "value": {
-          "light": "rgb(var(--o-brand-7))",
-          "dark": "rgb(var(--o-brand-7))"
+          "light": "rgb(var(--o-kleinblue-7))",
+          "dark": "rgb(var(--o-kleinblue-7))"
         }
       },
       {
         "key": "color-primary4",
         "description": "禁用",
         "value": {
-          "light": "rgb(var(--o-brand-3))",
-          "dark": "rgb(var(--o-brand-3))"
+          "light": "rgb(var(--o-kleinblue-3))",
+          "dark": "rgb(var(--o-kleinblue-3))"
         }
       },
       {
         "key": "color-primary1-light",
         "description": "常规-浅",
         "value": {
-          "light": "rgb(var(--o-brand-2))",
-          "dark": "rgb(var(--o-brand-2))"
+          "light": "rgb(var(--o-kleinblue-2))",
+          "dark": "rgb(var(--o-kleinblue-2))"
         }
       },
       {
         "key": "color-primary2-light",
         "description": "悬浮-浅",
         "value": {
-          "light": "rgb(var(--o-brand-3))",
-          "dark": "rgb(var(--o-brand-3))"
+          "light": "rgb(var(--o-kleinblue-3))",
+          "dark": "rgb(var(--o-kleinblue-3))"
         }
       },
       {
         "key": "color-primary3-light",
         "description": "激活-浅",
         "value": {
-          "light": "rgb(var(--o-brand-4))",
-          "dark": "rgb(var(--o-brand-4))"
+          "light": "rgb(var(--o-kleinblue-4))",
+          "dark": "rgb(var(--o-kleinblue-4))"
         }
       },
       {
         "key": "color-primary4-light",
         "description": "禁用-浅",
         "value": {
-          "light": "rgb(var(--o-brand-1))",
-          "dark": "rgb(var(--o-brand-1))"
+          "light": "rgb(var(--o-kleinblue-1))",
+          "dark": "rgb(var(--o-kleinblue-1))"
         }
       }
     ]
@@ -1683,7 +1683,7 @@
         "description": "一级填充：页面背景",
         "value": {
           "light": "rgb(var(--o-mixedgray-2))",
-          "dark": "rgb(var(--o-mixedgray-1))"
+          "dark": "rgb(var(--o-mixedgray-3))"
         }
       },
       {
@@ -1691,14 +1691,14 @@
         "description": "二级填充：区块/卡片",
         "value": {
           "light": "rgb(var(--o-mixedgray-1))",
-          "dark": "rgb(var(--o-mixedgray-2))"
+          "dark": "rgb(var(--o-mixedgray-4))"
         }
       },
       {
         "key": "color-fill3",
         "description": "三级填充：卡片",
         "value": {
-          "light": "rgb(var(--o-mixedgray-6))",
+          "light": "rgb(var(--o-mixedgray-3))",
           "dark": "rgb(var(--o-mixedgray-5))"
         }
       }
@@ -1745,32 +1745,32 @@
         "key": "color-control1-light",
         "description": "常规-浅，常用于背景",
         "value": {
-          "light": "rgb(var(--o-mixedgray-3), 1.0)",
-          "dark": "rgb(var(--o-mixedgray-4), 1.0)"
+          "light": "rgb(var(--o-mixedgray-5), 1.0)",
+          "dark": "rgb(var(--o-mixedgray-7), 1.0)"
         }
       },
       {
         "key": "color-control2-light",
         "description": "悬浮-浅，常用于背景",
         "value": {
-          "light": "rgb(var(--o-brand-6), 0.04)",
-          "dark": "rgb(var(--o-brand-5), 0.1)"
+          "light": "rgb(var(--o-mixedgray-3), 1)",
+          "dark": "rgb(var(--o-mixedgray-5), 1)"
         }
       },
       {
         "key": "color-control3-light",
         "description": "激活-浅，常用于背景",
         "value": {
-          "light": "rgb(var(--o-brand-6), 0.07)",
-          "dark": "rgb(var(--o-brand-5), 0.15)"
+          "light": "rgb(var(--o-mixedgray-4), 1)",
+          "dark": "rgb(var(--o-mixedgray-6), 1)"
         }
       },
       {
         "key": "color-control4-light",
         "description": "禁用-浅，常用于背景",
         "value": {
-          "light": "rgb(var(--o-brand-6), 0.04)",
-          "dark": "rgb(var(--o-brand-5), 0.1)"
+          "light": "rgb(var(--o-mixedgray-3), 1)",
+          "dark": "rgb(var(--o-mixedgray-5), 1)"
         }
       },
       {
@@ -1778,7 +1778,7 @@
         "description": "很浅，常用于表格背景色",
         "value": {
           "light": "rgb(var(--o-mixedgray-1), 1.0)",
-          "dark": "rgb(var(--o-mixedgray-3), 1.0)"
+          "dark": "rgb(var(--o-mixedgray-4), 1.0)"
         }
       }
     ]
@@ -1792,32 +1792,32 @@
         "key": "color-info1",
         "description": "一级/强调/标题",
         "value": {
-          "light": "rgba(var(--o-mixedgray-10), 1.0)",
-          "dark": "rgba(var(--o-mixedgray-10), 1.0)"
+          "light": "rgba(var(--o-mixedgray-14), 1.0)",
+          "dark": "rgba(var(--o-mixedgray-14), 1.0)"
         }
       },
       {
         "key": "color-info2",
         "description": "二级/次强调/正文",
         "value": {
-          "light": "rgba(var(--o-mixedgray-10), 0.8)",
-          "dark": "rgba(var(--o-mixedgray-10), 0.8)"
+          "light": "rgba(var(--o-mixedgray-14), 0.8)",
+          "dark": "rgba(var(--o-mixedgray-14), 0.8)"
         }
       },
       {
         "key": "color-info3",
         "description": "三级/辅助信息",
         "value": {
-          "light": "rgba(var(--o-mixedgray-10), 0.6)",
-          "dark": "rgba(var(--o-mixedgray-10), 0.6)"
+          "light": "rgba(var(--o-mixedgray-14), 0.6)",
+          "dark": "rgba(var(--o-mixedgray-14), 0.6)"
         }
       },
       {
         "key": "color-info4",
         "description": "置灰/禁用",
         "value": {
-          "light": "rgba(var(--o-mixedgray-10), 0.4)",
-          "dark": "rgba(var(--o-mixedgray-10), 0.4)"
+          "light": "rgba(var(--o-mixedgray-14), 0.4)",
+          "dark": "rgba(var(--o-mixedgray-14), 0.4)"
         }
       },
       {
@@ -1863,8 +1863,8 @@
         "key": "color-mask1",
         "description": "全局遮罩",
         "value": {
-          "light": "rgba(var(--o-mixedgray-10), 0.4)",
-          "dark": "rgba(var(--o-mixedgray-1), 0.4)"
+          "light": "rgba(var(--o-mixedgray-14), 0.4)",
+          "dark": "rgba(var(--o-mixedgray-14), 0.4)"
         }
       },
       {
@@ -1886,32 +1886,32 @@
         "key": "color-link1",
         "description": "常规",
         "value": {
-          "light": "rgba(var(--o-brand-6))",
-          "dark": "rgba(var(--o-brand-5))"
+          "light": "rgba(var(--o-kleinblue-6))",
+          "dark": "rgba(var(--o-kleinblue-5))"
         }
       },
       {
         "key": "color-link2",
         "description": "悬浮",
         "value": {
-          "light": "rgba(var(--o-brand-4))",
-          "dark": "rgba(var(--o-brand-4))"
+          "light": "rgba(var(--o-kleinblue-4))",
+          "dark": "rgba(var(--o-kleinblue-4))"
         }
       },
       {
         "key": "color-link3",
         "description": "激活",
         "value": {
-          "light": "rgba(var(--o-brand-7))",
-          "dark": "rgba(var(--o-brand-7))"
+          "light": "rgba(var(--o-kleinblue-7))",
+          "dark": "rgba(var(--o-kleinblue-7))"
         }
       },
       {
         "key": "color-link4",
         "description": "禁用",
         "value": {
-          "light": "rgba(var(--o-brand-3))",
-          "dark": "rgba(var(--o-brand-3))"
+          "light": "rgba(var(--o-kleinblue-3))",
+          "dark": "rgba(var(--o-kleinblue-3))"
         }
       }
     ]
