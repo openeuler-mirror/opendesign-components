@@ -34,11 +34,13 @@ const options = [
 <template>
   <h4>Select Group</h4>
   <section>
+    <div>默认：</div>
     <OSelect v-model="selectVal1" placeholder="select..." clearable>
       <OOptionGroup v-for="gp in options" :key="gp.groupName" :name="gp.groupName">
         <OOption v-for="item in gp.list" :key="item.value" :label="item.label" :value="item.value" />
       </OOptionGroup>
     </OSelect>
+    <div>自定义分组样式：</div>
     <OSelect v-model="selectVal1" placeholder="select..." clearable>
       <OOptionGroup v-for="gp in options" :key="gp.groupName" :name="gp.groupName">
         <template #name>
