@@ -175,7 +175,7 @@ const onResize = () => {
         ></div>
       </slot>
     </div>
-    <slot :direction="props.direction">
+    <slot name="track" :direction="props.direction">
       <div class="o-scrollbar-track" :class="[`o-scrollbar-${props.direction}-track`]"></div>
     </slot>
   </div>
