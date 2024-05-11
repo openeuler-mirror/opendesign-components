@@ -7,10 +7,10 @@ import ScrollerHooks from './ScrollerHooks.vue';
 </script>
 <template>
   <div class="page-demo">
-    <ScrollbarBasic />
+    <!-- <ScrollbarBasic /> -->
     <!-- <ScrollerBasic /> -->
     <!-- <ScrollerHeight /> -->
-    <!-- <ScrollerHooks /> -->
+    <ScrollerHooks />
   </div>
 </template>
 <style lang="scss"></style>

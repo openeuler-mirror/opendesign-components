@@ -3,21 +3,23 @@ import { h, render, Ref, ComponentPublicInstance } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { ScrollbarPropsT } from './types';
 
-interface UseScrollbarOptions extends Partial<ScrollbarPropsT> {
+interface UseScrollbarOptions extends Partial<Omit<ScrollbarPropsT, 'target'>> {
   wrapper?: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string;
+  target: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string;
 }
 
 export async function useScrollbar(options: UseScrollbarOptions) {
-  if (!options.target) {
+  const { wrapper, target, ...rests } = options;
+
+  const targetEl = await resolveHtmlElement(target);
+  if (!targetEl) {
     return;
   }
-  const { wrapper, ...rests } = options;
 
   let wrapperEl: HTMLElement | null;
   if (wrapper) {
     wrapperEl = await resolveHtmlElement(wrapper);
   } else {
-    const targetEl = await resolveHtmlElement(options.target);
     wrapperEl = targetEl?.parentNode as HTMLElement;
   }
 
@@ -27,6 +29,7 @@ export async function useScrollbar(options: UseScrollbarOptions) {
 
   const vnode = h(OScrollbar, {
     ...rests,
+    target: targetEl,
   });
 
   render(vnode, wrapperEl);

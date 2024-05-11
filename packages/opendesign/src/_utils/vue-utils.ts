@@ -160,8 +160,10 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   };
 }
 
-export const resolveHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string): Promise<HTMLElement | null> => {
-  const queryElement = (el: string | HTMLElement | null): HTMLElement | null => {
+export const resolveHtmlElement = (
+  elRef: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string | undefined | ComponentPublicInstance
+): Promise<HTMLElement | null> => {
+  const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
     if (typeof el === 'string') {
       return document.querySelector(el);
     } else if (isHtmlElement(el)) {
@@ -182,6 +184,8 @@ export const resolveHtmlElement = (elRef: Ref<string | ComponentPublicInstance |
           }
         }
       });
+    } else if (isComponentPublicInstance(elRef)) {
+      resolve(elRef.$el);
     } else {
       resolve(queryElement(elRef));
     }
