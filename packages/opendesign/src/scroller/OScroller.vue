@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onMounted, ref, onUnmounted, toRefs } from 'vue';
-import OScrollbar from './OScrollbar.vue';
+import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollerProps, ScrollerDirection } from './types';
-import { getHtmlElement } from '../_utils/vue-utils';
+import { resolveHtmlElement } from '../_utils/vue-utils';
 import { isPhonePad } from '../_utils/global';
 import { OResizeObserver } from '../resize-observer';
 
@@ -98,7 +98,7 @@ onMounted(() => {
     init();
   } else {
     const { target } = toRefs(props);
-    getHtmlElement(target).then((el) => {
+    resolveHtmlElement(target).then((el) => {
       if (el === document.body) {
         isBody.value = true;
         wrapperEl = document.documentElement;
@@ -216,7 +216,7 @@ defineExpose({
       </OResizeObserver>
     </div>
     <template v-if="props.showType !== 'never'">
-      <OScrollbar
+      <ScrollbarRail
         v-if="hasX && !props.disabledX"
         :size="props.size"
         direction="x"
@@ -225,8 +225,11 @@ defineExpose({
         @scroll="onHBarScroll"
         @mouseenter="onBarHoverIn('x')"
         @mouseleave="onBarHoverOut('x')"
-      />
-      <OScrollbar
+      >
+        <template #thumb><slot name="thumb"></slot></template>
+        <template #track><slot name="track"></slot></template>
+      </ScrollbarRail>
+      <ScrollbarRail
         v-if="hasY && !props.disabledY"
         direction="y"
         :size="props.size"
@@ -235,7 +238,10 @@ defineExpose({
         @scroll="onVBarScroll"
         @mouseenter="onBarHoverIn('y')"
         @mouseleave="onBarHoverOut('y')"
-      />
+      >
+        <template #thumb><slot name="thumb"></slot></template>
+        <template #track><slot name="track"></slot></template>
+      </ScrollbarRail>
     </template>
   </div>
 </template>

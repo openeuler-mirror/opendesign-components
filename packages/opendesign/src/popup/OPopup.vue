@@ -16,7 +16,7 @@ import { useIntersectionObserver } from '../hooks';
 import type { IntersectionListenerT } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
-import { getHtmlElement } from '../_utils/vue-utils';
+import { resolveHtmlElement } from '../_utils/vue-utils';
 import { isPhonePad } from '../_utils/global';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
@@ -88,14 +88,14 @@ onMounted(() => {
 
   const { target, wrapper } = toRefs(props);
   // 绑定触发元素事件
-  getHtmlElement(target).then((el) => {
+  resolveHtmlElement(target).then((el) => {
     if (el) {
       bindTargetEvent(el);
     }
   });
 
   // 获取挂载容器
-  getHtmlElement(wrapper).then((el) => {
+  resolveHtmlElement(wrapper).then((el) => {
     if (el) {
       wrapperEl.value = el;
     }
