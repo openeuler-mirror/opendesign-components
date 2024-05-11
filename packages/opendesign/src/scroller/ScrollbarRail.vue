@@ -1,9 +1,38 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { scrollbarProps } from './types';
+import { ScrollerSizeT } from './types';
 import { vOnResize } from '../directves/on-resize';
 
-const props = defineProps(scrollbarProps);
+const props = withDefaults(
+  defineProps<{
+    /**
+     * 滚动条方向 h：横向 v: 纵向
+     */
+    direction: 'x' | 'y';
+    /**
+     * 滚动bar宽度占总宽度
+     */
+    thumbRate?: number;
+    /**
+     * 滚动bar滚动位置百分比
+     */
+    offsetRate: number;
+    /**
+     * 点击track一次，滚动一屏
+     */
+    notStepJump?: boolean;
+    /**
+     * 滚动条尺寸大小
+     */
+    size: ScrollerSizeT;
+  }>(),
+  {
+    direction: 'y',
+    offsetRate: 0,
+    size: 'medium',
+  }
+);
+
 const emits = defineEmits<{
   (e: 'scroll', ratio: number): void;
 }>();
