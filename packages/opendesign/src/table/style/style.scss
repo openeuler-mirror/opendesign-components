@@ -7,7 +7,6 @@
 
   table {
     width: 100%;
-    // border-collapse: collapse;
     border-spacing: 0;
   }
   th,
@@ -23,26 +22,12 @@
     font-size: var(--table-head-text-size);
     line-height: var(--table-head-text-height);
     height: var(--table-head-cell-height);
-
-    &:first-child {
-      padding-left: var(--table-edge-padding);
-    }
-    &:last-child {
-      padding-right: var(--table-edge-padding);
-    }
   }
   td {
     padding: var(--table-cell-padding);
     font-size: var(--table-text-size);
     line-height: var(--table-text-height);
     height: var(--table-cell-height);
-
-    &:first-child {
-      padding-left: var(--table-edge-padding);
-    }
-    &:last-child {
-      padding-right: var(--table-edge-padding);
-    }
   }
 
   tbody tr {
