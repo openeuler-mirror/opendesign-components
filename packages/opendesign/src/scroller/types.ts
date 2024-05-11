@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType, ComponentPublicInstance } from 'vue';
+import { ExtractPropTypes, PropType, ComponentPublicInstance, Ref } from 'vue';
 export type ScrollerDirection = 'x' | 'y';
 
 export const ScrollerSizeTypes = ['medium', 'small'] as const;
@@ -10,6 +10,7 @@ export const scrollerProps = {
    */
   disabledX: {
     type: Boolean,
+    required: false,
   },
   /**
    * 禁用纵向滚动
@@ -17,13 +18,7 @@ export const scrollerProps = {
   disabledY: {
     type: Boolean,
   },
-  /**
-   * 滚动容器,支持body、元素ref、HTMLElement
-   */
-  target: {
-    type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
-    default: null,
-  },
+
   /**
    * 滚动条在停止滚动多长时间后隐藏, ms
    */
@@ -60,38 +55,13 @@ export const scrollerProps = {
 export type ScrollerPropsT = ExtractPropTypes<typeof scrollerProps>;
 
 export const scrollbarProps = {
+  ...scrollerProps,
   /**
-   * 滚动条方向 h：横向 v: 纵向
+   * 滚动关联目标容器,支持body、元素ref、HTMLElement
    */
-  direction: {
-    type: String as PropType<'x' | 'y'>,
-    default: 'y',
-  },
-  /**
-   * 滚动bar宽度占总宽度
-   */
-  thumbRate: {
-    type: Number,
-  },
-  /**
-   * 滚动bar滚动位置百分比
-   */
-  offsetRate: {
-    type: Number,
-    default: 0,
-  },
-  /**
-   * 点击track一次，滚动一屏
-   */
-  notStepJump: {
-    type: Boolean,
-  },
-  /**
-   * 滚动条尺寸大小
-   */
-  size: {
-    type: String as PropType<ScrollerSizeT>,
-    default: 'medium',
+  target: {
+    type: [String, Object] as PropType<Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string>,
+    default: null,
   },
 };
 export type ScrollbarPropsT = ExtractPropTypes<typeof scrollbarProps>;

@@ -28,22 +28,22 @@
   }
 }
 
-.o-scroller-hover-show {
-  > .o-scrollbar {
+.o-scrollbar-hover-show {
+  .o-scrollbar-rail {
     opacity: 0;
     pointer-events: none;
   }
 
   @include hover {
-    > .o-scrollbar {
+    .o-scrollbar-rail {
       opacity: 1;
       pointer-events: auto;
     }
   }
 }
 
-.o-scroller-always-show {
-  > .o-scrollbar {
+.o-scrollbar-always-show {
+  .o-scrollbar-rail {
     opacity: 1;
     pointer-events: auto;
   }
@@ -65,8 +65,39 @@
     overflow-y: hidden;
   }
 }
+.o-scrollbar-wrapper {
+  position: relative;
+}
+.o-scrollbar-container {
+  overflow: auto;
+  scrollbar-width: none;
+}
 
 .o-scrollbar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  > .o-scrollbar-dragging {
+    opacity: 1;
+  }
+
+  &.o-scrollbar-show-x {
+    > .o-scrollbar-x {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &.o-scrollbar-show-y {
+    > .o-scrollbar-y {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
+.o-scrollbar-rail {
   // 默认隐藏
   opacity: 0;
   pointer-events: none;

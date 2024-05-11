@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OScroller } from '../index';
-import { OPopover } from '../../popover';
 import '../../popover/style';
 import TheComp from './TheComp.vue';
 
 const containerRef = ref<HTMLElement | null>(null);
-const compRef = ref<HTMLElement | null>(null);
+const compRef = ref<InstanceType<typeof TheComp> | null>(null);
 
 const link = `${window.location.href}/body`;
-const height = ref(200);
-let d = 1;
-const changeHeight = () => {
-  if (height.value > 700) {
-    d = -1;
-  } else if (height.value < 300) {
-    d = 1;
-  }
-  height.value += d * 200;
-};
 </script>
 <template>
   <h4>Scroller basic</h4>

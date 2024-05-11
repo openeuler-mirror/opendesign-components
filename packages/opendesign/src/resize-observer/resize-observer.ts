@@ -24,7 +24,7 @@ const bindEvent = (child: VNode, vResizeObserver: Directive) => {
 export default defineComponent({
   name: 'OResizeObserver',
   emits: ['resize'],
-  setup(props, { emit, slots }) {
+  setup(_props, { emit, slots }) {
     const { vResizeObserver } = useReiszeObserverDirective((entry: ResizeObserverEntry, isFirst: boolean) => {
       // 触发resize事件
       emit('resize', entry, isFirst);

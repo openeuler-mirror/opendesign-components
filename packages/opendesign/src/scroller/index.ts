@@ -3,7 +3,7 @@ import type { App } from 'vue';
 import _OScroller from './OScroller.vue';
 // import OScrollbar from './OScrollbar.vue';
 
-// import { useScroller } from './use-scroller';
+import { useScrollbar } from './use-scrollebar';
 
 const OScroller = Object.assign(_OScroller, {
   // OScrollbar,
@@ -13,5 +13,5 @@ const OScroller = Object.assign(_OScroller, {
   },
 });
 
-export { OScroller };
+export { OScroller, useScrollbar };
 export * from './types';
