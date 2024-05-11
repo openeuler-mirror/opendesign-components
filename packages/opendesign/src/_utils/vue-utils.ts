@@ -35,20 +35,20 @@ export const isTextElement = (vnode: VNode) => {
  * @param vnode vnode节点
  * @param type 组件信息
  */
-export function isComponent(vnode: VNode, type?: VNodeTypes): type is Component {
+export function isComponent(vnode: VNode, _type?: VNodeTypes): _type is Component {
   return Boolean(vnode && vnode.shapeFlag & ShapeFlags.COMPONENT);
 }
 /**
  * 判断vnode是不是vue组件
  */
-export const isSlotsChildren = (vnode: VNode, children?: VNode['children']): children is Slots => {
+export const isSlotsChildren = (vnode: VNode, _children?: VNode['children']): _children is Slots => {
   return Boolean(vnode && vnode.shapeFlag & ShapeFlags.SLOTS_CHILDREN);
 };
 
 /**
  * 判断vnode是不是slot的子元素
  */
-export const isArrayChildren = (vn: VNode, children?: VNode['children']): children is VNode[] => {
+export const isArrayChildren = (vn: VNode, _children?: VNode['children']): _children is VNode[] => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.ARRAY_CHILDREN);
 };
 
@@ -184,6 +184,24 @@ export const resolveHtmlElement = (elRef: Ref<string | ComponentPublicInstance |
       });
     } else {
       resolve(queryElement(elRef));
+    }
+  });
+};
+
+export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
+  return new Promise((resolve) => {
+    if (isHtmlElement(elRef.value)) {
+      resolve(elRef.value as HTMLElement);
+    } else if (typeof elRef.value === 'string') {
+      resolve(document.querySelector(elRef.value) as HTMLElement);
+    } else {
+      watchEffect(() => {
+        if (isHtmlElement(elRef.value)) {
+          resolve(elRef.value as HTMLElement);
+        } else if (elRef.value) {
+          resolve((elRef.value as ComponentPublicInstance).$el);
+        }
+      });
     }
   });
 };

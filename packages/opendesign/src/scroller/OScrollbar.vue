@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onUnmounted, watchEffect, onMounted } from 'vue';
+import { ref, onUnmounted, watchEffect, toRefs } from 'vue';
 import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollbarProps, ScrollerDirection } from './types';
 import { resolveHtmlElement } from '../_utils/vue-utils';
@@ -34,6 +34,9 @@ let ro: ReturnType<typeof useResizeObserver> | null = null;
 let lastScrollWidth = -1;
 let lastScrollHeight = -1;
 
+/**
+ * 根据容器滚动信息初始化滚动条样式
+ */
 const initVars = () => {
   if (!scrollTargetEl) {
     return;
@@ -56,6 +59,9 @@ const initVars = () => {
   }
 };
 
+/**
+ * 容器滚动事件响应函数
+ */
 const onScroll = () => {
   if (!scrollTargetEl) {
     return;
@@ -96,6 +102,9 @@ const onScroll = () => {
   lastTop = scrollTop;
 };
 
+/**
+ * 初始化
+ */
 const init = () => {
   if (!scrollTargetEl) {
     return;
@@ -113,7 +122,11 @@ const init = () => {
   listenEl.addEventListener('scroll', onScroll, { passive: true });
 };
 
-resolveHtmlElement(props.target).then((el) => {
+/**
+ * 基于滚动监听元素初始化
+ */
+const { target } = toRefs(props);
+resolveHtmlElement(target).then((el) => {
   if (el === document.body) {
     isBody.value = true;
     scrollTargetEl = document.documentElement;
@@ -128,20 +141,50 @@ resolveHtmlElement(props.target).then((el) => {
   init();
 });
 
+/**********
+ * 处理滚动条显示
+ */
+const isShowScrollbar = ref(props.showType === 'always');
+let wrapperEl: HTMLElement | null = null;
+
+const onWrapperHoverIn = () => {
+  isShowScrollbar.value = true;
+};
+
+const onWrapperHoverOut = () => {
+  isShowScrollbar.value = false;
+
+  // 如果容器滚动高度有变化，则刷新滚动条
+  if (scrollTargetEl) {
+    const { scrollWidth, scrollHeight } = scrollTargetEl;
+
+    // 如果滚动宽度或高度有变化，则重新计算滚动条样式
+    if (lastScrollWidth !== scrollWidth || lastScrollHeight !== scrollHeight) {
+      initVars();
+    }
+  }
+};
+
+const removeWrapperHoverEvent = () => {
+  if (wrapperEl) {
+    wrapperEl.removeEventListener('mouseenter', onWrapperHoverIn);
+    wrapperEl.removeEventListener('mouseleave', onWrapperHoverOut);
+  }
+};
 watchEffect(() => {
-  const isHover = props.showType === 'hover' && !isPhonePad.value;
-  if (isHover) {
-    const parent = rootRef.value?.offsetParent;
-    parent?.classList.add('o-scrollbar-hover-show');
+  isShowScrollbar.value = props.showType === 'always';
+  const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
+  if (isHoverShow) {
+    wrapperEl = rootRef.value?.offsetParent as HTMLElement;
+    if (wrapperEl) {
+      wrapperEl?.addEventListener('mouseenter', onWrapperHoverIn);
+      wrapperEl?.addEventListener('mouseleave', onWrapperHoverOut);
+    }
+  } else {
+    removeWrapperHoverEvent();
   }
 });
-
-// onMounted(() => {
-//   if(rootRef.value) {
-//     scrollTargetEl?.classList.add('o-scrollbar-hover-show');
-
-//   }
-// })
+/**********/
 
 onUnmounted(() => {
   if (scrollTargetEl) {
@@ -150,6 +193,8 @@ onUnmounted(() => {
     const listenEl = isBody.value ? window : scrollTargetEl;
     listenEl.removeEventListener('scroll', onScroll);
   }
+
+  removeWrapperHoverEvent();
 });
 
 const onHBarScroll = (ratio: number) => {
@@ -214,6 +259,8 @@ const onBarHoverOut = (d: ScrollerDirection) => {
       {
         'o-scrollbar-auto-show': props.showType === 'auto',
         'o-scrollbar-always-show': props.showType === 'always',
+        'o-scrollbar-hover-show': props.showType === 'hover' && !isPhonePad,
+        'o-scrollbar-show': isShowScrollbar,
         'o-scrollbar-both': hasX && hasY,
         'o-scrollbar-to-body': isBody,
         'o-scrollbar-show-x': showXBar,

@@ -1,45 +1,48 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TheComp from './TheComp.vue';
-import { useScrollbar } from '../index';
+import { OScrollbar } from '../index';
+
+const showType = ref<'auto' | 'always' | 'hover' | 'never'>('always');
+const setShowType = (type: 'auto' | 'hover' | 'always') => {
+  showType.value = type;
+};
 
 const wrapper = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
 const compRef = ref<InstanceType<typeof TheComp> | null>(null);
-
-useScrollbar({
-  wrapper: wrapper,
-  target: container,
-  showType: 'always',
-});
-
-useScrollbar({
-  target: compRef,
-  showType: 'hover',
-});
 </script>
 <template>
   <h4>Scroller basic</h4>
-  <!-- <div>
+  <div>
     <h3>Native</h3>
-    <div class="wrapper" ref="wrapper">
+    <div>
+      showType: <button @click="setShowType('auto')">auto</button><button @click="setShowType('always')">always</button
+      ><button @click="setShowType('hover')">hover</button>
+    </div>
+    <div class="scrollbar-wrapper" ref="wrapper">
       <div class="container" ref="container">
         <div class="section">1</div>
         <div class="section">2</div>
         <div class="section">3</div>
       </div>
+      <OScrollbar :target="container" :show-type="showType" />
     </div>
-  </div> -->
+  </div>
   <div>
     <h3>Scroller to component</h3>
-    <div style="display: inline-flex">
+    <div style="display: inline-flex" class="scrollbar-wrapper">
       <TheComp ref="compRef" />
+      <OScrollbar :target="compRef" :show-type="showType" />
     </div>
   </div>
 
   <br />
 </template>
 <style lang="scss" scoped>
+.scrollbar-wrapper {
+  position: relative;
+}
 .container {
   width: 100%;
   height: 300px;

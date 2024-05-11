@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType, ComponentPublicInstance, Ref } from 'vue';
+import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 export type ScrollerDirection = 'x' | 'y';
 
 export const ScrollerSizeTypes = ['medium', 'small'] as const;
@@ -60,7 +60,7 @@ export const scrollbarProps = {
    * 滚动关联目标容器,支持body、元素ref、HTMLElement
    */
   target: {
-    type: [String, Object] as PropType<Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string>,
+    type: [String, Object] as PropType<HTMLElement | ComponentPublicInstance | string | null>,
     default: null,
   },
 };
