@@ -18,9 +18,15 @@ const { scrollbar } = useScrollbar({
   showType: 'always',
 });
 console.log(scrollbar);
+
+const txtarea = ref<HTMLElement | null>(null);
+useScrollbar({
+  target: txtarea,
+  showType: 'always',
+  size: 'small',
+});
 </script>
 <template>
-  <h4>Scroller basic</h4>
   <div>
     <h3>Native</h3>
     <div class="wrapper" ref="wrapper">
@@ -35,6 +41,12 @@ console.log(scrollbar);
     <h3>Scroller to component</h3>
     <div style="display: inline-flex">
       <TheScrollComp ref="compRef" />
+    </div>
+  </div>
+  <div>
+    <h3>Scroller to Textarea</h3>
+    <div style="display: inline-flex">
+      <textarea ref="txtarea" rows="5" cols="30"></textarea>
     </div>
   </div>
 
