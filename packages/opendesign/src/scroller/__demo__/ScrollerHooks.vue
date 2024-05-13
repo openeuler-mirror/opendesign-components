@@ -13,14 +13,15 @@ useScrollbar({
   showType: 'always',
 });
 
-useScrollbar({
+const { scrollbar } = useScrollbar({
   target: compRef,
-  showType: 'hover',
+  showType: 'always',
 });
+console.log(scrollbar);
 </script>
 <template>
   <h4>Scroller basic</h4>
-  <!-- <div>
+  <div>
     <h3>Native</h3>
     <div class="wrapper" ref="wrapper">
       <div class="container" ref="container">
@@ -29,7 +30,7 @@ useScrollbar({
         <div class="section">3</div>
       </div>
     </div>
-  </div> -->
+  </div>
   <div>
     <h3>Scroller to component</h3>
     <div style="display: inline-flex">

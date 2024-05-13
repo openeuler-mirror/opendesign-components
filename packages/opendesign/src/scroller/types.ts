@@ -50,6 +50,12 @@ export const scrollerProps = {
   wrapClass: {
     type: [String, Array, Object] as PropType<string | any[] | object>,
   },
+  /**
+   * showType=always时，是否根据滚动容器滚动高度变化自动刷新滚动条
+   */
+  autoUpdateOnScrollSize: {
+    type: Boolean,
+  },
 };
 
 export type ScrollerPropsT = ExtractPropTypes<typeof scrollerProps>;

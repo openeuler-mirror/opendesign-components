@@ -1,5 +1,5 @@
 import { resolveHtmlElement } from '../_utils/vue-utils';
-import { h, render, Ref, ComponentPublicInstance } from 'vue';
+import { Ref, ComponentPublicInstance, createApp } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { ScrollbarPropsT } from './types';
 
@@ -8,31 +8,35 @@ interface UseScrollbarOptions extends Partial<Omit<ScrollbarPropsT, 'target'>> {
   target: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string;
 }
 
-export async function useScrollbar(options: UseScrollbarOptions) {
+export function useScrollbar(options: UseScrollbarOptions) {
   const { wrapper, target, ...rests } = options;
 
-  const targetEl = await resolveHtmlElement(target);
-  if (!targetEl) {
-    return;
-  }
-
-  let wrapperEl: HTMLElement | null;
-  if (wrapper) {
-    wrapperEl = await resolveHtmlElement(wrapper);
-  } else {
-    wrapperEl = targetEl?.parentNode as HTMLElement;
-  }
-
-  if (!wrapperEl) {
-    wrapperEl = document.body;
-  }
-
-  const vnode = h(OScrollbar, {
+  // 渲染组件
+  const app = createApp(OScrollbar, {
     ...rests,
-    target: targetEl,
+    target,
   });
 
-  render(vnode, wrapperEl);
+  const div = document.createElement('div');
+  const instance = app.mount(div);
 
-  wrapperEl.classList.add('o-scrollbar-wrapper');
+  const mount = (wrapper: HTMLElement | null) => {
+    const wrapperEl = wrapper || document.body;
+    wrapperEl?.appendChild(div.childNodes[0]);
+    wrapperEl?.classList.add('o-scrollbar-wrapper');
+  };
+
+  if (wrapper) {
+    resolveHtmlElement(wrapper).then((el) => {
+      mount(el);
+    });
+  } else {
+    resolveHtmlElement(target).then((el) => {
+      mount(el?.parentNode as HTMLElement | null);
+    });
+  }
+
+  return {
+    scrollbar: instance,
+  };
 }

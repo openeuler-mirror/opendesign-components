@@ -56,7 +56,7 @@ export const isArrayChildren = (vn: VNode, _children?: VNode['children']): _chil
  * 判断val是不是vue组件实例
  */
 export function isComponentPublicInstance(val: unknown): val is ComponentPublicInstance {
-  return Boolean((val as ComponentPublicInstance).$el);
+  return Boolean((val as ComponentPublicInstance)?.$el);
 }
 
 // TODO
