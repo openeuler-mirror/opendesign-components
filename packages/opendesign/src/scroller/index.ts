@@ -13,5 +13,5 @@ const OScroller = Object.assign(_OScroller, {
   },
 });
 
-export { OScroller, useScrollbar, OScrollbar };
+export { OScroller, OScrollbar, useScrollbar };
 export * from './types';
