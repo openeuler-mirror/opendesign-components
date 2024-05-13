@@ -4,76 +4,48 @@
  * ::-webkit-scrollbar 兼容chrome 4+, edge 79+, safari 4+, opera 15+, 
  * scrollbar-width 兼容firefox 64+
  */
-
-.o-scroller {
-  position: relative;
-  display: flex;
+.o-scrollbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
 
   > .o-scrollbar-dragging {
     opacity: 1;
   }
 
-  &.o-scroller-show-x {
+  &.o-scrollbar-show-x {
     > .o-scrollbar-x {
       opacity: 1;
       pointer-events: auto;
     }
   }
 
-  &.o-scroller-show-y {
+  &.o-scrollbar-show-y {
     > .o-scrollbar-y {
       opacity: 1;
       pointer-events: auto;
     }
   }
-}
 
-.o-scroller-hover-show {
-  > .o-scrollbar {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  @include hover {
-    > .o-scrollbar {
+  &.o-scrollbar-show {
+    .o-scrollbar-rail {
       opacity: 1;
       pointer-events: auto;
     }
   }
 }
 
-.o-scroller-always-show {
-  > .o-scrollbar {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-.o-scroller-container {
-  flex: 1; // 撑满父容器
-  overflow: auto;
-  scrollbar-width: none;
-  padding: var(--scroller-padding);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  &.is-x-disabled {
-    overflow-x: hidden;
-  }
-  &.is-y-disabled {
-    overflow-y: hidden;
-  }
-}
-
-.o-scrollbar {
+.o-scrollbar-rail {
   // 默认隐藏
   opacity: 0;
   pointer-events: none;
 
   position: absolute;
   background-color: var(--scrollbar-bg-color);
-  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
+  transition: opacity var(--o-duration-m1) var(--o-easing-standard-in) var(--scrollbar-delay);
   @include hover {
     .o-scrollbar-x-thumb-bar {
       height: var(--scrollbar-thumb-width-hover);
@@ -125,7 +97,7 @@
   border-radius: var(--scrollbar-thumb-radius);
   background-color: var(--scrollbar-track-bg-color);
   opacity: 0;
-  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
+  transition: opacity var(--o-duration-m1) var(--o-easing-standard-in) var(--scrollbar-delay);
 }
 .o-scrollbar-y-track {
   width: var(--scrollbar-track-width);
@@ -157,7 +129,7 @@
 .o-scrollbar-y-thumb-bar {
   background-color: var(--scrollbar-thumb-bg-color);
   border-radius: var(--scrollbar-thumb-radius);
-  transition: all var(--o-easing-standard-in) var(--o-duration-m1) var(--scrollbar-delay);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in) var(--scrollbar-delay);
 }
 .o-scrollbar-x-thumb-bar {
   width: 100%;
@@ -181,16 +153,41 @@
   }
 }
 
-.o-scroller-to-body {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: var(--o-z-index-max);
-  pointer-events: none;
+// scrollbar container and wrapper
+
+.o-scrollbar-wrapper {
+  position: relative;
+}
+.o-scrollbar-container {
+  overflow: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-// .o-scroller-body {
-// height: 100%;
-// }
+.o-scroller {
+  position: relative;
+}
+
+.o-scroller-container {
+  width: 100%;
+  height: 100%;
+  padding: var(--scroller-padding);
+  overflow: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &.is-x-disabled {
+    overflow-x: hidden;
+  }
+  &.is-y-disabled {
+    overflow-y: hidden;
+  }
+}
+.o-scrollbar-to-body {
+  position: fixed;
+  z-index: var(--o-z-index-max);
+}

@@ -9,7 +9,7 @@ export function isDocument(val: unknown): val is Document {
   return val instanceof Document || val?.constructor.name === 'HTMLDocument';
 }
 
-export function isHtmlElement(el: any) {
+export function isHtmlElement(el: any): el is HTMLElement {
   return typeof HTMLElement === 'object'
     ? el instanceof HTMLElement
     : !!(el && typeof el === 'object' && (el.nodeType === 1 || el.nodeType === 9) && typeof el.nodeName === 'string');
@@ -17,7 +17,7 @@ export function isHtmlElement(el: any) {
 
 // 获取真实相对父元素  当body没有设置position时，返回html
 export function getOffsetElement(el: HTMLElement) {
-  let offsetEl = el.offsetParent;
+  const offsetEl = el.offsetParent;
   if (offsetEl && offsetEl.tagName === 'BODY') {
     const stylePosition = window.getComputedStyle(document.body).getPropertyValue('position');
     if (stylePosition === 'static') {

@@ -167,7 +167,7 @@ const onResize = () => {
   <div
     ref="barRef"
     v-on-resize="onResize"
-    class="o-scrollbar"
+    class="o-scrollbar-rail"
     :class="[
       `o-scrollbar-${props.direction}`,
       `o-scrollbar-${props.size}`,

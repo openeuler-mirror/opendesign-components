@@ -1,5 +1,5 @@
-.o-scroller {
-  --scrollbar-delay: 0;
+.o-scrollbar {
+  --scrollbar-delay: 16ms;
   --scrollbar-height: 90%;
 
   --scrollbar-y-top: 0;
@@ -24,13 +24,13 @@
   --scrollbar-thumb-radius: 10px;
   --scrollbar-width: 16px;
 }
-.o-scroller-hover-show {
+.o-scrollbar-hover-show {
   --scrollbar-delay: 100ms; // 延迟时间，避免hover时频繁触发
 }
-.o-scroller-both {
+.o-scrollbar-both {
   --scrollbar-height: min(calc(100% - var(--scrollbar-width) * 2), 90%);
 }
-.o-scroller-small {
+.o-scrollbar-small {
   --scrollbar-track-width: 3px;
   --scrollbar-thumb-width: 3px;
   --scrollbar-thumb-width-hover: 6px;
