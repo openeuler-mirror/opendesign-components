@@ -10,6 +10,8 @@ const setShowType = (type: 'auto' | 'hover' | 'always') => {
 
 const wrapper = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
+const txtarea = ref<HTMLElement | null>(null);
+
 const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
 </script>
 <template>
@@ -34,6 +36,13 @@ const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
     <div style="display: inline-flex" class="scrollbar-wrapper">
       <TheScrollComp ref="compRef" />
       <OScrollbar :target="compRef" :show-type="showType" />
+    </div>
+  </div>
+  <div>
+    <h3>Scroller to textarea</h3>
+    <div style="display: inline-flex" class="scrollbar-wrapper">
+      <textarea ref="txtarea" rows="5" cols="30"></textarea>
+      <OScrollbar :target="txtarea" :show-type="showType" />
     </div>
   </div>
 
