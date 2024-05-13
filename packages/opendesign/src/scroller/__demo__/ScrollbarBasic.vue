@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import TheComp from './TheComp.vue';
+import TheScrollComp from './TheScrollComp.vue';
 import { OScrollbar } from '../index';
 
 const showType = ref<'auto' | 'always' | 'hover' | 'never'>('always');
@@ -10,7 +10,7 @@ const setShowType = (type: 'auto' | 'hover' | 'always') => {
 
 const wrapper = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
-const compRef = ref<InstanceType<typeof TheComp> | null>(null);
+const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
 </script>
 <template>
   <h4>Scroller basic</h4>
@@ -32,7 +32,7 @@ const compRef = ref<InstanceType<typeof TheComp> | null>(null);
   <div>
     <h3>Scroller to component</h3>
     <div style="display: inline-flex" class="scrollbar-wrapper">
-      <TheComp ref="compRef" />
+      <TheScrollComp ref="compRef" />
       <OScrollbar :target="compRef" :show-type="showType" />
     </div>
   </div>

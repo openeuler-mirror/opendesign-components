@@ -8,6 +8,10 @@ interface UseScrollbarOptions extends Partial<Omit<ScrollbarPropsT, 'target'>> {
   target: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string;
 }
 
+const ScrollbarClass = {
+  wrapper: 'o-scrollbar-wrapper',
+};
+
 export function useScrollbar(options: UseScrollbarOptions) {
   const { wrapper, target, ...rests } = options;
 
@@ -18,12 +22,14 @@ export function useScrollbar(options: UseScrollbarOptions) {
   });
 
   const div = document.createElement('div');
-  const instance = app.mount(div);
+  const instance = app.mount(div) as InstanceType<typeof OScrollbar>;
+
+  let wrapperEl: HTMLElement;
 
   const mount = (wrapper: HTMLElement | null) => {
-    const wrapperEl = wrapper || document.body;
+    wrapperEl = wrapper || document.body;
     wrapperEl?.appendChild(div.childNodes[0]);
-    wrapperEl?.classList.add('o-scrollbar-wrapper');
+    wrapperEl?.classList.add(ScrollbarClass.wrapper);
   };
 
   if (wrapper) {
@@ -38,5 +44,9 @@ export function useScrollbar(options: UseScrollbarOptions) {
 
   return {
     scrollbar: instance,
+    unmount: () => {
+      app.unmount();
+      wrapperEl?.classList.remove(ScrollbarClass.wrapper);
+    },
   };
 }

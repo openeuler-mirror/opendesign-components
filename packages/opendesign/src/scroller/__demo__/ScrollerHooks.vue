@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import TheComp from './TheComp.vue';
+import TheScrollComp from './TheScrollComp.vue';
 import { useScrollbar } from '../index';
 
 const wrapper = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
-const compRef = ref<InstanceType<typeof TheComp> | null>(null);
+const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
 
 useScrollbar({
   wrapper: wrapper,
@@ -34,7 +34,7 @@ console.log(scrollbar);
   <div>
     <h3>Scroller to component</h3>
     <div style="display: inline-flex">
-      <TheComp ref="compRef" />
+      <TheScrollComp ref="compRef" />
     </div>
   </div>
 

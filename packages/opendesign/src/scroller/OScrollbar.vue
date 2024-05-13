@@ -6,13 +6,15 @@ import { resolveHtmlElement } from '../_utils/vue-utils';
 import { isPhonePad } from '../_utils/global';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 
-const ScrollerClass = {
-  BODY: 'o-hide-scrollbar',
+const ScrollbarClass = {
+  container: 'o-scrollbar-container',
 };
+
 const props = defineProps(scrollbarProps);
 
 // 滚动目标容器
 let scrollTargetEl: HTMLElement | null = null;
+let scrollListenEl: HTMLElement | null | Window = null;
 const rootRef = ref<HTMLElement | null>(null);
 const hasY = ref(false);
 const hasX = ref(false);
@@ -123,7 +125,7 @@ const init = () => {
     return;
   }
 
-  scrollTargetEl.classList.add('o-scrollbar-container');
+  scrollTargetEl.classList.add(ScrollbarClass.container);
   ro = useResizeObserver();
 
   // 监听滚动元素的尺寸变化，这里无法监听子元素尺寸变化引起的父容器scrollheight变化
@@ -131,8 +133,8 @@ const init = () => {
 
   updateScrollbar();
 
-  const listenEl = isBody.value ? window : scrollTargetEl;
-  listenEl.addEventListener('scroll', onScroll, { passive: true });
+  scrollListenEl = isBody.value ? window : scrollTargetEl;
+  scrollListenEl.addEventListener('scroll', onScroll, { passive: true });
 };
 /**
  * 根据滚动目标定期刷新滚动演示
@@ -154,7 +156,6 @@ resolveHtmlElement(target).then((el) => {
   if (el === document.body) {
     isBody.value = true;
     scrollTargetEl = document.documentElement;
-    document.body.classList.add(ScrollerClass.BODY);
   } else if (el) {
     scrollTargetEl = el;
   }
@@ -221,13 +222,14 @@ onUnmounted(() => {
   if (scrollTargetEl) {
     ro?.unobserve(scrollTargetEl, updateScrollbar);
 
-    const listenEl = isBody.value ? window : scrollTargetEl;
-    listenEl.removeEventListener('scroll', onScroll);
+    scrollListenEl?.removeEventListener('scroll', onScroll);
   }
 
   removeWrapperHoverEvent();
   clearInterval(updateTimer);
   cancelIdleCallback && cancelIdleCallback(updateIdleTimer);
+
+  scrollTargetEl?.classList.remove(ScrollbarClass.container);
 });
 
 const onHBarScroll = (ratio: number) => {
@@ -299,9 +301,9 @@ defineExpose({
         'o-scrollbar-hover-show': props.showType === 'hover' && !isPhonePad,
         'o-scrollbar-show': isShowScrollbar,
         'o-scrollbar-both': hasX && hasY,
-        'o-scrollbar-to-body': isBody,
         'o-scrollbar-show-x': showXBar,
         'o-scrollbar-show-y': showYBar,
+        'o-scrollbar-to-body': isBody,
       },
     ]"
   >

@@ -1,11 +1,20 @@
 <script setup lang="ts">
-import { OScroller } from '../index';
+import { onUnmounted } from 'vue';
+import { useScrollbar } from '../index';
 import '../style';
+
+const { unmount } = useScrollbar({
+  target: 'body',
+  showType: 'always',
+});
+
+onUnmounted(() => {
+  unmount();
+});
 </script>
 <template>
   <h4>Scroller body</h4>
   <section class="sec">123123</section>
-  <OScroller target="body" show-type="always" />
 </template>
 <style lang="scss" scoped>
 .container {

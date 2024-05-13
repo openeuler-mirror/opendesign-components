@@ -6,7 +6,10 @@
  */
 .o-scrollbar {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   pointer-events: none;
 
   > .o-scrollbar-dragging {
@@ -152,34 +155,27 @@
 
 // scrollbar container and wrapper
 
-.o-scroller {
+.o-scrollbar-wrapper {
   position: relative;
-  display: flex;
-
-  > .o-scrollbar-dragging {
-    opacity: 1;
-  }
-
-  &.o-scroller-show-x {
-    > .o-scrollbar-x {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  }
-
-  &.o-scroller-show-y {
-    > .o-scrollbar-y {
-      opacity: 1;
-      pointer-events: auto;
-    }
+}
+.o-scrollbar-container {
+  overflow: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
+.o-scroller {
+  position: relative;
+}
+
 .o-scroller-container {
-  flex: 1; // 撑满父容器
+  width: 100%;
+  height: 100%;
+  padding: var(--scroller-padding);
   overflow: auto;
   scrollbar-width: none;
-  padding: var(--scroller-padding);
 
   &::-webkit-scrollbar {
     display: none;
@@ -191,24 +187,7 @@
     overflow-y: hidden;
   }
 }
-.o-scrollbar-wrapper {
-  position: relative;
-}
-.o-scrollbar-container {
-  overflow: auto;
-  scrollbar-width: none;
-}
-
-.o-scroller-to-body {
+.o-scrollbar-to-body {
   position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
   z-index: var(--o-z-index-max);
-  pointer-events: none;
 }
-
-// .o-scroller-body {
-// height: 100%;
-// }

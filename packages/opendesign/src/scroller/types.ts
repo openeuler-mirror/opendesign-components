@@ -4,7 +4,7 @@ export type ScrollerDirection = 'x' | 'y';
 export const ScrollerSizeTypes = ['medium', 'small'] as const;
 export type ScrollerSizeT = (typeof ScrollerSizeTypes)[number];
 
-export const scrollerProps = {
+export const baseScrollarProps = {
   /**
    * 禁用横向滚动
    */
@@ -45,12 +45,6 @@ export const scrollerProps = {
     default: 'medium',
   },
   /**
-   * 滚动容器类
-   */
-  wrapClass: {
-    type: [String, Array, Object] as PropType<string | any[] | object>,
-  },
-  /**
    * showType=always时，是否根据滚动容器滚动高度变化自动刷新滚动条
    */
   autoUpdateOnScrollSize: {
@@ -58,10 +52,20 @@ export const scrollerProps = {
   },
 };
 
+export const scrollerProps = {
+  ...baseScrollarProps,
+  /**
+   * 滚动容器类
+   */
+  wrapClass: {
+    type: [String, Array, Object] as PropType<string | any[] | object>,
+  },
+};
+
 export type ScrollerPropsT = ExtractPropTypes<typeof scrollerProps>;
 
 export const scrollbarProps = {
-  ...scrollerProps,
+  ...baseScrollarProps,
   /**
    * 滚动关联目标容器,支持body、元素ref、HTMLElement
    */
