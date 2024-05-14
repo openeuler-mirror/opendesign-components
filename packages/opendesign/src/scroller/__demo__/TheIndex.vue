@@ -6,6 +6,7 @@ import '../style';
 import ScrollerHeight from './ScrollerHeight.vue';
 import ScrollerHooks from './ScrollerHooks.vue';
 import ScrollerBodyDemo from './ScrollerBodyDemo.vue';
+import ScrollbarDirective from './ScrollbarDirective.vue';
 </script>
 <template>
   <div class="page-demo">
@@ -15,6 +16,7 @@ import ScrollerBodyDemo from './ScrollerBodyDemo.vue';
     <ScrollbarTarget />
     <ScrollerHeight />
     <ScrollerHooks />
+    <ScrollbarDirective />
   </div>
 </template>
 <style lang="scss"></style>

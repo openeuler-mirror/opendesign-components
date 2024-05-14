@@ -148,6 +148,14 @@ const updateScrollbarOnIdle = () => {
     }, 1000);
   }
 };
+const cancelUpdateScrollbarOnIdle = () => {
+  if (updateTimer) {
+    clearInterval(updateTimer);
+    cancelIdleCallback && cancelIdleCallback(updateIdleTimer);
+    updateTimer = 0;
+    updateIdleTimer = 0;
+  }
+};
 /**
  * 基于滚动监听元素初始化
  */
@@ -171,6 +179,19 @@ resolveHtmlElement(target).then((el) => {
  * 如果showType=hover，则在hoverout时会刷新滚动条样式
  */
 const isShowScrollbar = ref(props.showType === 'always');
+
+watchEffect(() => {
+  isShowScrollbar.value = props.showType === 'always';
+  // TODO 可以考虑是否在滚动条显示时就定时刷新
+  if (props.showType === 'always') {
+    if (props.autoUpdateOnScrollSize) {
+      updateScrollbarOnIdle();
+    }
+  } else {
+    cancelUpdateScrollbarOnIdle();
+  }
+});
+
 let wrapperEl: HTMLElement | null = null;
 
 const onWrapperHoverIn = () => {
@@ -198,7 +219,6 @@ const removeWrapperHoverEvent = () => {
   }
 };
 watchEffect(() => {
-  isShowScrollbar.value = props.showType === 'always';
   wrapperEl = rootRef.value?.offsetParent as HTMLElement;
   if (!wrapperEl) {
     return;
@@ -209,11 +229,6 @@ watchEffect(() => {
     wrapperEl?.addEventListener('mouseleave', onWrapperHoverOut);
   } else {
     removeWrapperHoverEvent();
-    if (props.showType === 'always') {
-      if (props.autoUpdateOnScrollSize) {
-        updateScrollbarOnIdle();
-      }
-    }
   }
 });
 /**********/
@@ -226,8 +241,7 @@ onUnmounted(() => {
   }
 
   removeWrapperHoverEvent();
-  clearInterval(updateTimer);
-  cancelIdleCallback && cancelIdleCallback(updateIdleTimer);
+  cancelUpdateScrollbarOnIdle();
 
   scrollTargetEl?.classList.remove(ScrollbarClass.container);
 });
