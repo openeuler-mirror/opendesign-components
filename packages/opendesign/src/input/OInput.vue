@@ -12,7 +12,7 @@ import ClientOnly from '../_components/client-only';
 import { useComposition } from '../hooks/use-composition';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
-import { vUid } from '../directves';
+import { vUid } from '../directives';
 
 const props = defineProps(inputProps);
 

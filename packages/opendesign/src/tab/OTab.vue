@@ -3,7 +3,7 @@ import { provide, ref, nextTick, watch, computed } from 'vue';
 import { tabInjectKey } from './provide';
 import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import { tabProps } from './types';
-import { vOnResize } from '../directves';
+import { vOnResize } from '../directives';
 import { debounceRAF } from '../_utils/helper';
 import { defaultSize, isPhonePad } from '../_utils/global';
 
