@@ -29,7 +29,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <h4>动态</h4>
+  <h4>高度动态变化</h4>
   <section>
     <div>
       <h3 @click="changeHeight">高度动态变化 {{ height }}</h3>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue';
 import { ScrollerSizeT } from './types';
-import { vOnResize } from '../directves/on-resize';
+import { vOnResize } from '../directives/on-resize';
 
 const props = withDefaults(
   defineProps<{

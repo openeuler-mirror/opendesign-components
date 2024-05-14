@@ -10,7 +10,7 @@ import { textareaProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { formItemInjectKey } from '../form/provide';
-import { vUid } from '../directves';
+import { vUid } from '../directives';
 
 const props = defineProps(textareaProps);
 

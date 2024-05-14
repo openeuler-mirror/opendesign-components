@@ -51,6 +51,7 @@ export const baseScrollarProps = {
     type: Boolean,
   },
 };
+export type BaseScrollerPropsT = ExtractPropTypes<typeof baseScrollarProps>;
 
 export const scrollerProps = {
   ...baseScrollarProps,

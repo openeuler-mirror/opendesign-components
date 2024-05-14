@@ -1,37 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import TheScrollComp from './TheScrollComp.vue';
-import { useScrollbar } from '../index';
+import { vScrollbar, BaseScrollerPropsT } from '../index';
 
-const wrapper = ref<HTMLElement | null>(null);
-const container = ref<HTMLElement | null>(null);
-const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
-
-useScrollbar({
-  wrapper: wrapper,
-  target: container,
-  showType: 'always',
-});
-
-const { scrollbar } = useScrollbar({
-  target: compRef,
-  showType: 'always',
-});
-console.log(scrollbar);
-
-const txtarea = ref<HTMLElement | null>(null);
-useScrollbar({
-  target: txtarea,
+const setting: Partial<BaseScrollerPropsT> = {
   showType: 'always',
   size: 'small',
-});
+};
 </script>
 <template>
-  <h3>Scrollbar Hooks</h3>
+  <h2>指令</h2>
   <div>
-    <h3>Native</h3>
+    <h3>Scroller to dom</h3>
     <div class="wrapper" ref="wrapper">
-      <div class="container" ref="container">
+      <div class="container" ref="container" v-scrollbar="setting">
         <div class="section">1</div>
         <div class="section">2</div>
         <div class="section">3</div>
@@ -41,13 +22,19 @@ useScrollbar({
   <div>
     <h3>Scroller to component</h3>
     <div style="display: inline-flex">
-      <TheScrollComp ref="compRef" />
+      <TheScrollComp
+        ref="compRef"
+        v-scrollbar="{
+          showType: 'always',
+          autoUpdateOnScrollSize: true,
+        }"
+      />
     </div>
   </div>
   <div>
     <h3>Scroller to Textarea</h3>
     <div style="display: inline-flex">
-      <textarea ref="txtarea" rows="5" cols="30"></textarea>
+      <textarea ref="txtarea" rows="5" cols="30" v-scrollbar="{ showType: 'always', size: 'small' }"></textarea>
     </div>
   </div>
 

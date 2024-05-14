@@ -4,7 +4,7 @@ import { radioInjectKey } from './provide';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_utils/is';
-import { vUid } from '../directves';
+import { vUid } from '../directives';
 
 const props = defineProps(radioProps);
 

@@ -1,6 +1,6 @@
 export * from './_utils/export';
 export * from './hooks';
-export * from './directves';
+export * from './directives';
 export * from './intersection-observer';
 export * from './resize-observer';
 export * from './child-only';

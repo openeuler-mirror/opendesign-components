@@ -5,7 +5,7 @@ import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
 import { IconChecked } from '../_utils/icons';
 import { isArray, isUndefined } from '../_utils/is';
-import { vUid } from '../directves';
+import { vUid } from '../directives';
 
 const props = defineProps(checkboxProps);
 

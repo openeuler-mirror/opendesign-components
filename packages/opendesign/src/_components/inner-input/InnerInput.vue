@@ -6,7 +6,7 @@ import { Enter } from '../../_utils/keycode';
 import { toInputString } from './input';
 import { isFunction, isTouchDevice } from '../../_utils/is';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
-import { vUid } from '../../directves';
+import { vUid } from '../../directives';
 
 const props = defineProps(innerInputProps);
 
