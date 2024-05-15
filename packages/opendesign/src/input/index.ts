@@ -6,5 +6,6 @@ const OInput = Object.assign(_OInput, {
     app.component('OInput', _OInput);
   },
 });
+
 export { OInput };
 export * from './types';

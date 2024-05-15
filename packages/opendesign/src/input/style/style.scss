@@ -9,9 +9,7 @@
   font-size: var(--input-text-size);
   line-height: var(--input-text-height);
 }
-.o-input-disabled {
-  --input-color: var(--input-color-disabled);
-}
+
 .o-input-wrap {
   display: flex;
   padding: var(--input-padding);
@@ -22,6 +20,8 @@
   border: 1px solid var(--input-bd-color);
   background-color: var(--input-bg-color);
   background-clip: padding-box;
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+
   @include hover {
     border-color: var(--input-bd-color-hover);
     background-color: var(--input-bg-color-hover);
@@ -57,96 +57,6 @@
       text-decoration: line-through;
     }
   }
-}
-.o-input-input-wrap {
-  width: 100%;
-  margin-right: auto;
-}
-.o-input-input {
-  outline: none;
-  border: none;
-  color: inherit;
-  cursor: inherit;
-  background-color: transparent;
-  display: inline-flex;
-  padding: 0;
-  line-height: inherit;
-  height: 100%;
-  width: 100%;
-  font-size: inherit;
-  min-width: 20px;
-  &::-webkit-input-placeholder {
-    color: var(--input-placeholder);
-  }
-
-  &:autofill {
-    box-shadow: 0 0 0px 1000px var(--input-bg-color) inset !important;
-  }
-}
-
-.o-input-clear {
-  visibility: hidden;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--input-icon-color);
-  background-color: var(--input-icon-bg-color);
-  font-size: var(--o-input-icon-size);
-  @include hover {
-    color: var(--input-icon-color-hover);
-  }
-  @include x-svg-hover;
-
-  .o-input-suffix-wrap + & {
-    position: absolute;
-    right: 0;
-  }
-}
-
-.o-input-clearable {
-  @include hover {
-    .o-input-suffix-wrap {
-      visibility: hidden;
-      opacity: 0;
-      transition: none;
-    }
-    .o-input-clear {
-      visibility: visible;
-      opacity: 1;
-      transition: all var(--o-duration-m1) var(--o-easing-standard-in);
-    }
-  }
-  @include hoverable(none) {
-    .o-input-suffix-wrap {
-      visibility: hidden;
-      opacity: 0;
-    }
-    .o-input-clear {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-}
-
-.o-input-suffix-wrap {
-  transition: all var(--o-duration-m1) var(--o-easing-standard-out);
-}
-.o-input-suffix {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  position: relative;
-  margin-left: 4px;
-}
-.o-input-prefix {
-  display: flex;
-  align-items: center;
-  margin-right: 4px;
-}
-
-.o-input-clear-icon {
-  stroke-width: 0.5px;
 }
 
 .o-input-append,
@@ -190,9 +100,7 @@
     border-left: 0;
   }
 }
-.o-input-input-wrap {
-  position: relative;
-}
+
 .o-input-mirror {
   white-space: pre;
   line-height: inherit;
@@ -204,11 +112,4 @@
   left: 0;
   top: 100%;
   pointer-events: none;
-}
-
-.o-input-eye {
-  margin-left: 4px;
-  display: flex;
-  align-items: center;
-  font-size: var(--o-input-icon-size);
 }

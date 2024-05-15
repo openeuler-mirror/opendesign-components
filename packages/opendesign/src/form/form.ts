@@ -1,13 +1,6 @@
 import { isArray, isEmptyArray, isEmptyObject, isFunction, isNull, isUndefined } from '../_utils/is';
 import { RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT, TriggerRulesT, TriggerT, ValidatorT } from './types';
 
-export function toInputString(val: unknown): string {
-  if (isUndefined(val) || isNull(val) || (typeof val === 'number' && isNaN(val as number))) {
-    return '';
-  }
-  return String(val);
-}
-
 export function getFlexValue(val?: 'top' | 'center' | 'bottom' | 'left' | 'center' | 'right'): string {
   if (!val) {
     return '';

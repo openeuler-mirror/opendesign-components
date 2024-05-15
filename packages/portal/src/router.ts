@@ -9,6 +9,18 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/in-input',
+    name: 'InInput',
+    label: '_输入框',
+    component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/in-textarea',
+    name: 'InTextarea',
+    label: '_文本域',
+    component: () => import('@components/_components/in-textarea/__demo__/TheIndex.vue'),
+  },
+  {
     path: '/config-provider',
     name: 'config-provider',
     label: '全局配置 config-provider',
@@ -20,6 +32,12 @@ export const routes = [
   //   label: '日期选择器 DatePicker',
   //   component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
   // },
+  {
+    path: '/date-picker',
+    name: 'DatePicker',
+    label: '日期选择器 DatePicker',
+    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  },
   {
     path: '/form',
     name: 'Form',
@@ -72,13 +90,13 @@ export const routes = [
     path: '/input',
     name: 'Input',
     label: '输入框 Input',
-    component: () => import('@components/input/__demo__/IndexInput.vue'),
+    component: () => import('@components/input/__demo__/TheIndex.vue'),
   },
   {
     path: '/input-number',
     name: 'InputNumber',
     label: '数字输入框 InputNumber',
-    component: () => import('@components/input-number/__demo__/IndexInputNumber.vue'),
+    component: () => import('@components/input-number/__demo__/TheIndex.vue'),
   },
   {
     path: '/textarea',

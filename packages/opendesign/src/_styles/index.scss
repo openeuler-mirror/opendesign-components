@@ -1,7 +1,8 @@
 @use './animation.scss';
 @use './common.scss';
 
-[class^='o-'] {
+[class^='o-'],
+[class^='o_'] {
   box-sizing: border-box;
 }
 

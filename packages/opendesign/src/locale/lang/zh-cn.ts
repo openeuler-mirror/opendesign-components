@@ -23,4 +23,7 @@ export default {
     cancel: '取消',
     confirm: '确定',
   },
+  input: {
+    limit: '<b>{0}</b>/{1}',
+  },
 };

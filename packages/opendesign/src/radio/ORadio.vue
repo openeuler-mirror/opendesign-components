@@ -4,7 +4,7 @@ import { radioInjectKey } from './provide';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_utils/is';
-import { vUid } from '../directives';
+import { uniqueId } from '../_utils/helper';
 
 const props = defineProps(radioProps);
 
@@ -13,8 +13,8 @@ const emits = defineEmits<{
   (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
-const inputEl = ref<HTMLElement | null>(null);
 const radioGroupInjection = inject(radioGroupInjectKey, null);
+const inputId = computed(() => props.inputId || uniqueId());
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
@@ -79,10 +79,10 @@ provide(radioInjectKey, {
       'o-radio-checked': isChecked,
       'o-radio-disabled': isDisabled,
     }"
-    :for="inputEl?.id"
+    :for="inputId"
   >
     <div class="o-radio-wrap">
-      <input ref="inputEl" v-uid type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input :id="inputId" type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="radio" :checked="isChecked" :disabled="isDisabled">
         <div class="o-radio-input-wrap">
           <span class="o-radio-input"></span>

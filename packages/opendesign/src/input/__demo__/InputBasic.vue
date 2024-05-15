@@ -21,9 +21,9 @@ const check = (val: string) => Boolean(Number(val) % 2);
     <div>
       <div class="row">
         <p>text:</p>
-        <OInput />
+        <OInput v-model="val1" />
         <p>password:</p>
-        <OInput v-model="val3" type="password" />
+        <OInput v-model="val3" type="password" disabled />
       </div>
     </div>
   </section>
@@ -88,18 +88,18 @@ const check = (val: string) => Boolean(Number(val) % 2);
   <h4>Readonly</h4>
   <section>
     <div>val1:{{ val1 }}</div>
-    <OInput v-model="val2" readonly />
-    <OInput v-model="val2" readonly>
+    <OInput v-model="val2" readonly placeholder="readonly" />
+    <OInput v-model="val2" readonly placeholder="readonly">
       <template #prefix>
         <OIconDone />
       </template>
     </OInput>
-    <OInput v-model="val2" readonly>
+    <OInput v-model="val2" readonly placeholder="readonly">
       <template #suffix>
         <OIconDone />
       </template>
     </OInput>
-    <OInput v-model="val2" :clearable="false" readonly>
+    <OInput v-model="val2" :clearable="false" readonly placeholder="readonly">
       <template #suffix> 元 </template>
     </OInput>
   </section>

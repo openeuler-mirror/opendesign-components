@@ -35,6 +35,12 @@ export const checkboxProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * input id
+   */
+  inputId: {
+    type: String,
+  },
 };
 
 export type CheckboxPropsT = ExtractPropTypes<typeof checkboxProps>;

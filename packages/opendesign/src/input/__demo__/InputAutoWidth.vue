@@ -2,23 +2,28 @@
 import { ref } from 'vue';
 import { OInput } from '../index';
 
-const val1 = ref('max width: 300px');
+const val1 = ref('192-168-1-0192-168-1-0192-168-1-0192-168-1-0192-168-1-0192-168-1-0192-168-1-0');
 const val2 = ref('min width: 100px');
-setTimeout(() => {
-  val1.value = '123';
-}, 2000);
+
+const format = (v: string) => {
+  return `$${v.replace(/-/g, '.')}`;
+};
 </script>
 <template>
   <h4>Auto Width</h4>
-  <section>
-    <div>
-      max-width: 300px:
-      <OInput v-model="val1" auto-width style="max-width: 300px" />
-    </div>
-    <div>
-      min-width: 200px:
-      <OInput v-model="val2" auto-width style="min-width: 200px" />
-    </div>
-  </section>
+  <div>
+    max-width: 300px:
+    <section>
+      <OInput v-model="val1" :clearable="false" auto-width style="max-width: 300px" :format="format" />
+    </section>
+  </div>
+  <div>
+    min-width: 200px:
+    <section>
+      <div>
+        <OInput v-model="val2" auto-width style="min-width: 200px" />
+      </div>
+    </section>
+  </div>
 </template>
 <style lang="scss"></style>

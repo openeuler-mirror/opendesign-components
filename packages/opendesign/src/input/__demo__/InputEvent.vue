@@ -5,23 +5,15 @@ import { OInput } from '../index';
 const val2 = ref('192-168-1-0');
 const event = ref('--');
 
-const printEvent = (evt: string, val?: string | number) => {
-  console.log(`[${evt}]`, val);
+const printEvent = (evt: string, val?: string) => {
+  console.log(`[${evt}]`, val ?? '', 'value:', val2.value);
   event.value = evt;
 };
 const changeVal = () => {
-  val2.value += '-|-';
-};
-const check = (v: string) => {
-  return v.length % 2 === 0;
-  // return true;
+  val2.value += `-${Math.floor(Math.random() * 100)}`;
 };
 const format = (v: string) => {
-  return v.replaceAll('-', '.');
-};
-const parse = (v: string) => {
-  const val = parseInt(v);
-  return val ? `${val}` : '';
+  return v.replace(/-/g, '.');
 };
 </script>
 <template>
@@ -29,14 +21,12 @@ const parse = (v: string) => {
   <section>
     <OInput
       v-model="val2"
-      :check-valid="check"
       :format="format"
-      :parse="parse"
-      @blur="(v) => printEvent('blur', v)"
+      @blur="() => printEvent('blur')"
       @change="(v) => printEvent('change', v)"
-      @input="(v) => printEvent('input', v)"
-      @focus="(v) => printEvent('focus', v)"
-      @press-enter="(v) => printEvent('press-enter', v)"
+      @input="() => printEvent('input')"
+      @focus="() => printEvent('focus')"
+      @press-enter="() => printEvent('press-enter')"
       @clear="() => printEvent('clear')"
     >
       <template #prepend><span style="padding: 0 8px">+86</span></template>

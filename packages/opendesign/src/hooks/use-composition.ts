@@ -1,7 +1,7 @@
 import { Ref, onMounted, onUnmounted, ref } from 'vue';
 import { trigger } from '../_utils/event';
 
-export function useComposition({ el }: { el?: Ref<HTMLElement | null> } = {}) {
+export function useComposition({ el }: { el?: Ref<HTMLElement | undefined> } = {}) {
   const isComposing = ref(false);
 
   // 开始中文输入

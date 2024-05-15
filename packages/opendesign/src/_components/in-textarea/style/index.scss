@@ -1,0 +1,142 @@
+@use '../../../_styles/mixin.scss' as *;
+@use './var.scss';
+.o_textarea {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+}
+
+.o_textarea-wrap {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+.o_textarea-textarea {
+  padding: var(--textarea-padding-v) var(--textarea-padding-h);
+
+  outline: none;
+  border: none;
+  color: inherit;
+  cursor: inherit;
+  background-color: transparent;
+  display: inline-flex;
+  line-height: inherit;
+  height: 100%;
+  width: 100%;
+  font-size: inherit;
+  min-width: 20px;
+  appearance: none;
+  z-index: 1;
+
+  &::-webkit-input-placeholder {
+    color: var(--textarea-placeholder);
+  }
+
+  &:autofill {
+    box-shadow: 0 0 0px 1000px var(--textarea-bg-color) inset !important;
+  }
+  .o_textarea-invalid & {
+    text-decoration: line-through;
+  }
+}
+.o_textarea-disabled {
+  cursor: not-allowed;
+}
+.o_textarea-readonly {
+  cursor: text;
+}
+.o_textarea-suffix {
+  position: absolute;
+}
+
+.o_textarea-clear {
+  right: 0;
+  top: 50%;
+  font-size: var(--textarea-icon-size);
+  margin-top: calc(var(--textarea-icon-size) / -2);
+  border-radius: 50%;
+  visibility: hidden;
+  flex-shrink: 0;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--textarea-icon-color);
+  cursor: pointer;
+  transform: scale(0.5);
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+  @include x-svg-hover;
+  z-index: 2;
+
+  @include hoverable {
+    &:hover {
+      color: var(--textarea-icon-color-hover);
+    }
+  }
+}
+.o_textarea-clearable {
+  @include hover {
+    .o_textarea-suffix-icon {
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    .o_textarea-clear {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @include hoverable(none) {
+    .o_textarea-suffix-icon,
+    .o_textarea-clear {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.o_textarea-limit {
+  right: 8px;
+  bottom: 4px;
+  color: var(--textarea-limit-color);
+  font-size: var(--textarea-limit-text-size);
+  line-height: var(--textarea-limit-text-height);
+  z-index: 0;
+  b {
+    font-weight: normal;
+  }
+}
+.o_textarea-limit-error > b {
+  color: var(--textarea-limit-color-error, var(--o-color-danger1));
+}
+
+/* auto size */
+.o_textarea-auto-size {
+  height: auto;
+  width: auto;
+}
+.o_textarea-wrap-auto-size {
+  position: relative;
+  min-width: 0; /* 修复子元素超出父元素问题 */
+
+  &::after {
+    content: attr(date-value) ' ';
+    padding: var(--textarea-padding-v) var(--textarea-padding-h);
+    visibility: hidden;
+    white-space: pre;
+    height: 100%;
+    line-height: inherit;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    min-height: var(--textarea-min-height, 10px);
+    min-width: var(--textarea-min-width, 10px);
+  }
+  .o_textarea-textarea {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

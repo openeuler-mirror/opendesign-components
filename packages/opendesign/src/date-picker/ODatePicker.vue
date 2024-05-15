@@ -3,6 +3,7 @@ import { ref, computed, watchEffect, watch } from 'vue';
 import { datePickerProps, TimeValueT } from './types';
 import { InnerFrame } from '../_components/inner-frame';
 import { InnerInput } from '../_components/inner-input';
+import { InInput } from '../_components/in-input';
 import { InnerPanel } from '../_components/inner-panel';
 import { IconCalendar } from '../_utils/icons';
 import PickerPane from './PickerPane.vue';
@@ -182,7 +183,7 @@ const onTimePaneChange = (value: TimeValueT) => {
     :readonly="props.readonly"
     :for="inputRef1?.uId"
   >
-    <InnerInput
+    <InInput
       ref="inputRef1"
       :model-value="inputVal"
       type="text"
@@ -252,3 +253,4 @@ const onTimePaneChange = (value: TimeValueT) => {
     </InnerPanel>
   </InnerFrame>
 </template>
+../_components/i-input
