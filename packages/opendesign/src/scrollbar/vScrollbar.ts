@@ -7,7 +7,6 @@ const scrollbarMap = new WeakMap();
 const vScrollbar: ObjectDirective<any, Partial<BaseScrollerPropsT>> = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     const { value } = binding;
-    console.log(value);
 
     const { unmount } = useScrollbar({
       target: el,
