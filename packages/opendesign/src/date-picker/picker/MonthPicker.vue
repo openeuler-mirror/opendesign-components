@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, watchEffect } from 'vue';
-import { OScroller } from '../../scroller';
+import { OScroller } from '../../scrollbar';
 import { chunk } from '../../_utils/helper';
 import { isFunction } from '../../_utils/is';
 import { Labels, isSameMonth } from '../date';

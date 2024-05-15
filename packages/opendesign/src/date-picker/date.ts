@@ -1,7 +1,7 @@
 import { isNull } from '../_utils/is';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
-import { OScroller } from '../scroller';
+import { OScroller } from '../scrollbar';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;

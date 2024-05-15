@@ -5,6 +5,6 @@ import '../../_components/inner-panel/style';
 import '../../button/style';
 import '../../link/style';
 import '../../icon/style';
-import '../../scroller/style';
+import '../../scrollbar/style';
 import './index.scss';
 import './pane.scss';

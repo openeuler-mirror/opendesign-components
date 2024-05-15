@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OScroller } from '../scroller';
+import { OScroller } from '../scrollbar';
 interface OptionPropT {
   wrapClass?: string | any[];
   scroller?: boolean;
