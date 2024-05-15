@@ -79,3 +79,7 @@ TODO
 4. [scroller] 不再导出 OScroller，增加 slot：thum\track
 5. 更新全局 token 变量值
 6. 刷新部分英文文案
+
+# 0.0.66
+
+1. [scrollbar] 重构 scroller 及 scrollbar, 支持 hook useScrollbar、指令 vScrollbar
