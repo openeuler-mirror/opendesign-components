@@ -83,3 +83,8 @@ TODO
 # 0.0.66
 
 1. [scrollbar] 重构 scroller 及 scrollbar, 支持 hook useScrollbar、指令 vScrollbar
+
+# 0.0.67
+
+1. [input] 重构 input，支持 autowidth，maxlength、minlength，无效值判断接口从 checkValid 更改为 validate，props 移除 parse
+2. [textarea] 重构 textarea，长度限制提示支持国际化
