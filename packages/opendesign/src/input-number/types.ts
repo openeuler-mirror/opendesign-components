@@ -2,7 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 import { inputProps } from '../input/types';
 
-const { size, round, color, variant, placeholder, readonly, disabled, autoWidth, format } = inputProps;
+const { size, round, color, variant, placeholder, readonly, disabled, autoWidth, format, inputId } = inputProps;
 
 export const InputNumberControlTypes = ['both', 'right', 'left', 'none'] as const;
 export type InputNumberControlT = (typeof InputNumberControlTypes)[number];
@@ -97,6 +97,10 @@ export const inputNumberProps = {
   validate: {
     type: Function as PropType<(value: number) => boolean>,
   },
+  /**
+   * input id
+   */
+  inputId,
 };
 
 export type InputNumberPropsT = ExtractPropTypes<typeof inputNumberProps>;

@@ -165,6 +165,7 @@ provide(innerComponentInjectKey, {
     :clearable="props.clearable"
     :auto-width="props.autoWidth"
     :format="props.format"
+    :input-id="props.inputId"
     type="text"
     @input="onInput"
     @blur="onBlur"

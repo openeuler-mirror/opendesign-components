@@ -125,6 +125,12 @@ export const inputProps = {
     type: String as PropType<'click' | 'pointerdown'>,
     default: 'pointerdown',
   },
+  /**
+   * input id
+   */
+  inputId: {
+    type: String,
+  },
 };
 
 export type InputPropsT = ExtractPropTypes<typeof inputProps>;

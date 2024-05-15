@@ -136,6 +136,7 @@ defineExpose({
       'o_input-invalid': !isValid,
       'o_input-auto-width': autoWidth,
     }"
+    :for="props.inputId"
   >
     <div v-if="$slots.prefix" class="o_input-prefix" @mousedown.prevent>
       <slot :name="slotNames.prefix"></slot>

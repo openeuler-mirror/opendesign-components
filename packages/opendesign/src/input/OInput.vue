@@ -8,7 +8,7 @@ import { innerComponentInjectKey } from '../_components/provide';
 
 import { InInput, slotNames } from '../_components/in-input';
 import { filterSlots } from '../_utils/vue-utils';
-import { formateToString } from '../_utils/helper';
+import { formateToString, uniqueId } from '../_utils/helper';
 
 const props = defineProps(inputProps);
 
@@ -26,6 +26,7 @@ const innerComponentInject = inject(innerComponentInjectKey, null);
 const formItemInjection = innerComponentInject?.isInnerInput ? null : inject(formItemInjectKey, null);
 
 const inInputRef = ref<InstanceType<typeof InInput>>();
+const inputId = computed(() => props.inputId || uniqueId());
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
@@ -101,6 +102,7 @@ const round = getRoundClass(props, 'input');
     ]"
     :style="round.style.value"
     @mousedown="onMouseDown"
+    :for="inputId"
   >
     <span v-if="$slots.prepend" class="o-input-prepend">
       <slot name="prepend"></slot>
@@ -116,6 +118,7 @@ const round = getRoundClass(props, 'input');
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
       }"
+      :input-id="inputId"
       :model-value="formateToString(props.modelValue)"
       :default-value="formateToString(props.defaultValue)"
       :type="props.type"

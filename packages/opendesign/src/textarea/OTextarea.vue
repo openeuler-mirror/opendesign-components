@@ -7,7 +7,7 @@ import { formItemInjectKey } from '../form/provide';
 
 import { InTextarea, slotNames } from '../_components/in-textarea';
 import { filterSlots } from '../_utils/vue-utils';
-import { formateToString } from '../_utils/helper';
+import { formateToString, uniqueId } from '../_utils/helper';
 
 const props = defineProps(textareaProps);
 
@@ -20,6 +20,8 @@ const emits = defineEmits<{
   (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
+
+const textareaId = computed(() => props.textareaId || uniqueId());
 
 const formItemInjection = inject(formItemInjectKey, null);
 
@@ -99,6 +101,7 @@ const round = getRoundClass(props, 'textarea');
     ]"
     :style="round.style.value"
     @mousedown="onMouseDown"
+    :for="textareaId"
   >
     <InTextarea
       ref="inTextareaRef"
@@ -123,6 +126,7 @@ const round = getRoundClass(props, 'textarea');
       :cols="props.cols"
       :max-length="props.maxLength"
       :input-on-outlimit="props.inputOnOutlimit"
+      :textarea-id="textareaId"
       @change="onChange"
       @input="onInput"
       @focus="onFocus"
