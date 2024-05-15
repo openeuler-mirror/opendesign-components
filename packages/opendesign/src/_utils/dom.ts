@@ -9,10 +9,14 @@ export function isDocument(val: unknown): val is Document {
   return val instanceof Document || val?.constructor.name === 'HTMLDocument';
 }
 
-export function isHtmlElement(el: any): el is HTMLElement {
-  return typeof HTMLElement === 'object'
-    ? el instanceof HTMLElement
-    : !!(el && typeof el === 'object' && (el.nodeType === 1 || el.nodeType === 9) && typeof el.nodeName === 'string');
+export function isHtmlElement(el: unknown): el is HTMLElement {
+  if (typeof HTMLElement === 'object') {
+    return el instanceof HTMLElement;
+  } else if (el && typeof el === 'object') {
+    const ele = el as HTMLElement;
+    return (ele.nodeType === 1 || ele.nodeType === 9) && typeof ele.nodeName === 'string';
+  }
+  return false;
 }
 
 // 获取真实相对父元素  当body没有设置position时，返回html
