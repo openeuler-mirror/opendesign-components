@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
-import { OScroller } from '../scroller';
+import { OScroller } from '../scrollbar';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_utils/dom';

@@ -42,7 +42,7 @@ export * from './radio';
 export * from './radio-group';
 export * from './rate';
 export * from './result';
-export * from './scroller';
+export * from './scrollbar';
 export * from './select';
 export * from './skeleton';
 export * from './switch';

@@ -80,7 +80,7 @@ export const routes = [
         path: 'scroller',
         name: 'scroller',
         label: '滚动条 scroller',
-        component: () => import('./pages/scroller/TheIndex.vue'),
+        component: () => import('./pages/scrollbar/TheIndex.vue'),
       },
       {
         path: 'popover',

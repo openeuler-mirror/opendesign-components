@@ -6,7 +6,7 @@ import { chunk } from '../../_utils/helper';
 import { getWeeksByDate } from '../../_utils/date';
 import { isFunction } from '../../_utils/is';
 import { PickerDate } from '../picker-date';
-import { OScroller } from '../../scroller';
+import { OScroller } from '../../scrollbar';
 import { DayCellT, DisaplyDayListT } from '../types';
 
 export interface DayValueT {

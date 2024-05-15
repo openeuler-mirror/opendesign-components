@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, computed, onMounted, watchEffect } from 'vue';
-import { OScroller } from '../../scroller';
+import { OScroller } from '../../scrollbar';
 import { isFunction } from '../../_utils/is';
 import { getNumberList, isSameDay, scrollSelectOrNowCellInToView } from '../date';
 import { PickerDate } from '../picker-date';

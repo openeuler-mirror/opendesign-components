@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue';
-import { OScroller } from '../../scroller';
+import { OScroller } from '../../scrollbar';
 import { chunk } from '../../_utils/helper';
 import { PickerDate } from '../picker-date';
 import { isFunction } from '../../_utils/is';
