@@ -10,7 +10,7 @@ setTimeout(() => {
 }, 2000);
 </script>
 <template>
-  <h4>Auto Height</h4>
+  <h4>Auto Size</h4>
   <div>
     <div>
       <OTextarea v-model="val1" auto-size style="width: 300px" clearable />

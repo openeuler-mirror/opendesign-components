@@ -5,6 +5,8 @@
   width: 100%;
   height: 100%;
   color: inherit;
+  max-width: 100%;
+  min-width: inherit;
 }
 
 .o_textarea-wrap {
@@ -125,8 +127,10 @@
     content: attr(date-value) ' ';
     padding: var(--textarea-padding-v) var(--textarea-padding-h);
     visibility: hidden;
-    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-word;
     height: 100%;
+    width: 100%;
     line-height: inherit;
     display: inline-block;
     box-sizing: border-box;
