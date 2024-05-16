@@ -7,6 +7,7 @@ import { useInput } from '../../_headless/use-input';
 import { isFunction } from '../../_utils/is';
 import { slotNames } from './slot';
 import { useI18n } from '../../locale';
+import { vScrollbar } from '../../scrollbar';
 
 const props = defineProps(inTextareaProps);
 
@@ -107,6 +108,18 @@ const isOutLengthLimit = computed(() => {
 const mirrorValue = computed(() => {
   return displayValue.value;
 });
+/**
+ * 设置滚动条参数
+ */
+const scrollbarProps = computed(() => {
+  if (props.scrollbar === true) {
+    return {
+      showType: 'auto',
+      size: 'small',
+    };
+  }
+  return props.scrollbar;
+});
 
 defineExpose({
   inputEl,
@@ -142,6 +155,7 @@ defineExpose({
         :style="{
           resize: resizeValue,
         }"
+        v-scrollbar="scrollbarProps"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"

@@ -4,9 +4,13 @@ import { BaseScrollerPropsT } from './types';
 
 const scrollbarMap = new WeakMap();
 
-const vScrollbar: ObjectDirective<any, Partial<BaseScrollerPropsT>> = {
-  mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const { value } = binding;
+const vScrollbar: ObjectDirective = {
+  mounted(el: HTMLElement, binding: DirectiveBinding<false | Partial<BaseScrollerPropsT> | undefined>) {
+    const value = binding.value;
+
+    if (value === false) {
+      return;
+    }
 
     const { unmount } = useScrollbar({
       target: el,
