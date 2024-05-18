@@ -48,8 +48,8 @@ const isDisabled = computed(() => {
   return (
     checkboxGroupInjection?.disabled.value ||
     props.disabled ||
-    (isChecked.value && checkboxGroupInjection?.isMinimum.value) ||
-    (!isChecked.value && checkboxGroupInjection?.isMaximum.value)
+    (isChecked.value && (checkboxGroupInjection?.isMinimum.value ?? false)) ||
+    (!isChecked.value && (checkboxGroupInjection?.isMaximum.value ?? false))
   );
 });
 
