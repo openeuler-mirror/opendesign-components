@@ -9,20 +9,22 @@
     width: 100%;
     border-spacing: 0;
   }
+
   th,
   td {
     box-sizing: border-box;
   }
+
   th {
     text-align: left;
     font-weight: normal;
     background-color: var(--table-head-bg);
-
     padding: var(--table-head-cell-padding);
     font-size: var(--table-head-text-size);
     line-height: var(--table-head-text-height);
     height: var(--table-head-cell-height);
   }
+
   td {
     padding: var(--table-cell-padding);
     font-size: var(--table-text-size);
