@@ -1,0 +1,6 @@
+.o_textarea {
+  --min-width: var(--textarea-min-width, inherit);
+  --padding-v: var(--textarea-padding-v, 8px);
+  --padding-h: var(--textarea-padding-h, 16px);
+  --icon-size: var(--textarea-icon-size, 16px);
+}
