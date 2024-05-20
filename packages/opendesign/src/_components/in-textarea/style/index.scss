@@ -6,7 +6,7 @@
   height: 100%;
   color: inherit;
   max-width: 100%;
-  min-width: inherit;
+  min-width: var(--min-width);
 }
 
 .o_textarea-wrap {
@@ -15,7 +15,7 @@
   display: flex;
 }
 .o_textarea-textarea {
-  padding: var(--textarea-padding-v) var(--textarea-padding-h);
+  padding: var(--padding-v) var(--padding-h);
 
   outline: none;
   border: none;
@@ -55,8 +55,8 @@
 .o_textarea-clear {
   right: 8px;
   top: 50%;
-  font-size: var(--textarea-icon-size);
-  margin-top: calc(var(--textarea-icon-size) / -2);
+  font-size: var(--icon-size);
+  margin-top: calc(var(--icon-size) / -2);
   border-radius: 50%;
   visibility: hidden;
   flex-shrink: 0;
@@ -125,7 +125,7 @@
 
   &::after {
     content: attr(date-value) ' ';
-    padding: var(--textarea-padding-v) var(--textarea-padding-h);
+    padding: var(--padding-v) var(--padding-h);
     visibility: hidden;
     white-space: pre-wrap;
     word-break: break-word;
