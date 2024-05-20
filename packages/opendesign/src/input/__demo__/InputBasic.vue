@@ -30,10 +30,10 @@ const check = (val: string) => Boolean(Number(val) % 2);
   <h4>color & variant</h4>
   <section>
     <div class="row">
-      <OInput v-model="val1" placeholder="outline + normal" :check-valid="check" />
-      <OInput v-model="val1" placeholder="outline + success" color="success" />
-      <OInput v-model="val1" placeholder="outline + warning" color="warning" />
-      <OInput v-model="val1" placeholder="outline + danger" color="danger" />
+      <OInput v-model="val1" placeholder="outline + normal" :check-valid="check" clearable />
+      <OInput v-model="val1" placeholder="outline + success" color="success" clearable />
+      <OInput v-model="val1" placeholder="outline + warning" color="warning" clearable />
+      <OInput v-model="val1" placeholder="outline + danger" color="danger" clearable />
     </div>
     <div class="row">
       <OInput v-model="val1" color="normal" placeholder="outline + normal" :check-valid="check">

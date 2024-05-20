@@ -1,3 +1,4 @@
+import { BaseScrollerPropsT } from '../..//scrollbar';
 import { ExtractPropTypes, PropType } from 'vue';
 
 export const TextareaResizeTypes = ['both', 'horizontal', 'h', 'vertical', 'v', 'none'] as const;
@@ -117,6 +118,13 @@ export const inTextareaProps = {
    */
   textareaId: {
     type: String,
+  },
+  /**
+   * scrollbar
+   */
+  scrollbar: {
+    type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,
+    default: true,
   },
 };
 
