@@ -9,21 +9,11 @@ export interface ShortcutT {
 export type ReservedShortcutT = 'now';
 export type ShortcutParamT = ReservedShortcutT | ShortcutT;
 
-export const PickerModes = [
-  'year',
-  'year-range',
-  'month',
-  'month-range',
-  'date',
-  'date-range',
-  'datetime',
-  'datetime-range',
-  'quarter',
-  'quarter-range',
-  'time',
-  'time-range',
-] as const;
+export const PickerModes = ['year', 'month', 'date', 'datetime', 'quarter', 'time'] as const;
 export type PickerModeT = (typeof PickerModes)[number];
+
+export const AllPickerModes = PickerModes.map((item) => `${item}-range`);
+export type ALLPickerModeT = (typeof AllPickerModes)[number];
 
 export type DisaplyYearListT = (year: number) => Array<{ year: number; label: string }>;
 
@@ -54,25 +44,12 @@ export interface TimeValueT {
   seconds?: number;
 }
 
-export const datePickerProps = {
-  /**
-   * 值
-   * v-model
-   */
-  modelValue: {
-    type: [Date, String, Number, Array] as PropType<Date | string | number | Array<Date | string | number>>,
-  },
-  /**
-   * 默认值
-   */
-  defaultValue: {
-    type: [Date, String, Number, Array] as PropType<Date | string | number | Array<Date | string | number>>,
-  },
+const commonPickerProps = {
   /**
    * 选择器模式
    */
   mode: {
-    type: String as PropType<PickerModeT>,
+    type: String as PropType<ALLPickerModeT>,
     default: 'date',
   },
   /**
@@ -112,7 +89,6 @@ export const datePickerProps = {
    */
   placeholder: {
     type: String,
-    default: '',
   },
   /**
    * 是否禁用
@@ -216,5 +192,41 @@ export const datePickerProps = {
   },
 };
 
+export const datePickerProps = {
+  /**
+   * 值
+   * v-model
+   */
+  modelValue: {
+    type: [Date, String, Number] as PropType<Date | string | number>,
+  },
+  /**
+   * 默认值
+   */
+  defaultValue: {
+    type: [Date, String, Number] as PropType<Date | string | number>,
+  },
+  ...commonPickerProps,
+};
+
 export type DatePickerPropsT = ExtractPropTypes<typeof datePickerProps>;
+
+export const dateRangePickerProps = {
+  /**
+   * 值
+   * v-model
+   */
+  modelValue: {
+    type: Array as PropType<Array<Date | string | number>>,
+  },
+  /**
+   * 默认值
+   */
+  defaultValue: {
+    type: Array as PropType<Array<Date | string | number>>,
+  },
+  ...commonPickerProps,
+};
+export type DateRangePickerPropsT = ExtractPropTypes<typeof dateRangePickerProps>;
+
 export { PickerDate };

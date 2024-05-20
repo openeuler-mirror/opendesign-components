@@ -1,0 +1,39 @@
+.o-scrollbar {
+  --scrollbar-delay: 16ms;
+  --scrollbar-height: 90%;
+
+  --scrollbar-y-top: 0;
+  --scrollbar-y-bottom: 0;
+  --scrollbar-y-right: 0;
+  --scrollbar-y-left: auto;
+
+  --scrollbar-x-left: 0;
+  --scrollbar-x-right: 0;
+  --scrollbar-x-top: auto;
+  --scrollbar-x-bottom: 0;
+
+  --scrollbar-bg-color: transparent;
+
+  --scrollbar-track-bg-color: var(--o-color-control4);
+  --scrollbar-track-width: 6px;
+
+  --scrollbar-thumb-bg-color: var(--o-color-control1);
+  --scrollbar-thumb-bg-color-hover: var(--o-color-control2);
+  --scrollbar-thumb-width: 6px;
+  --scrollbar-thumb-width-hover: 10px;
+  --scrollbar-thumb-radius: 10px;
+  --scrollbar-width: 16px;
+}
+.o-scrollbar-hover-show {
+  --scrollbar-delay: 100ms; // 延迟时间，避免hover时频繁触发
+}
+.o-scrollbar-both {
+  --scrollbar-height: min(calc(100% - var(--scrollbar-width) * 2), 90%);
+}
+.o-scrollbar-small {
+  --scrollbar-track-width: 3px;
+  --scrollbar-thumb-width: 3px;
+  --scrollbar-thumb-width-hover: 6px;
+  --scrollbar-thumb-radius: 6px;
+  --scrollbar-width: 12px;
+}

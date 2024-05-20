@@ -59,7 +59,7 @@ const onLinkClick2 = () => {
   </section>
   <h4>图标</h4>
   <section>
-    <OLink :href="link" :icon="OIconLink" status="primary">icon-prefix</OLink>
+    <OLink :href="link" :icon="OIconLink" status="primary" size="large">icon-prefix</OLink>
     <OLink :href="link" suffix>icon-suffix</OLink>
     <OLink :href="link">
       <template #iconPrefix><OIconDone /></template>自定义图标链接slot:iconPrefix

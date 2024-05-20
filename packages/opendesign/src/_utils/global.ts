@@ -30,7 +30,7 @@ export function initPrestColor(colors: string[]) {
 
 // 断点
 export const mediaPoint = ref<Record<'phone' | 'pad', number>>({
-  phone: 720,
+  phone: 600,
   pad: 1200,
 });
 export function initMediaPoint(point: Record<'phone' | 'pad', number>) {

@@ -52,7 +52,6 @@ export const cascaderProps = {
    */
   placeholder: {
     type: String,
-    default: 'please select...',
   },
   /**
    * 下拉选项触发方式 PopupTriggerT
@@ -67,6 +66,12 @@ export const cascaderProps = {
   optionPosition: {
     type: String as PropType<PopupPositionT>,
     default: 'bl',
+  },
+  /**
+   * 下拉容器自定义类
+   */
+  optionWrapClass: {
+    type: [String, Array] as PropType<string | string[]>,
   },
   /**
    * 是否在结束选择时，卸载下拉选项

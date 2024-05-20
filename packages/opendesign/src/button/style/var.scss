@@ -9,10 +9,10 @@
   --btn-bd-color-disabled: var(--o-color-control1);
 
   &.o-btn-solid {
-    --btn-color: var(--o-color-info1-inverse);
-    --btn-color-hover: var(--o-color-info1-inverse);
-    --btn-color-active: var(--o-color-info1-inverse);
-    --btn-color-disabled: var(--o-color-info1-inverse);
+    --btn-color: var(--o-color-white);
+    --btn-color-hover: var(--o-color-white);
+    --btn-color-active: var(--o-color-white);
+    --btn-color-disabled: var(--o-color-white);
 
     --btn-bg-color: var(--o-color-control1-light);
     --btn-bg-color-hover: var(--o-color-control2-light);
@@ -156,19 +156,29 @@
 }
 
 .o-btn-small {
-  --btn-radius: var(--o-radius_control-s);
+  --btn-radius: var(--o-radius_control-xs);
   --btn-gap: 2px;
   --btn-padding: 0 11px;
+  --btn-icon-size: var(--o-icon_size-xs);
+  --btn-height: var(--o-control_size-s);
 }
 .o-btn-medium {
-  --btn-radius: var(--o-radius_control-m);
+  --btn-min-width: 80px;
+
+  --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
   --btn-padding: 0 15px;
+  --btn-icon-size: var(--o-icon_size-xs);
+  --btn-height: var(--o-control_size-m);
 }
 .o-btn-large {
-  --btn-radius: var(--o-radius_control-l);
+  --btn-min-width: 96px;
+
+  --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
   --btn-padding: 0 23px;
+  --btn-icon-size: var(--o-icon_size-m);
+  --btn-height: var(--o-control_size-l);
 }
 .o-btn-icon-only {
   --btn-padding: 0;

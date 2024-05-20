@@ -62,6 +62,12 @@ export const figureProps = {
   lazyPreiew: {
     type: Boolean,
   },
+  /**
+   * 视频预览图
+   */
+  videoPoster: {
+    type: Boolean,
+  },
 };
 
 export type FigurePropsT = ExtractPropTypes<typeof figureProps>;

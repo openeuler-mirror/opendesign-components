@@ -1,18 +1,27 @@
-import { isArray } from './is';
+import { easeInOutCubic } from './easing';
+import { throttleRAF } from './helper';
+import { isArray, isFunction, isWindow } from './is';
 import { PositionT } from './types';
 
-export function isHtmlElement(el: any) {
-  return typeof HTMLElement === 'object'
-    ? el instanceof HTMLElement
-    : !!(el && typeof el === 'object' && (el.nodeType === 1 || el.nodeType === 9) && typeof el.nodeName === 'string');
+export type ScrollTarget = HTMLElement | Window | Document;
+
+export function isDocument(val: unknown): val is Document {
+  return val instanceof Document || val?.constructor.name === 'HTMLDocument';
 }
 
-export function isDocumentElement(el: HTMLElement | Window) {
-  return el === window || ['HTML'].includes((el as HTMLElement).tagName);
+export function isHtmlElement(el: unknown): el is HTMLElement {
+  if (typeof HTMLElement === 'object') {
+    return el instanceof HTMLElement;
+  } else if (el && typeof el === 'object') {
+    const ele = el as HTMLElement;
+    return (ele.nodeType === 1 || ele.nodeType === 9) && typeof ele.nodeName === 'string';
+  }
+  return false;
 }
+
 // 获取真实相对父元素  当body没有设置position时，返回html
 export function getOffsetElement(el: HTMLElement) {
-  let offsetEl = el.offsetParent;
+  const offsetEl = el.offsetParent;
   if (offsetEl && offsetEl.tagName === 'BODY') {
     const stylePosition = window.getComputedStyle(document.body).getPropertyValue('position');
     if (stylePosition === 'static') {
@@ -21,20 +30,32 @@ export function getOffsetElement(el: HTMLElement) {
   }
   return offsetEl;
 }
+
 // 获取元素scroll值
-export function getScroll(el: HTMLElement | Window = window) {
-  if (!el) {
-    return {
-      scrollLeft: 0,
-      scrollTop: 0,
-    };
-  }
-  const isroot = isDocumentElement(el);
-  return {
-    scrollLeft: isroot ? window.scrollX : (el as HTMLElement).scrollLeft,
-    scrollTop: isroot ? window.scrollY : (el as HTMLElement).scrollTop,
+export function getScroll(el: ScrollTarget) {
+  const rlt = {
+    scrollLeft: 0,
+    scrollTop: 0,
   };
+
+  if (!el) {
+    return rlt;
+  }
+
+  if (isWindow(el)) {
+    rlt.scrollLeft = window.scrollX;
+    rlt.scrollTop = window.scrollY;
+  } else if (isDocument(el)) {
+    rlt.scrollLeft = el.documentElement.scrollLeft;
+    rlt.scrollTop = el.documentElement.scrollTop;
+  } else {
+    rlt.scrollLeft = el.scrollLeft;
+    rlt.scrollTop = el.scrollTop;
+  }
+
+  return rlt;
 }
+
 // 获取元素的可滚动的父元素
 export function getScrollParents(el: HTMLElement) {
   const parents: Array<HTMLElement> = [];
@@ -48,6 +69,7 @@ export function getScrollParents(el: HTMLElement) {
   }
   return parents;
 }
+
 export function getRelativeBounding(e: DOMRect, c: DOMRect) {
   return {
     top: e.top,
@@ -62,6 +84,7 @@ export function getRelativeBounding(e: DOMRect, c: DOMRect) {
     offsetBottom: e.bottom - c.top,
   };
 }
+
 export type RelativeRect = ReturnType<typeof getRelativeBounding>;
 
 export function getElementSize(el: HTMLElement | Window) {
@@ -115,4 +138,54 @@ export function mergeClass(...classList: Array<string | any[] | undefined>) {
   });
 
   return rlt;
+}
+
+interface ScrollTopOptions {
+  container?: ScrollTarget;
+  duration?: number;
+}
+
+// 取消上一次未完全执行的滚动事件
+let cancelScrollRAF: Function | null = null;
+
+export function scrollTo(y: number, opts: ScrollTopOptions) {
+  const { container = window, duration = 450 } = opts;
+  const { scrollTop } = getScroll(container);
+  const startTime = Date.now();
+
+  if (isFunction(cancelScrollRAF)) {
+    cancelScrollRAF();
+    cancelScrollRAF = null;
+  }
+
+  return new Promise((resolve) => {
+    const frameFn = () => {
+      const timeStamp = Date.now();
+      const time = timeStamp - startTime;
+      const nextScrollTop = easeInOutCubic(time > duration ? duration : time, scrollTop, y, duration);
+
+      if (isWindow(container)) {
+        window.scrollTo({
+          left: window.scrollX,
+          top: nextScrollTop,
+          behavior: 'instant',
+        });
+      } else if (isDocument(container)) {
+        container.documentElement.scrollTop = nextScrollTop;
+      } else {
+        container.scrollTop = nextScrollTop;
+      }
+
+      if (time < duration) {
+        const fn = throttleRAF(frameFn);
+        cancelScrollRAF = fn.cancel;
+        fn();
+      } else {
+        // 滚动事件可能未执行完成，故下一帧执行resolve
+        throttleRAF(resolve)();
+      }
+    };
+
+    throttleRAF(frameFn)();
+  });
 }

@@ -11,12 +11,11 @@
   border: 1px solid var(--select-bd-color);
   background-color: var(--select-bg-color);
   cursor: pointer;
+  background-clip: padding-box;
   @include hover {
-    &:hover {
-      color: var(--select-color-hover);
-      border-color: var(--select-bd-color-hover);
-      background-color: var(--select-bg-color-hover);
-    }
+    color: var(--select-color-hover);
+    border-color: var(--select-bd-color-hover);
+    background-color: var(--select-bg-color-hover);
   }
   &.is-selecting {
     color: var(--select-color-focus);
@@ -78,10 +77,11 @@
   color: var(--select-icon-color);
   display: inline-flex;
   align-items: center;
+  transform: rotate(0);
   transition: transform var(--o-duration-s) var(--o-easing-standard);
 
   &.active {
-    transform: rotateX(180deg);
+    transform: rotate(-180deg);
   }
   .o-select-disabled & {
     color: var(--select-icon-color-disabled);
@@ -99,6 +99,8 @@
   background-color: var(--select-clear-bg-color);
   border-radius: 50%;
   z-index: 1;
+  @include x-svg-hover;
+
 }
 .o-select-loading {
   position: absolute;
@@ -112,25 +114,19 @@
 }
 .o-select-clearable {
   @include hover {
-    &:hover {
-      .o-select-arrow {
-        visibility: hidden;
-        opacity: 0;
-      }
-      .o-select-clear {
-        visibility: visible;
-        opacity: 1;
-        &:hover {
-          transform: rotate(180deg) scale(1);
-        }
-      }
+    .o-select-arrow {
+      visibility: hidden;
+      opacity: 0;
     }
-  }
-  @include hover(none) {
     .o-select-clear {
       visibility: visible;
       opacity: 1;
-      transform: scale(1);
+    }
+  }
+  @include hoverable(none) {
+    .o-select-clear {
+      visibility: visible;
+      opacity: 1;
     }
 
     .o-select-arrow {
@@ -141,10 +137,6 @@
 }
 
 .o-select-options {
-  background-color: var(--select-options-bg-color);
-  border-radius: var(--select-options-radius);
-  box-shadow: var(--select-options-shadow);
-  border: var(--select-options-bd);
   overflow: hidden;
 }
 .o-select-options-scroller {
@@ -160,7 +152,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px;
-  font-size: var(--o-icon_size-s);
+  font-size: var(--o-icon_size_control-m);
 }
 
 .o-select-empty {
@@ -172,6 +164,13 @@
   line-height: var(--o-line_height-tip1);
   color: var(--o-color-info3);
 }
+.o-select-actions {
+  border-top: 1px solid var(--o-color-control4);
+}
+// <=pad
+.o-select-options-dlg {
+  padding-bottom: 4px;
+}
 
 // 多选
 .o-select-value-list {
@@ -182,6 +181,11 @@
 }
 .o-select-tags-scroller {
   width: 100%;
+}
+.o-select-tags-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .o-select-tag {
   padding: var(--select-tag-padding);
@@ -198,23 +202,16 @@
   }
 }
 .o-select-tag-remove {
-  font-size: var(--o-icon_size-2xs);
+  font-size: var(--o-icon_size_control-xs);
   margin-left: 4px;
-  transition: transform var(--o-duration-m1) var(--o-easing-standard-in);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @include hover {
-    &:hover {
-      transform: rotate(180deg);
-    }
-  }
+
+  @include x-svg-hover;
 }
 .o-select-tag-popover {
   max-width: var(--select-tag-popover-max-width);
   --popover-padding: 6px 8px;
-}
-.o-select-options-dlg {
-  padding-bottom: 4px;
 }

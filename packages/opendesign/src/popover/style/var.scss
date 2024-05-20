@@ -1,8 +1,11 @@
 .o-popover {
   --popup-bg-color: var(--o-color-fill2);
   --popup-shadow: var(--o-shadow-1);
-  --popup-radius: var(--o-radius_control-m);
+  --popup-radius: var(--o-radius_control-s);
   --popup-bd: none;
-  --popup-min-width: 120px;
   --popup-padding: 8px;
+
+  --popover-text-color: var(--o-color-info1);
+  --popover-text-size: var(--o-font_size-tip1);
+  --popover-text-height: var(--o-line_height-tip1);
 }

@@ -8,7 +8,8 @@ setTimeout(() => {
 }, 2000);
 const val2 = ref(100);
 const val3 = ref(3333);
-const val4 = ref('1px');
+const val4 = ref(1);
+const val5 = ref(10);
 </script>
 <template>
   <h4>Base</h4>
@@ -60,6 +61,10 @@ const val4 = ref('1px');
       <OInputNumber v-model="val1" readonly :max="5" :min="0" />
     </div>
     <div class="col">
+      controls both:
+      <OInputNumber v-model="val1" controls="both" :max="5" :min="0" />
+    </div>
+    <div class="col">
       controls none:
       <OInputNumber v-model="val1" controls="none" />
     </div>
@@ -68,7 +73,7 @@ const val4 = ref('1px');
       <OInputNumber v-model="val1" controls="left" />
     </div>
     <div class="right">
-      controls left:
+      controls right:
       <OInputNumber v-model="val1" controls="right" :max="5" :min="0" />
     </div>
   </section>
@@ -79,6 +84,8 @@ const val4 = ref('1px');
     <OInputNumber v-model="val2" />
     <OInputNumber v-model="val3" size="large" />
   </section>
+  <h4>Auto width</h4>
+  <section><OInputNumber v-model="val5" :step="100" auto-width /> {{ val5 }}</section>
   <h4>Round</h4>
   <section>
     <div>

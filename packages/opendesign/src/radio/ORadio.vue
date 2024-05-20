@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch } from 'vue';
+import { radioInjectKey } from './provide';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
 import { isUndefined } from '../_utils/is';
@@ -12,8 +13,8 @@ const emits = defineEmits<{
   (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
-const insId = uniqueId('radio');
 const radioGroupInjection = inject(radioGroupInjectKey, null);
+const inputId = computed(() => props.inputId || uniqueId());
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
@@ -64,6 +65,11 @@ const onChange = (ev: Event) => {
     radioGroupInjection?.onChange(val, ev);
   });
 };
+
+provide(radioInjectKey, {
+  checked: isChecked,
+  disabled: isDisabled,
+});
 </script>
 
 <template>
@@ -73,10 +79,10 @@ const onChange = (ev: Event) => {
       'o-radio-checked': isChecked,
       'o-radio-disabled': isDisabled,
     }"
-    :for="insId"
+    :for="inputId"
   >
     <div class="o-radio-wrap">
-      <input :id="insId" type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input :id="inputId" type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="radio" :checked="isChecked" :disabled="isDisabled">
         <div class="o-radio-input-wrap">
           <span class="o-radio-input"></span>

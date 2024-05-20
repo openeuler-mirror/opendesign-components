@@ -1,12 +1,11 @@
-<script lang="ts">
-export const ItemSlotNames = ['item'];
-</script>
 <script setup lang="ts">
 import { IconLoading, IconLinkPrefix, IconRefresh, IconDelete, IconPreview, IconFile, IconEdit } from '../_utils/icons';
 import { UploadFileT, UploadListTypeT } from './types';
 import { OIcon } from '../icon';
 import { OFigure } from '../figure';
 import { ref } from 'vue';
+import slots from './slot';
+import { useI18n } from '../locale';
 
 interface UploadFileItemPropsT {
   file: UploadFileT;
@@ -20,6 +19,8 @@ const emits = defineEmits<{
   (e: 'remove', file: UploadFileT): void;
   (e: 'retry', file: UploadFileT): void;
 }>();
+
+const { t } = useI18n();
 
 const onFileRemove = (file: UploadFileT) => {
   emits('remove', file);
@@ -56,7 +57,7 @@ const onPreview = () => {
       'o-upload-item-error': props.file.status === 'failed',
     }"
   >
-    <slot :name="ItemSlotNames[0]" :item="file">
+    <slot :name="slots.names.uploadItem" :item="file">
       <div
         v-if="props.listType === 'picture-card'"
         class="o-upload-card-item"
@@ -75,11 +76,34 @@ const onPreview = () => {
               'is-show': showLoading(props.file),
             }"
           >
-            <IconRefresh v-if="props.file.retry" class="o-upload-icon-btn o-upload-icon-retry" @click="onFileUploadRetry(props.file)" />
-            <IconPreview v-if="props.file.status !== 'failed'" class="o-upload-icon-btn o-upload-icon-preview" @click="onPreview" />
-            <IconLoading v-if="showLoading(props.file)" class="o-rotating" />
-            <IconEdit v-if="props.file.status === 'finished'" class="o-upload-icon-btn o-upload-icon-edit" @click="onFileReplace(props.file)" />
-            <IconDelete class="o-upload-icon-btn o-upload-icon-remove" @click="onFileRemove(props.file)" />
+            <OIcon
+              v-if="props.file.retry"
+              button
+              class="o-upload-icon-btn o-upload-icon-retry"
+              :icon="IconRefresh"
+              @click="onFileUploadRetry(props.file)"
+              :title="t('upload.retry')"
+            />
+            <OIcon
+              button
+              v-if="props.file.status !== 'failed' && props.file.imgUrl"
+              :icon="IconPreview"
+              class="o-upload-icon-btn o-upload-icon-preview"
+              @click="onPreview"
+              :title="t('upload.preview')"
+            />
+            <OIcon v-if="showLoading(props.file)" class="o-upload-icon-loading">
+              <IconLoading class="o-rotating" />
+            </OIcon>
+            <OIcon
+              button
+              :icon="IconEdit"
+              v-if="props.file.status === 'finished'"
+              class="o-upload-icon-btn o-upload-icon-edit"
+              @click="onFileReplace(props.file)"
+              :title="t('upload.edit')"
+            />
+            <OIcon button class="o-upload-icon-btn o-upload-icon-remove" :icon="IconDelete" @click="onFileRemove(props.file)" :title="t('upload.delete')" />
           </div>
 
           <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-card-progress">
@@ -109,8 +133,15 @@ const onPreview = () => {
             class="o-upload-row-icon o-upload-icon-hover-in o-upload-icon-retry"
             :icon="IconRefresh"
             @click="onFileUploadRetry(props.file)"
+            :title="t('upload.retry')"
           />
-          <OIcon button class="o-upload-row-icon o-upload-icon-remove o-upload-icon-hover-in" :icon="IconDelete" @click="onFileRemove(props.file)" />
+          <OIcon
+            button
+            class="o-upload-row-icon o-upload-icon-remove o-upload-icon-hover-in"
+            :icon="IconDelete"
+            @click="onFileRemove(props.file)"
+            :title="t('upload.delete')"
+          />
         </div>
 
         <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-row-progress">

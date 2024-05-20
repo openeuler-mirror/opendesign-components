@@ -5,7 +5,6 @@
   .o-input-prepend,
   .o-input-append {
     font-size: var(--o-font_size-text1);
-    padding: 0;
     align-items: stretch;
     overflow: hidden;
   }
@@ -32,15 +31,13 @@
   overflow: hidden;
   position: relative;
   background-color: var(--input-number-btn-bg-color);
-  &.both-left,
-  &.both-right {
+  .o-input-control-left &,
+  .o-input-control-right & {
     height: 100%;
   }
   @include hover {
-    &:hover {
-      color: var(--input-number-btn-color-hover);
-      background-color: var(--input-number-btn-bg-color-hover);
-    }
+    color: var(--input-number-btn-color-hover);
+    background-color: var(--input-number-btn-bg-color-hover);
   }
   &:focus {
     color: var(--input-number-btn-color-active);
@@ -53,10 +50,10 @@
   }
 
   .o-input-round-pill & {
-    &.both-right {
+    .o-input-control-right & {
       padding-right: var(--input-number-btn-pill-fix);
     }
-    &.both-left {
+    .o-input-control-left & {
       padding-left: var(--input-number-btn-pill-fix);
     }
   }

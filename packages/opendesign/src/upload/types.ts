@@ -1,14 +1,10 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { ButtonPropsT } from '../button/types';
-
 export interface UploadRequestT {
   abort: () => void; // 取消上传
 }
 
 export const UploadFileStatusTypes = ['pending', 'uploading', 'finished', 'failed'] as const;
 export type UploadFileStatusT = (typeof UploadFileStatusTypes)[number];
-
-export type UploadBtnType = Partial<Pick<ButtonPropsT, 'size' | 'color' | 'variant' | 'round' | 'icon'>>;
 
 export interface UploadFileT {
   id: string;
@@ -34,6 +30,13 @@ export const UploadListTypes = ['text', 'picture', 'picture-card'] as const;
 export type UploadListTypeT = (typeof UploadListTypes)[number];
 
 export const uploadProps = {
+  /**
+   * 文件列表(受控)
+   * v-model
+   */
+  modelValue: {
+    type: Array as PropType<UploadFileT[]>,
+  },
   /**
    * 文件列表(非受控)
    */
@@ -114,6 +117,12 @@ export const uploadProps = {
     type: String,
   },
   /**
+   * 拖拽区域拖拽中的提示文本
+   */
+  dragHoverLabel: {
+    type: String,
+  },
+  /**
    * 文件列表类型
    */
   listType: {
@@ -125,12 +134,6 @@ export const uploadProps = {
    */
   createThumbnail: {
     type: Function as PropType<(file: File) => Promise<string>>,
-  },
-  /**
-   * 上传按钮参数
-   */
-  btnProps: {
-    type: Object as PropType<UploadBtnType>,
   },
 };
 

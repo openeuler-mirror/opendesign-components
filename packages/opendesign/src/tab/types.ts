@@ -1,4 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
+import type { SizeT } from '../_utils/types';
 
 export const TabVariantTypes = ['solid', 'text'] as const;
 export type TabVariantT = (typeof TabVariantTypes)[number];
@@ -18,6 +19,12 @@ export const tabProps = {
   variant: {
     type: String as PropType<TabVariantT>,
     default: 'text',
+  },
+  /**
+   * 大小 SizeT
+   */
+  size: {
+    type: String as PropType<SizeT>,
   },
   /**
    * 是否激活时再加载

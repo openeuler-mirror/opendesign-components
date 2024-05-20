@@ -1,8 +1,6 @@
 @use './mixin.scss' as *;
 
 .o-upload {
-  --upload-card-bg-color: var(--o-color-control-light);
-  --upload-card-bg-color-hover: var(--o-color-control-light);
   --upload-drag-bd: 1px solid var(--o-color-control1);
   --upload-drag-bd-hover: 1px solid var(--o-color-control2);
   --upload-drag-bd-active: 1px solid var(--o-color-control3);
@@ -18,12 +16,9 @@
   right: 8px;
   bottom: 4px;
 }
-
-.o-upload-select-extra {
-  font-size: var(--o-font_size-tip2);
-  line-height: var(--o-line_height-tip2);
-}
-.o-upload-item-tip {
-  font-size: var(--o-font_size-tip2);
-  line-height: var(--o-line_height-tip2);
+.o-upload-draggable {
+  width: 480px;
+  @include respond-to('<=laptop') {
+    width: 240px;
+  }
 }

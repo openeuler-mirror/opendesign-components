@@ -1,11 +1,9 @@
-<script lang="ts">
-export const OptionSlotNames = ['action', 'default', 'empty'];
-</script>
 <script setup lang="ts">
 import { defaultSize } from '../_utils/global';
 import { IconLoading } from '../_utils/icons';
-import { OScroller } from '../scroller';
+import { OOptionList } from '../option';
 import type { SizeT } from '../_utils/types';
+import slot from './slot';
 
 interface OptionPropT {
   size?: SizeT;
@@ -27,16 +25,15 @@ const props = defineProps<OptionPropT>();
       },
     ]"
   >
-    <OScroller v-if="props.scroller" class="o-select-options-scroller" size="small" show-type="hover" :wrap-class="props.wrapClass">
-      <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
-      <slot v-else name="option-target"> </slot>
-    </OScroller>
-    <div v-else class="o-select-options-wrap" :class="props.wrapClass">
-      <div v-if="props.loading" class="o-select-options-loading"><IconLoading class="o-rotating" /></div>
-      <slot v-else name="option-target"> </slot>
-    </div>
-    <div class="o-select-actions">
-      <slot name="action"></slot>
+    <OOptionList :wrap-class="props.wrapClass" :scroller="props.scroller">
+      <div v-if="props.loading" class="o-select-options-loading">
+        <IconLoading class="o-rotating" />
+      </div>
+      <slot v-else :name="slot.names.optionTarget"></slot>
+    </OOptionList>
+
+    <div v-if="$slots.action" class="o-select-actions">
+      <slot :name="slot.option.names.action"></slot>
     </div>
   </div>
 </template>

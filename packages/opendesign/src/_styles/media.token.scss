@@ -1,0 +1,34 @@
+@use './mixin.scss' as *;
+
+[data-o-theme='a.light'],
+[data-o-theme='a.dark'] {
+  @include respond-to('laptop') {
+    /**
+    * @name 中尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-m: 28px;
+    /**
+    * @name 大尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-l: 36px;
+  }
+}
+
+[data-o-theme='a.light'],
+[data-o-theme='a.dark'] {
+  @include respond-to('<=pad') {
+    /**
+    * @name 中尺寸
+    * @type size
+    * @group control_size
+    * @description 尺寸
+    */
+    --o-control_size-m: 28px;
+  }
+}

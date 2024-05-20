@@ -1,0 +1,32 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-textarea {
+  cursor: pointer;
+  color: var(--textarea-color);
+  display: inline-flex;
+  font-size: var(--textarea-text-size);
+  line-height: var(--textarea-text-height);
+}
+.o-textarea-wrap {
+  border: 1px solid var(--textarea-bd-color);
+  border-radius: var(--textarea-radius);
+  background-color: var(--textarea-bg-color);
+  background-clip: padding-box;
+  @include hover {
+    border-color: var(--textarea-bd-color-hover);
+    background-color: var(--textarea-bg-color-hover);
+  }
+
+  &.is-focus {
+    border-color: var(--textarea-bd-color-focus);
+    background-color: var(--textarea-bg-color-focus);
+  }
+
+  &.is-disabled,
+  &.is-readonly {
+    color: var(--textarea-color-disabled);
+    border-color: var(--textarea-bd-color-disabled);
+    background-color: var(--textarea-bg-color-disabled);
+  }
+}

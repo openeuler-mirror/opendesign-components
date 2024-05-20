@@ -1,4 +1,4 @@
-import { ObjectDirective, DirectiveBinding, createVNode, render } from 'vue';
+import { ObjectDirective, DirectiveBinding, h, render } from 'vue';
 import OLoading from './OLoading.vue';
 
 import { LoadingPropsT } from './types';
@@ -11,7 +11,7 @@ const setVLoadingOption = (option: Partial<LoadingPropsT>) => {
 
 const vLoading: ObjectDirective = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const vnode = createVNode(
+    const vnode = h(
       OLoading,
       Object.assign(vLoadingOption, {
         visible: binding.value,

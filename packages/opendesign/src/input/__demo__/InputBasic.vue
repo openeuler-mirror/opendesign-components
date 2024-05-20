@@ -9,6 +9,8 @@ const val3 = ref(`${12345}`);
 setTimeout(() => {
   val2.value += '---';
 }, 2000);
+
+const check = (val: string) => Boolean(Number(val) % 2);
 </script>
 <template>
   <div>val1:{{ val1 }}</div>
@@ -19,36 +21,36 @@ setTimeout(() => {
     <div>
       <div class="row">
         <p>text:</p>
-        <OInput />
+        <OInput v-model="val1" />
         <p>password:</p>
-        <OInput v-model="val3" type="password" />
+        <OInput v-model="val3" type="password" disabled />
       </div>
     </div>
   </section>
   <h4>color & variant</h4>
   <section>
     <div class="row">
-      <OInput v-model="val1" placeholder="outline + normal" />
-      <OInput v-model="val1" placeholder="outline + success" color="success" />
-      <OInput v-model="val1" placeholder="outline + warning" color="warning" />
-      <OInput v-model="val1" placeholder="outline + danger" color="danger" />
+      <OInput v-model="val1" placeholder="outline + normal" :check-valid="check" clearable />
+      <OInput v-model="val1" placeholder="outline + success" color="success" clearable />
+      <OInput v-model="val1" placeholder="outline + warning" color="warning" clearable />
+      <OInput v-model="val1" placeholder="outline + danger" color="danger" clearable />
     </div>
     <div class="row">
-      <OInput v-model="val1" color="normal" placeholder="outline + normal">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+      <OInput v-model="val1" color="normal" placeholder="outline + normal" :check-valid="check">
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="success" placeholder="outline + success">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="warning" placeholder="outline + warning">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="danger" placeholder="outline + danger">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
     </div>
     <div class="row">
@@ -60,20 +62,20 @@ setTimeout(() => {
 
     <div class="row">
       <OInput v-model="val1" color="normal" variant="solid" placeholder="solid + normal">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="success" variant="solid" placeholder="solid + success">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="warning" variant="solid" placeholder="solid + warning">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="danger" variant="solid" placeholder="solid + danger">
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
     </div>
   </section>
@@ -86,18 +88,18 @@ setTimeout(() => {
   <h4>Readonly</h4>
   <section>
     <div>val1:{{ val1 }}</div>
-    <OInput v-model="val2" readonly />
-    <OInput v-model="val2" readonly>
+    <OInput v-model="val2" readonly placeholder="readonly" />
+    <OInput v-model="val2" readonly placeholder="readonly">
       <template #prefix>
         <OIconDone />
       </template>
     </OInput>
-    <OInput v-model="val2" readonly>
+    <OInput v-model="val2" readonly placeholder="readonly">
       <template #suffix>
         <OIconDone />
       </template>
     </OInput>
-    <OInput v-model="val2" :clearable="false" readonly>
+    <OInput v-model="val2" :clearable="false" readonly placeholder="readonly">
       <template #suffix> 元 </template>
     </OInput>
   </section>
@@ -118,20 +120,20 @@ setTimeout(() => {
 
     <div class="row">
       <OInput v-model="val1" color="normal" variant="solid" placeholder="solid + normal" disabled>
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="success" variant="solid" placeholder="solid + success" disabled>
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="warning" variant="solid" placeholder="solid + warning" disabled>
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
       <OInput v-model="val1" color="danger" variant="solid" placeholder="solid + danger" disabled>
-        <template #prepend>+86</template>
-        <template #append>手机</template>
+        <template #prepend><span style="padding: 0 8px">+86</span></template>
+        <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
     </div>
   </section>

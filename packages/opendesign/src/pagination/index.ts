@@ -3,7 +3,7 @@ import type { App } from 'vue';
 
 const OPagination = Object.assign(_OPagination, {
   install(app: App) {
-    app.component(_OPagination.name, _OPagination);
+    app.component('OPagination', _OPagination);
   },
 });
 

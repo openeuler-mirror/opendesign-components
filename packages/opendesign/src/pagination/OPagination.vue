@@ -9,6 +9,8 @@ import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_utils/icons
 import { paginationProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
+import { OOptionList } from '../option';
+import { useI18n } from '../locale';
 
 const props = defineProps(paginationProps);
 
@@ -20,18 +22,22 @@ const emits = defineEmits<{
   (e: 'change', value: { page: number; pageSize: number }): void;
 }>();
 
-const Labels = {
-  total: '总条数:',
-  goto: '前往',
-  page: '页',
-  sizeLabel: '条/页',
-};
+const { t } = useI18n();
+
+const simpleLayout = ['pager'];
 
 let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
 let currentPage = ref(Math.round(props.page));
 
-const pageSizeList = getSizeOptions(props.pageSizes, Labels.sizeLabel, currentPageSize.value);
-const defaultSizeLabel = currentPageSize.value + Labels.sizeLabel;
+const pageSizeList = computed(() => {
+  return getSizeOptions(currentPageSize.value, props.pageSizes, t('pagination.countPerPage'));
+});
+
+const defaultSizeLabel = computed(() => currentPageSize.value + t('pagination.countPerPage'));
+
+const layout = computed(() => {
+  return props.simple ? simpleLayout : props.layout;
+});
 
 const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
 
@@ -135,11 +141,12 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div v-if="props.showTotal" class="o-pagination-total">{{ Labels.total }}&nbsp;{{ props.total }}</div>
+      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">{{ t('pagination.total', props.total) }}</div>
       <!-- sizes -->
-      <template v-if="!props.simple">
+      <template v-if="layout.includes('pagesize')">
         <div class="o-pagination-size">
           <OSelect
+            v-if="pageSizeList.length > 1"
             :model-value="currentPageSize"
             class="o-pagination-select"
             :default-label="defaultSizeLabel"
@@ -149,10 +156,11 @@ defineExpose({
           >
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
+          <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
         </div>
       </template>
       <!-- pager -->
-      <div class="o-pagination-pager">
+      <div v-if="layout.includes('pager')" class="o-pagination-pager">
         <div
           class="o-pagination-prev"
           :class="{
@@ -190,10 +198,17 @@ defineExpose({
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
               <template v-else>
-                <OPopover position="bottom" class="o-pagination-more-popup">
-                  <div class="o-pagination-more-list">
-                    <div v-for="p in item.list" :key="p" class="o-pagination-more-item" @click="onMoreItemClick(p)">{{ p }}</div>
-                  </div>
+                <OPopover position="bottom" wrap-class="o-options-popup">
+                  <OOptionList scroller>
+                    <OOption
+                      v-for="opt in item.list"
+                      :key="opt"
+                      class="o-pagination-more-item"
+                      :label="String(opt)"
+                      :value="opt"
+                      @click="onMoreItemClick(opt)"
+                    />
+                  </OOptionList>
                   <template #target>
                     <OIcon class="o-pagination-more-icon" @click="moreClick(item)"><IconEllipsis /></OIcon>
                   </template>
@@ -214,9 +229,9 @@ defineExpose({
         </div>
       </div>
       <!-- jumper -->
-      <template v-if="props.showJumper && !props.simple && totalPage > 0">
+      <template v-if="layout.includes('jumper')">
         <div class="o-pagination-goto">
-          <span>{{ Labels.goto }}</span>
+          <span>{{ t('pagination.goto') }}</span>
           <OInputNumber
             :model-value="currentPage"
             class="o-pagination-input"

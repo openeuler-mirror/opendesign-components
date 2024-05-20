@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, watchEffect } from 'vue';
+import { computed, provide, ref, watch, watchEffect, inject } from 'vue';
 import { defaultSize, isPhonePad } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
-import { ODialog, DialogActionT } from '../dialog';
+import { ODialog } from '../dialog';
 import { selectOptionInjectKey } from './provide';
 import { SelectOptionT, selectProps, SelectValueT } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
-import { OScroller } from '../scroller';
-import { isArray, isFunction } from '../_utils/is';
-import SelectOption, { OptionSlotNames } from './SelectOption.vue';
-import { filterSlots } from '../upload/util';
+import { OScroller } from '../scrollbar';
+import { isArray, isFunction, isArrayEqual, isUndefined } from '../_utils/is';
+import SelectOption from './SelectOption.vue';
+import slot from './slot';
+import { filterSlots } from '../_utils/vue-utils';
+import { formItemInjectKey } from '../form/provide';
+import { useI18n } from '../locale';
+import { OButton } from '../button';
 
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
@@ -23,11 +27,7 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
 }>();
 
-const Labels = {
-  empty: '暂无数据',
-  cancel: '取消',
-  confirm: '确定',
-};
+const { t } = useI18n();
 
 const selectRef = ref<HTMLElement>();
 const optionsRef = ref<HTMLElement | null>(null);
@@ -47,6 +47,17 @@ watch(
   }
 );
 
+// 表单注入，用于规则校验
+const formItemInjection = inject(formItemInjectKey, null);
+
+const color = computed(() => {
+  if (formItemInjection?.fieldResult.value) {
+    return formItemInjection?.fieldResult.value?.type;
+  } else {
+    return props.color;
+  }
+});
+
 // 存储每个value对应的label
 const optionLabels = ref<Record<string | number, string>>({});
 
@@ -54,16 +65,17 @@ const optionLabels = ref<Record<string | number, string>>({});
 const valueList = ref<Array<string | number>>([]); // 选项选中的记录
 const finalValueList = ref<Array<string | number>>([]); // 最终选择值
 // 初始化valuelist
-if (props.multiple) {
-  if (isArray(props.modelValue)) {
-    valueList.value = [...props.modelValue];
-  } else if (isArray(props.defaultValue)) {
-    valueList.value = [...props.defaultValue];
+if (isArray(props.modelValue)) {
+  valueList.value = [...props.modelValue];
+} else if (isArray(props.defaultValue)) {
+  valueList.value = [...props.defaultValue];
+} else {
+  const mrValue = props.modelValue ?? props.defaultValue;
+  if (!isUndefined(mrValue)) {
+    valueList.value = [mrValue];
   } else {
     valueList.value = [];
   }
-} else {
-  valueList.value = [((props.modelValue ?? props.defaultValue) as string | number) ?? ''];
 }
 finalValueList.value = [...valueList.value];
 
@@ -97,12 +109,18 @@ watch(
   () => props.modelValue,
   (v) => {
     if (props.multiple) {
+      // 多选
+
       if (isArray(v)) {
-        valueList.value = [...v];
+        // 判断是否值相等 #I9IJT2
+        if (!isArrayEqual(v, valueList.value)) {
+          valueList.value = [...v];
+        }
       } else {
         valueList.value = [];
       }
-    } else {
+    } else if (valueList.value[0] !== v) {
+      // 单选
       valueList.value = [v as string | number];
     }
     finalValueList.value = [...valueList.value];
@@ -117,12 +135,30 @@ watchEffect(() => {
 
 const isClearable = computed(() => props.clearable && !props.disabled && valueList.value.length > 0);
 
+const emitChange = (value: Array<string | number>) => {
+  if (props.multiple) {
+    emits('change', [...value]);
+  } else {
+    emits('change', value[0]);
+  }
+  formItemInjection?.fieldHandlers.onChange?.();
+};
+const emitUpdateValue = (value: Array<string | number>) => {
+  if (props.multiple) {
+    emits('update:modelValue', [...value]);
+  } else {
+    emits('update:modelValue', value[0]);
+  }
+};
 // 清除值
 const clearClick = (e: Event) => {
   e.stopPropagation();
 
   valueList.value = [];
   emits('clear', e);
+
+  emitChange(valueList.value);
+  emitUpdateValue(valueList.value);
 };
 const beforeSelect = async (value: string | number) => {
   if (isFunction(props.beforeSelect)) {
@@ -137,7 +173,7 @@ provide(selectOptionInjectKey, {
   selectValue: valueList,
   select: async (option: SelectOptionT, userSelect?: boolean) => {
     if (userSelect) {
-      let toValue: SelectValueT = option.value;
+      let toValue: string | number = option.value;
 
       const rlt = await beforeSelect(option.value);
 
@@ -150,37 +186,29 @@ provide(selectOptionInjectKey, {
 
       if (!props.multiple) {
         //单选
+        isSelecting.value = false;
 
         if (valueList.value[0] !== toValue) {
-          emits('change', toValue);
-
-          valueList.value[0] = toValue as string | number;
+          valueList.value[0] = toValue;
+          emitUpdateValue(valueList.value);
+          emitChange(valueList.value);
         }
-
-        emits('update:modelValue', toValue);
-        isSelecting.value = false;
       } else {
         // 多选
-
-        if (!isArray(toValue)) {
-          toValue = [toValue];
+        const idx = valueList.value.indexOf(toValue);
+        if (idx > -1) {
+          valueList.value.splice(idx, 1);
+        } else {
+          valueList.value.push(toValue);
         }
-        toValue.forEach((item) => {
-          const idx = valueList.value.indexOf(item);
-          if (idx > -1) {
-            valueList.value.splice(idx, 1);
-          } else {
-            valueList.value.push(item);
-          }
-        });
 
         if (!isResponding.value) {
-          emits('change', [...valueList.value]);
-          emits('update:modelValue', [...valueList.value]);
+          emitUpdateValue(valueList.value);
+          emitChange(valueList.value);
         }
       }
     } else {
-      if (!optionLabels.value[option.value]) {
+      if (optionLabels.value[option.value] !== option.label) {
         optionLabels.value[option.value] = option.label;
       }
     }
@@ -197,6 +225,9 @@ const onRemoveTag = (value: string | number, e: MouseEvent) => {
   const idx = valueList.value.indexOf(value);
   if (idx > -1) {
     valueList.value.splice(idx, 1);
+
+    emitChange(valueList.value);
+    emitUpdateValue(valueList.value);
   }
 };
 const onFoldTagClick = (e: MouseEvent) => {
@@ -222,39 +253,27 @@ const onSelectClick = () => {
 const onSelectDlgChange = (visible: boolean) => {
   onOptionVisibleChange(visible);
 };
-const selectDlgAction: DialogActionT[] = [
-  {
-    id: 'cancel',
-    label: Labels.cancel,
-    variant: 'text',
-    size: 'large',
-    onClick: () => {
-      isSelecting.value = false;
-      valueList.value = [...finalValueList.value];
-    },
-  },
-  {
-    id: 'ok',
-    label: Labels.confirm,
-    variant: 'text',
-    size: 'large',
-    onClick: () => {
-      isSelecting.value = false;
 
-      finalValueList.value = [...valueList.value];
+const onselectDlgCancelClick = () => {
+  isSelecting.value = false;
+  valueList.value = [...finalValueList.value];
+};
 
-      emits('change', finalValueList.value);
-      emits('update:modelValue', finalValueList.value);
-    },
-  },
-];
+const onselectDlgOkClick = () => {
+  isSelecting.value = false;
+
+  finalValueList.value = [...valueList.value];
+
+  emitChange(valueList.value);
+  emitUpdateValue(valueList.value);
+};
 </script>
 <template>
   <div
     ref="selectRef"
     class="o-select"
     :class="[
-      `o-select-${props.color}`,
+      `o-select-${color}`,
       `o-select-${props.variant}`,
       `o-select-${props.size || defaultSize}`,
       round.class.value,
@@ -278,7 +297,7 @@ const selectDlgAction: DialogActionT[] = [
       readonly
     />
     <OScroller v-else class="o-select-tags-scroller" wrap-class="o-select-value-list" show-type="hover" size="small" disabled-x>
-      <div>
+      <div class="o-select-tags-wrap">
         <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
           {{ optionLabels[item] }}
           <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
@@ -323,7 +342,7 @@ const selectDlgAction: DialogActionT[] = [
           <slot>
             <div class="o-select-empty">
               <slot name="empty">
-                <span>{{ Labels.empty }}</span>
+                <span>{{ t('common.empty') }}</span>
               </slot>
             </div>
           </slot>
@@ -336,7 +355,6 @@ const selectDlgAction: DialogActionT[] = [
           :before-hide="props.beforeOptionsHide"
           hide-close
           class="o-select-dlg"
-          :actions="props.multiple ? selectDlgAction : undefined"
           :mask-close="!props.multiple"
           :class="{
             'is-loading': props.loading,
@@ -347,6 +365,14 @@ const selectDlgAction: DialogActionT[] = [
           <template v-if="props.optionTitle" #header>
             <div class="o-select-options-head">{{ props.optionTitle }}</div>
           </template>
+          <template #actions v-if="props.multiple">
+            <OButton class="o-dlg-btn" variant="text" size="large" @click="onselectDlgCancelClick">
+              {{ t('select.cancel') }}
+            </OButton>
+            <OButton class="o-dlg-btn" variant="text" size="large" @click="onselectDlgOkClick">
+              {{ t('select.confirm') }}
+            </OButton>
+          </template>
           <SelectOption
             :size="props.size"
             :wrap-class="props.optionWrapClass"
@@ -355,9 +381,11 @@ const selectDlgAction: DialogActionT[] = [
             :option-title="props.optionTitle"
             :multiple="props.multiple"
           >
-            <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
-              <slot :name="name" v-bind="slotData"></slot>
+            <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+              <slot :name="name"></slot>
             </template>
+
+            <!-- option选项单独处理 -->
             <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
         </ODialog>
@@ -366,6 +394,7 @@ const selectDlgAction: DialogActionT[] = [
         <OPopup
           v-if="!props.disabled"
           v-model:visible="isSelecting"
+          wrap-class="o-options-popup"
           :transition="props.transition"
           :unmount-on-hide="props.unmountOnHide"
           :position="props.optionPosition"
@@ -380,9 +409,11 @@ const selectDlgAction: DialogActionT[] = [
           @change="onOptionVisibleChange"
         >
           <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" scroller>
-            <template v-for="name in filterSlots($slots, OptionSlotNames)" #[name]="slotData">
-              <slot :name="name" v-bind="slotData"></slot>
+            <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+              <slot :name="name"></slot>
             </template>
+
+            <!-- option选项单独处理 -->
             <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
         </OPopup>

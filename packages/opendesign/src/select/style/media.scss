@@ -1,10 +1,8 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('phone-pad') {
+@include respond-to('<=pad') {
   .o-select-options-dlg {
-    box-shadow: none;
     --select-options-padding: 0;
-    --select-options-radius: 0;
 
     .o-option-checkbox {
       width: 100%;
@@ -34,5 +32,18 @@
         border-top: 1px solid var(--o-color-control4);
       }
     }
+  }
+}
+
+@include respond-to('laptop') {
+  .o-select-large {
+    --select-icon-size: var(--o-icon_size_control-s);
+  }
+}
+
+@include respond-to('<=laptop') {
+  .o-select-large {
+    --select-text-size: var(--o-font_size-tip1);
+    --select-text-height: var(--o-line_height-tip1);
   }
 }

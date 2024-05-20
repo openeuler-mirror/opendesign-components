@@ -16,6 +16,9 @@ body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
   font-family: 'Helvetica', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  @media (max-width: 840px) {
+    --app-aside-width: 0;
+  }
 }
 .app-header {
   position: fixed;
@@ -32,6 +35,9 @@ body {
   bottom: 0;
   width: var(--app-aside-width);
   z-index: 9;
+  @media (max-width: 840px) {
+    display: none;
+  }
 }
 .app-body {
   margin-top: var(--app-header-height);

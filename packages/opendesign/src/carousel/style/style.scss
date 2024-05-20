@@ -40,11 +40,9 @@
     opacity: 0;
   }
   @include hover {
-    &:hover {
-      .o-carousel-arrow-prev,
-      .o-carousel-arrow-next {
-        opacity: 1;
-      }
+    .o-carousel-arrow-prev,
+    .o-carousel-arrow-next {
+      opacity: 1;
     }
   }
 }
@@ -68,11 +66,9 @@
   border-radius: 50%;
   opacity: var(--carousel-arrow-opacity);
   @include hover {
-    &:hover {
-      opacity: var(--carousel-arrow-opacity-hover);
-      color: var(--carousel-arrow-color-hover);
-      background-color: var(--carousel-arrow-bg-color-hover);
-    }
+    opacity: var(--carousel-arrow-opacity-hover);
+    color: var(--carousel-arrow-color-hover);
+    background-color: var(--carousel-arrow-bg-color-hover);
   }
 }
 
@@ -103,10 +99,8 @@
   cursor: pointer;
 
   @include hover {
-    &:hover {
-      .o-carousel-indicator-line {
-        background-color: var(--carousel-indicator-bg-color-hover);
-      }
+    .o-carousel-indicator-line {
+      background-color: var(--carousel-indicator-bg-color-hover);
     }
   }
 
@@ -132,19 +126,20 @@
     z-index: 1;
     top: 0;
     left: 0;
-    width: 0;
+    width: 100%;
     height: var(--carousel-indicator-height);
     border-radius: var(--carousel-indicator-height);
     background-color: var(--carousel-indicator-bg-color);
+    transform-origin: 0 center;
   }
 }
 
 @keyframes indicator-grow {
   from {
-    width: 0;
+    transform: scaleX(0);
   }
   to {
-    transform: 100%;
+    transform: scaleX(100%);
   }
 }
 
@@ -152,12 +147,16 @@
   .o-carousel-indicator-line {
     &::after {
       background-color: var(--carousel-indicator-bg-color-selected);
-      width: 100%;
     }
   }
-  &.is-autoplay {
-    .o-carousel-indicator-line {
-      &::after {
+}
+.o-carousel-autoplay {
+  .o-carousel-indicator-line::after {
+    transform: scaleX(0);
+  }
+  &.is-playing {
+    .o-carousel-indicator-bar-selected {
+      .o-carousel-indicator-line::after {
         animation: indicator-grow var(--carousel-interval, '5000ms') var(--o-easing-linear);
       }
     }

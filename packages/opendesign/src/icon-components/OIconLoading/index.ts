@@ -1,1 +1,0 @@
-export { default as OIconLoading } from './OIconLoading.vue';

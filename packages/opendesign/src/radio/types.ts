@@ -28,6 +28,12 @@ export const radioProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * input id
+   */
+  inputId: {
+    type: String,
+  },
 };
 
 export type RadioPropsT = ExtractPropTypes<typeof radioProps>;

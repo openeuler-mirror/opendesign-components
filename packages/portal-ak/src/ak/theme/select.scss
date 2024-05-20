@@ -1,62 +1,15 @@
 @use './mixin.scss' as *;
-.o-select {
-  --select-multiple-padding: 3px 7px;
-}
-.o-select-outline {
-  --select-bg-color: var(--o-color-control-light);
-  --select-bg-color-disabled: var(--o-color-control4-light);
-}
-.o-select-text {
-  --select-color: var(--o-color-info1);
-  --select-color-hover: var(--o-color-info2);
-  --select-color-focus: var(--o-color-info2);
-  --select-bg-color-hover: transparent;
-  --select-bg-color-focus: transparent;
-}
-.o-select-medium {
-  --select-padding: 0 15px;
-  --select-text-size: var(--o-font_size-tip1);
-  --select-text-height: var(--o-line_height-tip1);
-}
-.o-select-large {
-  --select-padding: 0 15px;
-  --select-text-size: var(--o-font_size-text1);
-  --select-text-height: var(--o-line_height-text1);
-
-  @include respond-to('phone-pad') {
-    --select-text-size: var(--o-font_size-tip1);
-    --select-text-height: var(--o-line_height-tip1);
-  }
-}
-.o-select-options {
-  --select-options-radius: var(--o-radius-m);
-  --select-options-max-height: 302px;
-}
-// 移动端响应式
-.o-select-options-dlg {
-  --select-options-radius: 0;
-}
-
-.o-select,
-.o-select-tag-popover {
-  --select-tag-radius: var(--o-control_size-s);
-  --select-tag-text-size: var(--o-font_size-tip2);
-  --select-tag-text-height: var(--o-line_height-tip2);
-}
 
 .c-select-action {
-  border-top: 1px solid var(--o-color-control4);
   padding: 8px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   @include hover {
-    &:hover {
-      color: var(--o-color-link1);
-    }
+    color: var(--o-color-link1);
   }
   > .o-icon {
-    font-size: var(--o-icon_size-xs);
+    font-size: var(--o-icon_size_control-xs);
     margin-right: 4px;
   }
 }

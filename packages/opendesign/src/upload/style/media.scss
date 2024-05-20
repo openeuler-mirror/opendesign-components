@@ -1,7 +1,12 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('phone-pad') {
+@include respond-to('<=pad') {
   .o-upload-card-icons {
     opacity: 1;
+  }
+}
+@include respond-to('<=laptop') {
+  .o-upload {
+    --upload-drag-padding: 16px 8px;
   }
 }

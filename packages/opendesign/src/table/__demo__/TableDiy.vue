@@ -20,8 +20,8 @@ const table1 = {
   <h4>Diy</h4>
   <div class="sec">
     <OTable :columns="table1.columns" :data="table1.data">
-      <template #th-name="{ column }">diy: {{ column.label }}</template>
-      <template #name="{ row }">diy name: {{ row.name }}</template>
+      <template #th_name="{ column }">diy: {{ column.label }}</template>
+      <template #td_name="{ row }">diy name: {{ row.name }}</template>
       <template #action>
         <OLink color="primary">删除</OLink>
       </template>
@@ -32,7 +32,7 @@ const table1 = {
       <template #head="{ columns }">
         <th v-for="item in columns" :key="item.key">diy : {{ item.label }}</th>
       </template>
-      <template #name="{ row }">diy name: {{ row.name }}</template>
+      <template #td-name="{ row }">diy name: {{ row.name }}</template>
       <template #action>
         <OLink color="primary">删除</OLink>
       </template>

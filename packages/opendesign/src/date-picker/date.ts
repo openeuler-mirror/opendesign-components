@@ -1,7 +1,7 @@
 import { isNull } from '../_utils/is';
 import { PickerDate } from './picker-date';
 import { PickerModeT } from './types';
-import { OScroller } from '../scroller';
+import { OScroller } from '../scrollbar';
 
 export const WEEK_DAYS = 7;
 export const MINUTE_TIME = 60 * 1000;
@@ -37,10 +37,10 @@ export function getDayLabel(value: number): string {
   return `${value}${Labels.day}`;
 }
 
-export const DefaultFormatString = {
+export const DefaultFormatString: Record<PickerModeT, string> = {
   year: 'yyyy',
   month: 'yyyy-MM',
-  monthOnly: 'MM',
+  quarter: 'Q',
   date: 'yyyy-MM-dd',
   datetime: 'yyyy-MM-dd HH:mm:ss',
   time: 'HH:mm:ss',
@@ -164,11 +164,12 @@ export function scrollSelectOrNowCellInToView(
   if (!el) {
     el = scroller?.$el.querySelector('.o-picker-cell-now');
   }
-  if (!el || !scroller.containerRef) {
+  const containerRef = scroller.getContainerEl();
+  if (!el || !containerRef) {
     return;
   }
   const { offsetTop, clientHeight } = el;
-  const { clientHeight: outHeight } = scroller.containerRef;
+  const { clientHeight: outHeight } = containerRef;
 
   let top = offsetTop;
   if (align === 'center') {

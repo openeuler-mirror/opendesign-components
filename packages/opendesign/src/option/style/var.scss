@@ -1,7 +1,7 @@
 .o-option {
   --option-color: var(--o-color-info2);
   --option-color-hover: var(--o-color-info2);
-  --option-color-active: var(--o-color-info1);
+  --option-color-active: var(--o-color-primary1);
   --option-color-disabled: var(--o-color-info4);
 
   --option-bg-color: transparent;
@@ -14,8 +14,29 @@
 
   --option-padding: 7px 12px;
   --option-gap: 2px;
-  --option-radius: var(--o-radius_control-m);
+  --option-radius: var(--o-radius_control-s);
 }
 .o-option-multiple {
   --option-bg-color-active: transparent;
+}
+
+.o-options-popup {
+  --popup-shadow: var(--o-shadow-2);
+  --popup-bg-color: var(--o-color-control-light);
+  --popup-radius: var(--o-radius_control-m);
+  --popup-bd: none;
+  --popup-padding: 0;
+  --popup-min-width: 64px;
+}
+.o-option-list {
+  --option-list-max-height: 200px;
+}
+
+.o-option-group {
+  --option-group-color: var(--o-color-info3);
+  --option-group-text-size: var(--o-font_size-tip1);
+  --option-group-text-height: var(--o-line_height-tip1);
+
+  --option-group-gap: 8px;
+  --option-group-name-padding: 2px 8px;
 }

@@ -1,0 +1,53 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+@keyframes o-skeleton-ani {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.o-skeleton-text {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: var(--skeleton-width);
+}
+
+.o-skeleton-line {
+  width: 100%;
+  height: var(--skeleton-height);
+  border-radius: var(--skeleton-radius);
+  background: var(--skeleton-bg-color);
+}
+
+.o-skeleton-line:last-child:not(:first-child) {
+  width: var(--skeleton-last-line-width);
+}
+
+.o-skeleton-line + .o-skeleton-line {
+  margin-top: var(--skeleton-line-gap);
+}
+
+.o-skeleton-avatar,
+.o-skeleton-figure {
+  width: var(--skeleton-width);
+  height: var(--skeleton-height);
+  border-radius: var(--skeleton-radius);
+  background: var(--skeleton-bg-color);
+}
+
+.o-skeleton-animation {
+  .o-skeleton-item {
+    background-size: 400% 100%;
+    animation: o-skeleton-ani 1.4s var(--o-easing-linear) infinite;
+  }
+}
+
+.o-skeleton-item + .o-skeleton-item {
+  margin-top: var(--skeleton-item-gap);
+}

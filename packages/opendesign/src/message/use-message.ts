@@ -1,4 +1,4 @@
-import { createVNode, render } from 'vue';
+import { h, render } from 'vue';
 import { isString } from '../_utils/is';
 import { MessageParamsT } from './types';
 import OMessageList from './OMessageList.vue';
@@ -29,7 +29,7 @@ const showMessage = (params: MessageParamsT) => {
   if (!instance) {
     let wrap: HTMLDivElement | null = document.createElement('div');
 
-    const vnode = createVNode(OMessageList, {
+    const vnode = h(OMessageList, {
       position: params.position,
       onDestory: () => {
         if (wrap) {
@@ -103,7 +103,7 @@ const show = (params: MessageParamsT): void => {
 };
 
 const closeAll = () => {
-  for (let ins of instanceMap.values()) {
+  for (const ins of instanceMap.values()) {
     ins.exposed?.removeAll();
   }
 };

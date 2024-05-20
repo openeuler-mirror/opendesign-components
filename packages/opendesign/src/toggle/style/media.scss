@@ -1,0 +1,18 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('laptop') {
+  .o-toggle {
+    --toggle-text-size: var(--o-font_size-tip1);
+    --toggle-text-height: var(--o-line_height-tip1);
+    --toggle-icon-size: var(--o-icon_size_control-xs);
+  }
+}
+
+@include respond-to('<=pad') {
+  .o-toggle {
+    --toggle-padding: 0 11px;
+    --toggle-text-size: var(--o-font_size-tip2);
+    --toggle-text-height: var(--o-line_height-tip2);
+    --toggle-icon-size: var(--o-icon_size_control-xs);
+  }
+}

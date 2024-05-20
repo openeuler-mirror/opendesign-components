@@ -1,12 +1,12 @@
 .o-card {
-  --card-bg-color: var(--o-color-control-light);
+  --card-bg-color: var(--o-color-fill2);
   --card-radius: var(--o-radius_control-l);
 
   --card-shadow: none;
   --card-shadow-hover: var(--o-shadow-2);
   --card-shadow-active: var(--o-shadow-1);
 
-  --card-cover-radius: calc(var(--card-radius) / 2);
+  --card-cover-radius: var(--o-radius_control-s);
 
   --card-h-cover-width: 45%;
   --card-h-cover-max-width: 320px;
@@ -15,7 +15,7 @@
 
   --card-icon-gap: 16px;
   --card-icon-color: var(--o-color-info1);
-  --card-icon-size: var(--o-icon_size-2xl);
+  --card-icon-size: var(--o-icon_size_control-xl);
 
   --card-header-color: var(--o-color-info1);
   --card-header-text-size: var(--o-font_size-h3);

@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
-import { OScroller } from '../scroller';
+import { OScroller } from '../scrollbar';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_utils/dom';
-import { ref } from 'vue';
 import { isPhonePad } from '../_utils/global';
+import { isBoolean } from '../_utils/is';
 
 const props = defineProps(dialogProps);
 
@@ -15,6 +16,7 @@ const emits = defineEmits<{
   (e: 'change', visible: boolean): void;
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
 }>();
+
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 const onCloseClick = () => {
@@ -28,6 +30,14 @@ const onChange = (visible: boolean) => {
 const onUpdateVisible = (value: boolean, e?: MouseEvent) => {
   emits('update:visible', value, e);
 };
+
+const isBodyScroller = computed(() => !!props.scroller);
+const bodyScrollerOptions = computed(() => {
+  if (isBoolean(props.scroller)) {
+    return {};
+  }
+  return props.scroller;
+});
 
 defineExpose({
   toggle(show?: boolean) {
@@ -43,6 +53,7 @@ defineExpose({
       `o-dialog-${props.size}`,
       {
         'o-dialog-responsive': !props.noResponsive,
+        'o-dialog-phone-half-full': props.phoneHalfFull,
       },
     ]"
     :visible="props.visible"
@@ -62,27 +73,44 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
-    <OScroller v-if="props.scroller" class="o-dlg-body" size="small" show-type="hover" v-bind="props.scroller">
+    <OScroller
+      v-if="isBodyScroller"
+      class="o-dlg-body"
+      size="small"
+      show-type="hover"
+      v-bind="bodyScrollerOptions"
+      :class="{ 'with-footer': $slots.footer || props.actions }"
+    >
       <slot></slot>
     </OScroller>
-    <div v-else class="o-dlg-body">
+    <div
+      v-else
+      class="o-dlg-body"
+      :class="{
+        'with-footer': $slots.footer || props.actions,
+      }"
+    >
       <slot></slot>
     </div>
-    <div v-if="$slots.footer || props.actions" class="o-dlg-footer">
+    <div v-if="$slots.footer || $slots.actions || props.actions" class="o-dlg-footer">
       <slot name="footer">
         <div class="o-dlg-actions">
-          <OButton
-            v-for="item in props.actions"
-            :key="item.id"
-            class="o-dlg-btn"
-            :color="item.color"
-            :variant="!item.variant && isPhonePad ? 'text' : item.variant"
-            :size="item.size"
-            :round="item.round"
-            @click="item.onClick"
-          >
-            {{ item.label }}
-          </OButton>
+          <slot name="actions" :isPhonePad="isPhonePad">
+            <!-- 需要审视透传子组件属性 -->
+            <OButton
+              v-for="item in props.actions"
+              :key="item.id"
+              class="o-dlg-btn"
+              :color="item.color"
+              :variant="!item.variant && isPhonePad ? 'text' : item.variant"
+              :size="item.size"
+              :round="item.round"
+              :icon="item.icon"
+              @click="item.onClick"
+            >
+              {{ item.label }}
+            </OButton>
+          </slot>
         </div>
       </slot>
     </div>

@@ -27,8 +27,8 @@
     --card-shadow-hover: none;
     --card-shadow-active: none;
     --card-radius: var(--o-radius-xl);
-    --card-cover-radius: var(--o-radius-xl);
-    --card-icon-size: 56px;
+    --card-cover-radius: var(--o-radius-xl) !important;
+    --card-icon-size: 48px;
   }
 
   .o-card-cover-v,
@@ -42,10 +42,8 @@
       transition: color var(--o-duration-s) var(--o-easing-standard);
     }
     @include hover {
-      &:hover {
-        .o-card-icon {
-          color: rgb(var(--o-red-huawei));
-        }
+      .o-card-icon {
+        color: rgb(var(--o-red-huawei));
       }
     }
   }
@@ -55,20 +53,28 @@
       transition: color var(--o-duration-s) var(--o-easing-standard);
     }
     @include hover {
-      &:hover {
-        .o-card-title {
-          color: rgb(var(--o-red-huawei));
-        }
+      .o-card-title {
+        color: rgb(var(--o-red-huawei));
       }
     }
   }
 }
 
-@include respond-to('pad') {
+@include respond-to('pad_h') {
   .c-card-kunpeng {
     &.o-card {
       &:not(.o-card-no-responsive) {
-        --card-icon-size: var(--o-icon_size-l);
+        --card-icon-size: var(--o-icon_size_control-xl);
+      }
+    }
+  }
+}
+
+@include respond-to('pad_v') {
+  .c-card-kunpeng {
+    &.o-card {
+      &:not(.o-card-no-responsive) {
+        --card-icon-size: var(--o-icon_size_control-l);
       }
     }
   }
@@ -77,7 +83,7 @@
 @include respond-to('phone') {
   .c-card-kunpeng {
     &.o-card {
-      --card-icon-size: var(--o-icon_size-l);
+      --card-icon-size: var(--o-icon_size_control-l);
 
       .o-card-cover-v {
         .o-card-cover-img {

@@ -1,0 +1,44 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('laptop') {
+  .o-result {
+    --result-image-width: 160px;
+    --result-image-height: 140px;
+    --result-image-gap: 8px;
+
+    --result-icon-size: var(--o-icon_size_control-l);
+
+    --result-title-text-size: var(--o-font_size-text2);
+    --result-title-text-height: var(--o-line_height-text2);
+
+    --result-desc-text-size: var(--o-font_size-tip1);
+    --result-desc-text-height: var(--o-line_height-tip1);
+    --result-desc-gap: 8px;
+  }
+}
+
+@include respond-to('<=pad') {
+  .o-result {
+    --result-image-width: 160px;
+    --result-image-height: 140px;
+    --result-image-gap: 8px;
+
+    --result-icon-size: 48px;
+    --result-icon-gap: 8px;
+
+    --result-title-text-size: var(--o-font_size-text2);
+    --result-title-text-height: var(--o-line_height-text2);
+
+    --result-desc-text-size: var(--o-font_size-tip1);
+    --result-desc-text-height: var(--o-line_height-tip1);
+    --result-desc-gap: 8px;
+  }
+
+  .o-result-header {
+    flex-direction: column;
+  }
+  .o-result-icon {
+    margin-right: 0;
+    margin-bottom: var(--result-icon-gap);
+  }
+}

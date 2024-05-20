@@ -3,17 +3,17 @@
   /**
    * @name 
    * @type palette
-   * @group base
+   * @group white
    * @description 
    */
-  --o-color-white: 255, 255, 255;
+  --o-white: 255, 255, 255;
   /**
    * @name 
    * @type palette
-   * @group base
+   * @group black
    * @description 
    */
-  --o-color-black: 0, 0, 0;
+  --o-black: 0, 0, 0;
   /**
    * @name 
    * @type palette
@@ -990,6 +990,20 @@
   /**
    * @name 
    * @type color
+   * @group base
+   * @description 
+   */
+  --o-color-white: rgb(var(--o-white));
+  /**
+   * @name 
+   * @type color
+   * @group base
+   * @description 
+   */
+  --o-color-black: rgb(var(--o-black));
+  /**
+   * @name 
+   * @type color
    * @group primary
    * @description 常规
    */
@@ -1378,7 +1392,7 @@
    * @group shadow
    * @description 用于卡片悬浮阴影
    */
-  --o-shadow-2: 0 4px 24px rgba(var(--o-gray-1), 0.1);
+  --o-shadow-2: 0 2px 24px rgba(var(--o-gray-1), 0.15);
   /**
    * @name 阴影3
    * @type shadow
@@ -1392,28 +1406,28 @@
    * @group link
    * @description 常规
    */
-  --o-color-link1: rgb(var(--o-deepblue-6), 1.0);
+  --o-color-link1: rgba(var(--o-deepblue-6), 1.0);
   /**
    * @name 
    * @type color
    * @group link
    * @description 悬浮
    */
-  --o-color-link2: rgb(var(--o-deepblue-6), 0.7);
+  --o-color-link2: rgba(var(--o-deepblue-6), 0.7);
   /**
    * @name 
    * @type color
    * @group link
    * @description 激活
    */
-  --o-color-link3: rgb(var(--o-deepblue-6), 0.9);
+  --o-color-link3: rgba(var(--o-deepblue-6), 0.9);
   /**
    * @name 
    * @type color
    * @group link
    * @description 禁用
    */
-  --o-color-link4: rgb(var(--o-deepblue-6), 0.4);
+  --o-color-link4: rgba(var(--o-deepblue-6), 0.4);
   /**
    * @name 间距1
    * @type gap
@@ -1488,7 +1502,7 @@
    * @name 超小尺寸
    * @type size
    * @group control_size
-   * @description 小尺寸
+   * @description 超小尺寸
    */
   --o-control_size-2xs: 14px;
   /**
@@ -1534,68 +1548,96 @@
    */
   --o-control_size-2xl: 56px;
   /**
-   * @name 小尺寸图标
+   * @name 超小尺寸图标
    * @type size
    * @group icon_size
-   * @description 小尺寸
-   */
-  --o-icon_size-2xs: 14px;
-  /**
-   * @name 小尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 小尺寸
+   * @description 超小尺寸图标
    */
   --o-icon_size-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
    * @group icon_size
-   * @description 小尺寸
+   * @description 小尺寸图标
    */
-  --o-icon_size-s: 24px;
+  --o-icon_size-s: 20px;
+  /**
+   * @name 中尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 中尺寸图标
+   */
+  --o-icon_size-m: 24px;
+  /**
+   * @name 大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 大尺寸图标
+   */
+  --o-icon_size-l: 32px;
+  /**
+   * @name 超大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 超大尺寸图标
+   */
+  --o-icon_size-xl: 40px;
+  /**
+   * @name 2xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 2xl尺寸图标
+   */
+  --o-icon_size-2xl: 48px;
+  /**
+   * @name 3xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 3xl尺寸图标
+   */
+  --o-icon_size-3xl: 56px;
+  /**
+   * @name 4xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 4xl尺寸图标
+   */
+  --o-icon_size-4xl: 64px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 超小尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-xs: 16px;
   /**
    * @name 小尺寸图标
    * @type size
-   * @group icon_size
-   * @description 小尺寸
+   * @group icon_size_control
+   * @description 小尺寸控件图标(组件使用)
    */
-  --o-icon_size-m: 32px;
+  --o-icon_size_control-s: 20px;
+  /**
+   * @name 中尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 中尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-m: 24px;
   /**
    * @name 大尺寸图标
    * @type size
-   * @group icon_size
-   * @description 尺寸
+   * @group icon_size_control
+   * @description 大尺寸控件图标(组件使用)
    */
-  --o-icon_size-l: 40px;
+  --o-icon_size_control-l: 32px;
   /**
-   * @name 大尺寸图标
+   * @name 超大尺寸图标
    * @type size
-   * @group icon_size
-   * @description 尺寸
+   * @group icon_size_control
+   * @description 超大尺寸控件图标(组件使用)
    */
-  --o-icon_size-xl: 48px;
-  /**
-   * @name 大尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 尺寸
-   */
-  --o-icon_size-2xl: 64px;
-  /**
-   * @name 大尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 尺寸
-   */
-  --o-icon_size-3xl: 72px;
-  /**
-   * @name 大尺寸图标
-   * @type size
-   * @group icon_size
-   * @description 尺寸
-   */
-  --o-icon_size-4xl: 96px;
+  --o-icon_size_control-xl: 40px;
   /**
    * @name 一级数据展示
    * @type font
@@ -1786,26 +1828,33 @@
    */
   --o-radius-xl: 0px;
   /**
-   * @name 大尺寸控件圆角
+   * @name 超小尺寸控件圆角
    * @type size
-   * @group radius
-   * @description 大尺寸控件圆角(组件使用)
+   * @group radius_control
+   * @description 超小尺寸控件圆角(组件使用)
    */
-  --o-radius_control-l: 4px;
+  --o-radius_control-xs: 4px;
+  /**
+   * @name 小尺寸控件圆角
+   * @type size
+   * @group radius_control
+   * @description 小尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-s: 4px;
   /**
    * @name 中尺寸控件圆角
    * @type size
-   * @group radius
+   * @group radius_control
    * @description 中尺寸控件圆角(组件使用)
    */
   --o-radius_control-m: 4px;
   /**
-   * @name 小尺寸控件圆角
+   * @name 大尺寸控件圆角
    * @type size
-   * @group radius
-   * @description 小尺寸控件圆角(组件使用)
+   * @group radius_control
+   * @description 大尺寸控件圆角(组件使用)
    */
-  --o-radius_control-s: 4px;
+  --o-radius_control-l: 4px;
   /**
    * @name 持续时间
    * @type animation

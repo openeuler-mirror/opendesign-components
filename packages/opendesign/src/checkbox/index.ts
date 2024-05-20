@@ -4,10 +4,9 @@ import _OCheckbox from './OCheckbox.vue';
 
 const OCheckbox = Object.assign(_OCheckbox, {
   install(app: App) {
-    app.component(_OCheckbox.name, _OCheckbox);
+    app.component('OCheckbox', _OCheckbox);
   },
 });
 
-export * from './types';
-
 export { OCheckbox };
+export * from './types';

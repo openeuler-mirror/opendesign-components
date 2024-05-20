@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OSelect, SelectOptionT } from '../index';
+import { OSelect, SelectOptionT, SelectValueT } from '../index';
 import { OOption } from '../../option';
 import { ref } from 'vue';
 const options = [
@@ -18,17 +18,21 @@ const val = ref(['1', '4', '3', '5']);
 const exceededLabel = (tags: SelectOptionT[]) => {
   return tags.map((item) => item.label).join(',');
 };
+
+const onChange = (value: SelectValueT) => {
+  console.log(value);
+};
 </script>
 <template>
   <h3>多选</h3>
   <section>
-    <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple :max-tag-count="3">
+    <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple :max-tag-count="3" size="small" clearable @change="onChange">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">++{{ item.label }}++</OOption>
     </OSelect>
-    <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple size="large" :max-tag-count="2" :fold-label="exceededLabel">
+    <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple :max-tag-count="2" clearable :fold-label="exceededLabel" @change="onChange">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </OSelect>
-    <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple size="small">
+    <OSelect v-model="val" placeholder="多选" style="width: 240px" multiple size="large" clearable @change="onChange">
       <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
     </OSelect>
   </section>

@@ -1,6 +1,6 @@
 import path from 'path';
 import { defaultConfig, IconsConfig } from './config';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { toPascalCase } from '../utils';
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
@@ -12,8 +12,12 @@ async function readConfig(cfg: string) {
   const base = process.cwd();
   const configFile = path.resolve(base, cfg || './icon.config.ts');
   const cfgDir = path.dirname(configFile);
-
-  const configData: IconsConfig = await require(configFile);
+  let configData: IconsConfig | null = null;
+  try {
+    configData = await require(configFile);
+  } catch (error) {
+    console.log('no config file');
+  }
 
   const config = Object.assign(defaultConfig, configData);
 
@@ -49,7 +53,7 @@ interface IconItem {
 function readSvgData(cfg: IconsConfig) {
   const svgs: Array<IconItem> = [];
   [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach((key) => {
-    const files = glob.sync(`${key}/**/*.svg`, {
+    const files = globSync(`${key}/**/*.svg`, {
       cwd: cfg.input,
       // absolute: true,
     });
@@ -93,6 +97,7 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
       svg: rlt.data,
       type: item.type,
       componentClass: cfg.componentClass,
+      renderOnServer: cfg.renderOnServer,
     });
 
     fs.outputFile(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content, (err) => {

@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../_utils/icons';
-import Gallery from './gallery';
-import Toggle from './toggle';
+import Gallery from './effects/gallery';
+import Toggle from './effects/toggle';
 import { carouselInjectKey } from './provide';
 
 import { carouselProps } from './types';
-import Effect from './effect';
+import Effect from './effects/effect';
 
 const props = defineProps(carouselProps);
 
 const emits = defineEmits<{
   (e: 'before-change', to: number, from: number): void;
   (e: 'change', to: number, from: number): void;
+  (e: 'update:activeIndex', value: number): void;
 }>();
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -62,13 +63,22 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
     const to = fixIndex(index);
     const from = activeIndex.value;
 
-    if (isChanging || !slideElList.value || to === from) {
-      return Promise.resolve(false);
+    if (isChanging || !slideElList.value) {
+      resolve(false);
+      return;
     }
+
+    // fix https://gitee.com/openeuler/opendesign-components/issues/I848XL?from=project-issue
+    if (to === from) {
+      resolve(true);
+      return;
+    }
+
     isChanging = true;
 
     if (slidesInstance) {
       activeIndex.value = to;
+      emits('update:activeIndex', to);
       slidesInstance.active(to).then(() => {
         isChanging = false;
         resolve(true);
@@ -81,33 +91,44 @@ const activeSlideByIndex = (index: number): Promise<boolean> => {
 };
 
 let timer: number | null = null;
+const isPlaying = ref(isAutoPlay.value);
+
 const pausePlay = () => {
   if (timer) {
     clearInterval(timer);
     timer = null;
+    isPlaying.value = false;
+  }
+};
+
+const resumePlay = () => {
+  if (isAutoPlay.value) {
+    setTimeout(() => {
+      startPlay();
+    }, 0);
   }
 };
 // TODO 导出增加播放进度
 const startPlay = () => {
   pausePlay();
+  isPlaying.value = true;
   timer = window.setInterval(() => {
     activeSlideByIndex(activeIndex.value + 1);
   }, props.interval);
 };
 
 // 激活slide
-const activeSlide = (index: number) => {
+const activeSlide = (index: number, resumeAutoPlay = true) => {
   // 停止自动播放
   pausePlay();
-
   return activeSlideByIndex(index).then((success) => {
     if (!success) {
       return;
     }
 
     // 恢复自动播放
-    if (props.autoPlay) {
-      startPlay();
+    if (!props.pauseOnHover || resumeAutoPlay) {
+      resumePlay();
     }
   });
 };
@@ -124,26 +145,29 @@ const initSlides = () => {
     },
     onTouchend: () => {
       // 恢复自动播放
-      if (props.autoPlay) {
-        startPlay();
-      }
+      resumePlay();
     },
     onBeforeChange: (to: number, from: number) => {
       emits('before-change', to, from);
     },
     onChanged: (to: number, from: number) => {
       activeIndex.value = to;
+      emits('update:activeIndex', to);
       emits('change', to, from);
     },
   };
 
   let EffectType = null;
   switch (props.effect) {
+    case 'gallery': {
+      EffectType = Gallery;
+      break;
+    }
     case 'toggle': {
       EffectType = Toggle;
       break;
     }
-    case 'gallery': {
+    default: {
       EffectType = Gallery;
       break;
     }
@@ -177,7 +201,7 @@ watch(
 );
 const init = () => {
   initSlides();
-  if (props.autoPlay) {
+  if (isAutoPlay.value) {
     startPlay();
   }
 };
@@ -205,6 +229,19 @@ const pause = () => {
   isAutoPlay.value = false;
   pausePlay();
 };
+
+const onHoverIn = () => {
+  if (props.pauseOnHover) {
+    pausePlay();
+  }
+};
+
+const onHoverOut = () => {
+  if (props.pauseOnHover) {
+    resumePlay();
+  }
+};
+
 defineExpose({
   init: init,
   play,
@@ -221,12 +258,16 @@ defineExpose({
         'o-carousel-visible': initialized,
         'o-carousel-click-to-switch': props.clickToSwitch,
         'o-carousel-hover-arrow': props.arrow === 'hover',
+        'o-carousel-autoplay': isAutoPlay,
+        'is-playing': isPlaying,
       },
       `o-carousel-effect-${props.effect}`,
     ]"
     :style="{
       '--carousel-interval': props.interval + 'ms',
     }"
+    @mouseenter="onHoverIn"
+    @mouseleave="onHoverOut"
   >
     <div class="o-carousel-wrap">
       <div ref="containerRef" :class="[`o-carousel-container-${props.effect}`]">
@@ -240,7 +281,6 @@ defineExpose({
             class="o-carousel-indicator-bar"
             :class="{
               'o-carousel-indicator-bar-selected': item - 1 === activeIndex,
-              'is-autoplay': isAutoPlay,
             }"
           >
             <div class="o-carousel-indicator-line"></div>
@@ -249,7 +289,7 @@ defineExpose({
       </div>
     </div>
     <div v-if="props.arrow !== 'never'" class="o-carousel-arrow-wrap" :class="props.arrowWrapClass">
-      <div @click="activeSlide(activeIndex - 1)">
+      <div @click="activeSlide(activeIndex - 1, false)">
         <slot name="arrow-prev">
           <div class="o-carousel-arrow-prev">
             <div class="o-carousel-arrow-icon">
@@ -260,7 +300,7 @@ defineExpose({
           </div>
         </slot>
       </div>
-      <div @click="activeSlide(activeIndex + 1)">
+      <div @click="activeSlide(activeIndex + 1, false)">
         <slot name="arrow-next">
           <div class="o-carousel-arrow-next">
             <div class="o-carousel-arrow-icon">

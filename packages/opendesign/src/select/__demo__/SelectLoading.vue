@@ -53,7 +53,7 @@ const beforeOptionsShow = () => {
 };
 
 const beforeSelect = (value: string | number, currentValue: SelectValueT) => {
-  if (currentValue == value) {
+  if (currentValue === value) {
     return true;
   }
   console.log(currentValue);
@@ -104,7 +104,6 @@ const onAdd = () => {
 </template>
 <style lang="scss" scoped>
 .select-add {
-  border-top: 1px solid var(--o-color-control1);
   padding: 8px 12px;
   cursor: pointer;
   display: flex;

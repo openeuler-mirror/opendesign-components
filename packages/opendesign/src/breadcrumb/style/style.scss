@@ -41,9 +41,7 @@
   text-overflow: ellipsis;
   transition: color var(--o-duration-s) var(--o-easing-standard);
   @include hover {
-    &:hover {
-      color: var(--breadcrumb-color-hover);
-    }
+    color: var(--breadcrumb-color-hover);
   }
 
   &:active {

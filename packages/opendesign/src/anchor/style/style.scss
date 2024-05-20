@@ -1,0 +1,74 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.o-anchor-line {
+  position: relative;
+  width: var(--anchor-line-width);
+  border-radius: var(--anchor-line-width);
+  background-color: var(--anchor-line-bg-color);
+  margin-right: 4px;
+}
+
+.o-anchor-indicator {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: var(--anchor-indicator-width);
+  background-color: transparent;
+  opacity: 0;
+  transition: all var(--o-easing-standard-in) var(--o-duration-m1);
+
+  &::after {
+    content: '';
+    width: var(--anchor-indicator-width);
+    height: var(--anchor-indicator-height);
+    border-radius: var(--anchor-line-width);
+    background-color: var(--o-color-primary1);
+  }
+}
+
+.o-anchor-item {
+  min-width: var(--anchor-item-min-width);
+  width: var(--anchor-item-width);
+}
+
+.o-anchor-item-link {
+  cursor: pointer;
+  display: inline-flex;
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+  color: var(--anchor-item-link-color);
+  font-size: var(--anchor-item-link-text-size);
+  line-height: var(--anchor-item-link-text-height);
+  background-color: var(--anchor-item-link-bg-color);
+  padding: var(--anchor-item-link-padding);
+  border-radius: var(--anchor-item-link-radius);
+  transition: background-color var(--o-duration-s) var(--o-easing-standard);
+
+  @include hover {
+    background-color: var(--anchor-item-link-bg-color-hover);
+  }
+
+  &.is-active {
+    font-weight: 500;
+    color: var(--anchor-item-link-color-active);
+    background-color: var(--anchor-item-link-bg-color-active);
+  }
+}
+
+.o-anchor-item + .o-anchor-item {
+  margin-top: var(--anchor-item-link-gap);
+}
+
+.o-anchor-item {
+  .o-anchor-item {
+    margin-top: var(--anchor-item-link-gap);
+  }
+}

@@ -5,6 +5,7 @@ import { getRoundClass } from '../_utils/style-class';
 import { buttonProps } from './types';
 import HtmlTag from '../_components/html-tag';
 import { isEmptySlot } from '../_utils/vue-utils';
+import { computed } from 'vue';
 
 const props = defineProps(buttonProps);
 
@@ -12,10 +13,13 @@ const emit = defineEmits<{
   (e: 'click', evt: MouseEvent): void;
 }>();
 
+const tag = computed(() => (props.href ? 'a' : props.tag));
+
 const round = getRoundClass(props, 'btn');
 
 const onClick = (e: MouseEvent) => {
-  if (props.disabled) {
+  if (props.disabled || props.loading) {
+    e.preventDefault();
     return;
   }
   emit('click', e);
@@ -23,9 +27,9 @@ const onClick = (e: MouseEvent) => {
 </script>
 <template>
   <HtmlTag
-    :tag="!!props.href ? 'a' : props.tag"
+    :tag="tag"
     :href="props.href"
-    type="button"
+    :type="tag === 'button' ? 'button' : ''"
     class="o-btn"
     :class="[
       `o-btn-${props.color}`,

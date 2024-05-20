@@ -2,25 +2,25 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 import { inputProps } from '../input/types';
 
-const { size, round, color, variant, placeholder, readonly, disabled, autoWidth, parse, format } = inputProps;
+const { size, round, color, variant, placeholder, readonly, disabled, autoWidth, format, inputId } = inputProps;
 
 export const InputNumberControlTypes = ['both', 'right', 'left', 'none'] as const;
-export type InputNumberControlT = typeof InputNumberControlTypes[number];
+export type InputNumberControlT = (typeof InputNumberControlTypes)[number];
 
-export const inputNumberPorps = {
+export const inputNumberProps = {
   /**
    * 下拉框的值
    * v-model
    */
   modelValue: {
-    type: [String, Number],
+    type: Number,
   },
   /**
    * 下拉框的默认值
    * 非受控
    */
   defaultValue: {
-    type: [String, Number],
+    type: Number,
   },
   /**
    * 按钮点击时步长
@@ -88,14 +88,19 @@ export const inputNumberPorps = {
    */
   autoWidth,
   /**
-   * 解析输入框的值
-   */
-  parse,
-  /**
    * 对值格式化，控制显示格式
-   * 需搭配parse处理，保证值的正确性
    */
   format,
+  /**
+   * 无效值判断
+   */
+  validate: {
+    type: Function as PropType<(value: number) => boolean>,
+  },
+  /**
+   * input id
+   */
+  inputId,
 };
 
-export type InputNumberPorpsT = ExtractPropTypes<typeof inputNumberPorps>;
+export type InputNumberPropsT = ExtractPropTypes<typeof inputNumberProps>;

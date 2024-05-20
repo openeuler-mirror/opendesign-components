@@ -1,0 +1,22 @@
+.o-collapse {
+  --collapse-radius: var(--o-radius_control-l);
+  --collapse-bg-color: var(--o-color-fill2);
+  --collapse-padding: 8px 32px;
+  --collapse-division-color: var(--o-color-control4);
+}
+
+.o-collapse-item {
+  --collapse-item-header-padding: 25px 0px;
+
+  --collapse-item-title-color: var(--o-color-info1);
+  --collapse-item-title-text-size: var(--o-font_size-h3);
+  --collapse-item-title-text-height: var(--o-line_height-h3);
+
+  --collapse-item-body-text-size: var(--o-font_size-text1);
+  --collapse-item-body-text-height: var(--o-line_height-text1);
+
+  --collapse-item-icon-color: var(--o-color-info1);
+  --collapse-item-icon-size: var(--o-icon_size_control-m);
+
+  --collapse-item-gap: 16px;
+}

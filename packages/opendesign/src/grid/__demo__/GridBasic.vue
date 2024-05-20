@@ -4,54 +4,69 @@ import { ORow, OCol } from '../index';
 <template>
   <h4>Basic 1</h4>
   <div class="block">
-    <ORow justify="space-between">
+    <br />
+    <p>Block1</p>
+    <ORow gap="32px" :laptop="{ gap: '12px 0' }" :pad="{ gap: '0 8px' }" :phone="{ gap: '24px' }" wrap="wrap">
       <OCol class="colored"><div class="box">box</div></OCol>
-      <OCol width="50%" :shrink="0" class="colored"><div class="box">box</div></OCol>
+      <OCol flex="50%" class="colored"><div class="box">box</div></OCol>
+      <OCol class="colored"><div class="box">box</div></OCol>
+      <OCol flex="0 0 50%" class="colored"><div class="box">box</div></OCol>
+      <OCol class="colored"><div class="box">box</div></OCol>
       <OCol class="colored"><div class="box">box</div></OCol>
     </ORow>
     <br />
-    <ORow justify="space-between" gap-x="16px">
-      <OCol width="25%" class="colored">
+    <p>Block2</p>
+    <ORow gap-x="16px">
+      <OCol flex="25%" class="colored">
         <div class="box">box</div>
       </OCol>
-      <OCol width="50%" :shrink="0" class="colored">
+      <OCol flex="50%" class="colored">
         <div class="box">box</div>
       </OCol>
-      <OCol width="25%" class="colored">
+      <OCol flex="25%" class="colored">
         <div class="box">box</div>
       </OCol>
     </ORow>
 
     <br />
-    <ORow gap-x="16px" gap-y="16px" wrap="wrap">
+    <p>Block3</p>
+    <ORow gap="16px">
       <OCol
         v-for="item in 10"
         :key="item"
-        width="100%"
-        :l="{ width: '20%' }"
-        :m="{ width: '25%' }"
-        :s="{ width: '33.333333%' }"
-        :xs="{ width: '50%' }"
+        flex="10%"
+        :laptop="{ flex: '15%' }"
+        :pad="{ flex: '20%' }"
+        :pad-v="{ flex: '25%' }"
+        :phone="{ flex: '33.333333%' }"
         class="colored"
       >
         <div class="box">{{ item }}</div>
       </OCol>
     </ORow>
+
     <br />
-    <ORow
-      gap-x="16px"
-      gap-y="16px"
-      wrap="wrap"
-      :xs="{ gapX: '4px', gapY: '4px' }"
-      :s="{ gapX: '8px', gapY: '8px' }"
-      :m="{ gapX: '16px', gapY: '16px' }"
-      :l="{ gapX: '24px', gapY: '24px' }"
-      :xl="{ gapX: '32px', gapY: '32px' }"
-      :xxl="{ gapX: '48px', gapY: '48px' }"
-    >
-      <OCol v-for="item in 10" :key="item" width="20%" class="colored">
-        <div class="box">{{ item }}</div>
+    <p>Block4</p>
+    <ORow gap-x="16px" gap-y="16px" :laptop="{ gap: '24px' }" :pad-v="{ gap: '8px' }" :pad="{ gap: '16px' }" :phone="{ gap: '4px' }">
+      <OCol v-for="item in 10" :key="item" flex="20%" class="colored">
+        <div class="box">111{{ item }}</div>
       </OCol>
+    </ORow>
+
+    <br />
+    <p>Block5</p>
+    <ORow gap="16px">
+      <div class="colored"><div class="box">box</div></div>
+      <div class="colored"><div class="box">box</div></div>
+      <div class="colored"><div class="box">box</div></div>
+    </ORow>
+
+    <br />
+    <p>Block6</p>
+    <ORow gap="16px">
+      <OCol class="colored"><div class="box">box</div></OCol>
+      <OCol class="colored"><div class="box">box</div></OCol>
+      <OCol class="colored"><div class="box">box</div></OCol>
     </ORow>
   </div>
 </template>
@@ -83,7 +98,7 @@ import { ORow, OCol } from '../index';
   display: flex;
   align-items: center;
   justify-content: center;
-
+  // width: 25vw;
   height: 48px;
 }
 </style>

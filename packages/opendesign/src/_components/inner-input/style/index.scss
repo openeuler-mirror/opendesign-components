@@ -50,11 +50,13 @@
   justify-content: center;
   color: var(--icon-color);
   font-size: var(--icon-size);
-  @include hover {
+  @include x-svg-hover;
+
+  @include hoverable {
     &:hover {
       color: var(--icon-color-hover);
-      transform: rotate(180deg);
     }
+
     .o-ii-suffix-icon + & {
       position: absolute;
     }
@@ -62,20 +64,18 @@
 }
 .o-ii-clearable {
   @include hover {
-    &:hover {
-      .o-ii-suffix-icon {
-        visibility: hidden;
-        opacity: 0;
-        transition: none;
-      }
-      .o-ii-clear {
-        visibility: visible;
-        opacity: 1;
-        transition: all var(--o-duration-m1) var(--o-easing-standard-in);
-      }
+    .o-ii-suffix-icon {
+      visibility: hidden;
+      opacity: 0;
+      transition: none;
+    }
+    .o-ii-clear {
+      visibility: visible;
+      opacity: 1;
+      transition: all var(--o-duration-m1) var(--o-easing-standard-in);
     }
   }
-  @include hover(none) {
+  @include hoverable(none) {
     .o-ii-suffix-icon,
     .o-ii-clear {
       visibility: visible;
@@ -93,9 +93,7 @@
   margin-left: 4px;
 
   @include hover {
-    &:hover {
-      color: var(--icon-color-hover);
-    }
+    color: var(--icon-color-hover);
   }
 
   :first-child {

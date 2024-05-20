@@ -46,7 +46,7 @@ export const selectProps = {
     default: 'normal',
   },
   /**
-   * 按钮类型：ColorT
+   * 按钮类型：VariantT
    */
   variant: {
     type: String as PropType<VariantT>,
@@ -57,7 +57,6 @@ export const selectProps = {
    */
   placeholder: {
     type: String,
-    default: 'please select...',
   },
   /**
    * 是否支持多选
@@ -135,7 +134,7 @@ export const selectProps = {
    * 选择前回调，根据返回值判断是否显示
    */
   beforeSelect: {
-    type: Function as PropType<(value: string | number, currentValue: SelectValueT) => Promise<boolean | SelectValueT> | boolean | SelectValueT>,
+    type: Function as PropType<(value: string | number, currentValue: SelectValueT) => Promise<boolean | string | number> | boolean | string | number>,
   },
   /**
    * 显示前回调，根据返回值判断是否显示

@@ -20,16 +20,20 @@
   }
 }
 
-.o-sub-menu-selected {
+.o-sub-menu-selected,
+.o-sub-menu-associated-selected {
   & > .o-sub-menu-title {
     font-weight: 500;
     color: var(--sub-menu-color-selected);
-    background-color: var(--sub-menu-bg-color-selected);
 
     .o-sub-menu-title-icon {
       color: var(--sub-menu-icon-color-selected);
     }
   }
+}
+
+.o-sub-menu-selected {
+  background-color: var(--sub-menu-bg-color-selected);
 }
 
 .o-sub-menu-associated-selected {
@@ -56,7 +60,6 @@
   padding-bottom: var(--menu-padding-v);
   padding-left: var(--menu-padding-h);
   padding-right: var(--sub-menu-padding-right);
-
   border-radius: var(--sub-menu-radius);
   cursor: pointer;
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
@@ -126,7 +129,6 @@
   padding-left: var(--menu-padding-h);
   padding-right: var(--menu-item-padding-right);
   cursor: pointer;
-
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
   @include hover {

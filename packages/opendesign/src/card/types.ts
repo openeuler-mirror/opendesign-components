@@ -1,9 +1,9 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
+import type { DirectionT } from '../_utils/types';
 
-export const DirectionTypes = ['h', 'v', 'hr'] as const;
-export type DirectionT = (typeof DirectionTypes)[number];
+export type CardDirectionT = DirectionT | 'hr';
 
-export const CardCoverFitTypes = ['cover', 'contain', 'fill', 'none', ' scale-down'] as const;
+export const CardCoverFitTypes = ['cover', 'contain', 'fill', 'none', 'scale-down'] as const;
 export type CardCoverFitT = (typeof CardCoverFitTypes)[number];
 
 export const CardHoverCursorTypes = ['auto', 'pointer'] as const;
@@ -11,10 +11,10 @@ export type CardHoverCursorT = (typeof CardHoverCursorTypes)[number];
 
 export const cardProps = {
   /**
-   * 布局 DirectionT
+   * 布局 CardDirectionT
    */
   layout: {
-    type: String as PropType<DirectionT>,
+    type: String as PropType<CardDirectionT>,
     default: 'v',
   },
   /**
@@ -75,7 +75,7 @@ export const cardProps = {
   /**
    * 详情最大行数
    */
-  detaiMaxRow: {
+  detailMaxRow: {
     type: Number,
   },
   /**

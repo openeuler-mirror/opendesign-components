@@ -14,30 +14,28 @@ import {
 import { Labels } from './date';
 import { isFunction, isValidDate } from '../_utils/is';
 import { PickerDate } from './picker-date';
-import TimePicker from './TimePicker.vue';
-import type { TimeValueT } from './TimePicker.vue';
-import DayPicker from './DayPicker.vue';
-import type { DayValueT } from './DayPicker.vue';
-import YearPicker from './YearPicker.vue';
-import MonthPicker from './MonthPicker.vue';
-import type { MonthValueT } from './MonthPicker.vue';
+import TimePicker from './picker/TimePicker.vue';
+import type { TimeValueT } from './picker/TimePicker.vue';
+import DayPicker from './picker/DayPicker.vue';
+import type { DayValueT } from './picker/DayPicker.vue';
+import MonthPicker from './picker/MonthPicker.vue';
+import type { MonthValueT } from './picker/MonthPicker.vue';
+import YearPicker from './picker/YearPicker.vue';
 import PickerHead from './PickerHead.vue';
 import PickerFoot from './PickerFoot.vue';
 import { isSameDate } from '../_utils/date';
-import { format } from 'date-fns';
+import { formatDate } from '../_utils/date';
 
 const props = withDefaults(
   defineProps<{
     value: Date;
     formateString: string;
-    range?: boolean;
     shortcuts?: Array<ShortcutParamT>;
     needConfirm?: boolean;
     confirmLabel?: string;
     clearLabel?: string;
     mode?: PickerModeT;
-    yearSelectable?: boolean;
-    monthSelectable?: boolean;
+    range?: boolean;
     disableCell?: disableYearCellT | disableMonthCellT | disableDayCellT;
     disableTimeCell?: disableTimeCellT;
     displayYearList?: DisaplyYearListT;
@@ -51,8 +49,6 @@ const props = withDefaults(
     confirmLabel: '',
     clearLabel: '',
     mode: 'date',
-    yearSelectable: true,
-    monthSelectable: true,
     disableCell: undefined,
     disableTimeCell: undefined,
     displayYearList: undefined,
@@ -69,20 +65,22 @@ const emits = defineEmits<{
   (e: 'clear', evt: Event): void;
 }>();
 
+const yearSelectable = computed(() => /y/i.test(props.formateString));
+console.log(yearSelectable.value);
 // 控制面板显示
 const currentMode = ref(props.mode);
 const showPicker = computed(() => {
   return {
-    year: ['year', 'year-range'].includes(currentMode.value),
-    month: ['month', 'month-range'].includes(currentMode.value),
+    year: currentMode.value === 'year',
+    month: currentMode.value === 'month',
     day: ['date', 'datetime'].includes(currentMode.value),
   };
 });
 const mountPicker = computed(() => {
   const time = ['time', 'datetime'].includes(props.mode);
   const day = ['date', 'datetime'].includes(currentMode.value);
-  const month = (props.monthSelectable && day) || ['month', 'month-range'].includes(currentMode.value);
-  const year = (props.yearSelectable && month) || (props.yearSelectable && day) || ['year', 'year-range'].includes(currentMode.value);
+  const month = day || currentMode.value === 'month';
+  const year = (yearSelectable.value && month) || (yearSelectable.value && day) || currentMode.value === 'year';
 
   return {
     year,
@@ -225,7 +223,7 @@ const timeHeadValue = computed(() => {
   if (!hideSecond.value) {
     fs.push('ss');
   }
-  return format(viewValue.value, fs.join(':'));
+  return formatDate(viewValue.value, fs.join(':'));
 });
 const onTimeValueUpdate = (v: TimeValueT) => {
   // 范围选择时，需要hover时刷新输入框值
@@ -246,7 +244,7 @@ const onTimeSelect = (v: TimeValueT, e?: Event) => {
 };
 
 const toSelectYear = () => {
-  if (props.yearSelectable === false) {
+  if (yearSelectable.value === false) {
     return;
   }
 
@@ -281,7 +279,7 @@ const noHead = computed(() => {
     return true;
   }
 
-  if (props.mode === 'month' && !props.yearSelectable) {
+  if (props.mode === 'month' && !yearSelectable.value) {
     return true;
   }
 
@@ -297,20 +295,20 @@ const onHeadValueClick = (type: 'year' | 'month') => {
 };
 
 //shortcuts
-const shortcuts = computed(() => {
-  if (props.shortcuts && props.shortcuts.length > 0) {
-    return props.shortcuts.map((item) => {
-      if (item === 'now') {
-        return {
-          label: Labels.now,
-          value: () => new Date(),
-        };
-      }
-      return item;
-    });
-  }
-  return null;
-});
+// const shortcuts = computed(() => {
+//   if (props.shortcuts && props.shortcuts.length > 0) {
+//     return props.shortcuts.map((item) => {
+//       if (item === 'now') {
+//         return {
+//           label: Labels.now,
+//           value: () => new Date(),
+//         };
+//       }
+//       return item;
+//     });
+//   }
+//   return null;
+// });
 /*
  * 快捷按钮shortcut
  */
@@ -346,7 +344,7 @@ const onShortcutHoverout = () => {
           :mode="props.mode"
           :current-mode="currentMode"
           :value="viewValue"
-          :show-year="props.yearSelectable"
+          :show-year="yearSelectable"
           @value-click="onHeadValueClick"
           @btn-click="onHeadBtnClick"
         />
@@ -374,7 +372,6 @@ const onShortcutHoverout = () => {
             :view-value="viewValue"
             :disable-cell="(disableCellFn as disableMonthCellT)"
             :display-month-list="props.displayMonthList"
-            :year-selectable="props.yearSelectable"
             @select="onMonthSelect"
             @select-year="toSelectYear"
           />
@@ -412,7 +409,7 @@ const onShortcutHoverout = () => {
       </div>
     </div>
     <PickerFoot
-      :shortcuts="shortcuts"
+      :shortcuts="props.shortcuts"
       :need-confirm="needConfirm"
       :confirm-label="props.confirmLabel"
       :clear-label="props.clearLabel"

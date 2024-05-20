@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch } from 'vue';
+import { checkboxInjectKey } from './provide';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
 import { IconChecked } from '../_utils/icons';
@@ -13,7 +14,8 @@ const emits = defineEmits<{
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
-const insId = uniqueId('checkbox');
+const inputId = computed(() => props.inputId || uniqueId());
+
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
 
 // 是否选中
@@ -42,13 +44,14 @@ watch(
 );
 
 // 是否禁用
-const isDisabled = computed(
-  () =>
+const isDisabled = computed(() => {
+  return (
     checkboxGroupInjection?.disabled.value ||
     props.disabled ||
     (isChecked.value && checkboxGroupInjection?.isMinimum.value) ||
     (!isChecked.value && checkboxGroupInjection?.isMaximum.value)
-);
+  );
+});
 
 const onClick = (ev: Event) => {
   ev.stopPropagation();
@@ -85,6 +88,11 @@ const onChange = (ev: Event) => {
 defineExpose({
   checked: isChecked,
 });
+
+provide(checkboxInjectKey, {
+  checked: isChecked,
+  disabled: isDisabled,
+});
 </script>
 
 <template>
@@ -95,10 +103,10 @@ defineExpose({
       'o-checkbox-disabled': isDisabled,
       'o-checkbox-indeterminate': props.indeterminate,
     }"
-    :for="insId"
+    :for="inputId"
   >
     <div class="o-checkbox-wrap">
-      <input :id="insId" type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input :id="inputId" type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
       <slot name="checkbox" :checked="isChecked" :disabled="isDisabled">
         <div class="o-checkbox-input-wrap">
           <span class="o-checkbox-input">

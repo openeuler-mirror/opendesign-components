@@ -10,6 +10,7 @@
   width: var(--dlg-width);
   min-width: var(--dlg-min-width);
   max-height: var(--dlg-max-height);
+  min-height: var(--dlg-min-height);
 
   display: flex;
   flex-direction: column;
@@ -24,11 +25,9 @@
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
   cursor: pointer;
   z-index: 1;
-  @include x-hover;
+  @include x-svg-hover;
   @include hover {
-    &:hover {
-      color: var(--dlg-close-color-hover);
-    }
+    color: var(--dlg-close-color-hover);
   }
   &:active {
     color: var(--dlg-close-color-active);
@@ -54,13 +53,16 @@
   overflow: hidden;
 
   border-radius: inherit;
+
   .o-dlg-header + & {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    padding-top: var(--dlg-padding-body-top);
   }
-  &:has(+ .o-dlg-footer) {
+  &.with-footer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    padding-bottom: var(--dlg-padding-body-bottom);
   }
 }
 .o-dlg-footer {

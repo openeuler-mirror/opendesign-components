@@ -2,7 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 export const carouselProps = {
   /**
-   * 激活索引
+   * 激活索引 v-model
    */
   activeIndex: {
     type: Number,
@@ -68,8 +68,17 @@ export const carouselProps = {
   manualInit: {
     type: Boolean,
   },
+  /**
+   * 自定义激活项的类
+   */
   activeClass: {
     type: String,
+  },
+  /**
+   * 是否在hover时暂停自动轮播
+   */
+  pauseOnHover: {
+    type: Boolean,
   },
 };
 

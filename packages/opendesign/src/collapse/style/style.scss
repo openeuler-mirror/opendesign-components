@@ -1,0 +1,55 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-collapse {
+  background-color: var(--collapse-bg-color);
+  padding: var(--collapse-padding);
+  border-radius: var(--collapse-radius);
+}
+
+.o-collapse-item + .o-collapse-item {
+  border-top: 1px solid var(--collapse-division-color);
+}
+
+.o-collapse-item-header {
+  padding: var(--collapse-item-header-padding);
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.o-collapse-item-title {
+  margin: 0;
+  color: var(--collapse-item-title-color);
+  font-size: var(--collapse-item-title-text-size);
+  line-height: var(--collapse-item-title-text-height);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.o-collapse-item-icon {
+  flex-shrink: 0;
+  color: var(--collapse-item-icon-color);
+  font-size: var(--collapse-item-icon-size);
+  transform: rotate(90deg);
+  transition: transform var(--o-duration-m2) var(--o-easing-standard);
+}
+
+.o-collapse-item-body {
+  font-size: var(--collapse-item-body-text-size);
+  line-height: var(--collapse-item-body-text-height);
+  margin-bottom: var(--collapse-item-gap);
+  overflow: hidden;
+  transition: height var(--o-duration-m2) var(--o-easing-standard);
+}
+
+.o-collapse-item-expanded {
+  .o-collapse-item-title {
+    font-weight: 500;
+  }
+  .o-collapse-item-icon {
+    transform: rotate(-90deg);
+  }
+}

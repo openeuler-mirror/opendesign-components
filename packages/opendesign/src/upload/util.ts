@@ -1,6 +1,5 @@
 import { UploadFileT, UploadRequestT, UploadRequestOptionT } from './types';
 import { isFunction } from '../_utils/is';
-import { Slots } from 'vue';
 
 interface OptionsT {
   uploadRequest?: (options: UploadRequestOptionT) => UploadRequestT;
@@ -9,11 +8,6 @@ interface OptionsT {
   onSuccess?: (file: UploadFileT) => void;
   onError?: (file: UploadFileT) => void;
 }
-
-export const UploadLabel = {
-  btnLabel: '上传文件',
-  dragLabel: '点击或拖拽文件到此处上传',
-};
 
 /**
  * 发起上传请求
@@ -100,13 +94,6 @@ export const doUploadFileList = (fileList: UploadFileT[], options: OptionsT) => 
   return Promise.allSettled(rlt).then(() => {
     return fileList;
   });
-};
-
-/**
- * 过滤插槽
- */
-export const filterSlots = (slots: Slots, slotNames: string[]) => {
-  return Object.keys(slots).filter((item) => slotNames.includes(item));
 };
 
 export function isImageType(file: File): boolean {

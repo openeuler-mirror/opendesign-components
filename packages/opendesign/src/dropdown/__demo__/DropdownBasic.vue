@@ -18,7 +18,9 @@ const options = [
     <ODropdown>
       <OButton>Click Me</OButton>
       <template #dropdown>
-        <ODropdownItem v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <ODropdownItem v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          <a href="https://www.mindspore.cn" target="_blank">{{ item.label }}</a>
+        </ODropdownItem>
       </template>
     </ODropdown>
   </section>

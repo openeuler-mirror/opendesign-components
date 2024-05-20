@@ -10,6 +10,9 @@ const preivewImg = () => {
     figureRef.value.preview();
   }
 };
+const playVideo = () => {
+  alert('you can play video');
+};
 </script>
 <template>
   <h4>基本</h4>
@@ -23,6 +26,14 @@ const preivewImg = () => {
     <OFigure class="img" :src="img" preview />
     <OFigure ref="figureRef" class="img" :src="img" lazy-preiew>
       <OIconSearch class="zoomIn" @click="preivewImg" />
+    </OFigure>
+    <OFigure class="img" :src="img" video-poster @click="playVideo" />
+
+    <OFigure style="width: 25%" :src="img" hoverable>
+      <template #title>标题文本</template>
+    </OFigure>
+    <OFigure style="width: 25%; margin-left: 24px" :src="img" hoverable>
+      <template #content>自定义文字样式</template>
     </OFigure>
   </section>
 </template>

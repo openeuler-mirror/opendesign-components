@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DayCellT, ODatePicker, ShortcutParamT } from '../index';
+import { DayCellT, ODatePicker, ShortcutParamT, ODateRangePicker } from '../index';
 
-const val1 = ref<string | Date | number>();
-const val2 = ref<Array<string | Date | number>>();
+const val1 = ref<string | Date | number>('2011-11');
+const val2 = ref<Array<string | Date | number>>(['2011', '2023']);
 
 const onChange = (value: string | Date | number) => {
   console.log('change', value);
@@ -59,7 +59,29 @@ const displayMonthList = () => {
 const disableTimeCell = (value: number, type: 'hour' | 'minute' | 'second'): boolean => {
   return !Boolean(value % 3);
 };
-const fs = '';
+const fs = 'yyyy-MM';
+const fs2 = '';
+
+// range
+
+const onRangeChange = (value: Array<string | Date | number>) => {
+  console.log('change', value);
+};
+
+const onRangeFocus = (value: Array<string | Date | number>) => {
+  console.log('focus', value);
+};
+const onRangeBlur = (value: Array<string | Date | number>) => {
+  console.log('blur', value);
+};
+
+const onRangeClear = (e?: Event) => {
+  console.log('clear', e);
+};
+
+const onRangePressEnter = (value: Array<string>, e: KeyboardEvent) => {
+  console.log('pressEnter', value, e);
+};
 </script>
 <template>
   <h4>Color & Variant</h4>
@@ -69,13 +91,12 @@ const fs = '';
     <div class="row">
       <ODatePicker
         v-model="val1"
-        mode="datetime"
+        mode="month"
         :format-string="fs"
         placeholder="请选择..."
         resize="none"
         color="normal"
         :shortcuts="shortcuts"
-        :year-selectable="false"
         confirm-label="ok"
         style="width: 400px"
         :disable-cell="disableCell"
@@ -88,10 +109,10 @@ const fs = '';
         @clear="onClear"
         @press-enter="onPressEnter"
       />
-      <ODatePicker
+      <ODateRangePicker
         v-model="val2"
         mode="year-range"
-        :format-string="fs"
+        :format-string="fs2"
         placeholder="请选择..."
         resize="none"
         color="normal"
@@ -103,11 +124,11 @@ const fs = '';
         :disable-time-cell="disableTimeCell"
         :select-year="true"
         :display-month-list="displayMonthList"
-        @focus="onFocus"
-        @blur="onBlur"
-        @change="onChange"
-        @clear="onClear"
-        @press-enter="onPressEnter"
+        @focus="onRangeFocus"
+        @blur="onRangeBlur"
+        @change="onRangeChange"
+        @clear="onRangeClear"
+        @press-enter="onRangePressEnter"
       />
       <!-- <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="success" />
       <ODatePicker v-model="val1" placeholder="normal + outline" resize="none" color="warning" />

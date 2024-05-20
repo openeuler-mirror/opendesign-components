@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import TheHome from './pages/TheHome.vue';
 
 export const routes = [
@@ -9,10 +9,40 @@ export const routes = [
     component: TheHome,
   },
   {
+    path: '/in-input',
+    name: 'InInput',
+    label: '_输入框',
+    component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/in-textarea',
+    name: 'InTextarea',
+    label: '_文本域',
+    component: () => import('@components/_components/in-textarea/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/config-provider',
+    name: 'config-provider',
+    label: '全局配置 config-provider',
+    component: () => import('@components/config-provider/__demo__/TheIndex.vue'),
+  },
+  // {
+  //   path: '/date-picker',
+  //   name: 'DatePicker',
+  //   label: '日期选择器 DatePicker',
+  //   component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  // },
+  {
     path: '/date-picker',
     name: 'DatePicker',
     label: '日期选择器 DatePicker',
     component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/form',
+    name: 'Form',
+    label: '表单 Form',
+    component: () => import('@components/form/__demo__/TheIndex.vue'),
   },
   {
     path: '/text',
@@ -60,13 +90,13 @@ export const routes = [
     path: '/input',
     name: 'Input',
     label: '输入框 Input',
-    component: () => import('@components/input/__demo__/IndexInput.vue'),
+    component: () => import('@components/input/__demo__/TheIndex.vue'),
   },
   {
     path: '/input-number',
     name: 'InputNumber',
     label: '数字输入框 InputNumber',
-    component: () => import('@components/input-number/__demo__/IndexInputNumber.vue'),
+    component: () => import('@components/input-number/__demo__/TheIndex.vue'),
   },
   {
     path: '/textarea',
@@ -192,7 +222,7 @@ export const routes = [
     path: '/card',
     name: 'Card',
     label: '卡片 Card',
-    component: () => import('@components/card/__demo__/IndexCard.vue'),
+    component: () => import('@components/card/__demo__/TheIndex.vue'),
   },
   {
     path: '/message',
@@ -210,13 +240,7 @@ export const routes = [
     path: '/grid',
     name: 'Grid',
     label: '栅格 Grid',
-    component: () => import('@components/grid/__demo__/IndexGrid.vue'),
-  },
-  {
-    path: '/flex',
-    name: 'Flex',
-    label: '布局 Flex',
-    component: () => import('@components/flex/__demo__/TheIndex.vue'),
+    component: () => import('@components/grid/__demo__/TheIndex.vue'),
   },
   {
     path: '/result',
@@ -225,17 +249,17 @@ export const routes = [
     component: () => import('@components/result/__demo__/TheIndex.vue'),
   },
   {
-    path: '/scroller',
-    name: 'Scroller',
-    label: '滚动条 Scroller',
-    component: () => import('@components/scroller/__demo__/TheIndex.vue'),
+    path: '/scrollbar',
+    name: 'Scrollbar',
+    label: '滚动条 Scrollbar',
+    component: () => import('@components/scrollbar/__demo__/TheIndex.vue'),
   },
   {
     exclude: true,
-    path: '/scroller/body',
-    name: 'Scroller-body',
-    label: '全局滚动条 Scroller-body',
-    component: () => import('@components/scroller/__demo__/ScrollerBody.vue'),
+    path: '/scrollbar/body',
+    name: 'Scrollbar-body',
+    label: '全局滚动条 Scrollbar-body',
+    component: () => import('@components/scrollbar/__demo__/ScrollerBody.vue'),
   },
   {
     path: '/upload',
@@ -248,6 +272,24 @@ export const routes = [
     name: 'Toggle',
     label: '选择块 Toggle',
     component: () => import('@components/toggle/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/anchor',
+    name: 'Anchor',
+    label: '锚点 Anchor',
+    component: () => import('@components/anchor/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/collapse',
+    name: 'Collapse',
+    label: '折叠面板 Collapse',
+    component: () => import('@components/collapse/__demo__/TheIndex.vue'),
+  },
+  {
+    path: '/skeleton',
+    name: 'Skeleton',
+    label: '骨架屏 Skeleton',
+    component: () => import('@components/skeleton/__demo__/TheIndex.vue'),
   },
   {
     path: '/resize-observer',
@@ -270,7 +312,8 @@ export const routes = [
 ];
 
 export const router = createRouter({
-  history: createWebHashHistory('./'),
+  // history: createWebHashHistory('./'),
+  history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savePosition) {
     if (savePosition) {

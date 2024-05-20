@@ -1,1 +1,0 @@
-export { default as OIconClose } from './OIconClose.vue';

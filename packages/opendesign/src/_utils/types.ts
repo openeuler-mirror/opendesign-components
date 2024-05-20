@@ -1,3 +1,5 @@
+import { ComponentPublicInstance, Ref } from 'vue';
+
 export interface PointT {
   x: number;
   y: number;
@@ -37,5 +39,9 @@ export type VariantT = (typeof VariantTypes)[number];
 export const ColorTypes = ['normal', 'primary', 'success', 'warning', 'danger'] as const;
 export type ColorT = (typeof ColorTypes)[number];
 
+// 颜色 表单元素
 export const Color2Types = ['normal', 'success', 'warning', 'danger'] as const;
 export type Color2T = (typeof ColorTypes)[number];
+
+export type ComponentElement = string | ComponentPublicInstance | HTMLElement | null;
+export type VueElementRef = Ref<ComponentElement> | ComponentElement;

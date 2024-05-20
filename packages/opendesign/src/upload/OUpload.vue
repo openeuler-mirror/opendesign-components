@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { uploadProps, UploadFileT } from './types';
-import { computed, ref } from 'vue';
-import { isFunction } from '../_utils/is';
-import UploadItem, { ItemSlotNames } from './UploadItem.vue';
-import { UploadLabel, doUploadFileList, doUploadFile, filterSlots, generateImageDataUrl, isPictureType } from './util';
-import UploadSelect, { selectSlotNames } from './UploadSelect.vue';
+import { computed, ref, inject, watch } from 'vue';
+import { isArray, isFunction } from '../_utils/is';
+import { filterSlots } from '../_utils/vue-utils';
+import UploadItem from './UploadItem.vue';
+import slot from './slot';
+import { doUploadFileList, doUploadFile, generateImageDataUrl, isPictureType } from './util';
+import UploadSelect from './UploadSelect.vue';
 import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
+import { formItemInjectKey } from '../form/provide';
+import { useI18n } from '../locale';
 
 const props = defineProps(uploadProps);
 const emits = defineEmits<{
@@ -15,10 +19,32 @@ const emits = defineEmits<{
   (e: 'error', value: UploadFileT): void;
   (e: 'change', value: UploadFileT[]): void;
   (e: 'select', value: UploadFileT[]): void;
+  (e: 'update:modelValue', value: UploadFileT[]): void;
 }>();
 
-// 先不做受控模式
-const fileList = ref<UploadFileT[]>(props.defaultFileList || []);
+const emitUpdateValue = (value: UploadFileT[]) => {
+  emits('update:modelValue', value);
+};
+
+const { t } = useI18n();
+
+const fileList = ref<UploadFileT[]>(props.modelValue ?? props.defaultFileList ?? []);
+watch(
+  () => props.modelValue,
+  (v) => {
+    if (fileList.value === v) {
+      return;
+    }
+    if (isArray(v)) {
+      fileList.value = [...v];
+    } else {
+      fileList.value = [];
+    }
+  }
+);
+
+// 表单注入，用于规则校验
+const formItemInjection = inject(formItemInjectKey, null);
 
 let fileId = 1;
 
@@ -31,10 +57,12 @@ const uploadOption = computed(() => {
     },
     onSuccess: (file: UploadFileT) => {
       emits('success', file);
+      emitUpdateValue(fileList.value);
       emits('change', fileList.value);
     },
     onError: (file: UploadFileT) => {
       emits('error', file);
+      emitUpdateValue(fileList.value);
       emits('change', fileList.value);
     },
   };
@@ -63,7 +91,10 @@ const afterSelected = (files: UploadFileT[]) => {
       fileList.value[idx] = files[0];
       replaceId = '';
 
+      emitUpdateValue(fileList.value);
       emits('select', fileList.value);
+
+      formItemInjection?.fieldHandlers.onChange?.();
 
       if (!props.lazyUpload) {
         doUploadFile(fileList.value[idx], uploadOption.value);
@@ -81,7 +112,10 @@ const afterSelected = (files: UploadFileT[]) => {
       l = 1;
     }
 
+    emitUpdateValue(fileList.value);
     emits('select', fileList.value);
+
+    formItemInjection?.fieldHandlers.onChange?.();
 
     if (!props.lazyUpload) {
       doUploadFileList(fileList.value.slice(s, s + l), uploadOption.value);
@@ -131,6 +165,10 @@ const removeFile = async (file: UploadFileT) => {
   file.request?.abort();
   fileList.value = fileList.value.filter((f) => f.id !== file.id);
 
+  formItemInjection?.fieldHandlers.onChange?.();
+
+  emitUpdateValue(fileList.value);
+
   return true;
 };
 const removeFileByIndex = (index: number) => {
@@ -144,6 +182,8 @@ const removeAllFiles = () => {
       resolve(res);
     });
     fileList.value = [];
+
+    emitUpdateValue(fileList.value);
   });
 };
 /**
@@ -189,7 +229,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="o-upload">
+  <div class="o-upload" :class="{ 'o-upload-draggable': draggable }">
     <InputSelect ref="selectRef" :accept="props.accept" :disabled="props.disabled" @selected="onFileSelected" />
     <div v-if="['text', 'picture'].includes(props.listType)" class="o-upload-select-wrap">
       <UploadSelect
@@ -197,11 +237,11 @@ defineExpose({
         :draggable="props.draggable"
         :btn-label="props.btnLabel"
         :drag-label="props.dragLabel"
-        :btn-props="props.btnProps"
+        :drag-hover-label="props.dragHoverLabel"
         @to-select="doSelect"
         @selected="onFileSelected"
       >
-        <template v-for="name in filterSlots($slots, selectSlotNames)" #[name]="slotData">
+        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadSelect>
@@ -225,7 +265,7 @@ defineExpose({
         @retry="onFileUploadRetry"
         @replace="onFileReplace"
       >
-        <template v-for="name in filterSlots($slots, ItemSlotNames)" #[name]="slotData">
+        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadItem>
@@ -242,7 +282,7 @@ defineExpose({
             <IconAdd class="o-upload-card-add-icon" />
             <div class="o-upload-card-label">
               <slot name="select-add-label">
-                {{ props.btnLabel ?? UploadLabel.btnLabel }}
+                {{ props.btnLabel ?? t('upload.buttonLabel') }}
               </slot>
             </div>
           </slot>

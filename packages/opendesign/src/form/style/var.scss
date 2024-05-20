@@ -1,2 +1,15 @@
 .o-form {
+  --form-item-display: flex;
+  --form-item-gap: 24px;
+  --form-label-main-gap: 32px;
+  --form-label-gap-top: 4px;
+}
+.o-form-layout-h {
+  --form-label-width: 20%;
+  --form-label-max-width: 240px;
+  --form-item-align: flex-start;
+}
+.o-form-layout-v {
+  --form-label-width: 100%;
+  --form-label-justify: flex-start;
 }

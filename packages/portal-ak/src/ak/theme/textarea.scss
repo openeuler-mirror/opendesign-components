@@ -1,22 +1,9 @@
 @use './mixin.scss' as *;
 
 .o-textarea {
-  --textarea-bg-color: var(--o-color-control-light);
-  --textarea-bg-color-disabled: var(--o-color-control4-light);
+  height: 126px;
 
-  --textarea-padding-h: 16px;
-
-  --textarea-text-size: var(--o-font_size-text1);
-  --textarea-text-height: var(--o-line_height-text1);
-
-  --textarea-height: 126px;
-
-  @include respond-to('phone-pad') {
-    --textarea-text-size: var(--o-font_size-tip1);
-    --textarea-text-height: var(--o-line_height-tip1);
-    --textarea-height: 116px;
+  @include respond-to('<=pad') {
+    height: 116px;
   }
-}
-.o-textarea-textarea {
-  height: var(--textarea-height);
 }

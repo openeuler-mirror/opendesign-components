@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue';
 import { OUpload, UploadFileT } from '../index';
-import { OIcon } from '../../icon';
-import { OIconDone, OIconStar, OIconCalendar } from '../../icon-components';
+import { OIconCalendar } from '../../icon-components';
 import { uploadRequest } from './upload';
+import { OButton } from '../../button';
 
 const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
   return Promise.resolve(
@@ -26,6 +26,12 @@ const onAfterSelect2 = (fileList: FileList): Promise<UploadFileT[]> => {
       <p>自定义上传区域</p>
       <OUpload :upload-request="uploadRequest" show-uploading-icon>
         <div style="width: 200px; height: 100px; background-color: #ccc; display: flex; justify-content: center; align-items: center">这是自定义上传区域</div>
+      </OUpload>
+    </div>
+    <div class="upload-item">
+      <p>自定义上传按钮</p>
+      <OUpload :upload-request="uploadRequest" show-uploading-icon>
+        <OButton color="primary" size="large" variant="solid">这是自定义上传按钮</OButton>
       </OUpload>
     </div>
     <div class="upload-item">

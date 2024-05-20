@@ -1,0 +1,8 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=laptop') {
+  .o-progress-medium {
+    --progress-text-size: var(--o-font_size-tip1);
+    --progress-text-height: var(--o-line_height-tip1);
+  }
+}

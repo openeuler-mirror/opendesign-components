@@ -92,20 +92,21 @@ menuInjection?.menuTree.addChild({
 });
 
 // 过渡动画
-const onBeforeEnter = (el: HTMLUListElement) => {
-  el.style.height = '0px';
+const onBeforeEnter = (el: Element) => {
+  (el as HTMLUListElement).style.height = '0px';
 };
-const onEnter = (el: HTMLUListElement) => {
-  el.style.height = `${el.scrollHeight}px`;
+const onEnter = (el: Element) => {
+  (el as HTMLUListElement).style.height = `${el.scrollHeight}px`;
 };
-const onAfterEnter = (el: HTMLUListElement) => {
-  el.style.height = 'auto';
+// 进入动画完成后高度设置为auto，支持嵌套子菜单展开
+const onAfterEnter = (el: Element) => {
+  (el as HTMLUListElement).style.height = 'auto';
 };
-const onBeforeLeave = (el: HTMLUListElement) => {
-  el.style.height = `${el.offsetHeight}px`;
+const onBeforeLeave = (el: Element) => {
+  (el as HTMLUListElement).style.height = `${(el as HTMLUListElement).offsetHeight}px`;
 };
-const onLeave = (el: HTMLUListElement) => {
-  el.style.height = '0px';
+const onLeave = (el: Element) => {
+  (el as HTMLUListElement).style.height = '0px';
 };
 </script>
 

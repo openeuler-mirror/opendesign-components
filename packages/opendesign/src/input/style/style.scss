@@ -1,0 +1,115 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-input {
+  cursor: pointer;
+  color: var(--input-color);
+  display: inline-flex;
+  height: var(--input-height);
+  font-size: var(--input-text-size);
+  line-height: var(--input-text-height);
+}
+
+.o-input-wrap {
+  display: flex;
+  padding: var(--input-padding);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--input-radius);
+  border: 1px solid var(--input-bd-color);
+  background-color: var(--input-bg-color);
+  background-clip: padding-box;
+  transition: all var(--o-duration-m1) var(--o-easing-standard-in);
+
+  @include hover {
+    border-color: var(--input-bd-color-hover);
+    background-color: var(--input-bg-color-hover);
+  }
+
+  &.is-focus {
+    border-color: var(--input-bd-color-focus);
+    background-color: var(--input-bg-color-focus);
+  }
+  &.is-disabled,
+  &.is-readonly {
+    border-color: var(--input-bd-color-disabled);
+    background-color: var(--input-bg-color-disabled);
+  }
+  &.is-readonly {
+    cursor: text;
+  }
+  &.is-disabled {
+    cursor: not-allowed;
+  }
+
+  &.has-prepend {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  &.has-append {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &.is-invalid {
+    .o-input-input {
+      text-decoration: line-through;
+    }
+  }
+}
+
+.o-input-append,
+.o-input-prepend {
+  display: flex;
+  align-items: center;
+  background-color: var(--input-prepend-append-bg-color);
+  border: 1px solid var(--input-prepend-append-bd-color);
+
+  .o-input-disabled & {
+    border-color: var(--input-prepend-append-bd-color-disabled);
+  }
+}
+
+.o-input-append {
+  flex-shrink: 0;
+  border-top-right-radius: var(--input-radius);
+  border-bottom-right-radius: var(--input-radius);
+}
+
+.o-input-prepend {
+  flex-shrink: 0;
+  border-top-left-radius: var(--input-radius);
+  border-bottom-left-radius: var(--input-radius);
+}
+
+.o-input-solid {
+  .o-input-prepend {
+    border-width: 0 1px 0 0;
+  }
+  .o-input-append {
+    border-width: 0 0 0 1px;
+  }
+}
+
+.o-input-outline {
+  .o-input-prepend {
+    border-right: 0;
+  }
+  .o-input-append {
+    border-left: 0;
+  }
+}
+
+.o-input-mirror {
+  white-space: pre;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  pointer-events: none;
+}

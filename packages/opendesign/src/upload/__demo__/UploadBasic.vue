@@ -15,27 +15,44 @@ const doUpload = () => {
   });
 };
 
+const imgs = [
+  'https://www.openeuler.org/assets/fenhuo_light.8205c177.png',
+  'https://www.openeuler.org/assets/tongYuan.fd26d7bf.png',
+  'https://www.openeuler.org/assets/suse.37147e0c.png',
+];
+
 const defaultFileList: UploadFileT[] = [
   {
     id: '1',
     name: 'test.png',
     status: 'finished',
+    imgUrl: imgs[0],
   },
 ];
 
-const defaultFileList2: UploadFileT[] = [
+const singleFileList = ref<UploadFileT[]>([
   {
     id: '1',
     name: 'test.png',
     status: 'finished',
+    imgUrl: imgs[0],
+  },
+]);
+
+const fileList = ref<UploadFileT[]>([
+  {
+    id: '1',
+    name: 'test.png',
+    status: 'finished',
+    imgUrl: imgs[2],
   },
   {
     id: '2',
-    name: 'test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2.png',
+    name: 'test2.png',
     status: 'failed',
     message: '上传失败',
   },
-];
+]);
 
 const onProgress = (f: UploadFileT) => {
   console.log(f.name, f.percent);
@@ -44,10 +61,12 @@ const onProgress = (f: UploadFileT) => {
 const onChange = (f: UploadFileT[]) => {
   const r = f.map((item) => `${item.name}:${item.status}`);
   console.log(r.join(', '));
+  console.log('onChange', fileList.value);
 };
 const onSelect = (f: UploadFileT[]) => {
   const r = f.map((item) => `${item.name}:${item.status}`);
   console.log(r.join(', '));
+  console.log('onSelect', fileList.value);
 };
 </script>
 <template>
@@ -55,9 +74,10 @@ const onSelect = (f: UploadFileT[]) => {
   <section style="flex-wrap: wrap; align-items: flex-start">
     <div class="upload-item">
       <OUpload
+        v-model="singleFileList"
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
-        btn-label="上传(单选)"
+        :btn-props="{ size: 'large' }"
         color="normal"
         variant="solid"
         accept=".docx,.xlsx,.xls,.doc,.pdf"
@@ -68,7 +88,7 @@ const onSelect = (f: UploadFileT[]) => {
         multiple
         btn-label="上传(多选)"
         accept=".jpg,.png,.svg"
-        :default-file-list="defaultFileList2"
+        v-model="fileList"
         :on-after-select="onAfterSelect"
         :upload-request="uploadRequest"
         :on-before-upload="onBeforeUpload"
@@ -103,7 +123,14 @@ const onSelect = (f: UploadFileT[]) => {
       </OUpload>
     </div>
     <div class="upload-item">
-      <OUpload multiple :on-after-select="onAfterSelect" :upload-request="uploadRequest" :on-before-upload="onBeforeUpload" list-type="picture-card" />
+      <OUpload
+        multiple
+        v-model="fileList"
+        :on-after-select="onAfterSelect"
+        :upload-request="uploadRequest"
+        :on-before-upload="onBeforeUpload"
+        list-type="picture-card"
+      />
     </div>
   </section>
   <section style="flex-wrap: wrap; align-items: flex-start">

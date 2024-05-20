@@ -29,6 +29,11 @@ const next = () => {
     console.log('done', idx);
   });
 };
+const active1 = () => {
+  slidesRef.value?.active(1).then(() => {
+    console.log('done', 1);
+  });
+};
 const startPlay = () => {
   slidesRef.value?.play();
 };
@@ -46,17 +51,19 @@ const initSlides = () => {
     <h4>gallery</h4>
     <div class="block">
       <div class="btn" @click="next">Next</div>
+      <div class="btn" @click="active1">slide 1</div>
       <div class="btn" @click="startPlay">Start</div>
       <div class="btn" @click="stopPlay">Pause</div>
       <div class="center"></div>
       <OCarousel
         ref="slidesRef"
+        v-model:active-index="idx"
         indicator-click
         loop
         class="gallery-carousel"
         :auto-play="false"
-        :active-index="idx"
         click-to-switch
+        pause-on-hover
         @change="onChange"
         @before-change="onBeforeChange"
       >
@@ -75,7 +82,7 @@ const initSlides = () => {
     </div>
     <div class="block" style="overflow: hidden">
       <div class="btn" @click="initSlides">延迟初始化</div>
-      <OCarousel ref="slidesRef2" manual-init class="slides2" auto-play :active-index="1" @change="onChange">
+      <OCarousel ref="slidesRef2" manual-init class="slides2" :active-index="1" @change="onChange" indicator-wrap-class="arrow-white" indicator-click>
         <OCarouselItem v-for="s in carousel" :key="s" class="slide-item2">
           <OFigure class="img" :src="s" />
         </OCarouselItem>
@@ -88,13 +95,13 @@ const initSlides = () => {
         effect="toggle"
         indicator-click
         active-class="current-slide"
-        @change="onChange"
-        @before-change="onBeforeChange"
         data-o-theme="dark"
         auto-play
+        @change="onChange"
+        @before-change="onBeforeChange"
       >
         <OCarouselItem v-for="(s, idx) in carousel" :key="s">
-          <OFigure class="img" :src="s" />
+          <OFigure class="img-bg" :src="s" />
           <div class="slide2-slide-content">
             <div class="title">this is title {{ idx }}</div>
             <div class="desc">{{ idx }}this is description, this is description</div>
@@ -162,11 +169,11 @@ const initSlides = () => {
   justify-content: center;
   font-size: 48px;
   margin: 0 16px;
-  background-color: #333;
+  background-color: #999;
 }
 
 .slides2 {
-  .img {
+  .img-bg {
     position: absolute;
     z-index: -1;
   }
@@ -207,5 +214,8 @@ const initSlides = () => {
   .desc {
     animation: fade-up 400ms ease-in;
   }
+}
+:deep(.arrow-white) {
+  background-color: #eee;
 }
 </style>

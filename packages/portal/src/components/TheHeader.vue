@@ -1,81 +1,91 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem } from '@opensig/opendesign/src';
+import { computed, watchEffect } from 'vue';
+import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem, useLocale, addLocale, useI18n } from '@opensig/opendesign/src';
 import { OIconAdd } from '@opensig/opendesign/src/icon-components';
+import enUS from '@opensig/opendesign/src/locale/lang/en-us';
 
 import '../../../opendesign/src/dropdown/style';
 
+import { useTheme } from '@opensig/opendesign/src';
+
 const themeInfo = [
   {
-    prefix: 'default',
-    name: 'opendesign',
+    key: 'light',
+    name: '[light]opendesign',
   },
   {
-    prefix: 'a',
-    name: 'a',
+    key: 'dark',
+    name: '[dark]opendesign',
   },
   {
-    prefix: 'k',
-    name: 'k',
+    key: 'a.light',
+    name: '[light]A',
+  },
+  {
+    key: 'a.dark',
+    name: '[dark]A',
+  },
+  {
+    key: 'k.light',
+    name: '[light]K',
+  },
+  {
+    key: 'k.dark',
+    name: '[dark]K',
   },
 ];
 
-const ATTR_NAME = 'data-o-theme';
-const THEME_KEY = 'o-theme';
+const { theme } = useTheme();
+if (!theme.value) {
+  theme.value = themeInfo[0].key;
+}
 
-const localTheme = localStorage.getItem(THEME_KEY);
-initRound(localTheme?.startsWith('a') ? 'pill' : void 0);
-
-const currentStyle = ref(localTheme?.split('.')[1] || 'light');
-const currentThemeIdx = ref(
-  Math.max(
-    themeInfo.findIndex((item) => {
-      return item.prefix === localTheme?.split('.')[0];
-    }),
-    0
-  )
-);
-
-const currentThemeAttr = computed(() => {
-  if (currentThemeIdx.value === 0) {
-    return currentStyle.value;
-  }
-
-  return `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`;
+const themeName = computed(() => {
+  const themeItem = themeInfo.find((item) => item.key === theme.value);
+  return themeItem ? themeItem.name : '--';
 });
 
-watch(
-  () => currentThemeAttr.value,
-  (val) => {
-    document.body.setAttribute(ATTR_NAME, val);
-    localStorage.setItem('o-theme', `${themeInfo[currentThemeIdx.value].prefix}.${currentStyle.value}`);
-  },
-  {
-    immediate: true,
-  }
-);
+watchEffect(() => {
+  initRound(theme.value.startsWith('a') ? 'pill' : void 0);
+});
 
-const changeTheme = (idx: number) => {
-  currentThemeIdx.value = idx;
-  if (idx === 1) {
-    initRound('pill');
-  } else {
-    initRound();
-  }
-};
-
-const changeStyle = () => {
-  currentStyle.value = currentStyle.value === 'light' ? 'dark' : 'light';
+const changeTheme = (key: string) => {
+  theme.value = key;
 };
 
 const globalSetting = () => {
   initIconLoading(OIconAdd);
   initSize('large');
 };
+
+const locales = [
+  {
+    value: 'zh-CN',
+    label: '中文',
+  },
+  {
+    value: 'en-US',
+    label: 'English',
+  },
+];
+
+addLocale({
+  'en-US': enUS,
+});
+
+const { locale } = useI18n();
+const currentLocale = computed(() => {
+  const rlt = locales.find((item) => item.value === locale.value);
+  return rlt || locales[0];
+});
+const changeLocale = (l: (typeof locales)[0]) => {
+  useLocale(l.value);
+};
+window.setLocale = changeLocale;
 </script>
 <template>
   <div class="the-header">
-    {{ themeInfo[currentThemeIdx].name }}
+    {{ themeName }}
     <div class="tools">
       <div class="tool-item">
         <ODropdown>
@@ -86,11 +96,19 @@ const globalSetting = () => {
             />
           </svg>
           <template #dropdown>
-            <ODropdownItem v-for="(item, index) in themeInfo" :key="item.name" :label="item.name" :value="item.name" @click="changeTheme(index)" />
+            <ODropdownItem v-for="item in themeInfo" :key="item.name" :label="item.name" :value="item.name" @click="changeTheme(item.key)" />
           </template>
         </ODropdown>
       </div>
-      <div class="tool-item" @click="changeStyle">
+      <div class="tool-item">
+        <ODropdown>
+          {{ currentLocale?.label }}
+          <template #dropdown>
+            <ODropdownItem v-for="item in locales" :key="item.value" :label="item.label" :value="item.value" @click="changeLocale(item)" />
+          </template>
+        </ODropdown>
+      </div>
+      <!-- <div class="tool-item" @click="changeStyle">
         <svg v-if="currentStyle === 'light'" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
           <path
             fill="currentColor"
@@ -103,7 +121,7 @@ const globalSetting = () => {
             d="M10.643 6.363c0.282 3.891 1.958 7.55 4.72 10.302 2.744 2.744 6.384 4.407 10.253 4.684-2.324 3.939-6.85 6.016-11.348 5.207s-8.019-4.333-8.828-8.835c-0.808-4.502 1.267-9.033 5.203-11.358v0zM12.523 2.667h-0.187c-6.218 1.884-10.24 7.902-9.604 14.374s5.751 11.591 12.216 12.227c6.466 0.636 12.479-3.389 14.361-9.613v0c0.064-0.242-0.002-0.499-0.173-0.681l-0.12-0.12c-0.138-0.125-0.321-0.187-0.507-0.174h-0.080c-0.54 0.069-1.083 0.104-1.627 0.107-3.89 0.002-7.595-1-10.175-4.58s-3.788-6.795-3.319-10.66c0.015-0.207-0.057-0.41-0.2-0.561l-0.12-0.12c-0.124-0.125-0.291-0.196-0.467-0.2z"
           />
         </svg>
-      </div>
+      </div> -->
       <div class="tool-item" @click="globalSetting">全局设置</div>
     </div>
   </div>

@@ -1,0 +1,9 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=laptop') {
+  .o-option {
+    --option-text-size: var(--o-font_size-tip1);
+    --option-text-height: var(--o-line_height-tip1);
+    --option-padding: 6px 12px;
+  }
+}

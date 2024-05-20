@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { innerInputProps } from './types';
 import { trigger } from '../../_utils/event';
 import { Enter } from '../../_utils/keycode';
 import { toInputString } from './input';
 import { isFunction, isTouchDevice } from '../../_utils/is';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
+import { vUid } from '../../directives';
 
 const props = defineProps(innerInputProps);
 
@@ -184,10 +185,18 @@ const onEyeMouseDown = () => {
   }
 };
 
+const uId = ref('');
+onMounted(() => {
+  if (inputRef.value) {
+    uId.value = inputRef.value.id;
+  }
+});
+
 defineExpose({
   focus: doFocus,
   clear: doClearValue,
   togglePassword,
+  uId,
 });
 </script>
 <template>
@@ -204,8 +213,8 @@ defineExpose({
       <slot name="prefix"></slot>
     </div>
     <input
-      :id="props.inputId"
       ref="inputRef"
+      v-uid
       class="o-ii-input"
       :value="displayValue"
       :type="inputType"

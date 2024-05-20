@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { ExtractPropTypes, PropType, Component } from 'vue';
 import { layerProps } from '../layer/types';
 import { ColorT, SizeT, VariantT, RoundT } from '../_utils/types';
 
@@ -10,8 +10,9 @@ export interface DialogActionT {
   color?: ColorT;
   variant?: VariantT;
   size?: SizeT;
-  label: string;
+  label?: string;
   round?: RoundT;
+  icon?: Component;
   onClick: () => void;
 }
 
@@ -37,6 +38,7 @@ export const dialogProps = {
     type: String as PropType<DialogSizeT>,
     default: 'auto',
   },
+
   /**
    * 弹窗底部按钮
    */
@@ -47,6 +49,12 @@ export const dialogProps = {
    * 是否响应式
    */
   noResponsive: {
+    type: Boolean,
+  },
+  /**
+   * 移动端响应为半屏
+   */
+  phoneHalfFull: {
     type: Boolean,
   },
   /**

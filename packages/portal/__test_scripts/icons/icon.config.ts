@@ -1,4 +1,7 @@
 module.exports = {
   input: './svgs',
-  output: './components/',
+  output: '../../src/icon-components/',
+  componentClass: 'o-svg-icon',
+  prefix: 'o-',
+  renderOnServer: false,
 };

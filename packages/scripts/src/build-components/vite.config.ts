@@ -1,14 +1,17 @@
 import { InlineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { globSync } from 'glob';
 import dts from 'vite-plugin-dts';
+
+const langs = globSync('src/locale/lang/*.ts');
 
 export default (): InlineConfig => {
   return {
     plugins: [
       vue(),
-      dts(),
+      // dts(),
       dts({
-        outputDir: 'lib',
+        outDir: ['es', 'lib'],
       }),
     ],
     build: {
@@ -17,7 +20,7 @@ export default (): InlineConfig => {
       emptyOutDir: false,
       minify: false,
       rollupOptions: {
-        input: ['src/index.ts', 'src/icon/index.ts'],
+        input: ['src/index.ts', 'src/icon/index.ts', ...langs],
         output: [
           {
             format: 'es',
@@ -38,7 +41,7 @@ export default (): InlineConfig => {
       },
       lib: {
         entry: 'src/index.ts',
-        formats: ['es', 'cjs'],
+        // formats: ['es', 'cjs'],
       },
     },
   };

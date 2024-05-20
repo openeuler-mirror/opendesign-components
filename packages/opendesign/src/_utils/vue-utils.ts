@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
 
@@ -35,22 +35,29 @@ export const isTextElement = (vnode: VNode) => {
  * @param vnode vnode节点
  * @param type 组件信息
  */
-export function isComponent(vnode: VNode, type?: VNodeTypes): type is Component {
+export function isComponent(vnode: VNode, _type?: VNodeTypes): _type is Component {
   return Boolean(vnode && vnode.shapeFlag & ShapeFlags.COMPONENT);
 }
 /**
  * 判断vnode是不是vue组件
  */
-export const isSlotsChildren = (vnode: VNode, children?: VNode['children']): children is Slots => {
+export const isSlotsChildren = (vnode: VNode, _children?: VNode['children']): _children is Slots => {
   return Boolean(vnode && vnode.shapeFlag & ShapeFlags.SLOTS_CHILDREN);
 };
 
 /**
  * 判断vnode是不是slot的子元素
  */
-export const isArrayChildren = (vn: VNode, children?: VNode['children']): children is VNode[] => {
+export const isArrayChildren = (vn: VNode, _children?: VNode['children']): _children is VNode[] => {
   return Boolean(vn && vn.shapeFlag & ShapeFlags.ARRAY_CHILDREN);
 };
+
+/**
+ * 判断val是不是vue组件实例
+ */
+export function isComponentPublicInstance(val: unknown): val is ComponentPublicInstance {
+  return Boolean((val as ComponentPublicInstance)?.$el);
+}
 
 // TODO
 export function useSlotElement(componentName?: string) {
@@ -153,6 +160,38 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   };
 }
 
+export const resolveHtmlElement = (
+  elRef: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string | undefined | ComponentPublicInstance
+): Promise<HTMLElement | null> => {
+  const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
+    if (typeof el === 'string') {
+      return document.querySelector(el);
+    } else if (isHtmlElement(el)) {
+      return el;
+    }
+    return null;
+  };
+
+  return new Promise((resolve) => {
+    if (isRef(elRef)) {
+      watchEffect(() => {
+        const { value } = elRef;
+        if (value) {
+          if (isComponentPublicInstance(value)) {
+            resolve(value.$el);
+          } else {
+            resolve(queryElement(value));
+          }
+        }
+      });
+    } else if (isComponentPublicInstance(elRef)) {
+      resolve(elRef.$el);
+    } else {
+      resolve(queryElement(elRef));
+    }
+  });
+};
+
 export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
   return new Promise((resolve) => {
     if (isHtmlElement(elRef.value)) {
@@ -189,4 +228,12 @@ export const isEmptySlot = (slot?: Slot) => {
     return true;
   }
   return false;
+};
+
+/**
+ * 过滤插槽
+ */
+export const filterSlots = (slots: Slots, slotNames: { [key: string]: string }): string[] => {
+  const names = Object.values(slotNames);
+  return Object.keys(slots).filter((item) => names.includes(item));
 };
