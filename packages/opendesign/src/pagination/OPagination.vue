@@ -141,7 +141,9 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">{{ t('pagination.total', props.total) }}</div>
+      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">
+        <slot name="total" :total="props.total">{{ t('pagination.total', props.total) }}</slot>
+      </div>
       <!-- sizes -->
       <template v-if="layout.includes('pagesize')">
         <div class="o-pagination-size">
@@ -198,7 +200,7 @@ defineExpose({
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
               <template v-else>
-                <OPopover position="bottom" wrap-class="o-options-popup">
+                <OPopover position="bottom" wrap-class="o-options-popup" :visible="true" :disabled="true">
                   <OOptionList scroller>
                     <OOption
                       v-for="opt in item.list"

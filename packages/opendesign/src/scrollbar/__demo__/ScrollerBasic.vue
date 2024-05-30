@@ -15,8 +15,8 @@ import TheSubComp from './TheSubComp.vue';
       </div>
     </div>
     <div>
-      <h3>showType="auto"</h3>
-      <OScroller class="container">
+      <h3>showType="auto" max-height</h3>
+      <OScroller class="container2">
         <div class="section">1</div>
         <div class="section">2</div>
         <div class="section">3</div>
@@ -76,6 +76,12 @@ import TheSubComp from './TheSubComp.vue';
 .container {
   width: 100%;
   height: 300px;
+  border: 2px solid rgb(111, 45, 234);
+  box-sizing: border-box;
+}
+.container2 {
+  width: 100%;
+  max-height: 300px;
   border: 2px solid rgb(111, 45, 234);
   box-sizing: border-box;
 }
