@@ -5,7 +5,7 @@ import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect, SelectValueT } from '../select';
 import { OOption } from '../option';
-import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_utils/icons';
+import { IconChevronLeft, IconChevronRight, IconEllipsis, IconArrowRight, IconArrowLeft } from '../_utils/icons';
 import { paginationProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
@@ -199,26 +199,17 @@ defineExpose({
               @click="selectPage(item.value)"
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
-              <template v-else-if="props.showMore">
-                <OPopover position="bottom" wrap-class="o-options-popup">
-                  <OOptionList scroller>
-                    <OOption
-                      v-for="opt in item.list"
-                      :key="opt"
-                      class="o-pagination-more-item"
-                      :label="String(opt)"
-                      :value="opt"
-                      @click="onMoreItemClick(opt)"
-                    />
-                  </OOptionList>
-                  <template #target>
-                    <OIcon class="o-pagination-more-icon" @click="moreClick(item)" :icon="IconEllipsis" />
-                  </template>
-                </OPopover>
-              </template>
-              <template v-else>
-                <OIcon class="o-pagination-more-icon" @click="moreClick(item)" :icon="IconEllipsis" />
-              </template>
+              <OPopover position="bottom" wrap-class="o-options-popup" v-else :disabled="!props.showMore">
+                <OOptionList scroller>
+                  <OOption v-for="opt in item.list" :key="opt" class="o-pagination-more-item" :label="String(opt)" :value="opt" @click="onMoreItemClick(opt)" />
+                </OOptionList>
+                <template #target>
+                  <span @click="moreClick(item)" class="o-pagination-more-icon-wrap">
+                    <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
+                    <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
+                  </span>
+                </template>
+              </OPopover>
             </div>
           </template>
         </div>

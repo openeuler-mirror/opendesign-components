@@ -419,7 +419,7 @@ const sholdUmMount = computed(() => {
   <OChildOnly v-if="$slots.target" ref="targetElRef">
     <slot name="target"></slot>
   </OChildOnly>
-  <ClientOnly>
+  <ClientOnly v-if="!props.disabled">
     <teleport :to="props.wrapper" :disabled="!props.wrapper">
       <OResizeObserver @resize="onPopupResize">
         <div
