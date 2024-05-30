@@ -199,8 +199,8 @@ defineExpose({
               @click="selectPage(item.value)"
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
-              <template v-else>
-                <OPopover position="bottom" wrap-class="o-options-popup" :visible="true" :disabled="true">
+              <template v-else-if="props.showMore">
+                <OPopover position="bottom" wrap-class="o-options-popup">
                   <OOptionList scroller>
                     <OOption
                       v-for="opt in item.list"
@@ -212,9 +212,12 @@ defineExpose({
                     />
                   </OOptionList>
                   <template #target>
-                    <OIcon class="o-pagination-more-icon" @click="moreClick(item)"><IconEllipsis /></OIcon>
+                    <OIcon class="o-pagination-more-icon" @click="moreClick(item)" :icon="IconEllipsis" />
                   </template>
                 </OPopover>
+              </template>
+              <template v-else>
+                <OIcon class="o-pagination-more-icon" @click="moreClick(item)" :icon="IconEllipsis" />
               </template>
             </div>
           </template>
