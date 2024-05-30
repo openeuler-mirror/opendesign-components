@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import '../../button/style';
 import { OPopup } from '../index';
 
 const content = 'this is popup content';
+const elRef = ref(null);
 </script>
 <template>
   <h4>Popup Target</h4>
+  <div class="btn" ref="elRef">click 123</div>
 
-  <OPopup position="tl" trigger="click" :unmount-on-hide="false">
+  <OPopup position="tl" trigger="click" :unmount-on-hide="false" :target="elRef">
     <div class="popup-box">click {{ content }}</div>
-    <template #target><div class="btn">click 123</div></template>
   </OPopup>
   <OPopup position="tl" trigger="hover" :unmount-on-hide="false">
     <div class="popup-box">hover {{ content }}</div>

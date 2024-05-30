@@ -322,7 +322,7 @@ watch(targetElRef, (elRef) => {
   }
 });
 
-const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
+const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
     updatePopupStyle();
   }
@@ -412,8 +412,6 @@ const onPopupHoverOut = () => {
   }
 };
 const sholdUmMount = computed(() => {
-  const f = toMount.value || visible.value || !props.unmountOnHide;
-
   return toMount.value || visible.value || !props.unmountOnHide;
 });
 </script>
