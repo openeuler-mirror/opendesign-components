@@ -93,9 +93,13 @@ const clickPageBtn = (Increase: boolean) => {
 
 const moreClick = (more: PagerItemT) => {
   const { value, list } = more;
-  if (value === 'left' && list) {
+  if (!list) {
+    return;
+  }
+
+  if (value === 'left') {
     updateCurrentPage(list[list.length - 1]);
-  } else if (value === 'right' && list) {
+  } else if (value === 'right') {
     updateCurrentPage(list[0]);
   }
 };
@@ -129,8 +133,17 @@ const pageSizeChange = (val: SelectValueT) => {
   });
 };
 
-const onMoreItemClick = (item: number) => {
+const moreVisible = ref<{ left: boolean; right: boolean }>({
+  left: false,
+  right: false,
+});
+const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   selectPage(item);
+
+  // 点击选择页码后，隐藏弹层
+  if (value === 'left' || value === 'right') {
+    moreVisible.value[value] = false;
+  }
 };
 
 defineExpose({
@@ -199,9 +212,22 @@ defineExpose({
               @click="selectPage(item.value)"
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
-              <OPopover position="bottom" wrap-class="o-options-popup" v-else :disabled="!props.showMore">
+              <OPopover
+                position="bottom"
+                wrap-class="o-options-popup"
+                v-else
+                :disabled="!props.showMore"
+                v-model:visible="moreVisible[item.value as 'left'|'right']"
+              >
                 <OOptionList scroller>
-                  <OOption v-for="opt in item.list" :key="opt" class="o-pagination-more-item" :label="String(opt)" :value="opt" @click="onMoreItemClick(opt)" />
+                  <OOption
+                    v-for="opt in item.list"
+                    :key="opt"
+                    class="o-pagination-more-item"
+                    :label="String(opt)"
+                    :value="opt"
+                    @click="onMoreItemClick(opt, item.value)"
+                  />
                 </OOptionList>
                 <template #target>
                   <span @click="moreClick(item)" class="o-pagination-more-icon-wrap">
