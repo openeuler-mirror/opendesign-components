@@ -66,6 +66,13 @@ export const paginationProps = {
     default: 9,
   },
   /**
+   * 页码被隐藏时，hover显示所有页码
+   */
+  showMore: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * 显示总数据量
    */
   showTotal: {

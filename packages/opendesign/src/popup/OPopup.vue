@@ -322,7 +322,7 @@ watch(targetElRef, (elRef) => {
   }
 });
 
-const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
+const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
     updatePopupStyle();
   }
@@ -412,8 +412,6 @@ const onPopupHoverOut = () => {
   }
 };
 const sholdUmMount = computed(() => {
-  const f = toMount.value || visible.value || !props.unmountOnHide;
-
   return toMount.value || visible.value || !props.unmountOnHide;
 });
 </script>
@@ -421,7 +419,7 @@ const sholdUmMount = computed(() => {
   <OChildOnly v-if="$slots.target" ref="targetElRef">
     <slot name="target"></slot>
   </OChildOnly>
-  <ClientOnly>
+  <ClientOnly v-if="!props.disabled">
     <teleport :to="props.wrapper" :disabled="!props.wrapper">
       <OResizeObserver @resize="onPopupResize">
         <div

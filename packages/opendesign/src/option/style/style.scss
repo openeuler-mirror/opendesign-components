@@ -46,6 +46,7 @@
 .o-options-scroller {
   max-height: var(--option-list-max-height);
   --scroller-padding: 4px;
+  padding: 4px 0;
 }
 .o-options-container {
   padding: 4px;

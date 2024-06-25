@@ -52,6 +52,12 @@ const onChange = (value: { page: number; pageSize: number }) => {
       </div>
     </div>
   </div>
+  <div>
+    <h4>ShowMore = false</h4>
+    <div>
+      <OPagination :total="200" :page="1" :page-size="12" show-total :show-more="false" @change="onChange" />
+    </div>
+  </div>
   <h4>Simple</h4>
   <section>
     <div>当前页：{{ currentPage }}</div>
