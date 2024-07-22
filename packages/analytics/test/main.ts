@@ -14,7 +14,13 @@ const oa = new OpenAnalytics({
   },
   // immediate: true,
 });
-oa.enableReporting(false);
+function enabledOA(enabled) {
+  oa.enableReporting(enabled);
+  localStorage.setItem('enabled', enabled ? '1' : '0');
+}
+if (localStorage.getItem('enabled') !== '1') {
+  enabledOA(false);
+}
 
 oa.report('$PageView', {
   url: window.location.href,
@@ -33,8 +39,8 @@ btn1?.addEventListener('click', () => {
 });
 
 btnOpen?.addEventListener('click', () => {
-  oa.enableReporting();
+  enabledOA(true);
 });
 btnClose?.addEventListener('click', () => {
-  oa.enableReporting(false);
+  enabledOA(false);
 });
