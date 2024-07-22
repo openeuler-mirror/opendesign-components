@@ -1,0 +1,8 @@
+export const Constant = {
+  OA_PREFIX: 'oa',
+  ID_LENGTH: 36,
+  OA_ENABLED: '1',
+  OA_DISABLED: '0',
+  SESSION_EXPIRE_TIME: 10 * 1000,
+  DEFAULT_REQUEST_INTERVAL: 15 * 1000,
+};
