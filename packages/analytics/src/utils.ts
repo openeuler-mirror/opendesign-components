@@ -1,3 +1,4 @@
+import { UAParser } from 'ua-parser-js';
 /**
  * 生成随机字符串
  * @param prefix 前缀
@@ -15,4 +16,17 @@ export function uniqueId(prefix: string = '', length: number = 8, Separator: str
     }
   };
   return prefix ? `${prefix}${Separator}${gen(length)}` : gen(length);
+}
+/**
+ * 判断是否是函数
+ */
+export function isFunction(val: unknown): val is Function {
+  return typeof val === 'function';
+}
+/**
+ * 根据userAgent信息获取系统及浏览器信息
+ */
+export function getClientByUA(userAgent: string = window.navigator.userAgent) {
+  const { browser, os, device } = UAParser(userAgent);
+  return { browser, os, device };
 }

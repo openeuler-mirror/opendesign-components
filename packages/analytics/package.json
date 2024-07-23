@@ -12,7 +12,11 @@
     "build": " vite build"
   },
   "devDependencies": {
+    "@types/ua-parser-js": "^0.7.39",
     "typescript": "~5.3.3",
     "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "ua-parser-js": "^1.0.38"
   }
 }
