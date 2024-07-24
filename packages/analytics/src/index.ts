@@ -8,15 +8,15 @@ export { InnerEventKey } from './inner-event';
 
 class StoreKey {
   appPrefix: string;
-  clientId: string;
-  sessionId: string;
+  client: string;
+  session: string;
   enabled: string;
   events: string;
   constructor(appKey: string = '') {
     this.appPrefix = appKey ? `${appKey}-` : '';
 
-    this.clientId = this.getKey('cid');
-    this.sessionId = this.getKey('sid');
+    this.client = this.getKey('client');
+    this.session = this.getKey('session');
     this.enabled = this.getKey('enabled');
     this.events = this.getKey('events');
   }
@@ -38,6 +38,7 @@ interface ReportOptions {
 }
 interface EventHeader {
   cId: string; // 客户端匿名标识，清除浏览器缓存销毁
+  aId: string; // 应用id
   oa_version: string; // OA版本
   screen_width: number; // 屏幕宽度
   screen_height: number; // 屏幕高度
@@ -62,51 +63,62 @@ export interface OpenAnalyticsParams {
   appKey?: string; // 采集app的key，用于区分多app上报
   immediate?: boolean; // 全局设置是否立即上报
   requestInterval?: number; //上报间隔
-  maxEvents: number;
+  maxEvents?: number;
+  requestPlan?: (requestFn: () => void) => void;
 }
 
 const store = new Storage(localStorage);
 
 /**
  * 初始化通用数据
- * @param appKey {string}
+ * @param keys {string}
+ * @param appId {string}
  */
-function initHeader(keys: StoreKeyIns): EventHeader {
-  const aKey = keys.clientId;
-  const clientId = store.getAlways(aKey, () => uniqueId('', Constant.ID_LENGTH)).value;
+function initHeader(keys: StoreKeyIns, appId: string): EventHeader {
+  const aKey = keys.client;
+  const client = store.getAlways(aKey, () => ({
+    id: uniqueId('', Constant.ID_LENGTH),
+  })).value;
   const { browser, os, device } = getClientByUA();
   return {
-    cId: clientId,
+    cId: client.id,
+    aId: appId,
     oa_version: packageJson.version,
     view_width: window.innerWidth,
     view_height: window.innerHeight,
     screen_width: window.screen.width || window.innerWidth,
     screen_height: window.screen.height || window.innerHeight,
-    os: os.name,
-    os_version: os.version,
-    browser: browser.name,
-    browser_version: browser.version,
-    device: device.model,
-    device_type: device.type,
-    device_vendor: device.vendor,
+    os: os.name ?? '',
+    os_version: os.version ?? '',
+    browser: browser.name ?? '',
+    browser_version: browser.version ?? '',
+    device: device.model ?? '',
+    device_type: device.type ?? '',
+    device_vendor: device.vendor ?? '',
   };
 }
 /**
  * 获取会话id，每次获取，延长有效期
- * @param keys
+ * @param sKey session key
  */
 function getSessionId(sKey: string) {
-  const sId = store.get(sKey);
-  if (!sId.value) {
+  const session = store.get(sKey);
+  if (!session.value) {
     const value = uniqueId('', Constant.ID_LENGTH);
-    store.set(sKey, uniqueId('', Constant.ID_LENGTH), {
-      expire: Date.now() + Constant.SESSION_EXPIRE_TIME,
-    });
+    store.set(
+      sKey,
+      {
+        id: value,
+      },
+      {
+        expire: Date.now() + Constant.SESSION_EXPIRE_TIME,
+      }
+    );
     return value;
-  } else if (sId.expire < Date.now()) {
+  } else if (session.expire < Date.now()) {
     store.setExpire(sKey, Date.now() + Constant.SESSION_EXPIRE_TIME);
   }
-  return sId.value;
+  return session.value.id;
 }
 
 export class OpenAnalytics {
@@ -117,7 +129,7 @@ export class OpenAnalytics {
   sessionId: string = '';
   appKey: string = '';
   header: EventHeader;
-  enabled?: boolean;
+  enabled: boolean;
   StoreKey: StoreKeyIns;
   // 自定义上报策略
   requestPlan?: (requestFn: () => void) => void;
@@ -134,14 +146,20 @@ export class OpenAnalytics {
     this.immediate = params.immediate ?? false;
     this.appKey = params.appKey ?? '';
     this.StoreKey = new StoreKey(params.appKey);
-    this.header = initHeader(this.StoreKey);
     this.requestInterval = params.requestInterval ?? Constant.DEFAULT_REQUEST_INTERVAL;
     this.timer = null;
     this.maxEvents = params.maxEvents ?? Constant.MAX_EVENTS;
 
     this.enabled = store.getAlways(this.StoreKey.enabled, () => Constant.OA_ENABLED).value;
 
+    this.header = initHeader(this.StoreKey, this.appKey);
     this.eventData = store.getAlways(this.StoreKey.events, () => []).value;
+  }
+  /**
+   * 设置header
+   */
+  setHeader(header: Record<string, string>) {
+    Object.assign(this.header, header);
   }
   /**
    * 控制是否发送数据上报
@@ -182,7 +200,7 @@ export class OpenAnalytics {
     if (immediate || this.immediate) {
       this.doSendEventData();
     } else {
-      if (this.requestPlan) {
+      if (isFunction(this.requestPlan)) {
         this.requestPlan(this.doSendEventData);
       } else {
         const run = () => {
@@ -240,7 +258,7 @@ export class OpenAnalytics {
       event: event,
       time: Date.now(),
       data: Object.assign(innerData, outerData),
-      sId: getSessionId(this.StoreKey.sessionId),
+      sId: getSessionId(this.StoreKey.session),
     };
 
     this.collect(eventData, options?.immediate);

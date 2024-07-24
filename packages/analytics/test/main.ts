@@ -15,6 +15,9 @@ const oa = new OpenAnalytics({
   },
   // immediate: true,
 });
+oa.setHeader({
+  appCode: '123',
+});
 function enabledOA(enabled) {
   oa.enableReporting(enabled);
   localStorage.setItem('enabled', enabled ? '1' : '0');
