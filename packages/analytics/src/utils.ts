@@ -23,6 +23,19 @@ export function uniqueId(prefix: string = '', length: number = 8, Separator: str
 export function isFunction(val: unknown): val is Function {
   return typeof val === 'function';
 }
+
+// 是否是对象或者数组等（key:value 形式）
+export function isObject(val: unknown): val is Record<any, any> {
+  return val !== null && typeof val === 'object';
+}
+/**
+ * 判断是否是promise
+ * @param val
+ * @returns
+ */
+export const isPromise = <T>(val: unknown): val is Promise<T> => {
+  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
+};
 /**
  * 根据userAgent信息获取系统及浏览器信息
  */

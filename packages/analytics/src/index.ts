@@ -1,5 +1,5 @@
 import { Storage } from './storage';
-import { getClientByUA, isFunction, uniqueId } from './utils';
+import { getClientByUA, isFunction, isPromise, uniqueId } from './utils';
 import { Constant } from './constant';
 import { getInnerEventData, isInnerEvent } from './inner-event';
 import packageJson from '../package.json';
@@ -55,10 +55,10 @@ interface ReportData {
   header: EventHeader;
   body: EventData[];
 }
-type RequestFn = (data: ReportData) => Promise<void>;
+type RequestFn = (data: ReportData) => Promise<boolean>;
 
 export interface OpenAnalyticsParams {
-  request: (data: ReportData) => Promise<void>; // 上报数据的接口
+  request: (data: ReportData) => Promise<boolean>; // 上报数据的接口
   appKey?: string; // 采集app的key，用于区分多app上报
   immediate?: boolean; // 全局设置是否立即上报
   requestInterval?: number; //上报间隔
@@ -199,10 +199,12 @@ export class OpenAnalytics {
       body: this.eventData,
     };
     const rlt = this.request(reportData);
-    if (rlt && rlt.then) {
-      rlt.then(() => {
-        this.eventData = [];
-        store.set(this.StoreKey.events, []);
+    if (isPromise(rlt)) {
+      rlt.then((isSuccess) => {
+        if (isSuccess) {
+          this.eventData = [];
+          store.set(this.StoreKey.events, []);
+        }
       });
     } else {
       this.eventData = [];

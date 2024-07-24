@@ -2,8 +2,8 @@
   "name": "@opensig/opensig-analytics",
   "version": "0.0.1",
   "description": "opendesign analytics",
-  "main": "dist/index.js",
-  "bin": "dist/index.js",
+  "main": "dist/open-analytics.mjs",
+  "types": "dist/open-analytics.d.ts",
   "files": [
     "dist"
   ],
@@ -14,7 +14,8 @@
   "devDependencies": {
     "@types/ua-parser-js": "^0.7.39",
     "typescript": "~5.3.3",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vite-plugin-dts": "^3.7.3"
   },
   "dependencies": {
     "ua-parser-js": "^1.0.38"

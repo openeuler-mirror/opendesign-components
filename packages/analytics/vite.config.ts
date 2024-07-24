@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   base: './',
@@ -9,9 +10,14 @@ export default defineConfig({
       entry: resolve(__dirname, './src/index.ts'),
       name: 'OpenAnalytics',
       fileName: 'open-analytics',
+      formats: ['es'],
     },
   },
-  plugins: [],
+  plugins: [
+    dts({
+      rollupTypes: true,
+    }),
+  ],
   resolve: {
     alias: {
       '@/': `${resolve(__dirname, './src')}/`,
