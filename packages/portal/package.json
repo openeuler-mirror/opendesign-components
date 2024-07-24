@@ -12,7 +12,7 @@
   "dependencies": {
     "@opensig/opendesign": "workspace:^",
     "@opensig/opensig-scripts": "workspace:^",
-    "@opensig/opensig-analytics": "workspace:^"
+    "@opensig/open-analytics": "workspace:^"
   },
   "devDependencies": {}
 }

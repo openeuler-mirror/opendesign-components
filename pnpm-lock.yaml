@@ -83,12 +83,12 @@ importers:
 
   packages/portal:
     dependencies:
+      '@opensig/open-analytics':
+        specifier: workspace:^
+        version: link:../analytics
       '@opensig/opendesign':
         specifier: workspace:^
         version: link:../opendesign
-      '@opensig/opensig-analytics':
-        specifier: workspace:^
-        version: link:../analytics
       '@opensig/opensig-scripts':
         specifier: workspace:^
         version: link:../scripts

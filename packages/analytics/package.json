@@ -1,5 +1,5 @@
 {
-  "name": "@opensig/opensig-analytics",
+  "name": "@opensig/open-analytics",
   "version": "0.0.1",
   "description": "opendesign analytics",
   "main": "dist/open-analytics.mjs",
