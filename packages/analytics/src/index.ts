@@ -62,6 +62,7 @@ export interface OpenAnalyticsParams {
   appKey?: string; // 采集app的key，用于区分多app上报
   immediate?: boolean; // 全局设置是否立即上报
   requestInterval?: number; //上报间隔
+  maxEvents: number;
 }
 
 const store = new Storage(localStorage);
@@ -123,6 +124,7 @@ export class OpenAnalytics {
   // 上报间隔，默认3s
   requestInterval: number;
   timer: number | null;
+  maxEvents: number;
   /**
    * 构造函数
    * @param params {OpenAnalyticsParams}
@@ -135,6 +137,7 @@ export class OpenAnalytics {
     this.header = initHeader(this.StoreKey);
     this.requestInterval = params.requestInterval ?? Constant.DEFAULT_REQUEST_INTERVAL;
     this.timer = null;
+    this.maxEvents = params.maxEvents ?? Constant.MAX_EVENTS;
 
     this.enabled = store.getAlways(this.StoreKey.enabled, () => Constant.OA_ENABLED).value;
 
@@ -161,6 +164,11 @@ export class OpenAnalytics {
    */
   collect(data: EventData, immediate?: boolean) {
     this.eventData.push(data);
+
+    // 如果事件数超过最大数量，丢弃之前的事件
+    if (this.eventData.length > this.maxEvents) {
+      this.eventData.shift();
+    }
 
     store.set(this.StoreKey.events, this.eventData);
 
