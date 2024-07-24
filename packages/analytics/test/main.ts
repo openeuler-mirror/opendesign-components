@@ -7,10 +7,11 @@ const btnClose = document.querySelector('#btn-close');
 const oa = new OpenAnalytics({
   appKey: 'test',
   request: (data) => {
-    return new Promise((resolve, _reject) => {
-      console.log('request to send content', data);
-      resolve();
-    });
+    console.log('request to send content', data);
+    return fetch('report', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then((response) => response.ok);
   },
   // immediate: true,
 });
