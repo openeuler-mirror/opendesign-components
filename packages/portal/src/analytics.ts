@@ -1,4 +1,4 @@
-import { OpenAnalytics, InnerEventKey } from '@opensig/opensig-analytics';
+import { OpenAnalytics, InnerEventKey } from '@opensig/open-analytics';
 
 const oa = new OpenAnalytics({
   appKey: 'test',

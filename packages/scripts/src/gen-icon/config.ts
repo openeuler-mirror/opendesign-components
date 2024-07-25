@@ -1,11 +1,7 @@
-import type { Config, PluginConfig } from 'svgo';
+import { svgoConfig, SVGOConfigT } from './svgo.config';
 
 export interface IconsConfig {
-  svgo: {
-    fill: Config;
-    stroke: Config;
-    color: Config;
-  };
+  svgo: SVGOConfigT;
   input: string;
   output: string;
   prefix: string; // 'o-'
@@ -13,86 +9,6 @@ export interface IconsConfig {
   template: typeof template;
   renderOnServer: boolean;
 }
-export const basePlugins: PluginConfig[] = [
-  {
-    // 将id添加到class
-    name: 'addClassesbyId',
-    fn: () => {
-      const nodes: string[] = ['*'];
-      return {
-        element: {
-          enter: (node) => {
-            if (nodes.includes('*') || nodes.includes(node.name)) {
-              const classname = node.attributes.class || '';
-              const id = node.attributes.id || '';
-              const cls = classname.split(' ');
-              cls.push(id);
-              const classStr = cls.join(' ').trim();
-              if (classStr) {
-                node.attributes.class = classStr;
-              }
-            }
-          },
-        },
-      };
-    },
-  },
-  {
-    name: 'preset-default',
-    params: {
-      overrides: {
-        // 不移除view-box属性
-        removeViewBox: false,
-      },
-    },
-  },
-  // 'prefixIds',
-  'removeStyleElement',
-  'removeScriptElement',
-  'removeDimensions',
-  'sortAttrs',
-  'removeUselessStrokeAndFill',
-  'removeXMLNS',
-  {
-    name: 'addAttributesToSVGElement',
-    params: {
-      attributes: [{ ':class': 'classNames' }],
-    },
-  },
-];
-const fillSvgoConfig: Config = {
-  plugins: [
-    ...basePlugins,
-    {
-      name: 'removeAttrs',
-      params: {
-        attrs: ['svg:class', 'fill'],
-      },
-    },
-  ],
-};
-const strokeSvgoConfig: Config = {
-  plugins: [
-    ...basePlugins,
-    {
-      name: 'removeAttrs',
-      params: {
-        attrs: ['svg:class', 'stroke'],
-      },
-    },
-  ],
-};
-const colorSvgoConfig: Config = {
-  plugins: [
-    ...basePlugins,
-    {
-      name: 'removeAttrs',
-      params: {
-        attrs: ['svg:class'],
-      },
-    },
-  ],
-};
 
 const renderTpl = (name: string, componentName: string, type: 'fill' | 'stroke' | 'color', componentClass: string, svg: string) => {
   return `<script lang="ts">
@@ -115,6 +31,10 @@ export default defineComponent({
 };
 
 const clientRenderTpl = (name: string, componentName: string, type: 'fill' | 'stroke' | 'color', componentClass: string, svg: string) => {
+  const svgReg = /(<svg[^>]*>)([\s\S]*?)<\/svg>/;
+  const match = svgReg.exec(svg);
+  const outer = (match && match[1]) || '<svg>';
+  const inner = (match && match[2]) || '';
   return `<script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 
@@ -135,9 +55,11 @@ export default defineComponent({
 });
 </script>
 <template>
-  <template v-if="isClient">
-    ${svg}
-  </template>
+  ${outer}
+    <template v-if="isClient">
+      ${inner}
+    </template>
+  </svg>
 </template>`;
 };
 
@@ -161,11 +83,7 @@ const template = ({
 };
 
 export const defaultConfig: IconsConfig = {
-  svgo: {
-    color: colorSvgoConfig,
-    stroke: strokeSvgoConfig,
-    fill: fillSvgoConfig,
-  },
+  svgo: svgoConfig,
   input: './svgs',
   output: './components/',
   componentClass: 'svg-icon',
@@ -173,3 +91,16 @@ export const defaultConfig: IconsConfig = {
   template,
   renderOnServer: false,
 };
+
+export function mergeConfig(config?: IconsConfig | null): IconsConfig {
+  if (config) {
+    const { svgo, ...rest } = config;
+    if (svgo) {
+      Object.assign(defaultConfig.svgo.color, svgo.color);
+      Object.assign(defaultConfig.svgo.stroke, svgo.stroke);
+      Object.assign(defaultConfig.svgo.fill, svgo.fill);
+    }
+    Object.assign(defaultConfig, rest);
+  }
+  return defaultConfig;
+}
