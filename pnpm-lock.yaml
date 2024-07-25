@@ -77,7 +77,7 @@ importers:
         specifier: ^3.1.0
         version: 3.4.21(typescript@5.3.3)
     devDependencies:
-      '@opensig/opensig-scripts':
+      '@opensig/open-scripts':
         specifier: workspace:^
         version: link:../scripts
 
@@ -86,21 +86,21 @@ importers:
       '@opensig/open-analytics':
         specifier: workspace:^
         version: link:../analytics
+      '@opensig/open-scripts':
+        specifier: workspace:^
+        version: link:../scripts
       '@opensig/opendesign':
         specifier: workspace:^
         version: link:../opendesign
-      '@opensig/opensig-scripts':
-        specifier: workspace:^
-        version: link:../scripts
 
   packages/portal-ak:
     dependencies:
+      '@opensig/open-scripts':
+        specifier: workspace:^
+        version: link:../scripts
       '@opensig/opendesign':
         specifier: workspace:^
         version: link:../opendesign
-      '@opensig/opensig-scripts':
-        specifier: workspace:^
-        version: link:../scripts
 
   packages/scripts:
     dependencies:
