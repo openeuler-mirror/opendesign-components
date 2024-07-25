@@ -1,5 +1,5 @@
 import { Storage } from './storage';
-import { getClientByUA, isFunction, isPromise, uniqueId } from './utils';
+import { afterDocumentReady, getClientByUA, isFunction, isPromise, uniqueId } from './utils';
 import { Constant } from './constant';
 import { getInnerEventData, isInnerEvent } from './inner-event';
 import packageJson from '../package.json';
@@ -37,13 +37,13 @@ interface ReportOptions {
   immediate: boolean; // 是否立即上报
 }
 interface EventHeader {
-  cId: string; // 客户端匿名标识，清除浏览器缓存销毁
-  aId: string; // 应用id
-  oa_version: string; // OA版本
-  screen_width: number; // 屏幕宽度
-  screen_height: number; // 屏幕高度
-  view_width: number; // 视口宽度
-  view_height: number; // 视口高度
+  cId?: string; // 客户端匿名标识，清除浏览器缓存销毁
+  aId?: string; // 应用id
+  oa_version?: string; // OA版本
+  screen_width?: number; // 屏幕宽度
+  screen_height?: number; // 屏幕高度
+  view_width?: number; // 视口宽度
+  view_height?: number; // 视口高度
   os?: string; // 客户端操作系统
   os_version?: string; // 客户端操作系统版本
   browser?: string; // 客户端浏览器
@@ -76,9 +76,18 @@ const store = new Storage(localStorage);
  */
 function initHeader(keys: StoreKeyIns, appId: string): EventHeader {
   const aKey = keys.client;
-  const client = store.getAlways(aKey, () => ({
-    id: uniqueId('', Constant.ID_LENGTH),
-  })).value;
+  const client = store.getAlways(aKey, {
+    defaultValue: () => ({
+      id: uniqueId('', Constant.ID_LENGTH),
+    }),
+    setOption: {
+      expire: Date.now() + Constant.CLIENT_EXPIRE_TIME,
+    },
+    onValid() {
+      store.setExpire(aKey, Date.now() + Constant.CLIENT_EXPIRE_TIME);
+    },
+  }).value;
+
   const { browser, os, device } = getClientByUA();
   return {
     cId: client.id,
@@ -102,30 +111,25 @@ function initHeader(keys: StoreKeyIns, appId: string): EventHeader {
  * @param sKey session key
  */
 function getSessionId(sKey: string) {
-  const session = store.get(sKey);
-  if (!session.value) {
-    const value = uniqueId('', Constant.ID_LENGTH);
-    store.set(
-      sKey,
-      {
-        id: value,
-      },
-      {
-        expire: Date.now() + Constant.SESSION_EXPIRE_TIME,
-      }
-    );
-    return value;
-  } else if (session.expire < Date.now()) {
-    store.setExpire(sKey, Date.now() + Constant.SESSION_EXPIRE_TIME);
-  }
-  return session.value.id;
+  const session = store.getAlways(sKey, {
+    defaultValue: () => ({
+      id: uniqueId('', Constant.ID_LENGTH),
+    }),
+    setOption: {
+      expire: Date.now() + Constant.SESSION_EXPIRE_TIME,
+    },
+    onValid() {
+      store.setExpire(sKey, Date.now() + Constant.SESSION_EXPIRE_TIME);
+    },
+  }).value;
+
+  return session.id;
 }
 
 export class OpenAnalytics {
   request: RequestFn;
   eventData: EventData[];
   immediate: boolean;
-  clientId: string = '';
   sessionId: string = '';
   appKey: string = '';
   header: EventHeader;
@@ -150,10 +154,17 @@ export class OpenAnalytics {
     this.timer = null;
     this.maxEvents = params.maxEvents ?? Constant.MAX_EVENTS;
 
-    this.enabled = store.getAlways(this.StoreKey.enabled, () => Constant.OA_ENABLED).value;
+    this.enabled = store.get(this.StoreKey.enabled).value === Constant.OA_ENABLED;
 
-    this.header = initHeader(this.StoreKey, this.appKey);
-    this.eventData = store.getAlways(this.StoreKey.events, () => []).value;
+    if (this.enabled) {
+      store.set(this.StoreKey.enabled, Constant.OA_ENABLED);
+      this.eventData = store.getAlways(this.StoreKey.events, () => []).value;
+      this.header = initHeader(this.StoreKey, this.appKey);
+    } else {
+      this.header = {};
+      this.eventData = [];
+      store.remove(this.StoreKey.events);
+    }
   }
   /**
    * 设置header
@@ -168,13 +179,30 @@ export class OpenAnalytics {
   enableReporting(enabled: boolean = true) {
     if (this.enabled !== enabled) {
       this.enabled = enabled;
-      store.set(this.StoreKey.enabled, enabled ? Constant.OA_ENABLED : Constant.OA_DISABLED);
     }
 
     if (this.enabled) {
+      store.set(this.StoreKey.enabled, Constant.OA_ENABLED);
+      this.header = Object.assign(initHeader(this.StoreKey, this.appKey), this.header);
+      // 初始化sessionId
+      this.sessionId = getSessionId(this.StoreKey.session);
+      // 给内存中事件添加sessionId
+      this.eventData.forEach((event) => {
+        if (event.sId === '') {
+          event.sId = this.sessionId;
+        }
+      });
+      // 将数据存储到本地
+      store.set(this.StoreKey.events, this.eventData);
+      // 执行上报策略
       this.runRequestPlan();
     } else if (this.timer) {
       clearTimeout(this.timer);
+      this.eventData = [];
+      store.remove(this.StoreKey.enabled);
+      store.remove(this.StoreKey.events);
+      store.remove(this.StoreKey.client);
+      store.remove(this.StoreKey.session);
     }
   }
   /**
@@ -187,10 +215,11 @@ export class OpenAnalytics {
     if (this.eventData.length > this.maxEvents) {
       this.eventData.shift();
     }
+    if (this.enabled) {
+      store.set(this.StoreKey.events, this.eventData);
 
-    store.set(this.StoreKey.events, this.eventData);
-
-    this.runRequestPlan(immediate);
+      this.runRequestPlan(immediate);
+    }
   }
   /**
    * 执行上报策略
@@ -209,6 +238,9 @@ export class OpenAnalytics {
             run();
           }, this.requestInterval);
         };
+
+        afterDocumentReady(() => this.doSendEventData());
+
         run();
       }
     }
@@ -258,7 +290,7 @@ export class OpenAnalytics {
       event: event,
       time: Date.now(),
       data: Object.assign(innerData, outerData),
-      sId: getSessionId(this.StoreKey.session),
+      sId: this.enabled ? getSessionId(this.StoreKey.session) : '',
     };
 
     this.collect(eventData, options?.immediate);

@@ -1,12 +1,24 @@
+import { isFunction } from './utils';
+
 type StorageInstance = typeof localStorage | typeof sessionStorage;
 interface StorageSetOptions {
   expire?: number;
   once?: boolean;
 }
+
+interface StorageOptions {
+  checkExpiration?: (time: number) => boolean;
+}
 export class Storage {
   store: StorageInstance = localStorage;
-  constructor(storage: StorageInstance) {
+  checkExpiration: (expire: number) => boolean;
+  constructor(storage: StorageInstance, options?: StorageOptions) {
     this.store = storage;
+    this.checkExpiration = isFunction(options?.checkExpiration)
+      ? options?.checkExpiration
+      : (time: number) => {
+          return Date.now() > time;
+        };
   }
   set(key: string, value: any, options?: StorageSetOptions) {
     const { once, expire } = options || {};
@@ -19,45 +31,75 @@ export class Storage {
 
     this.store.setItem(key, JSON.stringify(data));
   }
+  remove(key: string) {
+    this.store.removeItem(key);
+  }
   setExpire(key: string, expire: number) {
     const { value } = this.get(key);
     this.set(key, value, {
       expire,
     });
   }
-  get(key: string) {
+  get(
+    key: string,
+    {
+      checkExpiration,
+      onValid,
+    }: {
+      checkExpiration?: (expire: number) => boolean;
+      onValid?: (value: any, expire: number) => void;
+    } = {}
+  ) {
     const dataStr = this.store.getItem(key);
     if (!dataStr) {
       return {
-        value: null,
+        value: undefined,
       };
     }
     try {
       const { once, expire, value } = JSON.parse(dataStr);
-      if (expire < Date.now()) {
+      const check = isFunction(checkExpiration) ? checkExpiration : this.checkExpiration;
+      if (check(expire)) {
         return {
-          value: null,
+          value: undefined,
         };
       }
       if (once) {
-        this.store.removeItem(key);
+        this.remove(key);
       }
+      if (isFunction(onValid)) {
+        onValid(value, expire);
+      }
+
       return { expire, value };
     } catch {
       return {
-        value: null,
+        value: undefined,
       };
     }
   }
-  getAlways(key: string, callback: () => any, options?: StorageSetOptions) {
-    let { value } = this.get(key);
-    if (value === null) {
-      value = callback();
-      this.set(key, value, options);
+  getAlways(
+    key: string,
+    {
+      defaultValue,
+      setOption,
+      onValid,
+      checkExpiration,
+    }: {
+      defaultValue: () => any;
+      setOption?: StorageSetOptions;
+      onValid?: (value: any, expire: number) => void;
+      checkExpiration?: (expire: number) => boolean;
+    }
+  ) {
+    let { value } = this.get(key, { checkExpiration, onValid });
+    if (value === undefined) {
+      value = defaultValue();
+      this.set(key, value, setOption);
     }
     return {
       value,
-      expire: options?.expire,
+      expire: setOption?.expire,
     };
   }
 }

@@ -43,3 +43,26 @@ export function getClientByUA(userAgent: string = window.navigator.userAgent) {
   const { browser, os, device } = UAParser(userAgent);
   return { browser, os, device };
 }
+/**
+ * 在文档准备完成
+ * @param callback
+ */
+export function afterDocumentReady(callback: () => any): void {
+  if (document.readyState !== 'loading') {
+    callback();
+  } else {
+    document.addEventListener('DOMContentLoaded', () => callback());
+  }
+}
+
+/**
+ * 在文档准备完成
+ * @param callback
+ */
+export function afterWindowLoad(callback: () => any): void {
+  if (document.readyState !== 'loading') {
+    callback();
+  } else {
+    window.addEventListener('load', () => callback());
+  }
+}
