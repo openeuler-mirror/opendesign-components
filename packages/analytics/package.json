@@ -19,5 +19,8 @@
   },
   "dependencies": {
     "ua-parser-js": "^1.0.38"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
