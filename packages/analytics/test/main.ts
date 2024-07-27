@@ -1,4 +1,4 @@
-import { OpenAnalytics, InnerEventKey } from '../src/index';
+import { OpenAnalytics, OpenEventKeys } from '../src/index';
 
 const btn1 = document.querySelector('#btn1');
 const btnOpen = document.querySelector('#btn-open');
@@ -26,9 +26,10 @@ if (localStorage.getItem('enabled') !== '1') {
   enabledOA(false);
 }
 
-oa.report(InnerEventKey.PV, () => ({
+oa.report(OpenEventKeys.PV, () => ({
   id: 'home',
 }));
+oa.report(OpenEventKeys.PageBasePerformance);
 
 btn1?.addEventListener('click', () => {
   // window.open('/');

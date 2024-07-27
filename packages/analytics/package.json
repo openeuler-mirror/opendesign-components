@@ -18,7 +18,8 @@
     "vite-plugin-dts": "^3.7.3"
   },
   "dependencies": {
-    "ua-parser-js": "^1.0.38"
+    "ua-parser-js": "^1.0.38",
+    "web-vitals": "^4.2.2"
   },
   "publishConfig": {
     "access": "public"
