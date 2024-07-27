@@ -1,10 +1,10 @@
 import { Storage } from './storage';
-import { afterDocumentReady, getClientByUA, isFunction, isPromise, uniqueId } from './utils';
+import { whenDocumentReady, getClientByUA, isFunction, isPromise, uniqueId } from './utils';
 import { Constant } from './constant';
-import { getInnerEventData, isInnerEvent } from './inner-event';
+import { getInnerEventData } from './events';
 import packageJson from '../package.json';
 
-export { InnerEventKey } from './inner-event';
+export { OpenEventKeys } from './events/keys';
 
 class StoreKey {
   appPrefix: string;
@@ -56,10 +56,10 @@ interface ReportData {
   header: EventHeader;
   body: EventData[];
 }
-type RequestFn = (data: ReportData) => Promise<boolean>;
+type RequestFn = (data: ReportData) => Promise<boolean> | void;
 
 export interface OpenAnalyticsParams {
-  request: (data: ReportData) => Promise<boolean>; // 上报数据的接口
+  request: (data: ReportData) => Promise<boolean> | void; // 上报数据的接口
   appKey?: string; // 采集app的key，用于区分多app上报
   immediate?: boolean; // 全局设置是否立即上报
   requestInterval?: number; //上报间隔
@@ -139,8 +139,10 @@ export class OpenAnalytics {
   requestPlan?: (requestFn: () => void) => void;
   // 上报间隔，默认3s
   requestInterval: number;
-  timer: number | null;
   maxEvents: number;
+
+  #timer: number | null;
+  #firstReport: boolean;
   /**
    * 构造函数
    * @param params {OpenAnalyticsParams}
@@ -151,14 +153,18 @@ export class OpenAnalytics {
     this.appKey = params.appKey ?? '';
     this.StoreKey = new StoreKey(params.appKey);
     this.requestInterval = params.requestInterval ?? Constant.DEFAULT_REQUEST_INTERVAL;
-    this.timer = null;
+    this.#timer = null;
     this.maxEvents = params.maxEvents ?? Constant.MAX_EVENTS;
+
+    this.#firstReport = true;
 
     this.enabled = store.get(this.StoreKey.enabled).value === Constant.OA_ENABLED;
 
     if (this.enabled) {
       store.set(this.StoreKey.enabled, Constant.OA_ENABLED);
-      this.eventData = store.getAlways(this.StoreKey.events, () => []).value;
+      this.eventData = store.getAlways(this.StoreKey.events, {
+        defaultValue: () => [],
+      }).value;
       this.header = initHeader(this.StoreKey, this.appKey);
     } else {
       this.header = {};
@@ -196,8 +202,8 @@ export class OpenAnalytics {
       store.set(this.StoreKey.events, this.eventData);
       // 执行上报策略
       this.runRequestPlan();
-    } else if (this.timer) {
-      clearTimeout(this.timer);
+    } else if (this.#timer) {
+      clearTimeout(this.#timer);
       this.eventData = [];
       store.remove(this.StoreKey.enabled);
       store.remove(this.StoreKey.events);
@@ -228,18 +234,19 @@ export class OpenAnalytics {
   runRequestPlan(immediate?: boolean) {
     if (immediate || this.immediate) {
       this.doSendEventData();
+    } else if (this.#firstReport) {
+      this.#firstReport = false;
+      whenDocumentReady(() => this.doSendEventData());
     } else {
       if (isFunction(this.requestPlan)) {
         this.requestPlan(this.doSendEventData);
       } else {
         const run = () => {
-          this.timer = window.setTimeout(() => {
+          this.#timer = window.setTimeout(() => {
             this.doSendEventData();
             run();
           }, this.requestInterval);
         };
-
-        afterDocumentReady(() => this.doSendEventData());
 
         run();
       }
@@ -275,14 +282,8 @@ export class OpenAnalytics {
    * @param data 事件数据
    * @param options 配置
    */
-  report(event: string, data?: Record<string, any> | (() => Record<string, any>), options?: ReportOptions): void {
-    let innerData: Record<string, any> = {};
-    // 处理内部事件
-    if (isInnerEvent(event)) {
-      innerData = getInnerEventData(event) || {};
-    } else if (!data) {
-      return;
-    }
+  async report(event: string, data?: Record<string, any> | (() => Record<string, any>), options?: ReportOptions) {
+    const innerData: Record<string, any> = (await getInnerEventData(event)) || {};
 
     const outerData = isFunction(data) ? data() : data;
 

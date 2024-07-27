@@ -47,7 +47,7 @@ export function getClientByUA(userAgent: string = window.navigator.userAgent) {
  * 在文档准备完成
  * @param callback
  */
-export function afterDocumentReady(callback: () => any): void {
+export function whenDocumentReady(callback: () => any): void {
   if (document.readyState !== 'loading') {
     callback();
   } else {
@@ -59,10 +59,10 @@ export function afterDocumentReady(callback: () => any): void {
  * 在文档准备完成
  * @param callback
  */
-export function afterWindowLoad(callback: () => any): void {
-  if (document.readyState !== 'loading') {
-    callback();
-  } else {
+export function whenWindowLoad(callback: () => any): void {
+  if (document.readyState !== 'complete') {
     window.addEventListener('load', () => callback());
+  } else {
+    callback();
   }
 }
