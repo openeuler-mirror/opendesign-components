@@ -6,6 +6,22 @@ interface PerformanceData {
   ttfb: number;
   load: number;
   navigationEntry?: PerformanceNavigationTiming;
+  connection: {
+    downlink: Megabit; // 有效带宽估算（单位：Mbps/s）
+    effectiveType: EffectiveConnectionType; // 连接的有效类型
+    rtt: Millisecond; // 当前连接的往返时延评估
+    type: ConnectionType;
+  };
+}
+function getConnection() {
+  const { connection } = window.navigator as NavigatorNetworkInformation;
+
+  return {
+    downlink: connection?.downlink || 0,
+    effectiveType: connection?.effectiveType || 'unknown',
+    rtt: connection?.rtt || 0,
+    type: connection?.type || 'unknown',
+  };
 }
 export default {
   event: OpenEventKeys.PageBasePerformance,
@@ -15,6 +31,7 @@ export default {
         fcp: -1,
         ttfb: -1,
         load: -1,
+        connection: getConnection(),
       };
       let doneFcp = false;
       let doneTtfb = false;
