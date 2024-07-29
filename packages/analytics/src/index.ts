@@ -204,6 +204,7 @@ export class OpenAnalytics {
       this.runRequestPlan();
     } else if (this.#timer) {
       clearTimeout(this.#timer);
+      this.#timer = 0;
       this.eventData = [];
       store.remove(this.StoreKey.enabled);
       store.remove(this.StoreKey.events);
@@ -247,8 +248,9 @@ export class OpenAnalytics {
             run();
           }, this.requestInterval);
         };
-
-        run();
+        if (!this.#timer) {
+          run();
+        }
       }
     }
   }

@@ -30,6 +30,8 @@ oa.report(OpenEventKeys.PV, () => ({
   id: 'home',
 }));
 oa.report(OpenEventKeys.PageBasePerformance);
+oa.report(OpenEventKeys.LCP);
+oa.report(OpenEventKeys.INP);
 
 btn1?.addEventListener('click', () => {
   // window.open('/');

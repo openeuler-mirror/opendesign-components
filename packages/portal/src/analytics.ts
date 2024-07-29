@@ -12,4 +12,6 @@ const oa = new OpenAnalytics({
 });
 
 oa.report(OpenEventKeys.PageBasePerformance);
+oa.report(OpenEventKeys.LCP);
+oa.report(OpenEventKeys.INP);
 export { oa, OpenEventKeys };
