@@ -1,5 +1,5 @@
 import path from 'path';
-import { defaultConfig, IconsConfig } from './config';
+import { mergeConfig, IconsConfig } from './config';
 import { globSync } from 'glob';
 import { toPascalCase } from '../utils';
 import { optimize } from 'svgo';
@@ -19,7 +19,7 @@ async function readConfig(cfg: string) {
     console.log('no config file');
   }
 
-  const config = Object.assign(defaultConfig, configData);
+  const config = mergeConfig(configData);
 
   console.log('[input]', config.input);
   console.log('[output]', config.output);

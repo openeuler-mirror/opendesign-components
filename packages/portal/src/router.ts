@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheHome from './pages/TheHome.vue';
-import { oa, InnerEventKey } from '@/analytics';
+import { oa, OpenEventKeys } from '@/analytics';
 
 export const routes = [
   {
@@ -431,7 +431,7 @@ export const router = createRouter({
 });
 
 router.afterEach((to, from) => {
-  oa.report(InnerEventKey.PV, {
+  oa.report(OpenEventKeys.PV, {
     prev_page: from.fullPath,
     url: to.fullPath,
     title: to.meta.title,

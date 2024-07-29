@@ -88,3 +88,8 @@ TODO
 
 1. [input] 重构 input，支持 autowidth，maxlength、minlength，无效值判断接口从 checkValid 更改为 validate，props 移除 parse
 2. [textarea] 重构 textarea，长度限制提示支持国际化
+
+# [open-scripts] 0.0.18
+
+1. 解决图标服务端渲染，无法绑定事件问题；
+2. svgo 配置增加默认 prefixIds，用于解决老版本对 svg 图标 id 不能正常使用问题

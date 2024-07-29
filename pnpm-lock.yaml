@@ -54,6 +54,9 @@ importers:
       ua-parser-js:
         specifier: ^1.0.38
         version: 1.0.38
+      web-vitals:
+        specifier: ^4.2.2
+        version: 4.2.2
     devDependencies:
       '@types/ua-parser-js':
         specifier: ^0.7.39
@@ -77,7 +80,7 @@ importers:
         specifier: ^3.1.0
         version: 3.4.21(typescript@5.3.3)
     devDependencies:
-      '@opensig/opensig-scripts':
+      '@opensig/open-scripts':
         specifier: workspace:^
         version: link:../scripts
 
@@ -86,21 +89,21 @@ importers:
       '@opensig/open-analytics':
         specifier: workspace:^
         version: link:../analytics
+      '@opensig/open-scripts':
+        specifier: workspace:^
+        version: link:../scripts
       '@opensig/opendesign':
         specifier: workspace:^
         version: link:../opendesign
-      '@opensig/opensig-scripts':
-        specifier: workspace:^
-        version: link:../scripts
 
   packages/portal-ak:
     dependencies:
+      '@opensig/open-scripts':
+        specifier: workspace:^
+        version: link:../scripts
       '@opensig/opendesign':
         specifier: workspace:^
         version: link:../opendesign
-      '@opensig/opensig-scripts':
-        specifier: workspace:^
-        version: link:../scripts
 
   packages/scripts:
     dependencies:
@@ -2895,6 +2898,10 @@ packages:
       '@vue/server-renderer': 3.4.21(vue@3.4.21)
       '@vue/shared': 3.4.21
       typescript: 5.3.3
+
+  /web-vitals@4.2.2:
+    resolution: {integrity: sha512-nYfoOqb4EmElljyXU2qdeE76KsvoHdftQKY4DzA9Aw8DervCg2bG634pHLrJ/d6+B4mE3nWTSJv8Mo7B2mbZkw==}
+    dev: false
 
   /which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}

@@ -1,10 +1,10 @@
 import { Storage } from './storage';
-import { getClientByUA, isFunction, isPromise, uniqueId } from './utils';
+import { whenDocumentReady, getClientByUA, isFunction, isPromise, uniqueId } from './utils';
 import { Constant } from './constant';
-import { getInnerEventData, isInnerEvent } from './inner-event';
+import { getInnerEventData } from './events';
 import packageJson from '../package.json';
 
-export { InnerEventKey } from './inner-event';
+export { OpenEventKeys } from './events/keys';
 
 class StoreKey {
   appPrefix: string;
@@ -37,13 +37,13 @@ interface ReportOptions {
   immediate: boolean; // 是否立即上报
 }
 interface EventHeader {
-  cId: string; // 客户端匿名标识，清除浏览器缓存销毁
-  aId: string; // 应用id
-  oa_version: string; // OA版本
-  screen_width: number; // 屏幕宽度
-  screen_height: number; // 屏幕高度
-  view_width: number; // 视口宽度
-  view_height: number; // 视口高度
+  cId?: string; // 客户端匿名标识，清除浏览器缓存销毁
+  aId?: string; // 应用id
+  oa_version?: string; // OA版本
+  screen_width?: number; // 屏幕宽度
+  screen_height?: number; // 屏幕高度
+  view_width?: number; // 视口宽度
+  view_height?: number; // 视口高度
   os?: string; // 客户端操作系统
   os_version?: string; // 客户端操作系统版本
   browser?: string; // 客户端浏览器
@@ -56,10 +56,10 @@ interface ReportData {
   header: EventHeader;
   body: EventData[];
 }
-type RequestFn = (data: ReportData) => Promise<boolean>;
+type RequestFn = (data: ReportData) => Promise<boolean> | void;
 
 export interface OpenAnalyticsParams {
-  request: (data: ReportData) => Promise<boolean>; // 上报数据的接口
+  request: (data: ReportData) => Promise<boolean> | void; // 上报数据的接口
   appKey?: string; // 采集app的key，用于区分多app上报
   immediate?: boolean; // 全局设置是否立即上报
   requestInterval?: number; //上报间隔
@@ -76,9 +76,18 @@ const store = new Storage(localStorage);
  */
 function initHeader(keys: StoreKeyIns, appId: string): EventHeader {
   const aKey = keys.client;
-  const client = store.getAlways(aKey, () => ({
-    id: uniqueId('', Constant.ID_LENGTH),
-  })).value;
+  const client = store.getAlways(aKey, {
+    defaultValue: () => ({
+      id: uniqueId('', Constant.ID_LENGTH),
+    }),
+    setOption: {
+      expire: Date.now() + Constant.CLIENT_EXPIRE_TIME,
+    },
+    onValid() {
+      store.setExpire(aKey, Date.now() + Constant.CLIENT_EXPIRE_TIME);
+    },
+  }).value;
+
   const { browser, os, device } = getClientByUA();
   return {
     cId: client.id,
@@ -102,30 +111,25 @@ function initHeader(keys: StoreKeyIns, appId: string): EventHeader {
  * @param sKey session key
  */
 function getSessionId(sKey: string) {
-  const session = store.get(sKey);
-  if (!session.value) {
-    const value = uniqueId('', Constant.ID_LENGTH);
-    store.set(
-      sKey,
-      {
-        id: value,
-      },
-      {
-        expire: Date.now() + Constant.SESSION_EXPIRE_TIME,
-      }
-    );
-    return value;
-  } else if (session.expire < Date.now()) {
-    store.setExpire(sKey, Date.now() + Constant.SESSION_EXPIRE_TIME);
-  }
-  return session.value.id;
+  const session = store.getAlways(sKey, {
+    defaultValue: () => ({
+      id: uniqueId('', Constant.ID_LENGTH),
+    }),
+    setOption: {
+      expire: Date.now() + Constant.SESSION_EXPIRE_TIME,
+    },
+    onValid() {
+      store.setExpire(sKey, Date.now() + Constant.SESSION_EXPIRE_TIME);
+    },
+  }).value;
+
+  return session.id;
 }
 
 export class OpenAnalytics {
   request: RequestFn;
   eventData: EventData[];
   immediate: boolean;
-  clientId: string = '';
   sessionId: string = '';
   appKey: string = '';
   header: EventHeader;
@@ -135,8 +139,10 @@ export class OpenAnalytics {
   requestPlan?: (requestFn: () => void) => void;
   // 上报间隔，默认3s
   requestInterval: number;
-  timer: number | null;
   maxEvents: number;
+
+  #timer: number | null;
+  #firstReport: boolean;
   /**
    * 构造函数
    * @param params {OpenAnalyticsParams}
@@ -147,13 +153,24 @@ export class OpenAnalytics {
     this.appKey = params.appKey ?? '';
     this.StoreKey = new StoreKey(params.appKey);
     this.requestInterval = params.requestInterval ?? Constant.DEFAULT_REQUEST_INTERVAL;
-    this.timer = null;
+    this.#timer = null;
     this.maxEvents = params.maxEvents ?? Constant.MAX_EVENTS;
 
-    this.enabled = store.getAlways(this.StoreKey.enabled, () => Constant.OA_ENABLED).value;
+    this.#firstReport = true;
 
-    this.header = initHeader(this.StoreKey, this.appKey);
-    this.eventData = store.getAlways(this.StoreKey.events, () => []).value;
+    this.enabled = store.get(this.StoreKey.enabled).value === Constant.OA_ENABLED;
+
+    if (this.enabled) {
+      store.set(this.StoreKey.enabled, Constant.OA_ENABLED);
+      this.eventData = store.getAlways(this.StoreKey.events, {
+        defaultValue: () => [],
+      }).value;
+      this.header = initHeader(this.StoreKey, this.appKey);
+    } else {
+      this.header = {};
+      this.eventData = [];
+      store.remove(this.StoreKey.events);
+    }
   }
   /**
    * 设置header
@@ -168,13 +185,31 @@ export class OpenAnalytics {
   enableReporting(enabled: boolean = true) {
     if (this.enabled !== enabled) {
       this.enabled = enabled;
-      store.set(this.StoreKey.enabled, enabled ? Constant.OA_ENABLED : Constant.OA_DISABLED);
     }
 
     if (this.enabled) {
+      store.set(this.StoreKey.enabled, Constant.OA_ENABLED);
+      this.header = Object.assign(initHeader(this.StoreKey, this.appKey), this.header);
+      // 初始化sessionId
+      this.sessionId = getSessionId(this.StoreKey.session);
+      // 给内存中事件添加sessionId
+      this.eventData.forEach((event) => {
+        if (event.sId === '') {
+          event.sId = this.sessionId;
+        }
+      });
+      // 将数据存储到本地
+      store.set(this.StoreKey.events, this.eventData);
+      // 执行上报策略
       this.runRequestPlan();
-    } else if (this.timer) {
-      clearTimeout(this.timer);
+    } else if (this.#timer) {
+      clearTimeout(this.#timer);
+      this.#timer = 0;
+      this.eventData = [];
+      store.remove(this.StoreKey.enabled);
+      store.remove(this.StoreKey.events);
+      store.remove(this.StoreKey.client);
+      store.remove(this.StoreKey.session);
     }
   }
   /**
@@ -187,10 +222,11 @@ export class OpenAnalytics {
     if (this.eventData.length > this.maxEvents) {
       this.eventData.shift();
     }
+    if (this.enabled) {
+      store.set(this.StoreKey.events, this.eventData);
 
-    store.set(this.StoreKey.events, this.eventData);
-
-    this.runRequestPlan(immediate);
+      this.runRequestPlan(immediate);
+    }
   }
   /**
    * 执行上报策略
@@ -199,17 +235,22 @@ export class OpenAnalytics {
   runRequestPlan(immediate?: boolean) {
     if (immediate || this.immediate) {
       this.doSendEventData();
+    } else if (this.#firstReport) {
+      this.#firstReport = false;
+      whenDocumentReady(() => this.doSendEventData());
     } else {
       if (isFunction(this.requestPlan)) {
         this.requestPlan(this.doSendEventData);
       } else {
         const run = () => {
-          this.timer = window.setTimeout(() => {
+          this.#timer = window.setTimeout(() => {
             this.doSendEventData();
             run();
           }, this.requestInterval);
         };
-        run();
+        if (!this.#timer) {
+          run();
+        }
       }
     }
   }
@@ -243,14 +284,8 @@ export class OpenAnalytics {
    * @param data 事件数据
    * @param options 配置
    */
-  report(event: string, data?: Record<string, any> | (() => Record<string, any>), options?: ReportOptions): void {
-    let innerData: Record<string, any> = {};
-    // 处理内部事件
-    if (isInnerEvent(event)) {
-      innerData = getInnerEventData(event) || {};
-    } else if (!data) {
-      return;
-    }
+  async report(event: string, data?: Record<string, any> | (() => Record<string, any>), options?: ReportOptions) {
+    const innerData: Record<string, any> = (await getInnerEventData(event)) || {};
 
     const outerData = isFunction(data) ? data() : data;
 
@@ -258,7 +293,7 @@ export class OpenAnalytics {
       event: event,
       time: Date.now(),
       data: Object.assign(innerData, outerData),
-      sId: getSessionId(this.StoreKey.session),
+      sId: this.enabled ? getSessionId(this.StoreKey.session) : '',
     };
 
     this.collect(eventData, options?.immediate);

@@ -13,7 +13,7 @@ const program = new Command();
 const packageStr = fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8');
 const packageJson = JSON.parse(packageStr);
 
-program.name('opensig-scripts').version(packageJson.version).usage('command [options] ');
+program.name('open-scripts').version(packageJson.version).usage('command [options] ');
 
 program
   .command('gen:icon')
