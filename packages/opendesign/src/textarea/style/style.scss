@@ -2,7 +2,7 @@
 @use './var.scss';
 
 .o-textarea {
-  cursor: pointer;
+  cursor: text;
   color: var(--textarea-color);
   display: inline-flex;
   font-size: var(--textarea-text-size);

@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   color: var(--input-color);
+  cursor: inherit;
   &.is-disabled {
     color: var(--input-color-disabled);
   }

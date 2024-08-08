@@ -2,7 +2,6 @@
 @use './var.scss';
 
 .o-input {
-  cursor: pointer;
   color: var(--input-color);
   display: inline-flex;
   height: var(--input-height);
@@ -11,6 +10,7 @@
 }
 
 .o-input-wrap {
+  cursor: text;
   display: flex;
   padding: var(--input-padding);
   width: 100%;
