@@ -177,6 +177,7 @@ const navScroll = (to: 'prev' | 'next') => {
           'with-act': $slots.suffix || $slots.prefix,
           'show-line': props.line,
         },
+        props.headClass,
       ]"
     >
       <div v-if="$slots.prefix" class="o-tab-head-prefix">
