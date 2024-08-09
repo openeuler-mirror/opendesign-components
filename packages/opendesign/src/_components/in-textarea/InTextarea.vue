@@ -179,7 +179,7 @@ defineExpose({
       ></div>
     </div>
 
-    <div class="o_textarea-extra" @mousedown.prevent>
+    <div class="o_textarea-extra" @mousedown.prevent v-if="$slots[slotNames.suffix]">
       <slot :name="slotNames.suffix"></slot>
     </div>
   </label>

@@ -32,3 +32,10 @@
     background-color: var(--textarea-bg-color-disabled);
   }
 }
+.o-textarea-textarea {
+  display: block;
+}
+.o-textarea-append,
+.o-textarea-prepend {
+  padding: 0 var(--textarea-padding-h);
+}
