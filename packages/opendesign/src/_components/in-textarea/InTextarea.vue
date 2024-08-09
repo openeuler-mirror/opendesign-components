@@ -129,7 +129,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div
+  <label
     class="o_textarea"
     :class="{
       'o_textarea-clearable': isClearable && displayValue !== '',
@@ -137,9 +137,16 @@ defineExpose({
       'o_textarea-readonly': props.readonly,
       'o_textarea-invalid': !isValid,
       'o_textarea-auto-size': props.autoSize,
+      'o_textarea-limit': props.maxLength,
     }"
   >
-    <div class="o_textarea-wrap" :class="{ 'o_textarea-wrap-auto-size': props.autoSize }" :date-value="mirrorValue">
+    <div
+      class="o_textarea-wrap"
+      :class="{
+        'o_textarea-wrap-auto-size': props.autoSize,
+      }"
+      :date-value="mirrorValue"
+    >
       <textarea
         :id="props.textareaId"
         ref="inputEl"
@@ -161,18 +168,19 @@ defineExpose({
         @input="handleInput"
         @keydown="handlePressEnter"
       ></textarea>
-      <div class="o_textarea-suffix-wrap" @mousedown.prevent>
-        <div v-if="isClearable" class="o_textarea-suffix o_textarea-clear" @click="handleClear" @mousedown.prevent>
-          <IconClose class="o_textarea-clear-icon" />
-        </div>
-        <div
-          v-if="props.maxLength"
-          class="o_textarea-suffix o_textarea-limit"
-          :class="{ 'o_textarea-limit-error': isOutLengthLimit }"
-          v-html="t('input.limit', currentLength, props.maxLength)"
-        ></div>
-        <slot :name="slotNames.suffix"></slot>
+      <div v-if="isClearable" class="o_textarea-suffix o_textarea-clear" @click="handleClear">
+        <IconClose class="o_textarea-clear-icon" />
       </div>
+      <div
+        v-if="props.maxLength"
+        class="o_textarea-suffix o_textarea-count"
+        :class="{ 'o_textarea-count-error': isOutLengthLimit }"
+        v-html="t('input.limit', currentLength, props.maxLength)"
+      ></div>
     </div>
-  </div>
+
+    <div class="o_textarea-extra" @mousedown.prevent v-if="$slots[slotNames.suffix]">
+      <slot :name="slotNames.suffix"></slot>
+    </div>
+  </label>
 </template>

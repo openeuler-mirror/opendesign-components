@@ -134,7 +134,7 @@ export const routes = [
   {
     path: '/textarea',
     name: 'Textarea',
-    component: () => import('@components/textarea/__demo__/IndexTextarea.vue'),
+    component: () => import('@components/textarea/__demo__/TheIndex.vue'),
     meta: {
       title: '文本域 Textarea',
     },
