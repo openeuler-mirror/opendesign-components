@@ -9,6 +9,8 @@
   line-height: var(--textarea-text-height);
 }
 .o-textarea-wrap {
+  width: 100%;
+  height: 100%;
   border: 1px solid var(--textarea-bd-color);
   border-radius: var(--textarea-radius);
   background-color: var(--textarea-bg-color);
