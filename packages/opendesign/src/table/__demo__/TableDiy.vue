@@ -29,7 +29,7 @@ const table1 = {
   </div>
   <div class="sec">
     <OTable :columns="table1.columns" :data="table1.data">
-      <template #head="{ columns }">
+      <template #header="{ columns }">
         <th v-for="item in columns" :key="item.key">diy : {{ item.label }}</th>
       </template>
       <template #td-name="{ row }">diy name: {{ row.name }}</template>

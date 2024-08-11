@@ -40,7 +40,7 @@ const updateTab = (v: string) => {
   <div class="sec">
     <h4>Solid</h4>
     <p>large</p>
-    <OTab variant="solid" size="large" @change="onChange">
+    <OTab variant="solid" size="large" @change="onChange" head-class="sticky-tab">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
       <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" unmount-on-hide>
@@ -149,7 +149,7 @@ const updateTab = (v: string) => {
     </OTab>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .sec {
   border: 1px solid #eee;
   padding: 24px;
@@ -158,5 +158,11 @@ const updateTab = (v: string) => {
 .pane {
   padding: 36px;
   background-color: #fff;
+}
+</style>
+<style lang="scss">
+.sticky-tab {
+  position: sticky;
+  top: 80px;
 }
 </style>

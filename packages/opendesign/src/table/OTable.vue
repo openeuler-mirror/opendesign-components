@@ -12,7 +12,7 @@ const props = defineProps(tableProps);
 // type keyT = getT<typeof props.columns>;
 
 defineSlots<{
-  head(props: { columns: TableColumnT[] }): any;
+  header(props: { columns: TableColumnT[] }): any;
   body(): any;
   empty(): any;
   loading(): any;
@@ -51,7 +51,7 @@ const boderClass = computed(() => {
           <col v-for="col in columnData" :key="col.key" :style="col.style" />
         </colgroup>
         <thead v-if="columnData.length > 1">
-          <slot name="head" :columns="columnData">
+          <slot name="header" :columns="columnData">
             <tr>
               <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ last: idx + 1 === columnData.length }">
                 <slot :name="`th_${col.key}`" :column="col">

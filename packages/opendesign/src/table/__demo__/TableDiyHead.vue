@@ -29,7 +29,7 @@ const tableData = getTableData(6);
   <h4>自定义表头</h4>
   <div class="sec">
     <OTable :data="tableData" :columns="columnKeys">
-      <template #head>
+      <template #header>
         <tr v-for="(row, idx) in columns1" :key="idx">
           <th v-for="col in row" :key="col.key" :rowspan="col.rowspan" :colspan="col.colspan" :class="{ last: col.last }">
             {{ col.label }}
