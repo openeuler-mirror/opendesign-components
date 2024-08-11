@@ -54,7 +54,7 @@ export const tabProps = {
   /**
    * 头部是否固定
    */
-  headClass: {
+  headerClass: {
     type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
