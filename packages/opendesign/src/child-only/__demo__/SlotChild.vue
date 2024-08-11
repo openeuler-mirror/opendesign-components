@@ -9,7 +9,7 @@ onMounted(() => {
 </script>
 <template>
   <OChildOnly ref="child">
-    <slot name="head"></slot>
+    <slot name="header"></slot>
     <slot></slot>
   </OChildOnly>
 </template>
