@@ -93,3 +93,10 @@ TODO
 
 1. 解决图标服务端渲染，无法绑定事件问题；
 2. svgo 配置增加默认 prefixIds，用于解决老版本对 svg 图标 id 不能正常使用问题
+
+# 0.0.68
+
+1. [Table] 插槽 head 更名为 header;
+2. [pagination] 支持 total 插槽;
+3. [scroller] 修复在设置 max-height 时无法滚动问题;
+4. [textarea] 增加插槽 prepend、append
