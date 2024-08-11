@@ -99,4 +99,5 @@ TODO
 1. [Table] 插槽 head 更名为 header;
 2. [pagination] 支持 total 插槽;
 3. [scroller] 修复在设置 max-height 时无法滚动问题;
-4. [textarea] 增加插槽 prepend、append
+4. [textarea] 增加插槽 prepend、append，修复自动尺寸 bug；滚动使用 scroller；
+5. [input/textarea] 修复样式未导出问题，组件光标从 pointer 更改为 text
