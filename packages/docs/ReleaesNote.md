@@ -94,6 +94,10 @@ TODO
 1. 解决图标服务端渲染，无法绑定事件问题；
 2. svgo 配置增加默认 prefixIds，用于解决老版本对 svg 图标 id 不能正常使用问题
 
+# [open-scripts] 0.0.19
+
+1. 修复 svg 文件名因空格、目录嵌套导致生成的 svg 组件被重名替换问题。
+
 # 0.0.68
 
 1. [Table] 插槽 head 更名为 header;
