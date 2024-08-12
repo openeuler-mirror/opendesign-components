@@ -37,6 +37,7 @@ const color = computed(() => {
 
 const onInput = (e: Event) => {
   emits('input', e);
+  formItemInjection?.fieldHandlers.onInput?.();
 };
 
 let clickInside = false;

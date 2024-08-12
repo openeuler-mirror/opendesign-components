@@ -72,6 +72,7 @@ const emitUpdateValue = () => {
 
 const onInput = (evt: Event) => {
   emits('input', evt);
+  formItemInjection?.fieldHandlers.onInput?.();
 };
 const onFocus = (evt: FocusEvent) => {
   emits('focus', evt);
