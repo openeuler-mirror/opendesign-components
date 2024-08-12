@@ -78,7 +78,7 @@ export const routes = [
   {
     path: '/button',
     name: 'Button',
-    component: () => import('@components/button/__demo__/IndexBtn.vue'),
+    component: () => import('@components/button/__demo__/TheIndex.vue'),
     meta: {
       title: '按钮 Button',
     },
@@ -86,7 +86,7 @@ export const routes = [
   {
     path: '/link',
     name: 'Link',
-    component: () => import('@components/link/__demo__/IndexLink.vue'),
+    component: () => import('@components/link/__demo__/TheIndex.vue'),
     meta: {
       title: '链接 Link',
     },

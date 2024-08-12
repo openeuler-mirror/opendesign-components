@@ -68,6 +68,13 @@ export const linkProps = {
     type: Boolean,
   },
   /**
+   * 元素标签
+   */
+  tag: {
+    type: String,
+    default: 'a',
+  },
+  /**
    * 全局配置是否生效
    */
   global: {

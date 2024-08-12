@@ -81,6 +81,12 @@ const linkConfig: LinkConfigT = {
     <OLink :loading="loading" status="primary" @click="onLinkClick2">点击Loading</OLink>
     <OLink status="primary" @click="onLinkClick">点击弹窗</OLink>
   </section>
+  <h4>自定义标签</h4>
+  <section>
+    <OLink tag="button" :href="link">button标签</OLink>
+    <OLink tag="span" :href="link" target="_blank">span标签</OLink>
+    <OLink tag="button" :href="link" disabled>禁用button标签</OLink>
+  </section>
   <h4>全局配置</h4>
   <section>
     <OConfigProvider :link="linkConfig">
