@@ -16,7 +16,7 @@ import SelectTest from './SelectTest.vue';
     <SelectLoading />
     <SelectPopupposition />
     <SelectGroup />
-    <SelectTest />
+    <!-- <SelectTest /> -->
   </div>
 </template>
 <style lang="scss">
