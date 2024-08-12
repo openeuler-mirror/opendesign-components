@@ -1,0 +1,1 @@
+export { default as OIconMinus } from './OIconMinus.vue';

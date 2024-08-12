@@ -1,0 +1,1 @@
+export { default as OIconVideoPlay } from './OIconVideoPlay.vue';

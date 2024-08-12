@@ -1,0 +1,1 @@
+export { default as OIconCalendar } from './OIconCalendar.vue';

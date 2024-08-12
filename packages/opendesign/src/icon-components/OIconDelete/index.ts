@@ -1,0 +1,1 @@
+export { default as OIconDelete } from './OIconDelete.vue';
