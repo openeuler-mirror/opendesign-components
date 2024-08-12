@@ -1,4 +1,3 @@
-2
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
 import { OSelect } from '../index';
@@ -11,11 +10,12 @@ import { OOption } from '../../option';
 // ];
 const selectVal1 = ref<number | string>(0);
 const options = ref<Array<{ label: string; value: number }>>([]);
-
-options.value = new Array(100000).fill(1).map((_, idx) => ({
+console.time('select');
+options.value = new Array(100).fill(1).map((_, idx) => ({
   label: `option ${idx}`,
   value: idx,
 }));
+console.timeEnd('select');
 
 watchEffect(() => {
   console.log(selectVal1.value);

@@ -1,7 +1,7 @@
 <template>
   <textarea name="" id="" cols="30" rows="5"></textarea>
   <div class="wrap" :style="{ height: height, width: width }">
-    <button @click="change">chang height</button>
+    <button @click="change">change height</button>
   </div>
 </template>
 <script lang="ts" setup>
