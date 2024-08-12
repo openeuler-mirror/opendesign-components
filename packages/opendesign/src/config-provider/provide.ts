@@ -1,6 +1,7 @@
 import { InjectionKey } from 'vue';
-import { LanguageT } from '../locale/types';
+import { LinkConfigT, LanguageConfigT } from './types';
 
 export const configProviderInjectKey: InjectionKey<{
-  locale?: LanguageT;
+  locale?: LanguageConfigT;
+  link?: LinkConfigT;
 }> = Symbol('provide-config-provider');

@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { configProviderInjectKey } from '../config-provider';
 import { defaultSize } from '../_utils/global';
 import { IconLinkArrow, IconLoading } from '../_utils/icons';
+import HtmlTag from '../_components/html-tag';
 
 import { linkProps } from './types';
+import { inject, useAttrs } from 'vue';
 
 const props = defineProps(linkProps);
+const configProvider = inject(configProviderInjectKey, {});
+const $attr = useAttrs();
 
 const emits = defineEmits<{ (e: 'click', val: MouseEvent): void }>();
 const onClick = (e: MouseEvent) => {
@@ -12,13 +17,19 @@ const onClick = (e: MouseEvent) => {
     e.preventDefault();
     return;
   }
+
   emits('click', e);
+
+  if (props.global) {
+    configProvider.link?.click(e, props, $attr);
+  }
 };
 </script>
 <template>
-  <a
+  <HtmlTag
+    :tag="props.tag"
     class="o-link"
-    :href="props.disabled ? void 0 : props.href"
+    :href="props.href"
     :target="props.target"
     :class="[
       {
@@ -42,5 +53,5 @@ const onClick = (e: MouseEvent) => {
     <span v-if="$slots.suffix || props.suffix" class="o-link-suffix">
       <slot name="suffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
     </span>
-  </a>
+  </HtmlTag>
 </template>

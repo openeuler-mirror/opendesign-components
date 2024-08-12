@@ -1,6 +1,6 @@
 <template>
   <div class="wrap" :style="{ height: height, width: width }">
-    <button @click="change">chang height</button>
+    <button @click="change">change height</button>
     <textarea name="" id="" cols="30" rows="5"></textarea>
     <div class="inner" style="height: 240px; width: 100vw"></div>
   </div>

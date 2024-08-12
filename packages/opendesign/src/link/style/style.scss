@@ -8,6 +8,9 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
 
   @include hover {
     color: var(--link-color-hover);
