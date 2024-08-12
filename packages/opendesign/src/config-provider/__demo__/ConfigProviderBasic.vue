@@ -2,9 +2,11 @@
 import { ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
-import { OConfigProvider } from '../index';
+import { LinkConfigT, OConfigProvider } from '../index';
 import TheChild from './TheChild.vue';
 import { useLocale, addLocale } from '../../locale';
+import { OLink } from '../../link';
+import '../../link/style';
 
 const langes = {
   jp: {
@@ -29,14 +31,20 @@ const langes = {
 
 const locale = ref(langes.en);
 
-const select = (lang) => {
-  locale.value = langes[lang];
+const select = (lang: string) => {
+  locale.value = langes[lang as keyof typeof langes];
 };
 
 addLocale(langes);
 
-const setLocale = (lang) => {
+const setLocale = (lang: string) => {
   useLocale(lang);
+};
+
+const linkConfig: LinkConfigT = {
+  click: (e, params, attrs) => {
+    console.log(e, params, attrs);
+  },
 };
 </script>
 <template>
@@ -48,6 +56,11 @@ const setLocale = (lang) => {
   </section>
   <section style="align-items: flex-start">
     <OConfigProvider :locale="locale"> <TheChild /> </OConfigProvider>
+  </section>
+  <section style="align-items: flex-start">
+    <OConfigProvider :link="linkConfig">
+      <OLink status="primary" diy="123">OLink</OLink>
+    </OConfigProvider>
   </section>
 
   <h4>JS动态配置</h4>

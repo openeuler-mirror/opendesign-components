@@ -67,6 +67,13 @@ export const linkProps = {
   hoverUnderline: {
     type: Boolean,
   },
+  /**
+   * 全局配置是否生效
+   */
+  global: {
+    type: Boolean,
+    default: true,
+  },
 };
 
 export type LinkPropsT = ExtractPropTypes<typeof linkProps>;

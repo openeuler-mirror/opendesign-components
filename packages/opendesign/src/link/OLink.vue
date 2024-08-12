@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { configProviderInjectKey } from '../config-provider';
 import { defaultSize } from '../_utils/global';
 import { IconLinkArrow, IconLoading } from '../_utils/icons';
 
 import { linkProps } from './types';
+import { inject, useAttrs } from 'vue';
 
 const props = defineProps(linkProps);
+const configProvider = inject(configProviderInjectKey, {});
+const $attr = useAttrs();
 
 const emits = defineEmits<{ (e: 'click', val: MouseEvent): void }>();
 const onClick = (e: MouseEvent) => {
@@ -12,7 +16,12 @@ const onClick = (e: MouseEvent) => {
     e.preventDefault();
     return;
   }
+
   emits('click', e);
+
+  if (props.global) {
+    configProvider.link?.click(e, props, $attr);
+  }
 };
 </script>
 <template>
