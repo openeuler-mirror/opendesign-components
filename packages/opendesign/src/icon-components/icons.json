@@ -1,0 +1,266 @@
+[
+  {
+    "type": "fill",
+    "name": "o-icon-video-play",
+    "componentName": "OIconVideoPlay",
+    "path": "fill/video-play.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-time",
+    "componentName": "OIconTime",
+    "path": "fill/time.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-star",
+    "componentName": "OIconStar",
+    "path": "fill/star.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-search",
+    "componentName": "OIconSearch",
+    "path": "fill/search.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-refresh",
+    "componentName": "OIconRefresh",
+    "path": "fill/refresh.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-minus",
+    "componentName": "OIconMinus",
+    "path": "fill/minus.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-loading",
+    "componentName": "OIconLoading",
+    "path": "fill/loading.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-link",
+    "componentName": "OIconLink",
+    "path": "fill/link.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-image-error",
+    "componentName": "OIconImageError",
+    "path": "fill/image-error.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-filter",
+    "componentName": "OIconFilter",
+    "path": "fill/filter.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-file",
+    "componentName": "OIconFile",
+    "path": "fill/file.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-eye",
+    "componentName": "OIconEye",
+    "path": "fill/eye.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-eye-off",
+    "componentName": "OIconEyeOff",
+    "path": "fill/eye-off.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-ellipsis",
+    "componentName": "OIconEllipsis",
+    "path": "fill/ellipsis.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-edit",
+    "componentName": "OIconEdit",
+    "path": "fill/edit.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-double-arrow-up",
+    "componentName": "OIconDoubleArrowUp",
+    "path": "fill/double-arrow-up.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-double-arrow-right",
+    "componentName": "OIconDoubleArrowRight",
+    "path": "fill/double-arrow-right.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-double-arrow-left",
+    "componentName": "OIconDoubleArrowLeft",
+    "path": "fill/double-arrow-left.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-double-arrow-down",
+    "componentName": "OIconDoubleArrowDown",
+    "path": "fill/double-arrow-down.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-done",
+    "componentName": "OIconDone",
+    "path": "fill/done.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-delete",
+    "componentName": "OIconDelete",
+    "path": "fill/delete.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-close",
+    "componentName": "OIconClose",
+    "path": "fill/close.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-chevron-up",
+    "componentName": "OIconChevronUp",
+    "path": "fill/chevron-up.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-chevron-right",
+    "componentName": "OIconChevronRight",
+    "path": "fill/chevron-right.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-chevron-left",
+    "componentName": "OIconChevronLeft",
+    "path": "fill/chevron-left.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-chevron-down",
+    "componentName": "OIconChevronDown",
+    "path": "fill/chevron-down.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-checked",
+    "componentName": "OIconChecked",
+    "path": "fill/checked.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-caret-up",
+    "componentName": "OIconCaretUp",
+    "path": "fill/caret-up.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-caret-right",
+    "componentName": "OIconCaretRight",
+    "path": "fill/caret-right.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-caret-left",
+    "componentName": "OIconCaretLeft",
+    "path": "fill/caret-left.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-caret-down",
+    "componentName": "OIconCaretDown",
+    "path": "fill/caret-down.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-calendar",
+    "componentName": "OIconCalendar",
+    "path": "fill/calendar.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-arrow-up",
+    "componentName": "OIconArrowUp",
+    "path": "fill/arrow-up.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-arrow-right",
+    "componentName": "OIconArrowRight",
+    "path": "fill/arrow-right.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-arrow-left",
+    "componentName": "OIconArrowLeft",
+    "path": "fill/arrow-left.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-arrow-down",
+    "componentName": "OIconArrowDown",
+    "path": "fill/arrow-down.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-add",
+    "componentName": "OIconAdd",
+    "path": "fill/add.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-warning",
+    "componentName": "OIconWarning",
+    "path": "color/warning.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-success",
+    "componentName": "OIconSuccess",
+    "path": "color/success.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-skill",
+    "componentName": "OIconSkill",
+    "path": "color/skill.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-kunpeng",
+    "componentName": "OIconKunpeng",
+    "path": "color/kunpeng.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-info",
+    "componentName": "OIconInfo",
+    "path": "color/info.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-danger",
+    "componentName": "OIconDanger",
+    "path": "color/danger.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-ascend",
+    "componentName": "OIconAscend",
+    "path": "color/ascend.svg"
+  }
+]

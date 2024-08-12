@@ -1,0 +1,1 @@
+export { default as OIconWarning } from './OIconWarning.vue';

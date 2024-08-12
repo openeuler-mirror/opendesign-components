@@ -1,0 +1,1 @@
+export { default as OIconCaretUp } from './OIconCaretUp.vue';
