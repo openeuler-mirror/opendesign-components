@@ -105,3 +105,7 @@ TODO
 3. [scroller] 修复在设置 max-height 时无法滚动问题;
 4. [textarea] 增加插槽 prepend、append，修复自动尺寸 bug；滚动使用 scroller；
 5. [input/textarea] 修复样式未导出问题，组件光标从 pointer 更改为 text
+6. [config-provider] 增加全局配置项 link，可用于实际场景中，适配 router-link 等; 增加 tag 属性，支持自定义标签
+7. [link] 增加 tag 属性，支持自定义标签
+8. [form] 修复 input 事件不触发表单校验，涉及组件 input/textarea/inputNumber
+9. [Tab] 新增 headerClass 类，支持自定义头部样式，比如 sticky;
