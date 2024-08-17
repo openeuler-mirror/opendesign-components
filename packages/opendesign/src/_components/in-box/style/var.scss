@@ -1,0 +1,186 @@
+.o_box {
+  --box-color: var(--o-color-info2);
+  --box-color-disabled: var(--o-color-info4);
+  --icon-color: var(--o-color-info2);
+  --icon-color-hover: var(--o-color-info2);
+  --icon-color-disabled: var(--o-color-info4);
+
+  --box-ap-bd: 1px solid var(--box-ap-bd-color);
+  --box-ap-bd-disabled: 1px solid var(--box-ap-bd-color-disabled);
+
+  --box-bd: 1px solid var(--box-bd-color);
+
+  --box-bg-color: var(--o-color-control-light);
+  --box-bg-color-hover: var(--o-color-control-light);
+  --box-bg-color-focus: var(--o-color-control-light);
+  --box-bg-color-disabled: var(--o-color-control4-light);
+
+  // --input-prepend-append-bd-color: var(--o-color-control1);
+  // --input-prepend-append-bd-color-disabled: var(--o-color-control4-light);
+  // --input-prepend-append-bg-color: var(--o-color-control-light);
+}
+.o_box-text {
+  --box-bd-color: transparent;
+  --box-bg-color: transparent;
+  --box-bd-color-focus: var(--o-color-control-light);
+  --box-bd-color-disabled: transparent;
+  --box-bg-color-disabled: transparent;
+
+  &.o_box-normal {
+    --box-bd-color-hover: var(--o-color-control-light);
+    --box-bg-color-hover: var(--o-color-control-light);
+  }
+  &.o_box-success {
+    --input-color: var(--o-color-success1);
+    --box-bd-color-hover: var(--o-color-control-light);
+    --box-bg-color-hover: var(--o-color-control-light);
+  }
+  &.o_box-warning {
+    --input-color: var(--o-color-warning1);
+    --box-bd-color-hover: var(--o-color-control-light);
+    --box-bg-color-hover: var(--o-color-control-light);
+  }
+  &.o_box-danger {
+    --input-color: var(--o-color-danger1);
+    --box-bd-color-hover: var(--o-color-control-light);
+    --box-bg-color-hover: var(--o-color-control-light);
+  }
+}
+.o_box-outline {
+  &.o_box-normal {
+    --box-bd-color: var(--o-color-control1);
+    --box-bd-color-hover: var(--o-color-primary2);
+    --box-bd-color-focus: var(--o-color-primary3);
+    --box-bd-color-disabled: var(--o-color-control4);
+  }
+  &.o_box-success {
+    --box-bd-color: var(--o-color-success1-light);
+    --box-bd-color-hover: var(--o-color-success2-light);
+    --box-bd-color-focus: var(--o-color-success3);
+    --box-bd-color-disabled: var(--o-color-success4);
+  }
+  &.o_box-warning {
+    --box-bd-color: var(--o-color-warning1-light);
+    --box-bd-color-hover: var(--o-color-warning2-light);
+    --box-bd-color-focus: var(--o-color-warning3);
+    --box-bd-color-disabled: var(--o-color-warning4);
+  }
+
+  &.o_box-danger {
+    --box-bd-color: var(--o-color-danger1-light);
+    --box-bd-color-hover: var(--o-color-danger2-light);
+    --box-bd-color-focus: var(--o-color-danger3);
+    --box-bd-color-disabled: var(--o-color-danger4);
+  }
+}
+.o_box-outline {
+  --box-ap-bd-color: var(--o-color-control1);
+  --box-ap-bd-color-disabled: var(--o-color-control4);
+}
+
+.o_box-solid {
+  &.o_box-normal {
+    --box-bd-color: var(--o-color-control1-light);
+    --box-bd-color-hover: var(--o-color-control2-light);
+    --box-bd-color-focus: var(--o-color-primary3-light);
+    --box-bd-color-disabled: var(--o-color-control4-light);
+
+    --box-bg-color: var(--o-color-control1-light);
+    --box-bg-color-hover: var(--o-color-control2-light);
+    --box-bg-color-disabled: var(--o-color-control4-light);
+  }
+  &.o_box-success {
+    --box-bd-color: var(--o-color-success1-light);
+    --box-bd-color-hover: var(--o-color-success2-light);
+    --box-bd-color-focus: var(--o-color-success3-light);
+    --box-bd-color-disabled: var(--o-color-success4-light);
+
+    --box-bg-color: var(--o-color-success1-light);
+    --box-bg-color-hover: var(--o-color-success2-light);
+    --box-bg-color-disabled: var(--o-color-success4-light);
+  }
+  &.o_box-warning {
+    --box-bd-color: var(--o-color-warning1-light);
+    --box-bd-color-hover: var(--o-color-warning2-light);
+    --box-bd-color-focus: var(--o-color-warning3-light);
+    --box-bd-color-disabled: var(--o-color-warning4-light);
+
+    --box-bg-color: var(--o-color-warning1-light);
+    --box-bg-color-hover: var(--o-color-warning2-light);
+    --box-bg-color-disabled: var(--o-color-warning4-light);
+  }
+
+  &.o_box-danger {
+    --box-bd-color: var(--o-color-danger1-light);
+    --box-bd-color-hover: var(--o-color-danger2-light);
+    --box-bd-color-focus: var(--o-color-danger3-light);
+    --box-bd-color-disabled: var(--o-color-danger4-light);
+
+    --box-bg-color: var(--o-color-danger1-light);
+    --box-bg-color-hover: var(--o-color-danger2-light);
+    --box-bg-color-disabled: var(--o-color-danger4-light);
+  }
+}
+
+.o_box-small {
+  --box-height: var(--o-control_size-s);
+  --box-text-size: var(--o-font_size-tip1);
+  --box-text-height: var(--o-line_height-tip1);
+
+  --box-padding: 0 7px;
+  --box-radius: var(--o-radius_control-xs);
+  --icon-size: var(--o-icon_size_control-xs);
+
+  --box-prepend-padding: 0 3px 0 4px;
+  --box-append-padding: 0 4px 0 3px;
+
+  &.o_box-round-pill {
+    --box-prepend-padding: 0 4px 0 8px;
+    --box-append-padding: 0 8px 0 4px;
+  }
+}
+.o_box-medium {
+  --box-height: var(--o-control_size-m);
+  --box-text-size: var(--o-font_size-tip1);
+  --box-text-height: var(--o-line_height-tip1);
+
+  --box-padding: 0 15px;
+  --box-radius: var(--o-radius_control-s);
+  --icon-size: var(--o-icon_size_control-m);
+
+  --box-prepend-padding: 0 7px 0 8px;
+  --box-append-padding: 0 8px 0 7px;
+
+  &.o_box-round-pill {
+    --box-prepend-padding: 0 8px 0 11px;
+    --box-append-padding: 0 11px 0 8px;
+  }
+}
+.o_box-large {
+  --box-height: var(--o-control_size-l);
+  --box-text-size: var(--o-font_size-text1);
+  --box-text-height: var(--o-line_height-text1);
+
+  --box-padding: 0 15px;
+  --box-radius: var(--o-radius_control-l);
+  --icon-size: var(--o-icon_size_control-m);
+
+  --box-prepend-padding: 0 11px 0 12px;
+  --box-append-padding: 0 12px 0 11px;
+  &.o_box-round-pill {
+    --box-prepend-padding: 0 12px 0 15px;
+    --box-append-padding: 0 15px 0 12px;
+  }
+}
+
+.o_box-round-pill {
+  --box-radius: var(--o-control_size-l);
+}
+
+.o_box-text {
+  &,
+  &.o_box-round-pill {
+    --box-prepend-padding: 0 8px 0 0;
+    --box-append-padding: 0 0 0 8px;
+  }
+}
