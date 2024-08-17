@@ -5,14 +5,14 @@ export function getRoundClass(props: any, name: string) {
   return {
     class: computed(() => {
       if (props.round === 'pill' || (!props.round && defaultRound.value === 'pill')) {
-        return `o-${name}-round-pill`;
+        return ['-', '_'].includes(name[0]) ? `o${name}-round-pill` : `o-${name}-round-pill`;
       }
       return '';
     }),
     style: computed(() => {
-      if (props.round && props.round !== 'pill') {
+      if (props.round) {
         return {
-          [`--${name}-radius`]: props.round,
+          [`--${name}-radius`]: props.round === 'pill' ? '100vh' : props.round,
         };
       }
       return {};

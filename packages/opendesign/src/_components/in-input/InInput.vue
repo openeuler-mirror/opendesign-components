@@ -160,7 +160,7 @@ defineExpose({
       />
     </div>
 
-    <div v-if="$slots.suffix || props.clearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
+    <div v-if="$slots.suffix || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
       <!-- 自定义图标 -->
       <span v-if="$slots.suffix" class="o_input-suffix-icon">
         <slot :name="slotNames.suffix"></slot>

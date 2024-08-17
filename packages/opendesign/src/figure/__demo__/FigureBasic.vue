@@ -13,17 +13,28 @@ const preivewImg = () => {
 const playVideo = () => {
   alert('you can play video');
 };
+const onload = () => {
+  console.log('loaded');
+};
+
+const onerror = () => {
+  console.log('error');
+};
+
+const onpreview = (visible: boolean) => {
+  console.log('preview:', visible);
+};
 </script>
 <template>
   <h4>基本</h4>
   <section>
-    <OFigure class="img" :src="img" colorful />
+    <OFigure class="img" :src="img" colorful @load="onload" />
     <OFigure class="img" :src="img" :ratio="16 / 9" fit="contain" colorful />
-    <OFigure class="img" src="123" :ratio="16 / 9" fit="cover" colorful />
-    <OFigure class="img" :src="img" :ratio="16 / 9" fit="cover" background colorful />
+    <OFigure class="img" src="123" :ratio="16 / 9" fit="cover" colorful @error="onerror" />
+    <OFigure class="img" :src="img" :ratio="16 / 9" fit="cover" background colorful @load="onload" />
     <OFigure class="img" hoverable :src="img" />
     <OFigure class="img" href="openEuler" target="__blank" :src="img" />
-    <OFigure class="img" :src="img" preview />
+    <OFigure class="img" :src="img" preview @preview="onpreview" />
     <OFigure ref="figureRef" class="img" :src="img" lazy-preiew>
       <OIconSearch class="zoomIn" @click="preivewImg" />
     </OFigure>

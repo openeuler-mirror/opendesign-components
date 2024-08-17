@@ -1,0 +1,121 @@
+@use '../../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o_box {
+  color: var(--box-color);
+  display: flex;
+  height: var(--box-height);
+  font-size: var(--box-text-size);
+  line-height: var(--box-text-height);
+}
+
+.o_box-main {
+  display: flex;
+  padding: var(--box-padding);
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--box-radius);
+  border: var(--box-bd);
+  background-color: var(--box-bg-color);
+  transition: all var(--o-duration-s) var(--o-easing-standard);
+
+  cursor: pointer;
+  @include hover {
+    border-color: var(--box-bd-color-hover);
+    background-color: var(--box-bg-color-hover);
+  }
+
+  &.o_box-focused {
+    border-color: var(--box-bd-color-focus);
+    background-color: var(--box-bg-color-focus);
+  }
+
+  &.o_box-disabled,
+  &.o_box-readonly {
+    color: var(--box-color-disabled);
+    border-color: var(--box-bd-color-disabled);
+    background-color: var(--box-bg-color-disabled);
+  }
+  &.o_box-disabled {
+    cursor: not-allowed;
+  }
+  &.o_box-readonly {
+    cursor: default;
+  }
+
+  &.has-prepend {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  &.has-append {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.o_box-append,
+.o_box-prepend {
+  display: flex;
+  align-items: center;
+  border: var(--box-prepend-append-bd);
+  background-color: var(--box-prepend-append-bg-color);
+  overflow: hidden;
+
+  .o_box-readonly &,
+  .o_box-disabled & {
+    border-color: var(--box-prepend-append-bd-color-disabled);
+  }
+}
+
+.o_box-append {
+  flex-shrink: 0;
+  border-top-right-radius: var(--box-radius);
+  border-bottom-right-radius: var(--box-radius);
+}
+
+.o_box-prepend {
+  flex-shrink: 0;
+  padding: var(--box-prepend-padding);
+  border-top-left-radius: var(--box-radius);
+  border-bottom-left-radius: var(--box-radius);
+}
+
+.o_box-solid {
+  .o_box-prepend {
+    border-left-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+  .o_box-append {
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+}
+
+.o_box-outline {
+  .o_box-prepend {
+    border-right-width: 0;
+  }
+  .o_box-append {
+    border-left-width: 0;
+  }
+}
+.o_box-text {
+  .o_box-main {
+    border-right-width: 0;
+    border-top-width: 0;
+    border-left-width: 0;
+  }
+}
+
+.o_box-input {
+  --input-color: var(--o-color-info1);
+  --input-color-disabled: var(--o-color-info4);
+  --input-placeholder: var(--o-color-info4);
+
+  --input-icon-color: var(--o-color-info3);
+  --input-icon-color-hover: var(--o-color-info2);
+  --input-icon-color-disabled: var(--o-color-info4);
+}
