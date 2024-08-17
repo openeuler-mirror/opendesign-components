@@ -21,7 +21,7 @@ const check = (val: string) => Boolean(Number(val) % 2);
     <div>
       <div class="row">
         <p>text:</p>
-        <OInput v-model="val1" />
+        <OInput v-model="val1" :max-length="5" :min-length="2" />
         <p>password:</p>
         <OInput v-model="val3" type="password" disabled />
       </div>

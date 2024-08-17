@@ -120,7 +120,7 @@ export const inTextareaProps = {
     type: String,
   },
   /**
-   * scrollbar
+   * 使用内置scrollbar，支持传递scrollbar配置项
    */
   scrollbar: {
     type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,
