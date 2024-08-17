@@ -15,10 +15,16 @@
   --box-bg-color-focus: var(--o-color-control-light);
   --box-bg-color-disabled: var(--o-color-control4-light);
 
-  // --input-prepend-append-bd-color: var(--o-color-control1);
-  // --input-prepend-append-bd-color-disabled: var(--o-color-control4-light);
-  // --input-prepend-append-bg-color: var(--o-color-control-light);
+  --box-prepend-append-bd: 1px solid var(--o-color-control1);
+  --box-prepend-append-bd-color-disabled: var(--o-color-control4-light);
+  --box-prepend-append-bg-color: var(--o-color-control-light);
 }
+
+.o_box-solid {
+  --box-prepend-append-bd: 1px solid var(--o-color-control2-light);
+  --box-prepend-append-bg-color: var(--o-color-control1-light);
+}
+
 .o_box-text {
   --box-bd-color: transparent;
   --box-bg-color: transparent;
@@ -130,14 +136,6 @@
   --box-padding: 0 7px;
   --box-radius: var(--o-radius_control-xs);
   --icon-size: var(--o-icon_size_control-xs);
-
-  --box-prepend-padding: 0 3px 0 4px;
-  --box-append-padding: 0 4px 0 3px;
-
-  &.o_box-round-pill {
-    --box-prepend-padding: 0 4px 0 8px;
-    --box-append-padding: 0 8px 0 4px;
-  }
 }
 .o_box-medium {
   --box-height: var(--o-control_size-m);
@@ -146,15 +144,7 @@
 
   --box-padding: 0 15px;
   --box-radius: var(--o-radius_control-s);
-  --icon-size: var(--o-icon_size_control-m);
-
-  --box-prepend-padding: 0 7px 0 8px;
-  --box-append-padding: 0 8px 0 7px;
-
-  &.o_box-round-pill {
-    --box-prepend-padding: 0 8px 0 11px;
-    --box-append-padding: 0 11px 0 8px;
-  }
+  --icon-size: var(--o-icon_size_control-xs);
 }
 .o_box-large {
   --box-height: var(--o-control_size-l);
@@ -163,24 +153,9 @@
 
   --box-padding: 0 15px;
   --box-radius: var(--o-radius_control-l);
-  --icon-size: var(--o-icon_size_control-m);
-
-  --box-prepend-padding: 0 11px 0 12px;
-  --box-append-padding: 0 12px 0 11px;
-  &.o_box-round-pill {
-    --box-prepend-padding: 0 12px 0 15px;
-    --box-append-padding: 0 15px 0 12px;
-  }
+  --icon-size: var(--o-icon_size_control-s);
 }
 
 .o_box-round-pill {
   --box-radius: var(--o-control_size-l);
-}
-
-.o_box-text {
-  &,
-  &.o_box-round-pill {
-    --box-prepend-padding: 0 8px 0 0;
-    --box-append-padding: 0 0 0 8px;
-  }
 }

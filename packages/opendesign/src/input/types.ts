@@ -1,7 +1,8 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT, RoundT, VariantT, Color2T } from '../_utils/types';
 import { inInputProps } from '../_components/in-input/types';
+import { inBoxProps } from '../_components/in-box/types';
 
+const { size, round, color, variant } = inBoxProps;
 export const inputProps = {
   ...inInputProps,
   /**
@@ -18,32 +19,10 @@ export const inputProps = {
   defaultValue: {
     type: [String, Number],
   },
-  /**
-   * 大小 SizeT
-   */
-  size: {
-    type: String as PropType<SizeT>,
-  },
-  /**
-   * 圆角值 RoundT
-   */
-  round: {
-    type: String as PropType<RoundT>,
-  },
-  /**
-   * 颜色类型 Color2T
-   */
-  color: {
-    type: String as PropType<Color2T>,
-    default: 'normal',
-  },
-  /**
-   * 按钮类型 VariantT
-   */
-  variant: {
-    type: String as PropType<VariantT>,
-    default: 'outline',
-  },
+  size,
+  round,
+  color,
+  variant,
 };
 
 export type InputPropsT = ExtractPropTypes<typeof inputProps>;

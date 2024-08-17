@@ -7,7 +7,10 @@
   height: var(--box-height);
   font-size: var(--box-text-size);
   line-height: var(--box-text-height);
+}
 
+.o_box-main {
+  display: flex;
   padding: var(--box-padding);
   width: 100%;
   overflow: hidden;
@@ -55,18 +58,18 @@
 .o_box-prepend {
   display: flex;
   align-items: center;
-  border: var(--box-ap-bd);
-  background-color: var(--box-ap-bg-color);
+  border: var(--box-prepend-append-bd);
+  background-color: var(--box-prepend-append-bg-color);
+  overflow: hidden;
 
   .o_box-readonly &,
   .o_box-disabled & {
-    border: var(--box-ap-bd-disabled);
+    border-color: var(--box-prepend-append-bd-color-disabled);
   }
 }
 
 .o_box-append {
   flex-shrink: 0;
-  padding: var(--box-append-padding);
   border-top-right-radius: var(--box-radius);
   border-bottom-right-radius: var(--box-radius);
 }
@@ -108,7 +111,6 @@
 }
 
 .o_box-input {
-  // in-input
   --input-color: var(--o-color-info1);
   --input-color-disabled: var(--o-color-info4);
   --input-placeholder: var(--o-color-info4);
