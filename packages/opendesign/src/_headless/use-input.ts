@@ -44,6 +44,9 @@ export function useInput(options: InputOptionT) {
   // 记录上一次有效输入值
   let lastValidValue: string = '';
 
+  /**
+   * 校验是否值有效，如果值为空，始终有效
+   */
   const doValidate = () => {
     isValid.value = currentValue.value === '' ? true : validateFn.value(currentValue.value);
     return isValid.value;
@@ -58,7 +61,7 @@ export function useInput(options: InputOptionT) {
       lastValidValue = currentValue.value;
     }
 
-    if (!isFocus.value || !format?.value) {
+    if (!(format?.value && isFocus.value)) {
       displayValue.value = formatFn.value(currentValue.value);
     }
   });
@@ -144,9 +147,10 @@ export function useInput(options: InputOptionT) {
     const keyCode = e.key || e.code;
     if (!composition.isComposing.value && keyCode === Enter.key) {
       emitValidUpdateValue();
-      emitChange();
 
       displayValue.value = currentValue.value;
+
+      emitChange();
 
       emits('pressEnter', e);
     }
@@ -170,10 +174,15 @@ export function useInput(options: InputOptionT) {
     clearValue();
   };
 
+  const updateValue = (val: string) => {
+    currentValue.value = val;
+    lastValue.value = currentValue.value;
+  };
+
   return {
-    currentValue,
-    lastValue,
-    displayValue,
+    realValue: computed(() => currentValue.value),
+    displayValue: computed(() => displayValue.value),
+    updateValue,
     isValid,
     inputEl,
     clearValue,
