@@ -1,0 +1,14 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-virtual-list {
+  display: block;
+}
+.o-virtual-list-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+.o-virtual-body {
+  overflow: hidden;
+}
