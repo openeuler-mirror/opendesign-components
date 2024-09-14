@@ -67,10 +67,10 @@ const offsetProp = computed(() => {
 
 const offset = ref(0);
 watch(
-  () => props.offsetRate,
-  (v) => {
+  () => [props.offsetRate, trackLength.value],
+  (val) => {
     if (!isDarggingBar.value) {
-      offset.value = Math.round(trackLength.value * v);
+      offset.value = Math.round(val[1] * val[0]);
     }
   },
   {
