@@ -119,10 +119,12 @@
 .o-scrollbar-y-thumb {
   top: 0;
   left: 50%;
+  min-height: var(--scrollbar-thumb-min-size);
 }
 .o-scrollbar-x-thumb {
   left: 0;
   top: 50%;
+  min-width: var(--scrollbar-thumb-min-size);
 }
 
 .o-scrollbar-x-thumb-bar,
