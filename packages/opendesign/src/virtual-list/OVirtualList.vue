@@ -54,7 +54,7 @@ const wrapperRef = ref<HTMLElement>();
 const placeholderSize = 80;
 
 // 列表虚拟总高度，先给定初始值
-const contentSize = ref(placeholderSize * listData.value.length);
+const contentSize = ref((props.itemSize ? props.itemSize : placeholderSize) * listData.value.length);
 // 容器可视区尺寸
 const containerSize = ref({
   height: 0,
@@ -87,16 +87,18 @@ interface ItemMeta {
 }
 let listMetaData: Array<ItemMeta> = [];
 watchEffect(() => {
+  const itemSize = props.itemSize ? props.itemSize : placeholderSize;
   listMetaData = listData.value.map((_, index) => {
     const meta = {
       index,
-      size: placeholderSize,
-      top: placeholderSize * index,
-      bottom: placeholderSize * (index + 1),
+      size: itemSize,
+      top: itemSize * index,
+      bottom: itemSize * (index + 1),
       measured: false,
     };
     return meta;
   });
+  contentSize.value = listMetaData[listMetaData.length - 1].bottom;
 });
 
 /**
@@ -167,7 +169,7 @@ const onScroll = () => {
   if (props.itemSize) {
     offset.value = scrollOffset - (scrollOffset % props.itemSize);
 
-    startIndex.value = scrollOffset / props.itemSize;
+    startIndex.value = Math.floor(scrollOffset / props.itemSize);
     return;
   }
 

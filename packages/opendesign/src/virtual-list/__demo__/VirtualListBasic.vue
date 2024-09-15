@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { OVirtualList } from '../index';
 import '../style';
+import { BaseScrollerPropsT } from '../../scrollbar';
 
 const list = ref(
   new Array(50).fill(1).map((_, idx) => ({
@@ -9,6 +10,7 @@ const list = ref(
     height: Math.floor(Math.random() * 80 + 40),
   }))
 );
+
 const onClick = (item: any) => {
   item.height -= 10;
 };
@@ -16,6 +18,26 @@ const onClick = (item: any) => {
 const containerHeight = ref(300);
 const changeContainerSize = () => {
   containerHeight.value += 20;
+};
+
+const list2 = ref(
+  new Array(20).fill(1).map((_, idx) => ({
+    label: `${idx + 1}`,
+    height: Math.floor(Math.random() * 80 + 40),
+  }))
+);
+const changeListData = () => {
+  const n = new Array(10).fill(1).map((_, idx) => ({
+    label: `add${idx + 1}`,
+    height: Math.floor(Math.random() * 80 + 40),
+  }));
+  list2.value = list2.value.concat(n);
+};
+
+const scrollbarProps: Partial<BaseScrollerPropsT> = {
+  showType: 'always',
+  size: 'medium',
+  autoUpdateOnScrollSize: true,
 };
 </script>
 <template>
@@ -70,7 +92,31 @@ const changeContainerSize = () => {
       </OVirtualList>
     </div>
   </div>
-  <br />
+  <h4>数据变化</h4>
+  <button @click="changeListData">数据变化 长度+10</button> <span> list length: {{ list2.length }}</span>
+
+  <div class="row">
+    <div class="col">
+      <OVirtualList class="container2" :list="list2" :default-start-index="10" :style="{ height: containerHeight + 'px' }" :item-size="80">
+        <template #default="{ item, index }">
+          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+            <span>Row:</span> <span>{{ item.label }}</span
+            >------<span>Height:</span> <span>80px</span>
+          </div>
+        </template>
+      </OVirtualList>
+    </div>
+    <div class="col">
+      <OVirtualList class="container2" :list="list2" :default-start-index="10" :style="{ height: containerHeight + 'px' }" :scrollbar="scrollbarProps">
+        <template #default="{ item, index }">
+          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+            <span>Row:</span> <span>{{ item.label }}</span
+            >------<span>Height:</span> <span>80px</span>
+          </div>
+        </template>
+      </OVirtualList>
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
 .scrollbar-wrapper {
