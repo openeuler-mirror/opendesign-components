@@ -1,6 +1,10 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { BaseScrollerPropsT } from '../scrollbar';
 
+/**
+ * 虚拟滚动的子项不能使用margin，会导致总高度计算不准确（无法包含margin）
+ */
+
 export const virtualListProps = {
   /**
    * 禁用横向滚动

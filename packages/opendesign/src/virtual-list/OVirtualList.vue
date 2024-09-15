@@ -2,9 +2,10 @@
 import { ref, computed, onMounted, watchEffect } from 'vue';
 import { vScrollbar } from '../scrollbar';
 import { virtualListProps } from './types';
-import { isArray } from '../_utils/is';
+import { isArray, isUndefined } from '../_utils/is';
 import { OResizeObserver } from '../resize-observer';
 import { vOnResize } from '../directives';
+import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
 /**
@@ -61,8 +62,8 @@ const containerSize = ref({
   width: 0,
 });
 const onContainerResize = () => {
-  containerSize.value.height = wrapperRef.value?.clientHeight ?? 0;
-  containerSize.value.width = wrapperRef.value?.clientWidth ?? 0;
+  containerSize.value.height = wrapperRef.value?.offsetHeight ?? 0;
+  containerSize.value.width = wrapperRef.value?.offsetWidth ?? 0;
 
   updateVisibleCount(wrapperRef.value?.scrollTop ?? 0);
 };
@@ -119,24 +120,30 @@ const updateMeta = (start: number = 0) => {
 /**
  * 根据当前滚动位置，计算可视区域的展示项数量
  */
-const updateVisibleCount = (scrollOffset: number) => {
+const updateVisibleCount = (scrollOffset?: number) => {
+  let scrollSize = scrollOffset;
+  if (isUndefined(scrollSize)) {
+    scrollSize = wrapperRef.value?.scrollTop ?? 0;
+  }
   const { height: containerHeight } = containerSize.value;
   if (!wrapperRef.value || !containerHeight) {
     return;
   }
   const eMeta = listMetaData[endIndex.value - bufferCount];
-  if (eMeta.bottom > scrollOffset + containerHeight) {
+  if (eMeta.bottom > scrollSize + containerHeight) {
     return;
   }
 
   for (let i = endIndex.value + 1; i < listMetaData.length; i++) {
     const meta = listMetaData[i - bufferCount];
-    if (meta.top > scrollOffset + containerHeight) {
+    if (meta.top > scrollSize + containerHeight) {
       renderCount.value = i - startIndex.value - bufferCount;
       break;
     }
   }
 };
+
+const debounceUpdateVisibleCount = debounceRAF(updateVisibleCount);
 /**
  * 滚动态时，根据滚动位置，计算虚拟列表渲染的起始、结束位置
  * 使用二分查找
@@ -176,24 +183,25 @@ const onScroll = () => {
   startIndex.value = getStartIndex(scrollOffset);
   offset.value = listMetaData[startIndex.value].top;
 
-  updateVisibleCount(scrollOffset);
+  debounceUpdateVisibleCount(scrollOffset);
 };
 /**
  * 子项尺寸变化时，重新刷新meta数据
  */
 const onItemResize = (en: ResizeObserverEntry, index: number) => {
-  const el = en.target;
+  const el = en.target as HTMLElement;
   const meta = listMetaData[index];
   // 如果之前计算过，且尺寸无变化，则不需要刷新meta数据
-  if (meta.measured && meta.size === el.clientHeight) {
+  if (meta.measured && meta.size === el.offsetHeight) {
     return;
   }
 
-  meta.size = el.clientHeight;
+  meta.size = el.offsetHeight;
   meta.measured = true;
   meta.bottom = meta.top + meta.size;
 
   updateMeta(index);
+  debounceUpdateVisibleCount();
 };
 
 onMounted(() => {
@@ -208,7 +216,7 @@ onMounted(() => {
 
 <template>
   <div class="o-virtual-list">
-    <div class="o-virtual-list-wrapper" v-on-resize="onContainerResize" ref="wrapperRef" v-scrollbar="scrollbarProps" @scroll="onScroll">
+    <div class="o-virtual-list-wrapper" v-on-resize="onContainerResize" ref="wrapperRef" v-scrollbar="scrollbarProps" @scroll.passive="onScroll">
       <div class="o-virtual-body" :style="contentStyle">
         <div class="o-virtual-render-list" :style="renderListStyle">
           <template v-for="item in renderList" :key="item.index">

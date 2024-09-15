@@ -45,20 +45,21 @@ const clickOption = () => {
 };
 </script>
 <template>
-  <div
-    class="o-option"
-    :class="[
-      {
-        active: isActive,
-        'o-option-disabled': props.disabled,
-        'o-option-multiple': isMultiple,
-      },
-    ]"
-    @click="clickOption"
-  >
-    <OCheckbox v-if="isMultiple" :model-value="currentVal" :value="props.value" class="o-option-checkbox" :disabled="props.disabled">
-      <slot>{{ props.label || `${props.value}` }}</slot>
-    </OCheckbox>
-    <slot v-else>{{ props.label || `${props.value}` }}</slot>
+  <div class="o-option" @click="clickOption">
+    <div
+      class="o-option-item"
+      :class="[
+        {
+          active: isActive,
+          'o-option-disabled': props.disabled,
+          'o-option-multiple': isMultiple,
+        },
+      ]"
+    >
+      <OCheckbox v-if="isMultiple" :model-value="currentVal" :value="props.value" class="o-option-checkbox" :disabled="props.disabled">
+        <slot>{{ props.label || `${props.value}` }}</slot>
+      </OCheckbox>
+      <slot v-else>{{ props.label || `${props.value}` }}</slot>
+    </div>
   </div>
 </template>
