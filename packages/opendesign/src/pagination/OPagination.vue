@@ -11,6 +11,7 @@ import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
 import { OOptionList } from '../option';
 import { useI18n } from '../locale';
+import { OVirtualList } from '../virtual-list';
 
 const props = defineProps(paginationProps);
 
@@ -219,15 +220,31 @@ defineExpose({
                 :disabled="!props.showMore"
                 v-model:visible="moreVisible[item.value as 'left'|'right']"
               >
-                <OOptionList scroller>
-                  <OOption
-                    v-for="opt in item.list"
-                    :key="opt"
-                    class="o-pagination-more-item"
-                    :label="String(opt)"
-                    :value="opt"
-                    @click="onMoreItemClick(opt, item.value)"
-                  />
+                <OOptionList scrollbar>
+                  <!-- 当下拉项大于50，采用虚拟列表 -->
+                  <template v-if="item.list && item.list.length > 50">
+                    <OVirtualList :list="item.list" class="o-pagination-virtual-more-list" :scrollbar="{ showType: 'hover', size: 'small' }">
+                      <template #default="data">
+                        <OOption
+                          :key="data.item"
+                          class="o-pagination-more-item"
+                          :label="String(data.item)"
+                          :value="data.item"
+                          @click="onMoreItemClick(data.item, item.value)"
+                        />
+                      </template>
+                    </OVirtualList>
+                  </template>
+                  <template v-else-if="item.list">
+                    <OOption
+                      v-for="opt in item.list"
+                      :key="opt"
+                      class="o-pagination-more-item"
+                      :label="String(opt)"
+                      :value="opt"
+                      @click="onMoreItemClick(opt, item.value)"
+                    />
+                  </template>
                 </OOptionList>
                 <template #target>
                   <span @click="moreClick(item)" class="o-pagination-more-icon-wrap">
