@@ -8,6 +8,7 @@ export const virtualListProps = {
   list: {
     type: Array<any>,
     required: true,
+    default: [],
   },
   itemSize: {
     type: Number,
@@ -15,6 +16,9 @@ export const virtualListProps = {
   defaultStartIndex: {
     type: Number,
     default: 0,
+  },
+  buffer: {
+    type: Number,
   },
   /**
    * 使用内置scrollbar，支持传递scrollbar配置项

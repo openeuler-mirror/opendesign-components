@@ -1,8 +1,8 @@
 import { isObject, isUndefined, isNull, isPlainObject } from './is';
 // 防抖 时间为一个一帧
-export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
+export function debounceRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;
-  const rlt = (...args: Array<unknown>) => {
+  const rlt = (...args: Array<any>) => {
     if (handle) {
       cancelAnimationFrame(handle);
     }
@@ -18,9 +18,9 @@ export function debounceRAF<T extends (...args: Array<unknown>) => any>(fn: T) {
   return rlt;
 }
 // 节流 时间为一个一帧
-export function throttleRAF<T extends (...args: Array<unknown>) => unknown>(fn: T) {
+export function throttleRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;
-  const rlt = (...args: Array<unknown>) => {
+  const rlt = (...args: Array<any>) => {
     if (handle) {
       return;
     }

@@ -11,4 +11,8 @@
 }
 .o-virtual-body {
   overflow: hidden;
+  height: var(--content-height);
+}
+.o-virtual-render-list {
+  transform: translate3d(var(--offsetX, 0), var(--offsetY), 0);
 }
