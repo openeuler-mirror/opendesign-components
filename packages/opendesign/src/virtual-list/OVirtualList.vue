@@ -65,7 +65,7 @@ const onContainerResize = () => {
   containerSize.value.height = wrapperRef.value?.offsetHeight ?? 0;
   containerSize.value.width = wrapperRef.value?.offsetWidth ?? 0;
 
-  updateVisibleCount(wrapperRef.value?.scrollTop ?? 0);
+  debounceUpdateVisibleCount(wrapperRef.value?.scrollTop ?? 0);
 };
 
 const contentStyle = computed(() => ({
@@ -77,6 +77,27 @@ const renderListStyle = computed(() => {
   return {
     '--offsetY': `${offset.value}px`,
   };
+});
+
+/**
+ * 滚动到指定序号项
+ * @param index
+ */
+const scrollToIndex = (index: number) => {
+  if (!wrapperRef.value || index < 0 || index >= listMetaData.length) {
+    return;
+  }
+  wrapperRef.value.scrollTop = listMetaData[index].top;
+};
+
+/**
+ * 初始化滚动位置
+ */
+const initialScroll = ref(false);
+watchEffect(() => {
+  if (initialScroll.value) {
+    scrollToIndex(props.defaultStartIndex);
+  }
 });
 
 interface ItemMeta {
@@ -202,15 +223,27 @@ const onItemResize = (en: ResizeObserverEntry, index: number) => {
 
   updateMeta(index);
   debounceUpdateVisibleCount();
+
+  // 滚动到初始位置
+  if (index === props.defaultStartIndex && !initialScroll.value) {
+    initialScroll.value = true;
+  }
 };
 
-onMounted(() => {
+const init = () => {
   if (!wrapperRef.value) {
     return;
   }
   onContainerResize();
-  wrapperRef.value.scrollTop = listMetaData[props.defaultStartIndex].top;
-  updateVisibleCount(wrapperRef.value.scrollTop);
+  debounceUpdateVisibleCount(wrapperRef.value.scrollTop);
+};
+
+onMounted(() => {
+  init();
+});
+
+defineExpose({
+  scrollToIndex,
 });
 </script>
 

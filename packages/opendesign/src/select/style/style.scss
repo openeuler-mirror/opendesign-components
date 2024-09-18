@@ -138,6 +138,9 @@
 .o-select-options {
   overflow: hidden;
 }
+.o-select-option-wrap {
+  max-height: var(--option-list-max-height, var(--option-list-max-height-default));
+}
 
 .o-select-options-loading {
   display: flex;

@@ -30,6 +30,7 @@ const emits = defineEmits<{
 const { t } = useI18n();
 
 const selectRef = ref<HTMLElement>();
+const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
 const isResponding = computed(() => {
@@ -336,6 +337,17 @@ const onselectDlgOkClick = () => {
       <slot name="suffix" :active="isSelecting"></slot>
     </div>
     <ClientOnly>
+      <teleport :to="optionsRef" :disabled="!optionsRef">
+        <div v-show="optionsRef" class="o-select-option-wrap">
+          <slot>
+            <div class="o-select-empty">
+              <slot name="empty">
+                <span>{{ t('common.empty') }}</span>
+              </slot>
+            </div>
+          </slot>
+        </div>
+      </teleport>
       <template v-if="isResponding">
         <ODialog
           v-model:visible="isSelecting"
@@ -374,15 +386,7 @@ const onselectDlgOkClick = () => {
             </template>
 
             <!-- option选项单独处理 -->
-            <template #option-target>
-              <slot>
-                <div class="o-select-empty">
-                  <slot name="empty">
-                    <span>{{ t('common.empty') }}</span>
-                  </slot>
-                </div>
-              </slot>
-            </template>
+            <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
         </ODialog>
       </template>
@@ -408,17 +412,8 @@ const onselectDlgOkClick = () => {
             <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
               <slot :name="name"></slot>
             </template>
-
             <!-- option选项单独处理 -->
-            <template #option-target>
-              <slot>
-                <div class="o-select-empty">
-                  <slot name="empty">
-                    <span>{{ t('common.empty') }}</span>
-                  </slot>
-                </div>
-              </slot>
-            </template>
+            <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>
         </OPopup>
       </template>
