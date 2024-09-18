@@ -37,12 +37,6 @@
 
 1. figure 刷新播放图标
 
-TODO
-
-1. pagination 支持 layout 控制顺序
-2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
-3. 级联重构
-
 # 0.0.61
 
 1. [table] 插槽更名：表头 th_xx; 表体 td_xx;
@@ -109,3 +103,11 @@ TODO
 7. [link] 增加 tag 属性，支持自定义标签
 8. [form] 修复 input 事件不触发表单校验，涉及组件 input/textarea/inputNumber
 9. [Tab] 新增 headerClass 类，支持自定义头部样式，比如 sticky;
+
+TODO
+
+1. pagination 支持 layout 控制顺序
+2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
+3. 级联重构
+4. virtualList 整改为 use-virtual-list
+5. select 重构，通过 options 传列表数据
