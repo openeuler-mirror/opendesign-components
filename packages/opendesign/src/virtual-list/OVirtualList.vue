@@ -33,14 +33,17 @@ const listData = computed(() => {
   }));
 });
 
-const bufferCount = props.buffer ?? 1;
-// 渲染起始序号
-const startIndex = ref(props.defaultStartIndex < bufferCount ? 0 : props.defaultStartIndex - bufferCount);
+// 可视区域内的起始序号
+const visibleStartIndex = ref(props.defaultStartIndex ?? 0);
 // 可视区域内的结束序号
 const renderCount = ref(1);
+// 渲染起始序号
+const startIndex = computed(() => {
+  return Math.max(visibleStartIndex.value - props.buffer, 0);
+});
 // 渲染结束序号
 const endIndex = computed(() => {
-  return Math.min(startIndex.value + renderCount.value + bufferCount * 2, listData.value.length - 1);
+  return Math.min(startIndex.value + renderCount.value + props.buffer * 2, listData.value.length - 1);
 });
 
 /**
@@ -65,7 +68,7 @@ const onContainerResize = () => {
   containerSize.value.height = wrapperRef.value?.offsetHeight ?? 0;
   containerSize.value.width = wrapperRef.value?.offsetWidth ?? 0;
 
-  debounceUpdateVisibleCount(wrapperRef.value?.scrollTop ?? 0);
+  debounceUpdateVisibleCount();
 };
 
 const contentStyle = computed(() => ({
@@ -116,7 +119,7 @@ watchEffect(() => {
       size: itemSize,
       top: itemSize * index,
       bottom: itemSize * (index + 1),
-      measured: false,
+      measured: props.itemSize ? true : false,
     };
     return meta;
   });
@@ -150,15 +153,11 @@ const updateVisibleCount = (scrollOffset?: number) => {
   if (!wrapperRef.value || !containerHeight) {
     return;
   }
-  const eMeta = listMetaData[endIndex.value - bufferCount];
-  if (eMeta.bottom > scrollSize + containerHeight) {
-    return;
-  }
 
-  for (let i = endIndex.value + 1; i < listMetaData.length; i++) {
-    const meta = listMetaData[i - bufferCount];
+  for (let i = visibleStartIndex.value + 1; i < listMetaData.length; i++) {
+    const meta = listMetaData[i];
     if (meta.top > scrollSize + containerHeight) {
-      renderCount.value = i - startIndex.value - bufferCount;
+      renderCount.value = i - visibleStartIndex.value;
       break;
     }
   }
@@ -195,13 +194,12 @@ const getStartIndex = (scrollOffset: number) => {
 const onScroll = () => {
   const scrollOffset = wrapperRef.value?.scrollTop ?? 0;
   if (props.itemSize) {
-    offset.value = scrollOffset - (scrollOffset % props.itemSize);
-
-    startIndex.value = Math.floor(scrollOffset / props.itemSize);
+    visibleStartIndex.value = Math.floor(scrollOffset / props.itemSize);
+    offset.value = listMetaData[startIndex.value].top;
     return;
   }
 
-  startIndex.value = getStartIndex(scrollOffset);
+  visibleStartIndex.value = getStartIndex(scrollOffset);
   offset.value = listMetaData[startIndex.value].top;
 
   debounceUpdateVisibleCount(scrollOffset);
@@ -222,12 +220,13 @@ const onItemResize = (en: ResizeObserverEntry, index: number) => {
   meta.bottom = meta.top + meta.size;
 
   updateMeta(index);
-  debounceUpdateVisibleCount();
 
   // 滚动到初始位置
   if (index === props.defaultStartIndex && !initialScroll.value) {
     initialScroll.value = true;
   }
+
+  debounceUpdateVisibleCount();
 };
 
 const init = () => {
@@ -235,7 +234,9 @@ const init = () => {
     return;
   }
   onContainerResize();
-  debounceUpdateVisibleCount(wrapperRef.value.scrollTop);
+  // 先初始化滚动位置
+  scrollToIndex(props.defaultStartIndex);
+  debounceUpdateVisibleCount();
 };
 
 onMounted(() => {

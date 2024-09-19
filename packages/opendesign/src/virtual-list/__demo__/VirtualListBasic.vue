@@ -84,7 +84,7 @@ const scrollbarProps: Partial<BaseScrollerPropsT> = {
     <div class="col">
       <OVirtualList class="container2" :list="list" :default-start-index="10" :style="{ height: containerHeight + 'px' }">
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+          <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>80px</span>
           </div>
@@ -97,7 +97,14 @@ const scrollbarProps: Partial<BaseScrollerPropsT> = {
 
   <div class="row">
     <div class="col">
-      <OVirtualList class="container2" :list="list2" :default-start-index="10" :style="{ height: containerHeight + 'px' }" :item-size="80">
+      <OVirtualList
+        class="container2"
+        :list="list2"
+        :default-start-index="10"
+        :style="{ height: containerHeight + 'px' }"
+        :item-size="80"
+        :scrollbar="scrollbarProps"
+      >
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`">
             <span>Row:</span> <span>{{ item.label }}</span
@@ -109,7 +116,7 @@ const scrollbarProps: Partial<BaseScrollerPropsT> = {
     <div class="col">
       <OVirtualList class="container2" :list="list2" :default-start-index="10" :style="{ height: containerHeight + 'px' }" :scrollbar="scrollbarProps">
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+          <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>80px</span>
           </div>
