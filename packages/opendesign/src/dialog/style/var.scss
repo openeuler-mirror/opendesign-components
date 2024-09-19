@@ -11,13 +11,10 @@
   --dlg-max-height: 100%;
   --dlg-min-width: 272px;
 
-  --dlg-padding: 32px;
-  --dlg-padding-body-top: 24px;
-  --dlg-padding-body-bottom: 24px;
+  --dlg-margin: 24px;
 
-  --dlg-head-padding: var(--dlg-padding) var(--dlg-padding) 0;
-  --dlg-body-padding: var(--dlg-padding);
-  --dlg-foot-padding: 0 var(--dlg-padding) var(--dlg-padding);
+  --dlg-edge-gap: 32px;
+  --dlg-inner-gap: 24px;
 }
 
 .o-dialog-auto {
@@ -45,6 +42,5 @@
   --dlg-max-height: 272px;
   --dlg-min-height: 224px;
 
-  --dlg-padding: 32px;
-  --dlg-padding-body-top: 16px;
+  --dlg-head-gap: 16px;
 }

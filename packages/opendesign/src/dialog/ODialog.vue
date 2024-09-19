@@ -78,13 +78,14 @@ defineExpose({
       <slot name="header"></slot>
     </div>
     <div
-      v-scrollbar="scrollbarProps"
       class="o-dlg-body"
       :class="{
         'with-footer': $slots.footer || props.actions,
       }"
     >
-      <slot></slot>
+      <div class="o-dlg-body-content" v-scrollbar="scrollbarProps">
+        <slot></slot>
+      </div>
     </div>
     <div v-if="$slots.footer || $slots.actions || props.actions" class="o-dlg-footer">
       <slot name="footer">
