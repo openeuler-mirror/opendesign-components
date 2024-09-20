@@ -88,27 +88,27 @@ const onChane = (v: boolean) => {
   <OButton @click="toggleHeadOrFoot('head')">show Header</OButton>
   <OButton @click="toggleHeadOrFoot('foot')">show Footer</OButton>
   <OButton @click="toggleHalfFull()">Phone half full</OButton>
-
+  <div>head: {{ hasHead }}; foot: {{ hasFoot }}</div>
   <section class="wrap">
     <OButton @click="toggle(true, 'auto')">Open auto</OButton>
     <OButton @click="toggle(true, 'small')">Open Small</OButton>
     <OButton @click="toggle(true, 'medium')">Open Medium</OButton>
     <OButton @click="toggle(true, 'large')">Open Large</OButton>
     <OButton @click="toggle(true, 'exlarge')">Open exlarge</OButton>
-    <ODialog v-model:visible="showDlg" :size="dlgSize" :actions="dlgAction" half-full :phone-half-full="halfFull" @change="onChane">
+    <ODialog v-model:visible="showDlg" :size="dlgSize" half-full :phone-half-full="halfFull" @change="onChane">
       <template v-if="hasHead" #header>Dialog Title</template>
       <div class="dlg-body" style="height: 100vh; background-color: #c9f7ed">{{ content }}</div>
-    </ODialog>
-    <OButton @click="toggle2(true)">Open unmount-on-hide: false</OButton>
-    <ODialog v-model:visible="showDlg2" :unmount-on-hide="false" @change="onChane">
-      <template v-if="hasHead" #header>Dialog Title</template>
-      This is Dialog
       <template v-if="hasFoot" #footer>
         <div class="dlg-action">
-          <OButton color="primary" variant="solid" @click="toggle2(false)">确定</OButton>
-          <OButton @click="toggle2(false)">取消</OButton>
+          <OButton color="primary" variant="solid" @click="toggle(false)">确定</OButton>
+          <OButton @click="toggle(false)">取消</OButton>
         </div>
       </template>
+    </ODialog>
+    <OButton @click="toggle2(true)">Open unmount-on-hide: false</OButton>
+    <ODialog v-model:visible="showDlg2" :unmount-on-hide="false" @change="onChane" :actions="dlgAction">
+      <template v-if="hasHead" #header>Dialog Title</template>
+      This is Dialog
     </ODialog>
   </section>
   <h4>局部弹窗</h4>

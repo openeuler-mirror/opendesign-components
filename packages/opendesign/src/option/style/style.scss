@@ -16,19 +16,20 @@
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
 
-  @include hover {
-    &.o-option-multiple:hover,
-    &:hover {
+  &,
+  &.o-option-multiple {
+    @include hover {
       background-color: var(--option-bg-color-hover);
       color: var(--option-color-hover);
     }
   }
+
   &.active {
-    @include me-hover {
-      font-weight: 500;
-      color: var(--option-color-active);
-      background-color: var(--option-bg-color-active);
-    }
+    // @include me-hover {
+    font-weight: 500;
+    color: var(--option-color-active);
+    background-color: var(--option-bg-color-active);
+    // }
   }
 }
 

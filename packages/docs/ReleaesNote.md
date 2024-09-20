@@ -111,3 +111,4 @@ TODO
 3. 级联重构
 4. virtualList 整改为 use-virtual-list
 5. select 重构，通过 options 传列表数据
+6. table 支持虚拟滚动，支持固定列，固定行
