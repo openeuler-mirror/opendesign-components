@@ -1,0 +1,22 @@
+@use '../../_styles/mixin.scss' as *;
+@use './var.scss';
+
+.o-virtual-list {
+  display: block;
+}
+.o-virtual-list-wrapper {
+  height: 100%;
+  width: 100%;
+  max-height: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  min-width: inherit;
+  overflow: auto;
+}
+.o-virtual-body {
+  overflow: hidden;
+  height: var(--content-height);
+}
+.o-virtual-render-list {
+  transform: translate3d(var(--offsetX, 0), var(--offsetY), 0);
+}

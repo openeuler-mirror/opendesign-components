@@ -100,7 +100,6 @@
   border-radius: 50%;
   z-index: 1;
   @include x-svg-hover;
-
 }
 .o-select-loading {
   position: absolute;
@@ -139,12 +138,8 @@
 .o-select-options {
   overflow: hidden;
 }
-.o-select-options-scroller {
-  max-height: var(--select-options-max-height);
-}
-.o-select-options-scroller,
-.o-select-options-wrap {
-  padding: var(--select-options-padding);
+.o-select-option-wrap {
+  max-height: var(--option-list-max-height, var(--option-list-max-height-default));
 }
 
 .o-select-options-loading {

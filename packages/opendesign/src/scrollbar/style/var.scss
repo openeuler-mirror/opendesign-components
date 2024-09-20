@@ -23,6 +23,8 @@
   --scrollbar-thumb-width-hover: 10px;
   --scrollbar-thumb-radius: 10px;
   --scrollbar-width: 16px;
+
+  --scrollbar-thumb-min-size: 10px;
 }
 .o-scrollbar-hover-show {
   --scrollbar-delay: 100ms; // 延迟时间，避免hover时频繁触发

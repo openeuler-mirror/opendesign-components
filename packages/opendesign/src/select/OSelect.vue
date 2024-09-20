@@ -338,7 +338,7 @@ const onselectDlgOkClick = () => {
     </div>
     <ClientOnly>
       <teleport :to="optionsRef" :disabled="!optionsRef">
-        <div v-show="optionsRef">
+        <div v-show="optionsRef" class="o-select-option-wrap">
           <slot>
             <div class="o-select-empty">
               <slot name="empty">
@@ -408,11 +408,10 @@ const onselectDlgOkClick = () => {
           :before-hide="props.beforeOptionsHide"
           @change="onOptionVisibleChange"
         >
-          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" scroller>
+          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" :scrollbar="true">
             <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
               <slot :name="name"></slot>
             </template>
-
             <!-- option选项单独处理 -->
             <template #option-target><div ref="optionsRef"></div></template>
           </SelectOption>

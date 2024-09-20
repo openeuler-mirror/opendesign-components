@@ -3,12 +3,11 @@ import { computed, ref } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
-import { OScroller } from '../scrollbar';
+import { vScrollbar } from '../scrollbar';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_utils/dom';
 import { isPhonePad } from '../_utils/global';
-import { isBoolean } from '../_utils/is';
 
 const props = defineProps(dialogProps);
 
@@ -31,12 +30,17 @@ const onUpdateVisible = (value: boolean, e?: MouseEvent) => {
   emits('update:visible', value, e);
 };
 
-const isBodyScroller = computed(() => !!props.scroller);
-const bodyScrollerOptions = computed(() => {
-  if (isBoolean(props.scroller)) {
-    return {};
+/**
+ * 设置滚动条参数
+ */
+const scrollbarProps = computed(() => {
+  if (props.scrollbar === true) {
+    return {
+      showType: 'hover',
+      size: 'small',
+    };
   }
-  return props.scroller;
+  return props.scrollbar;
 });
 
 defineExpose({
@@ -73,18 +77,8 @@ defineExpose({
     <div v-if="$slots.header" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
-    <OScroller
-      v-if="isBodyScroller"
-      class="o-dlg-body"
-      size="small"
-      show-type="hover"
-      v-bind="bodyScrollerOptions"
-      :class="{ 'with-footer': $slots.footer || props.actions }"
-    >
-      <slot></slot>
-    </OScroller>
     <div
-      v-else
+      v-scrollbar="scrollbarProps"
       class="o-dlg-body"
       :class="{
         'with-footer': $slots.footer || props.actions,

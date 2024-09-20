@@ -12,6 +12,14 @@ export const routes = [
     },
   },
   {
+    path: '/virtual-list',
+    name: 'virtual-list',
+    component: () => import('@components/virtual-list/__demo__/TheIndex.vue'),
+    meta: {
+      title: '虚拟滚动',
+    },
+  },
+  {
     path: '/in-input',
     name: 'InInput',
     component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),

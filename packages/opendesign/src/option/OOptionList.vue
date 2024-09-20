@@ -1,17 +1,29 @@
 <script setup lang="ts">
-import { OScroller } from '../scrollbar';
+import { computed } from 'vue';
+import { vScrollbar, BaseScrollerPropsT } from '../scrollbar';
 interface OptionPropT {
   wrapClass?: string | any[];
-  scroller?: boolean;
+  // 是否使用scrollbar
+  scrollbar?: boolean | Partial<BaseScrollerPropsT>;
 }
 const props = defineProps<OptionPropT>();
+
+/**
+ * 设置滚动条参数
+ */
+const scrollbarProps = computed(() => {
+  if (props.scrollbar === true) {
+    return {
+      showType: 'hover',
+      size: 'small',
+    };
+  }
+  return props.scrollbar;
+});
 </script>
 <template>
   <div class="o-option-list">
-    <OScroller v-if="props.scroller" size="small" show-type="always" :wrap-class="props.wrapClass" class="o-options-scroller">
-      <slot></slot>
-    </OScroller>
-    <div v-else class="o-options-container" :class="props.wrapClass">
+    <div class="o-options-container" v-scrollbar="scrollbarProps" :class="props.wrapClass">
       <slot></slot>
     </div>
   </div>
