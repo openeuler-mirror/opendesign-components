@@ -233,10 +233,9 @@ const init = () => {
   if (!wrapperRef.value) {
     return;
   }
-  onContainerResize();
   // 先初始化滚动位置
   scrollToIndex(props.defaultStartIndex);
-  debounceUpdateVisibleCount();
+  onContainerResize();
 };
 
 onMounted(() => {
