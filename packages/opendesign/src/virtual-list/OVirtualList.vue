@@ -3,8 +3,7 @@ import { ref, computed, onMounted, watchEffect } from 'vue';
 import { vScrollbar } from '../scrollbar';
 import { virtualListProps } from './types';
 import { isArray, isUndefined } from '../_utils/is';
-import { OResizeObserver } from '../resize-observer';
-import { vOnResize } from '../directives';
+import { vOnResize } from '../directives/on-resize';
 import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
@@ -254,11 +253,13 @@ defineExpose({
         <div class="o-virtual-render-list" :style="renderListStyle">
           <template v-for="item in renderList" :key="item.index">
             <template v-if="props.itemSize">
-              <slot :item="item.item" :index="item.index"></slot>
+              <div class="o-virtual-render-item" :style="{ height: props.itemSize + 'px' }">
+                <slot :item="item.item" :index="item.index"></slot>
+              </div>
             </template>
-            <OResizeObserver v-else @resize="(en) => onItemResize(en, item.index)">
+            <div v-else class="o-virtual-render-item" v-on-resize="(en:ResizeObserverEntry) => onItemResize(en, item.index)">
               <slot :item="item.item" :index="item.index"></slot>
-            </OResizeObserver>
+            </div>
           </template>
         </div>
       </div>

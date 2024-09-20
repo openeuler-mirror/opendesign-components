@@ -144,10 +144,11 @@ section > div {
   flex: 0 1 30%;
 }
 .section {
-  height: 80px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 10px 0;
 }
 
 @for $i from 1 through 50 {
