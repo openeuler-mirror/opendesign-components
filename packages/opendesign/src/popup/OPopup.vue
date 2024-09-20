@@ -26,10 +26,12 @@ const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = computed<PopupTriggerT[]>(() => {
+  const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
   if (isPhonePad.value) {
-    return ['click'];
+    const r = triggers.filter((item) => ['none', 'click-outclick', 'click'].includes(item));
+    return r.length > 0 ? r : ['click'];
   }
-  return isArray(props.trigger) ? props.trigger : [props.trigger];
+  return triggers;
 });
 
 const visible = ref(false);

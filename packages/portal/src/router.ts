@@ -110,7 +110,7 @@ export const routes = [
   {
     path: '/popup',
     name: 'Popup',
-    component: () => import('@components/popup/__demo__/IndexPopup.vue'),
+    component: () => import('@components/popup/__demo__/TheIndex.vue'),
     meta: {
       title: '弹层 Popup',
     },
