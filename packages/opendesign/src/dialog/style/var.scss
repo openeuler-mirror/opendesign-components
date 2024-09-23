@@ -4,6 +4,8 @@
   --dlg-close-color-hover: var(--o-color-primary2);
   --dlg-close-color-active: var(--o-color-primary3);
 
+  --dlg-color: var(--o-color-info1);
+  --dlg-header-color: var(--o-color-info1);
   --dlg-bg-color: var(--o-color-control-light);
   --dlg-radius: var(--o-radius_control-l);
   --dlg-shadow: var(--o-shadow-1);
@@ -42,5 +44,5 @@
   --dlg-max-height: 272px;
   --dlg-min-height: 224px;
 
-  --dlg-head-gap: 16px;
+  --dlg-header-gap: 16px;
 }
