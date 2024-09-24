@@ -73,7 +73,10 @@ $breakpoints: (
 }
 
 @mixin x-svg-hover() {
-  overflow: hidden;
+  & {
+    overflow: hidden;
+  }
+
   svg {
     transition: all var(--o-duration-m1) var(--o-easing-standard-in);
   }
