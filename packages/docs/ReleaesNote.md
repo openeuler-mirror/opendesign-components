@@ -104,6 +104,24 @@
 8. [form] 修复 input 事件不触发表单校验，涉及组件 input/textarea/inputNumber
 9. [Tab] 新增 headerClass 类，支持自定义头部样式，比如 sticky;
 
+# 0.0.69
+
+- feat
+
+1. [Figure] 为 figure 增加 load 事件
+2. [Scrollbar] 支持设置 thumb 的最小尺寸
+3. [VirtualList] 新增虚拟列表，支持定高、动态高度,
+4. [Select] 增加虚拟列表的示例、滚动条参数更改 scroller -> scrollbar
+5. [Pagination] 支持虚拟列表展示下拉的页码数
+6. [Dialog] 滚动条参数更改 scroller -> scrollbar, 重构弹窗间距样式，增加文本颜色变量（--dlg-color, --dlg-header-color）;
+7. [Popup] pad & phone 支持 trigger： 'none', 'click', 'click-outclick'
+8. [Carousel] 轮播组件悬浮暂停时将暂停事件抛出
+
+- fix
+
+1. [Textarea] 解决 textarea placeholder 文字颜色不正确的问题
+2. [Option] 修复禁用状态时，hover 样式错误问题
+
 TODO
 
 1. pagination 支持 layout 控制顺序
