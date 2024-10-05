@@ -14,6 +14,7 @@ const renderTpl = (name: string, componentName: string, type: 'fill' | 'stroke' 
   return `<script lang="ts">
 import { defineComponent } from 'vue';
 
+let globalId = 0;
 export default defineComponent({
   name: '${componentName}',
   svgType: '${type}',
@@ -21,6 +22,7 @@ export default defineComponent({
     const classNames = ['${componentClass}', '${name}', 'type-${type}'];
     return {
       classNames,
+      globalId: globalId++,
     };
   },
 });
@@ -38,6 +40,7 @@ const clientRenderTpl = (name: string, componentName: string, type: 'fill' | 'st
   return `<script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 
+let globalId = 0;
 export default defineComponent({
   name: '${componentName}',
   svgType: '${type}',
@@ -50,6 +53,7 @@ export default defineComponent({
     return {
       isClient,
       classNames,
+      globalId: globalId++,
     };
   },
 });

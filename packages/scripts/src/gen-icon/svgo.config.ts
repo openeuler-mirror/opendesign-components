@@ -40,6 +40,33 @@ export const basePlugins: PluginConfig[] = [
     },
   },
   'prefixIds',
+  {
+    // 将 prefixIds 生成的 id 改写为 vue 动态属性绑定
+    name: 'replaceIdWithDynamicValue',
+    fn: () => {
+      return {
+        element: {
+          enter: (node) => {
+            const id = node.attributes.id;
+            if (id) {
+              delete node.attributes.id;
+              node.attributes[':id'] = `\`${id}_\${globalId}\``;
+            }
+            for (const key of Object.keys(node.attributes)) {
+              const value = node.attributes[key];
+              const urlReg = /url\((#[^)]+)\)/;
+              if (urlReg.test(value)) {
+                delete node.attributes[key];
+                node.attributes[`:${key}`] = value.replace(urlReg, (_, path) => {
+                  return `\`url(${path}_\${globalId})\``;
+                });
+              }
+            }
+          },
+        },
+      };
+    },
+  },
   'removeStyleElement',
   'removeScriptElement',
   'removeDimensions',
