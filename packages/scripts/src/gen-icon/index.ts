@@ -51,11 +51,11 @@ interface IconItem {
  * 去掉类型及后缀，将空格、目录嵌套、多连字符替换为一个连字符
  */
 function getSvgName(svgPath: string, type: string): string {
-  const reg = new RegExp(`^${type}/`);
+  const reg = new RegExp(`^${type}(/|\\\\)`);
   const str = svgPath
     .replace(reg, '')
     .replace(/\.svg$/, '')
-    .replace(/\//, '-')
+    .replace(/\/|\\/, '-')
     .replace(/\s+/, '-')
     .replace(/-+/, '-');
 
@@ -89,6 +89,13 @@ function readSvgData(cfg: IconsConfig) {
         path: file,
         absolutePath: path.resolve(cfg.input, file),
       };
+      // 判断 name 是否符合 js 的命名规范。若不符合规范则报警告同时忽略该文件；警告文字为红色以提高辨识度
+      // 如：[error] invalid icon name: color\ascend.01.svg -> OIconAscend.01.vue
+      const varNameReg = /^[a-zA-Z_$][0-9a-zA-Z_$]*$/;
+      if (!varNameReg.test(svg.componentName)) {
+        console.error(`\x1b[41m\x1b[37m[error]\x1b[0m\x1b[31m invalid icon name: ${svg.path} -> ${svg.componentName}.vue\x1b[0m`);
+        return;
+      }
       svgs.push(svg);
     });
   });
