@@ -1,7 +1,8 @@
-import { h, render } from 'vue';
+import { h, render, ComponentPublicInstance } from 'vue';
 import { isString } from '../_utils/is';
 import { MessageParamsT } from './types';
 import OMessageList from './OMessageList.vue';
+import { resolveHtmlElement } from '../_utils/vue-utils';
 
 const DEFAULT_OPTIONS: MessageParamsT = {
   status: 'info',
@@ -10,6 +11,7 @@ const DEFAULT_OPTIONS: MessageParamsT = {
 };
 
 const instanceMap = new Map();
+const targetOffset = 8;
 
 const normalizeOptions = (params: MessageParamsT) => {
   const options: MessageParamsT = !params || isString(params) ? { content: params } : params;
@@ -22,104 +24,150 @@ const normalizeOptions = (params: MessageParamsT) => {
   return normalized;
 };
 
-const showMessage = (params: MessageParamsT) => {
-  const { position } = params;
+const getMessageStyle = async (
+  target?: string | ComponentPublicInstance | HTMLElement | null,
+  position: 'top' | 'bottom' = 'top',
+  align: 'center' | 'left' | 'right' = 'center'
+) => {
+  if (!target) {
+    return;
+  }
+  const targetEl = await resolveHtmlElement(target);
+  if (!targetEl) {
+    return;
+  }
 
-  let instance = instanceMap.get(position);
-  if (!instance) {
-    let wrap: HTMLDivElement | null = document.createElement('div');
+  const rect = targetEl.getBoundingClientRect();
 
-    const vnode = h(OMessageList, {
-      position: params.position,
-      onDestory: () => {
-        if (wrap) {
-          document.body.removeChild(wrap);
-          wrap = null;
-        }
-        instanceMap.set(position, undefined);
-      },
-    });
+  let pos: 'top' | 'bottom' = 'bottom';
+  let top = window.innerHeight - rect.top + targetOffset;
+  let left = rect.left;
+  let transform = 'translateX(-50%)';
 
-    render(vnode, wrap);
+  if (position === 'bottom') {
+    pos = 'top';
+    top = rect.top + rect.height + targetOffset;
+  }
 
-    const vm = vnode.component!;
-    vm.exposed?.add(params);
-
-    instance = vm;
-
-    instanceMap.set(position, instance);
-
-    document.body.appendChild(wrap);
+  if (align === 'right') {
+    left = rect.left + rect.width;
+    transform = 'translateX(-100%)';
+  } else if (align === 'left') {
+    left = rect.left;
+    transform = 'translateX(0%)';
   } else {
-    instance.exposed?.add(params);
+    left = rect.left + rect.width / 2;
+    transform = 'translateX(-50%)';
   }
+
+  return {
+    position: pos,
+    '--message-list-offset': `${top}px`,
+    left: `${left}px`,
+    transform,
+  };
 };
 
-const info = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  return showMessage({
-    ...options,
-    status: 'info',
-  });
-};
+export function useMessage(target: string | ComponentPublicInstance | HTMLElement | null) {
+  const showMessage = async (params: MessageParamsT) => {
+    const options: MessageParamsT = normalizeOptions(params);
+    const { position, targetAlign } = options;
 
-const success = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  return showMessage({
-    ...options,
-    status: 'success',
-  });
-};
+    const msgStyle = await getMessageStyle(target, position, targetAlign);
 
-const warning = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  return showMessage({
-    ...options,
-    status: 'warning',
-  });
-};
+    let instance = instanceMap.get(target ?? position);
+    if (!instance) {
+      let wrap: HTMLDivElement | null = document.createElement('div');
 
-const danger = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  return showMessage({
-    ...options,
-    status: 'danger',
-  });
-};
+      const vnode = h(OMessageList, {
+        position: msgStyle?.position ?? position,
+        onDestory: () => {
+          if (wrap) {
+            document.body.removeChild(wrap);
+            wrap = null;
+          }
+          instanceMap.set(target ?? position, undefined);
+        },
+        style: msgStyle,
+      });
 
-const loading = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  return showMessage({
-    ...options,
-    status: 'loading',
-  });
-};
+      render(vnode, wrap);
 
-const show = (params: MessageParamsT): void => {
-  const options: MessageParamsT = normalizeOptions(params);
-  return showMessage({
-    ...options,
-  });
-};
+      const vm = vnode.component!;
+      vm.exposed?.add(options);
 
-const closeAll = () => {
-  for (const ins of instanceMap.values()) {
-    ins.exposed?.removeAll();
-  }
-};
+      instance = vm;
 
-const Message = {
-  info,
-  success,
-  warning,
-  danger,
-  loading,
-  show,
-  closeAll,
-};
+      instanceMap.set(target ?? position, instance);
 
-const useMessage = () => {
-  return Message;
-};
+      document.body.appendChild(wrap);
+    } else {
+      instance.exposed?.add(options);
+    }
+  };
 
-export default useMessage;
+  const info = (params: MessageParamsT) => {
+    return showMessage({
+      ...params,
+      status: 'info',
+    });
+  };
+
+  const success = (params: MessageParamsT) => {
+    return showMessage({
+      ...params,
+      status: 'success',
+    });
+  };
+
+  const warning = (params: MessageParamsT) => {
+    return showMessage({
+      ...params,
+      status: 'warning',
+    });
+  };
+
+  const danger = (params: MessageParamsT) => {
+    return showMessage({
+      ...params,
+      status: 'danger',
+    });
+  };
+
+  const loading = (params: MessageParamsT) => {
+    return showMessage({
+      ...params,
+      status: 'loading',
+    });
+  };
+
+  const show = (params: MessageParamsT) => {
+    return showMessage({
+      ...params,
+    });
+  };
+
+  const closeAll = () => {
+    for (const ins of instanceMap.values()) {
+      ins?.exposed?.removeAll();
+    }
+  };
+
+  const close = () => {
+    if (target) {
+      const instance = instanceMap.get(target);
+      instance?.exposed?.remove();
+    }
+  };
+
+  return {
+    info,
+    success,
+    warning,
+    danger,
+    loading,
+    show,
+    close,
+    closeAll,
+  };
+}
