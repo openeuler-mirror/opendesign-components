@@ -9,8 +9,8 @@ export default class MenuTree extends VTree {
     super(value, parent, children);
   }
 
-  addChild(opitons: { value: string; parentVal: string | undefined }) {
-    const { value, parentVal } = opitons;
+  addChild(options: { value: string; parentVal: string | undefined }) {
+    const { value, parentVal } = options;
     const node: MenuNodeT = {
       value,
       parent: null,
