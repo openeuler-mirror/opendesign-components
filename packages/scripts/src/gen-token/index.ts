@@ -115,7 +115,7 @@ async function readTokens(configData: TokenConfigT) {
         });
       });
     } catch (error) {
-      console.warn('load token eror:', tk);
+      console.warn('load token error:', tk);
     }
   });
 
