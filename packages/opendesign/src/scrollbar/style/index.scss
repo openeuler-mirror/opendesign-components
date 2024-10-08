@@ -16,21 +16,21 @@
     opacity: 1;
   }
 
-  &.o-scrollbar-show-x {
+  &.o-scrollbar-visible-x {
     > .o-scrollbar-x {
       opacity: 1;
       pointer-events: auto;
     }
   }
 
-  &.o-scrollbar-show-y {
+  &.o-scrollbar-visible-y {
     > .o-scrollbar-y {
       opacity: 1;
       pointer-events: auto;
     }
   }
 
-  &.o-scrollbar-show {
+  &.o-scrollbar-visible {
     .o-scrollbar-rail {
       opacity: 1;
       pointer-events: auto;

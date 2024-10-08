@@ -15,21 +15,21 @@ useScrollbar({
 
 const { scrollbar } = useScrollbar({
   target: compRef,
-  showType: 'always',
+  showType: 'hover',
 });
 console.log(scrollbar);
 
 const txtarea = ref<HTMLElement | null>(null);
 useScrollbar({
   target: txtarea,
-  showType: 'always',
+  showType: 'hover',
   size: 'small',
 });
 </script>
 <template>
   <h3>Scrollbar Hooks</h3>
   <div>
-    <h3>Native</h3>
+    <h3>Genneral</h3>
     <div class="wrapper" ref="wrapper">
       <div class="container" ref="container">
         <div class="section">1</div>

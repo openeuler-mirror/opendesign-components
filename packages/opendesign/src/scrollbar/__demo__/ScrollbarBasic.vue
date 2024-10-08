@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import TheScrollComp from './TheScrollComp.vue';
 import { OScrollbar } from '../index';
 
-const showType = ref<'auto' | 'always' | 'hover' | 'never'>('always');
+const showType = ref<'auto' | 'always' | 'hover' | 'never'>('hover');
 const setShowType = (type: 'auto' | 'hover' | 'always') => {
   showType.value = type;
 };
@@ -17,7 +17,7 @@ const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
 <template>
   <h4>Scroller basic</h4>
   <div>
-    <h3>Native</h3>
+    <h3>Genneral</h3>
     <div>
       showType: <button @click="setShowType('auto')">auto</button><button @click="setShowType('always')">always</button
       ><button @click="setShowType('hover')">hover</button>
