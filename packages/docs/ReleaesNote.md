@@ -74,7 +74,7 @@ TODO
 # 0.0.65
 
 1. [select] 解决清除图标频繁动画触发的问题，修改下拉图标动效
-2. [button] 修复 diasbled/loading 状态时仍然触发 submit 事件
+2. [button] 修复 disabled/loading 状态时仍然触发 submit 事件
 3. [table] 移除表格首尾间距样式
 4. [scroller] 不再导出 OScroller，增加 slot：thum\track
 5. 更新全局 token 变量值

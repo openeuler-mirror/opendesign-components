@@ -48,7 +48,7 @@
 | :----- | :------- |
 | prefix | 前缀插槽 |
 | suffix | 后缀插槽 |
-| archor | 高亮插槽 |
+| anchor | 高亮插槽 |
 
 ### OTabPane
 
