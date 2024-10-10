@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "0.0.67",
+  "version": "0.0.69",
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",
@@ -16,18 +16,18 @@
     "vue3 components"
   ],
   "scripts": {
-    "gen:token": "opensig-scripts gen:token --config ./tokens/token.config.ts",
-    "gen:icon": "opensig-scripts gen:icon --config ./icons/icon.config.ts",
-    "clean:svg": "opensig-scripts clean:svg --config ./icons/cleansvg.config.ts",
-    "build:component": "opensig-scripts build:component",
-    "build:style": "opensig-scripts build:style",
+    "gen:token": "open-scripts gen:token --config ./tokens/token.config.ts",
+    "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
+    "clean:svg": "open-scripts clean:svg --config ./icons/cleansvg.config.ts",
+    "build:component": "open-scripts build:component",
+    "build:style": "open-scripts build:style",
     "build": "pnpm gen:icon && pnpm build:component && pnpm build:style"
   },
   "peerDependencies": {
     "vue": "^3.1.0"
   },
   "devDependencies": {
-    "@opensig/opensig-scripts": "workspace:^"
+    "@opensig/open-scripts": "workspace:^"
   },
   "dependencies": {
     "date-fns": "^2.30.0"

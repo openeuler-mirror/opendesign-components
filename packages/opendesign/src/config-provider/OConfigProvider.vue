@@ -5,10 +5,11 @@ import { configProviderInjectKey } from './provide';
 
 const props = defineProps(configProviderProps);
 
-const { locale } = toRefs(props);
+const { locale, link } = toRefs(props);
 
 const globalConfig = reactive({
   locale,
+  link,
 });
 provide(configProviderInjectKey, globalConfig);
 </script>

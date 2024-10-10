@@ -2,7 +2,7 @@
 import { h, shallowRef } from 'vue';
 
 import '../style';
-import useMessage from '../use-message';
+import { useMessage } from '../use-message';
 import { OIconAdd } from '../../icon-components';
 
 import { OButton } from '../../button';

@@ -173,7 +173,7 @@ function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ ke
   });
 
   themes.forEach((theme) => {
-    let themeArray = [theme.name];
+    const themeArray = [theme.name];
     if (theme.name === defaultTheme) {
       themeArray.unshift('default');
     }

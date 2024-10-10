@@ -1,0 +1,1 @@
+export { default as OIconAscend } from './OIconAscend.vue';

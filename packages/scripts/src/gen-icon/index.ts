@@ -1,5 +1,5 @@
 import path from 'path';
-import { defaultConfig, IconsConfig } from './config';
+import { mergeConfig, IconsConfig } from './config';
 import { globSync } from 'glob';
 import { toPascalCase } from '../utils';
 import { optimize } from 'svgo';
@@ -19,7 +19,7 @@ async function readConfig(cfg: string) {
     console.log('no config file');
   }
 
-  const config = Object.assign(defaultConfig, configData);
+  const config = mergeConfig(configData);
 
   console.log('[input]', config.input);
   console.log('[output]', config.output);
@@ -46,12 +46,28 @@ interface IconItem {
   path: string;
   absolutePath: string;
 }
+/**
+ * 获取svg名称
+ * 去掉类型及后缀，将空格、目录嵌套、多连字符替换为一个连字符
+ */
+function getSvgName(svgPath: string, type: string): string {
+  const reg = new RegExp(`^${type}(/|\\\\)`);
+  const str = svgPath
+    .replace(reg, '')
+    .replace(/\.svg$/, '')
+    .replace(/\/|\\/, '-')
+    .replace(/\s+/, '-')
+    .replace(/-+/, '-');
 
+  return str;
+}
 /**
  * 读取svg图标文件列表
  */
 function readSvgData(cfg: IconsConfig) {
   const svgs: Array<IconItem> = [];
+  // 记录svg名称，用于处理名称重复问题
+  const names: Record<string, number> = {};
   [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach((key) => {
     const files = globSync(`${key}/**/*.svg`, {
       cwd: cfg.input,
@@ -59,16 +75,31 @@ function readSvgData(cfg: IconsConfig) {
     });
 
     files.forEach((file) => {
-      const name = `${cfg.prefix}icon-${path.basename(file.replace(/\s/g, ''), '.svg')}`;
-      svgs.push({
+      let name = `${cfg.prefix}icon-${getSvgName(file, key)}`;
+      if (names[name]) {
+        // 重复名称以序号递增
+        name = `${name}${names[name]++}`;
+      } else {
+        names[name] = 2;
+      }
+      const svg = {
         type: key,
         name: name,
         componentName: toPascalCase(name),
         path: file,
         absolutePath: path.resolve(cfg.input, file),
-      });
+      };
+      // 判断 name 是否符合 js 的命名规范。若不符合规范则报警告同时忽略该文件；警告文字为红色以提高辨识度
+      // 如：[error] invalid icon name: color\ascend.01.svg -> OIconAscend.01.vue
+      const varNameReg = /^[a-zA-Z_$][0-9a-zA-Z_$]*$/;
+      if (!varNameReg.test(svg.componentName)) {
+        console.error(`\x1b[41m\x1b[37m[error]\x1b[0m\x1b[31m invalid icon name: ${svg.path} -> ${svg.componentName}.vue\x1b[0m`);
+        return;
+      }
+      svgs.push(svg);
     });
   });
+
   return svgs;
 }
 

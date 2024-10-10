@@ -16,21 +16,21 @@
     opacity: 1;
   }
 
-  &.o-scrollbar-show-x {
+  &.o-scrollbar-visible-x {
     > .o-scrollbar-x {
       opacity: 1;
       pointer-events: auto;
     }
   }
 
-  &.o-scrollbar-show-y {
+  &.o-scrollbar-visible-y {
     > .o-scrollbar-y {
       opacity: 1;
       pointer-events: auto;
     }
   }
 
-  &.o-scrollbar-show {
+  &.o-scrollbar-visible {
     .o-scrollbar-rail {
       opacity: 1;
       pointer-events: auto;
@@ -119,10 +119,12 @@
 .o-scrollbar-y-thumb {
   top: 0;
   left: 50%;
+  min-height: var(--scrollbar-thumb-min-size);
 }
 .o-scrollbar-x-thumb {
   left: 0;
   top: 50%;
+  min-width: var(--scrollbar-thumb-min-size);
 }
 
 .o-scrollbar-x-thumb-bar,
@@ -168,11 +170,12 @@
 
 .o-scroller {
   position: relative;
+  display: flex;
 }
 
 .o-scroller-container {
-  width: 100%;
-  height: 100%;
+  flex: 1; // 撑满父容器
+
   padding: var(--scroller-padding);
   overflow: auto;
   scrollbar-width: none;

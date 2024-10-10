@@ -22,6 +22,10 @@ const onBeforeChange2 = (now: number, last: number) => {
   console.log('[2] before changed', now, last);
 };
 
+const onPause = (index: number) => {
+  console.log('paused', index);
+};
+
 const slidesRef = ref<InstanceType<typeof OCarousel> | null>(null);
 let idx = 1;
 const next = () => {
@@ -66,6 +70,7 @@ const initSlides = () => {
         pause-on-hover
         @change="onChange"
         @before-change="onBeforeChange"
+        @pause="onPause"
       >
         <OCarouselItem v-for="s in 6" :key="s" class="gallery-carousel-item">
           <div class="slide">{{ s - 1 }}</div>

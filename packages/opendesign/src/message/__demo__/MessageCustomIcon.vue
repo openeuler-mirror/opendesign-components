@@ -2,7 +2,7 @@
 import { h } from 'vue';
 
 import '../style';
-import useMessage from '../use-message';
+import { useMessage } from '../use-message';
 import { OIconAdd, OIconEyeOff } from '../../icon-components';
 
 import { OButton } from '../../button';

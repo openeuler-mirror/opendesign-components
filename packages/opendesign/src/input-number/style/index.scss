@@ -1,20 +1,13 @@
 @use '../../_styles/mixin.scss' as *;
 @use './var.scss';
 
-.o-input-number {
-  .o-input-prepend,
-  .o-input-append {
-    font-size: var(--o-font_size-text1);
-    align-items: stretch;
-    overflow: hidden;
-  }
-}
-
 .o-input-number-btn-wrap {
+  height: 100%;
   user-select: none;
   justify-content: center;
   display: flex;
-  min-width: var(--input-height);
+  cursor: pointer;
+  min-width: var(--box-height);
   font-size: 16px;
   flex-wrap: wrap;
   color: var(--input-number-btn-color);

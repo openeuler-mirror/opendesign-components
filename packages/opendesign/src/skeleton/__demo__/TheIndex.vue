@@ -9,7 +9,7 @@ import SkeletonLoading from './SkeletonLoading.vue';
 <template>
   <div class="page-demo">
     <SkeletonBasic />
-    <!-- <SkeletonAnimation /> -->
+    <SkeletonAnimation />
     <SkeletonLoading />
   </div>
 </template>

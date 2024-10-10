@@ -1,0 +1,1 @@
+export { default as OIconFile } from './OIconFile.vue';

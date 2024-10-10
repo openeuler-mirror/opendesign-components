@@ -26,10 +26,12 @@ const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
 const triggers = computed<PopupTriggerT[]>(() => {
+  const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
   if (isPhonePad.value) {
-    return ['click'];
+    const r = triggers.filter((item) => ['none', 'click-outclick', 'click'].includes(item));
+    return r.length > 0 ? r : ['click'];
   }
-  return isArray(props.trigger) ? props.trigger : [props.trigger];
+  return triggers;
 });
 
 const visible = ref(false);
@@ -322,7 +324,7 @@ watch(targetElRef, (elRef) => {
   }
 });
 
-const onResize = (en: ResizeObserverEntry, isFirst: boolean) => {
+const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
     updatePopupStyle();
   }
@@ -412,8 +414,6 @@ const onPopupHoverOut = () => {
   }
 };
 const sholdUmMount = computed(() => {
-  const f = toMount.value || visible.value || !props.unmountOnHide;
-
   return toMount.value || visible.value || !props.unmountOnHide;
 });
 </script>
@@ -421,7 +421,7 @@ const sholdUmMount = computed(() => {
   <OChildOnly v-if="$slots.target" ref="targetElRef">
     <slot name="target"></slot>
   </OChildOnly>
-  <ClientOnly>
+  <ClientOnly v-if="!props.disabled">
     <teleport :to="props.wrapper" :disabled="!props.wrapper">
       <OResizeObserver @resize="onPopupResize">
         <div

@@ -4,8 +4,8 @@ import OScrollbar from './OScrollbar.vue';
 import { ScrollbarPropsT } from './types';
 
 interface UseScrollbarOptions extends Partial<Omit<ScrollbarPropsT, 'target'>> {
-  wrapper?: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string;
-  target: Ref<string | ComponentPublicInstance | HTMLElement | null> | HTMLElement | string;
+  wrapper?: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string;
+  target: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string;
 }
 
 const ScrollbarClass = {

@@ -7,16 +7,18 @@ import SelectMultiple from './SelectMultiple.vue';
 import SelectPopupposition from './SelectPopupposition.vue';
 import SelectLoading from './SelectLoading.vue';
 import SelectGroup from './SelectGroup.vue';
+import SelectLargeOptions from './SelectLargeOptions.vue';
 import SelectTest from './SelectTest.vue';
 </script>
 <template>
   <div class="page-demo">
+    <SelectLargeOptions />
     <SelectBasic />
     <SelectMultiple />
     <SelectLoading />
     <SelectPopupposition />
     <SelectGroup />
-    <SelectTest />
+    <!-- <SelectTest /> -->
   </div>
 </template>
 <style lang="scss">

@@ -11,6 +11,7 @@ const props = defineProps(figureProps);
 
 const emits = defineEmits<{
   (e: 'error'): void;
+  (e: 'load'): void;
   (e: 'preview', visible: boolean): void;
 }>();
 const imgRef = ref<HTMLImageElement | null>(null);
@@ -36,6 +37,7 @@ const paddingTop = computed(() => {
 const onImgLoaded = () => {
   isLoading.value = false;
   isError.value = false;
+  emits('load');
 };
 const onImgError = () => {
   isLoading.value = false;

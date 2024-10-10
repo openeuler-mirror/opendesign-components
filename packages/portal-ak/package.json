@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "@opensig/opendesign": "workspace:^",
-    "@opensig/opensig-scripts": "workspace:^"
+    "@opensig/open-scripts": "workspace:^"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

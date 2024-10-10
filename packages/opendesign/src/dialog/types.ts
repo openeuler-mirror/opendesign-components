@@ -1,6 +1,7 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
 import { layerProps } from '../layer/types';
 import { ColorT, SizeT, VariantT, RoundT } from '../_utils/types';
+import { BaseScrollerPropsT } from '../scrollbar';
 
 export const DialogSizeTypes = ['exlarge', 'large', 'medium', 'small', 'auto'] as const;
 export type DialogSizeT = (typeof DialogSizeTypes)[number];
@@ -14,13 +15,6 @@ export interface DialogActionT {
   round?: RoundT;
   icon?: Component;
   onClick: () => void;
-}
-
-export interface DialogScrollerT {
-  showType?: 'auto' | 'always' | 'hover';
-  size?: 'medium' | 'small';
-  disabledX?: boolean;
-  disabledY?: boolean;
 }
 
 export const dialogProps = {
@@ -58,10 +52,10 @@ export const dialogProps = {
     type: Boolean,
   },
   /**
-   * 是否使用scroller
+   * 是否使用scrollbar
    */
-  scroller: {
-    type: [Boolean, Object] as PropType<boolean | DialogScrollerT>,
+  scrollbar: {
+    type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,
     default: true,
   },
 };

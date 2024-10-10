@@ -3,7 +3,7 @@ import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 export const PopupPositionTypes = ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'] as const;
 export type PopupPositionT = (typeof PopupPositionTypes)[number];
 
-export const PopupTriggerTypes = ['hover', 'click', 'focus', 'contextmenu', 'none', 'hover-outclick', 'click-outclick'] as const;
+export const PopupTriggerTypes = ['none', 'click', 'click-outclick', 'hover', 'hover-outclick', 'focus', 'contextmenu'] as const;
 export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
 export const popupProps = {
@@ -23,6 +23,7 @@ export const popupProps = {
   },
   /**
    * 触发事件 PopupTriggerT | PopupTriggerT[]
+   * Pad&Phone: 只支持 'none', 'click', 'click-outclick'
    */
   trigger: {
     type: [String, Array] as PropType<PopupTriggerT | PopupTriggerT[]>,

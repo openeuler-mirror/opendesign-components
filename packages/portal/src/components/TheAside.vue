@@ -18,11 +18,11 @@ watch(
 const navList = routes
   .filter((item) => !item.exclude)
   .map((item) => {
-    const { path, name, label } = item;
+    const { path, name, meta } = item;
     return {
       path,
       name,
-      label,
+      label: meta?.title,
     };
   });
 const navClick = (item: (typeof navList)[0]) => {

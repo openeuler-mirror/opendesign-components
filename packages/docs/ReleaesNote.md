@@ -37,12 +37,6 @@
 
 1. figure 刷新播放图标
 
-TODO
-
-1. pagination 支持 layout 控制顺序
-2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
-3. 级联重构
-
 # 0.0.61
 
 1. [table] 插槽更名：表头 th_xx; 表体 td_xx;
@@ -74,7 +68,7 @@ TODO
 # 0.0.65
 
 1. [select] 解决清除图标频繁动画触发的问题，修改下拉图标动效
-2. [button] 修复 diasbled/loading 状态时仍然触发 submit 事件
+2. [button] 修复 disabled/loading 状态时仍然触发 submit 事件
 3. [table] 移除表格首尾间距样式
 4. [scroller] 不再导出 OScroller，增加 slot：thum\track
 5. 更新全局 token 变量值
@@ -88,3 +82,52 @@ TODO
 
 1. [input] 重构 input，支持 autowidth，maxlength、minlength，无效值判断接口从 checkValid 更改为 validate，props 移除 parse
 2. [textarea] 重构 textarea，长度限制提示支持国际化
+
+# [open-scripts] 0.0.18
+
+1. 解决图标服务端渲染，无法绑定事件问题；
+2. svgo 配置增加默认 prefixIds，用于解决老版本对 svg 图标 id 不能正常使用问题
+
+# [open-scripts] 0.0.19
+
+1. 修复 svg 文件名因空格、目录嵌套导致生成的 svg 组件被重名替换问题。
+
+# 0.0.68
+
+1. [Table] 插槽 head 更名为 header;
+2. [pagination] 支持 total 插槽;
+3. [scroller] 修复在设置 max-height 时无法滚动问题;
+4. [textarea] 增加插槽 prepend、append，修复自动尺寸 bug；滚动使用 scroller；
+5. [input/textarea] 修复样式未导出问题，组件光标从 pointer 更改为 text
+6. [config-provider] 增加全局配置项 link，可用于实际场景中，适配 router-link 等; 增加 tag 属性，支持自定义标签
+7. [link] 增加 tag 属性，支持自定义标签
+8. [form] 修复 input 事件不触发表单校验，涉及组件 input/textarea/inputNumber
+9. [Tab] 新增 headerClass 类，支持自定义头部样式，比如 sticky;
+
+# 0.0.69
+
+- feat
+
+1. [Figure] 为 figure 增加 load 事件
+2. [Scrollbar] 支持设置 thumb 的最小尺寸
+3. [VirtualList] 新增虚拟列表，支持定高、动态高度,
+4. [Select] 增加虚拟列表的示例、滚动条参数更改 scroller -> scrollbar
+5. [Pagination] 支持虚拟列表展示下拉的页码数
+6. [Dialog] 滚动条参数更改 scroller -> scrollbar, 重构弹窗间距样式，增加文本颜色变量（--dlg-color, --dlg-header-color）;
+7. [Popup] pad & phone 支持 trigger： 'none', 'click', 'click-outclick'
+8. [Carousel] 轮播组件悬浮暂停时将暂停事件抛出
+
+- fix
+
+1. [Textarea] 解决 textarea placeholder 文字颜色不正确的问题
+2. [Option] 修复禁用状态时，hover 样式错误问题
+
+TODO
+
+1. pagination 支持 layout 控制顺序
+2. carousel 增加鼠标 hover 停止轮播功能，支持是否循环 todo
+3. 级联重构
+4. virtualList 整改为 use-virtual-list
+5. select 重构，通过 options 传列表数据
+6. table 支持虚拟滚动，支持固定列，固定行
+7. Tab 重构成分离 OTabs：OTabNav\OTabPane ?

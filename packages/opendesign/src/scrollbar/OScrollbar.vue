@@ -135,6 +135,9 @@ const init = () => {
 
   scrollListenEl = isBody.value ? window : scrollTargetEl;
   scrollListenEl.addEventListener('scroll', onScroll, { passive: true });
+
+  // 处理hover事件，控制显示滚动条
+  handleWrapperHoverEvent();
 };
 /**
  * 根据滚动目标定期刷新滚动演示
@@ -182,7 +185,7 @@ const isShowScrollbar = ref(props.showType === 'always');
 
 watchEffect(() => {
   isShowScrollbar.value = props.showType === 'always';
-  // TODO 可以考虑是否在滚动条显示时就定时刷新
+  // 可以考虑是否在滚动条显示时就定时刷新
   if (props.showType === 'always') {
     if (props.autoUpdateOnScrollSize) {
       updateScrollbarOnIdle();
@@ -218,19 +221,21 @@ const removeWrapperHoverEvent = () => {
     wrapperEl.removeEventListener('mouseleave', onWrapperHoverOut);
   }
 };
-watchEffect(() => {
-  wrapperEl = rootRef.value?.offsetParent as HTMLElement;
-  if (!wrapperEl) {
-    return;
-  }
-  const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
-  if (isHoverShow) {
-    wrapperEl?.addEventListener('mouseenter', onWrapperHoverIn);
-    wrapperEl?.addEventListener('mouseleave', onWrapperHoverOut);
-  } else {
-    removeWrapperHoverEvent();
-  }
-});
+const handleWrapperHoverEvent = () => {
+  watchEffect(() => {
+    const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
+    wrapperEl = rootRef.value?.offsetParent as HTMLElement;
+    if (!wrapperEl) {
+      return;
+    }
+    if (isHoverShow) {
+      wrapperEl?.addEventListener('mouseenter', onWrapperHoverIn);
+      wrapperEl?.addEventListener('mouseleave', onWrapperHoverOut);
+    } else {
+      removeWrapperHoverEvent();
+    }
+  });
+};
 /**********/
 
 onUnmounted(() => {
@@ -313,10 +318,10 @@ defineExpose({
         'o-scrollbar-auto-show': props.showType === 'auto',
         'o-scrollbar-always-show': props.showType === 'always',
         'o-scrollbar-hover-show': props.showType === 'hover' && !isPhonePad,
-        'o-scrollbar-show': isShowScrollbar,
+        'o-scrollbar-visible': isShowScrollbar,
         'o-scrollbar-both': hasX && hasY,
-        'o-scrollbar-show-x': showXBar,
-        'o-scrollbar-show-y': showYBar,
+        'o-scrollbar-visible-x': showXBar,
+        'o-scrollbar-visible-y': showYBar,
         'o-scrollbar-to-body': isBody,
       },
     ]"

@@ -7,12 +7,12 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "gen:icon": "opensig-scripts gen:icon --config __test_scripts/icons/icon.config.ts"
+    "gen:icon": "open-scripts gen:icon --config __test_scripts/icons/icon.config.ts"
   },
   "dependencies": {
     "@opensig/opendesign": "workspace:^",
-    "@opensig/opensig-scripts": "workspace:^"
+    "@opensig/open-scripts": "workspace:^",
+    "@opensig/open-analytics": "0.0.3"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

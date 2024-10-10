@@ -1,28 +1,28 @@
 @use '../../../_styles/mixin.scss' as *;
 @use './var.scss';
 .o_textarea {
-  display: inline-flex;
-  width: 100%;
-  height: 100%;
   color: inherit;
   max-width: 100%;
   min-width: inherit;
+  min-height: inherit;
+  cursor: inherit;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
 }
 
 .o_textarea-wrap {
   width: 100%;
   position: relative;
-  display: flex;
 }
 .o_textarea-textarea {
-  padding: var(--textarea-padding-v) var(--textarea-padding-h);
-
+  padding: var(--padding-v) var(--padding-h);
+  display: block;
   outline: none;
   border: none;
   color: inherit;
   cursor: inherit;
   background-color: transparent;
-  display: inline-flex;
   line-height: inherit;
   height: 100%;
   width: 100%;
@@ -32,7 +32,7 @@
   z-index: 1;
 
   &::-webkit-input-placeholder {
-    color: var(--textarea-placeholder);
+    color: var(--textarea-placeholder, var(--o-color-info4));
   }
 
   &:autofill {
@@ -55,8 +55,8 @@
 .o_textarea-clear {
   right: 8px;
   top: 50%;
-  font-size: var(--textarea-icon-size);
-  margin-top: calc(var(--textarea-icon-size) / -2);
+  font-size: var(--icon-size);
+  margin-top: calc(var(--icon-size) / -2);
   border-radius: 50%;
   visibility: hidden;
   flex-shrink: 0;
@@ -100,17 +100,25 @@
 }
 
 .o_textarea-limit {
-  right: 8px;
-  bottom: 4px;
-  color: var(--textarea-limit-color);
-  font-size: var(--textarea-limit-text-size);
-  line-height: var(--textarea-limit-text-height);
+  .o_textarea-textarea {
+    // 兼容max()
+    padding-bottom: var(--textarea-limit-text-height, var(--o-line_height-tip2));
+    padding-bottom: max(var(--textarea-limit-text-height, var(--o-line_height-tip2)), var(--padding-v));
+  }
+}
+
+.o_textarea-count {
+  right: 7px;
+  bottom: 3px;
+  color: var(--textarea-limit-color, var(--o-color-info4));
+  font-size: var(--textarea-limit-text-size, var(--o-font_size-tip2));
+  line-height: var(--textarea-limit-text-height, var(--o-line_height-tip2));
   z-index: 0;
   b {
     font-weight: normal;
   }
 }
-.o_textarea-limit-error > b {
+.o_textarea-count-error > b {
   color: var(--textarea-limit-color-error, var(--o-color-danger1));
 }
 
@@ -122,19 +130,20 @@
 .o_textarea-wrap-auto-size {
   position: relative;
   min-width: 0; /* 修复子元素超出父元素问题 */
+  min-height: 0;
+  flex: 1;
 
   &::after {
     content: attr(date-value) ' ';
-    padding: var(--textarea-padding-v) var(--textarea-padding-h);
+    padding: var(--padding-v) var(--padding-h);
     visibility: hidden;
     white-space: pre-wrap;
     word-break: break-word;
     height: 100%;
     width: 100%;
     line-height: inherit;
-    display: inline-block;
+    display: block;
     box-sizing: border-box;
-    vertical-align: top;
     min-height: var(--textarea-min-height, 10px);
     min-width: var(--textarea-min-width, 10px);
   }

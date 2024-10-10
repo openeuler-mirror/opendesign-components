@@ -46,23 +46,32 @@ const click = () => {
         clearable
         :max-length="20"
         :min-length="10"
+        resize="both"
       >
         <template #suffix>
           <button @click="click">123</button>
         </template>
       </InTextarea>
     </section>
-    <section>
-      auto width:
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable />
+    <section block>
+      <p>auto width:</p>
+      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable>
+        <template #suffix>
+          <button @click="click">123</button>
+        </template>
+      </InTextarea>
     </section>
-    <section>
-      auto width: max-width: 300px
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="max-width: 300px; min-height: 100px" clearable />
+    <section block>
+      <p>auto width: max-width: 300px;min-height: 100px; max-height: 200px</p>
+      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="max-width: 300px; min-height: 100px; max-height: 200px" clearable>
+        <template #suffix>
+          <button @click="click">123</button>
+        </template>
+      </InTextarea>
     </section>
-    <section>
-      auto width: min-width: 100px
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="min-width: 100px; min-height: 60px" clearable />
+    <section block>
+      <p>auto width: min-width: 100px;min-height: 150px</p>
+      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="min-width: 100px; min-height: 60px; min-height: 150px" clearable />
     </section>
   </div>
 </template>

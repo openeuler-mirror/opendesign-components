@@ -2,6 +2,9 @@
 @use './var.scss';
 
 .o-option {
+  padding: calc(var(--option-gap) / 2) 0;
+}
+.o-option-item {
   display: flex;
   align-items: center;
   padding: var(--option-padding);
@@ -12,23 +15,21 @@
   border-radius: var(--option-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
   cursor: pointer;
-  margin-bottom: var(--option-gap);
-  &:last-child {
-    margin-bottom: 0;
-  }
-  @include hover {
-    &.o-option-multiple:hover,
-    &:hover {
+
+  &,
+  &.o-option-multiple {
+    @include hover {
       background-color: var(--option-bg-color-hover);
       color: var(--option-color-hover);
     }
   }
+
   &.active {
-    @include me-hover {
-      font-weight: 500;
-      color: var(--option-color-active);
-      background-color: var(--option-bg-color-active);
-    }
+    // @include me-hover {
+    font-weight: 500;
+    color: var(--option-color-active);
+    background-color: var(--option-bg-color-active);
+    // }
   }
 }
 
@@ -42,14 +43,13 @@
     background-color: var(--option-bg-color-disabled);
   }
 }
-// 列表容器
-.o-options-scroller {
-  max-height: var(--option-list-max-height);
-  --scroller-padding: 4px;
+.o-option-list {
+  padding: var(--option-list-padding, var(--option-list-padding-default));
+  --scroller-padding: 0;
 }
+// 列表容器
 .o-options-container {
-  padding: 4px;
-  max-height: var(--option-list-max-height);
+  max-height: var(--option-list-max-height, var(--option-list-max-height-default));
   overflow: auto;
 }
 

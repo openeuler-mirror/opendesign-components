@@ -2,13 +2,15 @@
 @use './var.scss';
 
 .o-textarea {
-  cursor: pointer;
+  cursor: text;
   color: var(--textarea-color);
   display: inline-flex;
   font-size: var(--textarea-text-size);
   line-height: var(--textarea-text-height);
 }
 .o-textarea-wrap {
+  width: 100%;
+  height: 100%;
   border: 1px solid var(--textarea-bd-color);
   border-radius: var(--textarea-radius);
   background-color: var(--textarea-bg-color);
@@ -29,4 +31,11 @@
     border-color: var(--textarea-bd-color-disabled);
     background-color: var(--textarea-bg-color-disabled);
   }
+}
+.o-textarea-textarea {
+  display: block;
+}
+.o-textarea-append,
+.o-textarea-prepend {
+  padding: 0 var(--textarea-padding-h);
 }

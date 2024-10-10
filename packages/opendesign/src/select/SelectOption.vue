@@ -4,6 +4,7 @@ import { IconLoading } from '../_utils/icons';
 import { OOptionList } from '../option';
 import type { SizeT } from '../_utils/types';
 import slot from './slot';
+import { BaseScrollerPropsT } from '../scrollbar';
 
 interface OptionPropT {
   size?: SizeT;
@@ -11,9 +12,12 @@ interface OptionPropT {
   loading?: boolean;
   optionTitle?: string;
   multiple?: boolean;
-  scroller?: boolean;
+  // 是否使用scrollbar
+  scrollbar?: boolean | Partial<BaseScrollerPropsT>;
 }
-const props = defineProps<OptionPropT>();
+const props = withDefaults(defineProps<OptionPropT>(), {
+  scrollbar: true,
+});
 </script>
 <template>
   <div
@@ -25,7 +29,7 @@ const props = defineProps<OptionPropT>();
       },
     ]"
   >
-    <OOptionList :wrap-class="props.wrapClass" :scroller="props.scroller">
+    <OOptionList :wrap-class="props.wrapClass" :scrollbar="props.scrollbar">
       <div v-if="props.loading" class="o-select-options-loading">
         <IconLoading class="o-rotating" />
       </div>

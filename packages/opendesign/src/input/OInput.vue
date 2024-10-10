@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, inject, ref } from 'vue';
-import { defaultSize } from '../_utils/global';
 import { inputProps } from './types';
-import { getRoundClass } from '../_utils/style-class';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
 
 import { InInput, slotNames } from '../_components/in-input';
+import { InBox, slotNames as boxSlots } from '../_components/in-box';
 import { filterSlots } from '../_utils/vue-utils';
 import { formateToString, uniqueId } from '../_utils/helper';
 
@@ -30,14 +29,14 @@ const inputId = computed(() => props.inputId || uniqueId());
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type;
-  } else {
-    return props.color;
+    return formItemInjection?.fieldResult.value?.type || 'normal';
   }
+  return props.color;
 });
 
 const onInput = (e: Event) => {
   emits('input', e);
+  formItemInjection?.fieldHandlers.onInput?.();
 };
 
 let clickInside = false;
@@ -85,66 +84,58 @@ const onMouseDown = (e: MouseEvent) => {
     clickInside = true;
   }
 };
-const round = getRoundClass(props, 'input');
 </script>
 <template>
-  <label
-    class="o-input"
-    :class="[
-      `o-input-${color}`,
-      `o-input-${props.variant}`,
-      `o-input-${props.size || defaultSize}`,
-      round.class.value,
-      {
-        'o-input-disabled': props.disabled,
-        'o-input-focus': isFocus,
-      },
-    ]"
-    :style="round.style.value"
-    @mousedown="onMouseDown"
-    :for="inputId"
-  >
-    <span v-if="$slots.prepend" class="o-input-prepend">
-      <slot name="prepend"></slot>
-    </span>
-    <InInput
-      ref="inInputRef"
-      class="o-input-wrap"
-      :class="{
-        'is-focus': isFocus,
-        'is-readonly': props.readonly,
-        'is-disabled': props.disabled,
-        'has-suffix': $slots.suffix,
-        'has-prepend': $slots.prepend,
-        'has-append': $slots.append,
-      }"
-      :input-id="inputId"
-      :model-value="formateToString(props.modelValue)"
-      :default-value="formateToString(props.defaultValue)"
-      :type="props.type"
-      :placeholder="props.placeholder"
+  <label class="o-input" @mousedown="onMouseDown" :for="inputId">
+    <InBox
+      :size="props.size"
+      :variant="props.variant"
+      :color="color"
       :disabled="props.disabled"
       :readonly="props.readonly"
-      :clearable="props.clearable"
-      :format="props.format"
-      :show-password-event="props.showPasswordEvent"
-      :validate="props.validate"
-      :onInvalidChange="props.onInvalidChange"
-      :auto-width="props.autoWidth"
-      @change="onChange"
-      @input="onInput"
-      @focus="onFocus"
-      @blur="onBlur"
-      @press-enter="onPressEnter"
-      @clear="onClear"
-      @update:model-value="onUpdatedModelValue"
+      :round="props.round"
+      :focused="isFocus"
     >
-      <template v-for="name in filterSlots($slots, slotNames)" #[name]>
+      <InInput
+        ref="inInputRef"
+        class="o-input-wrap"
+        :class="{
+          'has-suffix': $slots.suffix,
+          'has-prepend': $slots.prepend,
+          'has-append': $slots.append,
+        }"
+        :input-id="inputId"
+        :model-value="formateToString(props.modelValue)"
+        :default-value="formateToString(props.defaultValue)"
+        :type="props.type"
+        :placeholder="props.placeholder"
+        :disabled="props.disabled"
+        :readonly="props.readonly"
+        :clearable="props.clearable"
+        :format="props.format"
+        :show-password-event="props.showPasswordEvent"
+        :validate="props.validate"
+        :onInvalidChange="props.onInvalidChange"
+        :auto-width="props.autoWidth"
+        :max-length="props.maxLength"
+        :min-length="props.minLength"
+        :get-length="props.getLength"
+        :input-on-outlimit="props.inputOnOutlimit"
+        @change="onChange"
+        @input="onInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @press-enter="onPressEnter"
+        @clear="onClear"
+        @update:model-value="onUpdatedModelValue"
+      >
+        <template v-for="name in filterSlots($slots, slotNames)" #[name]>
+          <slot :name="name"></slot>
+        </template>
+      </InInput>
+      <template v-for="name in filterSlots($slots, boxSlots)" #[name]>
         <slot :name="name"></slot>
       </template>
-    </InInput>
-    <span v-if="$slots.append" class="o-input-append">
-      <slot name="append"></slot>
-    </span>
+    </InBox>
   </label>
 </template>

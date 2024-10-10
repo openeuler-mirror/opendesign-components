@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import '../style';
 import MessageBasic from './MessageBasic.vue';
+import MessageTarget from './MessageTarget.vue';
 import MessageClosable from './MessageClosable.vue';
 import MessageCustomContent from './MessageCustomContent.vue';
 import MessageCustomIcon from './MessageCustomIcon.vue';
@@ -11,6 +12,7 @@ import MessageColorful from './MessageColorful.vue';
 <template>
   <div class="page-demo">
     <MessageBasic />
+    <MessageTarget />
     <MessageCustomContent />
     <MessageCustomIcon />
     <MessageClosable />

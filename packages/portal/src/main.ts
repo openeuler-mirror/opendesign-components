@@ -13,6 +13,7 @@ import './assets/style/k.light.token.css';
 import './assets/style/k.dark.token.css';
 
 import { router } from '@/router';
+import './analytics';
 
 import App from './App.vue';
 

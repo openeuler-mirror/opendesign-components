@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, reactive, computed, watchEffect } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { OForm, OFormItem, FieldResultT } from '../index';
-import { RulesT } from '../types';
+import { RulesT, ValidatorT } from '../types';
 import '../../input/style';
 import { OInput } from '../../input';
 import '../../input-number/style';
@@ -45,6 +45,31 @@ const formModel = reactive({
   uploadList: [],
 });
 
+const inputVal: ValidatorT = (value?: string) => {
+  if (value === '123') {
+    return {
+      type: 'danger',
+      message: '不能输入123',
+    };
+  }
+  if (value === '') {
+    return {
+      type: 'danger',
+      message: '不能为空',
+    };
+  }
+};
+const inputRules1: RulesT[] = [
+  {
+    triggers: ['change', 'blur'],
+    validator: inputVal,
+  },
+  {
+    triggers: ['input'],
+    validator: inputVal,
+  },
+];
+
 const inputRules: RulesT[] = [
   {
     required: true,
@@ -52,7 +77,7 @@ const inputRules: RulesT[] = [
     triggers: ['blur', 'change'],
   },
   {
-    validator: (value?: any) => {
+    validator: (value?: string) => {
       if (value === '123') {
         return {
           type: 'danger',
@@ -227,7 +252,7 @@ const onFormSubmit = (results: FieldResultT[]) => {
         <OInput v-model="formModel.input2" />
         <template #message="{ type, message }"> type: {{ type }} | message: {{ message.join('|') }} </template>
       </OFormItem>
-      <OFormItem label="标题文本1" :rules="inputRules" field="a.input1">
+      <OFormItem label="标题文本1" :rules="inputRules1" field="a.input1">
         <OInput v-model="formModel.a.input1" />
       </OFormItem>
       <OFormItem label="标题文本1" :rules="inputNumberRules" field="inputNumber">

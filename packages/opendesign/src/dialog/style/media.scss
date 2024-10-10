@@ -33,10 +33,17 @@
 }
 
 .o-dialog {
-  --dlg-margin: 24px;
-  @include respond-to('<=pad') {
-    --dlg-padding: 24px;
-    --dlg-padding-body-top: 16px;
+  @include respond-to('laptop') {
+    --dlg-edge-gap: 24px;
+    --dlg-inner-gap: 16px;
+  }
+  @include respond-to('pad_h') {
+    --dlg-edge-gap: 24px;
+    --dlg-inner-gap: 16px;
+  }
+  @include respond-to('<=pad_v') {
+    --dlg-edge-gap: 16px;
+    --dlg-inner-gap: 12px;
   }
 }
 
@@ -56,13 +63,14 @@
     --dlg-width: 80%;
     --dlg-max-height: 80%;
     --dlg-min-height: 65%;
-    --dlg-padding: 24px;
   }
   @include respond-to('<=pad') {
     --dlg-width: 100%;
     --dlg-max-height: 100%;
     --dlg-radius: 0;
     --dlg-margin: 0;
+    --dlg-edge-gap: 24px;
+    --dlg-inner-gap: 16px;
   }
 }
 .o-dialog-large {
@@ -70,7 +78,6 @@
     --dlg-width: 65%;
     --dlg-max-height: 80%;
     --dlg-min-height: 50%;
-    --dlg-padding: 24px;
   }
 
   @include respond-to('<=pad') {
@@ -78,6 +85,8 @@
     --dlg-max-height: 100%;
     --dlg-radius: 0;
     --dlg-margin: 0;
+    --dlg-edge-gap: 24px;
+    --dlg-inner-gap: 16px;
   }
 }
 .o-dialog-medium {
@@ -85,28 +94,18 @@
     --dlg-width: 50%;
     --dlg-max-height: 80%;
     --dlg-min-height: 35%;
-    --dlg-padding: 24px;
-    --dlg-padding-body-top: 16px;
-    --dlg-padding-body-bottom: 16px;
   }
-  @include respond-to('pad') {
+  @include respond-to('pad_h') {
     --dlg-width: 65%;
     --dlg-max-height: 80%;
     --dlg-min-height: 128px;
     --dlg-margin: 24px;
-
-    --dlg-padding: 24px;
-    --dlg-padding-body-top: 16px;
-    --dlg-padding-body-bottom: 16px;
   }
-  @include respond-to('phone') {
+  @include respond-to('<=pad_v') {
     --dlg-width: calc(100vw - 48px);
     --dlg-max-height: 65%;
     --dlg-min-height: 128px;
     --dlg-margin: 24px;
-    --dlg-padding: 16px;
-    --dlg-padding-body-top: 12px;
-    --dlg-padding-body-bottom: 12px;
   }
 }
 .o-dialog-small {
@@ -114,26 +113,21 @@
     --dlg-width: 35%;
     --dlg-max-height: 50%;
     --dlg-min-height: 20%;
-
-    --dlg-padding: 24px;
-    --dlg-padding-body-top: 12px;
-    --dlg-padding-body-bottom: 16px;
   }
   @include respond-to('<=pad') {
     --dlg-min-height: 128px;
+    --dlg-max-height: 80%;
+
     --dlg-margin: 24px;
 
-    --dlg-padding: 16px;
-    --dlg-padding-body-top: 8px;
-    --dlg-padding-body-bottom: 12px;
+    --dlg-edge-gap: 16px;
+    --dlg-inner-gap: 12px;
   }
   @include respond-to('pad_h') {
     --dlg-width: 50%;
-    --dlg-max-height: 80%;
   }
   @include respond-to('pad_v') {
     --dlg-width: 65%;
-    --dlg-max-height: 80%;
   }
   @include respond-to('phone') {
     --dlg-width: calc(100vw - 48px);
@@ -145,6 +139,7 @@
   @include respond-to('phone') {
     --dlg-width: 100%;
     --dlg-margin: 0;
+    &.o-dialog-auto,
     &.o-dialog-small,
     &.o-dialog-medium {
       --dlg-radius: var(--o-radius_control-l) var(--o-radius_control-l) 0 0;

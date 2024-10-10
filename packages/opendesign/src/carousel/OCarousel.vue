@@ -14,6 +14,7 @@ const emits = defineEmits<{
   (e: 'before-change', to: number, from: number): void;
   (e: 'change', to: number, from: number): void;
   (e: 'update:activeIndex', value: number): void;
+  (e: 'pause', value: number): void;
 }>();
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -98,6 +99,7 @@ const pausePlay = () => {
     clearInterval(timer);
     timer = null;
     isPlaying.value = false;
+    emits('pause', activeIndex.value);
   }
 };
 

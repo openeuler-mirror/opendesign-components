@@ -42,7 +42,9 @@
 }
 
 .o-skeleton-animation {
-  .o-skeleton-item {
+  .o-skeleton-avatar,
+  .o-skeleton-figure,
+  .o-skeleton-line {
     background-size: 400% 100%;
     animation: o-skeleton-ani 1.4s var(--o-easing-linear) infinite;
   }

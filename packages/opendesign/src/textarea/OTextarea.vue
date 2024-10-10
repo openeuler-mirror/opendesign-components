@@ -37,6 +37,7 @@ const color = computed(() => {
 
 const onInput = (e: Event) => {
   emits('input', e);
+  formItemInjection?.fieldHandlers.onInput?.();
 };
 
 let clickInside = false;
@@ -103,41 +104,54 @@ const round = getRoundClass(props, 'textarea');
     @mousedown="onMouseDown"
     :for="textareaId"
   >
-    <InTextarea
-      ref="inTextareaRef"
+    <div
       class="o-textarea-wrap"
       :class="{
         'is-focus': isFocus,
         'is-readonly': props.readonly,
         'is-disabled': props.disabled,
       }"
-      :model-value="formateToString(props.modelValue)"
-      :default-value="formateToString(props.defaultValue)"
-      :placeholder="props.placeholder"
-      :disabled="props.disabled"
-      :readonly="props.readonly"
-      :clearable="props.clearable"
-      :format="props.format"
-      :validate="props.validate"
-      :onInvalidChange="props.onInvalidChange"
-      :auto-size="props.autoSize"
-      :resize="props.resize"
-      :rows="props.rows"
-      :cols="props.cols"
-      :max-length="props.maxLength"
-      :input-on-outlimit="props.inputOnOutlimit"
-      :textarea-id="textareaId"
-      @change="onChange"
-      @input="onInput"
-      @focus="onFocus"
-      @blur="onBlur"
-      @press-enter="onPressEnter"
-      @clear="onClear"
-      @update:model-value="onUpdatedModelValue"
     >
-      <template v-for="name in filterSlots($slots, slotNames)" #[name]>
-        <slot :name="name"></slot>
-      </template>
-    </InTextarea>
+      <div class="o-textarea-prepend">
+        <slot name="prepend"></slot>
+      </div>
+      <InTextarea
+        class="o-textarea-textarea"
+        ref="inTextareaRef"
+        :model-value="formateToString(props.modelValue)"
+        :default-value="formateToString(props.defaultValue)"
+        :scrollbar="props.scrollbar"
+        :placeholder="props.placeholder"
+        :disabled="props.disabled"
+        :readonly="props.readonly"
+        :clearable="props.clearable"
+        :format="props.format"
+        :validate="props.validate"
+        :onInvalidChange="props.onInvalidChange"
+        :auto-size="props.autoSize"
+        :resize="props.resize"
+        :rows="props.rows"
+        :cols="props.cols"
+        :get-length="props.getLength"
+        :max-length="props.maxLength"
+        :min-length="props.minLength"
+        :input-on-outlimit="props.inputOnOutlimit"
+        :textarea-id="textareaId"
+        @change="onChange"
+        @input="onInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @press-enter="onPressEnter"
+        @clear="onClear"
+        @update:model-value="onUpdatedModelValue"
+      >
+        <template v-for="name in filterSlots($slots, slotNames)" #[name]>
+          <slot :name="name"></slot>
+        </template>
+      </InTextarea>
+      <div class="o-textarea-append">
+        <slot name="append"></slot>
+      </div>
+    </div>
   </label>
 </template>

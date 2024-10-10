@@ -51,6 +51,13 @@ export const tabProps = {
     type: Boolean,
     default: true,
   },
+  /**
+   * 头部是否固定
+   */
+  headerClass: {
+    type: [String, Array] as PropType<string | any[]>,
+    default: undefined,
+  },
 };
 
 export type TabPropsT = ExtractPropTypes<typeof tabProps>;

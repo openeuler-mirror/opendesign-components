@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { OLink } from '../index';
 import { OIconAdd, OIconDone, OIconLink } from '../../icon-components';
+import { OConfigProvider, LinkConfigT } from '../../config-provider';
 
 const link = '#/link';
 
@@ -15,6 +16,12 @@ const onLinkClick2 = () => {
   setTimeout(() => {
     loading.value = false;
   }, 3000);
+};
+
+const linkConfig: LinkConfigT = {
+  click: (e, params, attrs) => {
+    console.log(e, params, attrs);
+  },
 };
 </script>
 <template>
@@ -62,10 +69,10 @@ const onLinkClick2 = () => {
     <OLink :href="link" :icon="OIconLink" status="primary" size="large">icon-prefix</OLink>
     <OLink :href="link" suffix>icon-suffix</OLink>
     <OLink :href="link">
-      <template #iconPrefix><OIconDone /></template>自定义图标链接slot:iconPrefix
+      <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
     <OLink :href="link">
-      自定义图标链接slot:iconSuffix<template #iconSuffix><OIconAdd /></template>
+      自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
     </OLink>
   </section>
   <h4>点击事件</h4>
@@ -73,6 +80,20 @@ const onLinkClick2 = () => {
     <OLink :loading="!loading">loading</OLink>
     <OLink :loading="loading" status="primary" @click="onLinkClick2">点击Loading</OLink>
     <OLink status="primary" @click="onLinkClick">点击弹窗</OLink>
+  </section>
+  <h4>自定义标签</h4>
+  <section>
+    <OLink tag="button" :href="link">button标签</OLink>
+    <OLink tag="span" :href="link" target="_blank">span标签</OLink>
+    <OLink tag="button" :href="link" disabled>禁用button标签</OLink>
+  </section>
+  <h4>全局配置</h4>
+  <section>
+    <OConfigProvider :link="linkConfig">
+      <OLink :loading="!loading">loading</OLink>
+      <OLink :loading="loading" status="primary" @click="onLinkClick2" diy="123">点击Loading</OLink>
+      <OLink status="primary" @click="onLinkClick">点击弹窗</OLink>
+    </OConfigProvider>
   </section>
 </template>
 <style lang="scss"></style>

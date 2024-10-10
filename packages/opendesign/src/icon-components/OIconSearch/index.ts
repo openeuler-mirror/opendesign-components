@@ -1,0 +1,1 @@
+export { default as OIconSearch } from './OIconSearch.vue';

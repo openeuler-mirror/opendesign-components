@@ -19,9 +19,9 @@ onMounted(async () => {
       <div>body</div>
     </OChildOnly>
 
-    <h2>slot</h2>
+    <h2>slot 嵌套</h2>
     <SlotChid>
-      <template #head>
+      <template #header>
         <div>head</div>
       </template>
       <div>body</div>

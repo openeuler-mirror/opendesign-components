@@ -1,4 +1,7 @@
 @use './_styles/index.scss' as *;
+@use './_components/in-input/style/index.scss' as *;
+@use './_components/in-textarea/style/index.scss' as *;
+@use './_components/in-box/style/index.scss' as *;
 
 @use './icon/style/index.scss' as *;
 @use './button/style/index.scss' as *;
@@ -43,3 +46,4 @@
 @use './anchor/style/index.scss' as *;
 @use './collapse/style/index.scss' as *;
 @use './skeleton/style/index.scss' as *;
+@use './virtual-list/style/index.scss' as *;

@@ -5,12 +5,13 @@ import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
 import { OSelect, SelectValueT } from '../select';
 import { OOption } from '../option';
-import { IconChevronLeft, IconChevronRight, IconEllipsis } from '../_utils/icons';
+import { IconChevronLeft, IconChevronRight, IconEllipsis, IconArrowRight, IconArrowLeft } from '../_utils/icons';
 import { paginationProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { OIcon } from '../icon';
 import { OOptionList } from '../option';
 import { useI18n } from '../locale';
+import { OVirtualList } from '../virtual-list';
 
 const props = defineProps(paginationProps);
 
@@ -93,9 +94,13 @@ const clickPageBtn = (Increase: boolean) => {
 
 const moreClick = (more: PagerItemT) => {
   const { value, list } = more;
-  if (value === 'left' && list) {
+  if (!list) {
+    return;
+  }
+
+  if (value === 'left') {
     updateCurrentPage(list[list.length - 1]);
-  } else if (value === 'right' && list) {
+  } else if (value === 'right') {
     updateCurrentPage(list[0]);
   }
 };
@@ -129,8 +134,17 @@ const pageSizeChange = (val: SelectValueT) => {
   });
 };
 
-const onMoreItemClick = (item: number) => {
+const moreVisible = ref<{ left: boolean; right: boolean }>({
+  left: false,
+  right: false,
+});
+const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   selectPage(item);
+
+  // 点击选择页码后，隐藏弹层
+  if (value === 'left' || value === 'right') {
+    moreVisible.value[value] = false;
+  }
 };
 
 defineExpose({
@@ -141,7 +155,9 @@ defineExpose({
   <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
     <div class="o-pagination-wrap">
       <!-- total -->
-      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">{{ t('pagination.total', props.total) }}</div>
+      <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">
+        <slot name="total" :total="props.total">{{ t('pagination.total', props.total) }}</slot>
+      </div>
       <!-- sizes -->
       <template v-if="layout.includes('pagesize')">
         <div class="o-pagination-size">
@@ -197,23 +213,46 @@ defineExpose({
               @click="selectPage(item.value)"
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
-              <template v-else>
-                <OPopover position="bottom" wrap-class="o-options-popup">
-                  <OOptionList scroller>
+              <OPopover
+                position="bottom"
+                wrap-class="o-options-popup"
+                v-else
+                :disabled="!props.showMore"
+                v-model:visible="moreVisible[item.value as 'left'|'right']"
+              >
+                <OOptionList scrollbar>
+                  <!-- 当下拉项大于50，采用虚拟列表 -->
+                  <template v-if="item.list && item.list.length > 50">
+                    <OVirtualList :list="item.list" class="o-pagination-virtual-more-list" :scrollbar="{ showType: 'hover', size: 'small' }">
+                      <template #default="data">
+                        <OOption
+                          :key="data.item"
+                          class="o-pagination-more-item"
+                          :label="String(data.item)"
+                          :value="data.item"
+                          @click="onMoreItemClick(data.item, item.value)"
+                        />
+                      </template>
+                    </OVirtualList>
+                  </template>
+                  <template v-else-if="item.list">
                     <OOption
                       v-for="opt in item.list"
                       :key="opt"
                       class="o-pagination-more-item"
                       :label="String(opt)"
                       :value="opt"
-                      @click="onMoreItemClick(opt)"
+                      @click="onMoreItemClick(opt, item.value)"
                     />
-                  </OOptionList>
-                  <template #target>
-                    <OIcon class="o-pagination-more-icon" @click="moreClick(item)"><IconEllipsis /></OIcon>
                   </template>
-                </OPopover>
-              </template>
+                </OOptionList>
+                <template #target>
+                  <span @click="moreClick(item)" class="o-pagination-more-icon-wrap">
+                    <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
+                    <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
+                  </span>
+                </template>
+              </OPopover>
             </div>
           </template>
         </div>
