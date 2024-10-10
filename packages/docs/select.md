@@ -16,8 +16,8 @@
 | placeholder       | string                                                                                                               | --                          | 可选，提示文本                           |
 | multiple          | boolean                                                                                                              | false                       | 可选，是否支持多选                       |
 | maxTagCount       | boolean                                                                                                              | false                       | 可选，是否支持多选                       |
-| clearable         | boolean                                                                                                              | true                        | 可选，是否是否可以清除                   |
-| trigger           | PopupTriggerT                                                                                                        | true                        | 可选，是否是否可以清除                   |
+| clearable         | boolean                                                                                                              | true                        | 可选，是否可以清除                   |
+| trigger           | PopupTriggerT                                                                                                        | true                        | 可选，是否可以清除                   |
 | optionPosition    | PopupPositionT                                                                                                       | 'bl'                        | 可选，下拉的位置                         |
 | optionWidthMode   | 'auto' \| 'min-width' \| 'width'                                                                                     | 'min-width'                 | 可选，下拉的宽度适配方式                 |
 | optionWrapClass   | string                                                                                                               | ''                          | 可选，下拉的自定义类                     |
