@@ -12,7 +12,7 @@ export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
   });
 
   if (nofiles.length > 0) {
-    console.warn(`Filterd by size: ${nofiles.join(', ')}`);
+    console.warn(`Filtered by size: ${nofiles.join(', ')}`);
   }
   return Promise.resolve(
     files.map((file) => {
