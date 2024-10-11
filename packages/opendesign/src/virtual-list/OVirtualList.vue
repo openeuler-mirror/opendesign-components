@@ -1,12 +1,15 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, watchEffect } from 'vue';
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { vScrollbar } from '../scrollbar';
 import { virtualListProps } from './types';
-import { isArray, isUndefined } from '../_utils/is';
+import { isUndefined } from '../_utils/is';
 import { vOnResize } from '../directives/on-resize';
 import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
+const emits = defineEmits<{
+  (e: 'renderChange', start: number, end: number): void;
+}>();
 /**
  * 设置滚动条参数
  */
@@ -22,18 +25,30 @@ const scrollbarProps = computed(() => {
 /**
  * 对列表数据预处理
  */
-const listData = computed(() => {
-  if (!isArray(props.list)) {
-    return [];
+const listData = ref<
+  Array<{
+    id: number | string;
+    index: number;
+    data: any;
+  }>
+>([]);
+watch(
+  () => props.list,
+  (value) => {
+    listData.value = value.map((item, index) => ({
+      id: item.id,
+      data: item,
+      index,
+    }));
+  },
+  {
+    immediate: true,
   }
-  return props.list.map((item, index) => ({
-    item,
-    index,
-  }));
-});
+);
 
 // 可视区域内的起始序号
 const visibleStartIndex = ref(props.defaultStartIndex ?? 0);
+let visibleStartId: string | number | undefined = undefined;
 // 可视区域内的结束序号
 const renderCount = ref(1);
 // 渲染起始序号
@@ -44,7 +59,12 @@ const startIndex = computed(() => {
 const endIndex = computed(() => {
   return Math.min(startIndex.value + renderCount.value + props.buffer * 2, listData.value.length - 1);
 });
-
+watch([visibleStartIndex, renderCount], () => {
+  if (!initialScroll) {
+    return;
+  }
+  emits('renderChange', startIndex.value, endIndex.value);
+});
 /**
  * 渲染的数据
  */
@@ -52,22 +72,61 @@ const renderList = computed(() => {
   return listData.value.slice(startIndex.value, endIndex.value + 1);
 });
 
+watch(listData, (value) => {
+  if (!isUndefined(visibleStartId) && wrapperRef.value) {
+    // 计算滚动偏移量
+    const top = wrapperRef.value.scrollTop - listMetaData[visibleStartIndex.value].top;
+    // 找到更新后的可视数据index
+    const index = value.findIndex((item) => item.id === visibleStartId);
+    if (index >= 0) {
+      visibleStartIndex.value = index;
+      // 重新定位滚动条位置（需加上偏移量）
+      wrapperRef.value.scrollTop = listMetaData[index].top + top;
+    }
+  }
+});
+
 const wrapperRef = ref<HTMLElement>();
-// 动态高度时，先给定默认高度
-const placeholderSize = 80;
 
 // 列表虚拟总高度，先给定初始值
-const contentSize = ref((props.itemSize ? props.itemSize : placeholderSize) * listData.value.length);
+const contentSize = ref((props.itemSize ? props.itemSize : props.defaultItemSize) * listData.value.length);
 // 容器可视区尺寸
 const containerSize = ref({
   height: 0,
   width: 0,
 });
 const onContainerResize = () => {
-  containerSize.value.height = wrapperRef.value?.offsetHeight ?? 0;
-  containerSize.value.width = wrapperRef.value?.offsetWidth ?? 0;
+  if (!wrapperRef.value) {
+    return;
+  }
+  containerSize.value.height = wrapperRef.value.offsetHeight;
+  containerSize.value.width = wrapperRef.value.offsetWidth;
 
-  debounceUpdateVisibleCount();
+  // 第一次初始化滚动位置后，再根据容器尺寸变化刷新渲染项，未初始化，则不刷新
+  if (!initialScroll) {
+    return;
+  }
+  const scrollTop = wrapperRef.value.scrollTop;
+
+  // 刷新起始渲染项
+  for (let i = visibleStartIndex.value; i >= 0; i--) {
+    const meta = listMetaData[i];
+
+    if (meta.top <= scrollTop) {
+      visibleStartIndex.value = i;
+      break;
+    }
+  }
+
+  // 刷新结束渲染项
+  for (let i = endIndex.value; i < listMetaData.length; i++) {
+    const meta = listMetaData[i];
+
+    if (meta.bottom >= scrollTop + containerSize.value.height) {
+      renderCount.value = i - visibleStartIndex.value;
+      break;
+    }
+  }
 };
 
 const contentStyle = computed(() => ({
@@ -82,6 +141,11 @@ const renderListStyle = computed(() => {
 });
 
 /**
+ * 初始化滚动位置
+ */
+let initialScroll = false;
+
+/**
  * 滚动到指定序号项
  * @param index
  */
@@ -92,38 +156,52 @@ const scrollToIndex = (index: number) => {
   wrapperRef.value.scrollTop = listMetaData[index].top;
 };
 
-/**
- * 初始化滚动位置
- */
-const initialScroll = ref(false);
-watchEffect(() => {
-  if (initialScroll.value) {
-    scrollToIndex(props.defaultStartIndex);
-  }
-});
-
 interface ItemMeta {
+  id: string | number;
   index: number;
   top: number;
   bottom: number;
   size: number;
   measured: boolean;
 }
+
 let listMetaData: Array<ItemMeta> = [];
-watchEffect(() => {
-  const itemSize = props.itemSize ? props.itemSize : placeholderSize;
-  listMetaData = listData.value.map((_, index) => {
-    const meta = {
-      index,
-      size: itemSize,
-      top: itemSize * index,
-      bottom: itemSize * (index + 1),
-      measured: props.itemSize ? true : false,
-    };
-    return meta;
-  });
-  contentSize.value = listMetaData[listMetaData.length - 1].bottom;
-});
+// 列表数据变换时，重新计算尺寸数据
+watch(
+  [() => props.itemSize, () => listData.value],
+  ([propSize, dataList]) => {
+    const itemSize = propSize ? propSize : props.defaultItemSize;
+
+    let lastTop = 0;
+    listMetaData = dataList.map((item, index) => {
+      // 非固定高度
+      if (!propSize) {
+        const m = listMetaData.find((mItem) => mItem.id === item.id);
+        if (m && m.measured) {
+          lastTop = m.bottom;
+          return m;
+        }
+      }
+
+      const metaItem = {
+        id: item.id,
+        index,
+        size: itemSize,
+        top: lastTop,
+        bottom: lastTop + itemSize,
+        measured: propSize ? true : false,
+      };
+
+      lastTop += itemSize;
+
+      return metaItem;
+    });
+    contentSize.value = listMetaData[listMetaData.length - 1].bottom;
+  },
+  {
+    immediate: true,
+  }
+);
 
 /**
  * 更新item的相关偏移、高度，总高度
@@ -155,7 +233,7 @@ const updateVisibleCount = (scrollOffset?: number) => {
 
   for (let i = visibleStartIndex.value + 1; i < listMetaData.length; i++) {
     const meta = listMetaData[i];
-    if (meta.top > scrollSize + containerHeight) {
+    if (meta.top >= scrollSize + containerHeight) {
       renderCount.value = i - visibleStartIndex.value;
       break;
     }
@@ -195,11 +273,13 @@ const onScroll = () => {
   if (props.itemSize) {
     visibleStartIndex.value = Math.floor(scrollOffset / props.itemSize);
     offset.value = listMetaData[startIndex.value].top;
+    visibleStartId = listMetaData[visibleStartIndex.value].id;
     return;
   }
 
   visibleStartIndex.value = getStartIndex(scrollOffset);
   offset.value = listMetaData[startIndex.value].top;
+  visibleStartId = listMetaData[visibleStartIndex.value].id;
 
   debounceUpdateVisibleCount(scrollOffset);
 };
@@ -209,20 +289,31 @@ const onScroll = () => {
 const onItemResize = (en: ResizeObserverEntry, index: number) => {
   const el = en.target as HTMLElement;
   const meta = listMetaData[index];
+
+  const size = el.offsetHeight;
   // 如果之前计算过，且尺寸无变化，则不需要刷新meta数据
-  if (meta.measured && meta.size === el.offsetHeight) {
+  if (meta.measured && meta.size === size) {
     return;
   }
 
-  meta.size = el.offsetHeight;
+  // 如果未计算的元素在滚动位置之前，则需要修正默认高度与渲染后的高度差，避免抖动
+  if (meta.measured === false && wrapperRef.value && wrapperRef.value.scrollTop > meta.top) {
+    wrapperRef.value.scrollTop += size - meta.size;
+  }
+
+  meta.size = size;
   meta.measured = true;
   meta.bottom = meta.top + meta.size;
 
   updateMeta(index);
 
-  // 滚动到初始位置
-  if (index === props.defaultStartIndex && !initialScroll.value) {
-    initialScroll.value = true;
+  // 处理初始滚动位置
+  if (index === props.defaultStartIndex && !initialScroll) {
+    // 等渲染后再重新定位滚动初始位置
+    nextTick(() => {
+      scrollToIndex(props.defaultStartIndex);
+      initialScroll = true;
+    });
   }
 
   debounceUpdateVisibleCount();
@@ -233,8 +324,10 @@ const init = () => {
     return;
   }
   // 先初始化滚动位置
-  scrollToIndex(props.defaultStartIndex);
-  onContainerResize();
+  if (props.itemSize) {
+    scrollToIndex(props.defaultStartIndex);
+    initialScroll = true;
+  }
 };
 
 onMounted(() => {
@@ -254,11 +347,11 @@ defineExpose({
           <template v-for="item in renderList" :key="item.index">
             <template v-if="props.itemSize">
               <div class="o-virtual-render-item" :style="{ height: props.itemSize + 'px' }">
-                <slot :item="item.item" :index="item.index"></slot>
+                <slot :item="item.data" :index="item.index"></slot>
               </div>
             </template>
             <div v-else class="o-virtual-render-item" v-on-resize="(en:ResizeObserverEntry) => onItemResize(en, item.index)">
-              <slot :item="item.item" :index="item.index"></slot>
+              <slot :item="item.data" :index="item.index"></slot>
             </div>
           </template>
         </div>

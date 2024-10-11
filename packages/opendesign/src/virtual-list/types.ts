@@ -7,7 +7,7 @@ import { BaseScrollerPropsT } from '../scrollbar';
 
 export const virtualListProps = {
   /**
-   * 列表数据
+   * 列表数据，如果数据存在动态追加，需要每一项需包含唯一ID
    */
   list: {
     type: Array<any>,
@@ -19,6 +19,13 @@ export const virtualListProps = {
    */
   itemSize: {
     type: Number,
+  },
+  /**
+   * 不定高时，每一项的默认高度
+   */
+  defaultItemSize: {
+    type: Number,
+    default: 80,
   },
   /**
    * 默认滚动到第几项
