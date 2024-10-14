@@ -60,17 +60,22 @@ const startIndex = computed(() => {
 const endIndex = computed(() => {
   return Math.min(visibleStartIndex.value + renderCount.value + props.buffer - 1, listData.value.length - 1);
 });
-watch([visibleStartIndex, renderCount], () => {
-  if (!initialScroll) {
-    return;
+
+let lastVisibleStartIndex = visibleStartIndex.value;
+let lastRenderCount = renderCount.value;
+const emitRenderChange = () => {
+  if (lastVisibleStartIndex !== visibleStartIndex.value || lastRenderCount !== renderCount.value) {
+    emits('renderChange', {
+      start: startIndex.value,
+      end: endIndex.value,
+      count: renderCount.value,
+      visible: visibleStartIndex.value,
+    });
+    lastVisibleStartIndex = visibleStartIndex.value;
+    lastRenderCount = renderCount.value;
   }
-  emits('renderChange', {
-    start: startIndex.value,
-    end: endIndex.value,
-    count: renderCount.value,
-    visible: visibleStartIndex.value,
-  });
-});
+};
+
 /**
  * 渲染的数据
  */
@@ -133,6 +138,7 @@ const onContainerResize = () => {
       break;
     }
   }
+  emitRenderChange();
 };
 
 const contentStyle = computed(() => ({
@@ -283,6 +289,7 @@ const updateVisibleCount = (scrollOffset?: number) => {
     }
   }
   renderCount.value = render;
+  emitRenderChange();
 };
 
 const debounceUpdateVisibleCount = debounceRAF(updateVisibleCount);
@@ -319,12 +326,11 @@ const onScroll = () => {
     visibleStartIndex.value = Math.floor(scrollOffset / props.itemSize);
     offset.value = listMetaData[startIndex.value].top;
     visibleStartId = listMetaData[visibleStartIndex.value].id;
-    return;
+  } else {
+    visibleStartIndex.value = getStartIndex(scrollOffset);
+    offset.value = listMetaData[startIndex.value].top;
+    visibleStartId = listMetaData[visibleStartIndex.value].id;
   }
-
-  visibleStartIndex.value = getStartIndex(scrollOffset);
-  offset.value = listMetaData[startIndex.value].top;
-  visibleStartId = listMetaData[visibleStartIndex.value].id;
 
   debounceUpdateVisibleCount(scrollOffset);
 };

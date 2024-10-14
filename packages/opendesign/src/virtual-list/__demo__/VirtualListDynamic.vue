@@ -13,8 +13,8 @@ const list = ref(
 );
 
 const onRenderChange = (renderIndex: RenderIndexInfo) => {
-  const { start, end } = renderIndex;
-  console.log(start, end);
+  const { start, end, visible, count } = renderIndex;
+  console.log(start, end, visible, count);
   if (start <= 5) {
     const n = new Array(10).fill(1).map((_, idx) => ({
       id: uniqueId(),
