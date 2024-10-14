@@ -158,7 +158,7 @@ const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'neares
   const item = listMetaData[index];
   const itemTop = item.top;
 
-  const cSize = containerSize.value.height;
+  const cSize = wrapperRef.value.offsetHeight;
 
   // 计算最终对齐方式
   let _align = align;
