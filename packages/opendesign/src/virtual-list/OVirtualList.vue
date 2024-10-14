@@ -148,7 +148,7 @@ let initialScroll = false;
 /**
  * 将指定项滚动到视口内，不定高场景下，可能存在滚动不准确
  * @param index 指定项
- * @param align 'start' | 'end' | 'center' | 'nearest' | number, 默认值'start'，不定高场景下，'end' | 'center'因高度不固定，可能存在滚动不准确
+ * @param align 'start' | 'end' | 'center' | 'nearest' | number(按start对齐后的偏移量,<0:向上偏移，>0:向下偏移), 默认值'start'，不定高场景下，'end' | 'center'| number 因高度不固定，可能存在滚动不准确;
  * @param behavior ScrollBehavior, 默认值 'instant'，不定高场景下，仅支持'instant'
  */
 const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'nearest' | number = 'start', behavior: ScrollBehavior = 'instant') => {
@@ -182,7 +182,7 @@ const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'neares
     } else if (_align === 'end') {
       scrollTop = itemTop - cSize + itemSize;
     } else if (typeof _align === 'number') {
-      scrollTop = itemTop + _align;
+      scrollTop = itemTop - _align;
     }
   }
 

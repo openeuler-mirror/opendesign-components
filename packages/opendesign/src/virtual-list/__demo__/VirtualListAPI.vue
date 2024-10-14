@@ -43,7 +43,7 @@ const onClick = () => {
       <div class="col">
         <div>
           <h5>动态高度</h5>
-          <OVirtualList ref="virtualRef2" class="container" :list="list" :default-start-index="defaultStartIndex" :default-item-size="20">
+          <OVirtualList ref="virtualRef2" class="container" :list="list" :default-start-index="defaultStartIndex" :default-item-size="80">
             <template #default="{ item, index }">
               <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
                 <span>Row:</span> <span>{{ item.label }}</span
