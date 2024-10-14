@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { vScrollbar } from '../scrollbar';
-import { virtualListProps } from './types';
+import { virtualListProps, RenderIndexInfo } from './types';
 import { isUndefined } from '../_utils/is';
 import { vOnResize } from '../directives/on-resize';
 import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
+
 const emits = defineEmits<{
-  (e: 'renderChange', start: number, end: number): void;
+  (e: 'renderChange', renderIndex: RenderIndexInfo): void;
 }>();
 /**
  * 设置滚动条参数
@@ -57,14 +58,24 @@ const startIndex = computed(() => {
 });
 // 渲染结束序号
 const endIndex = computed(() => {
-  return Math.min(startIndex.value + renderCount.value + props.buffer * 2, listData.value.length - 1);
+  return Math.min(visibleStartIndex.value + renderCount.value + props.buffer - 1, listData.value.length - 1);
 });
-watch([visibleStartIndex, renderCount], () => {
-  if (!initialScroll) {
-    return;
+
+let lastVisibleStartIndex = visibleStartIndex.value;
+let lastRenderCount = renderCount.value;
+const emitRenderChange = () => {
+  if (lastVisibleStartIndex !== visibleStartIndex.value || lastRenderCount !== renderCount.value) {
+    emits('renderChange', {
+      start: startIndex.value,
+      end: endIndex.value,
+      count: renderCount.value,
+      visible: visibleStartIndex.value,
+    });
+    lastVisibleStartIndex = visibleStartIndex.value;
+    lastRenderCount = renderCount.value;
   }
-  emits('renderChange', startIndex.value, endIndex.value);
-});
+};
+
 /**
  * 渲染的数据
  */
@@ -123,10 +134,11 @@ const onContainerResize = () => {
     const meta = listMetaData[i];
 
     if (meta.bottom >= scrollTop + containerSize.value.height) {
-      renderCount.value = i - visibleStartIndex.value;
+      renderCount.value = i - visibleStartIndex.value + 1;
       break;
     }
   }
+  emitRenderChange();
 };
 
 const contentStyle = computed(() => ({
@@ -269,13 +281,15 @@ const updateVisibleCount = (scrollOffset?: number) => {
     return;
   }
 
+  let render = 1;
   for (let i = visibleStartIndex.value + 1; i < listMetaData.length; i++) {
     const meta = listMetaData[i];
-    if (meta.top >= scrollSize + containerHeight) {
-      renderCount.value = i - visibleStartIndex.value;
-      break;
+    if (meta.top < scrollSize + containerHeight) {
+      render++;
     }
   }
+  renderCount.value = render;
+  emitRenderChange();
 };
 
 const debounceUpdateVisibleCount = debounceRAF(updateVisibleCount);
@@ -312,12 +326,11 @@ const onScroll = () => {
     visibleStartIndex.value = Math.floor(scrollOffset / props.itemSize);
     offset.value = listMetaData[startIndex.value].top;
     visibleStartId = listMetaData[visibleStartIndex.value].id;
-    return;
+  } else {
+    visibleStartIndex.value = getStartIndex(scrollOffset);
+    offset.value = listMetaData[startIndex.value].top;
+    visibleStartId = listMetaData[visibleStartIndex.value].id;
   }
-
-  visibleStartIndex.value = getStartIndex(scrollOffset);
-  offset.value = listMetaData[startIndex.value].top;
-  visibleStartId = listMetaData[visibleStartIndex.value].id;
 
   debounceUpdateVisibleCount(scrollOffset);
 };

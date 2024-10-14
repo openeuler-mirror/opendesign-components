@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OVirtualList } from '../index';
+import { OVirtualList, RenderIndexInfo } from '../index';
 import '../style';
 import { BaseScrollerPropsT } from '../../scrollbar';
 import { uniqueId } from '../../_utils/helper';
@@ -42,8 +42,8 @@ const scrollbarProps: Partial<BaseScrollerPropsT> = {
   size: 'medium',
   autoUpdateOnScrollSize: true,
 };
-const onRenderChange = (start: number, end: number) => {
-  console.log(start, end);
+const onRenderChange = (params: RenderIndexInfo) => {
+  console.log(params.start, params.end, params.count, params.visible);
 };
 </script>
 <template>
@@ -62,7 +62,7 @@ const onRenderChange = (start: number, end: number) => {
     </div>
     <div class="col">
       <h5>动态高度</h5>
-      <OVirtualList class="container" :list="list" :default-start-index="10">
+      <OVirtualList class="container" :list="list" :default-start-index="10" @render-change="onRenderChange">
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }" @click="onClick(item)">
             <span>Row:</span> <span>{{ item.label }}</span
@@ -95,7 +95,7 @@ const onRenderChange = (start: number, end: number) => {
       </OVirtualList>
     </div>
     <div class="col">
-      <OVirtualList class="container2" :list="list" :default-start-index="44" :style="{ height: containerHeight + 'px' }">
+      <OVirtualList class="container2" :list="list" :default-start-index="44" :style="{ height: containerHeight + 'px' }" @render-change="onRenderChange">
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
             <span>Row:</span> <span>{{ item.label }}</span

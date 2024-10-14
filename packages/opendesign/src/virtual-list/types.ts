@@ -1,6 +1,13 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { BaseScrollerPropsT } from '../scrollbar';
 
+export interface RenderIndexInfo {
+  start: number;
+  end: number;
+  visible: number;
+  count: number;
+}
+
 /**
  * 虚拟滚动的子项不能使用margin，会导致总高度计算不准确（无法包含margin）
  */
