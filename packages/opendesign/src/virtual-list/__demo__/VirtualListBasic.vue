@@ -62,7 +62,7 @@ const onRenderChange = (params: RenderIndexInfo) => {
     </div>
     <div class="col">
       <h5>动态高度</h5>
-      <OVirtualList class="container" :list="list" :default-start-index="10">
+      <OVirtualList class="container" :list="list" :default-start-index="10" @render-change="onRenderChange">
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }" @click="onClick(item)">
             <span>Row:</span> <span>{{ item.label }}</span
@@ -95,7 +95,7 @@ const onRenderChange = (params: RenderIndexInfo) => {
       </OVirtualList>
     </div>
     <div class="col">
-      <OVirtualList class="container2" :list="list" :default-start-index="44" :style="{ height: containerHeight + 'px' }">
+      <OVirtualList class="container2" :list="list" :default-start-index="44" :style="{ height: containerHeight + 'px' }" @render-change="onRenderChange">
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
             <span>Row:</span> <span>{{ item.label }}</span

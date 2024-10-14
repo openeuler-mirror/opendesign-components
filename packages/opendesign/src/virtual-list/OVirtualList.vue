@@ -58,7 +58,7 @@ const startIndex = computed(() => {
 });
 // 渲染结束序号
 const endIndex = computed(() => {
-  return Math.min(startIndex.value + renderCount.value + props.buffer * 2, listData.value.length - 1);
+  return Math.min(visibleStartIndex.value + renderCount.value + props.buffer - 1, listData.value.length - 1);
 });
 watch([visibleStartIndex, renderCount], () => {
   if (!initialScroll) {
@@ -129,7 +129,7 @@ const onContainerResize = () => {
     const meta = listMetaData[i];
 
     if (meta.bottom >= scrollTop + containerSize.value.height) {
-      renderCount.value = i - visibleStartIndex.value;
+      renderCount.value = i - visibleStartIndex.value + 1;
       break;
     }
   }
@@ -275,13 +275,14 @@ const updateVisibleCount = (scrollOffset?: number) => {
     return;
   }
 
+  let render = 1;
   for (let i = visibleStartIndex.value + 1; i < listMetaData.length; i++) {
     const meta = listMetaData[i];
-    if (meta.top >= scrollSize + containerHeight) {
-      renderCount.value = i - visibleStartIndex.value;
-      break;
+    if (meta.top < scrollSize + containerHeight) {
+      render++;
     }
   }
+  renderCount.value = render;
 };
 
 const debounceUpdateVisibleCount = debounceRAF(updateVisibleCount);
