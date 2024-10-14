@@ -9,12 +9,12 @@ const selectVal1 = ref('opt-4');
 const options = new Array(10000).fill(0).map((_, idx) => ({ label: `option-${idx}`, value: `opt-${idx}` }));
 const startIndex = computed(() => options.findIndex((item) => item.value == selectVal1.value));
 const isVisible = ref(false);
-const virtualList = ref<typeof OVirtualList>();
+const virtualList = ref<InstanceType<typeof OVirtualList>>();
 const onOptionsToggle = (visible: boolean) => {
   isVisible.value = visible;
   if (visible) {
     setTimeout(() => {
-      virtualList.value?.scrollToIndex(startIndex.value);
+      virtualList.value?.scrollToView(startIndex.value);
     }, 50);
   }
 };

@@ -146,14 +146,50 @@ const renderListStyle = computed(() => {
 let initialScroll = false;
 
 /**
- * 滚动到指定序号项
- * @param index
+ * 将指定项滚动到视口内，不定高场景下，可能存在滚动不准确
+ * @param index 指定项
+ * @param align 'start' | 'end' | 'center' | 'nearest' | number, 默认值'start'，不定高场景下，'end' | 'center'因高度不固定，可能存在滚动不准确
+ * @param behavior ScrollBehavior, 默认值 'instant'，不定高场景下，仅支持'instant'
  */
-const scrollToIndex = (index: number) => {
+const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'nearest' | number = 'start', behavior: ScrollBehavior = 'instant') => {
   if (!wrapperRef.value || index < 0 || index >= listMetaData.length) {
     return;
   }
-  wrapperRef.value.scrollTop = listMetaData[index].top;
+  const item = listMetaData[index];
+  const itemTop = item.top;
+
+  const cSize = containerSize.value.height;
+
+  // 计算最终对齐方式
+  let _align = align;
+  if (_align === 'nearest') {
+    const currScrollTop = wrapperRef.value.scrollTop;
+    if (currScrollTop > itemTop) {
+      _align = 'start';
+    } else if (currScrollTop + cSize < itemTop) {
+      _align = 'end';
+    } else {
+      // 如果在视口内，则不滚动
+      return;
+    }
+  }
+
+  let scrollTop = itemTop;
+  if (_align !== 'start') {
+    const itemSize = listMetaData[index].size;
+    if (_align === 'center') {
+      scrollTop = itemTop - cSize / 2 + itemSize / 2;
+    } else if (_align === 'end') {
+      scrollTop = itemTop - cSize + itemSize;
+    } else if (typeof _align === 'number') {
+      scrollTop = itemTop + _align;
+    }
+  }
+
+  wrapperRef.value.scrollTo({
+    top: scrollTop,
+    behavior: props.itemSize ? behavior : 'instant',
+  });
 };
 
 interface ItemMeta {
@@ -163,6 +199,7 @@ interface ItemMeta {
   bottom: number;
   size: number;
   measured: boolean;
+  isScrolling: boolean;
 }
 
 let listMetaData: Array<ItemMeta> = [];
@@ -190,6 +227,7 @@ watch(
         top: lastTop,
         bottom: lastTop + itemSize,
         measured: propSize ? true : false,
+        isScrolling: false,
       };
 
       lastTop += itemSize;
@@ -311,7 +349,7 @@ const onItemResize = (en: ResizeObserverEntry, index: number) => {
   if (index === props.defaultStartIndex && !initialScroll) {
     // 等渲染后再重新定位滚动初始位置
     nextTick(() => {
-      scrollToIndex(props.defaultStartIndex);
+      scrollToView(props.defaultStartIndex);
       initialScroll = true;
     });
   }
@@ -325,7 +363,7 @@ const init = () => {
   }
   // 先初始化滚动位置
   if (props.itemSize) {
-    scrollToIndex(props.defaultStartIndex);
+    scrollToView(props.defaultStartIndex);
     initialScroll = true;
   }
 };
@@ -335,7 +373,7 @@ onMounted(() => {
 });
 
 defineExpose({
-  scrollToIndex,
+  scrollToView,
 });
 </script>
 
