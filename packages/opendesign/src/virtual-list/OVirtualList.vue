@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { vScrollbar } from '../scrollbar';
-import { virtualListProps } from './types';
+import { virtualListProps, RenderIndexInfo } from './types';
 import { isUndefined } from '../_utils/is';
 import { vOnResize } from '../directives/on-resize';
 import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
+
 const emits = defineEmits<{
-  (e: 'renderChange', start: number, end: number): void;
+  (e: 'renderChange', renderIndex: RenderIndexInfo): void;
 }>();
 /**
  * 设置滚动条参数
@@ -63,7 +64,12 @@ watch([visibleStartIndex, renderCount], () => {
   if (!initialScroll) {
     return;
   }
-  emits('renderChange', startIndex.value, endIndex.value);
+  emits('renderChange', {
+    start: startIndex.value,
+    end: endIndex.value,
+    count: renderCount.value,
+    visible: visibleStartIndex.value,
+  });
 });
 /**
  * 渲染的数据

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OVirtualList } from '../index';
+import { OVirtualList, RenderIndexInfo } from '../index';
 import '../style';
 import { BaseScrollerPropsT } from '../../scrollbar';
 import { uniqueId } from '../../_utils/helper';
@@ -42,8 +42,8 @@ const scrollbarProps: Partial<BaseScrollerPropsT> = {
   size: 'medium',
   autoUpdateOnScrollSize: true,
 };
-const onRenderChange = (start: number, end: number) => {
-  console.log(start, end);
+const onRenderChange = (params: RenderIndexInfo) => {
+  console.log(params.start, params.end, params.count, params.visible);
 };
 </script>
 <template>

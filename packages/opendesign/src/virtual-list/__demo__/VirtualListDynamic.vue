@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { uniqueId } from '../../_utils/helper';
-import { OVirtualList } from '../index';
+import { OVirtualList, RenderIndexInfo } from '../index';
 import '../style';
 
 const list = ref(
@@ -12,9 +12,9 @@ const list = ref(
   }))
 );
 
-const onRenderChange = (start: number, end: number) => {
+const onRenderChange = (renderIndex: RenderIndexInfo) => {
+  const { start, end } = renderIndex;
   console.log(start, end);
-
   if (start <= 5) {
     const n = new Array(10).fill(1).map((_, idx) => ({
       id: uniqueId(),
