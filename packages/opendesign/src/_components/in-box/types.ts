@@ -52,12 +52,6 @@ export const inBoxProps = {
   for: {
     type: String,
   },
-  /**
-   * 是否只读
-   */
-  input: {
-    type: Boolean,
-  },
 };
 
 export type InBoxProps = ExtractPropTypes<typeof inBoxProps>;

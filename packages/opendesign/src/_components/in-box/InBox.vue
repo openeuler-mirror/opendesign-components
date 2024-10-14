@@ -11,15 +11,7 @@ const round = getRoundClass(props, '_box');
 <template>
   <label
     class="o_box"
-    :class="[
-      `o_box-${props.color}`,
-      `o_box-${props.variant}`,
-      `o_box-${props.size || defaultSize}`,
-      {
-        'o_box-input': props.input,
-      },
-      round.class.value,
-    ]"
+    :class="[`o_box-${props.color}`, `o_box-${props.variant}`, `o_box-${props.size || defaultSize}`, round.class.value]"
     :style="round.style.value"
     :for="props.for"
   >

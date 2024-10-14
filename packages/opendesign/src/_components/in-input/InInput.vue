@@ -25,8 +25,9 @@ const { t } = useI18n();
 const { disabled, type, format, validate } = toRefs(props);
 
 const {
-  currentValue,
+  realValue,
   displayValue,
+  updateValue,
   clearValue: clear,
   isValid,
   handleBlur,
@@ -68,8 +69,8 @@ watch(
   () => props.modelValue,
   (val) => {
     const value = formateToString(val);
-    if (value !== currentValue.value) {
-      currentValue.value = value;
+    if (value !== realValue.value) {
+      updateValue(value);
     }
   }
 );
@@ -91,9 +92,9 @@ onMounted(() => {
 // 计算当前长度
 const currentLength = computed(() => {
   if (isFunction(props.getLength)) {
-    return props.getLength(currentValue.value);
+    return props.getLength(realValue.value);
   }
-  return currentValue.value.length ?? 0;
+  return realValue.value.length ?? 0;
 });
 // 是否超出最大长度限制
 const isOutLengthLimit = computed(() => {
