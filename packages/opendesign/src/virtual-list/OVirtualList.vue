@@ -48,7 +48,7 @@ watch(
 
 // 可视区域内的起始序号
 const visibleStartIndex = ref(props.defaultStartIndex ?? 0);
-let visibleStartId: string | number | undefined = undefined;
+let visibleStartId: string | number | undefined;
 // 可视区域内的结束序号
 const renderCount = ref(1);
 // 渲染起始序号
