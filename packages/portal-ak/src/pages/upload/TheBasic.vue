@@ -10,7 +10,7 @@ const defaultFileList2: UploadFileT[] = [
   },
   {
     id: '2',
-    name: 'test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2.png',
+    name: 'test2.png',
     status: 'failed',
     message: '上传失败',
   },

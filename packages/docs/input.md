@@ -60,7 +60,7 @@
 | disabled       | boolean                                                     | false       | 可选，是否为禁用状态                                             |
 | readonly       | boolean                                                     | false       | 可选，是否为只读状态                                             |
 | invalid        | boolean                                                     | false       | 可选，是否为非法值状态                                           |
-| clearable      | boolean                                                     | true        | 可选，是否是否可以清除                                           |
+| clearable      | boolean                                                     | true        | 可选，是否可以清除。                                           |
 | autoWidth      | boolean                                                     | true        | 可选，是否自动增加宽度                                           |
 | placeholder    | string                                                      | --          | 可选，提示文本                                                   |
 | showPasswordOn | 'click' \| 'mousedown'                                      | 'mousedown' | 可选，显示密码的方式                                             |
