@@ -46,9 +46,14 @@ watch(
     immediate: true,
   }
 );
-
+const defaultStartIndex = computed(() => {
+  if (isUndefined(props.defaultStartIndex)) {
+    return 0;
+  }
+  return Math.max(Math.min(props.defaultStartIndex, props.list.length - 1), 0);
+});
 // 可视区域内的起始序号
-const visibleStartIndex = ref(props.defaultStartIndex ?? 0);
+const visibleStartIndex = ref(defaultStartIndex.value ?? 0);
 let visibleStartId: string | number | undefined;
 // 可视区域内的结束序号
 const renderCount = ref(1);
@@ -101,6 +106,7 @@ const wrapperRef = ref<HTMLElement>();
 
 // 列表虚拟总高度，先给定初始值
 const contentSize = ref((props.itemSize ? props.itemSize : props.defaultItemSize) * listData.value.length);
+
 // 容器可视区尺寸
 const containerSize = ref({
   height: 0,
@@ -115,6 +121,9 @@ const onContainerResize = () => {
 
   // 第一次初始化滚动位置后，再根据容器尺寸变化刷新渲染项，未初始化，则不刷新
   if (!initialScroll) {
+    if (contentSize.value < containerSize.value.height) {
+      visibleStartIndex.value = 0;
+    }
     return;
   }
   const scrollTop = wrapperRef.value.scrollTop;
@@ -130,20 +139,22 @@ const onContainerResize = () => {
   }
 
   // 刷新结束渲染项
+  let count = renderCount.value;
   for (let i = endIndex.value; i < listMetaData.length; i++) {
     const meta = listMetaData[i];
 
-    if (meta.bottom >= scrollTop + containerSize.value.height) {
-      renderCount.value = i - visibleStartIndex.value + 1;
-      break;
+    if (meta.top < scrollTop + containerSize.value.height) {
+      count++;
     }
   }
+  renderCount.value = count;
   emitRenderChange();
 };
 
 const contentStyle = computed(() => ({
   '--content-height': `${contentSize.value}px`,
 }));
+
 // 虚拟列表偏移量，用于虚拟滚动
 const offset = ref(0);
 const renderListStyle = computed(() => {
@@ -155,7 +166,7 @@ const renderListStyle = computed(() => {
 /**
  * 初始化滚动位置
  */
-let initialScroll = false;
+let initialScroll = props.itemSize ? true : false;
 
 /**
  * 将指定项滚动到视口内，不定高场景下，可能存在滚动不准确
@@ -359,10 +370,10 @@ const onItemResize = (en: ResizeObserverEntry, index: number) => {
   updateMeta(index);
 
   // 处理初始滚动位置
-  if (index === props.defaultStartIndex && !initialScroll) {
+  if (index === defaultStartIndex.value && !initialScroll) {
     // 等渲染后再重新定位滚动初始位置
     nextTick(() => {
-      scrollToView(props.defaultStartIndex);
+      scrollToView(defaultStartIndex.value);
       initialScroll = true;
     });
   }
@@ -376,8 +387,7 @@ const init = () => {
   }
   // 先初始化滚动位置
   if (props.itemSize) {
-    scrollToView(props.defaultStartIndex);
-    initialScroll = true;
+    scrollToView(defaultStartIndex.value);
   }
 };
 
