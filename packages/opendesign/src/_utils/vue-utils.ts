@@ -141,13 +141,13 @@ export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {
   return null;
 };
 
-export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) => void; fistElement: Ref<HTMLElement | null> } {
+export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) => void; firstElement: Ref<HTMLElement | null> } {
   let children: VNode[] | null = null;
-  const fistElement = ref<HTMLElement | null>(null);
+  const firstElement = ref<HTMLElement | null>(null);
 
   onMounted(() => {
     if (children) {
-      fistElement.value = getFirstElement(children);
+      firstElement.value = getFirstElement(children);
     }
   });
   return {
@@ -156,7 +156,7 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
         children = nodes;
       }
     },
-    fistElement,
+    firstElement,
   };
 }
 
