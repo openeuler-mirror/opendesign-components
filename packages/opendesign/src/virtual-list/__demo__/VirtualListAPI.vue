@@ -29,7 +29,7 @@ const onClick = () => {
     <div class="row">
       <div class="col">
         <div>
-          <h5>高度固定且一致</h5>
+          <h5>高度固定且一致， 滚动到居中对齐</h5>
           <OVirtualList ref="virtualRef" class="container" :list="list" :default-start-index="defaultStartIndex" :item-size="80">
             <template #default="{ item, index }">
               <div :key="item.label" class="section" :class="`item-${index + 1}`">
@@ -42,7 +42,7 @@ const onClick = () => {
       </div>
       <div class="col">
         <div>
-          <h5>动态高度</h5>
+          <h5>动态高度，滚动到顶部对齐</h5>
           <OVirtualList ref="virtualRef2" class="container" :list="list" :default-start-index="defaultStartIndex" :default-item-size="80">
             <template #default="{ item, index }">
               <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
