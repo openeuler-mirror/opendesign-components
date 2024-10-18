@@ -3,7 +3,8 @@ import { ref, watch, computed, onMounted } from 'vue';
 import { defaultPrestColorPool } from '../_utils/global';
 import HtmlTag from '../_components/html-tag';
 import { OLayer } from '../layer';
-import { IconImageError, IconVideoPlay } from '../_utils/icons';
+import { IconImageError, IconVideoPlay, IconClose } from '../_utils/icons';
+import { OIcon } from '../icon';
 
 import { figureProps } from './types';
 
@@ -67,13 +68,16 @@ onMounted(() => {
 // 全屏预览图片
 const previewVisible = ref(false);
 const canPreview = computed(() => props.preview || props.lazyPreiew);
-const preview = () => {
+const preview = (visible: boolean = true) => {
   if (canPreview.value) {
-    previewVisible.value = true;
+    previewVisible.value = visible;
   }
 };
 const onPreviewChange = (visible: boolean) => {
   emits('preview', visible);
+};
+const onClosePreviewClick = () => {
+  previewVisible.value = false;
 };
 
 const onFigureClick = () => {
@@ -142,8 +146,26 @@ defineExpose({
       </div>
     </div>
 
-    <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange">
-      <div class="o-figure-preview-img"><img :src="props.src" /></div>
+    <OLayer
+      v-if="canPreview"
+      v-model:visible="previewVisible"
+      class="o-figure-preview-layer"
+      @change="onPreviewChange"
+      :mask-close="['mask-button', 'mask'].includes(props.previewClose)"
+    >
+      <div class="o-figure-preview-wrapper">
+        <div class="o-figure-preview-img">
+          <OIcon
+            button
+            :icon="IconClose"
+            class="o-figure-preview-close"
+            @click="onClosePreviewClick"
+            v-if="['mask-button', 'button'].includes(props.previewClose)"
+          />
+          <img :src="props.src" />
+        </div>
+        <slot name="preview"></slot>
+      </div>
     </OLayer>
   </HtmlTag>
 </template>

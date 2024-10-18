@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, PropType } from 'vue';
 
 export const figureProps = {
   /**
@@ -67,6 +67,13 @@ export const figureProps = {
    */
   videoPoster: {
     type: Boolean,
+  },
+  /**
+   * 关闭预览方式
+   */
+  previewClose: {
+    type: String as PropType<'button' | 'none' | 'mask' | 'mask-button'>,
+    default: 'mask',
   },
 };
 
