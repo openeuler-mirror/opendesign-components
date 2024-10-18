@@ -42,6 +42,7 @@ watch(
     if (realValue.value !== val) {
       inputValue.value = number2string(val);
       realValue.value = val ?? 0;
+      lastValue = realValue.value;
     }
   }
 );
