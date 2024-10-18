@@ -1,15 +1,7 @@
 <script setup lang="ts">
 import { OFigure } from '../index';
-import { OIconSearch } from '../../icon-components';
-import { ref } from 'vue';
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 
-const figureRef = ref<typeof OFigure | null>(null);
-const preivewImg = () => {
-  if (figureRef.value) {
-    figureRef.value.preview();
-  }
-};
 const playVideo = () => {
   alert('you can play video');
 };
@@ -19,10 +11,6 @@ const onload = () => {
 
 const onerror = () => {
   console.log('error');
-};
-
-const onpreview = (visible: boolean) => {
-  console.log('preview:', visible);
 };
 </script>
 <template>
@@ -34,12 +22,12 @@ const onpreview = (visible: boolean) => {
     <OFigure class="img" :src="img" :ratio="16 / 9" fit="cover" background colorful @load="onload" />
     <OFigure class="img" hoverable :src="img" />
     <OFigure class="img" href="openEuler" target="__blank" :src="img" />
-    <OFigure class="img" :src="img" preview @preview="onpreview" />
-    <OFigure ref="figureRef" class="img" :src="img" lazy-preiew>
-      <OIconSearch class="zoomIn" @click="preivewImg" />
-    </OFigure>
     <OFigure class="img" :src="img" video-poster @click="playVideo" />
+  </section>
 
+  <h4>slot</h4>
+
+  <section>
     <OFigure style="width: 25%" :src="img" hoverable>
       <template #title>标题文本</template>
     </OFigure>
@@ -48,12 +36,7 @@ const onpreview = (visible: boolean) => {
     </OFigure>
   </section>
 </template>
-<style lang="scss">
-.dlg-action {
-  display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-}
+<style lang="scss" scoped>
 .img {
   width: 25%;
   border: 1px solid #ddd;
