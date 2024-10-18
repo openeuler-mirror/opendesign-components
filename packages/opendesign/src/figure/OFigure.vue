@@ -68,6 +68,8 @@ onMounted(() => {
 // 全屏预览图片
 const previewVisible = ref(false);
 const canPreview = computed(() => props.preview || props.lazyPreiew);
+const isMaskClose = computed(() => ['mask-button', 'mask'].includes(props.previewClose));
+const isButtonClose = computed(() => ['mask-button', 'button'].includes(props.previewClose));
 const preview = (visible: boolean = true) => {
   if (canPreview.value) {
     previewVisible.value = visible;
@@ -146,22 +148,10 @@ defineExpose({
       </div>
     </div>
 
-    <OLayer
-      v-if="canPreview"
-      v-model:visible="previewVisible"
-      class="o-figure-preview-layer"
-      @change="onPreviewChange"
-      :mask-close="['mask-button', 'mask'].includes(props.previewClose)"
-    >
+    <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange" :mask-close="isMaskClose">
       <div class="o-figure-preview-wrapper">
         <div class="o-figure-preview-img">
-          <OIcon
-            button
-            :icon="IconClose"
-            class="o-figure-preview-close"
-            @click="onClosePreviewClick"
-            v-if="['mask-button', 'button'].includes(props.previewClose)"
-          />
+          <OIcon button :icon="IconClose" class="o-figure-preview-close" @click="onClosePreviewClick" v-if="isButtonClose" />
           <img :src="props.src" />
         </div>
         <slot name="preview"></slot>
