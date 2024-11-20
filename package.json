@@ -8,9 +8,7 @@
     "dev:ak": "pnpm --filter portal-ak dev",
     "dev:lib": "pnpm --filter @opensig/opendesign dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MulanPSL-2.0",
   "dependencies": {
     "normalize.css": "^8.0.1",
     "vue": "^3.4.21",

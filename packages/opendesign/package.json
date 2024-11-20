@@ -15,6 +15,7 @@
     "opendesign",
     "vue3 components"
   ],
+  "license": "MulanPSL-2.0",
   "scripts": {
     "gen:token": "open-scripts gen:token --config ./tokens/token.config.ts",
     "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",

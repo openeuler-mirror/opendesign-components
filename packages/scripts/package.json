@@ -9,6 +9,7 @@
   "files": [
     "dist"
   ],
+  "license": "MulanPSL-2.0",
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc"
