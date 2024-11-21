@@ -2,6 +2,7 @@
   "name": "@opensig/open-scripts",
   "version": "0.0.20",
   "description": "opendesign component Scripts",
+  "license": "MIT",
   "main": "dist/index.js",
   "bin": {
     "open-scripts": "dist/index.js"
@@ -9,7 +10,6 @@
   "files": [
     "dist"
   ],
-  "license": "MulanPSL-2.0",
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc"
