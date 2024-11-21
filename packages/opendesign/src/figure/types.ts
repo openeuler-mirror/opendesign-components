@@ -75,6 +75,18 @@ export const figureProps = {
     type: String as PropType<'button' | 'none' | 'mask' | 'mask-button'>,
     default: 'mask',
   },
+  /**
+   * 图片懒加载
+   * [false]: 立即加载
+   * [true]: 启用懒加载，根据与视口的位置关系判断是否加载图片
+   * 1. background为false时，使用原生img loading=lazy判断是否加载
+   * 2. background为true时，使用IntersectionObserver检测是否进入视口，加载图片
+   * [IntersectionObserverInit]: { root, rootMargin, threshold }，指定使用IntersectionObserver检测是否进入视口
+   * 配置参见 https://developer.mozilla.org/zh-CN/docs/Web/API/IntersectionObserver/IntersectionObserver
+   */
+  lazy: {
+    type: [Boolean, Object] as PropType<boolean | IntersectionObserverInit>,
+  },
 };
 
 export type FigurePropsT = ExtractPropTypes<typeof figureProps>;
