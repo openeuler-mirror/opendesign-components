@@ -1,6 +1,7 @@
 {
   "name": "@opensig/opendesign",
   "version": "0.0.69",
+  "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",
@@ -15,7 +16,6 @@
     "opendesign",
     "vue3 components"
   ],
-  "license": "MulanPSL-2.0",
   "scripts": {
     "gen:token": "open-scripts gen:token --config ./tokens/token.config.ts",
     "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
