@@ -15,8 +15,9 @@ const index = ref(5);
 const virtualRef = ref<InstanceType<typeof OVirtualList>>();
 const virtualRef2 = ref<InstanceType<typeof OVirtualList>>();
 const onClick = () => {
-  virtualRef.value?.scrollToView(index.value, 'center', 'smooth');
-  virtualRef2.value?.scrollToView(index.value, 'start');
+  const to = Math.max(index.value - 1, 0);
+  virtualRef.value?.scrollToView(to, 'center', 'smooth');
+  virtualRef2.value?.scrollToView(to, 'start');
 };
 </script>
 <template>
@@ -29,7 +30,7 @@ const onClick = () => {
     <div class="row">
       <div class="col">
         <div>
-          <h5>高度固定且一致， 滚动到居中对齐</h5>
+          <h5>高度固定且一致， 滚动到居中对齐： 'center'</h5>
           <OVirtualList ref="virtualRef" class="container" :list="list" :default-start-index="defaultStartIndex" :item-size="80">
             <template #default="{ item, index }">
               <div :key="item.label" class="section" :class="`item-${index + 1}`">
@@ -42,7 +43,7 @@ const onClick = () => {
       </div>
       <div class="col">
         <div>
-          <h5>动态高度，滚动到顶部对齐</h5>
+          <h5>动态高度，滚动到顶部对齐：'start'</h5>
           <OVirtualList ref="virtualRef2" class="container" :list="list" :default-start-index="defaultStartIndex" :default-item-size="80">
             <template #default="{ item, index }">
               <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
