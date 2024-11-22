@@ -1,24 +1,24 @@
 import { isFunction } from '../_utils/is';
 
-type ElementPool = WeakMap<
+type ElementPoolT = WeakMap<
   HTMLElement,
   {
     element: HTMLElement;
     callbacks: Array<(entry: IntersectionObserverEntry, isIntersecting: boolean) => void>;
   } | null
 >;
-interface ObserveInstance {
+interface ObserveInstanceT {
   observer: IntersectionObserver;
   record: number;
-  elementPool: ElementPool;
+  elementPool: ElementPoolT;
 }
 const defaultKey = {};
 /**
  * 实例池
  */
-const instancePool = new WeakMap<IntersectionObserverInit | typeof defaultKey, ObserveInstance>();
+const instancePool = new WeakMap<IntersectionObserverInit | typeof defaultKey, ObserveInstanceT>();
 
-function createObserverInstance(options?: IntersectionObserverInit): ObserveInstance {
+function createObserverInstance(options?: IntersectionObserverInit): ObserveInstanceT {
   let instance = instancePool.get(options || defaultKey);
   if (!instance) {
     const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
@@ -37,7 +37,7 @@ function createObserverInstance(options?: IntersectionObserverInit): ObserveInst
     /**
      * 监听元素池
      */
-    const elementPool: ElementPool = new WeakMap();
+    const elementPool: ElementPoolT = new WeakMap();
     instance = {
       observer,
       record: 0,
