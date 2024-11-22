@@ -201,3 +201,23 @@ export function formateToString(val: unknown): string {
   }
   return String(val);
 }
+
+/**
+ * 使用图片url请求加载图片
+ * @param src s
+ * @returns
+ */
+export function requestImage(src: string) {
+  return new Promise((resolve, reject) => {
+    const onImgLoaded = () => {
+      resolve(src);
+    };
+    const onImgError = (e: Event | string) => {
+      reject(e);
+    };
+    const img = new Image();
+    img.onload = onImgLoaded;
+    img.onerror = onImgError;
+    img.src = src;
+  });
+}

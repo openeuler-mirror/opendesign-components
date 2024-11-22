@@ -294,7 +294,7 @@ export const routes = [
   {
     path: '/figure',
     name: 'Figure',
-    component: () => import('@components/figure/__demo__/IndexFigure.vue'),
+    component: () => import('@components/figure/__demo__/TheIndex.vue'),
     meta: {
       title: '图片 Figure',
     },
