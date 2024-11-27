@@ -119,6 +119,11 @@ const onContainerResize = () => {
   containerSize.value.height = wrapperRef.value.offsetHeight;
   containerSize.value.width = wrapperRef.value.offsetWidth;
 
+  // 当容器高度为0，需要更新offset值
+  if (containerSize.value.height === 0) {
+    offset.value = 0;
+  }
+
   // 第一次初始化滚动位置后，再根据容器尺寸变化刷新渲染项，未初始化，则不刷新
   if (!initialScroll) {
     if (contentSize.value < containerSize.value.height) {
@@ -175,10 +180,12 @@ let initialScroll = props.itemSize ? true : false;
  * @param behavior ScrollBehavior, 默认值 'instant'，不定高场景下，仅支持'instant'
  */
 const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'nearest' | number = 'start', behavior: ScrollBehavior = 'instant') => {
-  if (!wrapperRef.value || index < 0 || index >= listMetaData.length) {
+  if (!wrapperRef.value) {
     return;
   }
-  const item = listMetaData[index];
+  const toIndex = Math.max(Math.min(listMetaData.length - 1, index), 0);
+
+  const item = listMetaData[toIndex];
   const itemTop = item.top;
 
   const cSize = wrapperRef.value.offsetHeight;
@@ -199,7 +206,7 @@ const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'neares
 
   let scrollTop = itemTop;
   if (_align !== 'start') {
-    const itemSize = listMetaData[index].size;
+    const itemSize = listMetaData[toIndex].size;
     if (_align === 'center') {
       scrollTop = itemTop - cSize / 2 + itemSize / 2;
     } else if (_align === 'end') {
@@ -335,13 +342,11 @@ const onScroll = () => {
   const scrollOffset = wrapperRef.value?.scrollTop ?? 0;
   if (props.itemSize) {
     visibleStartIndex.value = Math.floor(scrollOffset / props.itemSize);
-    offset.value = listMetaData[startIndex.value].top;
-    visibleStartId = listMetaData[visibleStartIndex.value].id;
   } else {
     visibleStartIndex.value = getStartIndex(scrollOffset);
-    offset.value = listMetaData[startIndex.value].top;
-    visibleStartId = listMetaData[visibleStartIndex.value].id;
   }
+  offset.value = listMetaData[startIndex.value].top;
+  visibleStartId = listMetaData[visibleStartIndex.value].id;
 
   debounceUpdateVisibleCount(scrollOffset);
 };

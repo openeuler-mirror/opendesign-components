@@ -14,6 +14,13 @@ export interface RenderIndexInfo {
 
 export const virtualListProps = {
   /**
+   * 默认滚动到第几项
+   */
+  defaultStartIndex: {
+    type: Number,
+    default: 0,
+  },
+  /**
    * 列表数据，如果数据存在动态追加，需要每一项需包含唯一ID
    */
   list: {
@@ -33,13 +40,6 @@ export const virtualListProps = {
   defaultItemSize: {
     type: Number,
     default: 80,
-  },
-  /**
-   * 默认滚动到第几项
-   */
-  defaultStartIndex: {
-    type: Number,
-    default: 0,
   },
   /**
    * 前后预留项，减少滚动式空白

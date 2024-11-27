@@ -50,7 +50,7 @@ const onRenderChange = (params: RenderIndexInfo) => {
   <h4>Scroller basic</h4>
   <div class="row">
     <div class="col">
-      <h5>高度固定且一致</h5>
+      <h5>高度固定且一致 default-start-index: 10</h5>
       <OVirtualList class="container" :list="list" :default-start-index="10" :item-size="80" @render-change="onRenderChange">
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`">
@@ -61,7 +61,7 @@ const onRenderChange = (params: RenderIndexInfo) => {
       </OVirtualList>
     </div>
     <div class="col">
-      <h5>动态高度</h5>
+      <h5>动态高度 default-start-index: 10</h5>
       <OVirtualList class="container" :list="list" :default-start-index="10" @render-change="onRenderChange">
         <template #default="{ item, index }">
           <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }" @click="onClick(item)">
