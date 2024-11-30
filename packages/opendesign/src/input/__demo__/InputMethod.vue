@@ -5,6 +5,7 @@ import { OInput } from '../index';
 function numberWithCommas(x: number | string) {
   return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+const val1 = ref('123456');
 const val2 = ref('123456');
 const format = (val: string | number) => {
   console.log('format', val);
@@ -14,6 +15,10 @@ const format = (val: string | number) => {
 
 const printEvent = (evt: string, v?: string) => {
   console.log(`[${evt}]`, v ?? '', 'value:', val2.value);
+};
+
+const beforeInput = (val: string) => {
+  return val.trim();
 };
 </script>
 <template>
@@ -42,6 +47,10 @@ const printEvent = (evt: string, v?: string) => {
       @focus="() => printEvent('focus')"
       @press-enter="() => printEvent('press-enter')"
     />
+  </section>
+  <section>
+    <div>首尾不允许输入空格： val1:{{ val1 }}</div>
+    <OInput v-model="val1" :before-input="beforeInput" />
   </section>
 </template>
 <style lang="scss"></style>
