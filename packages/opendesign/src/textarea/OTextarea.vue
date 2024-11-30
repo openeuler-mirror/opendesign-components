@@ -137,6 +137,7 @@ const round = getRoundClass(props, 'textarea');
         :min-length="props.minLength"
         :input-on-outlimit="props.inputOnOutlimit"
         :textarea-id="textareaId"
+        :before-input="props.beforeInput"
         @change="onChange"
         @input="onInput"
         @focus="onFocus"

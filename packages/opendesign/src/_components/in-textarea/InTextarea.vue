@@ -46,6 +46,7 @@ const {
   format,
   validate,
   onInvalidChange: props.onInvalidChange,
+  beforeInput: props.beforeInput,
 });
 
 const resizeValue = computed(() => {
@@ -152,7 +153,6 @@ defineExpose({
         :id="props.textareaId"
         ref="inputEl"
         class="o_textarea-textarea"
-        :value="displayValue"
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
