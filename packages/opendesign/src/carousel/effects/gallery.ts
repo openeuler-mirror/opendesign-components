@@ -1,3 +1,4 @@
+import { nextTick } from 'vue';
 import { isFunction } from '../../_utils/is';
 import { PointMoveT } from '../../_utils/types';
 import Effect, { EffectOptionT } from './effect';
@@ -174,7 +175,9 @@ export default class Gallery extends Effect {
           this.onChanged(toIndex, this.currentIndex);
         }
         this.currentIndex = toIndex;
-        this.loopRange();
+        nextTick().then(() => {
+          this.loopRange();
+        });
         return toIndex;
       });
     }
