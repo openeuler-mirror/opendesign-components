@@ -126,6 +126,12 @@ export const inTextareaProps = {
     type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,
     default: true,
   },
+  /**
+   * 针对输入内容进行处理，返回值作为输入最终值
+   */
+  beforeInput: {
+    type: Function as PropType<(value: string) => string>,
+  },
 };
 
 export type inTextareaProps = ExtractPropTypes<typeof inTextareaProps>;

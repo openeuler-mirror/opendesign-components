@@ -121,6 +121,7 @@ const onMouseDown = (e: MouseEvent) => {
         :min-length="props.minLength"
         :get-length="props.getLength"
         :input-on-outlimit="props.inputOnOutlimit"
+        :before-input="props.beforeInput"
         @change="onChange"
         @input="onInput"
         @focus="onFocus"

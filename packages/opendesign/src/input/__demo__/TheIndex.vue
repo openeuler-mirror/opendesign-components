@@ -10,6 +10,7 @@ import InputSlot from './InputSlot.vue';
 import InputMethod from './InputMethod.vue';
 import InputAutoWidth from './InputAutoWidth.vue';
 import InputValid from './InputValid.vue';
+// import InputTest from './InputTest.vue';
 </script>
 <template>
   <div class="page-demo">
@@ -20,6 +21,7 @@ import InputValid from './InputValid.vue';
     <InputMethod />
     <InputValid />
     <InputAutoWidth />
+    <!-- <InputTest /> -->
   </div>
 </template>
 <style lang="scss"></style>

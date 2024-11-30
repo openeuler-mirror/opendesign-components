@@ -12,6 +12,10 @@ setTimeout(() => {
 const printEvent = (event: string, val?: string | number) => {
   console.log(`[${event}]`, val);
 };
+
+const beforeInput = (val: string) => {
+  return val.trim();
+};
 </script>
 <template>
   <h4>Color & Variant</h4>
@@ -106,6 +110,11 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>clearable="false"</div>
     <OTextarea v-model="val1" :max-length="10" size="large" :clearable="false" />
+  </section>
+  <h4>beforeInput</h4>
+  <section>
+    <div>输入内容不允许收尾有空格</div>
+    <OTextarea v-model="val1" :max-length="10" size="large" :clearable="false" :before-input="beforeInput" />
   </section>
 </template>
 <style lang="scss"></style>

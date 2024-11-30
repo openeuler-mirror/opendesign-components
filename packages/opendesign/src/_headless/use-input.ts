@@ -19,13 +19,14 @@ export interface InputOptionT {
   validate?: Ref<((value: string) => boolean) | undefined>;
   onInvalidChange?: (inputValue: string, lastValidInputValue: string, lastValue: string) => string;
   format?: Ref<((value: string) => string) | undefined>;
+  beforeInput?: (inputValue: string) => string;
 }
 
 /**
  * 输入框
  */
 export function useInput(options: InputOptionT) {
-  const { defaultValue, format, emits, emitUpdate, validate, onInvalidChange } = options;
+  const { defaultValue, format, emits, emitUpdate, validate, onInvalidChange, beforeInput } = options;
   const currentValue = ref(defaultValue);
   const lastValue = ref(defaultValue);
 
@@ -43,6 +44,13 @@ export function useInput(options: InputOptionT) {
 
   // 记录上一次有效输入值
   let lastValidValue: string = '';
+
+  const setNativeDisplayValue = (value: string) => {
+    if (inputEl.value) {
+      inputEl.value.value = value;
+      displayValue.value = value;
+    }
+  };
 
   /**
    * 校验是否值有效，如果值为空，始终有效
@@ -62,7 +70,7 @@ export function useInput(options: InputOptionT) {
     }
 
     if (!(format?.value && isFocus.value)) {
-      displayValue.value = formatFn.value(currentValue.value);
+      setNativeDisplayValue(formatFn.value(currentValue.value));
     }
   });
 
@@ -101,10 +109,14 @@ export function useInput(options: InputOptionT) {
       return;
     }
 
-    const val = (e.target as HTMLInputElement)?.value;
+    let val = (e.target as HTMLInputElement)?.value;
+
+    if (isFunction(beforeInput)) {
+      val = beforeInput(val);
+    }
 
     currentValue.value = val;
-    displayValue.value = val;
+    setNativeDisplayValue(val);
 
     if (doValidate()) {
       emitUpdateValue();
@@ -121,7 +133,7 @@ export function useInput(options: InputOptionT) {
 
     isFocus.value = true;
     if (format?.value) {
-      displayValue.value = currentValue.value;
+      setNativeDisplayValue(currentValue.value);
     }
 
     emits('focus', e);
@@ -132,8 +144,8 @@ export function useInput(options: InputOptionT) {
     isFocus.value = false;
 
     if (format?.value) {
-      currentValue.value = displayValue.value;
-      displayValue.value = formatFn.value(currentValue.value);
+      currentValue.value = (e.target as HTMLInputElement)?.value;
+      setNativeDisplayValue(formatFn.value(currentValue.value));
     }
 
     emitValidUpdateValue();
@@ -148,7 +160,7 @@ export function useInput(options: InputOptionT) {
     if (!composition.isComposing.value && keyCode === Enter.key) {
       emitValidUpdateValue();
 
-      displayValue.value = currentValue.value;
+      setNativeDisplayValue(currentValue.value);
 
       emitChange();
 
@@ -158,7 +170,7 @@ export function useInput(options: InputOptionT) {
 
   const clearValue = () => {
     currentValue.value = '';
-    displayValue.value = '';
+    setNativeDisplayValue('');
 
     doValidate();
 

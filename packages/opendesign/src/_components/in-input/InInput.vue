@@ -45,6 +45,7 @@ const {
   format,
   validate,
   onInvalidChange: props.onInvalidChange,
+  beforeInput: props.beforeInput,
 });
 
 const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassword({
@@ -147,7 +148,6 @@ defineExpose({
         :id="props.inputId"
         ref="inputEl"
         class="o_input-input"
-        :value="displayValue"
         :type="inputType"
         :placeholder="props.placeholder"
         :readonly="props.readonly"
