@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, toRefs, watchEffect } from 'vue';
+import { computed, inject, ref, toRefs, watch } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
 import { optionProps } from './types';
 import { OCheckbox } from '../checkbox';
@@ -18,19 +18,30 @@ const currentVal = computed(() => {
 });
 
 const isActive = ref(false);
-watchEffect(() => {
-  isActive.value = !!currentVal.value?.includes(value.value);
-
-  // 初始化select的值、相应modelValue变化
-
-  selectInject?.select(
-    {
-      label: label.value || `${value.value}`,
-      value: value.value,
-    },
-    false
-  );
-});
+watch(
+  [currentVal, value],
+  () => {
+    // 响应modelValue变化
+    // 与 selectInject.select 拆分开，避免 modelValue 改变时，不必要地调用selectInject.select
+    isActive.value = Boolean(currentVal.value?.includes(value.value));
+  },
+  // currentVal 会被 OSelect 通过数组下标及push方法修改，所以需要deep
+  { immediate: true, deep: true }
+);
+watch(
+  [value, label],
+  ([newValue, newLabel]) => {
+    // 初始化并同步 select 的候选项
+    selectInject?.select(
+      {
+        label: newLabel || `${newValue}`,
+        value: newValue,
+      },
+      false
+    );
+  },
+  { immediate: true }
+);
 
 const clickOption = () => {
   if (!props.disabled) {
