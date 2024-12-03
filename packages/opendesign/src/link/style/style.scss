@@ -14,7 +14,7 @@
 
   @include hover {
     color: var(--link-color-hover);
-    .o-link-arrow {
+    .o-link-icon-arrow {
       transform: translate3d(4px, 0, 0);
     }
   }
@@ -23,7 +23,7 @@
     color: var(--link-color-active);
   }
 }
-.o-link-arrow {
+.o-link-icon-arrow {
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
 }
 .o-link-hover-underline {
@@ -75,7 +75,7 @@
     color: var(--link-color-disabled);
   }
   @include hover {
-    .o-link-arrow {
+    .o-link-icon-arrow {
       transform: translate3d(0, 0, 0);
     }
     .o-link-label {

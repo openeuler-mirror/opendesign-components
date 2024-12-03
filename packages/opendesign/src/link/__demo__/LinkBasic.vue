@@ -95,5 +95,11 @@ const linkConfig: LinkConfigT = {
       <OLink status="primary" @click="onLinkClick">点击弹窗</OLink>
     </OConfigProvider>
   </section>
+  <h4>换行</h4>
+  <section>
+    <div style="width: 200px">
+      <OLink color="success" hover-underline>hover-underline hover-underline hover-underline hover-underline hover-underline</OLink>
+    </div>
+  </section>
 </template>
 <style lang="scss"></style>
