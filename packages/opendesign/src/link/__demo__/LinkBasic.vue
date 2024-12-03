@@ -66,12 +66,12 @@ const linkConfig: LinkConfigT = {
   </section>
   <h4>图标</h4>
   <section>
-    <OLink :href="link" :icon="OIconLink" status="primary" size="large">icon-prefix</OLink>
-    <OLink :href="link" suffix>icon-suffix</OLink>
+    <OLink :href="link" :icon="OIconLink" status="primary" size="large" hover-underline>icon-prefix</OLink>
+    <OLink :href="link" suffix hover-underline>icon-suffix</OLink>
     <OLink :href="link">
       <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
-    <OLink :href="link">
+    <OLink :href="link" hover-underline>
       自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
     </OLink>
   </section>
@@ -98,7 +98,10 @@ const linkConfig: LinkConfigT = {
   <h4>换行</h4>
   <section>
     <div style="width: 200px">
-      <OLink color="success" hover-underline>hover-underline hover-underline hover-underline hover-underline hover-underline</OLink>
+      <OLink color="success" suffix hover-underline>
+        The Forum gathered experts from various industries, who offered their insight into the smart manufacturing of today and tomorrow and presented success
+        cases.
+      </OLink>
     </div>
   </section>
 </template>
