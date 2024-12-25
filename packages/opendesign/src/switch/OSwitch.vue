@@ -4,6 +4,7 @@ import { switchProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { IconLoading } from '../_utils/icons';
 import { isPromise, isBoolean, isUndefined } from '../_utils/is';
+import { log } from '../_utils/log';
 
 const props = defineProps(switchProps);
 
@@ -61,7 +62,7 @@ const onClick = (ev: Event) => {
       }
     })
     .catch((err) => {
-      console.warn(`${err}`);
+      log.warn(`${err}`);
     });
 };
 </script>

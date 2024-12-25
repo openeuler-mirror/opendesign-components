@@ -5,7 +5,7 @@ import { formItemInjectKey, formInjectKey, formCtx } from './provide';
 import { getFlexValue, groupRules } from './form';
 import { isArray } from '../_utils/is';
 import { asyncSome, getValueByPath, moveToFirst, setValueByPath } from '../_utils/helper';
-import { logger } from '../_utils/log';
+import { log } from '../_utils/log';
 
 const requireSymbol = '*';
 
@@ -70,7 +70,7 @@ const runValidate = async (trigger?: TriggerT): Promise<FieldResultT> => {
         return false;
       }
     } catch (e) {
-      logger.error('failed to validate rules');
+      log.error('failed to validate rules');
     }
   });
   return fieldResult.value;
