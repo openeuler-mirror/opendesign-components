@@ -12,26 +12,45 @@ import { OIcon } from '../icon';
 import { OOptionList } from '../option';
 import { useI18n } from '../locale';
 import { OVirtualList } from '../virtual-list';
+import { log } from '../_utils/log';
 
 const props = defineProps(paginationProps);
 
 const round = getRoundClass(props, 'pagination');
 
 const emits = defineEmits<{
-  (e: 'update:pageSize', value: number): void;
-  (e: 'update:page', value: number): void;
-  (e: 'change', value: { page: number; pageSize: number }): void;
+  (e: 'change', value: { page: number; pageSize?: number }): void;
 }>();
 
 const { t } = useI18n();
 
 const simpleLayout = ['pager'];
 
-let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
-let currentPage = ref(Math.round(props.page));
+// 每页数据项
+const pageSize = defineModel<number>('pageSize');
+// 当前页码
+const pageVal = defineModel<number>('page');
+// 内部记录当前页数
+const currentPage = computed(() => {
+  const p = Number(pageVal.value);
+  if (p < 1 || isNaN(p)) {
+    return 1;
+  } else if (p > totalPage.value) {
+    return totalPage.value;
+  } else {
+    return p;
+  }
+});
+
+const currentPageSize = computed(() => {
+  if (!pageSize.value || !props.pageSizes.includes(pageSize.value)) {
+    log.warn('pageSize is not in pageSizes!');
+  }
+  return pageSize.value;
+});
 
 const pageSizeList = computed(() => {
-  return getSizeOptions(currentPageSize.value, props.pageSizes, t('pagination.countPerPage'));
+  return getSizeOptions(props.pageSizes, t('pagination.countPerPage'), pageSize.value);
 });
 
 const defaultSizeLabel = computed(() => currentPageSize.value + t('pagination.countPerPage'));
@@ -40,7 +59,7 @@ const layout = computed(() => {
   return props.simple ? simpleLayout : props.layout;
 });
 
-const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
+const totalPage = computed(() => Math.ceil(props.total / (pageSize.value ?? props.pageSizes[0])));
 
 const pages = ref(getPagerList(totalPage.value, currentPage.value, props.showPageCount));
 
@@ -50,51 +69,33 @@ watch(
     pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
   }
 );
-
-const setCurrentPage = (page: number) => {
-  if (isNaN(page)) {
-    return;
-  }
-
-  if (page < 1) {
-    currentPage.value = 1;
-  } else if (page > totalPage.value) {
-    currentPage.value = totalPage.value;
-  } else {
-    currentPage.value = page;
-  }
-  pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
-};
-
-const updateCurrentPage = (page: number) => {
-  setCurrentPage(page);
-  emits('update:page', currentPage.value);
-  emits('change', {
-    page: currentPage.value,
-    pageSize: currentPageSize.value,
-  });
-};
-
 watch(
-  () => props.page,
-  (val) => {
-    if (val !== currentPage.value) {
-      setCurrentPage(val);
-    }
+  () => currentPage.value,
+  () => {
+    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
   }
 );
 
+const updateCurrentPage = (page: number) => {
+  pageVal.value = page;
+
+  emits('change', {
+    page: currentPage.value,
+    pageSize: pageSize.value,
+  });
+};
+
 const selectPage = (page: number | string) => {
-  updateCurrentPage(page as number);
+  updateCurrentPage(Number(page));
 };
 
 const clickPageBtn = (Increase: boolean) => {
   updateCurrentPage(Increase ? currentPage.value + 1 : currentPage.value - 1);
 };
-
+// 点击收起的更多箭头
 const moreClick = (more: PagerItemT) => {
   const { value, list } = more;
-  if (!list) {
+  if (!list || typeof value !== 'string') {
     return;
   }
 
@@ -103,10 +104,12 @@ const moreClick = (more: PagerItemT) => {
   } else if (value === 'right') {
     updateCurrentPage(list[0]);
   }
+  // 隐藏浮层
+  moreVisible.value[value] = false;
 };
 
 const goToChange = (val: string | number) => {
-  updateCurrentPage(val as number);
+  updateCurrentPage(Number(val));
 };
 
 const parseJumperVal = (val: string | number) => {
@@ -114,19 +117,17 @@ const parseJumperVal = (val: string | number) => {
 };
 
 const pageSizeChange = (val: SelectValueT) => {
-  // updateCurrentPage(Number(val));
-  const currentIndex = currentPageSize.value * (currentPage.value - 1);
-  const oldPage = currentPage.value;
-  currentPageSize.value = Number(val);
+  const currentIndex = (pageSize.value ?? props.pageSizes[0]) * (currentPage.value - 1);
+  pageSize.value = Number(val);
+  if (!pageSize.value) {
+    return;
+  }
   nextTick(() => {
-    currentPage.value = Math.floor(currentIndex / currentPageSize.value) + 1;
+    const newPage = Math.floor(currentIndex / pageSize.value!) + 1;
 
+    pageVal.value = newPage;
     pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
 
-    if (oldPage !== currentPage.value) {
-      emits('update:page', currentPage.value);
-    }
-    emits('update:pageSize', currentPageSize.value);
     emits('change', {
       page: currentPage.value,
       pageSize: currentPageSize.value,
@@ -138,6 +139,8 @@ const moreVisible = ref<{ left: boolean; right: boolean }>({
   left: false,
   right: false,
 });
+
+// 选择弹层中的页码
 const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   selectPage(item);
 
@@ -247,7 +250,7 @@ defineExpose({
                   </template>
                 </OOptionList>
                 <template #target>
-                  <span @click="moreClick(item)" class="o-pagination-more-icon-wrap">
+                  <span @click.stop="moreClick(item)" class="o-pagination-more-icon-wrap">
                     <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
                     <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
                   </span>
