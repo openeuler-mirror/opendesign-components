@@ -5,7 +5,7 @@ import { OIcon } from '../../icon';
 import { OIconSearch } from '../../icon-components';
 const activeTab = ref('Tab A');
 const activeTab2 = ref('1');
-const tabChange = (val: string | number, oldVal?: string | number) => {
+const tabChange = (val: string, oldVal?: string) => {
   console.log(`active: ${val}, old: ${oldVal}`);
 };
 function getPanelItem(key: string) {
@@ -16,7 +16,7 @@ function getPanelItem(key: string) {
   };
 }
 const tabList = reactive(
-  new Array(4).fill(1).map((k, idx) => {
+  new Array(4).fill(1).map((_k, idx) => {
     return getPanelItem(`${idx + 1}`);
   })
 );

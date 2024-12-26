@@ -10,9 +10,12 @@ import { defaultSize, isPhonePad } from '../_utils/global';
 const props = defineProps(tabProps);
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void;
-  (e: 'change', value: string | number, oldValue?: string | number): void;
-  (e: 'delete', value: string | number): void;
+  (e: 'update:modelValue', value: number): void;
+  (e: 'update:modelValue', value: string): void;
+  (e: 'change', value: number, oldValue?: number): void;
+  (e: 'change', value: string, oldValue?: string ): void;
+  (e: 'delete', value: number): void;
+  (e: 'delete', value: string): void;
   (e: 'add', evt: MouseEvent): void;
 }>();
 
@@ -90,10 +93,10 @@ watch(() => isScroll.value, updateAnchor);
 
 // 更新tab当前选中值
 const updateValue = (value: string | number, navEl: HTMLElement | null) => {
-  emits('update:modelValue', value);
+  emits('update:modelValue', value as string);
   activeNavEl = navEl;
   if (activeKey.value !== value) {
-    emits('change', value, activeKey.value);
+    emits('change', value as string, activeKey.value as string);
     activeKey.value = value;
   }
 
@@ -124,14 +127,14 @@ const initValue = (value: string | number, navEl: HTMLElement | null) => {
 };
 // 删除页签
 const onDeletePane = (value: string | number) => {
-  emits('delete', value);
+  emits('delete', value as  string);
   const idx = valueSet.indexOf(value);
 
   nextTick(updateNavScroll);
 
   if (activeKey.value === value) {
     activeKey.value = valueSet[idx > 0 ? idx - 1 : 0];
-    emits('change', activeKey.value, value);
+    emits('change', activeKey.value as string, value as string);
   }
   valueSet.splice(idx, 1);
 };
