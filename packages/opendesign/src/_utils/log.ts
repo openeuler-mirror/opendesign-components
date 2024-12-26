@@ -18,6 +18,7 @@ function getLogFunction(level: LogLevel, prefix?: string) {
       return logFunction[level].bind(window.console);
     }
   }
+  return () => {};
 }
 
 export class Log {
