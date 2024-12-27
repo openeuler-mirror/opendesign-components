@@ -14,14 +14,38 @@
 
 - feat
 
-1. [VirtualList] 虚拟列表支持数据动态追加（头部/尾部）；新增`renderChange`事件；新增 defaultItemSize 字段，支持不定高时，设置项默认高度
+1. [VirtualList]
+   - 虚拟列表支持数据动态追加（头部/尾部）；
+   - 新增`renderChange`事件, 参数支持获取渲染可视区域序号；
+   - 新增 defaultItemSize 字段，支持不定高时，设置项默认高度
+   - API scrollToIndex => scrollToView
 2. [message] 支持指定 message 显示到指定目标元素周围
 3. 增加木兰许可证
+4. [inBox]移除 input 属性
+5. [Figure]
+   - 新增 previewClose 属性，支持控制关闭 preview 的方式；
+   - 支持通过 api：preivew 控制关闭预览
+   - 支持懒加载 lazy
+6. [Input/textarea]: 新增beforeInput，支持对输入控制
+7. [hooks]
+   - 重构 useIntersectionObserver 支持传入 options，添加 destroy 方法
+   - 优化 useResizeObserver，添加 destroy 方法
+8. [Link] 去掉 link 的 display：inline-flex 样式
+9. [CascaderPanel]导出 OCascaderPanel 组件
 
 - fix
 
 1. 修复部分文本错误
 2. [Scrollbar] 修复 showType 为 hover 且使用 useScrollbar 时，hover 不显示滚动条问题;
+3. [VirtualList]
+   - 修正 endIndex 计算不正确问题
+   - 解决项较少，无滚动时，初始定位不正确导致显示错误问题
+   - 修复容器通过 display：none 切换后，设置 scrollToView(0)，未正确滚动到指定问题问题
+4. [InputNumber]修复在直接修改 modelValue 值情况下，导致后续输入之前的值不触发 change 问题
+5. [Option]修复 OOption 组件 value 相同，label 不同时死循环 bug
+6. [Link] 修复箭头动画；修复多行文本下划线显示不正确问题
+7. [Carousel] 等待渲染完成后再调用 loopRange，修复轮播移动端移动过快消失的问题
+8. [pagination]使用 defineModel 修复 pageSize、page 的双向绑定
 
 # 0.0.69 2024-09-24
 
