@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch, watchEffect, inject } from 'vue';
-import { defaultSize, isPhonePad } from '../_utils/global';
+import { defaultSize } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
@@ -17,6 +17,7 @@ import { filterSlots } from '../_utils/vue-utils';
 import { formItemInjectKey } from '../form/provide';
 import { useI18n } from '../locale';
 import { OButton } from '../button';
+import { useScreen } from '../hooks';
 
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
@@ -26,6 +27,8 @@ const emits = defineEmits<{
   (e: 'options-visible-change', value: boolean): void;
   (e: 'clear', evt: Event): void;
 }>();
+
+const { isPhonePad } = useScreen();
 
 const { t } = useI18n();
 

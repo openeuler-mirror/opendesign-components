@@ -12,12 +12,10 @@ import { isArray, isFunction } from '../_utils/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
-import { useIntersectionObserver } from '../hooks';
-import type { IntersectionListenerT } from '../hooks';
+import { useIntersectionObserver, useScreen } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
 import { resolveHtmlElement } from '../_utils/vue-utils';
-import { isPhonePad } from '../_utils/global';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
 // TODO 处理嵌套
@@ -25,6 +23,9 @@ import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
+
+const { isPhonePad } = useScreen();
+
 const triggers = computed<PopupTriggerT[]>(() => {
   const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
   if (isPhonePad.value) {
@@ -204,7 +205,7 @@ const updatePopupStyle = () => {
 
 // 定义变量，避免首次监听与popup默认显示时重复计算
 let oldIntersecting: boolean | null = null;
-const onTargetInterscting: IntersectionListenerT = (entry: IntersectionObserverEntry) => {
+const onTargetInterscting: (entry: IntersectionObserverEntry) => void = (entry: IntersectionObserverEntry) => {
   isTargetInViewport.value = entry.isIntersecting;
 
   if (oldIntersecting !== null && entry.isIntersecting) {

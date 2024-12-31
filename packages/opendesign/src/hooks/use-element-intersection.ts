@@ -1,10 +1,15 @@
 import { ObjectDirective } from 'vue';
 import { useIntersectionObserver } from './use-intersection-observer';
-import type { IntersectionListenerT } from './use-intersection-observer';
 import { isFunction } from '../_utils/is';
 
 let io: ReturnType<typeof useIntersectionObserver> | null = null;
-export function useIntersectionObserverDirective({ listener, removeOnUnmounted }: { listener: IntersectionListenerT; removeOnUnmounted?: boolean }): {
+export function useIntersectionObserverDirective({
+  listener,
+  removeOnUnmounted,
+}: {
+  listener: (entry: IntersectionObserverEntry) => void;
+  removeOnUnmounted?: boolean;
+}): {
   vIntersectionObserver: ObjectDirective;
 } {
   return {
