@@ -114,20 +114,6 @@
     max-height: 100vh;
   }
 }
-.o-figure-preview-close {
-  font-size: var(--o-icon_size-m);
-  color: var(--o-color-info1-inverse);
-  position: absolute;
-  right: calc((var(--o-icon_size-m) + 16px) * -1);
-  @include x-svg-hover;
-  @include hover {
-    color: var(--o-color-info2-inverse);
-  }
-  &:active {
-    color: var(--o-color-info3-inverse);
-    transform: scale(0.9);
-  }
-}
 
 .o-figure-error-wrap {
   position: absolute;
