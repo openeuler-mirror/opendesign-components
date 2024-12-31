@@ -8,6 +8,7 @@
 6. table 支持虚拟滚动，支持固定列，固定行
 7. Tab 重构成分离 OTabs：OTabNav\OTabPane ?
 8. dialog 移动端适配重构
+9. figure preview loading 状态、多图滑动预览，单图全尺寸拖动查看
 
 ---
 
