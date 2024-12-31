@@ -12,6 +12,18 @@
 
 ---
 
+# 0.0.71
+
+- feat
+
+1. [Layer] 新增 buttonClose 字段，支持通过关闭图标关闭弹层
+2. [Figure]
+   - previewClose 新增 body 值，支持点击内容区域关闭预览
+   - 移动端蒙层样式修改为黑色;
+   - 原 slot "preview"修改为"preview-extra"，"preview"用于定制整个内容区域
+
+- fix
+
 # 0.0.70 2024-12-27
 
 - feat

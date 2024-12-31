@@ -104,7 +104,7 @@ const previewCloseTypes = computed(() => {
 });
 const isMaskClose = computed(() => previewCloseTypes.value.includes('mask'));
 const isButtonClose = computed(() => previewCloseTypes.value.includes('button'));
-const isImageClose = computed(() => previewCloseTypes.value.includes('image'));
+const isBodyClose = computed(() => previewCloseTypes.value.includes('body'));
 const preview = (visible: boolean = true) => {
   if (canPreview.value) {
     previewVisible.value = visible;
@@ -114,7 +114,7 @@ const onPreviewChange = (visible: boolean) => {
   emits('preview', visible);
 };
 const onPreviewImgClick = () => {
-  if (isImageClose.value) {
+  if (isBodyClose.value) {
     previewVisible.value = false;
   }
 };

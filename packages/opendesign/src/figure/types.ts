@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-type PreviewCloseType = 'none' | 'button' | 'mask' | 'image';
+type PreviewCloseType = 'none' | 'button' | 'mask' | 'body';
 
 export const figureProps = {
   /**
