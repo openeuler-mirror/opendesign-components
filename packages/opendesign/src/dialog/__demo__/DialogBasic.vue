@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
 import { ODialog, DialogSizeT, DialogActionT } from '../index';
+import { useScreen } from '../../hooks';
 
+const { isPhonePad } = useScreen();
 const content =
   'This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog';
 const showDlg = ref(false);
@@ -29,11 +31,16 @@ const toggle = (show?: boolean, size: DialogSizeT = 'medium') => {
     showDlg.value = show;
   }
 };
-const dlgAction: DialogActionT[] = [
+
+const size = computed(() => {
+  return isPhonePad.value ? 'small' : 'large';
+});
+const dlgAction: Ref<DialogActionT[]> = ref([
   {
     id: 'cancel',
     label: '取消',
-    size: 'large',
+    size,
+    variant: 'outline',
     onClick: () => {
       console.log('cancel');
       toggle();
@@ -44,13 +51,13 @@ const dlgAction: DialogActionT[] = [
     label: '确认',
     color: 'primary',
     variant: 'solid',
-    size: 'large',
+    size,
     onClick: () => {
       console.log('cancel');
       toggle();
     },
   },
-];
+]);
 
 const showDlg2 = ref(false);
 const toggle2 = (show?: boolean) => {

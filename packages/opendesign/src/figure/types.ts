@@ -1,5 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
+type PreviewCloseType = 'none' | 'button' | 'mask' | 'body';
+
 export const figureProps = {
   /**
    * 地址
@@ -72,8 +74,7 @@ export const figureProps = {
    * 关闭预览方式
    */
   previewClose: {
-    type: String as PropType<'button' | 'none' | 'mask' | 'mask-button'>,
-    default: 'mask',
+    type: [String, Array] as PropType<PreviewCloseType | PreviewCloseType[]>,
   },
   /**
    * 图片懒加载

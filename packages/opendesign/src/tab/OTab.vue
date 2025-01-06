@@ -5,7 +5,8 @@ import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import { tabProps } from './types';
 import { vOnResize } from '../directives';
 import { debounceRAF } from '../_utils/helper';
-import { defaultSize, isPhonePad } from '../_utils/global';
+import { defaultSize } from '../_utils/global';
+import { useScreen } from '../hooks';
 
 const props = defineProps(tabProps);
 
@@ -15,6 +16,8 @@ const emits = defineEmits<{
   (e: 'delete', value: string | number): void;
   (e: 'add', evt: MouseEvent): void;
 }>();
+
+const { isPhonePad } = useScreen();
 
 const activeKey = ref(props.modelValue);
 const anchorStyle = ref<Record<string, string>>({});

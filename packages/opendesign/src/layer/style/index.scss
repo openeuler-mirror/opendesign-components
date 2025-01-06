@@ -30,3 +30,23 @@
 .o-layer-main {
   transform-origin: var(--layer-origin);
 }
+.o-layer-close {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+.o-layer-close-icon {
+  font-size: var(--o-icon_size-m);
+  color: var(--o-color-info1-inverse);
+  background-color: var(--o-color-mask1);
+  border-radius: 50%;
+  padding: 8px;
+  @include x-svg-hover;
+  @include hover {
+    color: var(--o-color-info2-inverse);
+  }
+  &:active {
+    color: var(--o-color-info3-inverse);
+    transform: scale(0.9);
+  }
+}

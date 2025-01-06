@@ -3,13 +3,13 @@ import { ref, computed, onMounted, watchEffect } from 'vue';
 import { defaultPrestColorPool } from '../_utils/global';
 import HtmlTag from '../_components/html-tag';
 import { OLayer } from '../layer';
-import { IconImageError, IconVideoPlay, IconClose } from '../_utils/icons';
-import { OIcon } from '../icon';
+import { IconImageError, IconVideoPlay } from '../_utils/icons';
 import { useIntersectionObserver } from '../hooks';
 
 import { figureProps } from './types';
 import { isObject } from '../_utils/is';
 import { requestImage } from '../_utils/helper';
+import { useScreen } from '../hooks';
 
 const props = defineProps(figureProps);
 
@@ -20,6 +20,7 @@ const emits = defineEmits<{
 }>();
 const imgRef = ref<HTMLImageElement | null>(null);
 
+const { isPhonePad } = useScreen();
 const isLoading = ref(true);
 const isError = ref(false);
 const prestColor = props.colorful ? defaultPrestColorPool.value.pick() : '';
@@ -93,8 +94,17 @@ const paddingTop = computed(() => {
 // 全屏预览图片
 const previewVisible = ref(false);
 const canPreview = computed(() => props.preview || props.lazyPreiew);
-const isMaskClose = computed(() => ['mask-button', 'mask'].includes(props.previewClose));
-const isButtonClose = computed(() => ['mask-button', 'button'].includes(props.previewClose));
+const previewCloseTypes = computed(() => {
+  if (!props.previewClose) {
+    return isPhonePad.value ? ['image', 'mask', 'button'] : ['mask', 'button'];
+  } else if (Array.isArray(props.previewClose)) {
+    return props.previewClose;
+  }
+  return [props.previewClose];
+});
+const isMaskClose = computed(() => previewCloseTypes.value.includes('mask'));
+const isButtonClose = computed(() => previewCloseTypes.value.includes('button'));
+const isBodyClose = computed(() => previewCloseTypes.value.includes('body'));
 const preview = (visible: boolean = true) => {
   if (canPreview.value) {
     previewVisible.value = visible;
@@ -103,8 +113,10 @@ const preview = (visible: boolean = true) => {
 const onPreviewChange = (visible: boolean) => {
   emits('preview', visible);
 };
-const onClosePreviewClick = () => {
-  previewVisible.value = false;
+const onPreviewImgClick = () => {
+  if (isBodyClose.value) {
+    previewVisible.value = false;
+  }
 };
 
 const onFigureClick = () => {
@@ -192,13 +204,21 @@ defineExpose({
       </div>
     </div>
 
-    <OLayer v-if="canPreview" v-model:visible="previewVisible" class="o-figure-preview-layer" @change="onPreviewChange" :mask-close="isMaskClose">
-      <div class="o-figure-preview-wrapper">
-        <div class="o-figure-preview-img">
-          <OIcon button :icon="IconClose" class="o-figure-preview-close" @click="onClosePreviewClick" v-if="isButtonClose" />
-          <img :src="imgSrc" />
-        </div>
-        <slot name="preview"></slot>
+    <OLayer
+      v-if="canPreview"
+      v-model:visible="previewVisible"
+      class="o-figure-preview-layer"
+      @change="onPreviewChange"
+      :mask-close="isMaskClose"
+      :button-close="isButtonClose"
+    >
+      <div class="o-figure-preview-wrapper" @click="onPreviewImgClick">
+        <slot name="preview" :image="imgSrc">
+          <div class="o-figure-preview-img">
+            <img :src="imgSrc" />
+          </div>
+          <slot name="preview-extra"></slot>
+        </slot>
       </div>
     </OLayer>
   </HtmlTag>

@@ -32,3 +32,23 @@
     padding: 4px 8px;
   }
 }
+.o-figure-preview-img {
+  img {
+    @include respond-to('<=pad') {
+      max-width: 100vw;
+    }
+  }
+}
+
+.o-figure-preview-close {
+  @include respond-to('<=pad') {
+    left: 16px;
+    right: auto;
+  }
+}
+
+.o-figure-preview-layer {
+  @include respond-to('<=pad') {
+    --layer-mask: var(--o-color-black);
+  }
+}

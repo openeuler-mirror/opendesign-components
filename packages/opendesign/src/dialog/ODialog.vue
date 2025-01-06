@@ -7,7 +7,7 @@ import { vScrollbar } from '../scrollbar';
 
 import { dialogProps } from './types';
 import { mergeClass } from '../_utils/dom';
-import { isPhonePad } from '../_utils/global';
+import { useScreen } from '../hooks';
 
 const props = defineProps(dialogProps);
 
@@ -15,6 +15,8 @@ const emits = defineEmits<{
   (e: 'change', visible: boolean): void;
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
 }>();
+
+const { isPhonePad } = useScreen();
 
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 

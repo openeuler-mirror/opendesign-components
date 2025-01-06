@@ -9,6 +9,8 @@ import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_utils/is';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
+import { IconClose } from '../_utils/icons';
+import { OIcon } from '../icon';
 
 const props = defineProps(layerProps);
 
@@ -16,6 +18,7 @@ const emits = defineEmits<{
   (e: 'change', visible: boolean): void;
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
   (e: 'click:mask', evt: MouseEvent): void;
+  (e: 'click:button', evt: MouseEvent): void;
 }>();
 
 const visible = ref(props.visible);
@@ -177,6 +180,10 @@ const onMaskClick = (e: MouseEvent) => {
   emits('click:mask', e);
 };
 
+const onCloseButtonClick = (e: MouseEvent) => {
+  toggle(false);
+  emits('click:button', e);
+};
 onMounted(() => {
   if (visible.value) {
     handleWrapperScroll();
@@ -224,6 +231,11 @@ defineExpose({
           <slot></slot>
         </div>
       </transition>
+      <div class="o-layer-close" v-if="props.buttonClose" @click="onCloseButtonClick">
+        <slot name="close">
+          <OIcon button :icon="IconClose" class="o-layer-close-icon" />
+        </slot>
+      </div>
     </div>
   </teleport>
 </template>

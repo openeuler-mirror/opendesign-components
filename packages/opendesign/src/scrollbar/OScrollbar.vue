@@ -3,14 +3,16 @@ import { ref, onUnmounted, watchEffect, toRefs } from 'vue';
 import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollbarProps, ScrollerDirection } from './types';
 import { resolveHtmlElement } from '../_utils/vue-utils';
-import { isPhonePad } from '../_utils/global';
 import { useResizeObserver } from '../hooks/use-resize-observer';
+import { useScreen } from '../hooks';
 
 const ScrollbarClass = {
   container: 'o-scrollbar-container',
 };
 
 const props = defineProps(scrollbarProps);
+
+const { isPhonePad } = useScreen();
 
 // 滚动目标容器
 let scrollTargetEl: HTMLElement | null = null;

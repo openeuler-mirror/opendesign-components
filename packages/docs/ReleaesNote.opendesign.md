@@ -7,8 +7,22 @@
 5. select 重构，通过 options 传列表数据
 6. table 支持虚拟滚动，支持固定列，固定行
 7. Tab 重构成分离 OTabs：OTabNav\OTabPane ?
+8. dialog 移动端适配重构
+9. figure preview loading 状态、多图滑动预览，单图全尺寸拖动查看
 
 ---
+
+# 0.0.71
+
+- feat
+
+1. [Layer] 新增 buttonClose 字段，支持通过关闭图标关闭弹层
+2. [Figure]
+   - previewClose 新增 body 值，支持点击内容区域关闭预览
+   - 移动端蒙层样式修改为黑色;
+   - 原 slot "preview"修改为"preview-extra"，"preview"用于定制整个内容区域
+
+- fix
 
 # 0.0.70 2024-12-27
 
