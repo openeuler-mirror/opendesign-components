@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
 import { OPagination } from '../index';
-const currentPage = ref(-1);
+const currentPage = ref(2);
 const total = ref(5000);
 
 const pageSize = ref(8);
-const pageSize2 = ref(6);
 const pageSizes = [8, 16, 32, 64];
-const onChange = (value: { page: number; pageSize?: number }) => {
-  console.log(value);
+const onChange = (page: number, pageSize: number, oldPage: number, oldPageSize: number) => {
+  console.log('onChange', page, pageSize, oldPage, oldPageSize);
 };
+
 watchEffect(() => {
-  console.log(currentPage.value);
-  console.log(pageSize2.value);
+  console.log('currentPage', currentPage.value, 'pageSize', pageSize.value);
 });
 </script>
 <template>
   <h4>Variant & Round</h4>
   <div>
+    currentPage: {{ currentPage }}; pageSize: {{ pageSize }}
     <div>
       <div>Outline</div>
       <div>
@@ -26,8 +26,8 @@ watchEffect(() => {
         <OPagination
           :total="total"
           v-model:page="currentPage"
+          v-model:page-size="pageSize"
           show-total
-          v-model:page-size="pageSize2"
           :page-sizes="pageSizes"
           round="pill"
           @change="onChange"
@@ -36,8 +36,8 @@ watchEffect(() => {
         <OPagination
           :total="total"
           v-model:page="currentPage"
+          v-model:page-size="pageSize"
           show-total
-          v-model:page-size="pageSize2"
           :page-sizes="pageSizes"
           round="12px"
           @change="onChange"
@@ -47,14 +47,22 @@ watchEffect(() => {
     <div>
       <div>Solid</div>
       <div>
-        <OPagination :total="total" :page="currentPage" show-total v-model:page-size="pageSize" :page-sizes="pageSizes" variant="solid" @change="onChange" />
+        <OPagination
+          :total="total"
+          v-model:page="currentPage"
+          v-model:page-size="pageSize"
+          show-total
+          :page-sizes="pageSizes"
+          variant="solid"
+          @change="onChange"
+        />
         <br />
         <OPagination
           :total="total"
           round="pill"
-          :page="currentPage"
-          show-total
+          v-model:page="currentPage"
           v-model:page-size="pageSize"
+          show-total
           :page-sizes="pageSizes"
           variant="solid"
           @change="onChange"
@@ -63,9 +71,9 @@ watchEffect(() => {
         <OPagination
           :total="total"
           round="12px"
-          :page="currentPage"
-          show-total
+          v-model:page="currentPage"
           v-model:page-size="pageSize"
+          show-total
           :page-sizes="pageSizes"
           variant="solid"
           @change="onChange"

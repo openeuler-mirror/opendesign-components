@@ -90,7 +90,7 @@ export const inInputProps = {
     type: Function as PropType<(value: string) => boolean>,
   },
   /**
-   * 输入为无效值时，在blur
+   * 输入为无效值时，在blur时的回调，返回值为纠正后的值
    */
   onInvalidChange: {
     type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,

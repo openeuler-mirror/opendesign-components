@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { getPagerList, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
@@ -19,78 +19,80 @@ const props = defineProps(paginationProps);
 const round = getRoundClass(props, 'pagination');
 
 const emits = defineEmits<{
-  (e: 'change', value: { page: number; pageSize?: number }): void;
+  (e: 'change', page: number, pageSize: number, lastPage: number, lastPageSize: number): void;
 }>();
 
 const { t } = useI18n();
 
 const simpleLayout = ['pager'];
-
+const pages = ref<ReturnType<typeof getPagerList>>([]);
 // 每页数据项
 const pageSize = defineModel<number>('pageSize');
+
+// 纠正传入的值
+if (!pageSize.value) {
+  pageSize.value = props.pageSizes[0];
+} else if (!props.pageSizes.includes(pageSize.value)) {
+  log.warn(`pageSize[${pageSize.value}] is not in pageSizes[${props.pageSizes}]! set to first value of pageSizes[${props.pageSizes[0]}]`);
+  pageSize.value = props.pageSizes[0];
+}
+
+const totalPage = computed(() => Math.ceil(props.total / pageSize.value!));
+
 // 当前页码
 const pageVal = defineModel<number>('page');
-// 内部记录当前页数
-const currentPage = computed(() => {
-  const p = Number(pageVal.value);
-  if (p < 1 || isNaN(p)) {
-    return 1;
-  } else if (p > totalPage.value) {
-    return totalPage.value;
-  } else {
-    return p;
-  }
-});
 
-const currentPageSize = computed(() => {
-  if (!pageSize.value || !props.pageSizes.includes(pageSize.value)) {
-    log.warn('pageSize is not in pageSizes!');
-  }
-  return pageSize.value;
-});
+// 纠正传入的值
+if (!pageVal.value) {
+  pageVal.value = 1;
+}
+
+// 刷新页码列表
+pages.value = getPagerList(totalPage.value, pageVal.value, props.showPageCount);
 
 const pageSizeList = computed(() => {
   return getSizeOptions(props.pageSizes, t('pagination.countPerPage'), pageSize.value);
 });
 
-const defaultSizeLabel = computed(() => currentPageSize.value + t('pagination.countPerPage'));
+const defaultSizeLabel = computed(() => pageSize.value + t('pagination.countPerPage'));
 
 const layout = computed(() => {
   return props.simple ? simpleLayout : props.layout;
 });
 
-const totalPage = computed(() => Math.ceil(props.total / (pageSize.value ?? props.pageSizes[0])));
-
-const pages = ref(getPagerList(totalPage.value, currentPage.value, props.showPageCount));
-
 watch(
-  () => totalPage.value,
+  () => [totalPage.value, pageVal.value],
   () => {
-    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
-  }
-);
-watch(
-  () => currentPage.value,
-  () => {
-    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
+    pages.value = getPagerList(totalPage.value, pageVal.value, props.showPageCount);
   }
 );
 
-const updateCurrentPage = (page: number) => {
-  pageVal.value = page;
+// 处理page和pageSize变化
+const updatePageAndPageSize = (page: number, size: number) => {
+  let changed = false;
+  const oldPage = pageVal.value!;
+  const oldPageSize = pageSize.value!;
 
-  emits('change', {
-    page: currentPage.value,
-    pageSize: pageSize.value,
-  });
+  if (pageVal.value !== page) {
+    changed = true;
+    pageVal.value = page;
+  }
+  if (pageSize.value !== size) {
+    changed = true;
+    pageSize.value = size;
+  }
+
+  if (changed) {
+    emits('change', page, size, oldPage, oldPageSize);
+  }
 };
 
 const selectPage = (page: number | string) => {
-  updateCurrentPage(Number(page));
+  updatePageAndPageSize(Number(page), pageSize.value!);
 };
-
+// 点击页码按钮（Increase：true 上一页、false下一页）
 const clickPageBtn = (Increase: boolean) => {
-  updateCurrentPage(Increase ? currentPage.value + 1 : currentPage.value - 1);
+  updatePageAndPageSize(Increase ? pageVal.value! + 1 : pageVal.value! - 1, pageSize.value!);
 };
 // 点击收起的更多箭头
 const moreClick = (more: PagerItemT) => {
@@ -100,39 +102,34 @@ const moreClick = (more: PagerItemT) => {
   }
 
   if (value === 'left') {
-    updateCurrentPage(list[list.length - 1]);
+    updatePageAndPageSize(list[list.length - 1], pageSize.value!);
   } else if (value === 'right') {
-    updateCurrentPage(list[0]);
+    updatePageAndPageSize(list[0], pageSize.value!);
   }
   // 隐藏浮层
   moreVisible.value[value] = false;
 };
-
-const goToChange = (val: string | number) => {
-  updateCurrentPage(Number(val));
+// 通过输入框指定跳转到某一页
+const goToPage = (val: string | number) => {
+  let v = Math.round(Number(val));
+  if (v < 1 || isNaN(v)) {
+    v = 1;
+  } else if (v > totalPage.value) {
+    v = totalPage.value;
+  }
+  updatePageAndPageSize(v, pageSize.value!);
 };
 
-const parseJumperVal = (val: string | number) => {
-  return Math.round(Number(val));
-};
-
-const pageSizeChange = (val: SelectValueT) => {
-  const currentIndex = (pageSize.value ?? props.pageSizes[0]) * (currentPage.value - 1);
-  pageSize.value = Number(val);
-  if (!pageSize.value) {
+const selectPageSize = (val: SelectValueT) => {
+  const size = Number(val);
+  if (!size) {
     return;
   }
-  nextTick(() => {
-    const newPage = Math.floor(currentIndex / pageSize.value!) + 1;
+  const currentIndex = pageSize.value! * (pageVal.value! - 1);
 
-    pageVal.value = newPage;
-    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
+  const newPage = Math.floor(currentIndex / size!) + 1;
 
-    emits('change', {
-      page: currentPage.value,
-      pageSize: currentPageSize.value,
-    });
-  });
+  updatePageAndPageSize(newPage, size);
 };
 
 const moreVisible = ref<{ left: boolean; right: boolean }>({
@@ -148,6 +145,10 @@ const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   if (value === 'left' || value === 'right') {
     moreVisible.value[value] = false;
   }
+};
+
+const validateInput = (value: number) => {
+  return value === Math.round(Number(value));
 };
 
 defineExpose({
@@ -166,12 +167,12 @@ defineExpose({
         <div class="o-pagination-size">
           <OSelect
             v-if="pageSizeList.length > 1"
-            :model-value="currentPageSize"
+            :model-value="pageSize"
             class="o-pagination-select"
             :default-label="defaultSizeLabel"
             :round="props.round"
             :variant="props.variant"
-            @change="pageSizeChange"
+            @change="selectPageSize"
           >
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
@@ -183,10 +184,10 @@ defineExpose({
         <div
           class="o-pagination-prev"
           :class="{
-            'is-disabled': currentPage === 1,
+            'is-disabled': pageVal === 1,
           }"
           tabindex="-1"
-          @click="() => currentPage !== 1 && clickPageBtn(false)"
+          @click="() => pageVal !== 1 && clickPageBtn(false)"
         >
           <IconChevronLeft />
         </div>
@@ -194,7 +195,7 @@ defineExpose({
           <template v-if="props.simple">
             <div class="o-pagination-simple">
               <OInputNumber
-                :model-value="currentPage"
+                :model-value="pageVal"
                 :clearable="false"
                 class="o-pagination-input"
                 controls="none"
@@ -202,7 +203,8 @@ defineExpose({
                 :max="totalPage"
                 :round="props.round"
                 :variant="props.variant"
-                @change="goToChange"
+                :validate="validateInput"
+                @change="goToPage"
               />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
           </template>
@@ -211,7 +213,7 @@ defineExpose({
               v-for="item in pages"
               :key="item.value"
               class="o-pagination-item"
-              :class="{ active: item.value === currentPage }"
+              :class="{ active: item.value === pageVal }"
               tabindex="-1"
               @click="selectPage(item.value)"
             >
@@ -262,10 +264,10 @@ defineExpose({
         <div
           class="o-pagination-next"
           :class="{
-            'is-disabled': currentPage === totalPage,
+            'is-disabled': pageVal === totalPage,
           }"
           tabindex="-1"
-          @click="() => currentPage !== totalPage && clickPageBtn(true)"
+          @click="() => pageVal !== totalPage && clickPageBtn(true)"
         >
           <IconChevronRight />
         </div>
@@ -275,15 +277,15 @@ defineExpose({
         <div class="o-pagination-goto">
           <span>{{ t('pagination.goto') }}</span>
           <OInputNumber
-            :model-value="currentPage"
+            :model-value="pageVal"
             class="o-pagination-input"
             controls="none"
             :min="1"
             :max="totalPage"
             :round="props.round"
             :variant="props.variant"
-            :parse="parseJumperVal"
-            @change="goToChange"
+            :validate="validateInput"
+            @change="goToPage"
           />
         </div>
       </template>

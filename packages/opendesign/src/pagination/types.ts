@@ -38,7 +38,7 @@ export const paginationProps = {
     default: () => pageSizes,
   },
   /**
-   * 每页数据条数
+   * 每页数据条数 v-model
    */
   pageSize: {
     type: Number,
@@ -52,7 +52,7 @@ export const paginationProps = {
     default: 0,
   },
   /**
-   * 当前页码
+   * 当前页码 v-model
    */
   page: {
     type: Number,
