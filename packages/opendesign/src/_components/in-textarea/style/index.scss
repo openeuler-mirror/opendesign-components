@@ -68,8 +68,9 @@
   cursor: pointer;
   transform: scale(0.5);
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
-  @include x-svg-hover;
   z-index: 2;
+
+  @include x-svg-hover;
 
   @include hoverable {
     &:hover {

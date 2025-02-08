@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { globSync } from 'glob';
 import Config from './config';
-import sass from 'sass';
+import { compile } from 'sass-embedded';
 import CleanCSS from 'clean-css';
 
 const base = process.cwd();
@@ -15,6 +15,10 @@ export default function main() {
   const files = globSync('**/*.{scss,css}', {
     cwd: input,
   });
+  fs.ensureDir('dist');
+
+  // 编译额外需要的数据
+  // const additionalData = '';
 
   files.forEach((fl) => {
     const fPath = path.resolve(input, fl);
@@ -23,7 +27,15 @@ export default function main() {
 
     if (/index\.scss/.test(fl)) {
       console.log(`compiling ${fl}`);
-      const result = sass.compile(fPath, {});
+      const result = compile(fPath, {});
+
+      // 支持additionalData
+      // const originalContent = fs.readFileSync(fPath, 'utf8');
+      // const combinedContent = additionalData + originalContent;
+      // const result = compileString(combinedContent, {
+      //   url: new URL(`file://${fPath}`), // 保留文件路径上下文
+      //   loadPaths: ['node_modules/'], // 设置导入路径
+      // });
 
       const cssName = fl.replace('.scss', '.css');
       fs.outputFile(`es/${cssName}`, result.css);
