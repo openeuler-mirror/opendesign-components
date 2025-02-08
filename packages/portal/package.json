@@ -14,5 +14,7 @@
     "@opensig/open-scripts": "workspace:^",
     "@opensig/open-analytics": "0.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sass": "^1.71.1"
+  }
 }
