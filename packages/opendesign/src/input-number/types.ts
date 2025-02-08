@@ -101,6 +101,12 @@ export const inputNumberProps = {
    * input id
    */
   inputId,
+  /**
+   * 当输入为空字符串时，默认值
+   */
+  clearValue: {
+    type: Number,
+  },
 };
 
 export type InputNumberPropsT = ExtractPropTypes<typeof inputNumberProps>;
