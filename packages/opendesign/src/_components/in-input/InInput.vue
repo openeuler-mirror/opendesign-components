@@ -83,13 +83,6 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
-const uId = ref('');
-onMounted(() => {
-  if (inputEl.value) {
-    uId.value = inputEl.value.id;
-  }
-});
-
 // 计算当前长度
 const currentLength = computed(() => {
   if (isFunction(props.getLength)) {
@@ -124,7 +117,6 @@ defineExpose({
   focus,
   clear,
   togglePassword,
-  uId,
 });
 </script>
 <template>

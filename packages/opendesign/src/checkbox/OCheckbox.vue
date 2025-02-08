@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch, onMounted } from 'vue';
 import { checkboxInjectKey } from './provide';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
 import { checkboxProps } from './types';
@@ -14,8 +14,12 @@ const emits = defineEmits<{
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
-const inputId = computed(() => props.inputId || uniqueId());
-
+const inputId = ref(props.textareaId);
+onMounted(() => {
+  if (!inputId.value) {
+    inputId.value = uniqueId();
+  }
+});
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
 
 // 是否选中

@@ -31,6 +31,7 @@ const validate = (value: string): boolean => {
     <button @click="toggleType">change type</button>
     <section>
       <InInput
+        input-id="123"
         class="test-input"
         v-model="inputVal"
         :validate="validate"

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch, onMounted } from 'vue';
 import { radioInjectKey } from './provide';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
@@ -14,7 +14,13 @@ const emits = defineEmits<{
 }>();
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
-const inputId = computed(() => props.inputId || uniqueId());
+
+const inputId = ref(props.textareaId);
+onMounted(() => {
+  if (!inputId.value) {
+    inputId.value = uniqueId();
+  }
+});
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
