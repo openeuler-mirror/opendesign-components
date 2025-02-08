@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, toRefs } from 'vue';
+import { computed, watch, toRefs } from 'vue';
 import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
 import { formateToString } from '../../_utils/helper';
@@ -80,13 +80,6 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
-const uId = ref('');
-onMounted(() => {
-  if (inputEl.value) {
-    uId.value = inputEl.value.id;
-  }
-});
-
 // 计算当前长度
 const currentLength = computed(() => {
   if (isFunction(props.getLength)) {
@@ -127,7 +120,6 @@ defineExpose({
   inputEl,
   focus,
   clear,
-  uId,
 });
 </script>
 <template>
@@ -141,6 +133,7 @@ defineExpose({
       'o_textarea-auto-size': props.autoSize,
       'o_textarea-limit': props.maxLength,
     }"
+    :for="props.textareaId"
   >
     <div
       class="o_textarea-wrap"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, onMounted } from 'vue';
 import { inputProps } from './types';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
@@ -25,7 +25,6 @@ const innerComponentInject = inject(innerComponentInjectKey, null);
 const formItemInjection = innerComponentInject?.isInnerInput ? null : inject(formItemInjectKey, null);
 
 const inInputRef = ref<InstanceType<typeof InInput>>();
-const inputId = computed(() => props.inputId || uniqueId());
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
@@ -84,6 +83,13 @@ const onMouseDown = (e: MouseEvent) => {
     clickInside = true;
   }
 };
+
+const inputId = ref(props.inputId);
+onMounted(() => {
+  if (!inputId.value) {
+    inputId.value = uniqueId();
+  }
+});
 </script>
 <template>
   <label class="o-input" @mousedown="onMouseDown" :for="inputId">
@@ -95,6 +101,7 @@ const onMouseDown = (e: MouseEvent) => {
       :readonly="props.readonly"
       :round="props.round"
       :focused="isFocus"
+      :for="inputId"
     >
       <InInput
         ref="inInputRef"

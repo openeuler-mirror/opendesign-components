@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, onMounted } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { textareaProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
@@ -20,8 +20,6 @@ const emits = defineEmits<{
   (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
-
-const textareaId = computed(() => props.textareaId || uniqueId());
 
 const formItemInjection = inject(formItemInjectKey, null);
 
@@ -86,6 +84,13 @@ const onMouseDown = (e: MouseEvent) => {
   }
 };
 const round = getRoundClass(props, 'textarea');
+
+const textareaId = ref(props.textareaId);
+onMounted(() => {
+  if (!textareaId.value) {
+    textareaId.value = uniqueId();
+  }
+});
 </script>
 <template>
   <label
