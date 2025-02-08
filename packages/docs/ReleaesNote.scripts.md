@@ -4,7 +4,8 @@
 
 - fix
 
-1.
+1. 更新 sass 编译库，使用 sass-embedded 替换 sass；
+2. 修复 svg href=“#{id}”构件时未生成动态 id
 
 # 0.0.20 2024-10-10
 
