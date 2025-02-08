@@ -15,22 +15,22 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@rollup/plugin-terser": "^0.2.1",
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@vitejs/plugin-vue": "^5.2.1",
     "clean-css": "^5.3.3",
-    "commander": "^12.0.0",
-    "fs-extra": "^11.2.0",
-    "glob": "^10.3.10",
-    "sass": "^1.71.1",
-    "svgo": "^3.2.0",
-    "vite-plugin-dts": "^3.7.3",
-    "vue": "^3.4.21"
+    "commander": "^13.1.0",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.1",
+    "sass-embedded": "1.83.4",
+    "svgo": "^3.3.2",
+    "vite-plugin-dts": "^4.5.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@types/clean-css": "^4.2.11",
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "^8.1.0",
-    "vite": "^5.1.4"
+    "vite": "^6.1.0"
   },
   "publishConfig": {
     "access": "public"
