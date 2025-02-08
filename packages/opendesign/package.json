@@ -22,7 +22,9 @@
     "clean:svg": "open-scripts clean:svg --config ./icons/cleansvg.config.ts",
     "build:component": "open-scripts build:component",
     "build:style": "open-scripts build:style",
-    "build": "pnpm gen:icon && pnpm build:component && pnpm build:style"
+    "build": "pnpm gen:icon && pnpm build:component && pnpm build:style",
+    "lint": "eslint ./src",
+    "type-check": "vue-tsc --build"
   },
   "peerDependencies": {
     "vue": "^3.1.0"

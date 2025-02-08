@@ -4,7 +4,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties } from 'vue';
+import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref } from 'vue';
 import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_utils/is';
@@ -30,13 +30,13 @@ const isToBody = ref(false);
 const LayerClass = {
   OPEN: 'o-layer-open',
 };
-const mainRef = ref<HTMLElement | null>(null);
+const mainRef: Ref<HTMLElement | null> = ref(null);
 
 let mouse: UseMouseT = useMouse({
   type: 'client',
 });
 
-const layerRef = ref<HTMLElement | null>(null);
+const layerRef: Ref<HTMLElement | null> = ref(null);
 // 挂载目标
 let wrapperEl: HTMLElement | null = null;
 

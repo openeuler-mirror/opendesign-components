@@ -42,7 +42,7 @@ let targetEl: HTMLElement | null = null;
 const isTargetInViewport = ref(true);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
-const popupRef = ref<HTMLElement | null>(null);
+const popupRef: Ref<HTMLElement | null> = ref(null);
 const popStyle = reactive<{
   left?: string;
   top?: string;

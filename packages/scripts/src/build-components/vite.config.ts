@@ -8,11 +8,11 @@ const langs = globSync('src/locale/lang/*.ts');
 export default (): InlineConfig => {
   return {
     plugins: [
-      vue(),
+      vue() as any,
       // dts(),
       dts({
         outDir: ['es', 'lib'],
-      }),
+      }) as any,
     ],
     build: {
       target: 'modules',

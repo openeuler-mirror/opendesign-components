@@ -4,7 +4,7 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch } from 'vue';
+import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch, Ref } from 'vue';
 import { tabInjectKey } from './provide';
 import { tabPaneProps } from './types';
 import { IconClose } from '../_utils/icons';
@@ -16,7 +16,7 @@ const props = defineProps(tabPaneProps);
 
 const isClosed = ref(false);
 
-const navRef = ref<HTMLElement | null>(null);
+const navRef: Ref<HTMLElement | null> = ref(null);
 
 const tabInjection = inject(tabInjectKey, null);
 

@@ -11,5 +11,7 @@
     "@opensig/opendesign": "workspace:^",
     "@opensig/open-scripts": "workspace:^"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sass": "^1.71.1"
+  }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted, provide } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted, provide, Ref } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import Gallery from './effects/gallery';
 import Toggle from './effects/toggle';
@@ -17,7 +17,7 @@ const emits = defineEmits<{
   (e: 'pause', value: number): void;
 }>();
 
-const containerRef = ref<HTMLElement | null>(null);
+const containerRef: Ref<HTMLElement | null> = ref(null);
 const total = computed(() => containerRef.value?.children.length);
 
 const isAutoPlay = ref(props.autoPlay);
