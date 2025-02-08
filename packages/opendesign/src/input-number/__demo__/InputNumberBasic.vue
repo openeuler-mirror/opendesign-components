@@ -16,16 +16,16 @@ const val5 = ref(10);
   <div>val1:{{ val1 }}</div>
   <section>
     <div class="col">
-      v-model:
-      <OInputNumber v-model="val1" style="width: 150px" />
+      v-model, clear-value=0
+      <OInputNumber v-model="val1" style="width: 150px" :clear-value="0" />
     </div>
     <div class="col">
-      model-value:
-      <OInputNumber :model-value="val1" style="width: 150px" />
+      model-value, clear-value=1
+      <OInputNumber :model-value="val1" style="width: 150px" :clear-value="1" />
     </div>
     <div class="col">
-      default-value:
-      <OInputNumber :default-value="val1" style="width: 150px" />
+      default-value, clear-value=9
+      <OInputNumber :default-value="val1" style="width: 150px" :clear-value="9" />
     </div>
   </section>
   <h4>Color & Variant</h4>

@@ -3,7 +3,7 @@ import { ref, watch, computed, inject, provide } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, string2number, number2string } from './input-number';
-import { isFunction, isUndefined } from '../_utils/is';
+import { isFunction, isUndefined, isNumber } from '../_utils/is';
 import { inputNumberProps } from './types';
 import NumberControl from './NumberControl.vue';
 import { formItemInjectKey } from '../form/provide';
@@ -89,6 +89,11 @@ const onPressEnter = (evt: KeyboardEvent): void => {
 
 const onChange = (value: string) => {
   realValue.value = string2number(value);
+  // 设置空字符串时对应的值
+  if (isNaN(realValue.value) && isNumber(props.clearValue)) {
+    realValue.value = props.clearValue;
+    emitUpdateValue();
+  }
   inputValue.value = number2string(realValue.value);
   emitChange();
 };
