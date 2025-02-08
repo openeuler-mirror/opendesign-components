@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, ref, nextTick, watch, computed } from 'vue';
+import { provide, ref, nextTick, watch, computed, Ref } from 'vue';
 import { tabInjectKey } from './provide';
 import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import { tabProps } from './types';
@@ -22,9 +22,9 @@ const { isPhonePad } = useScreen();
 const activeKey = ref(props.modelValue);
 const anchorStyle = ref<Record<string, string>>({});
 
-const navWrapRef = ref<HTMLElement | null>(null);
-const navsRef = ref<HTMLElement | null>(null);
-const bodyRef = ref<HTMLElement | null>(null);
+const navWrapRef: Ref<HTMLElement | null> = ref(null);
+const navsRef: Ref<HTMLElement | null> = ref(null);
+const bodyRef: Ref<HTMLElement | null> = ref(null);
 
 const valueSet: Array<string | number> = [];
 

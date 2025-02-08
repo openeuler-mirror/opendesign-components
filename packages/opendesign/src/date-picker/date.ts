@@ -160,9 +160,9 @@ export function scrollSelectOrNowCellInToView(
     return;
   }
 
-  let el = scroller?.$el.querySelector('.o-picker-cell-selected');
+  let el = scroller.$el.querySelector('.o-picker-cell-selected');
   if (!el) {
-    el = scroller?.$el.querySelector('.o-picker-cell-now');
+    el = scroller.$el.querySelector('.o-picker-cell-now');
   }
   const containerRef = scroller.getContainerEl();
   if (!el || !containerRef) {

@@ -143,7 +143,7 @@ export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {
 
 export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) => void; firstElement: Ref<HTMLElement | null> } {
   let children: VNode[] | null = null;
-  const firstElement = ref<HTMLElement | null>(null);
+  const firstElement: Ref<HTMLElement | null> = ref(null);
 
   onMounted(() => {
     if (children) {
@@ -233,7 +233,7 @@ export const isEmptySlot = (slot?: Slot) => {
 /**
  * 过滤插槽
  */
-export const filterSlots = (slots: Slots, slotNames: { [key: string]: string }): string[] => {
+export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) {
   const names = Object.values(slotNames);
   return Object.keys(slots).filter((item) => names.includes(item));
-};
+}

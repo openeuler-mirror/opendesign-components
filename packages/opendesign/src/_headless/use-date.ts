@@ -6,5 +6,7 @@ import { ref } from 'vue';
  */
 export function useDate() {
   const value = ref<Date>();
-  return {};
+  return {
+    value,
+  };
 }

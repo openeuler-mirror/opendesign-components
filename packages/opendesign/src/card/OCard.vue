@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
+import { computed } from 'vue';
 import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_components/html-tag';
@@ -7,7 +7,17 @@ import { isString, isUndefined } from '../_utils/is';
 
 const props = defineProps(cardProps);
 
-const slots = useSlots();
+const slots = defineSlots<{
+  default(): any;
+  card(): any;
+  main(): any;
+  icon(): any;
+  title(): any;
+  header(): any;
+  footer(): any;
+  detail(): any;
+  cover(): any;
+}>();
 
 const hasMain = computed(
   () => slots.main || props.icon || slots.icon || props.title || slots.title || slots.header || props.detail || slots.detail || slots.default
@@ -39,7 +49,7 @@ const isDetailLimited = computed(() => {
     <slot name="card">
       <!-- cover -->
       <div
-        v-if="$slots.cover || props.cover"
+        v-if="!!slots.cover || props.cover"
         class="o-card-cover"
         :class="[
           props.coverClass,
@@ -53,10 +63,10 @@ const isDetailLimited = computed(() => {
           <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :fit="props.coverFit" :class="{ 'is-full': !props.coverRatio }" />
         </slot>
       </div>
-      <div v-if="hasMain" class="o-card-main">
+      <div v-if="!!hasMain" class="o-card-main">
         <slot name="main">
           <!-- icon -->
-          <div v-if="props.icon || $slots.icon" class="o-card-icon">
+          <div v-if="props.icon || !!slots.icon" class="o-card-icon">
             <slot name="icon">
               <OFigure v-if="isString(props.icon)" :src="props.icon" />
               <component :is="props.icon" v-else />
@@ -65,7 +75,7 @@ const isDetailLimited = computed(() => {
           <div class="o-card-main-wrap">
             <div>
               <!-- header -->
-              <div v-if="props.title || $slots.header || $slots.title" class="o-card-header">
+              <div v-if="props.title || !!slots.header || !!slots.title" class="o-card-header">
                 <slot name="header">
                   <div
                     v-if="props.title"
@@ -82,7 +92,7 @@ const isDetailLimited = computed(() => {
               <!-- content -->
               <div class="o-card-content">
                 <div
-                  v-if="props.detail || $slots.detail"
+                  v-if="props.detail || !!slots.detail"
                   class="o-card-detail"
                   :class="{ 'o-card-detail-limited': isDetailLimited }"
                   :style="{ '--card-detail-row': props.detailRow, '--card-detail-max-row': props.detailMaxRow }"
@@ -95,7 +105,7 @@ const isDetailLimited = computed(() => {
               </div>
             </div>
             <!-- footer -->
-            <div v-if="$slots.footer" class="o-card-footer">
+            <div v-if="!!slots.footer" class="o-card-footer">
               <slot name="footer"></slot>
             </div>
           </div>

@@ -203,6 +203,7 @@ defineExpose({
                 :max="totalPage"
                 :round="props.round"
                 :variant="props.variant"
+                :empty-value="pageVal"
                 :validate="validateInput"
                 @change="goToPage"
               />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
@@ -285,6 +286,7 @@ defineExpose({
             :round="props.round"
             :variant="props.variant"
             :validate="validateInput"
+            :empty-value="pageVal"
             @change="goToPage"
           />
         </div>
