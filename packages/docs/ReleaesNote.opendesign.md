@@ -21,8 +21,13 @@
    - previewClose 新增 body 值，支持点击内容区域关闭预览
    - 移动端蒙层样式修改为黑色;
    - 原 slot "preview"修改为"preview-extra"，"preview"用于定制整个内容区域
+3. [input-number]新增 clearValue，用于设置清空输入框时，失焦后的默认值
 
 - fix
+
+1. [input|input-number|textarea|radio|checkbox]表单输入 id 优化，支持 SSR
+2. [pagination]修复第一次切换页码时，change 事件回调值不正确问题；pageSize 不在 pageSizes 内，使用默认的 pageSizes 第一项
+3. 依赖升级 vite5 -> vite6 vue3.4 -> 3.5
 
 # 0.0.70 2024-12-27
 
