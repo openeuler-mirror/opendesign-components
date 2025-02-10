@@ -43,8 +43,8 @@ const closePreviewManully = () => {
       <OFigure class="img" :src="img2" preview @preview="onpreview" preview-close="button" />
     </div>
     <div>
-      <span>preview-close="image"</span>
-      <OFigure class="img" :src="img2" preview @preview="onpreview" preview-close="image">
+      <span>preview-close="body"</span>
+      <OFigure class="img" :src="img2" preview @preview="onpreview" preview-close="body">
         <template #preview-extra>
           <div class="foot">123</div>
         </template>
@@ -55,8 +55,8 @@ const closePreviewManully = () => {
       <OFigure class="img" :src="img1" preview @preview="onpreview" :preview-close="['mask', 'button']" />
     </div>
     <div>
-      <span>preview-close="['mask', 'button', 'image']"</span>
-      <OFigure class="img" :src="img1" preview @preview="onpreview" :preview-close="['mask', 'button', 'image']">
+      <span>preview-close="['mask', 'button', 'body']"</span>
+      <OFigure class="img" :src="img1" preview @preview="onpreview" :preview-close="['mask', 'button', 'body']">
         <template #preview-extra>123</template>
       </OFigure>
     </div>
