@@ -150,7 +150,7 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
   }
 };
 
-// 表明是否为嵌套子组件
+// 表明是否为嵌套子组件，避免表单验证逻辑重复执行
 provide(innerComponentInjectKey, {
   isInnerInput: true,
 });
