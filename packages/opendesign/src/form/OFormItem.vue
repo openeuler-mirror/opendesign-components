@@ -33,10 +33,10 @@ const ruleTriggers = computed(() => {
 
 const fieldResult = ref<FieldResultT>(null);
 
-const initialVal = formInject.model && props.field ? getValueByPath(formInject.model, props.field) : void 0;
+const initialVal = formInject.model?.value && props.field ? getValueByPath(formInject.model.value, props.field) : void 0;
 
 const runValidate = async (trigger?: TriggerT): Promise<FieldResultT> => {
-  if (!props.field || !formInject.model) {
+  if (!props.field || !formInject.model?.value) {
     return null;
   }
 
@@ -46,7 +46,7 @@ const runValidate = async (trigger?: TriggerT): Promise<FieldResultT> => {
     return null;
   }
 
-  const value = getValueByPath(formInject.model, props.field);
+  const value = getValueByPath(formInject.model.value, props.field);
 
   fieldResult.value = null;
   await asyncSome(validators, async (validatorFn) => {
@@ -77,15 +77,15 @@ const runValidate = async (trigger?: TriggerT): Promise<FieldResultT> => {
 };
 
 const clearValidate = () => {
-  if (!props.field || !formInject.model) {
+  if (!props.field || !formInject.model?.value) {
     return;
   }
   fieldResult.value = null;
 };
 
 const resetFiled = () => {
-  if (formInject.model && props.field) {
-    setValueByPath(formInject.model, props.field, initialVal);
+  if (formInject.model?.value && props.field) {
+    setValueByPath(formInject.model.value, props.field, initialVal);
   }
 };
 
