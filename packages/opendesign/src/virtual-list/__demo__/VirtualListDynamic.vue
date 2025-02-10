@@ -47,6 +47,8 @@ const onRenderChange = (renderIndex: RenderIndexInfo) => {
   </div>
 </template>
 <style lang="scss" scoped>
+@use "sass:math";
+
 .container {
   width: 400px;
   height: 300px;
@@ -68,7 +70,7 @@ section > div {
 
 @for $i from 1 through 100 {
   .item-#{$i} {
-    background-color: rgba(random(255), random(255), random(255), 1);
+    background-color: rgba(math.random(255), math.random(255), math.random(255), 1);
   }
 }
 </style>
