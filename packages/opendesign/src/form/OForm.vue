@@ -71,7 +71,7 @@ const onSubmit = () => {
 };
 
 provide(formInjectKey, {
-  model: props.model,
+  model: computed(() => props.model),
   addFiled,
   removeFiled,
 });

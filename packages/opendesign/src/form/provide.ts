@@ -1,4 +1,4 @@
-import { InjectionKey, Ref } from 'vue';
+import { InjectionKey, Ref, ComputedRef } from 'vue';
 import { FieldResultT, FiledInfoT, TriggerT } from './types';
 
 type FieldHandlersT = {
@@ -9,7 +9,7 @@ type FieldHandlersT = {
   onBlur?: () => void;
 };
 export interface formCtx {
-  model?: object;
+  model?: ComputedRef<Record<string, any> | undefined>;
   addFiled: (filed: FiledInfoT) => void;
   removeFiled: (filed: string) => void;
 }

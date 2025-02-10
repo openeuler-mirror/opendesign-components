@@ -32,7 +32,7 @@ const options = [
   { label: 'option 4', value: 4 },
 ];
 
-const formModel = reactive({
+let formModel = ref({
   a: {
     input1: '',
   },
@@ -217,12 +217,12 @@ const uploadRules: RulesT[] = [
   },
 ];
 const onUploadChange = () => {
-  console.log(formModel.uploadList);
+  console.log(formModel.value.uploadList);
 };
 
 const values = computed(() =>
-  Object.keys(formModel).map((k) => {
-    return `${k}: ${JSON.stringify(formModel[k as keyof typeof formModel])}`;
+  Object.keys(formModel.value).map((k) => {
+    return `${k}: ${JSON.stringify(formModel.value[k as keyof typeof formModel.value])}`;
   })
 );
 // console.log(values);
@@ -242,10 +242,27 @@ const onFormSubmit = (results: FieldResultT[]) => {
     console.info('check pass!');
   }
 };
+const changeModel = () => {
+  formModel.value = {
+    a: {
+      input1: '1',
+    },
+    inputNumber: 21,
+    input2: '1234',
+    select1: '',
+    textarea1: '',
+    checkbox: [],
+    radio: '',
+    uploadList: [],
+  };
+  formModel.value.select1 = '1';
+  formModel.value.textarea1 = '1';
+};
 </script>
 <template>
   <h4>校验</h4>
-
+  <p>{{ formModel }}</p>
+  <button @click="changeModel">change</button>
   <section>
     <OForm ref="formRef" class="form" has-required :model="formModel" @submit="onFormSubmit">
       <OFormItem label="必选文本1" required field="input2">
