@@ -14,7 +14,7 @@ const emits = defineEmits<{
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
-const inputId = ref(props.textareaId);
+const inputId = ref(props.inputId);
 onMounted(() => {
   if (!inputId.value) {
     inputId.value = uniqueId();
