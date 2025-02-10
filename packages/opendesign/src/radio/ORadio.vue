@@ -15,7 +15,7 @@ const emits = defineEmits<{
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
 
-const inputId = ref(props.textareaId);
+const inputId = ref(props.inputId);
 onMounted(() => {
   if (!inputId.value) {
     inputId.value = uniqueId();
