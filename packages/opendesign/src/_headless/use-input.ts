@@ -1,106 +1,170 @@
 /* eslint-disable max-lines-per-function */
 import { useComposition } from '../hooks/use-composition';
-import { isFunction } from '../_utils/is';
+import { isFunction, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
-import { ref, computed, Ref, watchEffect } from 'vue';
+import { ref, computed, Ref, watch, nextTick } from 'vue';
 
 type EmitsT = {
-  (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
-  (e: 'blur', evt: FocusEvent): void;
+  // 仅在输入框失焦或按下回车时触发
+  (e: 'change', value: string, lastValue: string): void;
+  // 用户输入时触发
+  (e: 'input', value: string, evt: Event): void;
+  // 输入框获取焦点时触发
   (e: 'focus', evt: FocusEvent): void;
+  // 输入框失去焦点时触发
+  (e: 'blur', evt: FocusEvent): void;
+  // 用户点击清除按钮时触发
   (e: 'clear', evt?: Event): void;
+  // 用户按下回车时触发
   (e: 'pressEnter', evt: KeyboardEvent): void;
 };
 export interface InputOptionT {
-  defaultValue: string;
+  modelValue?: Ref<string | undefined>;
+  defaultValue?: string;
   emits: EmitsT;
   emitUpdate: (value: string) => void;
-  validate?: Ref<((value: string) => boolean) | undefined>;
-  onInvalidChange?: (inputValue: string, lastValidInputValue: string, lastValue: string) => string;
-  format?: Ref<((value: string) => string) | undefined>;
-  beforeInput?: (inputValue: string) => string;
+  validate?: (value: string) => boolean;
+  onInvalidChange?: (inputValue: string, lastValidInputValue: string) => string;
+  format?: (value: string) => string;
+  maxLength?: Ref<number | undefined>;
+  minLength?: Ref<number | undefined>;
+  calculateLength?: (value: string) => number;
+  inputOnOutlimit?: Ref<boolean | undefined>;
 }
 
 /**
  * 输入框
  */
 export function useInput(options: InputOptionT) {
-  const { defaultValue, format, emits, emitUpdate, validate, onInvalidChange, beforeInput } = options;
-  const currentValue = ref(defaultValue);
-  const lastValue = ref(defaultValue);
+  const { modelValue, defaultValue, format, emits, emitUpdate, validate, onInvalidChange, maxLength, minLength, calculateLength, inputOnOutlimit } = options;
 
-  const formatFn = computed(() => (isFunction(format?.value) ? format.value : (v: string) => v));
-  const validateFn = computed(() => (isFunction(validate?.value) ? validate.value : () => true));
+  const formatFn = (v: string) => {
+    return isFunction(format) ? format(v) : v;
+  };
 
-  const displayValue = ref(formatFn.value(currentValue.value));
+  const calculateStringLength = isFunction(calculateLength) ? calculateLength : (value: string) => value.length;
+
+  const validateMaxLength = (value: string) => {
+    const len = calculateStringLength(value);
+    if (isUndefined(maxLength?.value)) {
+      return true;
+    }
+    return len <= maxLength.value;
+  };
+  // 内部校验长度函数
+  const validateLengthFn = (value: string) => {
+    if (!validateMaxLength(value)) {
+      return false;
+    }
+    const len = calculateStringLength(value);
+    if (isUndefined(minLength?.value)) {
+      return true;
+    }
+    return len >= minLength.value;
+  };
+  // 内部校验函数+用户传入的校验函数
+  const mergedValidateFn = (v: string) => {
+    const r = validateLengthFn(v);
+    if (r && isFunction(validate)) {
+      return validate(v);
+    }
+    return r;
+  };
 
   const inputEl = ref<HTMLInputElement>();
-  // 聚焦状态
-  const isFocus = ref(false);
-
-  // 值可用状态
-  const isValid = ref(true);
-
-  // 记录上一次有效输入值
-  let lastValidValue: string = '';
-
-  const setNativeDisplayValue = (value: string) => {
-    if (inputEl.value) {
-      inputEl.value.value = value;
-      displayValue.value = value;
-    }
-  };
-
-  /**
-   * 校验是否值有效，如果值为空，始终有效
-   */
-  const doValidate = () => {
-    isValid.value = currentValue.value === '' ? true : validateFn.value(currentValue.value);
-    return isValid.value;
-  };
-  // 初始可用状态
-  if (doValidate()) {
-    lastValidValue = currentValue.value;
-  }
-
-  watchEffect(() => {
-    if (doValidate()) {
-      lastValidValue = currentValue.value;
-    }
-
-    if (!(format?.value && isFocus.value)) {
-      setNativeDisplayValue(formatFn.value(currentValue.value));
-    }
-  });
 
   // 正在输入中文，处理输入过程中触发input事件
   const composition = useComposition({ el: inputEl });
 
-  const emitUpdateValue = () => {
-    emitUpdate(currentValue.value);
+  // 聚焦状态
+  const isFocus = ref(false);
+
+  const uncontroledValue = ref(defaultValue);
+  const controledValue = modelValue;
+
+  // 当前值
+  const computedValue = computed(() => {
+    const cv = controledValue?.value;
+    const ucv = uncontroledValue.value ?? '';
+
+    return cv ?? ucv;
+  });
+
+  // 输入框显示值
+  const displayValue = ref(formatFn(computedValue.value));
+
+  // 值可用状态
+  const isValid = ref(true);
+
+  /**`
+   * 校验是否值有效，如果值为空，始终有效
+   */
+  const validateValue = (value: string) => {
+    isValid.value = value === '' ? true : mergedValidateFn(value);
+    return isValid.value;
   };
 
-  const emitValidUpdateValue = () => {
-    // 值有效性校验
-    if (!doValidate()) {
-      if (isFunction(onInvalidChange)) {
-        currentValue.value = onInvalidChange(currentValue.value, lastValidValue, lastValue.value);
-        doValidate();
+  // 在长度限制变化时，重新校验
+  watch(
+    () => [maxLength?.value, minLength?.value],
+    () => {
+      validateValue(computedValue.value);
+    }
+  );
+
+  // 记录上一次有效输入值
+  let lastValidValue: string = validateValue(computedValue.value) ? computedValue.value : '';
+  let lastValue: string = computedValue.value;
+
+  watch(
+    () => computedValue.value,
+    (val) => {
+      if (!isUndefined(val) && validateValue(val)) {
+        lastValidValue = val;
+      }
+      if (isFocus.value) {
+        displayValue.value = val;
       } else {
-        currentValue.value = lastValidValue;
+        displayValue.value = formatFn(val);
+      }
+    }
+  );
+
+  const updateValue = (value: string) => {
+    uncontroledValue.value = value;
+
+    emitUpdate(value);
+  };
+
+  const getValidValue = () => {
+    let validVal = computedValue.value;
+    // 值有效性校验
+    if (!isValid.value) {
+      if (isFunction(onInvalidChange)) {
+        // 这调用onInvalidChange回调获取对应回调值
+        validVal = onInvalidChange(computedValue.value, lastValidValue);
+        validateValue(validVal);
+      } else {
+        // 回退到上一次有效值
+        validVal = lastValidValue;
         isValid.value = true;
       }
-      emitUpdateValue();
-    } else {
-      lastValidValue = currentValue.value;
+    }
+
+    return validVal;
+  };
+
+  const emitChange = (value: string) => {
+    if (value !== lastValue) {
+      emits('change', computedValue.value, lastValue);
+      lastValue = computedValue.value;
     }
   };
 
-  const emitChange = () => {
-    if (currentValue.value !== lastValue.value) {
-      emits('change', currentValue.value);
-      lastValue.value = currentValue.value;
+  // 控制输入框显示值
+  const keepNativeDisplayValue = () => {
+    if (inputEl.value && inputEl.value.value !== displayValue.value) {
+      inputEl.value.value = displayValue.value;
     }
   };
 
@@ -109,21 +173,22 @@ export function useInput(options: InputOptionT) {
       return;
     }
 
-    let val = (e.target as HTMLInputElement)?.value;
+    const value = (e.target as HTMLInputElement)?.value;
 
-    if (isFunction(beforeInput)) {
-      val = beforeInput(val);
+    if (inputOnOutlimit?.value && !validateMaxLength(value)) {
+      nextTick(() => {
+        keepNativeDisplayValue();
+      });
+      return;
     }
 
-    currentValue.value = val;
-    setNativeDisplayValue(val);
+    updateValue(value);
 
-    if (doValidate()) {
-      emitUpdateValue();
-      lastValidValue = val;
-    }
+    emits('input', value, e);
 
-    emits('input', e);
+    nextTick(() => {
+      keepNativeDisplayValue();
+    });
   };
 
   const handleFocus = (e: FocusEvent) => {
@@ -132,8 +197,9 @@ export function useInput(options: InputOptionT) {
     }
 
     isFocus.value = true;
-    if (format?.value) {
-      setNativeDisplayValue(currentValue.value);
+
+    if (format) {
+      displayValue.value = computedValue.value;
     }
 
     emits('focus', e);
@@ -143,14 +209,12 @@ export function useInput(options: InputOptionT) {
   const handleBlur = (e: FocusEvent) => {
     isFocus.value = false;
 
-    if (format?.value) {
-      currentValue.value = (e.target as HTMLInputElement)?.value;
-      setNativeDisplayValue(formatFn.value(currentValue.value));
-    }
+    const validValue = getValidValue();
+    updateValue(validValue);
 
-    emitValidUpdateValue();
-    emitChange();
+    emitChange(validValue);
 
+    displayValue.value = formatFn(computedValue.value);
     emits('blur', e);
   };
 
@@ -158,24 +222,22 @@ export function useInput(options: InputOptionT) {
   const handlePressEnter = (e: KeyboardEvent) => {
     const keyCode = e.key || e.code;
     if (!composition.isComposing.value && keyCode === Enter.key) {
-      emitValidUpdateValue();
+      const validValue = getValidValue();
+      updateValue(validValue);
 
-      setNativeDisplayValue(currentValue.value);
-
-      emitChange();
+      emitChange(validValue);
 
       emits('pressEnter', e);
     }
   };
 
   const clearValue = () => {
-    currentValue.value = '';
-    setNativeDisplayValue('');
+    displayValue.value = '';
+    isValid.value = true;
 
-    doValidate();
+    updateValue('');
 
-    emitUpdateValue();
-    emitChange();
+    emitChange('');
 
     emits('clear');
   };
@@ -186,15 +248,9 @@ export function useInput(options: InputOptionT) {
     clearValue();
   };
 
-  const updateValue = (val: string) => {
-    currentValue.value = val;
-    lastValue.value = currentValue.value;
-  };
-
   return {
-    realValue: computed(() => currentValue.value),
+    realValue: computed(() => computedValue.value),
     displayValue: computed(() => displayValue.value),
-    updateValue,
     isValid,
     inputEl,
     clearValue,

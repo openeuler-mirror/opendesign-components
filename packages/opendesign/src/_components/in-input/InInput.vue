@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, watch, toRefs, watchEffect } from 'vue';
+import { computed, ref, toRefs, watchEffect } from 'vue';
 import { inInputProps } from './types';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
-import { formateToString } from '../../_utils/helper';
+// import { formateToString } from '../../_utils/helper';
 import { useInput } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
 import { slotNames } from './slot';
@@ -13,8 +13,8 @@ const props = defineProps(inInputProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
+  (e: 'change', value: string, lastValue: string): void;
+  (e: 'input', value: string, evt: Event): void;
   (e: 'blur', evt: FocusEvent): void;
   (e: 'focus', evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
@@ -22,12 +22,11 @@ const emits = defineEmits<{
 }>();
 const { t } = useI18n();
 
-const { disabled, type, format, validate } = toRefs(props);
+const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
 
 const {
   realValue,
   displayValue,
-  updateValue,
   clearValue: clear,
   isValid,
   handleBlur,
@@ -37,15 +36,19 @@ const {
   handleClear,
   inputEl,
 } = useInput({
+  modelValue: modelValue,
   emits,
-  defaultValue: props.modelValue ?? props.defaultValue ?? '',
+  defaultValue: props.defaultValue ?? '',
   emitUpdate: (value: string) => {
     emits('update:modelValue', value);
   },
-  format,
-  validate,
+  format: props.format,
+  validate: props.validate,
   onInvalidChange: props.onInvalidChange,
-  beforeInput: props.beforeInput,
+  maxLength,
+  minLength,
+  calculateLength: props.getLength,
+  inputOnOutlimit: inputOnOutlimit,
 });
 
 const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassword({
@@ -64,17 +67,6 @@ const togglePassword = (visible?: boolean) => {
 watchEffect(() => {
   togglePassword(showPassword.value);
 });
-
-// 监听属性变化，刷新值
-watch(
-  () => props.modelValue,
-  (val) => {
-    const value = formateToString(val);
-    if (value !== realValue.value) {
-      updateValue(value);
-    }
-  }
-);
 
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
@@ -140,12 +132,11 @@ defineExpose({
         :id="props.inputId"
         ref="inputEl"
         class="o_input-input"
+        :value="displayValue"
         :type="inputType"
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
-        :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
-        :minlength="props.inputOnOutlimit ? '' : props.minLength"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
