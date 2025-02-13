@@ -18,7 +18,6 @@ const emits = defineEmits<{
   (e: 'blur', evt: FocusEvent): void;
   (e: 'focus', evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
 
 const formItemInjection = inject(formItemInjectKey, null);
@@ -59,10 +58,6 @@ const onBlur = (e: FocusEvent) => {
   isFocus.value = false;
   emits('blur', e);
   formItemInjection?.fieldHandlers.onBlur?.();
-};
-
-const onPressEnter = (e: KeyboardEvent) => {
-  emits('pressEnter', e);
 };
 
 const onClear = (e?: Event) => {
@@ -142,12 +137,10 @@ onMounted(() => {
         :min-length="props.minLength"
         :input-on-outlimit="props.inputOnOutlimit"
         :textarea-id="textareaId"
-        :before-input="props.beforeInput"
         @change="onChange"
         @input="onInput"
         @focus="onFocus"
         @blur="onBlur"
-        @press-enter="onPressEnter"
         @clear="onClear"
         @update:model-value="onUpdatedModelValue"
       >

@@ -59,7 +59,7 @@ export const inTextareaProps = {
    * 输入为无效值时，在blur
    */
   onInvalidChange: {
-    type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,
+    type: Function as PropType<(inputValue: string, lastValidInputValue: string) => string>,
   },
   /**
    * 显示的行数
@@ -125,12 +125,6 @@ export const inTextareaProps = {
   scrollbar: {
     type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,
     default: true,
-  },
-  /**
-   * 针对输入内容进行处理，返回值作为输入最终值
-   */
-  beforeInput: {
-    type: Function as PropType<(value: string) => string>,
   },
 };
 

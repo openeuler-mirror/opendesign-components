@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { computed, watch, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
-import { formateToString } from '../../_utils/helper';
 import { useInput } from '../../_headless/use-input';
-import { isFunction } from '../../_utils/is';
 import { slotNames } from './slot';
 import { useI18n } from '../../locale';
 import { vScrollbar } from '../../scrollbar';
@@ -23,30 +21,32 @@ const emits = defineEmits<{
 
 const { t } = useI18n();
 
-const { format, validate } = toRefs(props);
+const { modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
 
 const {
-  realValue,
   displayValue,
-  updateValue,
   clearValue: clear,
   isValid,
+  inputValueLength,
+  isOutLengthLimit,
   handleBlur,
   handleInput,
   handleFocus,
-  handlePressEnter,
   handleClear,
   inputEl,
 } = useInput({
   emits,
-  defaultValue: props.modelValue ?? props.defaultValue ?? '',
+  maxLength,
+  minLength,
+  inputOnOutlimit,
+  modelValue,
+  defaultValue: props.defaultValue ?? '',
   emitUpdate: (value: string) => {
     emits('update:modelValue', value);
   },
-  format,
-  validate,
+  format: props.format,
+  validate: props.validate,
   onInvalidChange: props.onInvalidChange,
-  beforeInput: props.beforeInput,
 });
 
 const resizeValue = computed(() => {
@@ -62,17 +62,6 @@ const resizeValue = computed(() => {
   }
 });
 
-// 监听属性变化，刷新值
-watch(
-  () => props.modelValue,
-  (val) => {
-    const value = formateToString(val);
-    if (value !== realValue.value) {
-      updateValue(value);
-    }
-  }
-);
-
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 
@@ -80,23 +69,6 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
-// 计算当前长度
-const currentLength = computed(() => {
-  if (isFunction(props.getLength)) {
-    return props.getLength(realValue.value);
-  }
-  return realValue.value.length ?? 0;
-});
-// 是否超出最大长度限制
-const isOutLengthLimit = computed(() => {
-  if (props.maxLength !== undefined && currentLength.value > props.maxLength) {
-    return true;
-  }
-  if (props.minLength !== undefined && currentLength.value < props.minLength) {
-    return true;
-  }
-  return false;
-});
 /**
  * 自适应高度
  */
@@ -145,12 +117,11 @@ defineExpose({
       <textarea
         :id="props.textareaId"
         ref="inputEl"
+        :value="displayValue"
         class="o_textarea-textarea"
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
-        :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
-        :minLength="props.inputOnOutlimit ? '' : props.minLength"
         :rows="props.rows"
         :cols="props.cols"
         :style="{
@@ -160,7 +131,6 @@ defineExpose({
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
-        @keydown="handlePressEnter"
       ></textarea>
       <div v-if="isClearable" class="o_textarea-suffix o_textarea-clear" @click="handleClear">
         <IconClose class="o_textarea-clear-icon" />
@@ -169,7 +139,7 @@ defineExpose({
         v-if="props.maxLength"
         class="o_textarea-suffix o_textarea-count"
         :class="{ 'o_textarea-count-error': isOutLengthLimit }"
-        v-html="t('input.limit', currentLength, props.maxLength)"
+        v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
     </div>
 
