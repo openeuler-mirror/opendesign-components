@@ -70,7 +70,7 @@ export const layerProps = {
    */
   buttonClose: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   /**
    * 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
