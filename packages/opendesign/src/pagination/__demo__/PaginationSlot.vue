@@ -9,8 +9,8 @@ const pageSizes = [8, 16, 32, 64];
 
 const currentPage2 = ref();
 const pageSize2 = ref(6);
-const onChange = (value: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }) => {
-  console.log('onChange', value.page, value.pageSize, oldValue.page, oldValue.pageSize);
+const onChange = (newValue: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }) => {
+  console.log('onChange', newValue.page, newValue.pageSize, oldValue.page, oldValue.pageSize);
 };
 </script>
 <template>

@@ -6,8 +6,8 @@ const total = ref(5000);
 
 const pageSize = ref(8);
 const pageSizes = [8, 16, 32, 64];
-const onChange = (value: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }) => {
-  console.log('onChange', value.page, value.pageSize, oldValue.page, oldValue.pageSize);
+const onChange = (newValue: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }) => {
+  console.log('onChange', newValue.page, newValue.pageSize, oldValue.page, oldValue.pageSize);
 };
 
 watchEffect(() => {
