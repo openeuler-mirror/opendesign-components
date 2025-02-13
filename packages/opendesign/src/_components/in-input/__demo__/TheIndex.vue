@@ -2,14 +2,14 @@
 import '../style';
 import InInput from '../InInput.vue';
 import { ref } from 'vue';
-const inputVal = ref('12');
+const inputVal = ref('124567890');
 
 const printEvent = (evt: string, v?: string) => {
   console.log(`[${evt}]`, v ?? '', 'inputVal:', inputVal.value);
 };
 
 const disabled = ref(false);
-const maxLength = ref(8);
+const maxLength = ref(6);
 const minLength = ref(4);
 const toggle = () => {
   disabled.value = !disabled.value;
@@ -65,8 +65,10 @@ const onChange = (currentValue: string, lastValue: string) => {
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
+        :max-length="maxLength"
         :format="format"
         :onInvalidChange="onInvalidChange"
+        :input-on-outlimit="false"
       />
     </section>
     <section>

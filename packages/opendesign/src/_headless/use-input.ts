@@ -180,6 +180,22 @@ export function useInput(options: InputOptionT) {
     }
   };
 
+  const isAllowedToInput = (value: string) => {
+    if (inputOnOutlimit?.value) {
+      return true;
+    }
+    const len = calculateStringLength(value);
+    const isLower = validateMaxLength(len);
+    if (isLower) {
+      return true;
+    }
+    // 超出长度限制，且为字符长度减少，则支持操作
+    if (len < calculateStringLength(computedValue.value)) {
+      return true;
+    }
+    return false;
+  };
+
   const handleInput = (e: Event) => {
     if (composition.isComposing.value) {
       return;
@@ -187,7 +203,7 @@ export function useInput(options: InputOptionT) {
 
     const value = (e.target as HTMLInputElement)?.value;
 
-    if (inputOnOutlimit?.value || validateMaxLength(calculateStringLength(value))) {
+    if (isAllowedToInput(value)) {
       updateValue(value);
 
       emits('input', e, value);
