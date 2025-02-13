@@ -3,7 +3,7 @@ import { computed, ref, toRefs, watchEffect } from 'vue';
 import { inInputProps } from './types';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
 // import { formateToString } from '../../_utils/helper';
-import { useInput } from '../../_headless/use-input';
+import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
 import { slotNames } from './slot';
 import { isFunction } from '../../_utils/is';
@@ -11,15 +11,11 @@ import { useI18n } from '../../locale';
 
 const props = defineProps(inInputProps);
 
-const emits = defineEmits<{
+type InInputEmitsT = {
   (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string, lastValue: string): void;
-  (e: 'input', value: string, evt: Event): void;
-  (e: 'blur', evt: FocusEvent): void;
-  (e: 'focus', evt: FocusEvent): void;
-  (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', evt: KeyboardEvent): void;
-}>();
+} & UseInputEmitsT;
+
+const emits = defineEmits<InInputEmitsT>();
 const { t } = useI18n();
 
 const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);

@@ -108,12 +108,6 @@ export const inInputProps = {
   autoWidth: {
     type: Boolean,
   },
-  /**
-   * 针对输入内容进行处理，返回值作为输入最终值
-   */
-  beforeInput: {
-    type: Function as PropType<(value: string) => string>,
-  },
 };
 
 export type InInputProps = ExtractPropTypes<typeof inInputProps>;

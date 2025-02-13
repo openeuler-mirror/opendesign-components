@@ -4,11 +4,11 @@ import { isFunction, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
 import { ref, computed, Ref, watch, nextTick } from 'vue';
 
-type EmitsT = {
+export type UseInputEmitsT = {
   // 仅在输入框失焦或按下回车时触发
   (e: 'change', value: string, lastValue: string): void;
   // 用户输入时触发
-  (e: 'input', value: string, evt: Event): void;
+  (e: 'input', evt: Event, value: string): void;
   // 输入框获取焦点时触发
   (e: 'focus', evt: FocusEvent): void;
   // 输入框失去焦点时触发
@@ -21,7 +21,7 @@ type EmitsT = {
 export interface InputOptionT {
   modelValue?: Ref<string | undefined>;
   defaultValue?: string;
-  emits: EmitsT;
+  emits: UseInputEmitsT;
   emitUpdate: (value: string) => void;
   validate?: (value: string) => boolean;
   onInvalidChange?: (inputValue: string, lastValidInputValue: string) => string;
@@ -184,7 +184,7 @@ export function useInput(options: InputOptionT) {
 
     updateValue(value);
 
-    emits('input', value, e);
+    emits('input', e, value);
 
     nextTick(() => {
       keepNativeDisplayValue();
