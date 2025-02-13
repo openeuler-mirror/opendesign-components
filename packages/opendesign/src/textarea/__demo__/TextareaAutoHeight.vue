@@ -13,6 +13,7 @@ setTimeout(() => {
   <h4>Auto Size</h4>
   <div>
     <div>
+      <div>default</div>
       <OTextarea v-model="val1" auto-size style="width: 300px" clearable />
     </div>
     <div>
