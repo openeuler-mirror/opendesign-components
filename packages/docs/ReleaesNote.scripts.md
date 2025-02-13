@@ -1,5 +1,11 @@
 # [open-scripts]
 
+# 0.0.22
+
+- fix
+
+1. 修复 svg xlink:href=“#{id}”构件时未生成动态 id
+
 # 0.0.21
 
 - fix
