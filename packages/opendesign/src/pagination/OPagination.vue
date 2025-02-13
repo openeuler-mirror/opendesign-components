@@ -19,7 +19,7 @@ const props = defineProps(paginationProps);
 const round = getRoundClass(props, 'pagination');
 
 const emits = defineEmits<{
-  (e: 'change', page: number, pageSize: number, lastPage: number, lastPageSize: number): void;
+  (e: 'change', value: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }): void;
 }>();
 
 const { t } = useI18n();
@@ -83,7 +83,7 @@ const updatePageAndPageSize = (page: number, size: number) => {
   }
 
   if (changed) {
-    emits('change', page, size, oldPage, oldPageSize);
+    emits('change', { page, pageSize: size }, { page: oldPage, pageSize: oldPageSize });
   }
 };
 
