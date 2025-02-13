@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import { useComposition } from '../hooks/use-composition';
-import { isFunction, isUndefined } from '../_utils/is';
+import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
 import { ref, computed, Ref, watch, nextTick } from 'vue';
 
@@ -41,27 +41,53 @@ export function useInput(options: InputOptionT) {
   const formatFn = (v: string) => {
     return isFunction(format) ? format(v) : v;
   };
+  const calculateStringLength = (v: string) => {
+    return isFunction(calculateLength) ? calculateLength(v) : v.length;
+  };
 
-  const calculateStringLength = isFunction(calculateLength) ? calculateLength : (value: string) => value.length;
+  const uncontroledValue = ref(defaultValue);
+  const controledValue = modelValue;
 
-  const validateMaxLength = (value: string) => {
-    const len = calculateStringLength(value);
-    if (isUndefined(maxLength?.value)) {
+  // 当前值
+  const computedValue = computed(() => {
+    const cv = controledValue?.value;
+    const ucv = uncontroledValue.value ?? '';
+
+    return cv ?? ucv;
+  });
+
+  // 输入框显示值
+  const displayValue = ref(formatFn(computedValue.value));
+
+  // 计算值当前长度
+  const inputValueLength = computed(() => {
+    return calculateStringLength(computedValue.value);
+  });
+
+  const validateMaxLength = (length: number) => {
+    if (!isNumber(maxLength?.value)) {
       return true;
     }
-    return len <= maxLength.value;
+    return length <= maxLength.value;
+  };
+  const validateMinLength = (length: number) => {
+    if (!isNumber(minLength?.value)) {
+      return true;
+    }
+    return length >= minLength.value;
   };
   // 内部校验长度函数
   const validateLengthFn = (value: string) => {
-    if (!validateMaxLength(value)) {
-      return false;
-    }
     const len = calculateStringLength(value);
-    if (isUndefined(minLength?.value)) {
-      return true;
-    }
-    return len >= minLength.value;
+
+    return validateMaxLength(len) && validateMinLength(len);
   };
+
+  // 是否满足长度要求
+  const isOutLengthLimit = computed(() => {
+    return !validateLengthFn(computedValue.value);
+  });
+
   // 内部校验函数+用户传入的校验函数
   const mergedValidateFn = (v: string) => {
     const r = validateLengthFn(v);
@@ -78,20 +104,6 @@ export function useInput(options: InputOptionT) {
 
   // 聚焦状态
   const isFocus = ref(false);
-
-  const uncontroledValue = ref(defaultValue);
-  const controledValue = modelValue;
-
-  // 当前值
-  const computedValue = computed(() => {
-    const cv = controledValue?.value;
-    const ucv = uncontroledValue.value ?? '';
-
-    return cv ?? ucv;
-  });
-
-  // 输入框显示值
-  const displayValue = ref(formatFn(computedValue.value));
 
   // 值可用状态
   const isValid = ref(true);
@@ -175,16 +187,11 @@ export function useInput(options: InputOptionT) {
 
     const value = (e.target as HTMLInputElement)?.value;
 
-    if (inputOnOutlimit?.value && !validateMaxLength(value)) {
-      nextTick(() => {
-        keepNativeDisplayValue();
-      });
-      return;
+    if (inputOnOutlimit?.value || validateMaxLength(calculateStringLength(value))) {
+      updateValue(value);
+
+      emits('input', e, value);
     }
-
-    updateValue(value);
-
-    emits('input', e, value);
 
     nextTick(() => {
       keepNativeDisplayValue();
@@ -254,6 +261,8 @@ export function useInput(options: InputOptionT) {
     isValid,
     inputEl,
     clearValue,
+    inputValueLength,
+    isOutLengthLimit,
     handleInput,
     handleFocus,
     handleBlur,

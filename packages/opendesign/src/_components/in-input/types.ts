@@ -108,6 +108,13 @@ export const inInputProps = {
   autoWidth: {
     type: Boolean,
   },
+  /**
+   * 密码单个字符占位符
+   */
+  passwordPlaceholder: {
+    type: String,
+    default: '\u2022',
+  },
 };
 
 export type InInputProps = ExtractPropTypes<typeof inInputProps>;

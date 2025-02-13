@@ -2,11 +2,9 @@
 import { computed, ref, toRefs, watchEffect } from 'vue';
 import { inInputProps } from './types';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
-// import { formateToString } from '../../_utils/helper';
 import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
 import { slotNames } from './slot';
-import { isFunction } from '../../_utils/is';
 import { useI18n } from '../../locale';
 
 const props = defineProps(inInputProps);
@@ -21,10 +19,11 @@ const { t } = useI18n();
 const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
 
 const {
-  realValue,
   displayValue,
   clearValue: clear,
   isValid,
+  inputValueLength,
+  isOutLengthLimit,
   handleBlur,
   handleInput,
   handleFocus,
@@ -32,8 +31,11 @@ const {
   handleClear,
   inputEl,
 } = useInput({
-  modelValue: modelValue,
   emits,
+  maxLength,
+  minLength,
+  inputOnOutlimit,
+  modelValue,
   defaultValue: props.defaultValue ?? '',
   emitUpdate: (value: string) => {
     emits('update:modelValue', value);
@@ -41,10 +43,7 @@ const {
   format: props.format,
   validate: props.validate,
   onInvalidChange: props.onInvalidChange,
-  maxLength,
-  minLength,
   calculateLength: props.getLength,
-  inputOnOutlimit: inputOnOutlimit,
 });
 
 const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassword({
@@ -71,31 +70,13 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
-// 计算当前长度
-const currentLength = computed(() => {
-  if (isFunction(props.getLength)) {
-    return props.getLength(realValue.value);
-  }
-  return realValue.value.length ?? 0;
-});
-// 是否超出最大长度限制
-const isOutLengthLimit = computed(() => {
-  if (props.maxLength !== undefined && currentLength.value > props.maxLength) {
-    return true;
-  }
-  if (props.minLength !== undefined && currentLength.value < props.minLength) {
-    return true;
-  }
-  return false;
-});
-
 /**
  * 自适应宽度
  */
 const autoWidth = computed(() => props.autoWidth);
 const mirrorValue = computed(() => {
   if (props.type === 'password') {
-    return displayValue.value.replace(/./g, '\u2022');
+    return displayValue.value.replace(/./g, props.passwordPlaceholder);
   }
   return displayValue.value;
 });
@@ -168,7 +149,7 @@ defineExpose({
         v-if="props.maxLength"
         class="o_input-limit"
         :class="{ 'o_input-limit-error': isOutLengthLimit }"
-        v-html="t('input.limit', currentLength, props.maxLength)"
+        v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
       <span v-if="$slots.extra">
         <slot :name="slotNames.extra"></slot>

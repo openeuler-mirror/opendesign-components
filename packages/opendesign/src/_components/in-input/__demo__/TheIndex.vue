@@ -27,9 +27,7 @@ const validate = (value: string): boolean => {
 };
 
 const onUpdate = (val: string) => {
-  if (val.length < 5) {
-    inputVal.value = val;
-  }
+  inputVal.value = val;
 };
 
 const format = (val: string) => {
@@ -54,6 +52,7 @@ const onChange = (currentValue: string, lastValue: string) => {
     <button @click="toggle">change</button>
     <button @click="toggleType">change type</button>
     <section>
+      defaultValue: {{ inputVal }}; format
       <InInput
         input-id="123"
         class="test-input"
@@ -62,18 +61,18 @@ const onChange = (currentValue: string, lastValue: string) => {
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="onChange"
-        @input="(value) => printEvent('input', value)"
+        @input="(e, value) => printEvent('input', value)"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
         :format="format"
-        :input-on-outlimit="false"
         :onInvalidChange="onInvalidChange"
       />
     </section>
     <section>
+      max: {{ maxLength }}; min: {{ minLength }} input-on-outlimit: false
       <InInput
-        input-id="123"
+        input-id="1234"
         class="test-input"
         :model-value="inputVal"
         @update:model-value="onUpdate"
@@ -91,7 +90,7 @@ const onChange = (currentValue: string, lastValue: string) => {
       />
     </section>
     <section>
-      auto width:
+      auto width; max: 8;
       <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable />
     </section>
     <section>
