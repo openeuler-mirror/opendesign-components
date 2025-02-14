@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import '../style';
 import InInput from '../InInput.vue';
-import { ref, watchEffect } from 'vue';
-const inputVal = ref('123');
+import { ref } from 'vue';
+const inputVal = ref('124567890');
 
 const printEvent = (evt: string, v?: string) => {
-  console.log(`[${evt}]`, v ?? '', 'value:', inputVal.value);
+  console.log(`[${evt}]`, v ?? '', 'inputVal:', inputVal.value);
 };
 
 const disabled = ref(false);
-const toggleDisabled = () => {
+const maxLength = ref(6);
+const minLength = ref(4);
+const toggle = () => {
   disabled.value = !disabled.value;
+  maxLength.value = 5;
+  minLength.value = 2;
 };
 
 const type = ref<'text' | 'password'>('text');
@@ -19,7 +23,25 @@ const toggleType = () => {
 };
 
 const validate = (value: string): boolean => {
-  return Boolean(value.length % 2);
+  return !(value.length % 2);
+};
+
+const onUpdate = (val: string) => {
+  inputVal.value = val;
+};
+
+const format = (val: string) => {
+  return `￥${val.replace(/\B(?=(\d{1})+(?!\d))/g, ',')}`;
+};
+
+const onInvalidChange = (currentValue: string, lastValid: string) => {
+  console.log('onInvalidChange:', currentValue, lastValid);
+  return lastValid;
+};
+
+const onChange = (currentValue: string, lastValue: string) => {
+  console.log('change:', currentValue, lastValue);
+  inputVal.value = currentValue;
 };
 </script>
 
@@ -27,13 +49,35 @@ const validate = (value: string): boolean => {
   <div class="page-demo">
     <h3>Basic</h3>
     <div>value: {{ inputVal }}</div>
-    <button @click="toggleDisabled">change disabled</button>
+    <button @click="toggle">change</button>
     <button @click="toggleType">change type</button>
     <section>
+      defaultValue: {{ inputVal }}; format
       <InInput
         input-id="123"
         class="test-input"
-        v-model="inputVal"
+        :default-value="inputVal"
+        :validate="validate"
+        @clear="() => printEvent('clear')"
+        @blur="() => printEvent('blur')"
+        @change="onChange"
+        @input="(e, value) => printEvent('input', value)"
+        @focus="() => printEvent('focus')"
+        @press-enter="() => printEvent('press-enter')"
+        clearable
+        :max-length="maxLength"
+        :format="format"
+        :onInvalidChange="onInvalidChange"
+        :input-on-outlimit="false"
+      />
+    </section>
+    <section>
+      max: {{ maxLength }}; min: {{ minLength }} input-on-outlimit: false
+      <InInput
+        input-id="1234"
+        class="test-input"
+        :model-value="inputVal"
+        @update:model-value="onUpdate"
         :validate="validate"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
@@ -42,13 +86,13 @@ const validate = (value: string): boolean => {
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
-        :max-length="8"
-        :min-length="4"
+        :max-length="maxLength"
+        :min-length="minLength"
         :input-on-outlimit="false"
       />
     </section>
     <section>
-      auto width:
+      auto width; max: 8;
       <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable />
     </section>
     <section>

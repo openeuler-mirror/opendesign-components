@@ -3,6 +3,7 @@
 .o_textarea {
   color: inherit;
   max-width: 100%;
+  max-height: inherit;
   min-width: inherit;
   min-height: inherit;
   cursor: inherit;
@@ -53,7 +54,7 @@
 }
 
 .o_textarea-clear {
-  right: 8px;
+  right: 2px;
   top: 50%;
   font-size: var(--icon-size);
   margin-top: calc(var(--icon-size) / -2);

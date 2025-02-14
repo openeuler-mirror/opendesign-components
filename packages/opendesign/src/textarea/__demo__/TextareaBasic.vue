@@ -9,12 +9,8 @@ setTimeout(() => {
   // val1.value += '---';
 }, 2000);
 
-const printEvent = (event: string, val?: string | number) => {
-  console.log(`[${event}]`, val);
-};
-
-const beforeInput = (val: string) => {
-  return val.trim();
+const onUpdateModelValue = (val: string) => {
+  val1.value = val.trim();
 };
 </script>
 <template>
@@ -114,7 +110,7 @@ const beforeInput = (val: string) => {
   <h4>beforeInput</h4>
   <section>
     <div>输入内容不允许收尾有空格</div>
-    <OTextarea v-model="val1" :max-length="10" size="large" :clearable="false" :before-input="beforeInput" />
+    <OTextarea :model-value="val1" :max-length="10" size="large" :clearable="false" @update:model-value="onUpdateModelValue" />
   </section>
 </template>
 <style lang="scss"></style>

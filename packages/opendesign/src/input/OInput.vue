@@ -14,7 +14,7 @@ const props = defineProps(inputProps);
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
+  (e: 'input', evt: Event, value: string): void;
   (e: 'blur', evt: FocusEvent): void;
   (e: 'focus', evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
@@ -33,8 +33,8 @@ const color = computed(() => {
   return props.color;
 });
 
-const onInput = (e: Event) => {
-  emits('input', e);
+const onInput = (e: Event, value: string) => {
+  emits('input', e, value);
   formItemInjection?.fieldHandlers.onInput?.();
 };
 
@@ -128,7 +128,6 @@ onMounted(() => {
         :min-length="props.minLength"
         :get-length="props.getLength"
         :input-on-outlimit="props.inputOnOutlimit"
-        :before-input="props.beforeInput"
         @change="onChange"
         @input="onInput"
         @focus="onFocus"
