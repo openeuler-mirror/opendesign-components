@@ -72,6 +72,7 @@ const linkConfig: LinkConfigT = {
       <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
     <OLink :href="link" hover-underline>
+      <template #icon><OIconDone /></template>
       自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
     </OLink>
   </section>

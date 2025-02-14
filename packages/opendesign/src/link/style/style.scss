@@ -22,6 +22,9 @@
     color: var(--link-color-active);
   }
 }
+.o-link-main {
+  vertical-align: middle;
+}
 .o-link-icon-arrow {
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
 }
