@@ -12,13 +12,22 @@
 
 ---
 
-# 0.0.72
+# 0.0.73
+
+- feat
+
+1. [pagination] change 事件参数调整为对象，兼容老版本;
+2. [layer] buttonClose 默认值从 true 修改为 false;
+3. [form] 导出表单 provide 的 key，可支持自定义表单项
 
 - fix
 
-1. 修复 id 相关 bug
+1. [link] 解决图标和文字未居中对齐问题
+2. [input/textarea] 移除 beforeInput 属性；
+3. [textarea] 修复 autoSize 下，设置最大高度后样式问题; 去掉 pressEnter 事件
+4. [form] 修复 model 重新赋值后，校验值未同步更新问题
 
-# 0.0.71
+# 0.0.72
 
 - feat
 
@@ -34,6 +43,10 @@
 1. [input|input-number|textarea|radio|checkbox]表单输入 id 优化，支持 SSR
 2. [pagination]修复第一次切换页码时，change 事件回调值不正确问题；pageSize 不在 pageSizes 内，使用默认的 pageSizes 第一项
 3. 依赖升级 vite5 -> vite6 vue3.4 -> 3.5
+
+# 0.0.71
+
+1. 非稳定版本
 
 # 0.0.70 2024-12-27
 

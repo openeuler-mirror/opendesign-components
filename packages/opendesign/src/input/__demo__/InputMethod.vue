@@ -16,9 +16,8 @@ const format = (val: string | number) => {
 const printEvent = (evt: string, v?: string) => {
   console.log(`[${evt}]`, v ?? '', 'value:', val2.value);
 };
-
-const beforeInput = (val: string) => {
-  return val.trim();
+const onUpdateValue = (value: string) => {
+  val1.value = value.trim();
 };
 </script>
 <template>
@@ -50,7 +49,7 @@ const beforeInput = (val: string) => {
   </section>
   <section>
     <div>首尾不允许输入空格： val1:{{ val1 }}</div>
-    <OInput v-model="val1" :before-input="beforeInput" />
+    <OInput :model-value="val1" @update:model-value="onUpdateValue" />
   </section>
 </template>
 <style lang="scss"></style>
