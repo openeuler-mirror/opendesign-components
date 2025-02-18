@@ -46,7 +46,7 @@ const {
   },
   format: props.format,
   validate: props.validate,
-  onInvalidChange: props.onInvalidChange,
+  valueOnInvalidChange: props.valueOnInvalidChange,
 });
 
 const resizeValue = computed(() => {

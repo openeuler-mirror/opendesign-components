@@ -55,7 +55,7 @@ const validate = (value: string) => {
   }
   return valid;
 };
-const onInvalidChange = (_: string, last: string) => {
+const valueOnInvalidChange = (_: string, last: string) => {
   return last;
 };
 
@@ -161,7 +161,7 @@ provide(innerComponentInjectKey, {
     class="o-input-number"
     :class="[props.autoWidth ? '' : `o-input-number-size-${props.size || defaultSize}`]"
     :validate="validate"
-    :on-invalid-change="onInvalidChange"
+    :valueOnInvalidChange="valueOnInvalidChange"
     :size="props.size"
     :placeholder="props.placeholder"
     :color="color"

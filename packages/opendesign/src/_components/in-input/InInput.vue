@@ -4,10 +4,15 @@ import { inInputProps } from './types';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
 import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
-import { slotNames } from './slot';
 import { useI18n } from '../../locale';
 
 const props = defineProps(inInputProps);
+const solts = defineSlots<{
+  default(): any;
+  prefix(): any;
+  suffix(): any;
+  extra(): any;
+}>();
 
 type InInputEmitsT = {
   (e: 'update:modelValue', value: string): void;
@@ -42,7 +47,7 @@ const {
   },
   format: props.format,
   validate: props.validate,
-  onInvalidChange: props.onInvalidChange,
+  valueOnInvalidChange: props.valueOnInvalidChange,
   calculateLength: props.getLength,
 });
 
@@ -101,8 +106,8 @@ defineExpose({
     }"
     :for="props.inputId"
   >
-    <div v-if="$slots.prefix" class="o_input-prefix" @mousedown.prevent>
-      <slot :name="slotNames.prefix"></slot>
+    <div v-if="solts.prefix" class="o_input-prefix" @mousedown.prevent>
+      <slot name="prefix"></slot>
     </div>
     <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': autoWidth }" :date-value="mirrorValue">
       <input
@@ -121,10 +126,10 @@ defineExpose({
       />
     </div>
 
-    <div v-if="$slots.suffix || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
+    <div v-if="solts.suffix || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
       <!-- 自定义图标 -->
-      <span v-if="$slots.suffix" class="o_input-suffix-icon">
-        <slot :name="slotNames.suffix"></slot>
+      <span v-if="solts.suffix" class="o_input-suffix-icon">
+        <slot name="suffix"></slot>
       </span>
       <!--  清除图标 -->
       <div v-if="isClearable" class="o_input-clear" @click="handleClear" @mousedown.prevent>
@@ -151,8 +156,8 @@ defineExpose({
         :class="{ 'o_input-limit-error': isOutLengthLimit }"
         v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
-      <span v-if="$slots.extra">
-        <slot :name="slotNames.extra"></slot>
+      <span v-if="solts.extra">
+        <slot name="extra"></slot>
       </span>
     </div>
   </label>

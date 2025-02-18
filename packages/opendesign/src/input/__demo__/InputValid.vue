@@ -19,9 +19,9 @@ const check = (v: string) => {
   return v.length % 2 === 0;
   // return true;
 };
-const onInvalidChange = (inputValue: string, lastValidInputValue: string, lastValue: string) => {
-  console.log('onInvalidChange', inputValue, lastValidInputValue, lastValue);
-  return lastValue;
+const valueOnInvalidChange = (inputValue: string, lastValidInputValue: string) => {
+  console.log('valueOnInvalidChange', inputValue, lastValidInputValue);
+  return `${inputValue}.12`;
 };
 </script>
 <template>
@@ -46,13 +46,13 @@ const onInvalidChange = (inputValue: string, lastValidInputValue: string, lastVa
       value: {{ val2 }}; event:{{ event }};
       <button @click="changeVal">change value</button>
     </section>
-    <p>设置校验函数，并指定输入无效时回车或失焦后,值的纠正为上一次的值</p>
+    <p>设置校验函数，并指定输入无效时回车或失焦后,值的纠正为在尾部追加‘.12’</p>
     <section>
       <OInput
         v-model="val2"
         :format="format"
         :validate="check"
-        :onInvalidChange="onInvalidChange"
+        :valueOnInvalidChange="valueOnInvalidChange"
         @blur="() => printEvent('blur')"
         @change="(v) => printEvent('change', v)"
         @input="() => printEvent('input')"

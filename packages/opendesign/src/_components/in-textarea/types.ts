@@ -58,7 +58,7 @@ export const inTextareaProps = {
   /**
    * 输入为无效值时，在blur
    */
-  onInvalidChange: {
+  valueOnInvalidChange: {
     type: Function as PropType<(inputValue: string, lastValidInputValue: string) => string>,
   },
   /**

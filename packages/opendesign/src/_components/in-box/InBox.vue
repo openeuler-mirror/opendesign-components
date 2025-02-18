@@ -2,7 +2,12 @@
 import { defaultSize } from '../../_utils/global';
 import { inBoxProps } from './types';
 import { getRoundClass } from '../../_utils/style-class';
-import { slotNames } from './slot';
+
+const solts = defineSlots<{
+  default(): any;
+  prepend(): any;
+  append(): any;
+}>();
 
 const props = defineProps(inBoxProps);
 
@@ -15,8 +20,8 @@ const round = getRoundClass(props, '_box');
     :style="round.style.value"
     :for="props.for"
   >
-    <div v-if="$slots.prepend" class="o_box-prepend" @mousedown.prevent>
-      <slot :name="slotNames.prepend"></slot>
+    <div v-if="solts.prepend" class="o_box-prepend" @mousedown.prevent>
+      <slot name="prepend"></slot>
     </div>
     <div
       class="o_box-main"
@@ -25,16 +30,16 @@ const round = getRoundClass(props, '_box');
           'o_box-disabled': props.disabled,
           'o_box-readonly': props.readonly,
           'o_box-focused': props.focused,
-          'has-prepend': $slots.prepend,
-          'has-append': $slots.append,
+          'has-prepend': solts.prepend,
+          'has-append': solts.append,
         },
         round.class.value,
       ]"
     >
       <slot></slot>
     </div>
-    <div v-if="$slots.append" class="o_box-append" @mousedown.prevent>
-      <slot :name="slotNames.append"></slot>
+    <div v-if="solts.append" class="o_box-append" @mousedown.prevent>
+      <slot name="append"></slot>
     </div>
   </label>
 </template>
