@@ -7,7 +7,7 @@ import { useInputPassword } from '../../_headless/use-input-password';
 import { useI18n } from '../../locale';
 
 const props = defineProps(inInputProps);
-const solts = defineSlots<{
+const slots = defineSlots<{
   default(): any;
   prefix(): any;
   suffix(): any;
@@ -106,7 +106,7 @@ defineExpose({
     }"
     :for="props.inputId"
   >
-    <div v-if="solts.prefix" class="o_input-prefix" @mousedown.prevent>
+    <div v-if="slots.prefix" class="o_input-prefix" @mousedown.prevent>
       <slot name="prefix"></slot>
     </div>
     <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': autoWidth }" :date-value="mirrorValue">
@@ -126,9 +126,9 @@ defineExpose({
       />
     </div>
 
-    <div v-if="solts.suffix || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
+    <div v-if="slots.suffix || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
       <!-- 自定义图标 -->
-      <span v-if="solts.suffix" class="o_input-suffix-icon">
+      <span v-if="slots.suffix" class="o_input-suffix-icon">
         <slot name="suffix"></slot>
       </span>
       <!--  清除图标 -->
@@ -156,7 +156,7 @@ defineExpose({
         :class="{ 'o_input-limit-error': isOutLengthLimit }"
         v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
-      <span v-if="solts.extra">
+      <span v-if="slots.extra">
         <slot name="extra"></slot>
       </span>
     </div>
