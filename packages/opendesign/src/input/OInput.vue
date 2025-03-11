@@ -99,68 +99,68 @@ onMounted(() => {
 });
 </script>
 <template>
-  <label class="o-input" @mousedown="onMouseDown" :for="inputId">
-    <component
-      :is="
-        h(
-          InBox,
-          {
-            size: props.size,
-            variant: props.variant,
-            color: color,
-            disabled: props.disabled,
-            readonly: props.readonly,
-            round: props.round,
-            focused: isFocus,
-            for: inputId,
-          },
-          {
-            default: () =>
-              h(
-                InInput,
-                {
-                  ref: 'inInputRef',
-                  class: [
-                    'o-input-wrap',
-                    {
-                      'has-suffix': $slots.suffix,
-                      'has-prepend': $slots.prepend,
-                      'has-append': $slots.append,
-                    },
-                  ],
-                  inputId: inputId,
-                  modelValue: formateToString(props.modelValue),
-                  defaultValue: formateToString(props.defaultValue),
-                  ...pick(props, [
-                    'type',
-                    'placeholder',
-                    'disabled',
-                    'readonly',
-                    'clearable',
-                    'format',
-                    'showPasswordEvent',
-                    'validate',
-                    'valueOnInvalidChange',
-                    'autoWidth',
-                    'maxLength',
-                    'minLength',
-                    'getLength',
-                    'inputOnOutlimit',
-                  ]),
-                  onChange: onChange,
-                  onInput: onInput,
-                  onFocus: onFocus,
-                  onBlur: onBlur,
-                  onPressEnter: onPressEnter,
-                  onClear: onClear,
-                  'onUpdate:modelValue': onUpdatedModelValue,
-                },
-                pick($slots, ['extra', 'prefix', 'suffix'])
-              ),
-            ...pick($slots, ['append', 'prepend']),
-          }
-        )
-      "
-    />
-  </label>
+  <component
+    :is="
+      h(
+        InBox,
+        {
+          class: 'o-input',
+          size: props.size,
+          variant: props.variant,
+          color: color,
+          disabled: props.disabled,
+          readonly: props.readonly,
+          round: props.round,
+          focused: isFocus,
+          for: inputId,
+          onMousedown: onMouseDown,
+        },
+        {
+          default: () =>
+            h(
+              InInput,
+              {
+                ref: 'inInputRef',
+                class: [
+                  'o-input-wrap',
+                  {
+                    'has-suffix': $slots.suffix,
+                    'has-prepend': $slots.prepend,
+                    'has-append': $slots.append,
+                  },
+                ],
+                inputId: inputId,
+                modelValue: formateToString(props.modelValue),
+                defaultValue: formateToString(props.defaultValue),
+                ...pick(props, [
+                  'type',
+                  'placeholder',
+                  'disabled',
+                  'readonly',
+                  'clearable',
+                  'format',
+                  'showPasswordEvent',
+                  'validate',
+                  'valueOnInvalidChange',
+                  'autoWidth',
+                  'maxLength',
+                  'minLength',
+                  'getLength',
+                  'inputOnOutlimit',
+                ]),
+                onChange: onChange,
+                onInput: onInput,
+                onFocus: onFocus,
+                onBlur: onBlur,
+                onPressEnter: onPressEnter,
+                onClear: onClear,
+                'onUpdate:modelValue': onUpdatedModelValue,
+              },
+              pick($slots, ['extra', 'prefix', 'suffix'])
+            ),
+          ...pick($slots, ['append', 'prepend']),
+        }
+      )
+    "
+  />
 </template>

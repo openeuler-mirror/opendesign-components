@@ -2,10 +2,10 @@
 @use './var.scss';
 .o_input {
   display: inline-flex;
-  color: var(--input-color, var(--o-color-info1));
+  color: var(--_input-color, var(--o-color-info1));
   cursor: inherit;
   &.is-disabled {
-    color: var(--input-color-disabled, var(--o-color-info4));
+    color: var(--_input-color-disabled, var(--o-color-info4));
   }
 }
 
@@ -29,11 +29,11 @@
   appearance: none;
 
   &::-webkit-input-placeholder {
-    color: var(--input-placeholder, var(--o-color-info4));
+    color: var(--_input-placeholder, var(--o-color-info4));
   }
 
   &:autofill {
-    box-shadow: 0 0 0px 1000px var(--input-bg-color) inset !important;
+    box-shadow: 0 0 0px 1000px var(--_input-bg-color) inset !important;
   }
   .o_input-invalid & {
     text-decoration: line-through;
@@ -134,21 +134,22 @@
   margin-left: 4px;
   right: 8px;
   bottom: 4px;
-  color: var(--input-limit-color, var(--o-color-info4));
-  font-size: var(--input-limit-text-size, var(--o-font_size-tip2));
-  line-height: var(--input-limit-text-height, var(--o-line_height-tip2));
+  color: var(--_input-limit-color, var(--o-color-info4));
+  font-size: var(--_input-limit-text-size, var(--o-font_size-tip2));
+  line-height: var(--_input-limit-text-height, var(--o-line_height-tip2));
   z-index: 0;
   b {
     font-weight: normal;
   }
 }
 .o_input-limit-error > b {
-  color: var(--input-limit-color-error, var(--o-color-danger1));
+  color: var(--_input-limit-color-error, var(--o-color-danger1));
 }
 
 /* auto width */
 .o_input-auto-width {
   width: auto;
+  max-width: 100%;
 }
 
 .o_input-wrap-auto-width {
@@ -164,8 +165,8 @@
     display: inline-block;
     box-sizing: border-box;
     vertical-align: top;
-    min-width: var(--input-min-width, 10px);
-    max-width: var(--input-max-width);
+    min-width: var(--_input-min-width, 10px);
+    max-width: var(--_input-max-width);
   }
   .o_input-input {
     position: absolute;

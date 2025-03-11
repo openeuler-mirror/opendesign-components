@@ -2,9 +2,9 @@
 
 @include respond-to('laptop') {
   .o-input-large {
-    --input-icon-size: var(--o-icon_size-s);
+    --_input-icon-size: var(--o-icon_size-s);
 
-    --input-text-size: var(--o-font_size-tip1);
-    --input-text-height: var(--o-line_height-tip1);
+    --_input-text-size: var(--o-font_size-tip1);
+    --_input-text-height: var(--o-line_height-tip1);
   }
 }
