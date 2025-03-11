@@ -1,16 +1,16 @@
-// .o_input {
-// --input-color
-// --input-color-disabled
-// --input-placeholder
-// --input-bg-color
-// --input-icon-color: var(--o-color-info3);
-// --input-icon-color-hover: var(--o-color-info2);
-// --input-icon-color-disabled: var(--o-color-info4);
-// --input-icon-size
-// --input-limit-color
-// --input-limit-color-error
-// --input-limit-text-size
-// --input-limit-text-height
-// --input-min-width
-// --input-max-width
-// }
+.o_input {
+  --color: var(--input-color, var(--o-color-info1));
+  --color-disabled: var(--input-color-disabled, var(--o-color-info4));
+  --placeholder: var(--input-placeholder, var(--o-color-info4));
+  --bg-color:  var(--input-placeholder, transparent);
+  --icon-color: var(--input-icon-color,var(--o-color-info3)) ;
+  --icon-color-hover:  var(--input-icon-color-hover,var(--o-color-info2)) ;
+  --icon-color-disabled:  var(--input-icon-color-disabled,var(--o-color-info4)) ;
+  --icon-size: var(--input-icon-size, var(--o-icon_size-xs))
+  --limit-color: var(--input-limit-color, var(--o-color-info4));
+  --limit-color-error: var(--input-limit-color-error, var(--o-color-danger1));
+  --limit-text-size: var(--input-limit-text-size, var(--o-font_size-tip2));
+  --limit-text-height: var(--input-limit-text-height, var(--o-line_height-tip2));
+  --min-width: var(--input-min-width, 10px);
+  --max-width: var(--input-max-width);
+}
