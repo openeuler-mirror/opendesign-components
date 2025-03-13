@@ -11,4 +11,19 @@
     --_box-padding: 0 15px;
     --_box-height: var(--o-control_size-l);
   }
+
+  &.o_box-text {
+    &.o_box-success {
+      --input-color: var(--o-color-success1);
+      --input-color-disabled: var(--o-color-success4);
+    }
+    &.o_box-warning {
+      --input-color: var(--o-color-warning1);
+      --input-color-disabled: var(--o-color-warning4);
+    }
+    &.o_box-danger {
+      --input-color: var(--o-color-danger1);
+      --input-color-disabled: var(--o-color-danger4);
+    }
+  }
 }

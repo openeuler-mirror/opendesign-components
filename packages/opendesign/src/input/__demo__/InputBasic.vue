@@ -78,6 +78,13 @@ const check = (val: string) => Boolean(Number(val) % 2);
         <template #append><span style="padding: 0 8px">手机</span></template>
       </OInput>
     </div>
+
+    <div class="row">
+      <OInput v-model="val1" variant="text" placeholder="text + normal" />
+      <OInput v-model="val1" variant="text" placeholder="text + success" color="success" />
+      <OInput v-model="val1" variant="text" placeholder="text + warning" color="warning" />
+      <OInput v-model="val1" variant="text" placeholder="text + danger" color="danger" />
+    </div>
   </section>
   <h4>Size</h4>
   <section>
@@ -118,6 +125,12 @@ const check = (val: string) => Boolean(Number(val) % 2);
       <OInput v-model="val3" variant="solid" placeholder="solid + danger" color="danger" disabled />
     </div>
 
+    <div class="row">
+      <OInput v-model="val3" variant="text" placeholder="text + normal" disabled />
+      <OInput v-model="val3" variant="text" placeholder="text + success" color="success" disabled />
+      <OInput v-model="val3" variant="text" placeholder="text + warning" color="warning" disabled />
+      <OInput v-model="val3" variant="text" placeholder="text + danger" color="danger" disabled />
+    </div>
     <div class="row">
       <OInput v-model="val1" color="normal" variant="solid" placeholder="solid + normal" disabled>
         <template #prepend><span style="padding: 0 8px">+86</span></template>

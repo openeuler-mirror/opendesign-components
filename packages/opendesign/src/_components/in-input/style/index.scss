@@ -4,9 +4,9 @@
   display: inline-flex;
   color: var(--color);
   cursor: inherit;
-  &.is-disabled {
-    color: var(--color-disabled);
-  }
+}
+.o_input-disabled {
+  color: var(--color-disabled);
 }
 
 .o_input-wrap {
