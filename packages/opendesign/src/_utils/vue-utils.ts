@@ -235,5 +235,7 @@ export const isEmptySlot = (slot?: Slot) => {
  */
 export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) {
   const names = Object.values(slotNames);
-  return Object.keys(slots).filter((item) => names.includes(item));
+  const keys = Object.keys(slots);
+  const r = keys.filter((item) => names.includes(item));
+  return r || [];
 }

@@ -21,8 +21,8 @@ setTimeout(() => {
       <OTextarea v-model="val1" auto-size style="max-height: 120px" clearable />
     </div>
     <div>
-      <div>min-height: 200px; min-width: 200px:</div>
-      <OTextarea v-model="val2" auto-size style="min-height: 200px; min-width: 200px" clearable />
+      <div>min-height: 200px; min-width: 200px: max-width: 400px</div>
+      <OTextarea v-model="val2" auto-size style="min-height: 200px; min-width: 200px; max-width: 400px" clearable />
     </div>
   </div>
 </template>

@@ -3,7 +3,6 @@ import { computed, toRefs } from 'vue';
 import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
 import { useInput } from '../../_headless/use-input';
-import { slotNames } from './slot';
 import { useI18n } from '../../locale';
 import { vScrollbar } from '../../scrollbar';
 
@@ -17,6 +16,11 @@ const emits = defineEmits<{
   (e: 'focus', evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
   (e: 'pressEnter', evt: KeyboardEvent): void;
+}>();
+
+const slots = defineSlots<{
+  suffix(): any;
+  prefix(): any;
 }>();
 
 const { t } = useI18n();
@@ -46,7 +50,7 @@ const {
   },
   format: props.format,
   validate: props.validate,
-  onInvalidChange: props.onInvalidChange,
+  valueOnInvalidChange: props.valueOnInvalidChange,
 });
 
 const resizeValue = computed(() => {
@@ -81,7 +85,7 @@ const mirrorValue = computed(() => {
 const scrollbarProps = computed(() => {
   if (props.scrollbar === true) {
     return {
-      showType: 'auto',
+      showType: 'hover',
       size: 'small',
     };
   }
@@ -107,6 +111,9 @@ defineExpose({
     }"
     :for="props.textareaId"
   >
+    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix">
+      <slot name="prefix"></slot>
+    </div>
     <div
       class="o_textarea-wrap"
       :class="{
@@ -132,19 +139,19 @@ defineExpose({
         @blur="handleBlur"
         @input="handleInput"
       ></textarea>
-      <div v-if="isClearable" class="o_textarea-suffix o_textarea-clear" @click="handleClear">
+      <div v-if="isClearable" class="o_textarea-icon o_textarea-clear" @click="handleClear" @mousedown.prevent>
         <IconClose class="o_textarea-clear-icon" />
       </div>
       <div
         v-if="props.maxLength"
-        class="o_textarea-suffix o_textarea-count"
+        class="o_textarea-icon o_textarea-count"
         :class="{ 'o_textarea-count-error': isOutLengthLimit }"
         v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
     </div>
 
-    <div class="o_textarea-extra" @mousedown.prevent v-if="$slots[slotNames.suffix]">
-      <slot :name="slotNames.suffix"></slot>
+    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix">
+      <slot name="suffix"></slot>
     </div>
   </label>
 </template>

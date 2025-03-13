@@ -221,3 +221,16 @@ export function requestImage(src: string) {
     img.src = src;
   });
 }
+
+/**
+ * 从对象中挑选属性
+ */
+export function pick(source: Object, keys: string[]) {
+  const result: Record<string, any> = {};
+  keys.forEach((key) => {
+    if (key in source) {
+      result[key] = source[key as keyof typeof source];
+    }
+  });
+  return result;
+}

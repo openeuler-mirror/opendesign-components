@@ -34,8 +34,8 @@ const format = (val: string) => {
   return `￥${val.replace(/\B(?=(\d{1})+(?!\d))/g, ',')}`;
 };
 
-const onInvalidChange = (currentValue: string, lastValid: string) => {
-  console.log('onInvalidChange:', currentValue, lastValid);
+const valueOnInvalidChange = (currentValue: string, lastValid: string) => {
+  console.log('valueOnInvalidChange:', currentValue, lastValid);
   return lastValid;
 };
 
@@ -67,7 +67,7 @@ const onChange = (currentValue: string, lastValue: string) => {
         clearable
         :max-length="maxLength"
         :format="format"
-        :onInvalidChange="onInvalidChange"
+        :valueOnInvalidChange="valueOnInvalidChange"
         :input-on-outlimit="false"
       />
     </section>

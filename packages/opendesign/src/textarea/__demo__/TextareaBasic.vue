@@ -30,6 +30,13 @@ const onUpdateModelValue = (val: string) => {
       <OTextarea v-model="val3" variant="solid" color="warning" placeholder="warning + solid" />
       <OTextarea v-model="val3" variant="solid" color="danger" placeholder="danger + solid" />
     </div>
+    <div>Text</div>
+    <div class="row">
+      <OTextarea v-model="val3" variant="text" placeholder="normal + text" />
+      <OTextarea v-model="val3" variant="text" color="success" placeholder="success + text" />
+      <OTextarea v-model="val3" variant="text" color="warning" placeholder="warning + text" />
+      <OTextarea v-model="val3" variant="text" color="danger" placeholder="danger + text" />
+    </div>
   </section>
   <h4>Size & Round</h4>
   <div>
@@ -70,6 +77,14 @@ const onUpdateModelValue = (val: string) => {
       <OTextarea v-model="val3" variant="solid" color="success" placeholder="success + solid" disabled />
       <OTextarea v-model="val3" variant="solid" color="warning" placeholder="warning + solid" disabled />
       <OTextarea v-model="val3" variant="solid" color="danger" placeholder="danger + solid" disabled />
+    </div>
+
+    <div>Text</div>
+    <div class="row">
+      <OTextarea v-model="val3" variant="text" placeholder="normal + text" disabled />
+      <OTextarea v-model="val3" variant="text" color="success" placeholder="success + text" disabled />
+      <OTextarea v-model="val3" variant="text" color="warning" placeholder="warning + text" disabled />
+      <OTextarea v-model="val3" variant="text" color="danger" placeholder="danger + text" disabled />
     </div>
   </section>
   <h4>Resize</h4>

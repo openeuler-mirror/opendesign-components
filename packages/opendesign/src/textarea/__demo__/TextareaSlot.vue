@@ -9,11 +9,11 @@ const val1 = ref('');
   <section>
     <div>Outline</div>
     <div class="row">
-      <OTextarea v-model="val1" placeholder="normal + outline" resize="none" clearable style="width: 250px">
-        <template #prepend>
+      <OTextarea v-model="val1" placeholder="normal + outline" clearable style="min-width: 250px" resize="both">
+        <template #prefix>
           <div>#CANN</div>
         </template>
-        <template #append>
+        <template #suffix>
           <div>#指示领域</div>
         </template>
       </OTextarea>

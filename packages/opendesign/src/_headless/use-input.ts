@@ -24,7 +24,7 @@ export interface InputOptionT {
   emits: UseInputEmitsT;
   emitUpdate: (value: string) => void;
   validate?: (value: string) => boolean;
-  onInvalidChange?: (inputValue: string, lastValidInputValue: string) => string;
+  valueOnInvalidChange?: (inputValue: string, lastValidInputValue: string) => string;
   format?: (value: string) => string;
   maxLength?: Ref<number | undefined>;
   minLength?: Ref<number | undefined>;
@@ -36,13 +36,14 @@ export interface InputOptionT {
  * 输入框
  */
 export function useInput(options: InputOptionT) {
-  const { modelValue, defaultValue, format, emits, emitUpdate, validate, onInvalidChange, maxLength, minLength, calculateLength, inputOnOutlimit } = options;
+  const { modelValue, defaultValue, format, emits, emitUpdate, validate, valueOnInvalidChange, maxLength, minLength, calculateLength, inputOnOutlimit } =
+    options;
 
   const formatFn = (v: string) => {
     return isFunction(format) ? format(v) : v;
   };
   const calculateStringLength = (v: string) => {
-    return isFunction(calculateLength) ? calculateLength(v) : v.length;
+    return isFunction(calculateLength) ? calculateLength(v) : v?.length;
   };
 
   const uncontroledValue = ref(defaultValue);
@@ -152,9 +153,9 @@ export function useInput(options: InputOptionT) {
     let validVal = computedValue.value;
     // 值有效性校验
     if (!isValid.value) {
-      if (isFunction(onInvalidChange)) {
-        // 这调用onInvalidChange回调获取对应回调值
-        validVal = onInvalidChange(computedValue.value, lastValidValue);
+      if (isFunction(valueOnInvalidChange)) {
+        // 这调用valueOnInvalidChange回调获取对应回调值
+        validVal = valueOnInvalidChange(computedValue.value, lastValidValue);
         validateValue(validVal);
       } else {
         // 回退到上一次有效值
