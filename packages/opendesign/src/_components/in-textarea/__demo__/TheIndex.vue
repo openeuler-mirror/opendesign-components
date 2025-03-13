@@ -80,8 +80,11 @@ const onChange = (v: string) => {
     <section block>
       <p>auto width:</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable>
+        <template #prefix>
+          <button @click="click">#prefix</button>
+        </template>
         <template #suffix>
-          <button @click="click">123</button>
+          <button @click="click">#suffix</button>
         </template>
       </InTextarea>
     </section>

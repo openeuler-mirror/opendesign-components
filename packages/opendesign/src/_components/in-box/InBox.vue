@@ -11,7 +11,7 @@ const solts = defineSlots<{
 
 const props = defineProps(inBoxProps);
 
-const round = getRoundClass(props, 'in-box');
+const round = getRoundClass(props, '_box');
 </script>
 <template>
   <label

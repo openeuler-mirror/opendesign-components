@@ -1,7 +1,7 @@
 @use '../../../_styles/mixin.scss' as *;
 @use './var.scss';
 .o_textarea {
-  color: inherit;
+  color: var(--color);
   max-width: 100%;
   max-height: inherit;
   min-width: inherit;
@@ -10,6 +10,10 @@
   position: relative;
   display: inline-flex;
   flex-direction: column;
+}
+
+.o_textarea-disabled {
+  color: var(--color-disabled);
 }
 
 .o_textarea-wrap {
@@ -33,11 +37,11 @@
   z-index: 1;
 
   &::-webkit-input-placeholder {
-    color: var(--textarea-placeholder, var(--o-color-info4));
+    color: var(--placeholder, var(--o-color-info4));
   }
 
   &:autofill {
-    box-shadow: 0 0 0px 1000px var(--textarea-bg-color) inset !important;
+    box-shadow: 0 0 0px 1000px var(--bg-color) inset !important;
   }
   .o_textarea-invalid & {
     text-decoration: line-through;
@@ -48,9 +52,6 @@
 }
 .o_textarea-readonly {
   cursor: text;
-}
-.o_textarea-suffix {
-  position: absolute;
 }
 
 .o_textarea-clear {
@@ -65,7 +66,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--textarea-icon-color);
+  color: var(--icon-color);
   cursor: pointer;
   transform: scale(0.5);
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
@@ -75,7 +76,7 @@
 
   @include hoverable {
     &:hover {
-      color: var(--textarea-icon-color-hover);
+      color: var(--icon-color-hover);
     }
   }
 }
@@ -104,24 +105,28 @@
 .o_textarea-limit {
   .o_textarea-textarea {
     // 兼容max()
-    padding-bottom: var(--textarea-limit-text-height, var(--o-line_height-tip2));
-    padding-bottom: max(var(--textarea-limit-text-height, var(--o-line_height-tip2)), var(--padding-v));
+    padding-bottom: var(--limit-text-height);
+    padding-bottom: max(var(--limit-text-height), var(--padding-v));
   }
 }
 
 .o_textarea-count {
   right: 7px;
   bottom: 3px;
-  color: var(--textarea-limit-color, var(--o-color-info4));
-  font-size: var(--textarea-limit-text-size, var(--o-font_size-tip2));
-  line-height: var(--textarea-limit-text-height, var(--o-line_height-tip2));
+  color: var(--limit-color);
+  font-size: var(--limit-text-size);
+  line-height: var(--limit-text-height);
   z-index: 0;
   b {
     font-weight: normal;
   }
 }
 .o_textarea-count-error > b {
-  color: var(--textarea-limit-color-error, var(--o-color-danger1));
+  color: var(--limit-color-error);
+}
+
+.o_textarea-icon {
+  position: absolute;
 }
 
 /* auto size */
@@ -146,8 +151,8 @@
     line-height: inherit;
     display: block;
     box-sizing: border-box;
-    min-height: var(--textarea-min-height, 10px);
-    min-width: var(--textarea-min-width, 10px);
+    min-height: var(--min-height, 10px);
+    min-width: var(--min-width, 10px);
   }
   .o_textarea-textarea {
     position: absolute;
