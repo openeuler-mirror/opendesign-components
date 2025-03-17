@@ -49,12 +49,10 @@
   @include hover {
     .o-scrollbar-x-thumb-bar {
       height: var(--scrollbar-thumb-width-hover);
-      margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
       background-color: var(--scrollbar-thumb-bg-color-hover);
     }
     .o-scrollbar-y-thumb-bar {
       width: var(--scrollbar-thumb-width-hover);
-      margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
       background-color: var(--scrollbar-thumb-bg-color-hover);
     }
     .o-scrollbar-track {
@@ -118,13 +116,16 @@
 }
 .o-scrollbar-y-thumb {
   top: 0;
-  left: 50%;
+  left: 0;
+  right: 0;
   min-height: var(--scrollbar-thumb-min-size);
 }
 .o-scrollbar-x-thumb {
   left: 0;
-  top: 50%;
+  top: 0;
+  bottom: 0;
   min-width: var(--scrollbar-thumb-min-size);
+  display: flex;
 }
 
 .o-scrollbar-x-thumb-bar,
@@ -132,26 +133,24 @@
   background-color: var(--scrollbar-thumb-bg-color);
   border-radius: var(--scrollbar-thumb-radius);
   transition: all var(--o-duration-m1) var(--o-easing-standard-in) var(--scrollbar-delay);
+  margin: auto;
+  &.is-dragging {
+    background-color: var(--scrollbar-thumb-bg-color-hover);
+  }
 }
 .o-scrollbar-x-thumb-bar {
   width: 100%;
   height: var(--scrollbar-thumb-width);
-  margin-top: calc(var(--scrollbar-thumb-width) / -2);
 
   &.is-dragging {
     height: var(--scrollbar-thumb-width-hover);
-    margin-top: calc(var(--scrollbar-thumb-width-hover) / -2);
-    background-color: var(--scrollbar-thumb-bg-color-hover);
   }
 }
 .o-scrollbar-y-thumb-bar {
   width: var(--scrollbar-thumb-width);
-  margin-left: calc(var(--scrollbar-thumb-width) / -2);
   height: 100%;
   &.is-dragging {
     width: var(--scrollbar-thumb-width-hover);
-    margin-left: calc(var(--scrollbar-thumb-width-hover) / -2);
-    background-color: var(--scrollbar-thumb-bg-color-hover);
   }
 }
 
