@@ -21,7 +21,7 @@ const format = (v: string) => {
     min-width: 200px:
     <section>
       <div>
-        <OInput v-model="val2" auto-width style="min-width: 200px" />
+        <OInput v-model="val2" auto-width style="min-width: 200px" :max-length="50" />
       </div>
     </section>
   </div>
