@@ -135,9 +135,6 @@
   }
 }
 
-.o-select-options {
-  overflow: hidden;
-}
 .o-select-option-wrap {
   max-height: var(--option-list-max-height, var(--option-list-max-height-default));
 }
@@ -162,9 +159,13 @@
 .o-select-actions {
   border-top: 1px solid var(--o-color-control4);
 }
+
 // <=pad
 .o-select-options-dlg {
   padding-bottom: 4px;
+  .o-option-list > .o-scrollbar {
+    --scrollbar-y-right: calc(-1 * var(--dlg-edge-gap));
+  }
 }
 
 // 多选
