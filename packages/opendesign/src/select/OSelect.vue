@@ -414,7 +414,7 @@ const onselectDlgOkClick = () => {
           :before-hide="props.beforeOptionsHide"
           @change="onOptionVisibleChange"
         >
-          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" :scrollbar="true">
+          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
             <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
               <slot :name="name"></slot>
             </template>

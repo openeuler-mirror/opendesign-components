@@ -163,7 +163,7 @@
 // <=pad
 .o-select-options-dlg {
   padding-bottom: 4px;
-  .o-option-list > .o-scrollbar {
+  .o-select-options-scrollbar {
     --scrollbar-y-right: calc(-1 * var(--dlg-edge-gap));
   }
 }

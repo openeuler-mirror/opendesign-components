@@ -315,6 +315,7 @@ defineExpose({
     class="o-scrollbar"
     ref="rootRef"
     :class="[
+      props.barClass,
       `o-scrollbar-${props.size}`,
       {
         'o-scrollbar-auto-show': props.showType === 'auto',
