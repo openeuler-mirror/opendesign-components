@@ -14,6 +14,8 @@ export interface DialogActionT {
   label?: string;
   round?: RoundT;
   icon?: Component;
+  disabled?: boolean;
+  loading?: boolean;
   onClick: () => void;
 }
 
