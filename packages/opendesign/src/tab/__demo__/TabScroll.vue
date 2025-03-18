@@ -28,9 +28,25 @@ const tabAdd = () => {
 const tabDelete = (v: string | number) => {
   console.log(v);
 };
+
+let cnt = 0;
+const changeLength = () => {
+  cnt += 1;
+  if (cnt % 2) {
+    tabList[tabList.length - 1].label = 'This is a very very very very very very very very long Text';
+    tabList.push({
+      id: 9,
+      label: 'item 9',
+      content: 'content 9',
+    });
+  } else {
+    tabList[tabList.length - 1].label = 'Text';
+  }
+};
 </script>
 <template>
   <h4>scroll</h4>
+  <div><button @click="changeLength">change name length</button></div>
   <div class="sec">
     <OTab v-model="activeTab3" addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
       <OTabPane v-for="(item, idx) in tabList" :key="item.id" :value="item.id" class="pane" :label="item.label" :closable="idx > 1">
