@@ -363,6 +363,7 @@ const onselectDlgOkClick = () => {
             'is-loading': props.loading,
           }"
           size="small"
+          :scrollbar="false"
           @change="onSelectDlgChange"
         >
           <template v-if="props.optionTitle" #header>
@@ -376,21 +377,23 @@ const onselectDlgOkClick = () => {
               {{ t('select.confirm') }}
             </OButton>
           </template>
-          <SelectOption
-            :size="props.size"
-            :wrap-class="props.optionWrapClass"
-            :loading="props.loading"
-            class="o-select-options-dlg"
-            :option-title="props.optionTitle"
-            :multiple="props.multiple"
-          >
-            <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
-              <slot :name="name"></slot>
-            </template>
+          <template #default>
+            <SelectOption
+              :size="props.size"
+              :wrap-class="props.optionWrapClass"
+              :loading="props.loading"
+              class="o-select-options-dlg"
+              :option-title="props.optionTitle"
+              :multiple="props.multiple"
+            >
+              <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+                <slot :name="name"></slot>
+              </template>
 
-            <!-- option选项单独处理 -->
-            <template #option-target><div ref="optionsRef"></div></template>
-          </SelectOption>
+              <!-- option选项单独处理 -->
+              <template #option-target><div ref="optionsRef"></div></template>
+            </SelectOption>
+          </template>
         </ODialog>
       </template>
       <template v-else>
@@ -411,7 +414,7 @@ const onselectDlgOkClick = () => {
           :before-hide="props.beforeOptionsHide"
           @change="onOptionVisibleChange"
         >
-          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple" :scrollbar="true">
+          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
             <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
               <slot :name="name"></slot>
             </template>

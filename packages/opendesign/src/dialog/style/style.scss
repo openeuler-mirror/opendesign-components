@@ -57,7 +57,7 @@
   overflow: visible;
   min-height: 0;
 
-  .o-scrollbar {
+  > .o-scrollbar {
     --scrollbar-y-right: calc(-1 * var(--dlg-edge-gap));
   }
 }

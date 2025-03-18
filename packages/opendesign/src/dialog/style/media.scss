@@ -122,6 +122,7 @@
 
     --dlg-edge-gap: 16px;
     --dlg-inner-gap: 12px;
+    --dlg-header-gap: 12px;
   }
   @include respond-to('pad_h') {
     --dlg-width: 50%;
