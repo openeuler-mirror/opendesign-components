@@ -103,6 +103,8 @@ defineExpose({
               :size="item.size"
               :round="item.round"
               :icon="item.icon"
+              :loading="item.loading"
+              :disabled="item.disabled"
               @click="item.onClick"
             >
               {{ item.label }}
