@@ -86,7 +86,7 @@ const getOriginStyle = () => {
   }
   return `${ox} ${oy}`;
 };
-const updateOrigin = (el: HTMLElement | null) => {
+const updateOrigin = (_el: HTMLElement | null) => {
   if (props.transitionOrign === 'mouse') {
     initWrapperEl();
     mainStyle.value.transformOrigin = getOriginStyle();

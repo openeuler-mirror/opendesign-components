@@ -5,7 +5,7 @@ import { defineComponent, onMounted, ref } from 'vue';
  */
 export default defineComponent({
   name: 'ClientOnly',
-  setup(props, { slots }) {
+  setup(_props, { slots }) {
     const isMoutned = ref(false);
     onMounted(() => {
       isMoutned.value = true;
