@@ -12,6 +12,21 @@
 
 ---
 
+# 0.0.74
+
+- feat
+
+1. [Input/textarea] onInvalidChange 修改为 valueForInvalid;样式重构;
+2. [scrollbar] scrollbar 新增 barClass 接口，支持自定义类;
+3. [dialog] actions 支持设置 loading、disabled 属性；新增 css 变量--dlg-actions-justify 控制 actions 布局;
+
+- fix
+
+1. [scrollbar] 修复频繁小段滚动时有几率会触发点击滚动轨道事件，导致滚动位置跳变;
+2. [input] 修复 input 无法直接设置宽度问题;
+3. [textarea] 修复 resize 时，文本域框可以调整到小于外容器宽度问题;
+4. [tab] 修复 tab 标题动态变化时，滚动计算不正确问题;
+
 # 0.0.73
 
 - feat
