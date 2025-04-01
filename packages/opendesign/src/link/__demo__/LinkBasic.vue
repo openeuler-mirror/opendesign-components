@@ -65,12 +65,14 @@ const linkConfig: LinkConfigT = {
     </div>
   </section>
   <h4>图标</h4>
-  <section>
+  <section class="icon-vertical">
     <OLink :href="link" :icon="OIconLink" status="primary" size="large" hover-underline>icon-prefix</OLink>
+    <span>The text vertical align: baseline.The text vertical align: baseline</span>
     <OLink :href="link" suffix hover-underline>icon-suffix</OLink>
     <OLink :href="link">
       <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
+    <span>文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline</span>
     <OLink :href="link" hover-underline>
       <template #icon><OIconDone /></template>
       自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
@@ -106,4 +108,8 @@ const linkConfig: LinkConfigT = {
     </div>
   </section>
 </template>
-<style lang="scss"></style>
+<style lang="scss">
+.icon-vertical {
+  gap: 0;
+}
+</style>
