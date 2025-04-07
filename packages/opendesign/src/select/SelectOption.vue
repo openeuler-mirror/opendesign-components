@@ -4,6 +4,7 @@ import { IconLoading } from '../_utils/icons';
 import { OOptionList } from '../option';
 import type { SizeT } from '../_utils/types';
 import slot from './slot';
+import { BaseScrollerPropsT } from '../scrollbar';
 
 interface OptionPropT {
   size?: SizeT;
@@ -13,7 +14,7 @@ interface OptionPropT {
   multiple?: boolean;
 }
 const props = defineProps<OptionPropT>();
-const scrollbarCfg = {
+const scrollbarCfg: Partial<BaseScrollerPropsT> = {
   barClass: 'o-select-options-scrollbar',
   size: 'small',
   showType: 'hover',
