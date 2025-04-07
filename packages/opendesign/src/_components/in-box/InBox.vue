@@ -3,7 +3,7 @@ import { defaultSize } from '../../_utils/global';
 import { inBoxProps } from './types';
 import { getRoundClass } from '../../_utils/style-class';
 
-const solts = defineSlots<{
+defineSlots<{
   default(): any;
   prepend(): any;
   append(): any;
@@ -20,7 +20,7 @@ const round = getRoundClass(props, '_box');
     :style="round.style.value"
     :for="props.for"
   >
-    <div v-if="solts.prepend" class="o_box-prepend" @mousedown.prevent>
+    <div v-if="$slots.prepend?.()" class="o_box-prepend" @mousedown.prevent>
       <slot name="prepend"></slot>
     </div>
     <div
@@ -30,15 +30,15 @@ const round = getRoundClass(props, '_box');
           'o_box-disabled': props.disabled,
           'o_box-readonly': props.readonly,
           'o_box-focused': props.focused,
-          'has-prepend': solts.prepend,
-          'has-append': solts.append,
+          'has-prepend': $slots.prepend,
+          'has-append': $slots.append,
         },
         round.class.value,
       ]"
     >
       <slot></slot>
     </div>
-    <div v-if="solts.append" class="o_box-append" @mousedown.prevent>
+    <div v-if="$slots.append?.()" class="o_box-append" @mousedown.prevent>
       <slot name="append"></slot>
     </div>
   </label>

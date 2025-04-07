@@ -111,7 +111,7 @@ defineExpose({
     }"
     :for="props.textareaId"
   >
-    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix">
+    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix?.()">
       <slot name="prefix"></slot>
     </div>
     <div
@@ -150,7 +150,7 @@ defineExpose({
       ></div>
     </div>
 
-    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix">
+    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix?.()">
       <slot name="suffix"></slot>
     </div>
   </label>
