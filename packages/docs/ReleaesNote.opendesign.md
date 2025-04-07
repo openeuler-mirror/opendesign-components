@@ -12,6 +12,18 @@
 
 ---
 
+# 0.0.75
+
+- feat
+
+1. [popover/opoup] adaptive 接口控制是否自动边缘适配;
+
+- fix
+
+1. [popover/opoup] 修复闪烁问题; #IBXGTT
+2. [textarea] 修复 textarea 高度设置问题; #IBXFY7
+3. [input] 修复 input 样式变量书写错误问题;
+
 # 0.0.74
 
 - feat
