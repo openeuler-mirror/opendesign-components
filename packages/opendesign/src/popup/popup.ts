@@ -402,6 +402,7 @@ export function calcPopupStyle(
     position: fixedPosition,
     popupStyle,
     anchorStyle,
+    isFixed: fixedPosition === position,
   };
 }
 

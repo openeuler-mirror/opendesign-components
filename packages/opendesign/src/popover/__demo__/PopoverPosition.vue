@@ -4,7 +4,8 @@ import { OButton } from '../../button';
 import '../../button/style';
 import { OPopover } from '../index';
 
-const content = 'this is popup content';
+const content =
+  'this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content';
 const btn1 = ref(null);
 const btn2 = ref(null);
 const btn3 = ref(null);
@@ -45,7 +46,7 @@ const btn12 = ref(null);
           <div class="box">LT {{ content }}</div>
         </OPopover>
         <OButton ref="btn5"> LEFT </OButton>
-        <OPopover position="left" :target="btn5">
+        <OPopover position="left" :target="btn5" trigger="click">
           <div class="box">L {{ content }}</div>
         </OPopover>
         <OButton ref="btn6"> LB </OButton>
@@ -93,6 +94,7 @@ const btn12 = ref(null);
 }
 .box {
   height: 60px;
+  // width: 600px;
   display: flex;
   align-items: center;
 }
