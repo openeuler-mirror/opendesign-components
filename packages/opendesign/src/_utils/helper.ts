@@ -1,4 +1,21 @@
 import { isObject, isUndefined, isNull, isPlainObject } from './is';
+export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number = 0, runFirst: boolean = true) {
+  let handler = 0;
+  return (...args: Array<any>) => {
+    if (runFirst) {
+      if (handler === 0) {
+        fn(...args);
+      }
+    }
+    clearTimeout(handler);
+    handler = window.setTimeout(() => {
+      if (!runFirst) {
+        fn(...args);
+      }
+      handler = 0;
+    }, wait);
+  };
+}
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;

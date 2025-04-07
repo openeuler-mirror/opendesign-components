@@ -36,6 +36,7 @@ const updateVisible = (val: boolean) => {
     :disabled="props.disabled"
     :transition="props.transition"
     :adjust-width="props.adjustWidth"
+    :adaptive="props.adaptive"
     :adjust-min-width="props.adjustMinWidth"
     :hide-when-target-invisible="props.hideWhenTargetInvisible"
     :hover-delay="props.hoverDelay"

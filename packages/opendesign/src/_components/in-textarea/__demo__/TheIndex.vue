@@ -42,7 +42,7 @@ const onChange = (v: string) => {
     <div class="block">
       <p>defaultValue: 你好</p>
       <InTextarea
-        class="test-input"
+        class="test-input test-height"
         default-value="你好"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
@@ -78,7 +78,7 @@ const onChange = (v: string) => {
       </InTextarea>
     </div>
     <section block>
-      <p>auto width:</p>
+      <p>auto-size:</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable>
         <template #prefix>
           <button @click="click">#prefix</button>
@@ -89,7 +89,7 @@ const onChange = (v: string) => {
       </InTextarea>
     </section>
     <section block>
-      <p>auto width: max-width: 300px;min-height: 100px; max-height: 200px</p>
+      <p>auto-size: max-width: 300px;min-height: 100px; max-height: 200px</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="max-width: 300px; min-height: 100px; max-height: 200px" clearable>
         <template #suffix>
           <button @click="click">123</button>
@@ -97,7 +97,7 @@ const onChange = (v: string) => {
       </InTextarea>
     </section>
     <section block>
-      <p>auto width: min-width: 100px;min-height: 150px</p>
+      <p>auto-size: min-width: 100px;min-height: 150px</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="min-width: 100px; min-height: 60px; min-height: 150px" clearable />
     </section>
   </div>
@@ -109,5 +109,8 @@ const onChange = (v: string) => {
 }
 .frame {
   width: 240px;
+}
+.test-height {
+  height: 200px;
 }
 </style>

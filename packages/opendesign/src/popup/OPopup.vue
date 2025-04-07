@@ -7,7 +7,7 @@ export default {
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
 import { popupProps, PopupTriggerT } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
-import { throttleRAF } from '../_utils/helper';
+import { throttleRAF, debounce } from '../_utils/helper';
 import { isArray, isFunction } from '../_utils/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
@@ -182,6 +182,7 @@ const updatePopupStyle = () => {
     position,
     anchorStyle: aStyle,
   } = calcPopupStyle(popupRef.value, targetEl, props.position, {
+    adaptive: props.adaptive,
     offset: props.offset,
     edgeOffset: props.edgeOffset,
     anchor: props.anchor,
@@ -189,8 +190,8 @@ const updatePopupStyle = () => {
 
   wrapOrigin.value = getTransformOrigin(position);
   if (pStyle) {
-    popStyle.top = `${Math.round(pStyle.top)}px`;
-    popStyle.left = `${Math.round(pStyle.left)}px`;
+    popStyle.top = `${Math.floor(pStyle.top)}px`;
+    popStyle.left = `${Math.floor(pStyle.left)}px`;
 
     popPosition.value = position;
   }
@@ -198,7 +199,7 @@ const updatePopupStyle = () => {
   if (aStyle) {
     Object.keys(aStyle).forEach((k) => {
       const val = aStyle[k as keyof typeof aStyle];
-      anchorStyle[k as keyof typeof anchorStyle] = `${Math.round(val as number)}px`;
+      anchorStyle[k as keyof typeof anchorStyle] = `${Math.floor(val as number)}px`;
     });
   }
 };
@@ -333,9 +334,9 @@ const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
 /**
  * popup
  */
-const onPopupResize = (en: ResizeObserverEntry) => {
-  return onResize(en, false);
-};
+const onPopupResize = debounce((en: ResizeObserverEntry) => {
+  onResize(en, false);
+}, 100);
 const handleTransitionStart = () => {
   isAnimating.value = true;
 };
