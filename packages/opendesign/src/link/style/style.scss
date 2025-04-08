@@ -64,22 +64,19 @@
   margin-left: var(--link-gap);
 }
 .o-link-prefix, .o-link-suffix {
-  width: var(--link-icon-size, 1em);
   height: var(--link-icon-size, 1em);
   line-height: var(--link-icon-size, 1em);
-  position: relative;
 
   &::before {
     content: 'x';
     visibility: hidden;
     user-select: none;
+    width: 0;
   }
 
   svg {
-    position: absolute;
     font-size: var(--link-icon-size);
-    top: 0;
-    left: 0;
+    flex-shrink: 0;
   }
 }
 .o-link-disabled {

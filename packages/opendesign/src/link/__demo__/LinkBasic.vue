@@ -65,18 +65,45 @@ const linkConfig: LinkConfigT = {
     </div>
   </section>
   <h4>图标</h4>
-  <section class="icon-vertical">
+  <section class="no-gap">
     <OLink :href="link" :icon="OIconLink" status="primary" size="large" hover-underline>icon-prefix</OLink>
-    <span>The text vertical align: baseline.The text vertical align: baseline</span>
+    <span class="color-tip">The text vertical align: baseline.</span>
     <OLink :href="link" suffix hover-underline>icon-suffix</OLink>
     <OLink :href="link">
       <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
-    <span>文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline文字对其方式：baseline</span>
+    <span class="color-tip">文字对其方式：baseline</span>
     <OLink :href="link" hover-underline>
       <template #icon><OIconDone /></template>
       自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
     </OLink>
+  </section>
+  <h4>多个图标-大图标</h4>
+  <section class="no-gap">
+    <span class="color-tip">文字对其方式：baseline</span>
+    <OLink :href="link" hover-underline>
+      <template #icon>
+        <OIconDone />
+        <OIconAdd />
+      </template>
+      多个图标
+      <template #suffix>
+        <OIconAdd />
+        <OIconLink />
+      </template>
+    </OLink>
+    <OLink :href="link" hover-underline size="large">
+      <template #icon>
+        <OIconDone />
+        <OIconAdd />
+      </template>
+      大图标
+      <template #suffix>
+        <OIconAdd />
+        <OIconLink />
+      </template>
+    </OLink>
+    <span class="color-tip">文字对其方式：baseline</span>
   </section>
   <h4>点击事件</h4>
   <section>
@@ -109,7 +136,10 @@ const linkConfig: LinkConfigT = {
   </section>
 </template>
 <style lang="scss">
-.icon-vertical {
+.no-gap {
   gap: 0;
+}
+.color-tip {
+  color: var(--o-color-info4);
 }
 </style>
