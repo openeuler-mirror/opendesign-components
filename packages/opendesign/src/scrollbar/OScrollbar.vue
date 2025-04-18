@@ -131,7 +131,11 @@ const init = () => {
   ro = useResizeObserver();
 
   // 监听滚动元素的尺寸变化，这里无法监听子元素尺寸变化引起的父容器scrollheight变化
-  ro.observe(scrollTargetEl, () => updateScrollbar());
+  ro.observe(scrollTargetEl, updateScrollbar);
+  // 监听scrollTargetEl的子元素，子元素的变化会导致scroll size变化
+  if (scrollTargetEl.children.length === 1 && scrollTargetEl.children[0] instanceof HTMLElement) {
+    ro.observe(scrollTargetEl.children[0], updateScrollbar);
+  }
 
   updateScrollbar();
 
