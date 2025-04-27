@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "0.0.76",
+  "version": "0.0.78",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -30,7 +30,7 @@
     "vue": "^3.3.0"
   },
   "devDependencies": {
-    "@opensig/open-scripts": "workspace:^",
+    "@opensig/open-scripts": "0.0.23",
     "typescript": "~5.8.2",
     "vue-tsc": "2.2.8"
   },
