@@ -41,10 +41,8 @@ const onInput = (e: Event) => {
   formItemInjection?.fieldHandlers.onInput?.();
 };
 
-let clickInside = false;
 const isFocus = ref(false);
 const onFocus = (e: FocusEvent) => {
-  clickInside = false;
   if (isFocus.value) {
     return;
   }
@@ -55,10 +53,6 @@ const onFocus = (e: FocusEvent) => {
 };
 
 const onBlur = (e: FocusEvent) => {
-  if (clickInside) {
-    clickInside = false;
-    return;
-  }
   isFocus.value = false;
   emits('blur', e);
   formItemInjection?.fieldHandlers.onBlur?.();
@@ -77,11 +71,6 @@ const onChange = (value: string) => {
   formItemInjection?.fieldHandlers.onChange?.();
 };
 
-const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== inTextareaRef.value?.inputEl) {
-    clickInside = true;
-  }
-};
 
 const textareaId = ref(props.textareaId);
 onMounted(() => {
@@ -104,8 +93,6 @@ onMounted(() => {
           readonly: props.readonly,
           round: props.round,
           focused: isFocus,
-          for: textareaId,
-          onMousedown: onMouseDown,
         },
         {
           default: () =>

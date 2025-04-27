@@ -14,13 +14,12 @@ const props = defineProps(inBoxProps);
 const round = getRoundClass(props, '_box');
 </script>
 <template>
-  <label
+  <div
     class="o_box"
     :class="[`o_box-${props.color}`, `o_box-${props.variant}`, `o_box-${props.size || defaultSize}`, round.class.value]"
     :style="round.style.value"
-    :for="props.for"
   >
-    <div v-if="$slots.prepend?.()" class="o_box-prepend" @mousedown.prevent>
+    <div v-if="$slots.prepend?.()" class="o_box-prepend">
       <slot name="prepend"></slot>
     </div>
     <div
@@ -38,8 +37,8 @@ const round = getRoundClass(props, '_box');
     >
       <slot></slot>
     </div>
-    <div v-if="$slots.append?.()" class="o_box-append" @mousedown.prevent>
+    <div v-if="$slots.append?.()" class="o_box-append">
       <slot name="append"></slot>
     </div>
-  </label>
+  </div>
 </template>

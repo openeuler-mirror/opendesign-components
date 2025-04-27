@@ -45,10 +45,8 @@ const onInput = (e: Event, value: string) => {
   formItemInjection?.fieldHandlers.onInput?.();
 };
 
-let clickInside = false;
 const isFocus = ref(false);
 const onFocus = (e: FocusEvent) => {
-  clickInside = false;
   if (isFocus.value) {
     return;
   }
@@ -59,10 +57,6 @@ const onFocus = (e: FocusEvent) => {
 };
 
 const onBlur = (e: FocusEvent) => {
-  if (clickInside) {
-    clickInside = false;
-    return;
-  }
   isFocus.value = false;
   emits('blur', e);
   formItemInjection?.fieldHandlers.onBlur?.();
@@ -83,12 +77,6 @@ const onUpdatedModelValue = (value: string) => {
 const onChange = (value: string) => {
   emits('change', value);
   formItemInjection?.fieldHandlers.onChange?.();
-};
-
-const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== inInputRef.value?.inputEl) {
-    clickInside = true;
-  }
 };
 
 const inputId = ref(props.inputId);
@@ -112,8 +100,6 @@ onMounted(() => {
           readonly: props.readonly,
           round: props.round,
           focused: isFocus,
-          for: inputId,
-          onMousedown: onMouseDown,
         },
         {
           default: () =>

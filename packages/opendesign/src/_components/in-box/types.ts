@@ -46,12 +46,6 @@ export const inBoxProps = {
   readonly: {
     type: Boolean,
   },
-  /**
-   * 关联 input
-   */
-  for: {
-    type: String,
-  },
 };
 
 export type InBoxProps = ExtractPropTypes<typeof inBoxProps>;
