@@ -31,6 +31,15 @@ const linkConfig: LinkConfigT = {
     <OLink :href="link" target="_blank">新页签打开的链接</OLink>
     <OLink :href="link" disabled>禁用链接</OLink>
   </section>
+  <h4>段落</h4>
+  <div>
+    昇腾AI产品包含训练和推理产品，主要产品系列<OLink :href="link">普通链接</OLink>如表1所示，昇腾训练产品<OLink :href="link" hover-bg>hover-bg</OLink
+    >同时支持训练和<OLink hover-underline>hover-underline</OLink>推理业务，各个组件<OLink :href="link" disabled>禁用链接</OLink>支持的<OLink color="primary"
+      >primary链接</OLink
+    >产品范围请参见组件<OLink :href="link" hover-underline :icon="OIconDone">
+      自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template> </OLink
+    >对应文档的产品支持列表。
+  </div>
   <h4>样式</h4>
   <section>
     <div class="row">
