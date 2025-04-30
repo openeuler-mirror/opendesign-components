@@ -12,7 +12,7 @@
   --icon-color-hover: var(--textarea-icon-color-hover, var(--o-color-info2));
   --icon-color-disabled: var(--textarea-icon-color-disabled, var(--o-color-info4));
   --limit-color: var(--textarea-limit-color, var(--o-color-info4));
-  --limit-color: var(--textarea-limit-color-error, var(--o-color-danger1));
+  --limit-color-error: var(--textarea-limit-color-error, var(--o-color-danger1));
   --limit-text-size: var(--textarea-limit-text-size, var(--o-font_size-tip2));
   --limit-text-height: var(--textarea-limit-text-height, var(--o-line_height-tip2));
 }
