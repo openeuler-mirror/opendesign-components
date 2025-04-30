@@ -22,9 +22,6 @@
     color: var(--link-color-active);
   }
 }
-.o-link-main {
-  vertical-align: middle;
-}
 .o-link-icon-arrow {
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
 }
@@ -58,19 +55,30 @@
 
 .o-link-prefix {
   display: inline-flex;
-  vertical-align: middle;
   align-items: center;
   margin-right: var(--link-gap);
-  font-size: var(--link-icon-size);
 }
 .o-link-suffix {
   display: inline-flex;
-  vertical-align: middle;
   align-items: center;
   margin-left: var(--link-gap);
-  font-size: var(--link-icon-size);
 }
+.o-link-prefix, .o-link-suffix {
+  height: var(--link-icon-size, 1em);
+  line-height: var(--link-icon-size, 1em);
 
+  &::before {
+    content: 'x';
+    visibility: hidden;
+    user-select: none;
+    width: 0;
+  }
+
+  svg {
+    font-size: var(--link-icon-size);
+    flex-shrink: 0;
+  }
+}
 .o-link-disabled {
   &,
   &:hover,
