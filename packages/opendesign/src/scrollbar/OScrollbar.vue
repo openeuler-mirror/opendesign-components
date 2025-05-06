@@ -118,7 +118,7 @@ const onScroll = () => {
   }
   lastTop = scrollTop;
 };
-
+let childToObserve: HTMLElement | null = null;
 /**
  * 初始化
  */
@@ -134,7 +134,8 @@ const init = () => {
   ro.observe(scrollTargetEl, updateScrollbar);
   // 监听scrollTargetEl的子元素，子元素的变化会导致scroll size变化
   if (scrollTargetEl.children.length === 1 && scrollTargetEl.children[0] instanceof HTMLElement) {
-    ro.observe(scrollTargetEl.children[0], updateScrollbar);
+    childToObserve = scrollTargetEl.children[0];
+    ro.observe(childToObserve, updateScrollbar);
   }
 
   updateScrollbar();
@@ -249,6 +250,9 @@ onUnmounted(() => {
     ro?.unobserve(scrollTargetEl, updateScrollbar);
 
     scrollListenEl?.removeEventListener('scroll', onScroll);
+  }
+  if (childToObserve) {
+    ro?.unobserve(childToObserve, updateScrollbar);
   }
 
   removeWrapperHoverEvent();
