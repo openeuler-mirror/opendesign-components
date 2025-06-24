@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, nextTick } from 'vue';
+import { computed, inject } from 'vue';
 import { collapseItemProps } from './types';
 import { IconChevronRight } from '../_utils/icons';
 import { collapseInjectKey } from './provide';
@@ -15,40 +15,20 @@ const isExpanded = computed(() => {
   }
 
   if (collapseInjection) {
-    return collapseInjection.realValue.value.includes(props.value);
+    return collapseInjection.computedValue.value.includes(props.value);
   }
 
   return false;
 });
 
-const onClick = (ev: Event) => {
-  ev.stopPropagation();
+const onClick = (evt: Event) => {
+  evt.stopPropagation();
 
   if (isUndefined(props.value)) {
     return;
   }
 
-  let set = collapseInjection ? new Set([...collapseInjection.realValue.value]) : new Set([]);
-
-  if (isExpanded.value) {
-    if (collapseInjection?.accordion.value) {
-      set.clear();
-    }
-    set.delete(props.value);
-  } else {
-    if (collapseInjection?.accordion.value) {
-      set.clear();
-    }
-    set.add(props.value);
-  }
-
-  const val = Array.from(set);
-
-  collapseInjection?.updateModelValue(val);
-
-  nextTick(() => {
-    collapseInjection?.onChange(val, ev);
-  });
+  collapseInjection?.handleItemClick(props.value, evt);
 };
 
 // 过渡动画
