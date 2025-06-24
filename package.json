@@ -20,6 +20,7 @@
     "@vitejs/plugin-vue": "catalog:",
     "@vue/eslint-config-typescript": "catalog:",
     "eslint": "catalog:",
-    "eslint-plugin-vue": "catalog:"
+    "eslint-plugin-vue": "catalog:",
+    "typescript": "catalog:"
   }
 }
