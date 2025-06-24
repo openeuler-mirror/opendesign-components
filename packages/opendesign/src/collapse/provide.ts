@@ -1,8 +1,6 @@
 import { InjectionKey, Ref } from 'vue';
 
 export const collapseInjectKey: InjectionKey<{
-  realValue: Ref<Array<string | number>>;
-  accordion: Ref<Boolean>;
-  updateModelValue: (val: Array<string | number>) => void;
-  onChange: (val: Array<string | number>, ev: Event) => void;
+  computedValue: Ref<Array<string | number>>;
+  handleItemClick: (val: string | number, e: Event) => void;
 }> = Symbol('provide-collapse');
