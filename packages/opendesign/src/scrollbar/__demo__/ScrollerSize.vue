@@ -4,6 +4,7 @@ import { OScroller } from '../index';
 import { OPopover } from '../../popover';
 import '../../popover/style';
 const height = ref(200);
+const width = ref(200);
 let d = 1;
 const changeHeight = () => {
   if (height.value > 700) {
@@ -13,7 +14,14 @@ const changeHeight = () => {
   }
   height.value += d * 200;
 };
-
+const changeWidth = () => {
+  if (width.value > 700) {
+    d = -1;
+  } else if (width.value < 300) {
+    d = 1;
+  }
+  width.value += d * 200;
+};
 const mo = new MutationObserver((o, e) => {
   console.log(o, e);
 });
@@ -29,15 +37,16 @@ onMounted(() => {
 });
 </script>
 <template>
-  <h4>高度动态变化</h4>
+  <h4>尺寸动态变化</h4>
   <section>
     <div>
       <h3 @click="changeHeight">高度动态变化 {{ height }}</h3>
+      <h3 @click="changeWidth">宽度动态变化 {{ width }}</h3>
       <OScroller class="container" show-type="always" size="small">
-        <div>
+        <div style="display: flex; width: fit-content;">
           <OPopover>
             <template #target>
-              <div class="section" :style="{ height: `${height}px` }">高度动态变化</div>
+              <div class="section" :style="{ height: `${height}px`, width: `${width}px` }">尺寸动态变化</div>
             </template>
             <div>123</div>
           </OPopover>
@@ -47,17 +56,17 @@ onMounted(() => {
 
     <div>
       <div ref="container" class="box">
-        <div class="section" :style="{ height: `${height}px` }">高度动态变化</div>
+        <div class="section" :style="{ height: `${height}px`, width: `${width}px` }">尺寸动态变化</div>
       </div>
     </div>
   </section>
 </template>
 <style lang="scss" scoped>
 .container {
-  width: 100%;
+  width: 400px;
   height: 300px;
   border: 2px solid rgb(111, 45, 234);
-  box-sizing: border-box;
+  box-sizing: content-box;
 }
 .section {
   height: 75%;
@@ -76,6 +85,7 @@ onMounted(() => {
   }
 }
 .box {
+  width: 400px;
   height: 300px;
   border: 1px solid red;
   overflow: auto;

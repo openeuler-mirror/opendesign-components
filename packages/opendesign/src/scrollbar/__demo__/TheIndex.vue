@@ -3,7 +3,7 @@ import ScrollbarBasic from './ScrollbarBasic.vue';
 import ScrollerBasic from './ScrollerBasic.vue';
 import ScrollbarTarget from './ScrollbarTarget.vue';
 import '../style';
-import ScrollerHeight from './ScrollerHeight.vue';
+import ScrollerSize from './ScrollerSize.vue';
 import ScrollerHooks from './ScrollerHooks.vue';
 import ScrollerBodyDemo from './ScrollerBodyDemo.vue';
 import ScrollbarDirective from './ScrollbarDirective.vue';
@@ -14,7 +14,7 @@ import ScrollbarDirective from './ScrollbarDirective.vue';
     <ScrollerBasic />
     <ScrollerBodyDemo />
     <ScrollbarTarget />
-    <ScrollerHeight />
+    <ScrollerSize />
     <ScrollerHooks />
     <ScrollbarDirective />
   </div>
