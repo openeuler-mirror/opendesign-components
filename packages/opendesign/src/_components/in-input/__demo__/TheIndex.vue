@@ -2,6 +2,7 @@
 import '../style';
 import InInput from '../InInput.vue';
 import { ref } from 'vue';
+
 const inputVal = ref('124567890');
 
 const printEvent = (evt: string, v?: string) => {
@@ -43,6 +44,11 @@ const onChange = (currentValue: string, lastValue: string) => {
   console.log('change:', currentValue, lastValue);
   inputVal.value = currentValue;
 };
+
+const count = ref(1);
+window.setInterval(() => {
+  count.value++;
+}, 1000);
 </script>
 
 <template>
@@ -102,6 +108,14 @@ const onChange = (currentValue: string, lastValue: string) => {
     <section>
       auto width: min-width: 100px
       <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="min-width: 100px" />
+    </section>
+    <section>
+      {{ inputVal }}
+      <InInput class="test-input" v-model="inputVal">
+        <template #suffix>
+          <div>{{ count }}</div>
+        </template>
+      </InInput>
     </section>
   </div>
 </template>
