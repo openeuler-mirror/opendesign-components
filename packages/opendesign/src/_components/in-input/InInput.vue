@@ -52,7 +52,7 @@ const {
   calculateLength: props.getLength,
 });
 
-const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassword({
+const { showPassword, onEyeMouseDown, onEyeClick } = useInputPassword({
   type,
   disabled,
   showPasswordEvent: props.showPasswordEvent,
@@ -153,12 +153,9 @@ defineExpose({
       <div
         v-if="props.type === 'password'"
         class="o_input-eye"
-        @click="onEyeClick"
-        @mousedown.prevent="onEyeMouseDown"
-        @mouseup.prevent="onEyeMouseUp"
-        @touchstart="onEyeMouseDown"
-        @touchend="onEyeMouseUp"
-        @touchcancel="onEyeMouseUp"
+        @click.prevent.stop="onEyeClick"
+        @mousedown.prevent.stop="onEyeMouseDown"
+        @touchstart.stop="onEyeMouseDown"
       >
         <IconEyeOn v-if="showPassword" class="o_input-eye-icon" />
         <IconEyeOff v-else class="o_input-eye-icon" />
