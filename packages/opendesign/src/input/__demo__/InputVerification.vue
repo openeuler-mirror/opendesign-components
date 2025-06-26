@@ -72,7 +72,7 @@ const onInput = (_e: Event, value: string) => {
     <div>
       <OInput v-model="codeValue" @input="onInput" style="width: 200px">
         <template #suffix>
-          <OLink
+          <span
             :color="verifingCode ? 'normal' : 'primary'"
             :loading="sendingCodeRequest"
             tag="button"
@@ -80,7 +80,7 @@ const onInput = (_e: Event, value: string) => {
             @click="sendCode"
           >
             {{ sendLabel }}
-          </OLink>
+          </span>
         </template>
       </OInput>
       <div class="code-verify-result" v-if="codeValid"><IconSuccess class="icon-success" />验证通过</div>

@@ -198,11 +198,12 @@ export function useInput(options: InputOptionT) {
   };
 
   const handleInput = (e: Event) => {
+    const value = (e.target as HTMLInputElement)?.value;
     if (composition.isComposing.value) {
+      // 解决在输入中文时，组件触发onUpdate时,显示值被刷新成输入前的值
+      displayValue.value = value;
       return;
     }
-
-    const value = (e.target as HTMLInputElement)?.value;
 
     if (isAllowedToInput(value)) {
       updateValue(value);
