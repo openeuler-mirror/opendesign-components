@@ -5,6 +5,7 @@ import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
 import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
 import { useI18n } from '../../locale';
+import { isUndefined } from '../../_utils/is';
 
 const props = defineProps(inInputProps);
 const slots = defineSlots<{
@@ -61,7 +62,15 @@ const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassw
 const inputType = ref(props.type);
 
 const togglePassword = (visible?: boolean) => {
-  inputType.value = visible ? 'text' : 'password';
+  if (isUndefined(visible)) {
+    if (inputType.value === 'text') {
+      inputType.value = 'password';
+    } else {
+      inputType.value = 'text';
+    }
+  } else {
+    inputType.value = visible ? 'text' : 'password';
+  }
 };
 
 watchEffect(() => {
