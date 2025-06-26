@@ -2,6 +2,7 @@
 import '../style';
 import '../../option/style';
 
+import InputPopover from './InputPopover.vue';
 import InputBasic from './InputBasic.vue';
 import InputRound from './InputRound.vue';
 
@@ -14,6 +15,7 @@ import InputVerification from './InputVerification.vue';
 </script>
 <template>
   <div class="page-demo">
+    <InputPopover />
     <InputBasic />
     <InputRound />
     <InputSlot />
