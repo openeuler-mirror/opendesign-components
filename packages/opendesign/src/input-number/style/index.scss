@@ -7,12 +7,11 @@
   justify-content: center;
   display: flex;
   cursor: pointer;
-  min-width: var(--box-height);
+  min-width: var(--_box-height);
   font-size: 16px;
   flex-wrap: wrap;
   color: var(--input-number-btn-color);
 }
-
 
 .o-input-number-btn {
   width: 100%;

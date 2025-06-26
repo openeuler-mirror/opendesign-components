@@ -85,6 +85,14 @@ onMounted(() => {
     inputId.value = uniqueId();
   }
 });
+
+defineExpose({
+  focus: () => inInputRef.value?.focus(),
+  blur: () => inInputRef.value?.blur(),
+  clear: () => inInputRef.value?.clear(),
+  inputEl: () => inInputRef.value?.inputEl,
+  togglePassword: () => inInputRef.value?.togglePassword(),
+});
 </script>
 <template>
   <component
