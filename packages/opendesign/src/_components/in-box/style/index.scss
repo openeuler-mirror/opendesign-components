@@ -20,7 +20,6 @@
   background-color: var(--_box-bg-color);
   transition: all var(--o-duration-s) var(--o-easing-standard);
 
-  cursor: pointer;
   @include hover {
     border-color: var(--_box-bd-color-hover);
     background-color: var(--_box-bg-color-hover);
