@@ -75,6 +75,10 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
+const blur = () => {
+  inputEl.value?.blur();
+};
+
 /**
  * 自适应宽度
  */
@@ -89,6 +93,7 @@ const mirrorValue = computed(() => {
 defineExpose({
   inputEl,
   focus,
+  blur,
   clear,
   togglePassword,
 });
