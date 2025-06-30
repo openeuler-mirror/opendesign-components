@@ -32,7 +32,6 @@ const round = getRoundClass(props, '_box');
           'has-prepend': $slots.prepend,
           'has-append': $slots.append,
         },
-        round.class.value,
       ]"
     >
       <slot></slot>

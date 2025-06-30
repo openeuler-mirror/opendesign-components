@@ -4,6 +4,11 @@
 .o-textarea {
   display: inline-flex;
   cursor: text;
+  &.o_box-round-pill {
+    .o_textarea-count {
+      right: 16px;
+    }
+  }
 }
 .o-textarea-textarea {
   min-width: 100%;
