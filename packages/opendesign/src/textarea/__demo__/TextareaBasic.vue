@@ -49,9 +49,9 @@ const onUpdateModelValue = (val: string) => {
       </div>
       <div>round="pill"</div>
       <div class="row" style="align-items: flex-start">
-        <OTextarea v-model="val1" size="small" round="pill" placeholder="small" />
-        <OTextarea v-model="val1" size="medium" resize="both" round="pill" placeholder="medium" />
-        <OTextarea v-model="val1" size="large" round="pill" placeholder="large" />
+        <OTextarea v-model="val1" size="small" round="pill" placeholder="small" :max-length="10" />
+        <OTextarea v-model="val1" size="medium" resize="both" round="pill" placeholder="medium" :max-length="10" />
+        <OTextarea v-model="val1" size="large" round="pill" placeholder="large" :max-length="10" />
       </div>
       <div>round="12px"</div>
       <div class="row" style="align-items: flex-start">
