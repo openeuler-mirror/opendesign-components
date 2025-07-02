@@ -5,9 +5,11 @@ import '../../option/style';
 import TextareaBasic from './TextareaBasic.vue';
 import TextareaAutoHeight from './TextareaAutoHeight.vue';
 import TextareaSlot from './TextareaSlot.vue';
+import TextareaEvent from './TextareaEvent.vue';
 </script>
 <template>
   <div class="page-demo">
+    <TextareaEvent />
     <TextareaBasic />
     <TextareaAutoHeight />
     <TextareaSlot />

@@ -71,12 +71,18 @@ const onChange = (value: string) => {
   formItemInjection?.fieldHandlers.onChange?.();
 };
 
-
 const textareaId = ref(props.textareaId);
 onMounted(() => {
   if (!textareaId.value) {
     textareaId.value = uniqueId();
   }
+});
+
+defineExpose({
+  focus: () => inTextareaRef.value?.focus(),
+  blur: () => inTextareaRef.value?.blur(),
+  clear: () => inTextareaRef.value?.clear(),
+  inputEl: () => inTextareaRef.value?.inputEl,
 });
 </script>
 <template>
