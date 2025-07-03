@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "0.0.78",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",

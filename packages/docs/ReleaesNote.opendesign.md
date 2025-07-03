@@ -12,23 +12,39 @@
 
 ---
 
+# 1.0.0
+
+- feat
+
+1. [scrollbar] 支持监听内部唯一子元素尺寸改变
+2. [collapse] 重构 Collapse，支持受控模式
+3. [input] 新增对外接口：focus，blur，clear，togglePassword，inputEl
+4. [textarea] 新增暴露 focus、blur、clear 接口;
+
+- fix
+
+1. [input] 阻止点击眼睛图标的事件冒泡，修复密码框在切换显示密码时，与外层 popover 显示逻辑冲突问题；
+2. [textarea] 修复 limit 样式错误；limit 文本在圆角为 pill 时文本溢出问题；
+3. [input/textarea] 修复 OInput 及 OTextarea 在发送验证码读秒等场景中，无法使用输入法输入中文内容的 bug
+4. [link] 保证基线对其的情况下实现图标对齐
+5. [input-number] 修复按钮宽度
+6. [figure] 优化默认播放图标
+
 # 0.0.78
 
 - fix
 
-1. [common] 使用线上@opensig/open-scripts进行构建
+1. [common] 使用线上@opensig/open-scripts 进行构建
 
 # 0.0.77
 
 - 无
 
-
 # 0.0.76
 
 - fix
 
-1. [input/textarea] 修复点击清除按钮后，再点击其他区域无法失焦的问题；修复点击prepend和append区域无法触发失焦的问题
-
+1. [input/textarea] 修复点击清除按钮后，再点击其他区域无法失焦的问题；修复点击 prepend 和 append 区域无法触发失焦的问题
 
 # 0.0.75
 
