@@ -6,12 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -C packages/portal dev",
-    "dev:ak": "pnpm -C packages/portal-ak dev"
+    "dev:ak": "pnpm -C packages/portal-ak dev",
+    "docs:install": "pnpm i && pnpm -C packages/opendesign build && pnpm -C packages/docs gen:api ",
+    "docs:dev": "pnpm -C packages/docs dev",
+    "docs:build": "pnpm -C packages/docs build"
   },
   "dependencies": {
     "normalize.css": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue-router": "catalog:",
+    "@opensig/opendesign": "workspace:^"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "catalog:",
