@@ -12,7 +12,7 @@ import './ak/theme/k.light.token.css';
 import './ak/theme/k.dark.token.css';
 import './ak/theme/k.media.token.scss';
 
-import '@opensig/opendesign/src/index.scss';
+import '@opendesign-src/index.scss';
 
 import './ak/theme/index.a.scss';
 import './ak/theme/index.k.scss';

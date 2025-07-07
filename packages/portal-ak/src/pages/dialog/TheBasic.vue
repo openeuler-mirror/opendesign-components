@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OButton, ODialog, DialogSizeT, DialogActionT, OPopover } from '@components/index';
+import { OButton, ODialog, DialogSizeT, DialogActionT, OPopover } from '@opendesign-src/index';
 import { reactive, ref } from 'vue';
 
 const values = reactive({

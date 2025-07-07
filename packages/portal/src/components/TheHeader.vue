@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue';
-import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem, useLocale, addLocale, useI18n } from '@opensig/opendesign/src';
-import { OIconAdd } from '@opensig/opendesign/src/icon-components';
-import enUS from '@opensig/opendesign/src/locale/lang/en-us';
+import { initIconLoading, initRound, initSize, ODropdown, ODropdownItem, useLocale, addLocale, useI18n } from '@opendesign-src';
+import { OIconAdd } from '@opendesign-src/icon-components';
+import enUS from '@opendesign-src/locale/lang/en-us';
 
 import '../../../opendesign/src/dropdown/style';
 
-import { useTheme } from '@opensig/opendesign/src';
+import { useTheme } from '@opendesign-src';
 
 const themeInfo = [
   {

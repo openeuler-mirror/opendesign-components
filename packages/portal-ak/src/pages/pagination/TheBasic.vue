@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OPagination } from '@components/index';
+import { OPagination } from '@opendesign-src/index';
 
 const currentPage = ref(1);
 const total = ref(0);

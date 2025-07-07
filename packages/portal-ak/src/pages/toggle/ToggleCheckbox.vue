@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OToggle, OCheckboxGroup, OCheckbox } from '@components/index';
+import { OToggle, OCheckboxGroup, OCheckbox } from '@opendesign-src/index';
 import { ref } from 'vue';
 const checkboxVal = ref([1]);
 </script>

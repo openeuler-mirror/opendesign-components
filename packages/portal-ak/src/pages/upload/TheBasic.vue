@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onAfterSelect, uploadRequest, onBeforeUpload } from './upload';
-import { OUpload, UploadFileT } from '@components/index';
+import { OUpload, UploadFileT } from '@opendesign-src/index';
 
 const defaultFileList2: UploadFileT[] = [
   {

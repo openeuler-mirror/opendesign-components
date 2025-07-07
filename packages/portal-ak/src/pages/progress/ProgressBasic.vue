@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OProgress, OIconWarning, OIconDanger } from '@components/index';
+import { OProgress, OIconWarning, OIconDanger } from '@opendesign-src/index';
 const val1 = ref(0);
 const val2 = ref(30);
 const val3 = ref(100);

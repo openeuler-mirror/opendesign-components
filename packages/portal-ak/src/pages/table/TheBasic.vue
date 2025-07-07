@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OTable } from '@components/index';
+import { OTable } from '@opendesign-src/index';
 import { getTableData } from './data';
 
 const columns1 = [

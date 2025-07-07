@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OCard, OButton, OIconSkill } from '@components/index';
+import { OCard, OButton, OIconSkill } from '@opendesign-src/index';
 
 const cardInfo = {
   href: 'https://www.hikunpeng.com/',

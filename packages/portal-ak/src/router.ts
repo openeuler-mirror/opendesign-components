@@ -25,7 +25,7 @@ export const routes = [
         path: 'icons',
         name: 'Icons',
         label: '图标 Icon',
-        component: () => import('@components/icon/__demo__/TheIndex.vue'),
+        component: () => import('@opendesign-src/icon/__demo__/TheIndex.vue'),
       },
       {
         path: 'button',
@@ -80,7 +80,7 @@ export const routes = [
         path: 'scroller',
         name: 'scroller',
         label: '滚动条 scroller',
-        component: () => import('./pages/scrollbar/TheIndex.vue'),
+        component: () => import('./pages/scroller/TheIndex.vue'),
       },
       {
         path: 'popover',

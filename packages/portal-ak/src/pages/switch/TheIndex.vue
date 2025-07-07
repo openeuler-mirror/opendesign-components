@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OSwitch } from '@components/index';
+import { OSwitch } from '@opendesign-src/index';
 const switchVal1 = ref(true);
 const switchVal2 = ref(true);
 const switchVal3 = ref(false);

@@ -2,7 +2,7 @@
 import { routes } from '@/router';
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { OScroller } from '@components/index';
+import { OScroller } from '@opendesign-src/index';
 
 const router = useRouter();
 const route = useRoute();

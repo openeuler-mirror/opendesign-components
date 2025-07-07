@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ODivider } from '@components/index';
+import { ODivider } from '@opendesign-src/index';
 </script>
 
 <template>

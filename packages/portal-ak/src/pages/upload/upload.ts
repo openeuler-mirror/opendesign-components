@@ -1,4 +1,4 @@
-import { UploadRequestOptionT, UploadFileT } from '@components/index';
+import { UploadRequestOptionT, UploadFileT } from '@opendesign-src/index';
 
 export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
   const files: File[] = [];
