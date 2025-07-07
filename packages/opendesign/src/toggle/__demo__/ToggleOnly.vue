@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OToggle } from '@components/index';
+import { OToggle } from '../../index';
 import { ref } from 'vue';
 const checked1 = ref(true);
 </script>

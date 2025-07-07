@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ORadio } from '@components/index';
+import { ORadio } from '@opendesign-src/index';
 const radioVal = ref(1);
 </script>
 

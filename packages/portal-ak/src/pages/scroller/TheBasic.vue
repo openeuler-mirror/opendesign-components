@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OScroller } from '@components/index';
+import { OScroller } from '@opendesign-src/index';
 import { ref } from 'vue';
 
 const height = ref(300);

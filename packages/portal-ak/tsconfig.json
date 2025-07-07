@@ -20,7 +20,7 @@
       "@/*": [
         "src/*"
       ],
-      "@components/*": [
+      "@opendesign-src/*": [
         "../opendesign/src/*"
       ]
     }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OToggle, ORadioGroup, ORadio } from '@components/index';
+import { OToggle, ORadioGroup, ORadio } from '@opendesign-src/index';
 import { ref } from 'vue';
 const radioVal = ref(1);
 </script>

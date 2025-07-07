@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OInput, OLink, OIconLoading, OSelect, OOption } from '@components/index';
+import { OInput, OLink, OIconLoading, OSelect, OOption } from '@opendesign-src/index';
 import { computed, ref } from 'vue';
 const val = ref('This is detail');
 const val2 = ref('This is detail');

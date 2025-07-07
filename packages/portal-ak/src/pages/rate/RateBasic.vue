@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ORate, OIconStar, OFlex } from '@components/index';
+import { ORate, OIconStar, OFlex } from '@opendesign-src/index';
 </script>
 
 <template>

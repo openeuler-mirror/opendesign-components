@@ -12,6 +12,9 @@
   --app-header-height: 80px;
   --app-footer-height: 316px;
 
+  --message-list-top-offset: calc(var(--app-header-height) + 32px);
+  --message-list-bottom-offset: calc(var(--app-footer-height) + 32px);
+
   @include respond-to('laptop') {
     --app-footer-height: 310px;
   }
@@ -24,6 +27,4 @@
     --app-header-height: 48px;
     --app-footer-height: 200px;
   }
-  --message-list-top-offset: calc(var(--app-header-height) + 32px);
-  --message-list-bottom-offset: calc(var(--app-footer-height) + 32px);
 }

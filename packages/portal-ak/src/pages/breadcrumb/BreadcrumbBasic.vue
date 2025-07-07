@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OBreadcrumb, OBreadcrumbItem } from '@components/index';
+import { OBreadcrumb, OBreadcrumbItem } from '@opendesign-src/index';
 
 const handleClick = () => {
   console.log(1);

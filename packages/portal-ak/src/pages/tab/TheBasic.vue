@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OTab, OTabPane, OIcon, OIconCalendar, OIconAdd } from '@components/index';
+import { OTab, OTabPane, OIcon, OIconCalendar, OIconAdd } from '@opendesign-src/index';
 import { ref } from 'vue';
 
 const tabList = [

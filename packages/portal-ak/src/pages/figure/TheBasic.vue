@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OFigure } from '@components/index';
+import { OFigure } from '@opendesign-src/index';
 
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 const img2 = 'https://www.hikunpeng.com/_static3/7.875f5cf6.jpg';

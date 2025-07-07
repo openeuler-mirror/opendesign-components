@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OFigure, OCarousel, OCarouselItem } from '@components/index';
+import { OFigure, OCarousel, OCarouselItem } from '@opendesign-src/index';
 
 const carouselInfo2 = [
   'https://www.hiascend.com/p/resource/202306/98acd0e9a49245d296514896464dca8d.jpg',

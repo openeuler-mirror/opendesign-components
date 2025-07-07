@@ -5,9 +5,8 @@
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pnpm --filter portal dev",
-    "dev:ak": "pnpm --filter portal-ak dev",
-    "dev:lib": "pnpm --filter @opensig/opendesign dev"
+    "dev": "pnpm -C packages/portal dev",
+    "dev:ak": "pnpm -C packages/portal-ak dev"
   },
   "dependencies": {
     "normalize.css": "catalog:",

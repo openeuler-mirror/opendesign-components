@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OButton, useLoading } from '@components/index';
+import { OButton, useLoading } from '@opendesign-src/index';
 import CLoadingNumber from '@/ak/components/CLoadingNumber.vue';
 
 const box1 = ref();

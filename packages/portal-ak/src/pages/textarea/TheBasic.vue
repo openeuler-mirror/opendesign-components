@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OTextarea } from '@components/index';
+import { OTextarea } from '@opendesign-src/index';
 import { ref } from 'vue';
 const val1 = ref('');
 const val2 = ref('This is detail This is detail This is detail');

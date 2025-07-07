@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ORate } from '@components/index';
+import { ORate } from '@opendesign-src/index';
 
 const rateVal = ref(3);
 
