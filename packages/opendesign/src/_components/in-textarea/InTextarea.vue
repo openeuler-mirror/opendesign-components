@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
-import { formateToString } from '../../_utils/helper';
 import { useInput } from '../../_headless/use-input';
-import { isFunction } from '../../_utils/is';
-import { slotNames } from './slot';
 import { useI18n } from '../../locale';
 import { vScrollbar } from '../../scrollbar';
 
@@ -21,30 +18,39 @@ const emits = defineEmits<{
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
 
+const slots = defineSlots<{
+  suffix(): any;
+  prefix(): any;
+}>();
+
 const { t } = useI18n();
 
-const { format, validate } = toRefs(props);
+const { modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
 
 const {
-  currentValue,
   displayValue,
   clearValue: clear,
   isValid,
+  inputValueLength,
+  isOutLengthLimit,
   handleBlur,
   handleInput,
   handleFocus,
-  handlePressEnter,
   handleClear,
   inputEl,
 } = useInput({
   emits,
-  defaultValue: props.modelValue ?? props.defaultValue ?? '',
+  maxLength,
+  minLength,
+  inputOnOutlimit,
+  modelValue,
+  defaultValue: props.defaultValue ?? '',
   emitUpdate: (value: string) => {
     emits('update:modelValue', value);
   },
-  format,
-  validate,
-  onInvalidChange: props.onInvalidChange,
+  format: props.format,
+  validate: props.validate,
+  valueOnInvalidChange: props.valueOnInvalidChange,
 });
 
 const resizeValue = computed(() => {
@@ -60,17 +66,6 @@ const resizeValue = computed(() => {
   }
 });
 
-// 监听属性变化，刷新值
-watch(
-  () => props.modelValue,
-  (val) => {
-    const value = formateToString(val);
-    if (value !== currentValue.value) {
-      currentValue.value = value;
-    }
-  }
-);
-
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 
@@ -78,30 +73,10 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
-const uId = ref('');
-onMounted(() => {
-  if (inputEl.value) {
-    uId.value = inputEl.value.id;
-  }
-});
+const blur = () => {
+  inputEl.value?.blur();
+};
 
-// 计算当前长度
-const currentLength = computed(() => {
-  if (isFunction(props.getLength)) {
-    return props.getLength(currentValue.value);
-  }
-  return currentValue.value.length ?? 0;
-});
-// 是否超出最大长度限制
-const isOutLengthLimit = computed(() => {
-  if (props.maxLength !== undefined && currentLength.value > props.maxLength) {
-    return true;
-  }
-  if (props.minLength !== undefined && currentLength.value < props.minLength) {
-    return true;
-  }
-  return false;
-});
 /**
  * 自适应高度
  */
@@ -114,7 +89,7 @@ const mirrorValue = computed(() => {
 const scrollbarProps = computed(() => {
   if (props.scrollbar === true) {
     return {
-      showType: 'auto',
+      showType: 'hover',
       size: 'small',
     };
   }
@@ -124,8 +99,8 @@ const scrollbarProps = computed(() => {
 defineExpose({
   inputEl,
   focus,
+  blur,
   clear,
-  uId,
 });
 </script>
 <template>
@@ -139,7 +114,11 @@ defineExpose({
       'o_textarea-auto-size': props.autoSize,
       'o_textarea-limit': props.maxLength,
     }"
+    :for="props.textareaId"
   >
+    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix?.()">
+      <slot name="prefix"></slot>
+    </div>
     <div
       class="o_textarea-wrap"
       :class="{
@@ -150,13 +129,11 @@ defineExpose({
       <textarea
         :id="props.textareaId"
         ref="inputEl"
-        class="o_textarea-textarea"
         :value="displayValue"
+        class="o_textarea-textarea"
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
-        :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
-        :minLength="props.inputOnOutlimit ? '' : props.minLength"
         :rows="props.rows"
         :cols="props.cols"
         :style="{
@@ -166,21 +143,20 @@ defineExpose({
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
-        @keydown="handlePressEnter"
       ></textarea>
-      <div v-if="isClearable" class="o_textarea-suffix o_textarea-clear" @click="handleClear">
+      <div v-if="isClearable" class="o_textarea-icon o_textarea-clear" @click="handleClear" @mousedown.prevent>
         <IconClose class="o_textarea-clear-icon" />
       </div>
       <div
         v-if="props.maxLength"
-        class="o_textarea-suffix o_textarea-count"
+        class="o_textarea-icon o_textarea-count"
         :class="{ 'o_textarea-count-error': isOutLengthLimit }"
-        v-html="t('input.limit', currentLength, props.maxLength)"
+        v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
     </div>
 
-    <div class="o_textarea-extra" @mousedown.prevent v-if="$slots[slotNames.suffix]">
-      <slot :name="slotNames.suffix"></slot>
+    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix?.()">
+      <slot name="suffix"></slot>
     </div>
   </label>
 </template>

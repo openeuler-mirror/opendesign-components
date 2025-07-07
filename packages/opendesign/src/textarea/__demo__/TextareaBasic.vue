@@ -9,8 +9,8 @@ setTimeout(() => {
   // val1.value += '---';
 }, 2000);
 
-const printEvent = (event: string, val?: string | number) => {
-  console.log(`[${event}]`, val);
+const onUpdateModelValue = (val: string) => {
+  val1.value = val.trim();
 };
 </script>
 <template>
@@ -18,8 +18,8 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>Outline</div>
     <div class="row">
-      <OTextarea v-model="val1" placeholder="normal + outline" resize="none" clearable style="width: 250px" />
-      <OTextarea v-model="val1" color="success" placeholder="success + outline" clearable />
+      <OTextarea v-model="val1" placeholder="normal + outline" resize="none" clearable style="width: 250px; height: 200px" />
+      <OTextarea v-model="val1" color="success" placeholder="success + outline" clearable style="min-height: 200px" />
       <OTextarea v-model="val1" color="warning" placeholder="warning + outline" clearable />
       <OTextarea v-model="val1" color="danger" placeholder="danger + outline" clearable />
     </div>
@@ -29,6 +29,13 @@ const printEvent = (event: string, val?: string | number) => {
       <OTextarea v-model="val3" variant="solid" color="success" placeholder="success + solid" />
       <OTextarea v-model="val3" variant="solid" color="warning" placeholder="warning + solid" />
       <OTextarea v-model="val3" variant="solid" color="danger" placeholder="danger + solid" />
+    </div>
+    <div>Text</div>
+    <div class="row">
+      <OTextarea v-model="val3" variant="text" placeholder="normal + text" />
+      <OTextarea v-model="val3" variant="text" color="success" placeholder="success + text" />
+      <OTextarea v-model="val3" variant="text" color="warning" placeholder="warning + text" />
+      <OTextarea v-model="val3" variant="text" color="danger" placeholder="danger + text" />
     </div>
   </section>
   <h4>Size & Round</h4>
@@ -42,9 +49,9 @@ const printEvent = (event: string, val?: string | number) => {
       </div>
       <div>round="pill"</div>
       <div class="row" style="align-items: flex-start">
-        <OTextarea v-model="val1" size="small" round="pill" placeholder="small" />
-        <OTextarea v-model="val1" size="medium" resize="both" round="pill" placeholder="medium" />
-        <OTextarea v-model="val1" size="large" round="pill" placeholder="large" />
+        <OTextarea v-model="val1" size="small" round="pill" placeholder="small" :max-length="10" />
+        <OTextarea v-model="val1" size="medium" resize="both" round="pill" placeholder="medium" :max-length="10" />
+        <OTextarea v-model="val1" size="large" round="pill" placeholder="large" :max-length="10" />
       </div>
       <div>round="12px"</div>
       <div class="row" style="align-items: flex-start">
@@ -70,6 +77,14 @@ const printEvent = (event: string, val?: string | number) => {
       <OTextarea v-model="val3" variant="solid" color="success" placeholder="success + solid" disabled />
       <OTextarea v-model="val3" variant="solid" color="warning" placeholder="warning + solid" disabled />
       <OTextarea v-model="val3" variant="solid" color="danger" placeholder="danger + solid" disabled />
+    </div>
+
+    <div>Text</div>
+    <div class="row">
+      <OTextarea v-model="val3" variant="text" placeholder="normal + text" disabled />
+      <OTextarea v-model="val3" variant="text" color="success" placeholder="success + text" disabled />
+      <OTextarea v-model="val3" variant="text" color="warning" placeholder="warning + text" disabled />
+      <OTextarea v-model="val3" variant="text" color="danger" placeholder="danger + text" disabled />
     </div>
   </section>
   <h4>Resize</h4>
@@ -106,6 +121,11 @@ const printEvent = (event: string, val?: string | number) => {
   <section>
     <div>clearable="false"</div>
     <OTextarea v-model="val1" :max-length="10" size="large" :clearable="false" />
+  </section>
+  <h4>beforeInput</h4>
+  <section>
+    <div>输入内容不允许收尾有空格</div>
+    <OTextarea :model-value="val1" :max-length="10" size="large" :clearable="false" @update:model-value="onUpdateModelValue" />
   </section>
 </template>
 <style lang="scss"></style>

@@ -31,6 +31,29 @@ const linkConfig: LinkConfigT = {
     <OLink :href="link" target="_blank">新页签打开的链接</OLink>
     <OLink :href="link" disabled>禁用链接</OLink>
   </section>
+  <h4>段落</h4>
+  <div>
+    昇腾AI产品包含训练<OLink :href="link" hover-underline size="large">
+      <template #icon>
+        <OIconDone />
+        <OIconAdd />
+      </template>
+      大图标
+      <template #suffix>
+        <OIconAdd />
+        <OIconLink />
+      </template> </OLink
+    >和推理产品，主要产品系列<OLink :href="link">普通链接</OLink>如表1所示，昇腾训练产品<OLink :href="link" hover-bg>hover-bg</OLink>同时支持训练和<OLink
+      hover-underline
+      >hover-underline</OLink
+    >推理业务，各个组件<OLink :href="link" disabled>禁用链接</OLink>支持的<OLink color="primary"> primary链接 </OLink>产品范围请参见组件<OLink
+      :href="link"
+      hover-underline
+      :icon="OIconDone"
+    >
+      自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template> </OLink
+    >对应文档的产品支持列表。
+  </div>
   <h4>样式</h4>
   <section>
     <div class="row">
@@ -66,14 +89,44 @@ const linkConfig: LinkConfigT = {
   </section>
   <h4>图标</h4>
   <section>
-    <OLink :href="link" :icon="OIconLink" status="primary" size="large">icon-prefix</OLink>
-    <OLink :href="link" suffix>icon-suffix</OLink>
+    <OLink :href="link" :icon="OIconLink" status="primary" size="large" hover-underline>icon-prefix</OLink>
+    <span class="color-tip">The text vertical align: baseline.</span>
+    <OLink :href="link" suffix hover-underline>icon-suffix</OLink>
     <OLink :href="link">
       <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
     </OLink>
-    <OLink :href="link">
+    <span class="color-tip">文字对其方式：baseline</span>
+    <OLink :href="link" hover-underline>
+      <template #icon><OIconDone /></template>
       自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
     </OLink>
+  </section>
+  <h4>多个图标-大图标</h4>
+  <section>
+    <span class="color-tip">文字对其方式：baseline</span>
+    <OLink :href="link" hover-underline>
+      <template #icon>
+        <OIconDone />
+        <OIconAdd />
+      </template>
+      多个图标
+      <template #suffix>
+        <OIconAdd />
+        <OIconLink />
+      </template>
+    </OLink>
+    <OLink :href="link" hover-underline size="large">
+      <template #icon>
+        <OIconDone />
+        <OIconAdd />
+      </template>
+      大图标
+      <template #suffix>
+        <OIconAdd />
+        <OIconLink />
+      </template>
+    </OLink>
+    <span class="color-tip">文字对其方式：baseline</span>
   </section>
   <h4>点击事件</h4>
   <section>
@@ -95,5 +148,18 @@ const linkConfig: LinkConfigT = {
       <OLink status="primary" @click="onLinkClick">点击弹窗</OLink>
     </OConfigProvider>
   </section>
+  <h4>换行</h4>
+  <section>
+    <div style="width: 200px">
+      <OLink color="success" suffix hover-underline>
+        The Forum gathered experts from various industries, who offered their insight into the smart manufacturing of today and tomorrow and presented success
+        cases.
+      </OLink>
+    </div>
+  </section>
 </template>
-<style lang="scss"></style>
+<style lang="scss">
+.color-tip {
+  color: var(--o-color-info4);
+}
+</style>

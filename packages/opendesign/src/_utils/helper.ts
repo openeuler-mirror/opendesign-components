@@ -1,4 +1,21 @@
 import { isObject, isUndefined, isNull, isPlainObject } from './is';
+export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number = 0, runFirst: boolean = true) {
+  let handler = 0;
+  return (...args: Array<any>) => {
+    if (runFirst) {
+      if (handler === 0) {
+        fn(...args);
+      }
+    }
+    clearTimeout(handler);
+    handler = window.setTimeout(() => {
+      if (!runFirst) {
+        fn(...args);
+      }
+      handler = 0;
+    }, wait);
+  };
+}
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;
@@ -200,4 +217,37 @@ export function formateToString(val: unknown): string {
     return '';
   }
   return String(val);
+}
+
+/**
+ * 使用图片url请求加载图片
+ * @param src s
+ * @returns
+ */
+export function requestImage(src: string) {
+  return new Promise((resolve, reject) => {
+    const onImgLoaded = () => {
+      resolve(src);
+    };
+    const onImgError = (e: Event | string) => {
+      reject(e);
+    };
+    const img = new Image();
+    img.onload = onImgLoaded;
+    img.onerror = onImgError;
+    img.src = src;
+  });
+}
+
+/**
+ * 从对象中挑选属性
+ */
+export function pick(source: Object, keys: string[]) {
+  const result: Record<string, any> = {};
+  keys.forEach((key) => {
+    if (key in source) {
+      result[key] = source[key as keyof typeof source];
+    }
+  });
+  return result;
 }

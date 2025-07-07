@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OMessage } from '@components/index';
+import { OMessage } from '@opendesign-src/index';
 </script>
 
 <template>

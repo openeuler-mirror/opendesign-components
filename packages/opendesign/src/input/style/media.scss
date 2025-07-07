@@ -8,3 +8,16 @@
     --input-text-height: var(--o-line_height-tip1);
   }
 }
+.o-input {
+  @include respond-to('phone') {
+    &.o_box-small {
+      --_box-padding: 0 5px;
+    }
+    &.o_box-medium {
+      --_box-padding: 0 11px;
+    }
+    &.o_box-large {
+      --_box-padding: 0 11px;
+    }
+  }
+}

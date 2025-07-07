@@ -1,41 +1,56 @@
 <script setup lang="ts">
-import { provide, ref, toRef, watch } from 'vue';
+import { provide, ref, computed, nextTick } from 'vue';
 import { collapseProps } from './types';
 import { collapseInjectKey } from './provide';
-import { isArray } from '../_utils/is';
+import { isArray, isArrayEqual } from '../_utils/is';
 
 const props = defineProps(collapseProps);
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: Array<string | number>): void;
-  (e: 'change', val: Array<string | number>, ev: Event): void;
+  (e: 'change', val: Array<string | number>, evt?: Event): void;
 }>();
 
-const realValue = ref(isArray(props.modelValue) ? props.modelValue : props.defaultValue);
+const _innerValue = ref(props.defaultValue);
+const computedValue = computed(() => {
+  const value = props.modelValue ?? _innerValue.value;
+  if (!isArray(value)) {
+    return [value];
+  }
+  return value;
+});
 
-watch(
-  () => props.modelValue,
-  (val) => {
-    if (isArray(val)) {
-      realValue.value = val;
+const handleItemClick = (value: string | number, e: Event) => {
+  let realValue: Array<string | number> = [];
+  if (props.accordion) {
+    if (!computedValue.value.includes(value)) {
+      realValue = [value];
+    }
+  } else {
+    realValue = [...computedValue.value];
+    const idx = realValue.indexOf(value);
+    if (idx > -1) {
+      realValue.splice(idx, 1);
+    } else {
+      realValue.push(value);
     }
   }
-);
-
-const updateModelValue = (val: Array<string | number>) => {
-  realValue.value = val;
-  emits('update:modelValue', val);
+  _innerValue.value = realValue;
+  emits('update:modelValue', realValue);
+  emitChange(realValue, e);
 };
 
-const onChange = (val: Array<string | number>, ev: Event) => {
-  emits('change', val, ev);
+const emitChange = (val: Array<string | number>, e: Event) => {
+  nextTick(() => {
+    if (isArrayEqual(val, computedValue.value)) {
+      emits('change', computedValue.value, e);
+    }
+  });
 };
 
 provide(collapseInjectKey, {
-  realValue,
-  accordion: toRef(props, 'accordion'),
-  updateModelValue,
-  onChange,
+  computedValue,
+  handleItemClick,
 });
 </script>
 

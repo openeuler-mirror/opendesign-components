@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps } from './types';
 
 const props = defineProps(scrollerProps);
-const targetRef = ref<HTMLElement | null>(null);
+const targetRef: Ref<HTMLElement | null> = ref(null);
 
 const scrollTo = (options?: ScrollToOptions | undefined) => {
   if (!targetRef.value) {
@@ -15,6 +15,9 @@ const scrollTo = (options?: ScrollToOptions | undefined) => {
 
 defineExpose({
   scrollTo,
+  getContainerEl() {
+    return targetRef.value;
+  },
 });
 </script>
 

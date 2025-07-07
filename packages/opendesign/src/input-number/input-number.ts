@@ -25,20 +25,6 @@ export function isValidNumber(val?: number, min?: number, max?: number, parse?: 
   return false;
 }
 
-export function getRealValue(val: number, min?: number, max?: number) {
-  let rlt: number = NaN;
-  if (isValidNumber(val, min, max)) {
-    rlt = val;
-    if (min !== undefined) {
-      rlt = rlt < min ? min : rlt;
-    }
-    if (max !== undefined) {
-      rlt = rlt > max ? max : rlt;
-    }
-  }
-  return rlt;
-}
-
 export function correctValue(val: number, lastVal: number, min?: number, max?: number) {
   if (isNumber(val)) {
     if (!isUndefined(max) && val > max) {

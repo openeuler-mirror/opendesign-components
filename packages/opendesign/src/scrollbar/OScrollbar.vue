@@ -3,14 +3,16 @@ import { ref, onUnmounted, watchEffect, toRefs } from 'vue';
 import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollbarProps, ScrollerDirection } from './types';
 import { resolveHtmlElement } from '../_utils/vue-utils';
-import { isPhonePad } from '../_utils/global';
 import { useResizeObserver } from '../hooks/use-resize-observer';
+import { useScreen } from '../hooks';
 
 const ScrollbarClass = {
   container: 'o-scrollbar-container',
 };
 
 const props = defineProps(scrollbarProps);
+
+const { isPhonePad } = useScreen();
 
 // 滚动目标容器
 let scrollTargetEl: HTMLElement | null = null;
@@ -116,7 +118,7 @@ const onScroll = () => {
   }
   lastTop = scrollTop;
 };
-
+let childToObserve: HTMLElement | null = null;
 /**
  * 初始化
  */
@@ -129,7 +131,12 @@ const init = () => {
   ro = useResizeObserver();
 
   // 监听滚动元素的尺寸变化，这里无法监听子元素尺寸变化引起的父容器scrollheight变化
-  ro.observe(scrollTargetEl, () => updateScrollbar());
+  ro.observe(scrollTargetEl, updateScrollbar);
+  // 监听scrollTargetEl的子元素，子元素的变化会导致scroll size变化
+  if (scrollTargetEl.children.length === 1 && scrollTargetEl.children[0] instanceof HTMLElement) {
+    childToObserve = scrollTargetEl.children[0];
+    ro.observe(childToObserve, updateScrollbar);
+  }
 
   updateScrollbar();
 
@@ -244,6 +251,9 @@ onUnmounted(() => {
 
     scrollListenEl?.removeEventListener('scroll', onScroll);
   }
+  if (childToObserve) {
+    ro?.unobserve(childToObserve, updateScrollbar);
+  }
 
   removeWrapperHoverEvent();
   cancelUpdateScrollbarOnIdle();
@@ -313,6 +323,7 @@ defineExpose({
     class="o-scrollbar"
     ref="rootRef"
     :class="[
+      props.barClass,
       `o-scrollbar-${props.size}`,
       {
         'o-scrollbar-auto-show': props.showType === 'auto',

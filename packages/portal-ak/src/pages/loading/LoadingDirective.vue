@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OButton, vLoading, setVLoadingOption } from '@components/index';
+import { OButton, vLoading, setVLoadingOption } from '@opendesign-src/index';
 import CLoadingNumber from '@/ak/components/CLoadingNumber.vue';
 
 const show3 = ref(false);

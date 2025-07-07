@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { OIcon } from '@components/icon';
-import * as OIcons from '@components/icon-components';
-import '@components/style';
-import '@components/icon/style';
+import { OIcon } from '@opendesign-src/icon';
+import * as OIcons from '@opendesign-src/icon-components';
+import '@opendesign-src/style';
+import '@opendesign-src/icon/style';
 import { shallowRef } from 'vue';
 console.log(OIcons);
 

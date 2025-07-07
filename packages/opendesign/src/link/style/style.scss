@@ -5,7 +5,6 @@
   cursor: pointer;
   padding: 0 2px;
   color: var(--link-color);
-  display: inline-flex;
   align-items: center;
   text-decoration: none;
   border: none;
@@ -14,7 +13,7 @@
 
   @include hover {
     color: var(--link-color-hover);
-    .o-link-arrow {
+    .o-link-icon-arrow {
       transform: translate3d(4px, 0, 0);
     }
   }
@@ -23,7 +22,7 @@
     color: var(--link-color-active);
   }
 }
-.o-link-arrow {
+.o-link-icon-arrow {
   transition: transform var(--o-easing-standard) var(--o-duration-m2);
 }
 .o-link-hover-underline {
@@ -54,17 +53,31 @@
   }
 }
 
-.o-link-prefix {
-  display: flex;
-  align-items: center;
-  margin-right: var(--link-gap);
+.o-link-prefix,
+.o-link-suffix {
+  height: var(--link-icon-size, 1em);
+  line-height: var(--link-icon-size, 1em);
   font-size: var(--link-icon-size);
+  display: inline-flex;
+  align-items: center;
+
+  &::before {
+    content: 'x';
+    visibility: hidden;
+    user-select: none;
+    width: 0;
+  }
+
+  .o-svg-icon {
+    flex-shrink: 0;
+  }
+}
+
+.o-link-prefix {
+  margin-right: var(--link-gap);
 }
 .o-link-suffix {
-  display: flex;
-  align-items: center;
   margin-left: var(--link-gap);
-  font-size: var(--link-icon-size);
 }
 
 .o-link-disabled {
@@ -75,7 +88,7 @@
     color: var(--link-color-disabled);
   }
   @include hover {
-    .o-link-arrow {
+    .o-link-icon-arrow {
       transform: translate3d(0, 0, 0);
     }
     .o-link-label {

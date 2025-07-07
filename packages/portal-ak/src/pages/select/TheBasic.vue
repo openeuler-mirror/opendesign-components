@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OSelect, OOption, OIcon, OIconAdd, SelectValueT } from '@components/index';
+import { OSelect, OOption, OIcon, OIconAdd, SelectValueT } from '@opendesign-src/index';
 import { ref } from 'vue';
 const options = [
   { label: '选项 1', value: 0 },

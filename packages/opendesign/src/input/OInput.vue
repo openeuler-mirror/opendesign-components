@@ -1,20 +1,27 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, onMounted, h } from 'vue';
 import { inputProps } from './types';
 import { formItemInjectKey } from '../form/provide';
 import { innerComponentInjectKey } from '../_components/provide';
 
-import { InInput, slotNames } from '../_components/in-input';
-import { InBox, slotNames as boxSlots } from '../_components/in-box';
-import { filterSlots } from '../_utils/vue-utils';
-import { formateToString, uniqueId } from '../_utils/helper';
+import { InInput } from '../_components/in-input';
+import { InBox } from '../_components/in-box';
+import { formateToString, uniqueId, pick } from '../_utils/helper';
 
 const props = defineProps(inputProps);
+
+defineSlots<{
+  default(): any;
+  prepend(): any;
+  append(): any;
+  prefix(): any;
+  suffix(): any;
+}>();
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
+  (e: 'input', evt: Event, value: string): void;
   (e: 'blur', evt: FocusEvent): void;
   (e: 'focus', evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
@@ -25,7 +32,6 @@ const innerComponentInject = inject(innerComponentInjectKey, null);
 const formItemInjection = innerComponentInject?.isInnerInput ? null : inject(formItemInjectKey, null);
 
 const inInputRef = ref<InstanceType<typeof InInput>>();
-const inputId = computed(() => props.inputId || uniqueId());
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
@@ -34,15 +40,13 @@ const color = computed(() => {
   return props.color;
 });
 
-const onInput = (e: Event) => {
-  emits('input', e);
+const onInput = (e: Event, value: string) => {
+  emits('input', e, value);
   formItemInjection?.fieldHandlers.onInput?.();
 };
 
-let clickInside = false;
 const isFocus = ref(false);
 const onFocus = (e: FocusEvent) => {
-  clickInside = false;
   if (isFocus.value) {
     return;
   }
@@ -53,10 +57,6 @@ const onFocus = (e: FocusEvent) => {
 };
 
 const onBlur = (e: FocusEvent) => {
-  if (clickInside) {
-    clickInside = false;
-    return;
-  }
   isFocus.value = false;
   emits('blur', e);
   formItemInjection?.fieldHandlers.onBlur?.();
@@ -79,63 +79,82 @@ const onChange = (value: string) => {
   formItemInjection?.fieldHandlers.onChange?.();
 };
 
-const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== inInputRef.value?.inputEl) {
-    clickInside = true;
+const inputId = ref(props.inputId);
+onMounted(() => {
+  if (!inputId.value) {
+    inputId.value = uniqueId();
   }
-};
+});
+
+defineExpose({
+  focus: () => inInputRef.value?.focus(),
+  blur: () => inInputRef.value?.blur(),
+  clear: () => inInputRef.value?.clear(),
+  inputEl: () => inInputRef.value?.inputEl,
+  togglePassword: () => inInputRef.value?.togglePassword(),
+});
 </script>
 <template>
-  <label class="o-input" @mousedown="onMouseDown" :for="inputId">
-    <InBox
-      :size="props.size"
-      :variant="props.variant"
-      :color="color"
-      :disabled="props.disabled"
-      :readonly="props.readonly"
-      :round="props.round"
-      :focused="isFocus"
-    >
-      <InInput
-        ref="inInputRef"
-        class="o-input-wrap"
-        :class="{
-          'has-suffix': $slots.suffix,
-          'has-prepend': $slots.prepend,
-          'has-append': $slots.append,
-        }"
-        :input-id="inputId"
-        :model-value="formateToString(props.modelValue)"
-        :default-value="formateToString(props.defaultValue)"
-        :type="props.type"
-        :placeholder="props.placeholder"
-        :disabled="props.disabled"
-        :readonly="props.readonly"
-        :clearable="props.clearable"
-        :format="props.format"
-        :show-password-event="props.showPasswordEvent"
-        :validate="props.validate"
-        :onInvalidChange="props.onInvalidChange"
-        :auto-width="props.autoWidth"
-        :max-length="props.maxLength"
-        :min-length="props.minLength"
-        :get-length="props.getLength"
-        :input-on-outlimit="props.inputOnOutlimit"
-        @change="onChange"
-        @input="onInput"
-        @focus="onFocus"
-        @blur="onBlur"
-        @press-enter="onPressEnter"
-        @clear="onClear"
-        @update:model-value="onUpdatedModelValue"
-      >
-        <template v-for="name in filterSlots($slots, slotNames)" #[name]>
-          <slot :name="name"></slot>
-        </template>
-      </InInput>
-      <template v-for="name in filterSlots($slots, boxSlots)" #[name]>
-        <slot :name="name"></slot>
-      </template>
-    </InBox>
-  </label>
+  <component
+    :is="
+      h(
+        InBox,
+        {
+          class: 'o-input',
+          size: props.size,
+          variant: props.variant,
+          color: color,
+          disabled: props.disabled,
+          readonly: props.readonly,
+          round: props.round,
+          focused: isFocus,
+        },
+        {
+          default: () =>
+            h(
+              InInput,
+              {
+                ref: 'inInputRef',
+                class: [
+                  'o-input-wrap',
+                  {
+                    'has-suffix': $slots.suffix,
+                    'has-prepend': $slots.prepend,
+                    'has-append': $slots.append,
+                  },
+                ],
+                inputId: inputId,
+                modelValue: formateToString(props.modelValue),
+                defaultValue: formateToString(props.defaultValue),
+                ...pick(props, [
+                  'type',
+                  'placeholder',
+                  'disabled',
+                  'readonly',
+                  'clearable',
+                  'format',
+                  'showPasswordEvent',
+                  'validate',
+                  'valueOnInvalidChange',
+                  'autoWidth',
+                  'maxLength',
+                  'minLength',
+                  'getLength',
+                  'inputOnOutlimit',
+                ]),
+                onChange: onChange,
+                onInput: onInput,
+                onFocus: onFocus,
+                onBlur: onBlur,
+                onPressEnter: onPressEnter,
+                onClear: onClear,
+                'onUpdate:modelValue': onUpdatedModelValue,
+              },
+              pick($slots, ['extra', 'prefix', 'suffix'])
+            ),
+          ...pick($slots, ['append', 'prepend']),
+        }
+      )
+    "
+  />
 </template>

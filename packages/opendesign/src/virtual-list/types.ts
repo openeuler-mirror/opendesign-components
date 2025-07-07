@@ -1,13 +1,27 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { BaseScrollerPropsT } from '../scrollbar';
 
+export interface RenderIndexInfo {
+  start: number;
+  end: number;
+  visible: number;
+  count: number;
+}
+
 /**
  * 虚拟滚动的子项不能使用margin，会导致总高度计算不准确（无法包含margin）
  */
 
 export const virtualListProps = {
   /**
-   * 列表数据
+   * 默认滚动到第几项
+   */
+  defaultStartIndex: {
+    type: Number,
+    default: 0,
+  },
+  /**
+   * 列表数据，如果数据存在动态追加，需要每一项需包含唯一ID
    */
   list: {
     type: Array<any>,
@@ -21,11 +35,11 @@ export const virtualListProps = {
     type: Number,
   },
   /**
-   * 默认滚动到第几项
+   * 不定高时，每一项的默认高度
    */
-  defaultStartIndex: {
+  defaultItemSize: {
     type: Number,
-    default: 0,
+    default: 80,
   },
   /**
    * 前后预留项，减少滚动式空白

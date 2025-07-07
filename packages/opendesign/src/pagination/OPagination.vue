@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { getPagerList, PagerItemT, getSizeOptions } from './pagination';
 import { OPopover } from '../popover';
 import { OInputNumber } from '../input-number';
@@ -12,132 +12,132 @@ import { OIcon } from '../icon';
 import { OOptionList } from '../option';
 import { useI18n } from '../locale';
 import { OVirtualList } from '../virtual-list';
+import { log } from '../_utils/log';
 
 const props = defineProps(paginationProps);
 
 const round = getRoundClass(props, 'pagination');
 
 const emits = defineEmits<{
-  (e: 'update:pageSize', value: number): void;
-  (e: 'update:page', value: number): void;
-  (e: 'change', value: { page: number; pageSize: number }): void;
+  (e: 'change', newValue: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }): void;
 }>();
 
 const { t } = useI18n();
 
 const simpleLayout = ['pager'];
+const pages = ref<ReturnType<typeof getPagerList>>([]);
+// 每页数据项
+const pageSize = defineModel<number>('pageSize');
 
-let currentPageSize = ref(props.pageSize || props.pageSizes[0]);
-let currentPage = ref(Math.round(props.page));
+// 纠正传入的值
+if (!pageSize.value) {
+  pageSize.value = props.pageSizes[0];
+} else if (!props.pageSizes.includes(pageSize.value)) {
+  log.warn(`pageSize[${pageSize.value}] is not in pageSizes[${props.pageSizes}]! set to first value of pageSizes[${props.pageSizes[0]}]`);
+  pageSize.value = props.pageSizes[0];
+}
+
+const totalPage = computed(() => Math.ceil(props.total / pageSize.value!));
+
+// 当前页码
+const pageVal = defineModel<number>('page');
+
+// 纠正传入的值
+if (!pageVal.value) {
+  pageVal.value = 1;
+}
+
+// 刷新页码列表
+pages.value = getPagerList(totalPage.value, pageVal.value, props.showPageCount);
 
 const pageSizeList = computed(() => {
-  return getSizeOptions(currentPageSize.value, props.pageSizes, t('pagination.countPerPage'));
+  return getSizeOptions(props.pageSizes, t('pagination.countPerPage'), pageSize.value);
 });
 
-const defaultSizeLabel = computed(() => currentPageSize.value + t('pagination.countPerPage'));
+const defaultSizeLabel = computed(() => pageSize.value + t('pagination.countPerPage'));
 
 const layout = computed(() => {
   return props.simple ? simpleLayout : props.layout;
 });
 
-const totalPage = computed(() => Math.ceil(props.total / currentPageSize.value));
-
-const pages = ref(getPagerList(totalPage.value, currentPage.value, props.showPageCount));
-
 watch(
-  () => totalPage.value,
+  () => [totalPage.value, pageVal.value],
   () => {
-    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
+    pages.value = getPagerList(totalPage.value, pageVal.value, props.showPageCount);
   }
 );
 
-const setCurrentPage = (page: number) => {
-  if (isNaN(page)) {
-    return;
+// 处理page和pageSize变化
+const updatePageAndPageSize = (page: number, size: number) => {
+  let changed = false;
+  const oldPage = pageVal.value!;
+  const oldPageSize = pageSize.value!;
+
+  if (pageVal.value !== page) {
+    changed = true;
+    pageVal.value = page;
+  }
+  if (pageSize.value !== size) {
+    changed = true;
+    pageSize.value = size;
   }
 
-  if (page < 1) {
-    currentPage.value = 1;
-  } else if (page > totalPage.value) {
-    currentPage.value = totalPage.value;
-  } else {
-    currentPage.value = page;
+  if (changed) {
+    emits('change', { page, pageSize: size }, { page: oldPage, pageSize: oldPageSize });
   }
-  pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
 };
-
-const updateCurrentPage = (page: number) => {
-  setCurrentPage(page);
-  emits('update:page', currentPage.value);
-  emits('change', {
-    page: currentPage.value,
-    pageSize: currentPageSize.value,
-  });
-};
-
-watch(
-  () => props.page,
-  (val) => {
-    if (val !== currentPage.value) {
-      setCurrentPage(val);
-    }
-  }
-);
 
 const selectPage = (page: number | string) => {
-  updateCurrentPage(page as number);
+  updatePageAndPageSize(Number(page), pageSize.value!);
 };
-
+// 点击页码按钮（Increase：true 上一页、false下一页）
 const clickPageBtn = (Increase: boolean) => {
-  updateCurrentPage(Increase ? currentPage.value + 1 : currentPage.value - 1);
+  updatePageAndPageSize(Increase ? pageVal.value! + 1 : pageVal.value! - 1, pageSize.value!);
 };
-
+// 点击收起的更多箭头
 const moreClick = (more: PagerItemT) => {
   const { value, list } = more;
-  if (!list) {
+  if (!list || typeof value !== 'string') {
     return;
   }
 
   if (value === 'left') {
-    updateCurrentPage(list[list.length - 1]);
+    updatePageAndPageSize(list[list.length - 1], pageSize.value!);
   } else if (value === 'right') {
-    updateCurrentPage(list[0]);
+    updatePageAndPageSize(list[0], pageSize.value!);
   }
+  // 隐藏浮层
+  moreVisible.value[value] = false;
+};
+// 通过输入框指定跳转到某一页
+const goToPage = (val: string | number) => {
+  let v = Math.round(Number(val));
+  if (v < 1 || isNaN(v)) {
+    v = 1;
+  } else if (v > totalPage.value) {
+    v = totalPage.value;
+  }
+  updatePageAndPageSize(v, pageSize.value!);
 };
 
-const goToChange = (val: string | number) => {
-  updateCurrentPage(val as number);
-};
+const selectPageSize = (val: SelectValueT) => {
+  const size = Number(val);
+  if (!size) {
+    return;
+  }
+  const currentIndex = pageSize.value! * (pageVal.value! - 1);
 
-const parseJumperVal = (val: string | number) => {
-  return Math.round(Number(val));
-};
+  const newPage = Math.floor(currentIndex / size!) + 1;
 
-const pageSizeChange = (val: SelectValueT) => {
-  // updateCurrentPage(Number(val));
-  const currentIndex = currentPageSize.value * (currentPage.value - 1);
-  const oldPage = currentPage.value;
-  currentPageSize.value = Number(val);
-  nextTick(() => {
-    currentPage.value = Math.floor(currentIndex / currentPageSize.value) + 1;
-
-    pages.value = getPagerList(totalPage.value, currentPage.value, props.showPageCount);
-
-    if (oldPage !== currentPage.value) {
-      emits('update:page', currentPage.value);
-    }
-    emits('update:pageSize', currentPageSize.value);
-    emits('change', {
-      page: currentPage.value,
-      pageSize: currentPageSize.value,
-    });
-  });
+  updatePageAndPageSize(newPage, size);
 };
 
 const moreVisible = ref<{ left: boolean; right: boolean }>({
   left: false,
   right: false,
 });
+
+// 选择弹层中的页码
 const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   selectPage(item);
 
@@ -145,6 +145,10 @@ const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   if (value === 'left' || value === 'right') {
     moreVisible.value[value] = false;
   }
+};
+
+const validateInput = (value: number) => {
+  return value === Math.round(Number(value));
 };
 
 defineExpose({
@@ -163,12 +167,12 @@ defineExpose({
         <div class="o-pagination-size">
           <OSelect
             v-if="pageSizeList.length > 1"
-            :model-value="currentPageSize"
+            :model-value="pageSize"
             class="o-pagination-select"
             :default-label="defaultSizeLabel"
             :round="props.round"
             :variant="props.variant"
-            @change="pageSizeChange"
+            @change="selectPageSize"
           >
             <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
           </OSelect>
@@ -180,10 +184,10 @@ defineExpose({
         <div
           class="o-pagination-prev"
           :class="{
-            'is-disabled': currentPage === 1,
+            'is-disabled': pageVal === 1,
           }"
           tabindex="-1"
-          @click="() => currentPage !== 1 && clickPageBtn(false)"
+          @click="() => pageVal !== 1 && clickPageBtn(false)"
         >
           <IconChevronLeft />
         </div>
@@ -191,7 +195,7 @@ defineExpose({
           <template v-if="props.simple">
             <div class="o-pagination-simple">
               <OInputNumber
-                :model-value="currentPage"
+                :model-value="pageVal"
                 :clearable="false"
                 class="o-pagination-input"
                 controls="none"
@@ -199,7 +203,9 @@ defineExpose({
                 :max="totalPage"
                 :round="props.round"
                 :variant="props.variant"
-                @change="goToChange"
+                :empty-value="pageVal"
+                :validate="validateInput"
+                @change="goToPage"
               />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
           </template>
@@ -208,7 +214,7 @@ defineExpose({
               v-for="item in pages"
               :key="item.value"
               class="o-pagination-item"
-              :class="{ active: item.value === currentPage }"
+              :class="{ active: item.value === pageVal }"
               tabindex="-1"
               @click="selectPage(item.value)"
             >
@@ -247,7 +253,7 @@ defineExpose({
                   </template>
                 </OOptionList>
                 <template #target>
-                  <span @click="moreClick(item)" class="o-pagination-more-icon-wrap">
+                  <span @click.stop="moreClick(item)" class="o-pagination-more-icon-wrap">
                     <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
                     <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
                   </span>
@@ -259,10 +265,10 @@ defineExpose({
         <div
           class="o-pagination-next"
           :class="{
-            'is-disabled': currentPage === totalPage,
+            'is-disabled': pageVal === totalPage,
           }"
           tabindex="-1"
-          @click="() => currentPage !== totalPage && clickPageBtn(true)"
+          @click="() => pageVal !== totalPage && clickPageBtn(true)"
         >
           <IconChevronRight />
         </div>
@@ -272,15 +278,16 @@ defineExpose({
         <div class="o-pagination-goto">
           <span>{{ t('pagination.goto') }}</span>
           <OInputNumber
-            :model-value="currentPage"
+            :model-value="pageVal"
             class="o-pagination-input"
             controls="none"
             :min="1"
             :max="totalPage"
             :round="props.round"
             :variant="props.variant"
-            :parse="parseJumperVal"
-            @change="goToChange"
+            :validate="validateInput"
+            :empty-value="pageVal"
+            @change="goToPage"
           />
         </div>
       </template>

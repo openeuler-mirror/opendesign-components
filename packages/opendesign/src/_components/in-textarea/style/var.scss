@@ -1,6 +1,18 @@
 .o_textarea {
-  --min-width: var(--textarea-min-width, inherit);
   --padding-v: var(--textarea-padding-v, 8px);
   --padding-h: var(--textarea-padding-h, 16px);
-  --icon-size: var(--textarea-icon-size, 16px);
+  --min-height: var(--textarea-min-height, 10px);
+  --min-width: var(--textarea-min-width, 10px);
+  --color: var(--textarea-color, var(--o-color-info1));
+  --color-disabled: var(--textarea-color-disabled, var(--o-color-info4));
+  --placeholder: var(--textarea-placeholder, var(--o-color-info4));
+  --bg-color: var(--textarea-bg-color);
+  --icon-size: var(--textarea-icon-size, var(--o-icon_size-xs));
+  --icon-color: var(--textarea-icon-color, var(--o-color-info3));
+  --icon-color-hover: var(--textarea-icon-color-hover, var(--o-color-info2));
+  --icon-color-disabled: var(--textarea-icon-color-disabled, var(--o-color-info4));
+  --limit-color: var(--textarea-limit-color, var(--o-color-info4));
+  --limit-color-error: var(--textarea-limit-color-error, var(--o-color-danger1));
+  --limit-text-size: var(--textarea-limit-text-size, var(--o-font_size-tip2));
+  --limit-text-height: var(--textarea-limit-text-height, var(--o-line_height-tip2));
 }

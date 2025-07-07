@@ -92,7 +92,7 @@
   color: var(--o-color-info3);
 }
 .o-form-item-message {
-  padding-top: 4px;
+  padding: var(--form-msg-gap);
   font-size: var(--o-font_size-tip2);
   line-height: var(--o-line_height-tip2);
   color: var(--o-color-info3);

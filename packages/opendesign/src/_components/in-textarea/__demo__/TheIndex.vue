@@ -2,15 +2,18 @@
 import '../style';
 import { InTextarea } from '../index';
 import { ref } from 'vue';
-const inputVal = ref('123');
+
+const inputVal = ref('1234');
 
 const printEvent = (evt: string, v?: string) => {
   console.log(`[${evt}]`, v ?? '', 'value:', inputVal.value);
 };
 
-const disabled = ref(false);
-const toggleDisabled = () => {
-  disabled.value = !disabled.value;
+const maxLength = ref(20);
+const minLength = ref(10);
+const toggle = () => {
+  maxLength.value = 10;
+  minLength.value = 4;
 };
 
 const type = ref<'text' | 'password'>('text');
@@ -24,15 +27,35 @@ const validate = (value: string): boolean => {
 const click = () => {
   alert(123);
 };
+
+const onChange = (v: string) => {
+  inputVal.value = v;
+};
 </script>
 
 <template>
   <div class="page-demo">
     <h3>Basic</h3>
     <div>value: {{ inputVal }}</div>
-    <button @click="toggleDisabled">change disabled</button>
+    <button @click="toggle">change</button>
     <button @click="toggleType">change type</button>
-    <section>
+    <div class="block">
+      <p>defaultValue: 你好</p>
+      <InTextarea
+        class="test-input test-height"
+        default-value="你好"
+        @clear="() => printEvent('clear')"
+        @blur="() => printEvent('blur')"
+        @change="onChange"
+        @input="() => printEvent('input')"
+        @focus="() => printEvent('focus')"
+        @press-enter="() => printEvent('press-enter')"
+        clearable
+        resize="both"
+      />
+    </div>
+    <div class="block">
+      <p>max: {{ maxLength }}; min: {{ minLength }} input-on-outlimit: false</p>
       <InTextarea
         class="test-input"
         v-model="inputVal"
@@ -44,25 +67,29 @@ const click = () => {
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
-        :max-length="20"
-        :min-length="10"
+        :max-length="maxLength"
+        :min-length="minLength"
+        :input-on-outlimit="false"
         resize="both"
       >
         <template #suffix>
           <button @click="click">123</button>
         </template>
       </InTextarea>
-    </section>
+    </div>
     <section block>
-      <p>auto width:</p>
+      <p>auto-size:</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable>
+        <template #prefix>
+          <button @click="click">#prefix</button>
+        </template>
         <template #suffix>
-          <button @click="click">123</button>
+          <button @click="click">#suffix</button>
         </template>
       </InTextarea>
     </section>
     <section block>
-      <p>auto width: max-width: 300px;min-height: 100px; max-height: 200px</p>
+      <p>auto-size: max-width: 300px;min-height: 100px; max-height: 200px</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="max-width: 300px; min-height: 100px; max-height: 200px" clearable>
         <template #suffix>
           <button @click="click">123</button>
@@ -70,7 +97,7 @@ const click = () => {
       </InTextarea>
     </section>
     <section block>
-      <p>auto width: min-width: 100px;min-height: 150px</p>
+      <p>auto-size: min-width: 100px;min-height: 150px</p>
       <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="min-width: 100px; min-height: 60px; min-height: 150px" clearable />
     </section>
   </div>
@@ -82,5 +109,8 @@ const click = () => {
 }
 .frame {
   width: 240px;
+}
+.test-height {
+  height: 200px;
 }
 </style>

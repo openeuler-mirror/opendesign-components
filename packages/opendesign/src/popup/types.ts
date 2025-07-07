@@ -152,6 +152,13 @@ export const popupProps = {
   beforeHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
+  /**
+   * popup是否自适应边缘
+   */
+  adaptive: {
+    type: Boolean,
+    default: true,
+  },
 };
 
 export type PopupPropsT = ExtractPropTypes<typeof popupProps>;

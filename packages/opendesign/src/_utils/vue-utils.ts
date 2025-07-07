@@ -141,13 +141,13 @@ export const getFirstElement = (vn: VNode | VNode[]): HTMLElement | null => {
   return null;
 };
 
-export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) => void; fistElement: Ref<HTMLElement | null> } {
+export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) => void; firstElement: Ref<HTMLElement | null> } {
   let children: VNode[] | null = null;
-  const fistElement = ref<HTMLElement | null>(null);
+  const firstElement: Ref<HTMLElement | null> = ref(null);
 
   onMounted(() => {
     if (children) {
-      fistElement.value = getFirstElement(children);
+      firstElement.value = getFirstElement(children);
     }
   });
   return {
@@ -156,7 +156,7 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
         children = nodes;
       }
     },
-    fistElement,
+    firstElement,
   };
 }
 
@@ -233,7 +233,9 @@ export const isEmptySlot = (slot?: Slot) => {
 /**
  * 过滤插槽
  */
-export const filterSlots = (slots: Slots, slotNames: { [key: string]: string }): string[] => {
+export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) {
   const names = Object.values(slotNames);
-  return Object.keys(slots).filter((item) => names.includes(item));
-};
+  const keys = Object.keys(slots);
+  const r = keys.filter((item) => names.includes(item));
+  return r || [];
+}

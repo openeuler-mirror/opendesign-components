@@ -1,7 +1,6 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { ColorPool } from './helper';
 import { SizeT } from './types';
-import { isClient, isTouchDevice } from './is';
 
 // popup\popover\layer\dialog的初始z-index
 export const defaultZIndex = ref<number>(1000);
@@ -36,25 +35,3 @@ export const mediaPoint = ref<Record<'phone' | 'pad', number>>({
 export function initMediaPoint(point: Record<'phone' | 'pad', number>) {
   mediaPoint.value = point;
 }
-
-// 当前是否为pad
-export const isPadSize = computed(() => {
-  if (isClient) {
-    const { innerWidth } = window;
-    return innerWidth > mediaPoint.value.phone && innerWidth <= mediaPoint.value.pad;
-  }
-  return false;
-});
-
-// 当前是否为手机
-export const isPhoneSize = computed(() => {
-  if (isClient) {
-    const { innerWidth } = window;
-    return innerWidth <= mediaPoint.value.phone;
-  }
-  return false;
-});
-
-export const isPhonePad = computed(() => {
-  return isTouchDevice && (isPadSize.value || isPhoneSize.value);
-});

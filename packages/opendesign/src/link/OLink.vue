@@ -49,7 +49,12 @@ const onClick = (e: MouseEvent) => {
         <component :is="props.icon" />
       </slot>
     </span>
-    <span class="o-link-label"><slot></slot></span>
+    <span class="o-link-main">
+      <span class="o-link-label" v-if="props.hoverUnderline">
+        <slot></slot>
+      </span>
+      <slot v-else></slot>
+    </span>
     <span v-if="$slots.suffix || props.suffix" class="o-link-suffix">
       <slot name="suffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
     </span>

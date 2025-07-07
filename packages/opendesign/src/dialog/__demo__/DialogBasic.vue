@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
 import { ODialog, DialogSizeT, DialogActionT } from '../index';
+import { useScreen } from '../../hooks';
 
+const { isPhonePad } = useScreen();
 const content =
   'This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog This is Dialog';
 const showDlg = ref(false);
@@ -29,13 +31,26 @@ const toggle = (show?: boolean, size: DialogSizeT = 'medium') => {
     showDlg.value = show;
   }
 };
-const dlgAction: DialogActionT[] = [
+
+const size = computed(() => {
+  return isPhonePad.value ? 'small' : 'large';
+});
+
+const clickLoading = ref(false);
+const clickDisabled = ref(false);
+const dlgAction: Ref<DialogActionT[]> = ref([
   {
     id: 'cancel',
     label: '取消',
-    size: 'large',
+    size,
+    variant: 'outline',
+    loading: clickLoading,
     onClick: () => {
       console.log('cancel');
+      clickLoading.value = true;
+      setTimeout(() => {
+        clickLoading.value = false;
+      }, 3000);
       toggle();
     },
   },
@@ -44,13 +59,18 @@ const dlgAction: DialogActionT[] = [
     label: '确认',
     color: 'primary',
     variant: 'solid',
-    size: 'large',
+    size,
+    disabled: clickDisabled,
     onClick: () => {
-      console.log('cancel');
+      console.log('ok');
+      clickDisabled.value = true;
+      setTimeout(() => {
+        clickDisabled.value = false;
+      }, 3000);
       toggle();
     },
   },
-];
+]);
 
 const showDlg2 = ref(false);
 const toggle2 = (show?: boolean) => {
@@ -108,7 +128,7 @@ const onChane = (v: boolean) => {
     <OButton @click="toggle2(true)">Open unmount-on-hide: false</OButton>
     <ODialog v-model:visible="showDlg2" :unmount-on-hide="false" @change="onChane" :actions="dlgAction">
       <template v-if="hasHead" #header>Dialog Title</template>
-      This is Dialog
+      <div style="width: 50vw">{{ content }}</div>
     </ODialog>
   </section>
   <h4>局部弹窗</h4>
@@ -142,7 +162,7 @@ const onChane = (v: boolean) => {
 .dlg-action {
   display: flex;
   gap: 16px;
-  justify-content: flex-end;
+  justify-content: center;
 }
 .wrap {
   height: 75vh;

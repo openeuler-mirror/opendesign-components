@@ -14,7 +14,7 @@ export const routes = [
   {
     path: '/virtual-list',
     name: 'virtual-list',
-    component: () => import('@components/virtual-list/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/virtual-list/__demo__/TheIndex.vue'),
     meta: {
       title: '虚拟滚动',
     },
@@ -22,7 +22,7 @@ export const routes = [
   {
     path: '/in-input',
     name: 'InInput',
-    component: () => import('@components/_components/in-input/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/_components/in-input/__demo__/TheIndex.vue'),
     meta: {
       title: '_输入框',
     },
@@ -30,7 +30,7 @@ export const routes = [
   {
     path: '/in-textarea',
     name: 'InTextarea',
-    component: () => import('@components/_components/in-textarea/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/_components/in-textarea/__demo__/TheIndex.vue'),
     meta: {
       title: '_文本域',
     },
@@ -38,7 +38,7 @@ export const routes = [
   {
     path: '/config-provider',
     name: 'config-provider',
-    component: () => import('@components/config-provider/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/config-provider/__demo__/TheIndex.vue'),
     meta: {
       title: '全局配置 config-provider',
     },
@@ -46,7 +46,7 @@ export const routes = [
   // {
   //   path: '/date-picker',
   //   name: 'DatePicker',
-  //   component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+  //   component: () => import('@opendesign-src/date-picker/__demo__/TheIndex.vue'),
   //   meta: {
   //     title: '日期选择器 DatePicker',
   //   },
@@ -54,7 +54,7 @@ export const routes = [
   {
     path: '/date-picker',
     name: 'DatePicker',
-    component: () => import('@components/date-picker/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/date-picker/__demo__/TheIndex.vue'),
     meta: {
       title: '日期选择器 DatePicker',
     },
@@ -62,7 +62,7 @@ export const routes = [
   {
     path: '/form',
     name: 'Form',
-    component: () => import('@components/form/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/form/__demo__/TheIndex.vue'),
     meta: {
       title: '表单 Form',
     },
@@ -78,7 +78,7 @@ export const routes = [
   {
     path: '/icons',
     name: 'Icons',
-    component: () => import('@components/icon/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/icon/__demo__/TheIndex.vue'),
     meta: {
       title: '图标 Icon',
     },
@@ -86,7 +86,7 @@ export const routes = [
   {
     path: '/button',
     name: 'Button',
-    component: () => import('@components/button/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/button/__demo__/TheIndex.vue'),
     meta: {
       title: '按钮 Button',
     },
@@ -94,7 +94,7 @@ export const routes = [
   {
     path: '/link',
     name: 'Link',
-    component: () => import('@components/link/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/link/__demo__/TheIndex.vue'),
     meta: {
       title: '链接 Link',
     },
@@ -102,7 +102,7 @@ export const routes = [
   {
     path: '/switch',
     name: 'Switch',
-    component: () => import('@components/switch/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/switch/__demo__/TheIndex.vue'),
     meta: {
       title: '开关 Switch',
     },
@@ -110,7 +110,7 @@ export const routes = [
   {
     path: '/popup',
     name: 'Popup',
-    component: () => import('@components/popup/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/popup/__demo__/TheIndex.vue'),
     meta: {
       title: '弹层 Popup',
     },
@@ -118,7 +118,7 @@ export const routes = [
   {
     path: '/popover',
     name: 'Popover',
-    component: () => import('@components/popover/__demo__/IndexPopover.vue'),
+    component: () => import('@opendesign-src/popover/__demo__/IndexPopover.vue'),
     meta: {
       title: '气泡提示 Popover',
     },
@@ -126,7 +126,7 @@ export const routes = [
   {
     path: '/input',
     name: 'Input',
-    component: () => import('@components/input/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/input/__demo__/TheIndex.vue'),
     meta: {
       title: '输入框 Input',
     },
@@ -134,7 +134,7 @@ export const routes = [
   {
     path: '/input-number',
     name: 'InputNumber',
-    component: () => import('@components/input-number/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/input-number/__demo__/TheIndex.vue'),
     meta: {
       title: '数字输入框 InputNumber',
     },
@@ -142,7 +142,7 @@ export const routes = [
   {
     path: '/textarea',
     name: 'Textarea',
-    component: () => import('@components/textarea/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/textarea/__demo__/TheIndex.vue'),
     meta: {
       title: '文本域 Textarea',
     },
@@ -150,7 +150,7 @@ export const routes = [
   {
     path: '/select',
     name: 'Select',
-    component: () => import('@components/select/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/select/__demo__/TheIndex.vue'),
     meta: {
       title: '下拉选择器 Select',
     },
@@ -158,7 +158,7 @@ export const routes = [
   {
     path: '/cascader',
     name: 'Cascader',
-    component: () => import('@components/cascader/__demo__/IndexCascader.vue'),
+    component: () => import('@opendesign-src/cascader/__demo__/IndexCascader.vue'),
     meta: {
       title: '级联选择器 Cascader',
     },
@@ -166,7 +166,7 @@ export const routes = [
   {
     path: '/radio',
     name: 'Radio',
-    component: () => import('@components/radio/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/radio/__demo__/TheIndex.vue'),
     meta: {
       title: '单选框 Radio',
     },
@@ -174,7 +174,7 @@ export const routes = [
   {
     path: '/checkbox',
     name: 'Checkbox',
-    component: () => import('@components/checkbox/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/checkbox/__demo__/TheIndex.vue'),
     meta: {
       title: '多选框 Checkbox',
     },
@@ -182,7 +182,7 @@ export const routes = [
   {
     path: '/tab',
     name: 'Tab',
-    component: () => import('@components/tab/__demo__/IndexTab.vue'),
+    component: () => import('@opendesign-src/tab/__demo__/IndexTab.vue'),
     meta: {
       title: '页签 Tab',
     },
@@ -190,7 +190,7 @@ export const routes = [
   {
     path: '/table',
     name: 'Table',
-    component: () => import('@components/table/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/table/__demo__/TheIndex.vue'),
     meta: {
       title: '表格 Table',
     },
@@ -198,7 +198,7 @@ export const routes = [
   {
     path: '/pagination',
     name: 'Pagination',
-    component: () => import('@components/pagination/__demo__/IndexPagination.vue'),
+    component: () => import('@opendesign-src/pagination/__demo__/IndexPagination.vue'),
     meta: {
       title: '分页 Pagination',
     },
@@ -206,7 +206,7 @@ export const routes = [
   {
     path: '/divider',
     name: 'Divider',
-    component: () => import('@components/divider/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/divider/__demo__/TheIndex.vue'),
     meta: {
       title: '分割线 Divider',
     },
@@ -214,7 +214,7 @@ export const routes = [
   {
     path: '/tag',
     name: 'Tag',
-    component: () => import('@components/tag/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/tag/__demo__/TheIndex.vue'),
     meta: {
       title: '标签 Tag',
     },
@@ -222,7 +222,7 @@ export const routes = [
   {
     path: '/badge',
     name: 'Badge',
-    component: () => import('@components/badge/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/badge/__demo__/TheIndex.vue'),
     meta: {
       title: '徽标 Badge',
     },
@@ -230,7 +230,7 @@ export const routes = [
   {
     path: '/rate',
     name: 'Rate',
-    component: () => import('@components/rate/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/rate/__demo__/TheIndex.vue'),
     meta: {
       title: '评分 Rate',
     },
@@ -238,7 +238,7 @@ export const routes = [
   {
     path: '/breadcrumb',
     name: 'Breadcrumb',
-    component: () => import('@components/breadcrumb/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/breadcrumb/__demo__/TheIndex.vue'),
     meta: {
       title: '面包屑 Breadcrumb',
     },
@@ -246,7 +246,7 @@ export const routes = [
   {
     path: '/menu',
     name: 'Menu',
-    component: () => import('@components/menu/__demo__/IndexMenu.vue'),
+    component: () => import('@opendesign-src/menu/__demo__/IndexMenu.vue'),
     meta: {
       title: '菜单 Menu',
     },
@@ -254,7 +254,7 @@ export const routes = [
   {
     path: '/dropdown',
     name: 'Dropdown',
-    component: () => import('@components/dropdown/__demo__/IndexDropdown.vue'),
+    component: () => import('@opendesign-src/dropdown/__demo__/IndexDropdown.vue'),
     meta: {
       title: '下拉按钮 Dropdown',
     },
@@ -262,7 +262,7 @@ export const routes = [
   {
     path: '/progress',
     name: 'Progress',
-    component: () => import('@components/progress/__demo__/IndexProgress.vue'),
+    component: () => import('@opendesign-src/progress/__demo__/IndexProgress.vue'),
     meta: {
       title: '进度条 Progress',
     },
@@ -270,7 +270,7 @@ export const routes = [
   {
     path: '/layer',
     name: 'Layer',
-    component: () => import('@components/layer/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/layer/__demo__/TheIndex.vue'),
     meta: {
       title: '浮层 Layer',
     },
@@ -278,7 +278,7 @@ export const routes = [
   {
     path: '/dialog',
     name: 'Dialog',
-    component: () => import('@components/dialog/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/dialog/__demo__/TheIndex.vue'),
     meta: {
       title: '对话框 Dialog',
     },
@@ -286,7 +286,7 @@ export const routes = [
   {
     path: '/loading',
     name: 'Loading',
-    component: () => import('@components/loading/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/loading/__demo__/TheIndex.vue'),
     meta: {
       title: '加载 Loading',
     },
@@ -294,7 +294,7 @@ export const routes = [
   {
     path: '/figure',
     name: 'Figure',
-    component: () => import('@components/figure/__demo__/IndexFigure.vue'),
+    component: () => import('@opendesign-src/figure/__demo__/TheIndex.vue'),
     meta: {
       title: '图片 Figure',
     },
@@ -302,7 +302,7 @@ export const routes = [
   {
     path: '/card',
     name: 'Card',
-    component: () => import('@components/card/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/card/__demo__/TheIndex.vue'),
     meta: {
       title: '卡片 Card',
     },
@@ -310,7 +310,7 @@ export const routes = [
   {
     path: '/message',
     name: 'Message',
-    component: () => import('@components/message/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/message/__demo__/TheIndex.vue'),
     meta: {
       title: '消息提示 Message',
     },
@@ -318,7 +318,7 @@ export const routes = [
   {
     path: '/carousel',
     name: 'Carousel',
-    component: () => import('@components/carousel/__demo__/IndexCarousel.vue'),
+    component: () => import('@opendesign-src/carousel/__demo__/IndexCarousel.vue'),
     meta: {
       title: '幻灯片 Carousel',
     },
@@ -326,7 +326,7 @@ export const routes = [
   {
     path: '/grid',
     name: 'Grid',
-    component: () => import('@components/grid/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/grid/__demo__/TheIndex.vue'),
     meta: {
       title: '栅格 Grid',
     },
@@ -334,7 +334,7 @@ export const routes = [
   {
     path: '/result',
     name: 'Result',
-    component: () => import('@components/result/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/result/__demo__/TheIndex.vue'),
     meta: {
       title: '结果 Result',
     },
@@ -342,7 +342,7 @@ export const routes = [
   {
     path: '/scrollbar',
     name: 'Scrollbar',
-    component: () => import('@components/scrollbar/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/scrollbar/__demo__/TheIndex.vue'),
     meta: {
       title: '滚动条 Scrollbar',
     },
@@ -351,7 +351,7 @@ export const routes = [
     exclude: true,
     path: '/scrollbar/body',
     name: 'Scrollbar-body',
-    component: () => import('@components/scrollbar/__demo__/ScrollerBody.vue'),
+    component: () => import('@opendesign-src/scrollbar/__demo__/ScrollerBody.vue'),
     meta: {
       title: '全局滚动条 Scrollbar-body',
     },
@@ -359,7 +359,7 @@ export const routes = [
   {
     path: '/upload',
     name: 'Upload',
-    component: () => import('@components/upload/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/upload/__demo__/TheIndex.vue'),
     meta: {
       title: '上传 Upload',
     },
@@ -367,7 +367,7 @@ export const routes = [
   {
     path: '/toggle',
     name: 'Toggle',
-    component: () => import('@components/toggle/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/toggle/__demo__/TheIndex.vue'),
     meta: {
       title: '选择块 Toggle',
     },
@@ -375,7 +375,7 @@ export const routes = [
   {
     path: '/anchor',
     name: 'Anchor',
-    component: () => import('@components/anchor/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/anchor/__demo__/TheIndex.vue'),
     meta: {
       title: '锚点 Anchor',
     },
@@ -383,7 +383,7 @@ export const routes = [
   {
     path: '/collapse',
     name: 'Collapse',
-    component: () => import('@components/collapse/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/collapse/__demo__/TheIndex.vue'),
     meta: {
       title: '折叠面板 Collapse',
     },
@@ -391,7 +391,7 @@ export const routes = [
   {
     path: '/skeleton',
     name: 'Skeleton',
-    component: () => import('@components/skeleton/__demo__/TheIndex.vue'),
+    component: () => import('@opendesign-src/skeleton/__demo__/TheIndex.vue'),
     meta: {
       title: '骨架屏 Skeleton',
     },
@@ -399,7 +399,7 @@ export const routes = [
   {
     path: '/resize-observer',
     name: 'ResizeObserver',
-    component: () => import('@components/resize-observer/__demo__/IndexResize.vue'),
+    component: () => import('@opendesign-src/resize-observer/__demo__/IndexResize.vue'),
     meta: {
       title: 'Resize监听',
     },
@@ -407,7 +407,7 @@ export const routes = [
   {
     path: '/intersection-observer',
     name: 'IntersectionObserver',
-    component: () => import('@components/intersection-observer/__demo__/IndexIntersection.vue'),
+    component: () => import('@opendesign-src/intersection-observer/__demo__/IndexIntersection.vue'),
     meta: {
       title: 'Intersection监听',
     },
@@ -415,7 +415,7 @@ export const routes = [
   {
     path: '/child-only',
     name: 'ChildOnly',
-    component: () => import('@components/child-only/__demo__/IndexChildOnly.vue'),
+    component: () => import('@opendesign-src/child-only/__demo__/IndexChildOnly.vue'),
     meta: {
       title: '只渲染一个子元素',
     },

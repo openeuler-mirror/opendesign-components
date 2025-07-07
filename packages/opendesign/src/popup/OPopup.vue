@@ -7,17 +7,15 @@ export default {
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
 import { popupProps, PopupTriggerT } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
-import { throttleRAF } from '../_utils/helper';
+import { throttleRAF, debounce } from '../_utils/helper';
 import { isArray, isFunction } from '../_utils/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
-import { useIntersectionObserver } from '../hooks';
-import type { IntersectionListenerT } from '../hooks';
+import { useIntersectionObserver, useScreen } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
 import { resolveHtmlElement } from '../_utils/vue-utils';
-import { isPhonePad } from '../_utils/global';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
 // TODO 处理嵌套
@@ -25,6 +23,9 @@ import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 const props = defineProps(popupProps);
 
 const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
+
+const { isPhonePad } = useScreen();
+
 const triggers = computed<PopupTriggerT[]>(() => {
   const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
   if (isPhonePad.value) {
@@ -41,7 +42,7 @@ let targetEl: HTMLElement | null = null;
 const isTargetInViewport = ref(true);
 
 let wrapperEl: Ref<HTMLElement | null> = ref(null);
-const popupRef = ref<HTMLElement | null>(null);
+const popupRef: Ref<HTMLElement | null> = ref(null);
 const popStyle = reactive<{
   left?: string;
   top?: string;
@@ -181,6 +182,7 @@ const updatePopupStyle = () => {
     position,
     anchorStyle: aStyle,
   } = calcPopupStyle(popupRef.value, targetEl, props.position, {
+    adaptive: props.adaptive,
     offset: props.offset,
     edgeOffset: props.edgeOffset,
     anchor: props.anchor,
@@ -188,8 +190,8 @@ const updatePopupStyle = () => {
 
   wrapOrigin.value = getTransformOrigin(position);
   if (pStyle) {
-    popStyle.top = `${Math.round(pStyle.top)}px`;
-    popStyle.left = `${Math.round(pStyle.left)}px`;
+    popStyle.top = `${Math.floor(pStyle.top)}px`;
+    popStyle.left = `${Math.floor(pStyle.left)}px`;
 
     popPosition.value = position;
   }
@@ -197,14 +199,14 @@ const updatePopupStyle = () => {
   if (aStyle) {
     Object.keys(aStyle).forEach((k) => {
       const val = aStyle[k as keyof typeof aStyle];
-      anchorStyle[k as keyof typeof anchorStyle] = `${Math.round(val as number)}px`;
+      anchorStyle[k as keyof typeof anchorStyle] = `${Math.floor(val as number)}px`;
     });
   }
 };
 
 // 定义变量，避免首次监听与popup默认显示时重复计算
 let oldIntersecting: boolean | null = null;
-const onTargetInterscting: IntersectionListenerT = (entry: IntersectionObserverEntry) => {
+const onTargetInterscting: (entry: IntersectionObserverEntry) => void = (entry: IntersectionObserverEntry) => {
   isTargetInViewport.value = entry.isIntersecting;
 
   if (oldIntersecting !== null && entry.isIntersecting) {
@@ -332,9 +334,9 @@ const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
 /**
  * popup
  */
-const onPopupResize = (en: ResizeObserverEntry) => {
-  return onResize(en, false);
-};
+const onPopupResize = debounce((en: ResizeObserverEntry) => {
+  onResize(en, false);
+}, 100);
 const handleTransitionStart = () => {
   isAnimating.value = true;
 };

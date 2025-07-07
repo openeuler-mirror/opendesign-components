@@ -6,7 +6,7 @@ import { getFirstComponent } from '../_utils/vue-utils';
  */
 export default defineComponent({
   name: 'OChildOnly',
-  setup(props, { slots }) {
+  setup(_props, { slots }) {
     return () => {
       const children = slots.default?.();
 

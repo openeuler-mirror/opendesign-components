@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OBadge } from '@components/index';
+import { OBadge } from '@opendesign-src/index';
 </script>
 
 <template>

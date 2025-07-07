@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OTag } from '@components/index';
+import { OTag } from '@opendesign-src/index';
 const handleClose = () => {
   console.log('close!!!');
 };

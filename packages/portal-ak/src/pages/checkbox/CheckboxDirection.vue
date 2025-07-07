@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OCheckbox, OCheckboxGroup } from '@components/index';
+import { OCheckbox, OCheckboxGroup } from '@opendesign-src/index';
 const checkboxVal1 = ref([1]);
 const checkboxVal2 = ref(['a']);
 </script>

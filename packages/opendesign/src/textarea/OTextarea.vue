@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
-import { defaultSize } from '../_utils/global';
+import { computed, inject, ref, onMounted, h } from 'vue';
 import { textareaProps } from './types';
-import { getRoundClass } from '../_utils/style-class';
 import { formItemInjectKey } from '../form/provide';
 
-import { InTextarea, slotNames } from '../_components/in-textarea';
-import { filterSlots } from '../_utils/vue-utils';
-import { formateToString, uniqueId } from '../_utils/helper';
+import { InBox } from '../_components/in-box';
+import { InTextarea } from '../_components/in-textarea';
+import { formateToString, uniqueId, pick } from '../_utils/helper';
 
 const props = defineProps(textareaProps);
 
@@ -18,10 +16,13 @@ const emits = defineEmits<{
   (e: 'blur', evt: FocusEvent): void;
   (e: 'focus', evt: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
 
-const textareaId = computed(() => props.textareaId || uniqueId());
+defineSlots<{
+  prepend(): any;
+  append(): any;
+  suffix(): any;
+}>();
 
 const formItemInjection = inject(formItemInjectKey, null);
 
@@ -29,7 +30,7 @@ const inTextareaRef = ref<InstanceType<typeof InTextarea>>();
 
 const color = computed(() => {
   if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type;
+    return formItemInjection?.fieldResult.value?.type || 'normal';
   } else {
     return props.color;
   }
@@ -40,10 +41,8 @@ const onInput = (e: Event) => {
   formItemInjection?.fieldHandlers.onInput?.();
 };
 
-let clickInside = false;
 const isFocus = ref(false);
 const onFocus = (e: FocusEvent) => {
-  clickInside = false;
   if (isFocus.value) {
     return;
   }
@@ -54,17 +53,9 @@ const onFocus = (e: FocusEvent) => {
 };
 
 const onBlur = (e: FocusEvent) => {
-  if (clickInside) {
-    clickInside = false;
-    return;
-  }
   isFocus.value = false;
   emits('blur', e);
   formItemInjection?.fieldHandlers.onBlur?.();
-};
-
-const onPressEnter = (e: KeyboardEvent) => {
-  emits('pressEnter', e);
 };
 
 const onClear = (e?: Event) => {
@@ -80,78 +71,73 @@ const onChange = (value: string) => {
   formItemInjection?.fieldHandlers.onChange?.();
 };
 
-const onMouseDown = (e: MouseEvent) => {
-  if ((e.target as HTMLInputElement) !== inTextareaRef.value?.inputEl) {
-    clickInside = true;
+const textareaId = ref(props.textareaId);
+onMounted(() => {
+  if (!textareaId.value) {
+    textareaId.value = uniqueId();
   }
-};
-const round = getRoundClass(props, 'textarea');
+});
+
+defineExpose({
+  focus: () => inTextareaRef.value?.focus(),
+  blur: () => inTextareaRef.value?.blur(),
+  clear: () => inTextareaRef.value?.clear(),
+  inputEl: () => inTextareaRef.value?.inputEl,
+});
 </script>
 <template>
-  <label
-    class="o-textarea"
-    :class="[
-      `o-textarea-${color}`,
-      `o-textarea-${props.variant}`,
-      `o-textarea-${props.size || defaultSize}`,
-      round.class.value,
-      {
-        'o-textarea-disabled': props.disabled,
-        'o-textarea-focus': isFocus,
-      },
-    ]"
-    :style="round.style.value"
-    @mousedown="onMouseDown"
-    :for="textareaId"
-  >
-    <div
-      class="o-textarea-wrap"
-      :class="{
-        'is-focus': isFocus,
-        'is-readonly': props.readonly,
-        'is-disabled': props.disabled,
-      }"
-    >
-      <div class="o-textarea-prepend">
-        <slot name="prepend"></slot>
-      </div>
-      <InTextarea
-        class="o-textarea-textarea"
-        ref="inTextareaRef"
-        :model-value="formateToString(props.modelValue)"
-        :default-value="formateToString(props.defaultValue)"
-        :scrollbar="props.scrollbar"
-        :placeholder="props.placeholder"
-        :disabled="props.disabled"
-        :readonly="props.readonly"
-        :clearable="props.clearable"
-        :format="props.format"
-        :validate="props.validate"
-        :onInvalidChange="props.onInvalidChange"
-        :auto-size="props.autoSize"
-        :resize="props.resize"
-        :rows="props.rows"
-        :cols="props.cols"
-        :get-length="props.getLength"
-        :max-length="props.maxLength"
-        :min-length="props.minLength"
-        :input-on-outlimit="props.inputOnOutlimit"
-        :textarea-id="textareaId"
-        @change="onChange"
-        @input="onInput"
-        @focus="onFocus"
-        @blur="onBlur"
-        @press-enter="onPressEnter"
-        @clear="onClear"
-        @update:model-value="onUpdatedModelValue"
-      >
-        <template v-for="name in filterSlots($slots, slotNames)" #[name]>
-          <slot :name="name"></slot>
-        </template>
-      </InTextarea>
-      <div class="o-textarea-append">
-        <slot name="append"></slot>
-      </div>
-    </div>
-  </label>
+  <component
+    :is="
+      h(
+        InBox,
+        {
+          class: 'o-textarea',
+          size: props.size,
+          variant: props.variant,
+          color: color,
+          disabled: props.disabled,
+          readonly: props.readonly,
+          round: props.round,
+          focused: isFocus,
+        },
+        {
+          default: () =>
+            h(
+              InTextarea,
+              {
+                ref: 'inTextareaRef',
+                class: 'o-textarea-textarea',
+                modelValue: formateToString(props.modelValue),
+                defaultValue: formateToString(props.defaultValue),
+                textareaId: textareaId,
+                ...pick(props, [
+                  'scrollbar',
+                  'placeholder',
+                  'disabled',
+                  'readonly',
+                  'clearable',
+                  'format',
+                  'validate',
+                  'valueOnInvalidChange',
+                  'autoSize',
+                  'resize',
+                  'rows',
+                  'cols',
+                  'getLength',
+                  'maxLength',
+                  'inputOnOutlimit',
+                ]),
+                onChange: onChange,
+                onInput: onInput,
+                onFocus: onFocus,
+                onBlur: onBlur,
+                onClear: onClear,
+                'onUpdate:modelValue': onUpdatedModelValue,
+              },
+              pick($slots, ['prefix', 'suffix'])
+            ),
+        }
+      )
+    "
+  />
 </template>

@@ -3,7 +3,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 export const inInputProps = {
   /**
    * 下拉框的值
-   * v-model
+   * v-model 受控
    */
   modelValue: {
     type: String,
@@ -90,10 +90,10 @@ export const inInputProps = {
     type: Function as PropType<(value: string) => boolean>,
   },
   /**
-   * 输入为无效值时，在blur
+   * 输入为无效值时，在blur/pressEnter时的回调，返回值为纠正后的值
    */
-  onInvalidChange: {
-    type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,
+  valueOnInvalidChange: {
+    type: Function as PropType<(inputValue: string, lastValidInputValue: string) => string>,
   },
   /**
    * 显示密码的方式
@@ -107,6 +107,13 @@ export const inInputProps = {
    */
   autoWidth: {
     type: Boolean,
+  },
+  /**
+   * 密码单个字符占位符
+   */
+  passwordPlaceholder: {
+    type: String,
+    default: '\u2022',
   },
 };
 

@@ -3,7 +3,7 @@ import { ref, watch, computed, inject, provide } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, string2number, number2string } from './input-number';
-import { isFunction, isUndefined } from '../_utils/is';
+import { isFunction, isUndefined, isNumber } from '../_utils/is';
 import { inputNumberProps } from './types';
 import NumberControl from './NumberControl.vue';
 import { formItemInjectKey } from '../form/provide';
@@ -42,6 +42,7 @@ watch(
     if (realValue.value !== val) {
       inputValue.value = number2string(val);
       realValue.value = val ?? 0;
+      lastValue = realValue.value;
     }
   }
 );
@@ -54,7 +55,7 @@ const validate = (value: string) => {
   }
   return valid;
 };
-const onInvalidChange = (_: string, last: string) => {
+const valueOnInvalidChange = (_: string, last: string) => {
   return last;
 };
 
@@ -88,6 +89,11 @@ const onPressEnter = (evt: KeyboardEvent): void => {
 
 const onChange = (value: string) => {
   realValue.value = string2number(value);
+  // 设置空字符串时对应的值
+  if (isNaN(realValue.value) && isNumber(props.clearValue)) {
+    realValue.value = props.clearValue;
+    emitUpdateValue();
+  }
   inputValue.value = number2string(realValue.value);
   emitChange();
 };
@@ -144,7 +150,7 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
   }
 };
 
-// 表明是否为嵌套子组件
+// 表明是否为嵌套子组件，避免表单验证逻辑重复执行
 provide(innerComponentInjectKey, {
   isInnerInput: true,
 });
@@ -155,7 +161,7 @@ provide(innerComponentInjectKey, {
     class="o-input-number"
     :class="[props.autoWidth ? '' : `o-input-number-size-${props.size || defaultSize}`]"
     :validate="validate"
-    :on-invalid-change="onInvalidChange"
+    :valueOnInvalidChange="valueOnInvalidChange"
     :size="props.size"
     :placeholder="props.placeholder"
     :color="color"

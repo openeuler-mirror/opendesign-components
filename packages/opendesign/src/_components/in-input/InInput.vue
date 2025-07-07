@@ -1,34 +1,35 @@
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, toRefs, watchEffect } from 'vue';
+import { computed, ref, toRefs, watchEffect } from 'vue';
 import { inInputProps } from './types';
 import { IconClose, IconEyeOn, IconEyeOff } from '../../_utils/icons';
-import { formateToString } from '../../_utils/helper';
-import { useInput } from '../../_headless/use-input';
+import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
-import { slotNames } from './slot';
-import { isFunction } from '../../_utils/is';
 import { useI18n } from '../../locale';
+import { isUndefined } from '../../_utils/is';
 
 const props = defineProps(inInputProps);
-
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
-  (e: 'blur', evt: FocusEvent): void;
-  (e: 'focus', evt: FocusEvent): void;
-  (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', evt: KeyboardEvent): void;
+const slots = defineSlots<{
+  default(): any;
+  prefix(): any;
+  suffix(): any;
+  extra(): any;
 }>();
+
+type InInputEmitsT = {
+  (e: 'update:modelValue', value: string): void;
+} & UseInputEmitsT;
+
+const emits = defineEmits<InInputEmitsT>();
 const { t } = useI18n();
 
-const { disabled, type, format, validate } = toRefs(props);
+const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
 
 const {
-  currentValue,
   displayValue,
   clearValue: clear,
   isValid,
+  inputValueLength,
+  isOutLengthLimit,
   handleBlur,
   handleInput,
   handleFocus,
@@ -37,16 +38,21 @@ const {
   inputEl,
 } = useInput({
   emits,
-  defaultValue: props.modelValue ?? props.defaultValue ?? '',
+  maxLength,
+  minLength,
+  inputOnOutlimit,
+  modelValue,
+  defaultValue: props.defaultValue ?? '',
   emitUpdate: (value: string) => {
     emits('update:modelValue', value);
   },
-  format,
-  validate,
-  onInvalidChange: props.onInvalidChange,
+  format: props.format,
+  validate: props.validate,
+  valueOnInvalidChange: props.valueOnInvalidChange,
+  calculateLength: props.getLength,
 });
 
-const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassword({
+const { showPassword, onEyeMouseDown, onEyeClick } = useInputPassword({
   type,
   disabled,
   showPasswordEvent: props.showPasswordEvent,
@@ -56,23 +62,20 @@ const { showPassword, onEyeMouseDown, onEyeMouseUp, onEyeClick } = useInputPassw
 const inputType = ref(props.type);
 
 const togglePassword = (visible?: boolean) => {
-  inputType.value = visible ? 'text' : 'password';
+  if (isUndefined(visible)) {
+    if (inputType.value === 'text') {
+      inputType.value = 'password';
+    } else {
+      inputType.value = 'text';
+    }
+  } else {
+    inputType.value = visible ? 'text' : 'password';
+  }
 };
 
 watchEffect(() => {
   togglePassword(showPassword.value);
 });
-
-// 监听属性变化，刷新值
-watch(
-  () => props.modelValue,
-  (val) => {
-    const value = formateToString(val);
-    if (value !== currentValue.value) {
-      currentValue.value = value;
-    }
-  }
-);
 
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
@@ -81,30 +84,9 @@ const focus = () => {
   inputEl.value?.focus();
 };
 
-const uId = ref('');
-onMounted(() => {
-  if (inputEl.value) {
-    uId.value = inputEl.value.id;
-  }
-});
-
-// 计算当前长度
-const currentLength = computed(() => {
-  if (isFunction(props.getLength)) {
-    return props.getLength(currentValue.value);
-  }
-  return currentValue.value.length ?? 0;
-});
-// 是否超出最大长度限制
-const isOutLengthLimit = computed(() => {
-  if (props.maxLength !== undefined && currentLength.value > props.maxLength) {
-    return true;
-  }
-  if (props.minLength !== undefined && currentLength.value < props.minLength) {
-    return true;
-  }
-  return false;
-});
+const blur = () => {
+  inputEl.value?.blur();
+};
 
 /**
  * 自适应宽度
@@ -112,7 +94,7 @@ const isOutLengthLimit = computed(() => {
 const autoWidth = computed(() => props.autoWidth);
 const mirrorValue = computed(() => {
   if (props.type === 'password') {
-    return displayValue.value.replace(/./g, '\u2022');
+    return displayValue.value.replace(/./g, props.passwordPlaceholder);
   }
   return displayValue.value;
 });
@@ -120,9 +102,9 @@ const mirrorValue = computed(() => {
 defineExpose({
   inputEl,
   focus,
+  blur,
   clear,
   togglePassword,
-  uId,
 });
 </script>
 <template>
@@ -138,8 +120,8 @@ defineExpose({
     }"
     :for="props.inputId"
   >
-    <div v-if="$slots.prefix" class="o_input-prefix" @mousedown.prevent>
-      <slot :name="slotNames.prefix"></slot>
+    <div v-if="slots.prefix?.()" class="o_input-prefix" @mousedown.prevent>
+      <slot name="prefix"></slot>
     </div>
     <div class="o_input-wrap" :class="{ 'o_input-wrap-auto-width': autoWidth }" :date-value="mirrorValue">
       <input
@@ -151,8 +133,6 @@ defineExpose({
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
-        :maxlength="props.inputOnOutlimit ? '' : props.maxLength"
-        :minlength="props.inputOnOutlimit ? '' : props.minLength"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
@@ -160,10 +140,10 @@ defineExpose({
       />
     </div>
 
-    <div v-if="$slots.suffix || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
+    <div v-if="slots.suffix?.() || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
       <!-- 自定义图标 -->
-      <span v-if="$slots.suffix" class="o_input-suffix-icon">
-        <slot :name="slotNames.suffix"></slot>
+      <span v-if="slots.suffix?.()" class="o_input-suffix-icon">
+        <slot name="suffix"></slot>
       </span>
       <!--  清除图标 -->
       <div v-if="isClearable" class="o_input-clear" @click="handleClear" @mousedown.prevent>
@@ -173,12 +153,9 @@ defineExpose({
       <div
         v-if="props.type === 'password'"
         class="o_input-eye"
-        @click="onEyeClick"
-        @mousedown.prevent="onEyeMouseDown"
-        @mouseup.prevent="onEyeMouseUp"
-        @touchstart="onEyeMouseDown"
-        @touchend="onEyeMouseUp"
-        @touchcancel="onEyeMouseUp"
+        @click.prevent.stop="onEyeClick"
+        @mousedown.prevent.stop="onEyeMouseDown"
+        @touchstart.stop="onEyeMouseDown"
       >
         <IconEyeOn v-if="showPassword" class="o_input-eye-icon" />
         <IconEyeOff v-else class="o_input-eye-icon" />
@@ -188,10 +165,10 @@ defineExpose({
         v-if="props.maxLength"
         class="o_input-limit"
         :class="{ 'o_input-limit-error': isOutLengthLimit }"
-        v-html="t('input.limit', currentLength, props.maxLength)"
+        v-html="t('input.limit', inputValueLength, props.maxLength)"
       ></div>
-      <span v-if="$slots.extra">
-        <slot :name="slotNames.extra"></slot>
+      <span v-if="slots.extra?.()">
+        <slot name="extra"></slot>
       </span>
     </div>
   </label>

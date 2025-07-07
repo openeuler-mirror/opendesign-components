@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import '@components/_styles';
+import '@opendesign-src/_styles';
 
 const title = 'Home';
 </script>

@@ -1,4 +1,4 @@
-import { logger } from '../_utils/log';
+import { log } from '../_utils/log';
 import { getValueByPath } from '../_utils/helper';
 import { isString } from '../_utils/is';
 import { configProviderInjectKey } from '../config-provider';
@@ -36,7 +36,7 @@ export function addLocale(
  */
 export function useLocale(localeKey: string) {
   if (!i18nLanguage.value[localeKey]) {
-    logger.warn(`no ${localeKey} languages found`);
+    log.warn(`no ${localeKey} languages found`);
     return;
   }
   currentLocal.value = localeKey;
@@ -51,7 +51,7 @@ export function useI18n() {
 
   const transform = (key: string, ...args: any[]): string => {
     if (!languages.value) {
-      logger.warn('no languages configed');
+      log.warn('no languages configed');
       return '';
     }
     const value = getValueByPath(languages.value, key);

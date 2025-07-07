@@ -12,12 +12,13 @@ interface OptionPropT {
   loading?: boolean;
   optionTitle?: string;
   multiple?: boolean;
-  // 是否使用scrollbar
-  scrollbar?: boolean | Partial<BaseScrollerPropsT>;
 }
-const props = withDefaults(defineProps<OptionPropT>(), {
-  scrollbar: true,
-});
+const props = defineProps<OptionPropT>();
+const scrollbarCfg: Partial<BaseScrollerPropsT> = {
+  barClass: 'o-select-options-scrollbar',
+  size: 'small',
+  showType: 'hover',
+};
 </script>
 <template>
   <div
@@ -29,7 +30,7 @@ const props = withDefaults(defineProps<OptionPropT>(), {
       },
     ]"
   >
-    <OOptionList :wrap-class="props.wrapClass" :scrollbar="props.scrollbar">
+    <OOptionList :wrap-class="props.wrapClass" :scrollbar="scrollbarCfg">
       <div v-if="props.loading" class="o-select-options-loading">
         <IconLoading class="o-rotating" />
       </div>

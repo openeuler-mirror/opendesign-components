@@ -12,7 +12,12 @@
   "dependencies": {
     "@opensig/opendesign": "workspace:^",
     "@opensig/open-scripts": "workspace:^",
-    "@opensig/open-analytics": "0.0.3"
+    "@opensig/open-analytics": "catalog:"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sass": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
 }

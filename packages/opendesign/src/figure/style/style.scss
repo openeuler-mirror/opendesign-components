@@ -94,6 +94,9 @@
   height: 100%;
   cursor: zoom-out;
 }
+.o-figure-preview-wrapper {
+  position: relative;
+}
 .o-figure-view-figure {
   width: 100%;
   height: 100%;
@@ -104,6 +107,7 @@
   cursor: pointer;
 }
 .o-figure-preview-img {
+  position: relative;
   img {
     vertical-align: top;
     max-width: 100vw;
@@ -154,6 +158,9 @@
   background-color: rgba(var(--o-white), 0.2);
   border: 1px solid rgba(var(--o-white), 0.6);
   backdrop-filter: blur(1px);
+  .o-icon-video-play {
+    margin-right: -0.2em;
+  }
 }
 
 // content

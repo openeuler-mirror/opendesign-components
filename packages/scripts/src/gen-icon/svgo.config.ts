@@ -55,10 +55,17 @@ export const basePlugins: PluginConfig[] = [
             for (const key of Object.keys(node.attributes)) {
               const value = node.attributes[key];
               const urlReg = /url\((#[^)]+)\)/;
+              const idRef = /^(#[^'"]+)/;
+
               if (urlReg.test(value)) {
                 delete node.attributes[key];
                 node.attributes[`:${key}`] = value.replace(urlReg, (_, path) => {
                   return `\`url(${path}_\${globalId})\``;
+                });
+              } else if (['href', 'xlink:href'].includes(key) && idRef.test(value)) {
+                delete node.attributes[key];
+                node.attributes[`:${key}`] = value.replace(idRef, (_, path) => {
+                  return `\`${path}_\${globalId}\``;
                 });
               }
             }

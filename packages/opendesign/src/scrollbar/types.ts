@@ -50,6 +50,13 @@ export const baseScrollarProps = {
   autoUpdateOnScrollSize: {
     type: Boolean,
   },
+
+  /**
+   * 滚动条尺寸大小
+   */
+  barClass: {
+    type: String,
+  },
 };
 export type BaseScrollerPropsT = ExtractPropTypes<typeof baseScrollarProps>;
 

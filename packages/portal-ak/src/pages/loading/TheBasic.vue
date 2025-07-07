@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { OButton, OLoading } from '@components/index';
+import { OButton, OLoading } from '@opendesign-src/index';
 import CLoadingNumber from '@/ak/components/CLoadingNumber.vue';
 
 const loading = reactive({

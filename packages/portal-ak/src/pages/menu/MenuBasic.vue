@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import OIconMore from './OIconMore.vue';
-import { OMenu, OSubMenu, OMenuItem } from '@components/index';
+import { OMenu, OSubMenu, OMenuItem } from '@opendesign-src/index';
 
 const handleChange = (val: string) => {
   console.log(val);

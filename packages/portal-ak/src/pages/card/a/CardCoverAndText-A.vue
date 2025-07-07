@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OCard, OButton } from '@components/index';
+import { OCard, OButton } from '@opendesign-src/index';
 
 const cardInfo = {
   href: 'https://www.hiascend.com/',

@@ -58,8 +58,8 @@ export const inTextareaProps = {
   /**
    * 输入为无效值时，在blur
    */
-  onInvalidChange: {
-    type: Function as PropType<(inputValue: string, lastValidInputValue: string, lastValue: string) => string>,
+  valueOnInvalidChange: {
+    type: Function as PropType<(inputValue: string, lastValidInputValue: string) => string>,
   },
   /**
    * 显示的行数

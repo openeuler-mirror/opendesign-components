@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OButton, useMessage } from '@components/index';
+import { OButton, useMessage } from '@opendesign-src/index';
 
 const message = useMessage();
 

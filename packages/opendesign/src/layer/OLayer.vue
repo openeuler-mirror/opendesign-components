@@ -4,11 +4,13 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties } from 'vue';
+import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref } from 'vue';
 import { layerProps } from './types';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_utils/is';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
+import { IconClose } from '../_utils/icons';
+import { OIcon } from '../icon';
 
 const props = defineProps(layerProps);
 
@@ -16,6 +18,7 @@ const emits = defineEmits<{
   (e: 'change', visible: boolean): void;
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
   (e: 'click:mask', evt: MouseEvent): void;
+  (e: 'click:button', evt: MouseEvent): void;
 }>();
 
 const visible = ref(props.visible);
@@ -27,13 +30,13 @@ const isToBody = ref(false);
 const LayerClass = {
   OPEN: 'o-layer-open',
 };
-const mainRef = ref<HTMLElement | null>(null);
+const mainRef: Ref<HTMLElement | null> = ref(null);
 
 let mouse: UseMouseT = useMouse({
   type: 'client',
 });
 
-const layerRef = ref<HTMLElement | null>(null);
+const layerRef: Ref<HTMLElement | null> = ref(null);
 // 挂载目标
 let wrapperEl: HTMLElement | null = null;
 
@@ -83,7 +86,7 @@ const getOriginStyle = () => {
   }
   return `${ox} ${oy}`;
 };
-const updateOrigin = (el: HTMLElement | null) => {
+const updateOrigin = (_el: HTMLElement | null) => {
   if (props.transitionOrign === 'mouse') {
     initWrapperEl();
     mainStyle.value.transformOrigin = getOriginStyle();
@@ -177,6 +180,10 @@ const onMaskClick = (e: MouseEvent) => {
   emits('click:mask', e);
 };
 
+const onCloseButtonClick = (e: MouseEvent) => {
+  toggle(false);
+  emits('click:button', e);
+};
 onMounted(() => {
   if (visible.value) {
     handleWrapperScroll();
@@ -224,6 +231,11 @@ defineExpose({
           <slot></slot>
         </div>
       </transition>
+      <div class="o-layer-close" v-if="props.buttonClose" @click="onCloseButtonClick">
+        <slot name="close">
+          <OIcon button :icon="IconClose" class="o-layer-close-icon" />
+        </slot>
+      </div>
     </div>
   </teleport>
 </template>

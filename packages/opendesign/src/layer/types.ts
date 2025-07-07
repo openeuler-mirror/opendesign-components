@@ -66,6 +66,13 @@ export const layerProps = {
     default: true,
   },
   /**
+   * 点击关闭按钮关闭
+   */
+  buttonClose: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
    */
   beforeShow: {

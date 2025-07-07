@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 
+let globalId = 0;
 export default defineComponent({
   name: 'OIconLink',
   svgType: 'fill',
@@ -13,6 +14,7 @@ export default defineComponent({
     return {
       isClient,
       classNames,
+      globalId: globalId++,
     };
   },
 });

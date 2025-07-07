@@ -10,14 +10,18 @@ const logFunction = {
 type LogLevel = keyof typeof logFunction;
 
 function getLogFunction(level: LogLevel, prefix?: string) {
-  if (prefix) {
-    return logFunction[level].bind(window.console, prefix);
-  } else {
-    return logFunction[level].bind(window.console);
+  // 非生产环境，打开日志打印
+  if (process.env.NODE_ENV === 'development') {
+    if (prefix) {
+      return logFunction[level].bind(window.console, prefix);
+    } else {
+      return logFunction[level].bind(window.console);
+    }
   }
+  return () => {};
 }
 
-export class Logger {
+export class Log {
   private prefix: string = '';
   constructor(prefix?: string) {
     if (prefix) {
@@ -37,4 +41,4 @@ export class Logger {
   }
 }
 
-export const logger = new Logger();
+export const log = new Log();

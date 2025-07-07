@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OButton, OLink, OIcon, OIconRefresh, OIconAdd, OIconChevronRight } from '@components/index';
+import { OButton, OLink, OIcon, OIconRefresh, OIconAdd, OIconChevronRight } from '@opendesign-src/index';
 
 import { darkTheme } from '@/shared/theme';
 

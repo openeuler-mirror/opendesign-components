@@ -57,7 +57,7 @@
   overflow: visible;
   min-height: 0;
 
-  .o-scrollbar {
+  > .o-scrollbar {
     --scrollbar-y-right: calc(-1 * var(--dlg-edge-gap));
   }
 }
@@ -74,7 +74,7 @@
 .o-dlg-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: var(--actions-justify);
 }
 .o-dlg-btn {
   + .o-dlg-btn {

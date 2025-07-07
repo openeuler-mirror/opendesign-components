@@ -4,18 +4,19 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch } from 'vue';
+import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch, Ref } from 'vue';
 import { tabInjectKey } from './provide';
 import { tabPaneProps } from './types';
 import { IconClose } from '../_utils/icons';
 import ClientOnly from '../_components/client-only';
 import { isUndefined } from '../_utils/is';
+import { log } from '../_utils/log';
 
 const props = defineProps(tabPaneProps);
 
 const isClosed = ref(false);
 
-const navRef = ref<HTMLElement | null>(null);
+const navRef: Ref<HTMLElement | null> = ref(null);
 
 const tabInjection = inject(tabInjectKey, null);
 
@@ -23,7 +24,7 @@ const { navsRef, activeValue, lazy } = tabInjection || {};
 
 const instance = getCurrentInstance();
 if (isUndefined(props.value) && isUndefined(props.label)) {
-  console.warn('OTabPane is missing prop: value or lable');
+  log.warn('OTabPane is missing prop: value or lable');
 }
 const paneKey = computed(() => {
   return props.value ?? props.label ?? instance?.uid ?? Math.random();

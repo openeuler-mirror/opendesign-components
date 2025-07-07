@@ -8,13 +8,13 @@ import { useIntersectionObserverDirective } from '../hooks';
 export default defineComponent({
   name: 'OIntersectionObserver',
   emits: ['intersection'],
-  setup(props, { emit, slots }) {
+  setup(_props, { emit, slots }) {
     const { vIntersectionObserver } = useIntersectionObserverDirective({
       listener: (entry: IntersectionObserverEntry) => {
         // 触发resize事件
         emit('intersection', entry.isIntersecting, entry);
       },
-      removeOnUnmounted: false
+      removeOnUnmounted: false,
     });
 
     return () => {
