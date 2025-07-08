@@ -10,30 +10,30 @@
     "gen:api": "vite-node ./scripts/generateApi.ts"
   },
   "dependencies": {
-    "@opensig/open-analytics": "catalog:",
+    "@opensig/open-analytics": "catalog:utils",
     "@opensig/open-scripts": "workspace:^",
-    "markdown-it": "catalog:",
-    "pinia": "catalog:",
-    "prettier": "catalog:",
-    "vue": "catalog:"
+    "markdown-it": "catalog:markdown",
+    "pinia": "catalog:vue",
+    "prettier": "catalog:lint",
+    "vue": "catalog:vue"
   },
   "devDependencies": {
-    "@types/fs-extra": "catalog:",
-    "@types/markdown-it": "catalog:",
-    "@vue/compiler-sfc": "catalog:",
-    "fs-extra": "catalog:",
-    "glob": "catalog:",
-    "gray-matter": "catalog:",
-    "highlight.js": "catalog:",
-    "magic-string": "catalog:",
-    "markdown-it-async": "catalog:",
-    "sass": "catalog:",
-    "typescript": "catalog:",
-    "unplugin-vue-markdown": "catalog:",
-    "vite": "catalog:",
-    "vite-plugin-inspect": "catalog:",
-    "vue-component-meta": "catalog:",
-    "vue-docgen-api": "catalog:",
-    "vue-tsc": "catalog:"
+    "@types/fs-extra": "catalog:typescript",
+    "@types/markdown-it": "catalog:typescript",
+    "@vue/compiler-sfc": "catalog:vue",
+    "fs-extra": "catalog:io",
+    "glob": "catalog:io",
+    "gray-matter": "catalog:markdown",
+    "highlight.js": "catalog:markdown",
+    "magic-string": "catalog:utils",
+    "markdown-it-async": "catalog:markdown",
+    "sass": "catalog:css",
+    "typescript": "catalog:typescript",
+    "unplugin-vue-markdown": "catalog:markdown",
+    "vite": "catalog:build",
+    "vite-plugin-inspect": "catalog:build",
+    "vue-component-meta": "catalog:vue",
+    "vue-docgen-api": "catalog:vue",
+    "vue-tsc": "catalog:build"
   }
 }

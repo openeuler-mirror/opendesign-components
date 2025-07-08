@@ -12,9 +12,9 @@
     "@opensig/open-scripts": "workspace:^"
   },
   "devDependencies": {
-    "sass": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vue-tsc": "catalog:"
+    "sass": "catalog:css",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:build",
+    "vue-tsc": "catalog:build"
   }
 }
