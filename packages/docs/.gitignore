@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
+icon-components
 es
 lib
-*api.*.md
+src/router/components.ts

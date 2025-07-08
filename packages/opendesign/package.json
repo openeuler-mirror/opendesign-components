@@ -31,10 +31,10 @@
   },
   "devDependencies": {
     "@opensig/open-scripts": "workspace:^",
-    "typescript": "catalog:",
-    "vue-tsc": "catalog:"
+    "typescript": "catalog:typescript",
+    "vue-tsc": "catalog:build"
   },
   "dependencies": {
-    "date-fns": "catalog:"
+    "date-fns": "catalog:date"
   }
 }

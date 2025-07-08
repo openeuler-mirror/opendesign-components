@@ -6,20 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -C packages/portal dev",
-    "dev:ak": "pnpm -C packages/portal-ak dev"
+    "dev:ak": "pnpm -C packages/portal-ak dev",
+    "docs:install": "pnpm i && pnpm -C packages/opendesign build && pnpm -C packages/docs gen:api ",
+    "docs:dev": "pnpm -C packages/docs dev",
+    "docs:build": "pnpm -C packages/docs build"
   },
   "dependencies": {
-    "normalize.css": "catalog:",
-    "vue": "catalog:",
-    "vue-router": "catalog:"
+    "normalize.css": "catalog:css",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue",
+    "@opensig/opendesign": "workspace:^"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "catalog:",
-    "@types/node": "catalog:",
-    "@vitejs/plugin-vue": "catalog:",
-    "@vue/eslint-config-typescript": "catalog:",
-    "eslint": "catalog:",
-    "eslint-plugin-vue": "catalog:",
-    "typescript": "catalog:"
+    "@rushstack/eslint-patch": "catalog:lint",
+    "@types/node": "catalog:typescript",
+    "@vitejs/plugin-vue": "catalog:vue",
+    "@vue/eslint-config-typescript": "catalog:lint",
+    "eslint": "catalog:lint",
+    "eslint-plugin-vue": "catalog:lint",
+    "typescript": "catalog:typescript"
   }
 }

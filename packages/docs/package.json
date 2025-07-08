@@ -1,0 +1,39 @@
+{
+  "name": "docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "gen:api": "vite-node ./scripts/generateApi.ts"
+  },
+  "dependencies": {
+    "@opensig/open-analytics": "catalog:utils",
+    "@opensig/open-scripts": "workspace:^",
+    "markdown-it": "catalog:markdown",
+    "pinia": "catalog:vue",
+    "prettier": "catalog:lint",
+    "vue": "catalog:vue"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "catalog:typescript",
+    "@types/markdown-it": "catalog:typescript",
+    "@vue/compiler-sfc": "catalog:vue",
+    "fs-extra": "catalog:io",
+    "glob": "catalog:io",
+    "gray-matter": "catalog:markdown",
+    "highlight.js": "catalog:markdown",
+    "magic-string": "catalog:utils",
+    "markdown-it-async": "catalog:markdown",
+    "sass": "catalog:css",
+    "typescript": "catalog:typescript",
+    "unplugin-vue-markdown": "catalog:markdown",
+    "vite": "catalog:build",
+    "vite-plugin-inspect": "catalog:build",
+    "vue-component-meta": "catalog:vue",
+    "vue-docgen-api": "catalog:vue",
+    "vue-tsc": "catalog:build"
+  }
+}
