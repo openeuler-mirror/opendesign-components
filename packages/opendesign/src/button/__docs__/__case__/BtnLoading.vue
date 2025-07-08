@@ -1,15 +1,14 @@
 <docs lang="md">
----
-title:
-  zh-CN: 加载中
-  en-US: Loading
----
+<!-- zh-CN -->
 
-# zh-CN
+### 加载中
 
 加载中的按钮，通过`loading`属性控制按钮的加载状态。当`loading`为`true`时，按钮会显示加载中的状态。同时`icon`插槽会被替换为加载中的图标。
 
-# en-US
+<!-- en-US -->
+
+### Loading
+
 A button that is loading, controlled by the `loading` property. When `loading` is `true`, the button will display the loading state. The `icon` slot will be replaced with the loading icon.
 </docs>
 <script setup lang="ts">

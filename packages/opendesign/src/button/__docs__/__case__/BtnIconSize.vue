@@ -1,15 +1,14 @@
 <docs lang="md">
----
-title:
-  zh-CN: icon插槽及按钮大小
-  en-US: Icon Slot and Button Size
----
+<!-- zh-CN -->
 
-# zh-CN
+### icon插槽及按钮大小
 
 可以通过`icon`插槽设置按钮图标，通过`size`属性设置按钮大小。
 
-# en-US
+<!-- en-US -->
+
+### Icon Slot and Button Size
+
 The button icon can be set using the `icon` slot, and the button size can be adjusted via the `size` prop.
 </docs>
 <script setup lang="ts">

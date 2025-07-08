@@ -1,15 +1,13 @@
 <docs lang="md">
----
-title:
-  zh-CN: 按钮圆角形状
-  en-US: Button Round Shape
----
+<!-- zh-CN -->
 
-# zh-CN
+### 按钮圆角形状
 
 通过`round`属性设置按钮圆角形状，值为`pill`时指半圆角，值也可以是css属性`border-radius`可接受的任意值
 
-# en-US
+<!-- en-US -->
+
+### Button Round Shape
 
 Sets the button's rounded shape. A value of 'pill' specifies a half-rounded shape. Any valid CSS border-radius length value (e.g., '8px', '50%') can be used.
 </docs>

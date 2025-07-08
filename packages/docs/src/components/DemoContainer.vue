@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref, type Component } from 'vue';
-import { OIconEye, OIconEyeOff, OScroller, OButton, useI18n } from '@opensig/opendesign';
+import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
 type DemoComponent = Component & {
   DemoSource?: Component;
-  __docs?: {
-    title: Record<string, string>;
-    description: Record<string, string>;
-  };
+  __docs?: Record<string, string>;
 };
 const props = defineProps<{
   demo: DemoComponent;
@@ -21,43 +18,46 @@ const { locale } = useI18n();
 
 <template>
   <div class="demo-container">
-    <h3 v-if="props.demo.__docs?.title" class="title">{{ props.demo.__docs.title[locale] }}</h3>
-    <div class="demo-body">
-      <div class="demo">
-        <Component :is="props.demo" />
-      </div>
-
-      <div v-if="props.demo.__docs?.description" class="description" v-html="props.demo.__docs.description[locale]"></div>
-      <div class="operator">
-        <OButton variant="solid" size="small" @click="switchShowCode">
-          <template #icon>
-            <OIconEye v-if="!isShowCode" />
-            <OIconEyeOff v-else />
-          </template>
-        </OButton>
-      </div>
-      <OScroller v-show="isShowCode" v-if="props.demo.DemoSource" class="source">
-        <Component :is="props.demo.DemoSource" />
-      </OScroller>
+    <div v-if="props.demo.__docs" class="docs" v-html="props.demo.__docs[locale]"></div>
+    <div class="demo">
+      <Component :is="props.demo" />
     </div>
+
+    <div class="operator">
+      <OButton variant="solid" size="small" @click="switchShowCode">
+        <template #icon>
+          <svg viewBox="0 0 24 24" v-if="!isShowCode" class="o-svg-icon">
+            <path
+              fill="currentColor"
+              d="m23 12l-7.071 7.071l-1.414-1.414L20.172 12l-5.657-5.657l1.414-1.414L23 12zM3.828 12l5.657 5.657l-1.414 1.414L1 12l7.071-7.071l1.414 1.414L3.828 12z"
+            ></path>
+          </svg>
+          <OIconChevronUp v-else />
+        </template>
+      </OButton>
+    </div>
+    <OScroller v-show="isShowCode" v-if="props.demo.DemoSource" class="source">
+      <Component :is="props.demo.DemoSource" />
+    </OScroller>
   </div>
 </template>
 <style lang="scss" scoped>
-.title {
-  color: var(--o-color-info1);
-}
 .demo-container {
+  border: 1px solid var(--o-color-control1-light);
+  position: relative;
   & + .demo-container {
     margin-top: 12px;
   }
 }
-.demo-body {
-  border: 1px solid var(--o-color-control1-light);
-}
-.demo,
-.description {
+.docs {
   padding: var(--o-gap-4);
-  :deep(p) {
+  :deep(p),
+  :deep(h1),
+  :deep(h2),
+  :deep(h3),
+  :deep(h4),
+  :deep(h5),
+  :deep(h6) {
     &:first-child {
       margin-top: 0;
     }
@@ -65,20 +65,26 @@ const { locale } = useI18n();
       margin-bottom: 0;
     }
   }
+  :deep(> :first-child) {
+    padding-right: calc(var(--o-gap-4) + var(--o-control_size-s));
+  }
 }
-.description {
-  color: var(--o-color-info3);
+.docs {
+  border-bottom: 1px solid var(--o-color-control1-light);
+  :deep(p) {
+    color: var(--o-color-info3);
+  }
 }
 .operator {
-  padding: var(--o-gap-2) var(--o-gap-4);
   font-size: var(--o-icon_size-m);
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  position: absolute;
+  right: var(--o-gap-4);
+  top: var(--o-gap-4);
 }
-.description,
-.source,
-.operator {
+.source {
   border-top: 1px solid var(--o-color-control1-light);
 }
 .source {

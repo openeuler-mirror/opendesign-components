@@ -29,7 +29,7 @@ const copyCode = async () => {
     <div v-if="props.lang" class="lang-mark">{{ props.lang }}</div>
     <OButton class="copy-block" variant="outline" size="small" @click="copyCode">
       <template #icon>
-        <svg width="28" height="28" viewBox="0 0 28 28">
+        <svg viewBox="0 0 28 28" class="o-svg-icon">
           <path
             fill-rule="nonzero"
             fill="currentColor"
@@ -60,7 +60,7 @@ const copyCode = async () => {
     display: none;
     top: var(--o-gap-4);
     right: var(--o-gap-4);
-    --btn-height: 40px;
+    --btn-height: var(--o-icon_size-l);
   }
 
   &:hover {
