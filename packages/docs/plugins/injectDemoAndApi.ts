@@ -12,8 +12,8 @@ export function injectDemoAndApi(): Plugin {
         return;
       }
       const imported:{name: string, path: string}[] = [];
-      let newCode = code.replace(/<!--\s*@demo\s+(.*?)\s*-->/g, (match, componentName) => {
-        const demoFile = join(dirname(id), `./__demo__/${componentName}.vue`);
+      let newCode = code.replace(/<!--\s*@case\s+(.*?)\s*-->/g, (match, componentName) => {
+        const demoFile = join(dirname(id), `./__case__/${componentName}.vue`);
         if (existsSync(demoFile)) {
           imported.push({
             name: `AutoInject${componentName}`,

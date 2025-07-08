@@ -8,6 +8,6 @@ button
 
 ## demo
 
-<!-- @demo BtnIconSize -->
-<!-- @demo BtnLoading -->
-<!-- @demo BtnRound -->
+<!-- @case BtnIconSize -->
+<!-- @case BtnLoading -->
+<!-- @case BtnRound -->

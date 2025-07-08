@@ -45,7 +45,7 @@ const generateVirtualModule = (source: string) => {
   return `<template>${result}</template>`;
 };
 export function injectDemoSource(): Plugin {
-  const filter = createFilter(/opendesign\/src\/.*?\/__demo__\/.+\.vue$/);
+  const filter = createFilter(/opendesign\/src\/.*?\/__case__\/.+\.vue$/);
   return {
     name: 'portal:inject-demo-source',
     resolveId(id) {
