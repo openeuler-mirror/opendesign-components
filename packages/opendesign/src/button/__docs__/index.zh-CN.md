@@ -4,7 +4,9 @@ sidebar: OButton 按钮
 
 # 按钮
 
-按钮
+## 使用
+
+<!-- @usage btnUsage -->
 
 ## 示例
 

@@ -12,6 +12,7 @@
   "dependencies": {
     "@opensig/open-analytics": "catalog:utils",
     "@opensig/open-scripts": "workspace:^",
+    "@vue/compiler-dom": "catalog:vue",
     "markdown-it": "catalog:markdown",
     "pinia": "catalog:vue",
     "prettier": "catalog:lint",

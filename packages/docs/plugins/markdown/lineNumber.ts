@@ -1,5 +1,12 @@
 import { type MarkdownItAsync } from 'markdown-it-async';
 
+export const insertLineNumbers = (code: string, start: number) => {
+  const codeLines = code.split('\n');
+  if (codeLines[codeLines.length - 1] === '') {
+    codeLines.pop();
+  }
+  return `${codeLines.map((line, index) => `<span class="line-number">${start + index}</span>${line}`).join('\n')}`;
+};
 /**
  * markdown 插件，给代码块添加行号
  * @param md markdown-it 实例
@@ -29,7 +36,7 @@ export default function lineNumber(md: MarkdownItAsync) {
         } else {
           env.portal = { lineNumbers: true };
         }
-        return `${pre}${codeLines.map((line, index) => `<span class="line-number">${start + index}</span>${line}`).join('\n')}\n${post}`;
+        return `${pre}${insertLineNumbers(code, start)}\n${post}`;
       }
     }
     return fence(tokens, idx, options, env, self);

@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
 import 'normalize.css';
 
 import '@opensig/opendesign/es/index.css';
@@ -16,19 +16,29 @@ import './assets/style/k.dark.token.css';
 import { router } from '@/router/index';
 
 import App from './App.vue';
-import { OPopover, OTag, OIconInfo } from '@opensig/opendesign';
+import * as Opendesign from '@opensig/opendesign';
 import CodeContainer from './components/CodeContainer.vue';
 import DemoContainer from './components/DemoContainer.vue';
+import DemoUsage from './components/DemoUsage.vue';
 
 const app = createApp(App);
 const pinia = createPinia();
 
 app.use(pinia);
 app.use(router);
-app.use(OPopover);
-app.use(OTag);
 app.component('CodeContainer', CodeContainer);
 app.component('DemoContainer', DemoContainer);
-app.component('OIconInfo', OIconInfo);
-
+app.component('DemoUsage', DemoUsage);
+Object.entries(Opendesign).forEach(([name, value]) => {
+  if (typeof value !== 'object' || !value) {
+    return;
+  }
+  // 将所有组件全局注册，以便 md 文件使用
+  if (typeof (value as any).install === 'function') {
+    app.use(value as any);
+  }
+  if (name.startsWith('OIcon') && name.length > 5) {
+    app.component(name, value as any);
+  }
+});
 app.mount('#app');

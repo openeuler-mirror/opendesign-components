@@ -5,7 +5,6 @@ import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
 import { changeLocale, locales, LOCALE_COOKIE_KEY } from './lang';
 import { useSidebarStore } from './stores/sidebar';
-import { OButton } from '@opensig/opendesign';
 
 const route = useRoute();
 const sidebarStore = useSidebarStore();

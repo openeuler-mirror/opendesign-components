@@ -113,6 +113,9 @@ catalogs:
     '@vitejs/plugin-vue':
       specifier: ^5.2.1
       version: 5.2.1
+    '@vue/compiler-dom':
+      specifier: ^3.5.17
+      version: 3.5.17
     '@vue/compiler-sfc':
       specifier: ^3.5.17
       version: 3.5.17
@@ -179,6 +182,9 @@ importers:
       '@opensig/open-scripts':
         specifier: workspace:^
         version: link:../scripts
+      '@vue/compiler-dom':
+        specifier: catalog:vue
+        version: 3.5.17
       markdown-it:
         specifier: catalog:markdown
         version: 14.1.0
