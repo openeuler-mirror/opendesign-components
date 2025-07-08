@@ -32,20 +32,20 @@ pnpm docs:build
    /packages/opendesign/src/*/__docs__/index.en-US.md  # 语言主文档
    /packages/opendesign/src/*/__docs__/*-api.en-US.md  # API 文档
    ```
-4. **demo组件英文翻译** 在 `/packages/opendesign/src/*/__docs__/__demo__/*.vue` 文件中的`<docs lang="md">` 标签中添加en-US语言配置
+4. **demo组件英文翻译** 在 `/packages/opendesign/src/*/__docs__/__case__/*.vue` 文件中的`<docs lang="md">` 标签中添加en-US语言配置
 
     ```html
     <docs lang="md">
-    ---
-    title:
-      zh-CN: 中文标题
-      en-US: English Title
-    ---
+    <!-- zh-CN -->
 
-    # zh-CN
-    这里是中文内容
+    ### 中文标题
 
-    # en-US
+    中文内容
+
+    <!-- en-US -->
+
+    ### English Title
+
     English content here
     </docs>
     ```
@@ -54,6 +54,6 @@ pnpm docs:build
 
 ## ⚠️ 注意事项
 - 当前支持语言：`zh-CN`(简体中文) 和 `en-US`(英语)
-- 扩展语言需遵循命名规范：`<lang>-<COUNTRY>.md`（如 `es-ES` 表示西班牙语）
+- 扩展语言需遵循命名规范：`<lang>-<COUNTRY>.md`（如 `es-US`）
 - 保持原始文件结构，确保国际化文件位置正确
 - 修改内容时请勿删除原有语言版本
