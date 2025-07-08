@@ -20,5 +20,8 @@ export const markdownItOptions: MarkdownItAsyncOptions = {
   highlight,
 };
 export const markdownItPlugins = [lineNumber, popover, wrapCodeContainer, wrapTable];
+/**
+ * 引入项目中所有 markdown 插件，并导出 MarkdownItAsync 实例，以便在其他模块中调用
+ */
 export const md = new MarkdownItAsync(markdownItOptions);
 markdownItPlugins.forEach((plugin) => md.use(plugin));

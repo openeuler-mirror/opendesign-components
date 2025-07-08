@@ -3,8 +3,11 @@ import { OButton, useMessage, OScroller } from '@opensig/opendesign';
 import { computed } from 'vue';
 
 const props = defineProps<{
+  /** 代码块的源码（未经高亮的源码）*/
   contentEncoded: string;
+  /** 代码块的语言 */
   lang?: string;
+  /** 是否预留行号边距 */
   lineNumbers?: boolean;
 }>();
 
@@ -22,7 +25,9 @@ const copyCode = async () => {
 
 <template>
   <div class="code-container" :class="{ 'line-numbers': props.lineNumbers }">
+    <!-- 当面有行号时，代码可以折行 -->
     <slot v-if="props.lineNumbers"></slot>
+    <!-- 当没有行号时，需要支持左右滚动已查看完成代码 -->
     <OScroller v-else disabled-y>
       <slot></slot>
     </OScroller>

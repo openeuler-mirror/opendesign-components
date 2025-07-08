@@ -30,6 +30,9 @@ function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number = 
 }
 
 const emit = debounce(() => {
+  /**
+   * 检测 /packages/opendesing/OXxx/__docs__/index.<lang>.md 中的文件，生成 /src/router/components.ts 路由文件
+   */
   glob('**/__docs__/index.*.md', { cwd: searchBase, posix: true })
     .then((files) => {
       return files.map((file) => {
@@ -39,6 +42,9 @@ const emit = debounce(() => {
       });
     })
     .then((fileContents) => {
+      /**
+       * 解析markdown中的matter语法，将数据存储到route.meta中
+       */
       const headCommentRegex = /^---\s*([\s\S]*?)\s*---/;
       return fileContents.map((info) => {
         const match = info.content.match(headCommentRegex);
@@ -69,9 +75,11 @@ ${res
  `;
     })
     .then((res) => {
+      // 使用prettier格式化输出的代码
       return prettier.format(res, { parser: 'typescript', plugins: [tsPlugin], singleQuote: true, printWidth: 160 });
     })
     .then((res) => {
+      // 写代码文件
       return fse.writeFile(output, res);
     });
 }, 1000);
@@ -81,9 +89,11 @@ export default function generateComponentRouter(): Plugin {
   return {
     name: 'generate-component-router',
     configureServer(server) {
+      // 监听searchBase文件夹
       server.watcher.add(searchBase);
       server.watcher.on('all', (event, path) => {
-        if (filter(path.replace(/\\/g, '/')) && ['add', 'unlink'].includes(event)) {
+        // 当有/packages/opendesing/OXxx/__docs__/index.<lang>.md 文件增删改时重新生成 router/components.ts 文件
+        if (filter(path.replace(/\\/g, '/')) && ['add', 'unlink', 'change'].includes(event)) {
           emit();
         }
       });

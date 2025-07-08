@@ -38,6 +38,7 @@ const themeInfo = [
 const { theme } = useTheme();
 const router = useRouter();
 const route = useRoute();
+// 根据light/dark切换代码块样式表
 useHighLightTheme(theme);
 if (!theme.value) {
   theme.value = themeInfo[0].key;
@@ -63,6 +64,7 @@ const changeSidebar = (name: SidebarNameT) => {
 watch(locale, (newLocale) => {
   if (sidebarStore.sidebarName === 'component') {
     try {
+      // 切换到对应语言的路由，如 /zh-CN/component/button 切换到 /en-US/component/button
       const name = (route.name as string).split('/')[1];
       const newPath = router.resolve({ name: `component/${name}/${newLocale}` });
       router.push(newPath);

@@ -3,7 +3,9 @@ import { ref, type Component } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
 type DemoComponent = Component & {
+  /** __docs__/__case__组件源的源码组件 */
   DemoSource?: Component;
+  /** __docs__/__case__组件文案 */
   __docs?: Record<string, string>;
 };
 const props = defineProps<{
@@ -24,6 +26,7 @@ const { locale } = useI18n();
     </div>
 
     <div class="operator">
+      <!-- 隐藏或显示代码块的按钮 -->
       <OButton variant="solid" size="small" @click="switchShowCode">
         <template #icon>
           <svg viewBox="0 0 24 24" v-if="!isShowCode" class="o-svg-icon">
@@ -36,6 +39,7 @@ const { locale } = useI18n();
         </template>
       </OButton>
     </div>
+    <!-- 代码块 -->
     <OScroller v-show="isShowCode" v-if="props.demo.DemoSource" class="source">
       <Component :is="props.demo.DemoSource" />
     </OScroller>

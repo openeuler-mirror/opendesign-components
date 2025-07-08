@@ -1,6 +1,10 @@
 import { MarkdownItAsync } from 'markdown-it-async';
 import { escapeHtml } from 'markdown-it/lib/common/utils.mjs';
 
+/**
+ * markdown插件，通过 ^[标题]`内容` 语法，渲染popover，popover组件的target为 <OTag>标题</OTag>
+ * @param md markdown-it 实例
+ */
 export default function popover(md: MarkdownItAsync) {
   // 定义正则表达式，匹配 ^[内容]`提示信息` 语法
   const popoverRegExp = /^\^\[([^\]]*)\](\(normal|primary|success|warning|danger\))?(`[^`]*`)?/;

@@ -40,6 +40,11 @@ function cleanTableData(table: any[][]) {
   }
   return table.map((row) => row.filter((_, i) => !emptyIndexes[i]));
 }
+/**
+ * 将数组渲染为markdown表格
+ * @param table 待处理的表格数据
+ * @returns markdown表格
+ */
 function markdownTable(table: string[][]) {
   let code = '';
   // head
@@ -51,6 +56,12 @@ function markdownTable(table: string[][]) {
   }
   return code;
 }
+/**
+ * 通过vue-docgen-api库补充vue-component-meta库未能获取的Event描述
+ * @param filename 待解析的vue文件
+ * @param componentMeta 
+ * @returns 
+ */
 async function applyTempFixForEventDescriptions(filename: string, componentMeta: ComponentMeta) {
   const hasEvents = componentMeta.events.length;
 
@@ -74,6 +85,12 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
   }
   return componentMeta;
 }
+/**
+ * 补充 vue-component-meta 未能解析 defineSlots 的描述和签名
+ * @param filename 待解析的vue文件
+ * @param componentMeta vue组件元数据
+ * @returns 新的组件元数据
+ */
 async function applyTempFixForSlot(filename: string, componentMeta: ComponentMeta) {
   debugger;
   const slotReg = /defineSlots<{[^}]+}>\(\)/;
@@ -101,6 +118,7 @@ const pathReg = /\/(O.*)\.vue/;
 glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
   files.forEach(async (file, index) => {
     const fullPath = join(srcDir, file);
+    // 解析Vue组件Api元数据
     const meta = checker.getComponentMeta(fullPath);
     const completedCount = Math.floor(((index + 1) / files.length) * progressBarLength);
     const restCount = progressBarLength - completedCount;
