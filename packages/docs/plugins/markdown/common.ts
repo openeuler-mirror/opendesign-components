@@ -5,7 +5,7 @@ import popover from './popover';
 import wrapTable from './wrapTable';
 import wrapCodeContainer from './wrapCodeContainer';
 
-export function highlight(str: string, lang: string, attrs: string) {
+export function highlight(str: string, lang: string) {
   let highlightLang = lang === 'vue' ? 'html' : lang;
   const hasLang = hljs.getLanguage(highlightLang);
   if (!hasLang) {

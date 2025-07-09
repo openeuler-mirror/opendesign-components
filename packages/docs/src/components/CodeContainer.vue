@@ -58,12 +58,12 @@ const copyCode = async () => {
     color: var(--o-color-info3);
   }
   .lang-mark {
-    top: var(--o-gap-4);
+    top: var(--o-gap-3);
     right: var(--o-gap-4);
   }
   .copy-block {
     display: none;
-    top: var(--o-gap-4);
+    top: var(--o-gap-2);
     right: var(--o-gap-4);
     --btn-height: var(--o-icon_size-l);
   }

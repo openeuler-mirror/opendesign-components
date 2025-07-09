@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Component } from 'vue';
+import { ref, type Component, PropType } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
 type DemoComponent = Component & {
@@ -8,9 +8,12 @@ type DemoComponent = Component & {
   /** __docs__/__case__组件文案 */
   __docs?: Record<string, string>;
 };
-const props = defineProps<{
-  demo: DemoComponent;
-}>();
+const props = defineProps({
+  demo: {
+    type: [Object, Function] as PropType<DemoComponent>,
+    required: true,
+  },
+});
 const isShowCode = ref(false);
 const switchShowCode = () => {
   isShowCode.value = !isShowCode.value;

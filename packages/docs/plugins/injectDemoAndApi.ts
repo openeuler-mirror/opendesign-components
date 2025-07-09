@@ -15,29 +15,70 @@ export function injectDemoAndApi(): Plugin {
       if (!id.endsWith('.md')) {
         return;
       }
-      const imported:{name: string, path: string}[] = [];
+      const imported: {
+        default?: string;
+        named?: { name: string; alias?: string }[];
+        path: string;
+      }[] = [];
       // 将 <!-- @case CaseComponent --> 注释替换成 <DemoContainer :demo="AutoInjectCaseComponent" />
-      let newCode = code.replace(/<!--\s*@case\s+(.*?)\s*-->/g, (match, componentName) => {
-        const demoFile = join(dirname(id), `./__case__/${componentName}.vue`);
+      // 将 <!-- @usage usageConfig --> 注释替换成 <DemoUsage :docs="docs" :template="template" :schema="schema" />
+      let newCode = code.replace(/<!--\s*@(case|usage)\s+(.*?)\s*-->/g, (match, directive, fileName) => {
+        const fileNameWidthExt = directive === 'case' ? `./__case__/${fileName}.vue` : `./__case__/${fileName}.ts`;
+        const demoFile = join(dirname(id), fileNameWidthExt);
         if (existsSync(demoFile)) {
-          imported.push({
-            name: `AutoInject${componentName}`,
-            path: demoFile,
-          });
-          return `<DemoContainer :demo="AutoInject${componentName}" />`;
+          if (directive === 'case') {
+            imported.push({
+              default: `AutoInject${fileName}`,
+              path: demoFile,
+            });
+            return `<DemoContainer :demo="AutoInject${fileName}" />`;
+          } else {
+            const docsAlias = `autoInject${fileName}Docs`;
+            const templateAlias = `autoInject${fileName}Template`;
+            const schemaAlias = `autoInject${fileName}Schema`;
+            imported.push({
+              path: demoFile,
+              named: [
+                { name: 'docs', alias: docsAlias },
+                { name: 'template', alias: templateAlias },
+                { name: 'schema', alias: schemaAlias },
+              ],
+            });
+            return `<DemoUsage :docs="${docsAlias}" :template="${templateAlias}" :schema="${schemaAlias}" />`;
+          }
         }
         return match;
-      })
+      });
+      // 插入需要导入的模块
       if (imported.length) {
-        newCode += `\n<script setup>${imported.map((item) => `import ${item.name} from ${JSON.stringify(item.path)};`).join('\n')}</script>`
+        newCode += `\n<script setup>\n${imported
+          .map((item) => {
+            let importStr = 'import ';
+            if (item.default) {
+              importStr += `${item.default} `;
+            }
+            if (item.named) {
+              importStr += `{ ${item.named
+                .map((namedItem) => {
+                  if (namedItem.alias) {
+                    return `${namedItem.name} as ${namedItem.alias}`;
+                  }
+                  return namedItem.name;
+                })
+                .join(', ')} } `;
+            }
+            importStr += `from ${JSON.stringify(item.path)};`;
+            return importStr;
+          })
+          .join('\n')}\n</script>`;
       }
       const lang = getLangByFileName(id);
       const dir = dirname(id);
-      // 读取同文件夹下的所有<ComponentName>-api.<lang>.md 的api文档，将内容注入到对应语言的index.<lang>.md文件末尾
+      // 读取同文件夹下的所有<fileName>-api.<lang>.md 的api文档，将内容注入到对应语言的index.<lang>.md文件末尾
       const files = await fsp.readdir(dir);
       for (const file of files) {
         const filePath = join(dir, file);
-        if (filePath.endsWith(`api.${lang.lang}.md`) && await fsp.stat(filePath).then((stat) => stat.isFile())) {
+        if (filePath.endsWith(`api.${lang.lang}.md`) && (await fsp.stat(filePath).then((stat) => stat.isFile()))) {
           newCode += `\n\n${await fsp.readFile(filePath, 'utf-8')}`;
         }
       }

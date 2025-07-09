@@ -2,11 +2,13 @@
 sidebar: OButton
 ---
 
-# button
+# Button
 
-button
+## Usage
 
-## demo
+<!-- @usage BtnShowcase -->
+
+## Demo
 
 <!-- @case BtnIconSize -->
 <!-- @case BtnLoading -->
