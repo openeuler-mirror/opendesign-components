@@ -8,7 +8,7 @@ import postPlugin from 'prettier/plugins/postcss';
 import tsPlugin from 'prettier/plugins/typescript';
 import esTreePlugin from 'prettier/plugins/estree';
 import { highlight, md } from '../../plugins/markdown/common';
-import { insertLineNumbers } from '../../plugins/markdown/lineNumber';
+import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
 import { compile } from '@vue/compiler-dom';
 export type SchemeT =
@@ -138,7 +138,7 @@ function createShowcaseComponent(demoProps: Record<string, any>) {
     })
     .then((code) => {
       sourceCode.value = code;
-      highlightedCode.value = insertLineNumbers(highlight(code, 'vue'), 1);
+      highlightedCode.value = highlight(code, 'vue');
     });
   const showcaseCode = compile(template, { mode: 'function' });
   return new Function('Vue', showcaseCode.code)(Vue);
@@ -157,7 +157,12 @@ Demo.DemoSource = () => {
     return h(
       CodeContainer,
       { lang: 'vue', contentEncoded: encodeURIComponent(sourceCode.value), lineNumbers: true },
-      { default: () => h('pre', [h('code', { class: 'language-vue', innerHTML: highlightedCode.value })]) },
+      {
+        default: () =>
+          h('pre', { [LINENUMBER_TAG_ATTR]: '1' }, [
+            h('code', { class: 'language-vue', style: `${LINENUMBER_CSS_ATTR}: 1;`, innerHTML: highlightedCode.value }),
+          ]),
+      },
     );
   }
 };

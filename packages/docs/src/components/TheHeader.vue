@@ -2,7 +2,6 @@
 import { computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ODropdown, ODropdownItem, useI18n, useTheme } from '@opensig/opendesign';
-import { useHighLightTheme } from '@/utils/useHighLightTheme';
 import { currentLocale, changeLocale, locales } from '@/lang';
 import { sidebarRouteConfig, type SidebarNameT } from '@/router';
 import { useSidebarStore } from '@/stores/sidebar';
@@ -38,8 +37,6 @@ const themeInfo = [
 const { theme } = useTheme();
 const router = useRouter();
 const route = useRoute();
-// 根据light/dark切换代码块样式表
-useHighLightTheme(theme);
 if (!theme.value) {
   theme.value = themeInfo[0].key;
 }

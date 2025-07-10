@@ -4,3 +4,11 @@
   margin: 0 0.2em;
   background-color: var(--o-color-control1-light);
 }
+
+[data-o-theme$='light'] span {
+  color: var(--shiki-light);
+}
+
+[data-o-theme$='dark'] span {
+  color: var(--shiki-dark);
+}

@@ -1,22 +1,12 @@
 import fsp from 'node:fs/promises';
 import { createFilter, type Plugin } from 'vite';
-import { parse, type SFCBlock } from '@vue/compiler-sfc';
+import { parse } from '@vue/compiler-sfc';
 import { md } from './markdown/common';
+import { generateCode } from '../helper/utils';
 
 const VIRTUAL_PREFIX = 'virtual:demo-source:';
 const virtualModules = new Map<string, string>();
 
-const generateCode = (block: SFCBlock) => {
-  return `<${block.type} ${Object.entries(block.attrs)
-    .map(([key, value]) => {
-      if (typeof value === 'string') {
-        return `${key}="${value}"`;
-      } else {
-        return `${key}`;
-      }
-    })
-    .join(' ')}>${block.content}</${block.type}>\n`;
-};
 /**
  * 使用@vue/compiler-sfc库，只保留case源代码中的 script, scriptSetup, template, styles 块，
  * 并将清理后的源代码渲染为 vue 组件

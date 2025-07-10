@@ -12,6 +12,9 @@
   "dependencies": {
     "@opensig/open-analytics": "catalog:utils",
     "@opensig/open-scripts": "workspace:^",
+    "@shikijs/langs": "catalog:markdown",
+    "@shikijs/themes": "catalog:markdown",
+    "shiki": "catalog:markdown",
     "@vue/compiler-dom": "catalog:vue",
     "markdown-it": "catalog:markdown",
     "pinia": "catalog:vue",
@@ -25,7 +28,6 @@
     "fs-extra": "catalog:io",
     "glob": "catalog:io",
     "gray-matter": "catalog:markdown",
-    "highlight.js": "catalog:markdown",
     "magic-string": "catalog:utils",
     "markdown-it-async": "catalog:markdown",
     "sass": "catalog:css",
