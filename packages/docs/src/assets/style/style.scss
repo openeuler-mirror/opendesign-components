@@ -1,7 +1,9 @@
 @use './markdown.scss';
+@use './font-family.scss';
 
 body {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  // 采用鸿蒙字体
+  font-family: 'HarmonyOS-Hans', Arial, 'Microsoft YaHei', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -21,17 +23,10 @@ body {
 body {
   margin: 0;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-  }
-
-  a:hover {
-    color: #535bf2;
-  }
-} */
+code {
+  // 代码中使用等宽字体
+  font-family: 'Cascadia Code', 'SF Mono', 'Menlo', 'Consolas', 'DejaVu Sans Mono', 'Ubuntu Mono', monospace;
+}
 
 .page-demo {
   padding: 8px 24px;

@@ -59,7 +59,6 @@ body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
   --app-anchor-width: 240px;
-  font-family: 'Helvetica', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   @media (max-width: 840px) {
     --app-aside-width: 0;
   }
