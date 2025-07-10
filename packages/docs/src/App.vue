@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue';
-import { useRoute } from 'vue-router';
+import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
 import { changeLocale, locales, LOCALE_COOKIE_KEY } from './lang';
 import { useSidebarStore } from './stores/sidebar';
+import TheAnchor from './components/TheAnchor';
+import { getHeads } from './utils/getHeads';
 
 const route = useRoute();
+const router = useRouter();
 const sidebarStore = useSidebarStore();
 watchEffect(() => {
   const routeLocale = locales.find((item) => item.value === route.meta.lang);
@@ -29,12 +32,24 @@ watchEffect(() => {
     }
   }
 });
+const appBodyDom = useTemplateRef('appBodyDom');
+const heads = shallowReactive<Array<{ title: string; level: number; id: string }>>([]);
+onMounted(() => { 
+  heads.push(...getHeads(appBodyDom.value!));
+});
+router.afterEach(async () => { 
+  // 路由更新后更新锚点
+  heads.length = 0;
+  await nextTick();
+  heads.push(...getHeads(appBodyDom.value!));
+});
 </script>
 
 <template>
   <TheHeader class="app-header" />
   <TheAside v-if="sidebarStore.isShowSidebar" class="app-aside" />
-  <div class="app-body" :class="{ 'has-sidebar': sidebarStore.isShowSidebar }">
+  <TheAnchor :heads="heads" :target-offset="60" class="app-anchor" />
+  <div ref="appBodyDom" class="app-body" :class="{ 'has-sidebar': sidebarStore.isShowSidebar, 'has-anchor': heads.length > 0 }">
     <router-view />
   </div>
 </template>
@@ -43,6 +58,7 @@ watchEffect(() => {
 body {
   --app-header-height: 48px;
   --app-aside-width: 240px;
+  --app-anchor-width: 240px;
   font-family: 'Helvetica', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   @media (max-width: 840px) {
     --app-aside-width: 0;
@@ -68,6 +84,13 @@ body {
     display: none;
   }
 }
+.app-anchor {
+  position: fixed;
+  right: 0;
+  top: var(--app-header-height);
+  width: var(--app-anchor-width);
+  z-index: 8;
+}
 .app-body {
   margin-top: var(--app-header-height);
   min-height: calc(100vh - 48px);
@@ -75,6 +98,9 @@ body {
 
   &.has-sidebar {
     margin-left: var(--app-aside-width);
+  }
+  &.has-anchor {
+    margin-right: var(--app-anchor-width);
   }
 }
 </style>

@@ -61,12 +61,10 @@ const changeSidebar = (name: SidebarNameT) => {
   sidebarStore.sidebarName = name;
   router.push(sidebarStore.navList[0] || '/');
 };
-watch(locale, (newLocale) => {
+watch(locale, (newLocale, oldLocale) => {
   if (sidebarStore.sidebarName === 'component') {
     try {
-      // 切换到对应语言的路由，如 /zh-CN/component/button 切换到 /en-US/component/button
-      const name = (route.name as string).split('/')[1];
-      const newPath = router.resolve({ name: `component/${name}/${newLocale}` });
+      const newPath = router.resolve(route.path.replace(new RegExp(`^/${oldLocale}/`), `/${newLocale}/`));
       router.push(newPath);
     } catch {
       router.push('/');
