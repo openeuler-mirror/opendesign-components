@@ -43,22 +43,6 @@ export const routes = [
       title: '全局配置 config-provider',
     },
   },
-  // {
-  //   path: '/date-picker',
-  //   name: 'DatePicker',
-  //   component: () => import('@opendesign-src/date-picker/__demo__/TheIndex.vue'),
-  //   meta: {
-  //     title: '日期选择器 DatePicker',
-  //   },
-  // },
-  {
-    path: '/date-picker',
-    name: 'DatePicker',
-    component: () => import('@opendesign-src/date-picker/__demo__/TheIndex.vue'),
-    meta: {
-      title: '日期选择器 DatePicker',
-    },
-  },
   {
     path: '/form',
     name: 'Form',

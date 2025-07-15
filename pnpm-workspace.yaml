@@ -60,10 +60,6 @@ catalogs:
     "fs-extra": "^11.3.0"
     "commander": "^13.1.0"
 
-  # 日期处理
-  date:
-    "date-fns": "^2.30.0"
-
   # 其余工具
   utils:
     "magic-string": "^0.30.17"
