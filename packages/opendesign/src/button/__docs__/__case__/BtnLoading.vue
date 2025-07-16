@@ -3,7 +3,7 @@
 
 ### 加载中
 
-加载中的按钮，通过`loading`属性控制按钮的加载状态。当`loading`为`true`时，按钮会显示加载中的状态。同时`icon`插槽会被替换为加载中的图标。
+加载中的按钮，通过`loading`属性控制按钮的加载状态。当`loading`为`true`时，按钮会显示加载中的状态，同时`icon`插槽会被替换为加载中的图标。
 
 <!-- en-US -->
 
@@ -18,9 +18,8 @@ import { OButton } from '@opensig/opendesign';
 const rlt = reactive({
   loading1: false,
   loading2: false,
-  loading3: true,
 });
-const showLoading = (key: 'loading1' | 'loading2' | 'loading3', val: boolean) => {
+const showLoading = (key: keyof typeof rlt, val: boolean) => {
   rlt[key] = val;
   setTimeout(() => {
     rlt[key] = !val;
@@ -29,11 +28,9 @@ const showLoading = (key: 'loading1' | 'loading2' | 'loading3', val: boolean) =>
 </script>
 <template>
   <div class="row">
-    <OButton color="primary" :loading="rlt.loading1" @click="showLoading('loading1', true)">Primary Button</OButton>
+    <OButton color="primary" :loading="rlt.loading1" @click="showLoading('loading1', true)">click me</OButton>
     <OButton variant="outline" :loading="rlt.loading2" @click="showLoading('loading2', true)">
-      <template #icon><OIconAdd /></template>Outline Button
+      <template #icon><OIconAdd /></template>replace icon slot
     </OButton>
-    <OButton variant="text" :loading="rlt.loading3" @click="showLoading('loading3', true)">Text Button</OButton>
-    <OButton :loading="!rlt.loading3" href="https://hiascend.com" target="__blank">Link Button</OButton>
   </div>
 </template>

@@ -12,7 +12,7 @@ export const docs = {
 
 // 该模板会在运行时被编译为vue组件，同时作为组件的源码供用户查看和复制
 export const template = (_props: Record<string, any>) => {
-  const { 'icon-slot': iconSlot, 'suffix-slot': suffixSlot } = _props;
+  const { 'icon(slot)': iconSlot, 'suffix(slot)': suffixSlot } = _props;
   let innerHTML = '';
   if (iconSlot) {
     innerHTML += '\n<template #icon><OIconChecked /></template>';
@@ -21,7 +21,7 @@ export const template = (_props: Record<string, any>) => {
   if (suffixSlot) {
     innerHTML += '\n<template #suffix><OIconSearch /></template>';
   }
-  return `<OButton ${propsToAttrStr(_props, ['icon-slot', 'suffix-slot'])}>${innerHTML}\n</OButton>`;
+  return `<OButton ${propsToAttrStr(_props, ['icon(slot)', 'suffix(slot)'])}>${innerHTML}\n</OButton>`;
 };
 
 // 该配置会生成表单控件，表单控件选取的值会作为 template 函数的参数
@@ -48,11 +48,11 @@ export const schema = {
   loading: {
     type: 'boolean',
   },
-  'icon-slot': {
+  'icon(slot)': {
     type: 'boolean',
     default: true,
   },
-  'suffix-slot': {
+  'suffix(slot)': {
     type: 'boolean',
     default: true,
   },

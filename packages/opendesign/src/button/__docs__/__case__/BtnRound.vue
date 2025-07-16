@@ -39,16 +39,6 @@ const onClick = () => {
         <OButton variant="text" size="small" round="pill">
           <template #icon><OIconAdd /></template>
         </OButton>
-
-        <OButton variant="solid" size="large" round="pill">
-          <template #icon><OIconAdd /></template>Round Button
-        </OButton>
-        <OButton variant="outline" round="pill">
-          <template #icon><OIconAdd /></template>Round Button
-        </OButton>
-        <OButton variant="text" size="small" round="pill">
-          <template #icon><OIconAdd /></template>Round Button
-        </OButton>
       </section>
     </div>
     <div>

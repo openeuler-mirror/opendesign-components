@@ -6,7 +6,7 @@ sidebar: OButton
 
 ## Usage
 
-<!-- @usage BtnShowcase -->
+<!-- @usage btnUsage -->
 
 ## Demo
 
