@@ -117,9 +117,9 @@ watch(locale, (newLocale, oldLocale) => {
 .the-header {
   color: var(--o-color-info1);
   display: flex;
-  padding: 0 var(--o-gap-7);
-  font-size: var(--o-font_size-h3);
-  line-height: var(--o-line_height-h3);
+  padding: 0 calc((100vw - var(--grid-full)) / 2);
+  font-size: var(--o3-font_size-h3);
+  line-height: var(--o3-line_height-h3);
   background-color: rgba(var(--o-mixedgray-1), 0.9);
   box-shadow: var(--o-shadow-1);
   backdrop-filter: blur(5px);
@@ -144,7 +144,7 @@ watch(locale, (newLocale, oldLocale) => {
   align-self: stretch;
 }
 .nav-item {
-  margin-right: var(--o-gap-5);
+  margin-right: var(--o3-gap-5);
   cursor: pointer;
   position: relative;
   display: flex;
@@ -163,8 +163,8 @@ watch(locale, (newLocale, oldLocale) => {
 }
 .nav,
 .tools {
-  font-size: var(--o-font_size-text2);
-  line-height: var(--o-line_height-text2);
+  font-size: var(--o3-font_size-text2);
+  line-height: var(--o3-line_height-text2);
 }
 .tools {
   display: flex;
@@ -174,7 +174,7 @@ watch(locale, (newLocale, oldLocale) => {
   .tool-item {
     cursor: pointer;
     & + .tool-item {
-      margin-left: var(--o-gap-5);
+      margin-left: var(--o3-gap-5);
     }
   }
 }

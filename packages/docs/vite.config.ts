@@ -41,4 +41,11 @@ export default defineConfig({
     __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
     __PROD__: JSON.stringify(process.env.NODE_ENV === 'production'),
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@components/_styles/mixin.scss" as *;`,
+      },
+    },
+  },
 });

@@ -187,25 +187,37 @@ Demo.__docs = props.docs;
 }
 :deep(.props-playground-demo) {
   display: flex;
+  @include respond-to('<=pad') {
+    flex-direction: column;
+  }
 }
 :deep(.props-playground-content) {
-  padding: var(--o-gap-4);
+  padding: var(--o3-gap-4);
   flex: 1;
 }
 :deep(.props-playground-operator) {
-  padding: var(--o-gap-4);
+  padding: var(--o3-gap-4);
   border-left: 1px solid var(--o-color-control1-light);
+  @include respond-to('<=pad') {
+    border-top: 1px solid var(--o-color-control1-light);
+    border-left: none;
+  }
 }
 :deep(.checkbox-group) {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: var(--o-gap-3);
-  column-gap: var(--o-gap-3);
+  margin-bottom: var(--o3-gap-3);
+  column-gap: var(--o3-gap-6);
+  row-gap: var(--o3-gap-2);
+
+  .o-checkbox {
+    margin-left: 0;
+  }
 }
 :deep(.operator-group) {
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: var(--o-gap-3);
+  gap: var(--o3-gap-3);
 }
 :deep(.props-playground-selector-name) {
   display: flex;

@@ -53,14 +53,14 @@ const copyCode = async () => {
     color: var(--o-color-info3);
   }
   .lang-mark {
-    top: var(--o-gap-3);
-    right: var(--o-gap-4);
+    top: var(--o3-gap-3);
+    right: var(--o3-gap-4);
   }
   .copy-block {
     display: none;
-    top: var(--o-gap-2);
-    right: var(--o-gap-4);
-    --btn-height: var(--o-icon_size-l);
+    top: var(--o3-gap-2);
+    right: var(--o3-gap-4);
+    --btn-height: var(--o3-icon_size-l);
   }
 
   &:hover {
@@ -73,14 +73,14 @@ const copyCode = async () => {
   }
 
   :deep(pre) {
-    padding: var(--o-gap-3) var(--o-gap-5);
+    padding: var(--o3-gap-3) var(--o3-gap-5);
     margin: 0;
     width: max-content;
   }
 }
 :deep(pre[data-linenumber-start]) {
   position: relative;
-  padding-left: calc(2em + 16px);
+  padding-left: calc(2em + var(--o3-gap-4));
   white-space: pre-wrap;
   width: auto;
   counter-reset: line-number var(--linenumber-start, 1);
@@ -89,7 +89,7 @@ const copyCode = async () => {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: calc(2em + 8px);
+    left: calc(2em + var(--o3-gap-4) - 4px);
     width: 1px;
     background-color: var(--o-color-control1);
   }
