@@ -1,3 +1,5 @@
+const canLog = process.env.NODE_ENV === 'development';
+const validTagAttrName = (name: string) => /^[a-zA-Z0-9_\-]+$/.test(name);
 /**
  * 将组件的props转为属性字符串以便拼接到html标签中
  * 仅在__docs__/__case__/ 中使用
@@ -9,6 +11,12 @@ export function propsToAttrStr(props: Record<string, any>, exclude = [] as strin
   return Object.entries(props)
     .reduce((acc, [key, value]) => {
       if (exclude.includes(key)) {
+        return acc;
+      }
+      if (!validTagAttrName(key)) {
+        if (canLog) {
+          console.warn(`Invalid tag attr name: ${name}`);
+        }
         return acc;
       }
       switch (typeof value) {
