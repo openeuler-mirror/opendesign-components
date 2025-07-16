@@ -4,7 +4,6 @@ import fsp from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { type ComponentMeta, createChecker } from 'vue-component-meta';
 import { parseMulti } from 'vue-docgen-api';
-import { escapeHtml } from 'markdown-it/lib/common/utils.mjs';
 import parseDefineSlots from './parseDefineSlots';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -17,8 +16,22 @@ const checker = createChecker(tsConfigPath, {
   noDeclarations: true,
   printer: { newLine: 1 },
 });
+const CELL_ESCAPE_REPLACE_RE = /[<>"'\|]/g;
+const CELL_REPLACEMENTS = {
+  // 避免xss注入
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  // unplugin-vue-markdown 插件不能正确处理单引号
+  "'": '&apos;',
+  // 竖线符号在markdown中会被解析为表格分隔符
+  '|': '&vert;',
+};
+function replaceCellChar(ch: string) {
+  return CELL_REPLACEMENTS[ch];
+}
 function escapeTableValue(value?: string) {
-  return escapeHtml(value ? value.replace(/\|/g, '\\|') : '');
+  return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }
 function cleanTableData(table: any[][]) {
   // 清理表格数据
