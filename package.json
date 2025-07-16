@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -C packages/portal dev",
     "dev:ak": "pnpm -C packages/portal-ak dev",
-    "docs:install": "pnpm i && pnpm -C packages/opendesign build && pnpm -C packages/docs gen:api ",
+    "docs:install": "pnpm i && pnpm -C packages/scripts build && pnpm i && pnpm -C packages/opendesign build && pnpm -C packages/docs gen:api ",
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build"
   },
@@ -24,6 +24,7 @@
     "@vue/eslint-config-typescript": "catalog:lint",
     "eslint": "catalog:lint",
     "eslint-plugin-vue": "catalog:lint",
-    "typescript": "catalog:typescript"
+    "typescript": "catalog:typescript",
+    "vite-node": "catalog:utils"
   }
 }

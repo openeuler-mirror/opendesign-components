@@ -13,17 +13,7 @@ export const router = createRouter({
       component: TheHome,
     },
     ...componentRoutes,
-  ],
-  scrollBehavior(to, from, savePosition) {
-    if (savePosition) {
-      return savePosition;
-    } else {
-      return {
-        top: 0,
-        behavior: 'smooth',
-      };
-    }
-  },
+  ]
 });
 
 export const sidebarRouteConfig = {

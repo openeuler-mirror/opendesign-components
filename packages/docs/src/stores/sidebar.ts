@@ -34,10 +34,10 @@ export const useSidebarStore = defineStore('sidebar', () => {
         label: (item.meta as MetaT).sidebar,
       }));
   });
-  const isShowSidebar = computed(() => sidebarName.value && navList.value.length);
+  const hasData = computed(() => sidebarName.value && navList.value.length);
   return {
     sidebarName,
     navList,
-    isShowSidebar,
+    hasData,
   };
 });

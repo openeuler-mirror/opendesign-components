@@ -7,8 +7,6 @@ const props = defineProps<{
   contentEncoded: string;
   /** 代码块的语言 */
   lang?: string;
-  /** 是否预留行号边距 */
-  lineNumbers?: boolean;
 }>();
 
 const content = computed(() => decodeURIComponent(props.contentEncoded));
@@ -24,11 +22,8 @@ const copyCode = async () => {
 </script>
 
 <template>
-  <div class="code-container" :class="{ 'line-numbers': props.lineNumbers }">
-    <!-- 当面有行号时，代码可以折行 -->
-    <slot v-if="props.lineNumbers"></slot>
-    <!-- 当没有行号时，需要支持左右滚动已查看完成代码 -->
-    <OScroller v-else disabled-y>
+  <div class="code-container">
+    <OScroller show-type="always">
       <slot></slot>
     </OScroller>
     <div v-if="props.lang" class="lang-mark">{{ props.lang }}</div>
@@ -58,14 +53,14 @@ const copyCode = async () => {
     color: var(--o-color-info3);
   }
   .lang-mark {
-    top: var(--o-gap-3);
-    right: var(--o-gap-4);
+    top: var(--o3-gap-3);
+    right: var(--o3-gap-4);
   }
   .copy-block {
     display: none;
-    top: var(--o-gap-2);
-    right: var(--o-gap-4);
-    --btn-height: var(--o-icon_size-l);
+    top: var(--o3-gap-2);
+    right: var(--o3-gap-4);
+    --btn-height: var(--o3-icon_size-l);
   }
 
   &:hover {
@@ -78,31 +73,42 @@ const copyCode = async () => {
   }
 
   :deep(pre) {
-    padding: var(--o-gap-3) var(--o-gap-5);
+    padding: var(--o3-gap-3) var(--o3-gap-5);
     margin: 0;
+    width: max-content;
   }
 }
-.line-numbers {
-  :deep(pre) {
-    position: relative;
-    padding-left: calc(2em + 16px);
-    white-space: pre-wrap;
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: calc(2em + 8px);
-      width: 1px;
-      background-color: var(--o-color-control1);
+:deep(pre[data-linenumber-start]) {
+  position: relative;
+  padding-left: calc(2em + var(--o3-gap-4));
+  white-space: pre-wrap;
+  width: auto;
+  counter-reset: line-number var(--linenumber-start, 1);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(2em + var(--o3-gap-4) - 4px);
+    width: 1px;
+    background-color: var(--o-color-control1);
+  }
+  .line {
+    counter-increment: line-number;
+    &:first-child {
+      counter-increment: none;
     }
-    .line-number {
+    &::before {
+      content: counter(line-number);
       position: absolute;
       left: 2em;
       color: var(--o-color-info2);
       transform: translateX(-100%);
       user-select: none;
       white-space: nowrap;
+    }
+    &:last-child::before {
+      content: none;
     }
   }
 }

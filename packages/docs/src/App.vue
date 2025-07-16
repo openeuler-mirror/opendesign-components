@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick } from 'vue';
+import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
@@ -7,10 +7,12 @@ import { changeLocale, locales, LOCALE_COOKIE_KEY } from './lang';
 import { useSidebarStore } from './stores/sidebar';
 import TheAnchor from './components/TheAnchor';
 import { getHeads } from './utils/getHeads';
+import { useScreen } from './utils/useScreen';
 
 const route = useRoute();
 const router = useRouter();
 const sidebarStore = useSidebarStore();
+const { lePad, isPadV, lePadV } = useScreen();
 watchEffect(() => {
   const routeLocale = locales.find((item) => item.value === route.meta.lang);
   if (routeLocale) {
@@ -34,35 +36,67 @@ watchEffect(() => {
 });
 const appBodyDom = useTemplateRef('appBodyDom');
 const heads = shallowReactive<Array<{ title: string; level: number; id: string }>>([]);
-onMounted(() => { 
+onMounted(() => {
   heads.push(...getHeads(appBodyDom.value!));
 });
-router.afterEach(async () => { 
+router.afterEach(async (to, from) => {
   // 路由更新后更新锚点
-  heads.length = 0;
+  if (to.path === from.path) {
+    return;
+  }
   await nextTick();
+  heads.length = 0;
   heads.push(...getHeads(appBodyDom.value!));
+});
+const asideStaticWidth = computed(() => {
+  if (isPadV.value) {
+    return 'var(--grid-4)';
+  }
+  if (lePad.value) {
+    return 'var(--grid-2)';
+  }
+  return 'var(--grid-3)';
+});
+const hideAside = ref(false);
+const appAsideWidth = computed(() => {
+  if (!sidebarStore.hasData || hideAside.value) {
+    return '0px';
+  }
+  return asideStaticWidth.value;
+});
+const appAnchorWidth = computed(() => {
+  if (heads.length > 0) {
+    return asideStaticWidth.value;
+  }
+  return '0px';
+});
+const handleAsideClick = () => {
+  hideAside.value = !hideAside.value;
+};
+watchEffect(() => {
+  hideAside.value = lePadV.value;
 });
 </script>
 
 <template>
-  <TheHeader class="app-header" />
-  <TheAside v-if="sidebarStore.isShowSidebar" class="app-aside" />
-  <TheAnchor :heads="heads" :target-offset="60" class="app-anchor" />
-  <div ref="appBodyDom" class="app-body" :class="{ 'has-sidebar': sidebarStore.isShowSidebar, 'has-anchor': heads.length > 0 }">
-    <router-view />
+  <div
+    class="app-wrapper"
+    :class="{ 'hide-sidebar': hideAside }"
+    :style="{ '--app-aside-width': appAsideWidth, '--app-aside-static-width': asideStaticWidth, '--app-anchor-width': appAnchorWidth }"
+  >
+    <TheHeader class="app-header" />
+    <TheAside v-if="sidebarStore.hasData" class="app-aside" @click-sidebar="handleAsideClick" />
+    <TheAnchor v-if="heads.length" :heads="heads" :target-offset="60" class="app-anchor" />
+    <div ref="appBodyDom" class="app-body">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-body {
+.app-wrapper {
   --app-header-height: 48px;
-  --app-aside-width: 240px;
-  --app-anchor-width: 240px;
-  font-family: 'Helvetica', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  @media (max-width: 840px) {
-    --app-aside-width: 0;
-  }
+  --app-header-margin: var(--o3-gap-4);
 }
 .app-header {
   position: fixed;
@@ -77,30 +111,39 @@ body {
   position: fixed;
   top: var(--app-header-height);
   left: 0;
+  height: calc(100vh - var(--app-header-height));
   bottom: 0;
-  width: var(--app-aside-width);
+  width: calc(50vw - var(--layout-content-width) / 2 + var(--app-aside-static-width));
   z-index: 9;
-  @media (max-width: 840px) {
-    display: none;
+  transition: transform var(--o-duration-m1) var(--o-easing-standard-in);
+}
+.hide-sidebar {
+  .app-aside {
+    transform: translateX(-100%);
   }
 }
 .app-anchor {
   position: fixed;
-  right: 0;
-  top: var(--app-header-height);
+  left: calc(50vw + var(--layout-content-width) / 2 - var(--app-anchor-width));
+  top: calc(var(--app-header-height) + var(--app-header-margin));
+  max-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
   width: var(--app-anchor-width);
   z-index: 8;
+  @include respond-to('<=pad_v') {
+    display: none;
+  }
 }
 .app-body {
-  margin-top: var(--app-header-height);
-  min-height: calc(100vh - 48px);
+  margin-top: calc(var(--app-header-height) + var(--app-header-margin));
+  min-height: calc(100vh - var(--app-header-height));
   background-color: var(--o-color-fill1);
-
-  &.has-sidebar {
-    margin-left: var(--app-aside-width);
-  }
-  &.has-anchor {
-    margin-right: var(--app-anchor-width);
+  width: var(--layout-content-width);
+  margin-left: auto;
+  margin-right: auto;
+  @include respond-to('>pad_v') {
+    margin-left: calc(50vw - var(--layout-content-width) / 2 + var(--app-aside-width));
+    margin-right: 0;
+    width: calc(var(--layout-content-width) - var(--app-aside-width) - var(--app-anchor-width));
   }
 }
 </style>

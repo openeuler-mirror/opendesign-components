@@ -25,4 +25,4 @@ dist-ssr
 
 es
 lib
-*api.zh-CN.md
+*api.*.md

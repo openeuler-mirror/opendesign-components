@@ -4,7 +4,6 @@ import fsp from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { type ComponentMeta, createChecker } from 'vue-component-meta';
 import { parseMulti } from 'vue-docgen-api';
-import { escapeHtml } from 'markdown-it/lib/common/utils.mjs';
 import parseDefineSlots from './parseDefineSlots';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -17,8 +16,22 @@ const checker = createChecker(tsConfigPath, {
   noDeclarations: true,
   printer: { newLine: 1 },
 });
+const CELL_ESCAPE_REPLACE_RE = /[<>"'\|]/g;
+const CELL_REPLACEMENTS = {
+  // 避免xss注入
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  // unplugin-vue-markdown 插件不能正确处理单引号
+  "'": '&apos;',
+  // 竖线符号在markdown中会被解析为表格分隔符
+  '|': '&vert;',
+};
+function replaceCellChar(ch: string) {
+  return CELL_REPLACEMENTS[ch];
+}
 function escapeTableValue(value?: string) {
-  return escapeHtml(value ? value.replace(/\|/g, '\\|') : '');
+  return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }
 function cleanTableData(table: any[][]) {
   // 清理表格数据
@@ -59,8 +72,8 @@ function markdownTable(table: string[][]) {
 /**
  * 通过vue-docgen-api库补充vue-component-meta库未能获取的Event描述
  * @param filename 待解析的vue文件
- * @param componentMeta 
- * @returns 
+ * @param componentMeta
+ * @returns
  */
 async function applyTempFixForEventDescriptions(filename: string, componentMeta: ComponentMeta) {
   const hasEvents = componentMeta.events.length;
@@ -130,43 +143,71 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
     await applyTempFixForEventDescriptions(fullPath, meta);
     await applyTempFixForSlot(fullPath, meta);
     const pathMath = file.match(pathReg);
-    const apiMdPath = join(fullPath, `../__docs__/${pathMath[1]}-api.zh-CN.md`);
-    let mdContent = `## API ${pathMath[1]}`;
-    // props
-    if (meta.props.length) {
-      let propsData = meta.props
-        .filter((prop) => !prop.global)
-        .map((prop) => {
+    for (const lang of ['zh-CN', 'en-US']) {
+      const apiMdPath = join(fullPath, `../__docs__/${pathMath[1]}-api.${lang}.md`);
+      let mdContent = `## API ${pathMath[1]}`;
+      // props
+      if (meta.props.length) {
+        const tableHeader = {
+          'zh-CN': ['属性名', '类型', '默认值', '必填', '说明', '其它'],
+          'en-US': ['Prop Name', 'Type', 'Default', 'Required', 'Description', 'Other'],
+        };
+        const excludeTag = ['default', 'zh-CN', 'en-US'];
+        let propsData = meta.props
+          .filter((prop) => !prop.global)
+          .map((prop) => {
+            return [
+              prop.name,
+              prop.type,
+              prop.default || prop.tags.find((tag) => tag.name === 'default')?.text || '',
+              prop.required ? '🗸' : '',
+              prop.tags.find((tag) => tag.name === lang)?.text || prop.description || '',
+              prop.tags
+                .filter((tag) => !excludeTag.includes(tag.name))
+                .map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`)
+                .join(' '),
+            ];
+          });
+        propsData.unshift(tableHeader[lang]);
+        propsData = cleanTableData(propsData);
+        mdContent = `${mdContent}\n\n### props\n\n${markdownTable(propsData)}`;
+      }
+      // events
+      if (meta.events.length) {
+        const tableHeader = {
+          'zh-CN': ['事件名', '签名', '说明', '其它'],
+          'en-US': ['Event Name', 'Signature', 'Description', 'Other'],
+        };
+        const excludeTag = ['zh-CN', 'en-US'];
+        let eventsData = meta.events.map((event) => {
           return [
-            prop.name,
-            prop.type,
-            prop.required ? '√' : '',
-            prop.description,
-            prop.tags.map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`).join(' '),
+            event.name,
+            event.signature,
+            event.tags.find((tag) => tag.name === lang)?.text || event.description || '',
+            event.tags
+              .filter((tag) => !excludeTag.includes(tag.name))
+              .map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`)
+              .join(' '),
           ];
         });
-      propsData.unshift(['属性名', '类型', '必填', '说明', '其它']);
-      propsData = cleanTableData(propsData);
-      mdContent = `${mdContent}\n\n### props\n\n${markdownTable(propsData)}`;
+        eventsData.unshift(tableHeader[lang]);
+        eventsData = cleanTableData(eventsData);
+        mdContent = `${mdContent}\n\n### events\n\n${markdownTable(eventsData)}`;
+      }
+      // slots
+      if (meta.slots.length) {
+        const tableHeader = {
+          'zh-CN': ['插槽', '签名', '说明'],
+          'en-US': ['Slot Name', 'Signature', 'Description'],
+        };
+        let slotsData = meta.slots.map((slot) => {
+          return [slot.name, slot.type, slot.description];
+        });
+        slotsData.unshift(tableHeader[lang]);
+        slotsData = cleanTableData(slotsData);
+        mdContent = `${mdContent}\n\n### slots\n\n${markdownTable(slotsData)}`;
+      }
+      await fsp.mkdir(dirname(apiMdPath), { recursive: true }).then(() => fsp.writeFile(apiMdPath, mdContent, { encoding: 'utf-8' }));
     }
-    // events
-    if (meta.events.length) {
-      let eventsData = meta.events.map((event) => {
-        return [event.name, event.signature, event.description, event.tags.map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`).join(' ')];
-      });
-      eventsData.unshift(['事件名', '签名', '说明', '其它']);
-      eventsData = cleanTableData(eventsData);
-      mdContent = `${mdContent}\n\n### events\n\n${markdownTable(eventsData)}`;
-    }
-    // slots
-    if (meta.slots.length) {
-      let slotsData = meta.slots.map((slot) => {
-        return [slot.name, slot.type, slot.description];
-      });
-      slotsData.unshift(['插槽', '签名', '说明']);
-      slotsData = cleanTableData(slotsData);
-      mdContent = `${mdContent}\n\n### slots\n\n${markdownTable(slotsData)}`;
-    }
-    await fsp.mkdir(dirname(apiMdPath), { recursive: true }).then(() => fsp.writeFile(apiMdPath, mdContent, { encoding: 'utf-8' }));
   });
 });
