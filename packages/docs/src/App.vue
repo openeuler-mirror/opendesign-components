@@ -39,10 +39,13 @@ const heads = shallowReactive<Array<{ title: string; level: number; id: string }
 onMounted(() => {
   heads.push(...getHeads(appBodyDom.value!));
 });
-router.afterEach(async () => {
+router.afterEach(async (to, from) => {
   // 路由更新后更新锚点
-  heads.length = 0;
+  if (to.path === from.path) {
+    return;
+  }
   await nextTick();
+  heads.length = 0;
   heads.push(...getHeads(appBodyDom.value!));
 });
 const asideStaticWidth = computed(() => {
