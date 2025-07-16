@@ -66,3 +66,4 @@ catalogs:
   utils:
     "magic-string": "^0.30.17"
     "@opensig/open-analytics": "0.0.3"
+    "vite-node": "^3.2.4"
