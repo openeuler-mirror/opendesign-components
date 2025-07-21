@@ -3,11 +3,19 @@ import { propsToAttrStr } from '../../../_demo/utils';
 // 该导出会作为该使用示例的文案，文案是markdown格式
 export const docs = {
   'zh-CN':
-    '按钮包含 `primary`、`success`、`warning`、`danger` 四种主题色，`small`、`medium`、`large` 三种尺寸，`solid`、`outline`、`text` 三种形状，`disabled` 禁用状态，`loading` 加载状态。\n' +
+    '按钮包含 `primary`、`success`、`warning`、`danger` 四种主题色；\n\n' +
+    '三种尺寸：`small`、`medium`、`large` ；\n\n' +
+    '三种形状：`solid`、`outline`、`text` ；\n\n' +
+    '禁用状态：`disabled` ；\n\n' +
+    '加载状态：`loading` ；\n\n' +
     '按钮的圆角可以通过 `pill` 设置为半圆，也可以是 css 属性 `border-radius` 能够接受的其它值。',
   'en-US':
-    'Button contains `primary`, `success`, `warning`, `danger` four theme colors, `small`, `medium`, `large` three sizes, `solid`, `outline`, `text` three shapes, `disabled` disabled state, `loading` loading state.\n' +
-    "Button's radius can be set to half circle by setting `pill` to `true`, or to css property `border-radius` accepted values.",
+    'The button includes four theme colors: `primary`, `success`, `warning`, and `danger`;\n\n' +
+    'Three sizes: `small`, `medium`, and `large`;\n\n' +
+    'Three shapes: `solid`, `outline`, and `text`;\n\n' +
+    'Disabled state: `disabled`;\n\n' +
+    'Loading state: `loading`;\n\n' +
+    'The button\'s radius can be set to half circle by setting `pill` to `true`, or to css property `border-radius` accepted values.',
 };
 
 // 该模板会在运行时被编译为vue组件，同时作为组件的源码供用户查看和复制

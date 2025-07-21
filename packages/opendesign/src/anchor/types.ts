@@ -36,7 +36,7 @@ export const anchorProps = {
     type: Boolean,
     default: true,
   },
-} as const;
+};
 
 export const anchorItemProps = {
   /**
@@ -64,7 +64,7 @@ export const anchorItemProps = {
     type: String as PropType<'_blank' | '_parent' | '_self' | '_top'>,
     default: '_self',
   },
-} as const;
+};
 
 export type AnchorContainerT = HTMLElement | Window;
 

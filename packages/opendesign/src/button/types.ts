@@ -74,6 +74,6 @@ export const buttonProps = {
     type: String,
     default: 'button',
   },
-} as const;
+};
 
 export type ButtonPropsT = ExtractPropTypes<typeof buttonProps>;

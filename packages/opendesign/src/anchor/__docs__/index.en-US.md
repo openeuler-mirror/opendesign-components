@@ -8,3 +8,8 @@ sidebar: OAnchor
 
 <!-- @case AnchorUsage -->
 <!-- @case AnchorSlot -->
+
+## Api
+
+<!-- @api OAnchor -->
+<!-- @api OAnchorItem -->
