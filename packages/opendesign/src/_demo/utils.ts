@@ -27,7 +27,7 @@ export function propsToAttrStr(props: Record<string, any>, exclude = [] as strin
             return `${acc} :${key}="false"`;
           }
         case 'string':
-          return `${acc} ${key}="${value}"`;
+          return `${acc} ${key}="${value.replace(/"/g, '&quot;')}"`;
         case 'number':
         case 'bigint':
           return `${acc} :${key}="${value.toString()}"`;
