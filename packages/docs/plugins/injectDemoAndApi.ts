@@ -12,7 +12,7 @@ export function injectDemoAndApi(): Plugin {
     name: 'portal:inject-demo-and-api',
     enforce: 'pre',
     async transform(code, id) {
-      if (!id.endsWith('.md')) {
+      if (!id.endsWith('.md') || id.startsWith('virtual:')) {
         return;
       }
       const imported: {

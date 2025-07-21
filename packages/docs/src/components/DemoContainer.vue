@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, type Component, PropType } from 'vue';
+import { ref, h, type Component, PropType } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
+type DocT = Record<string, string | Component>;
 type DemoComponent = Component & {
   /** __docs__/__case__组件源的源码组件 */
   DemoSource?: Component;
   /** __docs__/__case__组件文案 */
-  __docs?: Record<string, string>;
+  __docs?: DocT;
 };
 const props = defineProps({
   demo: {
@@ -19,11 +20,23 @@ const switchShowCode = () => {
   isShowCode.value = !isShowCode.value;
 };
 const { locale } = useI18n();
+const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
+  if (!docs || !docs[locale]) {
+    return;
+  }
+  if (typeof docs[locale] === 'string') {
+    return h('div', {
+      class: 'docs',
+      innerHTML: docs[locale],
+    });
+  }
+  return h('div', { class: 'docs' }, h(docs[locale]));
+};
 </script>
 
 <template>
   <div class="demo-container">
-    <div v-if="props.demo.__docs" class="docs" v-html="props.demo.__docs[locale]"></div>
+    <Docs :docs="props.demo.__docs" :locale="locale" />
     <div class="demo">
       <Component :is="props.demo" />
     </div>
@@ -56,15 +69,15 @@ const { locale } = useI18n();
     margin-top: 12px;
   }
 }
-.docs {
+:deep(.docs) {
   padding: var(--o3-gap-4);
-  :deep(p),
-  :deep(h1),
-  :deep(h2),
-  :deep(h3),
-  :deep(h4),
-  :deep(h5),
-  :deep(h6) {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     &:first-child {
       margin-top: 0;
     }
