@@ -9,13 +9,13 @@ export function getLangByFileName(_fileName: string) {
 }
 
 export function generateCode(block: SFCBlock) {
-  return `<${block.type} ${Object.entries(block.attrs)
+  return `<${block.type}${Object.entries(block.attrs)
     .map(([key, value]) => {
       if (typeof value === 'string') {
-        return `${key}="${value}"`;
+        return ` ${key}="${value}"`;
       } else {
-        return `${key}`;
+        return ` ${key}`;
       }
     })
-    .join(' ')}>${block.content}</${block.type}>\n`;
+    .join('')}>${block.content}</${block.type}>\n`;
 }
