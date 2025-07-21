@@ -1,0 +1,39 @@
+@use "sass:math";
+
+.virtual-list-demo {
+  &.scrollbar-wrapper {
+    position: relative;
+  }
+  &.container {
+    width: 100%;
+    height: 300px;
+    border: 2px solid rgb(111, 45, 234);
+    box-sizing: border-box;
+    display: flex;
+  }
+  .col {
+    flex: 1;
+  }
+
+  section > div {
+    flex: 0 1 30%;
+  }
+  .section {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  @for $i from 1 through 100 {
+    .item-#{$i} {
+      background-color: rgba(math.random(255), math.random(255), math.random(255), 1);
+    }
+  }
+
+  .container2 {
+    width: 100%;
+    border: 2px solid rgb(111, 45, 234);
+  }
+}
