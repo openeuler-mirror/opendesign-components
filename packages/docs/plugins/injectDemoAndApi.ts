@@ -20,7 +20,7 @@ export function injectDemoAndApi(): Plugin {
       const lang = getLangByFileName(id);
       const imported: {
         default?: string;
-        named?: { name: string; alias?: string }[];
+        all?: string;
         path: string;
       }[] = [];
       // 将 <!-- @case CaseComponent --> 注释替换成 <DemoContainer :demo="AutoInjectCaseComponent" />
@@ -43,18 +43,12 @@ export function injectDemoAndApi(): Plugin {
             });
             return `<DemoContainer :demo="AutoInject${fileName}" />`;
           } else {
-            const docsAlias = `autoInject${fileName}Docs`;
-            const templateAlias = `autoInject${fileName}Template`;
-            const schemaAlias = `autoInject${fileName}Schema`;
+            
             imported.push({
               path: demoFile,
-              named: [
-                { name: 'docs', alias: docsAlias },
-                { name: 'template', alias: templateAlias },
-                { name: 'schema', alias: schemaAlias },
-              ],
+              all: 'autoInjectUsage'
             });
-            return `<DemoUsage :docs="${docsAlias}" :template="${templateAlias}" :schema="${schemaAlias}" />`;
+            return `<DemoUsage :docs="autoInjectUsage.docs" :template="autoInjectUsage.template" :schema="autoInjectUsage.schema" :ctx="autoInjectUsage.ctx" />`;
           }
         }
         return match;
@@ -67,15 +61,8 @@ export function injectDemoAndApi(): Plugin {
             if (item.default) {
               importStr += `${item.default} `;
             }
-            if (item.named) {
-              importStr += `{ ${item.named
-                .map((namedItem) => {
-                  if (namedItem.alias) {
-                    return `${namedItem.name} as ${namedItem.alias}`;
-                  }
-                  return namedItem.name;
-                })
-                .join(', ')} } `;
+            if (item.all) {
+              importStr += `* as ${item.all} `;
             }
             importStr += `from ${JSON.stringify(item.path)};`;
             return importStr;
