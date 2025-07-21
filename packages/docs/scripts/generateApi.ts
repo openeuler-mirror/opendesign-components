@@ -145,7 +145,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
     const pathMath = file.match(pathReg);
     for (const lang of ['zh-CN', 'en-US']) {
       const apiMdPath = join(fullPath, `../__docs__/${pathMath[1]}-api.${lang}.md`);
-      let mdContent = `## API ${pathMath[1]}`;
+      let mdContent = `### ${pathMath[1]}`;
       // props
       if (meta.props.length) {
         const tableHeader = {
@@ -170,7 +170,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
           });
         propsData.unshift(tableHeader[lang]);
         propsData = cleanTableData(propsData);
-        mdContent = `${mdContent}\n\n### props\n\n${markdownTable(propsData)}`;
+        mdContent = `${mdContent}\n\n#### props\n\n${markdownTable(propsData)}`;
       }
       // events
       if (meta.events.length) {
@@ -192,7 +192,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         });
         eventsData.unshift(tableHeader[lang]);
         eventsData = cleanTableData(eventsData);
-        mdContent = `${mdContent}\n\n### events\n\n${markdownTable(eventsData)}`;
+        mdContent = `${mdContent}\n\n#### events\n\n${markdownTable(eventsData)}`;
       }
       // slots
       if (meta.slots.length) {
@@ -205,7 +205,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         });
         slotsData.unshift(tableHeader[lang]);
         slotsData = cleanTableData(slotsData);
-        mdContent = `${mdContent}\n\n### slots\n\n${markdownTable(slotsData)}`;
+        mdContent = `${mdContent}\n\n#### slots\n\n${markdownTable(slotsData)}`;
       }
       await fsp.mkdir(dirname(apiMdPath), { recursive: true }).then(() => fsp.writeFile(apiMdPath, mdContent, { encoding: 'utf-8' }));
     }

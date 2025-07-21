@@ -1,8 +1,10 @@
 import { type Plugin } from 'vite';
 import { join, dirname } from 'node:path';
-import { existsSync, promises as fsp } from 'node:fs';
+import { existsSync, readFileSync, promises as fsp } from 'node:fs';
 import { getLangByFileName } from '../helper/utils';
 
+const entryFileRegex = /index\.([\w-]+)\.md$/;
+const apiFileRegex = /api\.([\w-]+)\.md$/;
 /**
  * vite 插件，在 index.<lang>.md 添加 /__docs__/__case__ 组件；拼接 api.zh-CN.md 文件
  * @returns Plugin
@@ -12,9 +14,10 @@ export function injectDemoAndApi(): Plugin {
     name: 'portal:inject-demo-and-api',
     enforce: 'pre',
     async transform(code, id) {
-      if (!id.endsWith('.md') || id.startsWith('virtual:')) {
+      if (!entryFileRegex.test(id) || id.startsWith('virtual:')) {
         return;
       }
+      const lang = getLangByFileName(id);
       const imported: {
         default?: string;
         named?: { name: string; alias?: string }[];
@@ -22,7 +25,14 @@ export function injectDemoAndApi(): Plugin {
       }[] = [];
       // 将 <!-- @case CaseComponent --> 注释替换成 <DemoContainer :demo="AutoInjectCaseComponent" />
       // 将 <!-- @usage usageConfig --> 注释替换成 <DemoUsage :docs="docs" :template="template" :schema="schema" />
-      let newCode = code.replace(/<!--\s*@(case|usage)\s+(.*?)\s*-->/g, (match, directive, fileName) => {
+      let newCode = code.replace(/<!--\s*@(case|usage|api)\s+(.*?)\s*-->/g, (match, directive, fileName) => {
+        if (directive === 'api') {
+          // 拼接 api 文件
+          const apiFile = join(dirname(id), `${fileName}-api.${lang.lang}.md`);
+          if (existsSync(apiFile)) {
+            return readFileSync(apiFile, 'utf-8');
+          }
+        }
         const fileNameWidthExt = directive === 'case' ? `./__case__/${fileName}.vue` : `./__case__/${fileName}.ts`;
         const demoFile = join(dirname(id), fileNameWidthExt);
         if (existsSync(demoFile)) {
@@ -72,17 +82,22 @@ export function injectDemoAndApi(): Plugin {
           })
           .join('\n')}\n</script>`;
       }
-      const lang = getLangByFileName(id);
-      const dir = dirname(id);
-      // 读取同文件夹下的所有<fileName>-api.<lang>.md 的api文档，将内容注入到对应语言的index.<lang>.md文件末尾
-      const files = await fsp.readdir(dir);
-      for (const file of files) {
-        const filePath = join(dir, file);
-        if (filePath.endsWith(`api.${lang.lang}.md`) && (await fsp.stat(filePath).then((stat) => stat.isFile()))) {
-          newCode += `\n\n${await fsp.readFile(filePath, 'utf-8')}`;
+      return newCode;
+    },
+    // 处理 api.*.md 文件的热更新
+    handleHotUpdate(ctx) {
+      const { file } = ctx;
+      const match = file.match(apiFileRegex);
+      if (match) {
+        const entryFile = join(dirname(file), `index.${match[1]}.md`);
+        if (existsSync(entryFile)) {
+          const module = ctx.server.moduleGraph.getModuleById(entryFile.replace(/\\/g, '/'));
+          if (module) {
+            ctx.server.moduleGraph.invalidateModule(module);
+            ctx.server.ws.send({ type: 'full-reload' });
+          }
         }
       }
-      return newCode;
     },
   };
 }
