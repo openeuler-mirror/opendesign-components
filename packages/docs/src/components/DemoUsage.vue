@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import * as Vue from 'vue';
-import { OSelect, OOption, OCheckbox, OCheckboxGroup } from '@opensig/opendesign';
+import { reactive, h, Fragment, ref, watchEffect, shallowRef, type VNode,type Component, shallowReactive } from 'vue';
+import { OSelect, OOption, OInput, OInputNumber, OCheckbox, OCheckboxGroup } from '@opensig/opendesign';
 import * as prettier from 'prettier';
 import htmlPlugin from 'prettier/plugins/html';
 import babelPlugin from 'prettier/plugins/babel';
@@ -10,7 +10,7 @@ import esTreePlugin from 'prettier/plugins/estree';
 import { highlight, md } from '../../plugins/markdown/common';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
-import { compile } from '@vue/compiler-dom';
+import { compileComponent } from '@/utils/compileComponent';
 export type SchemeT =
   | {
       type: 'boolean';
@@ -20,6 +20,17 @@ export type SchemeT =
       type: 'list';
       list: Array<string | number>;
       default?: string | number;
+    }
+  | {
+      type: 'string';
+      default?: string;
+    }
+  | {
+      type: 'number';
+      step?: number;
+      min?: number;
+      max?: number;
+      default?: number;
     };
 const props = defineProps<{
   /** markdown文档 */
@@ -29,7 +40,6 @@ const props = defineProps<{
   /** vue 模板 */
   template: string | ((_props: Record<string, any>) => string);
 }>();
-const { reactive, h, Fragment, ref, watchEffect, shallowRef } = Vue;
 /**
  * 通过表单控制数据，生成表单控件响应式变量的默认值
  * @param schema 表单控件配置数据
@@ -48,6 +58,12 @@ function getInitialValues(schema: Record<string, SchemeT>) {
       case 'list':
         state[key] = value.default ?? value.list[0];
         break;
+      case 'string':
+        state[key] = value.default ?? '';
+        break;
+      case 'number':
+        state[key] = value.default ?? 0;
+        break;
     }
   });
   return {
@@ -64,17 +80,17 @@ const state = reactive(initialValues.state);
  */
 function OperatorView({ schema }: { schema: Record<string, SchemeT> }) {
   /** 复选框控件 */
-  const checkboxGroup: Vue.VNode[] = [];
+  const checkboxGroup: VNode[] = [];
   /** 选着框控件 */
-  const selectionGroup: Vue.VNode[] = [];
-  const operatorGroup: Vue.VNode[] = [];
+  const selectionOrInputGroup: VNode[] = [];
+  const operatorGroup: VNode[] = [];
   Object.entries(schema).forEach(([key, value]) => {
     switch (value.type) {
       case 'boolean':
         checkboxGroup.push(h(OCheckbox, { value: key }, { default: () => key }));
         break;
       case 'list':
-        selectionGroup.push(
+        selectionOrInputGroup.push(
           h(Fragment, [
             h('span', { class: 'props-playground-selector-name' }, key),
             h(
@@ -86,6 +102,29 @@ function OperatorView({ schema }: { schema: Record<string, SchemeT> }) {
             ),
           ]),
         );
+        break;
+      case 'string':
+        selectionOrInputGroup.push(
+          h(Fragment, [
+            h('span', { class: 'props-playground-selector-name' }, key),
+            h(OInput, { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) }),
+          ]),
+        );
+        break;
+      case 'number':
+        selectionOrInputGroup.push(
+          h(Fragment, [
+            h('span', { class: 'props-playground-selector-name' }, key),
+            h(OInputNumber, {
+              modelValue: state[key],
+              'onUpdate:modelValue': (val) => (state[key] = val),
+              min: value.min,
+              max: value.max,
+              step: value.step,
+            }),
+          ]),
+        );
+        break;
     }
   });
   if (checkboxGroup.length) {
@@ -112,14 +151,14 @@ function OperatorView({ schema }: { schema: Record<string, SchemeT> }) {
       ),
     );
   }
-  if (selectionGroup.length) {
-    operatorGroup.push(h('div', { class: 'operator-group' }, selectionGroup));
+  if (selectionOrInputGroup.length) {
+    operatorGroup.push(h('div', { class: 'operator-group' }, selectionOrInputGroup));
   }
   return h(Fragment, operatorGroup);
 }
 const highlightedCode = ref('');
 const sourceCode = ref('');
-const showcaseComponent = shallowRef<Vue.Component>(() => {});
+const showcaseComponent = shallowRef<Component>(() => {});
 
 /**
  * 通过 props.template 动态编译vue组件，同时格式化并高亮源码
@@ -140,8 +179,7 @@ function createShowcaseComponent(demoProps: Record<string, any>) {
       sourceCode.value = code;
       highlightedCode.value = highlight(code, 'vue');
     });
-  const showcaseCode = compile(template, { mode: 'function' });
-  return new Function('Vue', showcaseCode.code)(Vue);
+  return compileComponent(template);
 }
 /**
  * 函数式组件，用来渲染 showcaseComponent 的演示组件，以及OperatorView表单控件
@@ -166,15 +204,21 @@ Demo.DemoSource = () => {
     );
   }
 };
+const docs = shallowReactive<Record<string, string>>({});
 watchEffect(() => {
   showcaseComponent.value = createShowcaseComponent(state);
   if (props.docs) {
     Object.keys(props.docs).forEach((key) => {
-      props.docs![key] = md.render(props.docs![key]);
+      docs[key] = md.render(props.docs![key]);
+    });
+  } else {
+    Object.keys(docs).forEach((key) => {
+      delete docs[key]; // 清除之前的文档组件
     });
   }
 });
-Demo.__docs = props.docs;
+
+Demo.__docs = docs;
 </script>
 <template>
   <DemoContainer :demo="Demo" class="props-playground" />
