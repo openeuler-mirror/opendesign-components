@@ -147,27 +147,26 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
       const apiMdPath = join(fullPath, `../__docs__/${pathMath[1]}-api.${lang}.md`);
       let mdContent = `### ${pathMath[1]}`;
       // props
-      if (meta.props.length) {
+      const selfProps = meta.props.filter((prop) => !prop.global);
+      if (selfProps.length) {
         const tableHeader = {
           'zh-CN': ['属性名', '类型', '默认值', '必填', '说明', '其它'],
           'en-US': ['Prop Name', 'Type', 'Default', 'Required', 'Description', 'Other'],
         };
         const excludeTag = ['default', 'zh-CN', 'en-US'];
-        let propsData = meta.props
-          .filter((prop) => !prop.global)
-          .map((prop) => {
-            return [
-              prop.name,
-              prop.type,
-              prop.default || prop.tags.find((tag) => tag.name === 'default')?.text || '',
-              prop.required ? '🗸' : '',
-              prop.tags.find((tag) => tag.name === lang)?.text || prop.description || '',
-              prop.tags
-                .filter((tag) => !excludeTag.includes(tag.name))
-                .map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`)
-                .join(' '),
-            ];
-          });
+        let propsData = selfProps.map((prop) => {
+          return [
+            prop.name,
+            prop.type,
+            prop.default || prop.tags.find((tag) => tag.name === 'default')?.text || '',
+            prop.required ? '🗸' : '',
+            prop.tags.find((tag) => tag.name === lang)?.text || prop.description || '',
+            prop.tags
+              .filter((tag) => !excludeTag.includes(tag.name))
+              .map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`)
+              .join(' '),
+          ];
+        });
         propsData.unshift(tableHeader[lang]);
         propsData = cleanTableData(propsData);
         mdContent = `${mdContent}\n\n#### props\n\n${markdownTable(propsData)}`;
