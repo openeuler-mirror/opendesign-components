@@ -4,6 +4,7 @@ import type { App } from 'vue';
 const OToggle = Object.assign(_OButtonToggle, {
   install(app: App) {
     app.component('OButtonToggle', _OButtonToggle);
+    app.component('OToggle', _OButtonToggle);
   },
 });
 
