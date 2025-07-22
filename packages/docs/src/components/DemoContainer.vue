@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, h, type Component, PropType } from 'vue';
+import { ref, h, type Component, type PropType } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
 type DocT = Record<string, string | Component>;
@@ -36,11 +36,6 @@ const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
 
 <template>
   <div class="demo-container">
-    <Docs :docs="props.demo.__docs" :locale="locale" />
-    <div class="demo">
-      <Component :is="props.demo" />
-    </div>
-
     <div class="operator">
       <!-- 隐藏或显示代码块的按钮 -->
       <OButton variant="solid" size="small" @click="switchShowCode">
@@ -55,6 +50,10 @@ const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
         </template>
       </OButton>
     </div>
+    <Docs :docs="props.demo.__docs" :locale="locale" />
+    <div class="demo">
+      <Component :is="props.demo" />
+    </div>
     <!-- 代码块 -->
     <OScroller v-show="isShowCode" v-if="props.demo.DemoSource" class="source">
       <Component :is="props.demo.DemoSource" />
@@ -64,7 +63,6 @@ const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
 <style lang="scss" scoped>
 .demo-container {
   border: 1px solid var(--o-color-control1-light);
-  position: relative;
   & + .demo-container {
     margin-top: 12px;
   }
@@ -103,9 +101,8 @@ const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  position: absolute;
-  right: var(--o3-gap-4);
-  top: var(--o3-gap-4);
+  float: right;
+  transform: translate3d(calc(var(--o3-gap-4) * -1), var(--o3-gap-4), 0);
 }
 .source {
   border-top: 1px solid var(--o-color-control1-light);
