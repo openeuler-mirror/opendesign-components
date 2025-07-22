@@ -13,3 +13,7 @@ sidebar: OVirtualList 虚拟滚动
 <!-- @case VirtualListAPI -->
 <!-- @case VirtualListBasic -->
 <!-- @case VirtualListDynamic -->
+
+## Api
+
+<!-- @api OVirtualList -->
