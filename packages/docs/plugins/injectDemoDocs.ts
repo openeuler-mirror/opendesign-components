@@ -22,10 +22,9 @@ const parseVueQuery = (id: string) => {
   return { file, query: queryObj, queryExtension };
 };
 
-const VIRTUAL_PREFIX = 'virtual:demo-docs:';
 const virtualModules = new Map<string, { langCode: string; lang: string }>();
 const genVirtualId = (id: string, lang: string) => {
-  return `${VIRTUAL_PREFIX}${id.split('?')[0]}-${lang}.md`;
+  return `${id.split('?')[0]}-${lang}.md`;
 };
 /**
  * vite插件，将vue文件中的自定义块 docs 中的 markdown 保存到_sfc_main.__docs中，
