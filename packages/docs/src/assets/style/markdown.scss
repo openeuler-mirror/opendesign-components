@@ -5,11 +5,11 @@
   background-color: var(--o-color-control1-light);
 }
 
-[data-o-theme$='light'] span {
+[data-o-theme$='light'] pre span {
   color: var(--shiki-light);
 }
 
-[data-o-theme$='dark'] span {
+[data-o-theme$='dark'] pre span {
   color: var(--shiki-dark);
 }
 p + .code-container {
