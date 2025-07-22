@@ -6,10 +6,14 @@ sidebar: OButton
 
 ## Usage
 
-<!-- @usage BtnShowcase -->
+<!-- @usage btnUsage -->
 
 ## Demo
 
 <!-- @case BtnIconSize -->
 <!-- @case BtnLoading -->
 <!-- @case BtnRound -->
+
+## Api
+
+<!-- @api OButton -->

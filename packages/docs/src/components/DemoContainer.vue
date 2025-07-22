@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, type Component, PropType } from 'vue';
+import { ref, h, type Component, type PropType } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
+type DocT = Record<string, string | Component>;
 type DemoComponent = Component & {
   /** __docs__/__case__组件源的源码组件 */
   DemoSource?: Component;
   /** __docs__/__case__组件文案 */
-  __docs?: Record<string, string>;
+  __docs?: DocT;
 };
 const props = defineProps({
   demo: {
@@ -19,15 +20,22 @@ const switchShowCode = () => {
   isShowCode.value = !isShowCode.value;
 };
 const { locale } = useI18n();
+const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
+  if (!docs || !docs[locale]) {
+    return;
+  }
+  if (typeof docs[locale] === 'string') {
+    return h('div', {
+      class: 'docs',
+      innerHTML: docs[locale],
+    });
+  }
+  return h('div', { class: 'docs' }, h(docs[locale]));
+};
 </script>
 
 <template>
   <div class="demo-container">
-    <div v-if="props.demo.__docs" class="docs" v-html="props.demo.__docs[locale]"></div>
-    <div class="demo">
-      <Component :is="props.demo" />
-    </div>
-
     <div class="operator">
       <!-- 隐藏或显示代码块的按钮 -->
       <OButton variant="solid" size="small" @click="switchShowCode">
@@ -42,6 +50,10 @@ const { locale } = useI18n();
         </template>
       </OButton>
     </div>
+    <Docs :docs="props.demo.__docs" :locale="locale" />
+    <div class="demo">
+      <Component :is="props.demo" />
+    </div>
     <!-- 代码块 -->
     <OScroller v-show="isShowCode" v-if="props.demo.DemoSource" class="source">
       <Component :is="props.demo.DemoSource" />
@@ -51,20 +63,19 @@ const { locale } = useI18n();
 <style lang="scss" scoped>
 .demo-container {
   border: 1px solid var(--o-color-control1-light);
-  position: relative;
   & + .demo-container {
     margin-top: 12px;
   }
 }
-.docs {
+:deep(.docs) {
   padding: var(--o3-gap-4);
-  :deep(p),
-  :deep(h1),
-  :deep(h2),
-  :deep(h3),
-  :deep(h4),
-  :deep(h5),
-  :deep(h6) {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     &:first-child {
       margin-top: 0;
     }
@@ -90,9 +101,8 @@ const { locale } = useI18n();
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  position: absolute;
-  right: var(--o3-gap-4);
-  top: var(--o3-gap-4);
+  float: right;
+  transform: translate3d(calc(var(--o3-gap-4) * -1), var(--o3-gap-4), 0);
 }
 .source {
   border-top: 1px solid var(--o-color-control1-light);

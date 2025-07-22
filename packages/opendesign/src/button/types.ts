@@ -6,57 +6,69 @@ export type ButtonSizeT = (typeof ButtonSizeTypes)[number];
 
 export const buttonProps = {
   /**
-   * 颜色类型 ColorT
+   * @zh-CN 颜色类型
+   * @en-US Color type
+   * @default 'normal'
    */
   color: {
     type: String as PropType<ColorT>,
     default: 'normal',
   },
   /**
-   * 按钮类型 VariantT
+   * @zh-CN 按钮类型
+   * @en-US Button type
+   * @default 'outline'
    */
   variant: {
     type: String as PropType<VariantT>,
     default: 'outline',
   },
   /**
-   * 按钮尺寸 ButtonSizeT
+   * @zh-CN 按钮尺寸
+   * @en-US Button size
    */
   size: {
     type: String as PropType<ButtonSizeT>,
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 圆角值
+   * @en-US Border radius
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 是否为loading状态
+   * @zh-CN 是否为加载状态
+   * @en-US Loading state
    */
   loading: {
     type: Boolean,
   },
   /**
-   * 是否为禁用状态
+   * @zh-CN 是否禁用
+   * @en-US Disabled state
    */
   disabled: {
     type: Boolean,
   },
   /**
-   * 链接跳转
+   * @zh-CN 跳转链接，如果设置了此属性，则按钮会以 a 标签渲染
+   * @en-US Link to navigate, if set, the button will render as an anchor tag
    */
   href: {
     type: String,
   },
   /**
-   * 前缀图标
+   * @zh-CN 前缀图标
+   * @en-US Prefix icon
    */
   icon: {
     type: Object as PropType<Component>,
   },
   /**
-   * 自定义元素标签
+   * @zh-CN 自定义按钮渲染标签
+   * @en-US Custom button render tag
+   * @default 'button'
    */
   tag: {
     type: String,

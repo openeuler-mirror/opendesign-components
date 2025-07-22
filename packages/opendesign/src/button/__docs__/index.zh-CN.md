@@ -13,3 +13,7 @@ sidebar: OButton 按钮
 <!-- @case BtnIconSize -->
 <!-- @case BtnLoading -->
 <!-- @case BtnRound -->
+
+## Api
+
+<!-- @api OButton -->

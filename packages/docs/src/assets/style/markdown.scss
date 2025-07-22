@@ -12,7 +12,15 @@
 [data-o-theme$='dark'] span {
   color: var(--shiki-dark);
 }
-
+p + .code-container {
+  margin-top: 8px;
+}
+ol,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
 @include respond-to('>pad_v') {
   ol {
     padding-inline-start: calc(1em + 24px);
@@ -24,8 +32,8 @@
   }
   ul,
   ol {
-    li {
-      margin-top: 8px;
+    li + li {
+      margin-block-start: 4px;
     }
     ul {
       list-style-type: circle;
@@ -36,16 +44,8 @@
     }
     ul,
     ol {
-      margin-top: 4px;
       li {
-        margin-top: 4px;
-      }
-      ul,
-      ol {
-        margin-top: 0;
-        li {
-          margin-top: 0;
-        }
+        margin-block-start: 0px;
       }
       ul {
         list-style-type: square;
