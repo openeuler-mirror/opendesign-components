@@ -14,7 +14,7 @@ export default defineConfig({
   base: './',
   build: {
     target: ['chrome74'],
-    outDir: '../../output/o',
+    outDir: './dist',
   },
   plugins: [
     vue({
