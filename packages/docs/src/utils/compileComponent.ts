@@ -8,7 +8,7 @@ import { compile, type CompilerOptions } from '@vue/compiler-dom';
  * @param options
  * @returns 组件
  */
-export function compileComponent(template: string, ctx: any, options: Omit<CompilerOptions, 'filename' | 'mode'> = {}): Vue.Component {
+export function compileComponent(template: string, ctx: any = {}, options: Omit<CompilerOptions, 'filename' | 'mode'> = {}): Vue.Component {
   const { code } = compile(template, {
     ...options,
     mode: 'function',

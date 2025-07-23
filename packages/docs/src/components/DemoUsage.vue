@@ -266,12 +266,21 @@ Demo.DemoSource = () => {
     );
   }
 };
-const docs = shallowReactive<Record<string, string>>({});
+const docs = shallowReactive<Record<string, Component | string>>({});
 watchEffect(() => {
   showcaseComponent.value = createShowcaseComponent(state, props.style);
   if (props.docs) {
     Object.keys(props.docs).forEach((key) => {
-      docs[key] = md.render(props.docs![key]);
+      const htmlCode = md.render(props.docs![key]);
+      try {
+        docs[key] = compileComponent(htmlCode);
+      } catch (e) {
+        docs[key] = htmlCode;
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(e);
+          console.warn(`${key}:\n${htmlCode}`);
+        }
+      }
     });
   } else {
     Object.keys(docs).forEach((key) => {
