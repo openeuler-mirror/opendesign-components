@@ -12,7 +12,7 @@
 [data-o-theme$='dark'] pre span {
   color: var(--shiki-dark);
 }
-p + .code-container {
+p + .code-container, p + .o-table {
   margin-top: 8px;
 }
 ol,

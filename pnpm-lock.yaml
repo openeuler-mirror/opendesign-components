@@ -144,9 +144,6 @@ importers:
 
   .:
     dependencies:
-      '@opensig/opendesign':
-        specifier: workspace:^
-        version: link:packages/opendesign
       normalize.css:
         specifier: catalog:css
         version: 8.0.1

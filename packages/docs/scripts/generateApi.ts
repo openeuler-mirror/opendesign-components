@@ -16,7 +16,6 @@ const checker = createChecker(tsConfigPath, {
   noDeclarations: true,
   printer: { newLine: 1 },
 });
-const CELL_ESCAPE_REPLACE_RE = /[<>"'\|]/g;
 const CELL_REPLACEMENTS = {
   // 避免xss注入
   '<': '&lt;',
@@ -31,6 +30,7 @@ function replaceCellChar(ch: string) {
   return CELL_REPLACEMENTS[ch];
 }
 function escapeTableValue(value?: string) {
+  const CELL_ESCAPE_REPLACE_RE = /[<>"'\|]/g;
   return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }
 function cleanTableData(table: any[][]) {
@@ -128,6 +128,9 @@ async function applyTempFixForSlot(filename: string, componentMeta: ComponentMet
 const terminalWidth = process.stdout.columns || 80;
 const progressBarLength = Math.min(Math.floor(terminalWidth / 4), 30);
 const pathReg = /\/(O.*)\.vue/;
+const tagTypes = {
+  deprecated: '(warning)'
+}
 glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
   files.forEach(async (file, index) => {
     const fullPath = join(srcDir, file);
@@ -163,7 +166,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
             prop.tags.find((tag) => tag.name === lang)?.text || prop.description || '',
             prop.tags
               .filter((tag) => !excludeTag.includes(tag.name))
-              .map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`)
+              .map((tag) => `^[${tag.name}]${tagTypes[tag.name] || ''}${tag.text ? `\`${tag.text}\`` : ''}`)
               .join(' '),
           ];
         });
@@ -185,7 +188,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
             event.tags.find((tag) => tag.name === lang)?.text || event.description || '',
             event.tags
               .filter((tag) => !excludeTag.includes(tag.name))
-              .map((tag) => `^[${tag.name}]${tag.text ? `\`${tag.text}\`` : ''}`)
+              .map((tag) => `^[${tag.name}]${tagTypes[tag.name] || ''}${tag.text ? `\`${tag.text}\`` : ''}`)
               .join(' '),
           ];
         });
