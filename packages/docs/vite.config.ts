@@ -11,7 +11,6 @@ import generateComponentRouter from './plugins/generateComponentRouter';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
   build: {
     target: ['chrome74'],
     outDir: './dist',

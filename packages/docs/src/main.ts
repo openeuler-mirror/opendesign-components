@@ -35,4 +35,7 @@ Object.entries(Opendesign).forEach(([name, value]) => {
     app.component(name, value as any);
   }
 });
+// 某些组件有问题，需要手动注册
+app.component('OCarouselItem', Opendesign.OCarouselItem);
+app.component('OToggle', Opendesign.OToggle);
 app.mount('#app');

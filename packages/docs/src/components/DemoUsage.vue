@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, h, Fragment, ref, watchEffect, shallowRef, type VNode, type Component, shallowReactive } from 'vue';
+import { h, Fragment, reactive, ref, watchEffect, watch, shallowRef, type VNode, type Component, shallowReactive, onBeforeMount, onBeforeUnmount } from 'vue';
 import { OSelect, OOption, OInput, OInputNumber, OCheckbox, OCheckboxGroup, OTextarea, ORadio, ORadioGroup } from '@opensig/opendesign';
 import * as prettier from 'prettier';
 import htmlPlugin from 'prettier/plugins/html';
@@ -11,6 +11,7 @@ import { highlight, md } from '../../plugins/markdown/common';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
 import { compileComponent } from '@/utils/compileComponent';
+import { compileString } from 'sass';
 export type SchemeT =
   | {
       type: 'boolean';
@@ -54,6 +55,8 @@ const props = defineProps<{
   schema: Record<string, SchemeT>;
   /** vue 模板 */
   template: string | ((_props: Record<string, any>) => string);
+  /** 样式表字符串 */
+  style?: string | ((_props: Record<string, any>) => string);
   /** 传给 template 的上下文，在模板中使用 */
   ctx?: any;
 }>();
@@ -62,36 +65,46 @@ const props = defineProps<{
  * @param schema 表单控件配置数据
  */
 function getInitialValues(schema: Record<string, SchemeT>) {
-  const checkboxGroupDefaultValue: string[] = [];
-  const state: Record<string, any> = {};
+  const _checkboxGroupValue: (string | number)[] = [];
+  const _state: Record<string, any> = {};
   Object.entries(schema).forEach(([key, value]) => {
     switch (value.type) {
       case 'boolean':
-        state[key] = Boolean(value.default);
-        if (state[key]) {
-          checkboxGroupDefaultValue.push(key);
+        _state[key] = Boolean(value.default);
+        if (_state[key]) {
+          _checkboxGroupValue.push(key);
         }
         break;
       case 'radio':
       case 'list':
-        state[key] = value.default ?? value.list[0];
+        _state[key] = value.default ?? value.list[0];
         break;
       case 'textarea':
       case 'string':
-        state[key] = value.default ?? '';
+        _state[key] = value.default ?? '';
         break;
       case 'number':
-        state[key] = value.default ?? 0;
+        _state[key] = value.default ?? 0;
         break;
     }
   });
   return {
-    state,
-    checkboxGroupDefaultValue,
+    state: _state,
+    checkboxGroupValue: _checkboxGroupValue,
   };
 }
 const initialValues = getInitialValues(props.schema);
 const state = reactive(initialValues.state);
+const checkboxGroupValue = ref(initialValues.checkboxGroupValue);
+watch(state, (newVal) => {
+  const newCheckboxGroupValue: Array<string | number> = [];
+  Object.entries(newVal).forEach(([key, value]) => {
+    if (props.schema[key].type === 'boolean' && value === true) {
+      newCheckboxGroupValue.push(key);
+    }
+  });
+  checkboxGroupValue.value = newCheckboxGroupValue;
+});
 
 /**
  * OperatorView 函数式组件，用来渲染表单控件
@@ -151,10 +164,10 @@ function OperatorView({ schema }: { schema: Record<string, SchemeT> }) {
             h('span', { class: 'props-playground-selector-name' }, value.label || key),
             h(OInputNumber, {
               modelValue: state[key],
-              'onUpdate:modelValue': (val) => (state[key] = val),
               min: value.min,
               max: value.max,
               step: value.step,
+              'onUpdate:modelValue': (val) => (state[key] = val),
             }),
           ]),
         );
@@ -179,7 +192,7 @@ function OperatorView({ schema }: { schema: Record<string, SchemeT> }) {
         OCheckboxGroup,
         {
           class: 'checkbox-group',
-          defaultValue: initialValues.checkboxGroupDefaultValue,
+          modelValue: checkboxGroupValue.value,
           onChange: (val) => {
             Object.entries(schema).forEach(([key, value]) => {
               if (value.type === 'boolean') {
@@ -211,11 +224,14 @@ const showcaseComponent = shallowRef<Component>(() => {});
  * 动态编译的组件保存在 showcaseComponent 中，格式化的源码保存在 sourceCode 中，高亮的源码保存在 highlightedCode 中
  * @param demoProps 演示组件的属性
  */
-function createShowcaseComponent(demoProps: Record<string, any>) {
+function createShowcaseComponent(demoProps: Record<string, any>, style: string | ((demoProps: Record<string, any>) => string) = '') {
   const template = typeof props.template === 'function' ? props.template(demoProps) : props.template;
-  const wrapTemplateTag = template.trimStart().startsWith('<template>') ? template : `<template>${template}</template>`;
+  let sfcCode = template.trimStart().startsWith('<template>') ? template : `<template>${template}</template>`;
+  if (style) {
+    sfcCode = `${sfcCode}\n<style lang="scss">${typeof style === 'string' ? style : style(demoProps)}</style>`;
+  }
   prettier
-    .format(wrapTemplateTag, {
+    .format(sfcCode, {
       parser: 'vue',
       plugins: [htmlPlugin, esTreePlugin, babelPlugin, postPlugin, tsPlugin],
       singleQuote: true,
@@ -252,7 +268,7 @@ Demo.DemoSource = () => {
 };
 const docs = shallowReactive<Record<string, string>>({});
 watchEffect(() => {
-  showcaseComponent.value = createShowcaseComponent(state);
+  showcaseComponent.value = createShowcaseComponent(state, props.style);
   if (props.docs) {
     Object.keys(props.docs).forEach((key) => {
       docs[key] = md.render(props.docs![key]);
@@ -265,6 +281,18 @@ watchEffect(() => {
 });
 
 Demo.__docs = docs;
+// 设置样式表
+let styleDom: HTMLStyleElement | null = null;
+onBeforeMount(() => {
+  styleDom = document.createElement('style');
+  watchEffect(() => {
+    styleDom!.innerHTML = compileString(typeof props.style === 'function' ? props.style(state) : props.style || '').css;
+  });
+  document.head.appendChild(styleDom!);
+});
+onBeforeUnmount(() => {
+  styleDom?.remove();
+});
 </script>
 <template>
   <DemoContainer :demo="Demo" class="props-playground" />
@@ -295,7 +323,8 @@ Demo.__docs = docs;
     border-left: none;
   }
 }
-:deep(.checkbox-group), :deep(.radio-group) {
+:deep(.checkbox-group),
+:deep(.radio-group) {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: var(--o3-gap-3);

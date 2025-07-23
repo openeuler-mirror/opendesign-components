@@ -48,7 +48,7 @@ export function injectDemoAndApi(): Plugin {
               path: demoFile,
               all: 'autoInjectUsage'
             });
-            return `<DemoUsage :docs="autoInjectUsage.docs" :template="autoInjectUsage.template" :schema="autoInjectUsage.schema" :ctx="autoInjectUsage.ctx" />`;
+            return `<DemoUsage :docs="autoInjectUsage.docs" :template="autoInjectUsage.template" :schema="autoInjectUsage.schema" :style="autoInjectUsage.style" :ctx="autoInjectUsage.ctx" />`;
           }
         }
         return match;
