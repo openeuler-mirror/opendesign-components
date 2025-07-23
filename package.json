@@ -12,6 +12,7 @@
     "docs:build": "pnpm -C packages/docs build"
   },
   "dependencies": {
+    "@opensig/opendesign": "workspace:^",
     "normalize.css": "catalog:css",
     "vue": "catalog:vue",
     "vue-router": "catalog:vue"
@@ -24,6 +25,7 @@
     "eslint": "catalog:lint",
     "eslint-plugin-vue": "catalog:lint",
     "typescript": "catalog:typescript",
-    "vite-node": "catalog:utils"
+    "vite-node": "catalog:utils",
+    "vue-eslint-parser": "catalog:lint"
   }
 }
