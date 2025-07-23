@@ -21,8 +21,7 @@ export const SizeTypes = ['large', 'medium', 'small'] as const;
 export type SizeT = (typeof SizeTypes)[number];
 
 // 圆角
-export type RoundT = 'pill' | string;
-
+export type RoundT = 'pill' | (string & {});
 // 方向
 export const DirectionTypes = ['h', 'v'] as const;
 export type DirectionT = (typeof DirectionTypes)[number];
