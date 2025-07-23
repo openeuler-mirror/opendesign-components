@@ -14,8 +14,7 @@
   "dependencies": {
     "normalize.css": "catalog:css",
     "vue": "catalog:vue",
-    "vue-router": "catalog:vue",
-    "@opensig/opendesign": "workspace:^"
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "catalog:lint",
