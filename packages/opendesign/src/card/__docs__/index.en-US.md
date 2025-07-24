@@ -6,7 +6,7 @@ sidebar: OCard
 
 ## Demo
 
-<!-- @usage cardUsage -->
+<!-- @usage CardUsage -->
 <!-- @case CardSlot -->
 
 ## API

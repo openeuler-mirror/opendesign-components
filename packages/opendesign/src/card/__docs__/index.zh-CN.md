@@ -6,7 +6,7 @@ sidebar: OCard 卡片
 
 ## 示例
 
-<!-- @usage cardUsage -->
+<!-- @usage CardUsage -->
 <!-- @case CardSlot -->
 
 ## API
