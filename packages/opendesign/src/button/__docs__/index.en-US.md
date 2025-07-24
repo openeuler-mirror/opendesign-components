@@ -4,12 +4,9 @@ sidebar: OButton
 
 # Button
 
-## Usage
-
-<!-- @usage btnUsage -->
-
 ## Demo
 
+<!-- @usage BtnUsage -->
 <!-- @case BtnIconSize -->
 <!-- @case BtnLoading -->
 <!-- @case BtnRound -->
