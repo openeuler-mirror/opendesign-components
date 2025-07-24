@@ -71,6 +71,7 @@ function readSvgData(cfg: IconsConfig) {
   [SvgType.FILL, SvgType.STROKE, SvgType.COLOR].forEach((key) => {
     const files = globSync(`${key}/**/*.svg`, {
       cwd: cfg.input,
+      posix: true,
       // absolute: true,
     });
 
