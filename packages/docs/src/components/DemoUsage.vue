@@ -1,62 +1,27 @@
 <script setup lang="ts">
-import { h, Fragment, reactive, ref, watchEffect, watch, shallowRef, type VNode, type Component, shallowReactive, onBeforeMount, onBeforeUnmount } from 'vue';
-import { OSelect, OOption, OInput, OInputNumber, OCheckbox, OCheckboxGroup, OTextarea, ORadio, ORadioGroup } from '@opensig/opendesign';
+import { h, reactive, ref, watchEffect, watch, shallowRef, type Component } from 'vue';
 import * as prettier from 'prettier';
 import htmlPlugin from 'prettier/plugins/html';
 import babelPlugin from 'prettier/plugins/babel';
 import postPlugin from 'prettier/plugins/postcss';
 import tsPlugin from 'prettier/plugins/typescript';
 import esTreePlugin from 'prettier/plugins/estree';
-import { highlight, md } from '../../plugins/markdown/common';
+import { highlight } from '../../plugins/markdown/common';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
 import { compileComponent } from '@/utils/compileComponent';
-import { compileString } from 'sass';
-export type SchemeT =
-  | {
-      type: 'boolean';
-      default?: boolean;
-      label?: string;
-    }
-  | {
-      type: 'list';
-      list: Array<string | number>;
-      default?: string | number;
-      label?: string;
-    }
-  | {
-      type: 'string';
-      default?: string;
-      label?: string;
-    }
-  | {
-      type: 'textarea';
-      default?: string;
-      label?: string;
-      row?: number;
-    }
-  | {
-      type: 'number';
-      step?: number;
-      min?: number;
-      max?: number;
-      default?: number;
-      label?: string;
-    }
-  | {
-      type: 'radio';
-      default?: string | number;
-      list: Array<string | number>;
-    };
+import DemoContainer, { type DemoComponent } from './DemoContainer.vue';
+import OperatorView, { type SchemeT } from './OperatorView';
+
 const props = defineProps<{
   /** markdown文档 */
-  docs?: Record<string, string>;
+  docs?: Record<string, Component>;
   /** 表单控件配置数据 */
   schema: Record<string, SchemeT>;
   /** vue 模板 */
   template: string | ((_props: Record<string, any>) => string);
   /** 样式表字符串 */
-  style?: string | ((_props: Record<string, any>) => string);
+  style?: string;
   /** 传给 template 的上下文，在模板中使用 */
   ctx?: any;
 }>();
@@ -106,115 +71,6 @@ watch(state, (newVal) => {
   checkboxGroupValue.value = newCheckboxGroupValue;
 });
 
-/**
- * OperatorView 函数式组件，用来渲染表单控件
- * @param param0 表单控件配置数据
- */
-function OperatorView({ schema }: { schema: Record<string, SchemeT> }) {
-  /** 复选框控件 */
-  const checkboxGroup: VNode[] = [];
-  /** 选着框控件 */
-  const selectionOrInputGroup: VNode[] = [];
-  /** 单选框控件 */
-  const radioGroup: VNode[] = [];
-  const operatorGroup: VNode[] = [];
-  Object.entries(schema).forEach(([key, value]) => {
-    switch (value.type) {
-      case 'boolean':
-        checkboxGroup.push(h(OCheckbox, { value: key }, { default: () => value.label || key }));
-        break;
-      case 'list':
-        selectionOrInputGroup.push(
-          h(Fragment, [
-            h('span', { class: 'props-playground-selector-name' }, value.label || key),
-            h(
-              OSelect,
-              { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) },
-              {
-                default: () => value.list.map((item) => h(OOption, { value: item, label: item.toString() })),
-              },
-            ),
-          ]),
-        );
-        break;
-      case 'string':
-        selectionOrInputGroup.push(
-          h(Fragment, [
-            h('span', { class: 'props-playground-selector-name' }, value.label || key),
-            h(OInput, { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) }),
-          ]),
-        );
-        break;
-      case 'textarea':
-        selectionOrInputGroup.push(
-          h(Fragment, [
-            h('span', { class: 'props-playground-selector-name' }, value.label || key),
-            h(OTextarea, {
-              modelValue: state[key],
-              style: { '--row': value.row || 3 },
-              class: 'props-playground-textarea',
-              'onUpdate:modelValue': (val) => (state[key] = val),
-            }),
-          ]),
-        );
-        break;
-      case 'number':
-        selectionOrInputGroup.push(
-          h(Fragment, [
-            h('span', { class: 'props-playground-selector-name' }, value.label || key),
-            h(OInputNumber, {
-              modelValue: state[key],
-              min: value.min,
-              max: value.max,
-              step: value.step,
-              'onUpdate:modelValue': (val) => (state[key] = val),
-            }),
-          ]),
-        );
-        break;
-      case 'radio':
-        radioGroup.push(
-          h(
-            ORadioGroup,
-            { modelValue: state[key], class: 'radio-group', 'onUpdate:modelValue': (val) => (state[key] = val) },
-            { default: () => value.list.map((item) => h(ORadio, { value: item }, { default: () => item })) },
-          ),
-        );
-        break;
-    }
-  });
-  if (radioGroup.length) {
-    operatorGroup.push(h(Fragment, radioGroup));
-  }
-  if (checkboxGroup.length) {
-    operatorGroup.push(
-      h(
-        OCheckboxGroup,
-        {
-          class: 'checkbox-group',
-          modelValue: checkboxGroupValue.value,
-          onChange: (val) => {
-            Object.entries(schema).forEach(([key, value]) => {
-              if (value.type === 'boolean') {
-                state[key] = false;
-              }
-            });
-            val.forEach((name) => {
-              state[name] = true;
-            });
-          },
-        },
-        {
-          default: () => checkboxGroup,
-        },
-      ),
-    );
-  }
-  if (selectionOrInputGroup.length) {
-    operatorGroup.push(h('div', { class: 'operator-group' }, selectionOrInputGroup));
-  }
-  return h(Fragment, operatorGroup);
-}
 const highlightedCode = ref('');
 const sourceCode = ref('');
 const showcaseComponent = shallowRef<Component>(() => {});
@@ -224,11 +80,11 @@ const showcaseComponent = shallowRef<Component>(() => {});
  * 动态编译的组件保存在 showcaseComponent 中，格式化的源码保存在 sourceCode 中，高亮的源码保存在 highlightedCode 中
  * @param demoProps 演示组件的属性
  */
-function createShowcaseComponent(demoProps: Record<string, any>, style: string | ((demoProps: Record<string, any>) => string) = '') {
+function createShowcaseComponent(demoProps: Record<string, any>, style: string = '') {
   const template = typeof props.template === 'function' ? props.template(demoProps) : props.template;
-  let sfcCode = template.trimStart().startsWith('<template>') ? template : `<template>${template}</template>`;
+  let sfcCode = template.trimStart().startsWith('<template') ? template : `<template>${template}</template>`;
   if (style) {
-    sfcCode = `${sfcCode}\n<style lang="scss">${typeof style === 'string' ? style : style(demoProps)}</style>`;
+    sfcCode = `${sfcCode}\n${style.trimStart().startsWith('<style') ? style : `<style lang="scss">${style}</style>`}`;
   }
   prettier
     .format(sfcCode, {
@@ -240,16 +96,21 @@ function createShowcaseComponent(demoProps: Record<string, any>, style: string |
     .then((code) => {
       sourceCode.value = code;
       highlightedCode.value = highlight(code, 'vue');
+    })
+    .catch((err) => {
+      sourceCode.value = sfcCode;
+      highlightedCode.value = highlight(sfcCode, 'vue');
+      return Promise.reject(err);
     });
   return compileComponent(template, props.ctx);
 }
 /**
  * 函数式组件，用来渲染 showcaseComponent 的演示组件，以及OperatorView表单控件
  */
-const Demo = () =>
+const Demo: DemoComponent = () =>
   h('div', { class: 'props-playground-demo' }, [
     h('div', { class: 'props-playground-content' }, [h(showcaseComponent.value)]),
-    h('div', { class: 'props-playground-operator' }, [h(OperatorView, { schema: props.schema })]),
+    h('div', { class: 'props-playground-operator' }, [h(OperatorView, { schema: props.schema, state: state, checkboxGroupValue: checkboxGroupValue.value })]),
   ]);
 // 将DemoSource组件保存到Demo中，会被 DemoContainer 渲染为源码
 Demo.DemoSource = () => {
@@ -266,41 +127,10 @@ Demo.DemoSource = () => {
     );
   }
 };
-const docs = shallowReactive<Record<string, Component | string>>({});
+
 watchEffect(() => {
   showcaseComponent.value = createShowcaseComponent(state, props.style);
-  if (props.docs) {
-    Object.keys(props.docs).forEach((key) => {
-      const htmlCode = md.render(props.docs![key]);
-      try {
-        docs[key] = compileComponent(htmlCode);
-      } catch (e) {
-        docs[key] = htmlCode;
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(e);
-          console.warn(`${key}:\n${htmlCode}`);
-        }
-      }
-    });
-  } else {
-    Object.keys(docs).forEach((key) => {
-      delete docs[key]; // 清除之前的文档组件
-    });
-  }
-});
-
-Demo.__docs = docs;
-// 设置样式表
-let styleDom: HTMLStyleElement | null = null;
-onBeforeMount(() => {
-  styleDom = document.createElement('style');
-  watchEffect(() => {
-    styleDom!.innerHTML = compileString(typeof props.style === 'function' ? props.style(state) : props.style || '').css;
-  });
-  document.head.appendChild(styleDom!);
-});
-onBeforeUnmount(() => {
-  styleDom?.remove();
+  Demo.__docs = props.docs;
 });
 </script>
 <template>

@@ -12,7 +12,6 @@
     "docs:build": "pnpm -C packages/docs build"
   },
   "dependencies": {
-    "@opensig/opendesign": "workspace:^",
     "normalize.css": "catalog:css",
     "vue": "catalog:vue",
     "vue-router": "catalog:vue"

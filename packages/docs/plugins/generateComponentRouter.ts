@@ -38,7 +38,7 @@ const emit = debounce(() => {
       return files.map((file) => {
         const fullPath = resolve(searchBase, file);
         const content = fse.readFileSync(fullPath).toString();
-        return { content, file, fullPath, name: file.match(/([^\/]+)\/__docs__\/?/)?.[1], lang: getLangByFileName(file).lang };
+        return { content, file, fullPath, name: file.match(/([^/]+)\/__docs__\/?/)?.[1], lang: getLangByFileName(file).lang };
       });
     })
     .then((fileContents) => {

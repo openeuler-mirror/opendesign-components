@@ -54,6 +54,8 @@ module.exports = {
     }],
     'default-param-last': 'off',
     'no-param-reassign': ['error', { props: false }],
+    'no-shadow': ['error', { hoist: 'all' }],
+    'no-use-before-define': ['error', { functions: false }],
 
     'vue/max-attributes-per-line': 'off',
     'vue/html-self-closing': ['warn', {
@@ -66,8 +68,15 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/multiline-html-element-content-newline': 'warn',
-
+    'vue/no-mutating-props': ['error', { shallowOnly: true }],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        varsIgnorePattern: '^_',
+        argsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }
+    ],
   },
 };

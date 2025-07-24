@@ -64,4 +64,4 @@ export type DocDemoState<T> = T extends Record<string, any>
   : T;
 
 export type DocDemoTemplate<T> = ((props: DocDemoState<T>) => string) | string;
-export type DocDemoStyle<T> = ((props: DocDemoState<T>) => string) | string;
+export type DocDemoStyle = string;

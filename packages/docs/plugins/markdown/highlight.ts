@@ -42,7 +42,7 @@ export const createHighlighter = () => {
 
   const stripPreCodeReg = /<pre.*?><code.*?>([\s\S]*?)<\/code><\/pre>/;
   /** 去除高亮代码的首尾<pre><code>...</code></pre> */
-  const stripPreCodeTag = (html: string) => html.replace(stripPreCodeReg, '$1');
+  const stripPreCodeTag = (htmlCode: string) => htmlCode.replace(stripPreCodeReg, '$1');
 
   // 支持语言集合
   const supportLangs = new Set([
