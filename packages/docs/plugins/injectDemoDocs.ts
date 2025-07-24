@@ -1,14 +1,15 @@
 import { type Plugin, type ViteDevServer } from 'vite';
 import { MarkdownItAsync } from 'markdown-it-async';
 import { markdownItPlugins, markdownItOptions } from './markdown/common';
+import { parseDocsCode } from '../helper/utils';
 
 const parseVueQuery = (id: string) => {
-  let [file, query] = id.split('?', 2);
-  if (!query) {
+  const [file, _query] = id.split('?', 2);
+  if (!_query) {
     return { file, query: {}, queryExtension: '' };
   }
-  const queryExtension = query.match(/\.([a-zA-Z0-9]+)$/)?.[1];
-  query = queryExtension ? query.slice(0, query.length - queryExtension.length - 1) : query;
+  const queryExtension = _query.match(/\.([a-zA-Z0-9]+)$/)?.[1];
+  const query = queryExtension ? _query.slice(0, _query.length - queryExtension.length - 1) : _query;
   const queryObj = query
     ? query.split('&').reduce(
         (prev, curr) => {
@@ -24,7 +25,7 @@ const parseVueQuery = (id: string) => {
 
 const virtualModules = new Map<string, { langCode: string; lang: string }>();
 const genVirtualId = (id: string, lang: string) => {
-  return `${id.split('?')[0]}-${lang}.md`;
+  return `${id.split('?')[0]}-virtual-${lang}.md`;
 };
 /**
  * vite插件，将vue文件中的自定义块 docs 中的 markdown 保存到_sfc_main.__docs中，
@@ -53,18 +54,11 @@ export function injectDemoDocs(): Plugin {
       if (!query.vue || query.type !== 'docs' || !id.endsWith('.md')) {
         return;
       }
-      // 通过 <!-- lang --> 分割不同语言的文案块
-      const langSeparator = /<!--\s*([a-zA-Z-]+)\s*-->/gm;
-      const langMatchList = Array.from(code.matchAll(langSeparator));
       const virtualIds: string[] = [];
-      langMatchList.forEach((langMatch, matchIndex) => {
-        const lang = langMatch[1];
-        const langCode = code.slice(
-          langMatch.index + langMatch[0].length,
-          matchIndex === langMatchList.length - 1 ? code.length : langMatchList[matchIndex + 1].index,
-        );
+      parseDocsCode(code).forEach(({ lang, code: langCode }) => {
         const virtualId = genVirtualId(id, lang);
         if (virtualModules.has(virtualId) && this.environment.mode === 'dev' && viteDevServer) {
+          // 刷新虚拟模块，通知浏览器更新
           viteDevServer.watcher.emit('change', virtualId);
         }
         virtualModules.set(virtualId, { langCode, lang });

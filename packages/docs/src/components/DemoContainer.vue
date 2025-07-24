@@ -3,7 +3,7 @@ import { ref, h, type Component, type PropType } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
 
 type DocT = Record<string, string | Component>;
-type DemoComponent = Component & {
+export type DemoComponent = Component & {
   /** __docs__/__case__组件源的源码组件 */
   DemoSource?: Component;
   /** __docs__/__case__组件文案 */
@@ -20,17 +20,17 @@ const switchShowCode = () => {
   isShowCode.value = !isShowCode.value;
 };
 const { locale } = useI18n();
-const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
-  if (!docs || !docs[locale]) {
+const Docs = ({ docs, locale: _locale }: { docs?: DocT; locale: string }) => {
+  if (!docs || !docs[_locale]) {
     return;
   }
-  if (typeof docs[locale] === 'string') {
+  if (typeof docs[_locale] === 'string') {
     return h('div', {
       class: 'docs',
-      innerHTML: docs[locale],
+      innerHTML: docs[_locale],
     });
   }
-  return h('div', { class: 'docs' }, h(docs[locale]));
+  return h('div', { class: 'docs' }, h(docs[_locale]));
 };
 </script>
 
@@ -44,7 +44,7 @@ const Docs = ({ docs, locale }: { docs?: DocT; locale: string }) => {
             <path
               fill="currentColor"
               d="m23 12l-7.071 7.071l-1.414-1.414L20.172 12l-5.657-5.657l1.414-1.414L23 12zM3.828 12l5.657 5.657l-1.414 1.414L1 12l7.071-7.071l1.414 1.414L3.828 12z"
-            ></path>
+            />
           </svg>
           <OIconChevronUp v-else />
         </template>
