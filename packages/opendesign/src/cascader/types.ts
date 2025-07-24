@@ -14,74 +14,91 @@ export type CascaderOptionT = {
 
 export const cascaderProps = {
   /**
-   * 级联选择器双向绑定值 CascaderValueT
+   * @zh-CN 级联选择器选中值(v-model)
+   * @en-US Cascader selected value (v-model)
+   * @CascaderValueT string | number | Array<string | number>
    */
   modelValue: {
     type: [String, Number, Array] as PropType<CascaderValueT>,
     default: '',
   },
   /**
-   * 级联选择器选项值 CascaderOptionT
-   * */
+   * @zh-CN 级联选择器选项值
+   * @en-US Cascader option value
+   * @CascaderOptionT { value: string | number, label?: string, children?: Array<CascaderOptionT> }
+   */
   options: {
     type: Array as PropType<Array<CascaderOptionT>>,
   },
   /**
-   * 是否使用路径模式
-   *
-   * */
+   * @zh-CN modelValue 是否使用路径模式
+   * @en-US Whether to use path mode for modelValue
+   * @default false
+   */
   pathMode: {
     type: Boolean,
     default: false,
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 圆角大小
+   * @en-US Round size
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 级联选择器类型 VariantT
+   * @zh-CN 样式
+   * @en-US Style
+   * @default 'outline'
    */
   variant: {
     type: String as PropType<VariantT>,
     default: 'outline',
   },
   /**
-   * 提示文本
+   * @zh-CN 提示文本
+   * @en-US Placeholder
    */
   placeholder: {
     type: String,
   },
   /**
-   * 下拉选项触发方式 PopupTriggerT
+   * @zh-CN 触发方式
+   * @en-US Trigger
+   * @default 'click'
+   * @deprecated useless
    */
   trigger: {
     type: String as PropType<PopupTriggerT>,
     default: 'click',
   },
   /**
-   * 下拉选项位置 PopupPositionT
+   * @zh-CN 下拉选项位置
+   * @en-US Option position
+   * @default 'bl'
    */
   optionPosition: {
     type: String as PropType<PopupPositionT>,
     default: 'bl',
   },
   /**
-   * 下拉容器自定义类
+   * @zh-CN 下拉选项容器类名
+   * @en-US Option container class name
    */
   optionWrapClass: {
     type: [String, Array] as PropType<string | string[]>,
   },
   /**
-   * 是否在结束选择时，卸载下拉选项
+   * @zh-CN 是否在隐藏时销毁 DOM
+   * @en-US Whether to destroy DOM when hidden
    */
   unmountOnHide: {
     type: Boolean,
     default: true,
   },
   /**
-   * 过渡名称
+   * @zh-CN 过渡动画名称
+   * @en-US Transition animation name
    */
   transition: {
     type: String,
@@ -90,22 +107,25 @@ export const cascaderProps = {
 
 export const cascaderPanelProps = {
   /**
-   * 级联选择器双向绑定值 CascaderValueT
+   * @zh-CN 级联选择器选中值(v-model)
+   * @en-US Cascader selected value (v-model)
    */
   modelValue: {
     type: [String, Number, Array] as PropType<CascaderValueT>,
     default: '',
   },
   /**
-   * 级联选择器选项值 CascaderOptionT
-   * */
+   * @zh-CN 级联选择器选项值
+   * @en-US Cascader option value
+   */
   options: {
     type: Array as PropType<Array<CascaderOptionT>>,
   },
   /**
-   * 是否使用路径模式
-   *
-   * */
+   * @zh-CN modelValue 是否使用路径模式
+   * @en-US Whether to use path mode for modelValue
+   * @default false
+   */
   pathMode: {
     type: Boolean,
     default: false,
