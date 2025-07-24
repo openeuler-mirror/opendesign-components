@@ -6,7 +6,7 @@ sidebar: OBadge 徽标
 
 ## 示例
 
-<!-- @usage badgeUsage -->
+<!-- @usage BadgeUsage -->
 
 <!-- @case BadgeSlot -->
 
