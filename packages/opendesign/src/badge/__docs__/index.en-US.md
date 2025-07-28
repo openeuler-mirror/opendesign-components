@@ -6,7 +6,7 @@ sidebar: OBadge
 
 ## Demo
 
-<!-- @usage badgeUsage -->
+<!-- @usage BadgeUsage -->
 
 <!-- @case BadgeSlot -->
 
