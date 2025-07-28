@@ -82,15 +82,18 @@ const transformMdEntry = async (code: string, id: string, usageFiles: Set<string
   // 将 <!-- @case CaseComponent --> 注释替换成 <DemoContainer :demo="AutoInjectCaseComponent" />
   // 将 <!-- @usage usageConfig --> 注释替换成 <DemoUsage :docs="docs" :template="template" :schema="schema" />
   let newCode = await asyncReplace(code, /<!-{2,}\s*@(case|usage|api)\s+(.*?)\s*-{2,}>/g, async (match) => {
-    const [, directive, fileName] = match;
+    const [, directive, filePath] = match;
+    const paths = filePath.split('/');
+    const dirs = paths.slice(0, -1);
+    const fileName = paths[paths.length - 1];
     if (directive === 'api') {
       // 拼接 api 文件
-      const apiFile = join(dirname(id), `${fileName}-api.${lang.lang}.md`);
+      const apiFile = join(dirname(id), ...dirs, `${fileName}-api.${lang.lang}.md`);
       if (await fsp.stat(apiFile).catch(() => false)) {
         return fsp.readFile(apiFile, 'utf-8');
       }
     }
-    const demoFile = join(dirname(id), `./__case__/${fileName}.vue`);
+    const demoFile = join(dirname(id), ...dirs, `./__case__/${fileName}.vue`);
     if (await fsp.stat(demoFile).catch(() => false)) {
       if (directive === 'case') {
         imported.push({
