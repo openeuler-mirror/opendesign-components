@@ -2,41 +2,47 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 export const checkboxProps = {
   /**
-   * 多选框value
+   * @zh-CN 多选框value，会作为 modelValue 的值
+   * @en-US Checkbox value, which will be the value of modelValue
    */
   value: {
     type: [String, Number],
-    required: true,
+    required: true as const,
   },
   /**
-   * 多选框双向绑定值
+   * @zh-CN 多选框双向绑定值
+   * @en-US Checkbox two-way binding value
    */
   modelValue: {
     type: Array as PropType<Array<string | number>>,
   },
   /**
-   * 非受控状态时，默认是否选中
+   * @zh-CN 非受控状态时，默认是否选中
+   * @en-US Default checked when uncontrolled
    */
   defaultChecked: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable
    */
   disabled: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否为半选状态
+   * @zh-CN 是否半选
+   * @en-US Whether to select half
    */
   indeterminate: {
     type: Boolean,
     default: false,
   },
   /**
-   * input id
+   * @zh-CN 输入框的 id
+   * @en-US The id of the input box
    */
   inputId: {
     type: String,

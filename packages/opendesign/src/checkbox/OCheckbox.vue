@@ -90,6 +90,7 @@ const onChange = (ev: Event) => {
 };
 
 defineExpose({
+  /** is checked */
   checked: isChecked,
 });
 

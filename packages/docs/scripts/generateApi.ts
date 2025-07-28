@@ -30,7 +30,7 @@ function replaceCellChar(ch: string) {
   return CELL_REPLACEMENTS[ch];
 }
 function escapeTableValue(value?: string) {
-  const CELL_ESCAPE_REPLACE_RE = /[<>"'\|]/g;
+  const CELL_ESCAPE_REPLACE_RE = /[<>"'|]/g;
   return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }
 function cleanTableData(table: any[][]) {
@@ -61,11 +61,11 @@ function cleanTableData(table: any[][]) {
 function markdownTable(table: string[][]) {
   let code = '';
   // head
-  code += '| ' + table[0].join(' | ') + ' |\n';
-  code += '| ' + table[0].map(() => '---').join(' | ') + ' |\n';
+  code += `| ${table[0].join(' | ')} |\n`;
+  code += `| ${table[0].map(() => '---').join(' | ')} |\n`;
   // body
   for (let i = 1; i < table.length; i++) {
-    code += '| ' + table[i].join(' | ') + ' |\n';
+    code += `| ${table[i].join(' | ')} |\n`;
   }
   return code;
 }
@@ -85,7 +85,7 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
   try {
     const parsedComponentDocs = await parseMulti(filename, { modules: [srcDir], nameFilter: ['default'] });
     componentMeta.events = componentMeta.events.map((event) => {
-      const parsedEvent = parsedComponentDocs[0].events.find((parsedEvent) => parsedEvent.name === event.name);
+      const parsedEvent = parsedComponentDocs[0].events.find((item) => item.name === event.name);
 
       if (parsedEvent) {
         event.description = parsedEvent.description;
@@ -105,7 +105,6 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
  * @returns 新的组件元数据
  */
 async function applyTempFixForSlot(filename: string, componentMeta: ComponentMeta) {
-  debugger;
   const slotReg = /defineSlots<{[^}]+}>\(\)/;
   const slotMatch = slotReg.exec(await fsp.readFile(filename, 'utf-8'));
   if (!slotMatch) {
@@ -129,8 +128,8 @@ const terminalWidth = process.stdout.columns || 80;
 const progressBarLength = Math.min(Math.floor(terminalWidth / 4), 30);
 const pathReg = /\/(O.*)\.vue/;
 const tagTypes = {
-  deprecated: '(warning)'
-}
+  deprecated: '(warning)',
+};
 glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
   files.forEach(async (file, index) => {
     const fullPath = join(srcDir, file);
@@ -208,6 +207,20 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         slotsData.unshift(tableHeader[lang]);
         slotsData = cleanTableData(slotsData);
         mdContent = `${mdContent}\n\n#### slots\n\n${markdownTable(slotsData)}`;
+      }
+      // expose
+      const selfExposed = meta.exposed.filter((expose) => expose.description);
+      if (selfExposed.length) {
+        const tableHeader = {
+          'zh-CN': ['名称', '类型', '说明'],
+          'en-US': ['Name', 'Type', 'Description'],
+        };
+        let exposeData =selfExposed.map((expose) => {
+          return [expose.name, expose.type, expose.description];
+        });
+        exposeData.unshift(tableHeader[lang]);
+        exposeData = cleanTableData(exposeData);
+        mdContent = `${mdContent}\n\n#### expose\n\n${markdownTable(exposeData)}`;
       }
       await fsp.mkdir(dirname(apiMdPath), { recursive: true }).then(() => fsp.writeFile(apiMdPath, mdContent, { encoding: 'utf-8' }));
     }
