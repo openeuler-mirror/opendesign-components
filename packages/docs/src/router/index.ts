@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import TheHome from '../pages/TheHome.vue';
 import { routes as componentRoutes } from './components';
 import { useI18n } from '@opensig/opendesign';
-const { t } = useI18n();
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -19,7 +18,7 @@ export const router = createRouter({
 export const sidebarRouteConfig = {
   component: {
     routes: componentRoutes,
-    label: () => t('components.component'),
+    label: () => useI18n().t('components.component'),
   },
 };
 
