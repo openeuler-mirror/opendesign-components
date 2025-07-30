@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, h, type Component, type PropType } from 'vue';
 import { OScroller, OButton, useI18n, OIconChevronUp } from '@opensig/opendesign';
+import { DocIconCode } from '@/icon-components';
 
 type DocT = Record<string, string | Component>;
 export type DemoComponent = Component & {
@@ -40,12 +41,7 @@ const Docs = ({ docs, locale: _locale }: { docs?: DocT; locale: string }) => {
       <!-- 隐藏或显示代码块的按钮 -->
       <OButton variant="solid" size="small" @click="switchShowCode">
         <template #icon>
-          <svg viewBox="0 0 24 24" v-if="!isShowCode" class="o-svg-icon">
-            <path
-              fill="currentColor"
-              d="m23 12l-7.071 7.071l-1.414-1.414L20.172 12l-5.657-5.657l1.414-1.414L23 12zM3.828 12l5.657 5.657l-1.414 1.414L1 12l7.071-7.071l1.414 1.414L3.828 12z"
-            />
-          </svg>
+          <DocIconCode v-if="!isShowCode" />
           <OIconChevronUp v-else />
         </template>
       </OButton>
