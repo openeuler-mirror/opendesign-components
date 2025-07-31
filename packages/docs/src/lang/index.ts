@@ -30,8 +30,8 @@ export const locales: Array<LocaleItemT> = [
 ];
 export const LOCALE_COOKIE_KEY = 'locale';
 
-const { locale } = useI18n();
 export const currentLocale = computed(() => {
+  const { locale } = useI18n();
   const rlt = locales.find((item) => item.value === locale.value);
   return rlt || locales[0];
 });

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
     "build": "vite build",
     "type-check": "vue-tsc",
     "preview": "vite preview",
@@ -38,6 +39,7 @@
     "vite-plugin-inspect": "catalog:build",
     "vue-component-meta": "catalog:vue",
     "vue-docgen-api": "catalog:vue",
-    "vue-tsc": "catalog:build"
+    "vue-tsc": "catalog:build",
+    "@opensig/open-scripts": "workspace:^"
   }
 }
