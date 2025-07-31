@@ -25,12 +25,15 @@ const CELL_REPLACEMENTS = {
   "'": '&apos;',
   // 竖线符号在markdown中会被解析为表格分隔符
   '|': '&vert;',
+  // 表格中有换行符破坏markdown表格结构
+  '\r': '',
+  '\n': '<br />',
 };
 function replaceCellChar(ch: string) {
   return CELL_REPLACEMENTS[ch];
 }
 function escapeTableValue(value?: string) {
-  const CELL_ESCAPE_REPLACE_RE = /[<>"'|]/g;
+  const CELL_ESCAPE_REPLACE_RE = /[<>"'|\r\n]/g;
   return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }
 function cleanTableData(table: any[][]) {
