@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, watch, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { ODropdown, ODropdownItem, useI18n, useTheme, OSwitch } from '@opensig/opendesign';
+import { ODropdown, ODropdownItem, useI18n, OSwitch } from '@opensig/opendesign';
 import { currentLocale, changeLocale, locales } from '@/lang';
 import { sidebarRouteConfig, type SidebarNameT } from '@/router';
 import { useSidebarStore } from '@/stores/sidebar';
 import { DocIconDark, DocIconLight } from '@/icon-components';
+import { theme } from '@/utils/theme';
 
 const sidebarStore = useSidebarStore();
 const themes = [
@@ -29,7 +30,6 @@ const colorSwitcher = {
 };
 const themesValue = ref<ThemeT>(themes[0]);
 const colorSwitcherValue = ref(colorSwitcher.unchecked);
-const { theme } = useTheme();
 const router = useRouter();
 const route = useRoute();
 watch(

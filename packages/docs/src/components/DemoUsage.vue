@@ -24,6 +24,7 @@ const props = defineProps<{
   style?: string;
   /** 传给 template 的上下文，在模板中使用 */
   ctx?: any;
+  activeTheme?: string;
 }>();
 /**
  * 通过表单控制数据，生成表单控件响应式变量的默认值
@@ -134,7 +135,7 @@ watchEffect(() => {
 });
 </script>
 <template>
-  <DemoContainer :demo="Demo" class="props-playground" />
+  <DemoContainer :demo="Demo" :active-theme="props.activeTheme" class="props-playground" />
 </template>
 <style lang="scss" scoped>
 .props-playground {
