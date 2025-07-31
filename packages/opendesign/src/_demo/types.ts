@@ -6,7 +6,7 @@ export type DocDemoSchema =
     }
   | {
       type: 'list';
-      list: Array<string | number>;
+      list: Array<string | number> | Readonly<Array<string | number>>;
       default?: string | number;
       label?: string;
     }
