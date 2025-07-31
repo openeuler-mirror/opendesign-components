@@ -1,6 +1,6 @@
 {
   "name": "@opensig/open-scripts",
-  "version": "0.0.23",
+  "version": "1.0.0",
   "description": "opendesign component Scripts",
   "license": "MIT",
   "main": "dist/index.js",
