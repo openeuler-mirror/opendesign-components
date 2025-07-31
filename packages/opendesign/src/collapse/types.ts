@@ -2,7 +2,9 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 export const collapseProps = {
   /**
-   * 是否开启手风琴模式
+   * @zh-CN 是否开启手风琴模式
+   * @en-US Whether to enable accordion mode
+   * @default false
    */
   accordion: {
     type: Boolean,
@@ -10,13 +12,15 @@ export const collapseProps = {
   },
 
   /**
-   * 折叠面板双向绑定值
+   * @zh-CN 展开的面板，双向绑定值
+   * @en-US Expanded panel, two-way binding value
    */
   modelValue: {
     type: Array as PropType<Array<string | number>>,
   },
   /**
-   * 非受控模式时，默认展开的面板值
+   * @zh-CN 非受控模式时，默认展开的面板值
+   * @en-US Default value when not controlled
    */
   defaultValue: {
     type: Array as PropType<Array<string | number>>,
@@ -26,14 +30,16 @@ export const collapseProps = {
 
 export const collapseItemProps = {
   /**
-   * 折叠面板value
+   * @zh-CN 折叠面板value
+   * @en-US Collapse panel value
    */
   value: {
     type: [String, Number],
-    required: true,
+    required: true as const,
   },
   /**
-   * 折叠面板标题
+   * @zh-CN 折叠面板标题
+   * @en-US Collapse panel title
    */
   title: {
     type: String,

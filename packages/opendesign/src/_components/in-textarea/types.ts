@@ -69,7 +69,7 @@ export const inTextareaProps = {
     default: undefined,
   },
   /**
-   * 显示的行数
+   * 显示的列数
    */
   cols: {
     type: Number,

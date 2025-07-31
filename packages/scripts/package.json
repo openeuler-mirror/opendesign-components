@@ -15,22 +15,22 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@rollup/plugin-terser": "catalog:",
-    "@vitejs/plugin-vue": "catalog:",
-    "clean-css": "catalog:",
-    "commander": "catalog:",
-    "fs-extra": "catalog:",
-    "glob": "catalog:",
-    "sass-embedded": "catalog:",
-    "svgo": "catalog:",
-    "vite-plugin-dts": "catalog:",
-    "vue": "catalog:"
+    "@rollup/plugin-terser": "catalog:build",
+    "@vitejs/plugin-vue": "catalog:vue",
+    "clean-css": "catalog:css",
+    "commander": "catalog:io",
+    "fs-extra": "catalog:io",
+    "glob": "catalog:io",
+    "sass-embedded": "catalog:css",
+    "svgo": "catalog:build",
+    "vite-plugin-dts": "catalog:build",
+    "vue": "catalog:vue"
   },
   "devDependencies": {
-    "@types/clean-css": "catalog:",
-    "@types/fs-extra": "catalog:",
-    "@types/glob": "catalog:",
-    "vite": "catalog:"
+    "@types/clean-css": "catalog:typescript",
+    "@types/fs-extra": "catalog:typescript",
+    "@types/glob": "catalog:typescript",
+    "vite": "catalog:build"
   },
   "publishConfig": {
     "access": "public"

@@ -18,11 +18,11 @@
     "jsx": "preserve",
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
-    "paths": {}
+    "paths": {
+      "@opensig/opendesign": ["./src"]
+    }
   },
   "include": [
     "src/**/*.ts",

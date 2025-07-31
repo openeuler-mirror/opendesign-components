@@ -1,0 +1,45 @@
+{
+  "name": "docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
+    "build": "vite build",
+    "type-check": "vue-tsc",
+    "preview": "vite preview",
+    "gen:api": "vite-node ./scripts/generateApi.ts"
+  },
+  "dependencies": {
+    "@opensig/open-analytics": "catalog:utils",
+    "@opensig/open-scripts": "workspace:^",
+    "@shikijs/langs": "catalog:markdown",
+    "@shikijs/themes": "catalog:markdown",
+    "shiki": "catalog:markdown",
+    "@vue/compiler-dom": "catalog:vue",
+    "markdown-it": "catalog:markdown",
+    "pinia": "catalog:vue",
+    "prettier": "catalog:lint",
+    "vue": "catalog:vue"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "catalog:typescript",
+    "@types/markdown-it": "catalog:typescript",
+    "@vue/compiler-sfc": "catalog:vue",
+    "fs-extra": "catalog:io",
+    "glob": "catalog:io",
+    "gray-matter": "catalog:markdown",
+    "magic-string": "catalog:utils",
+    "markdown-it-async": "catalog:markdown",
+    "sass": "catalog:css",
+    "typescript": "catalog:typescript",
+    "unplugin-vue-markdown": "catalog:markdown",
+    "vite": "catalog:build",
+    "vite-plugin-inspect": "catalog:build",
+    "vue-component-meta": "catalog:vue",
+    "vue-docgen-api": "catalog:vue",
+    "vue-tsc": "catalog:build",
+    "@opensig/open-scripts": "workspace:^"
+  }
+}
