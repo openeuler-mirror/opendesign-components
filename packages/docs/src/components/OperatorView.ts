@@ -1,4 +1,4 @@
-import { defineComponent, h, Fragment, type PropType, type VNode, computed } from 'vue';
+import { defineComponent, h, Fragment, type PropType, type VNode } from 'vue';
 import { OSelect, OOption, OInput, OInputNumber, OCheckbox, OCheckboxGroup, OTextarea, ORadio, ORadioGroup } from '@opensig/opendesign';
 
 type CheckboxScheme = {
@@ -49,7 +49,7 @@ const createSelectorItem = (key: string, value: SelectorScheme, state: State) =>
       OSelect,
       { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) },
       {
-        default: () => value.list.map((item) => h(OOption, { value: item, label: item.toString() })),
+        default: () => value.list.map((item) => h(OOption, { value: item, label: `${item}` })),
       },
     ),
   ]);
