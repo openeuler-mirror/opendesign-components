@@ -1,5 +1,11 @@
 # [open-scripts]
 
+# 1.0.0
+
+- fix
+
+1. 统一gen-icon在不同系统下生成path的分隔符风格
+
 # 0.0.23
 
 - fix
