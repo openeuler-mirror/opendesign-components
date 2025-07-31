@@ -51,6 +51,7 @@ module.exports = {
       ignoreTemplateLiterals: true,
       ignoreStrings: true,
       ignorePattern: 'd="([\\s\\S]*?)"',
+      ignoreComments: true,
     }],
     'default-param-last': 'off',
     'no-param-reassign': ['error', { props: false }],
