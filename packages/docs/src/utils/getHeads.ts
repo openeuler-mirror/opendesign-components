@@ -1,13 +1,20 @@
 /**
  * 将h标签的标题转换为规范的id（该id会作为h标签的id以及a便签的href）
- * @param title 待转换的标题
+ * @param str 待转换的标题
  * @returns id
  */
-function escapeTitle(title: string) {
-  return title
+function slugify(str: string) {
+  return str
+    // 将驼峰转为中横线
+    .replace(/(?<=[a-z])([A-Z])|(?<=[A-Z])([A-Z][a-z])/g, '-$&')
     .toLowerCase()
+    // 将空白字符转为中横线
     .replace(/\s+/g, '-')
-    // 转换特殊字符，但不转化 unicode 字符
+    // 合并多个中横线
+    .replace(/-+/g, '-')
+    // 移除首尾中横线
+    .replace(/(^-|-$)/g, '')
+    // 转义特殊字符
     .replace(/[;,/?:@&=+$#]/g, (char) => encodeURIComponent(char));
 }
 /**
@@ -16,11 +23,11 @@ function escapeTitle(title: string) {
  * @param minLevel 查找的最小级别，默认为2，即只查找h2到h6的标题
  * @returns 查找结果，格式为[{title: string, level: number, id: string}]
  */
-export function getHeads(el: HTMLElement, minLevel = 2) {
-  let headerId: Record<string, number> = {};
+export function getHeads(el: HTMLElement, _minLevel = 2) {
+  const headerId: Record<string, number> = {};
   const heads: Array<{ title: string; level: number; id: string }> = [];
   let levels = '';
-  minLevel = Math.max(Math.floor(minLevel), 1);
+  const minLevel = Math.max(Math.floor(_minLevel), 1);
   if (minLevel > 6) {
     return heads;
   }
@@ -38,7 +45,7 @@ export function getHeads(el: HTMLElement, minLevel = 2) {
     if (dom.id) {
       id = dom.id;
     } else {
-      id = escapeTitle(title);
+      id = slugify(title);
     }
     // 判断是否有重名id，如果有则加上数字编号；该id会作为锚点的href
     if (headerId[id]) {
