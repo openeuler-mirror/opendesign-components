@@ -128,6 +128,9 @@ watch(locale, (newLocale, oldLocale) => {
   left: 50%;
   top: 50%;
   transform: translate3d(-50%, -50%, 0);
+  @include respond-to('phone') {
+    display: none;
+  }
 }
 .left {
   display: flex;

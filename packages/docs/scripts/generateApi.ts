@@ -133,6 +133,7 @@ const pathReg = /\/(O.*)\.vue/;
 const tagTypes = {
   deprecated: '(warning)',
 };
+const exposeDesReg = /^\s*expose:([\s\S]+)/;
 glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
   files.forEach(async (file, index) => {
     const fullPath = join(srcDir, file);
@@ -212,14 +213,14 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         mdContent = `${mdContent}\n\n#### slots\n\n${markdownTable(slotsData)}`;
       }
       // expose
-      const selfExposed = meta.exposed.filter((expose) => expose.description);
+      const selfExposed = meta.exposed.filter((expose) => expose.description && exposeDesReg.test(expose.description));
       if (selfExposed.length) {
         const tableHeader = {
           'zh-CN': ['名称', '类型', '说明'],
           'en-US': ['Name', 'Type', 'Description'],
         };
-        let exposeData =selfExposed.map((expose) => {
-          return [expose.name, expose.type, expose.description];
+        let exposeData = selfExposed.map((expose) => {
+          return [expose.name, expose.type, (expose.description.match(exposeDesReg)?.[1] || '').trim()];
         });
         exposeData.unshift(tableHeader[lang]);
         exposeData = cleanTableData(exposeData);
