@@ -197,6 +197,7 @@ onUnmounted(() => {
 });
 
 defineExpose({
+  /** Toggle the OLayer */
   toggle,
 });
 </script>
