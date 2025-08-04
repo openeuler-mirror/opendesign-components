@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import ConfigProviderBasic from './ConfigProviderBasic.vue';
+import ConfigLocale from './ConfigLocale.vue';
+import ConfigLink from './ConfigLink.vue';
 </script>
 <template>
   <div class="page-demo">
-    <ConfigProviderBasic />
+    <ConfigLocale />
+    <ConfigLink/>
   </div>
 </template>
 <style lang="scss"></style>

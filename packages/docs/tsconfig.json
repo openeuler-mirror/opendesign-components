@@ -22,6 +22,9 @@
       ],
       "@components/*": [
         "../opendesign/src/*"
+      ],
+      "@opensig/opendesign": [
+        "../opendesign/src/index.ts"
       ]
     }
   },

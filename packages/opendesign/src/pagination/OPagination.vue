@@ -94,6 +94,12 @@ const selectPage = (page: number | string) => {
 const clickPageBtn = (Increase: boolean) => {
   updatePageAndPageSize(Increase ? pageVal.value! + 1 : pageVal.value! - 1, pageSize.value!);
 };
+
+const moreVisible = ref<{ left: boolean; right: boolean }>({
+  left: false,
+  right: false,
+});
+
 // 点击收起的更多箭头
 const moreClick = (more: PagerItemT) => {
   const { value, list } = more;
@@ -132,10 +138,6 @@ const selectPageSize = (val: SelectValueT) => {
   updatePageAndPageSize(newPage, size);
 };
 
-const moreVisible = ref<{ left: boolean; right: boolean }>({
-  left: false,
-  right: false,
-});
 
 // 选择弹层中的页码
 const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
