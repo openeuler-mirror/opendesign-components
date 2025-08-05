@@ -251,3 +251,40 @@ export function pick(source: Object, keys: string[]) {
   });
   return result;
 }
+
+
+/**
+ * 分批执行大量任务
+ * tasks: 任务列表 Array<() => void>
+ * sheduler：调度器函数，用于分批执行任务
+ *    runChunk：分批执行函数 (toContinue:(currentTaskIndex: number)=>boolean)=>void
+ *        toContinue:(currentTaskIndex: number)=>boolean 是否继续执行的条件
+ */
+export function performTask(tasks: Array<() => void>, sheduler: (runChunk: (toContinue: (currentTaskIndex: number) => boolean) => void) => void) {
+  let runingIndex = 0;
+  function _runTask() {
+    sheduler((toContinue) => {
+      while (runingIndex < tasks.length && toContinue(runingIndex)) {
+        tasks[runingIndex++]();
+      }
+      if (runingIndex < tasks.length) {
+        _runTask();
+      }
+    });
+  }
+  _runTask();
+}
+
+/**
+ * 分时执行大量任务,使用requestIdleCallback
+ * tasks: 任务列表 Array<() => void>
+ */
+export function idlePerformTask(tasks: Array<() => void>) {
+  const sheduler = (runChunk: (toContinue: () => boolean) => void) => {
+    requestIdleCallback((idle) => {
+      runChunk(() => idle.timeRemaining() > 0);
+    });
+  };
+
+  performTask(tasks, sheduler);
+}

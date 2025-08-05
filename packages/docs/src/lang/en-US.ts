@@ -1,13 +1,7 @@
 export default {
-  components: {
-    component: 'Component',
-  },
-  header: {
-    globalSettings: 'Global settings',
-    home: 'Home',
-    theme: 'Theme',
-  },
-  dev: {
-    devEnv: 'Dev env'
-  }
+  locale: 'en-US',
+  'components.component': 'component',
+  'header.globalSettings': 'global settings',
+  'header.home': 'home',
+  'dev.devEnv': 'dev env'
 };

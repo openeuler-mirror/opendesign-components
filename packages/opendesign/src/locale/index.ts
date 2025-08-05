@@ -1,13 +1,12 @@
 import { log } from '../_utils/log';
-import { getValueByPath } from '../_utils/helper';
-import { isString } from '../_utils/is';
+import { isArray, isString, isUndefined } from '../_utils/is';
 import { configProviderInjectKey } from '../config-provider';
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, getCurrentInstance } from 'vue';
 import zhCN from './lang/zh-cn';
-import { LanguageT, i18nLanguages } from './types';
+import { OpendesignLanguageT, i18nLanguagesT } from './types';
 
 const currentLocal = ref('zh-CN');
-const i18nLanguage = ref<Record<string, LanguageT>>({
+const i18nLanguage = ref<Record<string, i18nLanguagesT>>({
   'zh-CN': zhCN,
 });
 
@@ -17,15 +16,31 @@ const i18nLanguage = ref<Record<string, LanguageT>>({
  * @param opts 配置
  */
 export function addLocale(
-  locale: i18nLanguages,
+  locale: i18nLanguagesT[],
   opts?: {
     overwrite?: boolean;
   }
 ) {
-  Object.keys(locale).forEach((key) => {
-    if (!i18nLanguage.value[key] || opts?.overwrite) {
-      i18nLanguage.value[key] = locale[key];
+  const locales = isArray(locale) ? locale : [locale];
+
+  locales.forEach(lc => {
+    const currLocal = lc.locale;
+    if (!currLocal) {
+      return;
     }
+
+    if (!i18nLanguage.value[currLocal]) {
+      i18nLanguage.value[currLocal] = {
+        locale: lc.locale
+      };
+    }
+
+    Object.keys(lc).forEach((key) => {
+      const k = key as keyof OpendesignLanguageT;
+      if (!i18nLanguage.value[currLocal][k] || opts?.overwrite) {
+        i18nLanguage.value[currLocal][k] = lc[key];
+      }
+    });
   });
 }
 
@@ -36,14 +51,16 @@ export function addLocale(
  */
 export function useLocale(localeKey: string) {
   if (!i18nLanguage.value[localeKey]) {
-    log.warn(`no ${localeKey} languages found`);
+    log.warn(`no '${localeKey}' languages configed`);
     return;
   }
   currentLocal.value = localeKey;
 }
 
 export function useI18n() {
-  const configProvider = inject(configProviderInjectKey, {});
+  const instance = getCurrentInstance();
+  // 判断当前是否在组件环境下，如果是，则优先取configProvider的值
+  const configProvider = instance ? inject(configProviderInjectKey, {}) : null;
   const languages = computed(() => {
     return configProvider?.locale ?? i18nLanguage.value[currentLocal.value];
   });
@@ -54,13 +71,17 @@ export function useI18n() {
       log.warn('no languages configed');
       return '';
     }
-    const value = getValueByPath(languages.value, key);
+    const value = languages.value[key];
 
     // 处理变量替换
     if (args.length > 0 && isString(value)) {
       return value.replace(/{(\d+)}/g, (match, index) => {
         return args[index] ?? match;
       });
+    }
+
+    if (isUndefined(value)) {
+      log.warn(`Cannot translate the value of keypath '${key}'`);
     }
 
     return value;

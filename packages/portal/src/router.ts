@@ -12,6 +12,14 @@ export const routes = [
     },
   },
   {
+    path: '/i18n',
+    name: 'i18n',
+    component: () => import('@opendesign-src/locale/__demo__/TheIndex.vue'),
+    meta: {
+      title: '多语言',
+    },
+  },
+  {
     path: '/virtual-list',
     name: 'virtual-list',
     component: () => import('@opendesign-src/virtual-list/__demo__/TheIndex.vue'),

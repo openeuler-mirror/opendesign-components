@@ -69,9 +69,7 @@ const locales = [
   },
 ];
 
-addLocale({
-  'en-US': enUS,
-});
+addLocale(enUS);
 
 const { locale } = useI18n();
 const currentLocale = computed(() => {
