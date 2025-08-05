@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { OButton } from '../../button';
 import '../../button/style';
-import {  OConfigProvider } from '../index';
+import { OConfigProvider } from '../index';
 import TheChild from './TheChild.vue';
 import '../../link/style';
 import { useI18n, useLocale } from '../../locale';

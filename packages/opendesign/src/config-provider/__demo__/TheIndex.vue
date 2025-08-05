@@ -5,7 +5,7 @@ import ConfigLink from './ConfigLink.vue';
 <template>
   <div class="page-demo">
     <ConfigLocale />
-    <ConfigLink/>
+    <ConfigLink />
   </div>
 </template>
 <style lang="scss"></style>

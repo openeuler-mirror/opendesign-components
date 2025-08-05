@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { useI18n, useLocale, addLocale, i18nLanguagesT } from '../../index';
 import { OButton } from '../../button';

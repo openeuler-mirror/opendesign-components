@@ -16,7 +16,7 @@ const i18nLanguage = ref<Record<string, i18nLanguagesT>>({
  * @param opts 配置
  */
 export function addLocale(
-  locale:  i18nLanguagesT[],
+  locale: i18nLanguagesT[],
   opts?: {
     overwrite?: boolean;
   }

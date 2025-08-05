@@ -11,9 +11,9 @@ const linkConfig: LinkConfigT = {
 };
 </script>
 <template>
-<h4>配置Link组件</h4>
+  <h4>配置Link组件</h4>
   <section style="align-items: flex-start">
-   <OConfigProvider :link="linkConfig">
+    <OConfigProvider :link="linkConfig">
       <OLink status="primary" diy="123">OLink</OLink>
     </OConfigProvider>
   </section>
