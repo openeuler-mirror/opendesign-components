@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -24,7 +24,8 @@
     "build:style": "open-scripts build:style",
     "build": "pnpm gen:icon && pnpm build:component && pnpm build:style",
     "lint": "eslint ./src",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+    "release": "pnpm publish --registry https://registry.npmjs.org"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
