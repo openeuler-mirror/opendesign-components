@@ -45,11 +45,11 @@ const _schema = {
     type: 'boolean',
     default: false,
   },
-  'offset-x': {
+  offsetX: {
     type: 'number',
     default: 0,
   },
-  'offset-y': {
+  offsetY: {
     type: 'number',
     default: 0,
   },
@@ -57,12 +57,12 @@ const _schema = {
 
 const NUMBER_REGEXP = /^\d+$/;
 const _template: DocDemoTemplate<typeof _schema> = (props) => {
-  const { 'offset-x': offsetX, 'offset-y': offsetY, value } = props;
+  const { offsetX, offsetY, value } = props;
   const isNumber = NUMBER_REGEXP.test(value);
 
   return `
 <OBadge
-  ${propsToAttrStr(props, ['offset-x', 'offset-y', 'value'])}
+  ${propsToAttrStr(props, ['offsetX', 'offsetY', 'value'])}
   ${isNumber ? `:value="${parseInt(value)}"` : `value="${value}"`}
   ${offsetX || offsetY ? `:offset="[${offsetX}, ${offsetY}]"` : ''}
 >

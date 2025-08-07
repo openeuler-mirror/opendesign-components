@@ -76,7 +76,7 @@ const _schema = {
   },
   coverOrIcon: {
     type: 'radio',
-    list: ['cover', 'icon'],
+    list: ['Cover', 'Icon'] as const,
     default: 'cover',
   },
   coverRatio: {
@@ -122,14 +122,13 @@ const _schema = {
   noResponsive: {
     type: 'boolean',
     default: false,
-    label: 'close responsive',
   },
 } satisfies Record<string, DocDemoSchema>;
 
 const _template: DocDemoTemplate<typeof _schema> = (props) => {
   const { coverOrIcon, titleRow, detailRow } = props;
   let attrs = '';
-  if (coverOrIcon === 'cover') {
+  if (coverOrIcon === 'Cover') {
     attrs += ' cover="/card-cover.jpg"';
   } else {
     attrs += ' icon="/avatar.svg"';
