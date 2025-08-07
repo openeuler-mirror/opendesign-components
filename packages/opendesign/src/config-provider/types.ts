@@ -14,6 +14,9 @@ export const configProviderProps = {
   locale: {
     type: Object as PropType<LanguageConfigT>,
   },
+  /**
+   * Link组件全局配置
+   */
   link: {
     type: Object as PropType<LinkConfigT>,
   },

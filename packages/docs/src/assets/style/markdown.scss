@@ -12,7 +12,8 @@
 [data-o-theme$='dark'] pre span {
   color: var(--shiki-dark);
 }
-p + .code-container, p + .o-table {
+p + .code-container,
+p + .o-table {
   margin-top: 8px;
 }
 ol,
@@ -79,5 +80,31 @@ li {
         list-style-type: square;
       }
     }
+  }
+}
+
+.markdown-body {
+  padding: 0 var(--o3-gap-5);
+  .markdown-body {
+    padding: 0;
+  }
+  .o-table-wrap {
+    overflow-x: auto;
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+    }
+    td:first-child {
+      background-color: var(--table-bg-color);
+    }
+    @media (hover: hover) {
+      tr:hover td {
+        background-color: var(--table-row-hover);
+      }
+    }
+  }
+  @include respond-to('<=pad_v') {
+    padding: 0;
   }
 }

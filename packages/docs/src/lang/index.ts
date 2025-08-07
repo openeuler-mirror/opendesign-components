@@ -1,22 +1,17 @@
 import { useLocale, useI18n, addLocale } from '@opensig/opendesign';
 import { computed } from 'vue';
 // @opensig/opendesign 未暴露语言包，因此通过路径添加
-import zhCn from '@components/locale/lang/zh-cn';
 import enUS from '@components/locale/lang/en-us';
 import enUSPortal from './en-US';
 import zhCNPortal from './zh-CN';
 
-export const messages = {
-  'en-US': {
-    ...enUS,
-    ...enUSPortal,
-  },
-  'zh-CN': {
-    ...zhCn,
-    ...zhCNPortal,
-  },
-};
-export type LocaleT = keyof typeof messages;
+addLocale(enUS, { overwrite: true });
+addLocale(enUSPortal, { overwrite: true });
+addLocale(zhCNPortal, { overwrite: true });
+
+
+
+export type LocaleT = 'zh-CN' | 'en-US';
 type LocaleItemT = { value: LocaleT; label: string };
 export const locales: Array<LocaleItemT> = [
   {
@@ -40,4 +35,3 @@ export const changeLocale = (l: LocaleT) => {
   document.cookie = `${LOCALE_COOKIE_KEY}=${l}; path=/`;
 };
 
-addLocale(messages, { overwrite: true });

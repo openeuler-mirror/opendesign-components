@@ -25,12 +25,15 @@ const CELL_REPLACEMENTS = {
   "'": '&apos;',
   // 竖线符号在markdown中会被解析为表格分隔符
   '|': '&vert;',
+  // 表格中有换行符破坏markdown表格结构
+  '\r': '',
+  '\n': '<br />',
 };
 function replaceCellChar(ch: string) {
   return CELL_REPLACEMENTS[ch];
 }
 function escapeTableValue(value?: string) {
-  const CELL_ESCAPE_REPLACE_RE = /[<>"'|]/g;
+  const CELL_ESCAPE_REPLACE_RE = /[<>"'|\r\n]/g;
   return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }
 function cleanTableData(table: any[][]) {
@@ -130,6 +133,7 @@ const pathReg = /\/(O.*)\.vue/;
 const tagTypes = {
   deprecated: '(warning)',
 };
+const exposeDesReg = /^\s*expose:([\s\S]+)/;
 glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
   files.forEach(async (file, index) => {
     const fullPath = join(srcDir, file);
@@ -209,14 +213,14 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         mdContent = `${mdContent}\n\n#### slots\n\n${markdownTable(slotsData)}`;
       }
       // expose
-      const selfExposed = meta.exposed.filter((expose) => expose.description);
+      const selfExposed = meta.exposed.filter((expose) => expose.description && exposeDesReg.test(expose.description));
       if (selfExposed.length) {
         const tableHeader = {
           'zh-CN': ['名称', '类型', '说明'],
           'en-US': ['Name', 'Type', 'Description'],
         };
-        let exposeData =selfExposed.map((expose) => {
-          return [expose.name, expose.type, expose.description];
+        let exposeData = selfExposed.map((expose) => {
+          return [expose.name, expose.type, (expose.description.match(exposeDesReg)?.[1] || '').trim()];
         });
         exposeData.unshift(tableHeader[lang]);
         exposeData = cleanTableData(exposeData);

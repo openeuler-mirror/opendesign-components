@@ -2,84 +2,102 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 export const layerProps = {
   /**
-   * 控制对话框是否显示
-   * v-model
+   * @zh-CN 控制浮层是否显示，双向绑定属性
+   * @en-US Controls whether the layer is displayed, two-way binding property
    */
   visible: {
     type: Boolean,
     default: false,
   },
   /**
-   * 挂载容器，默认为body, null代表当前父元素
+   * @zh-CN 浮层挂载的节点，值为 null 时挂载到父容器
+   * @en-US The mount node for the overlay component. When set to null, it mounts to the parent container.
+   * @default 'body'
    */
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement | null>,
     default: 'body',
   },
   /**
-   * 是否在隐藏时unmout
+   * @zh-CN 是否在隐藏是卸载组件
+   * @en-US Whether to unmounted the component when hidden
    */
   unmountOnHide: {
     type: Boolean,
     default: true,
   },
   /**
-   * body自定义class
+   * @zh-CN 默认插槽父容器的自定义类名
+   * @en-US Custom class name for default slot's parent container
    */
   mainClass: {
     type: [String, Array] as PropType<string | any[]>,
     default: '',
   },
   /**
-   * main过渡名称
+   * @zh-CN 自定义内容盒子的过度动画
+   * @en-US Custom transition for content box
+   * @default 'o-zoom-fade2'
    */
   mainTransition: {
     type: String,
     default: 'o-zoom-fade2',
   },
   /**
-   * mask过渡名称
+   * @zh-CN 自定义遮罩层的过度动画
+   * @en-US Custom transition for mask
+   * @default 'o-fade-in'
    */
   maskTransition: {
     type: String,
     default: 'o-fade-in',
   },
   /**
-   * mask过渡名称
+   * @zh-CN 内容盒子缩放动画的 transform-origin 的值，'mouse' 表示鼠标点击的位置，'css' 表示使用 --layer-origin 变量（默认值 center）
+   * @en-US Set the value of transform-origin to main box scaling animation; 'mouse' indicates the mouse click position, 'css' indicates using the --layer-origin variable (default: center)
+   * @default 'mouse'
    */
   transitionOrign: {
     type: String as PropType<'mouse' | 'css'>,
     default: 'mouse',
   },
   /**
-   * 是否需要mask
+   * @zh-CN 是否渲染遮罩层
+   * @en-US Whether to render the mask
+   * @default true
    */
   mask: {
     type: Boolean,
     default: true,
   },
   /**
-   * 点击mask关闭
+   * @zh-CN 点击遮罩层时是否关闭浮层
+   * @en-US Whether to close the layer when clicking the mask
+   * @default true
    */
   maskClose: {
     type: Boolean,
     default: true,
   },
   /**
-   * 点击关闭按钮关闭
+   * @zh-CN 是否渲染浮层的关闭按钮
+   * @en-US Whether to render the close button of the layer
+   * @default false
    */
   buttonClose: {
     type: Boolean,
     default: false,
   },
   /**
-   * 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
+   * @zh-CN 浮层打开前的回调，返回 false 表示取消打开浮层，否则打开浮层
+   * @en-US Callback before the layer is opened, returning false means canceling the opening of the layer, otherwise opening the layer
    */
   beforeShow: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * 隐藏前回调，根据返回值判断是否隐藏，false: 不隐藏； true|undefined: 隐藏
+   * @zh-CN 浮层关闭前的回调，返回 false 表示取消关闭浮层，否则关闭浮层
+   * @en-US Callback before the layer is closed, returning false means canceling the closing of the layer, otherwise close the layer
    */
   beforeHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
