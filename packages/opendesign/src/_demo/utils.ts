@@ -11,10 +11,10 @@ export function hyphenate(str: string) {
  * @param exclude 不转化的props属性名
  * @returns 属性字符串
  */
-export function propsToAttrStr(props: Record<string, any>, exclude = [] as string[]) {
+export function propsToAttrStr<T extends Record<string, any>>(props: T, exclude: (keyof T)[] = []): string {
   return Object.entries(props)
     .reduce((acc, [_key, value]) => {
-      if (exclude.includes(_key)) {
+      if (exclude.includes(_key as any)) {
         return acc;
       }
       const key = hyphenate(_key);
@@ -49,4 +49,20 @@ export function propsToAttrStr(props: Record<string, any>, exclude = [] as strin
       }
     }, '')
     .slice(1);
+}
+
+const REPLACEMENTS: Record<string, string> = {
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&apos;',
+  '&': '&amp;',
+};
+function replaceCellChar(ch: string) {
+  return REPLACEMENTS[ch];
+}
+// 避免xss注入
+export function escapeHTML(value?: string) {
+  const ESCAPE_REPLACE_RE = /[<>"'&]/g;
+  return value ? value.replace(ESCAPE_REPLACE_RE, replaceCellChar) : '';
 }

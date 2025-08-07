@@ -39,12 +39,13 @@ type RadioScheme = {
 export type SchemeT = CheckboxScheme | SelectorScheme | InputScheme | TextareaScheme | InputNumberScheme | RadioScheme;
 export type State = Record<string, any>;
 
+const camelcase2words = (str: string) => str.replace(/(?<=[a-z])([A-Z])|(?<=[A-Z])([A-Z][a-z])/g, ' $&').replace(/^[a-z]/, (char) => char.toUpperCase());
 const createCheckboxItem = (key: string, value: CheckboxScheme) => {
-  return h(OCheckbox, { value: key }, { default: () => value.label || key });
+  return h(OCheckbox, { value: key }, { default: () => value.label || camelcase2words(key) });
 };
 const createSelectorItem = (key: string, value: SelectorScheme, state: State) => {
   return h(Fragment, [
-    h('span', { class: 'props-playground-selector-name' }, value.label || key),
+    h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(
       OSelect,
       { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) },
@@ -56,13 +57,13 @@ const createSelectorItem = (key: string, value: SelectorScheme, state: State) =>
 };
 const createInputItem = (key: string, value: InputScheme, state: State) => {
   return h(Fragment, [
-    h('span', { class: 'props-playground-selector-name' }, value.label || key),
+    h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(OInput, { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) }),
   ]);
 };
 const createTextareaItem = (key: string, value: TextareaScheme, state: State) => {
   return h(Fragment, [
-    h('span', { class: 'props-playground-selector-name' }, value.label || key),
+    h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(OTextarea, {
       modelValue: state[key],
       style: { '--row': value.row || 3 },
@@ -73,7 +74,7 @@ const createTextareaItem = (key: string, value: TextareaScheme, state: State) =>
 };
 const createInputNumberItem = (key: string, value: InputNumberScheme, state: State) => {
   return h(Fragment, [
-    h('span', { class: 'props-playground-selector-name' }, value.label || key),
+    h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(OInputNumber, {
       modelValue: state[key],
       min: value.min,
