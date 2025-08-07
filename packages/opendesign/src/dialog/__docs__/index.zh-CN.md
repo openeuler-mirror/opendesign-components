@@ -9,31 +9,32 @@ sidebar: ODialog 对话框
 <!-- @usage DialogSizeUsage -->
 <!-- @case DialogActions -->
 <!-- @case DialogSlot -->
+<!-- @case DialogSlotForm -->
 
 ## API
 
 ### CSS 变量
 
-| CSS变量 | 描述 |
-| --- | --- |
-| --dlg-close-size | 关闭按钮大小 |
-| --dlg-close-color | 关闭按钮颜色 |
-| --dlg-close-color-hover | 鼠标悬停关闭按钮颜色 |
-| --dlg-close-color-active | 鼠标按下关闭按钮颜色 |
-| --dlg-color | 文字颜色 |
-| --dlg-header-color | 标题颜色，覆盖 `--dlg-color` |
-| --dlg-bg-color | 背景颜色 |
-| --dlg-radius | 圆角 |
-| --dlg-shadow | 阴影 |
-| --dlg-max-height | 最大高度 |
-| --dlg-min-height | 最小高度 |
-| --dlg-min-width | 最小宽度 |
-| --dlg-width | 宽度 |
-| --dlg-margin | 外边距 |
-| --dlg-edge-gap | 内边距 |
-| --dlg-inner-gap | header default 和 footer 之间的间距 |
-| --dlg-header-gap | header 和 default 之间的间距，覆盖 `--dlg-inner-gap` |
-| --actions-justify | 底部操作按钮的对齐方式 |
+| CSS 变量                   | 描述                                                 |
+| -------------------------- | ---------------------------------------------------- |
+| \-\-dlg-close-size         | 关闭按钮大小                                         |
+| \-\-dlg-close-color        | 关闭按钮颜色                                         |
+| \-\-dlg-close-color-hover  | 鼠标悬停关闭按钮颜色                                 |
+| \-\-dlg-close-color-active | 鼠标按下关闭按钮颜色                                 |
+| \-\-dlg-color              | 文字颜色                                             |
+| \-\-dlg-header-color       | 标题颜色，覆盖 `--dlg-color`                         |
+| \-\-dlg-bg-color           | 背景颜色                                             |
+| \-\-dlg-radius             | 圆角                                                 |
+| \-\-dlg-shadow             | 阴影                                                 |
+| \-\-dlg-max-height         | 最大高度                                             |
+| \-\-dlg-min-height         | 最小高度                                             |
+| \-\-dlg-min-width          | 最小宽度                                             |
+| \-\-dlg-width              | 宽度                                                 |
+| \-\-dlg-margin             | 外边距                                               |
+| \-\-dlg-edge-gap           | 内边距                                               |
+| \-\-dlg-inner-gap          | header default 和 footer 之间的间距                  |
+| \-\-dlg-header-gap         | header 和 default 之间的间距，覆盖 `--dlg-inner-gap` |
+| \-\-actions-justify        | 底部操作按钮的对齐方式                               |
 
 <!-- @api ODialog -->
 
