@@ -1,0 +1,68 @@
+@use '../../_styles/mixin.scss' as *;
+
+$media-phone: 600px;
+$media-pad-v: 840px;
+$media-pad: 1200px;
+$media-laptop: 1440px;
+
+.o-row {
+  display: flex;
+
+  --col-gap-x: calc(var(--row-gap-x) / 2);
+  --col-gap-y: var(--row-gap-y);
+  --row-shift-x: calc(-1 * var(--col-gap-x));
+  --row-shift-y: calc(-1 * var(--col-gap-y));
+  margin-left: var(--row-shift-x);
+  margin-right: var(--row-shift-x);
+  margin-bottom: var(--row-shift-y);
+
+  > * {
+    padding-left: var(--col-gap-x);
+    padding-right: var(--col-gap-x);
+    margin-bottom: var(--col-gap-y);
+    flex: 1 0 auto; // 默认撑满
+  }
+}
+
+.o-col {
+  flex: var(--col-flex);
+}
+
+@media (max-width: $media-laptop) {
+  .o-row-laptop {
+    --col-gap-x: calc(var(--row-laptop-gap-x) / 2);
+    --col-gap-y: var(--row-laptop-gap-y);
+  }
+  .o-col-laptop {
+    flex: var(--col-laptop-flex);
+  }
+}
+@media (max-width: $media-pad) {
+  .o-row-pad {
+    --col-gap-x: calc(var(--row-pad-gap-x) / 2);
+    --col-gap-y: var(--row-pad-gap-y);
+  }
+  .o-col-pad {
+    flex: var(--col-pad-flex);
+  }
+}
+
+@media (max-width: $media-pad-v) {
+  .o-row-pad-v {
+    --col-gap-x: calc(var(--row-pad-v-gap-x) / 2);
+    --col-gap-y: var(--row-pad-v-gap-y);
+  }
+  .o-col-pad-v {
+    flex: var(--col-pad-v-flex);
+  }
+}
+
+@media (max-width: $media-phone) {
+  .o-row-phone {
+    --col-gap-x: calc(var(--row-phone-gap-x) / 2);
+    --col-gap-y: var(--row-phone-gap-y);
+  }
+  .o-col-phone {
+    flex: var(--col-phone-flex);
+  }
+}

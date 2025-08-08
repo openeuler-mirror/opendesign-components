@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-option {
   padding: calc(var(--option-gap) / 2) 0;

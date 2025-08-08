@@ -1,20 +1,2 @@
-@use '../../_styles/mixin.scss' as *;
-@use './var.scss';
-
-.o-radio-group {
-  display: inline-flex;
-  flex-wrap: wrap;
-}
-
-.o-radio-group-h {
-  .o-radio + .o-radio {
-    margin-left: var(--radio-group-gap);
-  }
-}
-
-.o-radio-group-v {
-  flex-direction: column;
-  .o-radio + .o-radio {
-    margin-top: var(--radio-group-gap);
-  }
-}
+@use './var.scss' as *;
+@use './style.scss' as *;
