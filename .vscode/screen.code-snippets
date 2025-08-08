@@ -1,0 +1,212 @@
+{
+  "(0, 600)": {
+    "prefix": ["w-600", "@include respond-to('phone')"],
+    "body": [
+      "@include respond-to('phone') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(0, 600px)",
+    "scope": "scss, less"
+  },
+  "(601, Inf)": {
+    "prefix": ["w600", "@include respond-to('>phone')"],
+    "body": [
+      "@include respond-to('>phone') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(601px, Inf)",
+    "scope": "scss, less"
+  },
+  "(601, 1200)": {
+    "prefix": ["w600-1200", "@include respond-to('pad')"],
+    "body": [
+      "@include respond-to('pad') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(601px, 1200px)",
+    "scope": "scss, less"
+  },
+  "(0, 1200)": {
+    "prefix": ["w-1200", "@include respond-to('<=pad')"],
+    "body": [
+      "@include respond-to('<=pad') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(0, 1200px)",
+    "scope": "scss, less"
+  },
+  "(1201, Inf)": {
+    "prefix": ["w1200", "@include respond-to('>pad')"],
+    "body": [
+      "@include respond-to('>pad') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1201px, Inf)",
+    "scope": "scss, less"
+  },
+  "(601, 840)": {
+    "prefix": ["w600-840", "@include respond-to('pad_v')"],
+    "body": [
+      "@include respond-to('pad_v') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(601px, 840px)",
+    "scope": "scss, less"
+  },
+  "(0, 840)": {
+    "prefix": ["w-840", "@include respond-to('<=pad_v')"],
+    "body": [
+      "@include respond-to('<=pad_v') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(0, 840px)",
+    "scope": "scss, less"
+  },
+  "(841, Inf)": {
+    "prefix": ["w840", "@include respond-to('>pad_v')"],
+    "body": [
+      "@include respond-to('>pad_v') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(841px, Inf)",
+    "scope": "scss, less"
+  },
+  "(841, 1200)": {
+    "prefix": ["w840-1200", "@include respond-to('pad_h')"],
+    "body": [
+      "@include respond-to('pad_h') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(841px, 1200px)",
+    "scope": "scss, less"
+  },
+  "(1200, 1440)": {
+    "prefix": ["w1200-1440", "@include respond-to('laptop')"],
+    "body": [
+      "@include respond-to('laptop') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1200px, 1440px)",
+    "scope": "scss, less"
+  },
+  "(0, 1440)": {
+    "prefix": ["w-1440", "@include respond-to('<=laptop')"],
+    "body": [
+      "@include respond-to('<=laptop') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(0, 1440px)",
+    "scope": "scss, less"
+  },
+  "(1441, Inf)": {
+    "prefix": ["w1440", "@include respond-to('>laptop')"],
+    "body": [
+      "@include respond-to('>laptop') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1441px, Inf)",
+    "scope": "scss, less"
+  },
+  "(601, 1440)": {
+    "prefix": ["w600-1440", "@include responsd-to('pad-laptop')"],
+    "body": [
+      "@include respond-to('pad-laptop') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(601px, 1440px)",
+    "scope": "scss, less"
+  },
+  "(841, 1440)": {
+    "prefix": ["w840-1440", "@include responsd-to('pad_v-laptop')"],
+    "body": [
+      "@include respond-to('pad_v-laptop') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(841px, 1440px)",
+    "scope": "scss, less"
+  },
+  "(1441-1920)": {
+    "prefix": ["w1440-1920", "@include responsd-to('pc')"],
+    "body": [
+      "@include respond-to('pc') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1441-1920px)",
+    "scope": "scss, less"
+  },
+  "(1441, 1680)": {
+    "prefix": ["w1440-1680", "@include responsd-to('pc_s')"],
+    "body": [
+      "@include respond-to('pc_s') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1441, 1680px)",
+    "scope": "scss, less"
+  },
+  "(0, 1680)": {
+    "prefix": ["w-1680", "@include responsd-to('<=pc_s')"],
+    "body": [
+      "@include respond-to('<=pc_s') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(0, 1680px)",
+    "scope": "scss, less"
+  },
+  "(1681, 1920)": {
+    "prefix": ["w1680-1920", "@include responsd-to('pc_l')"],
+    "body": [
+      "@include respond-to('pc_l') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1681, 1920px)",
+    "scope": "scss, less"
+  },
+  "(1681, Inf)": {
+    "prefix": ["w1680", "@include responsd-to('>pc_s')"],
+    "body": [
+      "@include respond-to('>pc_s') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1681px, Inf)",
+    "scope": "scss, less"
+  },
+  "(1921, Inf)": {
+    "prefix": ["w1920", "@include responsd-to('>pc')"],
+    "body": [
+      "@include respond-to('>pc') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1921px, Inf)",
+    "scope": "scss, less"
+  },
+  "(1201, 1680)": {
+    "prefix": ["w1200-1680", "@include responsd-to('laptop-pc_s')"],
+    "body": [
+      "@include respond-to('laptop-pc_s') {",
+      "  $1",
+      "}"
+    ],
+    "description": "(1201px, 1680px)",
+    "scope": "scss, less"
+  }
+}
