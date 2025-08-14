@@ -1,10 +1,13 @@
 .o-menu {
   --menu-width: 240px;
   --menu-bg-color: transparent;
-  --menu-padding-v: 15px;
-  --menu-secondary-padding-v: 11px;
-  --menu-padding-h: 16px;
+  --menu-padding-v: 12px;
+  --menu-secondary-padding-v: 9px;
+  --menu-padding-h: 8px;
   --menu-secondary-padding-h: 16px;
+  --menu-indicator-width: 1px;
+  --menu-indicator-bg-color: var(--o-color-control4);
+  --menu-selected-gap-v: 1px;
 }
 
 .o-sub-menu {
@@ -29,7 +32,14 @@
   --sub-menu-arrow-size: var(--o-icon_size_control-m);
 
   --sub-menu-bg-color-hover: var(--o-color-control2-light);
-  --sub-menu-bg-color-selected: var(--o-color-control3-light);
+  --sub-menu-bg-color-selected: rgb(var(--o-mixedgray-6));
+
+  --sub-menu-base-indent: var(--o-icon_size_control-l);
+  --sub-menu-level-indent: calc(var(--menu-padding-h) + (var(--sub-menu-base-indent)) * (var(--sub-menu-level) - 1));
+}
+
+.o-menu > .o-sub-menu {
+  --sub-menu-level-indent: var(--menu-padding-h);
 }
 
 .o-menu-item {
@@ -53,5 +63,52 @@
   --menu-item-secondary-text-height: var(--o-line_height-tip1);
 
   --menu-item-bg-color-hover: var(--o-color-control2-light);
-  --menu-item-bg-color-selected: var(--o-color-control3-light);
+  --menu-item-bg-color-selected: rgb(var(--o-mixedgray-6));
+
+  --menu-item-base-indent: var(--o-icon_size_control-l);
+  --menu-item-level-indent: calc(var(--menu-padding-h) + (var(--menu-item-base-indent)) * (var(--menu-item-level) - 1));
+}
+
+.o-menu > .o-menu-item {
+  --menu-item-level-indent: var(--menu-padding-h);
+}
+
+.o-menu.o-menu-small {
+  --menu-padding-v: 5px;
+  --menu-secondary-padding-v: 5px;
+  --menu-selected-gap-v: 0px;
+  --menu-padding-h: 4px;
+
+}
+
+.o-menu-small .o-sub-menu {
+  --sub-menu-radius: 0px;
+
+  --sub-menu-text-size: var(--o-font_size-tip1);
+  --sub-menu-text-height: var(--o-line_height-tip1);
+
+  --sub-menu-icon-size: var(--o-icon_size_control-xs);
+  --sub-menu-icon-gap: 4px;
+
+  --sub-menu-padding-right: var(--menu-padding-h);
+
+  --sub-menu-arrow-size: var(--o-icon_size_control-xs);
+
+  --sub-expanded-bg-color: rgb(var(--o-mixedgray-2));
+
+  --sub-menu-base-indent: var(--o-icon_size_control-s);
+}
+
+.o-menu-small .o-menu-item {
+  --menu-item-radius: 0px;
+
+  --menu-item-padding-right: var(--menu-padding-h);
+
+  --menu-item-text-size: var(--o-font_size-text1);
+  --menu-item-text-height: var(--o-line_height-text1);
+
+  --menu-item-icon-size: var(--o-icon_size_control-xs);
+  --menu-item-icon-gap: 4px;
+
+  --menu-item-base-indent: var(--o-icon_size_control-s);
 }

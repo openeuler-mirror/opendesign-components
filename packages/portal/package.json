@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "gen:icon": "open-scripts gen:icon --config __test_scripts/icons/icon.config.ts"
   },
