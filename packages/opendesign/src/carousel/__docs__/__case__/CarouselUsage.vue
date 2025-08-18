@@ -81,14 +81,13 @@ const _schema = {
   autoPlay: {
     type: 'boolean',
     default: true,
-    label: 'auto play',
   },
   interval: {
     type: 'number',
     default: 5000,
     step: 1000,
     min: 1000,
-    label: 'interval (ms)',
+    label: 'Interval (ms)',
   },
   arrow: {
     type: 'list',
@@ -98,20 +97,16 @@ const _schema = {
   hideIndicator: {
     type: 'boolean',
     default: false,
-    label: 'hide indicator',
   },
   indicatorClick: {
     type: 'boolean',
-    label: 'indicator click',
   },
   pauseOnHover: {
     type: 'boolean',
     default: true,
-    label: 'pause on hover',
   },
   clickToSwitch: {
     type: 'boolean',
-    label: 'click to switch',
   },
 } satisfies Record<string, DocDemoSchema>;
 

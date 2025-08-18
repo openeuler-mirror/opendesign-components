@@ -89,10 +89,9 @@ import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
 
 const _schema = {
-  'path-mode': {
+  pathMode: {
     type: 'boolean',
     default: false,
-    label: 'path mode',
   },
   round: {
     type: 'list',
@@ -106,11 +105,10 @@ const _schema = {
     type: 'string',
     default: 'Please select',
   },
-  'option-position': {
+  optionPosition: {
     type: 'list',
     list: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'],
     default: 'bl',
-    label: 'option position',
   },
 } satisfies Record<string, DocDemoSchema>;
 
