@@ -22,7 +22,13 @@ $breakpoints: (
   '<=laptop': (0, 1440px),
   '>laptop': 1441px,
   'pad-laptop': (601px, 1440px),
-  'pad_v-laptop': (841px, 1440px)
+  'pad_v-laptop': (841px, 1440px),
+  'pad_v-pc_s': (841px, 1680px),
+  'pc_s': (1441px, 1680px),
+  '<=pc_s': (0px, 1680px),
+  'pc_l': (1681px, 1920px),
+  '>pc_s': 1681px,
+  'laptop-pc_s': (1201px, 1680px)
 );
 
 @mixin respond-to($breakname) {
