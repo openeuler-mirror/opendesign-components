@@ -2,15 +2,13 @@ import { createApp } from 'vue';
 import './assets/style/style.scss';
 import 'normalize.css';
 
-import '@opendesign-src/_styles/light.token.css';
-import '@opendesign-src/_styles/dark.token.css';
+import '@opendesign-src/theme/opendesign/light.token.css';
+import '@opendesign-src/theme/opendesign/dark.token.css';
+import '@opendesign-src/theme/ascend/a.dark.token.css';
+import '@opendesign-src/theme/ascend/a.light.token.css';
+import '@opendesign-src/theme/kunpeng/k.dark.token.css';
+import '@opendesign-src/theme/kunpeng/k.light.token.css';
 import './assets/style/media.token.scss';
-
-import './assets/style/a.light.token.css';
-import './assets/style/a.dark.token.css';
-
-import './assets/style/k.light.token.css';
-import './assets/style/k.dark.token.css';
 
 import { router } from '@/router';
 import './analytics';
