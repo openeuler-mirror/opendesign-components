@@ -1,0 +1,47 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-btn.o-btn-solid {
+  --btn-color: var(--o-color-info1-inverse);
+  --btn-color-hover: var(--o-color-info1-inverse);
+  --btn-color-active: var(--o-color-info1-inverse);
+  --btn-color-disabled: var(--o-color-info1-inverse);
+}
+
+.o-btn-outline.o-btn-primary:not(.o-btn-disabled) {
+  --btn-color: var(--o-color-info1);
+  --btn-color-hover: var(--o-color-info1-inverse);
+  --btn-color-active: var(--o-color-info1-inverse);
+  --btn-bg-color-hover: var(--o-color-primary2);
+  --btn-bg-color-active: var(--o-color-primary3);
+  @include hover {
+    background-color: var(--btn-bg-color-hover);
+  }
+
+  &:active {
+    background-color: var(--btn-bg-color-active);
+  }
+}
+
+.c-btn-activity,
+.c-btn-kunpeng {
+  color: var(--o-color-white) !important;
+  background: linear-gradient(90deg, rgb(var(--ak-color-band-start)) 0%, rgb(var(--ak-color-band-end)) 100%);
+  border-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  @include hover {
+    background: linear-gradient(90deg, rgba(var(--ak-color-band-start), 0.8) 0%, rgba(var(--ak-color-band-end), 0.8) 100%);
+    border-color: transparent;
+    border: none;
+  }
+  &:active {
+    background: linear-gradient(90deg, rgba(var(--ak-color-band-start), 0.9) 0%, rgba(var(--ak-color-band-end), 0.9) 100%);
+    border-color: transparent;
+    border: none;
+  }
+  &.o-btn-disabled {
+    opacity: 0.4;
+    background: linear-gradient(90deg, rgb(var(--ak-color-band-start)) 0%, rgb(var(--ak-color-band-end)) 100%);
+    border: none;
+  }
+}
