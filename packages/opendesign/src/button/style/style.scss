@@ -103,7 +103,7 @@
 .o-btn-prefix {
   display: inline-flex;
   align-items: center;
-  margin-right: var(--btn-gap);
+  margin-right: var(--btn-gap-prefix);
   font-size: var(--btn-icon-size);
 
   .o-btn-icon-only & {
@@ -116,6 +116,6 @@
 .o-btn-suffix {
   display: inline-flex;
   align-items: center;
-  margin-left: var(--btn-gap);
+  margin-left: var(--btn-gap-suffix);
   font-size: var(--btn-icon-size);
 }
