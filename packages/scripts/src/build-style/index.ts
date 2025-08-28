@@ -42,22 +42,44 @@ export default function main() {
 
         fs.writeFileSync('dist/index.scss', "@import '../es/index.scss';");
       }
-      if (/theme\/.+\/index.scss$/.test(fl)) {
+      if (/theme\/(?!_)[^/]+\/index.scss$/.test(fl)) {
         fs.outputFile(`dist/${fl.replace(/\.scss$/, '.css')}`, result.css);
         const compress = new CleanCSS().minify(result.css);
         fs.outputFile(`dist/${fl.replace(/\.scss$/, '.min.css')}`, compress.styles);
       }
     }
+    // Compile Skin files
+    if (/theme-.+\.scss$/.test(fl)) {
+      const result = compile(fPath, {});
+      fs.outputFile(`es/${fl.replace(/\.scss$/, '.css')}`, result.css);
+      fs.outputFile(`lib/${fl.replace(/\.scss$/, '.css')}`, result.css);
+    }
   });
   // build index
-  const idxFiles = globSync('**/style/**/*index.ts', {
+  const idxFiles = globSync(['**/style/**/*index.ts', '_styles/index.ts'], {
     cwd: input,
+    posix: true,
   });
   idxFiles.forEach((fl) => {
     const fpath = path.resolve(input, fl);
     const toFl = fl.replace(/\.ts$/, '.js');
     fs.copySync(fpath, `es/${toFl}`);
     fs.copySync(fpath, `lib/${toFl}`);
+
+    const content = fs.readFileSync(fpath, 'utf-8');
+    const css = content
+      .replace(/\.scss/g, '.css')
+      .replace(/\/style';/g, "/style/css';")
+      .replace(/\/_styles';/g, "/_styles/css';")
+      .replace(/theme-(.+)\.index/g, 'theme-$1.index.css');
+    let cssFile = '';
+    if (fl.endsWith('/index.ts')) {
+      cssFile = fl.replace(/index\.ts$/, 'css.js');
+    } else {
+      cssFile = fl.replace(/\.ts$/, '.css.js');
+    }
+    fs.outputFile(`es/${cssFile}`, css);
+    fs.outputFile(`lib/${cssFile}`, css);
   });
 
   // copy scss index
