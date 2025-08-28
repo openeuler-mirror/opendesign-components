@@ -1,0 +1,27 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-loading {
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+}
+.o-loading-main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--loading-color);
+}
+.o-loading-icon {
+  font-size: var(--loading-icon-size);
+  color: var(--loading-icon-color);
+  + .o-loading-label {
+    margin-left: 4px;
+  }
+}
+.o-layer-mask + .o-loading-main {
+  color: var(--loading-mask-color);
+  .o-loading-icon {
+    color: var(--loading-mask-icon-color);
+  }
+}

@@ -4,7 +4,7 @@ import 'normalize.css';
 
 import '@opendesign-src/_styles/light.token.css';
 import '@opendesign-src/_styles/dark.token.css';
-import '@opendesign-src/_styles/media.token.scss';
+import './assets/style/media.token.scss';
 
 import './assets/style/a.light.token.css';
 import './assets/style/a.dark.token.css';

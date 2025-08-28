@@ -1,0 +1,51 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-layer {
+  position: var(--layer-position, 'fixed');
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: var(--layer-z-index);
+  display: flex;
+  align-items: var(--layer-align);
+  justify-content: var(--layer-justify);
+}
+
+.o-layer-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: var(--layer-mask);
+  z-index: -1;
+}
+
+.o-layer-open {
+  overflow: hidden !important;
+}
+
+.o-layer-main {
+  transform-origin: var(--layer-origin);
+}
+.o-layer-close {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+.o-layer-close-icon {
+  font-size: var(--o-icon_size-m);
+  color: var(--o-color-info1-inverse);
+  background-color: var(--o-color-mask1);
+  border-radius: 50%;
+  padding: 8px;
+  @include x-svg-hover;
+  @include hover {
+    color: var(--o-color-info2-inverse);
+  }
+  &:active {
+    color: var(--o-color-info3-inverse);
+    transform: scale(0.9);
+  }
+}

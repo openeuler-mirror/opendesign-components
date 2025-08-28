@@ -17,7 +17,7 @@
     "vue3 components"
   ],
   "scripts": {
-    "gen:token": "open-scripts gen:token --config ./tokens/token.config.ts",
+    "gen:token": "open-scripts gen:token --config ./src/theme/opendesign/token.config.ts && open-scripts gen:token --config ./src/theme/ascend/token.config.ts && open-scripts gen:token --config ./src/theme/kunpeng/token.config.ts && open-scripts gen:token --config ./src/theme/openeuler/token.config.ts",
     "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
     "clean:svg": "open-scripts clean:svg --config ./icons/cleansvg.config.ts",
     "build:component": "open-scripts build:component",

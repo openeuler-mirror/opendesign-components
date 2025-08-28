@@ -1,0 +1,34 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-popup {
+  position: absolute;
+  z-index: var(--popup-z-index);
+  opacity: 1;
+  transition: opacity var(--o-duration-m1) var(--o-easing-standard);
+  max-width: calc(100vw - var(--popup-edge-offset, 0) * 2);
+
+  &.out-view {
+    opacity: 0;
+    pointer-events: none;
+  }
+  &.animating {
+    pointer-events: none;
+  }
+}
+
+.o-popup-anchor {
+  position: absolute;
+  z-index: 0;
+}
+.o-popup-wrap {
+  box-shadow: var(--popup-shadow);
+  background-color: var(--popup-bg-color);
+  border-radius: var(--popup-radius);
+}
+.o-popup-body {
+  position: relative;
+  z-index: 1;
+  border: var(--popup-bd);
+  min-width: var(--popup-min-width);
+  padding: var(--popup-padding);
+}

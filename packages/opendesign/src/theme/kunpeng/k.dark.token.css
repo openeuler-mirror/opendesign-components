@@ -1,0 +1,1949 @@
+/* theme: k.dark */
+[data-o-theme="k.dark"] {
+  /**
+   * @name 
+   * @type palette
+   * @group white
+   * @description 
+   */
+  --o-white: 255, 255, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group black
+   * @description 
+   */
+  --o-black: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-1: 0, 4, 77;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-2: 6, 15, 120;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-3: 20, 37, 163;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-4: 40, 65, 207;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-5: 66, 99, 250;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-6: 84, 120, 251;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-7: 122, 154, 252;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-8: 160, 186, 253;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-9: 199, 217, 254;
+  /**
+   * @name 
+   * @type palette
+   * @group deepblue
+   * @description 
+   */
+  --o-deepblue-10: 238, 244, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-1: 0, 77, 42;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-2: 2, 102, 53;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-3: 10, 127, 66;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-4: 22, 152, 80;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-5: 36, 177, 95;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-6: 51, 193, 104;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-7: 90, 208, 131;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-8: 135, 224, 163;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-9: 185, 239, 200;
+  /**
+   * @name 
+   * @type palette
+   * @group green
+   * @description 
+   */
+  --o-green-10: 240, 255, 244;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-1: 77, 24, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-2: 120, 42, 1;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-3: 163, 68, 8;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-4: 207, 97, 19;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-5: 250, 130, 33;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-6: 251, 143, 43;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-7: 252, 174, 91;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-8: 253, 202, 139;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-9: 254, 227, 188;
+  /**
+   * @name 
+   * @type palette
+   * @group orange
+   * @description 
+   */
+  --o-orange-10: 255, 248, 237;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-1: 77, 0, 17;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-2: 115, 3, 24;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-3: 153, 9, 31;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-4: 192, 17, 37;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-5: 230, 28, 43;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-6: 235, 35, 45;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-7: 240, 82, 85;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-8: 245, 132, 130;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-9: 250, 183, 180;
+  /**
+   * @name 
+   * @type palette
+   * @group red
+   * @description 
+   */
+  --o-red-10: 255, 234, 232;
+  /**
+   * @name 
+   * @type palette
+   * @group huaweired
+   * @description 
+   */
+  --o-red-huawei: 199, 0, 11;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-1: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-2: 18, 18, 20;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-3: 26, 26, 28;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-4: 36, 36, 39;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-5: 43, 43, 47;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-6: 53, 53, 57;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-7: 63, 63, 67;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-8: 85, 85, 88;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-9: 118, 118, 122;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-10: 156, 156, 159;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-11: 181, 181, 185;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-12: 208, 208, 210;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-13: 235, 235, 238;
+  /**
+   * @name 
+   * @type palette
+   * @group gray
+   * @description 
+   */
+  --o-gray-14: 255, 255, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-1: 0, 0, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-2: 16, 18, 20;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-3: 23, 25, 28;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-4: 33, 35, 39;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-5: 40, 42, 47;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-6: 50, 53, 57;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-7: 61, 63, 67;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-8: 80, 84, 88;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-9: 113, 117, 122;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-10: 147, 152, 159;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-11: 172, 177, 185;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-12: 198, 202, 210;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-13: 231, 234, 238;
+  /**
+   * @name 
+   * @type palette
+   * @group mixedgray
+   * @description 
+   */
+  --o-mixedgray-14: 255, 255, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-1: 77, 54, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-2: 119, 87, 2;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-3: 161, 126, 11;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-4: 203, 167, 24;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-5: 245, 211, 42;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-6: 247, 222, 54;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-7: 249, 234, 100;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-8: 251, 244, 146;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-9: 253, 251, 192;
+  /**
+   * @name 
+   * @type palette
+   * @group yellow
+   * @description 
+   */
+  --o-yellow-10: 255, 255, 240;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-1: 41, 77, 0;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-2: 63, 109, 3;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-3: 91, 142, 14;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-4: 121, 174, 30;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-5: 155, 207, 50;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-6: 172, 217, 68;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-7: 194, 226, 104;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-8: 214, 236, 144;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-9: 233, 245, 186;
+  /**
+   * @name 
+   * @type palette
+   * @group lime
+   * @description 
+   */
+  --o-lime-10: 251, 255, 232;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-1: 0, 73, 77;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-2: 2, 101, 103;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-3: 9, 129, 127;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-4: 18, 155, 148;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-5: 30, 181, 167;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-6: 42, 196, 178;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-7: 84, 211, 192;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-8: 130, 225, 208;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-9: 182, 240, 227;
+  /**
+   * @name 
+   * @type palette
+   * @group cyan
+   * @description 
+   */
+  --o-cyan-10: 239, 255, 251;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-1: 0, 34, 77;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-2: 1, 57, 117;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-3: 8, 86, 158;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-4: 18, 118, 199;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-5: 31, 153, 240;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-6: 42, 166, 243;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-7: 89, 191, 246;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-8: 137, 214, 249;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-9: 187, 233, 252;
+  /**
+   * @name 
+   * @type palette
+   * @group blue
+   * @description 
+   */
+  --o-blue-10: 237, 250, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-1: 22, 0, 77;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-2: 40, 3, 118;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-3: 66, 15, 160;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-4: 98, 33, 202;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-5: 134, 57, 244;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-6: 152, 74, 246;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-7: 179, 114, 248;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-8: 205, 156, 251;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-9: 228, 198, 253;
+  /**
+   * @name 
+   * @type palette
+   * @group purple
+   * @description 
+   */
+  --o-purple-10: 249, 240, 255;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-1: 61, 0, 77;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-2: 93, 5, 110;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-3: 127, 16, 144;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-4: 164, 33, 178;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-5: 200, 54, 212;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-6: 216, 72, 221;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-7: 229, 109, 229;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-8: 238, 149, 235;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-9: 246, 191, 243;
+  /**
+   * @name 
+   * @type palette
+   * @group pink
+   * @description 
+   */
+  --o-pink-10: 255, 236, 253;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-1: 77, 0, 48;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-2: 114, 3, 70;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-3: 151, 12, 91;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-4: 189, 25, 112;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-5: 226, 41, 133;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-6: 232, 53, 137;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-7: 238, 97, 158;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-8: 243, 143, 183;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-9: 249, 192, 213;
+  /**
+   * @name 
+   * @type palette
+   * @group rosyred
+   * @description 
+   */
+  --o-rosyred-10: 255, 242, 247;
+  /**
+   * @name 
+   * @type color
+   * @group base
+   * @description 
+   */
+  --o-color-white: rgb(var(--o-white));
+  /**
+   * @name 
+   * @type color
+   * @group base
+   * @description 
+   */
+  --o-color-black: rgb(var(--o-black));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 常规
+   */
+  --o-color-primary1: rgb(var(--o-gray-14));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 悬浮
+   */
+  --o-color-primary2: rgb(var(--o-gray-13));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 激活
+   */
+  --o-color-primary3: rgb(var(--o-gray-12));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 禁用
+   */
+  --o-color-primary4: rgb(var(--o-gray-8));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 常规-浅
+   */
+  --o-color-primary1-light: rgb(var(--o-gray-5));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 悬浮-浅
+   */
+  --o-color-primary2-light: rgb(var(--o-gray-6));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 激活-浅
+   */
+  --o-color-primary3-light: rgb(var(--o-gray-7));
+  /**
+   * @name 
+   * @type color
+   * @group primary
+   * @description 禁用-浅
+   */
+  --o-color-primary4-light: rgb(var(--o-gray-6));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 常规
+   */
+  --o-color-success1: rgb(var(--o-green-6));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 悬浮
+   */
+  --o-color-success2: rgb(var(--o-green-4));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 激活
+   */
+  --o-color-success3: rgb(var(--o-green-7));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 禁用
+   */
+  --o-color-success4: rgb(var(--o-green-3));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 常规-浅
+   */
+  --o-color-success1-light: rgb(var(--o-green-2));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 悬浮-浅
+   */
+  --o-color-success2-light: rgb(var(--o-green-3));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 激活-浅
+   */
+  --o-color-success3-light: rgb(var(--o-green-4));
+  /**
+   * @name 
+   * @type color
+   * @group success
+   * @description 禁用-浅
+   */
+  --o-color-success4-light: rgb(var(--o-green-1));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 常规
+   */
+  --o-color-warning1: rgb(var(--o-orange-6));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 悬浮
+   */
+  --o-color-warning2: rgb(var(--o-orange-4));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 激活
+   */
+  --o-color-warning3: rgb(var(--o-orange-7));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 禁用
+   */
+  --o-color-warning4: rgb(var(--o-orange-3));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 常规-浅
+   */
+  --o-color-warning1-light: rgb(var(--o-orange-2));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 悬浮-浅
+   */
+  --o-color-warning2-light: rgb(var(--o-orange-3));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 激活-浅
+   */
+  --o-color-warning3-light: rgb(var(--o-orange-4));
+  /**
+   * @name 
+   * @type color
+   * @group warning
+   * @description 禁用-浅
+   */
+  --o-color-warning4-light: rgb(var(--o-orange-1));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 常规
+   */
+  --o-color-danger1: rgb(var(--o-red-6));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 悬浮
+   */
+  --o-color-danger2: rgb(var(--o-red-4));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 激活
+   */
+  --o-color-danger3: rgb(var(--o-red-7));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 禁用
+   */
+  --o-color-danger4: rgb(var(--o-red-3));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 常规-浅
+   */
+  --o-color-danger1-light: rgb(var(--o-red-2));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 悬浮-浅
+   */
+  --o-color-danger2-light: rgb(var(--o-red-3));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 激活-浅
+   */
+  --o-color-danger3-light: rgb(var(--o-red-4));
+  /**
+   * @name 
+   * @type color
+   * @group danger
+   * @description 禁用-浅
+   */
+  --o-color-danger4-light: rgb(var(--o-red-1));
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 一级填充：页面背景
+   */
+  --o-color-fill1: rgb(var(--o-gray-3));
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 二级填充：区块、卡片
+   */
+  --o-color-fill2: rgb(var(--o-gray-4));
+  /**
+   * @name 
+   * @type color
+   * @group fill
+   * @description 三级填充：卡片
+   */
+  --o-color-fill3: rgb(var(--o-gray-5));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 常规，常用于边框
+   */
+  --o-color-control1: rgba(var(--o-gray-14), 0.25);
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 悬浮，常用于边框
+   */
+  --o-color-control2: rgba(var(--o-gray-14), 0.6);
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 激活，常用于边框
+   */
+  --o-color-control3: rgba(var(--o-gray-14), 0.8);
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 禁用，常用于边框
+   */
+  --o-color-control4: rgba(var(--o-gray-14), 0.15);
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 常规-浅，常用于背景
+   */
+  --o-color-control1-light: rgb(var(--o-gray-7));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 悬浮-浅，常用于背景
+   */
+  --o-color-control2-light: rgb(var(--o-gray-5));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 激活-浅，常用于背景
+   */
+  --o-color-control3-light: rgb(var(--o-gray-6));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 禁用，常用于背景
+   */
+  --o-color-control4-light: rgb(var(--o-gray-5));
+  /**
+   * @name 
+   * @type color
+   * @group control
+   * @description 很浅，常用于表格背景色
+   */
+  --o-color-control-light: rgb(var(--o-gray-4));
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 一级/强调/标题
+   */
+  --o-color-info1: rgba(var(--o-gray-14), 1.0);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 二级/次强调/正文
+   */
+  --o-color-info2: rgba(var(--o-gray-14), 0.8);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 三级/辅助信息
+   */
+  --o-color-info3: rgba(var(--o-gray-14), 0.6);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 置灰/禁用
+   */
+  --o-color-info4: rgba(var(--o-gray-14), 0.4);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 一级/次强调/正文反色
+   */
+  --o-color-info1-inverse: rgba(var(--o-gray-1), 1.0);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 二级/辅助信息反色
+   */
+  --o-color-info2-inverse: rgba(var(--o-gray-1), 0.8);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 三级/辅助信息反色
+   */
+  --o-color-info3-inverse: rgba(var(--o-gray-1), 0.6);
+  /**
+   * @name 
+   * @type color
+   * @group info
+   * @description 置灰/禁用反色
+   */
+  --o-color-info4-inverse: rgba(var(--o-gray-1), 0.4);
+  /**
+   * @name 
+   * @type color
+   * @group mask
+   * @description 全局遮罩
+   */
+  --o-color-mask1: rgba(var(--o-gray-1), 0.4);
+  /**
+   * @name 
+   * @type color
+   * @group mask
+   * @description 局部遮罩
+   */
+  --o-color-mask2: rgba(var(--o-gray-4), 0.2);
+  /**
+   * @name 阴影1
+   * @type shadow
+   * @group shadow
+   * @description 用于卡片、小弹窗、楼层阴影
+   */
+  --o-shadow-1: 0 3px 8px rgba(var(--o-gray-1), 0.08);
+  /**
+   * @name 阴影2
+   * @type shadow
+   * @group shadow
+   * @description 用于卡片悬浮阴影
+   */
+  --o-shadow-2: 0 2px 24px rgba(var(--o-gray-1), 0.15);
+  /**
+   * @name 阴影3
+   * @type shadow
+   * @group shadow
+   * @description 用于提示阴影
+   */
+  --o-shadow-3: 0 8px 40px rgba(var(--o-gray-1), 0.1);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 常规
+   */
+  --o-color-link1: rgba(var(--o-deepblue-6), 1.0);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 悬浮
+   */
+  --o-color-link2: rgba(var(--o-deepblue-6), 0.7);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 激活
+   */
+  --o-color-link3: rgba(var(--o-deepblue-6), 0.9);
+  /**
+   * @name 
+   * @type color
+   * @group link
+   * @description 禁用
+   */
+  --o-color-link4: rgba(var(--o-deepblue-6), 0.4);
+  /**
+   * @name 间距1
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距1
+   */
+  --o-gap-1: 4px;
+  /**
+   * @name 间距2
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距2
+   */
+  --o-gap-2: 8px;
+  /**
+   * @name 间距3
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距3
+   */
+  --o-gap-3: 12px;
+  /**
+   * @name 间距4
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距4
+   */
+  --o-gap-4: 16px;
+  /**
+   * @name 间距5
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距5
+   */
+  --o-gap-5: 24px;
+  /**
+   * @name 间距6
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距6
+   */
+  --o-gap-6: 32px;
+  /**
+   * @name 间距7
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距7
+   */
+  --o-gap-7: 40px;
+  /**
+   * @name 间距8
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距8
+   */
+  --o-gap-8: 48px;
+  /**
+   * @name 间距9
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距9
+   */
+  --o-gap-9: 64px;
+  /**
+   * @name 间距10
+   * @type gap
+   * @group gap
+   * @description 用于组件之间的间距10
+   */
+  --o-gap-10: 72px;
+  /**
+   * @name 超小尺寸
+   * @type size
+   * @group control_size
+   * @description 超小尺寸
+   */
+  --o-control_size-2xs: 14px;
+  /**
+   * @name 小尺寸
+   * @type size
+   * @group control_size
+   * @description 小尺寸
+   */
+  --o-control_size-xs: 16px;
+  /**
+   * @name 小尺寸
+   * @type size
+   * @group control_size
+   * @description 小尺寸
+   */
+  --o-control_size-s: 24px;
+  /**
+   * @name 中尺寸
+   * @type size
+   * @group control_size
+   * @description 尺寸
+   */
+  --o-control_size-m: 32px;
+  /**
+   * @name 大尺寸
+   * @type size
+   * @group control_size
+   * @description 尺寸
+   */
+  --o-control_size-l: 40px;
+  /**
+   * @name 大尺寸
+   * @type size
+   * @group control_size
+   * @description 尺寸
+   */
+  --o-control_size-xl: 48px;
+  /**
+   * @name 大尺寸
+   * @type size
+   * @group control_size
+   * @description 尺寸
+   */
+  --o-control_size-2xl: 56px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 超小尺寸图标
+   */
+  --o-icon_size-xs: 16px;
+  /**
+   * @name 小尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 小尺寸图标
+   */
+  --o-icon_size-s: 20px;
+  /**
+   * @name 中尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 中尺寸图标
+   */
+  --o-icon_size-m: 24px;
+  /**
+   * @name 大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 大尺寸图标
+   */
+  --o-icon_size-l: 32px;
+  /**
+   * @name 超大尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 超大尺寸图标
+   */
+  --o-icon_size-xl: 40px;
+  /**
+   * @name 2xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 2xl尺寸图标
+   */
+  --o-icon_size-2xl: 48px;
+  /**
+   * @name 3xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 3xl尺寸图标
+   */
+  --o-icon_size-3xl: 56px;
+  /**
+   * @name 4xl尺寸图标
+   * @type size
+   * @group icon_size
+   * @description 4xl尺寸图标
+   */
+  --o-icon_size-4xl: 64px;
+  /**
+   * @name 超小尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 超小尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-xs: 16px;
+  /**
+   * @name 小尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 小尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-s: 20px;
+  /**
+   * @name 中尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 中尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-m: 24px;
+  /**
+   * @name 大尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 大尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-l: 32px;
+  /**
+   * @name 超大尺寸图标
+   * @type size
+   * @group icon_size_control
+   * @description 超大尺寸控件图标(组件使用)
+   */
+  --o-icon_size_control-xl: 40px;
+  /**
+   * @name 一级数据展示
+   * @type font
+   * @group font_size
+   * @description 一级数据展示
+   */
+  --o-font_size-display1: 56px;
+  /**
+   * @name 二级数据展示
+   * @type font
+   * @group font_size
+   * @description 二级数据展示
+   */
+  --o-font_size-display2: 48px;
+  /**
+   * @name 三级数据展示
+   * @type font
+   * @group font_size
+   * @description 三级数据展示
+   */
+  --o-font_size-display3: 40px;
+  /**
+   * @name 一级标题
+   * @type font
+   * @group font_size
+   * @description 一级标题
+   */
+  --o-font_size-h1: 32px;
+  /**
+   * @name 二级标题
+   * @type font
+   * @group font_size
+   * @description 二级标题
+   */
+  --o-font_size-h2: 24px;
+  /**
+   * @name 三级标题
+   * @type font
+   * @group font_size
+   * @description 三级标题
+   */
+  --o-font_size-h3: 22px;
+  /**
+   * @name 四级标题
+   * @type font
+   * @group font_size
+   * @description 四级标题
+   */
+  --o-font_size-h4: 20px;
+  /**
+   * @name 常规正文
+   * @type font
+   * @group font_size
+   * @description 常规正文
+   */
+  --o-font_size-text1: 16px;
+  /**
+   * @name 大号正文
+   * @type font
+   * @group font_size
+   * @description 大号正文
+   */
+  --o-font_size-text2: 18px;
+  /**
+   * @name 提示文本1
+   * @type font
+   * @group font_size
+   * @description 提示文本1
+   */
+  --o-font_size-tip1: 14px;
+  /**
+   * @name 提示文本2
+   * @type font
+   * @group font_size
+   * @description 提示文本2
+   */
+  --o-font_size-tip2: 12px;
+  /**
+   * @name 一级数据展示
+   * @type font
+   * @group line_height
+   * @description 一级数据展示
+   */
+  --o-line_height-display1: 80px;
+  /**
+   * @name 二级数据展示
+   * @type font
+   * @group line_height
+   * @description 二级数据展示
+   */
+  --o-line_height-display2: 64px;
+  /**
+   * @name 三级数据展示
+   * @type font
+   * @group line_height
+   * @description 三级数据展示
+   */
+  --o-line_height-display3: 56px;
+  /**
+   * @name 一级标题
+   * @type font
+   * @group line_height
+   * @description 一级标题
+   */
+  --o-line_height-h1: 44px;
+  /**
+   * @name 二级标题
+   * @type font
+   * @group line_height
+   * @description 二级标题
+   */
+  --o-line_height-h2: 32px;
+  /**
+   * @name 三级标题
+   * @type font
+   * @group line_height
+   * @description 三级标题
+   */
+  --o-line_height-h3: 30px;
+  /**
+   * @name 四级标题
+   * @type font
+   * @group line_height
+   * @description 四级标题
+   */
+  --o-line_height-h4: 28px;
+  /**
+   * @name 正文
+   * @type font
+   * @group line_height
+   * @description 正文
+   */
+  --o-line_height-text1: 24px;
+  /**
+   * @name 正文-大
+   * @type font
+   * @group line_height
+   * @description 正文-大
+   */
+  --o-line_height-text2: 26x;
+  /**
+   * @name 提示文本1
+   * @type font
+   * @group line_height
+   * @description 提示文本1
+   */
+  --o-line_height-tip1: 22px;
+  /**
+   * @name 提示文本2
+   * @type font
+   * @group line_height
+   * @description 提示文本2
+   */
+  --o-line_height-tip2: 18px;
+  /**
+   * @name 超小尺寸圆角
+   * @type size
+   * @group radius
+   * @description 超小尺寸圆角
+   */
+  --o-radius-xs: 4px;
+  /**
+   * @name 小尺寸圆角
+   * @type size
+   * @group radius
+   * @description 小尺寸圆角
+   */
+  --o-radius-s: 4px;
+  /**
+   * @name 中尺寸圆角
+   * @type size
+   * @group radius
+   * @description 中尺寸圆角
+   */
+  --o-radius-m: 4px;
+  /**
+   * @name 大尺寸圆角
+   * @type size
+   * @group radius
+   * @description 大尺寸圆角
+   */
+  --o-radius-l: 4px;
+  /**
+   * @name 大尺寸圆角
+   * @type size
+   * @group radius
+   * @description 大尺寸圆角,一般用于卡片
+   */
+  --o-radius-xl: 0px;
+  /**
+   * @name 超小尺寸控件圆角
+   * @type size
+   * @group radius_control
+   * @description 超小尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-xs: 4px;
+  /**
+   * @name 小尺寸控件圆角
+   * @type size
+   * @group radius_control
+   * @description 小尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-s: 4px;
+  /**
+   * @name 中尺寸控件圆角
+   * @type size
+   * @group radius_control
+   * @description 中尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-m: 4px;
+  /**
+   * @name 大尺寸控件圆角
+   * @type size
+   * @group radius_control
+   * @description 大尺寸控件圆角(组件使用)
+   */
+  --o-radius_control-l: 4px;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于退出屏幕的动画
+   */
+  --o-duration-s: 200ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为standard-in时进入屏幕的动画
+   */
+  --o-duration-m1: 250ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为standard时开始、结束的动画
+   */
+  --o-duration-m2: 300ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为emphasized-in时进入屏幕的动画
+   */
+  --o-duration-m3: 400ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为emphasized时开始、结束的动画
+   */
+  --o-duration-l: 500ms;
+  /**
+   * @name 持续时间
+   * @type animation
+   * @group duration
+   * @description 用于当曲线为emphasized时，轮播切换动画
+   */
+  --o-duration-xl: 1000ms;
+  /**
+   * @name 线性动画曲线
+   * @type animation
+   * @group easing
+   * @description 线性曲线
+   */
+  --o-easing-linear: cubic-bezier(0, 0, 1, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于组件
+   */
+  --o-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于组件
+   */
+  --o-easing-standard-in: cubic-bezier(0, 0, 0, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于组件
+   */
+  --o-easing-standard-out: cubic-bezier(0.3, 0, 1, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于大卡片、场景切换
+   */
+  --o-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于大卡片、场景切换
+   */
+  --o-easing-emphasized-in: cubic-bezier(0.3, 0, 0.8, 0.15);
+  /**
+   * @name 动画曲线
+   * @type animation
+   * @group easing
+   * @description 用于大卡片、场景切换
+   */
+  --o-easing-emphasized-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+}

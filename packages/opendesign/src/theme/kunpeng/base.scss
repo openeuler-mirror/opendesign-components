@@ -1,0 +1,13 @@
+[class^='c-'],
+[class*=' c-'] {
+  box-sizing: border-box;
+}
+
+[data-o-theme='k.light'] {
+  --ak-color-band-start: 255, 153, 51;
+  --ak-color-band-end: 247, 77, 97;
+}
+[data-o-theme='k.dark'] {
+  --ak-color-band-start: 255, 153, 51;
+  --ak-color-band-end: 247, 77, 97;
+}
