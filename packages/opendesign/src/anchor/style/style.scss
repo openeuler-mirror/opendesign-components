@@ -47,7 +47,11 @@
   font-size: var(--anchor-item-link-text-size);
   line-height: var(--anchor-item-link-text-height);
   background-color: var(--anchor-item-link-bg-color);
-  padding: var(--anchor-item-link-padding);
+  padding: 
+    var(--anchor-item-link-padding-v)
+    var(--anchor-item-link-padding-h)
+    var(--anchor-item-link-padding-v)
+    calc(var(--anchor-item-text-indent) * var(--anchor-item-depth) + var(--anchor-item-link-padding-h));
   border-radius: var(--anchor-item-link-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
 
