@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { OButton, useMessage, OScroller } from '@opensig/opendesign';
-import { computed } from 'vue';
+import { OButton, useMessage, OScroller, OIconChevronUp } from '@opensig/opendesign';
+import { computed, inject } from 'vue';
 import { DocIconCopy } from '@/icon-components';
 
 const props = defineProps<{
@@ -20,17 +20,23 @@ const copyCode = async () => {
     throw err;
   }
 };
+const docConfig = inject<any>('docs-config');
 </script>
 
 <template>
   <div class="code-container">
-    <OScroller show-type="always">
+    <OScroller show-type="always" class="code-container-scroller">
       <slot></slot>
     </OScroller>
     <div v-if="props.lang" class="lang-mark">{{ props.lang }}</div>
-    <OButton class="copy-block" variant="outline" size="small" @click="copyCode">
-      <template #icon><DocIconCopy /></template>
-    </OButton>
+    <div class="operation-block">
+      <OButton variant="outline" size="small" @click="copyCode">
+        <template #icon><DocIconCopy /></template>
+      </OButton>
+      <OButton v-if="docConfig?.['is-show-code']" variant="outline" size="small" @click="() => docConfig?.['switch-show-code']?.()">
+        <template #icon><OIconChevronUp /></template>
+      </OButton>
+    </div>
   </div>
 </template>
 
@@ -40,7 +46,7 @@ const copyCode = async () => {
   position: relative;
 
   .lang-mark,
-  .copy-block {
+  .operation-block {
     position: absolute;
     z-index: 2;
     color: var(--o-color-info3);
@@ -49,18 +55,24 @@ const copyCode = async () => {
     top: var(--o3-gap-3);
     right: var(--o3-gap-4);
   }
-  .copy-block {
+  .operation-block {
     display: none;
     top: var(--o3-gap-2);
     right: var(--o3-gap-4);
-    --btn-height: var(--o3-icon_size-l);
+    :deep(.o-btn) {
+      --btn-height: var(--o3-icon_size-l);
+      --btn-icon-size: var(--o3-icon_size-m);
+      & + .o-btn {
+        margin-left: var(--o3-gap-2);
+      }
+    }
   }
 
   &:hover {
     .lang-mark {
       display: none;
     }
-    .copy-block {
+    .operation-block {
       display: block;
     }
   }
@@ -70,6 +82,9 @@ const copyCode = async () => {
     margin: 0;
     width: max-content;
   }
+}
+.code-container-scroller {
+  max-height: 70vh;
 }
 :deep(pre[data-linenumber-start]) {
   position: relative;

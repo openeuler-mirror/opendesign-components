@@ -30,16 +30,29 @@ const resolveActiveTheme = (theme: string) => {
   if (_theme.startsWith(':')) {
     _theme = _theme.slice(1);
   }
-  if (['e', 'euler'].includes(_theme)) {
-    return 'e';
-  }
-  if (['k', 'kunpeng'].includes(_theme)) {
-    return 'k';
-  }
-  if (['a', 'ascend'].includes(_theme)) {
-    return 'a';
-  }
-  return '';
+  return Array.from(
+    new Set(
+      _theme
+        .split('|')
+        .map((_item) => {
+          const item = _item.trim().toLowerCase();
+          if (['e', 'open-euler'].includes(item)) {
+            return 'e';
+          }
+          if (['k', 'kunpeng'].includes(item)) {
+            return 'k';
+          }
+          if (['a', 'ascend'].includes(item)) {
+            return 'a';
+          }
+          if (['d', 'open-design'].includes(item)) {
+            return 'd';
+          }
+          return '';
+        })
+        .filter(Boolean),
+    ),
+  );
 };
 
 /**
@@ -51,7 +64,7 @@ const resolveActiveTheme = (theme: string) => {
  * @param viteDevServer vite开发服务器实例
  * @returns 转化后的代码
  */
-const transformVueDemo = (code: string, id: string, mode: 'dev' | 'build' | 'unknown', activeTheme?: string, viteDevServer?: ViteDevServer) => {
+const transformVueDemo = (code: string, id: string, mode: 'dev' | 'build' | 'unknown', activeThemes?: string[], viteDevServer?: ViteDevServer) => {
   const imported: {
     default?: string;
     all?: string;
@@ -92,7 +105,7 @@ const transformVueDemo = (code: string, id: string, mode: 'dev' | 'build' | 'unk
   }
   const docsJson = `{${imported.map((item) => `'${item.lang}': ${item.default}`).join(',')}}`;
   // 补充 usage 的 vue 文件的 template 块
-  const template = `<template><DemoUsage :schema="_schema" :ctx="_ctx" :template="_template" :docs="${docsJson}" :style="_style" ${activeTheme ? `active-theme="${activeTheme}"` : ''} /></template>`;
+  const template = `<template><DemoUsage :schema="_schema" :ctx="_ctx" :template="_template" :docs="${docsJson}" :style="_style" :active-themes='${JSON.stringify(activeThemes)}' /></template>`;
   return `${[...customBlocks, scriptSetup, ...styles]
     .filter(Boolean)
     .map((block) => {
@@ -100,7 +113,13 @@ const transformVueDemo = (code: string, id: string, mode: 'dev' | 'build' | 'unk
     })
     .join('\n')}\n${template}`;
 };
-const transformMdEntry = async (code: string, id: string, usageFiles: Map<string, string>, mode: 'dev' | 'build' | 'unknown', viteDevServer?: ViteDevServer) => {
+const transformMdEntry = async (
+  code: string,
+  id: string,
+  usageFiles: Map<string, string[]>,
+  mode: 'dev' | 'build' | 'unknown',
+  viteDevServer?: ViteDevServer,
+) => {
   const imported: {
     default?: string;
     all?: string;
@@ -110,12 +129,12 @@ const transformMdEntry = async (code: string, id: string, usageFiles: Map<string
   const lang = getLangByFileName(id);
   // 将 <!-- @case CaseComponent --> 注释替换成 <DemoContainer :demo="AutoInjectCaseComponent" />
   // 将 <!-- @usage usageConfig --> 注释替换成 <AutoInject${fileName} />
-  let newCode = await asyncReplace(code, /<!-{2,}\s*@(case|usage|api)(:\w+)?\s+(.*?)\s*-{2,}>/gi, async (match) => {
+  let newCode = await asyncReplace(code, /<!-{2,}\s*@(case|usage|api)(:[\w|-]+)?\s+(.*?)\s*-{2,}>/gi, async (match) => {
     const [, directive, _activeTheme, filePath] = match;
     const paths = filePath.split('/');
     const dirs = paths.slice(0, -1);
     const fileName = paths[paths.length - 1];
-    const activeTheme = resolveActiveTheme(_activeTheme || '');
+    const activeThemes = resolveActiveTheme(_activeTheme || '');
     if (directive === 'api') {
       // 拼接 api 文件
       const apiFile = join(dirname(id), ...dirs, `${fileName}-api.${lang.lang}.md`);
@@ -130,7 +149,7 @@ const transformMdEntry = async (code: string, id: string, usageFiles: Map<string
           default: `AutoInject${fileName}`,
           path: demoFile,
         });
-        return `<DemoContainer :demo="AutoInject${fileName}" ${activeTheme ? `active-theme="${activeTheme}"` : ''} />`;
+        return `<DemoContainer :demo="AutoInject${fileName}" :active-themes='${JSON.stringify(activeThemes)}' />`;
       } else {
         // 此处只导入 usage 指令指定的 vue 模块。该 vue 模块的还需在 transformVueDemo 函数中转换
         imported.push({
@@ -141,7 +160,7 @@ const transformMdEntry = async (code: string, id: string, usageFiles: Map<string
         if (mode === 'dev' && viteDevServer) {
           viteDevServer.watcher.emit('change', usageFileId);
         }
-        usageFiles.set(usageFileId, activeTheme);
+        usageFiles.set(usageFileId, activeThemes);
         return `<AutoInject${fileName} />`;
       }
     }
@@ -162,7 +181,7 @@ export function injectDemoAndApi(): Plugin {
    * 缓存需要导入的usage模块
    * Map<usageId, activeTheme>
    */
-  const usageFiles = new Map<string, string>();
+  const usageFiles = new Map<string, string[]>();
   let viteDevServer: ViteDevServer | null = null;
   return {
     name: 'portal:inject-demo-and-api',

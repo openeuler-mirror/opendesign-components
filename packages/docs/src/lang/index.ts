@@ -1,7 +1,7 @@
 import { useLocale, useI18n, addLocale } from '@opensig/opendesign';
 import { computed } from 'vue';
 // @opensig/opendesign 未暴露语言包，因此通过路径添加
-import enUS from '@components/locale/lang/en-us';
+import enUS from '@opensig/opendesign/locale/lang/en-us';
 import enUSPortal from './en-US';
 import zhCNPortal from './zh-CN';
 

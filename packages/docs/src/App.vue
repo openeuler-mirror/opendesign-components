@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick, ref, computed } from 'vue';
+import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
@@ -8,11 +8,13 @@ import { useSidebarStore } from './stores/sidebar';
 import TheAnchor from './components/TheAnchor';
 import { getHeads } from './utils/getHeads';
 import { useScreen } from './utils/useScreen';
+import { useThemeStore } from '@/stores/theme';
 
 const route = useRoute();
 const router = useRouter();
 const sidebarStore = useSidebarStore();
 const { lePad, isPadV, lePadV } = useScreen();
+const themeStore = useThemeStore();
 watchEffect(() => {
   const routeLocale = locales.find((item) => item.value === route.meta.lang);
   if (routeLocale) {
@@ -48,6 +50,14 @@ router.afterEach(async (to, from) => {
   heads.length = 0;
   heads.push(...getHeads(appBodyDom.value!));
 });
+watch(
+  () => themeStore.skinValue,
+  () => {
+    heads.length = 0;
+    heads.push(...getHeads(appBodyDom.value!));
+  },
+  { flush: 'post' },
+);
 const asideStaticWidth = computed(() => {
   if (isPadV.value) {
     return 'var(--grid-4)';

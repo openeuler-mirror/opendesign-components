@@ -66,7 +66,7 @@ ${res
     (info) => `  {
     path: '/${info.lang}/components/${info.name}',
     name: 'component/${info.name}/${info.lang}',
-    component: () => import('@components/${info.file}'),
+    component: () => import('@opensig/opendesign/${info.file}'),
     meta: ${JSON.stringify(info.meta)}
   }`,
   )
