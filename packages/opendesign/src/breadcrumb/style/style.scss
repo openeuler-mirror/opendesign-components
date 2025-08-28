@@ -18,10 +18,10 @@
   align-items: center;
 
   &:last-child {
-    color: var(--breadcrumb-color-selected);
     font-weight: 500;
-
+    
     .o-breadcrumb-item-label {
+      color: var(--breadcrumb-color-selected);
       cursor: auto;
       max-width: none;
     }
