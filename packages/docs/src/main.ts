@@ -39,6 +39,5 @@ Object.entries(DocIcons).forEach(([name, value]) => {
 });
 // 某些组件有问题，需要手动注册
 app.component('OCarouselItem', Opendesign.OCarouselItem);
-app.component('OToggle', Opendesign.OToggle);
 app.component('DocLink', DocLink);
 app.mount('#app');
