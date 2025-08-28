@@ -14,46 +14,43 @@ export default function main() {
   // compile scss
   const files = globSync('**/*.{scss,css}', {
     cwd: input,
+    posix: true,
   });
   fs.ensureDir('dist');
 
-  // 编译额外需要的数据
-  // const additionalData = '';
-
   files.forEach((fl) => {
     const fPath = path.resolve(input, fl);
+    // Copy SCSS and CSS files to es/lib directories
     fs.copySync(fPath, `es/${fl}`);
     fs.copySync(fPath, `lib/${fl}`);
 
     if (/index\.scss/.test(fl)) {
+      // Compile all index.scss files to CSS
       console.log(`compiling ${fl}`);
       const result = compile(fPath, {});
-
-      // 支持additionalData
-      // const originalContent = fs.readFileSync(fPath, 'utf8');
-      // const combinedContent = additionalData + originalContent;
-      // const result = compileString(combinedContent, {
-      //   url: new URL(`file://${fPath}`), // 保留文件路径上下文
-      //   loadPaths: ['node_modules/'], // 设置导入路径
-      // });
 
       const cssName = fl.replace('.scss', '.css');
       fs.outputFile(`es/${cssName}`, result.css);
       fs.outputFile(`lib/${cssName}`, result.css);
 
-      // compile total css
+      // Compile index.scss and theme/**/index.scss to dist directory
       if (fl === 'index.scss') {
-        fs.outputFile('dist/opendesign.css', result.css);
+        fs.outputFile('dist/index.css', result.css);
         // compile min.css
         const compress = new CleanCSS().minify(result.css);
-        fs.outputFile('dist/opendesign.min.css', compress.styles);
+        fs.outputFile('dist/index.min.css', compress.styles);
 
-        fs.writeFileSync('dist/opendesign.scss', "@import '../es/index.scss';");
+        fs.writeFileSync('dist/index.scss', "@import '../es/index.scss';");
+      }
+      if (/theme\/.+\/index.scss$/.test(fl)) {
+        fs.outputFile(`dist/${fl.replace(/\.scss$/, '.css')}`, result.css);
+        const compress = new CleanCSS().minify(result.css);
+        fs.outputFile(`dist/${fl.replace(/\.scss$/, '.min.css')}`, compress.styles);
       }
     }
   });
   // build index
-  const idxFiles = globSync('**/style/**/index.ts', {
+  const idxFiles = globSync('**/style/**/*index.ts', {
     cwd: input,
   });
   idxFiles.forEach((fl) => {
@@ -61,16 +58,17 @@ export default function main() {
     const toFl = fl.replace(/\.ts$/, '.js');
     fs.copySync(fpath, `es/${toFl}`);
     fs.copySync(fpath, `lib/${toFl}`);
-
-    const content = fs.readFileSync(fpath, 'utf-8');
-    const css = content.replace('.scss', '.css').replace(/\/style';/g, "/style/css';");
-    const cssFile = fl.replace(/index\.ts$/, 'css.js');
-    fs.outputFile(`es/${cssFile}`, css);
-    fs.outputFile(`lib/${cssFile}`, css);
   });
 
   // copy scss index
   const scssIndexContent = "import './index.scss';";
   fs.outputFile('es/scss.mjs', scssIndexContent);
   fs.outputFile('lib/scss.js', scssIndexContent);
+
+  // copy code-snippets
+  const codeSnippets = globSync('theme/**/*code-snippets', { cwd: input });
+  codeSnippets.forEach((item) => {
+    const fpath = path.resolve(input, item);
+    fs.copySync(fpath, item.replace('theme', 'code-snippets'));
+  });
 }
