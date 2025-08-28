@@ -1,51 +1,24 @@
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ODropdown, ODropdownItem, useI18n, OSwitch } from '@opensig/opendesign';
 import { currentLocale, changeLocale, locales } from '@/lang';
 import { sidebarRouteConfig, type SidebarNameT } from '@/router';
 import { useSidebarStore } from '@/stores/sidebar';
 import { DocIconDark, DocIconLight } from '@/icon-components';
-import { theme } from '@/utils/theme';
+import { useThemeStore, skin, colors, type SkinT } from '@/stores/theme';
 
 const sidebarStore = useSidebarStore();
-const themes = [
-  {
-    key: '',
-    name: 'Euler',
-  },
-  {
-    key: 'a.',
-    name: 'Ascend',
-  },
-  {
-    key: 'k.',
-    name: 'Kunpeng',
-  },
-] as const;
-type ThemeT = (typeof themes)[number];
-const colorSwitcher = {
-  checked: 'dark',
-  unchecked: 'light',
-};
-const themesValue = ref<ThemeT>(themes[0]);
-const colorSwitcherValue = ref(colorSwitcher.unchecked);
+const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
-watch(
-  [themesValue, colorSwitcherValue],
-  ([newTheme, newColorSwitcher]) => {
-    theme.value = `${newTheme.key}${newColorSwitcher}`;
-  },
-  { immediate: true },
-);
 
-const themeName = computed(() => {
-  return `${themesValue.value.name}-${colorSwitcherValue.value}`;
+const skinColorName = computed(() => {
+  return `${themeStore.skinName}-${themeStore.color}`;
 });
 
-const changeTheme = (item: (typeof themes)[number]) => {
-  themesValue.value = item;
+const changeSkin = (item: SkinT['value']) => {
+  themeStore.skinValue = item;
 };
 
 const { t, locale } = useI18n();
@@ -69,7 +42,7 @@ watch(locale, (newLocale, oldLocale) => {
 </script>
 <template>
   <div class="the-header">
-    <span class="theme-name">{{ themeName }}</span>
+    <span class="theme-name">{{ skinColorName }}</span>
     <div class="left" @click="router.push('/')">
       {{ t('header.home') }}
     </div>
@@ -90,12 +63,19 @@ watch(locale, (newLocale, oldLocale) => {
           <ODropdown>
             {{ t('header.theme') }}
             <template #dropdown>
-              <ODropdownItem v-for="item in themes" :key="item.name" :label="item.name" :value="item.name" @click="changeTheme(item)" />
+              <ODropdownItem
+                v-for="item in skin"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name"
+                :class="{ 'theme-active': themeStore.skinValue === item.value }"
+                @click="changeSkin(item.value)"
+              />
             </template>
           </ODropdown>
         </div>
         <div class="tool-item">
-          <OSwitch v-model="colorSwitcherValue" :checked-value="colorSwitcher.checked" :unchecked-value="colorSwitcher.unchecked">
+          <OSwitch v-model="themeStore.color" :checked-value="colors[1]" :unchecked-value="colors[0]">
             <template #off><DocIconLight /></template>
             <template #on><DocIconDark /></template>
           </OSwitch>
@@ -179,6 +159,10 @@ watch(locale, (newLocale, oldLocale) => {
       margin-left: var(--o3-gap-5);
     }
   }
+}
+.theme-active {
+  background-color: var(--dropdown-item-bg-color-hover);
+  color: var(--dropdown-item-color-hover);
 }
 .theme-icon {
   display: block;

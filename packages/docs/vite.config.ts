@@ -29,7 +29,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@/': `${path.resolve(__dirname, './src')}/`,
-      '@components': path.resolve(__dirname, '../opendesign/src'),
       '@assets': path.resolve(__dirname, './src/assets'),
       '@opensig/opendesign': path.resolve(__dirname, '../opendesign/src'),
     },
@@ -44,7 +43,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@use "@components/_styles/mixin.scss" as *;',
+        additionalData: '@use "@opensig/opendesign/_styles/mixin.scss" as *;\n',
       },
     },
   },

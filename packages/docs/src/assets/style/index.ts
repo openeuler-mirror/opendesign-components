@@ -1,9 +1,5 @@
-import './a.dark.token.css';
-import './a.light.token.css';
-import './k.dark.token.css';
-import './k.light.token.css';
+import '@opensig/opendesign/theme/common.scss';
 import './font-family.scss';
-import './grid.scss';
 import './var-map.scss';
 import './style.scss';
 import './markdown.scss';

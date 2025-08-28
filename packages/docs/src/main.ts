@@ -2,9 +2,6 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import 'normalize.css';
 
-import '@opensig/opendesign/index.scss';
-import '@opensig/opendesign/_styles/light.token.css';
-import '@opensig/opendesign/_styles/dark.token.css';
 import '@/assets/style/index';
 
 import { router } from '@/router/index';

@@ -1,7 +1,8 @@
 export default {
   locale: 'en-US',
-  'components.component': 'component',
-  'header.globalSettings': 'global settings',
-  'header.home': 'home',
+  'components.component': 'Component',
+  'header.globalSettings': 'Global settings',
+  'header.home': 'Home',
+  'header.theme': 'Theme',
   'dev.devEnv': 'dev env'
 };
