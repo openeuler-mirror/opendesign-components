@@ -20,6 +20,9 @@
       "@/*": [
         "src/*"
       ],
+      "@opendesign-src": [
+        "../opendesign/src/index.ts"
+      ],
       "@opendesign-src/*": [
         "../opendesign/src/*"
       ]
