@@ -11,7 +11,9 @@
   --card-h-cover-width: 45%;
   --card-h-cover-max-width: 320px;
 
-  --card-main-padding: 24px 32px;
+  --card-main-padding-v: 24px;
+  --card-main-padding-h: 32px;
+  --card-main-padding: var(--card-main-padding-v) var(--card-main-padding-h);
 
   --card-icon-gap: 16px;
   --card-icon-color: var(--o-color-info1);
@@ -34,6 +36,10 @@
   --card-footer-color: var(--o-color-info2);
   --card-footer-text-size: var(--o-font_size-tip1);
   --card-footer-text-height: var(--o-line_height-tip1);
+
+  &.o-card-cover {
+    --card-main-padding-h: 24px;
+  }
 }
 
 .o-card-cover-v {

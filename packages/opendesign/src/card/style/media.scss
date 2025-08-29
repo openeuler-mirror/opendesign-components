@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond-to('laptop-pc_s') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-m);
@@ -9,7 +9,8 @@
       --card-header-text-size: var(--o-font_size-text2);
       --card-header-text-height: var(--o-line_height-text2);
 
-      --card-main-padding: 16px 24px;
+      --card-main-padding-v: 16px;
+      --card-main-padding-h: 24px;
 
       --card-icon-gap: 12px;
 
@@ -20,11 +21,14 @@
       --card-footer-gap: 16px;
       --card-footer-text-size: var(--o-font_size-tip2);
       --card-footer-text-height: var(--o-line_height-tip2);
+
+      &.o-card-cover {
+        --card-main-padding-h: 16px;
+      }
     }
   }
 }
-
-@include respond-to('pad') {
+@include respond-to('pad_h') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-s);
@@ -34,7 +38,8 @@
       --card-header-text-size: var(--o-font_size-text1);
       --card-header-text-height: var(--o-line_height-text1);
 
-      --card-main-padding: 12px 16px;
+      --card-main-padding-v: 12px;
+      --card-main-padding-h: 16px;
 
       --card-icon-gap: 8px;
       --card-icon-size: var(--o-icon_size_control-l);
@@ -58,18 +63,22 @@
       .o-card-cover-hr {
         --card-cover-padding: 4px 4px 4px 0;
       }
+
+      &.o-card-cover {
+        --card-main-padding-h: 12px;
+      }
     }
   }
 }
-
-@include respond-to('phone') {
+@include respond-to('<=pad_v') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-s);
 
       --card-cover-radius: var(--o-radius_control-xs);
 
-      --card-main-padding: 12px 16px;
+      --card-main-padding-v: 8px;
+      --card-main-padding-h: 12px;
 
       --card-header-text-size: var(--o-font_size-tip1);
       --card-header-text-height: var(--o-line_height-tip1);
@@ -95,6 +104,10 @@
 
       .o-card-cover-hr {
         --card-cover-padding: 4px 4px 4px 0;
+      }
+
+      &.o-card-cover {
+        --card-main-padding-h: 8px;
       }
     }
   }
