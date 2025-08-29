@@ -1,5 +1,5 @@
 ---
-sidebar: OLink Link
+sidebar: OLink
 ---
 
 # Link
