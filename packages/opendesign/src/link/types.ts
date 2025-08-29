@@ -6,76 +6,92 @@ export type LinkSizeT = (typeof LinkSizeTypes)[number];
 
 export const linkProps = {
   /**
-   * 包含超链接指向的 URL 或 URL 片段。
+   * @zh-CN 包含超链接指向的 URL 或 URL 片段
+   * @en-US Contains the URL or URL fragment pointed to by the hyperlink
    */
   href: {
     type: String,
   },
   /**
-   * 指定在何处显示链接的资源。
+   * @zh-CN 指定在何处显示链接的资源
+   * @en-US Specify where to display the linked resource
    */
   target: {
     type: String as PropType<'_blank' | '_parent' | '_self' | '_top'>,
   },
   /**
-   * 是否为loading状态
+   * @zh-CN 是否为loading状态
+   * @en-US Whether it is in the loading state
    */
   loading: {
     type: Boolean,
   },
   /**
-   * 链接颜色
+   * @zh-CN 链接颜色
+   * @en-US Link color
+   * @default 'normal'
    */
   color: {
     type: String as PropType<ColorT>,
     default: 'normal',
   },
   /**
-   * 按钮尺寸 SizeT
+   * @zh-CN 尺寸大小
+   * @en-US size
+   * @default 'auto'
    */
   size: {
     type: String as PropType<LinkSizeT>,
     default: 'auto',
   },
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable
    */
   disabled: {
     type: Boolean,
   },
   /**
-   * 前缀图标
+   * @zh-CN 前缀图标
+   * @en-US Prefix icon
    */
   icon: {
     type: Object as PropType<Component>,
   },
   /**
-   * 后缀
+   * @zh-CN 后缀
+   * @en-US Suffix
    */
   suffix: {
     type: Boolean,
   },
   /**
-   * hover时是否显示背景
+   * @zh-CN hover时是否显示背景
+   * @en-US Whether the background is displayed when hovering
    */
   hoverBg: {
     type: Boolean,
   },
   /**
-   * hover时是否下划线
+   * @zh-CN hover时是否显示下划线
+   * @en-US Whether an underline is displayed when hovering
    */
   hoverUnderline: {
     type: Boolean,
   },
   /**
-   * 元素标签
+   * @zh-CN 元素标签
+   * @en-US Element tag
+   * @default 'a'
    */
   tag: {
     type: String,
     default: 'a',
   },
   /**
-   * 全局配置是否生效
+   * @zh-CN 全局配置是否生效
+   * @en-US Whether the global configuration takes effect
+   * @default true
    */
   global: {
     type: Boolean,
