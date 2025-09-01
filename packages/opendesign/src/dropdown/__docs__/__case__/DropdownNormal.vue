@@ -4,14 +4,14 @@
 #### 普通按钮
 
 - **配置方式**：需同时传递两个参数
-  `color="primary"`（标识颜色为主题色） + `variant="outline"`（线框样式）
+  `color="primary"`（标识颜色为主题色） + `variant="outline"`（线框样式），同时为 `ODropdown` 组件添加类名 `o-dropdwon-btn-wrap`
 
 <!-- en-US -->
 
 #### Normal Buttons
 
 - **Configuration Method**: Requires passing two parameters simultaneously:
-  `color="primary"` (indicates the color as the theme color) + `variant="outline"` (outline style).
+  `color="primary"` (indicates the color as the theme color) + `variant="outline"` (outline style), add the class name 'o-dropdwon-btn-wrap' to the `ODropdown` component.
 </docs>
 <script setup lang="ts">
 import { reactive } from 'vue';
@@ -51,7 +51,7 @@ const options = [
 <template>
   <div class="row">
     <template v-for="(item, idx) in list" :key="idx">
-      <ODropdown v-model:visible="item.visible" :trigger="item.trigger">
+      <ODropdown v-model:visible="item.visible" :trigger="item.trigger" class="o-dropdown-btn-wrap">
         <OButton round="pill" :size="item.size" :disabled="item.forbid" color="primary" variant="outline">
           下拉按钮
           <template #suffix>

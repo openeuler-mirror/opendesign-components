@@ -3,13 +3,13 @@
 
 #### 运营按钮
 
-- **配置方式**：为按钮组件添加类名 `c-btn-activity` 或 `c-btn-ascend`（二选一）
+- **配置方式**：为按钮组件添加类名 `c-btn-activity` 或 `c-btn-ascend`（二选一），同时为 `ODropdown` 组件添加类名 `o-dropdwon-btn-wrap`
 
 <!-- en-US -->
 
 #### Operational Buttons
 
-- **Configuration Method**: Add either the class name `c-btn-activity` or `c-btn-ascend` (choose one) to the button component.
+- **Configuration Method**: Add the class name 'c-btn-activity' or 'c-btn-ascend' (choose one) to the `OButton` component, and add the class name 'o-dropdwon-btn-wrap' to the `ODropdown` component at the same time.
 </docs>
 <script setup lang="ts">
 import { reactive } from 'vue';
@@ -53,7 +53,7 @@ const options = [
 <template>
   <div class="row">
     <template v-for="(item, idx) in list" :key="idx">
-      <ODropdown v-model:visible="item.visible" :trigger="item.trigger">
+      <ODropdown v-model:visible="item.visible" :trigger="item.trigger" class="o-dropdown-btn-wrap">
         <OButton round="pill" :size="item.size" :class="item.btnClass" :disabled="item.forbid">
           下拉按钮
           <template #suffix>

@@ -4,12 +4,14 @@
 #### 文本按钮
 
 - **基础组件**：使用 `OLink` 组件实现
+- **配置方式**：为 `ODropdown` 组件添加类名 `o-dropdwon-link-wrap`
 - **下拉禁用**：需给 `OLink` 传递 `disabled` 属性，并同时给 `ODropdown` 传递 `trigger="none"` 属性
 <!-- en-US -->
 
 #### Text Buttons
 
 - **Base Component**: Implemented using the `OLink` component.
+- **Configuration Method**: Add the class name 'o-dropdwon-link-wrap' to the `ODropdown` component.
 - **Dropdown disabled**：The 'disabled' attribute needs to be passed to `OLink`, and at the same time, the 'trigger="none"' attribute should be passed to `ODropdown`.
 </docs>
 <script setup lang="ts">
@@ -50,7 +52,7 @@ const options = [
 <template>
   <div class="row">
     <template v-for="(item, idx) in list" :key="idx">
-      <ODropdown v-model:visible="item.visible" :trigger="item.trigger">
+      <ODropdown v-model:visible="item.visible" :trigger="item.trigger" class="o-dropdown-link-wrap">
         <OLink :size="item.size" :disabled="item.forbid" color="normal">
           下拉按钮
           <template #suffix>

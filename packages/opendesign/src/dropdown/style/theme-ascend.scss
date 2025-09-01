@@ -1,0 +1,15 @@
+@use './common.scss' as *;
+
+.o-dropdown-btn-wrap {
+
+  .c-btn-activity,
+  .c-btn-ascend {
+    &.o-btn-medium {
+      --btn-padding: 0 12px 0 16px;
+    }
+
+    &.o-btn-large {
+      --btn-padding: 0 16px 0 24px;
+    }
+  }
+}
