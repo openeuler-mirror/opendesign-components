@@ -127,6 +127,8 @@ const transformMdEntry = async (
     path: string;
   }[] = [];
   const lang = getLangByFileName(id);
+  // 避免引入同一个文件出现同名符号
+  let importedId = 0;
   // 将 <!-- @case CaseComponent --> 注释替换成 <DemoContainer :demo="AutoInjectCaseComponent" />
   // 将 <!-- @usage usageConfig --> 注释替换成 <AutoInject${fileName} />
   let newCode = await asyncReplace(code, /<!-{2,}\s*@(case|usage|api)(:[\w|-]+)?\s+(.*?)\s*-{2,}>/gi, async (match) => {
@@ -144,24 +146,26 @@ const transformMdEntry = async (
     }
     const demoFile = join(dirname(id), ...dirs, `./__case__/${fileName}.vue`);
     if (await fsp.stat(demoFile).catch(() => false)) {
+      importedId++;
+      const importedName = `AutoInject${fileName}${importedId}`;
       if (directive === 'case') {
         imported.push({
-          default: `AutoInject${fileName}`,
+          default: importedName,
           path: demoFile,
         });
-        return `<DemoContainer :demo="AutoInject${fileName}" :active-themes='${JSON.stringify(activeThemes)}' />`;
+        return `<DemoContainer :demo="${importedName}" :active-themes='${JSON.stringify(activeThemes)}' />`;
       } else {
         // 此处只导入 usage 指令指定的 vue 模块。该 vue 模块的还需在 transformVueDemo 函数中转换
         imported.push({
           path: demoFile,
-          default: `AutoInject${fileName}`,
+          default: importedName,
         });
         const usageFileId = demoFile.replace(/\\/g, '/');
         if (mode === 'dev' && viteDevServer) {
           viteDevServer.watcher.emit('change', usageFileId);
         }
         usageFiles.set(usageFileId, activeThemes);
-        return `<AutoInject${fileName} />`;
+        return `<${importedName} />`;
       }
     }
     return match[0];
