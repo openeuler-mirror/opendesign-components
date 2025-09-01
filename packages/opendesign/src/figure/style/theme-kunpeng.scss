@@ -1,0 +1,7 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=pad_v') {
+  .c-figure-kunpeng-radius {
+    border-radius: 8px;
+  }
+}

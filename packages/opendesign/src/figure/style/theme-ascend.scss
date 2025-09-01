@@ -1,0 +1,24 @@
+@use '../../_styles/mixin.scss' as *;
+
+.c-figure-ascend-radius {
+  border-radius: 16px;
+  @include respond-to('laptop-pc_s') {
+    border-radius: 12px;
+  }
+  @include respond-to('<=pad') {
+    border-radius: 8px;
+  }
+}
+
+.c-figure-ascend-xl-radius {
+  border-radius: 24px;
+  @include respond-to('laptop-pc_s') {
+    border-radius: 20px;
+  }
+  @include respond-to('pad_h') {
+    border-radius: 16px;
+  }
+  @include respond-to('<=pad_v') {
+    border-radius: 8px;
+  }
+}

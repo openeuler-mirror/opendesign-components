@@ -1,0 +1,11 @@
+@use '../../_styles/mixin.scss' as *;
+
+.c-figure-openeuler-radius {
+  border-radius: 4px;
+}
+
+@include respond-to('<=pad_v') {
+  .c-figure-openeuler-radius {
+    border-radius: 8px;
+  }
+}

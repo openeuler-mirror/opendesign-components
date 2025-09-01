@@ -1,0 +1,118 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-card-detail-limited {
+  --card-detail-mask-bg-color: var(--o-color-control-light);
+  --card-detail-mask-width: 4em;
+
+  position: relative;
+  display: block;
+  text-overflow: clip;
+
+  &::after {
+    background-image: linear-gradient(90deg, hsla(0, 0%, 93%, 0), hsla(0, 0%, 100%, 0.8) 59%, var(--card-detail-mask-bg-color) 100%);
+    bottom: 0;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    width: var(--card-detail-mask-width);
+    height: var(--card-content-text-height);
+  }
+}
+
+.c-card-openeuler {
+  &.o-card {
+    --card-radius: 4px;
+    --card-cover-radius: 4px;
+    --card-icon-size: 48px;
+  }
+
+  .o-card-cover-v.o-card-cover-v,
+  .o-card-cover-h.o-card-cover-h,
+  .o-card-cover-hr.o-card-cover-hr {
+    --card-cover-padding: 0px;
+  }
+
+  &.o-card-hoverable.o-card-cursor-pointer {
+    .o-card-title {
+      transition: color var(--o-duration-s) var(--o-easing-standard);
+    }
+    @include hover {
+      .o-card-title {
+        color: var(--o-color-primary1);
+      }
+    }
+  }
+}
+
+@include respond-to('pad_h') {
+  .c-card-openeuler {
+    &.o-card {
+      &:not(.o-card-no-responsive) {
+        --card-icon-size: var(--o-icon_size_control-xl);
+      }
+    }
+  }
+}
+.c-card-openeuler {
+  &.o-card {
+    .o-card-cover-v {
+      .o-card-cover-img {
+        border-top-left-radius: var(--card-cover-radius);
+        border-top-right-radius: var(--card-cover-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+        img {
+          border-top-left-radius: var(--card-cover-radius);
+          border-top-right-radius: var(--card-cover-radius);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+
+    .o-card-cover-h {
+      .o-card-cover-img {
+        border-top-left-radius: var(--card-cover-radius);
+        border-top-right-radius: 0;
+        border-bottom-left-radius: var(--card-cover-radius);
+        border-bottom-right-radius: 0;
+
+        img {
+          border-top-left-radius: var(--card-cover-radius);
+          border-top-right-radius: 0;
+          border-bottom-left-radius: var(--card-cover-radius);
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+
+    .o-card-cover-hr {
+      .o-card-cover-img {
+        border-top-left-radius: 0;
+        border-top-right-radius: var(--card-cover-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: var(--card-cover-radius);
+
+        img {
+          border-top-left-radius: 0;
+          border-top-right-radius: var(--card-cover-radius);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: var(--card-cover-radius);
+        }
+      }
+    }
+  }
+}
+@include respond-to('<=pad_v') {
+  .c-card-openeuler {
+    &.o-card {
+      &:not(.o-card-no-responsive) {
+        --card-radius: 8px;
+        --card-cover-radius: 8px;
+        --card-icon-size: var(--o-icon_size_control-l);
+      }
+    }
+  }
+}
