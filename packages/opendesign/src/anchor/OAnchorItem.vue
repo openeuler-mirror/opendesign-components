@@ -41,16 +41,6 @@ watch(
 
 const depth = anchorItemInjection ? anchorItemInjection.depth + 1 : 1;
 
-const style = computed(() => {
-  if (depth === 1) {
-    return {};
-  } else {
-    return {
-      paddingLeft: `${12 * (depth - 1) + 8}px`,
-    };
-  }
-});
-
 provide(anchorItemInjectKey, { depth });
 
 onMounted(() => {
@@ -64,7 +54,14 @@ onUnmounted(() => {
 
 <template>
   <div class="o-anchor-item">
-    <a :href="props.href" :target="props.target" class="o-anchor-item-link" :class="{ 'is-active': isActive }" :style="style" @click="onClick">
+    <a
+      :href="props.href"
+      :target="props.target"
+      class="o-anchor-item-link"
+      :class="{ 'is-active': isActive }"
+      :style="{ '--anchor-item-depth': depth - 1 }"
+      @click="onClick"
+    >
       <slot name="title">{{ props.title }}</slot>
     </a>
     <slot></slot>

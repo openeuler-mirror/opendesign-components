@@ -1,8 +1,9 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=laptop') {
+@include respond-to('<=pc_s') {
   .o-anchor-item {
     --anchor-item-link-text-size: var(--o-font_size-tip1);
     --anchor-item-link-text-height: var(--o-line_height-tip1);
+    --anchor-item-text-indent: 8px;
   }
 }
