@@ -59,7 +59,7 @@ const setValue = (index: number, isTopIcon: boolean) => {
 
 // 记录图标状态
 const iconStatus = computed(() => {
-  const statusArr = new Array(props.count).fill('');
+  const statusArr: Array<'' | 'full' | 'half'> = new Array(props.count).fill('');
   for (let i = 0; i < props.count; i++) {
     const val = hoverIndex.value === -1 ? realValue.value ?? -1 : hoverIndex.value;
 
@@ -96,7 +96,7 @@ const showLabel = computed(() => {
       <OPopover v-for="(item, idx) in count" :key="item" :adjust-width="false" :adjust-min-width="false" :visible="false" wrap-class="o-rate-popover">
         <template #target>
           <ORateItem
-            :status="iconStatus[idx]"
+            :status="iconStatus[idx] || 'empty'"
             @hover="
               (isHalf) => {
                 setHoverIndex(idx, isHalf);
@@ -120,7 +120,7 @@ const showLabel = computed(() => {
         v-for="(item, idx) in count"
         :key="item"
         :index="idx"
-        :status="iconStatus[idx]"
+        :status="iconStatus[idx] || 'empty'"
         @hover="
           (isHalf) => {
             setHoverIndex(idx, isHalf);
