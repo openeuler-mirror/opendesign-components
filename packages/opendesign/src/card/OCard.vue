@@ -29,6 +29,10 @@ const isTitleLimited = computed(() => {
 const isDetailLimited = computed(() => {
   return !isUndefined(props.detailMaxRow);
 });
+
+const hasCover = computed(() => {
+  return Boolean(slots.cover || props.cover);
+});
 </script>
 
 <template>
@@ -43,13 +47,14 @@ const isDetailLimited = computed(() => {
         'o-card-hoverable': props.hoverable || !!props.href,
         'o-card-cursor-pointer': props.cursor === 'pointer' || !!props.href,
         'o-card-no-responsive': props.noResponsive,
+        'o-card-cover': hasCover,
       },
     ]"
   >
     <slot name="card">
       <!-- cover -->
       <div
-        v-if="!!slots.cover || props.cover"
+        v-if="hasCover"
         class="o-card-cover"
         :class="[
           props.coverClass,
