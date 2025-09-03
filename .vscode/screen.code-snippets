@@ -139,6 +139,16 @@
     "description": "(841px, 1440px)",
     "scope": "scss, less"
   },
+  "(840, 1680)": {
+    "prefix": ["w840-1680", "@include responsd-to('pad_v-pc_s')"],
+    "body": [
+      "@include respond-to('pad_v-pc_s') {",
+      " $1 ",
+      "}"
+    ],
+    "description": "(840px, 1680px)",
+    "scope": "scss, less"
+  },
   "(1441-1920)": {
     "prefix": ["w1440-1920", "@include responsd-to('pc')"],
     "body": [
