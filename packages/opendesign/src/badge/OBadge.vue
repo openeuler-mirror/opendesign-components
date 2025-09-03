@@ -18,7 +18,7 @@ const content = computed(() => {
 
 const style = computed(() => {
   const [x, y] = props.offset;
-  const right = isNumber(x) ? `-${x}px` : `-${x}`;
+  const right = isNumber(x) ? `${x * -1}px` : `calc(${x} * -1)`;
   const top = isNumber(y) ? `${y}px` : `${y}`;
   return {
     right,
