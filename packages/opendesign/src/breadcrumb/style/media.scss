@@ -1,9 +1,9 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=laptop') {
+@include respond-to('<=pc_s') {
   .o-breadcrumb {
     --breadcrumb-text-size: var(--o-font_size-tip2);
     --breadcrumb-text-height: var(--o-line_height-tip2);
-    --breadcrumb-seperator-size: var(--o-icon_size_control-xs);
+    --breadcrumb-separator-size: var(--o-icon_size_control-xs);
   }
 }
