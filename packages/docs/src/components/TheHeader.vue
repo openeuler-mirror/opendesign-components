@@ -99,7 +99,7 @@ watch(locale, (newLocale, oldLocale) => {
   padding: 0 calc((100vw - var(--grid-full)) / 2);
   font-size: var(--o3-font_size-h3);
   line-height: var(--o3-line_height-h3);
-  background-color: rgba(var(--o-mixedgray-1), 0.9);
+  background-color: rgba(var(--o-mixedgray-1, var(--o-gray-1)), 0.9);
   box-shadow: var(--o-shadow-1);
   backdrop-filter: blur(5px);
 }

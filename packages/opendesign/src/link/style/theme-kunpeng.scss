@@ -1,3 +1,5 @@
+@use '../../_styles/mixin.scss' as *;
+
 .o-link-normal {
   --link-color: var(--o-color-info2);
   --link-color-hover: var(--o-color-info1);
@@ -12,4 +14,10 @@
 .o-link-disabled.o-link-primary:hover,
 .o-link-disabled.o-link-primary:active {
   color: var(--o-color-link4);
+}
+
+.c-link-kunpeng {
+  @include hover {
+    --link-color-hover: rgb(var(--o-red-huawei));
+  }
 }
