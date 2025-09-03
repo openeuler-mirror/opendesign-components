@@ -108,7 +108,7 @@ const isRender = computed(() => {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 .source {
   border: 1px solid var(--o-color-control4);
