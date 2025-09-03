@@ -1,0 +1,53 @@
+.o-rate-primary {
+  --rate-color-selected: rgb(var(--o-red-huawei));
+}
+
+.o-rate-icon-bottom {
+  .o-icon-star {
+    path {
+      color: transparent;
+    }
+    path:nth-child(1) {
+      color: var(--rate-color-selected);
+    }
+  }
+}
+
+.o-rate-item.is-half {
+  .o-rate-icon-top {
+    .o-icon-star {
+      path:nth-child(2) {
+        color: var(--rate-color-selected);
+      }
+    }
+  }
+}
+
+.o-rate-item.is-full {
+  .o-rate-icon-bottom {
+    .o-icon-star {
+      path:nth-child(2) {
+        color: var(--rate-color-selected);
+      }
+
+      path:nth-child(3) {
+        color: var(--rate-color-selected);
+      }
+    }
+  }
+}
+
+.c-star-full.c-star-full {
+  color: rgb(var(--o-red-huawei));
+}
+
+.c-star-empty.c-star-empty {
+  color: var(--o-color-info4);
+}
+
+.c-star-label {
+  color: var(--o-color-info2);
+  font-size: var(--o-font_size-tip1);
+  line-height: var(--o-line_height-tip1);
+  margin-left: 8px;
+}
