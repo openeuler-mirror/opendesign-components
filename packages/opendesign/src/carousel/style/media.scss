@@ -1,8 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond-to('pad_v-pc_s') {
   .o-carousel {
-    --carousel-arrow-size: var(--o-icon_size_control-m);
     --carousel-indicator-width: 40px;
     --carousel-indicator-height: 3px;
     --carousel-indicator-gap: 8px;
@@ -10,7 +9,7 @@
   }
 }
 
-@include respond-to('<=pad') {
+@include respond-to('<=pad_v') {
   .o-carousel {
     --carousel-arrow-size: var(--o-icon_size_control-xs);
     --carousel-indicator-width: 24px;
