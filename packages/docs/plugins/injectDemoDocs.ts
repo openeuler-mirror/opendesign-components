@@ -1,6 +1,4 @@
 import { type Plugin, type ViteDevServer } from 'vite';
-import { MarkdownItAsync } from 'markdown-it-async';
-import { markdownItPlugins, markdownItOptions } from './markdown/common';
 import { parseDocsCode } from '../helper/utils';
 
 const parseVueQuery = (id: string) => {
@@ -33,8 +31,6 @@ const genVirtualId = (id: string, lang: string) => {
  * @returns Plugin
  */
 export function injectDemoDocs(): Plugin {
-  const md = new MarkdownItAsync(markdownItOptions);
-  markdownItPlugins.forEach((plugin) => md.use(plugin));
   let viteDevServer: ViteDevServer | null = null;
   return {
     name: 'portal:inject-demo-docs',

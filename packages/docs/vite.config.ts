@@ -16,9 +16,7 @@ export default defineConfig({
     outDir: './dist',
   },
   plugins: [
-    vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
+    vue({ include: [/\.vue$/, /\.md$/] }),
     injectDemoAndApi(),
     injectDemoSource(),
     injectDemoDocs(),
