@@ -25,8 +25,9 @@ export const carouselProps = {
     type: Boolean,
   },
   /**
-   * @zh-CN 播放间隔
-   * @en-US Play interval
+   * @zh-CN 播放间隔(ms)
+   * @en-US Play interval(ms)
+   * @default 5000
    * @default 5000
    */
   interval: {
