@@ -1,4 +1,3 @@
-import '../../theme/common.scss';
 import '../../_styles';
 import '../../layer/style/theme-openeuler.index';
 import '../../button/style/theme-openeuler.index';

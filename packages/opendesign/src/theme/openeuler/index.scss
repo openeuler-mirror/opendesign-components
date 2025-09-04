@@ -1,7 +1,5 @@
-// 变量
-@use './e.dark.token.css' as *;
-@use './e.light.token.css' as *;
-@use '../common.scss' as *;
+// Token 及公共样式
+@use './common/index.scss' as *;
 
 // 样式
 @use '../../index.scss' as *;
