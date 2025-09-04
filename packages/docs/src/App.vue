@@ -9,6 +9,7 @@ import TheAnchor from './components/TheAnchor';
 import { getHeads } from './utils/getHeads';
 import { useScreen } from './utils/useScreen';
 import { useThemeStore } from '@/stores/theme';
+import DocConfigProvide from './components/DocConfigProvide.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -89,18 +90,20 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div
-    class="app-wrapper"
-    :class="{ 'hide-sidebar': hideAside }"
-    :style="{ '--app-aside-width': appAsideWidth, '--app-aside-static-width': asideStaticWidth, '--app-anchor-width': appAnchorWidth }"
-  >
-    <TheHeader class="app-header" />
-    <TheAside v-if="sidebarStore.hasData" class="app-aside" @click-sidebar="handleAsideClick" />
-    <TheAnchor v-if="heads.length" :heads="heads" :target-offset="60" class="app-anchor" />
-    <div ref="appBodyDom" class="app-body">
-      <router-view />
+  <DocConfigProvide :skin="themeStore.skinValue">
+    <div
+      class="app-wrapper"
+      :class="{ 'hide-sidebar': hideAside }"
+      :style="{ '--app-aside-width': appAsideWidth, '--app-aside-static-width': asideStaticWidth, '--app-anchor-width': appAnchorWidth }"
+    >
+      <TheHeader class="app-header" />
+      <TheAside v-if="sidebarStore.hasData" class="app-aside" @click-sidebar="handleAsideClick" />
+      <TheAnchor v-if="heads.length" :heads="heads" :target-offset="60" class="app-anchor" />
+      <div ref="appBodyDom" class="app-body">
+        <router-view />
+      </div>
     </div>
-  </div>
+  </DocConfigProvide>
 </template>
 
 <style lang="scss">

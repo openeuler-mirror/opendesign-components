@@ -9,12 +9,13 @@
 
 ### Custom indicator
 
-You can customize the indicator by using the `indicator` slot. The `indicator` slot is a scope slot that receives `index` and `active` parameters, which represent the index of the current indicator and whether the current indicator is active.
+You can customize the indicator by using the `indicator` slot. The `indicator` slot is a scope slot that receives `index` and `active` parameters,
+which represent the index of the current indicator and whether the current indicator is active.
 
 </docs>
 <script setup lang="ts">
 import { OCarousel, OCarouselItem } from '@opensig/opendesign';
-const indicators = [
+const pages = [
   { content: 'welcome join opendesign', title: 'welcome' },
   { content: 'opendesign is a free and open source vue component library', title: 'open source' },
   { content: 'thank you for using opendesign', title: 'thank you' },
@@ -23,9 +24,9 @@ const indicators = [
 <template>
   <div class="carousel-wrapper">
     <OCarousel indicator-click class="carousel-custom-style" arrow="always">
-      <OCarouselItem v-for="(item, idx) in indicators" :key="idx" class="carousel-item">{{ item.content }}</OCarouselItem>
+      <OCarouselItem v-for="(item, idx) in pages" :key="idx" class="carousel-item">{{ item.content }}</OCarouselItem>
       <template #indicator="{ active, index }">
-        <div class="indicator" :class="{ active }">{{ indicators[index].title }}</div>
+        <div class="indicator" :class="{ active }">{{ pages[index].title }}</div>
       </template>
     </OCarousel>
   </div>
@@ -33,7 +34,7 @@ const indicators = [
 <style lang="scss" scoped>
 // custom indicator style
 .indicator {
-  color: #fff;
+  color: var(--o-color-info1);
   cursor: pointer;
   width: 6em;
   text-align: center;
