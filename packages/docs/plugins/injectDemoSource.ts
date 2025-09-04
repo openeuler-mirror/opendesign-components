@@ -1,12 +1,12 @@
 import fsp from 'node:fs/promises';
 import { createFilter, type Plugin } from 'vite';
 import { parse } from '@vue/compiler-sfc';
-import { md } from './markdown/common';
 import { generateCode } from '../helper/utils';
 
-const VIRTUAL_PREFIX = 'virtual:demo-source:';
 const virtualModules = new Map<string, string>();
-
+const getVirtualId = (id: string) => {
+  return `${id}-demo-source.md`;
+};
 /**
  * 使用@vue/compiler-sfc库，只保留case源代码中的 script, scriptSetup, template, styles 块，
  * 并将清理后的源代码渲染为 vue 组件
@@ -32,14 +32,8 @@ const generateVirtualModule = (source: string) => {
     });
   }
   cleanedSource = cleanedSource.trimEnd();
-  const result = `${md.render(`\`\`\`vue:line-numbers\n${cleanedSource}\n\`\`\``)}`.replace(
-    /(<pre.*?>)<code(.*?)>([\s\S]*?)<\/code><\/pre>/,
-    (_, pre, codeAttr, codeContent) => {
-      return `${pre}<code v-pre${codeAttr}>${codeContent}</code></pre>`;
-    }
-  );
   // 返回组件源码
-  return `<template>${result}</template>`;
+  return `\`\`\`vue:line-numbers\n${cleanedSource}\n\`\`\``;
 };
 /**
  * vite 插件，用于将 Case 组件的源代码保存到 _sfc_main 对象中
@@ -59,12 +53,12 @@ export function injectDemoSource(): Plugin {
       return virtualModules.get(id);
     },
     async transform(code, id) {
-      if (!filter(id) || id.startsWith(VIRTUAL_PREFIX)) {
+      if (!filter(id)) {
         return;
       }
       if (await fsp.stat(id).then((stat) => stat.isFile())) {
         const source = await fsp.readFile(id, 'utf-8');
-        const virtualId = `${VIRTUAL_PREFIX}${id}`;
+        const virtualId = getVirtualId(id);
         virtualModules.set(virtualId, generateVirtualModule(source));
         // Case 组件引入虚拟模块 virtualId，该虚拟模块就是 Case 组件的源代码
         return `${code}
@@ -73,7 +67,7 @@ _sfc_main.DemoSource = _DemoSource;`;
       }
     },
     async handleHotUpdate(ctx) {
-      const virtualId = `${VIRTUAL_PREFIX}${ctx.file}`;
+      const virtualId = getVirtualId(ctx.file);
       if (virtualModules.has(virtualId)) {
         // 当Case组件更新时，同时更新对应的虚拟模块，以实现源码的热更新
         virtualModules.set(virtualId, generateVirtualModule(await ctx.read()));

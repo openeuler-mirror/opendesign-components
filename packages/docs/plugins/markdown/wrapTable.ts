@@ -10,6 +10,6 @@ export default function wrapTable(md: MarkdownItAsync) {
     return `<div class="o-table o-table-small portal-table"><div class="o-table-wrap o-table-border-row"><table ${attrs}>`;
   };
   md.renderer.rules.table_close = function () {
-    return `</table></div></div>`;
+    return '</table></div></div>';
   };
 }

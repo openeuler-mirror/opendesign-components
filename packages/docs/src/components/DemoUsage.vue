@@ -1,15 +1,8 @@
 <script setup lang="ts">
 import { h, reactive, ref, watchEffect, watch, shallowRef, type Component } from 'vue';
-import * as prettier from 'prettier';
-import htmlPlugin from 'prettier/plugins/html';
-import babelPlugin from 'prettier/plugins/babel';
-import postPlugin from 'prettier/plugins/postcss';
-import tsPlugin from 'prettier/plugins/typescript';
-import esTreePlugin from 'prettier/plugins/estree';
-import { highlight } from '../../plugins/markdown/common';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
-import { compileComponent } from '@/utils/compileComponent';
+import { compileComponent, highlight, prettier } from '@/utils/code';
 import DemoContainer, { type DemoComponent } from './DemoContainer.vue';
 import OperatorView, { type SchemeT } from './OperatorView';
 
@@ -88,21 +81,19 @@ function createShowcaseComponent(demoProps: Record<string, any>, style: string =
   if (style) {
     sfcCode = `${sfcCode}\n${style.trimStart().startsWith('<style') ? style : `<style lang="scss">${style}</style>`}`;
   }
-  prettier
-    .format(sfcCode, {
-      parser: 'vue',
-      plugins: [htmlPlugin, esTreePlugin, babelPlugin, postPlugin, tsPlugin],
-      singleQuote: true,
-      printWidth: 120,
+  prettier(sfcCode, 'vue')
+    .catch((err) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(err);
+      }
+      return sfcCode;
     })
     .then((code) => {
       sourceCode.value = code;
-      highlightedCode.value = highlight(code, 'vue');
+      return highlight(code, 'vue');
     })
-    .catch((err) => {
-      sourceCode.value = sfcCode;
-      highlightedCode.value = highlight(sfcCode, 'vue');
-      return Promise.reject(err);
+    .then((code) => {
+      highlightedCode.value = code;
     });
   return compileComponent(template, props.ctx);
 }
@@ -131,7 +122,7 @@ Demo.DemoSource = () => {
 };
 
 watchEffect(() => {
-  showcaseComponent.value = createShowcaseComponent(state, props.style);
+  createShowcaseComponent(state, props.style).then((component) => (showcaseComponent.value = component));
   Demo.__docs = props.docs;
 });
 </script>
