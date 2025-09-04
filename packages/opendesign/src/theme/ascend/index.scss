@@ -1,9 +1,6 @@
-// 变量
-@use './a.dark.token.css' as *;
-@use './a.light.token.css' as *;
-@use '../common.scss' as *;
+// Token 及公共样式
+@use './common/index.scss' as *;
 // 样式
-@use './base.scss' as *;
 @use '../../index.scss' as *;
 
 // 皮肤
