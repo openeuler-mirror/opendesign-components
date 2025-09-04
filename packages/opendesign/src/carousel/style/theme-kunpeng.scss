@@ -1,0 +1,11 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-carousel {
+  --carousel-indicator-bg-color-selected: var(--o-color-info1);
+}
+
+@include respond-to('<=pad_v') {
+  .o-carousel.carousel-floor {
+    --carousel-indicator-width: 16px;
+  }
+}
