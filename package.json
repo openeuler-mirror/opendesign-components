@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -C packages/portal dev",
     "dev:ak": "pnpm -C packages/portal-ak dev",
-    "docs:install": "pnpm i && pnpm -C packages/scripts build && pnpm i && pnpm -C packages/opendesign gen:icon && pnpm -C packages/themes gen:tokens && pnpm -C packages/docs gen:icon && pnpm -C packages/docs gen:api ",
+    "docs:install": "pnpm i && pnpm -C packages/scripts build && pnpm i && pnpm -C packages/opendesign gen:icon && pnpm -C packages/docs gen:icon && pnpm -C packages/docs gen:api ",
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build"
   },
