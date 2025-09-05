@@ -1,8 +1,10 @@
 ---
 sidebar: OCollapse
+kind: container
 ---
 
 # OCollapse
+
 ## Demo
 
 <!-- @case CollapseAccordion -->

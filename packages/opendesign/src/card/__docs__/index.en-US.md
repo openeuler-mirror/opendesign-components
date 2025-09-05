@@ -1,5 +1,6 @@
 ---
 sidebar: OCard
+kind: container
 ---
 
 # OCard

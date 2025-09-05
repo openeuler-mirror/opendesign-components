@@ -54,13 +54,14 @@ const emit = debounce(() => {
           meta: {
             ...matterData.data,
             lang: info.lang,
+            sidebarName: 'components'
           },
         };
       });
     })
     .then((res) => {
       return `import { type RouteRecordRaw } from 'vue-router';
-export const routes: Array<RouteRecordRaw & { name: \`component/\${string}/\${string}\`; meta: { sidebar: string; lang: string } }> = [
+export const routes: Array<RouteRecordRaw & { name: \`component/\${string}/\${string}\`; meta: { sidebar: string; lang: string; kind: string; sidebarName: string; } }> = [
 ${res
   .map(
     (info) => `  {

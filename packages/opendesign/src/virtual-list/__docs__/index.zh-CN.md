@@ -1,5 +1,6 @@
 ---
 sidebar: OVirtualList 虚拟滚动
+kind: container
 ---
 
 # 虚拟滚动

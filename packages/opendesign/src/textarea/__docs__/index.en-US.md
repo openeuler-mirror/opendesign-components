@@ -1,5 +1,6 @@
 ---
 sidebar: OTextarea
+kind: input
 ---
 
 # textarea

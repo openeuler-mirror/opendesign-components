@@ -1,5 +1,6 @@
 ---
 sidebar: OVirtualList
+kind: container
 ---
 
 # virtual list

@@ -1,5 +1,6 @@
 ---
 sidebar: OTable 数据表格
+kind: container
 ---
 
 # 数据表格

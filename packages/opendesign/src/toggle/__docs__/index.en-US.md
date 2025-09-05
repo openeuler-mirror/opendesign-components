@@ -1,5 +1,6 @@
 ---
 sidebar: OToggle
+kind: input
 ---
 
 # toggle

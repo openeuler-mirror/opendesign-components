@@ -1,5 +1,6 @@
 ---
 sidebar: OCascader 级联选择
+kind: input
 ---
 
 # OCascader 级联选择

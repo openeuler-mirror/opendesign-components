@@ -1,5 +1,6 @@
 ---
 sidebar: OLink 链接
+kind: operator
 ---
 
 # 链接

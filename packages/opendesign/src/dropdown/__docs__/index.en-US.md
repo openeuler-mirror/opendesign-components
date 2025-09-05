@@ -1,5 +1,6 @@
 ---
 sidebar: ODropdown
+kind: operator
 ---
 
 # Dropdown

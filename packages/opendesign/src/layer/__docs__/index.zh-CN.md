@@ -1,5 +1,6 @@
 ---
 sidebar: OLayer 浮层
+kind: container
 ---
 
 # OLayer 浮层

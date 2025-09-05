@@ -1,5 +1,6 @@
 ---
 sidebar: OCard 卡片
+kind: container
 ---
 
 # OCard 卡片

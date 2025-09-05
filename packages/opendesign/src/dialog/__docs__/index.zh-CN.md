@@ -1,5 +1,6 @@
 ---
 sidebar: ODialog 对话框
+kind: container
 ---
 
 # ODialog 对话框

@@ -13,6 +13,7 @@ const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
 
+const { changeSidebar } = sidebarStore;
 const skinColorName = computed(() => {
   return `${themeStore.skinName}-${themeStore.color}`;
 });
@@ -25,12 +26,8 @@ const { t, locale } = useI18n();
 
 const sidebarRouteOptions = Object.entries(sidebarRouteConfig).map(([key, value]) => ({ value: key as SidebarNameT, label: value.label }));
 
-const changeSidebar = (name: SidebarNameT) => {
-  sidebarStore.sidebarName = name;
-  router.push(sidebarStore.navList[0] || '/');
-};
 watch(locale, (newLocale, oldLocale) => {
-  if (sidebarStore.sidebarName === 'component') {
+  if (sidebarStore.sidebarName === 'components') {
     try {
       const newPath = router.resolve(route.path.replace(new RegExp(`^/${oldLocale}/`), `/${newLocale}/`));
       router.push(newPath);
@@ -55,7 +52,7 @@ watch(locale, (newLocale, oldLocale) => {
           :class="{ active: sidebarStore.sidebarName === item.value }"
           @click="changeSidebar(item.value)"
         >
-          {{ item.label() }}
+          {{ typeof item.label === 'function' ? item.label() : item.label }}
         </div>
       </div>
       <div class="tools">

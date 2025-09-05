@@ -1,5 +1,6 @@
 ---
 sidebar: OLink
+kind: operator
 ---
 
 # Link

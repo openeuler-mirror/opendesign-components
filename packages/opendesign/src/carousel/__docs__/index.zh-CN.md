@@ -1,5 +1,6 @@
 ---
 sidebar: OCarousel 幻灯片
+kind: display
 ---
 
 # 幻灯片

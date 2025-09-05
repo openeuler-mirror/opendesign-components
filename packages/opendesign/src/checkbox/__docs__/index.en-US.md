@@ -1,5 +1,6 @@
 ---
 sidebar: OCheckbox
+kind: input
 ---
 
 # OCheckbox
