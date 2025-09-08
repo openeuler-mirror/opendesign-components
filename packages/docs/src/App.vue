@@ -142,6 +142,9 @@ watchEffect(() => {
   max-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
   width: var(--app-anchor-width);
   z-index: 8;
+  .o-anchor-line {
+    flex-shrink: 0;
+  }
   @include respond-to('<=pad_v') {
     display: none;
   }
