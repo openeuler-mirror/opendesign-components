@@ -46,6 +46,8 @@ sidebar: OButton
 | \-\-btn-bg-color-disabled | Button background color in disabled state                            |
 | \-\-btn-radius            | Button border radius                                                 |
 | \-\-btn-gap               | Spacing between the button's preceding and following slots and text  |
+| \-\-btn-gap-prefix        | Spacing between button prefix slot and text (defaults to `--btn-gap`) |
+| \-\-btn-gap-suffix        | Spacing between button suffix slot and text (defaults to `--btn-gap`) |
 | \-\-btn-padding           | Button internal padding                                              |
 | \-\-btn-icon-size         | Size of text and icons in the button's preceding and following slots |
 | \-\-btn-height            | Button height                                                        |

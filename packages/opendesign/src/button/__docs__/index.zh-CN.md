@@ -46,6 +46,8 @@ sidebar: OButton 按钮
 | \-\-btn-bg-color-disabled | 按钮禁用状态背景色                   |
 | \-\-btn-radius            | 按钮圆角                             |
 | \-\-btn-gap               | 按钮前后插槽与文本间距               |
+| \-\-btn-gap-prefix        | 按钮前插槽与文本间距，默认值为 `--btn-gap` |
+| \-\-btn-gap-suffix        | 按钮后插槽与文本间距，默认值为 `--btn-gap` |
 | \-\-btn-padding           | 按钮内边距                           |
 | \-\-btn-icon-size         | 按钮前后插槽文字及图标大小           |
 | \-\-btn-height            | 按钮高度                             |
