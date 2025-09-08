@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=laptop') {
+@include respond-to('pad_v-pc_s') {
   .o-checkbox {
     --checkbox-text-size: var(--o-font_size-tip1);
     --checkbox-text-height: var(--o-line_height-tip1);
