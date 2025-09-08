@@ -1,11 +1,10 @@
 @use '../../_styles/mixin.scss' as *;
 
-// @include respond-to('laptop') {
-//   .o-cascader {
-//   }
-// }
-
-// @include respond-to('<=pad') {
-//   .o-cascader {
-//   }
-// }
+@include respond-to('<=pc_s') {
+  .o-cascader-option {
+    --cascader-option-text-size: var(--o-font_size-tip1);
+    --cascader-option-text-height: var(--o-line_height-tip1);
+    --cascader-option-padding: 6px 12px;
+    --cascader-option-icon-size: var(--o-icon_size-s);
+  } 
+}

@@ -3,7 +3,7 @@
 }
 
 .o-cascader-options {
-  --cascader-options-bd-clor: var(--o-color-control1-light);
+  --cascader-options-bd-color: var(--o-color-control1-light);
   --cascader-options-gap: 8px;
 }
 
@@ -22,7 +22,7 @@
   --cascader-option-bg-color-hover: var(--o-color-control2-light);
   --cascader-option-bg-color-selected: var(--o-color-control3-light);
 
-  --cascader-option-icon-size: var(--o-icon_size_control-xs);
+  --cascader-option-icon-size: var(--o-icon_size-m);
 
   --cascader-option-gap: 2px;
 }
