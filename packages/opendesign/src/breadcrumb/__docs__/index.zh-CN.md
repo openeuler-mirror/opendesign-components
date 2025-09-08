@@ -1,5 +1,6 @@
 ---
 sidebar: OBreadcrumb 面包屑
+kind: nav
 ---
 
 # 面包屑

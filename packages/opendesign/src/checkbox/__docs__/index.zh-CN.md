@@ -1,5 +1,6 @@
 ---
 sidebar: OCheckbox 多选框
+kind: input
 ---
 
 # OCheckbox 多选框

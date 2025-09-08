@@ -1,5 +1,6 @@
 ---
 sidebar: OTag
+kind: display
 ---
 
 # tag

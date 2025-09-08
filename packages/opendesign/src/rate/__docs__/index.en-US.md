@@ -1,5 +1,6 @@
 ---
 sidebar: ORate
+kind: input
 ---
 
 # ORate

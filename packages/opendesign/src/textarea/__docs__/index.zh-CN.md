@@ -1,5 +1,6 @@
 ---
 sidebar: OTextarea 文本域
+kind: input
 ---
 
 # 文本域

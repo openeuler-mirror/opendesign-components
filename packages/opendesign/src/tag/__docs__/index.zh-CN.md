@@ -1,5 +1,6 @@
 ---
 sidebar: OTag 标签
+kind: display
 ---
 
 # 标签

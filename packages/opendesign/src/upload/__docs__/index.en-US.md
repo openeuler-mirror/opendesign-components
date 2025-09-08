@@ -1,5 +1,6 @@
 ---
 sidebar: OUpload
+kind: input
 ---
 
 # Upload

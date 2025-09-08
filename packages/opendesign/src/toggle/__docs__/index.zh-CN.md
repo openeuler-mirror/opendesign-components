@@ -1,5 +1,6 @@
 ---
 sidebar: OToggle 选择块
+kind: input
 ---
 
 # 选择块

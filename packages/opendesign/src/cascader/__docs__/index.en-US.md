@@ -1,5 +1,6 @@
 ---
 sidebar: OCascader
+kind: input
 ---
 
 # OCascader

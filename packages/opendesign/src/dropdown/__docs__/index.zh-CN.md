@@ -1,5 +1,6 @@
 ---
 sidebar: ODropdown 下拉
+kind: operator
 ---
 
 # 下拉

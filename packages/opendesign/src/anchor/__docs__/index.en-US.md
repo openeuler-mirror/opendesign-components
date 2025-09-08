@@ -1,5 +1,6 @@
 ---
 sidebar: OAnchor
+kind: nav
 ---
 
 # Anchor

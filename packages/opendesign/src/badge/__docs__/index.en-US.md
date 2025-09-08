@@ -1,5 +1,6 @@
 ---
 sidebar: OBadge
+kind: display
 ---
 
 # OBadge

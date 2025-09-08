@@ -1,5 +1,6 @@
 ---
 sidebar: ODivider
+kind: display
 ---
 
 # ODivider

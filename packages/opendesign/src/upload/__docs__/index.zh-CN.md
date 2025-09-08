@@ -1,5 +1,6 @@
 ---
 sidebar: OUpload 上传
+kind: input
 ---
 
 # 上传

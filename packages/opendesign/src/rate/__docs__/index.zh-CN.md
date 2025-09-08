@@ -1,5 +1,6 @@
 ---
 sidebar: ORate 评分
+kind: input
 ---
 
 # 评分

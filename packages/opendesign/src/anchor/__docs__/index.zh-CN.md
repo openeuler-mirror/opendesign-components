@@ -1,5 +1,6 @@
 ---
 sidebar: OAnchor 锚点
+kind: nav
 ---
 
 # 锚点

@@ -1,5 +1,6 @@
 ---
 sidebar: OBreadcrumb
+kind: nav
 ---
 
 # Breadcrumb

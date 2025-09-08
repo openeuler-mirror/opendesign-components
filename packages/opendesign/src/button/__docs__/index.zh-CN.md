@@ -1,5 +1,6 @@
 ---
 sidebar: OButton 按钮
+kind: operator
 ---
 
 # 按钮
