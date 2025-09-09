@@ -20,6 +20,11 @@ const props = defineProps<{
   ctx?: any;
   activeThemes?: ThemeKey[];
 }>();
+const clampNumber = (num: number, boundary?: { min?: number; max?: number }) => {
+  const min = boundary?.min ?? -Infinity;
+  const max = boundary?.max ?? Infinity;
+  return Math.min(Math.max(Number.isFinite(num) ? num : 0, min), max);
+};
 /**
  * 通过表单控制数据，生成表单控件响应式变量的默认值
  * @param schema 表单控件配置数据
@@ -44,7 +49,7 @@ function getInitialValues(schema: Record<string, SchemeT>) {
         _state[key] = value.default ?? '';
         break;
       case 'number':
-        _state[key] = value.default ?? 0;
+        _state[key] = clampNumber(value.default ?? 0, value);
         break;
     }
   });
