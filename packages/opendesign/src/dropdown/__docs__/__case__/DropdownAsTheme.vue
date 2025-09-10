@@ -27,14 +27,14 @@ const list = reactive<Array<ListT>>([
     btnClass: 'c-btn-activity',
     visible: false,
     forbid: false,
-    trigger: 'click',
+    trigger: 'click-outclick',
   },
   {
     size: 'medium',
     btnClass: 'c-btn-ascend',
     visible: false,
     forbid: false,
-    trigger: 'click',
+    trigger: 'click-outclick',
   },
   {
     size: 'medium',
@@ -53,7 +53,7 @@ const options = [
 <template>
   <div class="row">
     <template v-for="(item, idx) in list" :key="idx">
-      <ODropdown v-model:visible="item.visible" :trigger="item.trigger" class="o-dropdown-btn-wrap">
+      <ODropdown v-model:visible="item.visible" :trigger="item.trigger" :size="item.size" class="o-dropdown-btn-wrap">
         <OButton round="pill" :size="item.size" :class="item.btnClass" :disabled="item.forbid">
           下拉按钮
           <template #suffix>

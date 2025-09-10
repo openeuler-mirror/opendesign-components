@@ -1,1 +1,9 @@
 @use "./common.scss" as *;
+
+.o-dropdown-list {
+  --dropdown-list-radius: var(--o-radius_control-xs);
+}
+
+.o-dropdown-item {
+  --dropdown-item-radius: var(--o-radius_control-xs);
+}
