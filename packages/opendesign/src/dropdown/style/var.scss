@@ -20,7 +20,16 @@
 
   --dropdown-item-justify: center;
 
-  --dropdown-item-padding: 7px 0px;
+  --dropdown-item-padding: 7px 12px;
   --dropdown-item-gap: 2px;
   --dropdown-item-radius: var(--o-radius_control-s);
+}
+
+.o-dropdown-list-medium {
+  .o-dropdown-item {
+    --dropdown-item-text-size: var(--o-font_size-tip1);
+    --dropdown-item-text-height: var(--o-line_height-tip1);
+
+    --dropdown-item-padding: 4px 12px;
+  }
 }

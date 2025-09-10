@@ -23,7 +23,7 @@ watch(
     if (!isUndefined(val)) {
       isVisible.value = val;
     }
-  }
+  },
 );
 
 const updateVisible = (val: boolean) => {
@@ -54,7 +54,7 @@ provide(dropdownInjectKey, { updateVisible });
       :adjust-min-width="props.optionWidthMode === 'min-width'"
       :adjust-width="props.optionWidthMode === 'width'"
     >
-      <ul class="o-dropdown-list" :class="[props.optionWrapClass]">
+      <ul class="o-dropdown-list" :class="[props.optionWrapClass, `o-dropdown-list-${props.size}`]">
         <slot name="dropdown"></slot>
       </ul>
     </OPopup>

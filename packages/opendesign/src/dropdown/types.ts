@@ -22,9 +22,11 @@ export const dropdownProps = {
   /**
    * @zh-CN 大小
    * @en-US Size
+   * @default 'large'
    */
   size: {
     type: String as PropType<SizeT>,
+    default: 'large',
   },
   /**
    * @zh-CN 圆角值
