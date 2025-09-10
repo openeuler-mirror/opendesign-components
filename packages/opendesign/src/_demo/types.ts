@@ -3,23 +3,27 @@ export type DocDemoSchema =
       type: 'boolean';
       default?: boolean;
       label?: string;
+      disabled?: boolean;
     }
   | {
       type: 'list';
       list: Array<string | number> | Readonly<Array<string | number>>;
       default?: string | number;
       label?: string;
+      disabled?: boolean;
     }
   | {
       type: 'string';
       default?: string;
       label?: string;
+      disabled?: boolean;
     }
   | {
       type: 'textarea';
       default?: string;
       label?: string;
       row?: number;
+      disabled?: boolean;
     }
   | {
       type: 'number';
@@ -28,11 +32,13 @@ export type DocDemoSchema =
       max?: number;
       default?: number;
       label?: string;
+      disabled?: boolean;
     }
   | {
       type: 'radio';
       default?: string | number;
       list: Array<string | number>;
+      disabled?: boolean;
     };
 
 export type DocDemoState<T> = T extends Record<string, any>

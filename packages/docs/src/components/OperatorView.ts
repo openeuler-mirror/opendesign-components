@@ -1,54 +1,60 @@
 import { defineComponent, h, Fragment, type PropType, type VNode } from 'vue';
 import { OSelect, OOption, OInput, OInputNumber, OCheckbox, OCheckboxGroup, OTextarea, ORadio, ORadioGroup } from '@opensig/opendesign';
 
-type CheckboxScheme = {
+export type CheckboxScheme = {
   type: 'boolean';
   default?: boolean;
   label?: string;
+  disabled?: boolean;
 };
-type SelectorScheme = {
+export type SelectorScheme = {
   type: 'list';
   list: Array<string | number>;
   default?: string | number;
   label?: string;
+  disabled?: boolean;
 };
-type InputScheme = {
+export type InputScheme = {
   type: 'string';
   default?: string;
   label?: string;
+  disabled?: boolean;
 };
-type TextareaScheme = {
+export type TextareaScheme = {
   type: 'textarea';
   default?: string;
   label?: string;
   row?: number;
+  disabled?: boolean;
 };
-type InputNumberScheme = {
+export type InputNumberScheme = {
   type: 'number';
   step?: number;
   min?: number;
   max?: number;
   default?: number;
   label?: string;
+  disabled?: boolean;
 };
-type RadioScheme = {
+export type RadioScheme = {
   type: 'radio';
   default?: string | number;
   list: Array<string | number>;
+  disabled?: boolean;
 };
 export type SchemeT = CheckboxScheme | SelectorScheme | InputScheme | TextareaScheme | InputNumberScheme | RadioScheme;
 export type State = Record<string, any>;
 
 const camelcase2words = (str: string) => str.replace(/(?<=[a-z])([A-Z])|(?<=[A-Z])([A-Z][a-z])/g, ' $&').replace(/^[a-z]/, (char) => char.toUpperCase());
 const createCheckboxItem = (key: string, value: CheckboxScheme) => {
-  return h(OCheckbox, { value: key }, { default: () => value.label || camelcase2words(key) });
+  return h(OCheckbox, { value: key, disabled: value.disabled }, { default: () => value.label || camelcase2words(key) });
 };
 const createSelectorItem = (key: string, value: SelectorScheme, state: State) => {
   return h(Fragment, [
     h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(
       OSelect,
-      { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) },
+      { modelValue: state[key], disabled: value.disabled, 'onUpdate:modelValue': (val) => (state[key] = val) },
       {
         default: () => value.list.map((item) => h(OOption, { value: item, label: `${item}` })),
       },
@@ -58,7 +64,7 @@ const createSelectorItem = (key: string, value: SelectorScheme, state: State) =>
 const createInputItem = (key: string, value: InputScheme, state: State) => {
   return h(Fragment, [
     h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
-    h(OInput, { modelValue: state[key], 'onUpdate:modelValue': (val) => (state[key] = val) }),
+    h(OInput, { modelValue: state[key], disabled: value.disabled, 'onUpdate:modelValue': (val) => (state[key] = val) }),
   ]);
 };
 const createTextareaItem = (key: string, value: TextareaScheme, state: State) => {
@@ -66,6 +72,7 @@ const createTextareaItem = (key: string, value: TextareaScheme, state: State) =>
     h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(OTextarea, {
       modelValue: state[key],
+      disabled: value.disabled,
       style: { '--row': value.row || 3 },
       class: 'props-playground-textarea',
       'onUpdate:modelValue': (val) => (state[key] = val),
@@ -77,6 +84,7 @@ const createInputNumberItem = (key: string, value: InputNumberScheme, state: Sta
     h('span', { class: 'props-playground-selector-name' }, value.label || camelcase2words(key)),
     h(OInputNumber, {
       modelValue: state[key],
+      disabled: value.disabled,
       min: value.min,
       max: value.max,
       step: value.step,
@@ -87,7 +95,7 @@ const createInputNumberItem = (key: string, value: InputNumberScheme, state: Sta
 const createRadioItem = (key: string, value: RadioScheme, state: State) => {
   return h(
     ORadioGroup,
-    { modelValue: state[key], class: 'radio-group', 'onUpdate:modelValue': (val) => (state[key] = val) },
+    { modelValue: state[key], disabled: value.disabled, class: 'radio-group', 'onUpdate:modelValue': (val) => (state[key] = val) },
     { default: () => value.list.map((item) => h(ORadio, { value: item }, { default: () => item })) },
   );
 };
