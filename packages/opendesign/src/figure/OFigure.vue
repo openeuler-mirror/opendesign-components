@@ -93,7 +93,7 @@ const paddingTop = computed(() => {
 
 // 全屏预览图片
 const previewVisible = ref(false);
-const canPreview = computed(() => props.preview || props.lazyPreiew);
+const canPreview = computed(() => props.preview || props.lazyPreview);
 const previewCloseTypes = computed(() => {
   if (!props.previewClose) {
     return isPhonePad.value ? ['image', 'mask', 'button'] : ['mask', 'button'];
