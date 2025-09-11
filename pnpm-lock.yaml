@@ -279,6 +279,9 @@ importers:
       typescript:
         specifier: catalog:typescript
         version: 5.8.2
+      vite:
+        specifier: catalog:build
+        version: 6.3.0(@types/node@22.13.1)(sass-embedded@1.83.4)(sass@1.84.0)(terser@5.38.1)
       vue-tsc:
         specifier: catalog:build
         version: 2.2.8(typescript@5.8.2)
