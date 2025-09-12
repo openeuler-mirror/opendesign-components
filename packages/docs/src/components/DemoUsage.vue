@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, reactive, ref, watchEffect, watch, shallowRef, type Component } from 'vue';
+import { h, reactive, ref, watchEffect, watch, shallowRef, type Component, isReactive, isRef } from 'vue';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
 import { compileComponent, highlight, prettier } from '@/utils/code';
@@ -107,15 +107,17 @@ watch(state, (newVal) => {
   });
   checkboxGroupValue.value = newCheckboxGroupValue;
 });
-// 当props.schema 发生变化时，重新初始化 state 和 checkboxGroupValue
-watch(
-  props.schema,
-  (newVal) => {
-    const newInitialValues = getInitialValues(newVal, state);
-    Object.assign(state, newInitialValues.state);
-    checkboxGroupValue.value = newInitialValues.checkboxGroupValue;
-  },
-);
+if (isRef(props.schema) || isReactive(props.schema)) {
+  // 当props.schema 发生变化时，重新初始化 state 和 checkboxGroupValue
+  watch(
+    props.schema,
+    (newVal) => {
+      const newInitialValues = getInitialValues(newVal, state);
+      Object.assign(state, newInitialValues.state);
+      checkboxGroupValue.value = newInitialValues.checkboxGroupValue;
+    },
+  );
+}
 
 const highlightedCode = ref('');
 const sourceCode = ref('');
