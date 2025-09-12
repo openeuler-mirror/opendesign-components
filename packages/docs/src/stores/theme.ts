@@ -28,7 +28,6 @@ export const skin = [
 export type SkinT = (typeof skin)[number];
 export const colors = ['light', 'dark'] as const;
 export type ColorT = (typeof colors)[number];
-let preStyleHref = '';
 const linkConfig: Record<string, string> = {
   e: eulerSkin,
   k: kunpengSkin,
@@ -52,7 +51,6 @@ export const parseTheme = (theme: string) => {
   }
   return res as { skin: SkinT['value']; color: ColorT };
 };
-
 export const useThemeStore = defineStore('theme', () => {
   const { skin: defaultSkin, color: defaultColor } = parseTheme(localStorage.getItem(THEME_KEY) || '');
   /** 皮肤 */
@@ -68,29 +66,28 @@ export const useThemeStore = defineStore('theme', () => {
     document.documentElement.dataset.oTheme = themeValue;
     localStorage.setItem(THEME_KEY, themeValue);
   };
+  const LINK_DOM_MARK = '__docs_theme_link_dom__';
   watch(
-    theme,
-    (val) => {
-      const styleHref = linkConfig[skinValue.value] || openDesignSkin;
-
-      if (preStyleHref !== styleHref) {
-        // 注入皮肤 css
-        const linkDom = document.createElement('link');
-        linkDom.rel = 'stylesheet';
-        linkDom.href = styleHref;
-        linkDom.onload = () => {
-          applyTheme(val);
-          document.querySelector(`link[href="${preStyleHref}"]`)?.remove();
-          preStyleHref = styleHref;
-        };
-        document.head.insertBefore(linkDom, document.head.firstChild);
-      } else {
-        // 仅深浅色改变，皮肤不变
-        applyTheme(val);
-      }
+    skinValue,
+    (newVal, oldVal) => {
+      const styleHref = linkConfig[newVal] || openDesignSkin;
+      const linkDom = document.createElement('link');
+      linkDom.rel = 'stylesheet';
+      linkDom.href = styleHref;
+      linkDom.dataset.skinMark = `${LINK_DOM_MARK}${newVal}`;
+      document.head.insertBefore(linkDom, document.head.firstElementChild);
+      linkDom.onload = () => {
+        applyTheme(theme.value);
+        if (oldVal) {
+          document.head.querySelector(`link[data-skin-mark="${LINK_DOM_MARK}${oldVal}"]`)?.remove();
+        }
+      };
     },
     { immediate: true },
   );
+  watch(color, () => {
+    applyTheme(theme.value);
+  });
 
   return {
     skinValue,
