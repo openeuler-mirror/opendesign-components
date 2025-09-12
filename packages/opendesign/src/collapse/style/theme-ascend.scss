@@ -1,0 +1,17 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-collapse {
+  --collapse-radius: var(--o-radius-l);
+}
+
+@include respond-to('pad_v-pc_s') {
+  .o-collapse {
+    --collapse-radius: var(--o-radius-m);
+  }
+}
+
+@include respond-to('<=pad_v') {
+  .o-collapse {
+    --collapse-radius: var(--o-radius-s);
+  }
+}

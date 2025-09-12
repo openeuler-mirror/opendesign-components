@@ -1,0 +1,11 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-collapse {
+  --collapse-radius: 0px;
+}
+
+@include respond-to('<=pad_v') {
+  .o-collapse {
+    --collapse-radius: var(--o-radius-s);
+  }
+}
