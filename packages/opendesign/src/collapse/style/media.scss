@@ -1,27 +1,33 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond-to('<=pc_s') {
   .o-collapse {
     --collapse-padding: 8px 24px;
   }
-
+  
   .o-collapse-item {
     --collapse-item-header-padding: 17px 0px;
-
+  
     --collapse-item-title-text-size: var(--o-font_size-text2);
     --collapse-item-title-text-height: var(--o-line_height-text2);
-
+  
     --collapse-item-body-text-size: var(--o-font_size-tip1);
     --collapse-item-body-text-height: var(--o-line_height-tip1);
-
+  
     --collapse-item-icon-color: var(--o-color-info1);
     --collapse-item-icon-size: var(--o-icon_size_control-m);
-
-    --collapse-item-gap: 12px;
+  
+    --collapse-item-gap: var(--o-gap-4);
   }
 }
 
 @include respond-to('<=pad') {
+  .o-collapse-item {
+    --collapse-item-gap: var(--o-gap-3);
+  }
+}
+
+@include respond-to('<=pad_v') {
   .o-collapse {
     --collapse-radius: var(--o-radius_control-s);
     --collapse-padding: 0px 16px;
@@ -38,7 +44,5 @@
 
     --collapse-item-icon-color: var(--o-color-info1);
     --collapse-item-icon-size: var(--o-icon_size_control-m);
-
-    --collapse-item-gap: 12px;
   }
 }
