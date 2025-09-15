@@ -100,7 +100,10 @@ export const useThemeStore = defineStore('theme', () => {
       if (oldSkinValue !== undefined) {
         document.head.querySelector(`link[data-skin-mark="${LINK_DOM_MARK}${oldSkinValue}"]`)?.remove();
         await router.isReady();
-        router.replace({ query: { ...router.currentRoute.value.query, [QUERY_SKIN]: newVal === DEFAULT_SKIN_VALUE ? undefined : newVal } });
+        const route = router.currentRoute.value;
+        if (route.matched.length) {
+          router.replace({ ...route, query: { ...route.query, [QUERY_SKIN]: newVal === DEFAULT_SKIN_VALUE ? undefined : newVal } });
+        }
       }
       oldSkinValue = newVal;
     };
@@ -109,7 +112,10 @@ export const useThemeStore = defineStore('theme', () => {
     color.value = newVal;
     document.documentElement.dataset.oTheme = theme.value;
     await router.isReady();
-    router.replace({ query: { ...router.currentRoute.value.query, [QUERY_COLOR]: newVal === DEFAULT_COLOR ? undefined : newVal } });
+    const route = router.currentRoute.value;
+    if (route.matched.length) {
+      router.replace({ ...route, query: { ...route.query, [QUERY_COLOR]: newVal === DEFAULT_COLOR ? undefined : newVal } });
+    }
   };
   return {
     skinValue: computed(() => skinValue.value),
