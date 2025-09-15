@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
+import { usePrefetch } from '@/utils/optimize';
 import openDesignSkin from '@opensig/opendesign/theme/opendesign/index.scss?url';
 import kunpengSkin from '@opensig/opendesign/theme/kunpeng/index.scss?url';
 import ascendSkin from '@opensig/opendesign/theme/ascend/index.scss?url';
@@ -34,6 +35,12 @@ export const linkConfig: Record<string, string> = {
   k: kunpengSkin,
   a: ascendSkin,
 };
+usePrefetch([
+  { url: openDesignSkin, as: 'style' },
+  { url: kunpengSkin, as: 'style' },
+  { url: ascendSkin, as: 'style' },
+  { url: eulerSkin, as: 'style' },
+]);
 const LINK_DOM_MARK = '__docs_theme_link_dom__';
 export const QUERY_SKIN = '__skin';
 export const QUERY_COLOR = '__color';
