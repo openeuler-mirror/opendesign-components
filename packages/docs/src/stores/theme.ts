@@ -1,11 +1,10 @@
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import openDesignSkin from '@opensig/opendesign/theme/opendesign/index.scss?url';
 import kunpengSkin from '@opensig/opendesign/theme/kunpeng/index.scss?url';
 import ascendSkin from '@opensig/opendesign/theme/ascend/index.scss?url';
 import eulerSkin from '@opensig/opendesign/theme/openeuler/index.scss?url';
-
-const THEME_KEY = '__doc-theme__';
 
 export const skin = [
   {
@@ -26,73 +25,91 @@ export const skin = [
   },
 ] as const;
 export type SkinT = (typeof skin)[number];
+const skinMap = new Map(skin.map((item) => [item.value, item.name]));
 export const colors = ['light', 'dark'] as const;
+const colorSet = new Set(colors);
 export type ColorT = (typeof colors)[number];
-const linkConfig: Record<string, string> = {
+export const linkConfig: Record<string, string> = {
   e: eulerSkin,
   k: kunpengSkin,
   a: ascendSkin,
 };
+const LINK_DOM_MARK = '__docs_theme_link_dom__';
+export const QUERY_SKIN = '__skin';
+export const QUERY_COLOR = '__color';
+export const DEFAULT_COLOR = 'light';
+export const DEFAULT_SKIN_VALUE = '';
+export const DEFAULT_SKIN_HREF = openDesignSkin;
 
+export const normalizeSkin = (skinValue: any): SkinT['value'] => {
+  if (skinMap.has(skinValue)) {
+    return skinValue;
+  }
+  return DEFAULT_SKIN_VALUE;
+};
+export const normalizeColor = (colorValue: any): ColorT => {
+  if (colorSet.has(colorValue)) {
+    return colorValue;
+  }
+  return DEFAULT_COLOR;
+};
 export const parseTheme = (theme: string) => {
   const sc = theme.split('.');
-  const res = { skin: '', color: '' };
+  let skinValue = '';
+  let colorValue = '';
   if (sc.length === 2) {
-    res.skin = sc[0];
-    res.color = sc[1];
+    skinValue = sc[0];
+    colorValue = sc[1];
   } else {
-    res.color = sc[0];
+    colorValue = sc[0];
   }
-  if (!skin.some((item) => item.value === res.skin)) {
-    res.skin = '';
-  }
-  if (!colors.some((item) => item === res.color)) {
-    res.color = colors[0];
-  }
-  return res as { skin: SkinT['value']; color: ColorT };
+  return {
+    skin: normalizeSkin(skinValue),
+    color: normalizeColor(colorValue),
+  };
 };
 export const useThemeStore = defineStore('theme', () => {
-  const { skin: defaultSkin, color: defaultColor } = parseTheme(localStorage.getItem(THEME_KEY) || '');
   /** 皮肤 */
-  const skinValue = ref(defaultSkin);
+  const skinValue = ref<SkinT['value']>('');
   /** 皮肤名称 */
-  const skinName = computed(() => skin.find((item) => item.value === skinValue.value)?.name || 'OpenDesign');
+  const skinName = computed(() => skinMap.get(skinValue.value) || skinMap.get(DEFAULT_SKIN_VALUE));
   /** 颜色 */
-  const color = ref(defaultColor);
+  const color = ref(DEFAULT_COLOR);
   /** 主题 */
   const theme = computed(() => `${skinValue.value ? `${skinValue.value}.` : ''}${color.value}`);
+  const router = useRouter();
 
-  const applyTheme = (themeValue: string) => {
-    document.documentElement.dataset.oTheme = themeValue;
-    localStorage.setItem(THEME_KEY, themeValue);
+  let oldSkinValue: SkinT['value'] | undefined = undefined;
+  const setSkin = (newVal: SkinT['value']) => {
+    const styleHref = linkConfig[newVal] || DEFAULT_SKIN_HREF;
+    const linkDom = document.createElement('link');
+    linkDom.rel = 'stylesheet';
+    linkDom.href = styleHref;
+    linkDom.dataset.skinMark = `${LINK_DOM_MARK}${newVal}`;
+    document.head.insertBefore(linkDom, document.head.firstElementChild);
+    linkDom.onload = async () => {
+      skinValue.value = newVal;
+      document.documentElement.dataset.oTheme = theme.value;
+      if (oldSkinValue !== undefined) {
+        document.head.querySelector(`link[data-skin-mark="${LINK_DOM_MARK}${oldSkinValue}"]`)?.remove();
+        await router.isReady();
+        router.replace({ query: { ...router.currentRoute.value.query, [QUERY_SKIN]: newVal === DEFAULT_SKIN_VALUE ? undefined : newVal } });
+      }
+      oldSkinValue = newVal;
+    };
   };
-  const LINK_DOM_MARK = '__docs_theme_link_dom__';
-  watch(
-    skinValue,
-    (newVal, oldVal) => {
-      const styleHref = linkConfig[newVal] || openDesignSkin;
-      const linkDom = document.createElement('link');
-      linkDom.rel = 'stylesheet';
-      linkDom.href = styleHref;
-      linkDom.dataset.skinMark = `${LINK_DOM_MARK}${newVal}`;
-      document.head.insertBefore(linkDom, document.head.firstElementChild);
-      linkDom.onload = () => {
-        applyTheme(theme.value);
-        if (oldVal) {
-          document.head.querySelector(`link[data-skin-mark="${LINK_DOM_MARK}${oldVal}"]`)?.remove();
-        }
-      };
-    },
-    { immediate: true },
-  );
-  watch(color, () => {
-    applyTheme(theme.value);
-  });
-
+  const setColor = async (newVal: ColorT) => {
+    document.documentElement.dataset.oColor = newVal;
+    color.value = newVal;
+    await router.isReady();
+    router.replace({ query: { ...router.currentRoute.value.query, [QUERY_COLOR]: newVal === DEFAULT_COLOR ? undefined : newVal } });
+  };
   return {
-    skinValue,
+    skinValue: computed(() => skinValue.value),
     skinName,
-    color,
+    color: computed(() => color.value),
     theme,
+    setSkin,
+    setColor,
   };
 });

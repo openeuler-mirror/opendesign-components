@@ -8,7 +8,7 @@ import { useSidebarStore } from './stores/sidebar';
 import TheAnchor from './components/TheAnchor';
 import { getHeads } from './utils/getHeads';
 import { useScreen } from './utils/useScreen';
-import { useThemeStore } from '@/stores/theme';
+import { useThemeStore, normalizeSkin, normalizeColor, QUERY_COLOR, QUERY_SKIN, DEFAULT_COLOR, DEFAULT_SKIN_VALUE } from '@/stores/theme';
 import DocConfigProvide from './components/DocConfigProvide.vue';
 
 const route = useRoute();
@@ -16,6 +16,7 @@ const router = useRouter();
 const sidebarStore = useSidebarStore();
 const { lePad, isPadV, lePadV } = useScreen();
 const themeStore = useThemeStore();
+const { setSkin, setColor } = themeStore;
 watchEffect(() => {
   const routeLocale = locales.find((item) => item.value === route.meta.lang);
   if (routeLocale) {
@@ -37,6 +38,8 @@ watchEffect(() => {
     }
   }
 });
+
+// 处理锚点
 const appBodyDom = useTemplateRef('appBodyDom');
 const heads = shallowReactive<Array<{ title: string; level: number; id: string }>>([]);
 onMounted(() => {
@@ -44,21 +47,13 @@ onMounted(() => {
 });
 router.afterEach(async (to, from) => {
   // 路由更新后更新锚点
-  if (to.path === from.path) {
+  if (to.fullPath === from.fullPath) {
     return;
   }
   await nextTick();
   heads.length = 0;
   heads.push(...getHeads(appBodyDom.value!));
 });
-watch(
-  () => themeStore.skinValue,
-  () => {
-    heads.length = 0;
-    heads.push(...getHeads(appBodyDom.value!));
-  },
-  { flush: 'post' },
-);
 const asideStaticWidth = computed(() => {
   if (isPadV.value) {
     return 'var(--grid-4)';
@@ -86,6 +81,34 @@ const handleAsideClick = () => {
 };
 watchEffect(() => {
   hideAside.value = lePadV.value;
+});
+
+// 处理主题
+// 不能通过 router 拿到 query，此时 router 还未就绪
+const url = new URL(location.href);
+setSkin(normalizeSkin(url.searchParams.get(QUERY_SKIN)));
+setColor(normalizeColor(url.searchParams.get(QUERY_COLOR)));
+router.beforeEach((to) => {
+  // 将颜色和皮肤参数写入query
+  let hasQuery = false;
+  const query: Record<string, string> = {};
+  if (themeStore.color !== DEFAULT_COLOR) {
+    query[QUERY_COLOR] = themeStore.color;
+    hasQuery = true;
+  }
+  if (themeStore.skinValue !== DEFAULT_SKIN_VALUE) {
+    query[QUERY_SKIN] = themeStore.skinValue;
+    hasQuery = true;
+  }
+  if (hasQuery && (to.query[QUERY_COLOR] !== query[QUERY_COLOR] || to.query[QUERY_SKIN] !== query[QUERY_SKIN])) {
+    return {
+      ...to,
+      query: {
+        ...to.query,
+        ...query,
+      },
+    };
+  }
 });
 </script>
 
