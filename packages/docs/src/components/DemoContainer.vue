@@ -79,25 +79,6 @@ const isRender = computed(() => {
     margin-top: 12px;
   }
 }
-:deep(.docs) {
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    &:first-child {
-      margin-top: 0;
-    }
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  > :first-child {
-    padding-right: calc(var(--o3-gap-4) + var(--o-control_size-s));
-  }
-}
 .demo {
   border: 1px solid var(--o-color-control4);
   margin-top: 12px;

@@ -56,11 +56,11 @@ li {
 }
 @include respond-to('<=pad_v') {
   ol {
-    padding-inline-start: calc(1em + 8px);
+    padding-inline-start: 1.6em;
     list-style-type: decimal;
   }
   ul {
-    padding-inline-start: calc(1.25em + 8px);
+    padding-inline-start: 1.25em;
     list-style-type: disc;
   }
   ul,
