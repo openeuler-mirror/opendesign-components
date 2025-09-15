@@ -8,7 +8,7 @@
 1. 使用 `OLink` 组件
 2. 设置 `:hover-underline="true"` 且添加 `c-link-kunpeng` 类名
 
-参考：[文本按钮](/zh-CN/components/button#文本按钮（无背景，无线框）)
+参考：[文本按钮](/zh-CN/components/button?__skin=k#文本按钮（无背景，无线框）)
 
 <!-- en-US -->
 
@@ -19,7 +19,7 @@ The Kunpeng Theme requires that the text of a text button turns red and displays
 1. Use the `OLink` component
 2. Set `:hover-underline="true"` and add the `c-link-kunpeng` class name
 
-Reference: [Text Button](/en-US/components/button#text-buttons-(no-background%2C-no-border))
+Reference: [Text Button](/en-US/components/button?__skin=k#text-buttons(no-background,no-border))
 </docs>
 <script setup lang="ts">
 import { OCard, OLink } from '@opensig/opendesign';
