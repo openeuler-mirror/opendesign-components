@@ -106,8 +106,8 @@ export const useThemeStore = defineStore('theme', () => {
     };
   };
   const setColor = async (newVal: ColorT) => {
-    document.documentElement.dataset.oColor = newVal;
     color.value = newVal;
+    document.documentElement.dataset.oTheme = theme.value;
     await router.isReady();
     router.replace({ query: { ...router.currentRoute.value.query, [QUERY_COLOR]: newVal === DEFAULT_COLOR ? undefined : newVal } });
   };
