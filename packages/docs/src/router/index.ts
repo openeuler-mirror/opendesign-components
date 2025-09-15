@@ -12,6 +12,7 @@ export const router = createRouter({
       component: TheHome,
     },
     ...componentRoutes,
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/pages/NotFound.vue') },
   ],
 });
 export type MetaT = { sidebar: string; lang: string; kind: string; sidebarName: string };

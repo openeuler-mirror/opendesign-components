@@ -10,5 +10,7 @@ export default {
   'menu.input': '输入组件',
   'menu.feedback': '反馈组件',
   'menu.container': '容器组件',
-  'menu.display': '展示组件'
+  'menu.display': '展示组件',
+  notFound: '页面走丢了',
+  goBackHome: '返回首页',
 };

@@ -174,7 +174,8 @@ router.beforeEach((to) => {
 }
 .app-body {
   margin-top: calc(var(--app-header-height) + var(--app-header-margin));
-  min-height: calc(100vh - var(--app-header-height));
+  --body-min-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
+  min-height: var(--body-min-height);
   background-color: var(--o-color-fill1);
   width: var(--layout-content-width);
   margin-left: auto;
