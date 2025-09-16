@@ -77,6 +77,6 @@
 }
 .o-dlg-btn {
   + .o-dlg-btn {
-    margin-left: 16px;
+    margin-left: var(--dlg-btn-gap);
   }
 }

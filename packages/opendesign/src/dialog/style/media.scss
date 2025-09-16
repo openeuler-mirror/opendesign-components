@@ -151,3 +151,15 @@
     }
   }
 }
+
+@include respond-to('laptop-pc_s') {
+  .o-dialog {
+    --dlg-btn-gap: 12px;
+  }
+}
+
+@include respond-to('<=pad') {
+  .o-dialog {
+    --dlg-btn-gap: 8px;
+  }
+}
