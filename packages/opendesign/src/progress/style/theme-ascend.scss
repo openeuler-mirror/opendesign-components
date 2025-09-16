@@ -1,0 +1,6 @@
+.o-progress-primary,
+.o-progress-success {
+  .o-progress-line-bar {
+    background-image: linear-gradient(90deg, rgb(var(--o-deepblue-6)) 0%, rgb(var(--o-purple-6)) 100%);
+  }
+}
