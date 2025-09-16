@@ -20,6 +20,7 @@ import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
 const _schema = {
+  size: { type: 'list', list: ['large', 'medium'] },
   trigger: {
     type: 'list',
     list: ['none', 'click', 'click-outclick', 'hover', 'hover-outclick', 'focus', 'contextmenu'],

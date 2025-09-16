@@ -1,0 +1,18 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('pad_v-pc_s') {
+  .o-dropdown-list-large {
+    .o-dropdown-item {
+      --dropdown-item-text-size: var(--o-font_size-tip1);
+      --dropdown-item-text-height: var(--o-line_height-tip1);
+
+      --dropdown-item-padding: 6px 12px;
+    }
+  }
+
+  .o-dropdown-list-medium {
+    .o-dropdown-item {
+      --dropdown-item-padding: 2px 12px;
+    }
+  }
+}
