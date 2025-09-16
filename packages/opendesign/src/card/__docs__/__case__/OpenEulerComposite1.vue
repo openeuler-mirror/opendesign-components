@@ -5,7 +5,7 @@
 
 欧拉主题中文本按钮无下划线，因此 `OLink` 组件的 `underline` 属性应设置为 `false`（默认值）
 
-参考：[文本按钮](/zh-CN/components/button#文本按钮（无背景，无线框）)
+参考：[文本按钮](/zh-CN/components/button?__skin=e#文本按钮（无背景，无线框）)
 
 <!-- en-US -->
 
@@ -13,7 +13,7 @@
 
 In the Euler Theme, text buttons have no underline, so the `underline` prop of the `OLink` component should be set to `false` (default value).
 
-Reference: [Text Button](/en-US/components/button#text-buttons-(no-background%2C-no-border))
+Reference: [Text Button](/en-US/components/button?__skin=e#text-buttons(no-background,no-border))
 </docs>
 <script setup lang="ts">
 import { OCard, OLink } from '@opensig/opendesign';

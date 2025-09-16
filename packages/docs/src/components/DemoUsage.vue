@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { h, reactive, ref, watchEffect, watch, shallowRef, type Component } from 'vue';
+import { h, reactive, ref, watchEffect, watch, shallowRef, type Component, isReactive, isRef } from 'vue';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
 import { compileComponent, highlight, prettier } from '@/utils/code';
 import DemoContainer, { type DemoComponent } from './DemoContainer.vue';
-import OperatorView, { type SchemeT } from './OperatorView';
+import OperatorView, {
+  type SchemeT,
+  type CheckboxScheme,
+  type SelectorScheme,
+  type InputNumberScheme,
+  type TextareaScheme,
+  type InputScheme,
+  type RadioScheme,
+} from './OperatorView';
 
 type ThemeKey = 'e' | 'a' | 'k' | 'd';
 const props = defineProps<{
@@ -20,31 +28,65 @@ const props = defineProps<{
   ctx?: any;
   activeThemes?: ThemeKey[];
 }>();
+const clampNumber = (num: number, boundary?: { min?: number; max?: number }) => {
+  const min = boundary?.min ?? -Infinity;
+  const max = boundary?.max ?? Infinity;
+  return Math.min(Math.max(Number.isFinite(num) ? num : 0, min), max);
+};
 /**
  * 通过表单控制数据，生成表单控件响应式变量的默认值
  * @param schema 表单控件配置数据
+ * @param defaults 表单控件默认值
  */
-function getInitialValues(schema: Record<string, SchemeT>) {
+function getInitialValues(schema: Record<string, SchemeT>, defaults?: Record<string, any>) {
   const _checkboxGroupValue: (string | number)[] = [];
   const _state: Record<string, any> = {};
+  const processBoolean = (key: string, scheme: CheckboxScheme) => {
+    let defaultValue = scheme.default ?? false;
+    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && typeof defaults[key] === 'boolean') {
+      defaultValue = defaults[key];
+    }
+    _state[key] = Boolean(defaultValue);
+    if (_state[key]) {
+      _checkboxGroupValue.push(key);
+    }
+  };
+  const processSelector = (key: string, scheme: SelectorScheme | RadioScheme) => {
+    let defaultValue = scheme.default ?? scheme.list[0];
+    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && scheme.list.includes(defaults[key])) {
+      defaultValue = defaults[key];
+    }
+    _state[key] = defaultValue;
+  };
+  const processString = (key: string, scheme: InputScheme | TextareaScheme) => {
+    let defaultValue = scheme.default ?? '';
+    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && typeof defaults[key] === 'string') {
+      defaultValue = defaults[key];
+    }
+    _state[key] = defaultValue;
+  };
+  const processNumber = (key: string, scheme: InputNumberScheme) => {
+    let defaultValue = scheme.default ?? 0;
+    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && Number.isFinite(defaults[key])) {
+      defaultValue = defaults[key];
+    }
+    _state[key] = clampNumber(defaultValue, scheme);
+  };
   Object.entries(schema).forEach(([key, value]) => {
     switch (value.type) {
       case 'boolean':
-        _state[key] = Boolean(value.default);
-        if (_state[key]) {
-          _checkboxGroupValue.push(key);
-        }
+        processBoolean(key, value);
         break;
       case 'radio':
       case 'list':
-        _state[key] = value.default ?? value.list[0];
+        processSelector(key, value);
         break;
       case 'textarea':
       case 'string':
-        _state[key] = value.default ?? '';
+        processString(key, value);
         break;
       case 'number':
-        _state[key] = value.default ?? 0;
+        processNumber(key, value);
         break;
     }
   });
@@ -65,6 +107,17 @@ watch(state, (newVal) => {
   });
   checkboxGroupValue.value = newCheckboxGroupValue;
 });
+if (isRef(props.schema) || isReactive(props.schema)) {
+  // 当props.schema 发生变化时，重新初始化 state 和 checkboxGroupValue
+  watch(
+    props.schema,
+    (newVal) => {
+      const newInitialValues = getInitialValues(newVal, state);
+      Object.assign(state, newInitialValues.state);
+      checkboxGroupValue.value = newInitialValues.checkboxGroupValue;
+    },
+  );
+}
 
 const highlightedCode = ref('');
 const sourceCode = ref('');

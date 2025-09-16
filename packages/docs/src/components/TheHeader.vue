@@ -6,7 +6,7 @@ import { currentLocale, changeLocale, locales } from '@/lang';
 import { sidebarRouteConfig, type SidebarNameT } from '@/router';
 import { useSidebarStore } from '@/stores/sidebar';
 import { DocIconDark, DocIconLight } from '@/icon-components';
-import { useThemeStore, skin, colors, type SkinT } from '@/stores/theme';
+import { useThemeStore, skin, colors, type ColorT } from '@/stores/theme';
 
 const sidebarStore = useSidebarStore();
 const themeStore = useThemeStore();
@@ -17,10 +17,6 @@ const { changeSidebar } = sidebarStore;
 const skinColorName = computed(() => {
   return `${themeStore.skinName}-${themeStore.color}`;
 });
-
-const changeSkin = (item: SkinT['value']) => {
-  themeStore.skinValue = item;
-};
 
 const { t, locale } = useI18n();
 
@@ -66,13 +62,18 @@ watch(locale, (newLocale, oldLocale) => {
                 :label="item.name"
                 :value="item.name"
                 :class="{ 'theme-active': themeStore.skinValue === item.value }"
-                @click="changeSkin(item.value)"
+                @click="themeStore.setSkin(item.value)"
               />
             </template>
           </ODropdown>
         </div>
         <div class="tool-item">
-          <OSwitch v-model="themeStore.color" :checked-value="colors[1]" :unchecked-value="colors[0]">
+          <OSwitch
+            :model-value="themeStore.color"
+            :checked-value="colors[1]"
+            :unchecked-value="colors[0]"
+            @update:model-value="(value) => themeStore.setColor(value as ColorT)"
+          >
             <template #off><DocIconLight /></template>
             <template #on><DocIconDark /></template>
           </OSwitch>

@@ -5,7 +5,7 @@
 
 昇腾主题文本按钮有特殊的交互效果：
 
-参考：[文本按钮](/zh-CN/components/button#文本按钮（无背景，无线框）)
+参考：[文本按钮](/zh-CN/components/button?__skin=a#文本按钮（无背景，无线框）)
 
 <!-- en-US -->
 
@@ -13,7 +13,7 @@
 
 The Ascend theme provides special interaction effects for text buttons:
 
-Reference: [Text Button](/en-US/components/button#text-buttons-(no-background%2C-no-border))
+Reference: [Text Button](/en-US/components/button?__skin=a#text-buttons(no-background,no-border))
 </docs>
 <script setup lang="ts">
 import { OCard, OLink } from '@opensig/opendesign';

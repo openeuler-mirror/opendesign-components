@@ -10,5 +10,7 @@ export default {
   'menu.input': 'Input component',
   'menu.feedback': 'Feedback component',
   'menu.container': 'Container component',
-  'menu.display': 'Display component'
+  'menu.display': 'Display component',
+  notFound: 'Page not found',
+  goBackHome: 'Go back home',
 };
