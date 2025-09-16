@@ -98,24 +98,18 @@ const onClick = (option: ColumnInfoT, columnInfo: Array<ColumnInfoT>) => {
       emits('update:modelValue', path[path.length - 1]);
     }
 
-    selectInject?.select(
-      {
-        label: inputLabel.value,
-        value: path[path.length - 1],
-      },
-      true
-    );
+    selectInject?.select({
+      label: inputLabel.value,
+      value: path[path.length - 1],
+    });
   }
 };
 
 watchEffect(() => {
-  selectInject?.select(
-    {
-      label: inputLabel.value,
-      value: isArray(_value.value) ? _value.value[_value.value.length - 1] : _value.value,
-    },
-    false
-  );
+  selectInject?.registerOption({
+    label: inputLabel.value,
+    value: isArray(_value.value) ? _value.value[_value.value.length - 1] : _value.value,
+  });
 });
 </script>
 

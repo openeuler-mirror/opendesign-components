@@ -174,46 +174,44 @@ const beforeSelect = async (value: string | number) => {
 provide(selectOptionInjectKey, {
   multiple: props.multiple,
   selectValue: valueList,
-  select: async (option: SelectOptionT, userSelect?: boolean) => {
-    if (userSelect) {
-      let toValue: string | number = option.value;
+  select: async (option: SelectOptionT) => {
+    let toValue: string | number = option.value;
+    const rlt = await beforeSelect(option.value);
 
-      const rlt = await beforeSelect(option.value);
+    if (rlt === false) {
+      return;
+    }
+    if (typeof rlt !== 'boolean') {
+      toValue = rlt;
+    }
 
-      if (rlt === false) {
-        return;
-      }
-      if (typeof rlt !== 'boolean') {
-        toValue = rlt;
-      }
+    if (!props.multiple) {
+      //单选
+      isSelecting.value = false;
 
-      if (!props.multiple) {
-        //单选
-        isSelecting.value = false;
-
-        if (valueList.value[0] !== toValue) {
-          valueList.value[0] = toValue;
-          emitUpdateValue(valueList.value);
-          emitChange(valueList.value);
-        }
-      } else {
-        // 多选
-        const idx = valueList.value.indexOf(toValue);
-        if (idx > -1) {
-          valueList.value.splice(idx, 1);
-        } else {
-          valueList.value.push(toValue);
-        }
-
-        if (!isResponding.value) {
-          emitUpdateValue(valueList.value);
-          emitChange(valueList.value);
-        }
+      if (valueList.value[0] !== toValue) {
+        valueList.value[0] = toValue;
+        emitUpdateValue(valueList.value);
+        emitChange(valueList.value);
       }
     } else {
-      if (optionLabels.value[option.value] !== option.label) {
-        optionLabels.value[option.value] = option.label;
+      // 多选
+      const idx = valueList.value.indexOf(toValue);
+      if (idx > -1) {
+        valueList.value.splice(idx, 1);
+      } else {
+        valueList.value.push(toValue);
       }
+
+      if (!isResponding.value) {
+        emitUpdateValue(valueList.value);
+        emitChange(valueList.value);
+      }
+    }
+  },
+  registerOption(option: SelectOptionT) {
+    if (optionLabels.value[option.value] !== option.label) {
+      optionLabels.value[option.value] = option.label;
     }
   },
 });
