@@ -1,5 +1,6 @@
 ---
 sidebar: OInput
+kind: input
 ---
 
 # Input box
