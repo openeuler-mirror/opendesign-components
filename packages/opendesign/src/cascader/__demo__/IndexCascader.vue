@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import '../style';
+import '../../option/style';
 import CascaderBasic from './CascaderBasic.vue';
 </script>
 

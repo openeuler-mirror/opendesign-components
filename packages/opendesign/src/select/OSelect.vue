@@ -67,7 +67,7 @@ const optionLabels = ref<Record<string | number, string>>({});
 // 使用数组存储当前value
 const valueList = ref<Array<string | number>>([]); // 选项选中的记录
 const finalValueList = ref<Array<string | number>>([]); // 最终选择值
-// 初始化valuelist
+// 初始化valueList
 if (isArray(props.modelValue)) {
   valueList.value = [...props.modelValue];
 } else if (isArray(props.defaultValue)) {
@@ -122,9 +122,22 @@ watch(
       } else {
         valueList.value = [];
       }
-    } else if (valueList.value[0] !== v) {
+    } else {
       // 单选
-      valueList.value = [v as string | number];
+      if (isArray(v)) {
+        // 级联选择器 pathMode 模式
+        // TODO: 不建议在 OSelect 组件中兼容 OCascader，OCascader 应该独立实现输入框 UI：
+        // 1. OCascader pathMode 模式 与 OSelect 有冲突。在单选模式下，OSelect的value值应当是 string | number。
+        //    但级联选择器 pathMode 模式下，value值应当是 Array<string | number>
+        // 2. OSelect 实现了整个下拉菜单的溢出滚动，但级联选择器需要分列滚动，因此需要单独处理
+        if (v.length === 0) {
+          valueList.value = [];
+        } else {
+          valueList.value = [v[v.length - 1]];
+        }
+      } else if (!isUndefined(v)) {
+        valueList.value = [v];
+      }
     }
     finalValueList.value = [...valueList.value];
   }
