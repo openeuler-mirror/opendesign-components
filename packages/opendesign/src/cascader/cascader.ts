@@ -1,6 +1,7 @@
 import { isArray, isUndefined } from '../_utils/is';
 import { CascaderValueT } from './types';
 import { CascaderOptionT } from './types';
+import { log } from '../_utils/log';
 
 interface CascaderNodeT {
   value: string | number;
@@ -19,10 +20,10 @@ export interface ColumnInfoT {
   isActive: boolean;
 }
 
-const DFS = (options: Array<CascaderOptionT>, parentNode: CascaderNodeT, depth: number) => {
+const DFS = (options: Array<CascaderOptionT>, parentNode: CascaderNodeT, depth: number, map: Map<string | number, CascaderNodeT>) => {
   for (let i = 0, len = options.length; i < len; i++) {
     const item = options[i];
-    let node: CascaderNodeT = {
+    const node: CascaderNodeT = {
       value: item.value,
       label: item.label,
       parent: parentNode,
@@ -31,16 +32,18 @@ const DFS = (options: Array<CascaderOptionT>, parentNode: CascaderNodeT, depth: 
       isLeaf: true,
     };
     parentNode.children.push(node);
+    map.set(node.value, node);
 
     if (item.children && item.children.length) {
       node.isLeaf = false;
-      DFS(item.children, node, depth + 1);
+      DFS(item.children, node, depth + 1, map);
     }
   }
 };
 
 export default class CascaderTree {
   root: CascaderNodeT;
+  map: Map<string | number, CascaderNodeT>;
   constructor() {
     this.root = {
       value: NaN,
@@ -50,8 +53,9 @@ export default class CascaderTree {
       children: [],
       isLeaf: true,
     };
+    this.map = new Map();
   }
-
+  /** 更新树结构，生成CascaderNodeT类型的数据 */
   updateTree(options: Array<CascaderOptionT>) {
     this.root = {
       value: NaN,
@@ -61,82 +65,72 @@ export default class CascaderTree {
       children: [],
       isLeaf: true,
     };
-    DFS(options, this.root, 0);
+    this.map.clear();
+    DFS(options, this.root, 0, this.map);
   }
 
-  getNode(node: CascaderNodeT, val: string | number): CascaderNodeT | undefined {
-    if (node.value === val) {
-      return node;
-    }
-
-    const children: Array<CascaderNodeT> = node.children;
-
-    for (let i = 0, len = children.length; i < len; i++) {
-      const rlt = this.getNode(children[i], val);
-      if (rlt) {
-        return rlt;
-      }
-    }
+  getNode(val: string | number): CascaderNodeT | undefined {
+    return this.map.get(val);
   }
-
-  getChild(node: CascaderNodeT, val: string | number): CascaderNodeT | undefined {
-    const children: Array<CascaderNodeT> = node.children;
-    return children.find((item) => item.value === val);
-  }
-
+  /**
+   * 根据选中的叶子节点值获取级联选择器每栏应该渲染的数据
+   * @param val 选中的叶子节点值
+   * @returns 级联选择器每栏的数据
+   */
   getPanelInfo(val: CascaderValueT | undefined) {
-    let rlt: Array<Array<ColumnInfoT>> = [];
+    const rlt: Array<Array<ColumnInfoT>> = [];
 
-    if (isUndefined(val)) {
+    if (isUndefined(val) || this.root.children.length === 0) {
       return rlt;
     }
 
     if (!isArray(val)) {
-      let node = this.getNode(this.root, val);
-      if (isUndefined(node) || !node.isLeaf) {
-        const columnInfo = this.getNextColumnInfo(this.root);
-        if (!isUndefined(columnInfo)) {
-          rlt = [columnInfo];
-        }
+      // 当val不是数组时，val时叶子节点的值
+      let current = this.getNode(val);
+      if (!current) {
+        // 异常数据，只将根节点添加到rlt中
+        rlt.push(this.getColumnInfo(this.root));
+        log.warn('Cascader: Invalid value');
       } else {
-        while (node.parent) {
-          const columnInfo = this.getNextColumnInfo(node.parent, node.value);
-          if (!isUndefined(columnInfo)) {
-            rlt.unshift(columnInfo);
-          }
-          node = node.parent;
+        while (current && current.parent) {
+          rlt.unshift(this.getColumnInfo(current.parent, current.value));
+          current = current.parent;
         }
       }
     } else {
-      let parent = this.root;
-
-      for (let i = 0, len = val.length; i < len; i++) {
-        const child = this.getChild(parent, val[i]);
-        if (isUndefined(child) || (!child.isLeaf && child.depth === len)) {
-          const columnInfo = this.getNextColumnInfo(this.root);
-          if (!isUndefined(columnInfo)) {
-            rlt = [columnInfo];
-          }
-          break;
+      // 当val是数组时，val是从跟节点到叶子节点的路径
+      for (let i = 0; i < val.length; i++) {
+        const item = this.getNode(val[i]);
+        if (item && item.parent) {
+          rlt.push(this.getColumnInfo(item.parent, item.value));
         } else {
-          const columnInfo = this.getNextColumnInfo(parent, val[i]);
-          rlt.push(columnInfo);
-          parent = child;
+          // 异常数据
+          rlt.length = 0;
+          log.warn('Cascader: Invalid value');
+          break;
         }
+      }
+      if (rlt.length === 0) {
+        rlt.push(this.getColumnInfo(this.root));
       }
     }
 
     return rlt;
   }
-
-  getNextColumnInfo(node: CascaderNodeT, activeVal?: string | number): Array<ColumnInfoT> {
+  /**
+   * 根据当前选中的节点，获取当前列的信息
+   * @param node 当前选中的节点的父节点
+   * @param activeVal 当前选中的节点的value
+   * @returns 当前节点的可选项数据
+   */
+  getColumnInfo(node: CascaderNodeT, activeVal?: string | number): Array<ColumnInfoT> {
     return node.children.map((item) => {
       const rlt = {
         value: item.value,
         label: item.label,
         depth: item.depth,
         isActive: false,
-        isLeaf: item.children && item.children.length ? false : true,
+        isLeaf: item.isLeaf,
       };
 
       if (!isUndefined(activeVal)) {

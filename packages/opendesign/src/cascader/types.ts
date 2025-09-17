@@ -63,10 +63,9 @@ export const cascaderProps = {
     type: String,
   },
   /**
-   * @zh-CN 触发方式
-   * @en-US Trigger
+   * @zh-CN 弹出级联菜单的触发方式
+   * @en-US Trigger method for cascading menu popup
    * @default 'click'
-   * @deprecated useless
    */
   trigger: {
     type: String as PropType<PopupTriggerT>,
@@ -103,6 +102,14 @@ export const cascaderProps = {
   transition: {
     type: String,
   },
+  /**
+   * @zh-CN 展开菜单选项的触发方式
+   * @en-US Trigger method to expand menu options
+   */
+  expandTrigger: {
+    type: String as PropType<'click' | 'hover'>,
+    default: 'click',
+  },
 };
 
 export const cascaderPanelProps = {
@@ -129,6 +136,14 @@ export const cascaderPanelProps = {
   pathMode: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @zh-CN 展开菜单选项的触发方式
+   * @en-US Trigger method to expand menu options
+   */
+  expandTrigger: {
+    type: String as PropType<'click' | 'hover'>,
+    default: 'click',
   },
 };
 
