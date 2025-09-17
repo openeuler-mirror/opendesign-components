@@ -1,11 +1,11 @@
-import { DirectiveBinding, ObjectDirective } from 'vue';
+import { ObjectDirective } from 'vue';
 import { useScrollbar } from './use-scrollebar';
 import { BaseScrollerPropsT } from './types';
 
 const scrollbarMap = new WeakMap();
 
-const vScrollbar: ObjectDirective = {
-  mounted(el: HTMLElement, binding: DirectiveBinding<false | Partial<BaseScrollerPropsT> | undefined>) {
+const vScrollbar: ObjectDirective<HTMLElement, false | Partial<BaseScrollerPropsT> | undefined> = {
+  mounted(el: HTMLElement, binding) {
     const value = binding.value;
 
     if (value === false) {

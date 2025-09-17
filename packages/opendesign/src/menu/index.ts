@@ -16,3 +16,4 @@ const OMenu = Object.assign(_OMenu, {
 
 export { OMenu, OSubMenu, OMenuItem };
 export * from './types';
+export * from './provide';
