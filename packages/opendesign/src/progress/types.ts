@@ -23,6 +23,7 @@ export const progressProps = {
    * @zh-CN 进度条百分比
    * @en-US Progress bar percentage.
    * @default 0
+   * @validator (val: number): boolean => val >= 0 && val <= 100
    */
   percentage: {
     type: Number,
