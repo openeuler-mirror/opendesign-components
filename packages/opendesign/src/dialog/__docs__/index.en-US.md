@@ -12,6 +12,10 @@ kind: container
 <!-- @case DialogSlot -->
 <!-- @case DialogSlotForm -->
 
+### Non-modal Dialog
+
+Currently, only modal dialogs are supported. For non-modal dialogs, please use the [OPopup](/en-US/components/popup) component.
+
 ## API
 
 ### CSS Variables

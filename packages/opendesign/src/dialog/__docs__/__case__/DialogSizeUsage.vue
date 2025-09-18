@@ -3,35 +3,67 @@
 
 ### 尺寸
 
-ODialog 有不同的尺寸：`'exlarge'` `'large'` `'medium'` `'small'` `'auto'`，通过 `size` 属性设置
+ODialog 提供了多种预设尺寸选项：`'exlarge'`、`'large'`、`'medium'`、`'small'` 和 `'auto'`，通过 `size` 属性进行设置。
 
-- 当尺寸为 `auto` 时，对话框的大小适应内容。
-- 当尺寸为其它值时，对话框的宽是相对固定的，高度会被钳制在对应值内。
-  当客户端视口尺寸变化时，对话框尺寸会根据 `size` 自动适配，这在大部分情况下都能获得较好的效果，否则您可以将 `noResponsive` 设置为 `true` 取消自动适配，或者通过 css 变量细颗粒地自定义尺寸。
-- 将 `phoneHalfFull` 设置为 `true`，移动端（视口宽度小于 600px）对话框的宽度会占满视口。**注**：
-  - 此时 `size` 只影响高度，不影响宽度
-  - `noResponsive` 不能为 `true`
+不同尺寸的特点：
+
+自适应尺寸 (`auto`)：
+
+- 对话框会根据内容自动调整大小
+- 适合内容长度不确定的场景
+
+固定尺寸 (exlarge/large/medium/small)：
+
+- 对话框具有固定宽度
+- 高度会根据内容自动调整，但不会超过预设的最大及最小高度
+
+视宽适配：
+
+- 默认情况下，对话框会根据视口大小自动调整尺寸（如间距，宽度，高度范围，字号等）
+- 如需禁用自动适配，可设置 `noResponsive` 为 `true`
+- 也可通过 CSS 变量进行精细的尺寸定制
+
+移动端半屏显示：
+
+- 设置 `phoneHalfFull` 为 `true` 时，在小屏幕设备（宽度 < 600px）上对话框宽度占满整个视口，显示在底部
+- 注意：此时 size 属性仅影响高度，宽度固定为全屏；不能同时设置 noResponsive 为 true
 
 <!-- en-US -->
 
 ### Size
 
-ODialog offers various size options: `'exlarge'`, `'large'`, `'medium'`, `'small'`, and `'auto'`, configured through the `size` prop.
+ODialog provides multiple preset size options: `'exlarge'`, `'large'`, `'medium'`, `'small'`, and `'auto'`, which can be set via the `size` property.
 
-- When set to `auto`, the dialog adapts its dimensions to fit the content.
-- For other size values, the dialog maintains a relatively fixed width while its height is clamped within the corresponding range.
-  When the viewport size changes, the dialog automatically adjusts based on the `size` setting. This generally provides optimal display results.
-  To disable this responsive behavior, set `noResponsive` to `true`. Alternatively, use CSS variables for granular customization.
-- Setting `phoneHalfFull` to `true` enables full-width display on mobile devices (viewport width < 600px). **Notes**:
-  - In this mode, `size` only affects height and does not impact width
-  - `noResponsive` must not be set to `true`
+Characteristics of different sizes:
+
+Adaptive size (`auto`):
+
+- The dialog automatically adjusts its size based on the content
+- Suitable for scenarios where the content length is uncertain
+
+Fixed sizes (exlarge/large/medium/small):
+
+- The dialog has a fixed width
+- The height adjusts automatically based on the content but will not exceed the preset maximum and minimum height
+
+Viewport adaptation:
+
+- By default, the dialog automatically adjusts its dimensions (such as spacing, width, height range, font size, etc.) based on the viewport size
+- To disable automatic adaptation, set `noResponsive` to `true`
+- Fine-grained size customization is also possible via CSS variables
+
+Half-screen display on mobile:
+
+- When `phoneHalfFull` is set to `true`, on small-screen devices (width < 600px), the dialog occupies the full viewport width and is displayed at the bottom
+- Note: In this case, the `size` property only affects the height, while the width is fixed to full-screen;
+  `noResponsive` cannot be set to `true` simultaneously
 </docs>
 <script setup lang="ts">
 import { reactive, markRaw } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _schema = reactive({
   size: {
     type: 'list',
     list: ['exlarge', 'large', 'medium', 'small', 'auto'],
@@ -44,8 +76,9 @@ const _schema = {
   noResponsive: {
     type: 'boolean',
     label: 'No Responsive',
+    disabled: false as boolean,
   },
-} satisfies Record<string, DocDemoSchema>;
+}) satisfies Record<string, DocDemoSchema>;
 
 const _ctx = reactive({
   visible: false,
@@ -53,7 +86,14 @@ const _ctx = reactive({
     _ctx.visible = true;
   }),
 });
-const _template: DocDemoTemplate<typeof _schema> = (props) => `
+const _template: DocDemoTemplate<typeof _schema> = (props) => {
+  if (props.phoneHalfFull) {
+    props.noResponsive = false;
+    _schema.noResponsive.disabled = true;
+  } else {
+    _schema.noResponsive.disabled = false;
+  }
+  return `
 <OButton @click="ctx.openDialog">Open Dialog</OButton>
 <ODialog
   v-model:visible="ctx.visible"
@@ -62,4 +102,5 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => `
   <template #header>${props.size}</template>
   <div>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
 </ODialog>`;
+};
 </script>
