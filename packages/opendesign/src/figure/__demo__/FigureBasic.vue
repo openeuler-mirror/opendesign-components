@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, useTemplateRef } from 'vue';
 import { OFigure } from '../index';
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 
@@ -12,6 +13,22 @@ const onload = () => {
 const onerror = () => {
   console.log('error');
 };
+let count = 0;
+const testTriggerDouble = () => {
+  if (count++ >= 1) {
+    console.error('失败：修复在设置 background 为 true 且未设置 ratio 属性时，load 或 error 触发两次的问题');
+  } else {
+    console.log('trigger', count);
+  }
+};
+const figureDom = useTemplateRef('background-no-ratio');
+onMounted(() => {
+  if (figureDom.value?.$el.querySelector('img')) {
+    console.error('失败：修复在设置 background 为 true 且未设置 ratio 属性时，background 失效的问题');
+  } else {
+    console.log('成功：修复在设置 background 为 true 且未设置 ratio 属性时，background 失效的问题');
+  }
+});
 </script>
 <template>
   <h4>基本</h4>
@@ -25,6 +42,20 @@ const onerror = () => {
     <OFigure class="img" :src="img" video-poster @click="playVideo" />
   </section>
 
+  <h4>background</h4>
+  <div class="column">
+    <OFigure class="img" :src="img" background :ratio="16 / 9" />
+    <span>修复在设置 background 为 true 且未设置 ratio 属性时，background 失效的问题以及load 或 error 触发两次的问题</span>
+    <OFigure
+      ref="background-no-ratio"
+      class="img"
+      :src="img"
+      background
+      style="height: 200px; width: 200px"
+      @load="testTriggerDouble"
+      @error="testTriggerDouble"
+    />
+  </div>
   <h4>slot</h4>
 
   <section>
@@ -37,6 +68,11 @@ const onerror = () => {
   </section>
 </template>
 <style lang="scss" scoped>
+.column {
+  > * {
+    display: block;
+  }
+}
 .img {
   width: 25%;
   border: 1px solid #ddd;

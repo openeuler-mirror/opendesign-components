@@ -141,25 +141,18 @@ defineExpose({
       'o-figure-hoverable': props.hoverable || !!props.href || props.preview || props.videoPoster,
       'o-figure-previewable': props.preview,
       'o-figure-video-poster': props.videoPoster,
+      'o-figure-bg': props.background,
     }"
     :style="{
       '--figure-prest-color': prestColor,
       '--figure-padding-top': paddingTop,
       '--figure-fit': props.fit,
+      backgroundImage: bgUrl,
     }"
     @click="onFigureClick"
     ref="rootEl"
   >
-    <div
-      v-if="paddingTop || isError"
-      class="o-figure-wrap"
-      :class="{
-        'o-figure-bg': props.background,
-      }"
-      :style="{
-        backgroundImage: bgUrl,
-      }"
-    >
+    <div v-if="paddingTop || isError" class="o-figure-wrap">
       <div v-if="isError" class="o-figure-error-wrap">
         <slot name="error"><IconImageError /></slot>
       </div>
@@ -175,7 +168,7 @@ defineExpose({
       />
     </div>
     <img
-      v-else-if="!isError && imgSrc"
+      v-else-if="!isError && imgSrc && !props.background"
       ref="imgRef"
       :src="imgSrc"
       :alt="props.alt"
