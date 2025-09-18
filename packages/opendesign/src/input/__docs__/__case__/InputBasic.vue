@@ -17,7 +17,7 @@ const hasTextInputVal = ref('Hint');
 <template>
   <div class="demo-input-basic-wrap">
     <div class="no-text">
-      <h2 class="size-label no-text-label">无文本</h2>
+      <div class="size-label no-text-label">无文本</div>
       <div class="input-wrap">
         <span class="status-label"> Enabled </span>
         <OInput v-model="noTextInputVal" class="input-medium" size="large" round="pill" placeholder="Hint" />
@@ -35,7 +35,7 @@ const hasTextInputVal = ref('Hint');
       </div>
     </div>
     <div class="has-text">
-      <h2 class="size-label">有文本</h2>
+      <div class="size-label">有文本</div>
       <div class="input-wrap"><OInput v-model="hasTextInputVal" class="input-medium" size="large" round="pill" :clearable="true" /></div>
       <div class="input-wrap"><OInput v-model="hasTextInputVal" class="input-medium" size="large" round="pill" :clearable="true" disabled /></div>
       <div class="input-wrap">
