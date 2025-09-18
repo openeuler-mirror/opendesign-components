@@ -34,6 +34,9 @@
   .o-form-item {
     display: block;
   }
+  .o-form-item-label {
+    margin-bottom: var(--form-label-main-gap-v);
+  }
 }
 .o-form-item {
   display: var(--form-item-display, flex);
