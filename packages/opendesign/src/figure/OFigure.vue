@@ -93,7 +93,7 @@ const paddingTop = computed(() => {
 
 // 全屏预览图片
 const previewVisible = ref(false);
-const canPreview = computed(() => props.preview || props.lazyPreiew);
+const canPreview = computed(() => props.preview || props.lazyPreview);
 const previewCloseTypes = computed(() => {
   if (!props.previewClose) {
     return isPhonePad.value ? ['image', 'mask', 'button'] : ['mask', 'button'];
@@ -141,51 +141,42 @@ defineExpose({
       'o-figure-hoverable': props.hoverable || !!props.href || props.preview || props.videoPoster,
       'o-figure-previewable': props.preview,
       'o-figure-video-poster': props.videoPoster,
+      'o-figure-bg': props.background,
     }"
     :style="{
       '--figure-prest-color': prestColor,
       '--figure-padding-top': paddingTop,
       '--figure-fit': props.fit,
+      backgroundImage: bgUrl,
     }"
     @click="onFigureClick"
     ref="rootEl"
   >
-    <template v-if="imgSrc">
-      <div
-        v-if="paddingTop || isError"
-        class="o-figure-wrap"
-        :class="{
-          'o-figure-bg': props.background,
-        }"
-        :style="{
-          backgroundImage: bgUrl,
-        }"
-      >
-        <div v-if="isError" class="o-figure-error-wrap">
-          <slot name="error"><IconImageError /></slot>
-        </div>
-        <img
-          v-else-if="!props.background"
-          ref="imgRef"
-          :src="imgSrc"
-          :alt="props.alt"
-          class="o-figure-img-ratio"
-          :loading="props.lazy === true ? 'lazy' : 'eager'"
-          @load="onImgLoaded"
-          @error="onImgError"
-        />
+    <div v-if="paddingTop || isError" class="o-figure-wrap">
+      <div v-if="isError" class="o-figure-error-wrap">
+        <slot name="error"><IconImageError /></slot>
       </div>
       <img
-        v-else-if="!isError"
+        v-else-if="!props.background && imgSrc"
         ref="imgRef"
         :src="imgSrc"
         :alt="props.alt"
-        class="o-figure-img"
+        class="o-figure-img-ratio"
         :loading="props.lazy === true ? 'lazy' : 'eager'"
         @load="onImgLoaded"
         @error="onImgError"
       />
-    </template>
+    </div>
+    <img
+      v-else-if="!isError && imgSrc && !props.background"
+      ref="imgRef"
+      :src="imgSrc"
+      :alt="props.alt"
+      class="o-figure-img"
+      :loading="props.lazy === true ? 'lazy' : 'eager'"
+      @load="onImgLoaded"
+      @error="onImgError"
+    />
     <div class="o-figure-main" v-if="props.videoPoster || $slots.content || $slots.title || $slots.default">
       <slot></slot>
       <div v-if="props.videoPoster" class="o-figure-mask">

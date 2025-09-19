@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, useTemplateRef } from 'vue';
 import { OFigure } from '../index';
 const img1 = 'https://www.openeuler.org/assets/computing-arch_zh_pc.Bn12UMeP.jpg';
 const img2 = 'https://www.openeuler.org/assets/blog-bg1.CWrw5LH1.jpg';
@@ -18,6 +19,15 @@ const onerror = (key: string) => {
 const lazyOption = {
   rootMargin: '400px 0px 400px 0px',
 };
+const figureDom = useTemplateRef('keep-ratio-before-load');
+onMounted(() => {
+  const height = figureDom.value?.$el.getBoundingClientRect().height;
+  if (height && height > 10) {
+    console.log('成功：当 background 为真时 figure 懒加载完成前不能通过 ratio 属性保持宽高比的问题, height: ', height);
+  } else {
+    console.error('失败：当 background 为真时 figure 懒加载完成前不能通过 ratio 属性保持宽高比的问题, height: ', height);
+  }
+});
 </script>
 <template>
   <div style="margin-top: 400vh"></div>
@@ -31,6 +41,8 @@ const lazyOption = {
     <OFigure class="img" :src="img3" colorful @load="() => onload('img3')" lazy @error="() => onerror('img3')" preview />
     <OFigure class="img" :src="img4" :ratio="16 / 9" fit="cover" background colorful @load="() => onload('img4')" lazy @error="() => onerror('img4')" preview />
   </section>
+  <h4>测试当 background 为真时 figure 懒加载完成前不能通过 ratio 属性保持宽高比的问题</h4>
+  <OFigure ref="keep-ratio-before-load" class="img" :src="img4" :ratio="16 / 9" lazy background />
 
   <h4>懒加载 lazy= { rootMargin: '400px 0px 400px 0px' }</h4>
   <section>
@@ -63,5 +75,8 @@ const lazyOption = {
   color: red;
   font-size: 32px;
   cursor: pointer;
+}
+#lazy-preview-ratio-check {
+  border: 5px solid red;
 }
 </style>
