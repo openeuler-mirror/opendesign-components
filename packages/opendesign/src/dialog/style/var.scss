@@ -13,11 +13,12 @@
   --dlg-max-height: 100%;
   --dlg-min-width: 272px;
 
-  --dlg-margin: 24px;
+  --dlg-margin: 0px;
 
   --dlg-edge-gap: 32px;
   --dlg-inner-gap: 24px;
   --actions-justify: var(--dlg-actions-justify, center);
+  --dlg-btn-gap: 16px;
 }
 
 .o-dialog-auto {
@@ -25,23 +26,23 @@
 }
 
 .o-dialog-exlarge {
-  --dlg-width: 1170px;
+  --dlg-width: 65%;
   --dlg-max-height: 780px;
   --dlg-min-height: 520px;
 }
 .o-dialog-large {
-  --dlg-width: 930px;
+  --dlg-width: 60%;
   --dlg-max-height: 780px;
   --dlg-min-height: 424px;
 }
 .o-dialog-medium {
-  --dlg-width: 690px;
+  --dlg-width: 40%;
   --dlg-max-height: 480px;
   --dlg-min-height: 328px;
 }
 
 .o-dialog-small {
-  --dlg-width: 450px;
+  --dlg-width: 25%;
   --dlg-max-height: 272px;
   --dlg-min-height: 224px;
 

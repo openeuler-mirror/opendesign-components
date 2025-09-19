@@ -33,22 +33,18 @@
 }
 
 .o-dialog {
-  @include respond-to('laptop') {
+  @include respond-to('laptop-pc_s') {
     --dlg-edge-gap: 24px;
     --dlg-inner-gap: 16px;
   }
-  @include respond-to('pad_h') {
-    --dlg-edge-gap: 24px;
-    --dlg-inner-gap: 16px;
-  }
-  @include respond-to('<=pad_v') {
+  @include respond-to('<=pad') {
     --dlg-edge-gap: 16px;
     --dlg-inner-gap: 12px;
   }
 }
 
 .o-dlg-header {
-  @include respond-to('laptop') {
+  @include respond-to('laptop-pc_s') {
     font-size: var(--o-font_size-h4);
     line-height: var(--o-line_height-h4);
   }
@@ -59,39 +55,46 @@
 }
 
 .o-dialog-exlarge {
-  @include respond-to('laptop') {
+  @include respond-to('laptop-pc_s') {
+    --dlg-width: 75%;
+    --dlg-max-height: 80%;
+    --dlg-min-height: 65%;
+  }
+  @include respond-to('pad_h') {
     --dlg-width: 80%;
     --dlg-max-height: 80%;
     --dlg-min-height: 65%;
   }
-  @include respond-to('<=pad') {
+  @include respond-to('<=pad_v') {
     --dlg-width: 100%;
     --dlg-max-height: 100%;
+    --dlg-min-height: 100%;
     --dlg-radius: 0;
     --dlg-margin: 0;
-    --dlg-edge-gap: 24px;
-    --dlg-inner-gap: 16px;
   }
 }
 .o-dialog-large {
-  @include respond-to('laptop') {
+  @include respond-to('laptop-pc_s') {
+    --dlg-width: 60%;
+    --dlg-max-height: 80%;
+    --dlg-min-height: 50%;
+  }
+  @include respond-to('pad_h') {
     --dlg-width: 65%;
     --dlg-max-height: 80%;
     --dlg-min-height: 50%;
   }
-
-  @include respond-to('<=pad') {
+  @include respond-to('<=pad_v') {
     --dlg-width: 100%;
     --dlg-max-height: 100%;
+    --dlg-min-height: 100%;
     --dlg-radius: 0;
     --dlg-margin: 0;
-    --dlg-edge-gap: 24px;
-    --dlg-inner-gap: 16px;
   }
 }
 .o-dialog-medium {
-  @include respond-to('laptop') {
-    --dlg-width: 50%;
+  @include respond-to('laptop-pc_s') {
+    --dlg-width: 40%;
     --dlg-max-height: 80%;
     --dlg-min-height: 35%;
   }
@@ -99,40 +102,41 @@
     --dlg-width: 65%;
     --dlg-max-height: 80%;
     --dlg-min-height: 128px;
-    --dlg-margin: 24px;
   }
-  @include respond-to('<=pad_v') {
-    --dlg-width: calc(100vw - 48px);
+  @include respond-to('pad_v') {
+    --dlg-width: 75%;
+    --dlg-max-height: 80%;
+    --dlg-min-height: 128px;
+  }
+  @include respond-to('phone') {
+    --dlg-width: 100vw;
     --dlg-max-height: 65%;
     --dlg-min-height: 128px;
     --dlg-margin: 24px;
   }
 }
 .o-dialog-small {
-  @include respond-to('laptop') {
-    --dlg-width: 35%;
+  @include respond-to('laptop-pc_s') {
+    --dlg-width: 25%;
     --dlg-max-height: 50%;
     --dlg-min-height: 20%;
   }
-  @include respond-to('<=pad') {
+  @include respond-to('pad_h') {
+    --dlg-width: 32%;
     --dlg-min-height: 128px;
     --dlg-max-height: 80%;
-
-    --dlg-margin: 24px;
-
-    --dlg-edge-gap: 16px;
-    --dlg-inner-gap: 12px;
-    --dlg-header-gap: 12px;
-  }
-  @include respond-to('pad_h') {
-    --dlg-width: 50%;
   }
   @include respond-to('pad_v') {
-    --dlg-width: 65%;
+    --dlg-width: 75%;
+    --dlg-min-height: 128px;
+    --dlg-max-height: 80%;
   }
   @include respond-to('phone') {
-    --dlg-width: calc(100vw - 48px);
+    --dlg-width: 100vw;
+    --dlg-min-height: 128px;
     --dlg-max-height: 65%;
+
+    --dlg-margin: 24px;
   }
 }
 
@@ -145,5 +149,17 @@
     &.o-dialog-medium {
       --dlg-radius: var(--o-radius_control-l) var(--o-radius_control-l) 0 0;
     }
+  }
+}
+
+@include respond-to('laptop-pc_s') {
+  .o-dialog {
+    --dlg-btn-gap: 12px;
+  }
+}
+
+@include respond-to('<=pad') {
+  .o-dialog {
+    --dlg-btn-gap: 8px;
   }
 }

@@ -1,0 +1,125 @@
+@use '../../_styles/mixin.scss' as *;
+@use '../../theme/grid.scss' as *;
+
+// 栅格
+.o-dialog-exlarge {
+  --dlg-width: var(--grid-16);
+}
+.o-dialog-large {
+  --dlg-width: var(--grid-14);
+}
+.o-dialog-medium {
+  --dlg-width: var(--grid-10);
+}
+.o-dialog-small {
+  --dlg-width: var(--grid-6);
+}
+
+@include respond-to('laptop-pc_s') {
+  .o-dialog-exlarge {
+    --dlg-width: var(--grid-18);
+  }
+  .o-dialog-large {
+    --dlg-width: var(--grid-14);
+  }
+  .o-dialog-medium {
+    --dlg-width: var(--grid-10);
+  }
+  .o-dialog-small {
+    --dlg-width: var(--grid-6);
+  }
+}
+@include respond-to('pad_h') {
+  .o-dialog-exlarge {
+    --dlg-width: var(--grid-10);
+  }
+  .o-dialog-large {
+    --dlg-width: var(--grid-8);
+  }
+  .o-dialog-medium {
+    --dlg-width: var(--grid-6);
+  }
+  .o-dialog-small {
+    --dlg-width: var(--grid-4);
+  }
+}
+@include respond-to('pad_v') {
+  .o-dialog-exlarge {
+    --dlg-width: 100%;
+  }
+  .o-dialog-large {
+    --dlg-width: 100%;
+  }
+  .o-dialog-medium {
+    --dlg-width: var(--grid-6);
+  }
+  .o-dialog-small {
+    --dlg-width: var(--grid-6);
+  }
+}
+@include respond-to('phone') {
+  .o-dialog-exlarge {
+    --dlg-width: 100%;
+  }
+  .o-dialog-large {
+    --dlg-width: 100%;
+  }
+  .o-dialog-medium {
+    --dlg-width: var(--grid-4);
+    --dlg-margin: 0;
+  }
+  .o-dialog-small {
+    --dlg-width: var(--grid-4);
+    --dlg-margin: 0;
+  }
+  .o-dialog-phone-half-full {
+    --dlg-width: 100%;
+    --dlg-margin: 0;
+  }
+}
+
+// 正文字号
+@include respond-to('<=pc_s') {
+  .o-dlg-body {
+    font-size: var(--o-font_size-tip1);
+    line-height: var(--o-line_height-tip1);
+  }
+}
+
+// 按钮对其方式
+.c-dlg-action-end {
+  display: flex;
+
+  justify-content: flex-end;
+  > * + * {
+    margin-left: var(--dlg-btn-gap);
+  }
+}
+.c-dlg-action-center {
+  display: flex;
+
+  justify-content: center;
+  > * + * {
+    margin-left: var(--dlg-btn-gap);
+  }
+}
+
+// 运营弹窗
+.c-dlg-operation {
+  --layer-align: center !important;
+  --dlg-body-padding: 0 !important;
+  --dlg-margin: 40px;
+  --dlg-min-height: 320px;
+  --dlg-max-height: 468px;
+  .o-dlg-btn-close {
+    right: 50%;
+    transform: translateX(50%);
+    top: calc(100% + 16px);
+    border: 1px solid var(--o-color-info1-inverse);
+    border-radius: 50%;
+    font-size: var(--o-icon_size_control-xs);
+    color: var(--o-color-info1-inverse);
+    padding: 4px;
+    display: flex;
+  }
+}
