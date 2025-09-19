@@ -33,6 +33,7 @@
   "devDependencies": {
     "@opensig/open-scripts": "workspace:^",
     "typescript": "catalog:typescript",
-    "vue-tsc": "catalog:build"
+    "vue-tsc": "catalog:build",
+    "vite": "catalog:build"
   }
 }

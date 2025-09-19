@@ -61,7 +61,7 @@ export const figureProps = {
   /**
    * 支持通过实例接口调用预览
    */
-  lazyPreiew: {
+  lazyPreview: {
     type: Boolean,
   },
   /**
