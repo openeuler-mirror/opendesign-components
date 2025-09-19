@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, useTemplateRef } from 'vue';
 import { OFigure } from '../index';
+import { OButton } from '../../button';
+import '../../button/style';
 const img = 'https://www.openeuler.org/img/banners/20230418-odd.png';
 
 const playVideo = () => {
@@ -55,6 +57,17 @@ onMounted(() => {
       @load="testTriggerDouble"
       @error="testTriggerDouble"
     />
+    <span>修复在设置 background 为 true 且未设置 ratio 属性时，组件的高度依靠默认插槽中的内容撑开</span>
+    <OFigure :src="img" background fit="100% auto" class="background-no-ratio">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem impedit aut non, quo, debitis vel nulla ullam veritatis fugit itaque nihil vero quia, esse
+      saepe ipsam maiores iste. Voluptatem, at!
+      <OButton color="primary" variant="solid" @click="console.log('click1')">click1</OButton>
+    </OFigure>
+    <OFigure src="/abc.jpg" background fit="100% auto" class="background-no-ratio">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem impedit aut non, quo, debitis vel nulla ullam veritatis fugit itaque nihil vero quia, esse
+      saepe ipsam maiores iste. Voluptatem, at!
+      <OButton color="primary" variant="solid" @click="console.log('click2')">click2</OButton>
+    </OFigure>
   </div>
   <h4>slot</h4>
 
@@ -68,7 +81,17 @@ onMounted(() => {
   </section>
 </template>
 <style lang="scss" scoped>
+.background-no-ratio {
+  --figure-position: left top;
+
+  color: red;
+  width: 300px;
+}
+
 .column {
+  display: grid;
+  grid-column: 1fr;
+  gap: 16px;
   > * {
     display: block;
   }

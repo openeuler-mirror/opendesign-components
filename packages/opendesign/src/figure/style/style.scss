@@ -67,6 +67,18 @@
   background-size: var(--figure-fit);
   background-position: var(--figure-position);
   background-repeat: no-repeat;
+
+  &.o-figure-no-ratio {
+    // background 模式下且未设置 ratio 时，组件高度由 o-figure-main 中的内容撑开
+    // o-figure-wrap 中的 IconImageError 作为背景图
+    .o-figure-wrap {
+      position: absolute;
+      inset: 0;
+    }
+    .o-figure-main {
+      position: relative;
+    }
+  }
 }
 .o-figure-img-ratio {
   position: absolute;
