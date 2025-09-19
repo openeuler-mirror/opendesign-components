@@ -1,14 +1,14 @@
 .o-result {
-  --result-image-width: 320px;
-  --result-image-height: 280px;
+  --result-image-width: 240px;
+  --result-image-height: 210px;
   --result-image-gap: 16px;
 
   --result-icon-size: var(--o-icon_size_control-xl);
   --result-icon-gap: 12px;
 
   --result-title-color: var(--o-color-info1);
-  --result-title-text-size: var(--o-font_size-h2);
-  --result-title-text-height: var(--o-line_height-h2);
+  --result-title-text-size: var(--o-font_size-h3);
+  --result-title-text-height: var(--o-line_height-h3);
 
   --result-desc-color: var(--o-color-info3);
   --result-desc-text-size: var(--o-font_size-text1);
