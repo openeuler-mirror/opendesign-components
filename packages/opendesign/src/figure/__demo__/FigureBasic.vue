@@ -83,6 +83,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .background-no-ratio {
   --figure-position: left top;
+  --figure-error-bk: lightblue;
 
   color: red;
   width: 300px;
