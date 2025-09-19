@@ -20,6 +20,7 @@
 2. [button] 新增 `--btn-gap-prefix` 及 `--btn-gap-suffix` 变量以单独控制前缀及后缀图标外边距
 3. [scss-mixin] respond-to新增断点
 4. [menu] 菜单增加small尺寸
+5. [figure] 新增CSS变量--figure-error-bk控制图片加载失败时背景色
 
 - fix
 
@@ -31,6 +32,12 @@
 6. [rate] 完善ORate组件icon插槽status变量类型签名
 7. [select] 优化select组件provide的select函数
 8. [vScrollbar] 优化类型签名
+9. [figure] 修复组件lazyPreview参数单词拼写错误
+10. [figure] 修复当 background 为真时图片懒加载完成前不能通过 ratio 属性保持宽高比的问题
+11. [figure] 修复组件在设置 background 为 true 且未设置 ratio 属性时
+    - background 不显示
+    - load 或 error 触发两次
+    - 组件的高度应该通过默认插槽中的内容撑开
 
 # 1.0.1
 
