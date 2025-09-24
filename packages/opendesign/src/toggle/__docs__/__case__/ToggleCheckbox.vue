@@ -1,8 +1,10 @@
 <docs lang="md">
 <!--zh-CN-->
+
 ### 多选
 
 <!--en-US-->
+
 ### Multiple
 </docs>
 
@@ -17,22 +19,22 @@ const checkboxVal = ref([1]);
     <OCheckboxGroup v-model="checkboxVal" :style="{ '--checkbox-group-gap': '8px' }">
       <OCheckbox :value="1">
         <template #checkbox="{ checked }">
-          <OToggle :checked="checked">筛选条件1</OToggle>
+          <OToggle :checked="checked" round="pill">筛选条件1</OToggle>
         </template>
       </OCheckbox>
       <OCheckbox :value="2">
         <template #checkbox="{ checked }">
-          <OToggle :checked="checked">筛选条件2</OToggle>
+          <OToggle :checked="checked" round="pill">筛选条件2</OToggle>
         </template>
       </OCheckbox>
       <OCheckbox :value="3">
         <template #checkbox="{ checked }">
-          <OToggle :checked="checked">筛选条件3</OToggle>
+          <OToggle :checked="checked" round="pill">筛选条件3</OToggle>
         </template>
       </OCheckbox>
       <OCheckbox :value="4">
         <template #checkbox="{ checked }">
-          <OToggle :checked="checked">筛选条件4</OToggle>
+          <OToggle :checked="checked" round="pill">筛选条件4</OToggle>
         </template>
       </OCheckbox>
     </OCheckboxGroup>
