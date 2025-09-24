@@ -1,8 +1,10 @@
 <docs lang="md">
 <!--zh-CN-->
+
 ### 单独使用
 
 <!--en-US-->
+
 ### standalone
 </docs>
 
@@ -14,8 +16,8 @@ const checked1 = ref(true);
 
 <template>
   <section>
-    <OToggle v-model:checked="checked1">Checked: {{ checked1 }}</OToggle>
-    <OToggle disabled>Disabled</OToggle>
-    <OToggle>3</OToggle>
+    <OToggle v-model:checked="checked1" round="pill">Checked: {{ checked1 }}</OToggle>
+    <OToggle disabled round="pill">Disabled</OToggle>
+    <OToggle round="pill">3</OToggle>
   </section>
 </template>

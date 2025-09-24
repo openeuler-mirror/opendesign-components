@@ -3,33 +3,41 @@ import { RoundT } from '../_utils/types';
 
 export const buttonToggleProps = {
   /**
-   * 双向绑定值，是否被选中
+   * @zh-CN 双向绑定值，是否被选中
+   * @en-US Bidirectional binding value, whether selected.
+   * @default undefined
    */
   checked: {
     type: Boolean,
     default: undefined,
   },
   /**
-   * 非受控状态时，默认是否选中
+   * @zh-CN 非受控状态时，默认是否选中
+   * @en-US Whether it is selected by default when in an uncontrolled state.
+   * @default false
    */
   defaultChecked: {
     type: Boolean,
     default: false,
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 圆角值
+   * @en-US Round.
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 前缀图标
+   * @zh-CN 前缀图标
+   * @en-US Prefix icon.
    */
   icon: {
     type: Object as PropType<Component>,
   },
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable.
+   * @default false
    */
   disabled: {
     type: Boolean,
