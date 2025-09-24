@@ -158,6 +158,8 @@
 .o-btn-small {
   --btn-radius: var(--o-radius_control-xs);
   --btn-gap: 2px;
+  --btn-gap-prefix: var(--btn-gap);
+  --btn-gap-suffix: var(--btn-gap);
   --btn-padding: 0 11px;
   --btn-icon-size: var(--o-icon_size-xs);
   --btn-height: var(--o-control_size-s);
@@ -167,6 +169,8 @@
 
   --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
+  --btn-gap-prefix: var(--btn-gap);
+  --btn-gap-suffix: var(--btn-gap);
   --btn-padding: 0 15px;
   --btn-icon-size: var(--o-icon_size-xs);
   --btn-height: var(--o-control_size-m);
@@ -176,6 +180,8 @@
 
   --btn-radius: var(--o-radius_control-s);
   --btn-gap: 8px;
+  --btn-gap-prefix: var(--btn-gap);
+  --btn-gap-suffix: var(--btn-gap);
   --btn-padding: 0 23px;
   --btn-icon-size: var(--o-icon_size-m);
   --btn-height: var(--o-control_size-l);

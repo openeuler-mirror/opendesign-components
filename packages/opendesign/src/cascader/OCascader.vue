@@ -4,7 +4,7 @@ import { OSelect } from '../select';
 import OCascaderPanel from './OCascaderPanel.vue';
 import type { CascaderValueT } from './types';
 import { cascaderProps } from './types';
-import { isString, isUndefined } from '../_utils/is';
+import { isString, isUndefined, isTouchDevice } from '../_utils/is';
 
 const props = defineProps(cascaderProps);
 
@@ -28,6 +28,19 @@ const wrapClass = computed(() => {
     return [classStr, ...props.optionWrapClass].join(' ');
   }
 });
+
+const innerTrigger = computed(() => { 
+  if (!isTouchDevice) {
+    return props.trigger;
+  }
+  if (props.trigger === 'hover') {
+    return 'click';
+  }
+  if (props.trigger === 'hover-outclick') {
+    return 'click-outclick';
+  }
+  return props.trigger;
+});
 </script>
 
 <template>
@@ -36,13 +49,19 @@ const wrapClass = computed(() => {
     :round="props.round"
     :variant="props.variant"
     :placeholder="props.placeholder"
-    :triggre="props.trigger"
+    :trigger="innerTrigger"
     :option-position="props.optionPosition"
     option-width-mode="auto"
     :unmount-on-hide="props.unmountOnHide"
     :transition="props.transition"
     :option-wrap-class="wrapClass"
   >
-    <OCascaderPanel :options="props.options" :model-value="props.modelValue" :path-mode="props.pathMode" @change="handleChange" />
+    <OCascaderPanel
+      :options="props.options"
+      :model-value="props.modelValue"
+      :path-mode="props.pathMode"
+      :expand-trigger="props.expandTrigger"
+      @change="handleChange"
+    />
   </OSelect>
 </template>

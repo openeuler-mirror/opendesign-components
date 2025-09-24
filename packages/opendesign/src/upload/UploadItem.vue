@@ -67,7 +67,7 @@ const onPreview = () => {
       >
         <div class="o-upload-card-item-wrap">
           <div class="o-upload-card-file">
-            <OFigure v-if="props.file.imgUrl" ref="figureRef" lazy-preiew class="o-upload-thumbnail" :src="props.file.imgUrl" />
+            <OFigure v-if="props.file.imgUrl" ref="figureRef" lazy-preview class="o-upload-thumbnail" :src="props.file.imgUrl" />
             <IconFile v-else class="o-upload-icon-file" />
           </div>
           <div

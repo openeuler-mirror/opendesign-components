@@ -68,7 +68,7 @@ const closePreviewManully = () => {
     </div>
     <div>
       <span>使用api调用preivew</span>
-      <OFigure ref="figureRef" class="img" :src="img2" lazy-preiew>
+      <OFigure ref="figureRef" class="img" :src="img2" lazy-preview>
         <OIconSearch class="zoomIn" @click="preivewImg" />
       </OFigure>
     </div>
