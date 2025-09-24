@@ -1,10 +1,10 @@
 import { ExtractPropTypes, PropType } from 'vue';
 
-export type ValidatorReusltT = 'danger' | 'warning' | 'success';
+export type ValidatorResultTypeT = 'danger' | 'warning' | 'success';
 export type TriggerT = 'change' | 'input' | 'blur' | 'focus' | `e-${string}`;
 
 export type ValidatorResultT = {
-  type: ValidatorReusltT;
+  type: ValidatorResultTypeT;
   message?: string;
 };
 export type ValidatorT = (value: any) => ValidatorResultT | void;
@@ -123,12 +123,6 @@ export const formItemProps = {
    */
   labelWidth: {
     type: String,
-  },
-  /**
-   * 表单项内容类名
-   */
-  mainClass: {
-    type: [String, Array] as PropType<string | any[]>,
   },
   /**
    * 表单验证规则

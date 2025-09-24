@@ -55,7 +55,8 @@ module.exports = {
     }],
     'default-param-last': 'off',
     'no-param-reassign': ['error', { props: false }],
-    'no-shadow': ['error', { hoist: 'all' }],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error', { hoist: 'all' }],
     'no-use-before-define': ['error', { functions: false }],
 
     'vue/max-attributes-per-line': 'off',
