@@ -6,6 +6,7 @@ const OForm = Object.assign(_OForm, {
   OFormItem,
   install(app: App) {
     app.component('OForm', _OForm);
+    app.component('OFormItem', OFormItem);
   },
 });
 
