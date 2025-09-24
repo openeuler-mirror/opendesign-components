@@ -12,6 +12,13 @@ kind: container
 <!-- @case DialogSlot -->
 <!-- @case DialogSlotForm -->
 
+### 非模态对话框
+
+目前仅支持模态对话框，非模态对话框请使用 [OPopup](/zh-CN/components/popup) 组件。
+
+<!-- @case:a|k|e ThemeSize -->
+<!-- @case:a|k|e OperationDialog -->
+
 ## API
 
 ### CSS 变量
