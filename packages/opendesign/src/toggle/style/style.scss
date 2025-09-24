@@ -8,6 +8,8 @@
   max-width: var(--toggle-max-width);
   min-width: var(--toggle-min-width);
   padding: var(--toggle-padding);
+  font-size: var(--toggle-text-size);
+  line-height: var(--toggle-text-height);
   transition: all var(--o-duration-s) var(--o-easing-standard);
   background-color: var(--toggle-bg-color);
   border: 1px solid var(--toggle-bd-color);
@@ -47,6 +49,7 @@
 }
 
 .o-toggle-disabled {
+
   &,
   &:hover,
   &.active {
@@ -58,6 +61,7 @@
 }
 
 .o-toggle-checked.o-toggle-disabled {
+
   &,
   &:hover,
   &.active {
