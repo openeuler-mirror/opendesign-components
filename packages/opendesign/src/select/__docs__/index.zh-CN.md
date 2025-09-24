@@ -9,7 +9,9 @@ kind: input
 
 <!-- @usage SelectUsage -->
 <!-- @case:a|k|e SelectSize -->
-<!-- @case:a|k|e SelectBasic -->
+<!-- @case:a|k|e SelectSingle -->
+<!-- @case:a|k|e SelectMultiple -->
+<!-- @case:a|k|e SelectText -->
 
 ## Api
 
