@@ -13,169 +13,205 @@ export type SelectValueT = string | number | string[] | number[] | (string | num
 
 export const selectProps = {
   /**
-   * 下拉框的值
-   * v-model
+   * @zh-CN 选择框的值 v-model
+   * @en-US Select the value of the box.
    */
   modelValue: {
     type: [String, Number, Array] as PropType<SelectValueT>,
   },
   /**
-   * 下拉框的默认值
-   * 非受控
+   * @zh-CN 选择框的默认值，非受控
+   * @en-US The default value of the selection box is uncontrolled.
    */
   defaultValue: {
     type: [String, Number, Array] as PropType<SelectValueT>,
   },
   /**
-   * 大小 SizeT
+   * @zh-CN 选择框大小
+   * @en-US Select box size.
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 选择框圆角
+   * @en-US Select the rounded corners of the box
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 颜色类型 Color2T
+   * @zh-CN 选择框颜色
+   * @en-US Select box color.
+   * @default 'normal'
    */
   color: {
     type: String as PropType<Color2T>,
     default: 'normal',
   },
   /**
-   * 按钮类型：VariantT
+   * @zh-CN 选择框变体
+   * @en-US Selection box variant.
+   * @default 'outline'
    */
   variant: {
     type: String as PropType<VariantT>,
     default: 'outline',
   },
   /**
-   * 提示文本
+   * @zh-CN 选择框提示文本
+   * @en-US Select box prompt text.
    */
   placeholder: {
     type: String,
   },
   /**
-   * 是否支持多选
+   * @zh-CN 支持多选
+   * @en-US Support multiple selections.
    */
   multiple: {
     type: Boolean,
   },
   /**
-   * 多选标签最大显示数量
+   * @zh-CN 多选标签最大显示数量
+   * @en-US Maximum display quantity of multiple selection tags.
    */
   maxTagCount: {
     type: Number,
   },
   /**
-   * 是否可以清除
+   * @zh-CN 支持快速清除
+   * @en-US Support quick clearing.
    */
   clearable: {
     type: Boolean,
   },
   /**
-   * 是否禁用
+   * @zh-CN 支持禁用
+   * @en-US Support disabling.
    */
   disabled: {
     type: Boolean,
   },
   /**
-   * 下拉选项触发方式 PopupTriggerT
+   * @zh-CN 选项触发方式
+   * @en-US Option trigger method.
+   * @default 'click'
    */
   trigger: {
     type: String as PropType<PopupTriggerT>,
     default: 'click',
   },
   /**
-   * 下拉选项位置 PopupPositionT
+   * @zh-CN 选项布局位置
+   * @en-US Option layout location.
+   * @default 'bl'
    */
   optionPosition: {
     type: String as PropType<PopupPositionT>,
     default: 'bl',
   },
   /**
-   * 下拉选项宽度自适应规则 OptionWidthModeT
-   * 'auto':自动 | 'min-width':最小宽度与选择框一致 | 'width': 宽度与选择框一致
+   * @zh-CN 选项宽度自适应规则
+   * 'auto': 自动
+   * 'min-width': 最小宽度与选择框一致
+   * 'width': 宽度与选择框一致
+   * @en-US Option width adaptive rule.
+   * 'auto': auto
+   * 'min-width': The minimum width is consistent with the selection box.
+   * 'width': The width is consistent with the selection box.
+   * @default 'min-width'
    */
   optionWidthMode: {
     type: String as PropType<OptionWidthModeT>,
     default: 'min-width',
   },
   /**
-   * 下拉容器自定义类
+   * @zh-CN 选项容器自定义类
+   * @en-US Option container custom class.
    */
   optionWrapClass: {
     type: [String, Array] as PropType<string | any[]>,
   },
   /**
-   * 是否在结束选择时，卸载下拉选项
-   * v-model
+   * @zh-CN 是否在结束选择时，卸载所有选项，v-model
+   * @en-US Whether to uninstall all options when ending the selection.
+   * @default true
    */
   unmountOnHide: {
     type: Boolean,
     default: true,
   },
   /**
-   * 过渡名称
+   * @zh-CN 过渡名称
+   * @en-US Transition name.
    */
   transition: {
     type: String,
   },
   /**
-   * 加载状态
+   * @zh-CN 加载中
+   * @en-US loading.
    */
   loading: {
     type: Boolean,
   },
   /**
-   * 选择前回调，根据返回值判断是否显示
+   * @zh-CN 选择前回调，根据返回值判断是否显示
+   * @en-US Select the pre-callback and determine whether to display based on the return value.
    */
   beforeSelect: {
     type: Function as PropType<(value: string | number, currentValue: SelectValueT) => Promise<boolean | string | number> | boolean | string | number>,
   },
   /**
-   * 显示前回调，根据返回值判断是否显示
+   * @zh-CN 显示前回调，根据返回值判断是否显示
+   * @en-US Display the callback before display, and determine whether to display based on the return value.
    */
   beforeOptionsShow: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * 隐藏前回调，根据返回值判断是否隐藏
+   * @zh-CN 隐藏前回调，根据返回值判断是否隐藏
+   * @en-US Hide the previous callback and determine whether to hide it based on the return value.
    */
   beforeOptionsHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * 挂载容器，默认为body
+   * @zh-CN 选项挂载容器，默认为body
+   * @en-US The option mounts the container, with the default being body.
+   * @default 'body'
    */
   optionsWrapper: {
     type: [String, Object] as PropType<string | HTMLElement | null>,
     default: 'body',
   },
   /**
-   * 多选超过最大tag是，文本显示
+   * @zh-CN 多选超过最大tag时，以文本显示
+   * @en-US When multiple selections exceed the maximum tag, they will be displayed as text.
    */
   foldLabel: {
     type: Function as PropType<(tags: Array<SelectOptionT>) => string>,
   },
   /**
-   * 浮层显示收起的多选tag
+   * @zh-CN 浮层显示收起的多选tag
+   * @en-US The floating layer shows the multiple selected tags that have been folded.
+   * @default 'hover'
    */
   showFoldTags: {
     type: [Boolean, String] as PropType<boolean | 'hover' | 'click'>,
     default: 'hover',
   },
   /**
-   * 选项标题（pad、phone显示）
+   * @zh-CN 选项标题（pad、phone显示）
+   * @en-US Option title (displayed on pad and phone).
    */
   optionTitle: {
     type: String,
   },
   /**
-   * 下拉浮层是否响应式
+   * @zh-CN 支持选项浮层响应式
+   * @en-US Support option floating layer responsiveness.
    */
   noResponsive: {
     type: Boolean,
