@@ -94,5 +94,9 @@ const isRender = computed(() => {
 .source {
   border: 1px solid var(--o-color-control4);
   border-top: none;
+
+  :deep(.code-container) {
+    margin-top: 0px;
+  }
 }
 </style>
