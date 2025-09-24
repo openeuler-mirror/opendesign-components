@@ -22,6 +22,11 @@ li {
   margin: 0;
   padding: 0;
 }
+li {
+  .code-container {
+    margin-top: 4px;
+  }
+}
 @include respond-to('>pad_v') {
   ol {
     padding-inline-start: calc(1em + 24px);
