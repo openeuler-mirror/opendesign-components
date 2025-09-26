@@ -59,6 +59,10 @@ const toggleLoading2 = () => {
   <section>
     <div v-loading="show3" class="box b1">show3</div>
     <div v-loading.nomask="show3" class="box b2">show3 nomask</div>
+    <div v-loading="{ visible: show3, label: 'v-loading obj params', icon: OIconAdd, iconRotating: true }" class="box b2">
+      show3 v-loading obj params OIconAdd
+    </div>
+    <div v-loading.nomask="{ mask: true }" class="box b2">mask conflict</div>
   </section>
   <h4>服务</h4>
   <OButton @click="toggleLoading1">service to body</OButton>
