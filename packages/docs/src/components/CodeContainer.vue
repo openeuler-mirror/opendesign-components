@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OButton, useMessage, OScroller, OIconChevronUp } from '@opensig/opendesign';
+import { useMessage, OScroller, OIconChevronUp, OIcon } from '@opensig/opendesign';
 import { computed, inject } from 'vue';
 import { DocIconCopy } from '@/icon-components';
 
@@ -25,18 +25,16 @@ const docConfig = inject<any>('docs-config');
 
 <template>
   <div class="code-container">
-    <OScroller show-type="always" class="code-container-scroller">
+    <div class="operation-block">
+      <span v-if="props.lang" class="lang-mark">{{ props.lang }}</span>
+      <div class="right-btn-group">
+        <OIcon v-if="docConfig?.['is-show-code']" button :icon="OIconChevronUp" @click="() => docConfig?.['switch-show-code']?.()" class="right-btn" />
+        <OIcon :icon="DocIconCopy" button @click="copyCode" class="right-btn" />
+      </div>
+    </div>
+    <OScroller show-type="hover" class="code-container-scroller">
       <slot></slot>
     </OScroller>
-    <div class="operation-block">
-      <OButton v-if="docConfig?.['is-show-code']" variant="outline" size="small" class="operation-btn" @click="() => docConfig?.['switch-show-code']?.()">
-        <template #icon><OIconChevronUp /></template>
-      </OButton>
-      <OButton variant="outline" size="small" class="operation-btn" @click="copyCode">
-        <template #icon><DocIconCopy /></template>
-      </OButton>
-      <span v-if="props.lang" class="lang-mark">{{ props.lang }}</span>
-    </div>
   </div>
 </template>
 
@@ -46,37 +44,23 @@ const docConfig = inject<any>('docs-config');
   position: relative;
 
   .operation-block {
-    position: absolute;
-    z-index: 2;
+    padding: 4px 12px;
     color: var(--o-color-info3);
-    top: var(--o3-gap-2);
-    right: var(--o3-gap-4);
+    background-color: var(--o-color-control1-light);
     display: flex;
     align-items: center;
-    .operation-btn {
-      --btn-height: var(--o3-icon_size-l);
-      --btn-icon-size: calc(var(--btn-height) - 8px);
-      background-color: var(--o-color-fill2);
-      margin-right: var(--o3-gap-2);
-    }
+    justify-content: space-between;
+  }
+  .right-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
   }
 
   :deep(pre) {
     padding: var(--o3-gap-3) var(--o3-gap-5);
     margin: 0;
-  }
-}
-@media (hover: hover) {
-  .operation-btn {
-    display: none;
-  }
-  .code-container:hover {
-    .operation-btn {
-      display: inline-flex;
-    }
-    .lang-mark {
-      display: none;
-    }
   }
 }
 .code-container-scroller {
