@@ -8,152 +8,190 @@ export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
 export const popupProps = {
   /**
-   * 是否可见
-   * v-model
+   * @zh-CN 是否可见，双向绑定值
+   * @en-US Whether visible, bidirectional binding value.
    */
   visible: {
     type: Boolean,
   },
   /**
-   * 弹出位置 PopupPositionT
+   * @zh-CN 弹出位置
+   * @en-US Pop-up position.
+   * @default 'top'
    */
   position: {
     type: String as PropType<PopupPositionT>,
     default: 'top',
   },
   /**
-   * 触发事件 PopupTriggerT | PopupTriggerT[]
-   * Pad&Phone: 只支持 'none', 'click', 'click-outclick'
+   * @zh-CN 触发事件
+   * @en-US Trigger event.
+   * @default 'click'
    */
   trigger: {
     type: [String, Array] as PropType<PopupTriggerT | PopupTriggerT[]>,
     default: 'click',
   },
   /**
-   * 触发元素或组件
+   * @zh-CN 触发元素或组件
+   * @en-US Trigger element or component.
+   * @default null
    */
   target: {
     type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
     default: null,
   },
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable.
    */
   disabled: {
     type: Boolean,
   },
   /**
-   * 挂载容器，默认为body
+   * @zh-CN 挂载容器，默认为body
+   * @en-US Mount the container, with the default being body.
+   * @default 'body'
    */
   wrapper: {
     type: [String, Object] as PropType<string | HTMLElement | null>,
     default: 'body',
   },
   /**
-   * 距离target偏移量
+   * @zh-CN 距离触发对象的偏移量
+   * @en-US The offset of the distance triggered object.
+   * @default 0
    */
   offset: {
     type: Number,
     default: 0,
   },
   /**
-   * 距离viewport(屏幕)边缘偏移量
+   * @zh-CN 距离viewport(屏幕)边缘偏移量
+   * @en-US Offset from the edge of the viewport(screen).
+   * @default 0
    */
   edgeOffset: {
     type: Number,
     default: 0,
   },
   /**
-   * hover事件延时触发的时间（毫秒）
+   * @zh-CN hover事件延时触发的时间（毫秒）
+   * @en-US The time (in milliseconds) for the hover event to be delayed and triggered.
+   * @default 100
    */
   hoverDelay: {
     type: Number,
     default: 100,
   },
   /**
-   * 是否当触发元素不可见时隐藏弹层
+   * @zh-CN 是否当触发元素不可见时隐藏弹层
+   * @en-US Whether to hide the bullet layer when the trigger element is invisible.
+   * @default true
    */
   hideWhenTargetInvisible: {
     type: Boolean,
     default: true,
   },
   /**
-   * 是否计算箭头位置
+   * @zh-CN 是否计算锚点位置
+   * @en-US Whether to calculate the anchor point position.
+   * @default false
    */
   anchor: {
     type: Boolean,
     default: false,
   },
   /**
-   * 锚点自定义class
+   * @zh-CN 锚点自定义类名
+   * @en-US Anchor point custom class name.
+   * @default undefined
    */
   anchorClass: {
     type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**
-   * 是否在popup隐藏时unmout
+   * @zh-CN 是否在popup隐藏时卸载组件
+   * @en-US Whether to uninstall the component when the popup is hidden.
+   * @default true
    */
   unmountOnHide: {
     type: Boolean,
     default: true,
   },
   /**
-   * popup wrap自定义class
+   * @zh-CN popup挂载容器自定义类
+   * @en-US popup mounts a custom container class.
+   * @default undefined
    */
   wrapClass: {
     type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**
-   * popup body自定义class
+   * @zh-CN popup挂载容器的内容体的自定义类
+   * @en-US popup is a custom class for mounting the content body of a container.
+   * @default undefined
    */
   bodyClass: {
     type: [String, Array] as PropType<string | any[]>,
     default: undefined,
   },
   /**
-   * popup最小宽度设置为触发元素宽度
+   * @zh-CN popup最小宽度设置为触发元素宽度
+   * @en-US The minimum width of popup is set to the width of the trigger element.
+   * @default true
    */
   adjustMinWidth: {
     type: Boolean,
     default: true,
   },
   /**
-   * popup宽度设置为触发元素宽度
+   * @zh-CN popup宽度设置为触发元素宽度
+   * @en-US The popup width is set to the width of the trigger element.
+   * @default true
    */
   adjustWidth: {
     type: Boolean,
     default: true,
   },
   /**
-   * 过渡名称
+   * @zh-CN 过渡名称
+   * @en-US Transitional name.
+   * @default 'o-zoom-fade'
    */
   transition: {
     type: String,
     default: 'o-zoom-fade',
   },
   /**
-   * 是否自动隐藏
+   * @zh-CN 是否自动隐藏
+   * @en-US Whether to hide automatically.
+   * @default true
    */
   autoHide: {
     type: Boolean,
     default: true,
   },
   /**
-   * 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
+   * @zh-CN 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
+   * @en-US Before display the callback, determine whether to display based on the return value. false: No display. true|undefined: Display.
    */
   beforeShow: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * 隐藏前回调，根据返回值判断是否隐藏，false: 不隐藏； true|undefined: 隐藏
+   * @zh-CN 隐藏前回调，根据返回值判断是否隐藏，false: 不隐藏； true|undefined: 隐藏
+   * @en-US Hide the callback before hiding. Determine whether to hide it based on the return value. false: Not hidden. true|undefined: Hidden.
    */
   beforeHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * popup是否自适应边缘
+   * @zh-CN popup是否自适应边缘
+   * @en-US Is popup adaptive edge.
+   * @default true
    */
   adaptive: {
     type: Boolean,
