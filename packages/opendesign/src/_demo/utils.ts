@@ -1,3 +1,5 @@
+import { shallowRef, type VNodeChild } from 'vue';
+
 const canLog = process.env.NODE_ENV === 'development';
 const validTagAttrName = (name: string) => /^[a-zA-Z0-9_-]+$/.test(name);
 
@@ -65,4 +67,16 @@ function replaceCellChar(ch: string) {
 export function escapeHTML(value?: string) {
   const ESCAPE_REPLACE_RE = /[<>"'&]/g;
   return value ? value.replace(ESCAPE_REPLACE_RE, replaceCellChar) : '';
+}
+
+type SlotFunc = (props: any) => VNodeChild;
+export function createReusableTemplate() {
+  const template = shallowRef<SlotFunc>(() => null);
+  const DefineTemplate = (_: any, { slots }: { slots: { default: SlotFunc } }) => {
+    template.value = slots.default;
+    return null;
+  };
+  const ReuseTemplate = (props: any) => template.value(props);
+
+  return [DefineTemplate, ReuseTemplate] as const;
 }

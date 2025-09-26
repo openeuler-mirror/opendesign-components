@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import OIconMore from './OIconMore.vue';
 import { OMenu, OSubMenu, OMenuItem } from '../index';
+import { createReusableTemplate } from '../../_demo/utils';
 
 const expandedArr = ref(['1']);
 const activeVal = ref('1-1');
@@ -14,13 +15,15 @@ const handleExpandedChange = (val: Array<string>) => {
 };
 
 const activeVal2 = ref('1-1');
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
 </script>
 
 <template>
   <h4>基础用法</h4>
   <section>
     <div>
-      <OMenu v-model="activeVal" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+      <DefineTemplate>
         <OSubMenu value="1">
           <template #title>一级菜单1一级菜单1一级菜单1</template>
           <template #icon><OIconMore /></template>
@@ -53,6 +56,9 @@ const activeVal2 = ref('1-1');
           <OMenuItem value="3-4">二级菜单3-4</OMenuItem>
           <OMenuItem value="3-5">二级菜单3-5</OMenuItem>
         </OSubMenu>
+      </DefineTemplate>
+      <OMenu v-model="activeVal" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <ReuseTemplate />
       </OMenu>
     </div>
 
@@ -67,6 +73,19 @@ const activeVal2 = ref('1-1');
         <OMenuItem value="3-3">菜单3-3</OMenuItem>
         <OMenuItem value="3-4">菜单3-4</OMenuItem>
         <OMenuItem value="3-5">菜单3-5</OMenuItem>
+      </OMenu>
+    </div>
+  </section>
+  <h4>受控组件</h4>
+  <section>
+    <div>
+      <OMenu :model-value="activeVal" :expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <ReuseTemplate />
+      </OMenu>
+    </div>
+    <div>
+      <OMenu :default-value="activeVal" :default-expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <ReuseTemplate />
       </OMenu>
     </div>
   </section>
