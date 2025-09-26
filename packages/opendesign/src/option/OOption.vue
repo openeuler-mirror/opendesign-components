@@ -32,26 +32,20 @@ watch(
   [value, label],
   ([newValue, newLabel]) => {
     // 初始化并同步 select 的候选项
-    selectInject?.select(
-      {
-        label: newLabel || `${newValue}`,
-        value: newValue,
-      },
-      false
-    );
+    selectInject?.registerOption({
+      label: newLabel || `${newValue}`,
+      value: newValue,
+    });
   },
   { immediate: true }
 );
 
 const clickOption = () => {
   if (!props.disabled) {
-    selectInject?.select(
-      {
-        label: label.value || `${value.value}`,
-        value: value.value,
-      },
-      true
-    );
+    selectInject?.select({
+      label: label.value || `${value.value}`,
+      value: value.value,
+    });
   }
 };
 </script>
