@@ -31,106 +31,122 @@ export type UploadListTypeT = (typeof UploadListTypes)[number];
 
 export const uploadProps = {
   /**
-   * 文件列表(受控)
-   * v-model
+   * @zh-CN 文件列表(受控)
+   * @en-US File List (Controlled).
    */
   modelValue: {
     type: Array as PropType<UploadFileT[]>,
   },
   /**
-   * 文件列表(非受控)
+   * @zh-CN 文件列表(非受控)
+   * @en-US File list (uncontrolled).
    */
   defaultFileList: {
     type: Array as PropType<UploadFileT[]>,
   },
   /**
-   * 文件选择 MIME类型
-   * image/jpeg;image/jpg;image/png;image/gif;video/mp4;
+   * @zh-CN 文件选择，MIME类型：image/jpeg;image/jpg;image/png;image/gif;video/mp4
+   * @en-US File selection, MIME type: image/jpeg; image/jpg; image/png; image/gif; video/mp4.
    */
   accept: {
     type: String,
   },
   /**
-   * 是否为禁用状态
+   * @zh-CN 是否为禁用状态
+   * @en-US Disable uploading.
    */
   disabled: {
     type: Boolean,
   },
   /**
-   * 是否支持多选
+   * @zh-CN 是否支持多文件上传
+   * @en-US Support multi-file upload.
    */
   multiple: {
     type: Boolean,
   },
   /**
-   * 选择文件前回调，根据返回值判断是否继续选择文件
+   * @zh-CN 选择文件前回调，根据返回值判断是否继续选择文件
+   * @en-US Before selecting a file, there is a callback. Based on the return value, determine whether to continue selecting the file.
    */
   beforeSelect: {
     type: Function as PropType<(value: UploadFileT[]) => Promise<boolean> | boolean>,
   },
   /**
-   * 选择后触发
+   * @zh-CN 选择后触发
+   * @en-US Triggered after selection.
    */
   onAfterSelect: {
     type: Function as PropType<(fileList: FileList) => Promise<Array<UploadFileT>>>,
   },
   /**
-   * 选择按钮文本
+   * @zh-CN 上传按钮文本
+   * @en-US Upload button text.
    */
   btnLabel: {
     type: String,
   },
   /**
-   * 自定义上传请求
+   * @zh-CN 自定义上传请求
+   * @en-US Customize upload requests.
    */
   uploadRequest: {
     type: Function as PropType<(options: UploadRequestOptionT) => UploadRequestT>,
   },
   /**
-   * true 选择完成后，手动触发上传；false 选择完成后自动上传
+   * @zh-CN true 选择完成后，手动触发上传；false 选择完成后自动上传
+   * @en-US After the true selection is completed, manually trigger the upload. false: Automatically upload after selection is completed.
    */
   lazyUpload: {
     type: Boolean,
   },
   /**
-   * 上传前触发
+   * @zh-CN 上传前触发
+   * @en-US Triggered before upload.
    */
   onBeforeUpload: {
     type: Function as PropType<(file: UploadFileT) => Promise<boolean | File>>,
   },
   /**
-   * 删除前触发
+   * @zh-CN 删除前触发
+   * @en-US Triggered before deletion.
    */
   onBeforeRemove: {
     type: Function as PropType<(file: UploadFileT) => Promise<boolean>>,
   },
   /**
-   * 支持拖拽上传
+   * @zh-CN 支持拖拽上传
+   * @en-US Supports drag-and-drop upload.
    */
   draggable: {
     type: Boolean,
   },
   /**
-   * 拖拽区域上传提示文本
+   * @zh-CN 拖拽区域上传提示文本
+   * @en-US Drag the area to upload the prompt text.
    */
   dragLabel: {
     type: String,
   },
   /**
-   * 拖拽区域拖拽中的提示文本
+   * @zh-CN 拖拽区域拖拽中的提示文本
+   * @en-US The prompt text in the drag-and-drop area.
    */
   dragHoverLabel: {
     type: String,
   },
   /**
-   * 文件列表类型
+   * @zh-CN 文件列表类型
+   * @en-US File list type.
+   * @default 'text'
    */
   listType: {
     type: String as PropType<'text' | 'picture' | 'picture-card'>,
     default: 'text',
   },
   /**
-   * 生成缩略图
+   * @zh-CN 生成缩略图
+   * @en-US Generate thumbnails.
    */
   createThumbnail: {
     type: Function as PropType<(file: File) => Promise<string>>,

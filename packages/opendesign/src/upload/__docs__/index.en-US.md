@@ -16,4 +16,4 @@ kind: input
 
 ## Api
 
-<!-- @api OUploadList -->
+<!-- @api OUpload -->
