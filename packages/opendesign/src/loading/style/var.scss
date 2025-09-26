@@ -10,4 +10,9 @@
   --loading-mask-color: var(--o-color-info2-inverse);
 
   --loading-z-index: calc(var(--o-z-index-base) + 10);
+
+  --loading-label-font-size: var(--o-font_size-tip2);
+  --loading-label-line-height: var(--o-line_height-tip2);
+
+  --loading-label-icon-gap: var(--o-gap-2);
 }
