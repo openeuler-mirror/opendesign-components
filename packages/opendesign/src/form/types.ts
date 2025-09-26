@@ -45,39 +45,47 @@ export interface FiledInfoT {
 
 export const formProps = {
   /**
-   * 表单数据对象
+   * @zh-CN 表单数据对象
+   * @en-US Form data object
    */
   model: {
     type: Object,
   },
   /**
-   * 子项是否包含必选，主要用于控制文本左对齐样式
+   * @zh-CN 是否有必填项，用于控制文本左对齐样式
+   * @en-US Whether there is a required item, used to control the text alignment style
+   * @default false
    */
   hasRequired: {
     type: Boolean,
     default: false,
   },
   /**
-   * 布局
+   * @zh-CN 表单布局方式
+   * @en-US Form layout
+   * @default 'h'
    */
   layout: {
     type: String as PropType<'h' | 'v' | 'inline'>,
     default: 'h',
   },
   /**
-   * 表单项文本垂直对齐方式
+   * @zh-CN 表单项的标签与控件的对其方式（全局）
+   * @en-US The alignment of form item labels and controls (global)
    */
   labelAlign: {
     type: String as PropType<'top' | 'center' | 'bottom'>,
   },
   /**
-   * 表单项文本水平对齐方式
+   * @zh-CN 表单项标签水平对齐方式（全局）
+   * @en-US The horizontal alignment of form item labels (global)
    */
   labelJustify: {
     type: String as PropType<'left' | 'center' | 'right'>,
   },
   /**
-   * 表单项文本宽度,全局
+   * @zh-CN 表单项文本宽度（全局）
+   * @en-US The width of form item labels (global)
    */
   labelWidth: {
     type: String,
@@ -87,51 +95,60 @@ export type FormPropsT = ExtractPropTypes<typeof formProps>;
 
 export const formItemProps = {
   /**
-   * 表单项在数据对象中的path
+   * @zh-CN model键名，在使用了 rules 属性时，此属性为必填项
+   * @en-US model key name, when using the rules property, this property is required
    */
   field: {
     type: String,
   },
   /**
-   * 是否必选
+   * @zh-CN 是否必选
+   * @en-US Whether it is required
+   * @default false
    */
   required: {
     type: Boolean,
     default: false,
   },
   /**
-   * 表单项文本
+   * @zh-CN 表单项标签
+   * @en-US Form item label
    */
   label: {
     type: String,
     default: undefined,
   },
   /**
-   * 表单项文本垂直对齐方式
+   * @zh-CN 表单项的标签与控件的对其方式
+   * @en-US The alignment of form item labels and controls
    */
   labelAlign: {
     type: String as PropType<'top' | 'center' | 'bottom'>,
   },
   /**
-   * 表单项文本水平对齐方式
+   * @zh-CN 表单项标签水平对齐方式
+   * @en-US The horizontal alignment of form item labels
    */
   labelJustify: {
     type: String as PropType<'left' | 'center' | 'right'>,
   },
   /**
-   * 表单项文本宽度
+   * @zh-CN 表单项文本宽度
+   * @en-US The width of form item labels
    */
   labelWidth: {
     type: String,
   },
   /**
-   * 表单验证规则
+   * @zh-CN 表单验证规则
+   * @en-US Form validation rules
    */
   rules: {
     type: Array as PropType<Array<RulesT>>,
   },
   /**
-   * 表单验证的默认触发事件，在手动检验
+   * @zh-CN 表单验证的默认触发事件，手动校验未传参或提交前自动校验时的默认触发事件
+   * @en-US The default trigger event for form validation, and the default trigger event when manual validation is performed without passing parameters or during automatic validation before submission.
    */
   defaultTrigger: {
     type: String as PropType<TriggerT>,
