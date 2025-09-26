@@ -142,6 +142,7 @@ defineExpose({
       'o-figure-previewable': props.preview,
       'o-figure-video-poster': props.videoPoster,
       'o-figure-bg': props.background,
+      'o-figure-no-ratio': !props.ratio,
     }"
     :style="{
       '--figure-prest-color': prestColor,
@@ -168,7 +169,7 @@ defineExpose({
       />
     </div>
     <img
-      v-else-if="!isError && imgSrc && !props.background"
+      v-else-if="imgSrc && !props.background"
       ref="imgRef"
       :src="imgSrc"
       :alt="props.alt"
