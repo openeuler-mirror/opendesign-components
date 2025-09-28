@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OLoading, vLoading, useLoading } from '../index';
+import { OLoading, useLoading } from '../index';
 import { OButton } from '../../button';
 import '../../button/style';
 import { OIconAdd } from '../../icon-components';
@@ -14,8 +14,6 @@ const showLoading1 = () => {
 };
 
 const show2 = ref(false);
-const show3 = ref(false);
-const show4 = ref(false);
 
 const box1 = ref();
 const l1 = useLoading();
@@ -52,17 +50,6 @@ const toggleLoading2 = () => {
       show2
       <OLoading v-model:visible="show2" :wrapper="null">自定义<OIconAdd class="o-rotating" /></OLoading>
     </div>
-  </section>
-  <h4>指令</h4>
-  <OButton @click="show3 = !show3">show3:{{ show3 }}</OButton>
-  <OButton v-loading.body="show4" @click="show4 = !show4">show4 body:{{ show4 }}</OButton>
-  <section>
-    <div v-loading="show3" class="box b1">show3</div>
-    <div v-loading.nomask="show3" class="box b2">show3 nomask</div>
-    <div v-loading="{ visible: show3, label: 'v-loading obj params', icon: OIconAdd, iconRotating: true }" class="box b2">
-      show3 v-loading obj params OIconAdd
-    </div>
-    <div v-loading.nomask="{ mask: true }" class="box b2">mask conflict</div>
   </section>
   <h4>服务</h4>
   <OButton @click="toggleLoading1">service to body</OButton>
