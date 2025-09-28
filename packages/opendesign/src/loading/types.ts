@@ -7,19 +7,22 @@ const { maskClose, ...extractProps } = layerProps;
 export const loadingProps = {
   ...extractProps,
   /**
-   * loading文本
+   * @zh-CN loading文本
+   * @en-US loading text
    */
   label: {
     type: String,
   },
   /**
-   * loading图标
+   * @zh-CN 自定义loading图标
+   * @en-US Custom loading icon
    */
   icon: {
     type: Object,
   },
   /**
-   * loading图标是否旋转
+   * @zh-CN 自定义loading图标是否旋转
+   * @en-US Whether the custom loading icon is rotating
    */
   iconRotating: {
     type: Boolean,
