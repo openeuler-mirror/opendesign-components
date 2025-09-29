@@ -132,8 +132,8 @@ const handleMouseleave = () => {
         </span>
       </template>
       <template v-else>
-        <span v-if="$slots.icon" class="o-sub-menu-title-icon">
-          <slot name="icon"></slot>
+        <span v-if="$slots.icon || props.icon" class="o-sub-menu-title-icon">
+          <slot name="icon"><component :is="props.icon" /></slot>
         </span>
         <span ref="itemContentRef" class="o-sub-menu-title-content">
           <slot name="title"></slot>

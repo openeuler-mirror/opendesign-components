@@ -67,6 +67,9 @@ export const subMenuProps = {
   selectable: {
     type: Boolean,
   },
+  icon: {
+    type: Object as PropType<Component>,
+  },
 };
 export type SubMenuPropsT = ExtractPropTypes<typeof subMenuProps>;
 
