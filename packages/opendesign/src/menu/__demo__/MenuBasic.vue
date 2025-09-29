@@ -2,7 +2,9 @@
 import { ref } from 'vue';
 import OIconMore from './OIconMore.vue';
 import { OMenu, OSubMenu, OMenuItem } from '../index';
+import { OCheckbox } from '../../checkbox';
 import { createReusableTemplate } from '../../_demo/utils';
+import '../../checkbox/style';
 
 const expandedArr = ref(['1']);
 const activeVal = ref('1-1');
@@ -17,6 +19,8 @@ const handleExpandedChange = (val: Array<string>) => {
 const activeVal2 = ref('1-1');
 
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
+
+const checkboxVals = ref([]);
 </script>
 
 <template>
@@ -86,6 +90,19 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
     <div>
       <OMenu :default-value="activeVal" :default-expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
         <ReuseTemplate />
+      </OMenu>
+    </div>
+    <div>
+      <OMenu model-value="" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <OSubMenu value="1">
+          <template #title><OCheckbox v-model="checkboxVals" value="1" @click.stop>一级菜单</OCheckbox></template>
+          <OMenuItem value="1-1"><OCheckbox v-model="checkboxVals" value="1-1">二级菜单1-1</OCheckbox></OMenuItem>
+          <OMenuItem value="1-2" disabled><OCheckbox v-model="checkboxVals" value="1-2" disabled>二级菜单1-1</OCheckbox></OMenuItem>
+        </OSubMenu>
+        <OSubMenu value="2">
+          <template #title><OCheckbox v-model="checkboxVals" value="2" @click.stop>一级菜单2</OCheckbox></template>
+          <OMenuItem value="2-1"><OCheckbox v-model="checkboxVals" value="2-1">二级菜单1-1</OCheckbox></OMenuItem>
+        </OSubMenu>
       </OMenu>
     </div>
   </section>
