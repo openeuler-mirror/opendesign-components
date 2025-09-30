@@ -62,7 +62,6 @@ export const subMenuProps = {
   value: {
     type: String,
     required: true,
-    default: ''
   },
   selectable: {
     type: Boolean,
