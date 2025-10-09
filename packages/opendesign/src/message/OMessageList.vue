@@ -41,8 +41,8 @@ const removeAll = () => {
 const close = (id: number) => {
   const idx = optionList.value.findIndex((option) => option.id === id);
   remove(idx);
-  if (optionList.value.length === 0 && props.onDestory) {
-    props.onDestory();
+  if (optionList.value.length === 0 && props.onDestroy) {
+    props.onDestroy();
   }
 };
 

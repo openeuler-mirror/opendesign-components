@@ -81,7 +81,7 @@ export function useMessage(target?: string | ComponentPublicInstance | HTMLEleme
 
       const vnode = h(OMessageList, {
         position: msgStyle?.position ?? position,
-        onDestory: () => {
+        onDestroy: () => {
           if (wrap) {
             document.body.removeChild(wrap);
             wrap = null;

@@ -66,7 +66,7 @@ export const messageListProps = {
   /**
    * 消息列表销毁前的钩子函数
    */
-  onDestory: {
+  onDestroy: {
     type: Function as PropType<() => void>,
   },
 };
