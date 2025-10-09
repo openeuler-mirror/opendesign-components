@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef, watch } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
 
@@ -160,34 +160,39 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   };
 }
 
+type ElementQuery = string | HTMLElement | ComponentPublicInstance | null | undefined;
+const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
+  if (typeof el === 'string') {
+    return document.querySelector(el);
+  } else if (isHtmlElement(el)) {
+    return el;
+  }
+  return null;
+};
 export const resolveHtmlElement = (
-  elRef: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string | undefined | ComponentPublicInstance
+  elRef: Ref<ElementQuery> | ElementQuery
 ): Promise<HTMLElement | null> => {
-  const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
-    if (typeof el === 'string') {
-      return document.querySelector(el);
-    } else if (isHtmlElement(el)) {
-      return el;
-    }
-    return null;
-  };
-
   return new Promise((resolve) => {
+    const resolveElement = (el: ElementQuery) => {
+      if (isComponentPublicInstance(el)) {
+        resolve(el.$el);
+      } else {
+        resolve(queryElement(el));
+      }
+    };
     if (isRef(elRef)) {
-      watchEffect(() => {
-        const { value } = elRef;
-        if (value) {
-          if (isComponentPublicInstance(value)) {
-            resolve(value.$el);
-          } else {
-            resolve(queryElement(value));
+      if (elRef.value) {
+        resolveElement(elRef.value);
+      } else {
+        const closeWatch = watch(elRef, (el) => {
+          if (el) {
+            resolveElement(el);
+            closeWatch();
           }
-        }
-      });
-    } else if (isComponentPublicInstance(elRef)) {
-      resolve(elRef.$el);
+        });
+      }
     } else {
-      resolve(queryElement(elRef));
+      resolveElement(elRef);
     }
   });
 };
