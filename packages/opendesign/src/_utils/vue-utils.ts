@@ -197,24 +197,6 @@ export const resolveHtmlElement = (
   });
 };
 
-export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
-  return new Promise((resolve) => {
-    if (isHtmlElement(elRef.value)) {
-      resolve(elRef.value as HTMLElement);
-    } else if (typeof elRef.value === 'string') {
-      resolve(document.querySelector(elRef.value) as HTMLElement);
-    } else {
-      watchEffect(() => {
-        if (isHtmlElement(elRef.value)) {
-          resolve(elRef.value as HTMLElement);
-        } else if (elRef.value) {
-          resolve((elRef.value as ComponentPublicInstance).$el);
-        }
-      });
-    }
-  });
-};
-
 export const isEmptySlot = (slot?: Slot) => {
   if (!slot) {
     return true;
