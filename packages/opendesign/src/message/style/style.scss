@@ -37,7 +37,7 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  margin-left: calc(var(--message-icon-gap) * 2);
+  margin-left: var(--message-icon-gap-suffix);
   font-size: var(--message-icon-size);
   color: var(--message-icon-close-color);
   transition: color var(--o-duration-s) var(--o-easing-standard);
