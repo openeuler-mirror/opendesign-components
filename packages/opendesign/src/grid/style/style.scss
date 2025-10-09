@@ -4,6 +4,7 @@ $media-phone: 600px;
 $media-pad-v: 840px;
 $media-pad: 1200px;
 $media-laptop: 1440px;
+$media-pc-s: 1680px;
 
 .o-row {
   display: flex;
@@ -26,6 +27,16 @@ $media-laptop: 1440px;
 
 .o-col {
   flex: var(--col-flex);
+}
+
+@media (max-width: $media-pc-s) {
+  .o-row-pc-s {
+    --col-gap-x: calc(var(--row-pc-s-gap-x) / 2);
+    --col-gap-y: var(--row-pc-s-gap-y);
+  }
+  .o-col-pc-s {
+    flex: var(--col-pc-s-flex);
+  }
 }
 
 @media (max-width: $media-laptop) {

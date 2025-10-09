@@ -59,6 +59,12 @@ export const rowProps = {
     type: String,
   },
   /**
+   * @media (max-width: 1680px)
+   */
+  pcS: {
+    type: Object as PropType<RowMediaT>,
+  },
+  /**
    * @media (max-width: 1440px)
    */
   laptop: {
@@ -97,6 +103,12 @@ export const colProps = {
    */
   align: {
     type: String as PropType<'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline' | 'inherit' | 'initial'>,
+  },
+  /**
+   * @media (max-width: 1680px)
+   */
+  pcS: {
+    type: Object as PropType<ColMediaT>,
   },
   /**
    * @media (max-width: 1440px)
