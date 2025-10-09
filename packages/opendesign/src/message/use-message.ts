@@ -68,7 +68,7 @@ const getMessageStyle = async (
   };
 };
 
-export function useMessage(target: string | ComponentPublicInstance | HTMLElement | null) {
+export function useMessage(target?: string | ComponentPublicInstance | HTMLElement | null) {
   const showMessage = async (params: MessageParamsT) => {
     const options: MessageParamsT = normalizeOptions(params);
     const { position, targetAlign } = options;
