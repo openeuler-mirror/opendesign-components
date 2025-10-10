@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, shallowReactive } from 'vue';
 import '../style';
 import { useMessage } from '../use-message';
 
@@ -27,15 +27,21 @@ const message8 = useMessage(btn8);
 const message9 = useMessage(btn9);
 const message10 = useMessage(btn10);
 
+const closeMessage = shallowReactive<Record<string, () => void>>({});
+let count = 1;
 const handleInfoBtnClick = () => {
-  message1.info({
-    content: '用于表示普通操作信息提示，3秒后消失',
+  const currentCount = count++;
+  const close = message1.info({
+    content: `${currentCount} 用于表示普通操作信息提示，手动关闭`,
     duration: 0,
   });
+  closeMessage[currentCount] = () => {
+    close();
+    delete closeMessage[currentCount];
+  };
 };
 
 const handleSuccessBtnClick = () => {
-  message2.close();
   message2.success({
     content: '用于表示操作顺利达成，3秒后消失',
   });
@@ -105,6 +111,10 @@ const handleLoadingBtnClick2 = () => {
     <OButton ref="btn3" color="warning" @click="handleWarningBtnClick">Warning Message</OButton>
     <OButton ref="btn4" color="danger" @click="handleDangerBtnClick">Danger Message</OButton>
     <OButton ref="btn5" color="primary" @click="handleLoadingBtnClick">Loading Message</OButton>
+  </section>
+  <h4>关闭</h4>
+  <section>
+    <OButton v-for="[index, close] in Object.entries(closeMessage)" :key="index" @click="close">关闭{{ index }}</OButton>
   </section>
 
   <h4>Target 显示到指定元素 下方</h4>
