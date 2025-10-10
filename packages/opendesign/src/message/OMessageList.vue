@@ -28,22 +28,24 @@ const add = (params: MessageParamsT) => {
     option.icon = shallowRef(params.icon);
   }
   optionList.value.push(option);
+  return option.id;
 };
 
 const remove = (idx: number) => {
   optionList.value.splice(idx, 1);
+  if (optionList.value.length === 0 && props.onDestroy) {
+    props.onDestroy();
+  }
 };
 
 const removeAll = () => {
   optionList.value = [];
+  props.onDestroy?.();
 };
 
 const close = (id: number) => {
   const idx = optionList.value.findIndex((option) => option.id === id);
   remove(idx);
-  if (optionList.value.length === 0 && props.onDestroy) {
-    props.onDestroy();
-  }
 };
 
 const handleDurationEnd = (item: MessageListOptionT) => {
@@ -58,7 +60,7 @@ const handleClose = (item: MessageListOptionT, ev?: MouseEvent) => {
   close(id);
 };
 
-defineExpose({ add, remove, removeAll });
+defineExpose({ add, close, remove, removeAll });
 </script>
 
 <template>
