@@ -109,14 +109,11 @@ watch(state, (newVal) => {
 });
 if (isRef(props.schema) || isReactive(props.schema)) {
   // 当props.schema 发生变化时，重新初始化 state 和 checkboxGroupValue
-  watch(
-    props.schema,
-    (newVal) => {
-      const newInitialValues = getInitialValues(newVal, state);
-      Object.assign(state, newInitialValues.state);
-      checkboxGroupValue.value = newInitialValues.checkboxGroupValue;
-    },
-  );
+  watch(props.schema, (newVal) => {
+    const newInitialValues = getInitialValues(newVal, state);
+    Object.assign(state, newInitialValues.state);
+    checkboxGroupValue.value = newInitialValues.checkboxGroupValue;
+  });
 }
 
 const highlightedCode = ref('');
@@ -229,10 +226,11 @@ watchEffect(() => {
   display: flex;
   align-items: center;
 }
-:deep(.o-input-number) {
-  width: 100%;
+:deep(.props-playground-operator) {
+  .o-input-number {
+    width: 100%;
+  }
 }
-
 :deep(.props-playground-textarea) {
   height: calc(var(--row) * var(--_box-text-height));
 }
