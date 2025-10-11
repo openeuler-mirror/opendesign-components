@@ -165,7 +165,7 @@ defineExpose({
     <div class="o-pagination-wrap">
       <!-- total -->
       <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">
-        <slot name="total" :total="props.total">{{ t('pagination.total', props.total) }}</slot>
+        <slot name="total" :total="props.total" :page-count="totalPage">{{ t('pagination.total', props.total) }}</slot>
       </div>
       <!-- sizes -->
       <div v-if="layout.includes('pagesize')" class="o-pagination-size">
