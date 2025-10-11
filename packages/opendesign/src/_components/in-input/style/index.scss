@@ -27,6 +27,7 @@
   font-size: inherit;
   min-width: 20px;
   appearance: none;
+  text-align: var(--_input-text-align, start);
 
   &::-webkit-input-placeholder {
     color: var(--placeholder);
