@@ -58,6 +58,10 @@
   display: flex;
   align-items: center;
 }
+.o-pagination-goto {
+  display: flex;
+  align-items: center;
+}
 .o-pagination-ly-simple .o-pagination-pages {
   margin-left: var(--pagination-item-gap);
   margin-right: var(--pagination-item-gap);
