@@ -62,7 +62,7 @@ export function isValidDate(val: Date): val is Date {
 }
 
 // 是否是对象或者数组等（key:value 形式）
-export function isObject(val: unknown): val is Record<any, any> {
+export function isObject<T extends Record<any, any> = Record<any, any>>(val: unknown): val is T {
   return val !== null && typeof val === 'object';
 }
 
