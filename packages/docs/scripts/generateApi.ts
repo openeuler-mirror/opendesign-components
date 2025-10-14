@@ -9,7 +9,7 @@ import parseDefineSlots from './parseDefineSlots';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const base = join(__dirname, '../../opendesign/');
 const srcDir = join(base, 'src');
-const tsConfigPath = join(base, 'tsconfig.json');
+const tsConfigPath = join(base, 'tsconfig.app.json');
 
 const checker = createChecker(tsConfigPath, {
   forceUseTs: true,

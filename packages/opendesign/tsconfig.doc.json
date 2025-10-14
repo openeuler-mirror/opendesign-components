@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.dom.json",
+  "compilerOptions": {
+    "paths": {
+      "@opensig/opendesign": ["./src/index.ts"]
+    }
+  },
+  "include": ["src/**/__docs__", "src/_demo", "src/index.ts"]
+}
