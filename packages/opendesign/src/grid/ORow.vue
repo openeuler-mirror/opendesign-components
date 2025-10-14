@@ -26,6 +26,9 @@ const gap = computed(() => {
   return getMediaGap(props);
 });
 
+const xlGap = computed(() => {
+  return getMediaGap(props.pcS);
+});
 const lgGap = computed(() => {
   return getMediaGap(props.laptop);
 });
@@ -60,12 +63,15 @@ const xsGap = computed(() => {
       '--row-pad-gap-y': mdGap?.y,
       '--row-laptop-gap-x': lgGap?.x,
       '--row-laptop-gap-y': lgGap?.y,
+      '--row-pc-s-gap-x': xlGap?.x,
+      '--row-pc-s-gap-y': xlGap?.y,
     }"
     :class="{
       'o-row-phone': !!props.phone,
       'o-row-pad-v': !!props.padV,
       'o-row-pad': !!props.pad,
       'o-row-laptop': !!props.laptop,
+      'o-row-pc-s': !!props.pcS,
     }"
   >
     <slot></slot>

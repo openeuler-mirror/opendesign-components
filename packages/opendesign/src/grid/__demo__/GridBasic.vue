@@ -6,7 +6,7 @@ import { ORow, OCol } from '../index';
   <div class="block">
     <br />
     <p>Block1</p>
-    <ORow gap="32px" :laptop="{ gap: '12px 0' }" :pad="{ gap: '0 8px' }" :phone="{ gap: '24px' }" wrap="wrap">
+    <ORow gap="32px" :pc-s="{ gapX: '24px', gapY: '16px' }" :laptop="{ gap: '12px 0' }" :pad="{ gap: '0 8px' }" :phone="{ gap: '24px' }" wrap="wrap">
       <OCol class="colored"><div class="box">box</div></OCol>
       <OCol flex="50%" class="colored"><div class="box">box</div></OCol>
       <OCol class="colored"><div class="box">box</div></OCol>
@@ -35,10 +35,11 @@ import { ORow, OCol } from '../index';
         v-for="item in 10"
         :key="item"
         flex="10%"
-        :laptop="{ flex: '15%' }"
-        :pad="{ flex: '20%' }"
-        :pad-v="{ flex: '25%' }"
-        :phone="{ flex: '33.333333%' }"
+        :pc-s="{ flex: '16.666667%' }"
+        :laptop="{ flex: '20%' }"
+        :pad="{ flex: '25%' }"
+        :pad-v="{ flex: '33.333333%' }"
+        :phone="{ flex: '50%' }"
         class="colored"
       >
         <div class="box">{{ item }}</div>
