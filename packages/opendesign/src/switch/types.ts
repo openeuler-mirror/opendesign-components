@@ -10,6 +10,8 @@ export const switchProps = {
    */
   modelValue: {
     type: [String, Number, Boolean],
+    // type 类型校验中包含 Boolean 类型时，vue 会将 undefined 转化为 false，这将导致非受控模式判断出问题，因此显示指定 default: undefined
+    default: undefined,
   },
   /**
    * 非受控状态时，默认是否选中
