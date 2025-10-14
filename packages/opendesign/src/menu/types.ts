@@ -53,11 +53,6 @@ export const menuProps = {
     type: Array as PropType<Array<string>>,
     default: () => [],
   },
-  // 父子节点是否关联
-  selectStrictly: {
-    type: Boolean,
-    default: false,
-  },
 };
 
 export type MenuPropsT = ExtractPropTypes<typeof menuProps>;
@@ -67,10 +62,12 @@ export const subMenuProps = {
   value: {
     type: String,
     required: true,
-    default: ''
   },
   selectable: {
     type: Boolean,
+  },
+  icon: {
+    type: Object as PropType<Component>,
   },
 };
 export type SubMenuPropsT = ExtractPropTypes<typeof subMenuProps>;

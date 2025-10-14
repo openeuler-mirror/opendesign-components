@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import OIconMore from './OIconMore.vue';
 import { OMenu, OSubMenu, OMenuItem } from '../index';
+import { OCheckbox } from '../../checkbox';
+import { createReusableTemplate } from '../../_demo/utils';
+import '../../checkbox/style';
 
 const expandedArr = ref(['1']);
 const activeVal = ref('1-1');
@@ -14,13 +17,17 @@ const handleExpandedChange = (val: Array<string>) => {
 };
 
 const activeVal2 = ref('1-1');
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
+
+const checkboxVals = ref([]);
 </script>
 
 <template>
   <h4>基础用法</h4>
   <section>
     <div>
-      <OMenu v-model="activeVal" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+      <DefineTemplate>
         <OSubMenu value="1">
           <template #title>一级菜单1一级菜单1一级菜单1</template>
           <template #icon><OIconMore /></template>
@@ -53,6 +60,9 @@ const activeVal2 = ref('1-1');
           <OMenuItem value="3-4">二级菜单3-4</OMenuItem>
           <OMenuItem value="3-5">二级菜单3-5</OMenuItem>
         </OSubMenu>
+      </DefineTemplate>
+      <OMenu v-model="activeVal" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <ReuseTemplate />
       </OMenu>
     </div>
 
@@ -67,6 +77,32 @@ const activeVal2 = ref('1-1');
         <OMenuItem value="3-3">菜单3-3</OMenuItem>
         <OMenuItem value="3-4">菜单3-4</OMenuItem>
         <OMenuItem value="3-5">菜单3-5</OMenuItem>
+      </OMenu>
+    </div>
+  </section>
+  <h4>受控组件</h4>
+  <section>
+    <div>
+      <OMenu :model-value="activeVal" :expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <ReuseTemplate />
+      </OMenu>
+    </div>
+    <div>
+      <OMenu :default-value="activeVal" :default-expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <ReuseTemplate />
+      </OMenu>
+    </div>
+    <div>
+      <OMenu model-value="" v-model:expanded="expandedArr" @change="handleChange" @expanded-change="handleExpandedChange">
+        <OSubMenu value="1">
+          <template #title><OCheckbox v-model="checkboxVals" value="1" @click.stop>一级菜单</OCheckbox></template>
+          <OMenuItem value="1-1"><OCheckbox v-model="checkboxVals" value="1-1">二级菜单1-1</OCheckbox></OMenuItem>
+          <OMenuItem value="1-2" disabled><OCheckbox v-model="checkboxVals" value="1-2" disabled>二级菜单1-1</OCheckbox></OMenuItem>
+        </OSubMenu>
+        <OSubMenu value="2">
+          <template #title><OCheckbox v-model="checkboxVals" value="2" @click.stop>一级菜单2</OCheckbox></template>
+          <OMenuItem value="2-1"><OCheckbox v-model="checkboxVals" value="2-1">二级菜单1-1</OCheckbox></OMenuItem>
+        </OSubMenu>
       </OMenu>
     </div>
   </section>
