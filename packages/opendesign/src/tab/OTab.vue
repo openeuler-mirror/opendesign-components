@@ -186,7 +186,7 @@ const navScroll = (to: 'prev' | 'next') => {
           <div v-if="showArrow" class="o-tab-nav-btn prev" :class="{ 'o-tab-nav-btn-disabled': prevDisabled }" @click="navScroll('prev')">
             <IconChevronLeft />
           </div>
-          <div ref="navWrapRef" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
+          <div ref="navWrapRef" v-on-resize="onHeadResize" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
             <div class="o-tab-nav-list" ref="navsRef" v-on-resize="onHeadResize"></div>
             <div v-if="props.variant === 'text'" class="o-tab-nav-anchor" :style="anchorStyle">
               <slot name="anchor">
