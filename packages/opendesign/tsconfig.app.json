@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.dom.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["src/tokens/token.config.ts", "src/icons/icon.config.ts", "src/icons/cleansvg.config.ts", "src/**/__docs__"]
+}
