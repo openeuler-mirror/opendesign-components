@@ -1,0 +1,9 @@
+.o-switch {
+  --switch-icon-loading-color: var(--o-color-info1);
+}
+
+[data-o-theme='a.dark'] {
+  .o-switch-checked {
+    --switch-handler-bg-color: var(--o-color-control1-light);
+  }
+}
