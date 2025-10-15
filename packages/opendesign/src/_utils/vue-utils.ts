@@ -1,6 +1,7 @@
 import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef, watch } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
+import { log } from './log.ts';
 
 // 来着vuejs/core
 // https://github.com/vuejs/core/blob/main/packages/shared/src/shapeFlags.ts
@@ -184,10 +185,12 @@ export const resolveHtmlElement = (
       if (elRef.value) {
         resolveElement(elRef.value);
       } else {
-        const closeWatch = watch(elRef, (el) => {
+        const closeWatch = watch(elRef, (el, oldEl) => {
           if (el) {
             resolveElement(el);
             closeWatch();
+          } else {
+            log.warn(`resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`);
           }
         });
       }
