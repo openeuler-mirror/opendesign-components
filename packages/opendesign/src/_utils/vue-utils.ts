@@ -1,6 +1,7 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef, watch } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
+import { log } from './log.ts';
 
 // 来着vuejs/core
 // https://github.com/vuejs/core/blob/main/packages/shared/src/shapeFlags.ts
@@ -160,52 +161,41 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   };
 }
 
-export const resolveHtmlElement = (
-  elRef: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string | undefined | ComponentPublicInstance
-): Promise<HTMLElement | null> => {
-  const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
-    if (typeof el === 'string') {
-      return document.querySelector(el);
-    } else if (isHtmlElement(el)) {
-      return el;
-    }
-    return null;
-  };
-
-  return new Promise((resolve) => {
-    if (isRef(elRef)) {
-      watchEffect(() => {
-        const { value } = elRef;
-        if (value) {
-          if (isComponentPublicInstance(value)) {
-            resolve(value.$el);
-          } else {
-            resolve(queryElement(value));
-          }
-        }
-      });
-    } else if (isComponentPublicInstance(elRef)) {
-      resolve(elRef.$el);
-    } else {
-      resolve(queryElement(elRef));
-    }
-  });
+type ElementQuery = string | HTMLElement | ComponentPublicInstance | null | undefined;
+const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
+  if (typeof el === 'string') {
+    return document.querySelector(el);
+  } else if (isHtmlElement(el)) {
+    return el;
+  }
+  return null;
 };
-
-export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
+export const resolveHtmlElement = (
+  elRef: Ref<ElementQuery> | ElementQuery
+): Promise<HTMLElement | null> => {
   return new Promise((resolve) => {
-    if (isHtmlElement(elRef.value)) {
-      resolve(elRef.value as HTMLElement);
-    } else if (typeof elRef.value === 'string') {
-      resolve(document.querySelector(elRef.value) as HTMLElement);
+    const resolveElement = (el: ElementQuery) => {
+      if (isComponentPublicInstance(el)) {
+        resolve(el.$el);
+      } else {
+        resolve(queryElement(el));
+      }
+    };
+    if (isRef(elRef)) {
+      if (elRef.value) {
+        resolveElement(elRef.value);
+      } else {
+        const closeWatch = watch(elRef, (el, oldEl) => {
+          if (el) {
+            resolveElement(el);
+            closeWatch();
+          } else {
+            log.warn(`resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`);
+          }
+        });
+      }
     } else {
-      watchEffect(() => {
-        if (isHtmlElement(elRef.value)) {
-          resolve(elRef.value as HTMLElement);
-        } else if (elRef.value) {
-          resolve((elRef.value as ComponentPublicInstance).$el);
-        }
-      });
+      resolveElement(elRef);
     }
   });
 };

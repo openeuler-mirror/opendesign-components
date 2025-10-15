@@ -1,19 +1,19 @@
-import { h, render, ComponentPublicInstance } from 'vue';
+import { h, render, nextTick, type Ref, ComponentInternalInstance, ComponentPublicInstance } from 'vue';
 import { isString } from '../_utils/is';
 import { MessageParamsT } from './types';
 import OMessageList from './OMessageList.vue';
 import { resolveHtmlElement } from '../_utils/vue-utils';
 
-const DEFAULT_OPTIONS: MessageParamsT = {
+const DEFAULT_OPTIONS = {
   status: 'info',
   position: 'top',
   duration: 3000,
-};
+} satisfies MessageParamsT;
 
-const instanceMap = new Map();
+const instanceMap = new Map<'top' | 'bottom' | HTMLElement, ComponentInternalInstance>();
 const targetOffset = 8;
 
-const normalizeOptions = (params: MessageParamsT) => {
+const normalizeOptions = (params: MessageParamsT | string) => {
   const options: MessageParamsT = !params || isString(params) ? { content: params } : params;
 
   const normalized = {
@@ -24,15 +24,10 @@ const normalizeOptions = (params: MessageParamsT) => {
   return normalized;
 };
 
-const getMessageStyle = async (
-  target?: string | ComponentPublicInstance | HTMLElement | null,
-  position: 'top' | 'bottom' = 'top',
-  align: 'center' | 'left' | 'right' = 'center'
-) => {
-  if (!target) {
-    return;
-  }
-  const targetEl = await resolveHtmlElement(target);
+type MessageTarget = string | ComponentPublicInstance | HTMLElement | null | undefined;
+type MaybeRef<T> = T | Ref<T>;
+
+const getMessageStyle = (targetEl: HTMLElement | null, position: 'top' | 'bottom' = 'top', align: 'center' | 'left' | 'right' = 'center') => {
   if (!targetEl) {
     return;
   }
@@ -63,111 +58,118 @@ const getMessageStyle = async (
   return {
     position: pos,
     '--message-list-offset': `${top}px`,
+    [`--message-list-${pos}-offset`]: `${top}px`,
     left: `${left}px`,
     transform,
   };
 };
 
-export function useMessage(target: string | ComponentPublicInstance | HTMLElement | null) {
-  const showMessage = async (params: MessageParamsT) => {
-    const options: MessageParamsT = normalizeOptions(params);
-    const { position, targetAlign } = options;
+const createMessageListVnode = ({
+  position,
+  wrap,
+  style,
+  targetEl,
+}: {
+  position: 'top' | 'bottom';
+  wrap: HTMLDivElement;
+  style?: ReturnType<typeof getMessageStyle>;
+  targetEl: HTMLElement | null;
+}) => {
+  return h(OMessageList, {
+    position: style?.position ?? position,
+    onDestroy: async () => {
+      if (wrap) {
+        // 卸载组件，使组件树所有的 onUnMounted 等hook正常执行
+        render(null, wrap);
+        await nextTick();
+        document.body.removeChild(wrap);
+      }
+      instanceMap.delete(targetEl ?? position);
+    },
+    style,
+  });
+};
+/**
+ * 显示一个消息
+ * @returns 关闭本条消息的方法
+ */
+const showMessage = (target: MaybeRef<MessageTarget>, closeHandlers: Set<() => void>, params: MessageParamsT | string) => {
+  const options = normalizeOptions(params);
+  const { position, targetAlign } = options;
 
-    const msgStyle = await getMessageStyle(target, position, targetAlign);
+  let id = -1;
+  let instance: ComponentInternalInstance | undefined = undefined;
+  let isClosed = false;
+  resolveHtmlElement(target).then((targetEl) => {
+    if (isClosed) {
+      // 在渲染之前关闭
+      return;
+    }
+    const msgStyle = getMessageStyle(targetEl, position, targetAlign);
 
-    let instance = instanceMap.get(target ?? position);
+    instance = instanceMap.get(targetEl ?? position);
     if (!instance) {
-      let wrap: HTMLDivElement | null = document.createElement('div');
+      const wrap = document.createElement('div');
 
-      const vnode = h(OMessageList, {
-        position: msgStyle?.position ?? position,
-        onDestory: () => {
-          if (wrap) {
-            document.body.removeChild(wrap);
-            wrap = null;
-          }
-          instanceMap.set(target ?? position, undefined);
-        },
+      const vnode = createMessageListVnode({
+        position,
+        wrap,
         style: msgStyle,
+        targetEl,
       });
 
       render(vnode, wrap);
 
       const vm = vnode.component!;
-      vm.exposed?.add(options);
+      id = vm.exposed?.add(options);
 
       instance = vm;
 
-      instanceMap.set(target ?? position, instance);
+      instanceMap.set(targetEl ?? position, instance);
 
       document.body.appendChild(wrap);
     } else {
-      instance.exposed?.add(options);
+      id = instance.exposed?.add(options);
     }
+  });
+  const closeHandler = () => {
+    isClosed = true;
+    instance?.exposed?.close(id);
+    closeHandlers.delete(closeHandler);
   };
+  closeHandlers.add(closeHandler);
+  return closeHandler;
+};
+const showMessageWithStatus = (
+  status: MessageParamsT['status'],
+  target: MaybeRef<MessageTarget>,
+  closeHandlers: Set<() => void>,
+  params: Omit<MessageParamsT, 'status'> | string
+) => {
+  return showMessage(target, closeHandlers, { ...normalizeOptions(params), status });
+};
+const closeAll = () => {
+  for (const ins of instanceMap.values()) {
+    ins?.exposed?.removeAll();
+  }
+};
 
-  const info = (params: MessageParamsT) => {
-    return showMessage({
-      ...params,
-      status: 'info',
-    });
-  };
+const close = (closeHandlers: Set<() => void>) => {
+  closeHandlers.forEach((handler) => handler());
+};
 
-  const success = (params: MessageParamsT) => {
-    return showMessage({
-      ...params,
-      status: 'success',
-    });
-  };
-
-  const warning = (params: MessageParamsT) => {
-    return showMessage({
-      ...params,
-      status: 'warning',
-    });
-  };
-
-  const danger = (params: MessageParamsT) => {
-    return showMessage({
-      ...params,
-      status: 'danger',
-    });
-  };
-
-  const loading = (params: MessageParamsT) => {
-    return showMessage({
-      ...params,
-      status: 'loading',
-    });
-  };
-
-  const show = (params: MessageParamsT) => {
-    return showMessage({
-      ...params,
-    });
-  };
-
-  const closeAll = () => {
-    for (const ins of instanceMap.values()) {
-      ins?.exposed?.removeAll();
-    }
-  };
-
-  const close = () => {
-    if (target) {
-      const instance = instanceMap.get(target);
-      instance?.exposed?.remove();
-    }
-  };
-
+export function useMessage(target?: MaybeRef<MessageTarget>) {
+  const closeHandlers = new Set<() => void>();
   return {
-    info,
-    success,
-    warning,
-    danger,
-    loading,
-    show,
-    close,
+    show: showMessage.bind(null, target, closeHandlers),
+    info: showMessageWithStatus.bind(null, 'info', target, closeHandlers),
+    success: showMessageWithStatus.bind(null, 'success', target, closeHandlers),
+    warning: showMessageWithStatus.bind(null, 'warning', target, closeHandlers),
+    danger: showMessageWithStatus.bind(null, 'danger', target, closeHandlers),
+    loading: showMessageWithStatus.bind(null, 'loading', target, closeHandlers),
+    /** 关闭本 useMessage 实例渲染的所有消息 */
+    close: close.bind(null, closeHandlers),
+    /** 关闭所有实例渲染的所有消息 */
     closeAll,
   };
 }

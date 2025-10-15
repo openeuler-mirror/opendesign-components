@@ -1,16 +1,16 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond-to('laptop-pc_s') {
   .o-message {
     --message-text-size: var(--o-font_size-tip1);
     --message-text-height: var(--o-line_height-tip1);
     --message-padding: 7px 12px;
     --message-icon-size: var(--o-icon_size_control-s);
     --message-icon-gap: 8px;
+    --message-icon-gap-suffix: 12px;
     --message-gap: 12px;
   }
 }
-
 @include respond-to('<=pad') {
   .o-message {
     --message-text-size: var(--o-font_size-tip2);
@@ -18,6 +18,7 @@
     --message-padding: 7px 12px;
     --message-icon-size: var(--o-icon_size_control-xs);
     --message-icon-gap: 8px;
+    --message-icon-gap-suffix: 12px;
     --message-gap: 8px;
   }
 }

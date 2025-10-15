@@ -37,7 +37,7 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  margin-left: calc(var(--message-icon-gap) * 2);
+  margin-left: var(--message-icon-gap-suffix);
   font-size: var(--message-icon-size);
   color: var(--message-icon-close-color);
   transition: color var(--o-duration-s) var(--o-easing-standard);
@@ -62,14 +62,14 @@
 }
 
 .o-message-list-top {
-  top: var(--message-list-offset);
+  top: var(--message-list-top-offset);
   .o-message + .o-message {
     margin-top: var(--message-gap);
   }
 }
 
 .o-message-list-bottom {
-  bottom: var(--message-list-offset);
+  bottom: var(--message-list-bottom-offset);
   .o-message + .o-message {
     margin-top: var(--message-gap);
   }

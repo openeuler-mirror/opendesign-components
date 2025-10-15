@@ -66,7 +66,7 @@ export const messageListProps = {
   /**
    * 消息列表销毁前的钩子函数
    */
-  onDestory: {
+  onDestroy: {
     type: Function as PropType<() => void>,
   },
 };
@@ -78,7 +78,6 @@ export type MessageParamsT = Partial<
   MessagePropsT & {
     content: string | VNode | Component;
     position: MessagePositionT;
-    target?: string | ComponentPublicInstance | HTMLElement | null;
     targetAlign?: 'center' | 'left' | 'right';
     icon: VNode | Component;
     onDurationEnd: () => void;

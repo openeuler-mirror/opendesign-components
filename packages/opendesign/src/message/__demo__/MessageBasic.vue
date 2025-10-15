@@ -8,15 +8,11 @@ import '../../button/style';
 const message = useMessage();
 
 const handleInfoBtnClick = () => {
-  message.info({
-    content: '用于表示普通操作信息提示，3秒后消失',
-  });
+  message.show('用于表示普通操作信息提示，3秒后消失');
 };
 
 const handleSuccessBtnClick = () => {
-  message.success({
-    content: '用于表示操作顺利达成，3秒后消失',
-  });
+  message.success('用于表示操作顺利达成，3秒后消失');
 };
 
 const handleWarningBtnClick = () => {

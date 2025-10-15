@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { messageProps } from './types';
 import { IconWarning, IconDanger, IconLoading, IconInfo, IconSuccess, IconClose } from '../_utils/icons';
 import { isFunction, isUndefined } from '../_utils/is';
@@ -16,16 +16,8 @@ const iconMap = {
 
 const icon = computed(() => iconMap[props.status]);
 
-const isVisible = ref(props.visible ?? props.defaultVisible);
-
-watch(
-  () => props.visible,
-  (val) => {
-    if (!isUndefined(val)) {
-      isVisible.value = val;
-    }
-  }
-);
+const innerIsVisible = ref(props.visible ?? props.defaultVisible);
+const isVisible = computed(() => props.visible ?? innerIsVisible.value);
 
 const emits = defineEmits<{
   (e: 'duration-end'): void;
@@ -49,8 +41,8 @@ const startTimer = () => {
 
   timer = window.setTimeout(() => {
     emits('duration-end');
-    isVisible.value = false;
-    emits('update:visible', isVisible.value);
+    innerIsVisible.value = false;
+    emits('update:visible', innerIsVisible.value);
     clearTimer();
   }, props.duration);
 };
@@ -60,15 +52,15 @@ const onClose = async (ev?: MouseEvent) => {
   if (isFunction(props.beforeClose)) {
     const rlt = await props.beforeClose();
     if (rlt) {
-      isVisible.value = false;
-      emits('update:visible', isVisible.value);
+      innerIsVisible.value = false;
+      emits('update:visible', innerIsVisible.value);
       emits('close', ev);
       return;
     }
   }
 
-  isVisible.value = false;
-  emits('update:visible', isVisible.value);
+  innerIsVisible.value = false;
+  emits('update:visible', innerIsVisible.value);
   emits('close', ev);
 };
 
