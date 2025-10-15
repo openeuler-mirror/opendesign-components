@@ -1,0 +1,19 @@
+---
+sidebar: OSwitch 开关
+kind: operator
+---
+
+# OSwitch 开关
+
+## 示例
+
+<!-- @case SwitchSize -->
+<!-- @case SwitchRound -->
+<!-- @case SwitchDisabled -->
+<!-- @case SwitchLoading -->
+<!-- @case CustomState -->
+<!-- @case PreventSwitch -->
+
+## API
+
+<!-- @api OSwitch -->
