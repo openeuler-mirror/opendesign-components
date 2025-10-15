@@ -7,48 +7,59 @@ export type MessagePositionT = 'top' | 'bottom';
 
 export const messageProps = {
   /**
-   * 消息是否可见 v-model
+   * @zh-CN 消息是否可见 v-model
+   * @en-US Message is visible v-model
    */
   visible: {
     type: Boolean,
     default: undefined,
   },
   /**
-   * 非受控模式，消息是否默认可见
+   * @zh-CN 非受控模式，消息是否默认可见
+   * @en-US Non-controlled mode, message is visible by default
+   * @default true
    */
   defaultVisible: {
     type: Boolean,
     default: true,
   },
   /**
-   * 状态 MessageStatusT
+   * @zh-CN 状态
+   * @en-US Status
+   * @default 'info'
    */
   status: {
     type: String as PropType<MessageStatusT>,
     default: 'info',
   },
   /**
-   * 预置背景（跟随状态）
+   * @zh-CN 是否是彩色背景（跟随 status 变化）
+   * @en-US Is colored background (follows the status change)
+   * @default false
    */
   colorful: {
     type: Boolean,
     default: false,
   },
   /**
-   * 消息显示的持续时间，函数式调用时，默认值为3000
+   * @zh-CN 消息显示的持续时间（单位ms）。未设置或小于等于0时，消息将不会自动关闭
+   * @en-US The duration for which the message is displayed (unit: ms). If not set or less than or equal to 0, the message will not close automatically
    */
   duration: {
     type: Number,
   },
   /**
-   * 是否可手动关闭
+   * @zh-CN 是否可手动关闭
+   * @en-US Whether to manually close
+   * @default false
    */
   closable: {
     type: Boolean,
     default: false,
   },
   /**
-   * 关闭前的钩子函数
+   * @zh-CN 关闭前的钩子函数
+   * @en-US Hook function before closing
    */
   beforeClose: {
     type: Function as PropType<() => Promise<boolean> | boolean>,

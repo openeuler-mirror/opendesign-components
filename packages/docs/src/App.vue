@@ -130,9 +130,12 @@ router.beforeEach((to) => {
 </template>
 
 <style lang="scss">
-.app-wrapper {
+:root {
   --app-header-height: 48px;
   --app-header-margin: var(--o3-gap-4);
+}
+.o-message-list {
+  --message-list-top-offset: calc(var(--app-header-height) + 32px);
 }
 .app-header {
   position: fixed;
