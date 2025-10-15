@@ -16,8 +16,12 @@
   font-size: var(--loading-icon-size);
   color: var(--loading-icon-color);
   + .o-loading-label {
-    margin-left: 4px;
+    margin-left: var(--loading-label-icon-gap);
   }
+}
+.o-loading-label {
+  font-size: var(--loading-label-font-size);
+  line-height: var(--loading-label-line-height);
 }
 .o-layer-mask + .o-loading-main {
   color: var(--loading-mask-color);

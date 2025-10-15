@@ -1,0 +1,7 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=pad_v') {
+  .o-loading {
+    --loading-label-icon-gap: var(--o-gap-1);
+  }
+}
