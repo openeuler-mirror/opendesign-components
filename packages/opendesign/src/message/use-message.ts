@@ -79,7 +79,7 @@ const createMessageListVnode = ({
     position: style?.position ?? position,
     onDestroy: async () => {
       if (wrap) {
-        // 卸载组件，使组件树所有的 onMounted 等hook正常执行
+        // 卸载组件，使组件树所有的 onUnMounted 等hook正常执行
         render(null, wrap);
         await nextTick();
         document.body.removeChild(wrap);
@@ -89,7 +89,11 @@ const createMessageListVnode = ({
     style,
   });
 };
-const showMessage = (target: MaybeRef<MessageTarget>, params: MessageParamsT | string) => {
+/**
+ * 显示一个消息
+ * @returns 关闭本条消息的方法
+ */
+const showMessage = (target: MaybeRef<MessageTarget>, closeHandlers: Set<() => void>, params: MessageParamsT | string) => {
   const options = normalizeOptions(params);
   const { position, targetAlign } = options;
 
@@ -128,39 +132,44 @@ const showMessage = (target: MaybeRef<MessageTarget>, params: MessageParamsT | s
       id = instance.exposed?.add(options);
     }
   });
-  return () => {
+  const closeHandler = () => {
     isClosed = true;
     instance?.exposed?.close(id);
+    closeHandlers.delete(closeHandler);
   };
+  closeHandlers.add(closeHandler);
+  return closeHandler;
 };
-const showMessageWithStatus = (status: MessageParamsT['status'], target: MaybeRef<MessageTarget>, params: Omit<MessageParamsT, 'status'> | string) => {
-  return showMessage(target, { ...normalizeOptions(params), status });
+const showMessageWithStatus = (
+  status: MessageParamsT['status'],
+  target: MaybeRef<MessageTarget>,
+  closeHandlers: Set<() => void>,
+  params: Omit<MessageParamsT, 'status'> | string
+) => {
+  return showMessage(target, closeHandlers, { ...normalizeOptions(params), status });
 };
 const closeAll = () => {
   for (const ins of instanceMap.values()) {
     ins?.exposed?.removeAll();
   }
 };
-/** 之前实现的 close 函数有 bug，因此废弃  */
-const close = async (target: MaybeRef<MessageTarget>) => {
-  const targetEl = await resolveHtmlElement(target);
-  if (targetEl) {
-    const instance = instanceMap.get(targetEl);
-    // 此处 remove 需要 idx 参数，Array.prototype.splice(undefined, 1) 转化为 Array.prototype.splice(0, 1)
-    instance?.exposed?.remove();
-  }
+
+const close = (closeHandlers: Set<() => void>) => {
+  closeHandlers.forEach((handler) => handler());
 };
 
 export function useMessage(target?: MaybeRef<MessageTarget>) {
+  const closeHandlers = new Set<() => void>();
   return {
-    show: showMessage.bind(null, target),
-    info: showMessageWithStatus.bind(null, 'info', target),
-    success: showMessageWithStatus.bind(null, 'success', target),
-    warning: showMessageWithStatus.bind(null, 'warning', target),
-    danger: showMessageWithStatus.bind(null, 'danger', target),
-    loading: showMessageWithStatus.bind(null, 'loading', target),
-    /** @deprecated 请使用 info, success, ... 返回的函数关闭 message */
-    close: close.bind(null, target),
+    show: showMessage.bind(null, target, closeHandlers),
+    info: showMessageWithStatus.bind(null, 'info', target, closeHandlers),
+    success: showMessageWithStatus.bind(null, 'success', target, closeHandlers),
+    warning: showMessageWithStatus.bind(null, 'warning', target, closeHandlers),
+    danger: showMessageWithStatus.bind(null, 'danger', target, closeHandlers),
+    loading: showMessageWithStatus.bind(null, 'loading', target, closeHandlers),
+    /** 关闭本 useMessage 实例渲染的所有消息 */
+    close: close.bind(null, closeHandlers),
+    /** 关闭所有实例渲染的所有消息 */
     closeAll,
   };
 }
