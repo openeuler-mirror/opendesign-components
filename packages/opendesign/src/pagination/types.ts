@@ -74,14 +74,9 @@ export const paginationProps = {
   },
   /**
    * 显示总数据量
+   * @deprecated 请在layout属性中配置 total
    */
   showTotal: {
-    type: Boolean,
-  },
-  /**
-   * 显示输入跳转
-   */
-  showJumper: {
     type: Boolean,
   },
   /**

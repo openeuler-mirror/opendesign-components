@@ -138,7 +138,6 @@ const selectPageSize = (val: SelectValueT) => {
   updatePageAndPageSize(newPage, size);
 };
 
-
 // 选择弹层中的页码
 const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   selectPage(item);
@@ -158,29 +157,31 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
+  <div
+    class="o-pagination"
+    :class="[`o-pagination-${props.variant}`, round.class.value, { 'o-pagination-ly-simple': props.simple }]"
+    :style="round.style.value"
+  >
     <div class="o-pagination-wrap">
       <!-- total -->
       <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">
-        <slot name="total" :total="props.total">{{ t('pagination.total', props.total) }}</slot>
+        <slot name="total" :total="props.total" :page-count="totalPage">{{ t('pagination.total', props.total) }}</slot>
       </div>
       <!-- sizes -->
-      <template v-if="layout.includes('pagesize')">
-        <div class="o-pagination-size">
-          <OSelect
-            v-if="pageSizeList.length > 1"
-            :model-value="pageSize"
-            class="o-pagination-select"
-            :default-label="defaultSizeLabel"
-            :round="props.round"
-            :variant="props.variant"
-            @change="selectPageSize"
-          >
-            <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
-          </OSelect>
-          <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
-        </div>
-      </template>
+      <div v-if="layout.includes('pagesize')" class="o-pagination-size">
+        <OSelect
+          v-if="pageSizeList.length > 1"
+          :model-value="pageSize"
+          class="o-pagination-select"
+          :default-label="defaultSizeLabel"
+          :round="props.round"
+          :variant="props.variant"
+          @change="selectPageSize"
+        >
+          <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
+        </OSelect>
+        <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
+      </div>
       <!-- pager -->
       <div v-if="layout.includes('pager')" class="o-pagination-pager">
         <div

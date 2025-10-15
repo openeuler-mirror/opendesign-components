@@ -1,1 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
+
+@include respond-to('<=pc_s') {
+  .o-pagination {
+    --pagination-item-size: 28px;
+  }
+}
