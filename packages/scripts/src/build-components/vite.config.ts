@@ -12,6 +12,7 @@ export default (): InlineConfig => {
       // dts(),
       dts({
         outDir: ['es', 'lib'],
+        tsconfigPath: 'tsconfig.app.json'
       }) as any,
     ],
     build: {
