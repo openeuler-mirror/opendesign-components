@@ -15,6 +15,7 @@ const emits = defineEmits<{
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 defineExpose({
+  /** expose: Toggle loading */
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
   },
