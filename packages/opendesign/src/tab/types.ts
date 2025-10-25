@@ -4,6 +4,7 @@ import type { SizeT } from '../_utils/types';
 export const TabVariantTypes = ['solid', 'text'] as const;
 export type TabVariantT = (typeof TabVariantTypes)[number];
 
+type ClassT = string | Record<string, boolean> | ClassT[];
 export const tabProps = {
   /**
    * tab选中的nav值
@@ -55,7 +56,7 @@ export const tabProps = {
    * 头部是否固定
    */
   headerClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<ClassT>,
     default: undefined,
   },
 };
