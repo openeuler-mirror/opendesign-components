@@ -4,85 +4,63 @@
   @include respond-to('<=pad') {
     --table-radius: var(--o-radius_control-s);
   }
-
-  @include respond-to('laptop') {
+  @include respond-to('<=pc_s') {
     --table-text-size: var(--o-font_size-tip1);
     --table-text-height: var(--o-line_height-tip1);
 
     --table-head-cell-height: 40px;
-    --table-cell-height: 48px;
+    --table-cell-height: 40px;
 
     --table-head-cell-padding: 8px 12px;
-    --table-cell-padding: 12px 12px;
+    --table-cell-padding: 8px 12px;
 
     --table-edge-padding: 24px;
   }
-  @include respond-to('pad') {
-    --table-text-size: var(--o-font_size-tip1);
-    --table-text-height: var(--o-line_height-tip1);
-
-    --table-head-cell-height: 40px;
-    --table-cell-height: 48px;
-
-    --table-head-cell-padding: 8px 8px;
-    --table-cell-padding: 8px 8px;
-
+  @include respond-to('<=pad') {
+    --table-radius: var(--o-radius-s);
     --table-edge-padding: 16px;
   }
-  @include respond-to('phone') {
+  @include respond-to('<=pad_v') {
     --table-text-size: var(--o-font_size-tip2);
     --table-text-height: var(--o-line_height-tip2);
 
-    --table-head-cell-height: 32px;
-    --table-cell-height: 32px;
+    --table-head-cell-height: 34px;
+    --table-cell-height: 34px;
 
     --table-head-cell-padding: 8px 8px;
-    --table-cell-padding: 8px 8px;
+    --table-cell-padding: 7px 8px;
 
     --table-edge-padding: 12px;
   }
 }
 .o-table-small {
-  @include respond-to('<=pad') {
-    --table-radius: var(--o-radius_control-s);
-  }
-
-  @include respond-to('laptop') {
+  @include respond-to('<=pc_s') {
     --table-text-size: var(--o-font_size-tip1);
     --table-text-height: var(--o-line_height-tip1);
 
-    --table-head-cell-height: 32px;
-    --table-cell-height: 40px;
+    --table-head-text-size: var(--table-text-size);
+    --table-head-text-height: var(--table-text-height);
 
-    --table-head-cell-padding: 5px 8px;
-    --table-cell-padding: 8px 8px;
+    --table-radius: var(--o-radius_control-m);
 
+    --table-head-cell-height: 38px;
+    --table-cell-height: 38px;
+
+    --table-head-cell-padding: 8px 16px;
+    --table-cell-padding: 7px 16px;
     --table-edge-padding: 24px;
   }
-
-  @include respond-to('pad') {
-    --table-text-size: var(--o-font_size-tip1);
-    --table-text-height: var(--o-line_height-tip1);
-
-    --table-head-cell-height: 32px;
-    --table-cell-height: 40px;
-
-    --table-head-cell-padding: 5px 8px;
-    --table-cell-padding: 5px 8px;
-
-    --table-edge-padding: 16px;
-  }
-
-  @include respond-to('phone') {
+  @include respond-to('<=pad') {
     --table-text-size: var(--o-font_size-tip2);
     --table-text-height: var(--o-line_height-tip2);
+    --table-radius: var(--o-radius-s);
 
-    --table-head-cell-height: 32px;
-    --table-cell-height: 32px;
-
-    --table-head-cell-padding: 7px 8px;
+    --table-head-cell-padding: 8px 8px;
     --table-cell-padding: 7px 8px;
 
-    --table-edge-padding: 12px;
+    --table-head-cell-height: 34px;
+    --table-cell-height: 34px;
+    --table-radius: var(--o-radius_control-s);
+    --table-edge-padding: 16px;
   }
 }
