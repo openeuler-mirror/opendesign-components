@@ -3,13 +3,14 @@ sidebar: OTag
 kind: display
 ---
 
-# tag
+# Tag
 
 ## Usage
 
-<!-- @usage tagUsage -->
 
-## Cases
+<!-- @usage TagUsage -->
+
+## Demo
 
 <!-- @case TagBasic -->
 <!-- @case TagClosable -->
@@ -17,7 +18,11 @@ kind: display
 <!-- @case TagOutline -->
 <!-- @case TagRound -->
 <!-- @case TagSize -->
+<!-- @case:a|k ThemeActivity -->
+<!-- @case:e ThemeActivityEuler -->
+<!-- @case:a|k|e ThemeInfo -->
+<!-- @case:a|k|e ThemeState -->
 
-## Api
+## API
 
 <!-- @api OTag -->

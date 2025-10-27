@@ -7,7 +7,7 @@ kind: display
 
 ## 使用
 
-<!-- @usage tagUsage -->
+<!-- @usage TagUsage -->
 
 ## 示例
 
@@ -17,7 +17,11 @@ kind: display
 <!-- @case TagOutline -->
 <!-- @case TagRound -->
 <!-- @case TagSize -->
+<!-- @case:a|k ThemeActivity -->
+<!-- @case:e ThemeActivityEuler -->
+<!-- @case:a|k|e ThemeInfo -->
+<!-- @case:a|k|e ThemeState -->
 
-## Api
+## API
 
 <!-- @api OTag -->
