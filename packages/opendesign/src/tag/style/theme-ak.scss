@@ -1,0 +1,24 @@
+.o-tag-normal {
+  --tag-color: var(--o-color-info1);
+  --tag-bg-color: var(--o-color-control3-light);
+  --tag-bd-color: var(--o-color-control3-light);
+
+  &.o-tag-outline {
+    --tag-bd-color: var(--o-color-control1);
+  }
+}
+.o-tag-primary {
+  --tag-bg-color: rgb(var(--o-red-huawei));
+  --tag-bd-color: rgb(var(--o-red-huawei));
+
+  &.o-tag-outline {
+    --tag-color: rgb(var(--o-red-huawei));
+  }
+}
+.c-tag-activity,
+.c-tag-ascend,
+.c-tag-kunpeng {
+  --tag-color: var(--o-color-white);
+  background: linear-gradient(90deg, rgb(var(--ak-color-band-start)) 0%, rgb(var(--ak-color-band-end)) 100%);
+  border: none;
+}

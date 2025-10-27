@@ -39,7 +39,7 @@ const onClose = async (ev: MouseEvent) => {
   <span
     v-if="isVisible"
     class="o-tag"
-    :class="[`o-tag-${props.variant}`, `o-tag-${props.color}`, `o-tag-${props.size}`, round.class.value]"
+    :class="[`o-tag-${props.variant}`, `o-tag-${props.color}`, `o-tag-${props.size}`, round.class.value, { 'o-tag-closable': props.closable }]"
     :style="round.style.value"
   >
     <span v-if="$slots.icon" class="o-tag-icon">
