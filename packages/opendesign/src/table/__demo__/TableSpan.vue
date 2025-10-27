@@ -32,9 +32,10 @@ function cellSpanFn(rowIdx: number, colIdx: number) {
     };
   }
 
-  if (rowIdx === 2 && colIdx === 5) {
+  if (rowIdx === 2 && colIdx === 4) {
     return {
       rowspan: 2,
+      colspan: 2,
     };
   }
 }
