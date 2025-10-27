@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { getRoundClass } from '../_utils/style-class';
 import { tagProps } from './types';
 import { IconClose } from '../_utils/icons';
-import { isFunction, isUndefined } from '../_utils/is';
+import { isFunction } from '../_utils/is';
 
 const props = defineProps(tagProps);
 
@@ -14,31 +14,23 @@ const emits = defineEmits<{
 
 const round = getRoundClass(props, 'tag');
 
-const isVisible = ref(props.visible ?? props.defaultVisible);
-
-watch(
-  () => props.visible,
-  (val) => {
-    if (!isUndefined(val)) {
-      isVisible.value = val;
-    }
-  }
-);
+const innerIsVisible = ref(props.visible ?? props.defaultVisible);
+const isVisible = computed(() => props.visible ?? innerIsVisible.value);
 
 const onClose = async (ev: MouseEvent) => {
   ev.stopPropagation();
   if (isFunction(props.beforeClose)) {
     const rlt = await props.beforeClose();
     if (rlt) {
-      isVisible.value = false;
-      emits('update:visible', isVisible.value);
+      innerIsVisible.value = false;
+      emits('update:visible', innerIsVisible.value);
       emits('close', ev);
       return;
     }
   }
 
-  isVisible.value = false;
-  emits('update:visible', isVisible.value);
+  innerIsVisible.value = false;
+  emits('update:visible', innerIsVisible.value);
   emits('close', ev);
 };
 </script>
