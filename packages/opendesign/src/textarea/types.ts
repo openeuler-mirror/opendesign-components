@@ -5,26 +5,30 @@ import { inTextareaProps } from '../_components/in-textarea/types';
 export const textareaProps = {
   ...inTextareaProps,
   /**
-   * 大小 SizeT
+   * @zh-CN 尺寸
+   * @en-US Size
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 圆角
+   * @en-US Round
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 颜色类型 Color2T
+   * @zh-CN 颜色类型
+   * @en-US Color type
    */
   color: {
     type: String as PropType<Color2T>,
     default: 'normal',
   },
   /**
-   * 按钮类型 VariantT
+   * @zh-CN 形状变体
+   * @en-US Shape variant
    */
   variant: {
     type: String as PropType<VariantT>,

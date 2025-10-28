@@ -7,15 +7,15 @@ kind: input
 
 ## Usage
 
-<!-- @usage textareaUsage -->
+<!-- @usage TextareaUsage -->
 
-## Cases
+## Demo
 
 <!-- @case TextareaBasic -->
 <!-- @case TextareaAutoHeight -->
 <!-- @case TextareaSlot -->
 <!-- @case TextareaEvent -->
 
-## Api
+## API
 
 <!-- @api OTextarea -->
