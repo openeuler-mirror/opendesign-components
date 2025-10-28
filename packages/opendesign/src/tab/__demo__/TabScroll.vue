@@ -35,7 +35,7 @@ const changeLength = () => {
   if (cnt % 2) {
     tabList[tabList.length - 1].label = 'This is a very very very very very very very very long Text';
     tabList.push({
-      id: 9,
+      id: 9..toString(),
       label: 'item 9',
       content: 'content 9',
     });
@@ -43,12 +43,23 @@ const changeLength = () => {
     tabList[tabList.length - 1].label = 'Text';
   }
 };
+const prefix = ref('');
+const suffix = ref('');
+const addPrefixOrSuffix = () => {
+  prefix.value += 'prefix ';
+  suffix.value += 'suffix ';
+};
 </script>
 <template>
   <h4>scroll</h4>
-  <div><button @click="changeLength">change name length</button></div>
+  <div class="col">
+    <button @click="changeLength">change name length</button>
+    <button @click="addPrefixOrSuffix">change prefix and suffix</button>
+  </div>
   <div class="sec">
     <OTab v-model="activeTab3" addable @change="tabChange" @add="tabAdd" @delete="tabDelete">
+      <template #prefix>{{ prefix }}</template>
+      <template #suffix>{{ suffix }}</template>
       <OTabPane v-for="(item, idx) in tabList" :key="item.id" :value="item.id" class="pane" :label="item.label" :closable="idx > 1">
         content {{ item.content }}
       </OTabPane>

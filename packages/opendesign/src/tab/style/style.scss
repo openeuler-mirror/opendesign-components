@@ -4,7 +4,9 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0px;
   justify-content: var(--tab-nav-justify, center);
 }
 .o-tab-head {
@@ -64,11 +66,11 @@
 }
 
 .o-tab-nav-list {
-  display: inline-block;
+  display: inline-flex;
   white-space: nowrap;
 }
 .o-tab-nav {
-  display: inline-flex;
+  display: flex;
   flex-shrink: 0;
   align-items: center;
   cursor: pointer;

@@ -178,7 +178,7 @@ const navScroll = (to: 'prev' | 'next') => {
         props.headerClass,
       ]"
     >
-      <div v-if="$slots.prefix" class="o-tab-head-prefix" v-on-resize="onHeadResize">
+      <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>
       </div>
       <div class="o-tab-navs">
@@ -203,7 +203,7 @@ const navScroll = (to: 'prev' | 'next') => {
           <IconAdd />
         </div>
       </div>
-      <div v-if="$slots.suffix" class="o-tab-head-suffix" v-on-resize="onHeadResize">
+      <div v-if="$slots.suffix" class="o-tab-head-suffix">
         <slot name="suffix"></slot>
       </div>
     </div>
