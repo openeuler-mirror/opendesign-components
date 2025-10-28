@@ -49,7 +49,7 @@ import { reactive } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = reactive({
+const _oSchema = reactive({
   variant: {
     type: 'list',
     list: ['outline', 'solid'],
@@ -89,14 +89,14 @@ const _schema = reactive({
   },
 }) satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   let layoutStr = '';
   if (props.simple) {
-    _schema.jumperCtrl.disabled = true;
-    _schema.pagesizeCtrl.disabled = true;
-    _schema.pagerCtrl.disabled = true;
-    _schema.totalLabel.disabled = true;
-    _schema.showPageCount.disabled = true;
+    _oSchema.jumperCtrl.disabled = true;
+    _oSchema.pagesizeCtrl.disabled = true;
+    _oSchema.pagerCtrl.disabled = true;
+    _oSchema.totalLabel.disabled = true;
+    _oSchema.showPageCount.disabled = true;
   } else {
     const layout: string[] = [];
     if (props.totalLabel) layout.push('total');
@@ -104,14 +104,14 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
     if (props.pagerCtrl) layout.push('pager');
     if (props.jumperCtrl) layout.push('jumper');
     layoutStr = ` :layout='${JSON.stringify(layout)}'`;
-    _schema.jumperCtrl.disabled = false;
-    _schema.pagesizeCtrl.disabled = false;
-    _schema.pagerCtrl.disabled = false;
-    _schema.totalLabel.disabled = false;
-    _schema.showPageCount.disabled = false;
+    _oSchema.jumperCtrl.disabled = false;
+    _oSchema.pagesizeCtrl.disabled = false;
+    _oSchema.pagerCtrl.disabled = false;
+    _oSchema.totalLabel.disabled = false;
+    _oSchema.showPageCount.disabled = false;
   }
   return `<OPagination :total="100" ${propsToAttrStr(props, ['jumperCtrl', 'pagerCtrl', 'pagesizeCtrl', 'totalLabel'])}${layoutStr} />`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

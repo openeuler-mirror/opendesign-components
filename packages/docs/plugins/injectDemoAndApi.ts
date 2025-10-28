@@ -105,7 +105,7 @@ const transformVueDemo = (code: string, id: string, mode: 'dev' | 'build' | 'unk
   }
   const docsJson = `{${imported.map((item) => `'${item.lang}': ${item.default}`).join(',')}}`;
   // 补充 usage 的 vue 文件的 template 块
-  const template = `<template><DemoUsage :schema="_schema" :ctx="_ctx" :template="_template" :docs="${docsJson}" :style="_style" :active-themes='${JSON.stringify(activeThemes)}' /></template>`;
+  const template = `<template><DemoUsage :schema="_oSchema" :ctx="_oCtx" :template="_oTemplate" :docs="${docsJson}" :style="_style" :active-themes='${JSON.stringify(activeThemes)}' /></template>`;
   return `${[...customBlocks, scriptSetup, ...styles]
     .filter(Boolean)
     .map((block) => {

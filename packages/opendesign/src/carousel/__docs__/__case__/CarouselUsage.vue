@@ -79,7 +79,7 @@ Others:
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   effect: {
     type: 'list',
     list: ['gallery', 'toggle'] as const,
@@ -117,7 +117,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   const { effect } = props;
   return `
 <OCarousel ${propsToAttrStr(props)} class="carousel-doc-usage">
@@ -128,7 +128,7 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
 `;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>
 
 <style lang="scss">

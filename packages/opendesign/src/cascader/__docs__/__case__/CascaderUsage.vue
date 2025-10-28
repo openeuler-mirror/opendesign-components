@@ -88,7 +88,7 @@ import { reactive } from 'vue';
 import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
 
-const _schema = {
+const _oSchema = {
   pathMode: {
     type: 'boolean',
     default: false,
@@ -112,7 +112,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _ctx = reactive({
+const _oCtx = reactive({
   modelValue: '' as string | number | Array<string | number>,
   options: [
     {
@@ -155,7 +155,7 @@ const _ctx = reactive({
     },
   ],
 });
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `
 <OCascader
   v-model="ctx.modelValue"

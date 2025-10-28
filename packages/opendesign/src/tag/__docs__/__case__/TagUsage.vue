@@ -12,7 +12,7 @@ import { propsToAttrStr } from '../../../_demo/utils';
 import { ColorTypes, TagVariantTypes, TagSizeTypes } from '@opensig/opendesign';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types.ts';
 
-const _schema = {
+const _oSchema = {
   color: {
     type: 'list',
     list: ColorTypes,
@@ -35,12 +35,12 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (_props) => `
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => `
 <OTag ${propsToAttrStr(_props)}>
   <template #icon><OIconAdd /></template>
   Icon Tag
 </OTag>
 `;
 
-const _ctx = {};
+const _oCtx = {};
 </script>

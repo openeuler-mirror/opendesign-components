@@ -12,11 +12,11 @@ import { propsToAttrStr } from '../../../_demo/utils';
 import { reactive } from 'vue';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types.ts';
 
-const _ctx = reactive({
+const _oCtx = reactive({
   modelValue: 'this is value',
 });
 
-const _schema = {
+const _oSchema = {
   placeholder: {
     type: 'string',
     default: 'input something',
@@ -80,7 +80,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (_props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => {
   return `<OTextarea ${propsToAttrStr(_props)} v-model="ctx.modelValue"/>`;
 };
 </script>

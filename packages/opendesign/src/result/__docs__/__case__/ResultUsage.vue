@@ -19,7 +19,7 @@
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   title: {
     type: 'string',
     default: '提交成功',
@@ -34,12 +34,12 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `  <div class="demo-result-usage-wrap">
   <OResult class="demo-result-usage" ${propsToAttrStr(props)} />
    </div>
   `;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

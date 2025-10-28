@@ -11,11 +11,11 @@
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _ctx = {
+const _oCtx = {
   list: new Array(100).fill(0).map((_, i) => ({ label: i + 1 })),
 };
 
-const _schema = {
+const _oSchema = {
   defaultStartIndex: {
     type: 'number',
     default: 10,
@@ -30,7 +30,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (_props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => {
   return `<OVirtualList class="virtual-list-demo container" ${propsToAttrStr(_props)} :list="ctx.list">
   <template  #default="{ item, index }">
     <div :key="item.label" class="section" :class="\`item-\${index % 3}\`">

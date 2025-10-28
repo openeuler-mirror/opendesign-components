@@ -19,7 +19,7 @@ Drop-down option position: `top`、`tl`、`tr`、`bottom`、`bl`、`br`、`left`
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   size: { type: 'list', list: ['large', 'medium'] },
   trigger: {
     type: 'list',
@@ -55,7 +55,7 @@ const createTemplate = (arr: any[] = []) => {
     .join('\n');
   return res;
 };
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<ODropdown ${propsToAttrStr(props)} style="width:fit-content;"> 
   <OButton>Dropdown</OButton>
   <template #dropdown>
@@ -64,5 +64,5 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
   </ODropdown>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

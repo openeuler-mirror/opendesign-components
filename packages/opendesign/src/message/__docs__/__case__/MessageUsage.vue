@@ -12,7 +12,7 @@
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
 
-const _schema = {
+const _oSchema = {
   status: {
     type: 'list',
     list: ['info', 'success', 'warning', 'danger', 'loading'],
@@ -28,9 +28,9 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<OMessage ${propsToAttrStr(props)}>${props.status}</OMessage>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

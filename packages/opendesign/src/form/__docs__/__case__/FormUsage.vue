@@ -59,7 +59,7 @@ Currently, the form items supported by `OForm` include `OInput`, `OInputNumber`,
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   layout: {
     type: 'list',
     list: ['h', 'v', 'inline'],
@@ -81,7 +81,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `
 <div>
   <OForm has-required ${propsToAttrStr(props)}>
@@ -100,7 +100,7 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
 </div>`;
 };
 
-const _ctx = {
+const _oCtx = {
   options: [
     { label: 'option 1', value: 'opt1' },
     { label: 'long long long long long long long long long long long long text option 2', value: 'opt2' },
