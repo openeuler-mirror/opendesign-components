@@ -26,7 +26,7 @@ export const virtualListProps = {
   list: {
     type: Array<any>,
     required: true,
-    default: [],
+    default: () => [],
   },
   /**
    * 每一项的高度，如果每一项高度不一致或不确定（渲染时确定），则不传
