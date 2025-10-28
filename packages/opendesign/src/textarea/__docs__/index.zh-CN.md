@@ -7,7 +7,7 @@ kind: input
 
 ## 使用
 
-<!-- @usage textareaUsage -->
+<!-- @usage TextareaUsage -->
 
 ## 示例
 
@@ -16,6 +16,6 @@ kind: input
 <!-- @case TextareaSlot -->
 <!-- @case TextareaEvent -->
 
-## Api
+## API
 
 <!-- @api OTextarea -->

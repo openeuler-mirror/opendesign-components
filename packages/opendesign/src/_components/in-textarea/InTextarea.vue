@@ -4,7 +4,7 @@ import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
 import { useInput } from '../../_headless/use-input';
 import { useI18n } from '../../locale';
-import { vScrollbar } from '../../scrollbar';
+import { vScrollbar, type BaseScrollerPropsT } from '../../scrollbar';
 
 const props = defineProps(inTextareaProps);
 
@@ -89,8 +89,8 @@ const mirrorValue = computed(() => {
 const scrollbarProps = computed(() => {
   if (props.scrollbar === true) {
     return {
-      showType: 'hover',
-      size: 'small',
+      showType: 'hover' as BaseScrollerPropsT['showType'],
+      size: 'small' as BaseScrollerPropsT['size'],
     };
   }
   return props.scrollbar;
