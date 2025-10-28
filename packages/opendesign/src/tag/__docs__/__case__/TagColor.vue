@@ -11,11 +11,11 @@ import { OTag } from '@opensig/opendesign';
 </script>
 
 <template>
-  <section>
+  <div class="col">
     <OTag>Normal Tag</OTag>
     <OTag color="primary">Primary Tag</OTag>
     <OTag color="success">Success Tag</OTag>
     <OTag color="warning">Warning Tag</OTag>
     <OTag color="danger">Danger Tag</OTag>
-  </section>
+  </div>
 </template>

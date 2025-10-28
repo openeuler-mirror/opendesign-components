@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { OTag } from '../index';
 const handleClose = () => {
   console.log('close!!!');
 };
+const visible = ref(true);
 </script>
 
 <template>
@@ -19,5 +21,9 @@ const handleClose = () => {
     <OTag color="success" size="small" closable @close="handleClose">Tag3</OTag>
     <OTag color="warning" size="small" closable @close="handleClose">Tag4</OTag>
     <OTag color="danger" size="small" closable @close="handleClose">Tag5</OTag>
+
+    <OTag visible closable>controlled</OTag>
+    <button @click="visible = !visible">switch visible</button>
+    <OTag v-model:visible="visible" closable>controlled</OTag>
   </section>
 </template>

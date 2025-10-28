@@ -11,8 +11,8 @@ import { OTag } from '@opensig/opendesign';
 </script>
 
 <template>
-  <section>
+  <div class="col">
     <OTag>Medium Tag</OTag>
     <OTag size="small">Small Tag</OTag>
-  </section>
+  </div>
 </template>

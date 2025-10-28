@@ -11,7 +11,7 @@ import { OTag } from '@opensig/opendesign';
 </script>
 
 <template>
-  <section>
+  <div class="col">
     <OTag variant="outline">Tag1</OTag>
     <OTag color="primary" variant="outline">Tag2</OTag>
     <OTag color="success" variant="outline">Tag2</OTag>
@@ -23,5 +23,5 @@ import { OTag } from '@opensig/opendesign';
     <OTag color="success" closable variant="outline">Tag2</OTag>
     <OTag color="warning" closable variant="outline">Tag3</OTag>
     <OTag color="danger" closable variant="outline">Tag4</OTag>
-  </section>
+  </div>
 </template>

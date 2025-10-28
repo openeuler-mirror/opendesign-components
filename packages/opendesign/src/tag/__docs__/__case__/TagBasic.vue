@@ -11,12 +11,12 @@ import { OTag, OIconAdd } from '@opensig/opendesign';
 </script>
 
 <template>
-  <section>
+  <div class="col">
     <OTag>Tag1</OTag>
     <OTag>Tag2</OTag>
     <OTag>
       <template #icon><OIconAdd /></template>
       Icon Tag
     </OTag>
-  </section>
+  </div>
 </template>
