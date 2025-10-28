@@ -39,7 +39,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
   const t = bodyData.length;
   const s = 0;
 
-  const colLenght = columnData.value.length;
+  const colLength = columnData.value.length;
 
   const rlt = [];
   let span = null;
@@ -49,7 +49,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
   for (let r = s; r < end; r += 1) {
     const row = bodyData[r];
     const cols = [];
-    for (let c = 0; c < colLenght; c += 1) {
+    for (let c = 0; c < colLength; c += 1) {
       const col = columnData.value[c];
       if (isFunction(cellSpan)) {
         span = cellSpan(r, c, row, col);
@@ -59,8 +59,8 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
         key: col.key,
       };
 
+      const { colspan = 1, rowspan = 1 } = span || {};
       if (span) {
-        const { colspan = 1, rowspan = 1 } = span;
         Object.assign(skipCell, getSkipCell(r, c, span));
 
         if (colspan > 1) {
@@ -72,7 +72,7 @@ export function getBodyData(columnData: Ref<TableColumnT[]>, bodyData?: TableRow
       }
 
       if (!skipCell[`${r}-${c}`]) {
-        if (c === colLenght - 1) {
+        if (c + colspan >= colLength) {
           cell.last = true;
         }
         cols.push(cell);
