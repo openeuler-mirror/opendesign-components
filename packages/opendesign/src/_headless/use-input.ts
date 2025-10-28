@@ -98,7 +98,7 @@ export function useInput(options: InputOptionT) {
     return r;
   };
 
-  const inputEl = ref<HTMLInputElement>();
+  const inputEl = ref<HTMLInputElement | HTMLTextAreaElement>();
 
   // 正在输入中文，处理输入过程中触发input事件
   const composition = useComposition({ el: inputEl });
