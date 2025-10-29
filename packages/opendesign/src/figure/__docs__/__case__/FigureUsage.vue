@@ -114,7 +114,7 @@ import { reactive } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = reactive({
+const _oSchema = reactive({
   setRatio: {
     type: 'boolean',
     default: true,
@@ -161,20 +161,20 @@ const _schema = reactive({
   },
 }) satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   if (props.background) {
-    _schema.fit.list = ['none', 'cover', 'contain', '80% auto'];
+    _oSchema.fit.list = ['none', 'cover', 'contain', '80% auto'];
   } else {
-    _schema.fit.list = ['cover', 'contain', 'fill', 'none', 'scale-down'];
+    _oSchema.fit.list = ['cover', 'contain', 'fill', 'none', 'scale-down'];
   }
   const mutuallyExclusiveKeys = ['preview', 'href'] as const;
-  const excludeProps: (keyof typeof _schema)[] = ['href', 'setRatio', 'height'];
+  const excludeProps: (keyof typeof _oSchema)[] = ['href', 'setRatio', 'height'];
   for (const key of mutuallyExclusiveKeys) {
-    (_schema[key] as any).disabled = false;
+    (_oSchema[key] as any).disabled = false;
     if (props[key]) {
       mutuallyExclusiveKeys.forEach((k) => {
         if (k !== key) {
-          (_schema[k] as any).disabled = true;
+          (_oSchema[k] as any).disabled = true;
           props[k] = false;
         }
       });
@@ -183,12 +183,12 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
   }
   let styleStr = '';
   if (props.setRatio) {
-    _schema.ratio.disabled = false;
-    _schema.height.disabled = true;
+    _oSchema.ratio.disabled = false;
+    _oSchema.height.disabled = true;
     styleStr = 'style="width: 100%;"';
   } else {
-    _schema.ratio.disabled = true;
-    _schema.height.disabled = false;
+    _oSchema.ratio.disabled = true;
+    _oSchema.height.disabled = false;
     excludeProps.push('ratio');
     styleStr = `style="height: ${props.height}px;`;
     if (props.background) {
@@ -200,5 +200,5 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
   return `<OFigure ${hrefTemplate} src="/card-cover.jpg" ${propsToAttrStr(props, excludeProps)} ${styleStr} />`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

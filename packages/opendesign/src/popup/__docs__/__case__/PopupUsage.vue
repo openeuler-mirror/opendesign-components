@@ -43,7 +43,7 @@
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   position: {
     type: 'list',
     list: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'],
@@ -80,7 +80,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<div class="demo-popup-usage-wrap">
             <OPopup class="demo-popup-usage" wrapper=".demo-popup-usage-wrap" anchor-class="o-popover-anchor"  ${propsToAttrStr(props)}>
               <div>内容文本内容文本内容文本内容文本内容文本</div>
@@ -91,7 +91,7 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
           </div>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>
 <style lang="scss">
 .demo-popup-usage-wrap {

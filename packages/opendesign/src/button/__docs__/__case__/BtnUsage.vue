@@ -35,7 +35,7 @@ The button's radius can be set to half circle by setting `pill` to `true`, or to
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   color: {
     type: 'list',
     list: ['normal', 'primary', 'success', 'warning', 'danger'],
@@ -68,7 +68,7 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   const { 'icon(slot)': iconSlot, 'suffix(slot)': suffixSlot } = props;
   let innerHTML = '';
   if (iconSlot) {
@@ -81,5 +81,5 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
   return `<OButton ${propsToAttrStr(props, ['icon(slot)', 'suffix(slot)'])}>${innerHTML}\n</OButton>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

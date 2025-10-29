@@ -40,7 +40,7 @@ import { reactive } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   placeholder: {
     type: 'string',
     default: '请选择',
@@ -101,7 +101,7 @@ const options = [
   { label: 'option 10', value: 'opt10' },
 ];
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `  <div class="demo-select-usage-wrap">
   <OSelect v-model=ctx.selectedVal class="demo-select-usage" option-title="选项标题"  ${propsToAttrStr(props)} :max-tag-count="2">
    <OOption v-for="item in ctx.options" :key="item.value" :label="item.label" :value="item.value" />
@@ -110,7 +110,7 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
   `;
 };
 
-const _ctx = reactive({
+const _oCtx = reactive({
   selectedVal: [],
   options,
 });

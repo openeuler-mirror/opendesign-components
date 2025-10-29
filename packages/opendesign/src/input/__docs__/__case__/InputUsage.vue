@@ -32,7 +32,7 @@ import { reactive } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   placeholder: {
     type: 'string',
     default: '请输入...',
@@ -65,12 +65,12 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<OInput v-model="ctx.inputVal"  ${propsToAttrStr(props)} /> 
     <div class="doc-input-text-wrap"><span>输入的值：</span>{{ctx.inputVal}}</div>`;
 };
 
-const _ctx = reactive({
+const _oCtx = reactive({
   inputVal: '',
 });
 </script>

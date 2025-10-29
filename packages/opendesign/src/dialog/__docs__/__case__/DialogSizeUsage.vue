@@ -63,7 +63,7 @@ import { reactive, markRaw } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = reactive({
+const _oSchema = reactive({
   size: {
     type: 'list',
     list: ['exlarge', 'large', 'medium', 'small', 'auto'],
@@ -80,18 +80,18 @@ const _schema = reactive({
   },
 }) satisfies Record<string, DocDemoSchema>;
 
-const _ctx = reactive({
+const _oCtx = reactive({
   visible: false,
   openDialog: markRaw(() => {
-    _ctx.visible = true;
+    _oCtx.visible = true;
   }),
 });
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   if (props.phoneHalfFull) {
     props.noResponsive = false;
-    _schema.noResponsive.disabled = true;
+    _oSchema.noResponsive.disabled = true;
   } else {
-    _schema.noResponsive.disabled = false;
+    _oSchema.noResponsive.disabled = false;
   }
   return `
 <OButton @click="ctx.openDialog">Open Dialog</OButton>

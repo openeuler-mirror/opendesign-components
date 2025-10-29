@@ -27,7 +27,7 @@ The badge can set an offset position using the `offset` property.
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   value: {
     type: 'string',
     default: '100',
@@ -56,7 +56,7 @@ const _schema = {
 } satisfies Record<string, DocDemoSchema>;
 
 const NUMBER_REGEXP = /^\d+$/;
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   const { offsetX, offsetY, value } = props;
   const isNumber = NUMBER_REGEXP.test(value);
 
@@ -70,5 +70,5 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
 </OBadge>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

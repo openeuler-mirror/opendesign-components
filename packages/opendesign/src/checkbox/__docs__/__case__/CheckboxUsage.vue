@@ -28,7 +28,7 @@ import { reactive } from 'vue';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   value: {
     type: 'string',
     default: 'apple',
@@ -43,11 +43,11 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _ctx = reactive({
+const _oCtx = reactive({
   modelValue: [],
 });
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `
 <OCheckbox
   v-model="ctx.modelValue"

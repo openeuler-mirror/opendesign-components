@@ -21,7 +21,7 @@
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   loading: {
     type: 'boolean',
     default: true,
@@ -35,11 +35,11 @@ const _schema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<div class="demo-skeleton-usage-wrap">
             <OSkeleton  ${propsToAttrStr(props)} > Demo of Skeleton </OSkeleton>
           </div>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>
