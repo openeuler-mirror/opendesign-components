@@ -19,8 +19,6 @@ export interface TableCellT {
   last?: boolean;
 }
 
-export type ColumnKeysT = Array<string>;
-
 export type CellSpanT = (
   rowIndex: number,
   columnIndex: number,
@@ -37,12 +35,6 @@ export const tableProps = {
    */
   columns: {
     type: Array as PropType<TableColumnT[] | string[]>,
-  },
-  /**
-   * 表头内容 ColumnKeysT
-   */
-  columnKeys: {
-    type: Array as PropType<ColumnKeysT>,
   },
   /**
    * 表格数据 TableRowT[]
