@@ -79,6 +79,8 @@ export const isClient = typeof window !== 'undefined';
 
 export const isTouchDevice = isClient ? 'ontouchstart' in document.documentElement : false;
 
+export const isHoverDevice = isClient ? window.matchMedia('(hover: hover)').matches : false;
+
 export function isWindow(val: unknown): val is Window {
   return val === window;
 }

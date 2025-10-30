@@ -38,13 +38,19 @@ function cellSpanFn(rowIdx: number, colIdx: number) {
       colspan: 2,
     };
   }
+  if (rowIdx === 4 && colIdx === 3) {
+    return {
+      colspan: 3,
+      rowspan: 3,
+    };
+  }
 }
 </script>
 <template>
   <h4>单元格合并</h4>
   <div class="sec">
     <OTable border="all" :data="tableData" :columns="columns2" :cell-span="cellSpanFn">
-      <template #td_name="{ row }">name: {{ row.name }}</template>
+      <template #td_name="{ row }"><div>name: {{ row.name }}</div></template>
     </OTable>
   </div>
 </template>
