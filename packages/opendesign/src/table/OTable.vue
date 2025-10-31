@@ -43,16 +43,21 @@ const tableEl = ref<HTMLTableElement>();
 // 导致无法通过tableData计算元数据以及无法通过vue模板语法设置类名
 const tableMeta = useTableMeta(tableEl, { markCellLastCol: true, markCellLastRow: true, markRowLast: true });
 
-const highlightedCells: Array<HTMLTableRowElement | HTMLTableCellElement> = [];
+const highlightedDoms: Array<HTMLTableRowElement | HTMLTableCellElement> = [];
 let highlightTrigger: HTMLTableCellElement | null = null;
 const clearHighlight = () => {
-  highlightedCells.forEach((cell) => {
-    cell.classList.remove('o-table-highlight');
+  highlightedDoms.forEach((cell) => {
+    cell.classList.remove('o-table-hover');
+    cell.classList.remove('o-table-active');
   });
-  highlightedCells.length = 0;
+  highlightedDoms.length = 0;
   highlightTrigger = null;
 };
-const highlightCell = (cell: HTMLTableCellElement) => {
+const applyHighlight = (dom: HTMLTableRowElement | HTMLTableCellElement, className: string) => {
+  highlightedDoms.push(dom);
+  dom.classList.add(className);
+};
+const highlightTable = (cell: HTMLTableCellElement, type: 'hover' | 'active') => {
   if (highlightTrigger === cell) {
     // 避免重复添加高亮样式
     return;
@@ -66,22 +71,20 @@ const highlightCell = (cell: HTMLTableCellElement) => {
   const section = cellMeta.section;
   const rowEl = section.rows[cellMeta.rowStart];
   const rowSpan = cellMeta.el.rowSpan;
-  highlightedCells.push(rowEl);
-  rowEl.classList.add('o-table-highlight');
+  const className = `o-table-${type}`;
+  applyHighlight(rowEl, className);
   if (rowSpan === 1) {
     const rows = section.data[cellMeta.rowStart];
     rows.forEach((item) => {
       if (item && item.el.parentElement !== rowEl) {
-        highlightedCells.push(item.el);
-        item.el.classList.add('o-table-highlight');
+        applyHighlight(item.el, className);
       }
     });
   } else {
     for (let i = cellMeta.rowStart + 1; i < cellMeta.rowEnd; i++) {
       const rowElItem = section.rows[i];
       if (rowElItem) {
-        highlightedCells.push(rowElItem);
-        rowElItem.classList.add('o-table-highlight');
+        applyHighlight(rowElItem, className);
       }
     }
   }
@@ -101,14 +104,14 @@ const handleMouseOver = (e: MouseEvent) => {
   if (!target || !isHoverDevice) {
     return;
   }
-  highlightCell(target);
+  highlightTable(target, 'hover');
 };
 const handleTouchStart = (e: TouchEvent) => {
   const target = getTdEl(e.target);
   if (!target) {
     return;
   }
-  highlightCell(target);
+  highlightTable(target, 'active');
 };
 </script>
 <template>
