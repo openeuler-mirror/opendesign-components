@@ -4,6 +4,7 @@ import fsp from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { type ComponentMeta, createChecker } from 'vue-component-meta';
 import { parseMulti } from 'vue-docgen-api';
+import { parse } from '@vue/compiler-sfc';
 import parseDefineSlots from './parseDefineSlots';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
@@ -35,6 +36,9 @@ function replaceCellChar(ch: string) {
 function escapeTableValue(value?: string) {
   const CELL_ESCAPE_REPLACE_RE = /[<>"'|\r\n]/g;
   return value ? value.replace(CELL_ESCAPE_REPLACE_RE, replaceCellChar) : '';
+}
+function escapeInlineCode(value: string) {
+  return value.replace(/`/g, '\\`');
 }
 function cleanTableData(table: any[][]) {
   // 清理表格数据
@@ -82,7 +86,7 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
   const hasEvents = componentMeta.events.length;
 
   if (!hasEvents) {
-    return componentMeta;
+    return;
   }
 
   try {
@@ -99,7 +103,6 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
   } catch {
     // noop
   }
-  return componentMeta;
 }
 /**
  * 补充 vue-component-meta 未能解析 defineSlots 的描述和签名
@@ -108,44 +111,35 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
  * @returns 新的组件元数据
  */
 async function applyTempFixForSlot(filename: string, componentMeta: ComponentMeta) {
-  const slotReg = /defineSlots<{[^}]+}>\(\)/;
-  const slotMatch = slotReg.exec(await fsp.readFile(filename, 'utf-8'));
-  if (!slotMatch) {
-    return componentMeta;
+  const fileContent = await fsp.readFile(filename, 'utf-8');
+  const setupScript = parse(fileContent).descriptor.scriptSetup?.content;
+  if (!setupScript) {
+    return;
   }
-  const slotMeta = parseDefineSlots(slotMatch[0]);
-  const slots = componentMeta.slots.map((slot) => {
-    const parsedSlot = slotMeta.find((s) => s.name === slot.name);
-    if (parsedSlot) {
-      slot.description = parsedSlot.docs.description;
-      slot.type = parsedSlot.type;
+  const slotMeta = parseDefineSlots(setupScript);
+
+  slotMeta.forEach((slot) => {
+    const meta = componentMeta.slots.find((item) => item.name === slot.name);
+    if (meta) {
+      meta.description = slot.description;
+      meta.type = slot.type;
+    } else {
+      componentMeta.slots.push(slot);
     }
-    return slot;
   });
-  return {
-    ...componentMeta,
-    slots,
-  };
 }
-const terminalWidth = process.stdout.columns || 80;
-const progressBarLength = Math.min(Math.floor(terminalWidth / 4), 30);
 const pathReg = /\/(O.*)\.vue/;
 const tagTypes = {
   deprecated: '(warning)',
 };
 const exposeDesReg = /^\s*expose:([\s\S]+)/;
-glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
-  files.forEach(async (file, index) => {
+console.time('GenerateApi done');
+const promise = glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
+  const promises = files.map(async (file) => {
     const fullPath = join(srcDir, file);
     // 解析Vue组件Api元数据
     const meta = checker.getComponentMeta(fullPath);
-    const completedCount = Math.floor(((index + 1) / files.length) * progressBarLength);
-    const restCount = progressBarLength - completedCount;
-    const progressBar = `${'█'.repeat(completedCount)}${' '.repeat(restCount)}`;
-    const percent = (((index + 1) / files.length) * 100).toFixed(0);
 
-    // 输出进度条
-    process.stdout.write(`\r[${progressBar}] ${percent}%`);
     await applyTempFixForEventDescriptions(fullPath, meta);
     await applyTempFixForSlot(fullPath, meta);
     const pathMath = file.match(pathReg);
@@ -162,8 +156,8 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         const excludeTag = ['default', 'zh-CN', 'en-US'];
         let propsData = selfProps.map((prop) => {
           return [
-            prop.name,
-            prop.type,
+            escapeInlineCode(prop.name),
+            escapeInlineCode(prop.type),
             prop.default || prop.tags.find((tag) => tag.name === 'default')?.text || '',
             prop.required ? '🗸' : '',
             prop.tags.find((tag) => tag.name === lang)?.text || prop.description || '',
@@ -186,8 +180,8 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         const excludeTag = ['zh-CN', 'en-US'];
         let eventsData = meta.events.map((event) => {
           return [
-            event.name,
-            event.signature,
+            escapeInlineCode(event.name),
+            escapeInlineCode(event.signature),
             event.tags.find((tag) => tag.name === lang)?.text || event.description || '',
             event.tags
               .filter((tag) => !excludeTag.includes(tag.name))
@@ -206,7 +200,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
           'en-US': ['Slot Name', 'Signature', 'Description'],
         };
         let slotsData = meta.slots.map((slot) => {
-          return [slot.name, slot.type, slot.description];
+          return [escapeInlineCode(slot.name), escapeInlineCode(slot.type), slot.description];
         });
         slotsData.unshift(tableHeader[lang]);
         slotsData = cleanTableData(slotsData);
@@ -220,7 +214,7 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
           'en-US': ['Name', 'Type', 'Description'],
         };
         let exposeData = selfExposed.map((expose) => {
-          return [expose.name, expose.type, (expose.description.match(exposeDesReg)?.[1] || '').trim()];
+          return [escapeInlineCode(expose.name), escapeInlineCode(expose.type), (expose.description.match(exposeDesReg)?.[1] || '').trim()];
         });
         exposeData.unshift(tableHeader[lang]);
         exposeData = cleanTableData(exposeData);
@@ -229,4 +223,8 @@ glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
       await fsp.mkdir(dirname(apiMdPath), { recursive: true }).then(() => fsp.writeFile(apiMdPath, mdContent, { encoding: 'utf-8' }));
     }
   });
+  return Promise.all(promises);
+});
+promise.finally(() => {
+  console.timeEnd('GenerateApi done');
 });
