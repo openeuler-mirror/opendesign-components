@@ -1,6 +1,6 @@
 import fsp from 'node:fs/promises';
 import { createFilter, type Plugin } from 'vite';
-import { parse } from '@vue/compiler-sfc';
+import { parse, type SFCDescriptor } from '@vue/compiler-sfc';
 import { generateCode } from '../helper/utils';
 
 const virtualModules = new Map<string, string>();
@@ -13,8 +13,7 @@ const getVirtualId = (id: string) => {
  * @param source case文件源代码
  * @returns 经过清理后的源代码组件
  */
-const generateVirtualModule = (source: string) => {
-  const { descriptor } = parse(source);
+const generateVirtualModule = (descriptor: SFCDescriptor) => {
   let cleanedSource = '';
 
   if (descriptor.script) {
@@ -59,7 +58,12 @@ export function injectDemoSource(): Plugin {
       if (await fsp.stat(id).then((stat) => stat.isFile())) {
         const source = await fsp.readFile(id, 'utf-8');
         const virtualId = getVirtualId(id);
-        virtualModules.set(virtualId, generateVirtualModule(source));
+        const { descriptor } = parse(source);
+        if (!descriptor.template) {
+          // 无 template 块，属于 Usage 运行时编译组件，不需要生成 DemoSource
+          return;
+        }
+        virtualModules.set(virtualId, generateVirtualModule(descriptor));
         // Case 组件引入虚拟模块 virtualId，该虚拟模块就是 Case 组件的源代码
         return `${code}
 ;import _DemoSource from ${JSON.stringify(virtualId)};
@@ -70,7 +74,11 @@ _sfc_main.DemoSource = _DemoSource;`;
       const virtualId = getVirtualId(ctx.file);
       if (virtualModules.has(virtualId)) {
         // 当Case组件更新时，同时更新对应的虚拟模块，以实现源码的热更新
-        virtualModules.set(virtualId, generateVirtualModule(await ctx.read()));
+        const { descriptor } = parse(await ctx.read());
+        if (!descriptor.template) {
+          return;
+        }
+        virtualModules.set(virtualId, generateVirtualModule(descriptor));
         ctx.server.watcher.emit('change', virtualId);
       }
     },
