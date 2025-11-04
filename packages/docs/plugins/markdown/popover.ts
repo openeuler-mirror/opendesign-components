@@ -26,10 +26,13 @@ export default function popover(md: MarkdownItAsync) {
     const token = tokens[idx];
     const content = escapeHtml(token.content);
     const info = escapeHtml(token.info);
-    return `<OPopover>
-<template #target><OTag color="${token.meta?.color || 'normal'}" class="tooltip">${content}</OTag></template>
+    const tagCode = `<OTag color="${token.meta?.color || 'normal'}"${info ? ' class="tooltip"' : ''}>${content}</OTag>`;
+    return info
+      ? `<OPopover>
+<template #target>${tagCode}</template>
 ${info}
-</OPopover>`;
+</OPopover>`
+      : tagCode;
   };
 
   md.inline.ruler.before('emphasis', 'popover', function (state, silent) {
