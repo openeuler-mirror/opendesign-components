@@ -79,13 +79,13 @@ onMounted(() => {
 });
 
 defineExpose({
-  /** expose: Focus method */
+  /** Focus method */
   focus: () => inTextareaRef.value?.focus(),
-  /** expose: Blur method */
+  /** Blur method */
   blur: () => inTextareaRef.value?.blur(),
-  /** expose: Clear method */
+  /** Clear method */
   clear: () => inTextareaRef.value?.clear(),
-  /** expose: Textarea element */
+  /** Textarea element */
   inputEl: () => inTextareaRef.value?.inputEl as HTMLTextAreaElement | undefined,
 });
 </script>

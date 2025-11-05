@@ -77,11 +77,11 @@ provide(formInjectKey, {
 });
 
 defineExpose({
-  /** expose: validate form */
+  /** validate form */
   validate: doValidate,
-  /** expose: reset form */
+  /** reset form */
   resetFields,
-  /** expose: clear validate state */
+  /** clear validate state */
   clearValidate,
 });
 </script>

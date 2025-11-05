@@ -398,7 +398,7 @@ onMounted(() => {
 });
 
 defineExpose({
-  /** expose: scroll into view */
+  /** scroll into view */
   scrollToView,
 });
 </script>

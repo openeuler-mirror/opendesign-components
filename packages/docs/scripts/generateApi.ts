@@ -4,8 +4,7 @@ import fsp from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { type ComponentMeta, createChecker } from 'vue-component-meta';
 import { parseMulti } from 'vue-docgen-api';
-import { parse } from '@vue/compiler-sfc';
-import parseDefineSlots from './parseDefineSlots';
+import parseSlotsAndExpose from './parseSlotsAndExpose';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const base = join(__dirname, '../../opendesign/');
@@ -106,17 +105,12 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
 }
 /**
  * 补充 vue-component-meta 未能解析 defineSlots 的描述和签名
- * @param filename 待解析的vue文件
+ * @param filePath 待解析的vue文件
  * @param componentMeta vue组件元数据
  * @returns 新的组件元数据
  */
-async function applyTempFixForSlot(filename: string, componentMeta: ComponentMeta) {
-  const fileContent = await fsp.readFile(filename, 'utf-8');
-  const setupScript = parse(fileContent).descriptor.scriptSetup?.content;
-  if (!setupScript) {
-    return;
-  }
-  const slotMeta = parseDefineSlots(setupScript);
+async function applyTempFixForSlotAndExpose(filePath: string, componentMeta: ComponentMeta) {
+  const { slots: slotMeta, exposes } = await parseSlotsAndExpose(filePath);
 
   slotMeta.forEach((slot) => {
     const meta = componentMeta.slots.find((item) => item.name === slot.name);
@@ -127,6 +121,9 @@ async function applyTempFixForSlot(filename: string, componentMeta: ComponentMet
       componentMeta.slots.push(slot);
     }
   });
+  const exposed = exposes.map((expose) => componentMeta.exposed.find((item) => item.name === expose));
+  componentMeta.exposed.length = 0;
+  componentMeta.exposed.push(...exposed);
 }
 const pathReg = /\/(O.*)\.vue/;
 const tagTypes = {
@@ -141,7 +138,7 @@ const promise = glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
     const meta = checker.getComponentMeta(fullPath);
 
     await applyTempFixForEventDescriptions(fullPath, meta);
-    await applyTempFixForSlot(fullPath, meta);
+    await applyTempFixForSlotAndExpose(fullPath, meta);
     const pathMath = file.match(pathReg);
     for (const lang of ['zh-CN', 'en-US']) {
       const apiMdPath = join(fullPath, `../__docs__/${pathMath[1]}-api.${lang}.md`);
@@ -207,14 +204,13 @@ const promise = glob('*/O*.vue', { cwd: srcDir, posix: true }).then((files) => {
         mdContent = `${mdContent}\n\n#### slots\n\n${markdownTable(slotsData)}`;
       }
       // expose
-      const selfExposed = meta.exposed.filter((expose) => expose.description && exposeDesReg.test(expose.description));
-      if (selfExposed.length) {
+      if (meta.exposed.length) {
         const tableHeader = {
           'zh-CN': ['名称', '类型', '说明'],
           'en-US': ['Name', 'Type', 'Description'],
         };
-        let exposeData = selfExposed.map((expose) => {
-          return [escapeInlineCode(expose.name), escapeInlineCode(expose.type), (expose.description.match(exposeDesReg)?.[1] || '').trim()];
+        let exposeData = meta.exposed.map((expose) => {
+          return [escapeInlineCode(expose.name), escapeInlineCode(expose.type), expose.description];
         });
         exposeData.unshift(tableHeader[lang]);
         exposeData = cleanTableData(exposeData);

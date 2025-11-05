@@ -153,7 +153,7 @@ const validateInput = (value: number) => {
 };
 
 defineExpose({
-  /** expose: Total number of pages */
+  /** Total number of pages */
   pageCount: totalPage,
 });
 </script>
