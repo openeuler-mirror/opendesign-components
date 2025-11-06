@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick, ref, computed, watch } from 'vue';
+import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { OScroller } from '@opensig/opendesign';
 import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
 import { changeLocale, locales, LOCALE_COOKIE_KEY } from './lang';
@@ -121,7 +122,9 @@ router.beforeEach((to) => {
     >
       <TheHeader class="app-header" />
       <TheAside v-if="sidebarStore.hasData" class="app-aside" @click-sidebar="handleAsideClick" />
-      <TheAnchor v-if="heads.length" :heads="heads" :target-offset="60" class="app-anchor" />
+      <OScroller v-if="heads.length" disabled-x class="app-anchor-wrapper">
+        <TheAnchor :heads="heads" :target-offset="60" />
+      </OScroller>
       <div ref="appBodyDom" class="app-body">
         <router-view />
       </div>
@@ -161,18 +164,25 @@ router.beforeEach((to) => {
     transform: translateX(-100%);
   }
 }
-.app-anchor {
+.app-anchor-wrapper {
   position: fixed;
-  left: calc(50vw + var(--layout-content-width) / 2 - var(--app-anchor-width));
+  left: calc(50vw + var(--layout-content-width) / 2  - var(--app-anchor-width));
+  right: 0;
   top: calc(var(--app-header-height) + var(--app-header-margin));
   max-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
-  width: var(--app-anchor-width);
   z-index: 8;
   .o-anchor-line {
     flex-shrink: 0;
   }
+  .o-scroller-container {
+    overscroll-behavior: contain;
+  }
   @include respond-to('<=pad_v') {
     display: none;
+  }
+  @include respond-to('>pc') {
+    right: auto;
+    width: var(--app-anchor-width);
   }
 }
 .app-body {

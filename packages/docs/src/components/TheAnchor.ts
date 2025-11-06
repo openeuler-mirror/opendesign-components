@@ -1,4 +1,4 @@
-import { defineComponent, h, VNode, type PropType } from 'vue';
+import { defineComponent, h, VNode, type PropType, type ComponentPublicInstance } from 'vue';
 import { OAnchor, OAnchorItem } from '@opensig/opendesign';
 
 type Header = { title: string; level: number; id: string; children?: Header[]; parent?: Header };
@@ -38,42 +38,65 @@ export default defineComponent({
   },
 
   setup({ heads, targetOffset }) {
-    return () => {
-      if (!heads.length) {
-        return null;
+    let anchorContainer: HTMLElement | null = null;
+
+    const setAnchorContainer = (inst: ComponentPublicInstance | Element | null) => {
+      if (!inst) {
+        return;
       }
-      const root: Header = {
-        title: '',
-        level: 0,
-        id: '',
-      };
-      let current: Header = root;
-      // 锚点数据从平铺结构构造为树状结构，以便生成VNode
-      for (const _item of heads) {
-        // 浅拷贝数据，避免此处修改响应式对象而造成组件意外更新
-        const item = { ..._item } as Header;
-        if (item.level > current.level) {
-          current.children = current.children || [];
-          current.children.push(item);
-          item.parent = current;
-          current = item;
-        } else {
-          while (current.level > item.level && current.parent) {
-            current = current.parent;
-          }
-          if (current && current.parent) {
-            current.parent.children = current.parent.children || [];
-            current.parent.children.push(item);
-            item.parent = current.parent;
+      if (inst instanceof Element) {
+        anchorContainer = inst as HTMLElement;
+      } else if (inst.$el) {
+        anchorContainer = inst.$el;
+      }
+    };
+    const handleAnchorChange = (href: string) => {
+      anchorContainer?.querySelector(`.o-anchor-item-link[href="${href}"]`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    };
+    return () => {
+      // OAnchor 的默认插槽回调函数。
+      // heads 变量不应在 TheAnchor 组件中访问，这会造成 TheAnchor + OAnchor 同时组件更新，
+      // 而是应该封装在插槽函数中这样只更新 OAnchor 组件
+      const anchorDefaultSlot = () => {
+        if (!heads.length) {
+          return null;
+        }
+        const root: Header = {
+          title: '',
+          level: 0,
+          id: '',
+        };
+        let current: Header = root;
+        // 锚点数据从平铺结构构造为树状结构，以便生成VNode
+        for (const _item of heads) {
+          // 浅拷贝数据，避免此处修改响应式对象而造成组件意外更新
+          const item = { ..._item } as Header;
+          if (item.level > current.level) {
+            current.children = current.children || [];
+            current.children.push(item);
+            item.parent = current;
             current = item;
+          } else {
+            while (current.level > item.level && current.parent) {
+              current = current.parent;
+            }
+            if (current && current.parent) {
+              current.parent.children = current.parent.children || [];
+              current.parent.children.push(item);
+              item.parent = current.parent;
+              current = item;
+            }
           }
         }
-      }
-      if (!root.children) {
-        return null;
-      }
-      const vNodes = createAnchorItems(root.children);
-      return h(OAnchor, { targetOffset }, { default: () => vNodes });
+        if (!root.children) {
+          return null;
+        }
+        return createAnchorItems(root.children);
+      };
+      return h(OAnchor, { targetOffset, onChange: handleAnchorChange, ref: setAnchorContainer }, { default: anchorDefaultSlot });
     };
   },
 });
