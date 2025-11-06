@@ -31,11 +31,13 @@
     height: var(--table-cell-height);
   }
 }
-.o-table-hover {
-  background-color: var(--table-row-hover);
-}
-.o-table-active {
-  background-color: var(--table-row-active);
+.o-table-highlight {
+  @media (hover: hover) {
+    background-color: var(--table-row-hover);
+  }
+  @media (hover: none) {
+    background-color: var(--table-row-active);
+  }
 }
 .o-table-wrap {
   border-radius: var(--table-radius);

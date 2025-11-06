@@ -47,8 +47,7 @@ const highlightedDoms: Array<HTMLTableRowElement | HTMLTableCellElement> = [];
 let highlightTrigger: HTMLTableCellElement | null = null;
 const clearHighlight = () => {
   highlightedDoms.forEach((cell) => {
-    cell.classList.remove('o-table-hover');
-    cell.classList.remove('o-table-active');
+    cell.classList.remove('o-table-highlight');
   });
   highlightedDoms.length = 0;
   highlightTrigger = null;
@@ -57,7 +56,7 @@ const applyHighlight = (dom: HTMLTableRowElement | HTMLTableCellElement, classNa
   highlightedDoms.push(dom);
   dom.classList.add(className);
 };
-const highlightTable = (cell: HTMLTableCellElement, type: 'hover' | 'active') => {
+const highlightTable = (cell: HTMLTableCellElement) => {
   if (highlightTrigger === cell) {
     // 避免重复添加高亮样式
     return;
@@ -71,7 +70,7 @@ const highlightTable = (cell: HTMLTableCellElement, type: 'hover' | 'active') =>
   const section = cellMeta.section;
   const rowEl = section.rows[cellMeta.rowStart];
   const rowSpan = cellMeta.el.rowSpan;
-  const className = `o-table-${type}`;
+  const className = 'o-table-highlight';
   applyHighlight(rowEl, className);
   if (rowSpan === 1) {
     const rows = section.data[cellMeta.rowStart];
@@ -104,14 +103,14 @@ const handleMouseOver = (e: MouseEvent) => {
   if (!target || !isHoverDevice) {
     return;
   }
-  highlightTable(target, 'hover');
+  highlightTable(target);
 };
 const handleTouchStart = (e: TouchEvent) => {
   const target = getTdEl(e.target);
   if (!target) {
     return;
   }
-  highlightTable(target, 'active');
+  highlightTable(target);
 };
 </script>
 <template>
