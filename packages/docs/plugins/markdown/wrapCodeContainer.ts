@@ -13,7 +13,7 @@ export default function wrapCodeContainer(md: MarkdownItAsync) {
     }
     const preCode = fence(tokens, idx, options, env, self);
     return `
-<CodeContainer lang="${token.info}" content-encoded="${encodeURIComponent(tokens[idx].content)}" :line-numbers="${Boolean(env.portal?.lineNumbers)}">
+<CodeContainer lang="${token.info}" content-encoded="${encodeURIComponent(tokens[idx].content)}">
   ${preCode}
 </CodeContainer>`;
   };

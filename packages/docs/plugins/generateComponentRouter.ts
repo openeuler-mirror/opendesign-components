@@ -11,6 +11,7 @@ import { getLangByFileName } from '../helper/utils';
 const __fileName = fileURLToPath(import.meta.url);
 const searchBase = resolve(__fileName, '../../../opendesign/src');
 const output = resolve(__fileName, '../../src/router/components.ts');
+let preRouteContent = '';
 function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number = 0, runFirst: boolean = true) {
   let handler = null;
   return (...args: Array<any>) => {
@@ -35,11 +36,13 @@ const emit = debounce(() => {
    */
   glob('**/__docs__/index.*.md', { cwd: searchBase, posix: true })
     .then((files) => {
-      return files.map((file) => {
-        const fullPath = resolve(searchBase, file);
-        const content = fse.readFileSync(fullPath).toString();
-        return { content, file, fullPath, name: file.match(/([^/]+)\/__docs__\/?/)?.[1], lang: getLangByFileName(file).lang };
-      });
+      return Promise.all(
+        files.sort().map(async (file) => {
+          const fullPath = resolve(searchBase, file);
+          const content = await fse.readFile(fullPath, 'utf-8');
+          return { content, file, fullPath, name: file.match(/([^/]+)\/__docs__\/?/)?.[1], lang: getLangByFileName(file).lang };
+        }),
+      );
     })
     .then((fileContents) => {
       /**
@@ -54,7 +57,7 @@ const emit = debounce(() => {
           meta: {
             ...matterData.data,
             lang: info.lang,
-            sidebarName: 'components'
+            sidebarName: 'components',
           },
         };
       });
@@ -76,12 +79,19 @@ ${res
  `;
     })
     .then((res) => {
+      if (res === preRouteContent) {
+        // 避免不必要的更新导致页面自动刷新
+        return;
+      }
+      preRouteContent = res;
       // 使用prettier格式化输出的代码
       return prettier.format(res, { parser: 'typescript', plugins: [tsPlugin], singleQuote: true, printWidth: 160 });
     })
     .then((res) => {
-      // 写代码文件
-      return fse.writeFile(output, res);
+      if (res) {
+        // 写代码文件
+        return fse.writeFile(output, res);
+      }
     });
 }, 1000);
 
