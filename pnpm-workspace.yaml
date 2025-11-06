@@ -47,6 +47,7 @@ catalogs:
     "@types/fs-extra": "^9.0.13"
     "@types/glob": "^8.1.0"
     "@types/markdown-it": "^14.1.0"
+    "ts-morph": "^27.0.2"
 
   # 代码质量工具
   lint:

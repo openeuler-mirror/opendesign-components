@@ -21,6 +21,7 @@
     "markdown-it": "catalog:markdown",
     "pinia": "catalog:vue",
     "prettier": "catalog:lint",
+    "ts-morph": "catalog:typescript",
     "vue": "catalog:vue"
   },
   "devDependencies": {

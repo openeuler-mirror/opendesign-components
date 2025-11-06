@@ -46,7 +46,7 @@ const scrollbarProps = computed(() => {
 });
 
 defineExpose({
-  /** expose: Toggle the ODialog */
+  /** Toggle the ODialog */
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
   },
