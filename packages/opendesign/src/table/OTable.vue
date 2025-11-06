@@ -5,7 +5,7 @@ import { computed, ref } from 'vue';
 import { IconLoading } from '../_utils/icons';
 import { isHoverDevice, isString } from '../_utils/is';
 import { useI18n } from '../locale';
-import { useTableMeta, DEFAULT_CELL_COL_MARKER, DEFAULT_ROW_MARKER } from './useTableMeta';
+import { useTableMeta, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER } from './useTableMeta';
 
 const props = defineProps(tableProps);
 
@@ -130,7 +130,7 @@ const handleTouchStart = (e: TouchEvent) => {
         <thead v-if="columnData.length > 1">
           <slot name="header" :columns="columnData">
             <tr>
-              <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ [DEFAULT_CELL_COL_MARKER]: idx + 1 === columnData.length }">
+              <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ [DEFAULT_CELL_LAST_COL_MARKER]: idx + 1 === columnData.length }">
                 <slot :name="`th_${col.key}`" :column="col">
                   {{ col.label }}
                 </slot>
@@ -140,11 +140,11 @@ const handleTouchStart = (e: TouchEvent) => {
         </thead>
         <tbody v-if="tableData.length > 0">
           <slot name="body" :body="tableData">
-            <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ [DEFAULT_ROW_MARKER]: rIdx + 1 === tableData.length }">
+            <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ [DEFAULT_ROW_LAST_MARKER]: rIdx + 1 === tableData.length }">
               <td
                 :rowspan="col.rowspan"
                 :colspan="col.colspan"
-                :class="{ [DEFAULT_CELL_COL_MARKER]: col.last }"
+                :class="{ [DEFAULT_CELL_LAST_COL_MARKER]: col.last }"
                 v-for="(col, idx) in row.data"
                 :key="col.key || idx"
               >
