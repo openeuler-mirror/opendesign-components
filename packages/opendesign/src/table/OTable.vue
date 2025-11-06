@@ -18,7 +18,7 @@ defineSlots<{
   empty(): any;
   loading(): any;
   [k: `th_${string}`]: (props: { column: TableColumnT }) => any;
-  [k: `td_${string}`]: (props: { row: TableRowT }) => any;
+  [k: `td_${string}`]: (props: { row: TableRowT; rowIndex: number }) => any;
 }>();
 
 const { t } = useI18n();
@@ -148,7 +148,7 @@ const handleTouchStart = (e: TouchEvent) => {
                 v-for="(col, idx) in row.data"
                 :key="col.key || idx"
               >
-                <slot :name="`td_${col.key}`" :row="props.data ? props.data[rIdx] : {}">
+                <slot :name="`td_${col.key}`" :row="props.data ? props.data[rIdx] : {}" :row-index="rIdx">
                   {{ col.value }}
                 </slot>
               </td>
