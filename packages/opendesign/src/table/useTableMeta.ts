@@ -36,9 +36,9 @@ type TableMetaOptions = {
   splitBySection?: boolean;
 };
 
-export const DEFAULT_CELL_COL_MARKER = 'o-cell-last-col';
-export const DEFAULT_CELL_ROW_MARKER = 'o-cell-last-row';
-export const DEFAULT_ROW_MARKER = 'o-row-last';
+export const DEFAULT_CELL_LAST_COL_MARKER = 'o-cell-last-col';
+export const DEFAULT_CELL_LAST_ROW_MARKER = 'o-cell-last-row';
+export const DEFAULT_ROW_LAST_MARKER = 'o-row-last';
 
 function fillGrid(grid: (CellT | null)[][], cellMeta: CellT) {
   for (let r = cellMeta.rowStart; r < cellMeta.rowEnd; r++) {
@@ -167,9 +167,9 @@ function markSection(
 function markTable(sections: Array<TableSection | undefined>, options: TableMetaOptions) {
   const { markCellLastCol, markCellLastRow, markRowLast, splitBySection } = options;
   const marker = {
-    cellColMarker: markCellLastCol === true ? DEFAULT_CELL_COL_MARKER : markCellLastCol,
-    cellRowMarker: markCellLastRow === true ? DEFAULT_CELL_ROW_MARKER : markCellLastRow,
-    rowMarker: markRowLast === true ? DEFAULT_ROW_MARKER : markRowLast,
+    cellColMarker: markCellLastCol === true ? DEFAULT_CELL_LAST_COL_MARKER : markCellLastCol,
+    cellRowMarker: markCellLastRow === true ? DEFAULT_CELL_LAST_ROW_MARKER : markCellLastRow,
+    rowMarker: markRowLast === true ? DEFAULT_ROW_LAST_MARKER : markRowLast,
   };
 
   const validSections = sections.filter(Boolean) as TableSection[];

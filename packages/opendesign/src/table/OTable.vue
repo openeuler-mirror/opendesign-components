@@ -5,7 +5,7 @@ import { computed, ref } from 'vue';
 import { IconLoading } from '../_utils/icons';
 import { isHoverDevice, isString } from '../_utils/is';
 import { useI18n } from '../locale';
-import { useTableMeta, DEFAULT_CELL_COL_MARKER, DEFAULT_ROW_MARKER } from './useTableMeta';
+import { useTableMeta, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER } from './useTableMeta';
 
 const props = defineProps(tableProps);
 
@@ -18,7 +18,7 @@ defineSlots<{
   empty(): any;
   loading(): any;
   [k: `th_${string}`]: (props: { column: TableColumnT }) => any;
-  [k: `td_${string}`]: (props: { row: TableRowT }) => any;
+  [k: `td_${string}`]: (props: { row: TableRowT; rowIndex: number }) => any;
 }>();
 
 const { t } = useI18n();
@@ -47,8 +47,7 @@ const highlightedDoms: Array<HTMLTableRowElement | HTMLTableCellElement> = [];
 let highlightTrigger: HTMLTableCellElement | null = null;
 const clearHighlight = () => {
   highlightedDoms.forEach((cell) => {
-    cell.classList.remove('o-table-hover');
-    cell.classList.remove('o-table-active');
+    cell.classList.remove('o-table-highlight');
   });
   highlightedDoms.length = 0;
   highlightTrigger = null;
@@ -57,7 +56,7 @@ const applyHighlight = (dom: HTMLTableRowElement | HTMLTableCellElement, classNa
   highlightedDoms.push(dom);
   dom.classList.add(className);
 };
-const highlightTable = (cell: HTMLTableCellElement, type: 'hover' | 'active') => {
+const highlightTable = (cell: HTMLTableCellElement) => {
   if (highlightTrigger === cell) {
     // 避免重复添加高亮样式
     return;
@@ -71,7 +70,7 @@ const highlightTable = (cell: HTMLTableCellElement, type: 'hover' | 'active') =>
   const section = cellMeta.section;
   const rowEl = section.rows[cellMeta.rowStart];
   const rowSpan = cellMeta.el.rowSpan;
-  const className = `o-table-${type}`;
+  const className = 'o-table-highlight';
   applyHighlight(rowEl, className);
   if (rowSpan === 1) {
     const rows = section.data[cellMeta.rowStart];
@@ -104,14 +103,14 @@ const handleMouseOver = (e: MouseEvent) => {
   if (!target || !isHoverDevice) {
     return;
   }
-  highlightTable(target, 'hover');
+  highlightTable(target);
 };
 const handleTouchStart = (e: TouchEvent) => {
   const target = getTdEl(e.target);
   if (!target) {
     return;
   }
-  highlightTable(target, 'active');
+  highlightTable(target);
 };
 </script>
 <template>
@@ -131,7 +130,7 @@ const handleTouchStart = (e: TouchEvent) => {
         <thead v-if="columnData.length > 1">
           <slot name="header" :columns="columnData">
             <tr>
-              <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ [DEFAULT_CELL_COL_MARKER]: idx + 1 === columnData.length }">
+              <th v-for="(col, idx) in columnData" :key="col.key || idx" :class="{ [DEFAULT_CELL_LAST_COL_MARKER]: idx + 1 === columnData.length }">
                 <slot :name="`th_${col.key}`" :column="col">
                   {{ col.label }}
                 </slot>
@@ -141,15 +140,15 @@ const handleTouchStart = (e: TouchEvent) => {
         </thead>
         <tbody v-if="tableData.length > 0">
           <slot name="body" :body="tableData">
-            <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ [DEFAULT_ROW_MARKER]: rIdx + 1 === tableData.length }">
+            <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ [DEFAULT_ROW_LAST_MARKER]: rIdx + 1 === tableData.length }">
               <td
                 :rowspan="col.rowspan"
                 :colspan="col.colspan"
-                :class="{ [DEFAULT_CELL_COL_MARKER]: col.last }"
+                :class="{ [DEFAULT_CELL_LAST_COL_MARKER]: col.last }"
                 v-for="(col, idx) in row.data"
                 :key="col.key || idx"
               >
-                <slot :name="`td_${col.key}`" :row="props.data ? props.data[rIdx] : {}">
+                <slot :name="`td_${col.key}`" :row="props.data ? props.data[rIdx] : {}" :row-index="rIdx">
                   {{ col.value }}
                 </slot>
               </td>
