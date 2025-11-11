@@ -12,6 +12,16 @@
 
 ---
 
+# 0.0.79
+
+- feat
+
+1. [menu] 增加size属性，支持'medium', 'small';
+
+- fix
+
+1. [carousel] 修复hover暂停播放时指示器不显示激活状态的问题
+
 # 0.0.78
 
 - fix
