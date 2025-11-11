@@ -1,7 +1,8 @@
-// 优化后代码结构示例
 import { escapeHtml } from 'markdown-it/lib/common/utils.mjs';
 import { createHighlighterCore, createJavaScriptRegexEngine } from 'shiki';
 import { generateCode } from '../../helper/utils';
+// 由于 @vue/compiler-sfc 包体积过大，因此使用简化的 parseSfc 函数
+import { parseSfc } from '../../helper/vue-utils';
 
 const baseConfig = {
   themes: [import('@shikijs/themes/light-plus'), import('@shikijs/themes/dark-plus')],
@@ -12,7 +13,7 @@ const baseConfig = {
  * @returns 高亮函数
  */
 export const createHighlighter = async () => {
-  const [mainHighlighter, vueTemplateHighlighter, parse] = await Promise.all([
+  const [mainHighlighter, vueTemplateHighlighter] = await Promise.all([
     createHighlighterCore({
       ...baseConfig,
       langs: [
@@ -44,7 +45,6 @@ export const createHighlighter = async () => {
         import('@shikijs/langs/css'),
       ],
     }),
-    import('@vue/compiler-sfc').then((r) => r.parse),
   ]);
 
   const stripPreCodeReg = /<pre.*?><code.*?>([\s\S]*?)<\/code><\/pre>/;
@@ -86,7 +86,7 @@ export const createHighlighter = async () => {
     }
 
     if (lang === 'vue') {
-      const { descriptor } = parse(code);
+      const descriptor = parseSfc(code);
       // vue的template模块需要单独处理，因此分块高亮
       const blocks = [descriptor.script, ...descriptor.styles, descriptor.scriptSetup, ...descriptor.customBlocks, descriptor.template]
         .filter(Boolean)

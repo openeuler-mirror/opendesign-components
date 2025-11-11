@@ -2,7 +2,7 @@
 import { h, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useSidebarStore, type NavItem } from '@/stores/sidebar';
-import { OMenu, OSubMenu, OMenuItem } from '@opensig/opendesign';
+import { OMenu, OSubMenu, OMenuItem, vScrollbar } from '@opensig/opendesign';
 const router = useRouter();
 const route = useRoute();
 
@@ -36,7 +36,7 @@ watch(path, (newPath) => {
 </script>
 <template>
   <aside class="the-aside">
-    <OMenu v-model="path" v-model:expanded="expand" size="small" class="nav-list">
+    <OMenu v-model="path" v-model:expanded="expand" v-scrollbar size="small" class="nav-list">
       <RecursiveMenu v-for="item in sidebarStore.navList" :key="item.value" v-bind="item" />
     </OMenu>
     <div class="controller" @click="emits('clickSidebar')">
@@ -53,6 +53,11 @@ watch(path, (newPath) => {
 .nav-list {
   margin-left: auto;
   --menu-width: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 100%;
+  // 防止滚动穿透到 body 元素上
+  overscroll-behavior: contain;
   @include respond-to('>pc') {
     --menu-width: var(--app-aside-static-width);
   }
