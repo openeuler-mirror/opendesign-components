@@ -5,7 +5,9 @@
   font-weight: 400;
   src:
     local('HarmonyOSHans'),
-    url(/HarmonyOS_Hans_Regular.9I7L7rbq.woff2) format('woff2');
+    // 将字体文件从 public/ 中移到 src/assets/fonts/ 文件夹中
+    // 根据当前的 nginx 配置，src/assets/ 中的文件有缓存，public/ 文件夹中的文件不会被缓存
+    url(../fonts/HarmonyOS_Hans_Regular.woff2) format('woff2');
 }
 
 @font-face {
@@ -15,7 +17,7 @@
   font-weight: 500;
   src:
     local('HarmonyOSHans Medium'),
-    url(/HarmonyOS_Hans_Medium.Bmj-cXYg.woff2) format('woff2');
+    url(../fonts/HarmonyOS_Hans_Medium.woff2) format('woff2');
 }
 
 @font-face {
@@ -25,7 +27,7 @@
   font-weight: 700;
   src:
     local('HarmonyOSHans Bold'),
-    url(/HarmonyOS_Hans_Bold.CLKfZ-3Y.woff2) format('woff2');
+    url(../fonts/HarmonyOS_Hans_Bold.woff2) format('woff2');
 }
 
 @font-face {
@@ -35,7 +37,7 @@
   font-weight: 400;
   src:
     local('HarmonyOSSans'),
-    url(/HarmonyOS_Sans_Regular_Italic.CWzBs7-y.woff2) format('woff2');
+    url(../fonts/HarmonyOS_Sans_Regular_Italic.woff2) format('woff2');
 }
 
 @font-face {
@@ -45,7 +47,7 @@
   font-weight: 500;
   src:
     local('HarmonyOSSans Medium'),
-    url(/HarmonyOS_Sans_Medium_Italic.DL_MEPRF.woff2) format('woff2');
+    url(../fonts/HarmonyOS_Sans_Medium_Italic.woff2) format('woff2');
 }
 
 @font-face {
@@ -55,5 +57,5 @@
   font-weight: 700;
   src:
     local('HarmonyOSSans Bold'),
-    url(/HarmonyOS_Sans_Bold_Italic.Bvb9oWs-.woff2) format('woff2');
+    url(../fonts/HarmonyOS_Sans_Bold_Italic.woff2) format('woff2');
 }
