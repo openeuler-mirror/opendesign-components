@@ -129,7 +129,6 @@ const initSlides = () => {
   left: 50%;
   top: 0;
   z-index: 10;
-  // margin-left: -1px;
   &.red {
     border-color: red;
   }
@@ -144,7 +143,6 @@ const initSlides = () => {
   margin: auto;
   height: 200px;
   overflow: hidden;
-  // background-color: red;
 }
 .slide-item2 {
   width: 100%;

@@ -61,7 +61,6 @@ export default class Gallery extends Effect {
 
     this.alignType = alignType;
     this.moveValue = 0;
-    // this.currentIndex = activeIndex;
     this.isChanging = false;
 
     // handle touch

@@ -225,7 +225,6 @@ const values = computed(() =>
     return `${k}: ${JSON.stringify(formModel.value[k as keyof typeof formModel.value])}`;
   })
 );
-// console.log(values);
 
 const formRef = ref<InstanceType<typeof OForm>>();
 const reset = () => {

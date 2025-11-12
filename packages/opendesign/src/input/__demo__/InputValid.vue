@@ -17,7 +17,6 @@ const format = (v: string) => {
 };
 const check = (v: string) => {
   return v.length % 2 === 0;
-  // return true;
 };
 const valueOnInvalidChange = (inputValue: string, lastValidInputValue: string) => {
   console.log('valueOnInvalidChange', inputValue, lastValidInputValue);

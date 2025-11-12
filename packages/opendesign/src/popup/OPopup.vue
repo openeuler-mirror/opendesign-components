@@ -104,28 +104,6 @@ onMounted(() => {
     }
   });
 
-  // 触发元素为dom或者选择器，处理事件触发
-  // nextTick(() => {
-  // if (!wrapperEl.value) {
-  //   if (typeof props.wrapper === 'string') {
-  //     wrapperEl.value = document.querySelector(props.wrapper);
-  //   } else {
-  //     wrapperEl.value = props.wrapper;
-  //   }
-  // }
-
-  // 绑定触发元素事件
-  // if (typeof props.target === 'string') {
-  // bindTargetEvent(document.querySelector(props.target));
-  // } else if (isHtmlElement(props.target)) {
-  // bindTargetEvent(props.target as HTMLElement);
-  // }
-
-  // 初始为true时，更新样式
-  // if (visible.value) {
-  //   updatePopupStyle();
-  // }
-  // });
 });
 
 let triggerListener: ReturnType<typeof bindTrigger> = [];
@@ -309,16 +287,6 @@ const updateVisible = async (isVisible?: boolean, delay?: number) => {
     update();
   }
 };
-
-// 触发元素为组件ref，因生命周期问题，延后绑定处理事件触发
-// watch(
-//   () => props.target,
-//   (ele) => {
-//     if (isHtmlElement((ele as ComponentPublicInstance)?.$el)) {
-//       bindTargetEvent((ele as ComponentPublicInstance).$el);
-//     }
-//   }
-// );
 
 watch(targetElRef, (elRef) => {
   if (isHtmlElement(elRef?.$el)) {

@@ -17,10 +17,7 @@ const btn9 = ref(null);
 const visible = ref(true);
 const text = ref('text');
 const width = ref('50vw');
-setTimeout(() => {
-  // text.value += '--|';
-  // width.value = '40vw';
-}, 2000);
+
 </script>
 <template>
   <h4>popup container</h4>
@@ -102,7 +99,6 @@ setTimeout(() => {
   position: relative;
   z-index: 10;
   background-color: #eee;
-  // overflow: visible;
 }
 .content {
   height: 50vh;
@@ -146,7 +142,6 @@ setTimeout(() => {
 }
 .btn8 {
   left: 45vw;
-  // bottom: 0;
   top: 100vh;
 }
 .btn9 {
