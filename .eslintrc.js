@@ -80,5 +80,6 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_'
       }
     ],
+    'no-undef-init': 'error',
   },
 };
