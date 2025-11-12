@@ -164,7 +164,7 @@ function markSection(
     }
   }
 }
-function markTable(sections: Array<TableSection | undefined>, options: TableMetaOptions) {
+function markTable(sections: Array<TableSection | null>, options: TableMetaOptions) {
   const { markCellLastCol, markCellLastRow, markRowLast, splitBySection } = options;
   const marker = {
     cellColMarker: markCellLastCol === true ? DEFAULT_CELL_LAST_COL_MARKER : markCellLastCol,
@@ -180,8 +180,8 @@ function markTable(sections: Array<TableSection | undefined>, options: TableMeta
   });
 }
 const processTable = (el: HTMLTableElement, cellMap: WeakMap<HTMLTableCellElement, CellT>, options: TableMetaOptions) => {
-  let head = undefined;
-  let foot = undefined;
+  let head = null;
+  let foot = null;
   let maxCols = 0;
   // 处理表格数据
   if (el.tHead) {
@@ -247,9 +247,9 @@ function shouldRefactorTableMeta(records: MutationRecord[]) {
 }
 export function useTableMeta(elRef: HTMLTableElement | Ref<HTMLTableElement | null | undefined>, options: TableMetaOptions = {}) {
   const cellMap = new WeakMap<HTMLTableCellElement, CellT>();
-  const head = shallowRef<TableSection>();
-  const bodies = shallowRef<TableSection[]>();
-  const foot = shallowRef<TableSection>();
+  const head = shallowRef<TableSection | null>(null);
+  const bodies = shallowRef<TableSection[]>([]);
+  const foot = shallowRef<TableSection | null>(null);
   let mutationObserver: MutationObserver | null = null;
 
   const updateMeta = (el: HTMLTableElement) => {
