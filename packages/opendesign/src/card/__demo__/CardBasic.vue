@@ -128,13 +128,10 @@ const card = {
   width: calc(25% - 6px);
 }
 .footer {
-  // margin-top: ;
   display: flex;
-  justify-detail: space-between;
+  justify-content: space-between;
 }
-// .card2 {
-// height: 260px;
-// }
+
 .card-icon {
   display: flex;
   align-items: flex-start;

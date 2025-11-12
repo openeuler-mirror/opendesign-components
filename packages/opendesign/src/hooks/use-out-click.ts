@@ -1,7 +1,5 @@
 import { isTouchDevice } from '../_utils/is';
 
-// type mEvent =  isTouchDevice ? TouchEvent : MouseEvent;
-
 interface handlerItemT {
   handler: () => void;
   exception?: (e: Event) => boolean;

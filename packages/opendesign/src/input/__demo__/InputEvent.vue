@@ -18,7 +18,6 @@ const format = (v: string) => {
 
 const inputRef = ref<InstanceType<typeof OInput>>();
 const focus = () => {
-  // console.log(inputRef.value?.focus);
   inputRef.value?.focus();
 };
 const blur = () => {

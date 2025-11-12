@@ -16,7 +16,6 @@ function cellSpanFn(rowIdx: number, colIdx: number) {
   if (rowIdx === 2 && colIdx === 2) {
     return {
       rowspan: 2,
-      // colspan: 2,
     };
   }
   if (rowIdx === 0 && colIdx === 0) {

@@ -99,7 +99,6 @@ import { ORow, OCol } from '../index';
   display: flex;
   align-items: center;
   justify-content: center;
-  // width: 25vw;
   height: 48px;
 }
 </style>

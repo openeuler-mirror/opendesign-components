@@ -9,9 +9,6 @@ import { useTableMeta, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER } f
 
 const props = defineProps(tableProps);
 
-// type getT<T> = T extends (infer R)[] ? (R extends TableColumnT ? R['key'] : R) : never;
-// type keyT = getT<typeof props.columns>;
-
 defineSlots<{
   header(props: { columns: TableColumnT[] }): any;
   body(): any;
