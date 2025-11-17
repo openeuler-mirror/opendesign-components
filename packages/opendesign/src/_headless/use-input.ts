@@ -46,13 +46,13 @@ export function useInput(options: InputOptionT) {
     return isFunction(calculateLength) ? calculateLength(v) : v?.length;
   };
 
-  const uncontroledValue = ref(defaultValue);
-  const controledValue = modelValue;
+  const uncontrolledValue = ref(defaultValue);
+  const controlledValue = modelValue;
 
   // 当前值
   const computedValue = computed(() => {
-    const cv = controledValue?.value;
-    const ucv = uncontroledValue.value ?? '';
+    const cv = controlledValue?.value;
+    const ucv = uncontrolledValue.value ?? '';
 
     return cv ?? ucv;
   });
@@ -144,7 +144,7 @@ export function useInput(options: InputOptionT) {
   );
 
   const updateValue = (value: string) => {
-    uncontroledValue.value = value;
+    uncontrolledValue.value = value;
 
     emitUpdate(value);
   };
