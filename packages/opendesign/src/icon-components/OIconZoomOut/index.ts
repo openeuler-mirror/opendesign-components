@@ -1,0 +1,1 @@
+export { default as OIconZoomOut } from './OIconZoomOut.vue';

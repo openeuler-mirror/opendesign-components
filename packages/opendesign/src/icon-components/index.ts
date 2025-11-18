@@ -1,8 +1,11 @@
+export { OIconZoomOut } from './OIconZoomOut';
+export { OIconZoomIn } from './OIconZoomIn';
 export { OIconVideoPlay } from './OIconVideoPlay';
 export { OIconTime } from './OIconTime';
 export { OIconStar } from './OIconStar';
 export { OIconSearch } from './OIconSearch';
 export { OIconRefresh } from './OIconRefresh';
+export { OIconOneToOne } from './OIconOneToOne';
 export { OIconMinus } from './OIconMinus';
 export { OIconLoading } from './OIconLoading';
 export { OIconLink } from './OIconLink';
