@@ -1,6 +1,18 @@
 [
   {
     "type": "fill",
+    "name": "o-icon-zoom-out",
+    "componentName": "OIconZoomOut",
+    "path": "fill/zoom-out.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-zoom-in",
+    "componentName": "OIconZoomIn",
+    "path": "fill/zoom-in.svg"
+  },
+  {
+    "type": "fill",
     "name": "o-icon-video-play",
     "componentName": "OIconVideoPlay",
     "path": "fill/video-play.svg"
@@ -28,6 +40,12 @@
     "name": "o-icon-refresh",
     "componentName": "OIconRefresh",
     "path": "fill/refresh.svg"
+  },
+  {
+    "type": "fill",
+    "name": "o-icon-one-to-one",
+    "componentName": "OIconOneToOne",
+    "path": "fill/one-to-one.svg"
   },
   {
     "type": "fill",

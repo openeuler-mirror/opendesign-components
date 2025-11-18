@@ -1,0 +1,1 @@
+export { default as OIconOneToOne } from './OIconOneToOne.vue';
