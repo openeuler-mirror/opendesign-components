@@ -81,7 +81,7 @@ export const inInputProps = {
     type: Function as PropType<(val: string) => number>,
   },
   /**
-   * @zh-CN 超过最大字符长度时是否允许输入
+   * @zh-CN 超过最大字符长度时是否允许输入，当为false时，输入长度超出maxLength会被截断
    * @en-US Whether input is allowed when the maximum character length is exceeded.
    * @default true
    */
@@ -104,11 +104,11 @@ export const inInputProps = {
     type: Function as PropType<(value: string) => boolean>,
   },
   /**
-   * @zh-CN 输入为无效值时，在blur/pressEnter时的回调，返回值为纠正后的值
+   * @zh-CN 输入为无效值时，在blur/pressEnter时的回调，返回值为纠正后的值；当输入值不合法时的处理方式：[true]：纠正为上一次合法的值(如果上一次合法值为空字符串，则不处理); [false|undefined]: 不处理；[function]: 使用函数的返回值
    * @en-US When the input value is an invalid value, the callback during blur/pressEnter returns the corrected value.
    */
   valueOnInvalidChange: {
-    type: Function as PropType<(inputValue: string, lastValidInputValue: string) => string>,
+    type: [Boolean, Function as PropType<(inputValue: string, lastValidInputValue: string) => string>],
   },
   /**
    * @zh-CN 显示密码的方式
