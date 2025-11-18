@@ -40,6 +40,11 @@ module.exports = {
     'no-multi-spaces': 'warn',
     'no-mixed-spaces-and-tabs': 'warn',
     'no-trailing-spaces': 'warn',
+    'spaced-comment': 'warn',
+    'space-infix-ops': 'warn',
+
+    'eol-last': 'warn',
+    indent: ['warn', 2],
 
     semi: ['warn', 'always'],
     'prefer-template': 'error',

@@ -3,7 +3,7 @@ import '../style';
 import InInput from '../InInput.vue';
 import { ref } from 'vue';
 
-const inputVal = ref('124567890');
+const inputVal = ref('124567123');
 
 const printEvent = (evt: string, v?: string) => {
   console.log(`[${evt}]`, v ?? '', 'inputVal:', inputVal.value);
@@ -11,7 +11,7 @@ const printEvent = (evt: string, v?: string) => {
 
 const disabled = ref(false);
 const maxLength = ref(6);
-const minLength = ref(4);
+const minLength = ref(2);
 const toggle = () => {
   disabled.value = !disabled.value;
   maxLength.value = 5;
@@ -29,6 +29,7 @@ const validate = (value: string): boolean => {
 
 const onUpdate = (val: string) => {
   inputVal.value = val;
+  console.log('onUpdate', val);
 };
 
 const format = (val: string) => {
@@ -37,7 +38,7 @@ const format = (val: string) => {
 
 const valueOnInvalidChange = (currentValue: string, lastValid: string) => {
   console.log('valueOnInvalidChange:', currentValue, lastValid);
-  return lastValid;
+  return lastValid || currentValue;
 };
 
 const onChange = (currentValue: string, lastValue: string) => {
@@ -67,7 +68,7 @@ window.setInterval(() => {
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="onChange"
-        @input="(e, value) => printEvent('input', value)"
+        @input="(e:Event, value:string) => printEvent('input', value)"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
@@ -87,8 +88,8 @@ window.setInterval(() => {
         :validate="validate"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
-        @change="(v) => printEvent('change', v)"
-        @input="() => printEvent('input')"
+        @change="(v:string) => printEvent('change', v)"
+        @input="(_e:Event, v:string) => printEvent('input', v)"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
