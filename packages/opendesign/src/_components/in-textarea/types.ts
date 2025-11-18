@@ -66,7 +66,7 @@ export const inTextareaProps = {
    * @en-US When the input value is an invalid value, the callback during blur/pressEnter returns the corrected value.
    */
   valueOnInvalidChange: {
-    type: [Boolean, Function as PropType<(inputValue: string, lastValidInputValue: string) => string>],
+    type: [Boolean, Function] as PropType<boolean | ((inputValue: string, lastValidInputValue: string) => string)>,
   },
   /**
    * @zh-CN 同 textarea 的 rows 属性
@@ -106,6 +106,14 @@ export const inTextareaProps = {
    */
   maxLength: {
     type: Number,
+  },
+  /**
+   * @zh-CN 是否显示字符长度信息，always: 一直显示； never：不显示；auto：设置了minLength、maxLength时显示
+   * @en-US if not show character length.
+   */
+  showLength: {
+    type: [String, Function] as PropType<'always' | 'auto' | 'never' | ((length:number) => string)>,
+    default: 'auto'
   },
   /**
    * @zh-CN 获取长度方法

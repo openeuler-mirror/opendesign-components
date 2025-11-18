@@ -52,6 +52,7 @@ const onChange = (v: string) => {
         @press-enter="() => printEvent('press-enter')"
         clearable
         resize="both"
+        show-length="always"
       />
     </div>
     <div class="block">
@@ -62,10 +63,11 @@ const onChange = (v: string) => {
         :validate="validate"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
-        @change="(v) => printEvent('change', v)"
+        @change="(v:string) => printEvent('change', v)"
         @input="() => printEvent('input')"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
+        value-on-invalid-change
         clearable
         :max-length="maxLength"
         :min-length="minLength"
