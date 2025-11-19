@@ -141,6 +141,7 @@ defineExpose({
                   'minLength',
                   'getLength',
                   'inputOnOutlimit',
+                  'showLength'
                 ]),
                 onChange: onChange,
                 onInput: onInput,
