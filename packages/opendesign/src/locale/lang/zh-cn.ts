@@ -19,4 +19,6 @@ export default {
   // select
   'select.cancel': '取消',
   'select.confirm': '确定',
+  // input
+  'input.limit': '<b>{0}</b>/{1}',
 };

@@ -69,7 +69,6 @@ const onChange = (v: string) => {
         @press-enter="() => printEvent('press-enter')"
         value-on-invalid-change
         clearable
-        :max-length="maxLength"
         :min-length="minLength"
         :input-on-outlimit="false"
         resize="both"
@@ -81,7 +80,7 @@ const onChange = (v: string) => {
     </div>
     <section block>
       <p>auto-size:</p>
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable>
+      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable :max-length="maxLength">
         <template #prefix>
           <button @click="click">#prefix</button>
         </template>

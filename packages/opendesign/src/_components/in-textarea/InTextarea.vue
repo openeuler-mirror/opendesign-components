@@ -30,7 +30,7 @@ const {
   clearValue: clear,
   isValid,
   inputValueLength,
-  formatLength,
+  isShowLength,
   isOutLengthLimit,
   handleBlur,
   handleInput,
@@ -165,12 +165,13 @@ defineExpose({
         <IconClose class="o_textarea-clear-icon" />
       </div>
       <div
-        v-if="formatLength"
+        v-if="isShowLength"
         class="o_textarea-icon o_textarea-count"
         :class="{ 'o_textarea-count-error': isOutLengthLimit }"
       >
       <slot name="length" :length="inputValueLength">
-          <component :is="formatLength(inputValueLength)"/>
+          <span v-if="props.maxLength ?? props.minLength" v-html="t('input.limit', inputValueLength, props.maxLength ?? props.minLength)"></span>
+          <span v-else>{{ inputValueLength }}</span>
         </slot>
     </div>
     </div>

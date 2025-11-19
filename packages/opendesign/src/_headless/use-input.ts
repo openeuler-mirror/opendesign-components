@@ -302,31 +302,23 @@ export function useInput(options: InputOptionT) {
     clearValue();
   };
 
-  // 默认内容长度函数
-  const defaultLengthFn = (length: number) => {
-    if (maxLength?.value || minLength?.value) {
-      return h('span', null, [h('b', null, inputValueLength.value), '/', maxLength?.value ?? minLength?.value]);
-    }
-    return h('span', null, length);
-  };
-  // 格式化内容长度展示
-  const formatLength = computed(() => {
-    if (showLength?.value === 'never') {
-      return null;
-    }
 
-    const lengthStringFn = isFunction(showLength?.value) ? showLength.value : defaultLengthFn;
+  // 是否展示内容长度
+  const isShowLength = computed(() => {
+    if (showLength?.value === 'never') {
+      return false;
+    }
 
     if (showLength?.value === 'always') {
-      return lengthStringFn;
+      return true;
     }
 
     const isSetLimit = !isUndefined(maxLength?.value) || !isUndefined(minLength?.value);
     if (showLength?.value === 'auto' && isSetLimit) {
-      return lengthStringFn;
+      return true;
     }
 
-    return null;
+    return false;
   });
 
   return {
@@ -336,7 +328,7 @@ export function useInput(options: InputOptionT) {
     inputEl,
     clearValue,
     inputValueLength,
-    formatLength,
+    isShowLength,
     isOutLengthLimit,
     handleInput,
     handleFocus,
