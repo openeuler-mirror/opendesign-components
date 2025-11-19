@@ -78,7 +78,7 @@ export const inInputProps = {
    * @en-US if not show character length.
    */
   showLength: {
-    type: [String, Function] as PropType<'always' | 'auto' | 'never' | ((length:number) => string)>,
+    type: [String, Function] as PropType<'always' | 'auto' | 'never'>,
     default: 'auto'
   },
   /**

@@ -50,6 +50,8 @@ const count = ref(1);
 window.setInterval(() => {
   count.value++;
 }, 1000);
+
+
 </script>
 
 <template>
@@ -59,7 +61,7 @@ window.setInterval(() => {
     <button @click="toggle">change</button>
     <button @click="toggleType">change type</button>
     <section>
-      defaultValue: {{ inputVal }}; format
+      defaultValue: {{ inputVal }}; format  min:2
       <InInput
         input-id="123"
         class="test-input"
@@ -76,7 +78,6 @@ window.setInterval(() => {
         :valueOnInvalidChange="valueOnInvalidChange"
         :input-on-outlimit="false"
         show-length="auto"
-        :max-length="maxLength"
         :min-length="minLength"
       />
     </section>
@@ -97,6 +98,7 @@ window.setInterval(() => {
         clearable
         :max-length="maxLength"
         :min-length="minLength"
+        show-length="never"
         :input-on-outlimit="false"
       />
     </section>
@@ -118,7 +120,7 @@ window.setInterval(() => {
         <template #suffix>
           <div>{{ count }}</div>
         </template>
-        <template #length="{length}"><b>{{ length }}</b></template>
+        <template #length="{length}"><b>-{{ length }}-</b></template>
       </InInput>
     </section>
   </div>
