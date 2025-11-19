@@ -13,11 +13,11 @@ import { OAnchor, OAnchorItem } from '../index';
       <div id="block4" class="block">block4</div>
     </div>
     <div class="demo-anchor">
-      <OAnchor>
+      <OAnchor style="max-width: 200px">
         <OAnchorItem href="#block1" title="锚点1" />
-        <OAnchorItem href="#block2" title="锚点2" />
+        <OAnchorItem href="#block2" title="bbbbbbbbbbbbbbbbbbbbbbbb" />
         <OAnchorItem href="#block3" title="锚点3">
-          <OAnchorItem href="#block3-1" title="锚点3-1" />
+          <OAnchorItem href="#block3-1" title="锚点3-1aaaaaaaaaaaaaaaaaaaa" />
         </OAnchorItem>
         <OAnchorItem href="#block4" title="锚点4" />
       </OAnchor>
