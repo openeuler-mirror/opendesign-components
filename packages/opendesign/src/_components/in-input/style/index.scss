@@ -143,7 +143,7 @@
     font-weight: normal;
   }
 }
-.o_input-limit-error > b {
+.o_input-limit-error > span > b {
   color: var(--limit-color-error);
 }
 

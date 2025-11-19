@@ -72,10 +72,12 @@ window.setInterval(() => {
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
         clearable
-        :max-length="maxLength"
         :format="format"
         :valueOnInvalidChange="valueOnInvalidChange"
         :input-on-outlimit="false"
+        show-length="auto"
+        :max-length="maxLength"
+        :min-length="minLength"
       />
     </section>
     <section>
@@ -100,11 +102,11 @@ window.setInterval(() => {
     </section>
     <section>
       auto width; max: 8;
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable />
+      <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable/>
     </section>
     <section>
       auto width: max-width: 300px
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" />
+      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" show-length="always"/>
     </section>
     <section>
       auto width: min-width: 100px
@@ -112,10 +114,11 @@ window.setInterval(() => {
     </section>
     <section>
       {{ inputVal }}
-      <InInput class="test-input" v-model="inputVal">
+      <InInput class="test-input" v-model="inputVal" :max-length="12">
         <template #suffix>
           <div>{{ count }}</div>
         </template>
+        <template #length="{length}"><b>{{ length }}</b></template>
       </InInput>
     </section>
   </div>

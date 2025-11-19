@@ -19,6 +19,4 @@ export default {
   // select
   'select.cancel': 'Cancel',
   'select.confirm': 'Ok',
-  // input
-  'input.limit': '<b>{0}</b>/{1}',
 };

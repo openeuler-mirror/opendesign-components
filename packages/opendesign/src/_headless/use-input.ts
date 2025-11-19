@@ -2,7 +2,7 @@
 import { useComposition } from '../hooks/use-composition';
 import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
-import { ref, computed, Ref, watch, nextTick } from 'vue';
+import { ref, computed, Ref, watch, nextTick, h, VNode } from 'vue';
 
 export type UseInputEmitsT = {
   // 仅在输入框失焦或按下回车时触发
@@ -29,6 +29,7 @@ export interface InputOptionT {
   format?: (value: string) => string;
   maxLength?: Ref<number | undefined>;
   minLength?: Ref<number | undefined>;
+  showLength?: Ref<'always' | 'auto' | 'never' | ((length:number) => string | VNode)>
   calculateLength?: (value: string) => number;
   inputOnOutlimit?: Ref<boolean | undefined>;
 }
@@ -37,8 +38,20 @@ export interface InputOptionT {
  * 输入框
  */
 export function useInput(options: InputOptionT) {
-  const { modelValue, defaultValue, format, emits, emitUpdate, validate, valueOnInvalidChange, maxLength, minLength, calculateLength, inputOnOutlimit } =
-    options;
+  const {
+    modelValue,
+    defaultValue,
+    format,
+    emits,
+    emitUpdate,
+    validate,
+    valueOnInvalidChange,
+    maxLength,
+    minLength,
+    showLength,
+    calculateLength,
+    inputOnOutlimit,
+  } = options;
 
   const formatFn = (v: string) => {
     return isFunction(format) ? format(v) : v;
@@ -111,7 +124,7 @@ export function useInput(options: InputOptionT) {
   const isValid = ref(true);
 
   /**
-   * 校验是否值有效，如果值为空，始终有效
+   * 校验是否值有效，如果值为空，不校验，设为有效
    */
   const validateValue = (value: string) => {
     isValid.value = value === '' ? true : mergedValidateFn(value);
@@ -289,6 +302,33 @@ export function useInput(options: InputOptionT) {
     clearValue();
   };
 
+  // 默认内容长度函数
+  const defaultLengthFn = (length: number) => {
+    if (maxLength?.value || minLength?.value) {
+      return h('span', null, [h('b', null, inputValueLength.value), '/', maxLength?.value ?? minLength?.value]);
+    }
+    return h('span', null, length);
+  };
+  // 格式化内容长度展示
+  const formatLength = computed(() => {
+    if (showLength?.value === 'never') {
+      return null;
+    }
+
+    const lengthStringFn = isFunction(showLength?.value) ? showLength.value : defaultLengthFn;
+
+    if (showLength?.value === 'always') {
+      return lengthStringFn;
+    }
+
+    const isSetLimit = !isUndefined(maxLength?.value) || !isUndefined(minLength?.value);
+    if (showLength?.value === 'auto' && isSetLimit) {
+      return lengthStringFn;
+    }
+
+    return null;
+  });
+
   return {
     realValue: computed(() => computedValue.value),
     displayValue: computed(() => displayValue.value),
@@ -296,6 +336,7 @@ export function useInput(options: InputOptionT) {
     inputEl,
     clearValue,
     inputValueLength,
+    formatLength,
     isOutLengthLimit,
     handleInput,
     handleFocus,

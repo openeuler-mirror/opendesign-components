@@ -2,36 +2,35 @@
 import { computed, toRefs } from 'vue';
 import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
-import { useInput } from '../../_headless/use-input';
+import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useI18n } from '../../locale';
 import { vScrollbar, type BaseScrollerPropsT } from '../../scrollbar';
+import { isUndefined } from '../../_utils/is';
 
 const props = defineProps(inTextareaProps);
 
-const emits = defineEmits<{
+type InInputEmitsT = {
   (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
-  (e: 'blur', evt: FocusEvent): void;
-  (e: 'focus', evt: FocusEvent): void;
-  (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', evt: KeyboardEvent): void;
-}>();
+} & UseInputEmitsT;
+
+const emits = defineEmits<InInputEmitsT>();
 
 const slots = defineSlots<{
   suffix(): any;
   prefix(): any;
+  length(props: {length: number}): any;
 }>();
 
 const { t } = useI18n();
 
-const { modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
+const { modelValue, inputOnOutlimit, maxLength, minLength, showLength } = toRefs(props);
 
 const {
   displayValue,
   clearValue: clear,
   isValid,
   inputValueLength,
+  formatLength,
   isOutLengthLimit,
   handleBlur,
   handleInput,
@@ -42,6 +41,7 @@ const {
   emits,
   maxLength,
   minLength,
+  showLength,
   inputOnOutlimit,
   modelValue,
   defaultValue: props.defaultValue ?? '',
@@ -64,6 +64,23 @@ const resizeValue = computed(() => {
     }
     return props.resize;
   }
+});
+
+// 是否显示长度插槽
+const showLengthInfo = computed(() => {
+  if (props.showLength === 'never') {
+    return false;
+  }
+
+  if (props.showLength === 'always') {
+    return true;
+  }
+
+  if (props.showLength === 'auto') {
+    return !isUndefined(props.maxLength) || !isUndefined(props.minLength);
+  }
+
+  return false;
 });
 
 // 是否可清除
@@ -148,11 +165,14 @@ defineExpose({
         <IconClose class="o_textarea-clear-icon" />
       </div>
       <div
-        v-if="props.maxLength"
+        v-if="formatLength"
         class="o_textarea-icon o_textarea-count"
         :class="{ 'o_textarea-count-error': isOutLengthLimit }"
-        v-html="t('input.limit', inputValueLength, props.maxLength)"
-      ></div>
+      >
+      <slot name="length" :length="inputValueLength">
+          <component :is="formatLength(inputValueLength)"/>
+        </slot>
+    </div>
     </div>
 
     <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix?.()">
