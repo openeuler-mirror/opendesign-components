@@ -7,6 +7,7 @@
 }
 
 .o-anchor-line {
+  flex-shrink: 0;
   position: relative;
   width: var(--anchor-line-width);
   border-radius: var(--anchor-line-width);
@@ -54,6 +55,7 @@
     calc(var(--anchor-item-text-indent) * var(--anchor-item-depth) + var(--anchor-item-link-padding-h));
   border-radius: var(--anchor-item-link-radius);
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
+  word-break: break-word; 
 
   @include hover {
     background-color: var(--anchor-item-link-bg-color-hover);
