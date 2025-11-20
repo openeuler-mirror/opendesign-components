@@ -25,16 +25,18 @@ export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
   );
 };
 
+const SUCCESS_RATE = 0.9;
+const UPLOAD_SPEED = 0.05;
 export const mockUpload = (file?: File, onFinished?: (success: boolean) => void, onProgress?: (p: number) => void) => {
   if (!file) {
     return;
   }
   let c = 0;
   const size = file.size;
-  const speed = Math.floor(size * 0.01);
+  const speed = Math.floor(size * UPLOAD_SPEED);
   const timer = setInterval(() => {
     const r = Math.random();
-    if (r > 0.999) {
+    if (r > SUCCESS_RATE) {
       console.log(r);
 
       clearInterval(timer);

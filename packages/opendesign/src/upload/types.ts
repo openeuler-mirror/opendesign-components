@@ -7,7 +7,7 @@ export const UploadFileStatusTypes = ['pending', 'uploading', 'finished', 'faile
 export type UploadFileStatusT = (typeof UploadFileStatusTypes)[number];
 
 export interface UploadFileT {
-  id: string;
+  id: string | number;
   name: string;
   file?: File; // 上传文件
   status?: UploadFileStatusT; // 校验/上传结果
