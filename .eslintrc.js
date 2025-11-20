@@ -31,7 +31,7 @@ module.exports = {
     'object-curly-spacing': ['warn', 'always'],
     'rest-spread-spacing': 'warn',
     'switch-colon-spacing': 'error',
-    'func-call-spacing': 'warn',
+    'func-call-spacing': 'off',
     'semi-spacing': 'warn',
     'template-curly-spacing': 'warn',
     'template-tag-spacing': 'warn',

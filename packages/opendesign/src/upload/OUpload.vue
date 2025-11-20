@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { uploadProps, UploadFileT } from './types';
-import { computed, ref, inject, watch } from 'vue';
+import { computed, ref, inject, watch, useTemplateRef } from 'vue';
 import { isArray, isFunction } from '../_utils/is';
 import { filterSlots } from '../_utils/vue-utils';
 import UploadItem from './UploadItem.vue';
@@ -20,6 +20,11 @@ const emits = defineEmits<{
   (e: 'change', value: UploadFileT[]): void;
   (e: 'select', value: UploadFileT[]): void;
   (e: 'update:modelValue', value: UploadFileT[]): void;
+  (e: 'itemRemove', value: UploadFileT, evt: Event): void;
+  (e: 'itemRetry', value: UploadFileT, evt: Event): void;
+  (e: 'itemReplace', value: UploadFileT, evt: Event): void;
+  (e: 'itemPreview', value: UploadFileT, evt: Event): void;
+  (e: 'itemClick', value: UploadFileT, evt: Event): void;
 }>();
 
 const emitUpdateValue = (value: UploadFileT[]) => {
@@ -69,7 +74,7 @@ const uploadOption = computed(() => {
 });
 
 const selectRef = ref<InstanceType<typeof InputSelect> | null>(null);
-let replaceId = '';
+let replaceId:string | number = '';
 
 /**
  * 上传所有文件
@@ -155,7 +160,7 @@ const onFileSelected = async (files: FileList) => {
 /**
  * 删除文件
  */
-const removeFile = async (file: UploadFileT) => {
+const doRemoveFile = async (file: UploadFileT) => {
   if (isFunction(props.onBeforeRemove)) {
     const sure = await props.onBeforeRemove(file);
     if (sure === false) {
@@ -163,7 +168,9 @@ const removeFile = async (file: UploadFileT) => {
     }
   }
   file.request?.abort();
-  fileList.value = fileList.value.filter((f) => f.id !== file.id);
+
+  const index = fileList.value.findIndex(item => item.id === file.id);
+  fileList.value.splice(index, 1);
 
   formItemInjection?.fieldHandlers.onChange?.();
 
@@ -171,40 +178,110 @@ const removeFile = async (file: UploadFileT) => {
 
   return true;
 };
+
 const removeFileByIndex = (index: number) => {
-  if (index > -1 && index < fileList.value.length) {
-    return removeFile(fileList.value[index]);
+  if (index < 0 && index >= fileList.value.length) {
+    return;
   }
+  doRemoveFile(fileList.value[index]);
 };
+const removeById = (id: string|number) => {
+  const index = fileList.value.findIndex(item => item.id === id);
+  removeFileByIndex(index);
+};
+
 const removeAllFiles = () => {
   return new Promise((resolve) => {
-    Promise.allSettled(fileList.value.map((f) => removeFile(f))).then((res) => {
+    Promise.allSettled(fileList.value.map((f) => doRemoveFile(f))).then((res) => {
       resolve(res);
-    });
-    fileList.value = [];
 
-    emitUpdateValue(fileList.value);
+      fileList.value = [];
+
+      emitUpdateValue(fileList.value);
+
+      emits('change', fileList.value);
+
+    });
+  });
+};
+
+// 处理点击删除图标
+const onRemoveFile = (file: UploadFileT, e: Event) => {
+  doRemoveFile(file).then(() => {
+    emits('itemRemove', file, e);
+
+    emits('change', fileList.value);
   });
 };
 /**
  * 重新上传文件
  */
-const onFileUploadRetry = (file: UploadFileT) => {
-  if (!file.retry || !file.file) {
+const doRetryUpload = (file: UploadFileT, force?: boolean) => {
+  if (!file.file) {
+    console.warn('retry file not found!');
     return;
   }
+
+  if (!file.retry && !force) {
+    return;
+  }
+
   doUploadFile(file, uploadOption.value);
+
+  formItemInjection?.fieldHandlers.onChange?.();
+};
+
+/**
+ * 重新选择新的文件替换文件
+ */
+const onFileUploadRetry = (file: UploadFileT, e: Event) => {
+  doRetryUpload(file);
+  emits('itemRetry', file, e);
+};
+
+/**
+ * 重新选择新的文件替换文件
+ */
+const doReplaceFile = (file: UploadFileT) => {
+  replaceId = file.id;
+  selectRef.value?.select(false);
+};
+
+const replaceByIndex = (index: number, newFile: UploadFileT) => {
+  const file = fileList.value[index];
+  if (!file) {
+    console.warn('file not found!');
+  }
+  file.request?.abort();
+
+  if (newFile) {
+    fileList.value.splice(index, 1, newFile);
+
+    emits('change', fileList.value);
+
+    formItemInjection?.fieldHandlers.onChange?.();
+
+  } else {
+    doReplaceFile(file);
+  }
+};
+
+const replaceById = (id: string, newFile: UploadFileT) => {
+  const index = fileList.value.findIndex(item => item.id === id);
+
+  replaceByIndex(index, newFile);
 };
 
 /**
  * 替换文件上传
  */
-const onFileReplace = (file: UploadFileT) => {
-  selectRef.value?.select(false);
+const onFileReplace = (file: UploadFileT, e: Event) => {
+  doReplaceFile(file);
 
-  replaceId = file.id;
+  emits('itemReplace', file, e);
+
+  formItemInjection?.fieldHandlers.onChange?.();
 };
-
 /**
  * 选择文件
  */
@@ -219,13 +296,38 @@ const doSelect = async () => {
   selectRef.value?.select(props.multiple);
 };
 
+const onUploadItemLabelClick = (file: UploadFileT, e: Event) => {
+  emits('itemClick', file, e);
+};
+
+const onFilePreview = (file: UploadFileT, e: Event) => {
+  emits('itemPreview', file, e);
+};
+
+const uploadItems = useTemplateRef<InstanceType<typeof UploadItem>[]>('uploadItems');
+const previewItemByIndex = (index:number) => {
+  const item = uploadItems.value?.[index];
+
+  item?.preview();
+};
+const previewItemById = (id:number|string) => {
+  const idx = fileList.value.findIndex(item => item.id === id);
+  previewItemByIndex(idx);
+};
+
+
 defineExpose({
   upload: uploadAll,
   select: doSelect,
-  retry: onFileUploadRetry,
-  replace: onFileReplace,
+  retry: doRetryUpload,
+  replace: doReplaceFile,
+  replaceById: replaceById,
+  replaceByIndex: replaceByIndex,
+  removeById: removeById,
   removeByIndex: removeFileByIndex,
   removeAll: removeAllFiles,
+  previewItemByIndex,
+  previewItemById
 });
 </script>
 <template>
@@ -258,12 +360,15 @@ defineExpose({
     >
       <UploadItem
         v-for="item in fileList"
+        ref="uploadItems"
         :key="item.id"
         :file="item"
         :list-type="props.listType"
-        @remove="removeFile"
+        @remove="onRemoveFile"
         @retry="onFileUploadRetry"
         @replace="onFileReplace"
+        @preview="onFilePreview"
+        @itemClick="onUploadItemLabelClick"
       >
         <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
