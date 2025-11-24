@@ -102,6 +102,7 @@ const initSlides = () => {
         active-class="current-slide"
         data-o-theme="dark"
         auto-play
+        pause-on-hover
         @change="onChange"
         @before-change="onBeforeChange"
       >
