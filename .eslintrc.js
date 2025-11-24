@@ -44,7 +44,7 @@ module.exports = {
     'space-infix-ops': 'warn',
 
     'eol-last': 'warn',
-    indent: ['warn', 2],
+    indent: ['warn', 2, { SwitchCase: 1 }],
 
     semi: ['warn', 'always'],
     'prefer-template': 'error',
