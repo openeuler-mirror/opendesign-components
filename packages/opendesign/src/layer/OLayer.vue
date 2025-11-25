@@ -4,8 +4,9 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref } from 'vue';
+import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref, provide } from 'vue';
 import { layerProps } from './types';
+import { layerInjectKey } from './provide';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_utils/is';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
@@ -130,7 +131,7 @@ watch(
       emits('change', v);
       handleWrapperScroll();
     }
-  }
+  },
 );
 
 const toggle = async (show?: boolean) => {
@@ -195,6 +196,8 @@ onUnmounted(() => {
   // 卸载时移除类
   wrapperEl?.classList.remove(LayerClass.OPEN);
 });
+
+provide(layerInjectKey, { toggle });
 
 defineExpose({
   /** Toggle the OLayer */
