@@ -1,5 +1,11 @@
 # opendesign-components
 
+#### 变更日志
+
+请参阅
+- [opendesign变更日志](./packages/docs/ReleaesNote.opendesign.md)
+- [open-scripts变更日志](./packages/docs/ReleaesNote.scripts.md)
+
 #### 参与贡献
 
 1.  Fork 本仓库
