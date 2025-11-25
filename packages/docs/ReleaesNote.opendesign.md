@@ -2,7 +2,8 @@
 
 ### Features
 
-- 合并0.0.79的内容，See [0.0.79](#0079)
+- **doc** 更新`changelog`,添加`breaking change`描述
+- **OCarousel** 修复`hover`暂停播放时指示器不显示激活状态的问题
 
 ## 1.0.2
 
