@@ -96,7 +96,7 @@ const previewVisible = ref(false);
 const canPreview = computed(() => props.preview || props.lazyPreview);
 const previewCloseTypes = computed(() => {
   if (!props.previewClose) {
-    return isPhonePad.value ? ['image', 'mask', 'button'] : ['mask', 'button'];
+    return isPhonePad.value ? ['body', 'mask', 'button'] : ['mask', 'button'];
   } else if (Array.isArray(props.previewClose)) {
     return props.previewClose;
   }
