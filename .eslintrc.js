@@ -42,6 +42,7 @@ module.exports = {
     'no-trailing-spaces': 'warn',
     'spaced-comment': 'warn',
     'space-infix-ops': 'warn',
+    'space-in-parens': 'warn',
 
     'eol-last': 'warn',
     indent: ['warn', 2, { SwitchCase: 1 }],
@@ -83,6 +84,9 @@ module.exports = {
     'vue/multiline-html-element-content-newline': 'warn',
     'vue/no-mutating-props': ['error', { shallowOnly: true }],
     'no-unused-vars': 'off',
+    'no-undef-init': 'error',
+
+    // typescript-eslint
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
@@ -91,6 +95,6 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_'
       }
     ],
-    'no-undef-init': 'error',
+    '@typescript-eslint/type-annotation-spacing': 'warn'
   },
 };

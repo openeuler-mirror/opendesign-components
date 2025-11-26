@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 export interface TokenConfigT {
   output: string;
   prefix: string;
-  themeMap: Array<{ key: string; name: string }>;
+  themeMap: Array<{ valueKey: string; name: string }>;
   defaultTheme: string;
   tokenFile: string[];
   codeSnippetsFile: string;
@@ -152,7 +152,7 @@ ${content.join('\n')}
 /**
  * 生成token.css
  */
-function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ key: string; name: string }>, defaultTheme: string, outDir: string) {
+function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string }>, defaultTheme: string, outDir: string) {
   const themeToken: Record<string, Array<ThemeTokenT>> = {};
 
   Object.keys(tokens).forEach((k) => {
@@ -160,24 +160,28 @@ function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ ke
     const { value, ...rest } = token;
 
     themes.forEach((theme) => {
-      if (!themeToken[theme.name]) {
-        themeToken[theme.name] = [];
+      if (!themeToken[theme.valueKey]) {
+        themeToken[theme.valueKey] = [];
       }
-      if (value[theme.key]) {
-        themeToken[theme.name].push({
-          value: value[theme.key],
+      if (value[theme.valueKey]) {
+        themeToken[theme.valueKey].push({
+          value: value[theme.valueKey],
           ...rest,
         });
       }
     });
   });
 
+  if (defaultTheme) {
+    themes.push({
+      valueKey: defaultTheme,
+      name: 'default'
+    });
+  }
   themes.forEach((theme) => {
     const themeArray = [theme.name];
-    if (theme.name === defaultTheme) {
-      themeArray.unshift('default');
-    }
-    const content = tokenCssTemplate(themeArray, themeToken[theme.name]);
+
+    const content = tokenCssTemplate(themeArray, themeToken[theme.valueKey]);
 
     fs.outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
     console.log(`[${themeArray.join('|')}] theme token file generated!`);

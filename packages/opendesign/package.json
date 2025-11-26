@@ -25,7 +25,8 @@
     "build": "pnpm gen:icon && pnpm build:component && pnpm build:style",
     "lint": "eslint ./src",
     "type-check": "vue-tsc --build",
-    "release": "pnpm publish --registry https://registry.npmjs.org"
+    "release": "pnpm publish --registry https://registry.npmjs.org",
+    "gen:token:test": "open-scripts gen:token --config ./tokens/token.config.ts"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

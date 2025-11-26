@@ -1,6 +1,6 @@
 {
   "name": "@opensig/open-scripts",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "opendesign component Scripts",
   "license": "MIT",
   "main": "dist/index.js",
@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "release": "pnpm publish --registry https://registry.npmjs.org",
   },
   "dependencies": {
     "@rollup/plugin-terser": "catalog:build",

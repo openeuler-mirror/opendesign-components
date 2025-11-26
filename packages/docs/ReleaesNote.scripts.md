@@ -1,5 +1,11 @@
 # [open-scripts]
 
+# 1.0.2
+
+- fix
+
+1. `gen-token`命令生成的default变量，提取到单独文件，方便不需要深浅切换的系统调用
+
 # 1.0.0
 
 - fix
