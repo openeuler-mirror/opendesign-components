@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "release": "pnpm publish --registry https://registry.npmjs.org",
   },
   "dependencies": {
     "@rollup/plugin-terser": "catalog:build",
