@@ -1,17 +1,17 @@
 module.exports = {
   prefix: '--o-',
-  output: '../src/_styles/',
+  output: './dist',
   themeMap: [
     {
-      key: 'light',
-      name: 'light',
+      valueKey: 'light',
+      name: 'o.light',
     },
     {
-      key: 'dark',
-      name: 'dark',
+      valueKey: 'dark',
+      name: 'o.dark',
     },
   ],
-  defaultTheme: '',
+  defaultTheme: 'light',
   tokenFile: ['./opendesign-token.json'],
-  codeSnippetsFile: '../../../.vscode/opendesign.token.code-snippets',
+  codeSnippetsFile: './dist/opendesign.token.code-snippets',
 };
