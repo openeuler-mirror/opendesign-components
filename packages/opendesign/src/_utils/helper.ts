@@ -242,7 +242,7 @@ export function requestImage(src: string) {
 /**
  * 从对象中挑选属性
  */
-export function pick(source: Object, keys: string[]) {
+export function pick(source: object, keys: string[]) {
   const result: Record<string, any> = {};
   keys.forEach((key) => {
     if (key in source) {

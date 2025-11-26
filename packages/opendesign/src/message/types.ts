@@ -1,4 +1,4 @@
-import type { Component, ExtractPropTypes, PropType, VNode, ComponentPublicInstance } from 'vue';
+import type { Component, ExtractPropTypes, PropType, VNode } from 'vue';
 
 export const MessageStatusTypes = ['info', 'success', 'warning', 'danger', 'loading'] as const;
 export type MessageStatusT = (typeof MessageStatusTypes)[number];

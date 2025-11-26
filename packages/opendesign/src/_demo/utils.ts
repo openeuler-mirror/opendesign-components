@@ -45,7 +45,7 @@ export function propsToAttrStr<T extends Record<string, any>>(props: T, exclude:
         default:
           try {
             return `${acc} :${key}='${JSON.stringify(value)}'`;
-          } catch (error) {
+          } catch {
             return acc;
           }
       }

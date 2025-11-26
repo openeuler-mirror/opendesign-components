@@ -161,7 +161,9 @@ const updateScrollbarOnIdle = () => {
 const cancelUpdateScrollbarOnIdle = () => {
   if (updateTimer) {
     clearInterval(updateTimer);
-    cancelIdleCallback && cancelIdleCallback(updateIdleTimer);
+    if(cancelIdleCallback) {
+      cancelIdleCallback(updateIdleTimer);
+    }
     updateTimer = 0;
     updateIdleTimer = 0;
   }
@@ -228,7 +230,7 @@ const removeWrapperHoverEvent = () => {
     wrapperEl.removeEventListener('mouseleave', onWrapperHoverOut);
   }
 };
-const handleWrapperHoverEvent = () => {
+function handleWrapperHoverEvent () {
   watchEffect(() => {
     const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
     wrapperEl = rootRef.value?.offsetParent as HTMLElement;

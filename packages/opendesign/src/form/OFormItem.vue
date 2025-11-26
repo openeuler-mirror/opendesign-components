@@ -69,7 +69,7 @@ const runValidate = async (trigger?: TriggerT): Promise<FieldResultT> => {
         }
         return false;
       }
-    } catch (e) {
+    } catch (_e) {
       log.error('failed to validate rules');
     }
   });

@@ -5,7 +5,6 @@ import { IconClose } from '../../_utils/icons';
 import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useI18n } from '../../locale';
 import { vScrollbar, type BaseScrollerPropsT } from '../../scrollbar';
-import { isUndefined } from '../../_utils/is';
 
 const props = defineProps(inTextareaProps);
 

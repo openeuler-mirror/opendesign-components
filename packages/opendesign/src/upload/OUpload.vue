@@ -11,6 +11,7 @@ import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
 import { formItemInjectKey } from '../form/provide';
 import { useI18n } from '../locale';
+import { log } from '../_utils/log';
 
 const props = defineProps(uploadProps);
 const emits = defineEmits<{
@@ -218,7 +219,7 @@ const onRemoveFile = (file: UploadFileT, e: Event) => {
  */
 const doRetryUpload = (file: UploadFileT, force?: boolean) => {
   if (!file.file) {
-    console.warn('retry file not found!');
+    log.warn('retry file not found!');
     return;
   }
 
@@ -250,7 +251,7 @@ const doReplaceFile = (file: UploadFileT) => {
 const replaceByIndex = (index: number, newFile: UploadFileT) => {
   const file = fileList.value[index];
   if (!file) {
-    console.warn('file not found!');
+    log.warn('file not found!');
   }
   file.request?.abort();
 
