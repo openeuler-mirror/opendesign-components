@@ -77,26 +77,24 @@ const rules = {
   "vue/no-unused-vars": ["warn", {
         "ignorePattern": "^_"
     }],
-  'vue/html-self-closing': [
-    'warn',
-    {
-      html: {
-        void: 'always',
-        normal: 'never',
-      },
-    },
-  ],
-  'vue/singleline-html-element-content-newline': 'off',
-  'vue/html-closing-bracket-newline': 'off',
-  'vue/multiline-html-element-content-newline': 'warn',
-  'vue/no-mutating-props': ['error', { shallowOnly: true }],
   "vue/max-attributes-per-line": ["error", {
     "singleline": {
-      "max": 1
+      "max": 3
     },      
     "multiline": {
       "max": 1
     }
+  }],
+  "vue/first-attribute-linebreak": ["warn", {
+    "singleline": "beside",
+    "multiline": "below"
+  }],
+  "vue/html-indent": ["warn", 2, {
+    "attribute": 1,
+    "baseIndent": 1,
+    "closeBracket": 0,
+    "alignAttributesVertically": true,
+    "ignores": []
   }],
 
   /************  typescript-eslint *******************/

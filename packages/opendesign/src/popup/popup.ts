@@ -407,7 +407,7 @@ export function calcPopupStyle(
 }
 
 // 监听元素的触发事件
-// eslint-disable-next-line max-lines-per-function
+ 
 export function bindTrigger(
   el: HTMLElement | null,
   popupRef: Ref<HTMLElement | null>,

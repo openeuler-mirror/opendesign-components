@@ -235,7 +235,7 @@ defineExpose({
           <slot></slot>
         </div>
       </transition>
-      <div class="o-layer-close" v-if="props.buttonClose" @click="onCloseButtonClick">
+      <div v-if="props.buttonClose" class="o-layer-close" @click="onCloseButtonClick">
         <slot name="close">
           <OIcon button :icon="IconClose" class="o-layer-close-icon" />
         </slot>

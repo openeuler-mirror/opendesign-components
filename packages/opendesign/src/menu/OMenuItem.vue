@@ -66,14 +66,23 @@ const handleMouseleave = () => {
 </script>
 
 <template>
-  <li class="o-menu-item" :class="{ 'o-menu-item-selected': isSelected, 'o-menu-item-disabled': $props.disabled }"
-    :style="cssVars" @click="onItemClick" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
+  <li
+    class="o-menu-item" 
+    :class="{  
+      'o-menu-item-selected': isSelected, 
+      'o-menu-item-disabled': $props.disabled 
+    }" 
+    :style="cssVars" 
+    @click="onItemClick" 
+    @mouseenter="handleMouseenter" 
+    @mouseleave="handleMouseleave"
+  >
     <span v-if="size !== 'small' && (props.icon || $slots.icon)" class="o-menu-item-icon">
       <slot name="icon">
         <component :is="props.icon" />
       </slot>
     </span>
-    <span class="o-menu-item-content" ref="itemContentRef">
+    <span ref="itemContentRef" class="o-menu-item-content">
       <slot></slot>
     </span>
   </li>

@@ -368,7 +368,7 @@ defineExpose({
         @retry="onFileUploadRetry"
         @replace="onFileReplace"
         @preview="onFilePreview"
-        @itemClick="onUploadItemLabelClick"
+        @item-click="onUploadItemLabelClick"
       >
         <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>

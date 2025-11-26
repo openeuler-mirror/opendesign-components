@@ -405,7 +405,7 @@ defineExpose({
 
 <template>
   <div class="o-virtual-list">
-    <div class="o-virtual-list-wrapper" v-on-resize="onContainerResize" ref="wrapperRef" v-scrollbar="scrollbarProps" @scroll.passive="onScroll">
+    <div ref="wrapperRef" v-on-resize="onContainerResize" v-scrollbar="scrollbarProps" class="o-virtual-list-wrapper" @scroll.passive="onScroll">
       <div class="o-virtual-body" :style="contentStyle">
         <div class="o-virtual-render-list" :style="renderListStyle">
           <template v-for="item in renderList" :key="item.index">
@@ -414,7 +414,7 @@ defineExpose({
                 <slot :item="item.data" :index="item.index"></slot>
               </div>
             </template>
-            <div v-else class="o-virtual-render-item" v-on-resize="(en:ResizeObserverEntry) => onItemResize(en, item.index)">
+            <div v-else v-on-resize="(en:ResizeObserverEntry) => onItemResize(en, item.index)" class="o-virtual-render-item">
               <slot :item="item.data" :index="item.index"></slot>
             </div>
           </template>

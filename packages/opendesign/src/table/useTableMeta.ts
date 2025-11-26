@@ -14,7 +14,7 @@ type CellT = {
   lastCol: boolean;
   /** 该单元格是否为最后一行 */
   lastRow: boolean;
-  // eslint-disable-next-line no-use-before-define
+   
   section: TableSection;
 };
 type TableSection = {

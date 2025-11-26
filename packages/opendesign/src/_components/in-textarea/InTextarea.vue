@@ -116,7 +116,7 @@ defineExpose({
     }"
     :for="props.textareaId"
   >
-    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix?.()">
+    <div v-if="slots.prefix?.()" class="o_textarea-prefix" @mousedown.prevent>
       <slot name="prefix"></slot>
     </div>
     <div
@@ -129,6 +129,7 @@ defineExpose({
       <textarea
         :id="props.textareaId"
         ref="inputEl"
+        v-scrollbar="scrollbarProps"
         :value="displayValue"
         class="o_textarea-textarea"
         :placeholder="props.placeholder"
@@ -139,7 +140,6 @@ defineExpose({
         :style="{
           resize: resizeValue,
         }"
-        v-scrollbar="scrollbarProps"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
@@ -159,7 +159,7 @@ defineExpose({
     </div>
     </div>
 
-    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix?.()">
+    <div v-if="slots.suffix?.()" class="o_textarea-suffix" @mousedown.prevent>
       <slot name="suffix"></slot>
     </div>
   </label>

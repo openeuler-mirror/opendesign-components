@@ -100,29 +100,29 @@ defineExpose({
               button
               class="o-upload-icon-btn o-upload-icon-retry"
               :icon="IconRefresh"
-              @click="onFileUploadRetry"
               :title="t('upload.retry')"
+              @click="onFileUploadRetry"
             />
             <OIcon
-              button
               v-if="props.file.status !== 'failed' && props.file.imgUrl"
+              button
               :icon="IconPreview"
               class="o-upload-icon-btn o-upload-icon-preview"
-              @click="onPreview"
               :title="t('upload.preview')"
+              @click="onPreview"
             />
             <OIcon v-if="showLoading()" class="o-upload-icon-loading">
               <IconLoading class="o-rotating" />
             </OIcon>
             <OIcon
+              v-if="props.file.status === 'finished'"
               button
               :icon="IconEdit"
-              v-if="props.file.status === 'finished'"
               class="o-upload-icon-btn o-upload-icon-edit"
-              @click="onFileReplace"
               :title="t('upload.edit')"
+              @click="onFileReplace"
             />
-            <OIcon button class="o-upload-icon-btn o-upload-icon-remove" :icon="IconDelete" @click="onFileRemove" :title="t('upload.delete')" />
+            <OIcon button class="o-upload-icon-btn o-upload-icon-remove" :icon="IconDelete" :title="t('upload.delete')" @click="onFileRemove" />
           </div>
           <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-card-progress">
             <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
@@ -159,15 +159,15 @@ defineExpose({
             button
             class="o-upload-row-icon o-upload-icon-hover-in o-upload-icon-retry"
             :icon="IconRefresh"
-            @click="onFileUploadRetry"
             :title="t('upload.retry')"
+            @click="onFileUploadRetry"
           />
           <OIcon
             button
             class="o-upload-row-icon o-upload-icon-remove o-upload-icon-hover-in"
             :icon="IconDelete"
-            @click="onFileRemove"
             :title="t('upload.delete')"
+            @click="onFileRemove"
           />
         </div>
 

@@ -184,7 +184,7 @@ resolveHtmlElement(target).then((el) => {
   init();
 });
 
-/**********
+/** ********
  * 处理滚动条显示
  * 如果showType=hover，则在hoverout时会刷新滚动条样式
  */
@@ -243,7 +243,7 @@ const handleWrapperHoverEvent = () => {
     }
   });
 };
-/**********/
+/** ********/
 
 onUnmounted(() => {
   if (scrollTargetEl) {
@@ -320,8 +320,8 @@ defineExpose({
 
 <template>
   <div
-    class="o-scrollbar"
     ref="rootRef"
+    class="o-scrollbar"
     :class="[
       props.barClass,
       `o-scrollbar-${props.size}`,

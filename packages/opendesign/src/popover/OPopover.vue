@@ -18,7 +18,7 @@ const updateVisible = (val: boolean) => {
 };
 </script>
 <template>
-  <slot name="target" v-if="props.disabled"></slot>
+  <slot v-if="props.disabled" name="target"></slot>
   <OPopup
     v-else
     class="o-popover"

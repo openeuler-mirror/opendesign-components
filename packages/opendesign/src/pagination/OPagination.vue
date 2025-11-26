@@ -224,11 +224,11 @@ defineExpose({
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
               <OPopover
+                v-else
+                v-model:visible="moreVisible[item.value as 'left'|'right']"
                 position="bottom"
                 wrap-class="o-options-popup"
-                v-else
                 :disabled="!props.showMore"
-                v-model:visible="moreVisible[item.value as 'left'|'right']"
               >
                 <OOptionList scrollbar>
                   <!-- 当下拉项大于50，采用虚拟列表 -->
@@ -257,7 +257,7 @@ defineExpose({
                   </template>
                 </OOptionList>
                 <template #target>
-                  <span @click.stop="moreClick(item)" class="o-pagination-more-icon-wrap">
+                  <span class="o-pagination-more-icon-wrap" @click.stop="moreClick(item)">
                     <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
                     <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
                   </span>

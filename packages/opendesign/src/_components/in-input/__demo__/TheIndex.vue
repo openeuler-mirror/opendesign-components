@@ -67,18 +67,18 @@ window.setInterval(() => {
         class="test-input"
         :default-value="inputVal"
         :validate="validate"
+        clearable
+        :format="format"
+        :value-on-invalid-change="valueOnInvalidChange"
+        :input-on-outlimit="false"
+        show-length="auto"
+        :min-length="minLength"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="onChange"
         @input="(e:Event, value:string) => printEvent('input', value)"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
-        clearable
-        :format="format"
-        :valueOnInvalidChange="valueOnInvalidChange"
-        :input-on-outlimit="false"
-        show-length="auto"
-        :min-length="minLength"
       />
     </section>
     <section>
@@ -87,36 +87,36 @@ window.setInterval(() => {
         input-id="1234"
         class="test-input"
         :model-value="inputVal"
-        @update:model-value="onUpdate"
         :validate="validate"
+        clearable
+        :max-length="maxLength"
+        :min-length="minLength"
+        show-length="never"
+        :input-on-outlimit="false"
+        @update:model-value="onUpdate"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="(v:string) => printEvent('change', v)"
         @input="(_e:Event, v:string) => printEvent('input', v)"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
-        clearable
-        :max-length="maxLength"
-        :min-length="minLength"
-        show-length="never"
-        :input-on-outlimit="false"
       />
     </section>
     <section>
       auto width; max: 8;
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable/>
+      <InInput v-model="inputVal" class="test-input" :type="type" auto-width :max-length="8" clearable/>
     </section>
     <section>
       auto width: max-width: 300px
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" show-length="always"/>
+      <InInput v-model="inputVal" class="test-input" :type="type" auto-width style="max-width: 300px" show-length="always"/>
     </section>
     <section>
       auto width: min-width: 100px
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="min-width: 100px" />
+      <InInput v-model="inputVal" class="test-input" :type="type" auto-width style="min-width: 100px" />
     </section>
     <section>
       {{ inputVal }}
-      <InInput class="test-input" v-model="inputVal" :max-length="12">
+      <InInput v-model="inputVal" class="test-input" :max-length="12">
         <template #suffix>
           <div>{{ count }}</div>
         </template>

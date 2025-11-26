@@ -1,5 +1,5 @@
 export function easeInOutCubic(current: number, start: number, end: number, duration: number): number {
-  let elapsed = end - start;
+  const elapsed = end - start;
   let time = current / (duration / 2);
 
   if (time < 1) {

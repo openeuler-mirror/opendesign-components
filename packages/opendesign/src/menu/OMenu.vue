@@ -86,7 +86,7 @@ provide(menuInjectKey, {
     <slot></slot>
     <OPopover v-if="tooltipTarget" visible :offset="16" :target="tooltipTarget" position="bottom">
       <template v-if="['string', 'number'].includes(typeof tooltipContent)">{{ tooltipContent }}</template>
-      <component v-else :is="tooltipContent" />
+      <component :is="tooltipContent" v-else />
     </OPopover>
   </ul>
 </template>
