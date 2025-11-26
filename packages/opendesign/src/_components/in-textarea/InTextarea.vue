@@ -66,23 +66,6 @@ const resizeValue = computed(() => {
   }
 });
 
-// 是否显示长度插槽
-const showLengthInfo = computed(() => {
-  if (props.showLength === 'never') {
-    return false;
-  }
-
-  if (props.showLength === 'always') {
-    return true;
-  }
-
-  if (props.showLength === 'auto') {
-    return !isUndefined(props.maxLength) || !isUndefined(props.minLength);
-  }
-
-  return false;
-});
-
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 

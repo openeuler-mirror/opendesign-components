@@ -65,7 +65,14 @@ const hasCover = computed(() => {
         ]"
       >
         <slot name="cover">
-          <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :fit="props.coverFit" :class="{ 'is-full': !props.coverRatio }" />
+          <OFigure
+            v-if="props.cover"
+            :ratio="props.coverRatio"
+            class="o-card-cover-img"
+            :src="props.cover"
+            :fit="props.coverFit"
+            :class="{ 'is-full': !props.coverRatio }"
+          />
         </slot>
       </div>
       <div v-if="!!hasMain" class="o-card-main">
