@@ -70,10 +70,13 @@ const rules = {
   '@typescript-eslint/no-shadow': ['error', { hoist: 'all' }],
   'no-use-before-define': ['error', { functions: false }],
 
-  'no-unused-vars': 'warn',
+  'no-unused-vars': 'off',
   'no-undef-init': 'error',
 
   /************  eslint-plugin-vue *******************/
+  "vue/no-unused-vars": ["warn", {
+        "ignorePattern": "^_"
+    }],
   'vue/html-self-closing': [
     'warn',
     {

@@ -214,6 +214,9 @@ importers:
       pinia:
         specifier: catalog:vue
         version: 3.0.4(typescript@5.8.3)(vue@3.5.25(typescript@5.8.3))
+      prettier:
+        specifier: catalog:lint
+        version: 3.6.2
       shiki:
         specifier: catalog:markdown
         version: 3.15.0
@@ -248,9 +251,6 @@ importers:
       markdown-it-async:
         specifier: catalog:markdown
         version: 2.2.0
-      prettier:
-        specifier: catalog:lint
-        version: 3.6.2
       sass:
         specifier: catalog:css
         version: 1.94.2
