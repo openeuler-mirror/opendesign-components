@@ -15,15 +15,15 @@ const txtarea = ref<HTMLElement | null>(null);
 const compRef = ref<InstanceType<typeof TheScrollComp> | null>(null);
 </script>
 <template>
-  <h4>Scroller basic</h4>
+  <h4>Scrollbar basic</h4>
   <div>
     <h3>Genneral</h3>
     <div>
       showType: <button @click="setShowType('auto')">auto</button><button @click="setShowType('always')">always</button
       ><button @click="setShowType('hover')">hover</button>
     </div>
-    <div class="scrollbar-wrapper" ref="wrapper">
-      <div class="container" ref="container">
+    <div ref="wrapper" class="scrollbar-wrapper">
+      <div ref="container" class="container">
         <div class="section">1</div>
         <div class="section">2</div>
         <div class="section">3</div>

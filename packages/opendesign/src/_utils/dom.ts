@@ -126,20 +126,6 @@ export function supportTouch() {
   return 'ontouchstart' in window;
 }
 
-export function mergeClass(...classList: Array<string | any[] | undefined>) {
-  let rlt: any[] = [];
-
-  classList.forEach((item) => {
-    if (isArray(item)) {
-      rlt = rlt.concat(item);
-    } else {
-      rlt.push(item);
-    }
-  });
-
-  return rlt;
-}
-
 interface ScrollTopOptions {
   container?: ScrollTarget;
   duration?: number;
@@ -190,7 +176,7 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
   });
 }
 
-/*判断一个元素是否触发溢出隐藏*/
+/* 判断一个元素是否触发溢出隐藏*/
 export function isOverflown(element?: HTMLElement) {
   if (!element) {
     return false;

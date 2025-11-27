@@ -2,7 +2,7 @@
 import { ref, onUnmounted, watchEffect, toRefs } from 'vue';
 import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollbarProps, ScrollerDirection } from './types';
-import { resolveHtmlElement } from '../_utils/vue-utils';
+import { mergeClass, resolveHtmlElement } from '../_utils/vue-utils';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { useScreen } from '../hooks';
 
@@ -324,8 +324,7 @@ defineExpose({
   <div
     ref="rootRef"
     class="o-scrollbar"
-    :class="[
-      props.barClass,
+    :class="mergeClass(
       `o-scrollbar-${props.size}`,
       {
         'o-scrollbar-auto-show': props.showType === 'auto',
@@ -337,7 +336,8 @@ defineExpose({
         'o-scrollbar-visible-y': showYBar,
         'o-scrollbar-to-body': isBody,
       },
-    ]"
+      props.barClass,
+    )"
   >
     <template v-if="props.showType !== 'never'">
       <ScrollbarRail

@@ -33,7 +33,7 @@ export const requestUploadFile = (file: UploadFileT, options: OptionsT): Promise
             options.onSuccess(file);
           }
         },
-        onError(response?: any, retry?: boolean) {
+        onError(response?: { message?: string, [k:string]:unknown }, retry?: boolean) {
           file.status = 'failed';
           file.message = response?.message;
           file.retry = retry;

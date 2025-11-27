@@ -76,7 +76,7 @@ export const dropdownProps = {
    * @en-US Drop-down container custom class
    */
   optionWrapClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 是否在结束选择时，卸载下拉选项

@@ -3,7 +3,7 @@ import { IconLoading } from '../_utils/icons';
 import { OLayer } from '../layer';
 
 import { loadingProps } from './types';
-import { mergeClass } from '../_utils/dom';
+import { mergeClass } from '../_utils/vue-utils';
 import { ref } from 'vue';
 
 const props = defineProps(loadingProps);

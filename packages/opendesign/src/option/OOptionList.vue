@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { vScrollbar, type BaseScrollerPropsT } from '../scrollbar';
 interface OptionPropT {
-  wrapClass?: string | any[];
+  wrapClass?: string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>;
   // 是否使用scrollbar
   scrollbar?: boolean | Partial<BaseScrollerPropsT>;
 }

@@ -1,5 +1,5 @@
 import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, Ref, isRef, watch } from 'vue';
-import { isArray } from './is';
+import { isArray, isObject, isString, isUndefined } from './is';
 import { isHtmlElement } from './dom';
 import { log } from './log.ts';
 
@@ -7,16 +7,16 @@ import { log } from './log.ts';
 // https://github.com/vuejs/core/blob/main/packages/shared/src/shapeFlags.ts
 export const enum ShapeFlags {
   ELEMENT = 1, // 普通HTML元素
-  FUNCTIONAL_COMPONENT = 1 << 1, //函数式组件
-  STATEFUL_COMPONENT = 1 << 2, //有状态组件
-  TEXT_CHILDREN = 1 << 3, //文本节点
-  ARRAY_CHILDREN = 1 << 4, //数组子节点
-  SLOTS_CHILDREN = 1 << 5, //插槽子节点
+  FUNCTIONAL_COMPONENT = 1 << 1, // 函数式组件
+  STATEFUL_COMPONENT = 1 << 2, // 有状态组件
+  TEXT_CHILDREN = 1 << 3, // 文本节点
+  ARRAY_CHILDREN = 1 << 4, // 数组子节点
+  SLOTS_CHILDREN = 1 << 5, // 插槽子节点
   TELEPORT = 1 << 6, // teleport组件
-  SUSPENSE = 1 << 7, //suspense组件
-  COMPONENT_SHOULD_KEEP_ALIVE = 1 << 8, //需要被keep-live的有状态组件
-  COMPONENT_KEPT_ALIVE = 1 << 9, //已经被keep-alive的有状态组件
-  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT, //有状态或函数式组件
+  SUSPENSE = 1 << 7, // suspense组件
+  COMPONENT_SHOULD_KEEP_ALIVE = 1 << 8, // 需要被keep-live的有状态组件
+  COMPONENT_KEPT_ALIVE = 1 << 9, // 已经被keep-alive的有状态组件
+  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT, // 有状态或函数式组件
 }
 /**
  * 判断vnode是不是element
@@ -228,4 +228,21 @@ export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) 
   const keys = Object.keys(slots);
   const r = keys.filter((item) => names.includes(item));
   return r || [];
+}
+
+/**
+ * 合并class
+ */
+export function mergeClass(...classList: Array<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>| undefined>) {
+  let rlt: Array<{ [k: string]: boolean } | string> = [];
+
+  classList.forEach((item) => {
+    if (isArray(item)) {
+      rlt = rlt.concat(item);
+    } else if(item){
+      rlt.push(item);
+    }
+  });
+
+  return rlt;
 }

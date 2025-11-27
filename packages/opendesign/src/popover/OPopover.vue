@@ -6,7 +6,7 @@ export default {
 <script setup lang="ts">
 import { OPopup } from '../popup';
 import { popoverProps } from './types';
-import { mergeClass } from '../_utils/dom';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(popoverProps);
 

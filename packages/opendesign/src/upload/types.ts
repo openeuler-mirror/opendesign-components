@@ -1,4 +1,4 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import { Component, ExtractPropTypes, PropType } from 'vue';
 export interface UploadRequestT {
   abort: () => void; // 取消上传
 }
@@ -16,13 +16,13 @@ export interface UploadFileT {
   retry?: boolean; // 是否重新上传
   percent?: number; // 上传进度 0~100,
   request?: UploadRequestT;
-  icon?: any;
-  imgUrl?: any;
+  icon?: string | boolean | Component;
+  imgUrl?: string;
 }
 export interface UploadRequestOptionT {
   onProgress: (percent: number, event?: ProgressEvent) => void;
-  onSuccess: (response?: any) => void;
-  onError: (response?: any, retry?: boolean) => void;
+  onSuccess: (response?: { messages?: string, [k: string]: unknown }) => void;
+  onError: (response?: { messages?: string, [k: string]: unknown }, retry?: boolean) => void;
   file: UploadFileT;
 }
 
