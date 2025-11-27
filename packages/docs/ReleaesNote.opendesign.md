@@ -62,7 +62,7 @@
 
 ### Warning
 
-本版本未包含[0.0.79](#0079)中的内容，建议升级到v1.0.3
+本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.3
 
 ### BREAKING CHANGES
 
@@ -103,7 +103,7 @@
 
 ### Warning
 
-本版本未包含[0.0.79](#0079)中的内容，建议升级到v1.0.3
+本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.3
 
 ### Features
 
@@ -117,7 +117,7 @@
 
 ### Warning
 
-本版本未包含[0.0.79](#0079)中的内容
+本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.3
 
 ### Features
 
