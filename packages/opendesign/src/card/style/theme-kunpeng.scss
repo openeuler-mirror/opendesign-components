@@ -41,7 +41,7 @@
       transition: color var(--o-duration-s) var(--o-easing-standard);
     }
     @include hover {
-      .o-card-icon {
+      .o-card-icon, .o-card-title-icon {
         color: rgb(var(--o-red-huawei));
       }
     }

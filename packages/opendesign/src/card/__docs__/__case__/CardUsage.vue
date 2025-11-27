@@ -15,6 +15,7 @@ OCard 分为图文卡片，和图标卡片。
 1. 通过 `title` 设置标题内容
 2. 通过 `titleRow` 设置标题高度：`height: calc(title-row * line-height)`
 3. 通过 `titleMaxRow` 设置标题最大行数，高于该行数时显示省略号。**注**：通过`-webkit-line-clamp`实现；一般而言 `titleRow` 的值与 `titleMaxRow` 值应该一致
+4. 通过 `titleIcon` 设置标题开头的图标
 
 设置卡片内容
 
@@ -53,6 +54,7 @@ Configure card content
 2. Set content height through `detailRow`: `height: calc(detail-row * line-height)`
 3. Set maximum content rows through `detailMaxRow`. Ellipsis will display when exceeding this value.
    **Note**: Implemented via `-webkit-line-clamp`; `detailRow` value should generally match `detailMaxRow`
+4. Set title prefix icon via the `titleIcon` property
 
 Other features
 
@@ -114,6 +116,10 @@ const _oSchema = {
     type: 'boolean',
     default: true,
   },
+  titleIcon: {
+    type: 'boolean',
+    default: true,
+  },
   cursor: {
     type: 'list',
     default: 'auto',
@@ -126,12 +132,15 @@ const _oSchema = {
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  const { coverOrIcon, titleRow, detailRow } = props;
+  const { coverOrIcon, titleRow, titleIcon, detailRow } = props;
   let attrs = '';
   if (coverOrIcon === 'Cover') {
     attrs += ' cover="/card-cover.jpg"';
-  } else {
+  } else if (coverOrIcon === 'Icon') {
     attrs += ' icon="/avatar.svg"';
+  }
+  if (titleIcon === true) {
+    attrs += ' title-icon="/skill.svg"';
   }
   if (titleRow >= 1) {
     const row = Math.round(titleRow);
@@ -141,7 +150,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
     const row = Math.round(detailRow);
     attrs += ` :detail-row=${row} :detail-max-row=${row}`;
   }
-  return `<OCard ${propsToAttrStr(props, ['coverOrIcon', 'titleRow', 'detailRow'])}${attrs} />`;
+  return `<OCard ${propsToAttrStr(props, ['coverOrIcon', 'titleIcon', 'titleRow', 'detailRow'])}${attrs} />`;
 };
 
 const _oCtx = {};
