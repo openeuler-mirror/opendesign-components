@@ -41,6 +41,26 @@
   color: var(--card-header-color);
 }
 
+.o-card-header-with-icon {
+  position: relative;
+
+  .o-card-title {
+    text-indent: calc(var(--card-title-icon-size) + var(--card-title-icon-gap));
+  }
+}
+
+.o-card-title-icon {
+  width: var(--card-title-icon-size);
+  height: var(--card-title-icon-size);
+  position: absolute;
+  top: calc((var(--card-header-text-height) - var(--card-title-icon-size)) / 2);
+  font-size: var(--card-title-icon-size);
+}
+
+.o-card-title-icon-figure {
+  width: 100%;
+}
+
 .o-card-title {
   height: calc(var(--card-title-row) * var(--card-header-text-height));
   margin: 0;

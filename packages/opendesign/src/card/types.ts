@@ -50,6 +50,13 @@ export const cardProps = {
     type: [String, Object] as PropType<string | Component>,
   },
   /**
+   * @zh-CN title开头的行内图标
+   * @en-US Title prefix icon
+   */
+  titleIcon: {
+    type: [String, Object] as PropType<string | Component>,
+  },
+  /**
    * @zh-CN 标题
    * @en-US Title
    */
