@@ -50,6 +50,8 @@ kind: container
 | \-\-card-icon-gap | 图标与内容之间的间距：垂直布局时为下外边距，水平布局时为右外边距，水平反向布局时为左外边距 |
 | \-\-card-icon-color | 图标颜色 |
 | \-\-card-icon-size | 图标大小 |
+| \-\-card-title-icon-gap | title开头行内图标与文字之间的间距 |
+| \-\-card-title-icon-size | title开头行内图标大小 |
 | \-\-card-header-color | 标题颜色 |
 | \-\-card-header-text-size | 标题字体大小 |
 | \-\-card-header-text-height | 标题字体高度 |

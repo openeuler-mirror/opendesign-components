@@ -64,6 +64,7 @@ const LOREM =
   </OCard>
   <OCard title="Icon card title" :detail="LOREM" :detail-max-row="2" :detail-row="2" :icon="OIconSkill" href="/" class="c-card-kunpeng" />
   <OCard layout="h" title="Icon card title" :detail="LOREM" :detail-max-row="2" :detail-row="2" :icon="OIconSkill" href="/" class="c-card-kunpeng" />
+  <OCard  title="Icon card title" :detail="LOREM" :detail-max-row="2" :detail-row="2" :title-icon="OIconSkill" href="/" class="c-card-kunpeng" />
 </template>
 <style lang="scss" scoped>
 .c-card-kunpeng + .c-card-kunpeng {

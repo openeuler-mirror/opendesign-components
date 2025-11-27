@@ -51,6 +51,8 @@ kind: container
 | \-\-card-icon-gap | Spacing between icon and content: bottom margin in vertical layout, right margin in horizontal layout, left margin in reverse horizontal layout |
 | \-\-card-icon-color | Icon color |
 | \-\-card-icon-size | Icon size |
+| \-\-card-title-icon-gap  | Spacing between title prefix icon and text  |
+| \-\-card-title-icon-size | Title prefix icon size                      |
 | \-\-card-header-color | Header color |
 | \-\-card-header-text-size | Header text size |
 | \-\-card-header-text-height | Header text height |
