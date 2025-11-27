@@ -108,8 +108,7 @@ export const popupProps = {
    * @default undefined
    */
   anchorClass: {
-    type: [String, Array] as PropType<string | any[]>,
-    default: undefined,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 是否在popup隐藏时卸载组件
@@ -127,7 +126,6 @@ export const popupProps = {
    */
   wrapClass: {
     type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
-    default: undefined,
   },
   /**
    * @zh-CN popup挂载容器的内容体的自定义类
@@ -135,8 +133,7 @@ export const popupProps = {
    * @default undefined
    */
   bodyClass: {
-    type: [String, Array] as PropType<string | any[]>,
-    default: undefined,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN popup最小宽度设置为触发元素宽度

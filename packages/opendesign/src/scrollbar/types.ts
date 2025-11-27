@@ -67,7 +67,7 @@ export const baseScrollarProps = {
    * @en-US Custom scroll bar class.
    */
   barClass: {
-    type: String,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
 };
 export type BaseScrollerPropsT = ExtractPropTypes<typeof baseScrollarProps>;

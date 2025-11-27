@@ -31,8 +31,7 @@ export const layerProps = {
    * @en-US Custom class name for default slot's parent container
    */
   mainClass: {
-    type: [String, Array] as PropType<string | any[]>,
-    default: '',
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 自定义内容盒子的过度动画

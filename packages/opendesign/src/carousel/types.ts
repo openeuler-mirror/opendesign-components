@@ -48,7 +48,7 @@ export const carouselProps = {
    * @en-US Arrow container class
    */
   arrowWrapClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 隐藏指示器
@@ -69,7 +69,7 @@ export const carouselProps = {
    * @en-US Indicator container class
    */
   indicatorWrapClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 点击卡片切换
@@ -90,7 +90,7 @@ export const carouselProps = {
    * @en-US Custom active class
    */
   activeClass: {
-    type: String,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 鼠标悬停时暂停自动切换

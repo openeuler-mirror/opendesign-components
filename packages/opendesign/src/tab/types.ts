@@ -65,8 +65,7 @@ export const tabProps = {
    * @en-US Header custom style class name
    */
   headerClass: {
-    type: [String, Array, Object] as PropType<ClassT>,
-    default: undefined,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
 };
 

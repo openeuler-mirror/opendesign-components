@@ -7,6 +7,7 @@ import { vOnResize } from '../directives';
 import { debounceRAF } from '../_utils/helper';
 import { defaultSize } from '../_utils/global';
 import { useScreen } from '../hooks';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(tabProps);
 
@@ -170,13 +171,13 @@ const navScroll = (to: 'prev' | 'next') => {
   <div class="o-tab" :class="[`o-tab-${props.variant}`, `o-tab-${props.size || defaultSize}`]">
     <div
       class="o-tab-head"
-      :class="[
+      :class="mergeClass(
         {
-          'with-act': $slots.suffix || $slots.prefix,
-          'show-line': props.line,
+          'with-act': !!$slots.suffix || !!$slots.prefix,
+          'show-line': !!props.line,
         },
         props.headerClass,
-      ]"
+      )"
     >
       <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>

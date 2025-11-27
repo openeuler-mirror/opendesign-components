@@ -8,7 +8,7 @@ export interface EffectT {
   destroyed: () => void;
 }
 export interface EffectOptionT {
-  activeClass?: string;
+  activeClass?: string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>;
   onTouchstart?: () => void;
   onTouchend?: () => void;
   onBeforeChange?: (from: number, to: number) => boolean | void;
@@ -18,7 +18,7 @@ export interface EffectOptionT {
 export default abstract class Effect {
   total: number;
   currentIndex: number;
-  activeClass: string | undefined;
+  activeClass?: string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>;
   onTouchstart: (() => void) | undefined;
   onTouchend: (() => void) | undefined;
   onBeforeChange: ((to: number, from: number) => boolean | void) | undefined;

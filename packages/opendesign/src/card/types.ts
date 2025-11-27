@@ -112,7 +112,7 @@ export const cardProps = {
    * @en-US Class name for the cover box (used to customize the cover style)
    */
   coverClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 跳转链接（该属性有值时，卡片会被渲染为链接）

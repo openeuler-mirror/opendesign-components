@@ -4,6 +4,7 @@ import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_components/html-tag';
 import { isString, isUndefined } from '../_utils/is';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(cardProps);
 
@@ -56,13 +57,13 @@ const hasCover = computed(() => {
       <div
         v-if="hasCover"
         class="o-card-cover"
-        :class="[
-          props.coverClass,
+        :class="mergeClass(
           `o-card-cover-${props.layout}`,
           {
             'o-card-only-cover': !hasMain,
           },
-        ]"
+          props.coverClass,
+        )"
       >
         <slot name="cover">
           <OFigure
