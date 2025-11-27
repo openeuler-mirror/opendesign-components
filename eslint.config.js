@@ -96,6 +96,10 @@ const rules = {
     "alignAttributesVertically": true,
     "ignores": []
   }],
+  // 允许通过多语言t函数插入（内部数据，无xss风险）
+  "vue/no-v-html": ["error", {
+        "ignorePattern": "^html|^t(.*)"
+    }],
 
   /************  typescript-eslint *******************/
   '@typescript-eslint/no-explicit-any': 'off',
