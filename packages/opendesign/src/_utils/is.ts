@@ -51,7 +51,7 @@ export function isArrayEqual(arr1: Array<any>, arr2: Array<any>): boolean {
 }
 
 export function isEmptyObject(val: unknown): val is {} {
-  return opt.call(val) === '[object object]' && Object.keys(val as Object).length === 0;
+  return opt.call(val) === '[object object]' && Object.keys(val as object).length === 0;
 }
 /**
  * 判断日期是否合法

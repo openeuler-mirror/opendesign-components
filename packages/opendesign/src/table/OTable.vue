@@ -139,11 +139,11 @@ const handleTouchStart = (e: TouchEvent) => {
           <slot name="body" :body="tableData">
             <tr v-for="(row, rIdx) in tableData" :key="row.key || rIdx" :class="{ [DEFAULT_ROW_LAST_MARKER]: rIdx + 1 === tableData.length }">
               <td
+                v-for="(col, idx) in row.data"
+                :key="col.key || idx"
                 :rowspan="col.rowspan"
                 :colspan="col.colspan"
                 :class="{ [DEFAULT_CELL_LAST_COL_MARKER]: col.last }"
-                v-for="(col, idx) in row.data"
-                :key="col.key || idx"
               >
                 <slot :name="`td_${col.key}`" :row="props.data ? props.data[rIdx] : {}" :row-index="rIdx">
                   {{ col.value }}

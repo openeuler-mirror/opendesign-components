@@ -44,34 +44,34 @@ const onChange = (v: string) => {
       <InTextarea
         class="test-input test-height"
         default-value="你好"
+        clearable
+        resize="both"
+        show-length="always"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="onChange"
         @input="() => printEvent('input')"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
-        clearable
-        resize="both"
-        show-length="always"
       />
     </div>
     <div class="block">
       <p>max: {{ maxLength }}; min: {{ minLength }} input-on-outlimit: false</p>
       <InTextarea
-        class="test-input"
         v-model="inputVal"
+        class="test-input"
         :validate="validate"
+        value-on-invalid-change
+        clearable
+        :min-length="minLength"
+        :input-on-outlimit="false"
+        resize="both"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="(v:string) => printEvent('change', v)"
         @input="() => printEvent('input')"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
-        value-on-invalid-change
-        clearable
-        :min-length="minLength"
-        :input-on-outlimit="false"
-        resize="both"
       >
         <template #suffix>
           <button @click="click">123</button>
@@ -80,7 +80,7 @@ const onChange = (v: string) => {
     </div>
     <section block>
       <p>auto-size:</p>
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size clearable :max-length="maxLength">
+      <InTextarea v-model="inputVal" class="test-input" :type="type" auto-size clearable :max-length="maxLength">
         <template #prefix>
           <button @click="click">#prefix</button>
         </template>
@@ -91,7 +91,7 @@ const onChange = (v: string) => {
     </section>
     <section block>
       <p>auto-size: max-width: 300px;min-height: 100px; max-height: 200px</p>
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="max-width: 300px; min-height: 100px; max-height: 200px" clearable>
+      <InTextarea v-model="inputVal" class="test-input" :type="type" auto-size style="max-width: 300px; min-height: 100px; max-height: 200px" clearable>
         <template #suffix>
           <button @click="click">123</button>
         </template>
@@ -99,7 +99,7 @@ const onChange = (v: string) => {
     </section>
     <section block>
       <p>auto-size: min-width: 100px;min-height: 150px</p>
-      <InTextarea class="test-input" :type="type" v-model="inputVal" auto-size style="min-width: 100px; min-height: 60px; min-height: 150px" clearable />
+      <InTextarea v-model="inputVal" class="test-input" :type="type" auto-size style="min-width: 100px; min-height: 60px; min-height: 150px" clearable />
     </section>
   </div>
 </template>

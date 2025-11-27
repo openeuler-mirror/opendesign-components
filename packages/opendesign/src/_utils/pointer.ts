@@ -54,8 +54,8 @@ export class OPointer {
   }
   private onPointerMove(e: TouchEvent) {
     const { pageX: x, pageY: y } = e.touches[0];
-    let dx = x - this.x1;
-    let dy = y - this.y1;
+    const dx = x - this.x1;
+    const dy = y - this.y1;
     this.onMove(
       {
         x,
@@ -68,8 +68,8 @@ export class OPointer {
   }
   private onPointerUp(e: TouchEvent) {
     const { pageX: x, pageY: y } = e.changedTouches[0];
-    let dx = x - this.x1;
-    let dy = y - this.y1;
+    const dx = x - this.x1;
+    const dy = y - this.y1;
     this.onEnd(
       {
         x,

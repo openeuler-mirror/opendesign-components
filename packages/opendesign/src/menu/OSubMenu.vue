@@ -119,9 +119,18 @@ const handleMouseleave = () => {
 </script>
 
 <template>
-  <li class="o-sub-menu"
-    :class="{ 'o-sub-menu-selected': isSelected, 'o-sub-menu-associated-selected': isAssociatedSelected, 'o-sub-menu-expanded': isExpanded }"
-    :style="{ '--sub-menu-level': depth }" @click="onSubItemClick">
+  <li
+    class="o-sub-menu"
+    :class="{ 
+      'o-sub-menu-selected': isSelected, 
+      'o-sub-menu-associated-selected': isAssociatedSelected, 
+      'o-sub-menu-expanded': isExpanded 
+    }"
+    :style="{ 
+      '--sub-menu-level': depth 
+    }" 
+    @click="onSubItemClick"
+  >
     <div class="o-sub-menu-title" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
       <template v-if="size === 'small'">
         <span class="o-sub-menu-title-arrow o-sub-menu-title-icon">
@@ -143,8 +152,13 @@ const handleMouseleave = () => {
         </span>
       </template>
     </div>
-    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave"
-      @leave="onLeave">
+    <Transition
+      @before-enter="onBeforeEnter" 
+      @enter="onEnter" 
+      @after-enter="onAfterEnter" 
+      @before-leave="onBeforeLeave"
+      @leave="onLeave"
+    >
       <ul v-show="isExpanded" class="o-sub-menu-children">
         <slot></slot>
       </ul>

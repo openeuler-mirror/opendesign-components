@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { useComposition } from '../hooks/use-composition';
 import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';

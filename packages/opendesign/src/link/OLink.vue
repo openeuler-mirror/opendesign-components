@@ -50,7 +50,7 @@ const onClick = (e: MouseEvent) => {
       </slot>
     </span>
     <span class="o-link-main">
-      <span class="o-link-label" v-if="props.hoverUnderline">
+      <span v-if="props.hoverUnderline" class="o-link-label">
         <slot></slot>
       </span>
       <slot v-else></slot>

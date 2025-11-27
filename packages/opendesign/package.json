@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -23,7 +23,8 @@
     "build:component": "open-scripts build:component",
     "build:style": "open-scripts build:style",
     "build": "pnpm gen:icon && pnpm build:component && pnpm build:style",
-    "lint": "eslint ./src",
+    "lint": "eslint  --ignore-pattern './src/**/__demo__/*' --ignore-pattern './src/**/__docs__/*' ./src",
+    "lint:fix": "eslint  --ignore-pattern './src/**/__demo__/*' --ignore-pattern './src/**/__docs__/*' --fix ./src",
     "type-check": "vue-tsc --build",
     "release": "pnpm publish --registry https://registry.npmjs.org",
     "gen:token:test": "open-scripts gen:token --config ./tokens/token.config.ts"

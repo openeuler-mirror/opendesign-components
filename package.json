@@ -16,14 +16,15 @@
     "vue-router": "catalog:vue"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "catalog:lint",
+    "@eslint/js": "^9.39.1",
     "@types/node": "catalog:typescript",
     "@vitejs/plugin-vue": "catalog:vue",
-    "@vue/eslint-config-typescript": "catalog:lint",
     "eslint": "catalog:lint",
+    "eslint-config-prettier": "catalog:lint",
     "eslint-plugin-vue": "catalog:lint",
+    "globals": "catalog:lint",
     "typescript": "catalog:typescript",
-    "vite-node": "catalog:utils",
-    "vue-eslint-parser": "catalog:lint"
+    "typescript-eslint": "catalog:lint",
+    "vite-node": "catalog:utils"
   }
 }

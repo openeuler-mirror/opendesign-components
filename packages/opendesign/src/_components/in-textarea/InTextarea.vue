@@ -5,7 +5,6 @@ import { IconClose } from '../../_utils/icons';
 import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useI18n } from '../../locale';
 import { vScrollbar, type BaseScrollerPropsT } from '../../scrollbar';
-import { isUndefined } from '../../_utils/is';
 
 const props = defineProps(inTextareaProps);
 
@@ -66,23 +65,6 @@ const resizeValue = computed(() => {
   }
 });
 
-// 是否显示长度插槽
-const showLengthInfo = computed(() => {
-  if (props.showLength === 'never') {
-    return false;
-  }
-
-  if (props.showLength === 'always') {
-    return true;
-  }
-
-  if (props.showLength === 'auto') {
-    return !isUndefined(props.maxLength) || !isUndefined(props.minLength);
-  }
-
-  return false;
-});
-
 // 是否可清除
 const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly);
 
@@ -133,7 +115,7 @@ defineExpose({
     }"
     :for="props.textareaId"
   >
-    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix?.()">
+    <div v-if="slots.prefix?.()" class="o_textarea-prefix" @mousedown.prevent>
       <slot name="prefix"></slot>
     </div>
     <div
@@ -146,6 +128,7 @@ defineExpose({
       <textarea
         :id="props.textareaId"
         ref="inputEl"
+        v-scrollbar="scrollbarProps"
         :value="displayValue"
         class="o_textarea-textarea"
         :placeholder="props.placeholder"
@@ -156,7 +139,6 @@ defineExpose({
         :style="{
           resize: resizeValue,
         }"
-        v-scrollbar="scrollbarProps"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
@@ -176,7 +158,7 @@ defineExpose({
     </div>
     </div>
 
-    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix?.()">
+    <div v-if="slots.suffix?.()" class="o_textarea-suffix" @mousedown.prevent>
       <slot name="suffix"></slot>
     </div>
   </label>

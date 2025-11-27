@@ -131,6 +131,7 @@ defineExpose({
 </script>
 <template>
   <HtmlTag
+    ref="rootEl"
     :tag="!!props.href ? 'a' : 'div'"
     class="o-figure"
     :href="props.href"
@@ -151,7 +152,6 @@ defineExpose({
       backgroundImage: bgUrl,
     }"
     @click="onFigureClick"
-    ref="rootEl"
   >
     <div v-if="paddingTop || isError" class="o-figure-wrap">
       <div v-if="isError" class="o-figure-error-wrap">
@@ -178,7 +178,7 @@ defineExpose({
       @load="onImgLoaded"
       @error="onImgError"
     />
-    <div class="o-figure-main" v-if="props.videoPoster || $slots.content || $slots.title || $slots.default">
+    <div v-if="props.videoPoster || $slots.content || $slots.title || $slots.default" class="o-figure-main">
       <slot></slot>
       <div v-if="props.videoPoster" class="o-figure-mask">
         <slot name="play-icon">
@@ -200,9 +200,9 @@ defineExpose({
       v-if="canPreview"
       v-model:visible="previewVisible"
       class="o-figure-preview-layer"
-      @change="onPreviewChange"
       :mask-close="isMaskClose"
       :button-close="isButtonClose"
+      @change="onPreviewChange"
     >
       <div class="o-figure-preview-wrapper" @click="onPreviewImgClick">
         <slot name="preview" :image="imgSrc">

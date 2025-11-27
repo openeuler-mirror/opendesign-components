@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { vScrollbar, BaseScrollerPropsT } from '../scrollbar';
+import { vScrollbar, type BaseScrollerPropsT } from '../scrollbar';
 interface OptionPropT {
   wrapClass?: string | any[];
   // 是否使用scrollbar
@@ -16,14 +16,14 @@ const scrollbarProps = computed(() => {
     return {
       showType: 'hover',
       size: 'small',
-    };
+    } as Partial<BaseScrollerPropsT>;
   }
   return props.scrollbar;
 });
 </script>
 <template>
   <div class="o-option-list">
-    <div class="o-options-container" v-scrollbar="scrollbarProps" :class="props.wrapClass">
+    <div v-scrollbar="scrollbarProps" class="o-options-container" :class="props.wrapClass">
       <slot></slot>
     </div>
   </div>

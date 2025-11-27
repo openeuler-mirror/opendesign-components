@@ -161,7 +161,7 @@ provide(innerComponentInjectKey, {
     class="o-input-number"
     :class="[props.autoWidth ? '' : `o-input-number-size-${props.size || defaultSize}`]"
     :validate="validate"
-    :valueOnInvalidChange="valueOnInvalidChange"
+    :value-on-invalid-change="valueOnInvalidChange"
     :size="props.size"
     :placeholder="props.placeholder"
     :color="color"

@@ -8,7 +8,7 @@ const props = withDefaults(
     /**
      * 滚动条方向 h：横向 v: 纵向
      */
-    direction: 'x' | 'y';
+    direction?: 'x' | 'y';
     /**
      * 滚动bar宽度占总宽度
      */
@@ -16,7 +16,7 @@ const props = withDefaults(
     /**
      * 滚动bar滚动位置百分比
      */
-    offsetRate: number;
+    offsetRate?: number;
     /**
      * 点击track一次，滚动一屏
      */
@@ -24,12 +24,13 @@ const props = withDefaults(
     /**
      * 滚动条尺寸大小
      */
-    size: ScrollerSizeT;
+    size?: ScrollerSizeT;
   }>(),
   {
     direction: 'y',
     offsetRate: 0,
     size: 'medium',
+    thumbRate: 0
   }
 );
 
