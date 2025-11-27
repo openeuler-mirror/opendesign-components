@@ -2,7 +2,7 @@
 import { OCard } from '../index';
 import '../../button/style';
 import { OButton } from '../../button';
-import { OIconStar } from '../../icon-components';
+import { OIconStar, OIconSkill } from '../../icon-components';
 
 const cardInfo = {
   cover: 'https://www.openeuler.org/img/banners/20230418-odd.png',
@@ -26,6 +26,12 @@ const cardInfo = {
           <OButton round="pill" color="primary">操作按钮2</OButton>
         </template>
       </OCard>
+    </div>
+  </section>
+  <section>
+    <div class="display-item">
+      <h4>单体卡片（响应式, titleIcon属性）</h4>
+      <OCard hoverable :title="cardInfo.title" :detail="cardInfo.detail" :title-icon="OIconSkill" />
     </div>
   </section>
 </template>
