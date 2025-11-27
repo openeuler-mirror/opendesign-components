@@ -8,11 +8,11 @@ export interface TableColumnT {
 
 export interface TableRowT {
   key?: string | number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface TableCellT {
-  value: any;
+  value: unknown;
   key: string | number;
   colspan?: number;
   rowspan?: number;

@@ -4,6 +4,7 @@ import tseslint from 'typescript-eslint';
 import pluginVue from 'eslint-plugin-vue';
 import eslintPrettier from 'eslint-config-prettier';
 import { defineConfig } from 'eslint/config';
+import { readonly } from 'vue';
 
 const rules = {
   'no-debugger': 'warn',
@@ -73,61 +74,87 @@ const rules = {
   'no-unused-vars': 'off',
   'no-undef-init': 'error',
 
-  /************  eslint-plugin-vue *******************/
-  "vue/no-unused-vars": ["warn", {
-        "ignorePattern": "^_"
-    }],
-  "vue/max-attributes-per-line": ["error", {
-    "singleline": {
-      "max": 3
-    },      
-    "multiline": {
-      "max": 1
-    }
-  }],
-  "vue/first-attribute-linebreak": ["warn", {
-    "singleline": "beside",
-    "multiline": "below"
-  }],
-  "vue/html-indent": ["warn", 2, {
-    "attribute": 1,
-    "baseIndent": 1,
-    "closeBracket": 0,
-    "alignAttributesVertically": true,
-    "ignores": []
-  }],
+  /** **********  eslint-plugin-vue *******************/
+  'vue/no-unused-vars': [
+    'warn',
+    {
+      ignorePattern: '^_',
+    },
+  ],
+  'vue/max-attributes-per-line': [
+    'error',
+    {
+      singleline: {
+        max: 3,
+      },
+      multiline: {
+        max: 1,
+      },
+    },
+  ],
+  'vue/first-attribute-linebreak': [
+    'warn',
+    {
+      singleline: 'beside',
+      multiline: 'below',
+    },
+  ],
+  'vue/html-indent': [
+    'warn',
+    2,
+    {
+      attribute: 1,
+      baseIndent: 1,
+      closeBracket: 0,
+      alignAttributesVertically: true,
+      ignores: [],
+    },
+  ],
   // 允许通过多语言t函数插入（内部数据，无xss风险）
-  "vue/no-v-html": ["error", {
-        "ignorePattern": "^html|^t(.*)"
-    }],
+  'vue/no-v-html': [
+    'error',
+    {
+      ignorePattern: '^html|^t(.*)',
+    },
+  ],
 
-  /************  typescript-eslint *******************/
+  /** **********  typescript-eslint *******************/
   '@typescript-eslint/no-explicit-any': 'off',
-  "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "args": "all",
-        "argsIgnorePattern": "^_",
-        "caughtErrors": "all",
-        "caughtErrorsIgnorePattern": "^_",
-        "destructuredArrayIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "ignoreRestSiblings": true
-      }
-    ]
+  '@typescript-eslint/no-unused-vars': [
+    'error',
+    {
+      args: 'all',
+      argsIgnorePattern: '^_',
+      caughtErrors: 'all',
+      caughtErrorsIgnorePattern: '^_',
+      destructuredArrayIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+      ignoreRestSiblings: true,
+    },
+  ],
 };
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
     plugins: { js },
     extends: ['js/recommended'],
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: globals.browser,
+    },
+    rules,
   },
   tseslint.configs.recommended,
   pluginVue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
-    languageOptions: { parserOptions: { parser: tseslint.parser } },
+    languageOptions: {
+      parserOptions: { parser: tseslint.parser },
+      globals: {
+        ...globals.browser,
+        ScrollBehavior: 'readonly',
+        ScrollToOptions: 'readonly'
+      },
+    },
     rules,
   },
   eslintPrettier,

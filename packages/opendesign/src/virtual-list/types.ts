@@ -27,7 +27,7 @@ export const virtualListProps = {
    * @en-US List data, if dynamic addition exists, each item must contain a unique ID
    */
   list: {
-    type: Array<any>,
+    type: Array<unknown>,
     required: true,
     default: () => [],
   },
