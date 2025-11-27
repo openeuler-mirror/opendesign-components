@@ -126,7 +126,7 @@ export const popupProps = {
    * @default undefined
    */
   wrapClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
     default: undefined,
   },
   /**

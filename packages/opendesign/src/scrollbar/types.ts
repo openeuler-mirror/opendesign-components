@@ -79,7 +79,7 @@ export const scrollerProps = {
    * @en-US Rolling container class.
    */
   wrapClass: {
-    type: [String, Array, Object] as PropType<string | any[] | object>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
 };
 

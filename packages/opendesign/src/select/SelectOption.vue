@@ -8,7 +8,7 @@ import { BaseScrollerPropsT } from '../scrollbar';
 
 interface OptionPropT {
   size?: SizeT;
-  wrapClass?: string | any[];
+  wrapClass?: string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>;
   loading?: boolean;
   optionTitle?: string;
   multiple?: boolean;
