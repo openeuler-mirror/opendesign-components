@@ -78,7 +78,7 @@ const errorValue2 = ref(['1', 'abc'])
   </section>
 
   <h4>trigger: hover, expandTrigger: hover</h4>
-  <OCascader v-model="cascaderVal1" :options="option1" trigger="hover" expand-trigger="hover" class="wide" @change="handleChange1" />
+  <OCascader v-model="cascaderVal1" :options="option1" trigger="hover" expand-trigger="hover" class="wide" :option-wrap-class="['123', {abc:true}]" @change="handleChange1"/>
   <h4>expandTrigger: hover</h4>
   <OCascader v-model="cascaderVal2" :options="option2" expand-trigger="hover" path-mode class="wide" @change="handleChange2" />
   <h4>异常数据测试</h4>

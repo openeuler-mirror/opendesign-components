@@ -5,6 +5,7 @@ import { OPopup } from '../popup';
 import { dropdownProps } from './types';
 import { dropdownInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(dropdownProps);
 
@@ -36,6 +37,7 @@ watch(isVisible, (val) => {
   updateVisible(val);
 });
 
+
 provide(dropdownInjectKey, { updateVisible });
 </script>
 
@@ -54,7 +56,7 @@ provide(dropdownInjectKey, { updateVisible });
       :adjust-min-width="props.optionWidthMode === 'min-width'"
       :adjust-width="props.optionWidthMode === 'width'"
     >
-      <ul class="o-dropdown-list" :class="[props.optionWrapClass, `o-dropdown-list-${props.size}`]">
+      <ul class="o-dropdown-list" :class="mergeClass(`o-dropdown-list-${props.size}`, props.optionWrapClass)">
         <slot name="dropdown"></slot>
       </ul>
     </OPopup>

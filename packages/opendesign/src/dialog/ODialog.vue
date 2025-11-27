@@ -6,7 +6,7 @@ import { OButton } from '../button';
 import { vScrollbar, type BaseScrollerPropsT } from '../scrollbar';
 
 import { dialogProps } from './types';
-import { mergeClass } from '../_utils/dom';
+import { mergeClass } from '../_utils/vue-utils';
 import { useScreen } from '../hooks';
 
 const props = defineProps(dialogProps);

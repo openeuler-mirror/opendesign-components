@@ -131,7 +131,7 @@ export const selectProps = {
    * @en-US Option container custom class.
    */
   optionWrapClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 是否在结束选择时，卸载所有选项，v-model

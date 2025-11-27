@@ -85,7 +85,7 @@ export const cascaderProps = {
    * @en-US Option container class name
    */
   optionWrapClass: {
-    type: [String, Array] as PropType<string | string[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 是否在隐藏时销毁 DOM
