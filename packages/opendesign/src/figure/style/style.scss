@@ -24,6 +24,7 @@
     transition: opacity var(--o-duration-m2), transform var(--o-easing-standard) 600ms;
     will-change: transform;
     border-radius: var(--figure-radius);
+    pointer-events: none;
   }
   &.is-error {
     background-color: var(--figure-error-bk);
