@@ -407,7 +407,7 @@ export function calcPopupStyle(
 }
 
 // 监听元素的触发事件
- 
+
 export function bindTrigger(
   el: HTMLElement | null,
   popupRef: Ref<HTMLElement | null>,
@@ -454,7 +454,7 @@ export function bindTrigger(
   const clickFn = (toggle: boolean) => {
     const handlerFn = toggle ? toggleFn : showFn;
     return () => {
-      el?.addEventListener('click', () => {
+      const fn = () => {
         handlerFn();
         if (autoHide) {
           outClick.addListener(el, onClickFn, {
@@ -463,10 +463,11 @@ export function bindTrigger(
             },
           });
         }
-      });
+      };
+      el?.addEventListener('click', fn);
 
       listeners.push(() => {
-        el?.removeEventListener('click', handlerFn);
+        el?.removeEventListener('click', fn);
       });
     };
   };
