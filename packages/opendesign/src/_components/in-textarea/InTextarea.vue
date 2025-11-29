@@ -88,9 +88,9 @@ const mirrorValue = computed(() => {
 const scrollbarProps = computed(() => {
   if (props.scrollbar === true) {
     return {
-      showType: 'hover' as BaseScrollerPropsT['showType'],
-      size: 'small' as BaseScrollerPropsT['size'],
-    };
+      showType: 'hover',
+      size: 'small',
+    } as Partial<BaseScrollerPropsT>;
   }
   return props.scrollbar;
 });
