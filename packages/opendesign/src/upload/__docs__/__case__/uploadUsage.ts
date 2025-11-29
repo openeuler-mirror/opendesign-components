@@ -1,8 +1,8 @@
 import { propsToAttrStr } from '../../../_demo/utils';
 import { onAfterSelect, uploadRequest, onBeforeUpload, onBeforeRemove } from '../../__demo__/upload';
 import {  reactive } from 'vue';
-import type { UploadFileT } from '../../../../lib';
-import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types.ts';
+import type { UploadFileT } from '../../types';
+import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
 // 该导出会作为该使用示例的文案，文案是markdown格式
 export const docs = {
