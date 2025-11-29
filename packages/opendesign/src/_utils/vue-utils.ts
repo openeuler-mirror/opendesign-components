@@ -1,5 +1,5 @@
 import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, Ref, isRef, watch } from 'vue';
-import { isArray, isObject, isString, isUndefined } from './is';
+import { isArray } from './is';
 import { isHtmlElement } from './dom';
 import { log } from './log.ts';
 

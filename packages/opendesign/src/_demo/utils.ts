@@ -1,4 +1,5 @@
 import { shallowRef, type VNodeChild } from 'vue';
+import { log } from '../_utils/log';
 
 const canLog = process.env.NODE_ENV === 'development';
 const validTagAttrName = (name: string) => /^[a-zA-Z0-9_-]+$/.test(name);
@@ -22,7 +23,7 @@ export function propsToAttrStr<T extends Record<string, any>>(props: T, exclude:
       const key = hyphenate(_key);
       if (!validTagAttrName(key)) {
         if (canLog) {
-          console.warn(`Invalid tag attr name: ${name}`);
+          log.warn(`Invalid tag attr name: ${name}`);
         }
         return acc;
       }

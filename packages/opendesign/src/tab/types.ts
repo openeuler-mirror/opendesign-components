@@ -4,7 +4,6 @@ import type { SizeT } from '../_utils/types';
 export const TabVariantTypes = ['solid', 'text'] as const;
 export type TabVariantT = (typeof TabVariantTypes)[number];
 
-type ClassT = string | Record<string, boolean> | ClassT[];
 export const tabProps = {
   /**
    * @zh-CN 选中页签值 v-model

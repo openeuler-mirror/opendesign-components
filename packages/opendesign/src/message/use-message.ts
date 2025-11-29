@@ -98,7 +98,7 @@ const showMessage = (target: MaybeRef<MessageTarget>, closeHandlers: Set<() => v
   const { position, targetAlign } = options;
 
   let id = -1;
-  let instance: ComponentInternalInstance | undefined = undefined;
+  let instance: ComponentInternalInstance | undefined;
   let isClosed = false;
   resolveHtmlElement(target).then((targetEl) => {
     if (isClosed) {

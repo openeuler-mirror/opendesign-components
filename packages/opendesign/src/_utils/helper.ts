@@ -128,7 +128,7 @@ export async function asyncSome<T>(array: Array<T>, judgeFn: (arrayItem: T) => P
       if (await judgeFn(iterator)) {
         return true;
       }
-    } catch (error) {
+    } catch {
       return false;
     }
   }

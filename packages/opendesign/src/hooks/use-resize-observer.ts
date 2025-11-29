@@ -51,13 +51,13 @@ export type ResizeListenerT = (entry: ResizeObserverEntry, isFirst: boolean) => 
  */
 export function useResizeObserver() {
   // 创建监听实例
-  const instance = createObserverInstance();
+  const ins = createObserverInstance();
 
   return {
     /**
      * 监听实例
      */
-    observer: instance,
+    observer: ins,
     /**
      * 创建监听实例
      * el: 监听元素
@@ -73,8 +73,8 @@ export function useResizeObserver() {
       if (val) {
         val.callbacks.push(listener);
       } else {
-        instance.observer.observe(el);
-        instance.record++;
+        ins.observer.observe(el);
+        ins.record++;
 
         observerPool.set(el, {
           element: el,
@@ -83,7 +83,7 @@ export function useResizeObserver() {
         });
       }
 
-      return instance;
+      return ins;
     },
     /**
      * 移除监听
@@ -91,7 +91,7 @@ export function useResizeObserver() {
      * listener: 要移除的监听函数，如果不传，则使用初始化时的onResize回调
      */
     unobserve: (el: HTMLElement, listener: (entry: ResizeObserverEntry, isFirst: boolean) => void) => {
-      if (!el || !isFunction(listener) || !instance) {
+      if (!el || !isFunction(listener) || !ins) {
         return;
       }
 
@@ -103,19 +103,19 @@ export function useResizeObserver() {
 
         // 当el无监听回调时，不再监听该元素
         if (val.callbacks.length === 0) {
-          instance.observer.unobserve(el);
+          ins.observer.unobserve(el);
           observerPool.delete(el);
-          instance.record--;
+          ins.record--;
 
           // 当无需要监听的元素，就断开
-          if (instance.record === 0) {
-            instance.observer.disconnect();
+          if (ins.record === 0) {
+            ins.observer.disconnect();
           }
         }
       }
     },
     destroy() {
-      instance.observer.disconnect();
+      ins.observer.disconnect();
     },
   };
 }
