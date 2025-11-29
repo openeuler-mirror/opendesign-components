@@ -30,7 +30,7 @@ const onClick = (ev: MouseEvent) => {
 };
 
 watch(
-  () => props.href,
+  () => props.href!,
   (newVal, oldVal) => {
     nextTick(() => {
       anchorInjection?.removeLink(oldVal);

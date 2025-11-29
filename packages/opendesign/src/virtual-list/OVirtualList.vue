@@ -19,7 +19,7 @@ const scrollbarProps = computed(() => {
     return {
       showType: 'always',
       size: 'medium',
-    };
+    } as const;
   }
   return props.scrollbar;
 });
