@@ -1,8 +1,8 @@
 import { LinkPropsT } from 'src/link';
-import { LanguageT } from '../locale/types';
+import { i18nLanguagesT } from '../locale/types';
 import { ExtractPropTypes, PropType } from 'vue';
 
-export type LanguageConfigT = LanguageT;
+export type LanguageConfigT = i18nLanguagesT;
 export interface LinkConfigT {
   click: (e: MouseEvent, params: LinkPropsT, attrs: Record<string, any>) => void;
 }

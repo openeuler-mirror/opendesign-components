@@ -40,7 +40,7 @@ const scrollbarProps = computed(() => {
     return {
       showType: 'hover',
       size: 'small',
-    };
+    } as const;
   }
   return props.scrollbar;
 });
