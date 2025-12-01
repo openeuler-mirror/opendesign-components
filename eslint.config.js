@@ -71,7 +71,7 @@ const rules = {
   'no-use-before-define': ['error', { functions: false }],
 
   'no-unused-vars': 'off',
-  'no-undef-init': 'error',
+  'no-undef-init': 'warn',
 
   /** **********  eslint-plugin-vue *******************/
   'vue/no-unused-vars': [
