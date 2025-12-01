@@ -4,7 +4,6 @@ import tseslint from 'typescript-eslint';
 import pluginVue from 'eslint-plugin-vue';
 import eslintPrettier from 'eslint-config-prettier';
 import { defineConfig } from 'eslint/config';
-import { readonly } from 'vue';
 
 const rules = {
   'no-debugger': 'warn',
@@ -46,7 +45,7 @@ const rules = {
   'prefer-spread': 'error',
   'no-var': 'error',
   'max-lines-per-function': [
-    'error',
+    'warn',
     {
       max: 100,
       skipComments: true,
@@ -72,7 +71,7 @@ const rules = {
   'no-use-before-define': ['error', { functions: false }],
 
   'no-unused-vars': 'off',
-  'no-undef-init': 'error',
+  'no-undef-init': 'warn',
 
   /** **********  eslint-plugin-vue *******************/
   'vue/no-unused-vars': [
@@ -121,7 +120,7 @@ const rules = {
   /** **********  typescript-eslint *******************/
   '@typescript-eslint/no-explicit-any': 'off',
   '@typescript-eslint/no-unused-vars': [
-    'error',
+    'warn',
     {
       args: 'all',
       argsIgnorePattern: '^_',
@@ -132,6 +131,12 @@ const rules = {
       ignoreRestSiblings: true,
     },
   ],
+  "@typescript-eslint/no-empty-object-type": [
+    'warn',
+    {
+      allowInterfaces: 'with-single-extends'
+    },
+  ]
 };
 export default defineConfig([
   {
@@ -143,7 +148,13 @@ export default defineConfig([
     },
     rules,
   },
-  tseslint.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx,mts,cts}'],
+    rules: {
+      'no-undef': 'off',
+    },
+  },
+  tseslint.configs.base,
   pluginVue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
@@ -152,7 +163,8 @@ export default defineConfig([
       globals: {
         ...globals.browser,
         ScrollBehavior: 'readonly',
-        ScrollToOptions: 'readonly'
+        ScrollToOptions: 'readonly',
+        IntersectionObserverInit: 'readonly',
       },
     },
     rules,

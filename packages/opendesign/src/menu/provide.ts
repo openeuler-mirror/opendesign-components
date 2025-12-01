@@ -6,7 +6,7 @@ import { type MenuSizeT } from './types.ts';
 export type ShowTooltipContent = string | number| Component
 export type ShowTooltipOptions = {
   el: HTMLElement;
-  /*不传取el的innerText*/
+  /* 不传取el的innerText*/
   content?: ShowTooltipContent;
 }
 

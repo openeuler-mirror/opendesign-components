@@ -156,4 +156,4 @@ export const inTextareaProps = {
   },
 };
 
-export type inTextareaProps = ExtractPropTypes<typeof inTextareaProps>;
+export type inTextareaPropsT = ExtractPropTypes<typeof inTextareaProps>;

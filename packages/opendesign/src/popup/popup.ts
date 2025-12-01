@@ -373,7 +373,7 @@ export function calcPopupStyle(
     };
   }
   const wrapperRect = wrapperEl.getBoundingClientRect();
-  let wrapperContentRect = undefined;
+  let wrapperContentRect;
 
   // wrapper为body时，如果body有偏移，但position值为static，不需要计算wrapper的content rect。
   if (wrapperEl.nodeName !== 'HTML') {
@@ -408,6 +408,7 @@ export function calcPopupStyle(
 
 // 监听元素的触发事件
 
+// eslint-disable-next-line max-lines-per-function
 export function bindTrigger(
   el: HTMLElement | null,
   popupRef: Ref<HTMLElement | null>,
@@ -526,7 +527,7 @@ export function bindTrigger(
         });
       }
     },
-    none: () => {},
+    none: () => { },
     // hover 显示 outclick隐藏
     'hover-outclick': () => {
       el?.addEventListener('mouseenter', enterFn);

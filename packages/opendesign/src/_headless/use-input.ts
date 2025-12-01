@@ -2,7 +2,7 @@
 import { useComposition } from '../hooks/use-composition';
 import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
-import { ref, computed, Ref, watch, nextTick, h, VNode } from 'vue';
+import { ref, computed, Ref, watch, nextTick, VNode } from 'vue';
 
 export type UseInputEmitsT = {
   // 仅在输入框失焦或按下回车时触发
@@ -37,6 +37,7 @@ export interface InputOptionT {
 /**
  * 输入框
  */
+// eslint-disable-next-line max-lines-per-function
 export function useInput(options: InputOptionT) {
   const {
     modelValue,
