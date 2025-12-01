@@ -7,7 +7,7 @@ kind: nav
 
 ## 示例
 
-<!-- @case AnchorUsage -->
+<!-- @usage AnchorUsage -->
 <!-- @case AnchorSlot -->
 
 ## Api
