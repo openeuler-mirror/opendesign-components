@@ -84,3 +84,26 @@ export const isHoverDevice = isClient ? window.matchMedia('(hover: hover)').matc
 export function isWindow(val: unknown): val is Window {
   return val === window;
 }
+
+/**
+ * 判断一个给定的路径是否是当前页面的内部链接
+ * @param {string} link - 需要判断的路径（可以是相对路径、绝对路径或完整URL）
+ * @returns {boolean} - 如果是外部链接返回true，否则返回false
+ */
+export function isCurrentPageLink(link: string): boolean {
+  // 处理锚点或空路径，通常视为内部链接
+  if (link.startsWith('#')) {
+    return true;
+  }
+
+  try {
+    // 使用URL对象解析目标路径（以当前页面为基准）
+    const targetUrl = new URL(link, window.location.href);
+
+    // 比较协议、主机名、端口和路径
+    return targetUrl.origin + targetUrl.pathname === window.location.origin + window.location.pathname;
+  } catch {
+    // 如果URL解析失败（如不规范的路径），判定为外部链接
+    return false;
+  }
+}

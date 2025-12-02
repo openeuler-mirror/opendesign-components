@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { CSSProperties, nextTick, onMounted, onUnmounted, provide, ref } from 'vue';
-import { anchorProps, AnchorContainerT } from './types';
+import { anchorProps, type AnchorContainerT } from './types';
 import { anchorInjectKey } from './provide';
-import { isString, isUndefined, isWindow } from '../_utils/is';
+import { isString, isUndefined, isWindow, isCurrentPageLink } from '../_utils/is';
 import { getScroll, scrollTo } from '../_utils/dom';
 
 const props = defineProps(anchorProps);
 
 const emits = defineEmits<{
+  /**
+   * @deprecated 兼容旧版本，计划1.2.0移除
+   */
   (e: 'click', ev: MouseEvent, link?: string): void;
   (e: 'change', link: string): void;
 }>();
@@ -40,9 +43,10 @@ const updateIndicatorPosition = () => {
     indicatorStyle.value = {};
   } else {
     const { offsetTop, offsetHeight } = el;
-    indicatorStyle.value.top = `${offsetTop}px`;
+    const depth = el.getAttribute('data-depth');
+    indicatorStyle.value.top = `calc(${offsetTop}px + var(--anchor-indicator-adjust))`;
     indicatorStyle.value.height = `${offsetHeight}px`;
-    indicatorStyle.value.opacity = 1;
+    indicatorStyle.value.opacity = depth === '0' ? 0 : 1;
   }
 };
 
@@ -80,8 +84,13 @@ const getOffsetTop = (el: HTMLElement, container: AnchorContainerT) => {
   return top - container.getBoundingClientRect().top;
 };
 
-// 滚动至指定锚点位置
+/**
+ * 滚动至指定锚点位置
+ */
 const scrollIntoView = async (link: string) => {
+  if (!isCurrentPageLink(link)) {
+    return;
+  }
   setActiveLink(link);
 
   const target = getAnchorTarget(link);
@@ -165,23 +174,22 @@ const removeLink = (link: string) => {
   links.value.add(link);
 };
 
-const handleClick = (ev: MouseEvent, link?: string) => {
-  if (!props.changeHash) {
-    ev.preventDefault();
-  }
 
-  emits('click', ev, link);
-
-  if (link) {
-    scrollIntoView(link);
-  }
+/**
+ * @deprecated 兼容旧版本，计划1.2.0移除
+ */
+const onItemClick = (options: { event: MouseEvent, link?: string }) => {
+  const { event, link } = options;
+  emits('click', event, link);
 };
 
 provide(anchorInjectKey, {
   addLink,
   removeLink,
-  handleClick,
+  onItemClick,
   activeLink,
+  scrollIntoView,
+  getChangeHash: () => props.changeHash,
 });
 
 onMounted(() => {
@@ -201,7 +209,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="anchorRef" class="o-anchor">
+  <div ref="anchorRef" :class="['o-anchor', `o-anchor-${props.size}`]">
     <div class="o-anchor-line">
       <div class="o-anchor-indicator" :style="indicatorStyle"></div>
     </div>
