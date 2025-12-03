@@ -13,6 +13,8 @@
 
       --card-icon-gap: 12px;
 
+      --card-title-icon-gap: var(--o-gap-2);
+
       --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip1);
       --card-content-text-height: var(--o-line_height-tip1);
@@ -38,6 +40,9 @@
 
       --card-icon-gap: 8px;
       --card-icon-size: var(--o-icon_size_control-l);
+
+      --card-title-icon-gap: var(--o-gap-2);
+      --card-title-icon-size: var(--o-icon_size-m);
 
       --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip1);
@@ -76,6 +81,9 @@
 
       --card-icon-gap: 8px;
       --card-icon-size: var(--o-icon_size_control-l);
+
+      --card-title-icon-gap: var(--o-gap-2);
+      --card-title-icon-size: var(--o-icon_size-m);
 
       --card-content-gap: 8px;
       --card-content-text-size: var(--o-font_size-tip2);

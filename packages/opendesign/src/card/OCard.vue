@@ -29,6 +29,10 @@ const isTitleLimited = computed(() => {
 const isDetailLimited = computed(() => {
   return !isUndefined(props.detailMaxRow);
 });
+
+const hasTitleIcon = computed(() => {
+  return props.titleIcon;
+});
 </script>
 
 <template>
@@ -75,8 +79,18 @@ const isDetailLimited = computed(() => {
           <div class="o-card-main-wrap">
             <div>
               <!-- header -->
-              <div v-if="props.title || !!slots.header || !!slots.title" class="o-card-header">
+              <div
+                v-if="props.title || !!slots.header || !!slots.title"
+                :class="{
+                  'o-card-header': true,
+                  'o-card-header-with-icon': hasTitleIcon
+                }"
+              >
                 <slot name="header">
+                  <div v-if="hasTitleIcon" class="o-card-title-icon">
+                    <OFigure v-if="isString(props.titleIcon)" :src="props.titleIcon" class="o-card-title-icon-figure"/>
+                    <component :is="props.titleIcon" v-else />
+                  </div>
                   <div
                     v-if="props.title"
                     class="o-card-title"
