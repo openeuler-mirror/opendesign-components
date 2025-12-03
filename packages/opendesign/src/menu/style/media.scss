@@ -1,18 +1,38 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=laptop') {
+@include respond-to('pad_v-pc_s') {
   .o-menu {
-    --menu-padding-v: 11px;
-    --menu-secondary-padding-v: 11px;
+    --menu-padding-v: 9px;
+    --menu-secondary-padding-v: 5px;
   }
 
   .o-sub-menu {
     --sub-menu-text-size: var(--o-font_size-tip1);
     --sub-menu-text-height: var(--o-line_height-tip1);
+
+    --sub-menu-icon-size: var(--o-icon_size_control-s);
   }
 
   .o-menu-item {
     --menu-item-text-size: var(--o-font_size-text1);
     --menu-item-text-height: var(--o-line_height-text1);
+
+    --menu-item-icon-size: var(--o-icon_size_control-s);
+  }
+}
+
+@include respond-to("<=pad_v") {
+  .o-menu.o-menu-small {
+    --menu-secondary-padding-v: 5px;
+
+  }
+  .o-menu.o-menu-small .o-sub-menu {
+    --sub-menu-secondary-text-size: var(--o-font_size-tip2);
+    --sub-menu-secondary-text-height: var(--o-line_height-tip2);
+  }
+
+  .o-menu.o-menu-small .o-menu-item {
+    --menu-item-secondary-text-size: var(--o-font_size-tip2);
+    --menu-item-secondary-text-height: var(--o-line_height-tip2);
   }
 }

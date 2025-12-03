@@ -1,14 +1,17 @@
 <script lang="ts" setup>
-import { computed, inject, provide } from 'vue';
+import { computed, inject, provide, ref } from 'vue';
 import { subMenuProps } from './types';
-import { IconChevronRight } from '../_utils/icons';
+import { IconChevronDown } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
+import { isOverflown } from '../_utils/dom.ts';
 
 const props = defineProps(subMenuProps);
 
 const menuInjection = inject(menuInjectKey, null);
 const subMenuInjection = inject(subMenuInjectKey, null);
+
+const { size = ref('medium'), showTooltip, hideTooltip } = menuInjection || {};
 
 // 是否展开
 const isExpanded = computed(() => {
@@ -74,17 +77,10 @@ const onSubItemClick = (ev: Event) => {
 
 const depth = subMenuInjection ? subMenuInjection.depth + 1 : 1;
 
-const style = computed(() => {
-  if (depth === 1) {
-    return {};
-  } else {
-    return {
-      paddingLeft: `${(menuInjection?.levelIndent.value ?? 20) * depth}px`,
-    };
-  }
+provide(subMenuInjectKey, {
+  value: props.value,
+  depth,
 });
-
-provide(subMenuInjectKey, { value: props.value, depth });
 
 menuInjection?.menuTree.addChild({
   value: props.value as string,
@@ -108,26 +104,47 @@ const onBeforeLeave = (el: Element) => {
 const onLeave = (el: Element) => {
   (el as HTMLUListElement).style.height = '0px';
 };
+
+
+const itemContentRef = ref<HTMLSpanElement>();
+const handleMouseenter = (e: MouseEvent) => {
+  if (!e.target || !isOverflown(itemContentRef.value)) {
+    return;
+  }
+  showTooltip?.({ el: e.target as HTMLElement, content: itemContentRef.value?.innerText });
+};
+const handleMouseleave = () => {
+  hideTooltip?.();
+};
 </script>
 
 <template>
-  <li
-    class="o-sub-menu"
+  <li class="o-sub-menu"
     :class="{ 'o-sub-menu-selected': isSelected, 'o-sub-menu-associated-selected': isAssociatedSelected, 'o-sub-menu-expanded': isExpanded }"
-    @click="onSubItemClick"
-  >
-    <div class="o-sub-menu-title" :style="style">
-      <span v-if="$slots.icon" class="o-sub-menu-title-icon">
-        <slot name="icon"></slot>
-      </span>
-      <span class="o-sub-menu-title-content">
-        <slot name="title"></slot>
-      </span>
-      <span class="o-sub-menu-title-arrow">
-        <IconChevronRight />
-      </span>
+    :style="{ '--sub-menu-level': depth }" @click="onSubItemClick">
+    <div class="o-sub-menu-title" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
+      <template v-if="size === 'small'">
+        <span class="o-sub-menu-title-arrow o-sub-menu-title-icon">
+          <IconChevronDown />
+        </span>
+        <span ref="itemContentRef" class="o-sub-menu-title-content">
+          <slot name="title"></slot>
+        </span>
+      </template>
+      <template v-else>
+        <span v-if="$slots.icon" class="o-sub-menu-title-icon">
+          <slot name="icon"></slot>
+        </span>
+        <span ref="itemContentRef" class="o-sub-menu-title-content">
+          <slot name="title"></slot>
+        </span>
+        <span class="o-sub-menu-title-arrow">
+          <IconChevronDown />
+        </span>
+      </template>
     </div>
-    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave" @leave="onLeave">
+    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave"
+      @leave="onLeave">
       <ul v-show="isExpanded" class="o-sub-menu-children">
         <slot></slot>
       </ul>
