@@ -7,7 +7,7 @@ kind: operator
 
 ## 示例
 
-<!-- @case ScrollbarUsage -->
+<!-- @usage ScrollbarUsage -->
 <!-- @case:a|k|e ScrollbarH -->
 <!-- @case:a|k|e ScrollbarV -->
 

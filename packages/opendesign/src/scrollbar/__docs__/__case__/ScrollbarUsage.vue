@@ -20,74 +20,49 @@ When the display mode of the scroll bar is `auto`, the duration of the scroll ba
 ### Usage
 </docs>
 <script setup lang="ts">
-import { ref } from 'vue';
-const container = ref();
-const showType = ref('always');
-const disabledX = ref(false);
-const disabledY = ref(false);
-const size = ref('medium');
-const duration = ref(600);
+import { propsToAttrStr } from '../../../_demo/utils';
+import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
+
+const _oSchema = {
+  size: {
+    type: 'list',
+    list: ['medium', 'small'],
+  },
+  disabledX: {
+    type: 'boolean',
+  },
+  disabledY: {
+    type: 'boolean',
+  },
+  showType: {
+    type: 'list',
+    list: ['always', 'auto', 'hover', 'never'],
+  },
+  duration: {
+    type: 'number',
+    default: 600,
+  },
+} satisfies Record<string, DocDemoSchema>;
+
+const _oCtx = {};
+
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
+  return `<OScroller class="demo-scrollbar-usage-wrapper" ${propsToAttrStr(props)}>
+        <div class="section">1</div>
+        <div class="section">2</div>
+        <div class="section">3</div>
+      </OScroller>`;
+};
 </script>
-<template>
-  <div class="demo-scrollbar-usage-operation">
-    <div class="detail-operation">
-      <span class="operation-des">滚动条显示方式</span>
-      <ORadioGroup v-model="showType">
-        <ORadio value="auto">auto</ORadio>
-        <ORadio value="always">always</ORadio>
-        <ORadio value="hover">hover</ORadio>
-        <ORadio value="never">never</ORadio>
-      </ORadioGroup>
-    </div>
-    <div class="detail-operation">
-      <span class="operation-des">滚动条大小</span>
-      <ORadioGroup v-model="size">
-        <ORadio value="medium">medium</ORadio>
-        <ORadio value="small">small</ORadio>
-      </ORadioGroup>
-    </div>
-    <div class="detail-operation">
-      <span class="operation-des">隐藏横向滚动条</span>
-      <OSwitch v-model="disabledX" />
-    </div>
-    <div class="detail-operation">
-      <span class="operation-des">隐藏纵向滚动条</span>
-      <OSwitch v-model="disabledY" />
-    </div>
-    <div class="detail-operation">
-      <span class="operation-des">控制持续的时间</span>
-      <OInputNumber v-model="duration" autoWidth round="pill" :step="100" />
-    </div>
-  </div>
-  <div class="demo-scrollbar-usage-wrapper">
-    <div class="container" ref="container">
-      <div class="section">1</div>
-      <div class="section">2</div>
-      <div class="section">3</div>
-    </div>
-    <OScrollbar :target="container" :show-type="showType" :disabledX="disabledX" :disabledY="disabledY" :size="size" :duration="duration" />
-  </div>
-</template>
 <style lang="scss">
-.demo-scrollbar-usage-operation {
-  .detail-operation {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .operation-des {
-    margin-right: 12px;
-  }
-}
 .demo-scrollbar-usage-wrapper {
   position: relative;
-  .container {
-    width: 100%;
-    height: 300px;
-    border: 2px solid rgb(111, 45, 234);
-    box-sizing: border-box;
-    overflow: auto;
-  }
+  width: 100%;
+  height: 300px;
+  border: 2px solid rgb(111, 45, 234);
+  box-sizing: border-box;
+  overflow: auto;
+
   .section {
     height: 75%;
     width: 150%;
