@@ -7,6 +7,7 @@ kind: nav
 
 ## 示例
 
+<!-- @usage MenuUsage -->
 <!-- @case MenuSize -->
 <!-- @case MenuAccordion -->
 <!-- @case CustomIcon -->
