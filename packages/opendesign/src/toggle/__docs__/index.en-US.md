@@ -5,12 +5,9 @@ kind: input
 
 # toggle
 
-## Usage
-
-<!-- @usage toggleUsage -->
-
 ## Cases
 
+<!-- @usage ToggleUsage -->
 <!-- @case ToggleCheckbox -->
 <!-- @case ToggleMinAndMax -->
 <!-- @case ToggleOnly -->
