@@ -51,6 +51,7 @@ const onClick = (ev: MouseEvent) => {
         'o-toggle-checked': isChecked,
       },
     ]"
+    :style="round.style.value"
     @click="onClick"
   >
     <span v-if="props.icon || $slots.icon" class="o-toggle-prefix">
