@@ -7,6 +7,7 @@ kind: operator
 
 ## 示例
 
+<!-- @usage SwitchUsage -->
 <!-- @case SwitchSize -->
 <!-- @case SwitchRound -->
 <!-- @case SwitchDisabled -->
