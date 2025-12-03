@@ -7,7 +7,7 @@ kind: nav
 
 ## 示例
 
-<!-- @case BcUsage -->
+<!-- @usage BcUsage -->
 <!-- @case BcVueRouter -->
 
 ## Api
