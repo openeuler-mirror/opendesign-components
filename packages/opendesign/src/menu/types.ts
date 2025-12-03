@@ -1,7 +1,18 @@
 import type { ExtractPropTypes, PropType, Component } from 'vue';
 
+export const MenuSizeTypes = ['medium', 'small'] as const;
+export type MenuSizeT = (typeof MenuSizeTypes)[number];
+
 // MenuProps
 export const menuProps = {
+  /**
+   * @zh-CN 菜单尺寸
+   * @en-US Menu size
+   */
+  size: {
+    type: String as PropType<MenuSizeT>,
+    default: 'medium'
+  },
   /**
    * 是否开启手风琴模式
    */

@@ -14,10 +14,6 @@
   font-size: var(--sub-menu-text-size);
   line-height: var(--sub-menu-text-height);
   color: var(--sub-menu-color);
-
-  & + .o-sub-menu {
-    margin-top: 2px;
-  }
 }
 
 .o-sub-menu-selected,
@@ -46,7 +42,7 @@
 .o-sub-menu-expanded {
   & > .o-sub-menu-title {
     .o-sub-menu-title-arrow {
-      transform: rotate(90deg);
+      transform: rotate(-180deg);
     }
   }
 }
@@ -56,9 +52,7 @@
   display: flex;
   align-items: center;
   padding: 16px 48px 16px 8px;
-  padding-top: var(--menu-padding-v);
-  padding-bottom: var(--menu-padding-v);
-  padding-left: var(--menu-padding-h);
+  padding-left: var(--sub-menu-level-indent, var(--menu-padding-h));
   padding-right: var(--sub-menu-padding-right);
   border-radius: var(--sub-menu-radius);
   cursor: pointer;
@@ -72,10 +66,18 @@
 }
 
 .o-sub-menu-title-icon {
-  margin-left: calc(-1 * var(--sub-menu-icon-gap));
   margin-right: var(--sub-menu-icon-gap);
   font-size: var(--sub-menu-icon-size);
   color: var(--sub-menu-icon-color);
+
+  /*纠正容器高度计算错误及空图标占位*/
+  display: flex;
+  align-items: center;
+
+  .o-sub-menu-title-icon-placeholder {
+    height: var(--sub-menu-icon-size);
+    width: var(--sub-menu-icon-size);
+  }
 }
 
 .o-sub-menu-title-content {
@@ -86,7 +88,7 @@
 
 .o-sub-menu-title-arrow {
   position: absolute;
-  right: 16px;
+  right: var(--menu-padding-h);
   transform: rotate(0);
   font-size: var(--sub-menu-arrow-size);
   transition: transform var(--o-duration-m2) var(--o-easing-standard);
@@ -100,23 +102,38 @@
   transition: height var(--o-duration-m2) var(--o-easing-standard);
 }
 
+.o-sub-menu-title, .o-menu-item {
+  --effect-padding-v: var(--menu-padding-v);
+  padding-top: var(--effect-padding-v);
+  padding-bottom: var(--effect-padding-v);
+}
+
+/*选中状态，高度减2px，上下让出1px间距*/
+.o-menu-item-selected,
+.o-sub-menu-selected > .o-sub-menu-title,
+.o-sub-menu-associated-selected > .o-sub-menu-title {
+  margin-top: var(--menu-selected-gap-v);
+  margin-bottom: var(--menu-selected-gap-v);
+  padding-top: calc(var(--effect-padding-v) - var(--menu-selected-gap-v));
+  padding-bottom: calc(var(--effect-padding-v) - var(--menu-selected-gap-v));
+}
+
 .o-sub-menu-children {
-  margin-top: 2px;
+  .o-sub-menu-title, .o-menu-item {
+    --effect-padding-v: var(--menu-secondary-padding-v);
+  }
+
   .o-sub-menu-title {
     font-size: var(--sub-menu-secondary-text-size);
-    line-height: var(--sub-menu-item-secondary-text-height);
-    padding-top: var(--menu-secondary-padding-v);
-    padding-bottom: var(--menu-secondary-padding-v);
+    line-height: var(--sub-menu-secondary-text-height);
   }
+
   .o-menu-item {
     font-size: var(--menu-item-secondary-text-size);
     line-height: var(--menu-item-secondary-text-height);
-    padding-top: var(--menu-secondary-padding-v);
-    padding-bottom: var(--menu-secondary-padding-v);
   }
 }
 
-//menu-item
 .o-menu-item {
   display: flex;
   align-items: center;
@@ -124,29 +141,27 @@
   font-size: var(--menu-item-text-size);
   line-height: var(--menu-item-text-height);
   border-radius: var(--menu-item-radius);
-  padding-top: var(--menu-padding-v);
-  padding-bottom: var(--menu-padding-v);
-  padding-left: var(--menu-padding-h);
+  padding-left: var(--menu-item-level-indent, var(--menu-padding-h));
   padding-right: var(--menu-item-padding-right);
   cursor: pointer;
   transition: background-color var(--o-duration-s) var(--o-easing-standard);
+  position: relative;
 
   @include hover {
     &:hover {
       background-color: var(--menu-item-bg-color-hover);
     }
   }
-
-  & + .o-menu-item {
-    margin-top: 2px;
-  }
 }
 
 .o-menu-item-icon {
-  margin-left: calc(-1 * var(--menu-item-icon-gap));
   margin-right: var(--menu-item-icon-gap);
   font-size: var(--menu-item-icon-size);
   color: var(--menu-item-icon-color);
+
+  /*纠正容器高度计算错误及空图标占位*/
+  display: flex;
+  align-items: center;
 }
 
 .o-menu-item-content {
@@ -174,4 +189,38 @@
 .o-menu-item-disabled {
   cursor: not-allowed;
   color: var(--menu-item-color-disabled);
+}
+
+.o-menu-small {
+  /*引导线*/
+  .o-sub-menu-expanded {
+    .o-sub-menu-children {
+      position: relative;
+
+      &:before {
+        content: '';
+        display: var(--menu-indicator-display);
+        position: absolute;
+        width: var(--menu-indicator-width);
+        background-color: var(--menu-indicator-bg-color);
+        left: calc(var(--sub-menu-level-indent, var(--menu-padding-h)) + var(--sub-menu-arrow-size) / 2);
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  .o-sub-menu-title-arrow {
+    position: unset;
+  }
+
+  > .o-sub-menu-expanded {
+    background-color: var(--sub-expanded-bg-color);
+    /*第一级不展示引导线*/
+    --menu-indicator-display: none;
+
+    .o-sub-menu-expanded {
+      --menu-indicator-display: block;
+    }
+  }
 }

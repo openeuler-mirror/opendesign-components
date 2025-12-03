@@ -152,7 +152,7 @@
 }
 .o-carousel-autoplay {
   .o-carousel-indicator-line::after {
-    transform: scaleX(0);
+    transform: scaleX(100%);
   }
   &.is-playing {
     .o-carousel-indicator-bar-selected {

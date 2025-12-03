@@ -189,3 +189,14 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
     throttleRAF(frameFn)();
   });
 }
+
+/*判断一个元素是否触发溢出隐藏*/
+export function isOverflown(element?: HTMLElement) {
+  if (!element) {
+    return false;
+  }
+  return (
+    element.scrollWidth > element.clientWidth ||
+    element.scrollHeight > element.clientHeight
+  );
+}
