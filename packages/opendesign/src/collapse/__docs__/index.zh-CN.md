@@ -7,6 +7,7 @@ kind: container
 
 ## 示例
 
+<!-- @usage CollapseUsage -->
 <!-- @case CollapseAccordion -->
 <!-- @case CollapseControl -->
 <!-- @case CollapseCustom -->

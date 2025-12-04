@@ -5,12 +5,9 @@ kind: input
 
 # 上传
 
-## 使用
-
-<!-- @usage uploadUsage -->
-
 ## 示例
 
+<!-- @usage UploadUsage -->
 <!-- @case UploadBasic -->
 <!-- @case UploadSlots -->
 

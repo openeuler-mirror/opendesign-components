@@ -5,12 +5,9 @@ kind: input
 
 # Upload
 
-## Usage
-
-<!-- @usage uploadUsage -->
-
 ## Cases
 
+<!-- @usage UploadUsage -->
 <!-- @case UploadBasic -->
 <!-- @case UploadSlots -->
 
