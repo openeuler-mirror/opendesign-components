@@ -9,7 +9,7 @@ kind: container
 
 ## 示例
 
-<!-- @case GridUsage -->
+<!-- @usage GridUsage -->
 <!-- @case GridBreakpoint -->
 
 ## API

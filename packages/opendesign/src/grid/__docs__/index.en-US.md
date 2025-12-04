@@ -9,7 +9,7 @@ Due to limited browser support for the `gap` property in flex-box (Chrome 84, Sa
 
 ## Demo
 
-<!-- @case GridUsage -->
+<!-- @usage GridUsage -->
 <!-- @case GridBreakpoint -->
 
 ## API
