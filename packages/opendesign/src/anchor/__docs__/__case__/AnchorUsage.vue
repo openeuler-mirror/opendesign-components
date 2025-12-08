@@ -3,6 +3,10 @@
 
 ### 使用
 
+`size` 属性
+
+- 说明：指定锚点的尺寸风格（默认值：medium）
+
 `container` 属性
 
 - 说明：指定锚点监听的滚动容器（默认值：window）
@@ -32,6 +36,10 @@
 
 ### Usage
 
+`size` property
+
+- Description：The size of anchor (default: medium)
+
 `container` property
 
 - Description: Specifies the scroll container to be monitored by the anchor (default: window)
@@ -59,7 +67,11 @@ Nested anchors: `OAnchorItem` can be nested to create multi-level anchor structu
 </docs>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import { OAnchor, OAnchorItem, AnchorSizeTypes } from '@opensig/opendesign';
+
 import { useRouter } from 'vue-router';
+
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
@@ -72,6 +84,10 @@ const handleAnchorClick = (_: Event, link?: string) => {
 };
 
 const _oSchema = {
+  size: {
+    type: 'list',
+    list: AnchorSizeTypes,
+  },
   container: {
     type: 'string',
     default: '#wrap',
@@ -95,17 +111,30 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<div class="row demo-anchor-usage-wrap">
     <div id="wrap" class="demo-wrap">
       <div id="container-block1" class="block">container-block1</div>
+      <div id="container-block1-1" class="block">container-block1-1</div>
       <div id="container-block2" class="block">container-block2</div>
       <div id="container-block2-1" class="block">container-block2-1</div>
+      <div id="container-block2-2" class="block">container-block2-2</div>
+      <div id="container-block2-2-1" class="block">container-block2-2-1</div>
       <div id="container-block4" class="block">container-block4</div>
+      <div id="container-block5" class="block">container-block5</div>
+      <div id="container-block5-1" class="block">container-block5-1</div>
     </div>
     <div class="demo-anchor">
       <OAnchor ${propsToAttrStr(props)} @click="ctx.handleAnchorClick">
-        <OAnchorItem href="#container-block1" title="container-block1" />
+        <OAnchorItem href="#container-block1" title="container-block1">
+          <OAnchorItem href="#container-block1-1" title="container-block1-1" />
+        </OAnchorItem>
         <OAnchorItem href="#container-block2" title="container-block2">
           <OAnchorItem href="#container-block2-1" title="container-block2-1" />
+          <OAnchorItem href="#container-block2-2" title="container-block2-2">
+            <OAnchorItem href="#container-block2-2-1" title="container-block2-2-1换行openEuler Developer Day 2023 （简称 ODD 2023）是开放原子开源基金会旗下 openEuler 社区" />
+          </OAnchorItem>
         </OAnchorItem>
         <OAnchorItem href="#container-block4" title="container-block4" />
+        <OAnchorItem href="#container-block5" title="container-block5">
+          <OAnchorItem href="#container-block5-1" title="externalHref" external-href="https://docs.openeuler.org" />
+        </OAnchorItem>
       </OAnchor>
     </div>
   </div>`;
@@ -136,7 +165,7 @@ const _oCtx = {
     overflow: auto;
   }
   .demo-anchor {
-    min-width: 185px;
+    width: 200px;
   }
 }
 </style>
