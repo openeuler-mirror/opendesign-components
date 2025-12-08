@@ -2,11 +2,24 @@
 
 .o-table {
   position: relative;
-  color: var(--table-color);
 
   table {
     width: 100%;
     border-spacing: 0;
+  }
+
+  thead {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    }
   }
 
   th,
@@ -16,11 +29,12 @@
 
   th {
     text-align: left;
-    font-weight: normal;
+    font-weight: 600;
     background-color: var(--table-head-bg);
     padding: var(--table-head-cell-padding);
     font-size: var(--table-head-text-size);
     line-height: var(--table-head-text-height);
+    color: var(--table-head-color);
     height: var(--table-head-cell-height);
   }
 
@@ -28,8 +42,17 @@
     padding: var(--table-cell-padding);
     font-size: var(--table-text-size);
     line-height: var(--table-text-height);
+    color: var(--table-cell-color);
     height: var(--table-cell-height);
   }
+
+  th:first-child, td:first-child {
+    padding-left: var(--table-edge-padding);
+  }
+  th:last-child, td:last-child {
+    padding-right: var(--table-edge-padding);
+  }
+
 }
 .o-table-highlight {
   @media (hover: hover) {

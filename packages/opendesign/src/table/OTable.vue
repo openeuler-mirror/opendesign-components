@@ -116,6 +116,7 @@ const handleTouchStart = (e: TouchEvent) => {
     :class="[
       {
         'o-table-small': props.small,
+        'o-table-medium': !props.small,
       },
     ]"
   >

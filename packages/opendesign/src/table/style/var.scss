@@ -5,13 +5,15 @@
   --table-head-text-size: var(--table-text-size);
   --table-head-text-height: var(--table-text-height);
 
-  --table-color: var(--o-color-info2);
+  --table-head-color: var(--o-color-info2);
+  --table-cell-color: var(--o-color-info1);
 
   --table-tip-text-size: var(--o-font_size-tip1);
   --table-tip-text-height: var(--o-line_height-tip1);
   --table-tip-color: var(--o-color-info3);
 
-  --table-head-bg: var(--o-color-control1-light);
+  // control5在1.1.x版本以后应用
+  --table-head-bg: var(--o-color-control5, var(--o-color-control-light));
   --table-row-hover: var(--o-color-control2-light);
   --table-row-active: var(--o-color-control3-light);
 
@@ -21,17 +23,22 @@
 
   --table-body-min-height: 200px;
 
-  --table-bg-color: var(--o-color-control-light);
+  --table-bg-color: var(--o-color-control5, var(--o-color-control-light));
 
   --table-radius: var(--o-radius_control-m);
 
-  --table-head-cell-height: 48px;
-  --table-cell-height: 48px;
+  --table-head-cell-height: auto;
+  --table-cell-height: auto;
 
-  --table-head-cell-padding: 12px 16px;
-  --table-cell-padding: 11px 16px;
+  --table-head-cell-padding-x: 16px;
+  --table-head-cell-padding-y: 12px;
+  --table-cell-padding-x: 16px;
+  --table-cell-padding-y: 12px;
 
-  --table-edge-padding: 40px;
+  --table-head-cell-padding: var(--table-head-cell-padding-y) var(--table-head-cell-padding-x);
+  --table-cell-padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+
+  --table-edge-padding: 32px;
 }
 
 .o-table-small {
@@ -43,11 +50,8 @@
 
   --table-radius: var(--o-radius_control-m);
 
-  --table-head-cell-height: 38px;
-  --table-cell-height: 38px;
+  --table-head-cell-padding-y: 8px;
+  --table-cell-padding-y: 8px;
 
-  --table-head-cell-padding: 8px 16px;
-  --table-cell-padding: 7px 16px;
-
-  --table-edge-padding: 40px;
+  --table-edge-padding: 16px;
 }
