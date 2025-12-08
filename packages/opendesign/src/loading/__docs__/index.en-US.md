@@ -7,6 +7,7 @@ kind: display
 
 ## Demo
 
+<!-- @usage LoadingUsage -->
 <!-- @case LoadingComponent -->
 <!-- @case LoadingDirective -->
 <!-- @case LoadingService -->
