@@ -1,10 +1,16 @@
 .o-anchor {
-  --anchor-line-width: 2px;
+  --anchor-line-width: 1px;
   --anchor-line-bg-color: var(--o-color-control4);
+  --anchor-line-gap: var(--o-gap-2);
 
   --anchor-indicator-width: 2px;
-  --anchor-indicator-height: 16px;
+  --anchor-indicator-height: 12px;
   --anchor-indicator-bg-color: var(--o-color-primary1);
+  --anchor-indicator-adjust: 0.12em;
+
+  --anchor-circle-size: 8px;
+  --anchor-circle-ring-width: 1.5px;
+  --anchor-circle-gap: 8px;
 }
 
 .o-anchor-item {
@@ -12,16 +18,54 @@
 
   --anchor-item-link-color: var(--o-color-info2);
   --anchor-item-link-color-active: var(--o-color-primary1);
+  --anchor-item-link-color-hover: var(--o-color-primary2);
+  --anchor-item-link-color-press: var(--o-color-primary3);
+  --anchor-item-link-color-disabled: var(--o-color-info4);
+
+  --anchor-item-max-row: 2;
 
   --anchor-item-link-text-size: var(--o-font_size-text1);
   --anchor-item-link-text-height: var(--o-line_height-text1);
 
-  --anchor-item-link-bg-color: transparent;
-  --anchor-item-link-bg-color-hover: var(--o-color-control2-light);
-  --anchor-item-link-bg-color-active: var(--o-color-control3-light);
+  --anchor-item-sub-link-text-size: var(--o-font_size-tip1);
+  --anchor-item-sub-link-text-height: var(--o-line_height-tip1);
 
-  --anchor-item-link-padding: 7px 8px;
+  --anchor-item-link-padding-h: 8px;
+  --anchor-item-link-padding-v: 8px;
+  --anchor-item-sub-link-padding-v: 5px;
   --anchor-item-link-radius: var(--o-radius_control-s);
 
-  --anchor-item-link-gap: 2px;
+  --anchor-item-text-indent: 12px;
+}
+
+.o-anchor-small {
+  .o-anchor-item {
+    --anchor-item-link-text-size: var(--o-font_size-tip1);
+    --anchor-item-link-text-height: var(--o-line_height-tip1);
+
+    --anchor-item-sub-link-text-size: var(--o-font_size-tip2);
+    --anchor-item-sub-link-text-height: var(--o-line_height-tip2);
+
+    --anchor-item-link-padding-v: 5px;
+    --anchor-item-sub-link-padding-v: 5px;
+  }
+}
+
+.o-anchor-menu {
+  .o-anchor-item {
+    --anchor-item-link-text-size: var(--o-font_size-tip1);
+    --anchor-item-link-text-height: var(--o-line_height-tip1);
+
+    --anchor-item-sub-link-text-size: var(--o-font_size-tip1);
+    --anchor-item-sub-link-text-height: var(--o-line_height-tip1);
+
+    --anchor-item-link-padding-v: 5px;
+    --anchor-item-sub-link-padding-v: 5px;
+
+    --anchor-item-text-indent: 20px;
+  }
+}
+
+.o-anchor-link-popover-wrapper {
+  --anchor-popover-max-width: 200px;
 }

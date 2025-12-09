@@ -1,8 +1,25 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=laptop') {
-  .o-anchor-item {
-    --anchor-item-link-text-size: var(--o-font_size-tip1);
-    --anchor-item-link-text-height: var(--o-line_height-tip1);
+@include respond-to('<=pc_s') {
+  .o-anchor:not(.o-anchor-menu) {
+    .o-anchor-item {
+      --anchor-item-link-text-size: var(--o-font_size-tip1);
+      --anchor-item-link-text-height: var(--o-line_height-tip1);
+
+      --anchor-item-sub-link-text-size: var(--o-font_size-tip2);
+      --anchor-item-sub-link-text-height: var(--o-line_height-tip2);
+
+      --anchor-item-link-padding-v: 5px;
+      --anchor-item-sub-link-padding-v: 5px;
+    }
+  }
+}
+
+@include respond-to('<=pad_v') {
+  .o-anchor-menu {
+    .o-anchor-item {
+      --anchor-item-sub-link-text-size: var(--o-font_size-tip2);
+      --anchor-item-sub-link-text-height: var(--o-line_height-tip2);
+    }
   }
 }
