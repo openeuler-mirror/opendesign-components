@@ -64,6 +64,14 @@ export const menuProps = {
     type: Array as PropType<Array<string>>,
     default: () => [],
   },
+  // 父子节点是否关联
+  selectStrictly: {
+    type: Boolean,
+    default: false,
+  },
+  arrowPosition: {
+    type: String as PropType<'left'|'right'>,
+  }
 };
 
 export type MenuPropsT = ExtractPropTypes<typeof menuProps>;
