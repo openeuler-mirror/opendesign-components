@@ -58,6 +58,9 @@ export const menuProps = {
     type: Boolean,
     default: false,
   },
+  arrowPosition: {
+    type: String as PropType<'left'|'right'>,
+  }
 };
 
 export type MenuPropsT = ExtractPropTypes<typeof menuProps>;
@@ -71,6 +74,12 @@ export const subMenuProps = {
   },
   selectable: {
     type: Boolean,
+  },
+  /**
+   * 前缀图标
+   */
+  icon: {
+    type: Object as PropType<Component>,
   },
 };
 export type SubMenuPropsT = ExtractPropTypes<typeof subMenuProps>;

@@ -59,13 +59,13 @@ const expandedArr = ref([]);
   <section :key="params.iconType">
     <div>
       medium
-      <OMenu v-model="activeVal" v-model:expanded="expandedArr" accordion :level-indicator="true" size="medium">
+      <OMenu v-model="activeVal" v-model:expanded="expandedArr" accordion size="medium">
         <RecursiveSubMenu v-for="item in data" :key="item.label" :data="item"/>
       </OMenu>
     </div>
     <div>
       small
-      <OMenu v-model="activeVal" v-model:expanded="expandedArr" accordion :level-indicator="true" size="small">
+      <OMenu v-model="activeVal" v-model:expanded="expandedArr" accordion size="small">
         <RecursiveSubMenu v-for="item in data" :key="item.label" :data="item"/>
       </OMenu>
     </div>
@@ -77,78 +77,5 @@ section {
   display: flex;
   align-items: stretch;
   gap: 120px;
-
-  :deep(.o-menu1) {
-
-    /*箭头调整*/
-    .o-sub-menu-title-arrow {
-      display: none;
-    }
-
-    .o-sub-menu-title-icon {
-      transition: transform var(--o-duration-m2) var(--o-easing-standard);
-    }
-
-    .o-sub-menu-expanded > .o-sub-menu-title .o-sub-menu-title-icon {
-      transform: rotate(-180deg);
-    }
-
-    /*引导线*/
-    .o-sub-menu-expanded {
-      .o-sub-menu-children {
-        position: relative;
-
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          z-index: var(--guid-line-z-index);
-          width: 1px;
-          height: 100%;
-          background-color: red;
-          left: var(--parent-padding-left);
-          top: 0;
-          bottom: 0;
-        }
-      }
-    }
-
-    > .o-sub-menu > .o-sub-menu-children:before {
-      display: none;
-    }
-
-    /*尺寸调整*/
-    .o-sub-menu {
-      --sub-menu-radius: 0;
-      --sub-menu-icon-size: 16px;
-      --padding-y: calc((var(--o-control_size-m) - var(--menu-item-secondary-text-height)) / 2);
-    }
-
-    .o-menu-item {
-      --menu-item-radius: 0;
-      padding-top: var(--padding-y);
-      padding-bottom: var(--padding-y);
-    }
-
-    .o-menu-item + .o-menu-item {
-      margin-top: 0;
-    }
-
-    .o-sub-menu-associated-selected {
-      background-color: #f7f8fa;
-
-      > .o-sub-menu-title .o-sub-menu-title-content {
-        color: var(--o-color-info1);
-        font-weight: 700;
-
-      }
-    }
-
-    .o-menu-item-selected {
-      background-color: #d1d6db;
-      color: var(--o-color-info1);
-      font-weight: 700;
-    }
-  }
 }
 </style>
