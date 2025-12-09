@@ -19,7 +19,7 @@
   &.is-half {
     .o-rate-icon-top {
       svg {
-        path:nth-child(2) {
+        > *:nth-child(2) {
           color: var(--rate-color-selected);
         }
       }
@@ -29,7 +29,7 @@
   &.is-full {
     .o-rate-icon-bottom {
       svg {
-        path {
+        > * {
           color: var(--rate-color-selected);
         }
       }
@@ -43,7 +43,7 @@
 
 .o-rate-icon {
   svg {
-    path {
+    > * {
       transition: all var(--o-duration-m1) var(--o-easing-standard);
     }
   }
@@ -57,19 +57,15 @@
   overflow: hidden;
 
   svg {
-    path {
-      color: transparent;
-    }
+    color: transparent;
   }
 }
 
 .o-rate-icon-bottom {
   svg {
-    path {
-      color: transparent;
-    }
+    color: transparent;
 
-    path:nth-child(1) {
+    > *:nth-child(1) {
       color: var(--rate-color-selected);
     }
   }
