@@ -50,6 +50,8 @@
 
 .o-message-title {
   margin-bottom: var(--message-title-gap);
+  font-size: var(--message-title-size);
+  line-height: var(--message-title-height);
   font-weight: 600;
 }
 

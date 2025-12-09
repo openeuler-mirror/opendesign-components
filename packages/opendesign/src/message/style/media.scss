@@ -17,6 +17,10 @@
   .o-message {
     --message-text-size: var(--o-font_size-tip2);
     --message-text-height: var(--o-line_height-tip2);
+
+    --message-title-size: var(--o-font_size-tip2);
+    --message-title-height: var(--o-line_height-tip2);
+
     --message-padding: 7px 12px;
     --message-gap: 8px;
   }
