@@ -11,6 +11,12 @@
 
 禁用状态：`disabled` ；
 
+通过属性 `showLength` 控制输入字符数与最大限制字符数的展示与隐藏；
+
+通过属性 `maxLength` 限制输入最大字符长度；
+
+通过属性 `inputOnOutlimit` 控制输入字符超长时，是否允许继续输入；
+
 按钮的圆角可以通过 `pill` 设置为半圆，也可以是 css 属性 `border-radius` 能够接受的其它值。
 
 <!-- en-US -->
@@ -24,6 +30,12 @@ Three sizes: `small`, `medium`, and `large`;
 Three shapes: `solid`, `outline`, and `text`;
 
 Disabled state: `disabled`;
+
+Control the display and hiding of the input character count and the maximum limit character count through the attribute `showLength`.
+
+Limit the maximum character length of the input through the attribute `maxLength`;
+
+Control whether to continue inputting when the input character is too long through the attribute `inputOnOutlimit`.
 
 The input's radius can be set to half circle by setting `pill` to `true`, or to css property `border-radius` accepted values.
 </docs>
@@ -61,6 +73,17 @@ const _oSchema = {
     type: 'boolean',
   },
   clearable: {
+    type: 'boolean',
+  },
+  showLength: {
+    type: 'list',
+    list: ['always', 'auto', 'never'],
+  },
+  maxLength: {
+    type: 'number',
+    default: 6,
+  },
+  inputOnOutlimit: {
     type: 'boolean',
   },
 } satisfies Record<string, DocDemoSchema>;
