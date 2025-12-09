@@ -3,6 +3,7 @@ import '../style';
 import MenuBasic from './MenuBasic.vue';
 import MenuAccordion from './MenuAccordion.vue';
 import MenuSize from './MenuSize.vue';
+import MenuSizeIcon from './MenuSizeIcon.vue';
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import MenuSize from './MenuSize.vue';
     <MenuBasic />
     <MenuAccordion />
     <MenuSize />
+    <MenuSizeIcon />
   </div>
 </template>
 
