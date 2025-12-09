@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { computed, inject, provide, ref } from 'vue';
+import { computed, inject, onMounted, provide, ref, useTemplateRef } from 'vue';
 import { subMenuProps } from './types';
 import { IconChevronDown } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
 import { isOverflown } from '../_utils/dom.ts';
+import { OPopover } from '../popover';
 
 const props = defineProps(subMenuProps);
 
 const menuInjection = inject(menuInjectKey, null);
 const subMenuInjection = inject(subMenuInjectKey, null);
 
-const { size = ref('medium'), showTooltip, hideTooltip } = menuInjection || {};
+const { arrowPosition } = menuInjection || {};
 
 // 是否展开
 const isExpanded = computed(() => {
@@ -75,11 +76,12 @@ const onSubItemClick = (ev: Event) => {
   }
 };
 
-const depth = subMenuInjection ? subMenuInjection.depth + 1 : 1;
+// 当前节点深度
+const currentDepth = subMenuInjection ? subMenuInjection.parentDepth + 1 : 0;
 
 provide(subMenuInjectKey, {
   value: props.value,
-  depth,
+  parentDepth: currentDepth,
 });
 
 menuInjection?.menuTree.addChild({
@@ -87,81 +89,56 @@ menuInjection?.menuTree.addChild({
   parentVal: subMenuInjection?.value,
 });
 
-// 过渡动画
-const onBeforeEnter = (el: Element) => {
-  (el as HTMLUListElement).style.height = '0px';
-};
-const onEnter = (el: Element) => {
-  (el as HTMLUListElement).style.height = `${el.scrollHeight}px`;
-};
-// 进入动画完成后高度设置为auto，支持嵌套子菜单展开
-const onAfterEnter = (el: Element) => {
-  (el as HTMLUListElement).style.height = 'auto';
-};
-const onBeforeLeave = (el: Element) => {
-  (el as HTMLUListElement).style.height = `${(el as HTMLUListElement).offsetHeight}px`;
-};
-const onLeave = (el: Element) => {
-  (el as HTMLUListElement).style.height = '0px';
-};
 
+// 支持超出隐藏，hover时popover提示，当前不支持内容变化，动态刷新
+const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
+const itemContentRef = useTemplateRef('itemContentRef');
+const isContentOverflow = ref(false);
+const content= ref('');
 
-const itemContentRef = ref<HTMLSpanElement>();
-const handleMouseenter = (e: MouseEvent) => {
-  if (!e.target || !isOverflown(itemContentRef.value)) {
+onMounted(() => {
+  if (!itemContentRef.value) {
     return;
   }
-  showTooltip?.({ el: e.target as HTMLElement, content: itemContentRef.value?.innerText });
-};
-const handleMouseleave = () => {
-  hideTooltip?.();
-};
+  isContentOverflow.value = isOverflown(itemContentRef.value);
+  content.value = itemContentRef.value?.innerText || '';
+});
 </script>
 
 <template>
   <li
-    class="o-sub-menu"
-    :class="{ 
-      'o-sub-menu-selected': isSelected, 
-      'o-sub-menu-associated-selected': isAssociatedSelected, 
-      'o-sub-menu-expanded': isExpanded 
+    :class="{
+      'o-sub-menu': true,
+      'o-sub-menu-selected': isSelected,
+      'o-sub-menu-associated-selected': isAssociatedSelected,
+      'o-sub-menu-expanded': isExpanded,
     }"
-    :style="{ 
-      '--sub-menu-level': depth 
-    }" 
+    :style="{ '--menu-level': currentDepth }"
+    :level="currentDepth"
     @click="onSubItemClick"
   >
-    <div class="o-sub-menu-title" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
-      <template v-if="size === 'small'">
-        <span class="o-sub-menu-title-arrow o-sub-menu-title-icon">
-          <IconChevronDown />
-        </span>
-        <span ref="itemContentRef" class="o-sub-menu-title-content">
-          <slot name="title"></slot>
-        </span>
-      </template>
-      <template v-else>
-        <span v-if="$slots.icon || props.icon" class="o-sub-menu-title-icon">
-          <slot name="icon"><component :is="props.icon" /></slot>
-        </span>
-        <span ref="itemContentRef" class="o-sub-menu-title-content">
-          <slot name="title"></slot>
-        </span>
-        <span class="o-sub-menu-title-arrow">
-          <IconChevronDown />
-        </span>
-      </template>
+    <div class="o-sub-menu-title" ref="subMenuTitleRef">
+      <div class="o-sub-menu-arrow" v-if="arrowPosition === 'left'">
+        <IconChevronDown />
+      </div>
+      <div v-if="$slots.icon || props.icon" class="o-sub-menu-title-icon">
+        <slot name="icon">
+          <component :is="props.icon" />
+        </slot>
+      </div>
+      <div ref="itemContentRef" class="o-sub-menu-title-content">
+        <slot name="title"></slot>
+      </div>
+      <div class="o-sub-menu-arrow" v-if="!arrowPosition || arrowPosition === 'right'">
+        <IconChevronDown />
+      </div>
     </div>
-    <Transition
-      @before-enter="onBeforeEnter" 
-      @enter="onEnter" 
-      @after-enter="onAfterEnter" 
-      @before-leave="onBeforeLeave"
-      @leave="onLeave"
-    >
-      <ul v-show="isExpanded" class="o-sub-menu-children">
-        <slot></slot>
+      <ul class="o-sub-menu-children" :class="{'expanded': isExpanded}">
+        <div class="o-sub-menu-children-wrap">
+          <slot></slot>
+        </div>
       </ul>
-    </Transition>
+
+    <OPopover v-if="isContentOverflow" :offset="12" :target="subMenuTitleRef" position="bottom" wrapClass="o-menu-popover">{{ content }}</OPopover>
   </li>
 </template>

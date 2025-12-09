@@ -198,3 +198,4 @@ export const IconCalendarPrevYear = shallowRef<Component>(OIconDoubleArrowLeft);
 export const IconCalendarNextYear = shallowRef<Component>(OIconDoubleArrowRight);
 export const IconCalendarPrevMonth = shallowRef<Component>(OIconChevronLeft);
 export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
+

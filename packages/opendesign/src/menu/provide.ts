@@ -1,14 +1,7 @@
-import { Component, InjectionKey, Ref } from 'vue';
+import type { InjectionKey, Ref } from 'vue';
 import MenuTree from './menu';
 import { type MenuSizeT } from './types.ts';
 
-
-export type ShowTooltipContent = string | number| Component
-export type ShowTooltipOptions = {
-  el: HTMLElement;
-  /* 不传取el的innerText*/
-  content?: ShowTooltipContent;
-}
 
 export const menuInjectKey: InjectionKey<{
   size: Ref<MenuSizeT>;
@@ -16,15 +9,13 @@ export const menuInjectKey: InjectionKey<{
   realValue: Ref<string>;
   activeNodes: Ref<Array<string | undefined>>;
   realExpanded: Ref<Array<string>>;
+  arrowPosition: Ref<'left'|'right'| undefined>;
   menuTree: MenuTree;
-  depth: number;
   updateModelValue: (val: string) => void;
   updateExpanded: (val: Array<string>) => void;
-  showTooltip: (options: ShowTooltipOptions) => void;
-  hideTooltip: () => void;
 }> = Symbol('provide-menu');
 
 export const subMenuInjectKey: InjectionKey<{
   value: string;
-  depth: number;
+  parentDepth: number;
 }> = Symbol('provide-sub-menu');
