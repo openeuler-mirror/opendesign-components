@@ -3,7 +3,12 @@
 
 ### 自定义图标
 
-可在 `icon` 插槽中自定义图标
+可在 `icon` 插槽中自定义图标，但是需要满足以下条件：
+
+- 这个svg只能包含三个子元素
+- 第一个子元素代表外框线
+- 第二个子元素代表左侧半边内嵌
+- 第三个子元素代表左右两侧所有内嵌
 
 #### 注意事项
 
@@ -96,7 +101,9 @@ import { ORate } from '@opensig/opendesign';
   <ORate size="large" color="success" allow-half>
     <template #icon>
       <svg viewBox="0 0 24 24" class="custom-icon">
-        <ellipse ry="11" rx="11" cy="12" cx="12" fill="currentColor" />
+        <circle cx="12" cy="12" r="10.5" stroke="currentColor" stroke-width="1" fill="none" />
+        <path d="M 12, 2 A 10, 10, 0, 0, 0, 12, 22 Z" fill="currentColor" />
+        <path d="M 12, 2 A 10, 10, 0, 0, 1, 12, 22 Z" fill="currentColor" />
       </svg>
     </template>
   </ORate>
