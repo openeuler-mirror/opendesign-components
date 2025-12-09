@@ -18,13 +18,21 @@
 
   &.is-half {
     .o-rate-icon-top {
-      opacity: 1;
+      svg {
+        path:nth-child(2) {
+          color: var(--rate-color-selected);
+        }
+      }
     }
   }
 
   &.is-full {
     .o-rate-icon-bottom {
-      color: var(--rate-color-selected);
+      svg {
+        path {
+          color: var(--rate-color-selected);
+        }
+      }
     }
   }
 
@@ -34,8 +42,11 @@
 }
 
 .o-rate-icon {
-  color: var(--rate-color);
-  transition: all var(--o-duration-m1) var(--o-easing-standard);
+  svg {
+    path {
+      transition: all var(--o-duration-m1) var(--o-easing-standard);
+    }
+  }
 }
 
 .o-rate-icon-top {
@@ -43,13 +54,30 @@
   top: 0;
   left: 0;
   width: 50%;
-  opacity: 0;
   overflow: hidden;
-  color: var(--rate-color-selected);
+
+  svg {
+    path {
+      color: transparent;
+    }
+  }
+}
+
+.o-rate-icon-bottom {
+  svg {
+    path {
+      color: transparent;
+    }
+
+    path:nth-child(1) {
+      color: var(--rate-color-selected);
+    }
+  }
 }
 
 .o-rate-popover {
   border-radius: var(--rate-popover-radius);
+
   .o-popover-body {
     color: var(--rate-popover-color);
     font-size: var(--rate-popover-text-size);
