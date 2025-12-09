@@ -53,6 +53,12 @@ export const messageProps = {
   beforeClose: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
+  /**
+   * 消息标题
+   */
+  title: {
+    type: String,
+  },
 };
 
 export const messageListProps = {

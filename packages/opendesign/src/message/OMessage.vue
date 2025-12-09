@@ -24,7 +24,7 @@ watch(
     if (!isUndefined(val)) {
       isVisible.value = val;
     }
-  }
+  },
 );
 
 const emits = defineEmits<{
@@ -98,9 +98,16 @@ defineExpose({
       </slot>
     </span>
 
-    <span class="o-message-content">
-      <slot></slot>
-    </span>
+    <div class="o-message-main">
+      <span v-if="$slots.title || props.title" class="o-message-title">
+        <slot name="title">
+          {{ props.title }}
+        </slot>
+      </span>
+      <span class="o-message-content">
+        <slot></slot>
+      </span>
+    </div>
 
     <span v-if="props.closable" class="o-message-close" @click="onClose">
       <IconClose />
