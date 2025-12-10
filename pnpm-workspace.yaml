@@ -27,7 +27,7 @@ catalogs:
   css:
     "clean-css": "^5.3.3"
     "normalize.css": "^8.0.1"
-    "sass-embedded": "^1.83.4"
+    "sass-embedded": "1.85.1"
     "sass": "^1.71.1"
 
   # 构建工具
