@@ -113,12 +113,7 @@ const scrollIntoView = async (link: string) => {
   isScrolling.value = false;
 };
 
-// 滚动事件
-const onScroll = () => {
-  if (isScrolling.value) {
-    return;
-  }
-
+const activeNearest = () => {
   const distances: Array<{ link: string; top: number }> = [];
   const { targetOffset, bounds } = props;
 
@@ -144,6 +139,14 @@ const onScroll = () => {
   }
 
   setActiveLink(active);
+}
+
+// 滚动事件
+const onScroll = () => {
+  if (isScrolling.value) {
+    return;
+  }
+  activeNearest();
 };
 
 const bindEvent = () => {
@@ -151,7 +154,7 @@ const bindEvent = () => {
     return;
   }
 
-  scrollContainer.value.addEventListener('scroll', onScroll);
+  scrollContainer.value.addEventListener('scroll', onScroll, { passive: true });
 };
 
 const unbindEvent = () => {
@@ -197,6 +200,8 @@ onMounted(() => {
   const hash = decodeURIComponent(window.location.hash);
   if (hash) {
     scrollIntoView(hash);
+  } else {
+    activeNearest();
   }
   nextTick(() => {
     bindEvent();

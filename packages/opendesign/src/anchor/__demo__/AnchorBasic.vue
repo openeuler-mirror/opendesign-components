@@ -16,7 +16,7 @@ import { OAnchor, OAnchorItem } from '../index';
     <div class="demo-anchor">
       <div>
         <div>medium:</div>
-        <OAnchor style="max-width: 200px" size="medium">
+        <OAnchor style="max-width: 200px" size="medium" :bounds="140">
           <OAnchorItem href="#block1" title="锚点1" />
           <OAnchorItem href="#block2" title="bbbbbbbbbbbbbbbbbbbbbbbb" />
           <OAnchorItem href="#block3" title="锚点3">
