@@ -12,6 +12,43 @@
 
 ---
 
+## 1.0.1-sp1
+
+### BREAKING CHANGES
+
+- **OMenu:** 重构OMenu [#IDCF7H](https://gitee.com/openeuler/opendesign-components/issues/IDCF7H)
+  - 增加引导线风格菜单
+  - 移除item的Mouseleave事件
+  - popover组件已经监听相关事件
+- **OAnchor:** 重构OAnchor [#IDCF88](https://gitee.com/openeuler/opendesign-components/issues/IDCF88)
+  - 增加尺寸区别: small、medium、menu
+  - 增加一级锚点圆圈指示器
+  - 增加行溢出隐藏加气泡提示
+  - 增加外部链跳转逻辑(除_self都认为是外链)
+  - 增加item的disabled属性
+  - 去除hover与active的背托、增加hover与active的字体颜色
+  - 修改粗体字号为600
+
+### Features
+
+- **OTable:** 按新规范调整OTable样式 [#IDCF63](https://gitee.com/openeuler/opendesign-components/issues/IDCF63)
+  - 修改字号、行高、间距、字重
+  - 修改表头背景色及下分割线
+  - 增加o-table-medium选择器
+  - 修改响应式选择器为o-table-medium
+- **ORate:** 修改ORate空样式为空心星 [#IDCF60](https://gitee.com/openeuler/opendesign-components/issues/IDCF60)
+- **OMessage:** 调整OMessage内联组件为带icon样式 [#IDCF5X](https://gitee.com/openeuler/opendesign-components/issues/IDCF5X)
+- **OCard:** 增加titleIcon属性 [#IDCF5V](https://gitee.com/openeuler/opendesign-components/issues/IDCF5V)
+
+### Bug Fixes
+
+- **OCarousel:** 修复hover暂停播放时指示器不显示激活状态的问题 [#IDCF1H](https://gitee.com/openeuler/opendesign-components/issues/IDCF1H)
+- **OAnchor:** 修复初始化时元素在视口内但anchor未被选中的问题(仍需调用者配置正确的`bounds`属性) [#IDCF4P](https://gitee.com/openeuler/opendesign-components/issues/IDCF4P)
+
+### Chore
+
+- 升级 `sass-embedded` 版本至1.85.1 [#IDCF6U](https://gitee.com/openeuler/opendesign-components/issues/IDCF6U)
+
 # 1.0.1
 
 - feat
