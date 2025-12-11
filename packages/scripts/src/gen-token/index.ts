@@ -6,6 +6,7 @@ export interface TokenConfigT {
   prefix: string;
   themeMap: Array<{ valueKey: string; name: string }>;
   defaultTheme: string;
+  defaultThemeName: string;
   tokenFile: string[];
   codeSnippetsFile: string;
 }
@@ -152,7 +153,7 @@ ${content.join('\n')}
 /**
  * 生成token.css
  */
-function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string }>, defaultTheme: string, outDir: string) {
+function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string }>, defaultTheme: {key: string, name: string}, outDir: string) {
   const themeToken: Record<string, Array<ThemeTokenT>> = {};
 
   Object.keys(tokens).forEach((k) => {
@@ -174,8 +175,8 @@ function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ va
 
   if (defaultTheme) {
     themes.push({
-      valueKey: defaultTheme,
-      name: 'default'
+      valueKey: defaultTheme.key,
+      name: defaultTheme.name || 'default'
     });
   }
   themes.forEach((theme) => {
@@ -213,7 +214,7 @@ export default async function main(options: { config: string }) {
 
   const tokens = await readTokens(data);
 
-  generateTokenCss(tokens, data.themeMap, data.defaultTheme, data.output);
+  generateTokenCss(tokens, data.themeMap, {key: data.defaultTheme, name: data.defaultThemeName}, data.output);
 
   if (data.codeSnippetsFile) {
     generateCodeSnippets(tokens, data.codeSnippetsFile);

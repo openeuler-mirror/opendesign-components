@@ -1,5 +1,11 @@
 # [open-scripts]
 
+# 1.0.3
+
+- fix
+
+1. 新增defaultThemeName配置项，支持配置default主题文件前缀名
+
 # 1.0.2
 
 - fix
