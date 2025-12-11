@@ -35,5 +35,11 @@
     "typescript": "catalog:typescript",
     "vue-tsc": "catalog:build",
     "vite": "catalog:build"
+  },
+  "bugs": "https://gitee.com/openeuler/opendesign-components/issues",
+  "homepage": "",
+  "repository": {
+      "type": "git",
+      "url": "https://gitee.com/openeuler/opendesign-components"
   }
 }

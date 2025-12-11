@@ -209,7 +209,7 @@ importers:
         specifier: workspace:^
         version: link:../scripts
       '@opensig/opendesign-token':
-        specifier: ^0.0.4
+        specifier: catalog:css
         version: 0.0.4
       '@shikijs/langs':
         specifier: catalog:markdown
