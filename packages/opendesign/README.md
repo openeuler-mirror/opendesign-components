@@ -34,6 +34,11 @@ pnpm add @opensig/opendesign
 
 ## 使用
 
+### 引入皮肤文件
+```
+import '@opensig/opendesign-token/themes/e.token.scss'
+```
+
 ### 引入样式文件
 ```
 import '@opensig/opendesign/es/index.scss'
