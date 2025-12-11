@@ -692,8 +692,8 @@ packages:
     resolution: {integrity: sha512-m/mkyamvFPt+fKFMmg/+ECxI1Bc+51d0N8oAqfUu4XaR9XdXVaB9sPMUmy1LxZmnsw3IKeKi5fom24qeZnG/1g==}
     hasBin: true
 
-  '@oxc-project/types@0.101.0':
-    resolution: {integrity: sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ==}
+  '@opensig/opendesign-token@0.0.4':
+    resolution: {integrity: sha512-jkuKG/f+y1f/ROX6W/Ylo3Rwn66sRGG/uch1/yO0KrPLY+dFmUWPZ5wnBUDQB2vnW8ekGa7L8fYWKGJOV/lGKA==}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==}
@@ -3405,7 +3405,7 @@ snapshots:
       - typescript
       - vite
 
-  '@oxc-project/types@0.101.0': {}
+  '@opensig/opendesign-token@0.0.4': {}
 
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true
