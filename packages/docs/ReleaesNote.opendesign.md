@@ -1,55 +1,70 @@
 ## 1.1.0
 
+### BREAKING CHANGES
+
+- **OTable:** 内部tr.last更名为tr.o-row-last，td.last更名为td.o-cell-last-col
+
 ### Features
 
-- **OGrid** 新增1680断点，通过pcS属性控制
-- **OMenu** 修复组件受控逻辑, OSubMenu 增加icon属性，支持通过属性配置图标
-- **OPopover** 修改1680px以下字体大小
-- **OMessage** 
+- **OGrid:** 新增1680断点，通过pcS属性控制
+- **OMenu:** 修复组件受控逻辑, OSubMenu 增加icon属性，支持通过属性配置图标
+- **OPopover:** 修改1680px以下字体大小
+- **OMessage:** 
    - 新增变量`--message-list-top-offset`和`--message-list-bottom-offse`
-   - **useMessage** showMessage返回关闭函数
-   - **OMessageList** 新增实例方法close
-- **OLoading** 
+   - **useMessage:** showMessage返回关闭函数
+   - **OMessageList:** 新增实例方法close
+- **OLoading:** 
    - 新增 `--loading-label-font-size`、`--loading-label-font-height`，`--loading-label-icon-gap`变量
-   - **vLoading** 支持传入属性对象
-- **OPagination**
-   - total插槽新增pageCount参数
-- **OTable** 
-   - 内部tr.last更名为tr.o-row-last，td.last更名为td.o-cell-last-col
-   - td插槽新增row-index参数
-- **OIcon** 新增缩放类图标
-- **OInput**
+   - **vLoading:** 支持传入属性对象
+- **OPagination:** total插槽新增pageCount参数
+- **OTable:** td插槽新增row-index参数
+- **OIcon:** 新增缩放类图标
+- **OInput:**
    - 增加length插槽;
    - 增加showLength参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
-- **OTextarea**
+- **OTextarea:**
    - 增加length插槽;
    - 增加showLength参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
-- **OUpload**
+- **OUpload:**
    - 增加子项相关事件itemRemove、itemRetry、itemReplace、itemPreview、itemClick；
    - 增加暴露的接口：replaceById、replaceByIndex、removeById、previewItemByIndex、previewItemById [#ICSTRO](https://gitee.com/openeuler/opendesign-components/issues/ICSTRO)
-- **OLayer** 增加向后代组件注入toggle方法
+- **OLayer:** 增加向后代组件注入toggle方法
 
 ### Bug Fixes
 
-- **OToggle** 刷新在laptop、pad竖屏以下 时的尺寸及内边距
-- **OSwitch** 修复未传递modelValue值时，组件不能工作的问题
-- **OMessageList** 修复remove方法未正确处理destroy回调；暴露close方法
-- **useMessage** 修复close函数功能
-- **OPagination**
-   - 跳转元素内文本与输入框居中对齐
-- **OTab** 
+- **OToggle:** 
+  - 刷新在laptop、pad竖屏以下 时的尺寸及内边距
+  - round属性支持非`pill`的值(一般css值类型)
+- **OSwitch:** 修复未传递modelValue值时，组件不能工作的问题
+- **OMessageList:** 
+  - 修复remove方法未正确处理destroy回调
+  - 暴露close方法
+- **useMessage:** 修复close函数功能
+- **OPagination:** 跳转元素内文本与输入框居中对齐
+- **OTab:** 
    - 修复视口宽度变化时，滚动计算不正确的问题
    - 修复`prefix`或`suffix`插槽增加内容时，`tab-navs`溢出问题
    - 修复`tab-nav`高度不同时底部不能对齐横向分割线的问题
-- **OTag** 修复受控模式问题
-- **OTable** 
+- **OTag:** 修复受控模式问题
+- **OTable:** 
    - 修复右侧单元格为合并单元格时last条件计算错误的问题
    - 解决表格hover高亮不准确的问题 [#ICW5SF](https://gitee.com/openeuler/opendesign-components/issues/ICW5SF)
-- **OCarousel**
-   - 修复hover暂停播放时指示器不显示激活状态的样式问题 [#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)
-- **OInput**
-   - 修复OInput在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)
-- **OAnchor** 修复title包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
+- **OCarousel:** 修复hover暂停播放时指示器不显示激活状态的样式问题 [#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)
+- **OInput:** 修复OInput在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)
+- **OAnchor:** 修复title包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
+- **OFigure:** 
+  - 移动端previewClose的“image”值修正为“body”值
+  - 修复在百度浏览器中点击预览热区引发浏览器查看大图功能的问题
+- **OPopup:** 修复click事件未正确移除的bug
+
+### Code Refactoring
+
+- **TypeScript:** 修复一系列组件相关ts类型声明，详见提交：[#IDCFAA](https://gitee.com/openeuler/opendesign-components/issues/IDCFAA)
+
+### Others
+
+包含1.0.1-sp1的变更
+
 
 ## 1.0.1-sp1
 
@@ -89,18 +104,24 @@
 - 升级 `sass-embedded` 版本至1.85.1 [#IDCF6U](https://gitee.com/openeuler/opendesign-components/issues/IDCF6U)
 
 
-## 1.0.3
+## 1.0.4
 
 ### Features
 
 - **doc** 更新`changelog`,添加`breaking change`描述
 - **OCarousel** 修复`hover`暂停播放时指示器不显示激活状态的问题
 
+## 1.0.3
+
+### Warning
+
+此版本弃用，请勿使用此版本
+
 ## 1.0.2
 
 ### Warning
 
-本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.3
+本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.4
 
 ### BREAKING CHANGES
 
@@ -141,7 +162,7 @@
 
 ### Warning
 
-本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.3
+本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.4
 
 ### Features
 
@@ -155,7 +176,7 @@
 
 ### Warning
 
-本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.3
+本版本未修复[#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)问题，建议升级到v1.0.4
 
 ### Features
 
