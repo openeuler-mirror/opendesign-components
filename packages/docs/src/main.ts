@@ -14,6 +14,20 @@ import DemoContainer from './components/DemoContainer.vue';
 import DemoUsage from './components/DemoUsage.vue';
 import DocLink from './components/DocLink.vue';
 
+import '@opensig/opendesign-token/themes/a.dark.token.css';
+import '@opensig/opendesign-token/themes/a.light.token.css';
+import '@opensig/opendesign-token/themes/e.dark.token.css';
+import '@opensig/opendesign-token/themes/e.light.token.css';
+import '@opensig/opendesign-token/themes/k.dark.token.css';
+import '@opensig/opendesign-token/themes/k.light.token.css';
+import '@opensig/opendesign-token/themes/g.dark.token.css';
+import '@opensig/opendesign-token/themes/g.light.token.css';
+import '@opensig/opendesign-token/themes/u.dark.token.css';
+import '@opensig/opendesign-token/themes/u.light.token.css';
+import '@opensig/opendesign-token/themes/m.dark.token.css';
+import '@opensig/opendesign-token/themes/m.light.token.css';
+
+
 const app = createApp(App);
 const pinia = createPinia();
 

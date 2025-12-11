@@ -208,6 +208,9 @@ importers:
       '@opensig/open-scripts':
         specifier: workspace:^
         version: link:../scripts
+      '@opensig/opendesign-token':
+        specifier: ^0.0.4
+        version: 0.0.4
       '@shikijs/langs':
         specifier: catalog:markdown
         version: 3.15.0
