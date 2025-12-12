@@ -3,16 +3,16 @@
   "version": "1.0.3",
   "description": "opendesign component Scripts",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "bin": {
-    "open-scripts": "dist/index.js"
+    "open-scripts": "dist/index.cjs"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "dev": "tsdown --watch",
+    "build": "tsdown",
     "release": "pnpm publish --registry https://registry.npmjs.org"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "@types/clean-css": "catalog:typescript",
     "@types/fs-extra": "catalog:typescript",
     "@types/glob": "catalog:typescript",
+    "tsdown": "catalog:build",
     "vite": "catalog:build"
   },
   "publishConfig": {
