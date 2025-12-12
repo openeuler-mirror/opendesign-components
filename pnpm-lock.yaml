@@ -29,8 +29,8 @@ catalogs:
       version: 2.2.8
   css:
     '@opensig/opendesign-token':
-      specifier: 0.0.6
-      version: 0.0.6
+      specifier: 0.0.7
+      version: 0.0.7
     clean-css:
       specifier: ^5.3.3
       version: 5.3.3
@@ -207,7 +207,7 @@ importers:
         version: link:../scripts
       '@opensig/opendesign-token':
         specifier: catalog:css
-        version: 0.0.6
+        version: 0.0.7
       '@shikijs/langs':
         specifier: catalog:markdown
         version: 3.15.0
@@ -317,7 +317,7 @@ importers:
         version: link:../opendesign
       '@opensig/opendesign-token':
         specifier: catalog:css
-        version: 0.0.6
+        version: 0.0.7
     devDependencies:
       sass:
         specifier: catalog:css
@@ -689,8 +689,8 @@ packages:
     resolution: {integrity: sha512-m/mkyamvFPt+fKFMmg/+ECxI1Bc+51d0N8oAqfUu4XaR9XdXVaB9sPMUmy1LxZmnsw3IKeKi5fom24qeZnG/1g==}
     hasBin: true
 
-  '@opensig/opendesign-token@0.0.6':
-    resolution: {integrity: sha512-uepCT9z/DOBcSGHYQCj6Ed/Aoy9zM+NOz2bXgNBzEOl9UKPxJM5hHCG/nsS9CkliN+2RT5f68YP8Q3rEtVC0rg==}
+  '@opensig/opendesign-token@0.0.7':
+    resolution: {integrity: sha512-AQjQOaGvXMlNwRIeDXBQu2k1gXWhpG21sWlY/Bu4of2+iK+0k/i02e/BZzB11v3SYwRpXwckRnT3DQ69p4I/QA==}
 
   '@oxc-project/types@0.101.0':
     resolution: {integrity: sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ==}
@@ -3405,7 +3405,7 @@ snapshots:
       - typescript
       - vite
 
-  '@opensig/opendesign-token@0.0.6': {}
+  '@opensig/opendesign-token@0.0.7': {}
 
   '@oxc-project/types@0.101.0': {}
 

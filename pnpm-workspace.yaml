@@ -16,7 +16,7 @@ catalogs:
     normalize.css: ^8.0.1
     sass: ^1.71.1
     sass-embedded: 1.85.1
-    '@opensig/opendesign-token': 0.0.6
+    '@opensig/opendesign-token': 0.0.7
   io:
     commander: ^13.1.0
     fs-extra: ^11.3.0

@@ -35,9 +35,10 @@ watch(locale, (newLocale, oldLocale) => {
 </script>
 <template>
   <div class="the-header">
-    <span class="theme-name">{{ skinColorName }}</span>
+    <!-- <span class="theme-name">{{ skinColorName }}</span> -->
     <div class="left" @click="router.push('/')">
-      {{ t('header.home') }}
+      <div class="logo"></div>
+      <!-- {{ t('header.home') }} -->
     </div>
     <div class="right">
       <div class="nav">
@@ -53,7 +54,18 @@ watch(locale, (newLocale, oldLocale) => {
       </div>
       <div class="tools">
         <div class="tool-item">
-          <ODropdown trigger="click">
+          <OSwitch
+            :model-value="themeStore.color"
+            :checked-value="colors[1]"
+            :unchecked-value="colors[0]"
+            @update:model-value="(value) => themeStore.setColor(value as ColorT)"
+          >
+            <template #off><DocIconLight /></template>
+            <template #on><DocIconDark /></template>
+          </OSwitch>
+        </div>
+        <div class="tool-item">
+          <ODropdown trigger="hover">
             {{ t('header.theme') }}
             <template #dropdown>
               <ODropdownItem
@@ -66,17 +78,6 @@ watch(locale, (newLocale, oldLocale) => {
               />
             </template>
           </ODropdown>
-        </div>
-        <div class="tool-item">
-          <OSwitch
-            :model-value="themeStore.color"
-            :checked-value="colors[1]"
-            :unchecked-value="colors[0]"
-            @update:model-value="(value) => themeStore.setColor(value as ColorT)"
-          >
-            <template #off><DocIconLight /></template>
-            <template #on><DocIconDark /></template>
-          </OSwitch>
         </div>
         <div class="tool-item">
           <ODropdown trigger="hover">
@@ -97,7 +98,7 @@ watch(locale, (newLocale, oldLocale) => {
   padding: 0 calc((100vw - var(--grid-full)) / 2);
   font-size: var(--o3-font_size-h3);
   line-height: var(--o3-line_height-h3);
-  background-color: rgba(var(--o-mixedgray-1, var(--o-gray-1)), 0.9);
+  background-color: rgba(var(--o-grey-1), 0.9);
   box-shadow: var(--o-shadow-1);
   backdrop-filter: blur(5px);
 }
@@ -108,6 +109,18 @@ watch(locale, (newLocale, oldLocale) => {
   transform: translate3d(-50%, -50%, 0);
   @include respond-to('phone') {
     display: none;
+  }
+}
+.logo {
+  width: 215px;
+  height: 100%;
+
+  background: url(/opendesign-logo-light.png);
+  background-size: contain;
+  
+  [data-o-theme="k.dark"] &{
+    background-image: url(/opendesign-logo-dark.png);
+
   }
 }
 .left {

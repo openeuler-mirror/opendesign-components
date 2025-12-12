@@ -179,7 +179,7 @@ function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ va
 
   themes.forEach((theme) => {
     const themeArray = Array.isArray(theme.name)? theme.name : [theme.name];
-    console.log(themeArray);
+    
     const content = tokenCssTemplate(themeArray, themeToken[theme.valueKey], theme.root);
 
     fs.outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
