@@ -14,6 +14,11 @@ export const router = createRouter({
     ...componentRoutes,
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/pages/NotFound.vue') },
   ],
+  scrollBehavior() {
+    return {
+      top: 0
+    }
+  }
 });
 export type MetaT = { sidebar: string; lang: string; kind: string; sidebarName: string };
 export type RouteT = {

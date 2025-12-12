@@ -134,7 +134,7 @@ router.beforeEach((to) => {
 
 <style lang="scss">
 :root {
-  --app-header-height: 48px;
+  --app-header-height: 64px;
   --app-header-margin: var(--o3-gap-4);
 }
 .o-message-list {
@@ -189,7 +189,6 @@ router.beforeEach((to) => {
   margin-top: calc(var(--app-header-height) + var(--app-header-margin));
   --body-min-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
   min-height: var(--body-min-height);
-  background-color: var(--o-color-fill1);
   width: var(--layout-content-width);
   margin-left: auto;
   margin-right: auto;
