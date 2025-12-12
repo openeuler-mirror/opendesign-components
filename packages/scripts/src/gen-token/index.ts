@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 export interface TokenConfigT {
   output: string;
   prefix: string;
-  themeMap: Array<{ valueKey: string; name: string }>;
+  themeMap: Array<{ valueKey: string; name: string, root: boolean }>;
   defaultTheme: string;
   defaultThemeName: string;
   tokenFile: string[];
@@ -115,7 +115,7 @@ async function readTokens(configData: TokenConfigT) {
           };
         });
       });
-    } catch (error) {
+    } catch {
       console.warn('load token error:', tk);
     }
   });
@@ -125,7 +125,7 @@ async function readTokens(configData: TokenConfigT) {
 /**
  * 生成css的模板
  */
-function tokenCssTemplate(themeArray: string[], tokens: Array<ThemeTokenT>) {
+function tokenCssTemplate(themeArray: string[], tokens: Array<ThemeTokenT>, isRoot: boolean) {
   const content = tokens.map((item) => {
     const { tokenKey, value, name = '', type = '', description = '', group = '' } = item;
     return `  /**
@@ -137,12 +137,16 @@ function tokenCssTemplate(themeArray: string[], tokens: Array<ThemeTokenT>) {
   ${tokenKey}: ${value};`;
   });
 
-  const selector = themeArray.map((t) => {
+  let selector = [':root'];
+
+  if(!isRoot){
+    selector = themeArray.map((t) => {
     if (t === 'default') {
       return ':root';
     }
     return `[data-o-theme="${t}"]`;
   });
+  }
 
   return `/* theme: ${themeArray.join('|')} */
 ${selector.join(',\n')} {
@@ -153,7 +157,7 @@ ${content.join('\n')}
 /**
  * 生成token.css
  */
-function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string }>, defaultTheme: {key: string, name: string}, outDir: string) {
+function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string; root: boolean}>, outDir: string) {
   const themeToken: Record<string, Array<ThemeTokenT>> = {};
 
   Object.keys(tokens).forEach((k) => {
@@ -173,16 +177,10 @@ function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ va
     });
   });
 
-  if (defaultTheme) {
-    themes.push({
-      valueKey: defaultTheme.key,
-      name: defaultTheme.name || 'default'
-    });
-  }
   themes.forEach((theme) => {
-    const themeArray = [theme.name];
-
-    const content = tokenCssTemplate(themeArray, themeToken[theme.valueKey]);
+    const themeArray = Array.isArray(theme.name)? theme.name : [theme.name];
+    console.log(themeArray);
+    const content = tokenCssTemplate(themeArray, themeToken[theme.valueKey], theme.root);
 
     fs.outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
     console.log(`[${themeArray.join('|')}] theme token file generated!`);
@@ -214,7 +212,7 @@ export default async function main(options: { config: string }) {
 
   const tokens = await readTokens(data);
 
-  generateTokenCss(tokens, data.themeMap, {key: data.defaultTheme, name: data.defaultThemeName}, data.output);
+  generateTokenCss(tokens, data.themeMap, data.output);
 
   if (data.codeSnippetsFile) {
     generateCodeSnippets(tokens, data.codeSnippetsFile);

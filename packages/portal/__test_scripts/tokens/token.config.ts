@@ -4,15 +4,18 @@ module.exports = {
   themeMap: [
     {
       valueKey: 'light',
-      name: 'o.light',
+      name: ['o.light', 'default'],
     },
     {
       valueKey: 'dark',
       name: 'o.dark',
     },
+    {
+      valueKey: 'light',
+      name: 'o',
+      root: true
+    },
   ],
-  defaultTheme: 'light',
-  defaultThemeName: 'o',
   tokenFile: ['./opendesign-token.json'],
   codeSnippetsFile: './dist/opendesign.token.code-snippets',
 };
