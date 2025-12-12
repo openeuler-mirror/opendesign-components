@@ -2,6 +2,10 @@
 
 ### BREAKING CHANGES
 
+- **Token:** 
+    - 组件变量迁移至@opensig/opendesign-token，不再本仓维护
+    - o-color-control-light 更改为 o-color-control5-light
+    - 变量值刷新
 - **OTable:** 内部tr.last更名为tr.o-row-last，td.last更名为td.o-cell-last-col
 
 ### Features

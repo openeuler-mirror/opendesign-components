@@ -81,7 +81,7 @@ const rules = {
     },
   ],
   'vue/max-attributes-per-line': [
-    'error',
+    'warn',
     {
       singleline: {
         max: 3,
@@ -94,8 +94,15 @@ const rules = {
   'vue/first-attribute-linebreak': [
     'warn',
     {
-      singleline: 'beside',
+      singleline: 'ignore',
       multiline: 'below',
+    },
+  ],
+  'vue/html-closing-bracket-newline': [
+    'warn',
+    {
+      singleline: 'never',
+      multiline: 'always',
     },
   ],
   'vue/html-indent': [

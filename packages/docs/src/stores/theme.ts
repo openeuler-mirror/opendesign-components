@@ -2,19 +2,27 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import { usePrefetch } from '@/utils/optimize';
-import openDesignSkin from '@opensig/opendesign/theme/opendesign/index.scss?url';
+// import openDesignSkin from '@opensig/opendesign/theme/opendesign/index.scss?url';
 import kunpengSkin from '@opensig/opendesign/theme/kunpeng/index.scss?url';
 import ascendSkin from '@opensig/opendesign/theme/ascend/index.scss?url';
 import eulerSkin from '@opensig/opendesign/theme/openeuler/index.scss?url';
 
 export const skin = [
   {
-    value: '',
-    name: 'OpenDesign',
+    value: 'e',
+    name: 'openEuler',
   },
   {
-    value: 'e',
-    name: 'OpenEuler',
+    value: 'g',
+    name: 'openGauss',
+  },
+  {
+    value: 'u',
+    name: 'openUBMC',
+  },
+  {
+    value: 'm',
+    name: 'MindSpore',
   },
   {
     value: 'a',
@@ -31,12 +39,15 @@ export const colors = ['light', 'dark'] as const;
 const colorSet = new Set(colors);
 export type ColorT = (typeof colors)[number];
 export const linkConfig: Record<string, string> = {
-  e: eulerSkin,
   k: kunpengSkin,
   a: ascendSkin,
+  g: eulerSkin,
+  m: eulerSkin,
+  u: eulerSkin,
+  e: eulerSkin,
 };
 usePrefetch([
-  { url: openDesignSkin, as: 'style' },
+  // { url: openDesignSkin, as: 'style' },
   { url: kunpengSkin, as: 'style' },
   { url: ascendSkin, as: 'style' },
   { url: eulerSkin, as: 'style' },
@@ -46,7 +57,7 @@ export const QUERY_SKIN = '__skin';
 export const QUERY_COLOR = '__color';
 export const DEFAULT_COLOR = 'light';
 export const DEFAULT_SKIN_VALUE = '';
-export const DEFAULT_SKIN_HREF = openDesignSkin;
+export const DEFAULT_SKIN_HREF = eulerSkin;
 
 export const normalizeSkin = (skinValue: any): SkinT['value'] => {
   if (skinMap.has(skinValue)) {
@@ -86,7 +97,7 @@ export const useThemeStore = defineStore('theme', () => {
   const theme = computed(() => `${skinValue.value ? `${skinValue.value}.` : ''}${color.value}`);
   const router = useRouter();
 
-  let oldSkinValue: SkinT['value'] | undefined = undefined;
+  let oldSkinValue: SkinT['value'] | undefined;
   const setSkin = (newVal: SkinT['value']) => {
     const styleHref = linkConfig[newVal] || DEFAULT_SKIN_HREF;
     const linkDom = document.createElement('link');

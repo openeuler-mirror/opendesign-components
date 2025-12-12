@@ -53,7 +53,7 @@ watch(locale, (newLocale, oldLocale) => {
       </div>
       <div class="tools">
         <div class="tool-item">
-          <ODropdown>
+          <ODropdown trigger="click">
             {{ t('header.theme') }}
             <template #dropdown>
               <ODropdownItem
@@ -79,7 +79,7 @@ watch(locale, (newLocale, oldLocale) => {
           </OSwitch>
         </div>
         <div class="tool-item">
-          <ODropdown>
+          <ODropdown trigger="hover">
             {{ currentLocale?.label }}
             <template #dropdown>
               <ODropdownItem v-for="item in locales" :key="item.value" :label="item.label" :value="item.value" @click="changeLocale(item.value)" />

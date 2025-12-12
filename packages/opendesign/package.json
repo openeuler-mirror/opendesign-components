@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "1.0.3",
+  "version": "1.1.0-alpha.2",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -17,7 +17,6 @@
     "vue3 components"
   ],
   "scripts": {
-    "gen:token": "open-scripts gen:token --config ./src/theme/opendesign/token.config.ts && open-scripts gen:token --config ./src/theme/ascend/token.config.ts && open-scripts gen:token --config ./src/theme/kunpeng/token.config.ts && open-scripts gen:token --config ./src/theme/openeuler/token.config.ts",
     "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
     "clean:svg": "open-scripts clean:svg --config ./icons/cleansvg.config.ts",
     "build:component": "open-scripts build:component",
@@ -26,16 +25,21 @@
     "lint": "eslint  --ignore-pattern './src/**/__demo__/*' --ignore-pattern './src/**/__docs__/*' ./src",
     "lint:fix": "eslint  --ignore-pattern './src/**/__demo__/*' --ignore-pattern './src/**/__docs__/*' --fix ./src",
     "type-check": "vue-tsc --build",
-    "release": "pnpm publish --registry https://registry.npmjs.org",
-    "gen:token:test": "open-scripts gen:token --config ./tokens/token.config.ts"
+    "release": "pnpm publish --registry https://registry.npmjs.org"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
   },
   "devDependencies": {
-    "@opensig/open-scripts": "catalog:build",
+    "@opensig/open-scripts": "1.0.3",
     "typescript": "catalog:typescript",
     "vue-tsc": "catalog:build",
     "vite": "catalog:build"
+  },
+  "bugs": "https://gitee.com/openeuler/opendesign-components/issues",
+  "homepage": "",
+  "repository": {
+      "type": "git",
+      "url": "https://gitee.com/openeuler/opendesign-components"
   }
 }

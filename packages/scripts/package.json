@@ -1,9 +1,10 @@
 {
   "name": "@opensig/open-scripts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "opendesign component Scripts",
   "license": "MIT",
   "main": "dist/index.cjs",
+  "types": "dist/index.d.cts",
   "bin": {
     "open-scripts": "dist/index.cjs"
   },

@@ -10,14 +10,14 @@
 
   --_box-bd: 1px solid var(--_box-bd-color);
 
-  --_box-bg-color: var(--o-color-control-light);
-  --_box-bg-color-hover: var(--o-color-control-light);
-  --_box-bg-color-focus: var(--o-color-control-light);
+  --_box-bg-color: var(--o-color-control5-light);
+  --_box-bg-color-hover: var(--o-color-control5-light);
+  --_box-bg-color-focus: var(--o-color-control5-light);
   --_box-bg-color-disabled: var(--o-color-control4-light);
 
   --_box-prepend-append-bd: 1px solid var(--o-color-control1);
   --_box-prepend-append-bd-color-disabled: var(--o-color-control4-light);
-  --_box-prepend-append-bg-color: var(--o-color-control-light);
+  --_box-prepend-append-bg-color: var(--o-color-control5-light);
 }
 
 .o_box-solid {
@@ -28,25 +28,25 @@
 .o_box-text {
   --_box-bd-color: transparent;
   --_box-bg-color: transparent;
-  --_box-bd-color-focus: var(--o-color-control-light);
+  --_box-bd-color-focus: var(--o-color-control5-light);
   --_box-bd-color-disabled: transparent;
   --_box-bg-color-disabled: transparent;
 
   &.o_box-normal {
-    --_box-bd-color-hover: var(--o-color-control-light);
-    --_box-bg-color-hover: var(--o-color-control-light);
+    --_box-bd-color-hover: var(--o-color-control5-light);
+    --_box-bg-color-hover: var(--o-color-control5-light);
   }
   &.o_box-success {
-    --_box-bd-color-hover: var(--o-color-control-light);
-    --_box-bg-color-hover: var(--o-color-control-light);
+    --_box-bd-color-hover: var(--o-color-control5-light);
+    --_box-bg-color-hover: var(--o-color-control5-light);
   }
   &.o_box-warning {
-    --_box-bd-color-hover: var(--o-color-control-light);
-    --_box-bg-color-hover: var(--o-color-control-light);
+    --_box-bd-color-hover: var(--o-color-control5-light);
+    --_box-bg-color-hover: var(--o-color-control5-light);
   }
   &.o_box-danger {
-    --_box-bd-color-hover: var(--o-color-control-light);
-    --_box-bg-color-hover: var(--o-color-control-light);
+    --_box-bd-color-hover: var(--o-color-control5-light);
+    --_box-bg-color-hover: var(--o-color-control5-light);
   }
 }
 .o_box-outline {

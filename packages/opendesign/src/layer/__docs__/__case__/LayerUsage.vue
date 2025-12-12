@@ -111,6 +111,6 @@ const _oCtx = reactive({
 }
 .layer-doc-usage-main {
   padding: 24px;
-  background-color: var(--o-color-control-light);
+  background-color: var(--o-color-control5-light);
 }
 </style>

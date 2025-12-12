@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   build:
-    '@opensig/open-scripts':
-      specifier: 1.0.3
-      version: 1.0.3
     '@rollup/plugin-terser':
       specifier: ^0.4.4
       version: 0.4.4
@@ -31,6 +28,9 @@ catalogs:
       specifier: 2.2.8
       version: 2.2.8
   css:
+    '@opensig/opendesign-token':
+      specifier: 0.0.6
+      version: 0.0.6
     clean-css:
       specifier: ^5.3.3
       version: 5.3.3
@@ -205,6 +205,9 @@ importers:
       '@opensig/open-scripts':
         specifier: workspace:^
         version: link:../scripts
+      '@opensig/opendesign-token':
+        specifier: catalog:css
+        version: 0.0.6
       '@shikijs/langs':
         specifier: catalog:markdown
         version: 3.15.0
@@ -289,7 +292,7 @@ importers:
         version: 3.5.25(typescript@5.8.3)
     devDependencies:
       '@opensig/open-scripts':
-        specifier: catalog:build
+        specifier: 1.0.3
         version: 1.0.3(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))
       typescript:
         specifier: catalog:typescript
@@ -312,6 +315,9 @@ importers:
       '@opensig/opendesign':
         specifier: workspace:^
         version: link:../opendesign
+      '@opensig/opendesign-token':
+        specifier: catalog:css
+        version: 0.0.6
     devDependencies:
       sass:
         specifier: catalog:css
@@ -682,6 +688,9 @@ packages:
   '@opensig/open-scripts@1.0.3':
     resolution: {integrity: sha512-m/mkyamvFPt+fKFMmg/+ECxI1Bc+51d0N8oAqfUu4XaR9XdXVaB9sPMUmy1LxZmnsw3IKeKi5fom24qeZnG/1g==}
     hasBin: true
+
+  '@opensig/opendesign-token@0.0.6':
+    resolution: {integrity: sha512-uepCT9z/DOBcSGHYQCj6Ed/Aoy9zM+NOz2bXgNBzEOl9UKPxJM5hHCG/nsS9CkliN+2RT5f68YP8Q3rEtVC0rg==}
 
   '@oxc-project/types@0.101.0':
     resolution: {integrity: sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ==}
@@ -3395,6 +3404,8 @@ snapshots:
       - supports-color
       - typescript
       - vite
+
+  '@opensig/opendesign-token@0.0.6': {}
 
   '@oxc-project/types@0.101.0': {}
 

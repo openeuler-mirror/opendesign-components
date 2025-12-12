@@ -46,7 +46,7 @@ const submit = () => {
   width: 300px;
   padding: 12px;
   border: 1px solid var(--o-color-control1);
-  background-color: var(--o-color-control-light);
+  background-color: var(--o-color-control5-light);
 }
 .feedback-textarea {
   width: 100%;

@@ -7,12 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "gen:icon": "open-scripts gen:icon --config __test_scripts/icons/icon.config.ts"
+    "gen:icon": "open-scripts gen:icon --config __test_scripts/icons/icon.config.ts",
+    "gen:token": "open-scripts gen:token --config __test_scripts/tokens/token.config.ts"
   },
   "dependencies": {
-    "@opensig/opendesign": "workspace:^",
+    "@opensig/open-analytics": "catalog:utils",
     "@opensig/open-scripts": "workspace:^",
-    "@opensig/open-analytics": "catalog:utils"
+    "@opensig/opendesign": "workspace:^",
+    "@opensig/opendesign-token": "catalog:css"
   },
   "devDependencies": {
     "sass": "catalog:css",

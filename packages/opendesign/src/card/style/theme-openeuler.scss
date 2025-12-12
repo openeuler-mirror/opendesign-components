@@ -1,7 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-card-detail-limited {
-  --card-detail-mask-bg-color: var(--o-color-control-light);
+  --card-detail-mask-bg-color: var(--o-color-control5-light);
   --card-detail-mask-width: 4em;
 
   position: relative;
