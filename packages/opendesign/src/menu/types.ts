@@ -24,15 +24,6 @@ export const menuProps = {
     default: false,
   },
   /**
-   * @zh-CN 层级缩进距离
-   * @en-US Nested Indentation Distance
-   * @default 20
-   */
-  levelIndent: {
-    type: Number,
-    default: 20,
-  },
-  /**
    * @zh-CN 选中值
    * @en-US Selected value
    */
