@@ -6,9 +6,6 @@ settings:
 
 catalogs:
   build:
-    '@opensig/open-scripts':
-      specifier: 1.0.3
-      version: 1.0.3
     '@rollup/plugin-terser':
       specifier: ^0.4.4
       version: 0.4.4
@@ -295,7 +292,7 @@ importers:
         version: 3.5.25(typescript@5.8.3)
     devDependencies:
       '@opensig/open-scripts':
-        specifier: catalog:build
+        specifier: 1.0.3
         version: 1.0.3(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))
       typescript:
         specifier: catalog:typescript
@@ -694,6 +691,9 @@ packages:
 
   '@opensig/opendesign-token@0.0.4':
     resolution: {integrity: sha512-jkuKG/f+y1f/ROX6W/Ylo3Rwn66sRGG/uch1/yO0KrPLY+dFmUWPZ5wnBUDQB2vnW8ekGa7L8fYWKGJOV/lGKA==}
+
+  '@oxc-project/types@0.101.0':
+    resolution: {integrity: sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ==}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==}
@@ -3407,6 +3407,8 @@ snapshots:
 
   '@opensig/opendesign-token@0.0.4': {}
 
+  '@oxc-project/types@0.101.0': {}
+
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true
 
@@ -3828,12 +3830,6 @@ snapshots:
       eslint-visitor-keys: 4.2.1
 
   '@ungap/structured-clone@1.3.0': {}
-
-  '@vitejs/plugin-vue@6.0.2(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1))(vue@3.5.25(typescript@5.8.3))':
-    dependencies:
-      '@rolldown/pluginutils': 1.0.0-beta.50
-      vite: 6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1)
-      vue: 3.5.25(typescript@5.8.3)
 
   '@vitejs/plugin-vue@6.0.2(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1))(vue@3.5.25(typescript@5.8.3))':
     dependencies:
