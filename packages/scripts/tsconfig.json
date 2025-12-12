@@ -12,9 +12,8 @@
     "resolvePackageJsonExports": true,
     "outDir": "dist",
     "module": "Preserve",
-    "isolatedDeclarations": false,
+    "isolatedDeclarations": true,
     "target": "ES2015",
-    "allowJs": true,
     "baseUrl": ".",
     "lib": ["ESNext"]
   },

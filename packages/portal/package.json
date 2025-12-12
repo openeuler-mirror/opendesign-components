@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "gen:icon": "open-scripts gen:icon --config __test_scripts/icons/icon.config.ts",
-    "gen:token": "open-scripts gen:token --config ./src/tokens/token.config.ts"
+    "gen:token": "open-scripts gen:token --config __test_scripts/tokens/token.config.ts"
   },
   "dependencies": {
     "@opensig/open-analytics": "catalog:utils",

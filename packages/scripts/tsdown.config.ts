@@ -6,6 +6,8 @@ export default defineConfig({
   platform: 'node',
   entry: ['src/index.ts'],
   format: ['cjs'],
+  dts: true,
+  sourcemap: true,
   unbundle: true,
   shims: true,
   skipNodeModulesBundle: true,
