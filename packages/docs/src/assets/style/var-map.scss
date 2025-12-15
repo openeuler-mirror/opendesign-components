@@ -1,4 +1,6 @@
 :root {
+  --app-header-height: 64px;
+  --app-header-margin: var(--o3-gap-4);
   @media (min-width: 1681px) {
     // 文字
     --o3-font_size-display1: var(--o-font_size-display1);
@@ -150,6 +152,7 @@
     --o3-icon_size-xs: var(--o-icon_size-xs);
   }
   @include respond-to('<=pad_v') { 
+    --app-header-height: 40px;
     // 文字
     --o3-font_size-display1: var(--o-font_size-h3);
     --o3-line_height-display1: var(--o-line_height-h3);
