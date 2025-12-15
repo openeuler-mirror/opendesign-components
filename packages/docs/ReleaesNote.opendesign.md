@@ -60,10 +60,12 @@
   - 移动端previewClose的“image”值修正为“body”值
   - 修复在百度浏览器中点击预览热区引发浏览器查看大图功能的问题
 - **OPopup:** 修复click事件未正确移除的bug
+- **OCard** 修复card在暗夜模式下的溢出样式
 
 ### Code Refactoring
 
 - **TypeScript:** 修复一系列组件相关ts类型声明，详见提交：[#IDCFAA](https://gitee.com/openeuler/opendesign-components/issues/IDCFAA)
+- **溢出打断规则** 修改为break-word，涉及组件OMessage、OCard、OMenu
 
 ### Others
 
