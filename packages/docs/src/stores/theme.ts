@@ -56,7 +56,7 @@ const LINK_DOM_MARK = '__docs_theme_link_dom__';
 export const QUERY_SKIN = '__skin';
 export const QUERY_COLOR = '__color';
 export const DEFAULT_COLOR = 'light';
-export const DEFAULT_SKIN_VALUE = '';
+export const DEFAULT_SKIN_VALUE = 'e';
 export const DEFAULT_SKIN_HREF = eulerSkin;
 
 export const normalizeSkin = (skinValue: any): SkinT['value'] => {
@@ -88,7 +88,7 @@ export const parseTheme = (theme: string) => {
 };
 export const useThemeStore = defineStore('theme', () => {
   /** 皮肤 */
-  const skinValue = ref<SkinT['value']>('');
+  const skinValue = ref<SkinT['value']>(DEFAULT_SKIN_VALUE);
   /** 皮肤名称 */
   const skinName = computed(() => skinMap.get(skinValue.value) || skinMap.get(DEFAULT_SKIN_VALUE));
   /** 颜色 */
