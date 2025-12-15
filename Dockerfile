@@ -1,10 +1,10 @@
-FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/node:latest as Builder
+FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/node:24.7.0 as Builder
 
 RUN mkdir -p /home/openDesign/web
 WORKDIR /home/openDesign/web
 COPY . /home/openDesign/web
 
-RUN npm install pnpm -g && \
+RUN npm install pnpm@10.16.1 -g && \
     pnpm docs:install && \
     pnpm docs:build
 
