@@ -110,7 +110,7 @@ const _oSchema = {
   detailRow: {
     type: 'number',
     label: 'detail row count',
-    default: 3,
+    default: 2,
   },
   hoverable: {
     type: 'boolean',

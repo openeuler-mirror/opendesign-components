@@ -107,6 +107,38 @@
   -webkit-box-orient: vertical;
 }
 
+.o-card-detail-limited {
+  --card-detail-mask-bg-color: var(--o-grey-1);
+  --card-detail-mask-width: 4em;
+
+  position: relative;
+  display: block;
+  text-overflow: clip;
+
+  &::after {
+    background-image: linear-gradient(
+      90deg,
+      rgba(var(--card-detail-mask-bg-color), 0),
+      rgba(var(--card-detail-mask-bg-color), 0.8) 66%,
+      rgba(var(--card-detail-mask-bg-color)) 100%
+    );
+    bottom: 0;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    width: var(--card-detail-mask-width);
+    height: var(--card-content-text-height);
+  }
+}
+
+[data-o-theme*='dark'] {
+  .o-card-detail-limited {
+    // 其实应该是--o-color-fill2的，但是不支持透明度，所以用原始值，同卡片背景色
+    --card-detail-mask-bg-color: var(--o-grey-4);
+  }
+}
+
 .o-card-hoverable {
   position: relative;
   transition: box-shadow var(--o-easing-standard) var(--o-duration-m2);
