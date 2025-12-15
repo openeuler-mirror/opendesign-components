@@ -33,16 +33,18 @@
   --message-title-gap: 4px;
 }
 
-.o-message-colorful {
-  --message-shadow: none;
-  --message-padding: 4px 12px 8px;
-
+.o-messgage-with-title {
   --message-align: start;
   --message-text-align: left;
+  --message-padding: 4px 12px 8px;
+}
+
+.o-message-colorful {
+  --message-shadow: none;
 }
 
 .o-message-info {
-  --message-icon-color: var(--o-color-auxiliary5, rgb(var(--o-blue-6)));
+  --message-icon-color: var(--o-color-auxiliary5);
 
   &.o-message-colorful {
     --message-bg-color: var(--o-blue-6);
@@ -50,7 +52,7 @@
 }
 
 .o-message-success {
-  --message-icon-color: var(--o-color-success1, rgb(var(--o-green-6)));
+  --message-icon-color: var(--o-color-success1);
 
   &.o-message-colorful {
     --message-bg-color: var(--o-green-6);
@@ -58,7 +60,7 @@
 }
 
 .o-message-warning {
-  --message-icon-color: var(--o-color-warning1, rgb(var(--o-orange-6)));
+  --message-icon-color: var(--o-color-warning1);
 
   &.o-message-colorful {
     --message-bg-color: var(--o-orange-6);
@@ -66,7 +68,7 @@
 }
 
 .o-message-danger {
-  --message-icon-color: var(--o-color-danger1, rgb(var(--o-red-6)));
+  --message-icon-color: var(--o-color-danger1);
 
   &.o-message-colorful {
     --message-bg-color: var(--o-red-6);

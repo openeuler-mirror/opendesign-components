@@ -3,6 +3,8 @@
 .o-textarea {
   display: inline-flex;
   cursor: text;
+  min-height: 126px;
+
   &.o_box-round-pill {
     .o_textarea-count {
       right: 16px;

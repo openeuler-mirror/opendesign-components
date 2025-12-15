@@ -26,10 +26,18 @@ const _oSchema = {
     type: 'boolean',
     default: false,
   },
+  title: {
+    type: 'string',
+    default: '标题',
+  },
+  content: {
+    type: 'textarea',
+    default: '指定消息出现在目标元素的 top（顶部）或 bottom（底部）',
+  },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  return `<OMessage ${propsToAttrStr(props)}>${props.status}</OMessage>`;
+  return `<OMessage ${propsToAttrStr(props)}>${props.status + props.content}</OMessage>`;
 };
 
 const _oCtx = {};

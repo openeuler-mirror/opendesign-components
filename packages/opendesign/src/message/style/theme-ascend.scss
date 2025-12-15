@@ -1,8 +1,0 @@
-@use './theme-common.scss' as *;
-
-.o-message-info {
-  --message-icon-color: #058ef0;
-  &.o-message-colorful {
-    --message-bg-color: #e8f9ff;
-  }
-}

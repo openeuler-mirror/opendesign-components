@@ -61,20 +61,23 @@ const _oSchema = {
     type: 'number',
     default: 300,
   },
-  'icon(slot)': {
+  iconSlot: {
     type: 'boolean',
   },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  const { 'icon(slot)': iconSlot, color } = props;
+  const { iconSlot, color } = props;
   let innerHTML = '';
-  if (iconSlot && color === 'warning') {
-    innerHTML += '\n<template #icon><OIconWarning /></template>';
+  if(iconSlot) {
+    if (iconSlot && color === 'danger') {
+      innerHTML += '\n<template #icon={percentage}><OIconDanger />{{percentage}}%</template>';
+    } else {
+      innerHTML += '\n<template #icon={percentage}><OIconWarning />{{percentage}}%</template>';
+    }
   }
-  if (iconSlot && color === 'danger') {
-    innerHTML += '\n<template #icon><OIconDanger /></template>';
-  }
+
+  
   return `<OProgress  ${propsToAttrStr(props)} >${innerHTML}</OProgress>`;
 };
 

@@ -47,6 +47,7 @@
 .o-collapse-item-expanded {
   .o-collapse-item-title {
     font-weight: 500;
+    color: var(--collapse-item-title-color_expanded);
   }
   .o-collapse-item-icon {
     transform: rotate(-90deg);
