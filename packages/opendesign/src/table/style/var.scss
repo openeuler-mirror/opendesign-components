@@ -12,8 +12,7 @@
   --table-tip-text-height: var(--o-line_height-tip1);
   --table-tip-color: var(--o-color-info3);
 
-  // control5在1.1.x版本以后应用
-  --table-head-bg: var(--o-color-control5, var(--o-color-control-light));
+  --table-head-bg: var(--o-color-control5);
   --table-row-hover: var(--o-color-control2-light);
   --table-row-active: var(--o-color-control3-light);
 
@@ -23,7 +22,7 @@
 
   --table-body-min-height: 200px;
 
-  --table-bg-color: var(--o-color-control5-light);
+  --table-bg-color: var(--o-color-control5);
 
   --table-radius: var(--o-radius_control-m);
 
