@@ -70,18 +70,8 @@ Nested anchors: `OAnchorItem` can be nested to create multi-level anchor structu
 import { ref } from 'vue';
 import { OAnchor, OAnchorItem, AnchorSizeTypes } from '@opensig/opendesign';
 
-import { useRouter } from 'vue-router';
-
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
-
-const router = useRouter();
-const handleAnchorClick = (_: Event, link?: string) => {
-  // control URL manually
-  if (link) {
-    router.push(link);
-  }
-};
 
 const _oSchema = {
   size: {
@@ -121,7 +111,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
       <div id="container-block5-1" class="block">container-block5-1</div>
     </div>
     <div class="demo-anchor">
-      <OAnchor ${propsToAttrStr(props)} @click="ctx.handleAnchorClick">
+      <OAnchor ${propsToAttrStr(props)}>
         <OAnchorItem href="#container-block1" title="container-block1">
           <OAnchorItem href="#container-block1-1" title="container-block1-1" />
         </OAnchorItem>
@@ -141,7 +131,6 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
 };
 
 const _oCtx = {
-  handleAnchorClick,
 };
 </script>
 
