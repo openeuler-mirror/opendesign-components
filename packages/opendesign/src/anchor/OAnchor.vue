@@ -44,7 +44,7 @@ const updateIndicatorPosition = () => {
   } else {
     const { offsetTop, offsetHeight } = el;
     const depth = el.getAttribute('data-depth');
-    indicatorStyle.value.top = `calc(${offsetTop}px + var(--anchor-indicator-adjust))`;
+    indicatorStyle.value.top = `${offsetTop}px`;
     indicatorStyle.value.height = `${offsetHeight}px`;
     indicatorStyle.value.opacity = depth === '0' ? 0 : 1;
   }
