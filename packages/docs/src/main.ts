@@ -28,8 +28,9 @@ import '@opensig/opendesign-token/themes/m.dark.token.css';
 import '@opensig/opendesign-token/themes/m.light.token.css';
 
 import '@opensig/opendesign-token/fonts/font-harmony.css';
+import {initRound} from '@opensig/opendesign'
 
-
+initRound('pill');
 
 const app = createApp(App);
 const pinia = createPinia();

@@ -80,7 +80,13 @@ defineExpose({
   <div
     v-if="isVisible"
     class="o-message"
-    :class="[`o-message-${props.status}`, { 'o-message-colorful': props.colorful }]"
+    :class="[
+      `o-message-${props.status}`, 
+      { 
+        'o-message-colorful': props.colorful, 
+        'o-messgage-with-title': $slots.title || props.title 
+      }
+    ]"
     @mouseenter="clearTimer"
     @mouseleave="startTimer"
   >

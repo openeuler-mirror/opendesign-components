@@ -23,21 +23,25 @@
 }
 
 .o-progress-primary {
-  --progress-bar-bg-color: var(--o-color-primary1);
+  --progress-bar-bg-color: var(--o-color-main2);
+  --progress-circle-bar-bg-color: var(--o-color-primary1);
   --progress-icon-color: var(--o-color-primary1);
 }
 
 .o-progress-success {
-  --progress-bar-bg-color: var(--o-color-success1);
+  --progress-bar-bg-color: var(--o-color-main2);
+  --progress-circle-bar-bg-color: var(--o-color-success1);
   --progress-icon-color: var(--o-color-success1);
 }
 
 .o-progress-warning {
   --progress-bar-bg-color: var(--o-color-warning1);
+  --progress-circle-bar-bg-color: var(--o-color-warning1);
   --progress-icon-color: var(--o-color-warning1);
 }
 
 .o-progress-danger {
   --progress-bar-bg-color: var(--o-color-danger1);
+  --progress-circle-bar-bg-color: var(--o-color-danger1);
   --progress-icon-color: var(--o-color-danger1);
 }

@@ -112,6 +112,9 @@ li {
   @include respond-to('<=pad_v') {
     padding: 0;
   }
+  img {
+    max-width: 100%;
+  }
 }
 
 .tooltip {

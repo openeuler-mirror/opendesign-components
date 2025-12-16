@@ -1,6 +1,6 @@
 .o-scrollbar {
   --scrollbar-delay: 16ms;
-  --scrollbar-height: 90%;
+  --scrollbar-height: 100%;
 
   --scrollbar-y-top: 0;
   --scrollbar-y-bottom: 0;
@@ -30,7 +30,7 @@
   --scrollbar-delay: 100ms; // 延迟时间，避免hover时频繁触发
 }
 .o-scrollbar-both {
-  --scrollbar-height: min(calc(100% - var(--scrollbar-width) * 2), 90%);
+  --scrollbar-height: min(calc(100% - var(--scrollbar-width) * 2), var(--scrollbar-height));
 }
 .o-scrollbar-small {
   --scrollbar-track-width: 3px;

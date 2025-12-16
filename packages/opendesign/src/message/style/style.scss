@@ -71,6 +71,7 @@
   color: var(--message-icon-close-color);
   transition: color var(--o-duration-s) var(--o-easing-standard);
 
+  @include x-svg-hover;
   @include hover {
     color: var(--message-icon-close-color-hover);
   }

@@ -117,10 +117,15 @@ watch(locale, (newLocale, oldLocale) => {
 
   background: url(/opendesign-logo-light.png);
   background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   
   [data-o-theme="k.dark"] &{
     background-image: url(/opendesign-logo-dark.png);
 
+  }
+  @include respond-to('<=pad_v') {
+    width: 120px;
   }
 }
 .left {

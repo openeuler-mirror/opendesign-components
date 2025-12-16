@@ -1,20 +1,22 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
-  .o-carousel {
+.o-carousel {
+  @include respond-to('pad_v-pc_s') {
     --carousel-indicator-width: 40px;
     --carousel-indicator-height: 3px;
     --carousel-indicator-gap: 8px;
     --carousel-indicator-offset: 11px;
   }
-}
 
-@include respond-to('<=pad_v') {
-  .o-carousel {
+  @include respond-to('<=pad_v') {
     --carousel-arrow-size: var(--o-icon_size_control-xs);
     --carousel-indicator-width: 24px;
     --carousel-indicator-height: 2px;
     --carousel-indicator-gap: 4px;
     --carousel-indicator-offset: 7px;
+  }
+
+  @include respond-to('phone') {
+    --carousel-indicator-width: 16px;
   }
 }
