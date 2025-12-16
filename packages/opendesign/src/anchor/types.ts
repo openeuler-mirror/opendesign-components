@@ -69,6 +69,13 @@ export const anchorItemProps = {
     required: true,
   },
   /**
+   * @zh-CN 锚点监听的目标元素(带#前缀),不传时监听href
+   * @en-US Target element for anchor observe (with # prefix)，Use href prop by default
+   */
+  observeHref: {
+    type: String,
+  },
+  /**
    * @zh-CN 锚点跳转方式
    * @en-US Anchor navigation method
    * @default '_self'
