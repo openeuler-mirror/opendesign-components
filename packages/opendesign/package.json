@@ -31,7 +31,7 @@
     "vue": "^3.3.0"
   },
   "devDependencies": {
-    "@opensig/open-scripts": "1.0.3",
+    "@opensig/open-scripts": "catalog:build",
     "typescript": "catalog:typescript",
     "vue-tsc": "catalog:build",
     "vite": "catalog:build"
