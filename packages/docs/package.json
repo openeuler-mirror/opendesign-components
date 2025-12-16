@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@opensig/open-analytics": "catalog:utils",
-    "@opensig/open-scripts": "workspace:^",
     "@opensig/opendesign-token": "catalog:css",
     "@shikijs/langs": "catalog:markdown",
     "@shikijs/themes": "catalog:markdown",
