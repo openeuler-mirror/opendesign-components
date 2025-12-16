@@ -183,9 +183,6 @@ importers:
       '@opensig/open-analytics':
         specifier: catalog:utils
         version: 0.0.3
-      '@opensig/open-scripts':
-        specifier: workspace:^
-        version: link:../scripts
       '@opensig/opendesign-token':
         specifier: catalog:css
         version: 0.0.7
@@ -220,6 +217,9 @@ importers:
         specifier: catalog:vue
         version: 4.6.3(vue@3.5.25(typescript@5.8.3))
     devDependencies:
+      '@opensig/open-scripts':
+        specifier: workspace:*
+        version: link:../scripts
       '@types/fs-extra':
         specifier: catalog:typescript
         version: 9.0.13
@@ -279,8 +279,8 @@ importers:
         version: 3.5.25(typescript@5.8.3)
     devDependencies:
       '@opensig/open-scripts':
-        specifier: 1.0.3
-        version: 1.0.3(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))
+        specifier: workspace:*
+        version: link:../scripts
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
@@ -680,10 +680,6 @@ packages:
 
   '@opensig/open-analytics@0.0.3':
     resolution: {integrity: sha512-PHav8eLTia+2/2/Fsff+tnpDGxA/jtSE3Qk8T02VicEE+gHw/KWhqmmMro17jiyVpCOR0DmGWkK7DUePqzJoGw==}
-
-  '@opensig/open-scripts@1.0.3':
-    resolution: {integrity: sha512-m/mkyamvFPt+fKFMmg/+ECxI1Bc+51d0N8oAqfUu4XaR9XdXVaB9sPMUmy1LxZmnsw3IKeKi5fom24qeZnG/1g==}
-    hasBin: true
 
   '@opensig/opendesign-token@0.0.7':
     resolution: {integrity: sha512-AQjQOaGvXMlNwRIeDXBQu2k1gXWhpG21sWlY/Bu4of2+iK+0k/i02e/BZzB11v3SYwRpXwckRnT3DQ69p4I/QA==}
@@ -3379,25 +3375,6 @@ snapshots:
       ua-parser-js: 1.0.41
       web-vitals: 4.2.4
 
-  '@opensig/open-scripts@1.0.3(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))':
-    dependencies:
-      '@rollup/plugin-terser': 0.4.4(rollup@4.53.3)
-      '@vitejs/plugin-vue': 6.0.2(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))(vue@3.5.25(typescript@5.8.3))
-      clean-css: 5.3.3
-      commander: 13.1.0
-      fs-extra: 11.3.2
-      glob: 11.1.0
-      sass-embedded: 1.93.3
-      svgo: 3.3.2
-      vite-plugin-dts: 4.5.4(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))
-      vue: 3.5.25(typescript@5.8.3)
-    transitivePeerDependencies:
-      - '@types/node'
-      - rollup
-      - supports-color
-      - typescript
-      - vite
-
   '@opensig/opendesign-token@0.0.7': {}
 
   '@oxc-project/types@0.101.0': {}
@@ -3828,12 +3805,6 @@ snapshots:
     dependencies:
       '@rolldown/pluginutils': 1.0.0-beta.50
       vite: 6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1)
-      vue: 3.5.25(typescript@5.8.3)
-
-  '@vitejs/plugin-vue@6.0.2(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))(vue@3.5.25(typescript@5.8.3))':
-    dependencies:
-      '@rolldown/pluginutils': 1.0.0-beta.50
-      vite: 6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
       vue: 3.5.25(typescript@5.8.3)
 
   '@vitejs/plugin-vue@6.0.2(vite@7.2.4(@types/node@22.19.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))(vue@3.5.25(typescript@5.8.3))':
@@ -5257,6 +5228,7 @@ snapshots:
       sass-embedded-unknown-all: 1.93.3
       sass-embedded-win32-arm64: 1.93.3
       sass-embedded-win32-x64: 1.93.3
+    optional: true
 
   sass@1.93.3:
     dependencies:
@@ -5616,25 +5588,6 @@ snapshots:
       typescript: 5.8.3
     optionalDependencies:
       vite: 6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1)
-    transitivePeerDependencies:
-      - '@types/node'
-      - rollup
-      - supports-color
-
-  vite-plugin-dts@4.5.4(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)):
-    dependencies:
-      '@microsoft/api-extractor': 7.55.1(@types/node@24.10.1)
-      '@rollup/pluginutils': 5.3.0(rollup@4.53.3)
-      '@volar/typescript': 2.4.26
-      '@vue/language-core': 2.2.0(typescript@5.8.3)
-      compare-versions: 6.1.1
-      debug: 4.4.3
-      kolorist: 1.8.0
-      local-pkg: 1.1.2
-      magic-string: 0.30.21
-      typescript: 5.8.3
-    optionalDependencies:
-      vite: 6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup

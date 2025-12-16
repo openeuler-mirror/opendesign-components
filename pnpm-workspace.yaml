@@ -10,7 +10,7 @@ catalogs:
     vite-plugin-dts: ^4.5.3
     vite-plugin-inspect: ^11.2.0
     vue-tsc: 2.2.8
-    '@opensig/open-scripts': 1.0.3
+    '@opensig/open-scripts': 1.0.4
   css:
     clean-css: ^5.3.3
     normalize.css: ^8.0.1
