@@ -41,7 +41,7 @@
 .o-anchor-item-link {
   --anchor-item-link-left-extra-indent: calc(var(--anchor-item-text-indent) * var(--anchor-item-depth));
   --anchor-circle-top: calc(
-    var(--anchor-item-link-padding-v) + var(--anchor-item-link-text-height) / 2 - var(--anchor-circle-size) / 2 + var(--anchor-indicator-adjust)
+    var(--anchor-item-link-padding-v) + var(--anchor-item-link-text-height) / 2 - var(--anchor-circle-size) / 2
   );
   cursor: pointer;
   display: inline-flex;
