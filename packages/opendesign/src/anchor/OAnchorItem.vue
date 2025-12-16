@@ -21,22 +21,24 @@ const emits = defineEmits<{
 const anchorInjection = inject(anchorInjectKey, null);
 const anchorItemInjection = inject(anchorItemInjectKey, null);
 
+const _observeHref = computed(() => props.observeHref || props.href)
+
 const isActive = computed(() => {
-  return props.href === anchorInjection?.activeLink.value;
+  return _observeHref.value === anchorInjection?.activeLink.value;
 });
 
 const addItem = () => {
-  if (!props.href) {
+  if (!_observeHref.value) {
     return;
   }
-  anchorInjection?.addLink(props.href);
+  anchorInjection?.addLink(_observeHref.value);
 };
 
 const removeItem = () => {
-  if (!props.href) {
+  if (!_observeHref.value) {
     return;
   }
-  anchorInjection?.removeLink(props.href);
+  anchorInjection?.removeLink(_observeHref.value);
 };
 
 const onClick = (event: MouseEvent) => {
@@ -60,15 +62,15 @@ const onClick = (event: MouseEvent) => {
    */
   anchorInjection?.onItemClick({
     event: event,
-    link: props.href,
+    link: _observeHref.value,
   });
-  if (props.href) {
-    anchorInjection?.scrollIntoView(props.href);
+  if (_observeHref.value) {
+    anchorInjection?.scrollIntoView(_observeHref.value);
   }
 };
 
 watch(
-  () => props.href,
+  () => _observeHref.value,
   (newVal, oldVal) => {
     nextTick(() => {
       if (oldVal) {
