@@ -26,14 +26,15 @@
     "sass-embedded": "catalog:css",
     "svgo": "catalog:build",
     "vite-plugin-dts": "catalog:build",
-    "vue": "catalog:vue"
+    "globals": "catalog:lint"
   },
   "devDependencies": {
     "@types/clean-css": "catalog:typescript",
     "@types/fs-extra": "catalog:typescript",
     "@types/glob": "catalog:typescript",
     "tsdown": "catalog:build",
-    "vite": "catalog:build"
+    "vite": "catalog:build",
+    "vue": "catalog:vue"
   },
   "publishConfig": {
     "access": "public"

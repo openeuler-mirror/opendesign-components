@@ -11,9 +11,6 @@
     "docs:build": "pnpm -C packages/docs build"
   },
   "dependencies": {
-    "normalize.css": "catalog:css",
-    "vue": "catalog:vue",
-    "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -22,10 +19,8 @@
     "eslint": "catalog:lint",
     "eslint-config-prettier": "catalog:lint",
     "eslint-plugin-vue": "catalog:lint",
-    "globals": "catalog:lint",
     "typescript": "catalog:typescript",
-    "typescript-eslint": "catalog:lint",
-    "vite-node": "catalog:utils"
+    "typescript-eslint": "catalog:lint"
   },
   "engines": {
     "node": "24.7.0"
