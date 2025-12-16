@@ -14,7 +14,9 @@
     "@opensig/open-analytics": "catalog:utils",
     "@opensig/open-scripts": "workspace:^",
     "@opensig/opendesign": "workspace:^",
-    "@opensig/opendesign-token": "catalog:css"
+    "@opensig/opendesign-token": "catalog:css",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "sass": "catalog:css",

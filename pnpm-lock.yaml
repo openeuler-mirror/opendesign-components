@@ -34,9 +34,6 @@ catalogs:
     clean-css:
       specifier: ^5.3.3
       version: 5.3.3
-    normalize.css:
-      specifier: ^8.0.1
-      version: 8.0.1
     sass:
       specifier: ^1.71.1
       version: 1.94.2
@@ -155,16 +152,6 @@ catalogs:
 importers:
 
   .:
-    dependencies:
-      normalize.css:
-        specifier: catalog:css
-        version: 8.0.1
-      vue:
-        specifier: catalog:vue
-        version: 3.5.25(typescript@5.8.3)
-      vue-router:
-        specifier: catalog:vue
-        version: 4.6.3(vue@3.5.25(typescript@5.8.3))
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -184,18 +171,12 @@ importers:
       eslint-plugin-vue:
         specifier: catalog:lint
         version: 10.6.1(@typescript-eslint/parser@8.48.0(eslint@9.39.1)(typescript@5.8.3))(eslint@9.39.1)(vue-eslint-parser@10.2.0(eslint@9.39.1))
-      globals:
-        specifier: catalog:lint
-        version: 16.5.0
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
       typescript-eslint:
         specifier: catalog:lint
         version: 8.48.0(eslint@9.39.1)(typescript@5.8.3)
-      vite-node:
-        specifier: catalog:utils
-        version: 3.2.4(@types/node@22.19.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
 
   packages/docs:
     dependencies:
@@ -235,6 +216,9 @@ importers:
       vue:
         specifier: catalog:vue
         version: 3.5.25(typescript@5.8.3)
+      vue-router:
+        specifier: catalog:vue
+        version: 4.6.3(vue@3.5.25(typescript@5.8.3))
     devDependencies:
       '@types/fs-extra':
         specifier: catalog:typescript
@@ -272,6 +256,9 @@ importers:
       vite:
         specifier: catalog:build
         version: 6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
+      vite-node:
+        specifier: catalog:utils
+        version: 3.2.4(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
       vite-plugin-inspect:
         specifier: catalog:build
         version: 11.3.3(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1))
@@ -318,6 +305,12 @@ importers:
       '@opensig/opendesign-token':
         specifier: catalog:css
         version: 0.0.7
+      vue:
+        specifier: catalog:vue
+        version: 3.5.25(typescript@5.8.3)
+      vue-router:
+        specifier: catalog:vue
+        version: 4.6.3(vue@3.5.25(typescript@5.8.3))
     devDependencies:
       sass:
         specifier: catalog:css
@@ -352,6 +345,9 @@ importers:
       glob:
         specifier: catalog:io
         version: 11.1.0
+      globals:
+        specifier: catalog:lint
+        version: 16.5.0
       sass-embedded:
         specifier: catalog:css
         version: 1.85.1
@@ -361,9 +357,6 @@ importers:
       vite-plugin-dts:
         specifier: catalog:build
         version: 4.5.4(@types/node@24.10.1)(rollup@4.53.3)(typescript@5.8.3)(vite@6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1))
-      vue:
-        specifier: catalog:vue
-        version: 3.5.25(typescript@5.8.3)
     devDependencies:
       '@types/clean-css':
         specifier: catalog:typescript
@@ -380,6 +373,9 @@ importers:
       vite:
         specifier: catalog:build
         version: 6.4.1(@types/node@24.10.1)(sass-embedded@1.85.1)(sass@1.94.2)(terser@5.44.1)
+      vue:
+        specifier: catalog:vue
+        version: 3.5.25(typescript@5.8.3)
 
 packages:
 
@@ -2100,9 +2096,6 @@ packages:
 
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
-
-  normalize.css@8.0.1:
-    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -4786,8 +4779,6 @@ snapshots:
   node-addon-api@7.1.1:
     optional: true
 
-  normalize.css@8.0.1: {}
-
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
@@ -5590,13 +5581,13 @@ snapshots:
     dependencies:
       vite: 6.4.1(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
 
-  vite-node@3.2.4(@types/node@22.19.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1):
+  vite-node@3.2.4(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.2.4(@types/node@22.19.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
+      vite: 7.2.4(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -5704,6 +5695,21 @@ snapshots:
       tinyglobby: 0.2.15
     optionalDependencies:
       '@types/node': 22.19.1
+      fsevents: 2.3.3
+      sass: 1.94.2
+      sass-embedded: 1.93.3
+      terser: 5.44.1
+
+  vite@7.2.4(@types/node@24.10.1)(sass-embedded@1.93.3)(sass@1.94.2)(terser@5.44.1):
+    dependencies:
+      esbuild: 0.25.12
+      fdir: 6.5.0(picomatch@4.0.3)
+      picomatch: 4.0.3
+      postcss: 8.5.6
+      rollup: 4.53.3
+      tinyglobby: 0.2.15
+    optionalDependencies:
+      '@types/node': 24.10.1
       fsevents: 2.3.3
       sass: 1.94.2
       sass-embedded: 1.93.3
