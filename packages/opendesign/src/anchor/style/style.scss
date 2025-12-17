@@ -78,6 +78,10 @@
   &:not(.disabled) {
     font-weight: 600;
     color: var(--anchor-item-link-color-active);
+
+    .o-anchor-item-circle {
+      border-color: currentColor;
+    }
   }
 }
 
@@ -132,7 +136,7 @@
       top: var(--anchor-circle-top);
       left: 50%;
       transform: translateX(-50%);
-      border: var(--anchor-circle-ring-width) solid currentColor;
+      border: var(--anchor-circle-ring-width) solid var(--anchor-line-bg-color);
       border-radius: 50%;
     }
     .o-anchor-item-top-line {
