@@ -22,11 +22,6 @@ kind: container
 | \-\-collapse-bg-color | 背景色 |
 | \-\-collapse-padding | 内边距 |
 | \-\-collapse-division-color | 分割线颜色 |
-
-### CSS 变量（OCollapseItem）
-
-| CSS 变量 | 描述 |
-| --- | --- |
 | \-\-collapse-item-header-padding | 标题区域内边距 |
 | \-\-collapse-item-title-color | 标题文字颜色 |
 | \-\-collapse-item-title-text-size | 标题文字大小 |

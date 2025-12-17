@@ -22,11 +22,6 @@ kind: container
 | \-\-collapse-bg-color | Background color |
 | \-\-collapse-padding | Padding |
 | \-\-collapse-division-color | Divider color |
-
-### CSS Variables (OCollapseItem)
-
-| CSS Variable | Description |
-| --- | --- |
 | \-\-collapse-item-header-padding | Header area padding |
 | \-\-collapse-item-title-color | Title text color |
 | \-\-collapse-item-title-text-size | Title text size |
