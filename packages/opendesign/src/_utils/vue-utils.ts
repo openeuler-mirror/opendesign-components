@@ -223,8 +223,11 @@ export const isEmptySlot = (slot?: Slot) => {
   if (children.length === 0) {
     return true;
   }
-  // TODO: 如何判断是否为注释节点
-  if (children.length === 1 && isTextElement(children[0]) && !children[0].children) {
+  if (isTextElement(children[0]) && !children[0].children) {
+    return true;
+  }
+  // 如果是注释节点，v-if不渲染的也算注释节点
+  if (children[0].type === Symbol.for('v-cmt')) {
     return true;
   }
   return false;
