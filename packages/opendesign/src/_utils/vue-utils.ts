@@ -170,9 +170,7 @@ const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement 
   }
   return null;
 };
-export const resolveHtmlElement = (
-  elRef: Ref<ElementQuery> | ElementQuery
-): Promise<HTMLElement | null> => {
+export const resolveHtmlElement = (elRef: Ref<ElementQuery> | ElementQuery): Promise<HTMLElement | null> => {
   return new Promise((resolve) => {
     const resolveElement = (el: ElementQuery) => {
       if (isComponentPublicInstance(el)) {
@@ -190,7 +188,9 @@ export const resolveHtmlElement = (
             resolveElement(el);
             closeWatch();
           } else {
-            log.warn(`resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`);
+            log.warn(
+              `resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`
+            );
           }
         });
       }
@@ -213,8 +213,11 @@ export const isEmptySlot = (slot?: Slot) => {
   if (children.length === 0) {
     return true;
   }
-  // TODO: 如何判断是否为注释节点
-  if (children.length === 1 && isTextElement(children[0]) && !children[0].children) {
+  if (isTextElement(children[0]) && !children[0].children) {
+    return true;
+  }
+  // 如果是注释节点，v-if不渲染的也算注释节点
+  if (children[0].type === Symbol.for('v-cmt')) {
     return true;
   }
   return false;
@@ -233,13 +236,13 @@ export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) 
 /**
  * 合并class
  */
-export function mergeClass(...classList: Array<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>| undefined>) {
+export function mergeClass(...classList: Array<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string> | undefined>) {
   let rlt: Array<{ [k: string]: boolean } | string> = [];
 
   classList.forEach((item) => {
     if (isArray(item)) {
       rlt = rlt.concat(item);
-    } else if(item){
+    } else if (item) {
       rlt.push(item);
     }
   });

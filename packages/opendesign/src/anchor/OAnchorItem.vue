@@ -3,6 +3,7 @@ import { computed, inject, nextTick, onMounted, onUnmounted, provide, watch, ref
 
 import { OPopover } from '../popover';
 import { isCurrentPageLink } from '../_utils/is.ts';
+import { isEmptySlot } from "../_utils/vue-utils.ts";
 import { isOverflown } from '../_utils/dom.ts';
 import { anchorItemProps } from './types';
 import { anchorInjectKey, anchorItemInjectKey } from './provide';
@@ -109,7 +110,7 @@ const handleMouseleave = () => {
 </script>
 
 <template>
-  <div :class="{ 'o-anchor-item': true, 'with-children': slots.default }">
+  <div :class="{ 'o-anchor-item': true, 'with-children': !isEmptySlot(slots.default) }">
     <OPopover :visible="popoverVisible" :disabled="!popoverVisible" position="right"
       wrap-class="o-anchor-link-popover-wrapper">
       {{ props.title }}
