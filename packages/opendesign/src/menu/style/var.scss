@@ -29,6 +29,9 @@
 
   // 缩进
   --menu-base-indent: calc(var(--sub-menu-icon-size) + var(--sub-menu-icon-gap));
+
+  --sub-menu-height: calc(var(--menu-item-text-height) * var(--sub-menu-max-row) + var(--sub-menu-padding-v) * 2);
+
 }
 
 .o-menu-medium {
