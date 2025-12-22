@@ -78,8 +78,13 @@
 
 - **OMenu:** 重构OMenu [#IDCF7H](https://gitee.com/openeuler/opendesign-components/issues/IDCF7H)
     - 增加引导线风格菜单
+    - 增加`arrowPosition`参数，值为`left`时两行溢出隐藏
     - 移除item的Mouseleave事件
+    - 移除levelIndent参数
     - popover组件已经监听相关事件
+    - 使用上下padding替代高度设置
+      - 删除`--sub-menu-height`、`--menu-item-height`两个css变量，
+      - 增加`--sub-menu-padding-v`、`--menu-item-padding-v`、`--sub-menu-max-row`、`--menu-item-max-row`css变量
 - **OAnchor:** 重构OAnchor [#IDCF88](https://gitee.com/openeuler/opendesign-components/issues/IDCF88)
     - 增加尺寸区别: small、medium、menu
     - 增加一级锚点圆圈指示器
