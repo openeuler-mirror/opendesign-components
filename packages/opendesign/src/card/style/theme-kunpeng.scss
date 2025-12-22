@@ -23,7 +23,7 @@
     @include hover {
       .o-card-icon,
       .o-card-title-icon {
-        color: rgb(var(--o-red-huawei));
+        color: var(--o-color-main1);
       }
     }
   }
@@ -34,7 +34,7 @@
     }
     @include hover {
       .o-card-title {
-        color: rgb(var(--o-red-huawei));
+        color: var(--o-color-main1);
       }
     }
   }
