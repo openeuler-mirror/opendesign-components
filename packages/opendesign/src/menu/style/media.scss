@@ -2,8 +2,8 @@
 
 @include respond-to('<=pc_s') {
   .o-menu-medium {
-    --sub-menu-height: 40px;
-    --menu-item-height: 32px;
+    --sub-menu-padding-v: 8px;
+    --menu-item-padding-v: 4px;
 
     --sub-menu-text-size: var(--o-font_size-tip1);
     --sub-menu-text-height: var(--o-line_height-tip1);
@@ -17,11 +17,11 @@
 
 @include respond-to("<=pad_v") {
   .o-menu-small {
-    --sub-menu-height: 32px;
-    --menu-item-height: 28px;
+    --sub-menu-padding-v: 4px;
+    --menu-item-padding-v: 2px;
   }
 
   .o-menu-small .o-sub-menu .o-sub-menu {
-    --sub-menu-height: 28px;
+    --sub-menu-padding-v: 2px;
   }
 }

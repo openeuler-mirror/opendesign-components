@@ -13,6 +13,8 @@
   --sub-menu-bg-color-hover: var(--o-color-control2-light);
   --sub-menu-bg-color-selected: var(--o-color-control3-light);
 
+  --sub-menu-max-row: 1;
+
   // menu-item
   --menu-item-icon-color: currentColor;
   --menu-item-icon-color-selected: currentColor;
@@ -23,18 +25,20 @@
   --menu-item-bg-color-hover: var(--o-color-control2-light);
   --menu-item-bg-color-selected: var(--o-color-control3-light);
 
+  --menu-item-max-row: 1;
+
   // 缩进
   --menu-base-indent: calc(var(--sub-menu-icon-size) + var(--sub-menu-icon-gap));
 }
 
 .o-menu-medium {
-  --sub-menu-height: 48px;
-  --menu-item-height: 40px;
+  --sub-menu-padding-v: 11px;
+  --menu-item-padding-v: 7px;
   --menu-padding-h: 8px;
 
   // sub-menu
   --sub-menu-radius: var(--o-radius_control-xs);
-  
+
   --sub-menu-text-size: var(--o-font_size-text1);
   --sub-menu-text-height: var(--o-line_height-text1);
   --sub-menu-secondary-text-size: var(--o-font_size-tip1);
@@ -56,8 +60,8 @@
 
 }
 .o-menu-small {
-  --sub-menu-height: 40px;
-  --menu-item-height: 32px;
+  --sub-menu-padding-v: 4px;
+  --menu-item-padding-v: 4px;
   --menu-padding-h: 4px;
 
   // sub-menu
@@ -73,13 +77,13 @@
 
   // arrow size
   --sub-menu-arrow-size: var(--o-icon_size_control-xs);
-  
+
   // menu-item
   --menu-item-icon-gap: 4px;
   --menu-item-radius: var(--o-radius_control-xs);
 
   --menu-item-text-size: var(--o-font_size-tip1);
-  --menu-item-text-height: var(--o-line_height-tip1);  
+  --menu-item-text-height: var(--o-line_height-tip1);
   --menu-item-icon-size: var(--o-icon_size_control-xs);
 
 }
@@ -99,7 +103,9 @@
 
 .o-menu-arrow-left {
   --sub-menu-base-indent: calc(var(--sub-menu-arrow-size) + var(--sub-menu-icon-gap));
+  --sub-menu-max-row: 2;
   --menu-item-base-indent: calc(20px + var(--sub-menu-icon-gap));
+  --menu-item-max-row: 2;
 }
 
 .o-menu-arrow-left.o-menu-small {
