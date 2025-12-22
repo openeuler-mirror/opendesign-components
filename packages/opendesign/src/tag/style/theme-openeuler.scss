@@ -10,14 +10,7 @@
     --tag-bd-color: var(--o-color-control1);
   }
 }
-.o-tag-primary {
-  --tag-bg-color: var(--o-color-danger1);
-  --tag-bd-color: var(--o-color-danger1);
 
-  &.o-tag-outline {
-    --tag-color: var(--o-color-danger1);
-  }
-}
 .o-tag-closable.o-tag-normal {
   --tag-bg-color: var(--o-color-control2-light);
   --tag-bd-color: var(--o-color-control2-light);
