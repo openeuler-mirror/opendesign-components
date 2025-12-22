@@ -8,17 +8,17 @@
   }
 }
 .o-tag-primary {
-  --tag-bg-color: rgb(var(--o-red-huawei));
-  --tag-bd-color: rgb(var(--o-red-huawei));
+  --tag-bg-color: var(--o-color-main1);
+  --tag-bd-color: var(--o-color-main1);
 
   &.o-tag-outline {
-    --tag-color: rgb(var(--o-red-huawei));
+    --tag-color: var(--o-color-main1);
   }
 }
 .c-tag-activity,
 .c-tag-ascend,
 .c-tag-kunpeng {
   --tag-color: var(--o-color-white);
-  background: linear-gradient(90deg, rgb(var(--ak-color-band-start)) 0%, rgb(var(--ak-color-band-end)) 100%);
+  background: var(--o-color-main2);
   border: none;
 }
