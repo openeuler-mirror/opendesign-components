@@ -11,7 +11,7 @@
 
   --message-shadow: var(--o-shadow-2);
 
-  --message-align: center;
+  --message-align: start;
 
   --message-radius: var(--o-radius_control-s);
 
@@ -34,7 +34,6 @@
 }
 
 .o-messgage-with-title {
-  --message-align: start;
   --message-text-align: left;
   --message-padding: 4px 12px 8px;
 }
