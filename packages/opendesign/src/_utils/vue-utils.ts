@@ -1,4 +1,4 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, Ref, isRef, watch } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, Fragment, ComponentPublicInstance, Ref, isRef, watch } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
 import { log } from './log.ts';
@@ -217,8 +217,15 @@ export const isEmptySlot = (slot?: Slot) => {
     return true;
   }
   // 如果是注释节点，v-if不渲染的也算注释节点
-  if (children[0].type === Symbol.for('v-cmt')) {
+  if (children[0].type === Comment) {
     return true;
+  }
+  /**
+   * 如果是不渲染的片段节点，检查片段节点内部是否有子节点
+   * 只会检查子节点的个数，如果子节点的子节点也是空的片段节点，请调用者在slot最外层套v-if
+   */
+  if (children[0].type === Fragment) {
+    return !children[0].children?.length;
   }
   return false;
 };
