@@ -127,14 +127,16 @@
   display: flex;
 }
 
-.o-scrollbar-x-thumb-bar,
-.o-scrollbar-y-thumb-bar {
-  background-color: var(--scrollbar-thumb-bg-color);
-  border-radius: var(--scrollbar-thumb-radius);
-  transition: all var(--o-duration-m1) var(--o-easing-standard-in) var(--scrollbar-delay);
-  margin: auto;
-  &.is-dragging {
-    background-color: var(--scrollbar-thumb-bg-color-hover);
+.o-scrollbar-rail{
+  .o-scrollbar-x-thumb-bar,
+  .o-scrollbar-y-thumb-bar {
+    background-color: var(--scrollbar-thumb-bg-color);
+    border-radius: var(--scrollbar-thumb-radius);
+    transition: all var(--o-duration-m1) var(--o-easing-standard-in) var(--scrollbar-delay);
+    margin: auto;
+    &.is-dragging {
+      background-color: var(--scrollbar-thumb-bg-color-active);
+    }
   }
 }
 .o-scrollbar-x-thumb-bar {
