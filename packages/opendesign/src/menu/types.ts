@@ -55,13 +55,23 @@ export const menuProps = {
     type: Array as PropType<Array<string>>,
     default: () => [],
   },
-  // 父子节点是否关联
+  /**
+   * @zh-CN 父子节点是否关联
+   * @en-US Whether parent and child nodes are associated
+   * @default false
+   */
   selectStrictly: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @zh-CN 折叠箭头的位置
+   * @en-US Position of the collapse arrow
+   * @default right
+   */
   arrowPosition: {
     type: String as PropType<'left'|'right'>,
+    default: 'right'
   }
 };
 

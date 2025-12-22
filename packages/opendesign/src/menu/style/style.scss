@@ -18,9 +18,10 @@
 .o-sub-menu-title {
   position: relative;
   display: flex;
-  align-items: center;
-  height: calc(var(--sub-menu-height) - 2px);
+  align-items: flex-start;
   margin: 1px 0;
+  padding-top: var(--sub-menu-padding-v);
+  padding-bottom: var(--sub-menu-padding-v);
   padding-right: var(--menu-padding-h);
   padding-left: var(--menu-level-indent);
   border-radius: var(--sub-menu-radius);
@@ -44,6 +45,7 @@
 
 .o-sub-menu-title-icon {
   margin-right: var(--sub-menu-icon-gap);
+  margin-top: calc((var(--sub-menu-text-height) - var(--sub-menu-icon-size)) / 2);
   font-size: var(--sub-menu-icon-size);
   color: var(--sub-menu-icon-color);
 
@@ -60,18 +62,23 @@
 .o-sub-menu-title-content {
   margin-right: auto;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--sub-menu-max-row);
 }
 
 .o-sub-menu-arrow {
   margin-right: var(--sub-menu-icon-gap);
+  margin-bottom: calc((var(--sub-menu-text-height) - var(--sub-menu-arrow-size)) / 2);
   font-size: var(--sub-menu-arrow-size);
   transform: rotate(0);
   transition: transform var(--o-duration-m2) var(--o-easing-standard);
 
   .o-sub-menu-expanded > .o-sub-menu-title > & {
     transform: rotate(-180deg);
+    margin-bottom: unset;
+    margin-top: calc((var(--sub-menu-text-height) - var(--sub-menu-arrow-size)) / 2);
   }
 
 }
@@ -98,14 +105,15 @@
 
 /**** menu-item ****/
 .o-menu-item {
-  height: calc(var(--menu-item-height) - 2px);
   margin: 1px 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   color: var(--menu-item-color);
   font-size: var(--menu-item-text-size);
   line-height: var(--menu-item-text-height);
   border-radius: var(--menu-item-radius);
+  padding-top: var(--menu-item-padding-v);
+  padding-bottom: var(--menu-item-padding-v);
   padding-left: var(--menu-level-indent);
   padding-right: var(--menu-padding-h);
   cursor: pointer;
@@ -140,6 +148,7 @@
 
 .o-menu-item-icon {
   margin-right: var(--menu-item-icon-gap);
+  margin-top: calc((var(--menu-item-text-height) - var(--menu-item-icon-size)) / 2);
   font-size: var(--menu-item-icon-size);
   color: var(--menu-item-icon-color);
 
@@ -150,8 +159,10 @@
 
 .o-menu-item-content {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--menu-item-max-row);
   margin-right: auto;
 }
 

@@ -48,6 +48,10 @@ const _oSchema = {
     type: 'list',
     list: ['medium', 'small'],
   },
+  arrowPosition: {
+    type: 'list',
+    list: ['right', 'left' ],
+  },
   accordion: {
     type: 'boolean',
     default: false,
@@ -101,8 +105,8 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
           <template #title>Sub menu 2-2</template>
           <OMenuItem value="2-2-1" disabled style=${cssStyle}>Item 2-2-1</OMenuItem>
           <OSubMenu ${vBindIcon} :selectable=${selectable} value="2-2-2" style=${cssStyle}>
-            <template #title>Sub menu 2-2-2</template>
-            <OMenuItem value="2-2-2-1" style=${cssStyle}>Item 2-2-2-1</OMenuItem>
+            <template #title>Sub menu 2-2-2这是溢出隐藏的效果展示这是溢出隐藏的效果展示</template>
+            <OMenuItem value="2-2-2-1" style=${cssStyle}>Item 2-2-2-1这是溢出隐藏的效果展示这是溢出隐藏的效果展示</OMenuItem>
           </OSubMenu>
         </OSubMenu>
       </OSubMenu>
