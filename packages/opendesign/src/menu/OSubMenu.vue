@@ -114,7 +114,7 @@ onMounted(() => {
       'o-sub-menu-expanded': isExpanded,
     }"
     :style="{ '--menu-level': currentDepth }"
-    :level="currentDepth"
+    :data-level="currentDepth"
     @click="onSubItemClick"
   >
     <div class="o-sub-menu-title" ref="subMenuTitleRef">

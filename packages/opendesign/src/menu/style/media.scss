@@ -2,7 +2,6 @@
 
 @include respond-to('<=pc_s') {
   .o-menu-medium {
-    --sub-menu-padding-v: 8px;
     --menu-item-padding-v: 4px;
 
     --sub-menu-text-size: var(--o-font_size-tip1);
@@ -12,16 +11,21 @@
     --menu-item-text-size: var(--o-font_size-tip1);
     --menu-item-text-height: var(--o-line_height-tip1);
     --menu-item-icon-size: var(--o-icon_size_control-s);
+
+    .o-menu-item[data-level='0'],
+    .o-sub-menu[data-level='0'] > .o-sub-menu-title {
+      --menu-item-padding-v: 8px;
+    }
   }
 }
 
-@include respond-to("<=pad_v") {
+@include respond-to('<=pad_v') {
   .o-menu-small {
-    --sub-menu-padding-v: 4px;
     --menu-item-padding-v: 2px;
-  }
 
-  .o-menu-small .o-sub-menu .o-sub-menu {
-    --sub-menu-padding-v: 2px;
+    .o-menu-item[data-level='0'],
+    .o-sub-menu[data-level='0'] > .o-sub-menu-title {
+      --menu-item-padding-v: 4px;
+    }
   }
 }
