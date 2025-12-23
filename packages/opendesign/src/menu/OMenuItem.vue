@@ -73,6 +73,7 @@ onMounted(() => {
     :style="{
       '--menu-level': currentDepth,
     }"
+    :data-level="currentDepth"
     @click="onItemClick"
     ref="menuItemRef"
   >
