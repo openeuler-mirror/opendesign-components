@@ -3,6 +3,7 @@ import { RoundT, ColorT, VariantT } from '../_utils/types';
 
 export const ButtonSizeTypes = ['large', 'medium', 'small'] as const;
 export type ButtonSizeT = (typeof ButtonSizeTypes)[number];
+export type ButtonColorT = ColorT | 'brand';
 
 export const buttonProps = {
   /**
@@ -11,7 +12,7 @@ export const buttonProps = {
    * @default 'normal'
    */
   color: {
-    type: String as PropType<ColorT>,
+    type: String as PropType<ButtonColorT>,
     default: 'normal',
   },
   /**
@@ -21,7 +22,6 @@ export const buttonProps = {
    */
   variant: {
     type: String as PropType<VariantT>,
-    default: 'outline',
   },
   /**
    * @zh-CN 按钮尺寸
