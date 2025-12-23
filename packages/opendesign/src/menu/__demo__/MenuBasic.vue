@@ -97,7 +97,7 @@ const checkboxVals = ref([]);
           <template #title>一级菜单3</template>
           <template #icon><OIconMore /></template>
           <OSubMenu value="3-1">
-            <template #title>二级菜单3-1</template>
+            <template #title>二级菜单3-1二级菜单3-1二级菜单3-1二级菜单3-1二级菜单3-1</template>
             <template #icon><OIconMore /></template>
             <OMenuItem value="3-1-1">三级菜单3-1-1</OMenuItem>
             <OMenuItem value="3-1-2">三级菜单3-1-2</OMenuItem>
@@ -134,7 +134,7 @@ const checkboxVals = ref([]);
           <template #title>一级菜单3</template>
           <!-- <template #icon><OIconMore /></template> -->
           <OSubMenu value="3-1">
-            <template #title>二级菜单3-1</template>
+            <template #title>二级菜单3-1二级菜单3-1二级菜单3-1二级菜单3-1二级菜单3-1二级菜单3-1</template>
             <!-- <template #icon><OIconMore /></template> -->
             <OMenuItem value="3-1-1">三级菜单3-1-1</OMenuItem>
             <OMenuItem value="3-1-2">三级菜单3-1-2</OMenuItem>

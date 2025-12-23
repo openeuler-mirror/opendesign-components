@@ -46,23 +46,28 @@ export type DocDemoState<T> = T extends Record<string, any>
       [key in keyof T]: T[key] extends {
         type: 'list';
         list: Array<infer U>;
+        label?: string;
       }
         ? U
         : T[key] extends {
             type: 'radio';
             list: Array<infer U>;
+            label?: string;
           }
         ? U
         : T[key] extends {
             type: 'boolean';
+            label?: string;
           }
         ? boolean
         : T[key] extends {
             type: 'number';
+            label?: string;
           }
         ? number
         : T[key] extends {
             type: 'string';
+            label?: string;
           }
         ? string
         : never;

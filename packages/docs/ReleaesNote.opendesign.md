@@ -3,47 +3,49 @@
 ### BREAKING CHANGES
 
 - **Token:** 
-    - 组件变量迁移至@opensig/opendesign-token，不再本仓维护
-    - o-color-control-light 更改为 o-color-control5-light
+    - 组件变量迁移至`@opensig/opendesign-token`，不再本仓维护
+    - `o-color-control-light` 更改为 `o-color-control5-light`
     - 变量值刷新
-- **OTable:** 内部tr.last更名为tr.o-row-last，td.last更名为td.o-cell-last-col
+- **OTable:** 内部`tr.last`更名为`tr.o-row-last`，`td.last`更名为`td.o-cell-last-col`
+- **OCollapse:** css变量`--collapse-item`定义从`.o-collapse-item`类下迁移至`.o-collapse`
+
 
 ### Features
 
-- **OGrid:** 新增1680断点，通过pcS属性控制
-- **OMenu:** 修复组件受控逻辑, OSubMenu 增加icon属性，支持通过属性配置图标
+- **OGrid:** 新增1680断点，通过`pcS`属性控制
+- **OMenu:** 修复组件受控逻辑, `OSubMenu` 增加`icon`属性，支持通过属性配置图标
 - **OPopover:** 修改1680px以下字体大小
 - **OMessage:** 
    - 新增变量`--message-list-top-offset`和`--message-list-bottom-offse`
-   - **useMessage:** showMessage返回关闭函数
-   - **OMessageList:** 新增实例方法close
+   - **useMessage:** `showMessage`返回关闭函数
+   - **OMessageList:** 新增实例方法`close`
 - **OLoading:** 
    - 新增 `--loading-label-font-size`、`--loading-label-font-height`，`--loading-label-icon-gap`变量
    - **vLoading:** 支持传入属性对象
-- **OPagination:** total插槽新增pageCount参数
-- **OTable:** td插槽新增row-index参数
+- **OPagination:** `total`插槽新增`pageCount`参数
+- **OTable:** td插槽新增`row-index`参数
 - **OIcon:** 新增缩放类图标
 - **OInput:**
-   - 增加length插槽;
-   - 增加showLength参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
+   - 增加`length`插槽;
+   - 增加`showLength`参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
 - **OTextarea:**
-   - 增加length插槽;
-   - 增加showLength参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
+   - 增加`length`插槽;
+   - 增加`showLength`参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
 - **OUpload:**
-   - 增加子项相关事件itemRemove、itemRetry、itemReplace、itemPreview、itemClick；
-   - 增加暴露的接口：replaceById、replaceByIndex、removeById、previewItemByIndex、previewItemById [#ICSTRO](https://gitee.com/openeuler/opendesign-components/issues/ICSTRO)
-- **OLayer:** 增加向后代组件注入toggle方法
+   - 增加子项相关事件`itemRemove`、`itemRetry`、`itemReplace`、`itemPreview`、`itemClick`；
+   - 增加暴露的接口：`replaceById`、`replaceByIndex`、`removeById`、`previewItemByIndex`、`previewItemById` [#ICSTRO](https://gitee.com/openeuler/opendesign-components/issues/ICSTRO)
+- **OLayer:** 增加向后代组件注入`toggle`方法
 
 ### Bug Fixes
 
 - **OToggle:** 
   - 刷新在laptop、pad竖屏以下 时的尺寸及内边距
-  - round属性支持非`pill`的值(一般css值类型)
-- **OSwitch:** 修复未传递modelValue值时，组件不能工作的问题
+  - `round`属性支持非`pill`的值(一般css值类型)
+- **OSwitch:** 修复未传递`modelValue`值时，组件不能工作的问题
 - **OMessageList:** 
-  - 修复remove方法未正确处理destroy回调
-  - 暴露close方法
-- **useMessage:** 修复close函数功能
+  - 修复`remove`方法未正确处理`destroy`回调
+  - 暴露`close`方法
+- **useMessage:** 修复`close`函数功能
 - **OPagination:** 跳转元素内文本与输入框居中对齐
 - **OTab:** 
    - 修复视口宽度变化时，滚动计算不正确的问题
@@ -54,18 +56,18 @@
    - 修复右侧单元格为合并单元格时last条件计算错误的问题
    - 解决表格hover高亮不准确的问题 [#ICW5SF](https://gitee.com/openeuler/opendesign-components/issues/ICW5SF)
 - **OCarousel:** 修复hover暂停播放时指示器不显示激活状态的样式问题 [#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)
-- **OInput:** 修复OInput在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)
-- **OAnchor:** 修复title包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
+- **OInput:** 修复在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)
+- **OAnchor:** 修复`title`包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
 - **OFigure:** 
-  - 移动端previewClose的“image”值修正为“body”值
+  - 移动端`previewClose`的`image`值修正为`body`值
   - 修复在百度浏览器中点击预览热区引发浏览器查看大图功能的问题
-- **OPopup:** 修复click事件未正确移除的bug
-- **OCard** 修复card在暗夜模式下的溢出样式
+- **OPopup:** 修复`click`事件未正确移除的bug
+- **OCard** 修复在暗夜模式下的文本溢出样式
 
 ### Code Refactoring
 
 - **TypeScript:** 修复一系列组件相关ts类型声明，详见提交：[#IDCFAA](https://gitee.com/openeuler/opendesign-components/issues/IDCFAA)
-- **溢出打断规则** 修改为break-word，涉及组件OMessage、OCard、OMenu
+- **溢出打断规则** 修改为`break-word`，涉及组件`OMessage`、`OCard`、`OMenu`
 
 ### Others
 

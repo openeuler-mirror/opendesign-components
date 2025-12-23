@@ -36,10 +36,15 @@ watch(path, (newPath) => {
 
 const searchKey = ref('');
 
-const displayNavList = ref(sidebarStore.navList);
+const defaultNavList= sidebarStore.navList.map(item=>({
+  ...item,
+  label: `${item.label}(${item.children?.length || 0})`,
+}))
+
+const displayNavList = ref(defaultNavList);
 const searchNavByKey = debounce((key: string) => {
   if (!key) {
-    displayNavList.value = sidebarStore.navList;
+    displayNavList.value = defaultNavList;
   } else {
     displayNavList.value = [];
     sidebarStore.navList.forEach(item => {
@@ -49,6 +54,7 @@ const searchNavByKey = debounce((key: string) => {
       if (res?.length && res?.length > 0) {
         displayNavList.value.push({
           ...item,
+          label: `${item.label}(${res.length})`,
           children: res
         })
       }

@@ -29,8 +29,7 @@ const openInfo1 = () => {
     <OButton @click="message2.close()">关闭info2</OButton>
   </section>
   <section>
-    <OButton @click="message1.closeAll()">关闭所有 info1</OButton>
-    <OButton @click="message2.closeAll()">关闭所有 info2</OButton>
+    <OButton @click="message2.closeAll()">关闭所有</OButton>
   </section>
   <div class="target-group">
     <div id="msg-target-1"></div>
