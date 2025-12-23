@@ -12,14 +12,14 @@
 
 
 去除多皮肤
-button
+button`
 card
-checkbox
+checkbox`
 dialog
-link
-loading
-rate
-switch
-tab
+link`
+loading`
+rate`
+switch `
+tab `
 
-tag
+tag`
