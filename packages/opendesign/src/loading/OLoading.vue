@@ -25,6 +25,9 @@ defineExpose({
   <OLayer
     ref="layerRef"
     class="o-loading"
+    :class="[
+      `o-loading-${props.size}`,
+    ]"
     :visible="props.visible"
     :wrapper="props.wrapper"
     :unmount-on-hide="props.unmountOnHide"

@@ -1,6 +1,7 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, PropType } from 'vue';
 import { layerProps } from '../layer/types';
 
+import { SizeT } from '../_utils/types';
  
 const { maskClose, ...extractProps } = layerProps;
 
@@ -12,6 +13,14 @@ export const loadingProps = {
    */
   label: {
     type: String,
+  },
+  /**
+   * @zh-CN 加载尺寸
+   * @en-US loading size
+   */
+  size: {
+    type: String as PropType<SizeT | 'mini'>,
+    default: 'small'
   },
   /**
    * @zh-CN 自定义loading图标
