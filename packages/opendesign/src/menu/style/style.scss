@@ -47,6 +47,7 @@
   margin-right: var(--sub-menu-icon-gap);
   margin-top: calc((var(--sub-menu-text-height) - var(--sub-menu-icon-size)) / 2);
   font-size: var(--sub-menu-icon-size);
+  flex-shrink: 0;
   color: var(--sub-menu-icon-color);
 
   // /*纠正容器高度计算错误及空图标占位*/
@@ -71,6 +72,7 @@
 .o-sub-menu-arrow {
   height: var(--sub-menu-text-height);
   width: var(--sub-menu-arrow-size);
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,6 +153,7 @@
   margin-right: var(--menu-item-icon-gap);
   margin-top: calc((var(--menu-item-text-height) - var(--menu-item-icon-size)) / 2);
   font-size: var(--menu-item-icon-size);
+  flex-shrink: 0;
   color: var(--menu-item-icon-color);
 
   /*纠正容器高度计算错误及空图标占位*/
