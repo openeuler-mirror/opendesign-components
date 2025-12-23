@@ -1,31 +1,5 @@
 @use '../../_styles/mixin.scss' as *;
 
-.c-loading-lg {
-  --loading-icon-size: 80px;
-  flex-direction: column;
-  --loading-label-font-size: var(--o-font_size-text1);
-  --loading-label-line-height: var(--o-line_height-text1);
-  .o-loading-label {
-    margin-left: 0;
-    margin-top: var(--o-gap-4);
-  }
-}
-.c-loading-md {
-  --loading-icon-size: var(--o-icon_size-2xl);
-  flex-direction: column;
-  --loading-label-font-size: var(--o-font_size-tip2);
-  --loading-label-line-height: var(--o-line_height-tip2);
-  .o-loading-label {
-    margin-left: 0;
-    margin-top: var(--o-gap-2);
-  }
-}
-
-.c-loading-sm {
-  --loading-icon-size: var(--o-icon_size-m);
-  --loading-label-font-size: var(--o-font_size-tip2);
-  --loading-label-line-height: var(--o-line_height-tip2);
-}
 
 .c-loading-comp-sm {
   --loading-icon-size: var(--o-icon_size-m);

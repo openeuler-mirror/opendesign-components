@@ -3,30 +3,30 @@
 
 ### 主题规范
 
-根据主题规范，`OLoading` 组件具有 5 种类型，不同的类型图标尺寸不同且标签样式也不同，可通过 `main-class` 设置类名实现
+根据主题规范，`OLoading` 组件具有 5 种类型，不同的类型图标尺寸不同且标签样式也不同，可通过 `size` 设置类名实现
 
 - 页面加载
-  - L: `c-loading-lg`
-  - M: `c-loading-md`
-  - S: `c-loading-sm`
+  - L: `size="large"`
+  - M: `size="medium"`
+  - S: `size="small"`
 - 组件加载
-  - L: `c-loading-comp-sm`
-  - M: `c-loading-xs`
+  - L: `size="small"`
+  - M: `size="mini"`
 
 <!-- en-US -->
 
 ### Theme Specification
 
 According to the theme specification, the `OLoading` component has 5 types.
-Different types have different icon sizes and label styles, which can be implemented by setting the class name via `main-class`.
+Different types have different icon sizes and label styles, which can be implemented by setting the class name via `size`.
 
 - Page Loading
-  - L: `c-loading-lg`
-  - M: `c-loading-md`
-  - S: `c-loading-sm`
+  - L: `large`
+  - M: `medium`
+  - S: `small`
 - Component Loading
-  - L: `c-loading-comp-sm`
-  - M: `c-loading-xs`
+  - L: `small`
+  - M: `mini`
 </docs>
 <script setup lang="ts">
 import { OLoading } from '@opensig/opendesign';

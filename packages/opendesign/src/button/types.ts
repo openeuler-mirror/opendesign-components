@@ -1,8 +1,6 @@
 import { ExtractPropTypes, PropType, Component } from 'vue';
-import { RoundT, ColorT, VariantT } from '../_utils/types';
+import { RoundT, ColorT, VariantT, SizeT } from '../_utils/types';
 
-export const ButtonSizeTypes = ['large', 'medium', 'small'] as const;
-export type ButtonSizeT = (typeof ButtonSizeTypes)[number];
 export type ButtonColorT = ColorT | 'brand';
 
 export const buttonProps = {
@@ -28,7 +26,7 @@ export const buttonProps = {
    * @en-US Button size
    */
   size: {
-    type: String as PropType<ButtonSizeT>,
+    type: String as PropType<SizeT>,
   },
   /**
    * @zh-CN 圆角值
