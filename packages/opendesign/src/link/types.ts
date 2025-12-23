@@ -78,6 +78,7 @@ export const linkProps = {
    */
   hoverUnderline: {
     type: Boolean,
+    default: true
   },
   /**
    * @zh-CN 元素标签

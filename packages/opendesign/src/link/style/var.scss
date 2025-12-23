@@ -2,7 +2,7 @@
   --link-gap: 4px;
 }
 .o-link-normal {
-  --link-color: var(--o-color-info2);
+  --link-color: var(--o-color-link1);
   --link-color-hover: var(--o-color-link2);
   --link-color-active: var(--o-color-link3);
   --link-color-disabled: var(--o-color-info4);
@@ -55,5 +55,5 @@
 }
 
 .o-link-large {
-  --link-icon-size: var(--o-icon_size_control-m);
+  --link-icon-size: var(--o-icon_size_control-s);
 }

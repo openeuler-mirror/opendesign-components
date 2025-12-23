@@ -47,6 +47,7 @@ const _oSchema = {
   size: {
     type: 'list',
     list: ['large', 'medium', 'small', 'auto'],
+    default: 'auto'
   },
   disabled: {
     type: 'boolean',
@@ -66,6 +67,7 @@ const _oSchema = {
   },
   hoverUnderline: {
     type: 'boolean',
+    default: true,
   },
 } satisfies Record<string, DocDemoSchema>;
 
@@ -73,13 +75,13 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   const { 'icon(slot)': iconSlot, 'suffix(slot)': suffixSlot } = props;
   let innerHTML = '';
   if (iconSlot) {
-    innerHTML += '\n<template #icon><OIconEye /></template>';
+    innerHTML += '<template #icon><OIconLink /></template>';
   }
-  innerHTML += '\n查看更多';
+  innerHTML += '查看更多';
   if (suffixSlot) {
-    innerHTML += '\n<template #suffix><OIconChevronRight /></template>';
+    innerHTML += '<template #suffix><OIconChevronRight /></template>';
   }
-  return `<OLink style="display:flex;align-items:center;width:fit-content" ${propsToAttrStr(props, ['icon(slot)', 'suffix(slot)'])}>${innerHTML}\n</OLink>`;
+  return `一段文字中的<OLink ${propsToAttrStr(props, ['icon(slot)', 'suffix(slot)'])}>${innerHTML}\n</OLink>链接展示。`;
 };
 
 const _oCtx = {};

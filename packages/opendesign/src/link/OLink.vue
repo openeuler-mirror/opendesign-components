@@ -26,23 +26,15 @@ const onClick = (e: MouseEvent) => {
 };
 </script>
 <template>
-  <HtmlTag
-    :tag="props.tag"
-    class="o-link"
-    :href="props.href"
-    :target="props.target"
-    :class="[
-      {
-        'o-link-disabled': props.disabled,
-        'o-link-hover-bg': props.hoverBg,
-        'o-link-hover-underline': props.hoverUnderline,
-      },
-      `o-link-${props.color}`,
-      `o-link-${props.size || defaultSize}`,
-    ]"
-    v-bind="$attrs"
-    @click="onClick"
-  >
+  <HtmlTag :tag="props.tag" class="o-link" :href="props.href" :target="props.target" :class="[
+    {
+      'o-link-disabled': props.disabled,
+      'o-link-hover-bg': props.hoverBg,
+      'o-link-hover-underline': props.hoverUnderline,
+    },
+    `o-link-${props.color}`,
+    `o-link-${props.size || defaultSize}`,
+  ]" v-bind="$attrs" @click="onClick">
     <span v-if="$slots.icon || props.icon || props.loading" class="o-link-prefix">
       <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else name="icon">
@@ -56,7 +48,9 @@ const onClick = (e: MouseEvent) => {
       <slot v-else></slot>
     </span>
     <span v-if="$slots.suffix || props.suffix" class="o-link-suffix">
-      <slot name="suffix"><IconLinkArrow class="o-link-icon-arrow" /></slot>
+      <slot name="suffix">
+        <IconLinkArrow class="o-link-icon-arrow" />
+      </slot>
     </span>
   </HtmlTag>
 </template>

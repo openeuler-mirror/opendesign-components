@@ -2,7 +2,6 @@
 
 .o-link {
   cursor: pointer;
-  padding: 0 2px;
   color: var(--link-color);
   align-items: center;
   text-decoration: none;
@@ -41,6 +40,7 @@
 }
 
 .o-link-hover-bg {
+  padding: 0 2px;
   transition: background-color var(--o-easing-standard) var(--o-duration-m2);
   @include hover {
     color: var(--link-color);
@@ -59,6 +59,7 @@
   font-size: var(--link-icon-size);
   display: inline-flex;
   align-items: center;
+  vertical-align: var(--icon-align);
 
   &::before {
     content: 'x';
@@ -102,14 +103,17 @@
 .o-link-small {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
+  --icon-align: -0.08em;
 }
 
 .o-link-medium {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
+  --icon-align: -0.08em;
 }
 
 .o-link-large {
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
+  --icon-align: -0.2em;
 }
