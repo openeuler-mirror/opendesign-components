@@ -13,7 +13,8 @@
 ### Features
 
 - **OGrid:** 新增1680断点，通过`pcS`属性控制
-- **OMenu:** 修复组件受控逻辑, `OSubMenu` 增加`icon`属性，支持通过属性配置图标
+- **OMenu:** 
+    - 修复组件受控逻辑, `OSubMenu` 增加`icon`属性，支持通过属性配置图标
 - **OPopover:** 修改1680px以下字体大小
 - **OMessage:** 
    - 新增变量`--message-list-top-offset`和`--message-list-bottom-offse`
@@ -23,7 +24,7 @@
    - 新增 `--loading-label-font-size`、`--loading-label-font-height`，`--loading-label-icon-gap`变量
    - **vLoading:** 支持传入属性对象
 - **OPagination:** `total`插槽新增`pageCount`参数
-- **OTable:** td插槽新增`row-index`参数
+- **OTable:** td插槽新增`row-index`参数，支持斑马纹
 - **OIcon:** 新增缩放类图标
 - **OInput:**
    - 增加`length`插槽;
@@ -35,6 +36,8 @@
    - 增加子项相关事件`itemRemove`、`itemRetry`、`itemReplace`、`itemPreview`、`itemClick`；
    - 增加暴露的接口：`replaceById`、`replaceByIndex`、`removeById`、`previewItemByIndex`、`previewItemById` [#ICSTRO](https://gitee.com/openeuler/opendesign-components/issues/ICSTRO)
 - **OLayer:** 增加向后代组件注入`toggle`方法
+- **OLoading** 增加size属性：支持large、medium、small、mini，优化响应式适配
+- **OAnchor** 增加observeHref参数，以自定义监听元素
 
 ### Bug Fixes
 
@@ -64,10 +67,23 @@
 - **OPopup:** 修复`click`事件未正确移除的bug
 - **OCard** 修复在暗夜模式下的文本溢出样式
 
+### style
+- **OLink** 
+    - 尺寸为`large`时图标尺寸修改为从`--o-icon_size_control-m`变更为`--o-icon_size_control-s`
+    - `hoverUnderline`默认值更改为`true`
+    - `normal`态文本颜色改用`o-coloc-link1`
+- **ORate** 优化star图标，primary态颜色使用`--o-color-main1`
+- **OButton** 
+    - 文本按妞去掉hover态背景色
+    - 图标按妞增加hover态背景色
+- **OAnchor** 调整未选中时圆圈指示颜色为灰色
+
+
 ### Code Refactoring
 
 - **TypeScript:** 修复一系列组件相关ts类型声明，详见提交：[#IDCFAA](https://gitee.com/openeuler/opendesign-components/issues/IDCFAA)
 - **溢出打断规则** 修改为`break-word`，涉及组件`OMessage`、`OCard`、`OMenu`
+
 
 ### Others
 
