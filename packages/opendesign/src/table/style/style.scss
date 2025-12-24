@@ -20,6 +20,8 @@
       right: 0;
       height: 1px;
       background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+      // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+      background-size: 100% 1px;
     }
   }
 
