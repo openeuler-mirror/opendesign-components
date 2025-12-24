@@ -9,6 +9,9 @@
   outline: none;
   background-color: transparent;
 
+  font-size: var(--link-text-size);
+  line-height: var(--link-text-height);
+
   @include hover {
     color: var(--link-color-hover);
     .o-link-icon-arrow {
@@ -59,7 +62,7 @@
   font-size: var(--link-icon-size);
   display: inline-flex;
   align-items: center;
-  vertical-align: var(--icon-align);
+  vertical-align: var(--link-icon-align);
 
   &::before {
     content: 'x';
@@ -100,20 +103,3 @@
   }
 }
 
-.o-link-small {
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
-  --icon-align: -0.08em;
-}
-
-.o-link-medium {
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
-  --icon-align: -0.08em;
-}
-
-.o-link-large {
-  font-size: var(--o-font_size-text1);
-  line-height: var(--o-line_height-text1);
-  --icon-align: -0.2em;
-}
