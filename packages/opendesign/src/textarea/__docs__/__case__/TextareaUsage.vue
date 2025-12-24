@@ -35,7 +35,7 @@ const _oSchema = {
   },
   rows: {
     type: 'number',
-    default: undefined,
+    default: 4,
   },
   cols: {
     type: 'number',

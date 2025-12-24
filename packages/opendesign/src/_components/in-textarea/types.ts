@@ -74,7 +74,7 @@ export const inTextareaProps = {
    */
   rows: {
     type: Number,
-    default: undefined,
+    default: 4,
   },
   /**
    * @zh-CN 同 textarea 的 cols 属性

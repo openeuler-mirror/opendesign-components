@@ -78,6 +78,10 @@ onMounted(() => {
   }
 });
 
+const round = computed(()=>{
+  return props.round === 'pill' ? 'var(--o-radius_control-l)' : props.round;
+})
+
 defineExpose({
   /** Focus method */
   focus: () => inTextareaRef.value?.focus(),
@@ -101,7 +105,7 @@ defineExpose({
           color: color,
           disabled: props.disabled,
           readonly: props.readonly,
-          round: props.round,
+          round: round,
           focused: isFocus,
         },
         {
