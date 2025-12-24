@@ -145,8 +145,10 @@ export function useInput(options: InputOptionT) {
 
   const updateValue = (value: string) => {
     uncontroledValue.value = value;
-
-    emitUpdate(value);
+    // 判断值是否变化，有变化再触发事件
+    if (value !== computedValue.value) {
+      emitUpdate(value);
+    }
   };
 
   const getValidValue = () => {
@@ -157,7 +159,7 @@ export function useInput(options: InputOptionT) {
         // 这调用valueOnInvalidChange回调获取对应回调值
         validVal = valueOnInvalidChange(computedValue.value, lastValidValue);
         validateValue(validVal);
-      } else {
+      } else if (lastValidValue !== '') {
         // 回退到上一次有效值
         validVal = lastValidValue;
         isValid.value = true;
@@ -169,8 +171,11 @@ export function useInput(options: InputOptionT) {
 
   const emitChange = (value: string) => {
     if (value !== lastValue) {
-      emits('change', computedValue.value, lastValue);
-      lastValue = computedValue.value;
+      nextTick(() => {
+        lastValue = computedValue.value;
+        emits('change', computedValue.value, lastValue);
+        lastValue = computedValue.value;
+      });
     }
   };
 
@@ -181,8 +186,8 @@ export function useInput(options: InputOptionT) {
     }
   };
 
-  const isAllowedToInput = (value: string) => {
-    if (inputOnOutlimit?.value) {
+  const isAllowedToInputOnOutLimit = (value: string) => {
+    if (!isUndefined(maxLength?.value) && inputOnOutlimit?.value === true) {
       return true;
     }
     const len = calculateStringLength(value);
@@ -205,15 +210,24 @@ export function useInput(options: InputOptionT) {
       return;
     }
 
-    if (isAllowedToInput(value)) {
-      updateValue(value);
+    // 始终上报当前输入的值，可能经过校验、或截断后显示的值与输入的不一致
+    updateValue(value);
+    emits('input', e, value);
 
-      emits('input', e, value);
+    let newValue = value;
+
+
+    emits('input', e, value);
+
+    if (!isAllowedToInputOnOutLimit(value)) {
+      // 当超出长度限制不允许输入时，按照最大长度截断(在特殊符号时，可能存在截取乱码问题)
+      newValue = value.substring(0, maxLength?.value);
+      updateValue(newValue);
+
+      nextTick(() => {
+        keepNativeDisplayValue();
+      });
     }
-
-    nextTick(() => {
-      keepNativeDisplayValue();
-    });
   };
 
   const handleFocus = (e: FocusEvent) => {

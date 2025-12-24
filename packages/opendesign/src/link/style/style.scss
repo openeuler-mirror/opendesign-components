@@ -60,6 +60,7 @@
   font-size: var(--link-icon-size);
   display: inline-flex;
   align-items: center;
+  vertical-align: var(--link-align);
 
   &::before {
     content: 'x';
@@ -103,14 +104,17 @@
 .o-link-small {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
+  --link-align: -0.08em;
 }
 
 .o-link-medium {
   font-size: var(--o-font_size-tip1);
   line-height: var(--o-line_height-tip1);
+  --link-align: -0.08em;
 }
 
 .o-link-large {
   font-size: var(--o-font_size-text1);
   line-height: var(--o-line_height-text1);
+  --link-align: -0.1em;
 }

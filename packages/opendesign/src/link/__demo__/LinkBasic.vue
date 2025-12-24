@@ -89,16 +89,16 @@ const linkConfig: LinkConfigT = {
   </section>
   <h4>图标</h4>
   <section>
-    <OLink :href="link" :icon="OIconLink" status="primary" size="large" hover-underline>icon-prefix</OLink>
+    <OLink :href="link" :icon="OIconLink" status="primary" size="large" hover-underline>large icon-prefix</OLink>
     <span class="color-tip">The text vertical align: baseline.</span>
     <OLink :href="link" suffix hover-underline>icon-suffix</OLink>
-    <OLink :href="link">
-      <template #icon><OIconDone /></template>自定义图标链接slot:iconPrefix
+    <OLink :href="link" size="medium">
+      <template #icon><OIconDone /></template>medium自定义图标链接slot:iconPrefix
     </OLink>
     <span class="color-tip">文字对其方式：baseline</span>
-    <OLink :href="link" hover-underline>
+    <OLink :href="link" hover-underline  size="small">
       <template #icon><OIconDone /></template>
-      自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
+      small自定义图标链接slot:iconSuffix<template #suffix><OIconAdd /></template>
     </OLink>
   </section>
   <h4>多个图标-大图标</h4>

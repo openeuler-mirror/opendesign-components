@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import 'normalize.css';
 
 import '@opensig/opendesign/index.scss';
 import '@opensig/opendesign/_styles/light.token.css';
