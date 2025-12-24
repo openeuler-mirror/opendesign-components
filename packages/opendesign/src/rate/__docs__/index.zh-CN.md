@@ -12,7 +12,7 @@ kind: input
 <!-- @case CustomIcon -->
 <!-- @case CustomIconOutline -->
 
-<!-- @case:a|k|e ThemeRate -->
+<!-- @case ThemeRate -->
 
 ## API
 
