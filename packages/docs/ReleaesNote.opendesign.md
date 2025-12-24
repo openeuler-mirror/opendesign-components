@@ -77,7 +77,10 @@
     - 文本按妞去掉hover态背景色
     - 图标按妞增加hover态背景色
 - **OAnchor** 调整未选中时圆圈指示颜色为灰色
-
+- **textarea** 
+    - rows默认值修改为4；
+    - 删除最小高度样式；
+    - 圆角为`pill`时，值为`--o-radius_control-l`
 
 ### Code Refactoring
 
