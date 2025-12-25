@@ -77,7 +77,9 @@ onMounted(() => {
     textareaId.value = uniqueId();
   }
 });
-
+const round = computed(()=>{
+  return props.round === 'pill' ? 'var(--o-radius_control-l)' : props.round;
+})
 defineExpose({
   focus: () => inTextareaRef.value?.focus(),
   blur: () => inTextareaRef.value?.blur(),
@@ -97,7 +99,7 @@ defineExpose({
           color: color,
           disabled: props.disabled,
           readonly: props.readonly,
-          round: props.round,
+          round: round,
           focused: isFocus,
         },
         {
