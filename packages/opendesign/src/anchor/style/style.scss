@@ -40,9 +40,7 @@
 
 .o-anchor-item-link {
   --anchor-item-link-left-extra-indent: calc(var(--anchor-item-text-indent) * var(--anchor-item-depth));
-  --anchor-circle-top: calc(
-    var(--anchor-item-link-padding-v) + var(--anchor-item-link-text-height) / 2 - var(--anchor-circle-size) / 2
-  );
+  --anchor-circle-top: calc(var(--anchor-item-link-padding-v) + var(--anchor-item-link-text-height) / 2 - var(--anchor-circle-size) / 2);
   cursor: pointer;
   display: inline-flex;
   text-decoration: none;
@@ -155,6 +153,18 @@
   }
   &:last-child:not(.with-children) > .o-anchor-item-link .o-anchor-item-bottom-line {
     display: none;
+  }
+}
+
+.o-anchor-menu {
+  .o-anchor-item-link {
+    @include hover {
+      background-color: var(--anchor-item-bg-color-hover);
+    }
+
+    &:active {
+      background-color: var(--anchor-item-bg-color-press);
+    }
   }
 }
 
