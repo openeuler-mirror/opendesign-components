@@ -33,15 +33,15 @@
 .c-card-ascend-xl-radius {
   --card-radius: 24px;
   --card-cover-radius: 24px;
-  @include respond-to('laptop-pc_s') {
+  @include respond('laptop') {
     --card-radius: 20px;
     --card-cover-radius: 12px;
   }
-  @include respond-to('pad_h') {
+  @include respond('pad_h') {
     --card-radius: 16px;
     --card-cover-radius: 8px;
   }
-  @include respond-to('<=pad_v') {
+  @include respond('<=pad_v') {
     --card-radius: 8px;
     --card-cover-radius: 4px;
   }

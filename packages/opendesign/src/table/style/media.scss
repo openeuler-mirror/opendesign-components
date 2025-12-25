@@ -1,7 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-table-medium {
-  @include respond-to('<=pc_s') {
+  @include respond('<=laptop') {
     --table-text-size: var(--o-font_size-tip1);
     --table-text-height: var(--o-line_height-tip1);
 
@@ -11,7 +11,7 @@
     --table-edge-padding: 24px;
   }
 
-  @include respond-to('<=pad') {
+  @include respond('<=pad') {
     --table-radius: var(--o-radius_control-s);
 
     --table-head-cell-padding-x: 12px;
@@ -20,7 +20,7 @@
     --table-edge-padding: 20px;
   }
 
-  @include respond-to('<=pad_v') {
+  @include respond('<=pad_v') {
     --table-text-size: var(--o-font_size-tip2);
     --table-text-height: var(--o-line_height-tip2);
 
@@ -31,7 +31,7 @@
 }
 
 .o-table-small {
-  @include respond-to('<=pad') {
+  @include respond('<=pad') {
     --table-text-size: var(--o-font_size-tip2);
     --table-text-height: var(--o-line_height-tip2);
     --table-head-cell-padding-x: 8px;

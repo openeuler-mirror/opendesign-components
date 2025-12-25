@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-cascader-option {
     --cascader-option-text-size: var(--o-font_size-tip1);
     --cascader-option-text-height: var(--o-line_height-tip1);

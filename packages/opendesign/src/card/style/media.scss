@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop-pc_s') {
+@include respond('laptop') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-m);
@@ -30,7 +30,7 @@
     }
   }
 }
-@include respond-to('pad_h') {
+@include respond('pad_h') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-s);
@@ -75,7 +75,7 @@
     }
   }
 }
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-card {
     &:not(.o-card-no-responsive) {
       --card-radius: var(--o-radius_control-s);

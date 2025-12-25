@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pad') {
+@include respond('<=pad') {
   .o-select-options-dlg {
     --select-options-padding: 0;
 
@@ -35,13 +35,13 @@
   }
 }
 
-@include respond-to('laptop') {
+@include respond('laptop') {
   .o-select-large {
     --select-icon-size: var(--o-icon_size_control-s);
   }
 }
 
-@include respond-to('<=laptop') {
+@include respond('<=laptop') {
   .o-select-large {
     --select-text-size: var(--o-font_size-tip1);
     --select-text-height: var(--o-line_height-tip1);
