@@ -22,9 +22,8 @@
   - 移除item的Mouseleave事件
   - 移除levelIndent参数,每级节点增加了`data-level`属性
   - popover组件已经监听相关事件
+  - 重构变量，不再区分item与sub的区别，而是根据层级区分样式
   - 使用上下padding替代高度设置
-    - 删除`--sub-menu-height`、`--menu-item-height`两个css变量，
-    - 增加`--menu-item-padding-v`、`--sub-menu-max-row`、`--menu-item-max-row`css变量
 - **OAnchor:** 重构OAnchor [#IDCF88](https://gitee.com/openeuler/opendesign-components/issues/IDCF88)
   - 增加尺寸区别: small、medium、menu
   - 增加一级锚点圆圈指示器

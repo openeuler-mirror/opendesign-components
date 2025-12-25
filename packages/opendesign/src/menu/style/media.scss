@@ -1,31 +1,32 @@
 @use '../../_styles/mixin.scss' as *;
 
+/* 0-1680 */
 @include respond-to('<=pc_s') {
   .o-menu-medium {
     --menu-item-padding-v: 4px;
 
-    --sub-menu-text-size: var(--o-font_size-tip1);
-    --sub-menu-text-height: var(--o-line_height-tip1);
-    --sub-menu-icon-size: var(--o-icon_size_control-s);
+    --menu-icon-size: var(--o-icon_size_control-s);
+    --menu-arrow-size: var(--o-icon_size_control-s);
 
-    --menu-item-text-size: var(--o-font_size-tip1);
-    --menu-item-text-height: var(--o-line_height-tip1);
-    --menu-item-icon-size: var(--o-icon_size_control-s);
-
-    .o-menu-item[data-level='0'],
-    .o-sub-menu[data-level='0'] > .o-sub-menu-title {
+    & .o-sub-menu[data-level='0'] > .o-sub-menu-title,
+    & .o-menu-item[data-level='0'] {
       --menu-item-padding-v: 8px;
+      --menu-text-size: var(--o-font_size-tip1);
+      --menu-text-height: var(--o-line_height-tip1);
     }
   }
 }
 
-@include respond-to('<=pad_v') {
+/* 0-1200 */
+@include respond-to('<=pad') {
   .o-menu-small {
-    --menu-item-padding-v: 2px;
+    --menu-text-size: var(--o-font_size-tip2);
+    --menu-text-height: var(--o-line_height-tip2);
 
     .o-menu-item[data-level='0'],
     .o-sub-menu[data-level='0'] > .o-sub-menu-title {
-      --menu-item-padding-v: 4px;
+      --menu-text-size: var(--o-font_size-tip1);
+      --menu-text-height: var(--o-line_height-tip1);
     }
   }
 }
