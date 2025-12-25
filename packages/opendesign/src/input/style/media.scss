@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond('laptop') {
   .o-input-large {
     --input-icon-size: var(--o-icon_size-s);
 
@@ -9,7 +9,7 @@
   }
 }
 .o-input {
-  @include respond-to('phone') {
+  @include respond('phone') {
     &.o_box-small {
       --_box-padding: 0 5px;
     }

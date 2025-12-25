@@ -52,7 +52,7 @@ const hasTextInputVal = ref('Hint');
 
 .demo-input-basic-wrap {
   display: flex;
-  @include respond-to('<=pad_v') {
+  @include respond('<=pad_v') {
     flex-direction: column;
   }
   .size-label {
@@ -60,16 +60,16 @@ const hasTextInputVal = ref('Hint');
     font-size: var(--o3-font_size-h1);
     line-height: var(--o3-line_height-h1);
     font-weight: normal;
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       margin-bottom: 16px;
     }
   }
   .no-text-label {
     padding-left: 140px;
-    @include respond-to('<=laptop') {
+    @include respond('<=laptop') {
       padding-left: 116px;
     }
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       margin-right: 0;
       padding-left: 0;
     }
@@ -83,19 +83,19 @@ const hasTextInputVal = ref('Hint');
     margin-right: 40px;
     font-size: var(--o3-font_size-h2);
     line-height: var(--o3-line_height-h2);
-    @include respond-to('<=laptop') {
+    @include respond('<=laptop') {
       margin-right: 16px;
     }
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       display: none;
     }
   }
   .no-text {
     margin-right: 80px;
-    @include respond-to('<=laptop') {
+    @include respond('<=laptop') {
       margin-right: 16px;
     }
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       margin-right: 0;
       margin-bottom: 16px;
     }
@@ -108,10 +108,10 @@ const hasTextInputVal = ref('Hint');
     max-width: 320px;
     width: 320px;
     margin-bottom: 24px;
-    @include respond-to('<=laptop') {
+    @include respond('<=laptop') {
       width: 100%;
     }
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       flex: 1;
     }
   }
@@ -119,7 +119,7 @@ const hasTextInputVal = ref('Hint');
     .input-medium {
       margin-bottom: 0;
     }
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       flex: 1;
     }
   }

@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-link-large {
     --link-icon-size: var(--o-icon_size-xs);
     font-size: var(--o-font_size-tip1);

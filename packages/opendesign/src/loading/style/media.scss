@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
+@include respond('pad_v-laptop') {
   .o-loading-large {
     --loading-icon-size: var(--o-icon_size-4xl);
     --loading-label-font-size: var(--o-font_size-tip1);
@@ -17,7 +17,7 @@
   }
 }
 
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-loading-large {
     --loading-icon-size: var(--o-icon_size-2xl);
     --loading-label-font-size: var(--o-font_size-tip1);

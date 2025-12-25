@@ -21,15 +21,15 @@
   @media (min-width: 1441px) and (max-width: 1680px) {
     @include __inject_var(100vw, 64px, 32px, 24);
   }
-  @include respond-to('laptop') {
+  @include respond('laptop') {
     @include __inject_var(100vw, 40px, 24px, 24);
   }
-  @include respond-to('>pad') {
+  @include respond('>pad') {
     @for $i from 2 through 24 {
       --grid-#{$i}: calc(var(--grid-column-width) * #{$i} + var(--grid-column-gutter) * #{$i - 1});
     }
   }
-  @include respond-to('pad_h') {
+  @include respond('pad_h') {
     @include __inject_var(100vw, 32px, 16px, 12);
     @for $i from 2 through 12 {
       --grid-#{$i}: calc(var(--grid-column-width) * #{$i} + var(--grid-column-gutter) * #{$i - 1});
@@ -38,7 +38,7 @@
       --grid-#{$i}: var(--grid-full);
     }
   }
-  @include respond-to('pad_v') {
+  @include respond('pad_v') {
     @include __inject_var(100vw, 32px, 16px, 8);
     @for $i from 2 through 8 {
       --grid-#{$i}: calc(var(--grid-column-width) * #{$i} + var(--grid-column-gutter) * #{$i - 1});

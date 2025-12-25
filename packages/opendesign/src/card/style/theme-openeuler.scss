@@ -25,7 +25,7 @@
   }
 }
 
-@include respond-to('pad_h') {
+@include respond('pad_h') {
   .c-card-openeuler {
     &.o-card {
       &:not(.o-card-no-responsive) {
@@ -85,7 +85,7 @@
     }
   }
 }
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .c-card-openeuler {
     &.o-card {
       &:not(.o-card-no-responsive) {

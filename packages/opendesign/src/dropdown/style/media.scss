@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
+@include respond('pad_v-laptop') {
   .o-dropdown-list-large {
     .o-dropdown-item {
       --dropdown-item-text-size: var(--o-font_size-tip1);

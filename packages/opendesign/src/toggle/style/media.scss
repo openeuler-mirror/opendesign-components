@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
+@include respond('pad_v-laptop') {
   .o-toggle {
     --toggle-size: 28px;
 
@@ -10,7 +10,7 @@
   }
 }
 
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-toggle {
     --toggle-size: 28px;
 

@@ -15,7 +15,7 @@
   --dlg-width: var(--grid-6);
 }
 
-@include respond-to('laptop-pc_s') {
+@include respond('laptop') {
   .o-dialog-exlarge {
     --dlg-width: var(--grid-18);
   }
@@ -29,7 +29,7 @@
     --dlg-width: var(--grid-6);
   }
 }
-@include respond-to('pad_h') {
+@include respond('pad_h') {
   .o-dialog-exlarge {
     --dlg-width: var(--grid-10);
   }
@@ -43,7 +43,7 @@
     --dlg-width: var(--grid-4);
   }
 }
-@include respond-to('pad_v') {
+@include respond('pad_v') {
   .o-dialog-exlarge {
     --dlg-width: 100%;
   }
@@ -57,7 +57,7 @@
     --dlg-width: var(--grid-6);
   }
 }
-@include respond-to('phone') {
+@include respond('phone') {
   .o-dialog-exlarge {
     --dlg-width: 100%;
   }
@@ -79,7 +79,7 @@
 }
 
 // 正文字号
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-dlg-body {
     font-size: var(--o-font_size-tip1);
     line-height: var(--o-line_height-tip1);

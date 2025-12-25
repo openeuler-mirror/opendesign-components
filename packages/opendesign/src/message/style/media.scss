@@ -1,19 +1,19 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
+@include respond('pad_v-laptop') {
   .o-message.o-message-colorful {
     --message-padding: 4px 8px 8px;
   }
 }
 
-@include respond-to('laptop') {
+@include respond('laptop') {
   .o-message {
     --message-padding: 7px 12px;
     --message-gap: 12px;
   }
 }
 
-@include respond-to('<=pad') {
+@include respond('<=pad') {
   .o-message {
     --message-text-size: var(--o-font_size-tip2);
     --message-text-height: var(--o-line_height-tip2);
@@ -26,7 +26,7 @@
   }
 }
 
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-message-colorful {
     --message-padding: 4px 12px 8px;
   }
