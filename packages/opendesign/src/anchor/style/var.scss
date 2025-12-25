@@ -62,6 +62,12 @@
     --anchor-item-sub-link-padding-v: 5px;
 
     --anchor-item-text-indent: 20px;
+
+    --anchor-item-link-color-hover: var(--anchor-item-link-color);
+    --anchor-item-link-color-press: var(--anchor-item-link-color);
+
+    --anchor-item-bg-color-hover: var(--o-color-control2-light);
+    --anchor-item-bg-color-press: var(--o-color-control3-light);
   }
 }
 
