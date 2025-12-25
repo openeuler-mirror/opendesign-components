@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
+@include respond('pad_v-laptop') {
   .o-btn-large {
     --btn-height: 36px;
     --btn-padding: 0 15px;
@@ -9,7 +9,7 @@
     --btn-icon-size: var(--o-icon_size-s);
   }
 }
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-btn-medium {
     --btn-height: 28px;
     --btn-padding: 0 15px;

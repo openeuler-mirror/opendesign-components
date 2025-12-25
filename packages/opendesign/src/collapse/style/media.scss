@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-collapse {
     --collapse-padding: 8px 24px;
   }
@@ -21,13 +21,13 @@
   }
 }
 
-@include respond-to('<=pad') {
+@include respond('<=pad') {
   .o-collapse-item {
     --collapse-item-gap: var(--o-gap-3);
   }
 }
 
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-collapse {
     --collapse-radius: var(--o-radius_control-s);
     --collapse-padding: 0px 16px;

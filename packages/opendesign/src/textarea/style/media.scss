@@ -1,17 +1,17 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-textarea {
-  @include respond-to('<=pc_s') {
+  @include respond('<=laptop') {
     --textarea-min-height: 116px;
   }
-  @include respond-to('<=pad') {
+  @include respond('<=pad') {
     --textarea-text-size: var(--o-font_size-tip1);
     --textarea-text-height: var(--o-line_height-tip1);
   }
 }
 
 .o-textarea-size-medium {
-  @include respond-to('<=pad') {
+  @include respond('<=pad') {
     --textarea-radius: var(--o-radius_control-m);
     --textarea-radius-pill: var(--o-radius_control-m);
   }

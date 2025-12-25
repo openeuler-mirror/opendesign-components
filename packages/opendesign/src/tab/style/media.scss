@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
+@include respond('laptop') {
   .o-tab-large {
     --tab-nav-text-size: var(--o-font_size-text2);
     --tab-nav-text-height: var(--o-line_height-text2);
@@ -28,7 +28,7 @@
   }
 }
 
-@include respond-to('<=pad') {
+@include respond('<=pad') {
   .o-tab-large {
     --tab-nav-text-size: var(--o-font_size-tip1);
     --tab-nav-text-height: var(--o-line_height-tip1);

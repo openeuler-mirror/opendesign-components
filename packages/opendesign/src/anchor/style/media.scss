@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-anchor:not(.o-anchor-menu) {
     .o-anchor-item {
       --anchor-item-link-text-size: var(--o-font_size-tip1);
@@ -15,7 +15,7 @@
   }
 }
 
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-anchor-menu {
     .o-anchor-item {
       --anchor-item-sub-link-text-size: var(--o-font_size-tip2);
