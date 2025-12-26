@@ -70,6 +70,7 @@
 .o-sub-menu-title-content,
 .o-menu-item-content {
   margin-right: auto;
+  word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
