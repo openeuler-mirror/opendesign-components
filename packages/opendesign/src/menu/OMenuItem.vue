@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, onMounted, useTemplateRef } from 'vue';
+import { computed, inject, ref, onMounted } from 'vue';
 import { menuItemProps } from './types';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
@@ -48,8 +48,8 @@ menuInjection?.menuTree.addChild({
 });
 
 // 支持超出隐藏，hover时popover提示，当前不支持内容变化，动态刷新
-const menuItemRef = useTemplateRef('menuItemRef');
-const itemContentRef = useTemplateRef('itemContentRef');
+const menuItemRef = ref<HTMLLIElement>();
+const itemContentRef = ref<HTMLDivElement>();
 const isContentOverflow = ref(false);
 const content= ref('');
 

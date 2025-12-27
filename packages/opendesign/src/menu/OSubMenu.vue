@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, onMounted, provide, ref, useTemplateRef } from 'vue';
+import { computed, inject, onMounted, provide, ref } from 'vue';
 import { subMenuProps } from './types';
 import { IconChevronDownBold } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
@@ -91,8 +91,8 @@ menuInjection?.menuTree.addChild({
 
 
 // 支持超出隐藏，hover时popover提示，当前不支持内容变化，动态刷新
-const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
-const itemContentRef = useTemplateRef('itemContentRef');
+const subMenuTitleRef = ref<HTMLDivElement>();
+const itemContentRef = ref<HTMLDivElement>();
 const isContentOverflow = ref(false);
 const content= ref('');
 
