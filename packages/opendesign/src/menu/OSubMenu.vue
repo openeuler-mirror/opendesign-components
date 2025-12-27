@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, inject, onMounted, provide, ref, useTemplateRef } from 'vue';
+import { computed, inject, onMounted, provide, ref } from 'vue';
 import { subMenuProps } from './types';
-import { IconChevronDown } from '../_utils/icons';
+import { IconChevronDownBold } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
 import { isOverflown } from '../_utils/dom.ts';
@@ -91,8 +91,8 @@ menuInjection?.menuTree.addChild({
 
 
 // 支持超出隐藏，hover时popover提示，当前不支持内容变化，动态刷新
-const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
-const itemContentRef = useTemplateRef('itemContentRef');
+const subMenuTitleRef = ref<HTMLDivElement>();
+const itemContentRef = ref<HTMLDivElement>();
 const isContentOverflow = ref(false);
 const content= ref('');
 
@@ -119,7 +119,7 @@ onMounted(() => {
   >
     <div class="o-sub-menu-title" ref="subMenuTitleRef">
       <div class="o-sub-menu-arrow" v-if="arrowPosition === 'left'">
-        <IconChevronDown />
+        <IconChevronDownBold />
       </div>
       <div v-if="$slots.icon || props.icon" class="o-sub-menu-title-icon">
         <slot name="icon">
@@ -130,7 +130,7 @@ onMounted(() => {
         <slot name="title"></slot>
       </div>
       <div class="o-sub-menu-arrow" v-if="!arrowPosition || arrowPosition === 'right'">
-        <IconChevronDown />
+        <IconChevronDownBold />
       </div>
     </div>
       <ul class="o-sub-menu-children" :class="{'expanded': isExpanded}">

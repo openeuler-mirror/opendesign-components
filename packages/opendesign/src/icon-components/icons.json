@@ -157,6 +157,12 @@
   },
   {
     "type": "fill",
+    "name": "o-icon-chevron-down-bold",
+    "componentName": "OIconChevronDownBold",
+    "path": "fill/chevron-down-bold.svg"
+  },
+  {
+    "type": "fill",
     "name": "o-icon-checked",
     "componentName": "OIconChecked",
     "path": "fill/checked.svg"
