@@ -27,6 +27,7 @@ export { OIconChevronUp } from './OIconChevronUp';
 export { OIconChevronRight } from './OIconChevronRight';
 export { OIconChevronLeft } from './OIconChevronLeft';
 export { OIconChevronDown } from './OIconChevronDown';
+export { OIconChevronDownBold } from './OIconChevronDownBold';
 export { OIconChecked } from './OIconChecked';
 export { OIconCaretUp } from './OIconCaretUp';
 export { OIconCaretRight } from './OIconCaretRight';
