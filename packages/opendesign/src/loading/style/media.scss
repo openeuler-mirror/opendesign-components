@@ -9,31 +9,25 @@
   }
 
   .o-loading-medium {
-    --loading-icon-size: var(--o-icon_size_control-xl);
-  }
-
-  .o-loading-small {
-    --loading-icon-size: var(--o-icon_size_control-m);
+    --loading-icon-size: var(--o-icon_size-2xl);
+    --loading-label-font-size: var(--o-font_size-tip2);
+    --loading-label-line-height: var(--o-line_height-tip2);
+    --loading-label-icon-gap: 8px;
   }
 }
 
 @include respond('<=pad_v') {
   .o-loading-large {
     --loading-icon-size: var(--o-icon_size-2xl);
-    --loading-label-font-size: var(--o-font_size-tip1);
-    --loading-label-line-height: var(--o-line_height-tip1);
-    --loading-label-icon-gap: 12px;
+    --loading-label-font-size: var(--o-font_size-tip2);
+    --loading-label-line-height: var(--o-line_height-tip2);
+    --loading-label-icon-gap: 8px;
   }
 
   .o-loading-medium {
-    --loading-icon-size: var(--o-icon_size_control-xl);
+    --loading-icon-size: var(--o-icon_size-2xl);
     --loading-label-font-size: var(--o-font_size-tip2);
     --loading-label-line-height: var(--o-line_height-tip2);
-    --loading-label-icon-gap: 4px;
-  }
-
-  .o-loading-small {
-    --loading-icon-size: var(--o-icon_size-xs);
     --loading-label-icon-gap: 4px;
   }
 }
