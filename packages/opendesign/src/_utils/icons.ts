@@ -9,6 +9,7 @@ import {
   OIconArrowRight,
   OIconChevronUp,
   OIconChevronDown,
+  OIconChevronDownBold,
   OIconChevronLeft,
   OIconChevronRight,
   OIconInfo,
@@ -66,6 +67,11 @@ export const IconChevronUp = shallowRef<Component>(OIconChevronUp);
  * v形向下图标
  */
 export const IconChevronDown = shallowRef<Component>(OIconChevronDown);
+
+/**
+ * v形向下图标-加粗
+ */
+export const IconChevronDownBold = shallowRef<Component>(OIconChevronDownBold);
 
 /**
  * v形向左图标
