@@ -135,6 +135,14 @@ export const cardProps = {
   noResponsive: {
     type: Boolean,
   },
+  /**
+   * @zh-CN 控制详情超出隐藏显示，true：显示渐隐效果，false：显示'...'效果
+   * @en-US Control details beyond hidden display, true shows fade-out effect, false shows '...' Effect
+   */
+  showFadeOut: {
+    type: Boolean,
+    default: true,
+  },
 };
 
 export type CardPropsT = ExtractPropTypes<typeof cardProps>;

@@ -28,7 +28,7 @@ const isTitleLimited = computed(() => {
   return !isUndefined(props.titleMaxRow);
 });
 const isDetailLimited = computed(() => {
-  return !isUndefined(props.detailMaxRow);
+  return !isUndefined(props.detailMaxRow) && Boolean(props.showFadeOut);
 });
 
 const hasCover = computed(() => {
