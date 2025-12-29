@@ -9,7 +9,7 @@
 </docs>
 <script setup lang="ts">
 import { propsToAttrStr } from '../../../_demo/utils';
-import { ColorTypes, TagVariantTypes, TagSizeTypes } from '@opensig/opendesign';
+import { ColorTypes, TagVariantTypes } from '@opensig/opendesign';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types.ts';
 
 const _oSchema = {
@@ -23,7 +23,7 @@ const _oSchema = {
   },
   size: {
     type: 'list',
-    list: TagSizeTypes,
+    list: ['large', 'medium', 'small'],
   },
   round: {
     type: 'string',
