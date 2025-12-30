@@ -1,11 +1,8 @@
 .o-message {
   --message-color: var(--o-color-info2);
 
-  --message-text-size: var(--o-font_size-tip1);
-  --message-text-height: var(--o-line_height-tip1);
-
-  --message-title-size: var(--o-font_size-tip1);
-  --message-title-height: var(--o-line_height-tip1);
+  --message-text-size: var(--o-font_size-text1);
+  --message-text-height: var(--o-line_height-text1);
 
   --message-bg-color: var(--o-color-fill2);
 
@@ -30,16 +27,40 @@
   --message-content-max-row: 0;
 
   --message-gap: 16px;
-  --message-title-gap: 4px;
 }
 
-.o-messgage-with-title {
+.o-messgage-both {
+  --message-title-size: var(--o-font_size-tip1);
+  --message-title-height: var(--o-line_height-tip1);
+
+  --message-text-size: var(--o-font_size-tip1);
+  --message-text-height: var(--o-line_height-tip1);
+
   --message-text-align: left;
-  --message-padding: 4px 12px 8px;
+
+  --message-title-gap: 5px;
+  --message-padding: 5px 12px 8px;
 }
 
 .o-message-colorful {
   --message-shadow: none;
+  --message-sidebar-width: 4px;
+}
+
+.o-message-only-title {
+  --message-title-size: var(--o-font_size-tip1);
+  --message-title-height: var(--o-line_height-tip1);
+
+  --message-padding: 4px 12px;
+}
+
+.o-message-only-content {
+  --message-text-size: var(--o-font_size-tip1);
+  --message-text-height: var(--o-line_height-tip1);
+
+  --message-text-align: left;
+
+  --message-padding: 4px 12px;
 }
 
 .o-message-info {
