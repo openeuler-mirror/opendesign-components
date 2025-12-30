@@ -6,7 +6,6 @@
 <!-- en-US -->
 
 ### Inline
-
 </docs>
 <script setup lang="ts">
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
@@ -37,7 +36,7 @@ const _oSchema = {
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  return `<OMessage ${propsToAttrStr(props)}>${props.status + props.content}</OMessage>`;
+  return `<OMessage ${propsToAttrStr(props)}>${props.content}</OMessage>`;
 };
 
 const _oCtx = {};
