@@ -27,11 +27,19 @@ const emits = defineEmits<{
   (e: 'update:visible', val: boolean): void;
 }>();
 
-const hasTitle = !isEmptySlot(slots.title) || props.title;
-const hasContent = !isEmptySlot(slots.default);
+const hasTitle = computed(() => {
+  return !isEmptySlot(slots.title) || props.title;
+});
+const hasContent = computed(() => {
+  return !isEmptySlot(slots.default);
+});
 
-const isOnlyTitle = hasTitle && !hasContent && props.colorful;
-const isOnlyContent = hasContent && !hasTitle && props.colorful;
+const isOnlyTitle = computed(() => {
+  return hasTitle.value && !hasContent.value && props.colorful;
+});
+const isOnlyContent = computed(() => {
+  return hasContent.value && !hasTitle.value && props.colorful;
+});
 
 let timer = 0;
 
