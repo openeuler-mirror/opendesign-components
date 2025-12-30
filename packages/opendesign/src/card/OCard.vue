@@ -20,7 +20,9 @@ const slots = defineSlots<{
   cover(): any;
 }>();
 
-const showFadeOut = props.textOverflow === 'fade'
+const showFadeOut = computed(()=>{
+  return props.textOverflow === 'fade';
+})
 
 const hasMain = computed(
   () => slots.main || props.icon || slots.icon || props.title || slots.title || slots.header || props.detail || slots.detail || slots.default
@@ -30,7 +32,7 @@ const isTitleLimited = computed(() => {
   return !isUndefined(props.titleMaxRow);
 });
 const isDetailLimited = computed(() => {
-  return !isUndefined(props.detailMaxRow) && showFadeOut;
+  return !isUndefined(props.detailMaxRow) && showFadeOut.value;
 });
 
 const hasCover = computed(() => {
