@@ -12,6 +12,12 @@
 
 ---
 
+## 1.0.1-sp3
+
+### Bug Fixes
+
+- **use-input:** 修复输入类组件输入一次触发两次input事件的问题
+
 ## 1.0.1-sp1
 
 ### BREAKING CHANGES
