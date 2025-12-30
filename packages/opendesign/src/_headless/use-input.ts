@@ -216,9 +216,6 @@ export function useInput(options: InputOptionT) {
 
     let newValue = value;
 
-
-    emits('input', e, value);
-
     if (!isAllowedToInputOnOutLimit(value)) {
       // 当超出长度限制不允许输入时，按照最大长度截断(在特殊符号时，可能存在截取乱码问题)
       newValue = value.substring(0, maxLength?.value);
