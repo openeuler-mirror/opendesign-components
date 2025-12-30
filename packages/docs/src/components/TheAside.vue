@@ -36,10 +36,14 @@ watch(path, (newPath) => {
 
 const searchKey = ref('');
 
-const defaultNavList= sidebarStore.navList.map(item=>({
-  ...item,
-  label: `${item.label}(${item.children?.length || 0})`,
-}))
+const formatData = (list: Array<NavItem>) => {
+  return list.map((item) => ({
+    ...item,
+    label: `${item.label}(${item.children?.length || 0})`,
+  }));
+};
+
+const defaultNavList = formatData(sidebarStore.navList);
 
 const displayNavList = ref(defaultNavList);
 const searchNavByKey = debounce((key: string) => {
@@ -47,16 +51,16 @@ const searchNavByKey = debounce((key: string) => {
     displayNavList.value = defaultNavList;
   } else {
     displayNavList.value = [];
-    sidebarStore.navList.forEach(item => {
-      const res = item.children?.filter(t => {
-        return t.label.toLocaleLowerCase().includes(key.toLocaleLowerCase())
-      })
+    sidebarStore.navList.forEach((item) => {
+      const res = item.children?.filter((t) => {
+        return t.label.toLocaleLowerCase().includes(key.toLocaleLowerCase());
+      });
       if (res?.length && res?.length > 0) {
         displayNavList.value.push({
           ...item,
           label: `${item.label}(${res.length})`,
-          children: res
-        })
+          children: res,
+        });
       }
     });
   }
@@ -64,6 +68,13 @@ const searchNavByKey = debounce((key: string) => {
 watch(searchKey, (v) => {
   searchNavByKey(v);
 });
+
+watch(
+  () => sidebarStore.navList,
+  (val) => {
+    displayNavList.value = formatData(val);
+  },
+);
 </script>
 <template>
   <aside class="the-aside">
