@@ -19,9 +19,9 @@ OCard 分为图文卡片，和图标卡片。
 
 设置卡片内容
 
-1. 通过 `detail` 设置标题内容
-2. 通过 `detailRow` 设置标题高度 `height: calc(detail-row * line-height)`
-3. 通过 `detailMaxRow` 设置标题最大行数，高于该行数时显示省略号。**注**：通过`-webkit-line-clamp`实现；一般而言 `detailRow` 的值与 `detailMaxRow` 值应该一致
+1. 通过 `detail` 设置卡片内容
+2. 通过 `detailRow` 设置内容高度 `height: calc(detail-row * line-height)`
+3. 通过 `detailMaxRow` 设置内容最大行数，高于该行数时默认显示渐隐，可以通过设置 `textOverflow` 为 `ellipsis` 来显示省略号。**注**：通过`-webkit-line-clamp`实现；一般而言 `detailRow` 的值与 `detailMaxRow` 值应该一致
 
 其它
 
@@ -52,7 +52,7 @@ Configure card content
 
 1. Set content text through `detail`
 2. Set content height through `detailRow`: `height: calc(detail-row * line-height)`
-3. Set maximum content rows through `detailMaxRow`. Ellipsis will display when exceeding this value.
+3. Set the maximum number of lines for the content through `detailMaxRow`. When it exceeds the number of lines, fade-out will be displayed by default. You can display the ellipsis by setting `textOverflow` to `ellipsis`.
    **Note**: Implemented via `-webkit-line-clamp`; `detailRow` value should generally match `detailMaxRow`
 4. Set title prefix icon via the `titleIcon` property
 
@@ -64,6 +64,7 @@ Other features
 4. When `noResponsive` is true, card dimensions (spacing, font size, line height, etc.) remain fixed regardless of viewport size changes
 </docs>
 <script setup lang="ts">
+import { TextOverflowTypes } from '@opensig/opendesign';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
@@ -128,6 +129,10 @@ const _oSchema = {
   noResponsive: {
     type: 'boolean',
     default: false,
+  },
+  textOverflow: {
+    type: 'list',
+    list: TextOverflowTypes,
   },
 } satisfies Record<string, DocDemoSchema>;
 

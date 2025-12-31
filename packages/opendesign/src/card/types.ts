@@ -9,6 +9,9 @@ export type CardCoverFitT = (typeof CardCoverFitTypes)[number];
 export const CardHoverCursorTypes = ['auto', 'pointer'] as const;
 export type CardHoverCursorT = (typeof CardHoverCursorTypes)[number];
 
+export const TextOverflowTypes = ['fade', 'ellipsis'] as const;
+export type TexTOverflowT = (typeof TextOverflowTypes)[number];
+
 export const cardProps = {
   /**
    * @zh-CN 卡片方向（'v'为竖向，'h'为横向，'hr'为反向横向）
@@ -134,6 +137,14 @@ export const cardProps = {
    */
   noResponsive: {
     type: Boolean,
+  },
+  /**
+   * @zh-CN 控制详情超出隐藏显示效果，'fade' 表示渐隐效果，'ellipsis' 表示 '...' 效果
+   * @en-US The control details exceed the hidden display effect. 'fade' indicates the fade-out effect, and 'ellipsis' indicates '...' Effect
+   */
+  textOverflow: {
+    type: String as PropType<TexTOverflowT>,
+    default: 'fade',
   },
 };
 
