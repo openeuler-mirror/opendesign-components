@@ -22,7 +22,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 4px;
+    width: var(--message-sidebar-width);
     height: 100%;
     background-color: rgb(var(--message-bg-color));
   }
@@ -94,7 +94,7 @@
 .o-message-list-top {
   top: var(--message-list-top-offset);
 
-  .o-message+.o-message {
+  .o-message + .o-message {
     margin-top: var(--message-gap);
   }
 }
@@ -102,7 +102,7 @@
 .o-message-list-bottom {
   bottom: var(--message-list-bottom-offset);
 
-  .o-message+.o-message {
+  .o-message + .o-message {
     margin-top: var(--message-gap);
   }
 }

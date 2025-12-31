@@ -1,14 +1,11 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT, ColorT } from '../_utils/types';
+import { RoundT, ColorT, SizeT } from '../_utils/types';
 
 export const TagColorTypes = ['normal', 'info', 'primary', 'success', 'warning', 'danger'] as const;
 export type TagColorT = (typeof TagColorTypes)[number];
 
 export const TagVariantTypes = ['solid', 'outline'] as const;
 export type TagVariantT = (typeof TagVariantTypes)[number];
-
-export const TagSizeTypes = ['medium', 'small'] as const;
-export type TagSizeT = (typeof TagSizeTypes)[number];
 
 export const tagProps = {
   /**
@@ -32,11 +29,11 @@ export const tagProps = {
   /**
    * @zh-CN 标签尺寸
    * @en-US Tag size
-   * @default 'medium'
+   * @default 'large'
    */
   size: {
-    type: String as PropType<TagSizeT>,
-    default: 'medium',
+    type: String as PropType<SizeT>,
+    default: 'large',
   },
   /**
    * @zh-CN 标签圆角
