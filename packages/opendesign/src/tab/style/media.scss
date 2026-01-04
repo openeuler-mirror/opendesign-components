@@ -1,20 +1,20 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond('laptop') {
+@include respond('<=laptop') {
   .o-tab-large {
     --tab-nav-text-size: var(--o-font_size-text2);
     --tab-nav-text-height: var(--o-line_height-text2);
     --tab-nav-icon-size: var(--o-icon_size_control-m);
     --tab-nav-gap: 32px;
     &.o-tab-text {
-      --tab-nav-padding: 0 0 12px;
+      --tab-nav-padding: 0 0 16px;
     }
   }
   .o-tab-medium {
     --tab-nav-text-size: var(--o-font_size-text1);
     --tab-nav-text-height: var(--o-line_height-text1);
     &.o-tab-text {
-      --tab-nav-padding: 0 0 8px;
+      --tab-nav-padding: 0 0 10px;
     }
   }
   .o-tab-small {
@@ -28,7 +28,7 @@
   }
 }
 
-@include respond('<=pad') {
+@include respond('<=pad_v') {
   .o-tab-large {
     --tab-nav-text-size: var(--o-font_size-tip1);
     --tab-nav-text-height: var(--o-line_height-tip1);
@@ -37,7 +37,7 @@
     --tab-nav-anchor-height: 1px;
 
     &.o-tab-text {
-      --tab-nav-padding: 0 0 8px;
+      --tab-nav-padding: 0 0 3px;
     }
   }
   .o-tab-medium {
@@ -45,7 +45,7 @@
     --tab-nav-text-height: var(--o-line_height-tip1);
     --tab-nav-gap: 16px;
     &.o-tab-text {
-      --tab-nav-padding: 0 0 2px;
+      --tab-nav-padding: 0 0 4px;
     }
     .o-tab-nav-anchor-line {
       width: 16px;
