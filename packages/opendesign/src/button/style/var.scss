@@ -88,7 +88,6 @@
     --btn-bd-color-hover: var(--o-color-success2);
     --btn-bd-color-active: var(--o-color-success3);
   }
-
 }
 .o-btn-warning {
   --btn-color: var(--o-color-warning1);
@@ -152,12 +151,12 @@
 
 .o-btn-small {
   --btn-radius: var(--o-radius_control-xs);
-  --btn-gap: 2px;
+  --btn-gap: 4px;
   --btn-gap-prefix: var(--btn-gap);
   --btn-gap-suffix: var(--btn-gap);
-  --btn-padding: 0 11px;
+  --btn-padding: 0 15px;
   --btn-icon-size: var(--o-icon_size-xs);
-  --btn-height: var(--o-control_size-s);
+  --btn-height: 28px;
 }
 .o-btn-medium {
   --btn-min-width: 80px;
@@ -190,6 +189,21 @@
   --btn-bd-color-disabled: transparent;
 }
 
+.o-btn-text.o-btn-large {
+  --btn-gap-prefix: 8px;
+  --btn-gap-suffix: 4px;
+}
+
+.o-btn-text.o-btn-medium {
+  --btn-gap-prefix: 8px;
+  --btn-gap-suffix: 4px;
+}
+
+.o-btn-text.o-btn-small {
+  --btn-gap-prefix: 8px;
+  --btn-gap-suffix: 4px;
+}
+
 .o-btn-icon-only {
   --btn-padding: 0;
   --btn-max-width: none;
@@ -198,6 +212,6 @@
     --btn-color-hover: var(--o-color-primary2);
     --btn-color-active: var(--o-color-primary3);
     --btn-bg-color-hover: var(--o-color-control2-light);
-    --btn-bg-color-active: var(--o-color-control3-light);       
+    --btn-bg-color-active: var(--o-color-control3-light);
   }
 }
