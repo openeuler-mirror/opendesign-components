@@ -3,10 +3,15 @@
 .o-textarea {
   @include respond('<=laptop') {
     --textarea-min-height: 116px;
+
+    --_box-text-size: var(--o-font_size-tip1);
+    --_box-text-height: var(--o-line_height-tip1);
   }
-  @include respond('<=pad') {
-    --textarea-text-size: var(--o-font_size-tip1);
-    --textarea-text-height: var(--o-line_height-tip1);
+
+  @include respond('<=pad_v') {
+    &.o_box-large {
+      --textarea-padding-h: 12px;
+    }
   }
 }
 
