@@ -16,6 +16,8 @@
 
   --select-icon-color: var(--o-color-info3);
   --select-icon-color-disabled: var(--o-color-info4);
+
+  --select-icon-gap: var(--o-gap-2);
 }
 
 .o-select,
@@ -188,6 +190,24 @@
 
 .o-select-options {
   --select-empty-padding: 16px;
+}
+
+.o-select-options-medium {
+  & .o-option {
+    --option-text-size: var(--o-font_size-tip1);
+    --option-text-height: var(--o-line_height-tip1);
+
+    --option-padding: 4px 12px;
+  }
+
+  & .o-cascader-option {
+    --cascader-option-text-size: var(--o-font_size-tip1);
+    --cascader-option-text-height: var(--o-line_height-tip1);
+
+    --cascader-option-padding: 3px 12px;
+
+    --cascader-option-icon-size: var(--o-icon_size-xs);
+  }
 }
 
 .o-select-dlg {
