@@ -16,11 +16,12 @@ The triggering method of the drop-down option: `none`、`click`、`click-outclic
 Drop-down option position: `top`、`tl`、`tr`、`bottom`、`bl`、`br`、`left`、`lt`、`lb`、`right`、`rt`、`rb`;
 </docs>
 <script setup lang="ts">
+import { SizeTypes, VariantTypes } from '@opensig/opendesign';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
 const _oSchema = {
-  size: { type: 'list', list: ['large', 'medium'] },
+  size: { type: 'list', list: SizeTypes },
   trigger: {
     type: 'list',
     list: ['none', 'click', 'click-outclick', 'hover', 'hover-outclick', 'focus', 'contextmenu'],
@@ -29,7 +30,12 @@ const _oSchema = {
   optionPosition: {
     type: 'list',
     list: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'],
-    default: 'right',
+    default: 'bottom',
+  },
+  variant: {
+    type: 'list',
+    list: VariantTypes,
+    default: 'solid',
   },
 } satisfies Record<string, DocDemoSchema>;
 
@@ -56,8 +62,11 @@ const createTemplate = (arr: any[] = []) => {
   return res;
 };
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  return `<ODropdown ${propsToAttrStr(props)} style="width:fit-content;"> 
-  <OButton>Dropdown</OButton>
+  return `<ODropdown ${propsToAttrStr(props, ['variant'])} style="width:fit-content;">
+  <OButton color="primary" ${propsToAttrStr(props, ['trigger', 'optionPosition'])} round="pill">Dropdown
+    <template #suffix>
+      <OIconChevronDown class="icon"  />
+    </template></OButton>
   <template #dropdown>
   ${createTemplate(options)}
   </template>
