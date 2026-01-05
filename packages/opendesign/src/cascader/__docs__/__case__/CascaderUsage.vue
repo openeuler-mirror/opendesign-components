@@ -85,6 +85,7 @@ type CascaderOptionT = {
 </docs>
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { SizeTypes } from '@opensig/opendesign';
 import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
 
@@ -109,6 +110,11 @@ const _oSchema = {
     type: 'list',
     list: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'],
     default: 'bl',
+  },
+  size: {
+    type: 'list',
+    list: SizeTypes,
+    default: 'large',
   },
 } satisfies Record<string, DocDemoSchema>;
 
