@@ -63,6 +63,7 @@
   justify-content: center;
   flex-shrink: 0;
   position: relative;
+  margin-left: var(--select-icon-gap);
 }
 
 .o-select-suffix-icon {
