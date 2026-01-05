@@ -16,9 +16,9 @@
 </docs>
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { ODropdown, ODropdownItem, OLink, OIconChevronDown, type ButtonSizeT, type PopupTriggerT } from '@opensig/opendesign';
+import { ODropdown, ODropdownItem, OLink, OIconChevronDown, type SizeT, type PopupTriggerT } from '@opensig/opendesign';
 interface ListT {
-  size: ButtonSizeT;
+  size: SizeT;
   visible: boolean;
   forbid: boolean;
   trigger: PopupTriggerT;
