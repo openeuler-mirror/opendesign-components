@@ -63,7 +63,7 @@
 
 .o-cascader-option-arrow {
   font-size: var(--cascader-option-icon-size);
-  margin-left: auto;
+  margin-left: var(--cascader-option-icon-gap);
 }
 
 .o-cascader-option-selected {
