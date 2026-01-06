@@ -1,8 +1,9 @@
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, type UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { plugin as markdownPlugin } from './plugins/markdown/vueMdTranslate';
 import Inspect from 'vite-plugin-inspect';
+import packageJson from '../opendesign/package.json'
 
 import { injectDemoAndApi } from './plugins/injectDemoAndApi';
 import { injectDemoSource } from './plugins/injectDemoSource';
@@ -10,41 +11,45 @@ import { injectDemoDocs } from './plugins/injectDemoDocs';
 import generateComponentRouter from './plugins/generateComponentRouter';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  build: {
-    target: ['chrome74'],
-    outDir: './dist',
-  },
-  plugins: [
-    vue({ include: [/\.vue$/, /\.md$/] }),
-    injectDemoAndApi(),
-    injectDemoSource(),
-    injectDemoDocs(),
-    markdownPlugin,
-    generateComponentRouter(),
-    Inspect(),
-  ],
-  resolve: {
-    alias: {
-      '@/': `${path.resolve(__dirname, './src')}/`,
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@opensig/opendesign': path.resolve(__dirname, '../opendesign/src'),
+export default defineConfig((env): UserConfig => {
+  const base = env.command === 'build' ? packageJson.version : ''
+  return {
+    base: `/${base}`,
+    build: {
+      target: ['chrome74'],
+      outDir: `./dist/${base}`,
     },
-  },
-  server: {
-    host: '0.0.0.0',
-    allowedHosts: true,
-    port: 3300,
-  },
-  define: {
-    __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
-    __PROD__: JSON.stringify(process.env.NODE_ENV === 'production'),
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@use "@opensig/opendesign/_styles/mixin.scss" as *;\n',
+    plugins: [
+      vue({ include: [/\.vue$/, /\.md$/] }),
+      injectDemoAndApi(),
+      injectDemoSource(),
+      injectDemoDocs(),
+      markdownPlugin,
+      generateComponentRouter(),
+      Inspect(),
+    ],
+    resolve: {
+      alias: {
+        '@/': `${path.resolve(__dirname, './src')}/`,
+        '@assets': path.resolve(__dirname, './src/assets'),
+        '@opensig/opendesign': path.resolve(__dirname, '../opendesign/src'),
       },
     },
-  },
+    server: {
+      host: '0.0.0.0',
+      allowedHosts: true,
+      port: 3300,
+    },
+    define: {
+      __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
+      __PROD__: JSON.stringify(process.env.NODE_ENV === 'production'),
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "@opensig/opendesign/_styles/mixin.scss" as *;\n',
+        },
+      },
+    },
+  }
 });

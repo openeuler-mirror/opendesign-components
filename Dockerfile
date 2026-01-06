@@ -27,7 +27,7 @@ COPY --from=NginxBuilder /usr/share/nginx/sbin/nginx /usr/share/nginx/sbin/nginx
 COPY --from=NginxBuilder /etc/nginx/modules /etc/nginx/modules
 COPY --from=NginxBuilder /etc/nginx/geoip  /etc/nginx/geoip
 COPY --from=NginxBuilder /etc/nginx/mime.types  /etc/nginx/mime.types
-COPY --from=Builder /home/openDesign/web/packages/docs/dist /usr/share/nginx/www/
+COPY --from=Builder /home/openDesign/web/packages/docs/dist /usr/share/nginx/dist/
 COPY ./deploy/monitor.sh ./deploy/entrypoint.sh /etc/nginx/
 COPY ./deploy/nginx/nginx.conf /etc/nginx/nginx.conf.template
 
@@ -36,8 +36,8 @@ RUN sed -i "s|repo.openeuler.org|mirrors.nju.edu.cn/openeuler|g" /etc/yum.repos.
     && sed -i '/metadata_expire/d' /etc/yum.repos.d/openEuler.repo \
     && yum update -y \
     && yum install -y findutils passwd shadow pcre-devel net-tools libmaxminddb libmaxminddb-devel \
-    && find /usr/share/nginx/www -type d -print0| xargs -0 chmod 500 \
-    && find /usr/share/nginx/www -type f -print0| xargs -0 chmod 400 \
+    && find /usr/share/nginx/dist -type d -print0| xargs -0 chmod 500 \
+    && find /usr/share/nginx/dist -type f -print0| xargs -0 chmod 400 \
     && touch /var/run/nginx.pid \
     && groupadd -g 1000 nginx \
     && useradd -u 1000 -g nginx -s /sbin/nologin nginx \

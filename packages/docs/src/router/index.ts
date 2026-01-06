@@ -4,7 +4,7 @@ import { routes as componentRoutes } from './components';
 import { useI18n } from '@opensig/opendesign';
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
