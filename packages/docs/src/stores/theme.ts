@@ -105,8 +105,8 @@ export const useThemeStore = defineStore('theme', () => {
     linkDom.href = styleHref;
     linkDom.dataset.skinMark = `${LINK_DOM_MARK}${newVal}`;
     document.head.insertBefore(linkDom, document.head.firstElementChild);
+    skinValue.value = newVal;
     linkDom.onload = async () => {
-      skinValue.value = newVal;
       document.documentElement.dataset.oTheme = theme.value;
       if (oldSkinValue !== undefined) {
         document.head.querySelector(`link[data-skin-mark="${LINK_DOM_MARK}${oldSkinValue}"]`)?.remove();
