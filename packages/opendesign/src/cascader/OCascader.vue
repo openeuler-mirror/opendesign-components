@@ -19,7 +19,7 @@ const handleChange = (val: CascaderValueT) => {
   emits('update:modelValue', val);
 };
 
-const innerTrigger = computed(() => { 
+const innerTrigger = computed(() => {
   if (!isTouchDevice) {
     return props.trigger;
   }
@@ -45,6 +45,7 @@ const innerTrigger = computed(() => {
     :unmount-on-hide="props.unmountOnHide"
     :transition="props.transition"
     :option-wrap-class="mergeClass('o-cascader', props.optionWrapClass)"
+    :size="props.size"
   >
     <OCascaderPanel
       :options="props.options"
