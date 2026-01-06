@@ -8,5 +8,22 @@
 @include respond('<=laptop') {
   .o-upload {
     --upload-drag-padding: 16px 8px;
+
+    --upload-card-width: 96px;
+    --upload-drag-max-width: 400px;
+  }
+
+  .o-upload-card-add {
+    font-size: var(--o-font_size-tip2);
+    line-height: var(--o-line_height-tip2);
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-upload {
+    --upload-drag-max-width: 240px;
+  }
+  .o-upload-drag-icon + .o-upload-drag-label {
+    margin-top: 12px;
   }
 }

@@ -3,6 +3,7 @@
   --pagination-arrow-size: var(--o-control_size-s);
   --pagination-item-gap: 24px;
   --pagination-item-sm-gap: 8px;
+  --pagination-item-size-gap: 12px;
 
   --pagination-arrow-color: var(--o-color-info2);
   --pagination-arrow-color-hover: var(--o-color-info1);
@@ -10,7 +11,7 @@
   --pagination-arrow-color-disabled: var(--o-color-info4);
 
   --pagination-item-color: var(--o-color-info2);
-  
+
   --pagination-item-bg-color: transparent;
   --pagination-item-bg-color-hover: var(--o-color-primary2);
   --pagination-item-bg-color-active: var(--o-color-control3);
