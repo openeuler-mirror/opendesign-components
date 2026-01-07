@@ -1,6 +1,31 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pad') {
+@include respond('<=laptop') {
+  .o-select-large {
+    --select-text-size: var(--o-font_size-tip1);
+    --select-text-height: var(--o-line_height-tip1);
+
+    --select-height: 36px;
+
+    --select-icon-size: var(--o-icon_size_control-s);
+  }
+
+  .o-select-medium {
+    --select-height: 28px;
+  }
+
+  .o-select-options-medium {
+    & .o-option {
+      --option-padding: 2px 12px;
+    }
+
+    & .o-cascader-option {
+      --cascader-option-padding: 2px 12px;
+    }
+  }
+}
+
+@include respond('<=pad') {
   .o-select-options-dlg {
     --select-options-padding: 0;
 
@@ -35,15 +60,10 @@
   }
 }
 
-@include respond-to('laptop') {
+@include respond('<=pad_v') {
   .o-select-large {
-    --select-icon-size: var(--o-icon_size_control-s);
-  }
-}
+    --select-icon-size: var(--o-icon_size_control-m);
 
-@include respond-to('<=laptop') {
-  .o-select-large {
-    --select-text-size: var(--o-font_size-tip1);
-    --select-text-height: var(--o-line_height-tip1);
+    --select-height: var(--o-control_size-l);
   }
 }

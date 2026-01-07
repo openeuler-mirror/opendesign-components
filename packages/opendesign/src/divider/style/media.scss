@@ -1,11 +1,13 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pad') {
+@include respond('<=pad') {
   .o-divider {
     --o-divider-text-size: var(--o-font_size-tip1);
     --o-divider-text-height: var(--o-line_height-tip1);
   }
+}
 
+@include respond('<=pad_v') {
   .o-divider-line {
     transform: scaleY(0.5);
   }

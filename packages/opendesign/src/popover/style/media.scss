@@ -1,8 +1,9 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-popover {
     --popover-text-size: var(--o-font_size-tip2);
     --popover-text-height: var(--o-line_height-tip2);
+    --popup-padding: 7px 12px;
   }
 }

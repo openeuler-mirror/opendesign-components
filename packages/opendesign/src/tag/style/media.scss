@@ -1,12 +1,16 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pad_v') {
+@include respond('<=laptop') {
+  .o-tag-large {
+    --tag-padding: 0 7px;
+    --tag-height: 20px;
+  }
+}
+
+@include respond('<=pad_v') {
   .o-tag-medium {
-    --tag-padding: 0 6px;
-    --tag-text-size: var(--o-font_size-tip2);
-    --tag-text-height: var(--o-line_height-tip2);
+    --tag-padding: 0 5px;
     --tag-height: var(--o-control_size-xs);
-    --tag-icon-size: var(--o-icon_size_control-xs);
 
     .o-tag-label,
     .o-tag-icon,

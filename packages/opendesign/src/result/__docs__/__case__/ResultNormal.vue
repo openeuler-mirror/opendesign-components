@@ -29,7 +29,7 @@ const status = 'success';
 .demo-result-wrap {
   .extra-btn {
     margin: 0 8px;
-    @include respond-to('<=pad') {
+    @include respond('<=pad') {
       margin: 0 6px;
     }
   }

@@ -1,7 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-/* 0-1680 */
-@include respond-to('<=pc_s') {
+@include respond('<=laptop') {
   .o-menu-medium {
     --menu-item-padding-v: 4px;
 
@@ -17,8 +16,7 @@
   }
 }
 
-/* 0-1200 */
-@include respond-to('<=pad') {
+@include respond('<=pad_v') {
   .o-menu-small {
     --menu-text-size: var(--o-font_size-tip2);
     --menu-text-height: var(--o-line_height-tip2);

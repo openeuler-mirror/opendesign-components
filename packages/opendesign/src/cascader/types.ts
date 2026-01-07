@@ -1,6 +1,6 @@
 import { ExtractPropTypes, PropType } from 'vue';
 import { PopupPositionT, PopupTriggerT } from '../popup';
-import type { RoundT, VariantT } from '../_utils/types';
+import type { RoundT, VariantT, SizeT } from '../_utils/types';
 
 export type CascaderNodeValueT = string | number;
 export type CascaderNodePathT = Array<CascaderNodeValueT>;
@@ -109,6 +109,15 @@ export const cascaderProps = {
   expandTrigger: {
     type: String as PropType<'click' | 'hover'>,
     default: 'click',
+  },
+  /**
+   * @zh-CN 选择器尺寸
+   * @en-US Select size
+   * @default 'large'
+   */
+  size: {
+    type: String as PropType<SizeT>,
+    default: 'large',
   },
 };
 

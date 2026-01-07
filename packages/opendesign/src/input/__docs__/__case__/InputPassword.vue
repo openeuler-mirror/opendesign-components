@@ -24,7 +24,7 @@ const inputVal = ref('');
 .demo-input-password-wrap {
   .input-medium {
     width: 320px;
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       max-width: 320px;
       width: 100%;
     }

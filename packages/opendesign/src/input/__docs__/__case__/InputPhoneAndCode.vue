@@ -104,26 +104,26 @@ const onInput = (_e: Event, value: string) => {
 
 .demo-input-phone-wrap {
   display: flex;
-  @include respond-to('<=pad_v') {
+  @include respond('<=pad_v') {
     flex-direction: column;
   }
   .code-wrap {
     margin-left: var(--o-gap-4);
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       margin-left: 0;
       margin-top: var(--o-gap-4);
     }
   }
   .input-medium {
     width: 320px;
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       max-width: 320px;
       width: 100%;
     }
   }
   .code-input {
     width: 220px;
-    @include respond-to('<=pad_v') {
+    @include respond('<=pad_v') {
       max-width: 320px;
       width: 100%;
     }

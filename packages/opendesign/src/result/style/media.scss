@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('pad_v-pc_s') {
+@include respond('pad_v-laptop') {
   .o-result {
     --result-image-width: 160px;
     --result-image-height: 140px;
@@ -17,7 +17,7 @@
   }
 }
 
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-result {
     --result-image-width: 160px;
     --result-image-height: 140px;

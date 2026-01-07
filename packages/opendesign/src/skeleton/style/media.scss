@@ -1,6 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=laptop') {
+@include respond('<=laptop') {
   .o-skeleton-avatar-large {
     --skeleton-width: 64px;
     --skeleton-height: 64px;
@@ -17,7 +17,7 @@
   }
 }
 
-@include respond-to('<=pad') {
+@include respond('<=pad') {
   .o-skeleton-avatar-medium {
     --skeleton-width: 40px;
     --skeleton-height: 40px;

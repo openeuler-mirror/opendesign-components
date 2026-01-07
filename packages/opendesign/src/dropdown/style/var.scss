@@ -1,3 +1,20 @@
+.o-dropdown {
+  .o-btn-large {
+    --btn-padding: 0 15px 0 23px;
+    --btn-gap: 4px;
+  }
+
+  .o-btn-medium {
+    --btn-padding: 0 11px 0 15px;
+    --btn-gap: 4px;
+  }
+
+  .o-btn-small {
+    --btn-padding: 0 11px 0 15px;
+    --btn-gap: 4px;
+  }
+}
+
 .o-dropdown-list {
   --dropdown-list-bg-color: var(--o-color-control5-light);
   --dropdown-list-shadow: var(--o-shadow-2);
@@ -18,7 +35,7 @@
   --dropdown-item-text-size: var(--o-font_size-text1);
   --dropdown-item-text-height: var(--o-line_height-text1);
 
-  --dropdown-item-justify: center;
+  --dropdown-item-justify: left;
 
   --dropdown-item-padding: 7px 12px;
   --dropdown-item-gap: 2px;

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useSlots } from 'vue';
 import { messageProps } from './types';
 import { IconWarning, IconDanger, IconLoading, IconInfo, IconSuccess, IconClose } from '../_utils/icons';
 import { isFunction, isUndefined } from '../_utils/is';
+import { isEmptySlot } from '../_utils/vue-utils';
 
 const props = defineProps(messageProps);
+const slots = useSlots();
 
 const iconMap = {
   info: IconInfo.value,
@@ -24,6 +26,20 @@ const emits = defineEmits<{
   (e: 'close', ev?: MouseEvent): void;
   (e: 'update:visible', val: boolean): void;
 }>();
+
+const hasTitle = computed(() => {
+  return !isEmptySlot(slots.title) || props.title;
+});
+const hasContent = computed(() => {
+  return !isEmptySlot(slots.default);
+});
+
+const isOnlyTitle = computed(() => {
+  return hasTitle.value && !hasContent.value && props.colorful;
+});
+const isOnlyContent = computed(() => {
+  return hasContent.value && !hasTitle.value && props.colorful;
+});
 
 let timer = 0;
 
@@ -81,11 +97,13 @@ defineExpose({
     v-if="isVisible"
     class="o-message"
     :class="[
-      `o-message-${props.status}`, 
-      { 
-        'o-message-colorful': props.colorful, 
-        'o-messgage-with-title': $slots.title || props.title 
-      }
+      `o-message-${props.status}`,
+      {
+        'o-message-colorful': props.colorful,
+        'o-messgage-both': hasTitle && hasContent,
+        'o-message-only-title': isOnlyTitle,
+        'o-message-only-content': isOnlyContent,
+      },
     ]"
     @mouseenter="clearTimer"
     @mouseleave="startTimer"

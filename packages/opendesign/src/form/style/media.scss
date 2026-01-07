@@ -1,25 +1,25 @@
 @use '../../_styles/mixin.scss' as *;
 @use './var.scss';
 
-@include respond-to('laptop-pc_s') {
+@include respond('laptop') {
   .o-form {
     --form-item-gap: 16px;
     --form-label-main-gap: 24px;
   }
 }
-@include respond-to('pad_h') {
+@include respond('pad_h') {
   .o-form {
     --form-item-gap: 12px;
     --form-label-main-gap: 16px;
   }
 }
-@include respond-to('<=pad_v') {
+@include respond('<=pad_v') {
   .o-form {
     --form-item-gap: 12px;
     --form-label-main-gap: 8px;
   }
 }
-@include respond-to('phone') {
+@include respond('phone') {
   .o-form {
     --form-msg-gap: 4px 0 0 12px;
   }

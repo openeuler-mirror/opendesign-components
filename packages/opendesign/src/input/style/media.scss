@@ -1,15 +1,33 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('laptop') {
-  .o-input-large {
-    --input-icon-size: var(--o-icon_size-s);
+@include respond('<=laptop') {
+  .o-input {
+    &.o_box-large {
+      --input-icon-size: var(--o-icon_size-s);
 
-    --input-text-size: var(--o-font_size-tip1);
-    --input-text-height: var(--o-line_height-tip1);
+      --_box-text-size: var(--o-font_size-tip1);
+      --_box-text-height: var(--o-line_height-tip1);
+
+      --_box-height: 36px;
+    }
+
+    &.o_box-medium {
+      --_box-height: 28px;
+    }
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-input {
+    &.o_box-large {
+      --input-icon-size: var(--o-icon_size-m);
+
+      --_box-height: var(--o-control_size-l);
+    }
   }
 }
 .o-input {
-  @include respond-to('phone') {
+  @include respond('phone') {
     &.o_box-small {
       --_box-padding: 0 5px;
     }
