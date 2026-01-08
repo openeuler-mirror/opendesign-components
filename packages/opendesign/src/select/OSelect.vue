@@ -135,8 +135,8 @@ watch(
         } else {
           valueList.value = [v[v.length - 1]];
         }
-      } else if (!isUndefined(v)) {
-        valueList.value = [v];
+      } else {
+        valueList.value = isUndefined(v) ? [] : [v];
       }
     }
     finalValueList.value = [...valueList.value];
