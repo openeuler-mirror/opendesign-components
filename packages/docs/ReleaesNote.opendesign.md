@@ -84,6 +84,8 @@
 - **OCard** 修复在暗夜模式下的文本溢出样式
 
 ### style
+
+- **Mixin** 刷新响应式断点（laptop更新为[1200px, 1680px]），并新增respond
 - **OLink** 
     - 尺寸为`large`时图标尺寸修改为从`--o-icon_size_control-m`变更为`--o-icon_size_control-s`
     - `hoverUnderline`默认值更改为`true`
