@@ -74,15 +74,15 @@ $o-breakpoints: (
   // laptop
   'laptop': (1201px, 1680px),
   '<=laptop': (0, 1680px),
-  '>laptop': 1680px,
+  '>laptop': 1681px,
   'pad-laptop': (601px, 1680px),
   'pad_v-laptop': (841px, 1680px),
   'laptop_s': (1201px, 1440px),
   '<=laptop_s': (0, 1440px),
-  '>laptop_l': 1440px,
+  '>laptop_l': 1441px,
   // pc
   'pc': (1680px, 1920px),
-  '>pc': 1921px,
+  '>pc': 1921px
 );
 @mixin respond($breakname) {
   $bp: map.get($o-breakpoints, $breakname);
@@ -104,7 +104,6 @@ $o-breakpoints: (
     }
   }
 }
-
 
 @mixin hoverable($hover: hover) {
   @media (hover: $hover) {
