@@ -20,6 +20,10 @@
   --menu-base-indent: calc(var(--menu-icon-size) + var(--menu-icon-gap));
 }
 
+.o-menu-arrow-right:not(:has(.o-sub-menu-title-icon, .o-menu-item-icon)) {
+  --menu-base-indent: 16px;
+}
+
 .o-menu-medium {
   --menu-item-padding-v: 8px;
   --menu-padding-h: 8px;
