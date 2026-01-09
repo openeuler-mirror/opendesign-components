@@ -17,6 +17,8 @@
 
 .o-anchor-indicator {
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   width: var(--anchor-indicator-width);
