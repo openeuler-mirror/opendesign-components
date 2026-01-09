@@ -15,7 +15,7 @@ const inputVal = ref('');
 </script>
 <template>
   <div class="demo-input-password-wrap">
-    <OInput v-model="inputVal" class="input-medium" size="large" round="pill" placeholder="请输入密码" type="password" />
+    <OInput v-model="inputVal" class="input-medium" size="large" placeholder="请输入密码" type="password" />
   </div>
 </template>
 <style scoped lang="scss">
