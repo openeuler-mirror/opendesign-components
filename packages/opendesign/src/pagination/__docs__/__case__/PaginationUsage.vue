@@ -62,7 +62,6 @@ const _oSchema = reactive({
   },
   showMore: {
     type: 'boolean',
-    default: true,
   },
   simple: {
     type: 'boolean',
