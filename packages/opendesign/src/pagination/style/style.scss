@@ -146,17 +146,6 @@
 .o-pagination-more-icon {
   font-size: var(--o-icon_size_control-xs);
   display: inline-flex;
-  .o-pagination-more-icon-wrap:hover & {
-    display: none;
-  }
-}
-
-.o-pagination-more-arrow-icon {
-  font-size: var(--o-icon_size_control-xs);
-  display: none;
-  .o-pagination-more-icon-wrap:hover & {
-    display: inline-flex;
-  }
 }
 
 .o-pagination-virtual-more-list {

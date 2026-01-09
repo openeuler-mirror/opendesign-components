@@ -64,7 +64,7 @@ watch(
   () => [totalPage.value, pageVal.value],
   () => {
     pages.value = getPagerList(totalPage.value, pageVal.value, props.showPageCount);
-  }
+  },
 );
 
 // 处理page和pageSize变化
@@ -225,7 +225,7 @@ defineExpose({
               <span v-if="!item.isMore">{{ item.value }}</span>
               <OPopover
                 v-else
-                v-model:visible="moreVisible[item.value as 'left'|'right']"
+                v-model:visible="moreVisible[item.value as 'left' | 'right']"
                 position="bottom"
                 wrap-class="o-options-popup"
                 :disabled="!props.showMore"
@@ -259,7 +259,6 @@ defineExpose({
                 <template #target>
                   <span class="o-pagination-more-icon-wrap" @click.stop="moreClick(item)">
                     <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
-                    <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
                   </span>
                 </template>
               </OPopover>
