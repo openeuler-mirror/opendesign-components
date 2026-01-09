@@ -34,7 +34,6 @@ const selectVal6 = ref([]);
         placeholder="单选文字选择器"
         variant="text"
         size="large"
-        round="pill"
         color="normal"
         clearable
         class="demo-text-select"
@@ -49,7 +48,6 @@ const selectVal6 = ref([]);
         placeholder="多选文字选择器"
         variant="text"
         size="large"
-        round="pill"
         clearable
         multiple
         class="demo-text-select"
@@ -57,11 +55,11 @@ const selectVal6 = ref([]);
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect placeholder="禁用文字选择器" variant="text" size="large" round="pill" disabled class="demo-text-select">
+      <OSelect placeholder="禁用文字选择器" variant="text" size="large" disabled class="demo-text-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect placeholder="加载文字选择器" variant="text" size="large" round="pill" loading class="demo-text-select">
+      <OSelect placeholder="加载文字选择器" variant="text" size="large" loading class="demo-text-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </div>
