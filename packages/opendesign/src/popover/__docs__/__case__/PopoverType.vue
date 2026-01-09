@@ -31,7 +31,7 @@ const onBtnClick = () => {
       <OButton ref="popoverTarget" round="pill"> demo-popover </OButton>
       <OPopover :target="popoverTarget" position="top" trigger="click" wrap-class="demo-popover-large">
         <div style="max-width: 200px">
-          <div style="font-size: 16px; margin-bottom: 4px">{{ title }}</div>
+          <div style="font-size: 16px; margin-bottom: 4px; font-weight: 600">{{ title }}</div>
           <div style="margin-bottom: 8px">{{ text }}</div>
           <div style="display: flex; justify-content: end">
             <div style="width: fit-content; cursor: pointer" @click="onBtnClick">{{ gotIt }}</div>
