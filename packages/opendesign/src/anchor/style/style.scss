@@ -163,10 +163,12 @@
   .o-anchor-item-sub-link {
     @include hover {
       background-color: var(--anchor-item-bg-color-hover);
+      color: var(--anchor-item-link-color);
     }
 
     &:active {
       background-color: var(--anchor-item-bg-color-press);
+      color: var(--anchor-item-link-color);
     }
   }
 }
