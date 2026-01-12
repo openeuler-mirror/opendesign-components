@@ -18,7 +18,7 @@ for item in "$SOURCE_DIR"/*; do
 done
 
 echo "Fetching latest version from npm..."
-LATEST_VERSION=$(curl -s "https://registry.npmjs.com/@opensig/opendesign" | \
+LATEST_VERSION=$(curl -s "https://registry.npmmirror.com/@opensig/opendesign" | \
   grep -E '"latest":"[^"]+"' | \
   sed -e 's/.*"latest":"//' -e 's/".*//')
 echo "Latest version: $LATEST_VERSION"

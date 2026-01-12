@@ -1,6 +1,6 @@
 services:
   opendesign-component-doc:
-    image: nginx
+    image: nginx:1.27.4
     container_name: opendesign-component-doc
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf.template
@@ -8,7 +8,23 @@ services:
       - ./temp:/usr/share/nginx/www
       - ../../packages/docs/dist:/usr/share/nginx/dist
     ports:
-      - "8080:80"
+      - "8081:8080"
+#    entrypoint: tail
+#    command:
+#      - -f
+#      - /dev/null
+  opendesign-component-doc-eular:
+    build:
+      context: ../../
+    container_name: opendesign-component-doc-eular
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf.template
+      - ../entrypoint.sh:/etc/nginx/entrypoint.sh
+      - ../monitor.sh:/etc/nginx/monitor.sh
+      - ./temp:/usr/share/nginx/www
+      - ../../packages/docs/dist:/usr/share/nginx/dist
+    ports:
+      - "8080:8080"
 #    entrypoint: tail
 #    command:
 #      - -f
