@@ -8,8 +8,8 @@ kind: display
 ## Demo
 
 <!-- @usage SkeletonUsage -->
-<!-- @case:a|k|e SkeletonAvatar -->
-<!-- @case:a|k|e SkeletonLoading -->
+<!-- @case SkeletonAvatar -->
+<!-- @case SkeletonLoading -->
 
 ## Api
 

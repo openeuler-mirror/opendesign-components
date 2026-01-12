@@ -1,9 +1,9 @@
 .o-skeleton {
-  --skeleton-bg-color: var(--o-color-control2-light);
+  --skeleton-bg-color: var(--o-color-control4-light);
 }
 
 .o-skeleton-animation {
-  --skeleton-bg-color: linear-gradient(90deg, var(--o-color-control2-light) 25%, var(--o-color-control3-light) 37%, var(--o-color-control2-light) 63%);
+  --skeleton-bg-color: linear-gradient(90deg, var(--o-color-control2-light) 25%, var(--o-color-control1-light) 37%, var(--o-color-control2-light) 63%);
 }
 
 .o-skeleton-item {
