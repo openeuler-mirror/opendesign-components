@@ -22,6 +22,15 @@
       // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
       background-size: 100% 1px;
     }
+    // ios的table不兼容定位relative
+    @supports (-webkit-overflow-scrolling: touch) {
+      &:after {
+        display: none;
+      }
+      th {
+        border-bottom: var(--table-border);
+      }
+    }
   }
 
   th,
