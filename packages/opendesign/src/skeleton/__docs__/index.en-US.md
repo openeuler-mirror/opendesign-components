@@ -1,6 +1,6 @@
 ---
 sidebar: OSkeleton
-kind: display
+kind: feedback
 ---
 
 # Skeleton
