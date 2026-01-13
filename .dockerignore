@@ -11,6 +11,8 @@ node_modules
 /output
 dist
 dist-ssr
+icon-components
+temp
 *.local
 
 # Editor directories and files

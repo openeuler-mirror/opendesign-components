@@ -1,4 +1,4 @@
-FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/node:24.7.0 as Builder
+FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/node:24.7.0 AS builder
 
 RUN mkdir -p /home/openDesign/web
 WORKDIR /home/openDesign/web
@@ -8,26 +8,26 @@ RUN npm install pnpm@10.16.1 -g && \
     pnpm docs:install && \
     pnpm docs:build
 
-FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/nginx:latest as NginxBuilder
+FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/nginx:latest AS nginx_builder
 
 FROM swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/base:latest
 
-ENV NGINX_CONFIG_FILE /etc/nginx/nginx.conf
-ENV NGINX_CONFIG_PATH /etc/nginx/
-ENV NGINX_PID /var/run/nginx.pid
-ENV NGINX_USER nginx
-ENV NGINX_GROUP nginx
-ENV NGINX_BIN /usr/share/nginx/sbin/
-ENV NGINX_HOME /usr/share/nginx/
-ENV NGINX_EXE_FILE /usr/share/nginx/sbin/nginx
-ENV DST_PATH /etc/nginx/cert
+ENV NGINX_CONFIG_FILE="/etc/nginx/nginx.conf"
+ENV NGINX_CONFIG_PATH="/etc/nginx/"
+ENV NGINX_PID="/var/run/nginx.pid"
+ENV NGINX_USER="nginx"
+ENV NGINX_GROUP="nginx"
+ENV NGINX_BIN="/usr/share/nginx/sbin/"
+ENV NGINX_HOME="/usr/share/nginx/"
+ENV NGINX_EXE_FILE="/usr/share/nginx/sbin/nginx"
+ENV DST_PATH="/etc/nginx/cert"
 
-COPY --from=NginxBuilder /usr/share/nginx /usr/share/nginx
-COPY --from=NginxBuilder /usr/share/nginx/sbin/nginx /usr/share/nginx/sbin/nginx
-COPY --from=NginxBuilder /etc/nginx/modules /etc/nginx/modules
-COPY --from=NginxBuilder /etc/nginx/geoip  /etc/nginx/geoip
-COPY --from=NginxBuilder /etc/nginx/mime.types  /etc/nginx/mime.types
-COPY --from=Builder /home/openDesign/web/packages/docs/dist /usr/share/nginx/www/
+COPY --from=nginx_builder /usr/share/nginx /usr/share/nginx
+COPY --from=nginx_builder /usr/share/nginx/sbin/nginx /usr/share/nginx/sbin/nginx
+COPY --from=nginx_builder /etc/nginx/modules /etc/nginx/modules
+COPY --from=nginx_builder /etc/nginx/geoip  /etc/nginx/geoip
+COPY --from=nginx_builder /etc/nginx/mime.types  /etc/nginx/mime.types
+COPY --from=builder /home/openDesign/web/packages/docs/dist /usr/share/nginx/dist/
 COPY ./deploy/monitor.sh ./deploy/entrypoint.sh /etc/nginx/
 COPY ./deploy/nginx/nginx.conf /etc/nginx/nginx.conf.template
 
@@ -36,8 +36,8 @@ RUN sed -i "s|repo.openeuler.org|mirrors.nju.edu.cn/openeuler|g" /etc/yum.repos.
     && sed -i '/metadata_expire/d' /etc/yum.repos.d/openEuler.repo \
     && yum update -y \
     && yum install -y findutils passwd shadow pcre-devel net-tools libmaxminddb libmaxminddb-devel \
-    && find /usr/share/nginx/www -type d -print0| xargs -0 chmod 500 \
-    && find /usr/share/nginx/www -type f -print0| xargs -0 chmod 400 \
+    && find /usr/share/nginx/dist -type d -print0| xargs -0 chmod 500 \
+    && find /usr/share/nginx/dist -type f -print0| xargs -0 chmod 400 \
     && touch /var/run/nginx.pid \
     && groupadd -g 1000 nginx \
     && useradd -u 1000 -g nginx -s /sbin/nologin nginx \
