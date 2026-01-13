@@ -100,7 +100,7 @@ const onDrap = (e: DragEvent) => {
           </div>
         </slot>
       </div>
-      <OButton v-else :disabled="props.disabled" :icon="IconAdd">
+      <OButton v-else round="pill" :disabled="props.disabled" :icon="IconAdd" >
         {{ props.btnLabel ?? t('upload.buttonLabel') }}
       </OButton>
     </slot>

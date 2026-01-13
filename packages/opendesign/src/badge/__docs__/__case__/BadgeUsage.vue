@@ -30,7 +30,7 @@ import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 const _oSchema = {
   value: {
     type: 'string',
-    default: '100',
+    default: '9',
   },
   max: {
     type: 'number',
@@ -47,11 +47,11 @@ const _oSchema = {
   },
   offsetX: {
     type: 'number',
-    default: 0,
+    default: 6,
   },
   offsetY: {
     type: 'number',
-    default: 0,
+    default: -6,
   },
 } satisfies Record<string, DocDemoSchema>;
 
@@ -61,14 +61,23 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   const isNumber = NUMBER_REGEXP.test(value);
 
   return `
+  <div class="demo-badge-usage-wrap">
 <OBadge
   ${propsToAttrStr(props, ['offsetX', 'offsetY', 'value'])}
   ${isNumber ? `:value="${parseInt(value)}"` : `value="${value}"`}
   ${offsetX || offsetY ? `:offset="[${offsetX}, ${offsetY}]"` : ''}
 >
   <img src="/avatar.svg" alt="avatar" style="width: 48px; height: 48px;" />
-</OBadge>`;
+</OBadge>
+</div>`;
 };
 
 const _oCtx = {};
 </script>
+<style>
+.demo-badge-usage-wrap {
+  .o-badge-content {
+    transform: none;
+  }
+}
+</style>
