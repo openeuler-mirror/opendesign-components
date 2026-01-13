@@ -43,7 +43,9 @@ const _oSchema = {
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `<OBreadcrumb>
-    <OBreadcrumbItem  ${propsToAttrStr(props)}>Home</OBreadcrumbItem>
+    <OBreadcrumbItem  ${propsToAttrStr(props)}> 
+      <OIconSkill style="margin-right:4px;font-size:16px;" />Home
+    </OBreadcrumbItem>
     <OBreadcrumbItem>Current Page</OBreadcrumbItem>
   </OBreadcrumb>`;
 };
