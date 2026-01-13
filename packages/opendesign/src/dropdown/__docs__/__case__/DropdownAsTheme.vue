@@ -1,22 +1,23 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-#### 运营按钮
+#### 运营下拉按钮
 
-- **配置方式**：为按钮组件添加类名 `c-btn-activity` 或 `c-btn-ascend`（二选一），同时为 `ODropdown` 组件添加类名 `o-dropdwon-btn-wrap`
+- **配置方式**：需同时传递两个参数
+  `color="brand"`（标识颜色为主题色） + `variant="solid"`（实心样式）
 
 <!-- en-US -->
 
-#### Operational Buttons
+#### Operational Dropdown Buttons
 
-- **Configuration Method**: Add the class name 'c-btn-activity' or 'c-btn-ascend' (choose one) to the `OButton` component, and add the class name 'o-dropdwon-btn-wrap' to the `ODropdown` component at the same time.
+- **Configuration Method**: Requires passing two parameters simultaneously:
+  `color="brand"` (indicates the color as the theme color) + `variant="solid"` (solid style).
 </docs>
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { ODropdown, ODropdownItem, OButton, OIconChevronDown, type SizeT, type PopupTriggerT } from '@opensig/opendesign';
 interface ListT {
   size: SizeT;
-  btnClass: string;
   visible: boolean;
   forbid: boolean;
   trigger: PopupTriggerT;
@@ -24,21 +25,18 @@ interface ListT {
 const list = reactive<Array<ListT>>([
   {
     size: 'large',
-    btnClass: 'c-btn-activity',
     visible: false,
     forbid: false,
     trigger: 'click-outclick',
   },
   {
     size: 'medium',
-    btnClass: 'c-btn-ascend',
     visible: false,
     forbid: false,
     trigger: 'click-outclick',
   },
   {
-    size: 'medium',
-    btnClass: 'c-btn-activity',
+    size: 'small',
     visible: false,
     forbid: true,
     trigger: 'none',
@@ -54,7 +52,7 @@ const options = [
   <div class="row">
     <template v-for="(item, idx) in list" :key="idx">
       <ODropdown v-model:visible="item.visible" :trigger="item.trigger" :size="item.size" class="o-dropdown-btn-wrap">
-        <OButton round="pill" :size="item.size" :class="item.btnClass" :disabled="item.forbid">
+        <OButton color="brand" variant="solid" round="pill" :size="item.size" :disabled="item.forbid">
           下拉按钮
           <template #suffix>
             <OIconChevronDown class="icon" :class="{ active: item.visible }" />
