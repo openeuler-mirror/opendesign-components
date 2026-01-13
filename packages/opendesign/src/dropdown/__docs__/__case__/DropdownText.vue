@@ -1,13 +1,13 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-#### 文本按钮
+#### 文本下拉按钮
 
 - **基础组件**：使用 `OButton` 组件实现
 - **下拉禁用**：需给 `OButton` 传递 `disabled` 属性，并同时给 `ODropdown` 传递 `trigger="none"` 属性
 <!-- en-US -->
 
-#### Text Buttons
+#### Text Dropdown Buttons
 
 - **Base Component**: Implemented using the `OButton` component.
 - **Dropdown disabled**：The 'disabled' attribute needs to be passed to `OButton`, and at the same time, the 'trigger="none"' attribute should be passed to `ODropdown`.
@@ -35,7 +35,7 @@ const list = reactive<Array<ListT>>([
     trigger: 'click-outclick',
   },
   {
-    size: 'medium',
+    size: 'small',
     visible: false,
     forbid: true,
     trigger: 'none',

@@ -1,6 +1,6 @@
 ---
 sidebar: OSkeleton 骨架屏
-kind: display
+kind: feedback
 ---
 
 # 骨架屏
