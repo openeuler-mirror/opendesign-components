@@ -1,3 +1,17 @@
+## 1.0.1-sp5
+
+### Bug Fixes
+
+- **OTable:** 降级兼容ios下表头分割线定位问题
+
+
+## 1.0.1-sp3/4
+
+### Bug Fixes
+
+- **use-input:** 修复输入类组件输入一次触发两次input事件的问题
+
+
 ## 1.1.0
 
 ### BREAKING CHANGES
