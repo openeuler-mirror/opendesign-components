@@ -1,9 +1,9 @@
 ---
-sidebar: ODialog 对话框
+sidebar: ODialog 弹窗
 kind: container
 ---
 
-# ODialog 对话框
+# ODialog 弹窗
 
 ## 示例
 
@@ -12,9 +12,9 @@ kind: container
 <!-- @case DialogSlot -->
 <!-- @case DialogSlotForm -->
 
-### 非模态对话框
+### 非模态弹窗
 
-目前仅支持模态对话框，非模态对话框请使用 [OPopup](/zh-CN/components/popup) 组件。
+目前仅支持模态弹窗，非模态弹窗请使用 [OPopup](/zh-CN/components/popup) 组件。
 
 <!-- @case:a|k|e ThemeSize -->
 <!-- @case:a|k|e OperationDialog -->
