@@ -32,13 +32,13 @@ const selectVal2 = ref();
   <div class="demo-select-size-wrap">
     <div class="demo-select-size">
       <span class="demo-label">L</span>
-      <OSelect v-model="selectVal1" :placeholder="placeholder" option-title="选项标题" size="large" round="pill" clearable style="width: 320px">
+      <OSelect v-model="selectVal1" :placeholder="placeholder" option-title="选项标题" size="large" clearable style="width: 320px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </div>
     <div class="demo-select-size">
       <span class="demo-label">M</span>
-      <OSelect v-model="selectVal2" :placeholder="placeholder" option-title="选项标题" size="medium" round="pill" clearable style="width: 320px">
+      <OSelect v-model="selectVal2" :placeholder="placeholder" option-title="选项标题" size="medium" clearable style="width: 320px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </div>

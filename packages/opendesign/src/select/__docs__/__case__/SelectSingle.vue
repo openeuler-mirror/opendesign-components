@@ -30,15 +30,15 @@ const selectVal1 = ref();
 <template>
   <div class="demo-select-basic-wrap">
     <div class="demo-select-basic">
-      <OSelect v-model="selectVal1" :placeholder="placeholder" option-title="选项标题" size="large" round="pill" clearable class="demo-select">
+      <OSelect v-model="selectVal1" :placeholder="placeholder" option-title="选项标题" size="large" clearable class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect :placeholder="placeholder" size="large" round="pill" disabled class="demo-select">
+      <OSelect :placeholder="placeholder" size="large" disabled class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect :placeholder="placeholder" size="large" round="pill" loading class="demo-select">
+      <OSelect :placeholder="placeholder" size="large" loading class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </div>

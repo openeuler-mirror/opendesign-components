@@ -20,27 +20,27 @@ const hasTextInputVal = ref('Hint');
       <div class="size-label no-text-label">无文本</div>
       <div class="input-wrap">
         <span class="status-label"> Enabled </span>
-        <OInput v-model="noTextInputVal" class="input-medium" size="large" round="pill" placeholder="Hint" />
+        <OInput v-model="noTextInputVal" class="input-medium" size="large" placeholder="Hint" />
       </div>
       <div class="input-wrap">
         <span class="status-label"> Disabled </span>
-        <OInput v-model="noTextInputVal" class="input-medium" size="large" round="pill" placeholder="Hint" disabled />
+        <OInput v-model="noTextInputVal" class="input-medium" size="large" placeholder="Hint" disabled />
       </div>
       <div class="input-wrap">
         <span class="status-label"> Error </span>
         <div class="error-wrap">
-          <OInput v-model="noTextInputVal" class="input-medium" size="large" round="pill" placeholder="Hint" color="danger" />
+          <OInput v-model="noTextInputVal" class="input-medium" size="large" placeholder="Hint" color="danger" />
           <div class="error-tip">输入内容有误，请重新输入正确内容</div>
         </div>
       </div>
     </div>
     <div class="has-text">
       <div class="size-label">有文本</div>
-      <div class="input-wrap"><OInput v-model="hasTextInputVal" class="input-medium" size="large" round="pill" :clearable="true" /></div>
-      <div class="input-wrap"><OInput v-model="hasTextInputVal" class="input-medium" size="large" round="pill" :clearable="true" disabled /></div>
+      <div class="input-wrap"><OInput v-model="hasTextInputVal" class="input-medium" size="large" :clearable="true" /></div>
+      <div class="input-wrap"><OInput v-model="hasTextInputVal" class="input-medium" size="large" :clearable="true" disabled /></div>
       <div class="input-wrap">
         <div class="error-wrap">
-          <OInput v-model="hasTextInputVal" class="input-medium" size="large" round="pill" :clearable="true" color="danger" />
+          <OInput v-model="hasTextInputVal" class="input-medium" size="large" :clearable="true" color="danger" />
           <div class="error-tip">输入内容有误，请重新输入正确内容</div>
         </div>
       </div>
