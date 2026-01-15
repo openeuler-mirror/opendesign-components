@@ -1,0 +1,1 @@
+export { default as OIconSun } from './OIconSun.vue';
