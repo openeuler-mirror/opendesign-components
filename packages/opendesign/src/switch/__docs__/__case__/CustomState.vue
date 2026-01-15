@@ -28,9 +28,5 @@ import { OSwitch, OIconDone, OIconClose } from '@opensig/opendesign';
       <template #on>开</template>
       <template #off>关</template>
     </OSwitch>
-    <OSwitch>
-      <template #on>开</template>
-      <template #off>关</template>
-    </OSwitch>
   </div>
 </template>
