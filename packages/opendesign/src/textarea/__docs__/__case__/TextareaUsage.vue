@@ -81,7 +81,6 @@ const _oSchema = {
   showLength: {
     type: 'list',
     list: ['always', 'auto', 'never'],
-    default: 'never',
   },
 } satisfies Record<string, DocDemoSchema>;
 
