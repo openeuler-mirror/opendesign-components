@@ -20,6 +20,14 @@
   --switch-icon-loading-color: var(--o-color-primary1);
 }
 
+.o-switch.o-switch-custom {
+  --switch-handler-color: var(--o-color-info1-inverse);
+
+  --switch-handler-bg-color: var(--o-color-primary1);
+
+  --switch-bg-color-checked: var(--switch-bg-color);
+}
+
 .o-switch-medium {
   --switch-min-width: 40px;
 
