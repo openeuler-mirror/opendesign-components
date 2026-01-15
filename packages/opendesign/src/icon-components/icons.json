@@ -253,6 +253,12 @@
   },
   {
     "type": "color",
+    "name": "o-icon-sun",
+    "componentName": "OIconSun",
+    "path": "color/sun.svg"
+  },
+  {
+    "type": "color",
     "name": "o-icon-success",
     "componentName": "OIconSuccess",
     "path": "color/success.svg"
@@ -262,6 +268,18 @@
     "name": "o-icon-skill",
     "componentName": "OIconSkill",
     "path": "color/skill.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-no-data",
+    "componentName": "OIconNoData",
+    "path": "color/no-data.svg"
+  },
+  {
+    "type": "color",
+    "name": "o-icon-moon",
+    "componentName": "OIconMoon",
+    "path": "color/moon.svg"
   },
   {
     "type": "color",
