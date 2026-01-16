@@ -20,11 +20,11 @@ import { OSwitch, OIconDone, OIconClose } from '@opensig/opendesign';
       <template #on><OIconDone /></template>
       <template #off><OIconClose /></template>
     </OSwitch>
-    <OSwitch>
-      <template #on>on</template>
-      <template #off>off</template>
+    <OSwitch style="--switch-text-size: var(--o-font_size-tip2); --switch-text-height: var(--o-line_height-tip2)">
+      <template #on>ON</template>
+      <template #off>OFF</template>
     </OSwitch>
-    <OSwitch>
+    <OSwitch style="--switch-text-size: var(--o-font_size-tip2); --switch-text-height: var(--o-line_height-tip2)">
       <template #on>开</template>
       <template #off>关</template>
     </OSwitch>

@@ -14,7 +14,7 @@ kind: operator
 <!-- @case SwitchLoading -->
 <!-- @case CustomState -->
 <!-- @case PreventSwitch -->
-<!-- @case SwitchWithIcon -->
+<!-- @case SwitchTheme -->
 
 ## API
 
