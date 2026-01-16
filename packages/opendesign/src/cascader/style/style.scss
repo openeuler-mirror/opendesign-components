@@ -15,7 +15,7 @@
   margin: 0;
   padding: 0 calc(var(--cascader-options-gap) / 2);
   min-width: 144px;
-  max-width: 192px;
+  max-width: 269px;
   height: 100%;
   overflow-y: auto;
 
@@ -62,6 +62,8 @@
 }
 
 .o-cascader-option-arrow {
+  display: flex;
+  align-items: center;
   font-size: var(--cascader-option-icon-size);
   margin-left: var(--cascader-option-icon-gap);
 }
