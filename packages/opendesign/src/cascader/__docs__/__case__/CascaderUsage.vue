@@ -101,6 +101,7 @@ const _oSchema = {
   variant: {
     type: 'list',
     list: ['solid', 'outline', 'text'],
+    default: 'outline',
   },
   placeholder: {
     type: 'string',
@@ -134,8 +135,45 @@ const _oCtx = reactive({
               value: '1-1-1',
             },
             {
-              label: 'Sub-option 1-1-2',
+              label: 'Sub-option 1-1-2; Sub-option 1-1-2; Sub-option 1-1-2',
               value: '1-1-2',
+            },
+            {
+              label: 'Sub-option 1-1-3',
+              value: '1-1-3',
+            },
+            {
+              label: 'Sub-option 1-1-4',
+              value: '1-1-4',
+            },
+            {
+              label: 'Sub-option 1-1-5',
+              value: '1-1-5',
+            },
+            {
+              label: 'Sub-option 1-1-1',
+              value: '1-1-1',
+            },
+            {
+              label: 'Sub-option 1-1-6',
+              value: '1-1-6',
+            },
+
+            {
+              label: 'Sub-option 1-1-7',
+              value: '1-1-7',
+            },
+            {
+              label: 'Sub-option 1-1-8',
+              value: '1-1-8',
+            },
+            {
+              label: 'Sub-option 1-1-9',
+              value: '1-1-9',
+            },
+            {
+              label: 'Sub-option 1-1-10',
+              value: '1-1-10',
             },
           ],
         },
