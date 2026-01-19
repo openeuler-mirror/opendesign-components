@@ -67,7 +67,7 @@ catalogs:
       specifier: ^16.5.0
       version: 16.5.0
     prettier:
-      specifier: ^3.6.2
+      specifier: 3.6.2
       version: 3.6.2
     typescript-eslint:
       specifier: ^8.48.0
@@ -177,6 +177,9 @@ importers:
       globals:
         specifier: catalog:lint
         version: 16.5.0
+      prettier:
+        specifier: catalog:lint
+        version: 3.6.2
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
