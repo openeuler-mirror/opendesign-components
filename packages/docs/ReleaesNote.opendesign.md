@@ -52,6 +52,8 @@
 - **OLayer:** 增加向后代组件注入`toggle`方法
 - **OLoading** 增加size属性：支持large、medium、small、mini，优化响应式适配
 - **OAnchor** 增加observeHref参数，以自定义监听元素
+- **OSwitch** 新增active、inactive插槽以支持主题切换形式的带图标开关
+- **OCard** 新增`textOverflow`属性支持切换卡片内容超出隐藏的效果
 
 ### Bug Fixes
 
@@ -95,6 +97,10 @@
     - rows默认值修改为4；
     - 删除最小高度样式；
     - 圆角为`pill`时，值为`--o-radius_control-l`
+    - `o_textarea-count`块增加了背景色，通过变量`--limit-bg-color`控制
+- **OPagination** 省略项页码在hover时去掉了左右箭头
+- **OPopver** 气泡带描边，通过变量`--popup-bd`控制
+- **OPopop** 描边的位置由`o-popup-body`上升到`o-popup-wrap`
 
 ### Code Refactoring
 
