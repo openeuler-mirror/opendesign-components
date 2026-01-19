@@ -19,11 +19,11 @@ const mediumInputVal = ref('');
   <div class="demo-input-size-wrap">
     <div class="demo-input-size">
       <div class="size-label">L</div>
-      <OInput v-model="largeInputVal" class="input-large" size="large" round="pill" :placeholder="placeholder" />
+      <OInput v-model="largeInputVal" class="input-large" size="large" :placeholder="placeholder" />
     </div>
     <div class="demo-input-size">
       <div class="size-label">M</div>
-      <OInput v-model="mediumInputVal" class="input-medium" size="medium" round="pill" :placeholder="placeholder" />
+      <OInput v-model="mediumInputVal" class="input-medium" size="medium" :placeholder="placeholder" />
     </div>
   </div>
 </template>

@@ -31,25 +31,15 @@ const selectVal4 = ref(['opt1', 'opt2', 'opt3']);
 <template>
   <div class="demo-select-basic-wrap">
     <div class="demo-select-basic">
-      <OSelect
-        v-model="selectVal2"
-        :placeholder="placeholder"
-        :max-tag-count="2"
-        option-title="选项标题"
-        size="large"
-        round="pill"
-        clearable
-        multiple
-        class="demo-select"
-      >
+      <OSelect v-model="selectVal2" :placeholder="placeholder" :max-tag-count="2" option-title="选项标题" size="large" clearable multiple class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal3" :placeholder="placeholder" :max-tag-count="2" size="large" round="pill" multiple disabled class="demo-select">
+      <OSelect v-model="selectVal3" :placeholder="placeholder" :max-tag-count="2" size="large" multiple disabled class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
 
-      <OSelect v-model="selectVal4" :placeholder="placeholder" :max-tag-count="2" size="large" round="pill" multiple loading class="demo-select">
+      <OSelect v-model="selectVal4" :placeholder="placeholder" :max-tag-count="2" size="large" multiple loading class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </div>

@@ -78,6 +78,10 @@ const _oSchema = {
     list: ['solid', 'outline', 'text'] as const,
     default: 'outline',
   },
+  showLength: {
+    type: 'list',
+    list: ['always', 'auto', 'never'],
+  },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => {

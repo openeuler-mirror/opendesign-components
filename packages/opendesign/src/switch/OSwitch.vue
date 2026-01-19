@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, useSlots } from 'vue';
 import { switchProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { IconLoading } from '../_utils/icons';
 import { isPromise, isBoolean, isUndefined } from '../_utils/is';
 import { log } from '../_utils/log';
+import { isEmptySlot } from '../_utils/vue-utils';
 
 const props = defineProps(switchProps);
+const slots = useSlots();
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean): void;
@@ -25,12 +27,16 @@ const isChecked = computed(() => {
   return _checked.value;
 });
 
+const isCustomIcon = computed(() => {
+  return !isEmptySlot(slots.active) || !isEmptySlot(slots.inactive);
+});
+
 watch(
   isChecked,
   (val) => {
     _checked.value = val;
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const isChangeable = (): Promise<boolean> => {
@@ -76,6 +82,7 @@ const onClick = (ev: Event) => {
       { 'o-switch-checked': isChecked },
       { 'o-switch-disabled': props.disabled },
       { 'o-switch-loading': props.loading },
+      { 'o-switch-custom': isCustomIcon },
     ]"
     :style="round.style.value"
     @click="onClick"
@@ -85,6 +92,10 @@ const onClick = (ev: Event) => {
         <span v-if="props.loading" class="o-switch-icon-loading o-rotating">
           <IconLoading />
         </span>
+        <div v-if="($slots.active || $slots.inactive) && !props.loading" class="o-switch-icon-wrap">
+          <slot v-if="isChecked" name="active"> </slot>
+          <slot v-else name="inactive"> </slot>
+        </div>
       </div>
       <div v-if="$slots.on || $slots.off" class="o-switch-label">
         <slot v-if="isChecked" name="on"></slot>

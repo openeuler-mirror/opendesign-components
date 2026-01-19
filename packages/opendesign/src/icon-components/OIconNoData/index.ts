@@ -1,0 +1,1 @@
+export { default as OIconNoData } from './OIconNoData.vue';

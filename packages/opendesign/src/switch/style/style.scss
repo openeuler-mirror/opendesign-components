@@ -31,6 +31,7 @@
   transform: translateY(-50%);
   width: var(--switch-handler-size);
   height: var(--switch-handler-size);
+  color: var(--switch-handler-color);
   border-radius: calc(var(--switch-radius) - 2px);
   background-color: var(--switch-handler-bg-color);
   transition: left var(--o-duration-s) var(--o-easing-standard);
@@ -44,6 +45,12 @@
     justify-content: center;
     color: var(--switch-bg-color);
   }
+}
+
+.o-switch-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .o-switch-checked {

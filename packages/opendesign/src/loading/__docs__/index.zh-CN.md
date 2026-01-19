@@ -1,6 +1,6 @@
 ---
 sidebar: OLoading 加载
-kind: display
+kind: feedback
 ---
 
 # OLoading 加载

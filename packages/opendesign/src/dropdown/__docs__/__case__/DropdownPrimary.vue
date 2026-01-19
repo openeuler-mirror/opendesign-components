@@ -1,17 +1,17 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-#### 强调按钮
+#### 强调下拉按钮
 
 - **配置方式**：需同时传递两个参数
-  `color="primary"`（标识颜色为主题色） + `variant="solid"`（实心样式），同时为 `ODropdown` 组件添加类名 `o-dropdwon-btn-wrap`
+  `color="primary"`（标识颜色为主题色） + `variant="solid"`（实心样式）
 - **下拉禁用**：需给 `OButton` 传递 `disabled` 属性，并同时给 `ODropdown` 传递 `trigger="none"` 属性
 <!-- en-US -->
 
-#### Primary Buttons (Main Action Buttons)
+#### Primary Dropdown Buttons (Main Action Buttons)
 
 - **Configuration Method**: Requires passing two parameters simultaneously:
-  `color="primary"` (indicates the color as the theme color) + `variant="solid"` (solid style), add the class name 'o-dropdwon-btn-wrap' to the `ODropdown` component.
+  `color="primary"` (indicates the color as the theme color) + `variant="solid"` (solid style).
 - **Dropdown disabled**：The 'disabled' attribute needs to be passed to `OButton`, and at the same time, the 'trigger="none"' attribute should be passed to `ODropdown`.
 </docs>
 <script setup lang="ts">
@@ -37,7 +37,7 @@ const list = reactive<Array<ListT>>([
     trigger: 'click-outclick',
   },
   {
-    size: 'medium',
+    size: 'small',
     visible: false,
     forbid: true,
     trigger: 'none',

@@ -1,17 +1,17 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-#### 普通按钮
+#### 普通下拉按钮
 
 - **配置方式**：需同时传递两个参数
-  `color="primary"`（标识颜色为主题色） + `variant="outline"`（线框样式），同时为 `ODropdown` 组件添加类名 `o-dropdwon-btn-wrap`
+  `color="primary"`（标识颜色为主题色） + `variant="outline"`（线框样式）
 
 <!-- en-US -->
 
-#### Normal Buttons
+#### Normal Dropdown Buttons
 
 - **Configuration Method**: Requires passing two parameters simultaneously:
-  `color="primary"` (indicates the color as the theme color) + `variant="outline"` (outline style), add the class name 'o-dropdwon-btn-wrap' to the `ODropdown` component.
+  `color="primary"` (indicates the color as the theme color) + `variant="outline"` (outline style).
 </docs>
 <script setup lang="ts">
 import { reactive } from 'vue';
@@ -36,7 +36,7 @@ const list = reactive<Array<ListT>>([
     trigger: 'click-outclick',
   },
   {
-    size: 'medium',
+    size: 'small',
     visible: false,
     forbid: true,
     trigger: 'none',

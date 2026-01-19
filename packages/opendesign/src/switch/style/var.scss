@@ -1,7 +1,7 @@
 .o-switch {
   --switch-radius: var(--o-control_size-s);
 
-  --switch-color: var(--o-color-info1-inverse);
+  --switch-color: var(--o-color-info4);
 
   --switch-bg-color: var(--o-color-control1-light);
   --switch-bg-color-hover: var(--o-color-control2-light);
@@ -18,6 +18,18 @@
   --switch-handler-bg-color-checked-disabled: rgb(var(--o-white), 0.4);
 
   --switch-icon-loading-color: var(--o-color-primary1);
+}
+
+.o-switch-checked {
+  --switch-color: var(--o-color-info1-inverse);
+}
+
+.o-switch.o-switch-custom {
+  --switch-handler-color: var(--o-color-info1-inverse);
+
+  --switch-handler-bg-color: var(--o-color-primary1);
+
+  --switch-bg-color-checked: var(--switch-bg-color);
 }
 
 .o-switch-medium {

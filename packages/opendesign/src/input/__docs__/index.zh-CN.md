@@ -9,10 +9,10 @@ kind: input
 
 <!-- @usage InputUsage -->
 
-<!-- @case:a|k|e InputSize -->
-<!-- @case:a|k|e InputBasic -->
-<!-- @case:a|k|e InputPassword -->
-<!-- @case:a|k|e InputPhoneAndCode -->
+<!-- @case InputSize -->
+<!-- @case InputBasic -->
+<!-- @case InputPassword -->
+<!-- @case InputPhoneAndCode -->
 
 ## Api
 

@@ -8,8 +8,7 @@
 #### Abnormal state
 </docs>
 <script setup lang="ts">
-import { OResult, OButton } from '@opensig/opendesign';
-import imgSrc from '../../../../icons/svgs/fill/image-error.svg';
+import { OResult, OButton, OIconNoData } from '@opensig/opendesign';
 
 const title = '暂无工单';
 const description = '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容';
@@ -18,7 +17,7 @@ const description = '内容内容内容内容内容内容内容内容内容内�
   <div class="demo-result-wrap">
     <OResult :title="title" :description="description">
       <template #image>
-        <img :src="imgSrc" alt="" />
+        <OIconNoData />
       </template>
       <template #extra>
         <OButton size="large" color="primary" variant="solid" round="pill">在线提单</OButton>

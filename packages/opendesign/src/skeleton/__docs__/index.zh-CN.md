@@ -1,6 +1,6 @@
 ---
 sidebar: OSkeleton 骨架屏
-kind: display
+kind: feedback
 ---
 
 # 骨架屏
@@ -8,8 +8,8 @@ kind: display
 ## 示例
 
 <!-- @usage SkeletonUsage -->
-<!-- @case:a|k|e SkeletonAvatar -->
-<!-- @case:a|k|e SkeletonLoading -->
+<!-- @case SkeletonAvatar -->
+<!-- @case SkeletonLoading -->
 
 ## Api
 

@@ -9,10 +9,10 @@ kind: operator
 
 <!-- @usage DropdownUsage -->
 
-<!-- @case:a DropdownAsTheme -->
-<!-- @case:a|k|e DropdownPrimary -->
-<!-- @case:a|k|e DropdownNormal -->
-<!-- @case:a|k|e DropdownText -->
+<!-- @case DropdownAsTheme -->
+<!-- @case DropdownPrimary -->
+<!-- @case DropdownNormal -->
+<!-- @case DropdownText -->
 
 ## Api
 

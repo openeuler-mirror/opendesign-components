@@ -75,14 +75,14 @@ const onInput = (_e: Event, value: string) => {
 </script>
 <template>
   <div class="demo-input-phone-wrap">
-    <OInput v-model="inputVal" class="input-medium" size="large" round="pill" placeholder="请输入手机号">
+    <OInput v-model="inputVal" class="input-medium" size="large" placeholder="请输入手机号">
       <template #prefix>
         <span class="international-area-code">+86（中国）</span>
         <OIconChevronDown class="input-icon" />
       </template>
     </OInput>
     <div class="code-wrap">
-      <OInput v-model="codeValue" class="input-medium code-input" size="large" round="pill" placeholder="请输入验证码" @input="onInput">
+      <OInput v-model="codeValue" class="input-medium code-input" size="large" placeholder="请输入验证码" @input="onInput">
         <template #suffix>
           <OLink
             tag="button"

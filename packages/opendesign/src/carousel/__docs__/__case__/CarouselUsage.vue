@@ -9,6 +9,7 @@
   这样可以将当前激活的幻灯片两侧的幻灯片显示出来，此时 `clickToSwitch` 参数才会有效果。
 
   ![示意图](./half.zh-CN.png)
+
 - 将 `effect` 设置为 `toggle` 为切换效果
 
 自动播放
@@ -47,6 +48,7 @@ The slideshow has two playback effects: scrolling and switching.
   This allows the slides adjacent to the currently active slide to be partially visible, enabling the `clickToSwitch` parameter to take effect.
 
   ![figure](./half.en-US.png)
+
 - Set `effect` to `toggle` for a switching effect.
 
 Auto Play:
@@ -107,6 +109,7 @@ const _oSchema = {
   },
   indicatorClick: {
     type: 'boolean',
+    default: true,
   },
   pauseOnHover: {
     type: 'boolean',

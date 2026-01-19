@@ -8,10 +8,10 @@ kind: input
 ## 示例
 
 <!-- @usage SelectUsage -->
-<!-- @case:a|k|e SelectSize -->
-<!-- @case:a|k|e SelectSingle -->
-<!-- @case:a|k|e SelectMultiple -->
-<!-- @case:a|k|e SelectText -->
+<!-- @case SelectSize -->
+<!-- @case SelectSingle -->
+<!-- @case SelectMultiple -->
+<!-- @case SelectText -->
 
 ## Api
 

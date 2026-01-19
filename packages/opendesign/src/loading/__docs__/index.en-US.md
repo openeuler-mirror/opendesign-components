@@ -1,6 +1,6 @@
 ---
 sidebar: OLoading
-kind: display
+kind: feedback
 ---
 
 # OLoading
