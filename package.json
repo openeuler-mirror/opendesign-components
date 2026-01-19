@@ -18,6 +18,7 @@
     "eslint-config-prettier": "catalog:lint",
     "eslint-plugin-vue": "catalog:lint",
     "globals": "catalog:lint",
+    "prettier": "catalog:lint",
     "typescript": "catalog:typescript",
     "typescript-eslint": "catalog:lint"
   },
