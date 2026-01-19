@@ -12,7 +12,11 @@ catalogs:
     vite-plugin-inspect: ^11.2.0
     vue-tsc: 2.2.8
   css:
+<<<<<<< HEAD
     '@opensig/opendesign-token': 0.0.9
+=======
+    '@opensig/opendesign-token': 0.0.8
+>>>>>>> 29b748d4 (chore: 🧑‍ 修复prettier缺失依赖包无法正常启动的问题)
     clean-css: ^5.3.3
     normalize.css: ^8.0.1
     sass: ^1.71.1
