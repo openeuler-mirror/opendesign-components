@@ -177,9 +177,12 @@ importers:
       globals:
         specifier: catalog:lint
         version: 16.5.0
+<<<<<<< HEAD
       prettier:
         specifier: catalog:lint
         version: 3.6.2
+=======
+>>>>>>> a20a9b2a (chore: 🧑‍ 修复eslint缺失依赖包无法正常启动的问题)
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
