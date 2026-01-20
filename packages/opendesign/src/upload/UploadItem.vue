@@ -43,6 +43,11 @@ const showLoading = (): boolean => {
   if (!props.showProgress) {
     return true;
   }
+
+  if (!props.file.percent && props.file.percent !== 0) {
+    return true;
+  }
+
   return false;
 };
 
