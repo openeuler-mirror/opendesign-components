@@ -1,4 +1,5 @@
 import { InjectionKey, Ref } from 'vue';
+import type { DirectionT } from '../_utils/types';
 
 export const anchorInjectKey: InjectionKey<{
   addLink: (link: string) => void;
@@ -9,6 +10,7 @@ export const anchorInjectKey: InjectionKey<{
   onItemClick: (options: { event: MouseEvent; link?: string }) => void;
   activeLink: Ref<string>;
   scrollIntoView: (link: string) => void;
+  layout: Ref<DirectionT>;
   getChangeHash: () => boolean;
 }> = Symbol('provide-anchor');
 

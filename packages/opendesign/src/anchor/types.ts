@@ -1,12 +1,24 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 
+import type { DirectionT } from '../_utils/types';
+
+export type AnchorDirectionT = DirectionT;
 export const AnchorSizeTypes = ['medium', 'small', 'menu'] as const;
 export type AnchorSizeT = (typeof AnchorSizeTypes)[number];
 export type AnchorTargetT = '_blank' | '_parent' | '_self' | '_top';
 
 export const anchorProps = {
   /**
-   * @zh-CN 锚点的尺寸, menu为左侧菜单或移动端菜单混合使用
+   * @zh-CN 锚点的方向，支持水平(h)与垂直(v)
+   * @en-US The orientation of the anchor, supports both horizontal(h) and vertical(v).
+   * @default 'v'
+   */
+  layout: {
+    type: String as PropType<AnchorDirectionT>,
+    default: 'v',
+  },
+  /**
+   * @zh-CN 锚点的尺寸，仅垂直模式支持, menu为左侧菜单或移动端菜单混合使用
    * @en-US Anchor size, 'menu' for aside menu-mixed or mobile menu mode
    * @default 'medium'
    */

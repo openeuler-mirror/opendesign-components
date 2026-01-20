@@ -3,7 +3,7 @@ import { computed, inject, nextTick, onMounted, onUnmounted, provide, watch, ref
 
 import { OPopover } from '../popover';
 import { isCurrentPageLink } from '../_utils/is.ts';
-import { isEmptySlot } from "../_utils/vue-utils.ts";
+import { isEmptySlot } from '../_utils/vue-utils.ts';
 import { isOverflown } from '../_utils/dom.ts';
 import { anchorItemProps } from './types';
 import { anchorInjectKey, anchorItemInjectKey } from './provide';
@@ -22,7 +22,7 @@ const emits = defineEmits<{
 const anchorInjection = inject(anchorInjectKey, null);
 const anchorItemInjection = inject(anchorItemInjectKey, null);
 
-const _observeHref = computed(() => props.observeHref || props.href)
+const _observeHref = computed(() => props.observeHref || props.href);
 
 const isActive = computed(() => {
   return _observeHref.value === anchorInjection?.activeLink.value;
@@ -48,10 +48,7 @@ const onClick = (event: MouseEvent) => {
     event.preventDefault();
     return;
   }
-  if (
-    (props.href && !isCurrentPageLink(props.href))
-    || (props.target && props.target !== '_self')
-  ) {
+  if ((props.href && !isCurrentPageLink(props.href)) || (props.target && props.target !== '_self')) {
     // 如果非内部链接或target不是_self的话，采用a标签默认行为
     return;
   }
@@ -81,7 +78,7 @@ watch(
         anchorInjection?.addLink(newVal);
       }
     });
-  }
+  },
 );
 
 const depth = anchorItemInjection ? anchorItemInjection.depth + 1 : 1;
@@ -110,22 +107,35 @@ const handleMouseleave = () => {
 </script>
 
 <template>
-  <div :class="{ 'o-anchor-item': true, 'with-children': !isEmptySlot(slots.default) }">
-    <OPopover :visible="popoverVisible" :disabled="!popoverVisible" position="right"
-      wrap-class="o-anchor-link-popover-wrapper">
+  <div
+    :class="{
+      'o-anchor-item': true,
+      'with-children': !isEmptySlot(slots.default),
+    }"
+  >
+    <OPopover
+      :visible="popoverVisible"
+      :disabled="!popoverVisible || anchorInjection?.layout.value === 'h'"
+      position="right"
+      wrap-class="o-anchor-link-popover-wrapper"
+    >
       {{ props.title }}
       <template #target>
-        <a :href="props.href" :target="props.target"
-          :class="{ 'o-anchor-item-link': true, 'is-active': isActive, 'disabled': props.disabled, 'o-anchor-item-sub-link': depth > 1 }"
-          :style="{ '--anchor-item-depth': depth - 1 }" :data-depth="depth - 1" @click="onClick">
-          <div class="o-anchor-item-lines">
+        <a
+          :href="props.href"
+          :target="props.target"
+          :class="{ 'o-anchor-item-link': true, 'is-active': isActive, disabled: props.disabled, 'o-anchor-item-sub-link': depth > 1 }"
+          :style="{ '--anchor-item-depth': depth - 1 }"
+          :data-depth="depth - 1"
+          @click="onClick"
+        >
+          <div v-if="anchorInjection?.layout.value === 'v'" class="o-anchor-item-lines">
             <div class="o-anchor-item-top-line"></div>
             <div class="o-anchor-item-circle"></div>
             <div class="o-anchor-item-bottom-line"></div>
           </div>
           <slot name="title">
-            <div ref="anchorItemTitleRef" class="o-anchor-item-title" @mouseenter="handleMouseenter"
-              @mouseleave="handleMouseleave">
+            <div class="o-anchor-item-title" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
               {{ props.title }}
             </div>
           </slot>
@@ -133,6 +143,6 @@ const handleMouseleave = () => {
       </template>
     </OPopover>
 
-    <slot></slot>
+    <slot v-if="anchorInjection?.layout.value === 'v'"></slot>
   </div>
 </template>
