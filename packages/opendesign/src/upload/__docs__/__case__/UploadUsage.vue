@@ -103,6 +103,9 @@ const _oSchema = {
     type: 'list',
     list: ['text', 'picture', 'picture-card'] as const,
   },
+  showProgress: {
+    type: 'boolean',
+  },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {

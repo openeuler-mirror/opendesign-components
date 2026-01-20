@@ -10,6 +10,7 @@ import { useI18n } from '../locale';
 interface UploadFileItemPropsT {
   file: UploadFileT;
   listType: UploadListTypeT;
+  showProgress: Boolean;
 }
 
 const props = defineProps<UploadFileItemPropsT>();
@@ -19,7 +20,7 @@ const emits = defineEmits<{
   (e: 'remove', file: UploadFileT, evt: Event): void;
   (e: 'retry', file: UploadFileT, evt: Event): void;
   (e: 'preview', file: UploadFileT, evt: Event): void;
-  (e: 'itemClick', file: UploadFileT, evt: Event ): void;
+  (e: 'itemClick', file: UploadFileT, evt: Event): void;
 }>();
 
 const { t } = useI18n();
@@ -39,7 +40,7 @@ const showLoading = (): boolean => {
     return false;
   }
 
-  if (!props.file.percent && props.file.percent !== 0) {
+  if (!props.showProgress) {
     return true;
   }
   return false;
@@ -54,14 +55,14 @@ const figureRef = useTemplateRef<InstanceType<typeof OFigure>>('figureRef');
 const figurePreview = () => {
   figureRef.value?.preview();
 };
-const onPreview = (e: Event ) => {
+const onPreview = (e: Event) => {
   e.stopPropagation();
   figurePreview();
   emits('preview', props.file, e);
 };
 
 const onItemClick = (e: Event) => {
-  emits('itemClick', props.file, e );
+  emits('itemClick', props.file, e);
 };
 
 defineExpose({
@@ -82,7 +83,7 @@ defineExpose({
         :class="{
           'is-error': props.file.status === 'failed',
         }"
-         @click="onItemClick"
+        @click="onItemClick"
       >
         <div class="o-upload-card-item-wrap">
           <div class="o-upload-card-file">
@@ -124,7 +125,7 @@ defineExpose({
             />
             <OIcon button class="o-upload-icon-btn o-upload-icon-remove" :icon="IconDelete" :title="t('upload.delete')" @click="onFileRemove" />
           </div>
-          <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-card-progress">
+          <div v-if="props.file.status === 'uploading' && props.showProgress && props.file.percent" class="o-upload-progress o-upload-card-progress">
             <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
           </div>
         </div>
@@ -135,7 +136,7 @@ defineExpose({
         :class="{
           'is-error': props.file.status === 'failed',
         }"
-         @click="onItemClick"
+        @click="onItemClick"
       >
         <OFigure
           v-if="props.listType === 'picture' && props.file.imgUrl"
@@ -171,7 +172,7 @@ defineExpose({
           />
         </div>
 
-        <div v-if="props.file.status === 'uploading' && props.file.percent" class="o-upload-progress o-upload-row-progress">
+        <div v-if="props.file.status === 'uploading' && props.showProgress && props.file.percent" class="o-upload-progress o-upload-row-progress">
           <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
         </div>
       </div>
