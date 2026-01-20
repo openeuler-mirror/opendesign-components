@@ -1,16 +1,3 @@
-## 1.0.1-sp5
-
-### Bug Fixes
-
-- **OTable:** 降级兼容ios下表头分割线定位问题
-
-
-## 1.0.1-sp3/4
-
-### Bug Fixes
-
-- **use-input:** 修复输入类组件输入一次触发两次input事件的问题
-
 
 ## 1.1.0
 
@@ -84,6 +71,8 @@
 - **OCard** 修复在暗夜模式下的文本溢出样式
 
 ### style
+
+- **Mixin** 刷新响应式断点（laptop更新为[1200px, 1680px]），并新增respond
 - **OLink** 
     - 尺寸为`large`时图标尺寸修改为从`--o-icon_size_control-m`变更为`--o-icon_size_control-s`
     - `hoverUnderline`默认值更改为`true`
@@ -111,6 +100,20 @@
 ### Others
 
 包含1.0.1-sp1的变更
+
+
+## 1.0.1-sp5
+
+### Bug Fixes
+
+- **OTable:** 降级兼容ios下表头分割线定位问题
+
+
+## 1.0.1-sp3/4
+
+### Bug Fixes
+
+- **use-input:** 修复输入类组件输入一次触发两次input事件的问题
 
 
 ## 1.0.1-sp1
