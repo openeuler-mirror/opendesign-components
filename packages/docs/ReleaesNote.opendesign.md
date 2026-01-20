@@ -79,8 +79,8 @@
     - `normal`态文本颜色改用`o-coloc-link1`
 - **ORate** 优化star图标，primary态颜色使用`--o-color-main1`
 - **OButton** 
-    - 文本按妞去掉hover态背景色
-    - 图标按妞增加hover态背景色
+    - 文本按钮去掉hover态背景色
+    - 图标按钮增加hover态背景色
 - **OAnchor** 调整未选中时圆圈指示颜色为灰色
 - **textarea** 
     - rows默认值修改为4；
