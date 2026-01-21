@@ -116,9 +116,7 @@ const _oSchema = {
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  if (props.layout === 'v') {
-  }
-  return `<div id="wrap" class="demo-anchor-usage-wrap ${props.layout === 'v' ? 'row' : ''} demo-anchor-usage-wrap-${props.layout}">
+  return `<div ${props.layout === 'h' ? 'id="wrap"' : ''} class="demo-anchor-usage-wrap ${props.layout === 'v' ? 'row' : ''} demo-anchor-usage-wrap-${props.layout}">
     ${props.layout === 'h' ? '<div class="height-holder"></div>' : ''}
     <OAnchor class="demo-anchor" ${propsToAttrStr(props)}>
       <OAnchorItem href="#container-block1" title="container-block1">
@@ -139,7 +137,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
       <OAnchorItem href="#container-block8" title="container-block8" />
       <OAnchorItem href="#container-block9" title="container-block9" />
     </OAnchor>
-    <div class="demo-wrap">
+    <div ${props.layout === 'v' ? 'id="wrap"' : ''} class="demo-wrap">
       <div id="container-block1" class="block">container-block1</div>
       <div id="container-block1-1" class="block">container-block1-1</div>
       <div id="container-block2" class="block">container-block2</div>
