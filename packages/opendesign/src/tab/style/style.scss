@@ -97,7 +97,7 @@
 
   .o-icon {
     font-size: var(--tab-nav-icon-size);
-    margin-right: 8px;
+    margin-right: var(--tab-nav-icon-gap);
   }
 }
 .o-tab-nav-active {
@@ -196,4 +196,19 @@
 }
 .o-tab-pane-active {
   display: block;
+}
+
+.o-tab-button {
+  .o-tab-nav-list {
+    background-color: var(--tab-nav-bg-color);
+    padding: var(--tab-nav-list-padding);
+  }
+
+  .o-tab-nav-list,
+  .o-tab-nav {
+    border-radius: var(--tab-btn-radius);
+  }
+  .o-tab-nav-active {
+    border: var(--tab-nav-active-border);
+  }
 }
