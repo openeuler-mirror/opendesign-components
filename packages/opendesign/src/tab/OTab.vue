@@ -8,6 +8,7 @@ import { debounceRAF } from '../_utils/helper';
 import { defaultSize } from '../_utils/global';
 import { useScreen } from '../hooks';
 import { mergeClass } from '../_utils/vue-utils';
+import { getRoundClass } from '../_utils/style-class';
 
 const props = defineProps(tabProps);
 
@@ -17,6 +18,8 @@ const emits = defineEmits<{
   (e: 'delete', value: string | number): void;
   (e: 'add', evt: MouseEvent): void;
 }>();
+
+const round = getRoundClass(props, 'tab-btn');
 
 const { isPhonePad } = useScreen();
 
@@ -77,7 +80,7 @@ watch(
   () => props.modelValue,
   (v) => {
     activeKey.value = v;
-  }
+  },
 );
 const updateAnchor = () => {
   if (!activeNavEl) {
@@ -168,16 +171,18 @@ const navScroll = (to: 'prev' | 'next') => {
 };
 </script>
 <template>
-  <div class="o-tab" :class="[`o-tab-${props.variant}`, `o-tab-${props.size || defaultSize}`]">
+  <div class="o-tab" :class="[`o-tab-${props.variant}`, `o-tab-${props.size || defaultSize}`, round.class.value]" :style="round.style.value">
     <div
       class="o-tab-head"
-      :class="mergeClass(
-        {
-          'with-act': !!$slots.suffix || !!$slots.prefix,
-          'show-line': !!props.line,
-        },
-        props.headerClass,
-      )"
+      :class="
+        mergeClass(
+          {
+            'with-act': !!$slots.suffix || !!$slots.prefix,
+            'show-line': !!props.line && props.variant !== 'button',
+          },
+          props.headerClass,
+        )
+      "
     >
       <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>

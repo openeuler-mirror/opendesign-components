@@ -8,6 +8,7 @@ kind: nav
 ## Demo
 
 <!-- @usage TabUsage -->
+<!-- @case ButtonTab -->
 <!-- @case AddDel -->
 <!-- @case CustomHead -->
 
