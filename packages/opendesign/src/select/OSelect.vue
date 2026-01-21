@@ -135,8 +135,8 @@ watch(
         } else {
           valueList.value = [v[v.length - 1]];
         }
-      } else if (!isUndefined(v)) {
-        valueList.value = [v];
+      } else {
+        valueList.value = isUndefined(v) ? [] : [v];
       }
     }
     finalValueList.value = [...valueList.value];
@@ -199,7 +199,7 @@ provide(selectOptionInjectKey, {
     }
 
     if (!props.multiple) {
-      //单选
+      // 单选
       isSelecting.value = false;
 
       if (valueList.value[0] !== toValue) {
@@ -380,7 +380,7 @@ const onselectDlgOkClick = () => {
           <template v-if="props.optionTitle" #header>
             <div class="o-select-options-head">{{ props.optionTitle }}</div>
           </template>
-          <template #actions v-if="props.multiple">
+          <template v-if="props.multiple" #actions>
             <OButton class="o-dlg-btn" variant="text" size="large" @click="onselectDlgCancelClick">
               {{ t('select.cancel') }}
             </OButton>

@@ -15,12 +15,13 @@ OCard 分为图文卡片，和图标卡片。
 1. 通过 `title` 设置标题内容
 2. 通过 `titleRow` 设置标题高度：`height: calc(title-row * line-height)`
 3. 通过 `titleMaxRow` 设置标题最大行数，高于该行数时显示省略号。**注**：通过`-webkit-line-clamp`实现；一般而言 `titleRow` 的值与 `titleMaxRow` 值应该一致
+4. 通过 `titleIcon` 设置标题开头的图标
 
 设置卡片内容
 
-1. 通过 `detail` 设置标题内容
-2. 通过 `detailRow` 设置标题高度 `height: calc(detail-row * line-height)`
-3. 通过 `detailMaxRow` 设置标题最大行数，高于该行数时显示省略号。**注**：通过`-webkit-line-clamp`实现；一般而言 `detailRow` 的值与 `detailMaxRow` 值应该一致
+1. 通过 `detail` 设置卡片内容
+2. 通过 `detailRow` 设置内容高度 `height: calc(detail-row * line-height)`
+3. 通过 `detailMaxRow` 设置内容最大行数，高于该行数时默认显示渐隐，可以通过设置 `textOverflow` 为 `ellipsis` 来显示省略号。**注**：通过`-webkit-line-clamp`实现；一般而言 `detailRow` 的值与 `detailMaxRow` 值应该一致
 
 其它
 
@@ -51,8 +52,9 @@ Configure card content
 
 1. Set content text through `detail`
 2. Set content height through `detailRow`: `height: calc(detail-row * line-height)`
-3. Set maximum content rows through `detailMaxRow`. Ellipsis will display when exceeding this value.
+3. Set the maximum number of lines for the content through `detailMaxRow`. When it exceeds the number of lines, fade-out will be displayed by default. You can display the ellipsis by setting `textOverflow` to `ellipsis`.
    **Note**: Implemented via `-webkit-line-clamp`; `detailRow` value should generally match `detailMaxRow`
+4. Set title prefix icon via the `titleIcon` property
 
 Other features
 
@@ -62,13 +64,14 @@ Other features
 4. When `noResponsive` is true, card dimensions (spacing, font size, line height, etc.) remain fixed regardless of viewport size changes
 </docs>
 <script setup lang="ts">
+import { TextOverflowTypes } from '@opensig/opendesign';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-const _schema = {
+const _oSchema = {
   layout: {
     type: 'list',
     default: 'v',
@@ -76,7 +79,7 @@ const _schema = {
   },
   coverOrIcon: {
     type: 'radio',
-    list: ['cover', 'icon'],
+    list: ['Cover', 'Icon'] as const,
     default: 'cover',
   },
   coverRatio: {
@@ -108,9 +111,13 @@ const _schema = {
   detailRow: {
     type: 'number',
     label: 'detail row count',
-    default: 3,
+    default: 2,
   },
   hoverable: {
+    type: 'boolean',
+    default: true,
+  },
+  titleIcon: {
     type: 'boolean',
     default: true,
   },
@@ -122,17 +129,23 @@ const _schema = {
   noResponsive: {
     type: 'boolean',
     default: false,
-    label: 'close responsive',
+  },
+  textOverflow: {
+    type: 'list',
+    list: TextOverflowTypes,
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
-  const { coverOrIcon, titleRow, detailRow } = props;
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
+  const { coverOrIcon, titleRow, titleIcon, detailRow } = props;
   let attrs = '';
-  if (coverOrIcon === 'cover') {
+  if (coverOrIcon === 'Cover') {
     attrs += ' cover="/card-cover.jpg"';
-  } else {
+  } else if (coverOrIcon === 'Icon') {
     attrs += ' icon="/avatar.svg"';
+  }
+  if (titleIcon === true) {
+    attrs += ' title-icon="/skill.svg"';
   }
   if (titleRow >= 1) {
     const row = Math.round(titleRow);
@@ -142,8 +155,8 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
     const row = Math.round(detailRow);
     attrs += ` :detail-row=${row} :detail-max-row=${row}`;
   }
-  return `<OCard ${propsToAttrStr(props, ['coverOrIcon', 'titleRow', 'detailRow'])}${attrs} />`;
+  return `<OCard ${propsToAttrStr(props, ['coverOrIcon', 'titleIcon', 'titleRow', 'detailRow'])}${attrs} />`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>

@@ -10,6 +10,8 @@
   &.o_box-large {
     --_box-padding: 0 15px;
     --_box-height: var(--o-control_size-l);
+
+    --input-icon-size: var(--o-icon_size-m);
   }
 
   &.o_box-text {

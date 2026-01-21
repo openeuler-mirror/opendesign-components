@@ -1,12 +1,13 @@
 ---
 sidebar: OBreadcrumb
+kind: nav
 ---
 
 # Breadcrumb
 
 ## Demo
 
-<!-- @case BcUsage -->
+<!-- @usage BcUsage -->
 <!-- @case BcVueRouter -->
 
 ## Api

@@ -1,12 +1,13 @@
 ---
 sidebar: OBreadcrumb 面包屑
+kind: nav
 ---
 
 # 面包屑
 
 ## 示例
 
-<!-- @case BcUsage -->
+<!-- @usage BcUsage -->
 <!-- @case BcVueRouter -->
 
 ## Api

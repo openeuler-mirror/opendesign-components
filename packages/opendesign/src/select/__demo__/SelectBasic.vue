@@ -37,7 +37,7 @@ const onChange = (value: SelectValueT) => {
     <div @click="changeVal">Text</div>
 
     <div class="row">
-      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" clearable>
+      <OSelect v-model="selectVal1" variant="text" placeholder="normal + outline" clearable :option-wrap-class="{testclass2: true}">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" variant="text" color="success" placeholder="normal + success" option-title="请选择">
@@ -58,7 +58,7 @@ const onChange = (value: SelectValueT) => {
       <OSelect v-model="selectVal1" color="success" placeholder="normal + success" clearable @change="onChange">
         <OOption v-for="item in options2" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-      <OSelect v-model="selectVal1" color="warning" placeholder="normal + warning" @change="onChange" clearable>
+      <OSelect v-model="selectVal1" color="warning" placeholder="normal + warning" clearable @change="onChange">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
       <OSelect v-model="selectVal1" color="danger" placeholder="normal + danger" @change="onChange">

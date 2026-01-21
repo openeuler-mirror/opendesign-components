@@ -3,7 +3,7 @@ import '../style';
 import InInput from '../InInput.vue';
 import { ref } from 'vue';
 
-const inputVal = ref('124567890');
+const inputVal = ref('124567123');
 
 const printEvent = (evt: string, v?: string) => {
   console.log(`[${evt}]`, v ?? '', 'inputVal:', inputVal.value);
@@ -11,7 +11,7 @@ const printEvent = (evt: string, v?: string) => {
 
 const disabled = ref(false);
 const maxLength = ref(6);
-const minLength = ref(4);
+const minLength = ref(2);
 const toggle = () => {
   disabled.value = !disabled.value;
   maxLength.value = 5;
@@ -29,6 +29,7 @@ const validate = (value: string): boolean => {
 
 const onUpdate = (val: string) => {
   inputVal.value = val;
+  console.log('onUpdate', val);
 };
 
 const format = (val: string) => {
@@ -37,7 +38,7 @@ const format = (val: string) => {
 
 const valueOnInvalidChange = (currentValue: string, lastValid: string) => {
   console.log('valueOnInvalidChange:', currentValue, lastValid);
-  return lastValid;
+  return lastValid || currentValue;
 };
 
 const onChange = (currentValue: string, lastValue: string) => {
@@ -49,6 +50,8 @@ const count = ref(1);
 window.setInterval(() => {
   count.value++;
 }, 1000);
+
+
 </script>
 
 <template>
@@ -58,23 +61,24 @@ window.setInterval(() => {
     <button @click="toggle">change</button>
     <button @click="toggleType">change type</button>
     <section>
-      defaultValue: {{ inputVal }}; format
+      defaultValue: {{ inputVal }}; format  min:2
       <InInput
         input-id="123"
         class="test-input"
         :default-value="inputVal"
         :validate="validate"
+        clearable
+        :format="format"
+        :value-on-invalid-change="valueOnInvalidChange"
+        :input-on-outlimit="false"
+        show-length="auto"
+        :min-length="minLength"
         @clear="() => printEvent('clear')"
         @blur="() => printEvent('blur')"
         @change="onChange"
-        @input="(e, value) => printEvent('input', value)"
+        @input="(e:Event, value:string) => printEvent('input', value)"
         @focus="() => printEvent('focus')"
         @press-enter="() => printEvent('press-enter')"
-        clearable
-        :max-length="maxLength"
-        :format="format"
-        :valueOnInvalidChange="valueOnInvalidChange"
-        :input-on-outlimit="false"
       />
     </section>
     <section>
@@ -83,38 +87,40 @@ window.setInterval(() => {
         input-id="1234"
         class="test-input"
         :model-value="inputVal"
-        @update:model-value="onUpdate"
         :validate="validate"
-        @clear="() => printEvent('clear')"
-        @blur="() => printEvent('blur')"
-        @change="(v) => printEvent('change', v)"
-        @input="() => printEvent('input')"
-        @focus="() => printEvent('focus')"
-        @press-enter="() => printEvent('press-enter')"
         clearable
         :max-length="maxLength"
         :min-length="minLength"
+        show-length="never"
         :input-on-outlimit="false"
+        @update:model-value="onUpdate"
+        @clear="() => printEvent('clear')"
+        @blur="() => printEvent('blur')"
+        @change="(v:string) => printEvent('change', v)"
+        @input="(_e:Event, v:string) => printEvent('input', v)"
+        @focus="() => printEvent('focus')"
+        @press-enter="() => printEvent('press-enter')"
       />
     </section>
     <section>
       auto width; max: 8;
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width :max-length="8" clearable />
+      <InInput v-model="inputVal" class="test-input" :type="type" auto-width :max-length="8" clearable/>
     </section>
     <section>
       auto width: max-width: 300px
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="max-width: 300px" />
+      <InInput v-model="inputVal" class="test-input" :type="type" auto-width style="max-width: 300px" show-length="always"/>
     </section>
     <section>
       auto width: min-width: 100px
-      <InInput class="test-input" :type="type" v-model="inputVal" auto-width style="min-width: 100px" />
+      <InInput v-model="inputVal" class="test-input" :type="type" auto-width style="min-width: 100px" />
     </section>
     <section>
       {{ inputVal }}
-      <InInput class="test-input" v-model="inputVal">
+      <InInput v-model="inputVal" class="test-input" :max-length="12">
         <template #suffix>
           <div>{{ count }}</div>
         </template>
+        <template #length="{length}"><b>-{{ length }}-</b></template>
       </InInput>
     </section>
   </div>

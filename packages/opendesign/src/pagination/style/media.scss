@@ -1,1 +1,10 @@
 @use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-pagination {
+    --pagination-item-size: 28px;
+
+    --pagination-item-gap: 16px;
+    --pagination-item-size-gap: 8px;
+  }
+}

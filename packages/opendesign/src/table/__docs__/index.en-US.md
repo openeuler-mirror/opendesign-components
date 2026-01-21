@@ -1,21 +1,20 @@
 ---
 sidebar: OTable
+kind: container
 ---
 
 # Data Table
 
-## Usage
 
-<!-- @usage tableUsage -->
+## Demo
 
-## Cases
-
+<!-- @usage TableUsage -->
 <!-- @case TableBasic -->
 <!-- @case TableDiy -->
 <!-- @case TableDiyHead -->
 <!-- @case TablePagination -->
 <!-- @case TableSpan -->
 
-## Api
+## API
 
 <!-- @api OTable -->

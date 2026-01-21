@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import '../style';
 import { OMessage } from '../index';
+import { ref } from 'vue';
+
+const visible = ref(true);
 </script>
 
 <template>
@@ -15,7 +18,8 @@ import { OMessage } from '../index';
     </div>
 
     <div>
-      <OMessage status="info" closable>用于表示普通操作信息提示（提示常驻，可手动关闭）</OMessage>
+      <OMessage v-model:visible="visible" status="info" closable>用于表示普通操作信息提示（提示常驻，可手动关闭）</OMessage>
+      <OMessage :visible="visible" status="info" closable>用于表示普通操作信息提示（提示常驻，可手动关闭）受控</OMessage>
       <OMessage status="success" :duration="3000">用于表示操作顺利达成（提示3秒后消失）</OMessage>
       <OMessage status="warning" :duration="5000">用于表示操作引起一定后果（提示5秒后消失）</OMessage>
       <OMessage status="danger" :duration="8000">用于表示操作引起严重的后果（提示8秒后消失）</OMessage>

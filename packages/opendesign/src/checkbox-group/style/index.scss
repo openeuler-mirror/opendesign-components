@@ -1,21 +1,2 @@
-@use '../../_styles/mixin.scss' as *;
-@use './var.scss';
-
-.o-checkbox-group {
-  display: inline-flex;
-  flex-wrap: wrap;
-  vertical-align: middle;
-}
-
-.o-checkbox-group-h {
-  .o-checkbox + .o-checkbox {
-    margin-left: var(--checkbox-group-gap);
-  }
-}
-
-.o-checkbox-group-v {
-  flex-direction: column;
-  .o-checkbox + .o-checkbox {
-    margin-top: var(--checkbox-group-gap);
-  }
-}
+@use './style.scss' as *;
+@use './var.scss' as *;

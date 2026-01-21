@@ -16,7 +16,7 @@ import TheSubComp from './TheSubComp.vue';
     </div>
     <div>
       <h3>showType="auto" max-height</h3>
-      <OScroller class="container2">
+      <OScroller class="container2" :wrap-class="{abc:true}">
         <div class="section">1</div>
         <div class="section">2</div>
         <div class="section">3</div>

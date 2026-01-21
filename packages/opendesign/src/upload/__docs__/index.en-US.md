@@ -1,18 +1,16 @@
 ---
 sidebar: OUpload
+kind: input
 ---
 
 # Upload
 
-## Usage
-
-<!-- @usage uploadUsage -->
-
 ## Cases
 
+<!-- @usage UploadUsage -->
 <!-- @case UploadBasic -->
 <!-- @case UploadSlots -->
 
 ## Api
 
-<!-- @api OUploadList -->
+<!-- @api OUpload -->

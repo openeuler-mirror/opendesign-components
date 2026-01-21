@@ -3,12 +3,12 @@
   --collapse-bg-color: var(--o-color-fill2);
   --collapse-padding: 8px 32px;
   --collapse-division-color: var(--o-color-control4);
-}
 
-.o-collapse-item {
   --collapse-item-header-padding: 25px 0px;
 
   --collapse-item-title-color: var(--o-color-info1);
+  --collapse-item-title-color_expanded: var(--o-color-primary1);
+  
   --collapse-item-title-text-size: var(--o-font_size-h3);
   --collapse-item-title-text-height: var(--o-line_height-h3);
 
@@ -18,5 +18,6 @@
   --collapse-item-icon-color: var(--o-color-info1);
   --collapse-item-icon-size: var(--o-icon_size_control-m);
 
-  --collapse-item-gap: 16px;
+  --collapse-item-gap: var(--o-gap-5);
+
 }

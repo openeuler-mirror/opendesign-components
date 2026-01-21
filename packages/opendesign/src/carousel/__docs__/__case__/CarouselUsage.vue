@@ -5,7 +5,11 @@
 
 幻灯片有两种播放效果滚动和切换
 
-- 将 `effect` 设置为 `gallery` (默认值) 为滚动效果
+- 将 `effect` 设置为 `gallery` (默认值) 为滚动效果。当为滚动效果时，可以将 `OCarouselItem` 的宽度设置为略小于 `OCarousel` 的宽度，
+  这样可以将当前激活的幻灯片两侧的幻灯片显示出来，此时 `clickToSwitch` 参数才会有效果。
+
+  ![示意图](./half.zh-CN.png)
+
 - 将 `effect` 设置为 `toggle` 为切换效果
 
 自动播放
@@ -40,6 +44,11 @@
 The slideshow has two playback effects: scrolling and switching.
 
 - Set `effect` to `gallery`(default value) for a scrolling effect.
+  When using the scrolling effect, you can set the width of `OCarouselItem` to be slightly smaller than the width of `OCarousel`.
+  This allows the slides adjacent to the currently active slide to be partially visible, enabling the `clickToSwitch` parameter to take effect.
+
+  ![figure](./half.en-US.png)
+
 - Set `effect` to `toggle` for a switching effect.
 
 Auto Play:
@@ -72,7 +81,7 @@ Others:
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   effect: {
     type: 'list',
     list: ['gallery', 'toggle'] as const,
@@ -81,14 +90,13 @@ const _schema = {
   autoPlay: {
     type: 'boolean',
     default: true,
-    label: 'auto play',
   },
   interval: {
     type: 'number',
     default: 5000,
     step: 1000,
     min: 1000,
-    label: 'interval (ms)',
+    label: 'Interval (ms)',
   },
   arrow: {
     type: 'list',
@@ -98,24 +106,21 @@ const _schema = {
   hideIndicator: {
     type: 'boolean',
     default: false,
-    label: 'hide indicator',
   },
   indicatorClick: {
     type: 'boolean',
-    label: 'indicator click',
+    default: true,
   },
   pauseOnHover: {
     type: 'boolean',
     default: true,
-    label: 'pause on hover',
   },
   clickToSwitch: {
     type: 'boolean',
-    label: 'click to switch',
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   const { effect } = props;
   return `
 <OCarousel ${propsToAttrStr(props)} class="carousel-doc-usage">
@@ -126,7 +131,7 @@ const _template: DocDemoTemplate<typeof _schema> = (props) => {
 `;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>
 
 <style lang="scss">

@@ -7,6 +7,7 @@ import { vOnResize } from '../directives';
 import { debounceRAF } from '../_utils/helper';
 import { defaultSize } from '../_utils/global';
 import { useScreen } from '../hooks';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(tabProps);
 
@@ -170,15 +171,15 @@ const navScroll = (to: 'prev' | 'next') => {
   <div class="o-tab" :class="[`o-tab-${props.variant}`, `o-tab-${props.size || defaultSize}`]">
     <div
       class="o-tab-head"
-      :class="[
+      :class="mergeClass(
         {
-          'with-act': $slots.suffix || $slots.prefix,
-          'show-line': props.line,
+          'with-act': !!$slots.suffix || !!$slots.prefix,
+          'show-line': !!props.line,
         },
         props.headerClass,
-      ]"
+      )"
     >
-      <div v-if="$slots.prefix" class="o-tab-head-prefix" v-on-resize="onHeadResize">
+      <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>
       </div>
       <div class="o-tab-navs">
@@ -186,8 +187,8 @@ const navScroll = (to: 'prev' | 'next') => {
           <div v-if="showArrow" class="o-tab-nav-btn prev" :class="{ 'o-tab-nav-btn-disabled': prevDisabled }" @click="navScroll('prev')">
             <IconChevronLeft />
           </div>
-          <div ref="navWrapRef" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
-            <div class="o-tab-nav-list" ref="navsRef" v-on-resize="onHeadResize"></div>
+          <div ref="navWrapRef" v-on-resize="onHeadResize" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
+            <div ref="navsRef" v-on-resize="onHeadResize" class="o-tab-nav-list"></div>
             <div v-if="props.variant === 'text'" class="o-tab-nav-anchor" :style="anchorStyle">
               <slot name="anchor">
                 <div class="o-tab-nav-anchor-line"></div>
@@ -203,7 +204,7 @@ const navScroll = (to: 'prev' | 'next') => {
           <IconAdd />
         </div>
       </div>
-      <div v-if="$slots.suffix" class="o-tab-head-suffix" v-on-resize="onHeadResize">
+      <div v-if="$slots.suffix" class="o-tab-head-suffix">
         <slot name="suffix"></slot>
       </div>
     </div>

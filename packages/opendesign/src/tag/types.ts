@@ -1,5 +1,5 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT, ColorT } from '../_utils/types';
+import { RoundT, ColorT, SizeT } from '../_utils/types';
 
 export const TagColorTypes = ['normal', 'info', 'primary', 'success', 'warning', 'danger'] as const;
 export type TagColorT = (typeof TagColorTypes)[number];
@@ -7,60 +7,70 @@ export type TagColorT = (typeof TagColorTypes)[number];
 export const TagVariantTypes = ['solid', 'outline'] as const;
 export type TagVariantT = (typeof TagVariantTypes)[number];
 
-export const TagSizeTypes = ['medium', 'small'] as const;
-export type TagSizeT = (typeof TagSizeTypes)[number];
-
 export const tagProps = {
   /**
-   * 标签颜色 ColorT
+   * @zh-CN 标签颜色
+   * @en-US Tag color
+   * @default 'normal'
    */
   color: {
     type: String as PropType<ColorT>,
     default: 'normal',
   },
   /**
-   * 标签类型 TagVariantT
+   * @zh-CN 标签类型
+   * @en-US Tag variant
+   * @default 'solid'
    */
   variant: {
     type: String as PropType<TagVariantT>,
     default: 'solid',
   },
   /**
-   * 标签尺寸 TagSizeT
+   * @zh-CN 标签尺寸
+   * @en-US Tag size
+   * @default 'large'
    */
   size: {
-    type: String as PropType<TagSizeT>,
-    default: 'medium',
+    type: String as PropType<SizeT>,
+    default: 'large',
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 标签圆角
+   * @en-US Tag round
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 是否可关闭
+   * @zh-CN 是否可关闭
+   * @en-US Whether closable
+   * @default false
    */
   closable: {
     type: Boolean,
     default: false,
   },
   /**
-   * tag是否可见 v-model
+   * @zh-CN 是否可见 (双向绑定)
+   * @en-US Whether visible (two-way binding)
    */
   visible: {
     type: Boolean,
     default: undefined,
   },
   /**
-   * 非受控模式，tag是否默认可见
+   * @zh-CN 非受控模式，是否默认可见
+   * @en-US Uncontrolled mode, whether visible by default
+   * @default true
    */
   defaultVisible: {
     type: Boolean,
     default: true,
   },
   /**
-   * 关闭前的钩子函数
+   * @zh-CN 关闭前的钩子函数
+   * @en-US Hook function before closing
    */
   beforeClose: {
     type: Function as PropType<() => Promise<boolean> | boolean>,

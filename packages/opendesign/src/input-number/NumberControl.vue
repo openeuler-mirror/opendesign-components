@@ -67,8 +67,8 @@ const isDisabledWhenNotBoth = () => {
       }"
       @click="(e:MouseEvent) => onControlClick(props.type as ControlType, e)"
     >
-      <slot name="plus" v-if="props.type === 'plus'"><IconAdd /></slot>
-      <slot name="minus" v-if="props.type === 'minus'"><IconMinus /></slot>
+      <slot v-if="props.type === 'plus'" name="plus"><IconAdd /></slot>
+      <slot v-if="props.type === 'minus'" name="minus"><IconMinus /></slot>
     </div>
   </div>
 </template>

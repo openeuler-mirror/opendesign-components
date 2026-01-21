@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -17,13 +17,13 @@
     "vue3 components"
   ],
   "scripts": {
-    "gen:token": "open-scripts gen:token --config ./tokens/token.config.ts",
     "gen:icon": "open-scripts gen:icon --config ./icons/icon.config.ts",
     "clean:svg": "open-scripts clean:svg --config ./icons/cleansvg.config.ts",
     "build:component": "open-scripts build:component",
     "build:style": "open-scripts build:style",
     "build": "pnpm gen:icon && pnpm build:component && pnpm build:style",
-    "lint": "eslint ./src",
+    "lint": "eslint  --ignore-pattern './src/**/__demo__/*' --ignore-pattern './src/**/__docs__/*' ./src",
+    "lint:fix": "eslint  --ignore-pattern './src/**/__demo__/*' --ignore-pattern './src/**/__docs__/*' --fix ./src",
     "type-check": "vue-tsc --build",
     "release": "pnpm publish --registry https://registry.npmjs.org"
   },
@@ -31,9 +31,15 @@
     "vue": "^3.3.0"
   },
   "devDependencies": {
-    "@opensig/open-scripts": "workspace:^",
+    "@opensig/open-scripts": "catalog:build",
     "typescript": "catalog:typescript",
     "vue-tsc": "catalog:build",
     "vite": "catalog:build"
+  },
+  "bugs": "https://atomgit.com/openeuler/opendesign-components/issues",
+  "homepage": "",
+  "repository": {
+      "type": "git",
+      "url": "https://atomgit.com/openeuler/opendesign-components.git"
   }
 }

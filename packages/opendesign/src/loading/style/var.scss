@@ -10,4 +10,35 @@
   --loading-mask-color: var(--o-color-info2-inverse);
 
   --loading-z-index: calc(var(--o-z-index-base) + 10);
+
+  --loading-label-font-size: var(--o-font_size-tip2);
+  --loading-label-line-height: var(--o-line_height-tip2);
+
+  --loading-label-icon-gap: 8px;
+  --loading-content-direction: column;
+}
+
+.o-loading-large {
+  --loading-icon-size: 96px;
+  --loading-label-font-size: var(--o-font_size-text1);
+  --loading-label-line-height: var(--o-line_height-text1);
+  --loading-label-icon-gap: 16px;
+}
+
+.o-loading-medium {
+  --loading-icon-size: var(--o-icon_size-4xl);
+  --loading-label-font-size: var(--o-font_size-tip1);
+  --loading-label-line-height: var(--o-line_height-tip1);
+  --loading-label-icon-gap: 12px;
+}
+
+.o-loading-small {
+  --loading-icon-size: var(--o-icon_size-xs);
+  --loading-content-direction: row;
+  --loading-label-icon-gap: 4px;
+}
+
+.o-loading-mini {
+  --loading-content-direction: row;
+  --loading-icon-size: var(--o-icon_size_control-xs);
 }

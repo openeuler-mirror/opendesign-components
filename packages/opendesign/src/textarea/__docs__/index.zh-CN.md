@@ -1,12 +1,13 @@
 ---
 sidebar: OTextarea 文本域
+kind: input
 ---
 
 # 文本域
 
 ## 使用
 
-<!-- @usage textareaUsage -->
+<!-- @usage TextareaUsage -->
 
 ## 示例
 
@@ -15,6 +16,6 @@ sidebar: OTextarea 文本域
 <!-- @case TextareaSlot -->
 <!-- @case TextareaEvent -->
 
-## Api
+## API
 
 <!-- @api OTextarea -->

@@ -13,7 +13,6 @@ import { OTextarea } from '@opensig/opendesign';
 const val1 = ref('max Height: 300px <OTextarea v-model="val1" auto-height /> \n<OTextarea v-model="val1" auto-height />');
 const val2 = ref('min Height: 100px');
 setTimeout(() => {
-  // val1.value = '123';
   val2.value = 'min-height: 200px; min-width: 200px <OTextarea v-model="val1" auto-height />';
 }, 2000);
 </script>

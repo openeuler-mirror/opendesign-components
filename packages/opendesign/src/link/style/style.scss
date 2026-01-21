@@ -1,15 +1,16 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-link {
   cursor: pointer;
-  padding: 0 2px;
   color: var(--link-color);
   align-items: center;
   text-decoration: none;
   border: none;
   outline: none;
   background-color: transparent;
+
+  font-size: var(--link-text-size);
+  line-height: var(--link-text-height);
 
   @include hover {
     color: var(--link-color-hover);
@@ -42,6 +43,7 @@
 }
 
 .o-link-hover-bg {
+  padding: 0 2px;
   transition: background-color var(--o-easing-standard) var(--o-duration-m2);
   @include hover {
     color: var(--link-color);
@@ -60,6 +62,7 @@
   font-size: var(--link-icon-size);
   display: inline-flex;
   align-items: center;
+  vertical-align: var(--link-icon-align);
 
   &::before {
     content: 'x';
@@ -100,17 +103,3 @@
   }
 }
 
-.o-link-small {
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
-}
-
-.o-link-medium {
-  font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-tip1);
-}
-
-.o-link-large {
-  font-size: var(--o-font_size-text1);
-  line-height: var(--o-line_height-text1);
-}

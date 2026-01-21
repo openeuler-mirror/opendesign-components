@@ -16,7 +16,6 @@ function cellSpanFn(rowIdx: number, colIdx: number) {
   if (rowIdx === 2 && colIdx === 2) {
     return {
       rowspan: 2,
-      // colspan: 2,
     };
   }
   if (rowIdx === 0 && colIdx === 0) {
@@ -32,18 +31,33 @@ function cellSpanFn(rowIdx: number, colIdx: number) {
     };
   }
 
-  if (rowIdx === 2 && colIdx === 5) {
+  if (rowIdx === 2 && colIdx === 4) {
     return {
       rowspan: 2,
+      colspan: 2,
+    };
+  }
+  if (rowIdx === 4 && colIdx === 3) {
+    return {
+      colspan: 3,
+      rowspan: 3,
     };
   }
 }
 </script>
 <template>
-  <h4>单元格合并</h4>
+  <h4>单元格合并及表格嵌套</h4>
   <div class="sec">
     <OTable border="all" :data="tableData" :columns="columns2" :cell-span="cellSpanFn">
-      <template #td_name="{ row }">name: {{ row.name }}</template>
+      <template #td_name="{ row }">
+        <div>name: {{ row.name }}</div>
+      </template>
+      <template #td_address="{ row, rowIndex }">
+        <template v-if="rowIndex === 4">
+          <OTable border="all" :data="tableData" :columns="columns2" :cell-span="cellSpanFn" />
+        </template>
+        <template v-else>{{ row.address }}</template>
+      </template>
     </OTable>
   </div>
 </template>

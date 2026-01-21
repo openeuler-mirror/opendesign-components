@@ -15,7 +15,7 @@ const options = [
 <template>
   <h4>基础用法</h4>
   <section>
-    <ODropdown>
+    <ODropdown  :option-wrap-class="{'test1': true}">
       <OButton>Click Me</OButton>
       <template #dropdown>
         <ODropdownItem v-for="item in options" :key="item.value" :label="item.label" :value="item.value">

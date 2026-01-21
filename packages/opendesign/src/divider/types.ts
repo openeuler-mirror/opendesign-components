@@ -6,28 +6,36 @@ export type DividerVariantT = (typeof DividerVariantTypes)[number];
 
 export const dividerProps = {
   /**
-   * 分割线类型 DividerVariantT
+   * @zh-CN 分割线形状
+   * @en-US Divider shape
+   * @default 'solid'
    */
   variant: {
     type: String as PropType<DividerVariantT>,
     default: 'solid',
   },
   /**
-   * 分割线方向 DirectionT
+   * @zh-CN 分割线方向
+   * @en-US Divider direction
+   * @default 'h'
    */
   direction: {
     type: String as PropType<DirectionT>,
     default: 'h',
   },
   /**
-   * 自定义内容位置
+   * @zh-CN 分割线标签位置
+   * @en-US Divider label position
+   * @default 'center'
    */
   labelPosition: {
     type: String as PropType<'left' | 'center' | 'right'>,
     default: 'center',
   },
   /**
-   * 是否颜色加深
+   * @zh-CN 是否使用深色
+   * @en-US Whether to use dark
+   * @default false
    */
   darker: {
     type: Boolean,

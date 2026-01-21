@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
-import { vScrollbar } from '../scrollbar';
+import { vScrollbar, type BaseScrollerPropsT } from '../scrollbar';
 import { virtualListProps, RenderIndexInfo } from './types';
 import { isUndefined } from '../_utils/is';
 import { vOnResize } from '../directives/on-resize';
 import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
-
 const emits = defineEmits<{
   (e: 'renderChange', renderIndex: RenderIndexInfo): void;
 }>();
@@ -19,7 +18,7 @@ const scrollbarProps = computed(() => {
     return {
       showType: 'always',
       size: 'medium',
-    };
+    } as Partial<BaseScrollerPropsT>;
   }
   return props.scrollbar;
 });
@@ -88,6 +87,24 @@ const renderList = computed(() => {
   return listData.value.slice(startIndex.value, endIndex.value + 1);
 });
 
+interface ItemMeta {
+  id: string | number;
+  index: number;
+  top: number;
+  bottom: number;
+  size: number;
+  measured: boolean;
+  isScrolling: boolean;
+}
+const wrapperRef = ref<HTMLElement>();
+// 虚拟列表偏移量，用于虚拟滚动
+const offset = ref(0);
+/**
+ * 初始化滚动位置
+ */
+let initialScroll = props.itemSize ? true : false;
+let listMetaData: Array<ItemMeta> = [];
+
 watch(listData, (value) => {
   if (!isUndefined(visibleStartId) && wrapperRef.value) {
     // 计算滚动偏移量
@@ -101,8 +118,6 @@ watch(listData, (value) => {
     }
   }
 });
-
-const wrapperRef = ref<HTMLElement>();
 
 // 列表虚拟总高度，先给定初始值
 const contentSize = ref((props.itemSize ? props.itemSize : props.defaultItemSize) * listData.value.length);
@@ -160,18 +175,11 @@ const contentStyle = computed(() => ({
   '--content-height': `${contentSize.value}px`,
 }));
 
-// 虚拟列表偏移量，用于虚拟滚动
-const offset = ref(0);
 const renderListStyle = computed(() => {
   return {
     '--offsetY': `${offset.value}px`,
   };
 });
-
-/**
- * 初始化滚动位置
- */
-let initialScroll = props.itemSize ? true : false;
 
 /**
  * 将指定项滚动到视口内，不定高场景下，可能存在滚动不准确
@@ -222,17 +230,6 @@ const scrollToView = (index: number, align: 'start' | 'end' | 'center' | 'neares
   });
 };
 
-interface ItemMeta {
-  id: string | number;
-  index: number;
-  top: number;
-  bottom: number;
-  size: number;
-  measured: boolean;
-  isScrolling: boolean;
-}
-
-let listMetaData: Array<ItemMeta> = [];
 // 列表数据变换时，重新计算尺寸数据
 watch(
   [() => props.itemSize, () => listData.value],
@@ -401,13 +398,14 @@ onMounted(() => {
 });
 
 defineExpose({
+  /** scroll into view */
   scrollToView,
 });
 </script>
 
 <template>
   <div class="o-virtual-list">
-    <div class="o-virtual-list-wrapper" v-on-resize="onContainerResize" ref="wrapperRef" v-scrollbar="scrollbarProps" @scroll.passive="onScroll">
+    <div ref="wrapperRef" v-on-resize="onContainerResize" v-scrollbar="scrollbarProps" class="o-virtual-list-wrapper" @scroll.passive="onScroll">
       <div class="o-virtual-body" :style="contentStyle">
         <div class="o-virtual-render-list" :style="renderListStyle">
           <template v-for="item in renderList" :key="item.index">
@@ -416,7 +414,7 @@ defineExpose({
                 <slot :item="item.data" :index="item.index"></slot>
               </div>
             </template>
-            <div v-else class="o-virtual-render-item" v-on-resize="(en:ResizeObserverEntry) => onItemResize(en, item.index)">
+            <div v-else v-on-resize="(en:ResizeObserverEntry) => onItemResize(en, item.index)" class="o-virtual-render-item">
               <slot :item="item.data" :index="item.index"></slot>
             </div>
           </template>

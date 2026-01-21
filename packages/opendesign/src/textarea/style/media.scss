@@ -1,11 +1,22 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond-to('<=pad') {
-  .o-textarea {
-    --textarea-text-size: var(--o-font_size-tip1);
-    --textarea-text-height: var(--o-line_height-tip1);
+.o-textarea {
+  @include respond('<=laptop') {
+    --textarea-min-height: 116px;
+
+    --_box-text-size: var(--o-font_size-tip1);
+    --_box-text-height: var(--o-line_height-tip1);
   }
-  .o-textarea-size-medium {
+
+  @include respond('<=pad_v') {
+    &.o_box-large {
+      --textarea-padding-h: 12px;
+    }
+  }
+}
+
+.o-textarea-size-medium {
+  @include respond('<=pad') {
     --textarea-radius: var(--o-radius_control-m);
     --textarea-radius-pill: var(--o-radius_control-m);
   }

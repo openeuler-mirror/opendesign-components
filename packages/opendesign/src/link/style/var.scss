@@ -1,8 +1,10 @@
 .o-link {
   --link-gap: 4px;
+  --link-icon-size: 1.14em;
+  --link-icon-align: -0.05em;
 }
 .o-link-normal {
-  --link-color: var(--o-color-info2);
+  --link-color: var(--o-color-link1);
   --link-color-hover: var(--o-color-link2);
   --link-color-active: var(--o-color-link3);
   --link-color-disabled: var(--o-color-info4);
@@ -46,14 +48,17 @@
   --link-bg-color-active: var(--o-color-danger2-light);
 }
 
+.o-link-medium,
 .o-link-small {
   --link-icon-size: var(--o-icon_size_control-xs);
-}
-
-.o-link-medium {
-  --link-icon-size: var(--o-icon_size_control-xs);
+  --link-text-size: var(--o-font_size-tip1);
+  --link-text-height: var(--o-line_height-tip1);
+  --link-icon-align: -0.08em;
 }
 
 .o-link-large {
-  --link-icon-size: var(--o-icon_size_control-m);
+  --link-icon-size: var(--o-icon_size_control-s);
+  font-size: var(--o-font_size-text1);
+  line-height: var(--o-line_height-text1);
+  --link-icon-align: -0.1em;
 }

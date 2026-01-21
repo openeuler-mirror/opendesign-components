@@ -1,63 +1,29 @@
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ODropdown, ODropdownItem, useI18n, OSwitch } from '@opensig/opendesign';
 import { currentLocale, changeLocale, locales } from '@/lang';
 import { sidebarRouteConfig, type SidebarNameT } from '@/router';
 import { useSidebarStore } from '@/stores/sidebar';
 import { DocIconDark, DocIconLight } from '@/icon-components';
-import { theme } from '@/utils/theme';
+import { useThemeStore, skin, colors, type ColorT } from '@/stores/theme';
 
 const sidebarStore = useSidebarStore();
-const themes = [
-  {
-    key: '',
-    name: 'Euler',
-  },
-  {
-    key: 'a.',
-    name: 'Ascend',
-  },
-  {
-    key: 'k.',
-    name: 'Kunpeng',
-  },
-] as const;
-type ThemeT = (typeof themes)[number];
-const colorSwitcher = {
-  checked: 'dark',
-  unchecked: 'light',
-};
-const themesValue = ref<ThemeT>(themes[0]);
-const colorSwitcherValue = ref(colorSwitcher.unchecked);
+const themeStore = useThemeStore();
 const router = useRouter();
 const route = useRoute();
-watch(
-  [themesValue, colorSwitcherValue],
-  ([newTheme, newColorSwitcher]) => {
-    theme.value = `${newTheme.key}${newColorSwitcher}`;
-  },
-  { immediate: true },
-);
 
-const themeName = computed(() => {
-  return `${themesValue.value.name}-${colorSwitcherValue.value}`;
+const { changeSidebar } = sidebarStore;
+const skinColorName = computed(() => {
+  return `${themeStore.skinName}-${themeStore.color}`;
 });
-
-const changeTheme = (item: (typeof themes)[number]) => {
-  themesValue.value = item;
-};
 
 const { t, locale } = useI18n();
 
 const sidebarRouteOptions = Object.entries(sidebarRouteConfig).map(([key, value]) => ({ value: key as SidebarNameT, label: value.label }));
 
-const changeSidebar = (name: SidebarNameT) => {
-  sidebarStore.sidebarName = name;
-  router.push(sidebarStore.navList[0] || '/');
-};
 watch(locale, (newLocale, oldLocale) => {
-  if (sidebarStore.sidebarName === 'component') {
+  if (sidebarStore.sidebarName === 'components') {
     try {
       const newPath = router.resolve(route.path.replace(new RegExp(`^/${oldLocale}/`), `/${newLocale}/`));
       router.push(newPath);
@@ -69,9 +35,10 @@ watch(locale, (newLocale, oldLocale) => {
 </script>
 <template>
   <div class="the-header">
-    <span class="theme-name">{{ themeName }}</span>
+    <!-- <span class="theme-name">{{ skinColorName }}</span> -->
     <div class="left" @click="router.push('/')">
-      {{ t('header.home') }}
+      <div class="logo"></div>
+      <!-- {{ t('header.home') }} -->
     </div>
     <div class="right">
       <div class="nav">
@@ -82,26 +49,38 @@ watch(locale, (newLocale, oldLocale) => {
           :class="{ active: sidebarStore.sidebarName === item.value }"
           @click="changeSidebar(item.value)"
         >
-          {{ item.label() }}
+          {{ typeof item.label === 'function' ? item.label() : item.label }}
         </div>
       </div>
       <div class="tools">
         <div class="tool-item">
-          <ODropdown>
-            {{ t('header.theme') }}
-            <template #dropdown>
-              <ODropdownItem v-for="item in themes" :key="item.name" :label="item.name" :value="item.name" @click="changeTheme(item)" />
-            </template>
-          </ODropdown>
-        </div>
-        <div class="tool-item">
-          <OSwitch v-model="colorSwitcherValue" :checked-value="colorSwitcher.checked" :unchecked-value="colorSwitcher.unchecked">
+          <OSwitch
+            :model-value="themeStore.color"
+            :checked-value="colors[1]"
+            :unchecked-value="colors[0]"
+            @update:model-value="(value) => themeStore.setColor(value as ColorT)"
+          >
             <template #off><DocIconLight /></template>
             <template #on><DocIconDark /></template>
           </OSwitch>
         </div>
         <div class="tool-item">
-          <ODropdown>
+          <ODropdown trigger="hover">
+            {{ t('header.theme') }}
+            <template #dropdown>
+              <ODropdownItem
+                v-for="item in skin"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name"
+                :class="{ 'theme-active': themeStore.skinValue === item.value }"
+                @click="themeStore.setSkin(item.value)"
+              />
+            </template>
+          </ODropdown>
+        </div>
+        <div class="tool-item">
+          <ODropdown trigger="hover">
             {{ currentLocale?.label }}
             <template #dropdown>
               <ODropdownItem v-for="item in locales" :key="item.value" :label="item.label" :value="item.value" @click="changeLocale(item.value)" />
@@ -119,7 +98,7 @@ watch(locale, (newLocale, oldLocale) => {
   padding: 0 calc((100vw - var(--grid-full)) / 2);
   font-size: var(--o3-font_size-h3);
   line-height: var(--o3-line_height-h3);
-  background-color: rgba(var(--o-mixedgray-1), 0.9);
+  background-color: rgba(var(--o-grey-1), 0.9);
   box-shadow: var(--o-shadow-1);
   backdrop-filter: blur(5px);
 }
@@ -130,6 +109,23 @@ watch(locale, (newLocale, oldLocale) => {
   transform: translate3d(-50%, -50%, 0);
   @include respond-to('phone') {
     display: none;
+  }
+}
+.logo {
+  width: 215px;
+  height: 100%;
+
+  background: url(/opendesign-logo-light.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  [data-o-theme="k.dark"] &{
+    background-image: url(/opendesign-logo-dark.png);
+
+  }
+  @include respond-to('<=pad_v') {
+    width: 120px;
   }
 }
 .left {
@@ -179,6 +175,10 @@ watch(locale, (newLocale, oldLocale) => {
       margin-left: var(--o3-gap-5);
     }
   }
+}
+.theme-active {
+  background-color: var(--dropdown-item-bg-color-hover);
+  color: var(--dropdown-item-color-hover);
 }
 .theme-icon {
   display: block;

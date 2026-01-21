@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { watchEffect, useTemplateRef, onMounted, shallowReactive, nextTick, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { OScroller } from '@opensig/opendesign';
 import TheHeader from './components/TheHeader.vue';
 import TheAside from './components/TheAside.vue';
 import { changeLocale, locales, LOCALE_COOKIE_KEY } from './lang';
@@ -8,11 +9,15 @@ import { useSidebarStore } from './stores/sidebar';
 import TheAnchor from './components/TheAnchor';
 import { getHeads } from './utils/getHeads';
 import { useScreen } from './utils/useScreen';
+import { useThemeStore, normalizeSkin, normalizeColor, QUERY_COLOR, QUERY_SKIN, DEFAULT_COLOR, DEFAULT_SKIN_VALUE } from '@/stores/theme';
+import DocConfigProvide from './components/DocConfigProvide.vue';
 
 const route = useRoute();
 const router = useRouter();
 const sidebarStore = useSidebarStore();
 const { lePad, isPadV, lePadV } = useScreen();
+const themeStore = useThemeStore();
+const { setSkin, setColor } = themeStore;
 watchEffect(() => {
   const routeLocale = locales.find((item) => item.value === route.meta.lang);
   if (routeLocale) {
@@ -34,6 +39,8 @@ watchEffect(() => {
     }
   }
 });
+
+// 处理锚点
 const appBodyDom = useTemplateRef('appBodyDom');
 const heads = shallowReactive<Array<{ title: string; level: number; id: string }>>([]);
 onMounted(() => {
@@ -41,7 +48,7 @@ onMounted(() => {
 });
 router.afterEach(async (to, from) => {
   // 路由更新后更新锚点
-  if (to.path === from.path) {
+  if (to.fullPath === from.fullPath) {
     return;
   }
   await nextTick();
@@ -76,27 +83,59 @@ const handleAsideClick = () => {
 watchEffect(() => {
   hideAside.value = lePadV.value;
 });
+
+// 处理主题
+// 不能通过 router 拿到 query，此时 router 还未就绪
+const url = new URL(location.href);
+setSkin(normalizeSkin(url.searchParams.get(QUERY_SKIN)));
+setColor(normalizeColor(url.searchParams.get(QUERY_COLOR)));
+router.beforeEach((to) => {
+  // 将颜色和皮肤参数写入query
+  let hasQuery = false;
+  const query: Record<string, string> = {};
+  if (themeStore.color !== DEFAULT_COLOR) {
+    query[QUERY_COLOR] = themeStore.color;
+    hasQuery = true;
+  }
+  if (themeStore.skinValue !== DEFAULT_SKIN_VALUE) {
+    query[QUERY_SKIN] = themeStore.skinValue;
+    hasQuery = true;
+  }
+  if (hasQuery && (to.query[QUERY_COLOR] !== query[QUERY_COLOR] || to.query[QUERY_SKIN] !== query[QUERY_SKIN])) {
+    return {
+      ...to,
+      query: {
+        ...to.query,
+        ...query,
+      },
+    };
+  }
+});
 </script>
 
 <template>
-  <div
-    class="app-wrapper"
-    :class="{ 'hide-sidebar': hideAside }"
-    :style="{ '--app-aside-width': appAsideWidth, '--app-aside-static-width': asideStaticWidth, '--app-anchor-width': appAnchorWidth }"
-  >
-    <TheHeader class="app-header" />
-    <TheAside v-if="sidebarStore.hasData" class="app-aside" @click-sidebar="handleAsideClick" />
-    <TheAnchor v-if="heads.length" :heads="heads" :target-offset="60" class="app-anchor" />
-    <div ref="appBodyDom" class="app-body">
-      <router-view />
+  <DocConfigProvide :skin="themeStore.skinValue">
+    <div
+      class="app-wrapper"
+      :class="{ 'hide-sidebar': hideAside }"
+      :style="{ '--app-aside-width': appAsideWidth, '--app-aside-static-width': asideStaticWidth, '--app-anchor-width': appAnchorWidth }"
+    >
+      <TheHeader class="app-header" />
+      <TheAside v-if="sidebarStore.hasData" class="app-aside" @click-sidebar="handleAsideClick" />
+      <OScroller v-if="heads.length" disabled-x class="app-anchor-wrapper">
+        <TheAnchor :heads="heads" :target-offset="60" />
+      </OScroller>
+      <div ref="appBodyDom" class="app-body">
+        <router-view />
+      </div>
     </div>
-  </div>
+  </DocConfigProvide>
 </template>
 
 <style lang="scss">
-.app-wrapper {
-  --app-header-height: 48px;
-  --app-header-margin: var(--o3-gap-4);
+
+.o-message-list {
+  --message-list-top-offset: calc(var(--app-header-height) + 32px);
 }
 .app-header {
   position: fixed;
@@ -122,21 +161,31 @@ watchEffect(() => {
     transform: translateX(-100%);
   }
 }
-.app-anchor {
+.app-anchor-wrapper {
   position: fixed;
-  left: calc(50vw + var(--layout-content-width) / 2 - var(--app-anchor-width));
+  left: calc(50vw + var(--layout-content-width) / 2  - var(--app-anchor-width));
+  right: 0;
   top: calc(var(--app-header-height) + var(--app-header-margin));
   max-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
-  width: var(--app-anchor-width);
   z-index: 8;
+  .o-anchor-line {
+    flex-shrink: 0;
+  }
+  .o-scroller-container {
+    overscroll-behavior: contain;
+  }
   @include respond-to('<=pad_v') {
     display: none;
+  }
+  @include respond-to('>pc') {
+    right: auto;
+    width: var(--app-anchor-width);
   }
 }
 .app-body {
   margin-top: calc(var(--app-header-height) + var(--app-header-margin));
-  min-height: calc(100vh - var(--app-header-height));
-  background-color: var(--o-color-fill1);
+  --body-min-height: calc(100vh - var(--app-header-height) - var(--app-header-margin));
+  min-height: var(--body-min-height);
   width: var(--layout-content-width);
   margin-left: auto;
   margin-right: auto;

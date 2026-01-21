@@ -13,9 +13,7 @@ import { OTextarea } from '@opensig/opendesign';
 const val1 = ref('');
 const val3 = ref('');
 const val2 = ref('this is input value');
-setTimeout(() => {
-  // val1.value += '---';
-}, 2000);
+
 
 const onUpdateModelValue = (val: string) => {
   val1.value = val.trim();

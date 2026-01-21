@@ -1,12 +1,13 @@
 ---
 sidebar: OAnchor 锚点
+kind: nav
 ---
 
 # 锚点
 
 ## 示例
 
-<!-- @case AnchorUsage -->
+<!-- @usage AnchorUsage -->
 <!-- @case AnchorSlot -->
 
 ## Api

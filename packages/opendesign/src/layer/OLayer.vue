@@ -4,8 +4,9 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref } from 'vue';
+import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref, provide } from 'vue';
 import { layerProps } from './types';
+import { layerInjectKey } from './provide';
 import { useMouse, UseMouseT } from '../hooks/use-mouse';
 import { isFunction } from '../_utils/is';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
@@ -130,7 +131,7 @@ watch(
       emits('change', v);
       handleWrapperScroll();
     }
-  }
+  },
 );
 
 const toggle = async (show?: boolean) => {
@@ -196,6 +197,8 @@ onUnmounted(() => {
   wrapperEl?.classList.remove(LayerClass.OPEN);
 });
 
+provide(layerInjectKey, { toggle });
+
 defineExpose({
   /** Toggle the OLayer */
   toggle,
@@ -232,7 +235,7 @@ defineExpose({
           <slot></slot>
         </div>
       </transition>
-      <div class="o-layer-close" v-if="props.buttonClose" @click="onCloseButtonClick">
+      <div v-if="props.buttonClose" class="o-layer-close" @click="onCloseButtonClick">
         <slot name="close">
           <OIcon button :icon="IconClose" class="o-layer-close-icon" />
         </slot>

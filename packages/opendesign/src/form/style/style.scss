@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-form-layout-inline {
   display: flex;
@@ -34,6 +33,9 @@
 .o-form-layout-v {
   .o-form-item {
     display: block;
+  }
+  .o-form-item-label {
+    margin-bottom: var(--form-label-main-gap-v);
   }
 }
 .o-form-item {

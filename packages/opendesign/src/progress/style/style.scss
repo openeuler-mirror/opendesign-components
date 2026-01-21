@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-progress-line {
   width: 100%;
@@ -19,7 +18,7 @@
 .o-progress-line-bar {
   max-width: 100%;
   height: 100%;
-  background-color: var(--progress-bar-bg-color);
+  background: var(--progress-bar-bg-color);
   transition: all var(--o-duration-m1) var(--o-easing-standard);
   text-align: right;
 }
@@ -58,7 +57,7 @@
 }
 
 .o-progress-circle-bar {
-  stroke: var(--progress-bar-bg-color);
+  stroke: var(--progress-circle-bar-bg-color);
   transition: all var(--o-duration-m1) var(--o-easing-standard);
 }
 

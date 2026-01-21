@@ -26,8 +26,8 @@ export function useScrollbar(options: UseScrollbarOptions) {
 
   let wrapperEl: HTMLElement;
 
-  const mount = (wrapper: HTMLElement | null) => {
-    wrapperEl = wrapper || document.body;
+  const mount = (wrap: HTMLElement | null) => {
+    wrapperEl = wrap || document.body;
     wrapperEl?.appendChild(div.childNodes[0]);
     wrapperEl?.classList.add(ScrollbarClass.wrapper);
   };

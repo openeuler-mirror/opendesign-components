@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-dlg-main {
   color: var(--dlg-color);
@@ -78,6 +77,6 @@
 }
 .o-dlg-btn {
   + .o-dlg-btn {
-    margin-left: 16px;
+    margin-left: var(--dlg-btn-gap);
   }
 }

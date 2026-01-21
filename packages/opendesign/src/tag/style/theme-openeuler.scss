@@ -1,0 +1,31 @@
+// @use '../../_styles/mixin.scss' as *;
+// @use './theme-common.scss' as *;
+
+// .o-tag-normal {
+//   --tag-color: var(--o-color-info1);
+//   --tag-bg-color: var(--o-color-control4-light);
+//   --tag-bd-color: var(--o-color-control4-light);
+
+//   &.o-tag-outline {
+//     --tag-bd-color: var(--o-color-control1);
+//   }
+// }
+
+// .o-tag-closable.o-tag-normal {
+//   --tag-bg-color: var(--o-color-control2-light);
+//   --tag-bd-color: var(--o-color-control2-light);
+
+//   @include hover {
+//     --tag-bg-color: var(--o-color-control3-light);
+//     --tag-bd-color: var(--o-color-control3-light);
+//   }
+
+//   &.o-tag-outline {
+//     --tag-bg-color: var(--o-color-control2);
+//     --tag-bd-color: var(--o-color-control2);
+//     --tag-bg-color: transparent;
+
+//     --tag-icon-close-color-hover: var(--o-color-control3);
+//     --tag-icon-close-color-active: var(--o-color-control3);
+//   }
+// }

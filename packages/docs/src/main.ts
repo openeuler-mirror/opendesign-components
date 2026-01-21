@@ -1,10 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import 'normalize.css';
 
-import '@opensig/opendesign/index.scss';
-import '@opensig/opendesign/_styles/light.token.css';
-import '@opensig/opendesign/_styles/dark.token.css';
 import '@/assets/style/index';
 
 import { router } from '@/router/index';
@@ -16,6 +12,24 @@ import CodeContainer from './components/CodeContainer.vue';
 import DemoContainer from './components/DemoContainer.vue';
 import DemoUsage from './components/DemoUsage.vue';
 import DocLink from './components/DocLink.vue';
+
+import '@opensig/opendesign-token/themes/a.dark.token.css';
+import '@opensig/opendesign-token/themes/a.light.token.css';
+import '@opensig/opendesign-token/themes/e.dark.token.css';
+import '@opensig/opendesign-token/themes/e.light.token.css';
+import '@opensig/opendesign-token/themes/k.dark.token.css';
+import '@opensig/opendesign-token/themes/k.light.token.css';
+import '@opensig/opendesign-token/themes/g.dark.token.css';
+import '@opensig/opendesign-token/themes/g.light.token.css';
+import '@opensig/opendesign-token/themes/u.dark.token.css';
+import '@opensig/opendesign-token/themes/u.light.token.css';
+import '@opensig/opendesign-token/themes/m.dark.token.css';
+import '@opensig/opendesign-token/themes/m.light.token.css';
+
+import '@opensig/opendesign-token/fonts/font-harmony.css';
+import {initRound} from '@opensig/opendesign'
+
+// initRound('pill');
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -42,6 +56,5 @@ Object.entries(DocIcons).forEach(([name, value]) => {
 });
 // 某些组件有问题，需要手动注册
 app.component('OCarouselItem', Opendesign.OCarouselItem);
-app.component('OToggle', Opendesign.OToggle);
 app.component('DocLink', DocLink);
 app.mount('#app');

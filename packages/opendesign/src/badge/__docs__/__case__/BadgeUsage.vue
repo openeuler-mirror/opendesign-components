@@ -27,10 +27,10 @@ The badge can set an offset position using the `offset` property.
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
-const _schema = {
+const _oSchema = {
   value: {
     type: 'string',
-    default: '100',
+    default: '9',
   },
   max: {
     type: 'number',
@@ -45,30 +45,39 @@ const _schema = {
     type: 'boolean',
     default: false,
   },
-  'offset-x': {
+  offsetX: {
     type: 'number',
-    default: 0,
+    default: 6,
   },
-  'offset-y': {
+  offsetY: {
     type: 'number',
-    default: 0,
+    default: -6,
   },
 } satisfies Record<string, DocDemoSchema>;
 
 const NUMBER_REGEXP = /^\d+$/;
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
-  const { 'offset-x': offsetX, 'offset-y': offsetY, value } = props;
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
+  const { offsetX, offsetY, value } = props;
   const isNumber = NUMBER_REGEXP.test(value);
 
   return `
+  <div class="demo-badge-usage-wrap">
 <OBadge
-  ${propsToAttrStr(props, ['offset-x', 'offset-y', 'value'])}
+  ${propsToAttrStr(props, ['offsetX', 'offsetY', 'value'])}
   ${isNumber ? `:value="${parseInt(value)}"` : `value="${value}"`}
   ${offsetX || offsetY ? `:offset="[${offsetX}, ${offsetY}]"` : ''}
 >
   <img src="/avatar.svg" alt="avatar" style="width: 48px; height: 48px;" />
-</OBadge>`;
+</OBadge>
+</div>`;
 };
 
-const _ctx = {};
+const _oCtx = {};
 </script>
+<style>
+.demo-badge-usage-wrap {
+  .o-badge-content {
+    transform: none;
+  }
+}
+</style>

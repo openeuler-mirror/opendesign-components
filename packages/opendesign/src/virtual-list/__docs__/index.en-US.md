@@ -1,15 +1,13 @@
 ---
 sidebar: OVirtualList
+kind: container
 ---
 
 # virtual list
 
-## Usage
+## Demo
 
-<!-- @usage virtualUsage -->
-
-## Cases
-
+<!-- @usage VirtualListUsage -->
 <!-- @case VirtualListAPI -->
 <!-- @case VirtualListBasic -->
 <!-- @case VirtualListDynamic -->

@@ -78,11 +78,19 @@ onMounted(() => {
   }
 });
 
+const round = computed(()=>{
+  return props.round === 'pill' ? 'var(--o-radius_control-l)' : props.round;
+})
+
 defineExpose({
+  /** Focus method */
   focus: () => inTextareaRef.value?.focus(),
+  /** Blur method */
   blur: () => inTextareaRef.value?.blur(),
+  /** Clear method */
   clear: () => inTextareaRef.value?.clear(),
-  inputEl: () => inTextareaRef.value?.inputEl,
+  /** Textarea element */
+  inputEl: () => inTextareaRef.value?.inputEl as HTMLTextAreaElement | undefined,
 });
 </script>
 <template>
@@ -97,7 +105,7 @@ defineExpose({
           color: color,
           disabled: props.disabled,
           readonly: props.readonly,
-          round: props.round,
+          round: round,
           focused: isFocus,
         },
         {
@@ -126,6 +134,7 @@ defineExpose({
                   'getLength',
                   'maxLength',
                   'inputOnOutlimit',
+                  'showLength'
                 ]),
                 onChange: onChange,
                 onInput: onInput,

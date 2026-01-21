@@ -1,21 +1,22 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, ComponentPublicInstance, watchEffect, Ref, isRef } from 'vue';
+import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, Fragment, ComponentPublicInstance, Ref, isRef, watch } from 'vue';
 import { isArray } from './is';
 import { isHtmlElement } from './dom';
+import { log } from './log.ts';
 
 // 来着vuejs/core
 // https://github.com/vuejs/core/blob/main/packages/shared/src/shapeFlags.ts
 export const enum ShapeFlags {
   ELEMENT = 1, // 普通HTML元素
-  FUNCTIONAL_COMPONENT = 1 << 1, //函数式组件
-  STATEFUL_COMPONENT = 1 << 2, //有状态组件
-  TEXT_CHILDREN = 1 << 3, //文本节点
-  ARRAY_CHILDREN = 1 << 4, //数组子节点
-  SLOTS_CHILDREN = 1 << 5, //插槽子节点
+  FUNCTIONAL_COMPONENT = 1 << 1, // 函数式组件
+  STATEFUL_COMPONENT = 1 << 2, // 有状态组件
+  TEXT_CHILDREN = 1 << 3, // 文本节点
+  ARRAY_CHILDREN = 1 << 4, // 数组子节点
+  SLOTS_CHILDREN = 1 << 5, // 插槽子节点
   TELEPORT = 1 << 6, // teleport组件
-  SUSPENSE = 1 << 7, //suspense组件
-  COMPONENT_SHOULD_KEEP_ALIVE = 1 << 8, //需要被keep-live的有状态组件
-  COMPONENT_KEPT_ALIVE = 1 << 9, //已经被keep-alive的有状态组件
-  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT, //有状态或函数式组件
+  SUSPENSE = 1 << 7, // suspense组件
+  COMPONENT_SHOULD_KEEP_ALIVE = 1 << 8, // 需要被keep-live的有状态组件
+  COMPONENT_KEPT_ALIVE = 1 << 9, // 已经被keep-alive的有状态组件
+  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT, // 有状态或函数式组件
 }
 /**
  * 判断vnode是不是element
@@ -160,52 +161,41 @@ export function useSlotFirstElement(): { setSlot: (nodes: VNode[] | undefined) =
   };
 }
 
-export const resolveHtmlElement = (
-  elRef: Ref<string | ComponentPublicInstance | HTMLElement | null | undefined> | HTMLElement | string | undefined | ComponentPublicInstance
-): Promise<HTMLElement | null> => {
-  const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
-    if (typeof el === 'string') {
-      return document.querySelector(el);
-    } else if (isHtmlElement(el)) {
-      return el;
-    }
-    return null;
-  };
-
-  return new Promise((resolve) => {
-    if (isRef(elRef)) {
-      watchEffect(() => {
-        const { value } = elRef;
-        if (value) {
-          if (isComponentPublicInstance(value)) {
-            resolve(value.$el);
-          } else {
-            resolve(queryElement(value));
-          }
-        }
-      });
-    } else if (isComponentPublicInstance(elRef)) {
-      resolve(elRef.$el);
-    } else {
-      resolve(queryElement(elRef));
-    }
-  });
+type ElementQuery = string | HTMLElement | ComponentPublicInstance | null | undefined;
+const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement | null => {
+  if (typeof el === 'string') {
+    return document.querySelector(el);
+  } else if (isHtmlElement(el)) {
+    return el;
+  }
+  return null;
 };
-
-export const getHtmlElement = (elRef: Ref<string | ComponentPublicInstance | HTMLElement | null>): Promise<HTMLElement | null> => {
+export const resolveHtmlElement = (elRef: Ref<ElementQuery> | ElementQuery): Promise<HTMLElement | null> => {
   return new Promise((resolve) => {
-    if (isHtmlElement(elRef.value)) {
-      resolve(elRef.value as HTMLElement);
-    } else if (typeof elRef.value === 'string') {
-      resolve(document.querySelector(elRef.value) as HTMLElement);
+    const resolveElement = (el: ElementQuery) => {
+      if (isComponentPublicInstance(el)) {
+        resolve(el.$el);
+      } else {
+        resolve(queryElement(el));
+      }
+    };
+    if (isRef(elRef)) {
+      if (elRef.value) {
+        resolveElement(elRef.value);
+      } else {
+        const closeWatch = watch(elRef, (el, oldEl) => {
+          if (el) {
+            resolveElement(el);
+            closeWatch();
+          } else {
+            log.warn(
+              `resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`
+            );
+          }
+        });
+      }
     } else {
-      watchEffect(() => {
-        if (isHtmlElement(elRef.value)) {
-          resolve(elRef.value as HTMLElement);
-        } else if (elRef.value) {
-          resolve((elRef.value as ComponentPublicInstance).$el);
-        }
-      });
+      resolveElement(elRef);
     }
   });
 };
@@ -223,9 +213,19 @@ export const isEmptySlot = (slot?: Slot) => {
   if (children.length === 0) {
     return true;
   }
-  // TODO: 如何判断是否为注释节点
-  if (children.length === 1 && isTextElement(children[0]) && !children[0].children) {
+  if (isTextElement(children[0]) && !children[0].children) {
     return true;
+  }
+  // 如果是注释节点，v-if不渲染的也算注释节点
+  if (children[0].type === Comment) {
+    return true;
+  }
+  /**
+   * 如果是不渲染的片段节点，检查片段节点内部是否有子节点
+   * 只会检查子节点的个数，如果子节点的子节点也是空的片段节点，请调用者在slot最外层套v-if
+   */
+  if (children[0].type === Fragment) {
+    return !children[0].children?.length;
   }
   return false;
 };
@@ -238,4 +238,21 @@ export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) 
   const keys = Object.keys(slots);
   const r = keys.filter((item) => names.includes(item));
   return r || [];
+}
+
+/**
+ * 合并class
+ */
+export function mergeClass(...classList: Array<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string> | undefined>) {
+  let rlt: Array<{ [k: string]: boolean } | string> = [];
+
+  classList.forEach((item) => {
+    if (isArray(item)) {
+      rlt = rlt.concat(item);
+    } else if (item) {
+      rlt.push(item);
+    }
+  });
+
+  return rlt;
 }

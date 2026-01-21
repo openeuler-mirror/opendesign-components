@@ -2,34 +2,41 @@ import { ExtractPropTypes } from 'vue';
 
 export const radioProps = {
   /**
-   * 单选框value
+   * @zh-CN 单选框value
+   * @en-US Radio box value.
    */
   value: {
     type: [String, Number, Boolean],
-    required: true,
+    required: true as const,
   },
   /**
-   * 单选框双向绑定值
+   * @zh-CN 单选框双向绑定值
+   * @en-US Two-way binding values for single-choice boxes.
    */
   modelValue: {
     type: [String, Number, Boolean],
   },
   /**
-   * 非受控状态时，默认是否选中
+   * @zh-CN 非受控状态时，默认是否选中
+   * @en-US Whether it is selected by default when in an uncontrolled state.
+   * @default false
    */
   defaultChecked: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable.
+   * @default false
    */
   disabled: {
     type: Boolean,
     default: false,
   },
   /**
-   * input id
+   * @zh-CN 用于关联label元素与input元素
+   * @en-US Used to associate the label element with the input element.
    */
   inputId: {
     type: String,

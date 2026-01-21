@@ -3,7 +3,7 @@ import { IconLoading } from '../_utils/icons';
 import { OLayer } from '../layer';
 
 import { loadingProps } from './types';
-import { mergeClass } from '../_utils/dom';
+import { mergeClass } from '../_utils/vue-utils';
 import { ref } from 'vue';
 
 const props = defineProps(loadingProps);
@@ -15,6 +15,7 @@ const emits = defineEmits<{
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 defineExpose({
+  /** Toggle loading */
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
   },
@@ -24,6 +25,9 @@ defineExpose({
   <OLayer
     ref="layerRef"
     class="o-loading"
+    :class="[
+      `o-loading-${props.size}`,
+    ]"
     :visible="props.visible"
     :wrapper="props.wrapper"
     :unmount-on-hide="props.unmountOnHide"

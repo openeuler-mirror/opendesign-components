@@ -9,61 +9,76 @@ export type RateSizeT = (typeof RateSizeTypes)[number];
 
 export const rateProps = {
   /**
-   * 评分数量
+   * @zh-CN 评分总数
+   * @en-US Total number of ratings
+   * @default 5
    */
   count: {
     type: Number,
     default: 5,
   },
   /**
-   * 双向绑定值
+   * @zh-CN 选中数量
+   * @en-US Selected count
    */
   modelValue: {
     type: Number,
   },
   /**
-   * 非受控状态时，默认值
+   * @zh-CN 非受控默认选中值
+   * @en-US Uncontrolled default selected count
+   * @default 0
    */
   defaultValue: {
     type: Number,
     default: 0,
   },
   /**
-   * 尺寸 RateSizeT
+   * @zh-CN 图标尺寸
+   * @en-US Icon size
    */
   size: {
     type: String as PropType<RateSizeT>,
   },
   /**
-   * 颜色类型 ColorT
+   * @zh-CN 图标颜色
+   * @en-US Icon color
+   * @default 'normal'
    */
   color: {
     type: String as PropType<ColorT>,
     default: 'normal',
   },
   /**
-   * 是否只读
+   * @zh-CN 是否只读
+   * @en-US Whether to read-only
+   * @default false
    */
   readonly: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否支持半选
+   * @zh-CN 是否支持半选
+   * @en-US Whether to support half selection
+   * @default false
    */
   allowHalf: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否支持可清空
+   * @zh-CN 是否支持可清空
+   * @en-US Whether to support clearable
+   * @default false
    */
   clearable: {
     type: Boolean,
     default: false,
   },
   /**
-   * 文字
+   * @zh-CN 提示文字（数组长度应该等于count）
+   * @en-US Prompt text (The length of the array should equal to count)
    */
   labels: {
     type: Array as PropType<Array<string>>,

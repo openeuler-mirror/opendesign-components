@@ -6,25 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -C packages/portal dev",
-    "dev:ak": "pnpm -C packages/portal-ak dev",
-    "docs:install": "pnpm i && pnpm -C packages/scripts build && pnpm i && pnpm -C packages/opendesign build && pnpm -C packages/docs gen:api ",
+    "docs:install": "pnpm i && pnpm -C packages/opendesign gen:icon && pnpm -C packages/docs gen:icon && pnpm -C packages/docs gen:api",
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build"
   },
-  "dependencies": {
-    "normalize.css": "catalog:css",
-    "vue": "catalog:vue",
-    "vue-router": "catalog:vue"
-  },
   "devDependencies": {
-    "@rushstack/eslint-patch": "catalog:lint",
+    "@eslint/js": "^9.39.1",
     "@types/node": "catalog:typescript",
     "@vitejs/plugin-vue": "catalog:vue",
-    "@vue/eslint-config-typescript": "catalog:lint",
     "eslint": "catalog:lint",
+    "eslint-config-prettier": "catalog:lint",
     "eslint-plugin-vue": "catalog:lint",
+    "globals": "catalog:lint",
+    "prettier": "catalog:lint",
     "typescript": "catalog:typescript",
-    "vite-node": "catalog:utils",
-    "vue-eslint-parser": "catalog:lint"
-  }
+    "typescript-eslint": "catalog:lint"
+  },
+  "engines": {
+    "node": "24.7.0"
+  },
+  "packageManager": "pnpm@10.26.1"
 }

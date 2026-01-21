@@ -13,12 +13,14 @@ const props = defineProps(colProps);
       '--col-pad-v-flex': props.padV?.flex,
       '--col-pad-flex': props.pad?.flex,
       '--col-laptop-flex': props.laptop?.flex,
+      '--col-pc-s-flex': props.pcS?.flex,
     }"
     :class="{
       'o-col-phone': !!props.phone,
       'o-col-pad-v': !!props.padV,
       'o-col-pad': !!props.pad,
       'o-col-laptop': !!props.laptop,
+      'o-col-pc-s': !!props.pcS,
     }"
   >
     <slot></slot>

@@ -5,20 +5,23 @@ export type ResultStatusT = (typeof ResultStatusTypes)[number];
 
 export const resultProps = {
   /**
-   * 状态
+   * @zh-CN 状态
+   * @en-US Status.
    */
   status: {
     type: String as PropType<ResultStatusT>,
   },
   /**
-   * 标题
+   * @zh-CN 标题
+   * @en-US Title.
    */
   title: {
     type: String,
   },
   /**
-   * 描述
-   **/
+   * @zh-CN 描述
+   * @en-US Description.
+   */
   description: {
     type: String,
   },

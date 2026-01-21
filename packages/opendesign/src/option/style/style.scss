@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-option {
   padding: calc(var(--option-gap) / 2) 0;
@@ -25,11 +24,9 @@
   }
 
   &.active {
-    // @include me-hover {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--option-color-active);
     background-color: var(--option-bg-color-active);
-    // }
   }
 }
 

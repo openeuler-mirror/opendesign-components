@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-btn {
   outline: none;
@@ -18,9 +17,6 @@
   height: var(--btn-height);
 
   cursor: pointer;
-  &.o-btn-icon-only {
-    width: var(--btn-height);
-  }
 }
 .o-btn-outline {
   color: var(--btn-color);
@@ -43,16 +39,19 @@
   color: var(--btn-color);
   border: 1px solid var(--btn-bd-color);
   background-color: var(--btn-bg-color);
+  background-image: var(--btn-bg-image);
   @include hover {
     color: var(--btn-color-hover);
     border: 1px solid var(--btn-bd-color-hover);
     background-color: var(--btn-bg-color-hover);
+    background-image: var(--btn-bg-image-hover);
   }
 
   &:active {
     color: var(--btn-color-active);
     border: 1px solid var(--btn-bd-color-active);
     background-color: var(--btn-bg-color-active);
+    background-image: var(--btn-bg-image-active);
   }
   &:focus-visible {
     border: 1px solid var(--btn-bd-color-active);
@@ -61,6 +60,21 @@
 .o-btn-text {
   color: var(--btn-color);
   background-color: transparent;
+  padding: 0;
+
+  @include hover {
+    color: var(--btn-color-hover);
+    background-color: transparent;
+  }
+
+  &:active {
+    color: var(--btn-color-active);
+    background-color: transparent;
+  }
+}
+.o-btn-icon-only {
+  width: var(--btn-height);
+  background-color: var(--btn-bg-color);
 
   @include hover {
     color: var(--btn-color-hover);
@@ -70,6 +84,12 @@
   &:active {
     color: var(--btn-color-active);
     background-color: var(--btn-bg-color-active);
+  }
+}
+.o-btn-brand {
+  border: none;
+  @include hover {
+    border: none;
   }
 }
 
@@ -83,6 +103,7 @@
     color: var(--btn-color-disabled);
     border: 1px solid var(--btn-bd-color-disabled);
     background-color: var(--btn-bg-color-disabled);
+    background-image: var(--btn-bg-image);
   }
 }
 

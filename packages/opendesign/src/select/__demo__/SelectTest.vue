@@ -2,12 +2,7 @@
 import { ref, watchEffect } from 'vue';
 import { OSelect } from '../index';
 import { OOption } from '../../option';
-// const options = [
-//   { label: 'option 1', value: 0 },
-//   { label: 'option 2', value: 'opt2' },
-//   { label: 'option 3', value: '' },
-//   { label: 'option 4', value: 'opt4' },
-// ];
+
 const selectVal1 = ref<number | string>(0);
 const options = ref<Array<{ label: string; value: number }>>([]);
 console.time('select');

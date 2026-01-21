@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-collapse {
   background-color: var(--collapse-bg-color);
@@ -7,8 +6,12 @@
   border-radius: var(--collapse-radius);
 }
 
-.o-collapse-item + .o-collapse-item {
-  border-top: 1px solid var(--collapse-division-color);
+.o-collapse-item {
+  border-bottom: 1px solid var(--collapse-division-color);
+
+  &:last-child {
+    border-bottom-color: transparent;
+  }
 }
 
 .o-collapse-item-header {
@@ -47,7 +50,8 @@
 
 .o-collapse-item-expanded {
   .o-collapse-item-title {
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--collapse-item-title-color_expanded);
   }
   .o-collapse-item-icon {
     transform: rotate(-90deg);

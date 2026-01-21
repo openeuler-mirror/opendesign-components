@@ -16,9 +16,7 @@ export default defineConfig({
     outDir: './dist',
   },
   plugins: [
-    vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
+    vue({ include: [/\.vue$/, /\.md$/] }),
     injectDemoAndApi(),
     injectDemoSource(),
     injectDemoDocs(),
@@ -29,12 +27,13 @@ export default defineConfig({
   resolve: {
     alias: {
       '@/': `${path.resolve(__dirname, './src')}/`,
-      '@components': path.resolve(__dirname, '../opendesign/src'),
       '@assets': path.resolve(__dirname, './src/assets'),
       '@opensig/opendesign': path.resolve(__dirname, '../opendesign/src'),
     },
   },
   server: {
+    host: '0.0.0.0',
+    allowedHosts: true,
     port: 3300,
   },
   define: {
@@ -44,7 +43,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@use "@components/_styles/mixin.scss" as *;',
+        additionalData: '@use "@opensig/opendesign/_styles/mixin.scss" as *;\n',
       },
     },
   },

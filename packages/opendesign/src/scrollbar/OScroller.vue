@@ -2,6 +2,7 @@
 import { ref, Ref } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { scrollerProps } from './types';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(scrollerProps);
 const targetRef: Ref<HTMLElement | null> = ref(null);
@@ -25,14 +26,14 @@ defineExpose({
   <div class="o-scroller o-scrollbar-wrapper">
     <div
       ref="targetRef"
-      class="o-scroller-container"
-      :class="[
+      :class="mergeClass(
+        'o-scroller-container',
         {
           'is-x-disabled': props.disabledX,
           'is-y-disabled': props.disabledY,
         },
         props.wrapClass,
-      ]"
+      )"
     >
       <slot></slot>
     </div>

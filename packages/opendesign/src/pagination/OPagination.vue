@@ -64,7 +64,7 @@ watch(
   () => [totalPage.value, pageVal.value],
   () => {
     pages.value = getPagerList(totalPage.value, pageVal.value, props.showPageCount);
-  }
+  },
 );
 
 // 处理page和pageSize变化
@@ -138,7 +138,6 @@ const selectPageSize = (val: SelectValueT) => {
   updatePageAndPageSize(newPage, size);
 };
 
-
 // 选择弹层中的页码
 const onMoreItemClick = (item: number, value: number | 'left' | 'right') => {
   selectPage(item);
@@ -154,33 +153,36 @@ const validateInput = (value: number) => {
 };
 
 defineExpose({
+  /** Total number of pages */
   pageCount: totalPage,
 });
 </script>
 <template>
-  <div class="o-pagination" :class="[`o-pagination-${props.variant}`, round.class.value]" :style="round.style.value">
+  <div
+    class="o-pagination"
+    :class="[`o-pagination-${props.variant}`, round.class.value, { 'o-pagination-ly-simple': props.simple }]"
+    :style="round.style.value"
+  >
     <div class="o-pagination-wrap">
       <!-- total -->
       <div v-if="layout.includes('total') || $props.showTotal" class="o-pagination-total">
-        <slot name="total" :total="props.total">{{ t('pagination.total', props.total) }}</slot>
+        <slot name="total" :total="props.total" :page-count="totalPage">{{ t('pagination.total', props.total) }}</slot>
       </div>
       <!-- sizes -->
-      <template v-if="layout.includes('pagesize')">
-        <div class="o-pagination-size">
-          <OSelect
-            v-if="pageSizeList.length > 1"
-            :model-value="pageSize"
-            class="o-pagination-select"
-            :default-label="defaultSizeLabel"
-            :round="props.round"
-            :variant="props.variant"
-            @change="selectPageSize"
-          >
-            <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
-          </OSelect>
-          <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
-        </div>
-      </template>
+      <div v-if="layout.includes('pagesize')" class="o-pagination-size">
+        <OSelect
+          v-if="pageSizeList.length > 1"
+          :model-value="pageSize"
+          class="o-pagination-select"
+          :default-label="defaultSizeLabel"
+          :round="props.round"
+          :variant="props.variant"
+          @change="selectPageSize"
+        >
+          <OOption v-for="item in pageSizeList" :key="item.value" :label="item.label" :value="item.value" />
+        </OSelect>
+        <div v-else class="o-pagination-page-size">{{ pageSizeList[0].label }}</div>
+      </div>
       <!-- pager -->
       <div v-if="layout.includes('pager')" class="o-pagination-pager">
         <div
@@ -222,11 +224,11 @@ defineExpose({
             >
               <span v-if="!item.isMore">{{ item.value }}</span>
               <OPopover
+                v-else
+                v-model:visible="moreVisible[item.value as 'left' | 'right']"
                 position="bottom"
                 wrap-class="o-options-popup"
-                v-else
                 :disabled="!props.showMore"
-                v-model:visible="moreVisible[item.value as 'left'|'right']"
               >
                 <OOptionList scrollbar>
                   <!-- 当下拉项大于50，采用虚拟列表 -->
@@ -255,9 +257,8 @@ defineExpose({
                   </template>
                 </OOptionList>
                 <template #target>
-                  <span @click.stop="moreClick(item)" class="o-pagination-more-icon-wrap">
+                  <span class="o-pagination-more-icon-wrap" @click.stop="moreClick(item)">
                     <OIcon class="o-pagination-more-icon" :icon="IconEllipsis" />
-                    <OIcon class="o-pagination-more-arrow-icon" :icon="item.value === 'left' ? IconArrowLeft : IconArrowRight" />
                   </span>
                 </template>
               </OPopover>

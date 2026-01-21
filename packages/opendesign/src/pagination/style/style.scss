@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-pagination {
   color: var(--o-color-info2);
@@ -14,6 +13,9 @@
   > *:not(:first-child) {
     margin-left: var(--pagination-item-gap);
   }
+}
+.o-pagination-total + .o-pagination-size {
+  margin-left: var(--pagination-item-size-gap);
 }
 .o-pagination-pager {
   display: flex;
@@ -51,10 +53,18 @@
   }
 }
 .o-pagination-pages {
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-left: var(--pagination-item-sm-gap);
+  margin-right: var(--pagination-item-sm-gap);
   display: flex;
   align-items: center;
+}
+.o-pagination-goto {
+  display: flex;
+  align-items: center;
+}
+.o-pagination-ly-simple .o-pagination-pages {
+  margin-left: var(--pagination-item-gap);
+  margin-right: var(--pagination-item-gap);
 }
 .o-pagination-item {
   width: var(--pagination-item-size);
@@ -70,7 +80,7 @@
   transition: all var(--o-easing-standard-in) var(--o-duration-m1);
 
   + .o-pagination-item {
-    margin-left: 8px;
+    margin-left: var(--pagination-item-sm-gap);
   }
   @include hover {
     color: var(--pagination-item-color-hover);
@@ -102,14 +112,14 @@
 }
 
 .o-pagination-input {
-  width: 60px;
+  width: 72px;
   .o-pagination-goto & {
-    margin-left: 8px;
+    margin-left: var(--pagination-item-sm-gap);
   }
 }
 
 .o-pagination-select {
-  width: 110px;
+  width: 116px;
 }
 
 .o-pagination {
@@ -136,17 +146,6 @@
 .o-pagination-more-icon {
   font-size: var(--o-icon_size_control-xs);
   display: inline-flex;
-  .o-pagination-more-icon-wrap:hover & {
-    display: none;
-  }
-}
-
-.o-pagination-more-arrow-icon {
-  font-size: var(--o-icon_size_control-xs);
-  display: none;
-  .o-pagination-more-icon-wrap:hover & {
-    display: inline-flex;
-  }
 }
 
 .o-pagination-virtual-more-list {

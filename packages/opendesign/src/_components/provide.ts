@@ -1,5 +1,5 @@
 import { InjectionKey } from 'vue';
 
 export const innerComponentInjectKey: InjectionKey<{
-  isInnerInput: Boolean;
+  isInnerInput: boolean;
 }> = Symbol('provide-inner-component');

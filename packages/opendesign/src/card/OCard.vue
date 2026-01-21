@@ -4,6 +4,7 @@ import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_components/html-tag';
 import { isString, isUndefined } from '../_utils/is';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(cardProps);
 
@@ -19,6 +20,10 @@ const slots = defineSlots<{
   cover(): any;
 }>();
 
+const showFadeOut = computed(()=>{
+  return props.textOverflow === 'fade';
+})
+
 const hasMain = computed(
   () => slots.main || props.icon || slots.icon || props.title || slots.title || slots.header || props.detail || slots.detail || slots.default
 );
@@ -27,7 +32,15 @@ const isTitleLimited = computed(() => {
   return !isUndefined(props.titleMaxRow);
 });
 const isDetailLimited = computed(() => {
-  return !isUndefined(props.detailMaxRow);
+  return !isUndefined(props.detailMaxRow) && showFadeOut.value;
+});
+
+const hasCover = computed(() => {
+  return Boolean(slots.cover || props.cover);
+});
+
+const hasTitleIcon = computed(() => {
+  return props.titleIcon;
 });
 </script>
 
@@ -43,24 +56,32 @@ const isDetailLimited = computed(() => {
         'o-card-hoverable': props.hoverable || !!props.href,
         'o-card-cursor-pointer': props.cursor === 'pointer' || !!props.href,
         'o-card-no-responsive': props.noResponsive,
+        'o-card-cover': hasCover,
       },
     ]"
   >
     <slot name="card">
       <!-- cover -->
       <div
-        v-if="!!slots.cover || props.cover"
+        v-if="hasCover"
         class="o-card-cover"
-        :class="[
-          props.coverClass,
+        :class="mergeClass(
           `o-card-cover-${props.layout}`,
           {
             'o-card-only-cover': !hasMain,
           },
-        ]"
+          props.coverClass,
+        )"
       >
         <slot name="cover">
-          <OFigure :ratio="props.coverRatio" class="o-card-cover-img" :src="props.cover" :fit="props.coverFit" :class="{ 'is-full': !props.coverRatio }" />
+          <OFigure
+            v-if="props.cover"
+            :ratio="props.coverRatio"
+            class="o-card-cover-img"
+            :src="props.cover"
+            :fit="props.coverFit"
+            :class="{ 'is-full': !props.coverRatio }"
+          />
         </slot>
       </div>
       <div v-if="!!hasMain" class="o-card-main">
@@ -75,8 +96,18 @@ const isDetailLimited = computed(() => {
           <div class="o-card-main-wrap">
             <div>
               <!-- header -->
-              <div v-if="props.title || !!slots.header || !!slots.title" class="o-card-header">
+              <div
+                v-if="props.title || !!slots.header || !!slots.title"
+                :class="{
+                  'o-card-header': true,
+                  'o-card-header-with-icon': hasTitleIcon
+                }"
+              >
                 <slot name="header">
+                  <div v-if="hasTitleIcon" class="o-card-title-icon">
+                    <OFigure v-if="isString(props.titleIcon)" :src="props.titleIcon" class="o-card-title-icon-figure"/>
+                    <component :is="props.titleIcon" v-else />
+                  </div>
                   <div
                     v-if="props.title"
                     class="o-card-title"

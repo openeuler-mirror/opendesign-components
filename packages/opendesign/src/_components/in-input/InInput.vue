@@ -13,6 +13,7 @@ const slots = defineSlots<{
   prefix(): any;
   suffix(): any;
   extra(): any;
+  length(props: {length: number}): any;
 }>();
 
 type InInputEmitsT = {
@@ -20,15 +21,17 @@ type InInputEmitsT = {
 } & UseInputEmitsT;
 
 const emits = defineEmits<InInputEmitsT>();
+
 const { t } = useI18n();
 
-const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
+const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength, showLength } = toRefs(props);
 
 const {
   displayValue,
   clearValue: clear,
   isValid,
   inputValueLength,
+  isShowLength,
   isOutLengthLimit,
   handleBlur,
   handleInput,
@@ -40,6 +43,7 @@ const {
   emits,
   maxLength,
   minLength,
+  showLength,
   inputOnOutlimit,
   modelValue,
   defaultValue: props.defaultValue ?? '',
@@ -140,7 +144,7 @@ defineExpose({
       />
     </div>
 
-    <div v-if="slots.suffix?.() || isClearable || props.type === 'password' || props.maxLength" class="o_input-suffix" @mousedown.prevent>
+    <div v-if="slots.suffix?.() || isClearable || props.type === 'password' || isShowLength" class="o_input-suffix" @mousedown.prevent>
       <!-- 自定义图标 -->
       <span v-if="slots.suffix?.()" class="o_input-suffix-icon">
         <slot name="suffix"></slot>
@@ -162,11 +166,15 @@ defineExpose({
       </div>
       <!-- 长度限制 -->
       <div
-        v-if="props.maxLength"
+        v-if="isShowLength"
         class="o_input-limit"
         :class="{ 'o_input-limit-error': isOutLengthLimit }"
-        v-html="t('input.limit', inputValueLength, props.maxLength)"
-      ></div>
+      >
+        <slot name="length" :length="inputValueLength">
+          <span v-if="props.maxLength ?? props.minLength" v-html="t('input.limit', inputValueLength, props.maxLength ?? props.minLength)"></span>
+          <span v-else>{{ inputValueLength }}</span>
+        </slot>
+      </div>
       <span v-if="slots.extra?.()">
         <slot name="extra"></slot>
       </span>

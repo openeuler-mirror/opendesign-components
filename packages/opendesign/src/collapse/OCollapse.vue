@@ -20,6 +20,14 @@ const computedValue = computed(() => {
   return value;
 });
 
+const emitChange = (val: Array<string | number>, e: Event) => {
+  nextTick(() => {
+    if (isArrayEqual(val, computedValue.value)) {
+      emits('change', computedValue.value, e);
+    }
+  });
+};
+
 const handleItemClick = (value: string | number, e: Event) => {
   let realValue: Array<string | number> = [];
   if (props.accordion) {
@@ -40,13 +48,7 @@ const handleItemClick = (value: string | number, e: Event) => {
   emitChange(realValue, e);
 };
 
-const emitChange = (val: Array<string | number>, e: Event) => {
-  nextTick(() => {
-    if (isArrayEqual(val, computedValue.value)) {
-      emits('change', computedValue.value, e);
-    }
-  });
-};
+
 
 provide(collapseInjectKey, {
   computedValue,

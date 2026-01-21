@@ -85,14 +85,14 @@ type CascaderOptionT = {
 </docs>
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { SizeTypes } from '@opensig/opendesign';
 import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
 
-const _schema = {
-  'path-mode': {
+const _oSchema = {
+  pathMode: {
     type: 'boolean',
     default: false,
-    label: 'path mode',
   },
   round: {
     type: 'list',
@@ -101,20 +101,25 @@ const _schema = {
   variant: {
     type: 'list',
     list: ['solid', 'outline', 'text'],
+    default: 'outline',
   },
   placeholder: {
     type: 'string',
     default: 'Please select',
   },
-  'option-position': {
+  optionPosition: {
     type: 'list',
     list: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'],
     default: 'bl',
-    label: 'option position',
+  },
+  size: {
+    type: 'list',
+    list: SizeTypes,
+    default: 'large',
   },
 } satisfies Record<string, DocDemoSchema>;
 
-const _ctx = reactive({
+const _oCtx = reactive({
   modelValue: '' as string | number | Array<string | number>,
   options: [
     {
@@ -130,8 +135,45 @@ const _ctx = reactive({
               value: '1-1-1',
             },
             {
-              label: 'Sub-option 1-1-2',
+              label: 'Sub-option 1-1-2; Sub-option 1-1-2; Sub-option 1-1-2',
               value: '1-1-2',
+            },
+            {
+              label: 'Sub-option 1-1-3',
+              value: '1-1-3',
+            },
+            {
+              label: 'Sub-option 1-1-4',
+              value: '1-1-4',
+            },
+            {
+              label: 'Sub-option 1-1-5',
+              value: '1-1-5',
+            },
+            {
+              label: 'Sub-option 1-1-1',
+              value: '1-1-1',
+            },
+            {
+              label: 'Sub-option 1-1-6',
+              value: '1-1-6',
+            },
+
+            {
+              label: 'Sub-option 1-1-7',
+              value: '1-1-7',
+            },
+            {
+              label: 'Sub-option 1-1-8',
+              value: '1-1-8',
+            },
+            {
+              label: 'Sub-option 1-1-9',
+              value: '1-1-9',
+            },
+            {
+              label: 'Sub-option 1-1-10',
+              value: '1-1-10',
             },
           ],
         },
@@ -157,7 +199,7 @@ const _ctx = reactive({
     },
   ],
 });
-const _template: DocDemoTemplate<typeof _schema> = (props) => {
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   return `
 <OCascader
   v-model="ctx.modelValue"

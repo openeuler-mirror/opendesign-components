@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-card {
   background-color: var(--card-bg-color);
@@ -39,6 +38,26 @@
   font-size: var(--card-header-text-size);
   line-height: var(--card-header-text-height);
   color: var(--card-header-color);
+}
+
+.o-card-header-with-icon {
+  position: relative;
+
+  .o-card-title {
+    text-indent: calc(var(--card-title-icon-size) + var(--card-title-icon-gap));
+  }
+}
+
+.o-card-title-icon {
+  width: var(--card-title-icon-size);
+  height: var(--card-title-icon-size);
+  position: absolute;
+  top: calc((var(--card-header-text-height) - var(--card-title-icon-size)) / 2);
+  font-size: var(--card-title-icon-size);
+}
+
+.o-card-title-icon-figure {
+  width: 100%;
 }
 
 .o-card-title {
@@ -86,6 +105,38 @@
   display: -webkit-box;
   -webkit-line-clamp: var(--card-detail-max-row);
   -webkit-box-orient: vertical;
+}
+
+.o-card-detail-limited {
+  --card-detail-mask-bg-color: var(--o-grey-1);
+  --card-detail-mask-width: 4em;
+
+  position: relative;
+  display: block;
+  text-overflow: clip;
+
+  &::after {
+    background-image: linear-gradient(
+      90deg,
+      rgba(var(--card-detail-mask-bg-color), 0),
+      rgba(var(--card-detail-mask-bg-color), 0.8) 66%,
+      rgba(var(--card-detail-mask-bg-color)) 100%
+    );
+    bottom: 0;
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    width: var(--card-detail-mask-width);
+    height: var(--card-content-text-height);
+  }
+}
+
+[data-o-theme*='dark'] {
+  .o-card-detail-limited {
+    // 其实应该是--o-color-fill2的，但是不支持透明度，所以用原始值，同卡片背景色
+    --card-detail-mask-bg-color: var(--o-grey-4);
+  }
 }
 
 .o-card-hoverable {

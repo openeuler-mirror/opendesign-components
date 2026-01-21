@@ -1,13 +1,13 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { useComposition } from '../hooks/use-composition';
 import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
-import { ref, computed, Ref, watch, nextTick } from 'vue';
+import { ref, computed, Ref, watch, nextTick, VNode } from 'vue';
 
 export type UseInputEmitsT = {
   // 仅在输入框失焦或按下回车时触发
   (e: 'change', value: string, lastValue: string): void;
-  // 用户输入时触发
+  // 用户输入时（键盘输入、粘贴等）触发，value为当前输入的值
   (e: 'input', evt: Event, value: string): void;
   // 输入框获取焦点时触发
   (e: 'focus', evt: FocusEvent): void;
@@ -24,10 +24,12 @@ export interface InputOptionT {
   emits: UseInputEmitsT;
   emitUpdate: (value: string) => void;
   validate?: (value: string) => boolean;
-  valueOnInvalidChange?: (inputValue: string, lastValidInputValue: string) => string;
+  // 当输入值不合法时的处理方式：[true]：纠正为上一次合法的值(如果上一次合法值为空字符串，则不处理); [false|undefined]: 不处理；[function]: 使用函数的返回值
+  valueOnInvalidChange?: boolean | ((inputValue: string, lastValidInputValue: string) => string);
   format?: (value: string) => string;
   maxLength?: Ref<number | undefined>;
   minLength?: Ref<number | undefined>;
+  showLength?: Ref<'always' | 'auto' | 'never' | ((length:number) => string | VNode)>
   calculateLength?: (value: string) => number;
   inputOnOutlimit?: Ref<boolean | undefined>;
 }
@@ -35,9 +37,22 @@ export interface InputOptionT {
 /**
  * 输入框
  */
+// eslint-disable-next-line max-lines-per-function
 export function useInput(options: InputOptionT) {
-  const { modelValue, defaultValue, format, emits, emitUpdate, validate, valueOnInvalidChange, maxLength, minLength, calculateLength, inputOnOutlimit } =
-    options;
+  const {
+    modelValue,
+    defaultValue,
+    format,
+    emits,
+    emitUpdate,
+    validate,
+    valueOnInvalidChange,
+    maxLength,
+    minLength,
+    showLength,
+    calculateLength,
+    inputOnOutlimit,
+  } = options;
 
   const formatFn = (v: string) => {
     return isFunction(format) ? format(v) : v;
@@ -46,13 +61,13 @@ export function useInput(options: InputOptionT) {
     return isFunction(calculateLength) ? calculateLength(v) : v?.length;
   };
 
-  const uncontroledValue = ref(defaultValue);
-  const controledValue = modelValue;
+  const uncontrolledValue = ref(defaultValue);
+  const controlledValue = modelValue;
 
   // 当前值
   const computedValue = computed(() => {
-    const cv = controledValue?.value;
-    const ucv = uncontroledValue.value ?? '';
+    const cv = controlledValue?.value;
+    const ucv = uncontrolledValue.value ?? '';
 
     return cv ?? ucv;
   });
@@ -98,7 +113,7 @@ export function useInput(options: InputOptionT) {
     return r;
   };
 
-  const inputEl = ref<HTMLInputElement>();
+  const inputEl = ref<HTMLInputElement | HTMLTextAreaElement>();
 
   // 正在输入中文，处理输入过程中触发input事件
   const composition = useComposition({ el: inputEl });
@@ -109,8 +124,8 @@ export function useInput(options: InputOptionT) {
   // 值可用状态
   const isValid = ref(true);
 
-  /**`
-   * 校验是否值有效，如果值为空，始终有效
+  /**
+   * 校验是否值有效，如果值为空，不校验，设为有效
    */
   const validateValue = (value: string) => {
     isValid.value = value === '' ? true : mergedValidateFn(value);
@@ -144,9 +159,12 @@ export function useInput(options: InputOptionT) {
   );
 
   const updateValue = (value: string) => {
-    uncontroledValue.value = value;
+    uncontrolledValue.value = value;
 
-    emitUpdate(value);
+    // 判断值是否变化，有变化再触发事件
+    if (value !== computedValue.value) {
+      emitUpdate(value);
+    }
   };
 
   const getValidValue = () => {
@@ -154,10 +172,10 @@ export function useInput(options: InputOptionT) {
     // 值有效性校验
     if (!isValid.value) {
       if (isFunction(valueOnInvalidChange)) {
-        // 这调用valueOnInvalidChange回调获取对应回调值
+        // 调用valueOnInvalidChange回调获取对应回调值
         validVal = valueOnInvalidChange(computedValue.value, lastValidValue);
         validateValue(validVal);
-      } else {
+      } else if (valueOnInvalidChange === true && lastValidValue !== ''){
         // 回退到上一次有效值
         validVal = lastValidValue;
         isValid.value = true;
@@ -169,8 +187,10 @@ export function useInput(options: InputOptionT) {
 
   const emitChange = (value: string) => {
     if (value !== lastValue) {
-      emits('change', computedValue.value, lastValue);
-      lastValue = computedValue.value;
+      nextTick(() => {
+        emits('change', computedValue.value, lastValue);
+        lastValue = computedValue.value;
+      });
     }
   };
 
@@ -181,15 +201,18 @@ export function useInput(options: InputOptionT) {
     }
   };
 
-  const isAllowedToInput = (value: string) => {
-    if (inputOnOutlimit?.value) {
+  const isAllowedToInputOnOutLimit = (value: string) => {
+    // 未设置最大长度或者允许查出最大长度后可继续输入
+    if (!isUndefined(maxLength?.value) && inputOnOutlimit?.value === true) {
       return true;
     }
+
     const len = calculateStringLength(value);
     const isLower = validateMaxLength(len);
     if (isLower) {
       return true;
     }
+
     // 超出长度限制，且为字符长度减少，则支持操作
     if (len < calculateStringLength(computedValue.value)) {
       return true;
@@ -199,17 +222,24 @@ export function useInput(options: InputOptionT) {
 
   const handleInput = (e: Event) => {
     const value = (e.target as HTMLInputElement)?.value;
+
     if (composition.isComposing.value) {
       // 解决在输入中文时，组件触发onUpdate时,显示值被刷新成输入前的值
       displayValue.value = value;
       return;
     }
 
-    if (isAllowedToInput(value)) {
-      updateValue(value);
+    // 始终上报当前输入的值，可能经过校验、或截断后显示的值与输入的不一致
+    emits('input', e, value);
 
-      emits('input', e, value);
+    let newValue = value;
+
+    if (!isAllowedToInputOnOutLimit(value)) {
+      // 当超出长度限制不允许输入时，按照最大长度截断
+      newValue = value.substring(0, maxLength?.value);
     }
+
+    updateValue(newValue);
 
     nextTick(() => {
       keepNativeDisplayValue();
@@ -273,6 +303,25 @@ export function useInput(options: InputOptionT) {
     clearValue();
   };
 
+
+  // 是否展示内容长度
+  const isShowLength = computed(() => {
+    if (showLength?.value === 'never') {
+      return false;
+    }
+
+    if (showLength?.value === 'always') {
+      return true;
+    }
+
+    const isSetLimit = !isUndefined(maxLength?.value) || !isUndefined(minLength?.value);
+    if (showLength?.value === 'auto' && isSetLimit) {
+      return true;
+    }
+
+    return false;
+  });
+
   return {
     realValue: computed(() => computedValue.value),
     displayValue: computed(() => displayValue.value),
@@ -280,6 +329,7 @@ export function useInput(options: InputOptionT) {
     inputEl,
     clearValue,
     inputValueLength,
+    isShowLength,
     isOutLengthLimit,
     handleInput,
     handleFocus,

@@ -1,5 +1,17 @@
 # [open-scripts]
 
+# 1.0.3
+
+- fix
+
+1. 新增defaultThemeName配置项，支持配置default主题文件前缀名
+
+# 1.0.2
+
+- fix
+
+1. `gen-token`命令生成的default变量，提取到单独文件，方便不需要深浅切换的系统调用
+
 # 1.0.0
 
 - fix

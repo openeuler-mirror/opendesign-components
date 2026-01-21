@@ -1,20 +1,19 @@
 import fsp from 'node:fs/promises';
 import { createFilter, type Plugin } from 'vite';
-import { parse } from '@vue/compiler-sfc';
-import { md } from './markdown/common';
+import { parse, type SFCDescriptor } from '@vue/compiler-sfc';
 import { generateCode } from '../helper/utils';
 
-const VIRTUAL_PREFIX = 'virtual:demo-source:';
 const virtualModules = new Map<string, string>();
-
+const getVirtualId = (id: string) => {
+  return `${id}-demo-source.md`;
+};
 /**
  * 使用@vue/compiler-sfc库，只保留case源代码中的 script, scriptSetup, template, styles 块，
  * 并将清理后的源代码渲染为 vue 组件
  * @param source case文件源代码
  * @returns 经过清理后的源代码组件
  */
-const generateVirtualModule = (source: string) => {
-  const { descriptor } = parse(source);
+const generateVirtualModule = (descriptor: SFCDescriptor) => {
   let cleanedSource = '';
 
   if (descriptor.script) {
@@ -32,14 +31,8 @@ const generateVirtualModule = (source: string) => {
     });
   }
   cleanedSource = cleanedSource.trimEnd();
-  const result = `${md.render(`\`\`\`vue:line-numbers\n${cleanedSource}\n\`\`\``)}`.replace(
-    /(<pre.*?>)<code(.*?)>([\s\S]*?)<\/code><\/pre>/,
-    (_, pre, codeAttr, codeContent) => {
-      return `${pre}<code v-pre${codeAttr}>${codeContent}</code></pre>`;
-    }
-  );
   // 返回组件源码
-  return `<template>${result}</template>`;
+  return `\`\`\`vue:line-numbers\n${cleanedSource}\n\`\`\``;
 };
 /**
  * vite 插件，用于将 Case 组件的源代码保存到 _sfc_main 对象中
@@ -59,13 +52,18 @@ export function injectDemoSource(): Plugin {
       return virtualModules.get(id);
     },
     async transform(code, id) {
-      if (!filter(id) || id.startsWith(VIRTUAL_PREFIX)) {
+      if (!filter(id)) {
         return;
       }
       if (await fsp.stat(id).then((stat) => stat.isFile())) {
         const source = await fsp.readFile(id, 'utf-8');
-        const virtualId = `${VIRTUAL_PREFIX}${id}`;
-        virtualModules.set(virtualId, generateVirtualModule(source));
+        const virtualId = getVirtualId(id);
+        const { descriptor } = parse(source);
+        if (!descriptor.template) {
+          // 无 template 块，属于 Usage 运行时编译组件，不需要生成 DemoSource
+          return;
+        }
+        virtualModules.set(virtualId, generateVirtualModule(descriptor));
         // Case 组件引入虚拟模块 virtualId，该虚拟模块就是 Case 组件的源代码
         return `${code}
 ;import _DemoSource from ${JSON.stringify(virtualId)};
@@ -73,10 +71,14 @@ _sfc_main.DemoSource = _DemoSource;`;
       }
     },
     async handleHotUpdate(ctx) {
-      const virtualId = `${VIRTUAL_PREFIX}${ctx.file}`;
+      const virtualId = getVirtualId(ctx.file);
       if (virtualModules.has(virtualId)) {
         // 当Case组件更新时，同时更新对应的虚拟模块，以实现源码的热更新
-        virtualModules.set(virtualId, generateVirtualModule(await ctx.read()));
+        const { descriptor } = parse(await ctx.read());
+        if (!descriptor.template) {
+          return;
+        }
+        virtualModules.set(virtualId, generateVirtualModule(descriptor));
         ctx.server.watcher.emit('change', virtualId);
       }
     },

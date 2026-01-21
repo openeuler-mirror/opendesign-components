@@ -1,0 +1,31 @@
+.o-dropdown-btn-wrap {
+  .o-btn-medium {
+    --btn-padding: 0 11px 0 15px;
+  }
+
+  .o-btn-large {
+    --btn-padding: 0 15px 0 23px;
+  }
+
+  .o-btn-round-pill {
+    --btn-gap: 8px;
+  }
+}
+
+.o-dropdown-link-wrap {
+  .o-link {
+    display: flex;
+    align-items: center;
+    --link-gap: 8px;
+  }
+
+  .o-link-large {
+    padding: 0 16px 0 24px;
+    height: var(--o-control_size-l);
+  }
+
+  .o-link-medium {
+    padding: 0 12px 0 16px;
+    height: var(--o-control_size-m);
+  }
+}

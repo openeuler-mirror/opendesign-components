@@ -3,10 +3,10 @@ import { computed, ref } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
-import { vScrollbar } from '../scrollbar';
+import { vScrollbar, type BaseScrollerPropsT } from '../scrollbar';
 
 import { dialogProps } from './types';
-import { mergeClass } from '../_utils/dom';
+import { mergeClass } from '../_utils/vue-utils';
 import { useScreen } from '../hooks';
 
 const props = defineProps(dialogProps);
@@ -40,13 +40,13 @@ const scrollbarProps = computed(() => {
     return {
       showType: 'hover',
       size: 'small',
-    };
+    } as Partial<BaseScrollerPropsT>;
   }
   return props.scrollbar;
 });
 
 defineExpose({
-  /** expose: Toggle the ODialog */
+  /** Toggle the ODialog */
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
   },
@@ -86,14 +86,14 @@ defineExpose({
         'with-footer': $slots.footer || props.actions,
       }"
     >
-      <div class="o-dlg-body-content" v-scrollbar="scrollbarProps">
+      <div v-scrollbar="scrollbarProps" class="o-dlg-body-content">
         <slot></slot>
       </div>
     </div>
     <div v-if="$slots.footer || $slots.actions || props.actions" class="o-dlg-footer">
       <slot name="footer">
         <div class="o-dlg-actions">
-          <slot name="actions" :isPhonePad="isPhonePad">
+          <slot name="actions" :is-phone-pad="isPhonePad">
             <!-- 需要审视透传子组件属性 -->
             <OButton
               v-for="item in props.actions"

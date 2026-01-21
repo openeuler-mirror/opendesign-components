@@ -126,20 +126,6 @@ export function supportTouch() {
   return 'ontouchstart' in window;
 }
 
-export function mergeClass(...classList: Array<string | any[] | undefined>) {
-  let rlt: any[] = [];
-
-  classList.forEach((item) => {
-    if (isArray(item)) {
-      rlt = rlt.concat(item);
-    } else {
-      rlt.push(item);
-    }
-  });
-
-  return rlt;
-}
-
 interface ScrollTopOptions {
   container?: ScrollTarget;
   duration?: number;
@@ -190,13 +176,60 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
   });
 }
 
-/*判断一个元素是否触发溢出隐藏*/
+/* 判断一个元素是否触发溢出隐藏*/
 export function isOverflown(element?: HTMLElement) {
   if (!element) {
     return false;
   }
+  return element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight;
+}
+
+/**
+ * 判断元素是否在视口内
+ */
+export function isInViewport(element?: Element) {
+  if (!element) {
+    return false;
+  }
+  const rect = element.getBoundingClientRect();
   return (
-    element.scrollWidth > element.clientWidth ||
-    element.scrollHeight > element.clientHeight
+    rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.bottom > 0 &&
+    rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+    rect.right > 0
   );
+}
+
+/**
+ * 判断是否为不可见标签
+ */
+export function isNonVisibleTag(element: Element) {
+  const nonVisibleTags = ['SCRIPT', 'STYLE', 'LINK', 'META', 'HEAD'];
+  return nonVisibleTags.includes(element.tagName);
+}
+
+/**
+ * 判断元素是否在视觉上隐藏
+ */
+export function isElementHidden(element: HTMLElement) {
+  // 直接检查内联样式
+  if (element.style.display === 'none' || element.style.visibility === 'hidden') {
+    return true;
+  }
+
+  // 通过getComputedStyle检查计算样式
+  const computedStyle = window.getComputedStyle(element);
+  if (
+    computedStyle.display === 'none' ||
+    computedStyle.visibility === 'hidden' ||
+    computedStyle.opacity === '0' ||
+    computedStyle.width === '0px' ||
+    computedStyle.height === '0px'
+  ) {
+    return true;
+  }
+
+  // 检查元素是否在视口外或尺寸为0
+  const rect = element.getBoundingClientRect();
+  return rect.width === 0 || rect.height === 0;
 }

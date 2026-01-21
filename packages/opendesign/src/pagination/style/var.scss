@@ -2,21 +2,25 @@
   --pagination-item-size: var(--o-control_size-m);
   --pagination-arrow-size: var(--o-control_size-s);
   --pagination-item-gap: 24px;
+  --pagination-item-sm-gap: 8px;
+  --pagination-item-size-gap: 12px;
 
   --pagination-arrow-color: var(--o-color-info2);
-  --pagination-arrow-color-hover: var(--o-color-info1);
-  --pagination-arrow-color-active: var(--o-color-info3);
+  --pagination-arrow-color-hover: var(--o-color-control2);
+  --pagination-arrow-color-active: var(--o-color-control3);
   --pagination-arrow-color-disabled: var(--o-color-info4);
 
   --pagination-item-color: var(--o-color-info2);
-  --pagination-item-color-hover: var(--o-color-primary2);
-  --pagination-item-color-active: var(--o-color-primary1);
-  --pagination-item-color-current: var(--o-color-primary1);
+
+  --pagination-item-bg-color: transparent;
+  --pagination-item-bg-color-hover: var(--o-color-primary2);
+  --pagination-item-bg-color-active: var(--o-color-control3);
+  --pagination-item-bg-color-current: var(--o-color-primary1);
 
   --pagination-item-bd-color: transparent;
-  --pagination-item-bd-color-hover: transparent;
-  --pagination-item-bd-color-active: transparent;
-  --pagination-item-bd-color-current: transparent;
+  --pagination-item-color-hover: var(--o-color-info1-inverse);
+  --pagination-item-color-active: var(--o-color-info1-inverse);
+  --pagination-item-color-current: var(--o-color-info1-inverse);
   --pagination-item-bd-color-disabled: transparent;
 
   --pagination-radius: var(--o-radius_control-s);
@@ -30,13 +34,6 @@
 }
 
 .o-pagination-solid {
-  --pagination-item-color-current: var(--o-color-primary1);
-
-  --pagination-item-bg-color: transparent;
-  --pagination-item-bg-color-hover: var(--o-color-control2-light);
-  --pagination-item-bg-color-active: var(--o-color-control3-light);
-  --pagination-item-bg-color-current: var(--o-color-primary1-light);
-
   --pagination-arrow-bg-color: transparent;
   --pagination-arrow-bg-color-hover: var(--o-color-control2-light);
   --pagination-arrow-bg-color-active: var(--o-color-control3-light);
@@ -45,4 +42,13 @@
 }
 .o-pagination-round-pill {
   --pagination-radius: var(--pagination-item-size);
+}
+.o-pagination-select.o-select-medium {
+  --select-height: var(--pagination-item-size);
+}
+.o-pagination-input {
+  --_input-text-align: center;
+  &.o_box-medium {
+    --_box-height: var(--pagination-item-size);
+  }
 }

@@ -103,13 +103,6 @@ const pausePlay = () => {
   }
 };
 
-const resumePlay = () => {
-  if (isAutoPlay.value) {
-    setTimeout(() => {
-      startPlay();
-    }, 0);
-  }
-};
 // TODO 导出增加播放进度
 const startPlay = () => {
   pausePlay();
@@ -117,6 +110,14 @@ const startPlay = () => {
   timer = window.setInterval(() => {
     activeSlideByIndex(activeIndex.value + 1);
   }, props.interval);
+};
+
+const resumePlay = () => {
+  if (isAutoPlay.value) {
+    setTimeout(() => {
+      startPlay();
+    }, 0);
+  }
 };
 
 // 激活slide

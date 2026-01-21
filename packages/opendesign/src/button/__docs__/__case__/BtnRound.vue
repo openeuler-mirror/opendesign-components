@@ -9,7 +9,7 @@
 
 ### Button Round Shape
 
-Sets the button's rounded shape. A value of 'pill' specifies a half-rounded shape. Any valid CSS border-radius length value (e.g., '8px', '50%') can be used.
+Sets the button's rounded shape. A value of 'pill' specifies a half-rounded shape. Any valid CSS border-radius length value can be used.
 </docs>
 <script setup lang="ts">
 import { OButton } from '@opensig/opendesign';

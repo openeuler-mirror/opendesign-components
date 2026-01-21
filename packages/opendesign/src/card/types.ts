@@ -9,6 +9,9 @@ export type CardCoverFitT = (typeof CardCoverFitTypes)[number];
 export const CardHoverCursorTypes = ['auto', 'pointer'] as const;
 export type CardHoverCursorT = (typeof CardHoverCursorTypes)[number];
 
+export const TextOverflowTypes = ['fade', 'ellipsis'] as const;
+export type TexTOverflowT = (typeof TextOverflowTypes)[number];
+
 export const cardProps = {
   /**
    * @zh-CN 卡片方向（'v'为竖向，'h'为横向，'hr'为反向横向）
@@ -47,6 +50,13 @@ export const cardProps = {
    * @en-US Icon
    */
   icon: {
+    type: [String, Object] as PropType<string | Component>,
+  },
+  /**
+   * @zh-CN title开头的行内图标
+   * @en-US Title prefix icon
+   */
+  titleIcon: {
     type: [String, Object] as PropType<string | Component>,
   },
   /**
@@ -112,7 +122,7 @@ export const cardProps = {
    * @en-US Class name for the cover box (used to customize the cover style)
    */
   coverClass: {
-    type: [String, Array] as PropType<string | any[]>,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
   /**
    * @zh-CN 跳转链接（该属性有值时，卡片会被渲染为链接）
@@ -127,6 +137,14 @@ export const cardProps = {
    */
   noResponsive: {
     type: Boolean,
+  },
+  /**
+   * @zh-CN 控制详情超出隐藏显示效果，'fade' 表示渐隐效果，'ellipsis' 表示 '...' 效果
+   * @en-US The control details exceed the hidden display effect. 'fade' indicates the fade-out effect, and 'ellipsis' indicates '...' Effect
+   */
+  textOverflow: {
+    type: String as PropType<TexTOverflowT>,
+    default: 'fade',
   },
 };
 

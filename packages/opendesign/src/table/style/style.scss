@@ -1,13 +1,36 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-table {
   position: relative;
-  color: var(--table-color);
 
   table {
     width: 100%;
     border-spacing: 0;
+  }
+
+  thead {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+      // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+      background-size: 100% 1px;
+    }
+    // ios的table不兼容定位relative
+    @supports (-webkit-overflow-scrolling: touch) {
+      &:after {
+        display: none;
+      }
+      th {
+        border-bottom: var(--table-border);
+      }
+    }
   }
 
   th,
@@ -17,11 +40,12 @@
 
   th {
     text-align: left;
-    font-weight: normal;
+    font-weight: 600;
     background-color: var(--table-head-bg);
     padding: var(--table-head-cell-padding);
     font-size: var(--table-head-text-size);
     line-height: var(--table-head-text-height);
+    color: var(--table-head-color);
     height: var(--table-head-cell-height);
   }
 
@@ -29,18 +53,24 @@
     padding: var(--table-cell-padding);
     font-size: var(--table-text-size);
     line-height: var(--table-text-height);
+    color: var(--table-cell-color);
     height: var(--table-cell-height);
   }
 
-  tbody tr {
-    @include hover {
-      &:hover {
-        background-color: var(--table-row-hover);
-      }
-    }
-    &:active {
-      background-color: var(--table-row-active);
-    }
+  th:first-child, td:first-child {
+    padding-left: var(--table-edge-padding);
+  }
+  th:last-child, td:last-child {
+    padding-right: var(--table-edge-padding);
+  }
+
+}
+.o-table-highlight {
+  @media (hover: hover) {
+    background-color: var(--table-row-hover);
+  }
+  @media (hover: none) {
+    background-color: var(--table-row-active);
   }
 }
 .o-table-wrap {
@@ -65,20 +95,22 @@
 .o-table-border-all,
 .o-table-border-frame,
 .o-table-border-row {
-  tr.last {
+  tr.o-row-last {
     td {
       border-bottom-color: transparent;
     }
+  }
+  td.o-cell-last-row {
+    border-bottom-color: transparent;
   }
 }
 
 .o-table-border-all,
 .o-table-border-column {
-  th,
   td {
     border-right: var(--table-border);
 
-    &.last {
+    &.o-cell-last-col {
       border-right-color: transparent;
     }
   }

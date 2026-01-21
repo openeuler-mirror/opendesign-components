@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-menu {
   width: var(--menu-width);
@@ -7,220 +6,145 @@
   list-style: none;
   margin: 0;
   padding: 0;
+
+  color: var(--menu-color);
 }
 
-// submenu
-.o-sub-menu {
-  font-size: var(--sub-menu-text-size);
-  line-height: var(--sub-menu-text-height);
-  color: var(--sub-menu-color);
-}
+/* 项目样式 */
+.o-sub-menu-title,
+.o-menu-item {
+  font-size: var(--menu-text-size);
+  line-height: var(--menu-text-height);
+  padding: var(--menu-item-padding-v) var(--menu-padding-h) var(--menu-item-padding-v) var(--menu-level-indent);
+  margin: 1px 0;
+  border-radius: var(--menu-radius);
+  cursor: pointer;
+  transition: all var(--o-duration-s) var(--o-easing-standard);
+  display: flex;
+  align-items: flex-start;
 
-.o-sub-menu-selected,
-.o-sub-menu-associated-selected {
-  & > .o-sub-menu-title {
-    font-weight: 500;
-    color: var(--sub-menu-color-selected);
-
-    .o-sub-menu-title-icon {
-      color: var(--sub-menu-icon-color-selected);
-    }
+  @include hover {
+    background-color: var(--menu-bg-color-hover);
   }
 }
 
-.o-sub-menu-selected {
-  background-color: var(--sub-menu-bg-color-selected);
+.o-sub-menu-selected > .o-sub-menu-title,
+.o-sub-menu-associated-selected > .o-sub-menu-title,
+.o-menu-item-selected {
+  font-weight: 600;
+  color: var(--menu-color-selected);
+  --menu-icon-color: var(--menu-icon-color-selected);
 }
 
-.o-sub-menu-associated-selected {
-  & > .o-sub-menu-title {
-    font-weight: 500;
-    color: var(--sub-menu-color-selected);
-  }
-}
+.o-menu-item-selected {
+  background-color: var(--menu-bg-color-selected);
 
-.o-sub-menu-expanded {
-  & > .o-sub-menu-title {
-    .o-sub-menu-title-arrow {
-      transform: rotate(-180deg);
-    }
+  @include hover {
+    background-color: var(--menu-bg-color-selected);
   }
 }
 
 .o-sub-menu-title {
   position: relative;
   display: flex;
-  align-items: center;
-  padding: 16px 48px 16px 8px;
-  padding-left: var(--sub-menu-level-indent, var(--menu-padding-h));
-  padding-right: var(--sub-menu-padding-right);
-  border-radius: var(--sub-menu-radius);
-  cursor: pointer;
-  transition: background-color var(--o-duration-s) var(--o-easing-standard);
-
-  @include hover {
-    &:hover {
-      background-color: var(--sub-menu-bg-color-hover);
-    }
-  }
+  align-items: flex-start;
 }
 
-.o-sub-menu-title-icon {
-  margin-right: var(--sub-menu-icon-gap);
-  font-size: var(--sub-menu-icon-size);
-  color: var(--sub-menu-icon-color);
+.o-sub-menu-title-icon,
+.o-menu-item-icon {
+  color: var(--menu-icon-color);
+  margin-right: var(--menu-icon-gap);
+  font-size: var(--menu-icon-size);
+  height: var(--menu-text-height);
+  width: var(--menu-icon-size);
+  flex-shrink: 0;
+  overflow: hidden;
 
-  /*纠正容器高度计算错误及空图标占位*/
+  // /*纠正容器高度计算错误及空图标占位*/
   display: flex;
   align-items: center;
-
-  .o-sub-menu-title-icon-placeholder {
-    height: var(--sub-menu-icon-size);
-    width: var(--sub-menu-icon-size);
-  }
+  justify-content: center;
 }
 
-.o-sub-menu-title-content {
+.o-sub-menu-title-content,
+.o-menu-item-content {
+  margin-right: auto;
+  word-break: break-word;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--menu-max-row);
 }
 
-.o-sub-menu-title-arrow {
-  position: absolute;
-  right: var(--menu-padding-h);
+.o-sub-menu-arrow {
+  height: var(--menu-text-height);
+  font-size: var(--menu-arrow-size);
+  width: var(--menu-arrow-size);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transform: rotate(0);
-  font-size: var(--sub-menu-arrow-size);
   transition: transform var(--o-duration-m2) var(--o-easing-standard);
+
+  .o-sub-menu-expanded > .o-sub-menu-title > & {
+    transform: rotate(-180deg);
+  }
 }
 
 .o-sub-menu-children {
+  width: 100%;
   padding: 0;
   margin: 0;
   list-style: none;
   overflow: hidden;
-  transition: height var(--o-duration-m2) var(--o-easing-standard);
-}
-
-.o-sub-menu-title, .o-menu-item {
-  --effect-padding-v: var(--menu-padding-v);
-  padding-top: var(--effect-padding-v);
-  padding-bottom: var(--effect-padding-v);
-}
-
-/*选中状态，高度减2px，上下让出1px间距*/
-.o-menu-item-selected,
-.o-sub-menu-selected > .o-sub-menu-title,
-.o-sub-menu-associated-selected > .o-sub-menu-title {
-  margin-top: var(--menu-selected-gap-v);
-  margin-bottom: var(--menu-selected-gap-v);
-  padding-top: calc(var(--effect-padding-v) - var(--menu-selected-gap-v));
-  padding-bottom: calc(var(--effect-padding-v) - var(--menu-selected-gap-v));
-}
-
-.o-sub-menu-children {
-  .o-sub-menu-title, .o-menu-item {
-    --effect-padding-v: var(--menu-secondary-padding-v);
-  }
-
-  .o-sub-menu-title {
-    font-size: var(--sub-menu-secondary-text-size);
-    line-height: var(--sub-menu-secondary-text-height);
-  }
-
-  .o-menu-item {
-    font-size: var(--menu-item-secondary-text-size);
-    line-height: var(--menu-item-secondary-text-height);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: all var(--o-duration-m2) var(--o-easing-standard);
+  &.expanded {
+    grid-template-rows: 1fr;
   }
 }
 
-.o-menu-item {
-  display: flex;
-  align-items: center;
-  color: var(--menu-item-color);
-  font-size: var(--menu-item-text-size);
-  line-height: var(--menu-item-text-height);
-  border-radius: var(--menu-item-radius);
-  padding-left: var(--menu-item-level-indent, var(--menu-padding-h));
-  padding-right: var(--menu-item-padding-right);
-  cursor: pointer;
-  transition: background-color var(--o-duration-s) var(--o-easing-standard);
+.o-sub-menu-children-wrap {
+  min-height: 0;
+  min-width: 0;
   position: relative;
-
-  @include hover {
-    &:hover {
-      background-color: var(--menu-item-bg-color-hover);
-    }
-  }
-}
-
-.o-menu-item-icon {
-  margin-right: var(--menu-item-icon-gap);
-  font-size: var(--menu-item-icon-size);
-  color: var(--menu-item-icon-color);
-
-  /*纠正容器高度计算错误及空图标占位*/
-  display: flex;
-  align-items: center;
-}
-
-.o-menu-item-content {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.o-menu-item-selected {
-  font-weight: 500;
-  color: var(--menu-item-color-selected);
-  background-color: var(--menu-item-bg-color-selected);
-
-  .o-sub-menu-title-icon {
-    color: var(--menu-item-color-selected);
-  }
-
-  @include hover {
-    &:hover {
-      background-color: var(--menu-item-bg-color-selected);
-    }
-  }
 }
 
 .o-menu-item-disabled {
   cursor: not-allowed;
-  color: var(--menu-item-color-disabled);
+  color: var(--menu-color-disabled);
 }
 
-.o-menu-small {
-  /*引导线*/
-  .o-sub-menu-expanded {
-    .o-sub-menu-children {
-      position: relative;
+/* 层级指示线 */
+.o-menu-arrow-left {
+  .o-sub-menu:not([data-level='0']) .o-sub-menu-children.expanded {
+    position: relative;
 
-      &:before {
-        content: '';
-        display: var(--menu-indicator-display);
-        position: absolute;
-        width: var(--menu-indicator-width);
-        background-color: var(--menu-indicator-bg-color);
-        left: calc(var(--sub-menu-level-indent, var(--menu-padding-h)) + var(--sub-menu-arrow-size) / 2);
-        top: 0;
-        bottom: 0;
-      }
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--menu-arrow-size) / 2 + var(--menu-level-indent));
+      width: var(--menu-indicator-width);
+      background-image: linear-gradient(to right, var(--menu-indicator-bg-color), var(--menu-indicator-bg-color));
+      background-size: var(--menu-indicator-width) 100%;
+      z-index: 0;
     }
   }
-
-  .o-sub-menu-title-arrow {
-    position: unset;
-  }
-
-  > .o-sub-menu-expanded {
-    background-color: var(--sub-expanded-bg-color);
-    /*第一级不展示引导线*/
-    --menu-indicator-display: none;
-
-    .o-sub-menu-expanded {
-      --menu-indicator-display: block;
+  .o-sub-menu-arrow {
+    & + .o-sub-menu-title-icon,
+    & + .o-sub-menu-title-content {
+      margin-left: var(--menu-icon-gap);
     }
   }
+}
+
+.o-menu-popover {
+  max-width: var(--menu-popover-width);
+  word-wrap: break-word;
 }

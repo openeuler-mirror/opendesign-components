@@ -8,14 +8,15 @@ function slugify(str: string) {
     // 将驼峰转为中横线
     .replace(/(?<=[a-z])([A-Z])|(?<=[A-Z])([A-Z][a-z])/g, '-$&')
     .toLowerCase()
+    // 删除标点符号(含中文标点)及表情符号前后的空格
+    .replace(/\s*([\p{Punctuation}\p{Symbol}])\s*/gu, '$1')
     // 将空白字符转为中横线
     .replace(/\s+/g, '-')
     // 合并多个中横线
     .replace(/-+/g, '-')
     // 移除首尾中横线
-    .replace(/(^-|-$)/g, '')
-    // 转义特殊字符
-    .replace(/[;,/?:@&=+$#]/g, (char) => encodeURIComponent(char));
+    .replace(/(^-|-$)/g, '');
+    // 不应对 hash 进行编码
 }
 /**
  * 获取h标签

@@ -6,61 +6,76 @@ export type SwitchSizeT = (typeof SwitchSizeTypes)[number];
 
 export const switchProps = {
   /**
-   * 双向绑定值
+   * @zh-CN 双向绑定值
+   * @en-US Two-way binding value
    */
   modelValue: {
     type: [String, Number, Boolean],
+    // type 类型校验中包含 Boolean 类型时，vue 会将 undefined 转化为 false，这将导致非受控模式判断出问题，因此显示指定 default: undefined
+    default: undefined,
   },
   /**
-   * 非受控状态时，默认是否选中
+   * @zh-CN 非受控状态时，默认是否选中
+   * @en-US Default whether to select when uncontrolled
+   * @default false
    */
   defaultChecked: {
     type: Boolean,
     default: false,
   },
   /**
-   * 选中状态对应值
+   * @zh-CN 选中状态对应值
+   * @en-US Value corresponding to selected state
+   * @default true
    */
   checkedValue: {
     type: [String, Number, Boolean],
     default: true,
   },
   /**
-   * 未选中状态对应值
+   * @zh-CN 未选中状态对应值
+   * @en-US Value corresponding to unselected state
+   * @default false
    */
   uncheckedValue: {
     type: [String, Number, Boolean],
     default: false,
   },
   /**
-   * 开关尺寸 SwitchSizeT
+   * @zh-CN 组件尺寸
+   * @en-US Component size
+   * @default 'medium'
    */
   size: {
     type: String as PropType<SwitchSizeT>,
     default: 'medium',
   },
   /**
-   * 圆角值 RoundT
+   * @zh-CN 圆角大小
+   * @en-US Round size
    */
   round: {
     type: String as PropType<RoundT>,
   },
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable
    */
   disabled: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否加载中
+   * @zh-CN 是否处于加载状态
+   * @en-US Is loading
    */
   loading: {
     type: Boolean,
     default: false,
   },
   /**
-   * 状态改变前的钩子函数
+   * @zh-CN 状态改变前的钩子函数
+   * @en-US Hook function before state change
    */
   beforeChange: {
     type: Function as PropType<(val: boolean) => Promise<boolean> | boolean>,

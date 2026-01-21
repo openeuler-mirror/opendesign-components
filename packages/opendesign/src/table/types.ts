@@ -8,18 +8,16 @@ export interface TableColumnT {
 
 export interface TableRowT {
   key?: string | number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface TableCellT {
-  value: any;
+  value: unknown;
   key: string | number;
   colspan?: number;
   rowspan?: number;
   last?: boolean;
 }
-
-export type ColumnKeysT = Array<string>;
 
 export type CellSpanT = (
   rowIndex: number,
@@ -33,56 +31,59 @@ export type TableBorderT = (typeof TableBorderTypes)[number];
 
 export const tableProps = {
   /**
-   * 表头内容 TableColumnT[] | string[]
+   * @zh-CN 表头数据
+   * @en-US Table header data
    */
   columns: {
     type: Array as PropType<TableColumnT[] | string[]>,
   },
   /**
-   * 表头内容 ColumnKeysT
-   */
-  columnKeys: {
-    type: Array as PropType<ColumnKeysT>,
-  },
-  /**
-   * 表格数据 TableRowT[]
+   * @zh-CN 表格数据
+   * @en-US Table data
    */
   data: {
     type: Array as PropType<TableRowT[]>,
   },
   /**
-   * 是否显示边框 TableBorderT
+   * @zh-CN 表格边框
+   * @en-US Table border
+   * @default 'row'
    */
   border: {
     type: String as PropType<TableBorderT>,
     default: 'row',
   },
   /**
-   * 是否小表格
+   * @zh-CN 是否使用小尺寸
+   * @en-US Use small size
    */
   small: {
     type: Boolean,
   },
   /**
-   * 处理单元格合并(表体部分，不包含表头) CellSpanT
+   * @zh-CN 单元格合并（不含表头）
+   * @en-US Cell merge (excluding header)
    */
   cellSpan: {
     type: Function as PropType<CellSpanT>,
   },
   /**
-   * 空数据提示文本
+   * @zh-CN 空数据提示文本
+   * @en-US Empty data prompt text
    */
   emptyLabel: {
     type: String,
   },
   /**
-   * 是否正在加载
+   * @zh-CN 是否显示加载中状态
+   * @en-US Whether to show loading state
    */
   loading: {
     type: Boolean,
   },
   /**
-   * 加载提示文本
+   * @zh-CN 加载中提示文本
+   * @en-US Loading prompt text
    */
   loadingLabel: {
     type: String,

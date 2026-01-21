@@ -1,12 +1,13 @@
 ---
 sidebar: OAnchor
+kind: nav
 ---
 
 # Anchor
 
 ## Demo
 
-<!-- @case AnchorUsage -->
+<!-- @usage AnchorUsage -->
 <!-- @case AnchorSlot -->
 
 ## Api

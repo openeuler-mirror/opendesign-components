@@ -1,0 +1,35 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-dropdown {
+    .o-btn-large {
+      --btn-padding: 0 11px 0 15px;
+    }
+  }
+}
+
+@include respond('pad_v-laptop') {
+  .o-dropdown-list-large {
+    .o-dropdown-item {
+      --dropdown-item-text-size: var(--o-font_size-tip1);
+      --dropdown-item-text-height: var(--o-line_height-tip1);
+
+      --dropdown-item-padding: 6px 12px;
+    }
+  }
+
+  .o-dropdown-list-small,
+  .o-dropdown-list-medium {
+    .o-dropdown-item {
+      --dropdown-item-padding: 2px 12px;
+    }
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-dropdown {
+    .o-btn-small {
+      --btn-padding: 0 7px 0 11px;
+    }
+  }
+}

@@ -4,7 +4,8 @@ import { OSelect } from '../select';
 import OCascaderPanel from './OCascaderPanel.vue';
 import type { CascaderValueT } from './types';
 import { cascaderProps } from './types';
-import { isString, isUndefined, isTouchDevice } from '../_utils/is';
+import { isTouchDevice } from '../_utils/is';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(cascaderProps);
 
@@ -18,18 +19,7 @@ const handleChange = (val: CascaderValueT) => {
   emits('update:modelValue', val);
 };
 
-const wrapClass = computed(() => {
-  const classStr = 'o-cascader';
-  if (isUndefined(props.optionWrapClass)) {
-    return classStr;
-  } else if (isString(props.optionWrapClass)) {
-    return `${classStr} ${props.optionWrapClass}`;
-  } else {
-    return [classStr, ...props.optionWrapClass].join(' ');
-  }
-});
-
-const innerTrigger = computed(() => { 
+const innerTrigger = computed(() => {
   if (!isTouchDevice) {
     return props.trigger;
   }
@@ -54,7 +44,8 @@ const innerTrigger = computed(() => {
     option-width-mode="auto"
     :unmount-on-hide="props.unmountOnHide"
     :transition="props.transition"
-    :option-wrap-class="wrapClass"
+    :option-wrap-class="mergeClass('o-cascader', props.optionWrapClass)"
+    :size="props.size"
   >
     <OCascaderPanel
       :options="props.options"

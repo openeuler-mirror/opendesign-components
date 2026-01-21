@@ -6,57 +6,65 @@ export type TabVariantT = (typeof TabVariantTypes)[number];
 
 export const tabProps = {
   /**
-   * tab选中的nav值
-   * v-model
+   * @zh-CN 选中页签值 v-model
+   * @en-US Selected tab value v-model
    */
   modelValue: {
     type: [String, Number],
     default: undefined,
   },
   /**
-   * 类型 TabVariantT
+   * @zh-CN 页签类型
+   * @en-US Tab variant
+   * @default 'text'
    */
   variant: {
     type: String as PropType<TabVariantT>,
     default: 'text',
   },
   /**
-   * 大小 SizeT
+   * @zh-CN 页签尺寸
+   * @en-US Tab size
    */
   size: {
     type: String as PropType<SizeT>,
   },
   /**
-   * 是否激活时再加载
+   * @zh-CN 是否首次激活后再渲染
+   * @en-US Whether to render the tab content after the first activation
    */
   lazy: {
     type: Boolean,
   },
   /**
-   * 是否可以添加页签
+   * @zh-CN 是否可添加页签
+   * @en-US Whether tabs can be added
    */
   addable: {
     type: Boolean,
   },
   /**
-   * 不激活新添加页签
+   * @zh-CN 是否激活新添加的页签
+   * @en-US Whether to activate the newly added tab
    */
   addInactive: {
     type: Boolean,
   },
   /**
-   * 是否展示nav线
+   * @zh-CN 是否展示nav线
+   * @en-US Whether to show the nav line
+   * @default true
    */
   line: {
     type: Boolean,
     default: true,
   },
   /**
-   * 头部是否固定
+   * @zh-CN 头部自定义样式类名
+   * @en-US Header custom style class name
    */
   headerClass: {
-    type: [String, Array] as PropType<string | any[]>,
-    default: undefined,
+    type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,
   },
 };
 
@@ -64,49 +72,61 @@ export type TabPropsT = ExtractPropTypes<typeof tabProps>;
 
 export const tabPaneProps = {
   /**
-   * 页签项的key
+   * @zh-CN 页签值
+   * @en-US Tab value
    */
   value: {
     type: [String, Number],
     default: undefined,
   },
   /**
-   * 页签项的文本，如果不传，使用nav插槽或者value
+   * @zh-CN 页签标题
+   * @en-US Tab title
    */
   label: {
     type: String,
     default: undefined,
   },
   /**
-   * 页签切换时过渡动画
+   * @zh-CN 页签切换时过渡动画
+   * @en-US Transition animation for tab switching
+   * @default 'o-fade-in'
    */
   transition: {
     type: String,
     default: 'o-fade-in',
   },
   /**
-   * 是否禁用选中该页签
+   * @zh-CN 是否禁用选中该页签
+   * @en-US Whether to disable selecting this tab
+   * @default false
    */
   disabled: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否可以删除该页签
+   * @zh-CN 是否可以删除该页签
+   * @en-US Whether the tab can be deleted
+   * @default false
    */
   closable: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否页签首次激活前不渲染页签内容
+   * @zh-CN 是否在首次激活时才渲染页签内容
+   * @en-US Whether to render the tab content only when the tab is first activated
+   * @default false
    */
   lazy: {
     type: Boolean,
     default: false,
   },
   /**
-   * 是否在隐藏时卸载页签内容
+   * @zh-CN 是否在隐藏时卸载页签内容
+   * @en-US Whether to unmount the tab content when hidden
+   * @default false
    */
   unmountOnHide: {
     type: Boolean,

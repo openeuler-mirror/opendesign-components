@@ -2,7 +2,7 @@
 import { ref, onUnmounted, watchEffect, toRefs } from 'vue';
 import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollbarProps, ScrollerDirection } from './types';
-import { resolveHtmlElement } from '../_utils/vue-utils';
+import { mergeClass, resolveHtmlElement } from '../_utils/vue-utils';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { useScreen } from '../hooks';
 
@@ -161,7 +161,9 @@ const updateScrollbarOnIdle = () => {
 const cancelUpdateScrollbarOnIdle = () => {
   if (updateTimer) {
     clearInterval(updateTimer);
-    cancelIdleCallback && cancelIdleCallback(updateIdleTimer);
+    if(cancelIdleCallback) {
+      cancelIdleCallback(updateIdleTimer);
+    }
     updateTimer = 0;
     updateIdleTimer = 0;
   }
@@ -184,7 +186,7 @@ resolveHtmlElement(target).then((el) => {
   init();
 });
 
-/**********
+/** ********
  * 处理滚动条显示
  * 如果showType=hover，则在hoverout时会刷新滚动条样式
  */
@@ -228,7 +230,7 @@ const removeWrapperHoverEvent = () => {
     wrapperEl.removeEventListener('mouseleave', onWrapperHoverOut);
   }
 };
-const handleWrapperHoverEvent = () => {
+function handleWrapperHoverEvent () {
   watchEffect(() => {
     const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
     wrapperEl = rootRef.value?.offsetParent as HTMLElement;
@@ -243,7 +245,7 @@ const handleWrapperHoverEvent = () => {
     }
   });
 };
-/**********/
+/** ********/
 
 onUnmounted(() => {
   if (scrollTargetEl) {
@@ -320,10 +322,9 @@ defineExpose({
 
 <template>
   <div
-    class="o-scrollbar"
     ref="rootRef"
-    :class="[
-      props.barClass,
+    class="o-scrollbar"
+    :class="mergeClass(
       `o-scrollbar-${props.size}`,
       {
         'o-scrollbar-auto-show': props.showType === 'auto',
@@ -335,7 +336,8 @@ defineExpose({
         'o-scrollbar-visible-y': showYBar,
         'o-scrollbar-to-body': isBody,
       },
-    ]"
+      props.barClass,
+    )"
   >
     <template v-if="props.showType !== 'never'">
       <ScrollbarRail

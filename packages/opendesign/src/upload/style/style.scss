@@ -1,5 +1,4 @@
 @use '../../_styles/mixin.scss' as *;
-@use './var.scss';
 
 .o-upload-select {
   position: relative;
@@ -36,6 +35,7 @@
 
 .o-upload-row-item {
   display: flex;
+  align-items: center;
   margin-top: 8px;
   padding: 0 4px;
   border-radius: var(--upload-item-radius);
@@ -48,12 +48,19 @@
     }
   }
   &.is-error {
+    background-color: var(--upload-item-bg-hover);
     .o-upload-icon-hover-in {
       opacity: 1;
     }
   }
   + .o-upload-item-tip {
     padding-left: 24px;
+  }
+
+  .o-upload-thumbnail {
+    width: var(--upload-item-picture-size);
+    height: var(--upload-item-picture-size);
+    margin-right: 8px;
   }
 }
 
@@ -101,7 +108,7 @@
   font-size: var(--o-font_size-tip2);
   line-height: var(--o-line_height-tip2);
   color: var(--o-color-info4);
-  margin-top: 8px;
+  margin-top: 4px;
 }
 .o-upload-item-tip {
   font-size: var(--o-font_size-tip2);
@@ -134,7 +141,7 @@
   color: var(--upload-color);
   cursor: pointer;
   font-size: var(--o-font_size-tip1);
-  line-height: var(--o-line_height-text1);
+  line-height: var(--o-line_height-tip1);
   @include hover {
     border: var(--upload-card-bd-hover);
     background-color: var(--upload-card-bg-color-hover);
@@ -150,7 +157,7 @@
   font-size: var(--upload-icon-size-l);
   vertical-align: top;
   + .o-upload-card-label {
-    margin-top: 8px;
+    margin-top: 12px;
   }
 }
 
@@ -252,8 +259,8 @@
   color: var(--upload-drag-color);
   background-color: var(--upload-drag-bg-color);
   border: var(--upload-drag-bd);
-  text-align: center;
   width: var(--upload-drag-width);
+  max-width: var(--upload-drag-max-width);
   border-radius: var(--upload-drag-radius);
   text-align: center;
   transition: all var(--o-easing-standard) var(--o-duration-m2);
@@ -290,7 +297,7 @@
   font-size: var(--upload-icon-size-l);
   vertical-align: top;
   + .o-upload-drag-label {
-    margin-top: 12px;
+    margin-top: 4px;
   }
 }
 
@@ -326,51 +333,5 @@
   margin-top: 0;
   &.is-error {
     border: var(--upload-card-border-error);
-  }
-}
-.o-upload-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: var(--upload-card-img-fit);
-  border-radius: inherit;
-}
-.o-upload-icon-file {
-  font-size: var(--upload-icon-size-xl);
-}
-.o-upload-card-icons {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--o-color-info1-inverse);
-  font-size: var(--upload-icon-size-l);
-
-  background-color: var(--upload-card-mask);
-
-  opacity: 0;
-  transition: opacity var(--o-easing-standard-in) var(--o-duration-m1);
-
-  &:hover,
-  &.is-show {
-    opacity: 1;
-  }
-
-  > * + * {
-    margin-left: 12px;
-  }
-
-  > .o-upload-icon-btn {
-    cursor: pointer;
-    &:hover {
-      color: var(--upload-card-icon-color-hover);
-    }
-    &:active {
-      color: var(--upload-card-icon-color-active);
-    }
   }
 }

@@ -1,3 +1,6 @@
+import { shallowRef, type VNodeChild } from 'vue';
+import { log } from '../_utils/log';
+
 const canLog = process.env.NODE_ENV === 'development';
 const validTagAttrName = (name: string) => /^[a-zA-Z0-9_-]+$/.test(name);
 
@@ -11,16 +14,16 @@ export function hyphenate(str: string) {
  * @param exclude 不转化的props属性名
  * @returns 属性字符串
  */
-export function propsToAttrStr(props: Record<string, any>, exclude = [] as string[]) {
+export function propsToAttrStr<T extends Record<string, any>>(props: T, exclude: (keyof T)[] = []): string {
   return Object.entries(props)
     .reduce((acc, [_key, value]) => {
-      if (exclude.includes(_key)) {
+      if (exclude.includes(_key as any)) {
         return acc;
       }
       const key = hyphenate(_key);
       if (!validTagAttrName(key)) {
         if (canLog) {
-          console.warn(`Invalid tag attr name: ${name}`);
+          log.warn(`Invalid tag attr name: ${name}`);
         }
         return acc;
       }
@@ -43,10 +46,38 @@ export function propsToAttrStr(props: Record<string, any>, exclude = [] as strin
         default:
           try {
             return `${acc} :${key}='${JSON.stringify(value)}'`;
-          } catch (error) {
+          } catch {
             return acc;
           }
       }
     }, '')
     .slice(1);
+}
+
+const REPLACEMENTS: Record<string, string> = {
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&apos;',
+  '&': '&amp;',
+};
+function replaceCellChar(ch: string) {
+  return REPLACEMENTS[ch];
+}
+// 避免xss注入
+export function escapeHTML(value?: string) {
+  const ESCAPE_REPLACE_RE = /[<>"'&]/g;
+  return value ? value.replace(ESCAPE_REPLACE_RE, replaceCellChar) : '';
+}
+
+type SlotFunc = (props: any) => VNodeChild;
+export function createReusableTemplate() {
+  const template = shallowRef<SlotFunc>(() => null);
+  const DefineTemplate = (_: any, { slots }: { slots: { default: SlotFunc } }) => {
+    template.value = slots.default;
+    return null;
+  };
+  const ReuseTemplate = (props: any) => template.value(props);
+
+  return [DefineTemplate, ReuseTemplate] as const;
 }

@@ -94,7 +94,7 @@ const onChane = (v: boolean) => {
 <style lang="scss" scoped>
 .box {
   padding: 24px;
-  background-color: var(--o-color-control-light);
+  background-color: var(--o-color-control5-light);
 }
 .wrap {
   height: 100vh;

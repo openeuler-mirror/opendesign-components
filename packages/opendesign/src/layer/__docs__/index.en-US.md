@@ -1,5 +1,6 @@
 ---
 sidebar: OLayer
+kind: container
 ---
 
 # OLayer

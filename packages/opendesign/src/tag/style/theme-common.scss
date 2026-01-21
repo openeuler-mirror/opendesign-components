@@ -1,0 +1,17 @@
+.o-tag-normal.c-tag-normal-inverse {
+  --tag-color: var(--o-color-white);
+  --tag-bg-color: rgba(var(--o-mixedgray-14, var(--o-gray-14)), 0.25);
+  --tag-bd-color: transparent;
+}
+
+.o-tag-normal.c-tag-unstart {
+  --tag-color: var(--o-color-white);
+  --tag-bg-color: rgba(var(--o-mixedgray-12, var(--o-gray-12)), 0.4);
+  --tag-bd-color: transparent;
+}
+
+.o-tag-normal.c-tag-processing {
+  --tag-color: var(--o-color-white);
+  --tag-bg-color: rgba(var(--o-blue-6));
+  --tag-bd-color: rgba(var(--o-blue-6));
+}

@@ -14,42 +14,52 @@ export interface RenderIndexInfo {
 
 export const virtualListProps = {
   /**
-   * 默认滚动到第几项
+   * @zh-CN 默认滚动到第几项
+   * @en-US Default scroll index
+   * @default 0
    */
   defaultStartIndex: {
     type: Number,
     default: 0,
   },
   /**
-   * 列表数据，如果数据存在动态追加，需要每一项需包含唯一ID
+   * @zh-CN 列表数据，如果数据存在动态追加，需要每一项需包含唯一ID
+   * @en-US List data, if dynamic addition exists, each item must contain a unique ID
    */
   list: {
-    type: Array<any>,
+    type: Array<unknown>,
     required: true,
-    default: [],
+    default: () => [],
   },
   /**
-   * 每一项的高度，如果每一项高度不一致或不确定（渲染时确定），则不传
+   * @zh-CN 每一项的高度，如果每一项高度不一致或不确定（渲染时确定），则不传
+   * @en-US The height of each item, if the height of each item is inconsistent or undetermined (determined at render time), do not pass
    */
   itemSize: {
     type: Number,
   },
   /**
-   * 不定高时，每一项的默认高度
+   * @zh-CN 不定高时，每一项的默认高度
+   * @en-US If the height of each item is not consistent, the default height of each item
+   * @default 80
    */
   defaultItemSize: {
     type: Number,
     default: 80,
   },
   /**
-   * 前后预留项，减少滚动式空白
+   * @zh-CN 前后预留项，减少滚动式空白
+   * @en-US Front and back reserved items, reducing scrolling blank
+   * @default 1
    */
   buffer: {
     type: Number,
     default: 1,
   },
   /**
-   * 使用内置scrollbar，支持传递scrollbar配置项
+   * @zh-CN scrollbar配置项
+   * @en-US scrollbar configuration item
+   * @default true
    */
   scrollbar: {
     type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,

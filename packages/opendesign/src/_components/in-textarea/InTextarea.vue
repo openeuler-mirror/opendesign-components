@@ -2,36 +2,34 @@
 import { computed, toRefs } from 'vue';
 import { inTextareaProps } from './types';
 import { IconClose } from '../../_utils/icons';
-import { useInput } from '../../_headless/use-input';
+import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useI18n } from '../../locale';
-import { vScrollbar } from '../../scrollbar';
+import { vScrollbar, type BaseScrollerPropsT } from '../../scrollbar';
 
 const props = defineProps(inTextareaProps);
 
-const emits = defineEmits<{
+type InInputEmitsT = {
   (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string): void;
-  (e: 'input', evt: Event): void;
-  (e: 'blur', evt: FocusEvent): void;
-  (e: 'focus', evt: FocusEvent): void;
-  (e: 'clear', evt?: Event): void;
-  (e: 'pressEnter', evt: KeyboardEvent): void;
-}>();
+} & UseInputEmitsT;
+
+const emits = defineEmits<InInputEmitsT>();
 
 const slots = defineSlots<{
   suffix(): any;
   prefix(): any;
+  length(props: {length: number}): any;
 }>();
 
 const { t } = useI18n();
 
-const { modelValue, inputOnOutlimit, maxLength, minLength } = toRefs(props);
+const { modelValue, inputOnOutlimit, maxLength, minLength, showLength } = toRefs(props);
 
 const {
   displayValue,
   clearValue: clear,
   isValid,
   inputValueLength,
+  isShowLength,
   isOutLengthLimit,
   handleBlur,
   handleInput,
@@ -42,6 +40,7 @@ const {
   emits,
   maxLength,
   minLength,
+  showLength,
   inputOnOutlimit,
   modelValue,
   defaultValue: props.defaultValue ?? '',
@@ -91,7 +90,7 @@ const scrollbarProps = computed(() => {
     return {
       showType: 'hover',
       size: 'small',
-    };
+    } as Partial<BaseScrollerPropsT>;
   }
   return props.scrollbar;
 });
@@ -116,7 +115,7 @@ defineExpose({
     }"
     :for="props.textareaId"
   >
-    <div class="o_textarea-prefix" @mousedown.prevent v-if="slots.prefix?.()">
+    <div v-if="slots.prefix?.()" class="o_textarea-prefix" @mousedown.prevent>
       <slot name="prefix"></slot>
     </div>
     <div
@@ -129,6 +128,7 @@ defineExpose({
       <textarea
         :id="props.textareaId"
         ref="inputEl"
+        v-scrollbar="scrollbarProps"
         :value="displayValue"
         class="o_textarea-textarea"
         :placeholder="props.placeholder"
@@ -139,7 +139,6 @@ defineExpose({
         :style="{
           resize: resizeValue,
         }"
-        v-scrollbar="scrollbarProps"
         @focus="handleFocus"
         @blur="handleBlur"
         @input="handleInput"
@@ -148,14 +147,18 @@ defineExpose({
         <IconClose class="o_textarea-clear-icon" />
       </div>
       <div
-        v-if="props.maxLength"
+        v-if="isShowLength"
         class="o_textarea-icon o_textarea-count"
         :class="{ 'o_textarea-count-error': isOutLengthLimit }"
-        v-html="t('input.limit', inputValueLength, props.maxLength)"
-      ></div>
+      >
+      <slot name="length" :length="inputValueLength">
+          <span v-if="props.maxLength ?? props.minLength" v-html="t('input.limit', inputValueLength, props.maxLength ?? props.minLength)"></span>
+          <span v-else>{{ inputValueLength }}</span>
+        </slot>
+    </div>
     </div>
 
-    <div class="o_textarea-suffix" @mousedown.prevent v-if="slots.suffix?.()">
+    <div v-if="slots.suffix?.()" class="o_textarea-suffix" @mousedown.prevent>
       <slot name="suffix"></slot>
     </div>
   </label>

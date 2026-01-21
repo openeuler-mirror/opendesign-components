@@ -1,5 +1,5 @@
 .o-rate {
-  --rate-color: var(--o-color-control1-light);
+  --rate-color: var(--o-color-control1);
 }
 
 .o-rate-normal {
@@ -7,7 +7,7 @@
 }
 
 .o-rate-primary {
-  --rate-color-selected: var(--o-color-primary1);
+  --rate-color-selected: var(--o-color-main1);
 }
 
 .o-rate-success {
@@ -24,12 +24,12 @@
 
 .o-rate-large {
   --rate-size: var(--o-icon_size_control-l);
-  --rate-gap: 4px;
+  --rate-gap: 12px;
 }
 
 .o-rate-medium {
   --rate-size: var(--o-icon_size_control-xs);
-  --rate-gap: 4px;
+  --rate-gap: 8px;
 }
 
 .o-rate-popover {

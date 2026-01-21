@@ -4,7 +4,7 @@ import { routes as componentRoutes } from './components';
 import { useI18n } from '@opensig/opendesign';
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -12,14 +12,30 @@ export const router = createRouter({
       component: TheHome,
     },
     ...componentRoutes,
-  ]
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/pages/NotFound.vue') },
+  ],
+  scrollBehavior() {
+    return {
+      top: 0
+    }
+  }
 });
-
+export type MetaT = { sidebar: string; lang: string; kind: string; sidebarName: string };
+export type RouteT = {
+  path: string;
+  meta: MetaT;
+};
+export type SidebarItemT = {
+  routes: RouteT[];
+  label: string | (() => string);
+  subMenuOrder: string[];
+};
 export const sidebarRouteConfig = {
-  component: {
+  components: {
     routes: componentRoutes,
     label: () => useI18n().t('components.component'),
+    subMenuOrder: ['nav', 'operator', 'input', 'container', 'display', 'feedback'],
   },
-};
+} satisfies Record<string, SidebarItemT>;
 
 export type SidebarNameT = keyof typeof sidebarRouteConfig;

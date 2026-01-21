@@ -5,6 +5,21 @@ import { OButton } from '../index';
   <h4>Variant & Color</h4>
   <section style="align-items: flex-start">
     <div>
+      <p>color: brand</p>
+      <div class="block">
+        <div class="row">
+          <OButton variant="outline" color="brand"><div>Outline Button</div></OButton>
+          <OButton variant="solid" color="brand">Solid Button</OButton>
+          <OButton variant="text" color="brand">Text Button</OButton>
+        </div>
+        <div class="row">
+          <OButton variant="outline"  color="brand" disabled>Outline Button</OButton>
+          <OButton variant="solid"  color="brand" disabled>Solid Button</OButton>
+          <OButton variant="text"  color="brand" disabled>Text Button</OButton>
+        </div>
+      </div>
+    </div>
+    <div>
       <p>color: normal</p>
       <div class="block">
         <div class="row">

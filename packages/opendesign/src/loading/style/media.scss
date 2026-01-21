@@ -1,0 +1,33 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('pad_v-laptop') {
+  .o-loading-large {
+    --loading-icon-size: var(--o-icon_size-4xl);
+    --loading-label-font-size: var(--o-font_size-tip1);
+    --loading-label-line-height: var(--o-line_height-tip1);
+    --loading-label-icon-gap: 12px;
+  }
+
+  .o-loading-medium {
+    --loading-icon-size: var(--o-icon_size-2xl);
+    --loading-label-font-size: var(--o-font_size-tip2);
+    --loading-label-line-height: var(--o-line_height-tip2);
+    --loading-label-icon-gap: 8px;
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-loading-large {
+    --loading-icon-size: var(--o-icon_size-2xl);
+    --loading-label-font-size: var(--o-font_size-tip2);
+    --loading-label-line-height: var(--o-line_height-tip2);
+    --loading-label-icon-gap: 8px;
+  }
+
+  .o-loading-medium {
+    --loading-icon-size: var(--o-icon_size-2xl);
+    --loading-label-font-size: var(--o-font_size-tip2);
+    --loading-label-line-height: var(--o-line_height-tip2);
+    --loading-label-icon-gap: 4px;
+  }
+}

@@ -1,0 +1,77 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+### 使用
+
+下拉选项触发方式：`none`、`click`、`click-outclick`、`hover`、`hover-outclick`、`focus`、`contextmenu`；
+
+下拉选项位置：`top`、`tl`、`tr`、`bottom`、`bl`、`br`、`left`、`lt`、`lb`、`right`、`rt`、`rb`；
+
+<!-- en-US -->
+
+### Usage
+
+The triggering method of the drop-down option: `none`、`click`、`click-outclick`、`hover`、`hover-outclick`、`focus`、`contextmenu`;
+
+Drop-down option position: `top`、`tl`、`tr`、`bottom`、`bl`、`br`、`left`、`lt`、`lb`、`right`、`rt`、`rb`;
+</docs>
+<script setup lang="ts">
+import { SizeTypes, VariantTypes } from '@opensig/opendesign';
+import { propsToAttrStr } from '../../../_demo/utils';
+import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
+
+const _oSchema = {
+  size: { type: 'list', list: SizeTypes },
+  trigger: {
+    type: 'list',
+    list: ['none', 'click', 'click-outclick', 'hover', 'hover-outclick', 'focus', 'contextmenu'],
+    default: 'click',
+  },
+  optionPosition: {
+    type: 'list',
+    list: ['top', 'tl', 'tr', 'bottom', 'bl', 'br', 'left', 'lt', 'lb', 'right', 'rt', 'rb'],
+    default: 'bottom',
+  },
+  variant: {
+    type: 'list',
+    list: VariantTypes,
+    default: 'solid',
+  },
+} satisfies Record<string, DocDemoSchema>;
+
+const options = [
+  { label: '操作一', value: 'opt1' },
+  { label: '操作二', value: 'opt2' },
+  { label: '操作三', value: 'opt3' },
+  { label: '操作四', value: 'opt4' },
+];
+
+const createTemplate = (arr: any[] = []) => {
+  if (!arr.length) {
+    return '';
+  }
+  const res = arr
+    .map((item) => {
+      return `
+      <ODropdownItem label="${item.label}" value="${item.value}">
+        ${item.label}
+      </ODropdownItem>
+       `;
+    })
+    .join('\n');
+  return res;
+};
+const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
+  return `<ODropdown ${propsToAttrStr(props, ['variant'])} style="width:fit-content;">
+  <OButton color="primary" ${propsToAttrStr(props, ['trigger', 'optionPosition'])} round="pill">Dropdown
+    <template #suffix>
+      <OIconChevronDown class="icon"  />
+    </template></OButton>
+  <template #dropdown>
+  ${createTemplate(options)}
+  </template>
+  </ODropdown>`;
+};
+
+const _oCtx = {};
+</script>

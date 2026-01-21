@@ -6,7 +6,7 @@ export default {
 <script setup lang="ts">
 import { OPopup } from '../popup';
 import { popoverProps } from './types';
-import { mergeClass } from '../_utils/dom';
+import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(popoverProps);
 
@@ -18,7 +18,7 @@ const updateVisible = (val: boolean) => {
 };
 </script>
 <template>
-  <slot name="target" v-if="props.disabled"></slot>
+  <slot v-if="props.disabled" name="target"></slot>
   <OPopup
     v-else
     class="o-popover"
