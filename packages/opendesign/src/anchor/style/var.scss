@@ -71,3 +71,27 @@
 .o-anchor-link-popover-wrapper {
   --anchor-popover-max-width: 200px;
 }
+
+.o-anchor-h {
+  --anchor-bg-color: var(--o-color-fill2);
+  --anchor-z-index: initial;
+  --anchor-offset-top: 0;
+  --anchor-x-overflown-bg-color: var(--o-grey-1);
+  --anchor-x-overflown-width: 16px;
+  --anchor-content-max-width: unset;
+
+  .o-anchor-item {
+    --anchor-item-gap: 32px;
+    --anchor-item-max-row: 1;
+    --anchor-item-link-padding-h: 0;
+    --anchor-item-link-padding-v: 12px;
+    --anchor-item-min-width: unset;
+  }
+}
+
+[data-o-theme*='dark'] {
+  .o-anchor-h {
+    // 其实应该是--o-color-fill2的，但是不支持透明度，所以用原始值，同锚点背景色
+    --anchor-x-overflown-bg-color: var(--o-grey-4);
+  }
+}

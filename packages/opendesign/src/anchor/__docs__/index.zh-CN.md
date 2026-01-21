@@ -9,6 +9,7 @@ kind: nav
 
 <!-- @usage AnchorUsage -->
 <!-- @case AnchorSlot -->
+<!-- @case AnchorSticky -->
 
 ## Api
 
