@@ -389,6 +389,14 @@ export const routes = [
     },
   },
   {
+    path: '/step',
+    name: 'Step',
+    component: () => import('@opendesign-src/step/__demo__/TheIndex.vue'),
+    meta: {
+      title: '步骤条 Step',
+    },
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     component: () => import('@opendesign-src/resize-observer/__demo__/IndexResize.vue'),
