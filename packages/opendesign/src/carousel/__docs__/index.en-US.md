@@ -11,8 +11,9 @@ kind: display
 <!-- @case CustomArrow -->
 <!-- @case CustomIndicator -->
 <!-- @case ThemeSwitch -->
-<!-- @case:a|k|e SkinCarousel1 -->
-<!-- @case:a|k|e SkinCarousel2 -->
+<!-- @case SkinCarousel1 -->
+<!-- @case SkinCarousel2 -->
+<!-- @case SkinCarousel3 -->
 
 ## API
 
