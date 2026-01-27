@@ -119,7 +119,7 @@ export function getElementBorder(el: HTMLElement, dir?: PositionT | PositionT[])
 
 export function getCssVariable(key: string, el?: HTMLElement) {
   const ele = el ? el : document.documentElement;
-  return ele.style.getPropertyValue(key);
+  return window.getComputedStyle(ele).getPropertyValue(key);
 }
 
 export function supportTouch() {
@@ -232,4 +232,104 @@ export function isElementHidden(element: HTMLElement) {
   // 检查元素是否在视口外或尺寸为0
   const rect = element.getBoundingClientRect();
   return rect.width === 0 || rect.height === 0;
+}
+
+/**
+ * 判断元素左右边界是否超出滚动父元素的可视区域，并计算超出的像素值
+ * @param {HTMLElement} element - 目标元素
+ * @param {number} threshold - 阈值，如果溢出值大于阈值才算溢出
+ * @returns 包含是否超出、超出左侧/右侧像素值的结果
+ */
+export function checkElementOverflowHorizontal(element: HTMLElement, threshold = 0) {
+  if (!(element instanceof HTMLElement)) {
+    throw new Error('参数必须是有效的HTMLElement');
+  }
+
+  const [scrollParent] = getScrollParents(element);
+  if (!scrollParent) {
+    return {
+      isOverflowLeft: false,
+      isOverflowRight: false,
+      overflowLeft: 0,
+      overflowRight: 0,
+    };
+  }
+
+  const elementRect = element.getBoundingClientRect();
+  const parentRect = scrollParent.getBoundingClientRect();
+
+  // 元素相对父元素左偏移 = 元素视口左坐标 - 父元素视口左坐标 + 父元素滚动距离
+  const elementLeftRelativeToParent = elementRect.left - parentRect.left + scrollParent.scrollLeft;
+  // 元素相对父元素右偏移 = 左偏移 + 元素宽度
+  const elementRightRelativeToParent = elementLeftRelativeToParent + elementRect.width;
+
+  const parentVisibleLeft = scrollParent.scrollLeft; // 可视区左边界
+  const parentVisibleRight = scrollParent.scrollLeft + scrollParent.clientWidth; // 可视区右边界
+
+  const overflowLeft = parentVisibleLeft - elementLeftRelativeToParent;
+  const isOverflowLeft = overflowLeft > threshold;
+
+  const overflowRight = elementRightRelativeToParent - parentVisibleRight;
+  const isOverflowRight = overflowRight > threshold;
+
+  return { isOverflowLeft, isOverflowRight, overflowLeft, overflowRight };
+}
+
+/**
+ * 判断元素上下边界是否超出滚动父元素的可视区域，并计算超出的像素值
+ * @param {HTMLElement} element - 目标元素
+ * @param {number} threshold - 阈值，如果溢出值大于阈值才算溢出
+ * @returns 包含是否超出、超出上下像素值的结果
+ */
+export function checkElementOverflowVertical(element: HTMLElement, threshold = 0) {
+  if (!(element instanceof HTMLElement)) {
+    throw new Error('参数必须是有效的HTMLElement');
+  }
+
+  const [scrollParent] = getScrollParents(element);
+  if (!scrollParent) {
+    return {
+      isOverflowTop: false,
+      isOverflowBottom: false,
+      overflowTop: 0,
+      overflowBottom: 0,
+    };
+  }
+
+  const elementRect = element.getBoundingClientRect();
+  const parentRect = scrollParent.getBoundingClientRect();
+
+  // 元素相对父元素上偏移 = 元素视口上坐标 - 父元素视口上坐标 + 父元素垂直滚动距离
+  const elementTopRelativeToParent = elementRect.top - parentRect.top + scrollParent.scrollTop;
+  // 元素相对父元素下偏移 = 上偏移 + 元素高度
+  const elementBottomRelativeToParent = elementTopRelativeToParent + elementRect.height;
+
+  const parentVisibleTop = scrollParent.scrollTop; // 父元素可视区上边界
+  const parentVisibleBottom = scrollParent.scrollTop + scrollParent.clientHeight; // 父元素可视区下边界
+
+  const overflowTop = parentVisibleTop - elementTopRelativeToParent;
+  const isOverflowTop = overflowTop > threshold;
+
+  const overflowBottom = elementBottomRelativeToParent - parentVisibleBottom;
+  const isOverflowBottom = overflowBottom > threshold;
+
+  return {
+    isOverflowTop,
+    isOverflowBottom,
+    overflowTop,
+    overflowBottom,
+  };
+}
+
+/**
+ * 判断元素上下左右四个边界是否超出滚动父元素的可视区域，并计算每个方向超出的像素值
+ * @param {HTMLElement} element - 目标元素
+ * @param {number} threshold - 阈值，如果溢出值大于阈值才算溢出,有的时候滚动到底还是差0.01个像素
+ * @returns 包含是否超出、各方向超出像素值的结果
+ */
+export function checkElementOverflow(element: HTMLElement, threshold = 0) {
+  return {
+    ...checkElementOverflowHorizontal(element, threshold),
+    ...checkElementOverflowVertical(element, threshold),
+  };
 }
