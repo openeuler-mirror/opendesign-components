@@ -5,10 +5,13 @@
 - **OScroller:** 增加scroll事件与barClass支持
 - **OAnchor:** 增加横向锚点模式
 - **OTab:** 增加按钮模式
+- **OTable:** 增加斑马纹模式
+- **ODataTable:** 新增数据表格组件(支持固定列与表头)
 
 ### Bug Fixes
 
 - **OTab:** 修复了tab-nav由于teleport导致的渲染顺序错乱的问题
+- **OTable:** 修复hover header时高亮错误的问题
 
 ## 1.1.0
 

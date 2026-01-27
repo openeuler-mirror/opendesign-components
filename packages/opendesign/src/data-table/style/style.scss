@@ -1,0 +1,224 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-data-table {
+  border-radius: var(--table-radius);
+  overflow: hidden;
+  position: relative;
+
+  .o-table-scroll-bar {
+    .o-scrollbar-x {
+      width: calc(100% - var(--table-edge-padding) * 2);
+    }
+    // 让出header的滚动条距离
+    .o-scrollbar-y {
+      margin: calc(var(--table-header-height) * 1px + var(--table-cell-padding-y)) 0 var(--table-cell-padding-y) 0;
+      height: calc(100% - var(--table-header-height) * 1px - var(--table-cell-padding-y) * 2);
+    }
+    .o-scrollbar-rail {
+      z-index: 3;
+    }
+  }
+  .o-table-wrap {
+    height: var(--table-height);
+    max-height: var(--table-max-height);
+    overflow: auto;
+    position: relative;
+    border-radius: unset;
+  }
+
+  .o-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
+    white-space: nowrap;
+  }
+  &.o-table-border-all,
+  &.o-table-border-frame {
+    .o-table-header {
+      top: calc(0px - var(--table-border-width)); // border有透明度，无法盖住下面的内容，故多定位一个宽度
+    }
+  }
+
+  &.is-overflow-top {
+    .o-table-header {
+      box-shadow: var(--table-fixed-head-shadow);
+    }
+  }
+
+  .o-table-body-cell {
+    .o-table-cell__inner {
+      word-break: break-word;
+    }
+  }
+
+  // 重置OTable的样式
+  .o-table-header {
+    &:after {
+      display: none;
+    }
+    th {
+      border-bottom: var(--table-head-border-bottom);
+    }
+  }
+
+  .o-table-cell__inner {
+    display: flex;
+  }
+
+  .o-table-header-cell .o-table-cell__inner {
+    padding: var(--table-head-cell-padding);
+  }
+
+  .o-table-body-cell .o-table-cell__inner {
+    padding: var(--table-cell-padding);
+  }
+
+  .o-table-cell {
+    position: relative;
+    padding: unset;
+
+    &.o-cell-first-col {
+      padding-left: unset;
+      .o-table-cell__inner {
+        padding-left: var(--table-edge-padding);
+      }
+    }
+    &.o-cell-last-col {
+      padding-right: unset;
+      .o-table-cell__inner {
+        padding-right: var(--table-edge-padding);
+      }
+    }
+  }
+
+  // 由于列定位等原因，将边框逻辑从OTable改为单元格左边框
+  &.o-table-border-all,
+  &.o-table-border-column {
+    td {
+      border-left: var(--table-border);
+      border-right-color: transparent;
+
+      &.o-cell-first-col {
+        border-left-color: transparent;
+      }
+    }
+
+    &.is-overflow-right .o-table-cell-first-right-fixed {
+      border-left-color: transparent;
+    }
+  }
+
+  .o-table-cell-fixed {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 1;
+  }
+  .o-data-table-left-shadow,
+  .o-data-table-right-shadow {
+    z-index: 1;
+  }
+
+  .o-table-cell-last-left-fixed:after,
+  .o-table-cell-first-right-fixed:before,
+  .o-data-table-left-shadow,
+  .o-data-table-right-shadow {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: calc(0px - var(--h-border-width));
+    width: var(--table-fixed-col-shadow-size);
+    display: none;
+  }
+  .o-table-cell-last-left-fixed:after,
+  .o-data-table-left-shadow {
+    background: linear-gradient(90deg, var(--table-fixed-col-shadow-gradient));
+  }
+
+  .o-table-cell-last-left-fixed:after {
+    right: 0;
+    transform: translateX(100%);
+  }
+  .o-data-table-left-shadow {
+    left: 0;
+  }
+  .o-table-cell-first-right-fixed:before,
+  .o-data-table-right-shadow {
+    background: linear-gradient(-90deg, var(--table-fixed-col-shadow-gradient));
+  }
+  .o-table-cell-first-right-fixed:before {
+    left: 0;
+    transform: translateX(-100%);
+  }
+  .o-data-table-right-shadow {
+    right: 0;
+  }
+
+  &.is-overflow-left {
+    .o-table-cell-last-left-fixed {
+      &:after {
+        display: block;
+      }
+    }
+    .o-data-table-left-shadow {
+      display: block;
+    }
+  }
+  &.is-overflow-right {
+    .o-table-cell-first-right-fixed {
+      --v-border-width: 0px;
+
+      &:before {
+        display: block;
+      }
+    }
+
+    .o-data-table-right-shadow {
+      display: block;
+    }
+  }
+
+  .empty-placeholder {
+    height: calc(var(--table-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+    min-height: calc(var(--table-body-min-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+  }
+  .o-table-loading-wrap,
+  .o-table-tip-wrap {
+    min-height: unset;
+    position: absolute;
+    top: calc(var(--table-header-height) * 1px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--table-bg-color);
+    border-radius: 0;
+  }
+
+  .o-table-column-resizer__indicator {
+    position: absolute;
+    left: calc(var(--table-column-resizer-width) / 2 - var(--table-border-width) / 2);
+    z-index: 1;
+    width: var(--table-border-width);
+    height: var(--table-height);
+    border-left: var(--table-border-width) dashed var(--o-color-info4);
+  }
+
+  .o-table-column-resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: calc(0px - var(--table-column-resizer-width) / 2);
+    width: var(--table-column-resizer-width);
+
+    @include hover {
+      cursor: col-resize;
+    }
+  }
+
+  .o-cell-last-col {
+    .o-table-column-resizer {
+      width: calc(var(--table-column-resizer-width) / 2);
+      right: 0;
+    }
+  }
+}

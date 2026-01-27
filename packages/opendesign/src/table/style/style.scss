@@ -3,6 +3,16 @@
 .o-table {
   position: relative;
 
+  // 以下边框宽度用于指示尺寸计算
+  /* 水平外边框宽度 */
+  --h-frame-border-width: 0px;
+  /* 垂直外边框宽度 */
+  --v-frame-border-width: 0px;
+  /* 水平内边框宽度 */
+  --h-border-width: 0px;
+  /* 垂直内边框宽度 */
+  --v-border-width: 0px;
+
   table {
     width: 100%;
     border-spacing: 0;
@@ -53,40 +63,78 @@
     padding: var(--table-cell-padding);
     font-size: var(--table-text-size);
     line-height: var(--table-text-height);
+    background-color: var(--table-bg-color);
     color: var(--table-cell-color);
     height: var(--table-cell-height);
   }
 
-  th:first-child, td:first-child {
+  th:first-child,
+  td:first-child {
     padding-left: var(--table-edge-padding);
   }
-  th:last-child, td:last-child {
+  th:last-child,
+  td:last-child {
     padding-right: var(--table-edge-padding);
   }
-
 }
+
+.o-table-stripe {
+  tbody:not(:has([rowspan])) tr:not(.o-table-highlight) {
+    &:nth-child(even) td {
+      // 由于有透明度，导致固定列时无法遮挡下方单元格，故使用背景图片，原背景色依旧生效
+      background-image: linear-gradient(to right, var(--table-stripe-bg-color), var(--table-stripe-bg-color));
+    }
+  }
+}
+
 .o-table-highlight {
   @media (hover: hover) {
-    background-color: var(--table-row-hover);
+    th,
+    td {
+      background-color: var(--table-row-hover);
+    }
   }
   @media (hover: none) {
-    background-color: var(--table-row-active);
+    th,
+    td {
+      background-color: var(--table-row-active);
+    }
   }
 }
 .o-table-wrap {
   border-radius: var(--table-radius);
   overflow: hidden;
-  background-color: var(--table-bg-color);
 }
 
 // border
+.o-table {
+  // 存在合并单元格的表头始终要分割线
+  thead:has([rowspan]),
+  thead:has([colspan]) {
+    --h-border-width: var(--table-border-width);
+    --v-border-width: var(--table-border-width);
+    tr:not(:last-child) th:not(.o-table-last-header-row-cell) {
+      border-bottom: var(--table-border);
+    }
+    th {
+      border-left: var(--table-border);
+    }
+    th.o-cell-first-col {
+      border-left: none;
+    }
+  }
+}
+
 .o-table-border-all,
 .o-table-border-frame {
   border: var(--table-border);
+  --h-frame-border-width: var(--table-border-width);
+  --v-frame-border-width: var(--table-border-width);
 }
 .o-table-border-all,
 .o-table-border-row {
-  // th,
+  --h-border-width: var(--table-border-width);
+
   td {
     border-bottom: var(--table-border);
   }
@@ -107,6 +155,8 @@
 
 .o-table-border-all,
 .o-table-border-column {
+  --v-border-width: var(--table-border-width);
+
   td {
     border-right: var(--table-border);
 
