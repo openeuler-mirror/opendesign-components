@@ -233,3 +233,100 @@ export function isElementHidden(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
   return rect.width === 0 || rect.height === 0;
 }
+
+/**
+ * 判断元素左右边界是否超出滚动父元素的可视区域，并计算超出的像素值
+ * @param {HTMLElement} element - 目标元素
+ * @returns 包含是否超出、超出左侧/右侧像素值的结果
+ */
+export function checkElementOverflowHorizontal(element: HTMLElement) {
+  if (!(element instanceof HTMLElement)) {
+    throw new Error('参数必须是有效的HTMLElement');
+  }
+
+  const [scrollParent] = getScrollParents(element);
+  if (!scrollParent) {
+    return {
+      isOverflowLeft: false,
+      isOverflowRight: false,
+      overflowLeft: 0,
+      overflowRight: 0,
+    };
+  }
+
+  const elementRect = element.getBoundingClientRect();
+  const parentRect = scrollParent.getBoundingClientRect();
+
+  // 元素相对父元素左偏移 = 元素视口左坐标 - 父元素视口左坐标 + 父元素滚动距离
+  const elementLeftRelativeToParent = elementRect.left - parentRect.left + scrollParent.scrollLeft;
+  // 元素相对父元素右偏移 = 左偏移 + 元素宽度
+  const elementRightRelativeToParent = elementLeftRelativeToParent + elementRect.width;
+
+  const parentVisibleLeft = scrollParent.scrollLeft; // 可视区左边界
+  const parentVisibleRight = scrollParent.scrollLeft + scrollParent.clientWidth; // 可视区右边界
+
+  const isOverflowLeft = elementLeftRelativeToParent < parentVisibleLeft;
+  const overflowLeft = isOverflowLeft ? parentVisibleLeft - elementLeftRelativeToParent : 0;
+
+  const isOverflowRight = elementRightRelativeToParent > parentVisibleRight;
+  const overflowRight = isOverflowRight ? elementRightRelativeToParent - parentVisibleRight : 0;
+
+  return { isOverflowLeft, isOverflowRight, overflowLeft, overflowRight };
+}
+
+/**
+ * 判断元素上下边界是否超出滚动父元素的可视区域，并计算超出的像素值
+ * @param {HTMLElement} element - 目标元素
+ * @returns 包含是否超出、超出上下像素值的结果
+ */
+export function checkElementOverflowVertical(element: HTMLElement) {
+  if (!(element instanceof HTMLElement)) {
+    throw new Error('参数必须是有效的HTMLElement');
+  }
+
+  const [scrollParent] = getScrollParents(element);
+  if (!scrollParent) {
+    return {
+      isOverflowTop: false,
+      isOverflowBottom: false,
+      overflowTop: 0,
+      overflowBottom: 0,
+    };
+  }
+
+  const elementRect = element.getBoundingClientRect();
+  const parentRect = scrollParent.getBoundingClientRect();
+
+  // 元素相对父元素上偏移 = 元素视口上坐标 - 父元素视口上坐标 + 父元素垂直滚动距离
+  const elementTopRelativeToParent = elementRect.top - parentRect.top + scrollParent.scrollTop;
+  // 元素相对父元素下偏移 = 上偏移 + 元素高度
+  const elementBottomRelativeToParent = elementTopRelativeToParent + elementRect.height;
+
+  const parentVisibleTop = scrollParent.scrollTop; // 父元素可视区上边界
+  const parentVisibleBottom = scrollParent.scrollTop + scrollParent.clientHeight; // 父元素可视区下边界
+
+  const isOverflowTop = elementTopRelativeToParent < parentVisibleTop;
+  const overflowTop = isOverflowTop ? parentVisibleTop - elementTopRelativeToParent : 0;
+
+  const isOverflowBottom = elementBottomRelativeToParent > parentVisibleBottom;
+  const overflowBottom = isOverflowBottom ? elementBottomRelativeToParent - parentVisibleBottom : 0;
+
+  return {
+    isOverflowTop,
+    isOverflowBottom,
+    overflowTop,
+    overflowBottom,
+  };
+}
+
+/**
+ * 判断元素上下左右四个边界是否超出滚动父元素的可视区域，并计算每个方向超出的像素值
+ * @param {HTMLElement} element - 目标元素
+ * @returns 包含是否超出、各方向超出像素值的结果
+ */
+export function checkElementOverflow(element: HTMLElement) {
+  return {
+    ...checkElementOverflowHorizontal(element),
+    ...checkElementOverflowVertical(element),
+  };
+}
