@@ -1,6 +1,7 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import { plugin as markdownPlugin } from './plugins/markdown/vueMdTranslate';
 import Inspect from 'vite-plugin-inspect';
 
@@ -17,6 +18,7 @@ export default defineConfig({
   },
   plugins: [
     vue({ include: [/\.vue$/, /\.md$/] }),
+    vueJsx(),
     injectDemoAndApi(),
     injectDemoSource(),
     injectDemoDocs(),

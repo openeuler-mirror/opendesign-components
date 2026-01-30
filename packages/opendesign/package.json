@@ -28,18 +28,19 @@
     "release": "pnpm publish --registry https://registry.npmjs.org"
   },
   "peerDependencies": {
-    "vue": "^3.3.0"
+    "vue": "^3.3.0",
+    "@vueuse/core": "catalog:vue"
   },
   "devDependencies": {
     "@opensig/open-scripts": "catalog:build",
     "typescript": "catalog:typescript",
-    "vue-tsc": "catalog:build",
-    "vite": "catalog:build"
+    "vite": "catalog:build",
+    "vue-tsc": "catalog:build"
   },
   "bugs": "https://atomgit.com/openeuler/opendesign-components/issues",
   "homepage": "",
   "repository": {
-      "type": "git",
-      "url": "https://atomgit.com/openeuler/opendesign-components.git"
+    "type": "git",
+    "url": "https://atomgit.com/openeuler/opendesign-components.git"
   }
 }
