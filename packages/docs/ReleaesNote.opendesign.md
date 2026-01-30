@@ -1,3 +1,9 @@
+## 1.1.1
+
+### Features
+
+- **OScroller:** 增加scroll事件与barClass支持
+
 
 ## 1.1.0
 
