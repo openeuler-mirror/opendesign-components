@@ -50,9 +50,11 @@ catalogs:
     magic-string: ^0.30.17
     vite-node: ^3.2.4
   vue:
-    '@vitejs/plugin-vue': ^6.0.2
+    '@vitejs/plugin-vue': ^6.0.3
+    '@vitejs/plugin-vue-jsx': ^5.1.3
     '@vue/compiler-dom': ^3.5.17
     '@vue/compiler-sfc': ^3.5.17
+    '@vueuse/core': ^10.11.1
     pinia: ^3.0.3
     vue: ^3.5.25
     vue-component-meta: ^2.2.10
