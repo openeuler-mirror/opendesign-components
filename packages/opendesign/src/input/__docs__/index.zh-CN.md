@@ -14,6 +14,7 @@ kind: input
 <!-- @case InputPassword -->
 <!-- @case InputPhoneAndCode -->
 <!-- @case InputFilter -->
+<!-- @case IpInputBasic -->
 
 ## Api
 
