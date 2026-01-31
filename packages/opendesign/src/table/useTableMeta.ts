@@ -1,4 +1,4 @@
-import { shallowRef, onBeforeUnmount, type Ref } from 'vue';
+import { shallowRef, onBeforeUnmount, type  MaybeRef } from 'vue';
 import { resolveHtmlElement } from '../_utils/vue-utils';
 import { debounce } from '../_utils/helper';
 
@@ -14,7 +14,7 @@ type CellT = {
   lastCol: boolean;
   /** 该单元格是否为最后一行 */
   lastRow: boolean;
-   
+
   section: TableSection;
 };
 type TableSection = {
@@ -36,6 +36,7 @@ type TableMetaOptions = {
   splitBySection?: boolean;
 };
 
+export const DEFAULT_CELL_FIRST_COL_MARKER = 'o-cell-first-col';
 export const DEFAULT_CELL_LAST_COL_MARKER = 'o-cell-last-col';
 export const DEFAULT_CELL_LAST_ROW_MARKER = 'o-cell-last-row';
 export const DEFAULT_ROW_LAST_MARKER = 'o-row-last';
@@ -136,7 +137,7 @@ function markCellEl(cell: CellT, colMarker: string | false | undefined, rowMarke
 function markSection(
   section: TableSection,
   isLastSection: boolean,
-  marker: { cellColMarker?: string | false; cellRowMarker?: string | false; rowMarker?: string | false }
+  marker: { cellColMarker?: string | false; cellRowMarker?: string | false; rowMarker?: string | false },
 ) {
   const { totalCols, totalRows, data } = section;
   for (let rowIndex = 0; rowIndex < totalRows; rowIndex++) {
@@ -245,7 +246,7 @@ function shouldRefactorTableMeta(records: MutationRecord[]) {
   }
   return false;
 }
-export function useTableMeta(elRef: HTMLTableElement | Ref<HTMLTableElement | null | undefined>, options: TableMetaOptions = {}) {
+export function useTableMeta(elRef: MaybeRef<HTMLTableElement | undefined>, options: TableMetaOptions = {}) {
   const cellMap = new WeakMap<HTMLTableCellElement, CellT>();
   const head = shallowRef<TableSection | null>(null);
   const bodies = shallowRef<TableSection[]>([]);

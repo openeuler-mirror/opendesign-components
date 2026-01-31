@@ -93,7 +93,7 @@ li {
   .markdown-body {
     padding: 0;
   }
-  .o-table-wrap {
+  .o-table:not(.o-data-table) .o-table-wrap {
     overflow-x: auto;
     th:first-child,
     td:first-child {

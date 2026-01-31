@@ -1,0 +1,29 @@
+<svg
+  width="24.000000"
+  height="24.000000"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <rect
+    width="24.000000"
+    height="24.000000"
+    fill="#FFFFFF"
+    fill-opacity="0"
+  />
+  <path
+    d="M12.38 4.96L16.31 9.67C16.58 10 16.35 10.5 15.93 10.5L8.06 10.5C7.64 10.5 7.41 10 7.68 9.67L11.61 4.96C11.81 4.72 12.18 4.72 12.38 4.96Z"
+    fill="currentColor"
+    fill-opacity="0.800000"
+    fill-rule="evenodd"
+    class="up-arrow"
+  />
+  <path
+    d="M12.38 19.03L16.31 14.32C16.58 13.99 16.35 13.5 15.93 13.5L8.06 13.5C7.64 13.5 7.41 13.99 7.68 14.32L11.61 19.03C11.81 19.27 12.18 19.27 12.38 19.03Z"
+    fill="currentColor"
+    fill-opacity="0.800000"
+    fill-rule="evenodd"
+    class="down-arrow"
+  />
+</svg>

@@ -9,3 +9,4 @@ const OTable = Object.assign(_OTable, {
 
 export { OTable };
 export * from './types';
+export * from './useTableMeta';
