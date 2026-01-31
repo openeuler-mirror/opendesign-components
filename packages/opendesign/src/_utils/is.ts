@@ -8,6 +8,10 @@ export function isNull(val: unknown): val is null {
   return opt.call(val) === '[object Null]';
 }
 
+export function isNil(val: unknown): val is null | undefined {
+  return isUndefined(val) || isNull(val);
+}
+
 export function isBoolean(val: unknown): val is boolean {
   return opt.call(val) === '[object Boolean]';
 }
@@ -18,6 +22,19 @@ export function isString(val: unknown): val is string {
 
 export function isNumber(val: unknown): val is number {
   return opt.call(val) === '[object Number]' && !Number.isNaN(val as number);
+}
+
+/**
+ * 是否是可转换成纯数字的字符串
+ */
+export function isNumeric(val: any): val is number | string {
+  if (isNil(val)) {
+    return false;
+  }
+  if (typeof val === 'number') {
+    return true;
+  }
+  return /^-?\d+(?:\.\d+)?$/.test(val.toString());
 }
 
 export function isFunction(val: unknown): val is Function {
@@ -80,6 +97,8 @@ export const isClient = typeof window !== 'undefined';
 export const isTouchDevice = isClient ? 'ontouchstart' in document.documentElement : false;
 
 export const isHoverDevice = isClient ? window.matchMedia('(hover: hover)').matches : false;
+
+export const isIosDevice = isClient ? /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase()) : false;
 
 export function isWindow(val: unknown): val is Window {
   return val === window;
