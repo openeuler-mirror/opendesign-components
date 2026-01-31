@@ -1,0 +1,136 @@
+.o-data-table {
+  position: relative;
+  height: var(--table-height);
+
+  .o-table-scroller {
+    // 让出header的滚动条距离
+    .o-scrollbar-y {
+      margin: calc(var(--table-header-height) * 1px + var(--scrollbar-width)) 0 var(--scrollbar-width) 0;
+      height: calc(100% - var(--table-header-height) * 1px - 2 * var(--scrollbar-width));
+    }
+    .o-scrollbar-rail {
+      z-index: 3;
+    }
+  }
+  .o-table-wrap {
+    height: var(--table-height);
+    max-height: var(--table-max-height);
+    overflow: auto;
+  }
+
+  .o-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
+  }
+  &.is-overflow-top {
+    .o-table-header {
+      box-shadow: var(--table-fixed-head-shadow);
+    }
+  }
+
+  .o-table-body-cell {
+    .o-table-cell__inner {
+      word-break: break-word;
+    }
+  }
+
+  // 重置OTable的样式
+  .o-table-header:after {
+    z-index: 2;
+  }
+
+  .o-table-cell {
+    &:first-child {
+      padding-left: var(--table-cell-padding-x);
+    }
+
+    &:last-child {
+      padding-right: var(--table-cell-padding-x);
+    }
+
+    &.o-cell-first-col {
+      padding-left: var(--table-edge-padding);
+    }
+    &.o-cell-last-col {
+      padding-right: var(--table-edge-padding);
+    }
+  }
+
+  // 有右固定列时，第一个固定列的前一列的右边框不显示，改用第一个右固定列的左边框
+  .o-table-cell-before-first-right-fixed,
+  .o-table-cell-fixed-right {
+    border-right: none !important;
+  }
+  .o-table-border-column,
+  .o-table-border-all {
+    .o-table-cell-fixed-right {
+      border-left: var(--table-border);
+    }
+  }
+
+  .o-table-header:has([rowspan]),
+  .o-table-header:has([colspan]) {
+    .o-table-cell-first-right-fixed {
+      border-left: var(--table-border);
+    }
+  }
+
+  .o-table-cell-fixed {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 1;
+  }
+  .o-table-cell-last-left-fixed:after,
+  .o-table-cell-first-right-fixed:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: calc(0px - var(--h-border-width));
+    width: var(--table-fixed-col-shadow-size);
+    display: none;
+    transition: opacity var(--o-duration-s) var(--o-easing-standard);
+  }
+  .o-table-cell-last-left-fixed:after {
+    right: calc(0px - var(--v-border-width));
+    transform: translateX(100%);
+    background: linear-gradient(90deg, var(--table-fixed-col-shadow-gradient));
+  }
+  .o-table-cell-first-right-fixed:before {
+    left: calc(0px - var(--v-border-width));
+    transform: translateX(-100%);
+    background: linear-gradient(-90deg, var(--table-fixed-col-shadow-gradient));
+  }
+
+  // 固定列有阴影，所以统一强制去掉边框
+  &.is-overflow-left .o-table-cell-last-left-fixed {
+    border-right: none !important;
+    --v-border-width: 0px;
+    &:after {
+      display: block;
+    }
+  }
+  &.is-overflow-right .o-table-cell-first-right-fixed {
+    border-left: none !important;
+    --v-border-width: 0px;
+
+    &:before {
+      display: block;
+    }
+  }
+
+  .empty-placeholder {
+    height: calc(var(--table-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+    min-height: calc(var(--table-body-min-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+  }
+  .o-table-loading-wrap,
+  .o-table-tip-wrap {
+    min-height: unset;
+    position: absolute;
+    top: calc(var(--table-header-height) * 1px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

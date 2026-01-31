@@ -1,9 +1,9 @@
 ---
-sidebar: OTable 数据表格
+sidebar: OTable 表格
 kind: container
 ---
 
-# 数据表格
+# 表格
 
 
 ## 示例

@@ -3,6 +3,10 @@ export default {
   // common
   'common.empty': 'No Data',
   'common.loading': 'Loading...',
+  'common.checkAll': 'Check All',
+  'common.confirm': 'Confirm',
+  'common.reset': 'Reset',
+  'common.search': 'Search',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.page': 'Page',

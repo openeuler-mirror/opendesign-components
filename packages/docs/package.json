@@ -29,6 +29,7 @@
     "@opensig/open-scripts": "catalog:build",
     "@types/fs-extra": "catalog:typescript",
     "@types/markdown-it": "catalog:typescript",
+    "@vitejs/plugin-vue-jsx": "catalog:vue",
     "@vue/compiler-sfc": "catalog:vue",
     "fs-extra": "catalog:io",
     "glob": "catalog:io",
@@ -39,10 +40,10 @@
     "typescript": "catalog:typescript",
     "unplugin-vue-markdown": "catalog:markdown",
     "vite": "catalog:build",
+    "vite-node": "catalog:utils",
     "vite-plugin-inspect": "catalog:build",
     "vue-component-meta": "catalog:vue",
     "vue-docgen-api": "catalog:vue",
-    "vue-tsc": "catalog:build",
-    "vite-node": "catalog:utils"
+    "vue-tsc": "catalog:build"
   }
 }
