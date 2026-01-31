@@ -6,38 +6,22 @@
     "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@opensig/opendesign/*": [
-        "../opendesign/src/*"
-      ],
-      "@opensig/opendesign": [
-        "../opendesign/src/index.ts"
-      ]
+      "@/*": ["src/*"],
+      "@opensig/opendesign/*": ["../opendesign/src/*"],
+      "@opensig/opendesign": ["../opendesign/src/index.ts"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "../opendesign/**/*.ts"
-  ],
-  "exclude": [
-    "../opendesign/**/*.config.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "../opendesign/**/*.ts"],
+  "exclude": ["../opendesign/**/*.config.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"

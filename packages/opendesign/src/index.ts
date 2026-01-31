@@ -48,6 +48,7 @@ export * from './skeleton';
 export * from './switch';
 export * from './tab';
 export * from './table';
+export * from './data-table';
 export * from './tag';
 export * from './textarea';
 export * from './toggle';
