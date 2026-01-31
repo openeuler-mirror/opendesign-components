@@ -1,7 +1,7 @@
 import type { ExtractPropTypes } from 'vue';
 import { inBoxProps } from '../_components/in-box/types';
 
-const { size, round, color } = inBoxProps;
+const { size, round, color, readonly, variant } = inBoxProps;
 
 export interface IpSegment {
   value: string;
@@ -48,6 +48,17 @@ export const ipInputProps = {
    * @default 'normal'
    */
   color,
-};
+  /**
+   * @zh-CN 是否只读
+   * @en-US Readonly
+   */
+  readonly,
+  /**
+   * @zh-CN 输入框类型
+   * @en-US variant
+   * @default 'outline'
+   */
+  variant,
+} as const;
 
 export type IpInputPropsT = ExtractPropTypes<typeof ipInputProps>;

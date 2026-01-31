@@ -148,11 +148,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <InBox class="o-ip-input" :color="color" :size="props.size" :disabled="props.disabled">
+  <InBox
+    class="o-ip-input"
+    :color="color"
+    :size="props.size"
+    :disabled="props.disabled"
+    :round="props.round"
+    :readonly="props.readonly"
+    :variant="props.variant"
+  >
     <template v-for="(segment, index) in ipSegments" :key="index">
       <OInput
         class="o-ip-segment"
         show-length="never"
+        :variant="props.variant"
+        :readonly="props.readonly"
         :size="props.size"
         :disabled="props.disabled"
         :modelValue="segment.value"
