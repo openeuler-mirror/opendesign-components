@@ -236,15 +236,19 @@ export function isElementHidden(element: HTMLElement) {
 
 /**
  * 判断元素左右边界是否超出滚动父元素的可视区域，并计算超出的像素值
- * @param {HTMLElement} element - 目标元素
+ * @param {HTMLElement} options.element - 目标元素
+ * @param {HTMLElement} options.parentElement - 目标父元素， 可选
+ * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出
  * @returns 包含是否超出、超出左侧/右侧像素值的结果
  */
-export function checkElementOverflowHorizontal(element: HTMLElement) {
+export function checkElementOverflowHorizontal(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {
+  const { element, parentElement, threshold = 0 } = options;
+
   if (!(element instanceof HTMLElement)) {
     throw new Error('参数必须是有效的HTMLElement');
   }
 
-  const [scrollParent] = getScrollParents(element);
+  const scrollParent = parentElement ? parentElement : getScrollParents(element)[0];
   if (!scrollParent) {
     return {
       isOverflowLeft: false,
@@ -265,26 +269,30 @@ export function checkElementOverflowHorizontal(element: HTMLElement) {
   const parentVisibleLeft = scrollParent.scrollLeft; // 可视区左边界
   const parentVisibleRight = scrollParent.scrollLeft + scrollParent.clientWidth; // 可视区右边界
 
-  const isOverflowLeft = elementLeftRelativeToParent < parentVisibleLeft;
-  const overflowLeft = isOverflowLeft ? parentVisibleLeft - elementLeftRelativeToParent : 0;
+  const overflowLeft = parentVisibleLeft - elementLeftRelativeToParent;
+  const isOverflowLeft = overflowLeft > threshold;
 
-  const isOverflowRight = elementRightRelativeToParent > parentVisibleRight;
-  const overflowRight = isOverflowRight ? elementRightRelativeToParent - parentVisibleRight : 0;
+  const overflowRight = elementRightRelativeToParent - parentVisibleRight;
+  const isOverflowRight = overflowRight > threshold;
 
   return { isOverflowLeft, isOverflowRight, overflowLeft, overflowRight };
 }
 
 /**
  * 判断元素上下边界是否超出滚动父元素的可视区域，并计算超出的像素值
- * @param {HTMLElement} element - 目标元素
+ * @param {HTMLElement} options.element - 目标元素
+ * @param {HTMLElement} options.parentElement - 目标父元素， 可选
+ * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出
  * @returns 包含是否超出、超出上下像素值的结果
  */
-export function checkElementOverflowVertical(element: HTMLElement) {
+export function checkElementOverflowVertical(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {
+  const { element, parentElement, threshold = 0 } = options;
+
   if (!(element instanceof HTMLElement)) {
     throw new Error('参数必须是有效的HTMLElement');
   }
 
-  const [scrollParent] = getScrollParents(element);
+  const scrollParent = parentElement ? parentElement : getScrollParents(element)[0];
   if (!scrollParent) {
     return {
       isOverflowTop: false,
@@ -305,11 +313,11 @@ export function checkElementOverflowVertical(element: HTMLElement) {
   const parentVisibleTop = scrollParent.scrollTop; // 父元素可视区上边界
   const parentVisibleBottom = scrollParent.scrollTop + scrollParent.clientHeight; // 父元素可视区下边界
 
-  const isOverflowTop = elementTopRelativeToParent < parentVisibleTop;
-  const overflowTop = isOverflowTop ? parentVisibleTop - elementTopRelativeToParent : 0;
+  const overflowTop = parentVisibleTop - elementTopRelativeToParent;
+  const isOverflowTop = overflowTop > threshold;
 
-  const isOverflowBottom = elementBottomRelativeToParent > parentVisibleBottom;
-  const overflowBottom = isOverflowBottom ? elementBottomRelativeToParent - parentVisibleBottom : 0;
+  const overflowBottom = elementBottomRelativeToParent - parentVisibleBottom;
+  const isOverflowBottom = overflowBottom > threshold;
 
   return {
     isOverflowTop,
@@ -321,12 +329,14 @@ export function checkElementOverflowVertical(element: HTMLElement) {
 
 /**
  * 判断元素上下左右四个边界是否超出滚动父元素的可视区域，并计算每个方向超出的像素值
- * @param {HTMLElement} element - 目标元素
+ * @param {HTMLElement} options.element - 目标元素
+ * @param {HTMLElement} options.parentElement - 目标父元素， 可选
+ * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出,有的时候滚动到底还是差0.01个像素
  * @returns 包含是否超出、各方向超出像素值的结果
  */
-export function checkElementOverflow(element: HTMLElement) {
+export function checkElementOverflow(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {
   return {
-    ...checkElementOverflowHorizontal(element),
-    ...checkElementOverflowVertical(element),
+    ...checkElementOverflowHorizontal(options),
+    ...checkElementOverflowVertical(options),
   };
 }
