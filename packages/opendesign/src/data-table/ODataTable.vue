@@ -20,7 +20,7 @@ import {
   DataTableConditionValue,
   DataTableRowKeyValue,
   dataTableProps,
-  EffectiveDataTableColumnCommonT,
+  EffectiveDataTableColumnT,
 } from './types.ts';
 import { getColumnPosition, getCellValue } from './utils.ts';
 import TableCellRenderer from './TableCellRenderer.vue';
@@ -42,8 +42,22 @@ const emits = defineEmits<{
   /** 全选状态更新 */
   (e: 'selection-all', allSelected: boolean): void;
   /** 列宽调整 */
-  (e: 'column-resize', column: EffectiveDataTableColumnCommonT, width: number): void;
+  (e: 'column-resize', column: EffectiveDataTableColumnT, width: number): void;
 }>();
+
+type AllSlots = {
+  /** thead插槽 */
+  header?: (options: { columns: EffectiveDataTableColumnT[] }) => any;
+  /** tbody插槽 */
+  body?: (options: { columns: EffectiveDataTableColumnT[] }) => any;
+  /** 加载状态插槽 */
+  loading?: () => any;
+  /** 空状态插槽 */
+  empty?: () => any;
+} & Record<`th_${string}`, (options: { column: EffectiveDataTableColumnT }) => any> &
+  Record<`td_${string}`, (options: { column: EffectiveDataTableColumnT; row: TableRowT; cellValue: any; index: number }) => any>;
+
+const slots = defineSlots<AllSlots>();
 
 /** 表格筛选条件 */
 const conditions = defineModel<Record<string, unknown>>('conditions', {
@@ -153,7 +167,7 @@ const {
   resizingColumnKey,
 } = useDataColumn({ props, tableEl });
 
-const setThRef = (el: any, column: EffectiveDataTableColumnCommonT) => {
+const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
   if (!el) {
     return;
   }

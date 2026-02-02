@@ -265,6 +265,12 @@
   },
   {
     "type": "color",
+    "name": "o-icon-sort",
+    "componentName": "OIconSort",
+    "path": "color/sort.svg"
+  },
+  {
+    "type": "color",
     "name": "o-icon-skill",
     "componentName": "OIconSkill",
     "path": "color/skill.svg"

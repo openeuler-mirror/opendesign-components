@@ -1,7 +1,6 @@
 import { Component, ExtractPropTypes, PropType, VNode } from 'vue';
 
-import { type TableColumnT, tableProps, TableRowT } from '../table';
-import { useResizeObserver } from '../hooks';
+import { tableProps, TableRowT } from '../table';
 
 export const DataTableSizes = ['medium', 'small'] as const;
 export type DataTableSizeT = (typeof DataTableSizes)[number];
@@ -67,7 +66,8 @@ export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => 
 /**
  * 列的配置文件
  */
-export interface DataTableColumnT extends Omit<TableColumnT, 'label'> {
+export interface DataTableColumnT {
+  key: string;
   label?: string | Component | VNode;
   formatter?: DataTableColumnFormatter;
   fixed?: DataTableFixedT;
@@ -137,6 +137,22 @@ const { emptyLabel, loading, loadingLabel, border, stripe } = tableProps;
 
 export const dataTableProps = {
   /**
+   * @zh-CN 表格数据
+   * @en-US Table data
+   */
+  data: {
+    type: Array as PropType<TableRowT[]>,
+    required: true,
+  },
+  /**
+   * @zh-CN 列配置, IOS端不支持多列固定
+   * @en-US Table column schema， not support multi-column fixed in IOS
+   */
+  columns: {
+    type: Array as PropType<DataTableColumnT[]>,
+    required: true,
+  },
+  /**
    * @zh-CN 表格尺寸
    * @en-US table size
    */
@@ -158,22 +174,6 @@ export const dataTableProps = {
   maxHeight: {
     type: [Number, String] as PropType<number | string>,
     default: 'fit-content',
-  },
-  /**
-   * @zh-CN 表格数据
-   * @en-US Table data
-   */
-  data: {
-    type: Array as PropType<TableRowT[]>,
-    required: true,
-  },
-  /**
-   * @zh-CN 列配置, IOS端不支持多列固定
-   * @en-US Table column schema， not support multi-column fixed in IOS
-   */
-  columns: {
-    type: Array as PropType<DataTableColumnT[]>,
-    required: true,
   },
   /**
    * @zh-CN 表格数据行唯一标识字段名
@@ -201,7 +201,7 @@ export const dataTableProps = {
   stripe,
   border,
   /**
-   * @zh-CN 单元格为空时的展示文案
+   * @zh-CN 单元格为空时的展示文案，默认为 '--'
    * @en-US Render text when cell value is empty
    */
   defaultEmptyCellText: {
