@@ -27,7 +27,7 @@ export function isNumber(val: unknown): val is number {
 /**
  * 是否是可转换成纯数字的字符串
  */
-export function isNumeric(val: any) {
+export function isNumeric(val: any): val is number | string {
   if (isNil(val)) {
     return false;
   }

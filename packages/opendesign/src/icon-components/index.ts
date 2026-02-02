@@ -42,6 +42,7 @@ export { OIconAdd } from './OIconAdd';
 export { OIconWarning } from './OIconWarning';
 export { OIconSun } from './OIconSun';
 export { OIconSuccess } from './OIconSuccess';
+export { OIconSort } from './OIconSort';
 export { OIconSkill } from './OIconSkill';
 export { OIconNoData } from './OIconNoData';
 export { OIconMoon } from './OIconMoon';

@@ -1,7 +1,6 @@
 import { Component, ExtractPropTypes, PropType, VNode } from 'vue';
 
-import { type TableColumnT, tableProps, TableRowT } from '../table';
-import { useResizeObserver } from '../hooks';
+import { tableProps, TableRowT } from '../table';
 
 export const DataTableSizes = ['medium', 'small'] as const;
 export type DataTableSizeT = (typeof DataTableSizes)[number];
@@ -67,15 +66,16 @@ export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => 
 /**
  * 列的配置文件
  */
-export interface DataTableColumnT extends Omit<TableColumnT, 'label'> {
+export interface DataTableColumnT {
+  key: string;
   label?: string | Component | VNode;
   formatter?: DataTableColumnFormatter;
   fixed?: DataTableFixedT;
-  /** 列的宽度，设置了fixed时必填, 仅支持纯数字、px、百分比 */
+  /** 列的宽度，设置了fixed时必填 */
   width?: number | string;
-  /** 列的最小宽度, 仅支持纯数字、px、百分比(基于.o-table容器宽度) */
+  /** 列的最小宽度 */
   minWidth?: number | string;
-  /** 列的最大宽度, 仅支持纯数字、px、百分比(基于.o-table容器宽度) */
+  /** 列的最大宽度 */
   maxWidth?: number | string;
   /**
    * 是否显示溢出隐藏气泡
@@ -105,6 +105,7 @@ export type EffectiveDataTableColumnCommonT = {
   formatter: DataTableColumnFormatter;
   colSpan?: number;
   rowSpan?: number;
+  /** 列宽调整后的宽度，用于计算固定列的定位值 */
   resizeWidth?: number;
   fixed?: 'left' | 'right';
   /** fix为undefined或left时当前列的left值 */
@@ -122,6 +123,7 @@ export type EffectiveDataTableColumnCommonT = {
   /** 是否是最右边的列 */
   isLastCol?: boolean;
   colRef?: HTMLTableColElement;
+  thRef?: HTMLTableCellElement;
   /**
    * 嵌套表头配置
    */
@@ -134,6 +136,22 @@ export type EffectiveDataTableColumnT = DataTableColumnT & EffectiveDataTableCol
 const { emptyLabel, loading, loadingLabel, border, stripe } = tableProps;
 
 export const dataTableProps = {
+  /**
+   * @zh-CN 表格数据
+   * @en-US Table data
+   */
+  data: {
+    type: Array as PropType<TableRowT[]>,
+    required: true,
+  },
+  /**
+   * @zh-CN 列配置, IOS端不支持多列固定
+   * @en-US Table column schema， not support multi-column fixed in IOS
+   */
+  columns: {
+    type: Array as PropType<DataTableColumnT[]>,
+    required: true,
+  },
   /**
    * @zh-CN 表格尺寸
    * @en-US table size
@@ -156,22 +174,6 @@ export const dataTableProps = {
   maxHeight: {
     type: [Number, String] as PropType<number | string>,
     default: 'fit-content',
-  },
-  /**
-   * @zh-CN 表格数据
-   * @en-US Table data
-   */
-  data: {
-    type: Array as PropType<TableRowT[]>,
-    required: true,
-  },
-  /**
-   * @zh-CN 列配置, IOS端不支持多列固定
-   * @en-US Table column schema， not support multi-column fixed in IOS
-   */
-  columns: {
-    type: Array as PropType<DataTableColumnT[]>,
-    required: true,
   },
   /**
    * @zh-CN 表格数据行唯一标识字段名
@@ -199,7 +201,7 @@ export const dataTableProps = {
   stripe,
   border,
   /**
-   * @zh-CN 单元格为空时的展示文案
+   * @zh-CN 单元格为空时的展示文案，默认为 '--'
    * @en-US Render text when cell value is empty
    */
   defaultEmptyCellText: {

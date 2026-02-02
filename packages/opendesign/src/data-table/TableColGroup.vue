@@ -5,41 +5,31 @@ import { useResizeObserver } from '../hooks';
 import { debounceRAF } from '../_utils/helper.ts';
 import { EffectiveDataTableColumnT } from './types.ts';
 import { dataTableInjectKey } from './provide.ts';
-
-const props = defineProps<{
-  columns: EffectiveDataTableColumnT[];
-  columnWidthMap: Record<string, number>;
-}>();
+import { isNumeric } from '../_utils/is.ts';
 
 const dataTableInjection = inject(dataTableInjectKey);
 
 /**
- * 仅支持纯数字、px、百分比
+ * 获取调用者传入的宽度配置
  */
-const parseWidth = (width?: string | number) => {
-  if (typeof width === 'string' && width.endsWith('%')) {
-    return (dataTableInjection!.containerWidth.value * Number.parseFloat(width)) / 100;
-  }
-  if (typeof width === 'string') {
-    return Number.parseFloat(width);
-  }
-  return width;
-};
-
-const getWidth = (column: EffectiveDataTableColumnT) => {
-  if (!dataTableInjection?.containerWidth) {
-    return {};
+const getPropWidth = (column: EffectiveDataTableColumnT) => {
+  let width = column?.colRef?.style.width;
+  if (!width) {
+    width = isNumeric(column.width) ? column.width + 'px' : column.width;
   }
 
   return {
-    width: `${parseWidth(props.columnWidthMap[column.key] || column.width)}px`,
-    minWidth: column.minWidth ? `${parseWidth(column.minWidth)}px` : undefined,
-    maxWidth: column.maxWidth ? `${parseWidth(column.maxWidth)}px` : undefined,
+    width,
+    minWidth: isNumeric(column.minWidth) ? column.minWidth + 'px' : column.minWidth,
+    maxWidth: isNumeric(column.maxWidth) ? column.maxWidth + 'px' : column.maxWidth,
   };
 };
 
 const colgroupRef = ref<HTMLTableColElement>();
 const setColRef = async (col: any, column: EffectiveDataTableColumnT) => {
+  if (!col) {
+    return;
+  }
   column.colRef = markRaw(col as HTMLTableColElement);
 };
 const resizeObserver = useResizeObserver();
@@ -47,12 +37,11 @@ const resizeHandler = debounceRAF(() => {
   if (!colgroupRef.value || !dataTableInjection) {
     return;
   }
-  Array.from(dataTableInjection.dataColumnMap.entries()).forEach(([_key, column]) => {
+  dataTableInjection.dataColumns.value.forEach((column) => {
     if (!column.colRef) {
       return;
     }
     column.resizeWidth = column.colRef.getBoundingClientRect().width;
-    dataTableInjection.columnWidthMap[column.key] = column.resizeWidth;
   });
 });
 watch(
@@ -77,6 +66,6 @@ onUnmounted(() => {
 
 <template>
   <colgroup ref="colgroupRef">
-    <col v-for="column of props.columns" :key="column.key" :ref="(el) => setColRef(el, column)" :style="getWidth(column)" />
+    <col v-for="column of dataTableInjection?.dataColumns.value" :key="column.key" :ref="(el) => setColRef(el, column)" :style="getPropWidth(column)" />
   </colgroup>
 </template>

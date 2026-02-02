@@ -89,10 +89,9 @@ export const getGroupColumns = (options: {
   isMounted: boolean;
   props: DataTablePropsT;
   columnMap: Map<string, EffectiveDataTableColumnT>;
-  columnWidthMap: Record<string, number>;
   defaultFormatter: DataTableColumnFormatter;
 }) => {
-  const { isMounted, props, columnMap, columnWidthMap, defaultFormatter } = options;
+  const { isMounted, props, columnMap, defaultFormatter } = options;
   const { columns, data, spanMethod } = props;
   const totalHeaderRows = getTotalHeaderRows(columns);
 
@@ -123,9 +122,6 @@ export const getGroupColumns = (options: {
         cell.rowSpan = rowSpan > 1 ? rowSpan : undefined;
         cell.fixed = cell.fixed ?? parent?.fixed;
 
-        if (columnWidthMap[cell.key]) {
-          cell.resizeWidth = columnWidthMap[cell.key];
-        }
         columnMap.set(cell.key, cell);
         dataColumns.push(cell);
         groupColumns[level].push(cell);
@@ -191,7 +187,7 @@ const getLastChildColumn = (column: EffectiveDataTableColumnT): EffectiveDataTab
 /**
  * 计算固定列的左右定位样式
  */
-export const getColumnPosition = (options: { column: EffectiveDataTableColumnT; columns: EffectiveDataTableColumnT[] }) => {
+export const getColumnPosition = (options: { column: EffectiveDataTableColumnT; columns: EffectiveDataTableColumnT[] }): { left?: string; right?: string } => {
   const { column, columns } = options;
   if (!column.fixed) {
     return {};
