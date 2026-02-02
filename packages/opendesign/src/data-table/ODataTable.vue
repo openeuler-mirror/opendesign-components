@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { computed, ref, reactive, provide, onUnmounted, onMounted } from 'vue';
+import { computed, ref, reactive, provide, onUnmounted, onMounted, markRaw } from 'vue';
 import { useElementSize, useMounted } from '@vueuse/core';
 
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
@@ -20,11 +20,12 @@ import {
   DataTableConditionValue,
   DataTableRowKeyValue,
   dataTableProps,
+  EffectiveDataTableColumnCommonT,
 } from './types.ts';
 import { getColumnPosition, getCellValue } from './utils.ts';
 import TableCellRenderer from './TableCellRenderer.vue';
 import TableColGroup from './TableColGroup.vue';
-import { dataTableInjectKey } from './provide.ts';
+import { dataTableInjectKey, DataTableCtx } from './provide.ts';
 import { useDataColumn } from './use-data-column.ts';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 
@@ -40,6 +41,8 @@ const emits = defineEmits<{
   (e: 'selection-change', payload: DataTableSelectionChangePayload): void;
   /** 全选状态更新 */
   (e: 'selection-all', allSelected: boolean): void;
+  /** 列宽调整 */
+  (e: 'column-resize', column: EffectiveDataTableColumnCommonT, width: number): void;
 }>();
 
 /** 表格筛选条件 */
@@ -110,14 +113,18 @@ const headerRef = ref<HTMLTableElement>();
 const { height: headerTableHeight } = useElementSize(headerRef);
 
 // 溢出阴影
-const bodyRef = ref<HTMLTableElement>();
+const tableEl = ref<HTMLTableElement>();
 const overflowState = ref<ReturnType<typeof checkElementOverflow>>();
 const checkTableOverflow = debounceRAF(() => {
-  overflowState.value = checkElementOverflow(
-    bodyRef.value!,
+  if (!tableEl.value) {
+    return;
+  }
+  overflowState.value = checkElementOverflow({
+    element: tableEl.value,
+    parentElement: rootRef.value,
     // 由于右固定列与前一列边框重合，宽容一个边框宽度
-    Number.parseFloat(getCssVariable('--table-border-width', rootRef.value!)),
-  );
+    threshold: Number.parseFloat(getCssVariable('--table-border-width', rootRef.value!)),
+  });
 });
 
 const resizeObserver = useResizeObserver();
@@ -132,24 +139,37 @@ const getRowKey = (row: TableRowT, rowIndex: number) => {
   return (row[props.rowKey] as string) || rowIndex;
 };
 
-const tableEl = ref<HTMLTableElement>();
 const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ props, tableEl });
 
-const { dataColumnMap, dataColumns, groupColumns, columnWidthMap, isCellRemoved, isLastLeftFixedCell, isFirstRightFixedCell, isBeforeFirstRightFixedCell } =
-  useDataColumn({ props });
-
-provide(dataTableInjectKey, {
-  containerWidth,
-  dataColumnMap,
-  columnWidthMap,
-});
-
-defineExpose({
+const {
   dataColumnMap,
   dataColumns,
   groupColumns,
-  columnWidthMap,
-});
+  isCellRemoved,
+  isLastLeftFixedCell,
+  isFirstRightFixedCell,
+  isBeforeFirstRightFixedCell,
+  handleColumnResizerMousedown,
+  resizingColumnKey,
+} = useDataColumn({ props, tableEl });
+
+const setThRef = (el: any, column: EffectiveDataTableColumnCommonT) => {
+  if (!el) {
+    return;
+  }
+  column.thRef = markRaw(el) as HTMLTableCellElement;
+};
+
+const exposeData = {
+  containerWidth,
+  dataColumnMap,
+  dataColumns,
+  groupColumns,
+} as DataTableCtx; // TODO 修复实例化过深的报错
+
+provide(dataTableInjectKey, exposeData);
+
+defineExpose(exposeData);
 </script>
 
 <template>
@@ -183,13 +203,14 @@ defineExpose({
     >
       <table ref="tableEl" class="o-table-inner-table">
         <caption></caption>
-        <TableColGroup :columns="dataColumns" :column-width-map="columnWidthMap" />
+        <TableColGroup />
         <thead ref="headerRef" class="o-table-header">
           <slot name="header" :columns="dataColumns">
             <tr v-for="groupColumn in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
               <th
                 v-for="(column, colIndex) in groupColumn"
                 :key="column.key"
+                :ref="(el) => setThRef(el, column)"
                 :colspan="column.colSpan"
                 :rowspan="column.rowSpan"
                 :class="{
@@ -204,18 +225,25 @@ defineExpose({
                   [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
                   [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
                 }"
-                :style="{ ...getColumnPosition({ column, columns: dataColumns }) }"
+                :style="getColumnPosition({ column, columns: dataColumns })"
               >
                 <span class="o-table-cell__inner">
                   <slot :name="`th_${column.key}`" :column="column">
                     <component :is="getRenderableComponent(column.label)" />
                   </slot>
                 </span>
+                <div
+                  v-if="props.columnResizable && !column.children?.length"
+                  class="o-table-column-resizer"
+                  @mousedown="(event) => handleColumnResizerMousedown({ event, column, colIndex })"
+                >
+                  <div v-if="resizingColumnKey === column.key" class="o-table-column-resizer__indicator"></div>
+                </div>
               </th>
             </tr>
           </slot>
         </thead>
-        <tbody ref="bodyRef" class="o-table-body" @mousemove="handleMouseOver" @mouseleave="clearHighlight" @touchstart="handleTouchStart">
+        <tbody class="o-table-body" @mousemove="handleMouseOver" @mouseleave="clearHighlight" @touchstart="handleTouchStart">
           <slot name="body" :columns="dataColumns">
             <tr
               v-for="(row, rowIndex) in props.data"
@@ -245,7 +273,7 @@ defineExpose({
                     [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
                     [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
                   }"
-                  :style="{ ...getColumnPosition({ column, columns: dataColumns }) }"
+                  :style="getColumnPosition({ column, columns: dataColumns })"
                 >
                   <span class="o-table-cell__inner">
                     <slot :name="`td_${column.key}`" :row="row" :column="column" :cell-value="getCellValue({ row, column })" :index="rowIndex">
