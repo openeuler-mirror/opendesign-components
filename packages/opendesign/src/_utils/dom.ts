@@ -236,16 +236,19 @@ export function isElementHidden(element: HTMLElement) {
 
 /**
  * 判断元素左右边界是否超出滚动父元素的可视区域，并计算超出的像素值
- * @param {HTMLElement} element - 目标元素
- * @param {number} threshold - 阈值，如果溢出值大于阈值才算溢出
+ * @param {HTMLElement} options.element - 目标元素
+ * @param {HTMLElement} options.parentElement - 目标父元素， 可选
+ * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出
  * @returns 包含是否超出、超出左侧/右侧像素值的结果
  */
-export function checkElementOverflowHorizontal(element: HTMLElement, threshold = 0) {
+export function checkElementOverflowHorizontal(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {
+  const { element, parentElement, threshold = 0 } = options;
+
   if (!(element instanceof HTMLElement)) {
     throw new Error('参数必须是有效的HTMLElement');
   }
 
-  const [scrollParent] = getScrollParents(element);
+  const scrollParent = parentElement ? parentElement : getScrollParents(element)[0];
   if (!scrollParent) {
     return {
       isOverflowLeft: false,
@@ -277,16 +280,19 @@ export function checkElementOverflowHorizontal(element: HTMLElement, threshold =
 
 /**
  * 判断元素上下边界是否超出滚动父元素的可视区域，并计算超出的像素值
- * @param {HTMLElement} element - 目标元素
- * @param {number} threshold - 阈值，如果溢出值大于阈值才算溢出
+ * @param {HTMLElement} options.element - 目标元素
+ * @param {HTMLElement} options.parentElement - 目标父元素， 可选
+ * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出
  * @returns 包含是否超出、超出上下像素值的结果
  */
-export function checkElementOverflowVertical(element: HTMLElement, threshold = 0) {
+export function checkElementOverflowVertical(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {
+  const { element, parentElement, threshold = 0 } = options;
+
   if (!(element instanceof HTMLElement)) {
     throw new Error('参数必须是有效的HTMLElement');
   }
 
-  const [scrollParent] = getScrollParents(element);
+  const scrollParent = parentElement ? parentElement : getScrollParents(element)[0];
   if (!scrollParent) {
     return {
       isOverflowTop: false,
@@ -323,13 +329,14 @@ export function checkElementOverflowVertical(element: HTMLElement, threshold = 0
 
 /**
  * 判断元素上下左右四个边界是否超出滚动父元素的可视区域，并计算每个方向超出的像素值
- * @param {HTMLElement} element - 目标元素
- * @param {number} threshold - 阈值，如果溢出值大于阈值才算溢出,有的时候滚动到底还是差0.01个像素
+ * @param {HTMLElement} options.element - 目标元素
+ * @param {HTMLElement} options.parentElement - 目标父元素， 可选
+ * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出,有的时候滚动到底还是差0.01个像素
  * @returns 包含是否超出、各方向超出像素值的结果
  */
-export function checkElementOverflow(element: HTMLElement, threshold = 0) {
+export function checkElementOverflow(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {
   return {
-    ...checkElementOverflowHorizontal(element, threshold),
-    ...checkElementOverflowVertical(element, threshold),
+    ...checkElementOverflowHorizontal(options),
+    ...checkElementOverflowVertical(options),
   };
 }
