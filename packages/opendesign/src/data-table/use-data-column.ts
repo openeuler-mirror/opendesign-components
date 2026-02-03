@@ -1,24 +1,22 @@
-import { ref, reactive, watch, computed } from 'vue';
+import { ref, watch, computed, MaybeRef, toValue } from 'vue';
 import { useMounted } from '@vueuse/core';
 
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
 
-export const useDataColumn = (options: { props: DataTablePropsT }) => {
-  const { props } = options;
+export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeRef<HTMLTableElement | undefined> }) => {
+  const { props, tableEl } = options;
 
   const isMounted = useMounted();
   const dataColumnMap = new Map<string, EffectiveDataTableColumnT>();
   const dataColumns = ref<EffectiveDataTableColumnT[]>([]);
   const groupColumns = ref<EffectiveDataTableColumnT[][]>([]);
-  const columnWidthMap = reactive<Record<string, number>>({});
 
   const parseColumns = () => {
     const res = getGroupColumns({
       isMounted: isMounted.value,
       props,
       columnMap: dataColumnMap,
-      columnWidthMap,
       defaultFormatter: (_options) => {
         if (isEmptyCell(_options.cellValue)) {
           return props.defaultEmptyCellText;
@@ -30,7 +28,7 @@ export const useDataColumn = (options: { props: DataTablePropsT }) => {
     groupColumns.value = res.groupColumns;
   };
   watch(
-    () => [props.columns, columnWidthMap, isMounted.value, props.data],
+    () => [props.columns, isMounted.value, props.data],
     () => parseColumns(),
     { immediate: true, deep: true },
   );
@@ -113,15 +111,61 @@ export const useDataColumn = (options: { props: DataTablePropsT }) => {
     return dataColumns.value[colIndex + 1] && isFirstRightFixedCell(rowIndex, colIndex + 1);
   };
 
+  const resizingColumnKey = ref('');
+
+  const handleColumnResizerMouseMoving = (event: MouseEvent) => {
+    const thEl = dataColumnMap.get(resizingColumnKey.value)?.thRef;
+
+    if (!thEl) {
+      return;
+    }
+    const thRect = thEl.getBoundingClientRect();
+    const width = Math.ceil(event.clientX - thRect.x);
+
+    const column = dataColumnMap.get(resizingColumnKey.value);
+    if (column?.colRef) {
+      column.colRef.style.width = width + 'px';
+    }
+  };
+
+  const handleColumnResizerMouseup = () => {
+    resizingColumnKey.value = '';
+
+    window.removeEventListener('mousemove', handleColumnResizerMouseMoving);
+    window.removeEventListener('mouseup', handleColumnResizerMouseup);
+    window.removeEventListener('contextmenu', handleColumnResizerMouseup);
+  };
+
+  const handleColumnResizerMousedown = ({ event, column, colIndex }: { event: MouseEvent; column: EffectiveDataTableColumnT; colIndex: number }) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    resizingColumnKey.value = column.key;
+
+    // 调整列宽前先固定列宽
+    dataColumns.value.forEach((_column) => {
+      if (!_column.colRef) {
+        return;
+      }
+      _column.colRef.style.width = _column.colRef.getBoundingClientRect().width + 'px';
+    });
+    toValue(tableEl)!.style.tableLayout = 'fixed';
+
+    window.addEventListener('mousemove', handleColumnResizerMouseMoving);
+    window.addEventListener('mouseup', handleColumnResizerMouseup);
+    window.addEventListener('contextmenu', handleColumnResizerMouseup);
+  };
+
   return {
     dataColumnMap,
     dataColumns,
     groupColumns,
-    columnWidthMap,
     removedCellsBySpan,
     isCellRemoved,
     isLastLeftFixedCell,
     isFirstRightFixedCell,
     isBeforeFirstRightFixedCell,
+    handleColumnResizerMousedown,
+    resizingColumnKey,
   };
 };

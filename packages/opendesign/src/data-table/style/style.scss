@@ -1,3 +1,5 @@
+@use '../../_styles/mixin.scss' as *;
+
 .o-data-table {
   position: relative;
   height: var(--table-height);
@@ -42,6 +44,8 @@
   }
 
   .o-table-cell {
+    position: relative;
+
     &:first-child {
       padding-left: var(--table-cell-padding-x);
     }
@@ -132,5 +136,33 @@
     left: 0;
     right: 0;
     bottom: 0;
+  }
+
+  .o-table-column-resizer__indicator {
+    position: absolute;
+    left: calc(var(--table-column-resizer-width) / 2 - var(--table-border-width) / 2);
+    z-index: 1;
+    width: var(--table-border-width);
+    height: var(--table-height);
+    border-left: var(--table-border-width) dashed var(--o-color-info4);
+  }
+
+  .o-table-column-resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: calc(0px - var(--table-column-resizer-width) / 2);
+    width: var(--table-column-resizer-width);
+
+    @include hover {
+      cursor: col-resize;
+    }
+  }
+
+  .o-cell-last-col {
+    .o-table-column-resizer {
+      width: calc(var(--table-column-resizer-width) / 2);
+      right: 0;
+    }
   }
 }

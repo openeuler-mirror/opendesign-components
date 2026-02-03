@@ -54,7 +54,7 @@ const updateIndicatorPosition = () => {
   if (props.layout !== 'h') {
     return;
   }
-  const { isOverflowLeft, isOverflowRight, overflowLeft, overflowRight } = checkElementOverflowHorizontal(el);
+  const { isOverflowLeft, isOverflowRight, overflowLeft, overflowRight } = checkElementOverflowHorizontal({ element: el });
 
   if (!isOverflowLeft && !isOverflowRight) {
     return;
