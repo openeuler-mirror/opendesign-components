@@ -151,3 +151,8 @@ export const tabPaneProps = {
 };
 
 export type TabPanePropsT = ExtractPropTypes<typeof tabPaneProps>;
+
+export type TabPaneSlotsT = {
+  nav?: () => any;
+  default?: () => any;
+};
