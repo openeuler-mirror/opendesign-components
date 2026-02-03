@@ -1,6 +1,7 @@
 export default {
   locale: 'zh-CN',
   // common
+  'common.more': '更多',
   'common.empty': '暂无数据',
   'common.loading': '加载中...',
   // pagination

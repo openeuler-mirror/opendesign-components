@@ -1,6 +1,7 @@
 export default {
   locale: 'en-US',
   // common
+  'common.more': 'more',
   'common.empty': 'No Data',
   'common.loading': 'Loading...',
   // pagination
