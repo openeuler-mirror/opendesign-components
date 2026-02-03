@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { provide, ref, nextTick, watch, computed, Ref } from 'vue';
-import { tabInjectKey } from './provide';
-import { IconAdd, IconChevronLeft, IconChevronRight } from '../_utils/icons';
+import { provide, ref, nextTick, watch, computed, toValue, onMounted } from 'vue';
+import { useMutationObserver } from '@vueuse/core';
+
+import { TabChildData, tabInjectKey } from './provide';
+import { IconAdd, IconChevronLeft, IconChevronRight, IconClose } from '../_utils/icons';
 import { tabProps } from './types';
 import { vOnResize } from '../directives';
 import { debounceRAF } from '../_utils/helper';
@@ -26,13 +28,51 @@ const { isPhonePad } = useScreen();
 const activeKey = ref(props.modelValue);
 const anchorStyle = ref<Record<string, string>>({});
 
-const navWrapRef: Ref<HTMLElement | null> = ref(null);
-const navsRef: Ref<HTMLElement | null> = ref(null);
-const bodyRef: Ref<HTMLElement | null> = ref(null);
+const navWrapRef = ref<HTMLDivElement>();
+const navsRef = ref<HTMLDivElement>();
+const bodyRef = ref<HTMLDivElement>();
 
-const valueSet: Array<string | number> = [];
+const childrenMap = ref<
+  Record<
+    string,
+    TabChildData & {
+      navEl?: HTMLDivElement;
+    }
+  >
+>({});
+/** 通过遍历dom获取的顺序正确的value列表，但都是字符串 */
+const stringValueSet = ref<string[]>([]);
+const gatherChildren = () => {
+  if (!bodyRef.value) {
+    return;
+  }
+  stringValueSet.value = [];
+  Array.from(bodyRef.value.children).forEach((el) => {
+    if (!el.classList.contains('o-tab-pane')) {
+      return;
+    }
+    const paneKey = el.getAttribute('data-tab-pane-key');
+    if (paneKey) {
+      stringValueSet.value.push(paneKey);
+    }
+  });
+};
+useMutationObserver(
+  bodyRef,
+  async (mutations) => {
+    if (!mutations[0]) {
+      return;
+    }
+    await nextTick();
+    gatherChildren();
+  },
+  {
+    childList: true,
+  },
+);
+onMounted(() => gatherChildren());
 
-let activeNavEl: HTMLElement | null = null;
+let activeNavEl: HTMLElement | undefined;
 
 const isScroll = ref(false);
 const prevDisabled = ref(true);
@@ -76,12 +116,6 @@ const updateNavScroll = () => {
   }
 };
 
-watch(
-  () => props.modelValue,
-  (v) => {
-    activeKey.value = v;
-  },
-);
 const updateAnchor = () => {
   if (!activeNavEl) {
     return;
@@ -94,51 +128,57 @@ const updateAnchor = () => {
 };
 watch(() => isScroll.value, updateAnchor);
 
-// 更新tab当前选中值
-const updateValue = (value: string | number, navEl: HTMLElement | null) => {
-  emits('update:modelValue', value);
-  activeNavEl = navEl;
-  if (activeKey.value !== value) {
-    emits('change', value, activeKey.value);
-    activeKey.value = value;
+const setNavEl = (el: any, stringValue: string) => {
+  childrenMap.value[stringValue].navEl = el as HTMLDivElement;
+  if (el) {
+    childrenMap.value[stringValue].setNavMounted();
   }
-
+};
+// 更新tab当前选中值
+const updateValue = async (value: string | number) => {
+  const { paneKey, navMounted } = childrenMap.value[value];
+  const _value = toValue(paneKey);
+  emits('update:modelValue', _value);
+  if (activeKey.value !== _value) {
+    emits('change', _value, activeKey.value);
+    activeKey.value = _value;
+  }
+  await navMounted;
+  const { navEl } = childrenMap.value[value];
+  activeNavEl = navEl;
   if (navEl) {
     activeNavEl = navEl;
     updateAnchor();
-
     scrollActiveNavIntoView();
   }
 };
-const isAdding = ref(false);
+watch(
+  () => props.modelValue,
+  (v) => {
+    activeKey.value = v;
+    if (v) {
+      updateValue(v);
+    }
+  },
+);
 
-// 初始化tab，如果没有选中项，默认第一个
-const initValue = (value: string | number, navEl: HTMLElement | null) => {
-  if (!valueSet.includes(value)) {
-    valueSet.push(value);
-  }
-
-  if (activeKey.value === undefined || isAdding.value) {
-    updateValue(value, navEl);
-    isAdding.value = false;
-  }
-
-  if (activeKey.value === value && navEl) {
-    activeNavEl = navEl;
-    updateAnchor();
-  }
-};
 // 删除页签
-const onDeletePane = (value: string | number) => {
-  emits('delete', value);
-  const idx = valueSet.indexOf(value);
+const onDeletePane = (e: MouseEvent, value: string) => {
+  e.stopImmediatePropagation();
+  const { paneKey } = childrenMap.value[value];
+  const _value = toValue(paneKey);
+  emits('delete', _value);
+  const idx = stringValueSet.value.indexOf(value);
 
-  if (activeKey.value === value) {
-    activeKey.value = valueSet[idx > 0 ? idx - 1 : 0];
-    emits('change', activeKey.value, value);
+  if (activeKey.value === _value) {
+    const targetStringValue = stringValueSet.value[idx > 0 ? idx - 1 : 0];
+    activeKey.value = toValue(childrenMap.value[targetStringValue].paneKey);
+    emits('change', activeKey.value, _value);
   }
-  valueSet.splice(idx, 1);
+  stringValueSet.value.splice(idx, 1);
 };
+
+const isAdding = ref(false);
 // 添加页签
 const onAddNav = (e: MouseEvent) => {
   emits('add', e);
@@ -148,12 +188,23 @@ const onAddNav = (e: MouseEvent) => {
 };
 provide(tabInjectKey, {
   lazy: props.lazy,
-  navsRef,
-  bodyRef,
   activeValue: activeKey,
-  updateValue,
-  onDeletePane,
-  initValue,
+  registerChild(child) {
+    childrenMap.value[toValue(child.paneKey).toString()] = child;
+  },
+  handleChildMounted(paneKey) {
+    // 初始化tab，如果没有选中项，默认第一个
+    if (activeKey.value === undefined || isAdding.value) {
+      updateValue(paneKey);
+      isAdding.value = false;
+      return;
+    }
+
+    if (activeKey.value === paneKey) {
+      updateAnchor();
+      return;
+    }
+  },
 });
 const onHeadResize = debounceRAF(() => {
   updateAnchor();
@@ -193,7 +244,27 @@ const navScroll = (to: 'prev' | 'next') => {
             <IconChevronLeft />
           </div>
           <div ref="navWrapRef" v-on-resize="onHeadResize" class="o-tab-navs-wrap o-hide-scrollbar" @scroll.passive="onWrapScroll">
-            <div ref="navsRef" v-on-resize="onHeadResize" class="o-tab-nav-list"></div>
+            <div ref="navsRef" v-on-resize="onHeadResize" class="o-tab-nav-list">
+              <template v-for="stringValue in stringValueSet" :key="stringValue">
+                <div
+                  v-if="childrenMap[stringValue]"
+                  :ref="(el) => setNavEl(el, stringValue)"
+                  :class="[
+                    'o-tab-nav',
+                    {
+                      'o-tab-nav-active': activeKey?.toString() === stringValue,
+                      'o-tab-nav-disabled': childrenMap[stringValue].props.disabled,
+                      'o-tab-nav-closable': childrenMap[stringValue].props.closable,
+                    },
+                  ]"
+                  @click="() => updateValue(stringValue)"
+                >
+                  <component v-if="childrenMap[stringValue].navRenderer" :is="childrenMap[stringValue].navRenderer" />
+                  <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
+                  <div v-if="childrenMap[stringValue].props.closable" class="o-tab-nav-close" @click="(e) => onDeletePane(e, stringValue)"><IconClose /></div>
+                </div>
+              </template>
+            </div>
             <div v-if="props.variant === 'text'" class="o-tab-nav-anchor" :style="anchorStyle">
               <slot name="anchor">
                 <div class="o-tab-nav-anchor-line"></div>
