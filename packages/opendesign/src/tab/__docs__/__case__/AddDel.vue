@@ -38,7 +38,7 @@ const delTab = (val: string | number) => {
 };
 </script>
 <template>
-  <OTab addable @add="addTab" @delTab="delTab">
+  <OTab addable @add="addTab" @delete="delTab">
     <OTabPane v-for="tab in tabs" :key="tab.value" :label="tab.label" :value="tab.value" closable>{{ tab.content }}</OTabPane>
   </OTab>
 </template>

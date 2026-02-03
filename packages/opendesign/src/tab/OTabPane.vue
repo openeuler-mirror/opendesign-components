@@ -4,39 +4,67 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onMounted, nextTick, ref, watch, Ref } from 'vue';
-import { tabInjectKey } from './provide';
-import { tabPaneProps } from './types';
-import { IconClose } from '../_utils/icons';
+import { computed, getCurrentInstance, inject, onMounted, ref, useSlots, watch } from 'vue';
+import { useMutationObserver } from '@vueuse/core';
+
 import ClientOnly from '../_components/client-only';
+import { promiseWithResolvers } from '../_utils/helper';
 import { isUndefined } from '../_utils/is';
 import { log } from '../_utils/log';
+import { isEmptySlot } from '../_utils/vue-utils';
+
+import { tabInjectKey } from './provide';
+import { tabPaneProps, TabPaneSlotsT } from './types';
 
 const props = defineProps(tabPaneProps);
 
-const isClosed = ref(false);
+const slots = defineSlots<TabPaneSlotsT>();
+const runtimeSlots = useSlots();
 
-const navRef: Ref<HTMLElement | null> = ref(null);
-
-const tabInjection = inject(tabInjectKey, null);
-
-const { navsRef, activeValue, lazy } = tabInjection || {};
+const tabInjection = inject(tabInjectKey);
 
 const instance = getCurrentInstance();
 if (isUndefined(props.value) && isUndefined(props.label)) {
-  log.warn('OTabPane is missing prop: value or lable');
+  log.warn('OTabPane is missing prop: value or label');
 }
 const paneKey = computed(() => {
   return props.value ?? props.label ?? instance?.uid ?? Math.random();
 });
 
-const isActive = computed(() => paneKey.value === activeValue?.value);
+const navRef = ref<HTMLDivElement>();
+const registerSelf = () => {
+  const { promise: navMounted, resolve: setNavMounted } = promiseWithResolvers<void>();
+  tabInjection?.registerChild({
+    props,
+    paneKey,
+    navRenderer: isEmptySlot(runtimeSlots.nav) ? undefined : () => runtimeSlots.nav?.(),
+    navMounted,
+    setNavMounted,
+  });
+};
+registerSelf();
+useMutationObserver(
+  navRef,
+  () => {
+    if (!navRef.value) {
+      return;
+    }
+    registerSelf();
+  },
+  {
+    attributes: true,
+    childList: true,
+    subtree: true,
+  },
+);
+
+const isActive = computed(() => paneKey.value === tabInjection?.activeValue?.value);
 const hasActived = ref(isActive.value);
 const toMount = computed(() => {
   if (isActive.value) {
     return true;
   }
-  if ((props.lazy || lazy) && !hasActived.value) {
+  if ((props.lazy || tabInjection?.lazy) && !hasActived.value) {
     return false;
   }
   if (props.unmountOnHide) {
@@ -44,61 +72,30 @@ const toMount = computed(() => {
   }
   return true;
 });
-
 watch(
   () => isActive.value,
   (v: boolean) => {
     if (v) {
       hasActived.value = true;
-      tabInjection?.updateValue(paneKey.value, navRef.value);
     }
-  }
+  },
 );
-
-const navClick = () => {
-  if (!props.disabled) {
-    tabInjection?.updateValue(paneKey.value, navRef.value);
-  }
-};
-const navCloseClick = (e: MouseEvent) => {
-  e.stopImmediatePropagation();
-  isClosed.value = true;
-
-  tabInjection?.onDeletePane(paneKey.value, e);
-};
-
 onMounted(() => {
-  nextTick(() => {
-    tabInjection?.initValue(paneKey.value, navRef.value);
-  });
+  tabInjection?.handleChildMounted(paneKey.value);
 });
 </script>
 <template>
   <ClientOnly>
-    <teleport v-if="navsRef && !isClosed" :to="navsRef" :disabled="!navsRef">
-      <div
-        ref="navRef"
-        :class="[
-          'o-tab-nav',
-          {
-            'o-tab-nav-active': isActive,
-            'o-tab-nav-disabled': props.disabled,
-            'o-tab-nav-closable': props.closable,
-          },
-        ]"
-        @click="navClick"
-      >
-        <slot name="nav">
-          {{ props.label || props.value }}
-        </slot>
-        <div v-if="props.closable" class="o-tab-nav-close" @click="navCloseClick"><IconClose /></div>
+    <teleport to="body">
+      <div ref="navRef" style="display: none">
+        <!-- 做监听插槽渲染使用，不然无法监听到插槽渲染的变化 -->
+        <slot name="nav"></slot>
       </div>
     </teleport>
   </ClientOnly>
-
   <transition :name="props.transition">
     <div
-      v-if="!isClosed && toMount"
+      v-if="toMount"
       v-show="isActive"
       :class="[
         'o-tab-pane',
@@ -108,6 +105,7 @@ onMounted(() => {
           'o-tab-pane-closable': props.closable,
         },
       ]"
+      :data-tab-pane-key="paneKey"
       v-bind="$attrs"
     >
       <slot></slot>
