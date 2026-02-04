@@ -365,6 +365,14 @@ export const routes = [
     },
   },
   {
+    path: '/slider',
+    name: 'Slider',
+    component: () => import('@opendesign-src/slider/__demo__/TheIndex.vue'),
+    meta: {
+      title: '滑动条 Slider',
+    },
+  },
+  {
     path: '/anchor',
     name: 'Anchor',
     component: () => import('@opendesign-src/anchor/__demo__/TheIndex.vue'),
