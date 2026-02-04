@@ -230,6 +230,7 @@ defineExpose(exposeData);
                 :class="{
                   'o-table-cell': true,
                   'o-table-header-cell': true,
+                  'o-table-last-header-row-cell': !column.children?.length,
                   'o-table-cell-fixed': column.fixed,
                   'o-table-cell-fixed-left': column.fixed === 'left',
                   'o-table-cell-fixed-right': column.fixed === 'right',
