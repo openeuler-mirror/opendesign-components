@@ -6,9 +6,6 @@ export type TabChildData = {
   paneKey: ComputedRef<string | number>;
   props: Readonly<TabPanePropsT>;
   navRenderer?: () => any;
-  /** tabNav是否被挂载了，用于更新锚点位置 */
-  navMounted: Promise<void>;
-  setNavMounted: () => void;
 };
 
 export const tabInjectKey: InjectionKey<{
