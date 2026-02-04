@@ -1,9 +1,10 @@
 import { isArray, isNil, isIosDevice } from '../_utils/is.ts';
 import { TableRowT } from '../table';
 import { DataTableColumnFormatter, DataTableColumnT, DataTablePropsT, EffectiveDataTableColumnT } from './types.ts';
+import { getValueByPath } from '../_utils/helper.ts';
 
 export const getCellValue = ({ row, column }: { row: TableRowT; column: EffectiveDataTableColumnT }) => {
-  return row[column.key];
+  return getValueByPath(row, column.key);
 };
 
 export const isEmptyCell = (cellValue: string | number | unknown) => {
