@@ -113,7 +113,7 @@
   thead:has([colspan]) {
     --h-border-width: var(--table-border-width);
     --v-border-width: var(--table-border-width);
-    tr:not(:last-child) th {
+    tr:not(:last-child) th:not(.o-table-last-header-row-cell) {
       border-bottom: var(--table-border);
     }
     th {
