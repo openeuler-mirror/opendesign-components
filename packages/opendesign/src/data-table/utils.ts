@@ -1,9 +1,11 @@
+import { ToRefs } from 'vue';
 import { isArray, isNil, isIosDevice } from '../_utils/is.ts';
 import { TableRowT } from '../table';
 import { DataTableColumnFormatter, DataTableColumnT, DataTablePropsT, EffectiveDataTableColumnT } from './types.ts';
+import { getValueByPath } from '../_utils/helper.ts';
 
 export const getCellValue = ({ row, column }: { row: TableRowT; column: EffectiveDataTableColumnT }) => {
-  return row[column.key];
+  return getValueByPath(row, column.key);
 };
 
 export const isEmptyCell = (cellValue: string | number | unknown) => {
@@ -85,15 +87,15 @@ const clearIosMultiFixed = (dataColumns: EffectiveDataTableColumnT[], isMounted:
   }
 };
 
-export const getGroupColumns = (options: {
-  isMounted: boolean;
-  props: DataTablePropsT;
-  columnMap: Map<string, EffectiveDataTableColumnT>;
-  defaultFormatter: DataTableColumnFormatter;
-}) => {
-  const { isMounted, props, columnMap, defaultFormatter } = options;
-  const { columns, data, spanMethod } = props;
-  const totalHeaderRows = getTotalHeaderRows(columns);
+export const getGroupColumns = (
+  options: ToRefs<DataTablePropsT> & {
+    isMounted: boolean;
+    columnMap: Map<string, EffectiveDataTableColumnT>;
+    defaultFormatter: DataTableColumnFormatter;
+  },
+) => {
+  const { isMounted, columns, columnMap, defaultFormatter } = options;
+  const totalHeaderRows = getTotalHeaderRows(columns.value);
 
   columnMap.clear();
   const dataColumns: EffectiveDataTableColumnT[] = [];
@@ -108,7 +110,7 @@ export const getGroupColumns = (options: {
         formatter: column.formatter || defaultFormatter,
         parent: traverseOptions.parent,
       };
-      if (isArray(cell.children)) {
+      if (isArray(cell.children) && cell.children.length) {
         const childrenColCount = getColumnCount(cell.children);
         cell.colSpan = childrenColCount > 1 ? childrenColCount : undefined;
         groupColumns[level].push(cell);
@@ -129,7 +131,7 @@ export const getGroupColumns = (options: {
     });
   };
 
-  traverseColumns({ columns });
+  traverseColumns({ columns: columns.value });
 
   clearIosMultiFixed(dataColumns, isMounted);
 
@@ -148,9 +150,6 @@ export const getGroupColumns = (options: {
       setParentFixed(group[lastLeftFixedI], 'left');
     }
     if (!isNil(firstRightFixedI)) {
-      if (group[firstRightFixedI - 1]) {
-        group[firstRightFixedI - 1].isBeforeFirstRightFixedCol = true;
-      }
       group[firstRightFixedI].isFirstRightFixedCol = true;
       setParentFixed(group[firstRightFixedI], 'right');
     }
@@ -187,8 +186,13 @@ const getLastChildColumn = (column: EffectiveDataTableColumnT): EffectiveDataTab
 /**
  * 计算固定列的左右定位样式
  */
-export const getColumnPosition = (options: { column: EffectiveDataTableColumnT; columns: EffectiveDataTableColumnT[] }): { left?: string; right?: string } => {
-  const { column, columns } = options;
+export const getColumnPosition = (options: {
+  column: EffectiveDataTableColumnT;
+  columns: EffectiveDataTableColumnT[];
+  border?: string;
+}): { left?: string; right?: string } => {
+  const { column, columns, border } = options;
+  const hasFrameBorder = border?.includes('frame') || border?.includes('all');
   if (!column.fixed) {
     return {};
   }
@@ -202,7 +206,10 @@ export const getColumnPosition = (options: { column: EffectiveDataTableColumnT; 
       }
       count += v.resizeWidth ?? 0;
     }
-    return { left: `${count}px` };
+    return {
+      // border有透明度，无法盖住下面的内容，故多定位一个宽度
+      left: `calc(${count}px  ${hasFrameBorder ? ' - var(--table-border-width)' : ''})`,
+    };
   }
 
   const lastCol = getLastChildColumn(column);

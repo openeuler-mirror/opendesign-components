@@ -1,4 +1,4 @@
-import { computed, MaybeRef, toValue } from 'vue';
+import { computed, MaybeRef, ToRefs, toValue } from 'vue';
 
 import { isString, isHoverDevice } from '../_utils/is';
 import { useI18n } from '../locale';
@@ -6,18 +6,17 @@ import { useI18n } from '../locale';
 import { TablePropsT } from './types';
 import { useTableMeta } from './useTableMeta';
 
-export const useTableCommon = (options: {
-  props: Pick<TablePropsT, 'emptyLabel' | 'loadingLabel' | 'border'>;
-  tableEl: MaybeRef<HTMLTableElement | undefined>;
-}) => {
-  const { props, tableEl } = options;
+export const useTableCommon = (
+  options: ToRefs<Pick<TablePropsT, 'emptyLabel' | 'loadingLabel' | 'border' | 'highlightCurrentRow'>> & { tableEl: MaybeRef<HTMLTableElement | undefined> },
+) => {
+  const { tableEl, border, highlightCurrentRow } = options;
   const { t } = useI18n();
-  const emptyLabel = computed(() => props.emptyLabel || t('common.empty'));
-  const loadingLabel = computed(() => props.loadingLabel || t('common.loading'));
+  const emptyLabel = computed(() => options.emptyLabel?.value || t('common.empty'));
+  const loadingLabel = computed(() => options.loadingLabel?.value || t('common.loading'));
 
   const borderClass = computed(() => {
-    if (isString(props.border)) {
-      return props.border.split('-').map((item) => `o-table-border-${item}`);
+    if (isString(border?.value)) {
+      return border.value.split('-').map((item) => `o-table-border-${item}`);
     }
     return '';
   });
@@ -30,6 +29,9 @@ export const useTableCommon = (options: {
   const highlightedDoms: Array<HTMLTableRowElement | HTMLTableCellElement> = [];
   let highlightTrigger: HTMLTableCellElement | null = null;
   const clearHighlight = () => {
+    if (!highlightCurrentRow.value) {
+      return;
+    }
     highlightedDoms.forEach((cell) => {
       cell.classList.remove('o-table-highlight');
     });
@@ -83,6 +85,9 @@ export const useTableCommon = (options: {
     return current?.tagName === 'TD' ? (current as HTMLTableCellElement) : null;
   };
   const handleMouseOver = (e: MouseEvent) => {
+    if (!highlightCurrentRow.value) {
+      return;
+    }
     const target = getTdEl(e.target);
     if (!target || !isHoverDevice) {
       return;
@@ -90,6 +95,9 @@ export const useTableCommon = (options: {
     highlightTable(target);
   };
   const handleTouchStart = (e: TouchEvent) => {
+    if (!highlightCurrentRow.value) {
+      return;
+    }
     const target = getTdEl(e.target);
     if (!target) {
       return;

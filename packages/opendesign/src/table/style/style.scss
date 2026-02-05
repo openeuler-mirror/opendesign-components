@@ -117,9 +117,10 @@
       border-bottom: var(--table-border);
     }
     th {
-      &:not(.o-cell-last-col) {
-        border-right: var(--table-border);
-      }
+      border-left: var(--table-border);
+    }
+    th.o-cell-first-col {
+      border-left: none;
     }
   }
 }
