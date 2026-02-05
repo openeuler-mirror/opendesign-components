@@ -81,6 +81,15 @@ export const tabProps = {
     default: true,
   },
   /**
+   * @zh-CN 是否是反色模式的button
+   * @en-US Whether inverse mode button
+   * @default true
+   */
+  buttonInverse: {
+    type: Boolean,
+    default: false,
+  },
+  /**
    * @zh-CN 头部自定义样式类名
    * @en-US Header custom style class name
    */
