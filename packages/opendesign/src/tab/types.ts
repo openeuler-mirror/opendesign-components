@@ -83,7 +83,7 @@ export const tabProps = {
   /**
    * @zh-CN 是否是反色模式的button
    * @en-US Whether inverse mode button
-   * @default true
+   * @default false
    */
   buttonInverse: {
     type: Boolean,
