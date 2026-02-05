@@ -1,9 +1,6 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-data-table {
-  position: relative;
-  height: var(--table-height);
-
   .o-table-scroller {
     // 让出header的滚动条距离
     .o-scrollbar-y {
@@ -18,6 +15,7 @@
     height: var(--table-height);
     max-height: var(--table-max-height);
     overflow: auto;
+    position: relative;
   }
 
   .o-table-header {
@@ -25,7 +23,15 @@
     top: 0;
     z-index: 2;
     transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
+    white-space: nowrap;
   }
+  .o-table-border-all,
+  .o-table-border-frame {
+    .o-table-header {
+      top: calc(0px - var(--table-border-width)); // border有透明度，无法盖住下面的内容，故多定位一个宽度
+    }
+  }
+
   &.is-overflow-top {
     .o-table-header {
       box-shadow: var(--table-fixed-head-shadow);
@@ -67,22 +73,29 @@
     }
   }
 
-  // 有右固定列时，第一个固定列的前一列的右边框不显示，改用第一个右固定列的左边框
-  .o-table-cell-before-first-right-fixed,
-  .o-table-cell-fixed-right {
-    border-right: none !important;
-  }
-  .o-table-border-column,
-  .o-table-border-all {
-    .o-table-cell-fixed-right {
+  // 由于列定位等原因，将边框逻辑从OTable改为单元格左边框
+  .o-table-border-all,
+  .o-table-border-column {
+    td {
       border-left: var(--table-border);
+      border-right: none;
+
+      &.o-cell-first-col {
+        border-left: none;
+      }
     }
   }
 
-  .o-table-header:has([rowspan]),
-  .o-table-header:has([colspan]) {
-    .o-table-cell-first-right-fixed {
-      border-left: var(--table-border);
+  &.is-overflow-right {
+    .o-table-border-all,
+    .o-table-border-column {
+      td.o-table-cell-first-right-fixed {
+        border-left: none;
+      }
+
+      th.o-table-cell-first-right-fixed {
+        border-left: none;
+      }
     }
   }
 
@@ -114,14 +127,11 @@
 
   // 固定列有阴影，所以统一强制去掉边框
   &.is-overflow-left .o-table-cell-last-left-fixed {
-    border-right: none !important;
-    --v-border-width: 0px;
     &:after {
       display: block;
     }
   }
   &.is-overflow-right .o-table-cell-first-right-fixed {
-    border-left: none !important;
     --v-border-width: 0px;
 
     &:before {
@@ -141,6 +151,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    background-color: var(--table-bg-color);
   }
 
   .o-table-column-resizer__indicator {

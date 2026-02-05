@@ -44,5 +44,5 @@ const spanMethod: DataTableSpanMethod = ({ colIndex, rowIndex }) => {
 </script>
 
 <template>
-  <ODataTable :columns="columns" :data="data" :height="400" border="all" :span-method="spanMethod" />
+  <ODataTable :columns="columns" :data="data" :height="400" border="all" :span-method="spanMethod" column-resizable />
 </template>
