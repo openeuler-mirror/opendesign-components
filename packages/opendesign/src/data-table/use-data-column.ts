@@ -1,11 +1,11 @@
-import { ref, watch, computed, MaybeRef, toValue } from 'vue';
-import { useMounted } from '@vueuse/core';
+import { ref, watch, computed, MaybeRef, toValue, ToRefs } from 'vue';
+import { useMounted, until } from '@vueuse/core';
 
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
 
-export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeRef<HTMLTableElement | undefined> }) => {
-  const { props, tableEl } = options;
+export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: MaybeRef<HTMLTableElement | undefined> }) => {
+  const { tableEl, defaultEmptyCellText, columns, data, spanMethod } = options;
 
   const isMounted = useMounted();
   const dataColumnMap = new Map<string, EffectiveDataTableColumnT>();
@@ -15,20 +15,33 @@ export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeR
   const parseColumns = () => {
     const res = getGroupColumns({
       isMounted: isMounted.value,
-      props,
+      ...options,
       columnMap: dataColumnMap,
       defaultFormatter: (_options) => {
         if (isEmptyCell(_options.cellValue)) {
-          return props.defaultEmptyCellText;
+          return defaultEmptyCellText.value;
         }
         return (_options.cellValue as any).toString();
       },
     });
     dataColumns.value = res.dataColumns;
     groupColumns.value = res.groupColumns;
+
+    if (dataColumns.value.some((column) => column.fixed)) {
+      until(() => dataColumns.value.every((column) => !!column.colRef) && data.value.length && toValue(tableEl))
+        .toBeTruthy()
+        .then(() => {
+          // 固定列宽以计算列定位
+          dataColumns.value.forEach((column) => {
+            column.resizeWidth = Math.ceil(column.colRef!.getBoundingClientRect().width);
+            column.colRef!.style.width = column.resizeWidth + 'px';
+          });
+          toValue(tableEl)!.style.tableLayout = 'fixed';
+        });
+    }
   };
   watch(
-    () => [props.columns, isMounted.value, props.data],
+    () => [columns.value, isMounted.value, data.value],
     () => parseColumns(),
     { immediate: true, deep: true },
   );
@@ -37,14 +50,14 @@ export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeR
    */
   const removedCellsBySpan = computed<string[]>(() => {
     const toRemove: string[] = [];
-    props.data.forEach((row, rowIndex) => {
+    data.value.forEach((row, rowIndex) => {
       dataColumns.value.forEach((column, colIndex) => {
         // 已被合并的单元格不会再次被合并
         if (toRemove.includes(`${rowIndex}_${colIndex}`)) {
           return;
         }
 
-        const res = props.spanMethod?.({
+        const res = spanMethod.value({
           row,
           column,
           // @ts-ignore
@@ -96,6 +109,7 @@ export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeR
       !(nextColumn?.fixed === 'left' && isCellRemoved(rowIndex, colIndex + 1))
     );
   };
+
   /** 计算是否是当前行第一个右固定单元格 */
   const isFirstRightFixedCell = (rowIndex: number, colIndex: number): boolean => {
     const column = dataColumns.value[colIndex];
@@ -105,10 +119,6 @@ export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeR
     }
     // 如果左边不再有固定列，或已经被合并了
     return prevColumn?.fixed !== 'right' || isCellRemoved(rowIndex, colIndex - 1);
-  };
-  /** 计算是否是当前行第一个右固定单元格的前一单元格 */
-  const isBeforeFirstRightFixedCell = (rowIndex: number, colIndex: number): boolean => {
-    return dataColumns.value[colIndex + 1] && isFirstRightFixedCell(rowIndex, colIndex + 1);
   };
 
   const resizingColumnKey = ref('');
@@ -142,15 +152,6 @@ export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeR
 
     resizingColumnKey.value = column.key;
 
-    // 调整列宽前先固定列宽
-    dataColumns.value.forEach((_column) => {
-      if (!_column.colRef) {
-        return;
-      }
-      _column.colRef.style.width = _column.colRef.getBoundingClientRect().width + 'px';
-    });
-    toValue(tableEl)!.style.tableLayout = 'fixed';
-
     window.addEventListener('mousemove', handleColumnResizerMouseMoving);
     window.addEventListener('mouseup', handleColumnResizerMouseup);
     window.addEventListener('contextmenu', handleColumnResizerMouseup);
@@ -164,7 +165,6 @@ export const useDataColumn = (options: { props: DataTablePropsT; tableEl: MaybeR
     isCellRemoved,
     isLastLeftFixedCell,
     isFirstRightFixedCell,
-    isBeforeFirstRightFixedCell,
     handleColumnResizerMousedown,
     resizingColumnKey,
   };

@@ -41,7 +41,7 @@ const resizeHandler = debounceRAF(() => {
     if (!column.colRef) {
       return;
     }
-    column.resizeWidth = column.colRef.getBoundingClientRect().width;
+    column.resizeWidth = Math.ceil(column.colRef.getBoundingClientRect().width);
   });
 });
 watch(

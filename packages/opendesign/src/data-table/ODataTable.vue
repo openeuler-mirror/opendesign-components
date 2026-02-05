@@ -1,12 +1,12 @@
 <script setup lang="tsx">
-import { computed, ref, reactive, provide, onUnmounted, onMounted, markRaw } from 'vue';
-import { useElementSize, useMounted } from '@vueuse/core';
+import { computed, ref, reactive, provide, markRaw, toRefs } from 'vue';
+import { useElementSize } from '@vueuse/core';
 
+import { vOnResize } from '../directives/on-resize';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
 import { checkElementOverflow, getCssVariable } from '../_utils/dom.ts';
 import { isNumeric } from '../_utils/is.ts';
 import { IconLoading } from '../_utils/icons';
-import { useResizeObserver } from '../hooks';
 import OScroller from '../scrollbar/OScroller.vue';
 import { DEFAULT_CELL_FIRST_COL_MARKER, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER, TableRowT } from '../table';
 import { useTableCommon } from '../table/useTableCommon';
@@ -48,8 +48,6 @@ const emits = defineEmits<{
 type AllSlots = {
   /** thead插槽 */
   header?: (options: { columns: EffectiveDataTableColumnT[] }) => any;
-  /** tbody插槽 */
-  body?: (options: { columns: EffectiveDataTableColumnT[] }) => any;
   /** 加载状态插槽 */
   loading?: () => any;
   /** 空状态插槽 */
@@ -68,8 +66,6 @@ const conditions = defineModel<Record<string, unknown>>('conditions', {
 });
 /** 被选中行的rowKey对应的值 */
 const selectionKeys = defineModel<DataTableRowKeyValue[]>('selection-keys', { default: [] });
-
-const isMounted = useMounted();
 
 const getTableFilterValue = (key: string) => {
   return getValueByPath(conditions.value, key) as string[];
@@ -141,31 +137,14 @@ const checkTableOverflow = debounceRAF(() => {
   });
 });
 
-const resizeObserver = useResizeObserver();
-onMounted(() => {
-  resizeObserver.observe(rootRef.value!, checkTableOverflow);
-});
-onUnmounted(() => {
-  resizeObserver.unobserve(rootRef.value!, checkTableOverflow);
-});
-
 const getRowKey = (row: TableRowT, rowIndex: number) => {
   return (row[props.rowKey] as string) || rowIndex;
 };
 
-const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ props, tableEl });
+const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ ...toRefs(props), tableEl });
 
-const {
-  dataColumnMap,
-  dataColumns,
-  groupColumns,
-  isCellRemoved,
-  isLastLeftFixedCell,
-  isFirstRightFixedCell,
-  isBeforeFirstRightFixedCell,
-  handleColumnResizerMousedown,
-  resizingColumnKey,
-} = useDataColumn({ props, tableEl });
+const { dataColumnMap, dataColumns, groupColumns, isCellRemoved, isLastLeftFixedCell, isFirstRightFixedCell, handleColumnResizerMousedown, resizingColumnKey } =
+  useDataColumn({ ...toRefs(props), tableEl });
 
 const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
   if (!el) {
@@ -189,6 +168,7 @@ defineExpose(exposeData);
 <template>
   <div
     ref="rootRef"
+    v-on-resize="checkTableOverflow"
     :class="[
       'o-table',
       `o-table-${props.size}`,
@@ -236,11 +216,10 @@ defineExpose(exposeData);
                   'o-table-cell-fixed-right': column.fixed === 'right',
                   'o-table-cell-last-left-fixed': column.isLastLeftFixedCol,
                   'o-table-cell-first-right-fixed': column.isFirstRightFixedCol,
-                  'o-table-cell-before-first-right-fixed': column.isBeforeFirstRightFixedCol,
                   [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
                   [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
                 }"
-                :style="getColumnPosition({ column, columns: dataColumns })"
+                :style="getColumnPosition({ column, columns: dataColumns, border: props.border })"
               >
                 <span class="o-table-cell__inner">
                   <slot :name="`th_${column.key}`" :column="column">
@@ -259,46 +238,43 @@ defineExpose(exposeData);
           </slot>
         </thead>
         <tbody class="o-table-body" @mousemove="handleMouseOver" @mouseleave="clearHighlight" @touchstart="handleTouchStart">
-          <slot name="body" :columns="dataColumns">
-            <tr
-              v-for="(row, rowIndex) in props.data"
-              :key="getRowKey(row, rowIndex)"
-              :class="[
-                'o-table-row',
-                'o-table-body-row',
-                {
-                  [DEFAULT_ROW_LAST_MARKER]: rowIndex === props.data.length - 1,
-                },
-              ]"
-            >
-              <template v-for="(column, colIndex) in dataColumns" :key="column.key">
-                <td
-                  v-if="!isCellRemoved(rowIndex, colIndex)"
-                  v-bind="props.spanMethod?.({ row, column, cellValue: getCellValue({ row, column }), rowIndex, colIndex })"
-                  :class="{
-                    'o-table-cell': true,
-                    'o-table-body-cell': true,
-                    'o-cell-last-row': rowIndex === props.data.length - 1,
-                    'o-table-cell-fixed': column.fixed,
-                    'o-table-cell-fixed-left': column.fixed === 'left',
-                    'o-table-cell-fixed-right': column.fixed === 'right',
-                    'o-table-cell-last-left-fixed': isLastLeftFixedCell(rowIndex, colIndex),
-                    'o-table-cell-first-right-fixed': isFirstRightFixedCell(rowIndex, colIndex),
-                    'o-table-cell-before-first-right-fixed': isBeforeFirstRightFixedCell(rowIndex, colIndex),
-                    [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
-                    [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
-                  }"
-                  :style="getColumnPosition({ column, columns: dataColumns })"
-                >
-                  <span class="o-table-cell__inner">
-                    <slot :name="`td_${column.key}`" :row="row" :column="column" :cell-value="getCellValue({ row, column })" :index="rowIndex">
-                      <TableCellRenderer :row="row" :column="column" :cell-value="getCellValue({ row, column })" :row-index="rowIndex" :col-index="colIndex" />
-                    </slot>
-                  </span>
-                </td>
-              </template>
-            </tr>
-          </slot>
+          <tr
+            v-for="(row, rowIndex) in props.data"
+            :key="getRowKey(row, rowIndex)"
+            :class="[
+              'o-table-row',
+              'o-table-body-row',
+              {
+                [DEFAULT_ROW_LAST_MARKER]: rowIndex === props.data.length - 1,
+              },
+            ]"
+          >
+            <template v-for="(column, colIndex) in dataColumns" :key="column.key">
+              <td
+                v-if="!isCellRemoved(rowIndex, colIndex)"
+                v-bind="props.spanMethod?.({ row, column, cellValue: getCellValue({ row, column }), rowIndex, colIndex })"
+                :class="{
+                  'o-table-cell': true,
+                  'o-table-body-cell': true,
+                  'o-cell-last-row': rowIndex === props.data.length - 1,
+                  'o-table-cell-fixed': column.fixed,
+                  'o-table-cell-fixed-left': column.fixed === 'left',
+                  'o-table-cell-fixed-right': column.fixed === 'right',
+                  'o-table-cell-last-left-fixed': isLastLeftFixedCell(rowIndex, colIndex),
+                  'o-table-cell-first-right-fixed': isFirstRightFixedCell(rowIndex, colIndex),
+                  [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
+                  [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
+                }"
+                :style="getColumnPosition({ column, columns: dataColumns, border: props.border })"
+              >
+                <span class="o-table-cell__inner">
+                  <slot :name="`td_${column.key}`" :row="row" :column="column" :cell-value="getCellValue({ row, column })" :index="rowIndex">
+                    <TableCellRenderer :row="row" :column="column" :cell-value="getCellValue({ row, column })" :row-index="rowIndex" :col-index="colIndex" />
+                  </slot>
+                </span>
+              </td>
+            </template>
+          </tr>
           <div v-if="props.loading || !props.data?.length" class="empty-placeholder"></div>
         </tbody>
       </table>

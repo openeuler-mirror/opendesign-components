@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { computed, ref, toRefs } from 'vue';
+
+import { IconLoading } from '../_utils/icons';
 import { tableProps, TableRowT, TableColumnT } from './types';
 import { getColumnData, getBodyData } from './table';
-import { computed, ref } from 'vue';
-import { IconLoading } from '../_utils/icons';
 import { DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER } from './useTableMeta';
 import { useTableCommon } from './useTableCommon';
 
@@ -23,7 +24,7 @@ const tableData = computed(() => getBodyData(columnData, props.data, props.cellS
 
 const tableEl = ref<HTMLTableElement>();
 
-const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ props, tableEl });
+const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ ...toRefs(props), tableEl });
 </script>
 <template>
   <div

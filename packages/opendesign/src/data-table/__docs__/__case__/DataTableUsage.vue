@@ -74,6 +74,10 @@ const _oSchema = {
     default: 'key',
     disabled: true,
   },
+  highlightCurrentRow: {
+    type: 'boolean',
+    default: false,
+  },
 } satisfies Record<string, DocDemoSchema>;
 
 const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => {

@@ -116,8 +116,6 @@ export type EffectiveDataTableColumnCommonT = {
   isLastLeftFixedCol?: boolean;
   /** 是否是第一个右固定列，用于控制表头样式 */
   isFirstRightFixedCol?: boolean;
-  /** 是否是第一个右固定列的前一列，用于控制表头样式 */
-  isBeforeFirstRightFixedCol?: boolean;
   /** 是否是最左边的列 */
   isFirstCol?: boolean;
   /** 是否是最右边的列 */
@@ -133,7 +131,7 @@ export type EffectiveDataTableColumnCommonT = {
 
 export type EffectiveDataTableColumnT = DataTableColumnT & EffectiveDataTableColumnCommonT;
 
-const { emptyLabel, loading, loadingLabel, border, stripe } = tableProps;
+const { emptyLabel, loading, loadingLabel, border, stripe, highlightCurrentRow } = tableProps;
 
 export const dataTableProps = {
   /**
@@ -189,6 +187,7 @@ export const dataTableProps = {
    */
   spanMethod: {
     type: Function as PropType<DataTableSpanMethod>,
+    default: () => () => undefined,
   },
   /**
    * @zh-CN 表格是否可以调整列宽
@@ -211,6 +210,7 @@ export const dataTableProps = {
   emptyLabel,
   loading,
   loadingLabel,
+  highlightCurrentRow,
 } as const;
 
 export type DataTablePropsT = ExtractPropTypes<typeof dataTableProps>;

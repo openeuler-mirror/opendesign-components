@@ -81,7 +81,6 @@ export const tableProps = {
    */
   emptyLabel: {
     type: String,
-    default: '',
   },
   /**
    * @zh-CN 是否显示加载中状态
@@ -97,6 +96,14 @@ export const tableProps = {
   loadingLabel: {
     type: String,
   },
-};
+  /**
+   * @zh-CN 是否高亮当前行
+   * @en-US Whether to highlight the current row
+   */
+  highlightCurrentRow: {
+    type: Boolean,
+    default: false,
+  },
+} as const;
 
 export type TablePropsT = ExtractPropTypes<typeof tableProps>;
