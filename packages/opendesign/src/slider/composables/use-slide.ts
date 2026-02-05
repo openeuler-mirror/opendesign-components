@@ -38,11 +38,11 @@ export const useSlide = (props: sliderPropsT, initData: SliderInitData, emit: Se
   });
 
   const runwayStyle = computed<CSSProperties>(() => {
-    return props.vertical ? { height: props.height } : {};
+    return props.direction === 'v' ? { height: props.height } : {};
   });
 
   const barStyle = computed<CSSProperties>(() => {
-    return props.vertical
+    return props.direction === 'v'
       ? {
           height: barSize.value,
           bottom: barStart.value,
@@ -56,7 +56,7 @@ export const useSlide = (props: sliderPropsT, initData: SliderInitData, emit: Se
   const resetSize = () => {
     if (sliderRunway.value) {
       const rect = sliderRunway.value.getBoundingClientRect();
-      initData.sliderSize = rect[props.vertical ? 'height' : 'width'];
+      initData.sliderSize = rect[props.direction === 'v' ? 'height' : 'width'];
     }
   };
 
@@ -109,7 +109,7 @@ export const useSlide = (props: sliderPropsT, initData: SliderInitData, emit: Se
     }
     resetSize();
     let newPercent = 0;
-    if (props.vertical) {
+    if (props.direction === 'v') {
       const clientY = (event as TouchEvent).touches?.item(0)?.clientY ?? (event as MouseEvent).clientY;
       const sliderOffsetBottom = sliderRunway.value!.getBoundingClientRect().bottom;
       newPercent = ((sliderOffsetBottom - clientY) / initData.sliderSize) * 100;

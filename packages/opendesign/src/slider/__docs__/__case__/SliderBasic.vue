@@ -12,9 +12,13 @@ import { ref } from 'vue';
 import { OSlider } from '@opensig/opendesign';
 
 const sliderVal = ref(0);
+const marks = {
+  0: '0kg',
+  100: '100kg',
+};
 </script>
 <template>
-  <OSlider v-model="sliderVal" show-input unit="kg" class="slider-demo" />
+  <OSlider v-model="sliderVal" :marks="marks" show-input unit="kg" class="slider-demo" />
 </template>
 <style scoped lang="scss">
 .slider-demo {

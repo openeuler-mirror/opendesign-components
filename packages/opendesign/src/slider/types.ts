@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType, ComponentPublicInstance, Ref, CSSProperties } from 'vue';
 import { type PopupPositionT } from '../popup/types';
-import type { SizeT } from '../_utils/types';
+import type { SizeT, DirectionT } from '../_utils/types';
 import { isNumber, isArray } from '../_utils/is';
 import type OSliderButton from './OSliderButton.vue';
 
@@ -107,11 +107,12 @@ export const sliderProps = {
     type: Boolean,
   },
   /**
-   * @zh-CN 垂直方向
-   * @en-US Vertical.
+   * @zh-CN 方向
+   * @en-US Direction.
    */
-  vertical: {
-    type: Boolean,
+  direction: {
+    type: String as PropType<DirectionT>,
+    default: 'h',
   },
   /**
    * @zh-CN 垂直方向滑动条高度
@@ -185,11 +186,12 @@ export const sliderButtonProps = {
     type: String,
   },
   /**
-   * @zh-CN 垂直方向
-   * @en-US Vertical.
+   * @zh-CN 方向
+   * @en-US Direction.
    */
-  vertical: {
-    type: Boolean,
+  direction: {
+    type: String as PropType<DirectionT>,
+    default: 'h',
   },
   /**
    * @zh-CN 控制间隔滑动条按钮实心圆渲染
@@ -216,11 +218,6 @@ export const sliderMarksProps = {
     type: [String, Object] as PropType<string | { style: CSSProperties; label: any }>,
   },
 } as const;
-
-export const sliderButtonEmits = {
-  'update:modelValue': (value: number) => isNumber(value),
-};
-export type SliderButtonEmits = typeof sliderButtonEmits;
 
 export type SliderButtonInstance = ComponentPublicInstance<typeof OSliderButton>;
 

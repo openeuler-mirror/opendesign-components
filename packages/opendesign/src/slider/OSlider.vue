@@ -64,8 +64,8 @@ const updateDragging = (val: boolean) => {
 };
 
 onMounted(() => {
-  slider.value?.addEventListener('touchstart', onSliderWrapperPrevent);
-  slider.value?.addEventListener('touchmove', onSliderWrapperPrevent);
+  slider.value?.addEventListener('touchstart', onSliderWrapperPrevent, { passive: false });
+  slider.value?.addEventListener('touchmove', onSliderWrapperPrevent, { passive: false });
 });
 
 onUnmounted(() => {
@@ -92,7 +92,7 @@ defineExpose({
     ref="slider"
     class="o-slider"
     :class="{
-      'o-slider-vertical': props.vertical,
+      'o-slider-vertical': props.direction === 'v',
       'o-slider-with-stops': props.showStops,
       'o-slider-with-input': props.showInput,
       'o-slider-disabled': sliderDisabled,
@@ -104,7 +104,7 @@ defineExpose({
         <OSliderButton
           ref="firstButton"
           :model-value="firstValue"
-          :vertical="vertical"
+          :direction="direction"
           :wrap-class="wrapClass"
           :position="position"
           :show-solid-circle="showStops"
@@ -115,7 +115,7 @@ defineExpose({
           v-if="range"
           ref="secondButton"
           :model-value="secondValue"
-          :vertical="vertical"
+          :direction="direction"
           :wrap-class="wrapClass"
           :position="position"
           :show-solid-circle="showStops"

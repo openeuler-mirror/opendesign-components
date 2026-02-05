@@ -162,7 +162,7 @@ const onDragStart = (event: MouseEvent | TouchEvent) => {
   initData.dragging = true;
   initData.isClick = true;
   const { clientX, clientY } = getClientXY(event);
-  if (props.vertical) {
+  if (props.direction === 'v') {
     initData.startY = clientY;
   } else {
     initData.startX = clientX;
@@ -177,7 +177,7 @@ const onDragging = (event: MouseEvent | TouchEvent) => {
     resetSize();
     let diff: number;
     const { clientX, clientY } = getClientXY(event);
-    if (props.vertical) {
+    if (props.direction === 'v') {
       initData.currentY = clientY;
       diff = ((initData.startY - initData.currentY) / sliderSize.value) * 100;
     } else {
@@ -248,7 +248,7 @@ watch(
 );
 
 onMounted(() => {
-  button.value?.addEventListener('touchstart', onButtonDown);
+  button.value?.addEventListener('touchstart', onButtonDown, { passive: false });
 });
 
 onUnmounted(() => {

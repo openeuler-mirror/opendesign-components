@@ -18,6 +18,7 @@
 .o-slider-runway {
   position: relative;
   height: var(--slider-runway-height);
+  cursor: var(--slider-btn-cursor);
 }
 
 .o-slider-bar {
@@ -107,4 +108,7 @@
 
 .o-slider-input-unit {
   margin-left: var(--slider-input-unit-gap);
+  font-size: var(--slider-unit-font-size);
+  line-height: var(--slider-unit-line-height);
+  color: var(--sldier-unit-color);
 }

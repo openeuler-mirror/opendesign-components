@@ -43,7 +43,7 @@ export const useStops = (props: sliderPropsT, initData: SliderInitData, minValue
   });
 
   const getStopStyle = (position: number): CSSProperties => {
-    return props.vertical ? { bottom: `${position}%` } : { left: `${position}%` };
+    return props.direction === 'v' ? { bottom: `${position}%` } : { left: `${position}%` };
   };
 
   return {
