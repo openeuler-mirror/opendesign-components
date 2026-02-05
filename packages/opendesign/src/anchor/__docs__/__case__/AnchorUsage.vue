@@ -128,7 +128,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
           <OAnchorItem href="#container-block2-2-1" title="container-block2-2-1换行openEuler Developer Day 2023 （简称 ODD 2023）是开放原子开源基金会旗下 openEuler 社区" />
         </OAnchorItem>
       </OAnchorItem>
-      <OAnchorItem href="#container-block4" title="container-block4" />
+      <OAnchorItem href="#container-block4" title="container-block4(disabled)" disabled/>
       <OAnchorItem href="#container-block5" title="container-block5">
         <OAnchorItem href="#container-block5-1" title="container-block5-1" />
       </OAnchorItem>

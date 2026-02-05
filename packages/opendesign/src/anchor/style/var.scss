@@ -81,6 +81,7 @@
   --anchor-content-max-width: unset;
 
   .o-anchor-item {
+    --anchor-item-link-color: var(--o-color-info3);
     --anchor-item-gap: 32px;
     --anchor-item-max-row: 1;
     --anchor-item-link-padding-h: 0;
