@@ -222,7 +222,16 @@ const navScroll = (to: 'prev' | 'next') => {
 };
 </script>
 <template>
-  <div class="o-tab" :class="[`o-tab-${props.variant}`, `o-tab-${props.size || defaultSize}`, round.class.value]" :style="round.style.value">
+  <div
+    class="o-tab"
+    :class="[
+      `o-tab-${props.variant}`,
+      { 'o-tab-button-inverse': props.variant === 'button' && props.buttonInverse },
+      `o-tab-${props.size || defaultSize}`,
+      round.class.value,
+    ]"
+    :style="round.style.value"
+  >
     <div
       class="o-tab-head"
       :class="

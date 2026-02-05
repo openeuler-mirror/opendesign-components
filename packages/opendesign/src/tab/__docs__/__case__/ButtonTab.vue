@@ -55,6 +55,20 @@ const sizes = ['medium', 'large'] as const;
         </OTabPane>
       </OTab>
     </div>
+    <div class="button-tab-demo__item inverse">
+      <h4 class="button-tab-demo__title">反色</h4>
+      <OTab v-for="size in sizes" :key="size" :size="size" variant="button" button-inverse>
+        <OTabPane label="Tab1">
+          <template #nav><OIcon :icon="OIconSearch" /><span>Tab1</span></template>
+        </OTabPane>
+        <OTabPane label="Tab2">
+          <template #nav><OIcon :icon="OIconSearch" /><span>Tab2</span></template>
+        </OTabPane>
+        <OTabPane label="Tab3">
+          <template #nav><OIcon :icon="OIconSearch" /><span>Tab3</span></template>
+        </OTabPane>
+      </OTab>
+    </div>
   </div>
 </template>
 
@@ -67,6 +81,13 @@ const sizes = ['medium', 'large'] as const;
 
   .o-tab + .o-tab {
     margin-top: 12px;
+  }
+}
+.button-tab-demo__item {
+  padding: 16px;
+
+  &.inverse {
+    background-color: var(--o-color-fill1);
   }
 }
 .button-tab-demo__title {
