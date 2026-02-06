@@ -7,7 +7,7 @@ import { mergeClass } from '../_utils/vue-utils';
 const props = defineProps(scrollerProps);
 const emits = defineEmits<{
   (e: 'scroll', event: Event): void;
-}>()
+}>();
 const targetRef: Ref<HTMLElement | null> = ref(null);
 
 const scrollTo = (options?: ScrollToOptions | undefined) => {
@@ -27,19 +27,32 @@ defineExpose({
 
 <template>
   <div class="o-scroller o-scrollbar-wrapper">
-    <div ref="targetRef" :class="mergeClass(
-      'o-scroller-container',
-      {
-        'is-x-disabled': props.disabledX,
-        'is-y-disabled': props.disabledY,
-      },
-      props.wrapClass,
-    )" @scroll.passive="(e) => emits('scroll', e)">
+    <div
+      ref="targetRef"
+      :class="
+        mergeClass(
+          'o-scroller-container',
+          {
+            'is-x-disabled': props.disabledX,
+            'is-y-disabled': props.disabledY,
+          },
+          props.wrapClass,
+        )
+      "
+      @scroll.passive="(e) => emits('scroll', e)"
+    >
       <slot></slot>
     </div>
-    <OScrollbar :target="targetRef" :disabled-x="props.disabledX" :disabled-y="props.disabledY"
-      :duration="props.duration" :show-type="props.showType" :size="props.size"
-      :auto-update-on-scroll-size="props.autoUpdateOnScrollSize">
+    <OScrollbar
+      :target="targetRef"
+      :disabled-x="props.disabledX"
+      :disabled-y="props.disabledY"
+      :duration="props.duration"
+      :show-type="props.showType"
+      :size="props.size"
+      :bar-class="props.barClass"
+      :auto-update-on-scroll-size="props.autoUpdateOnScrollSize"
+    >
       <template #thumb>
         <slot name="thumb"></slot>
       </template>

@@ -1,6 +1,7 @@
 import { ref, watch, computed, MaybeRef, toValue, ToRefs } from 'vue';
 import { useMounted, until } from '@vueuse/core';
 
+import { isNumeric } from '../_utils/is';
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
 
@@ -27,14 +28,21 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Mayb
     dataColumns.value = res.dataColumns;
     groupColumns.value = res.groupColumns;
 
-    if (dataColumns.value.some((column) => column.fixed)) {
+    if (dataColumns.value.some((column) => column.fixed || column.width)) {
       until(() => dataColumns.value.every((column) => !!column.colRef) && data.value.length && toValue(tableEl))
         .toBeTruthy()
         .then(() => {
           // 固定列宽以计算列定位
           dataColumns.value.forEach((column) => {
+            let width = column.colRef?.style.width;
+            if (!width) {
+              width = isNumeric(column.width) ? column.width + 'px' : column.width;
+            }
+            if (!width) {
+              width = Math.ceil(column.colRef!.getBoundingClientRect().width) + 'px';
+            }
+            column.colRef!.style.width = width;
             column.resizeWidth = Math.ceil(column.colRef!.getBoundingClientRect().width);
-            column.colRef!.style.width = column.resizeWidth + 'px';
           });
           toValue(tableEl)!.style.tableLayout = 'fixed';
         });

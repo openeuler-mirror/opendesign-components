@@ -82,7 +82,7 @@ const _oSchema = {
 
 const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => {
   const { headerGroup, columnFixed } = options;
-  const base: DataTableColumnT[] = [{ label: 'Name', key: 'name', fixed: columnFixed ? 'left' : undefined, width: '15%' }];
+  const base: DataTableColumnT[] = [{ label: 'Name', key: 'name', fixed: columnFixed ? 'left' : undefined }];
   const children: DataTableColumnT[] = [
     {
       label: 'Salary',
@@ -124,7 +124,7 @@ const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => 
     label: 'operations',
     key: 'rightFixed',
     fixed: columnFixed ? 'right' : undefined,
-    width: '150px',
+    width: '226px',
     formatter: ({ row }) => {
       return () => (
         <div style="display: flex; gap: 8px; white-space: nowrap;">
