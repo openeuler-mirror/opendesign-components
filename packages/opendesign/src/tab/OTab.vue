@@ -68,9 +68,6 @@ watch(stringValueSet, () => {
   hiddenStringValueList.value = hiddenStringValueList.value.filter((v) => stringValueSet.value.includes(v));
 });
 
-const prevContainerWidth = ref(navsContainerWidth.value);
-const prevMaxShow = ref(props.maxShow);
-
 /** 当能再塞下的时候塞 */
 const pushShowStringValue = (stringValue: string, widthCount: number) => {
   const item = childrenMap.value[stringValue];
@@ -92,27 +89,12 @@ const sortStringValueList = debounceRAF(() => {
     return;
   }
   let widthCount = 0;
-  const containerWidthChanged = prevContainerWidth.value !== navsContainerWidth.value;
-  const maxShowChanged = prevMaxShow.value !== props.maxShow;
-
-  prevContainerWidth.value = navsContainerWidth.value;
-  prevMaxShow.value = props.maxShow;
 
   if (!showStringValueList.value.length) {
     // 如果是空显示列表先按顺序填满
     stringValueSet.value.forEach((stringValue) => {
       widthCount = pushShowStringValue(stringValue, widthCount);
     });
-  }
-  /**
-   * 如果激活元素包含在内且[容器宽度、数量限制]没有变化，或没有激活元素，则不做处理
-   */
-  if (
-    isUndefined(activeKey.value) ||
-    (!containerWidthChanged && !maxShowChanged && showStringValueList.value.some((stringValue) => stringValue === activeKey.value?.toString()))
-  ) {
-    hiddenStringValueList.value = stringValueSet.value.filter((v) => !showStringValueList.value.includes(v));
-    return;
   }
 
   widthCount = showStringValueList.value.reduce((count, stringValue) => {
@@ -129,7 +111,7 @@ const sortStringValueList = debounceRAF(() => {
   }
 
   let activeItemIndex = showStringValueList.value.findIndex((stringValue) => stringValue === activeKey.value?.toString());
-  if (activeItemIndex === -1) {
+  if (activeItemIndex === -1 && activeKey.value) {
     const activeItemIndexInTotal = stringValueSet.value.findIndex((v) => v === activeKey.value?.toString());
     const targetIndex =
       activeItemIndexInTotal === 0
