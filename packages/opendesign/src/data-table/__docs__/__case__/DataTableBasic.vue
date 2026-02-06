@@ -5,7 +5,7 @@ import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
 const columns: DataTableColumnT[] = [
-  { label: 'Name', key: 'name', fixed: 'left', width: '15%' },
+  { label: 'Name', key: 'name', fixed: 'left', minWidth: '15%' },
   {
     label: 'children',
     key: 'sum col',
@@ -28,7 +28,7 @@ const columns: DataTableColumnT[] = [
   { label: 'VNode', key: 'other1', formatter: ({ row }) => h('span', { style: 'white-space: nowrap' }, `${row.email} render by VNode`) },
   { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },
   { label: 'other', key: 'other', fixed: 'right' },
-  { label: 'rightFixed', key: 'rightFixed', fixed: 'right', width: '15%' },
+  { label: 'rightFixed', key: 'rightFixed', fixed: 'right', minWidth: '15%' },
 ];
 
 const data = ref(getTableData(16));

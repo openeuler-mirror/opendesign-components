@@ -96,6 +96,24 @@ export function getElementSize(el: HTMLElement | Window) {
   };
 }
 
+/**
+ * 用requestAnimationFrame确保布局完成后获取元素尺寸
+ * IOS下table内的元素不会马上渲染给出高度
+ */
+export function getElementRectByRAF(el: HTMLElement) {
+  return new Promise<DOMRect>((resolve) => {
+    const checkLayout = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 || rect.height > 0) {
+        resolve(rect);
+      } else {
+        requestAnimationFrame(checkLayout);
+      }
+    };
+    requestAnimationFrame(checkLayout);
+  });
+}
+
 export function getElementBorder(el: HTMLElement, dir?: PositionT | PositionT[]) {
   const style = window.getComputedStyle(el);
   let d: PositionT[] = [];

@@ -13,13 +13,7 @@ const dataTableInjection = inject(dataTableInjectKey);
  * 获取调用者传入的宽度配置
  */
 const getPropWidth = (column: EffectiveDataTableColumnT) => {
-  let width = column?.colRef?.style.width;
-  if (!width) {
-    width = isNumeric(column.width) ? column.width + 'px' : column.width;
-  }
-
   return {
-    width,
     minWidth: isNumeric(column.minWidth) ? column.minWidth + 'px' : column.minWidth,
     maxWidth: isNumeric(column.maxWidth) ? column.maxWidth + 'px' : column.maxWidth,
   };

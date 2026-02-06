@@ -124,7 +124,6 @@ const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => 
     label: 'operations',
     key: 'rightFixed',
     fixed: columnFixed ? 'right' : undefined,
-    width: '226px',
     formatter: ({ row }) => {
       return () => (
         <div style="display: flex; gap: 8px; white-space: nowrap;">
