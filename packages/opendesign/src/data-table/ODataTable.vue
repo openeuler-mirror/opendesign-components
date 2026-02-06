@@ -179,6 +179,7 @@ defineExpose(exposeData);
         'is-overflow-right': overflowState?.isOverflowRight,
         'is-overflow-top': overflowState?.isOverflowTop,
       },
+      ...borderClass,
     ]"
     :style="{
       '--table-header-height': headerTableHeight,
@@ -188,7 +189,8 @@ defineExpose(exposeData);
   >
     <OScroller
       class="o-table-scroller"
-      :wrap-class="['o-table-wrap', ...borderClass]"
+      wrap-class="o-table-wrap"
+      bar-class="o-table-scroll-bar"
       :size="props.size"
       :disabled-x="props.loading || !props.data.length"
       show-type="always"

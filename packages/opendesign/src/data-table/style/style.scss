@@ -1,11 +1,17 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-data-table {
-  .o-table-scroller {
+  border-radius: var(--table-radius);
+  overflow: hidden;
+
+  .o-table-scroll-bar {
+    .o-scrollbar-x {
+      width: calc(100% - var(--table-edge-padding) * 2);
+    }
     // 让出header的滚动条距离
     .o-scrollbar-y {
-      margin: calc(var(--table-header-height) * 1px + var(--scrollbar-width)) 0 var(--scrollbar-width) 0;
-      height: calc(100% - var(--table-header-height) * 1px - 2 * var(--scrollbar-width));
+      margin: calc(var(--table-header-height) * 1px + var(--table-cell-padding-y)) 0 var(--table-cell-padding-y) 0;
+      height: calc(100% - var(--table-header-height) * 1px - var(--table-cell-padding-y) * 2);
     }
     .o-scrollbar-rail {
       z-index: 3;
@@ -16,6 +22,7 @@
     max-height: var(--table-max-height);
     overflow: auto;
     position: relative;
+    border-radius: unset;
   }
 
   .o-table-header {
@@ -25,8 +32,8 @@
     transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
     white-space: nowrap;
   }
-  .o-table-border-all,
-  .o-table-border-frame {
+  &.o-table-border-all,
+  &.o-table-border-frame {
     .o-table-header {
       top: calc(0px - var(--table-border-width)); // border有透明度，无法盖住下面的内容，故多定位一个宽度
     }
@@ -74,8 +81,8 @@
   }
 
   // 由于列定位等原因，将边框逻辑从OTable改为单元格左边框
-  .o-table-border-all,
-  .o-table-border-column {
+  &.o-table-border-all,
+  &.o-table-border-column {
     td {
       border-left: var(--table-border);
       border-right: none;
@@ -84,18 +91,9 @@
         border-left: none;
       }
     }
-  }
 
-  &.is-overflow-right {
-    .o-table-border-all,
-    .o-table-border-column {
-      td.o-table-cell-first-right-fixed {
-        border-left: none;
-      }
-
-      th.o-table-cell-first-right-fixed {
-        border-left: none;
-      }
+    &.is-overflow-right .o-table-cell-first-right-fixed {
+      border-left: none;
     }
   }
 
@@ -152,6 +150,7 @@
     right: 0;
     bottom: 0;
     background-color: var(--table-bg-color);
+    border-radius: 0;
   }
 
   .o-table-column-resizer__indicator {
