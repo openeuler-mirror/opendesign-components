@@ -18,7 +18,7 @@ kind: container
 
 | 属性名    | 类型                                                                                                                       | 默认值                                                      | 必填 | 说明                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---- | ------------------------------- |
-| key       | string                                                                                                                     |                                                             | 🗸    | 行数据唯一标识对应的字段名      |
+| key       | string                                                                                                                     |                                                             | 🗸    | 列数据唯一标识对应的字段名      |
 | label     | string \| Component \| VNode                                                                                               | ''                                                          |      | 表头对应渲染字段，支持传入VNode |
 | formatter | ({row: any, column: DataTableColumnT, cellValue: any, rowIndex: number, colIndex: number}) => string \| Component \| VNode | ({row, column, cellValue, rowIndex, colIndex}) => cellValue |      | 单元格的渲染方法                |
 | fixed     | true \| 'left' \| 'right'                                                                                                  | undefined                                                   |      | 固定列配置，true与left等效      |
