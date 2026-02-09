@@ -141,6 +141,9 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
     return prevColumn?.fixed !== 'right' || isCellRemoved(rowIndex, colIndex - 1);
   };
 
+  const hasLeftFixedColumn = computed(() => dataColumns.value.some((v) => v.fixed === 'left' || v.fixed === 'right'));
+  const hasRightFixedColumn = computed(() => dataColumns.value.some((v) => v.fixed === 'right'));
+
   const resizingColumnKey = ref('');
 
   const handleColumnResizerMouseMoving = (event: MouseEvent) => {
@@ -185,6 +188,8 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
     isCellRemoved,
     isLastLeftFixedCell,
     isFirstRightFixedCell,
+    hasLeftFixedColumn,
+    hasRightFixedColumn,
     handleColumnResizerMousedown,
     resizingColumnKey,
   };

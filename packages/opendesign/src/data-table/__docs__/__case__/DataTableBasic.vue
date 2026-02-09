@@ -13,7 +13,6 @@ const columns: DataTableColumnT[] = [
       {
         label: 'Salary',
         key: 'salary',
-        width: '15%',
         fixed: 'left',
       },
       { label: 'Address', key: 'address' },
@@ -28,7 +27,7 @@ const columns: DataTableColumnT[] = [
   { label: 'VNode', key: 'other1', formatter: ({ row }) => h('span', { style: 'white-space: nowrap' }, `${row.email} render by VNode`) },
   { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },
   { label: 'other', key: 'other', fixed: 'right' },
-  { label: 'rightFixed', key: 'rightFixed', fixed: 'right', minWidth: '15%' },
+  { label: 'rightFixed', key: 'rightFixed', fixed: 'right' },
 ];
 
 const data = ref(getTableData(16));
