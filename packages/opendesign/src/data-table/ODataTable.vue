@@ -47,7 +47,7 @@ const emits = defineEmits<{
 
 type AllSlots = {
   /** thead插槽 */
-  header?: (options: { columns: EffectiveDataTableColumnT[] }) => any;
+  header?: (options: { columns: EffectiveDataTableColumnT[]; groupColumns: EffectiveDataTableColumnT[][] }) => any;
   /** 加载状态插槽 */
   loading?: () => any;
   /** 空状态插槽 */
@@ -132,8 +132,8 @@ const checkTableOverflow = debounceRAF(() => {
   overflowState.value = checkElementOverflow({
     element: tableEl.value,
     parentElement: rootRef.value,
-    // 由于右固定列与前一列边框重合，宽容一个边框宽度
-    threshold: Number.parseFloat(getCssVariable('--table-border-width', rootRef.value!)),
+    // 由于右固定列与前一列边框重合，宽容两个边框宽度
+    threshold: Number.parseFloat(getCssVariable('--table-border-width', rootRef.value!)) * 2,
   });
 });
 
@@ -143,8 +143,18 @@ const getRowKey = (row: TableRowT, rowIndex: number) => {
 
 const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ ...toRefs(props), tableEl });
 
-const { dataColumnMap, dataColumns, groupColumns, isCellRemoved, isLastLeftFixedCell, isFirstRightFixedCell, handleColumnResizerMousedown, resizingColumnKey } =
-  useDataColumn({ ...toRefs(props), tableEl, containerWidth });
+const {
+  dataColumnMap,
+  dataColumns,
+  groupColumns,
+  isCellRemoved,
+  isLastLeftFixedCell,
+  isFirstRightFixedCell,
+  hasLeftFixedColumn,
+  hasRightFixedColumn,
+  handleColumnResizerMousedown,
+  resizingColumnKey,
+} = useDataColumn({ ...toRefs(props), tableEl, containerWidth });
 
 const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
   if (!el) {
@@ -187,6 +197,7 @@ defineExpose(exposeData);
       '--table-max-height': isNumeric(props.maxHeight) ? props.maxHeight + 'px' : props.maxHeight,
     }"
   >
+    <div v-if="!hasLeftFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
     <OScroller
       class="o-table-scroller"
       wrap-class="o-table-wrap"
@@ -201,7 +212,7 @@ defineExpose(exposeData);
         <caption></caption>
         <TableColGroup />
         <thead ref="headerRef" class="o-table-header">
-          <slot name="header" :columns="dataColumns">
+          <slot name="header" :columns="dataColumns" :group-columns="groupColumns">
             <tr v-for="groupColumn in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
               <th
                 v-for="(column, colIndex) in groupColumn"
@@ -292,5 +303,7 @@ defineExpose(exposeData);
         <div class="o-table-empty-label">{{ emptyLabel }}</div>
       </slot>
     </div>
+
+    <div v-if="!hasRightFixedColumn && !props.loading && props.data.length" class="o-data-table-right-shadow"></div>
   </div>
 </template>

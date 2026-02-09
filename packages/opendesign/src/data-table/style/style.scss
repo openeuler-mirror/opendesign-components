@@ -3,6 +3,7 @@
 .o-data-table {
   border-radius: var(--table-radius);
   overflow: hidden;
+  position: relative;
 
   .o-table-scroll-bar {
     .o-scrollbar-x {
@@ -61,22 +62,33 @@
     }
   }
 
+  .o-table-cell__inner {
+    display: flex;
+  }
+
+  .o-table-header-cell .o-table-cell__inner {
+    padding: var(--table-head-cell-padding);
+  }
+
+  .o-table-body-cell .o-table-cell__inner {
+    padding: var(--table-cell-padding);
+  }
+
   .o-table-cell {
     position: relative;
-
-    &:first-child {
-      padding-left: var(--table-cell-padding-x);
-    }
-
-    &:last-child {
-      padding-right: var(--table-cell-padding-x);
-    }
+    padding: unset;
 
     &.o-cell-first-col {
-      padding-left: var(--table-edge-padding);
+      padding-left: unset;
+      .o-table-cell__inner {
+        padding-left: var(--table-edge-padding);
+      }
     }
     &.o-cell-last-col {
-      padding-right: var(--table-edge-padding);
+      padding-right: unset;
+      .o-table-cell__inner {
+        padding-right: var(--table-edge-padding);
+      }
     }
   }
 
@@ -85,15 +97,15 @@
   &.o-table-border-column {
     td {
       border-left: var(--table-border);
-      border-right: none;
+      border-right-color: transparent;
 
       &.o-cell-first-col {
-        border-left: none;
+        border-left-color: transparent;
       }
     }
 
     &.is-overflow-right .o-table-cell-first-right-fixed {
-      border-left: none;
+      border-left-color: transparent;
     }
   }
 
@@ -102,37 +114,66 @@
     position: -webkit-sticky;
     z-index: 1;
   }
+  .o-data-table-left-shadow,
+  .o-data-table-right-shadow {
+    z-index: 1;
+  }
+
   .o-table-cell-last-left-fixed:after,
-  .o-table-cell-first-right-fixed:before {
+  .o-table-cell-first-right-fixed:before,
+  .o-data-table-left-shadow,
+  .o-data-table-right-shadow {
     content: '';
     position: absolute;
     top: 0;
     bottom: calc(0px - var(--h-border-width));
     width: var(--table-fixed-col-shadow-size);
     display: none;
-    transition: opacity var(--o-duration-s) var(--o-easing-standard);
   }
+  .o-table-cell-last-left-fixed:after,
+  .o-data-table-left-shadow {
+    background: linear-gradient(90deg, var(--table-fixed-col-shadow-gradient));
+  }
+
   .o-table-cell-last-left-fixed:after {
     right: 0;
     transform: translateX(100%);
-    background: linear-gradient(90deg, var(--table-fixed-col-shadow-gradient));
+  }
+  .o-data-table-left-shadow {
+    left: 0;
+  }
+  .o-table-cell-first-right-fixed:before,
+  .o-data-table-right-shadow {
+    background: linear-gradient(-90deg, var(--table-fixed-col-shadow-gradient));
   }
   .o-table-cell-first-right-fixed:before {
     left: 0;
     transform: translateX(-100%);
-    background: linear-gradient(-90deg, var(--table-fixed-col-shadow-gradient));
+  }
+  .o-data-table-right-shadow {
+    right: 0;
   }
 
-  // 固定列有阴影，所以统一强制去掉边框
-  &.is-overflow-left .o-table-cell-last-left-fixed {
-    &:after {
+  &.is-overflow-left {
+    .o-table-cell-last-left-fixed {
+      &:after {
+        display: block;
+      }
+    }
+    .o-data-table-left-shadow {
       display: block;
     }
   }
-  &.is-overflow-right .o-table-cell-first-right-fixed {
-    --v-border-width: 0px;
+  &.is-overflow-right {
+    .o-table-cell-first-right-fixed {
+      --v-border-width: 0px;
 
-    &:before {
+      &:before {
+        display: block;
+      }
+    }
+
+    .o-data-table-right-shadow {
       display: block;
     }
   }

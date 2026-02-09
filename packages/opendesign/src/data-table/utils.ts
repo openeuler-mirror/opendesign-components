@@ -207,8 +207,7 @@ export const getColumnPosition = (options: {
       count += v.resizeWidth ?? 0;
     }
     return {
-      // border有透明度，无法盖住下面的内容，故多定位一个宽度
-      left: `calc(${count}px  ${hasFrameBorder ? ' - var(--table-border-width)' : ''})`,
+      left: `${count}px`,
     };
   }
 
