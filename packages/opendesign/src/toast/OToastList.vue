@@ -2,17 +2,12 @@
 import { ref, Ref } from 'vue';
 import OToast from './OToast.vue';
 import { isString, isFunction } from '../_utils/is';
+import { useGetUniqueId } from '../_utils/unique-id';
 import { toastListProps, type ToastParamsT } from './types';
 
 const props = defineProps(toastListProps);
 
-const getUniqueId = (() => {
-  let id = 0;
-  return () => {
-    id += 1;
-    return id;
-  };
-})();
+const getUniqueId = useGetUniqueId();
 
 type ToastListOptionT = ToastParamsT & { id: number };
 
