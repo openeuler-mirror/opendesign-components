@@ -47,11 +47,14 @@
   justify-content: center;
   white-space: nowrap;
   width: fit-content;
+  overflow: hidden;
 
   &.width-measurement {
-    height: 0px;
-    overflow-y: hidden;
+    height: 0;
   }
+}
+.o-tab-navs-container.overflown .o-tab-nav-list {
+  justify-content: flex-start;
 }
 .o-tab-nav {
   display: flex;
@@ -70,17 +73,18 @@
   }
   &.o-tab-nav-ellipsis {
     margin-left: unset;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: var(--tab-nav-ellipsis-padding-x);
+    padding-right: var(--tab-nav-ellipsis-padding-x);
     position: absolute;
     right: 0;
+    z-index: 1;
 
     &:before {
       display: block;
       content: '';
       position: absolute;
-      width: 8px;
-      left: -8px;
+      width: var(--tab-nav-ellipsis-shadow-width);
+      left: calc(0px - var(--tab-nav-ellipsis-shadow-width));
       top: 0;
       bottom: 0;
       background: linear-gradient(

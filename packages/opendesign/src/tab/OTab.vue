@@ -55,7 +55,17 @@ const tabNavMeasurementRef = ref<HTMLDivElement>();
 const { width: tabNavMeasurementWidth } = useElementBounding(tabNavMeasurementRef);
 const ellipsisRef = ref<HTMLDivElement>();
 const { width: ellipsisWidth } = useElementBounding(ellipsisRef);
+const navEllipsisShadowWidthString = useCssVar('--tab-nav-ellipsis-shadow-width', navsContainerRef, { initialValue: '8px' });
+const navEllipsisShadowWidthNumber = computed(() => {
+  return Number.parseInt(navEllipsisShadowWidthString.value);
+});
 const bodyRef = ref<HTMLDivElement>();
+const navListStyle = computed(() => {
+  if (props.variant === 'button') {
+    return;
+  }
+  return { width: `${navsContainerWidth.value - ellipsisWidth.value - navEllipsisShadowWidthNumber.value}px` };
+});
 
 const childrenMap = ref<Record<string, ChildDataT>>({});
 /** 通过遍历dom获取的顺序正确的value列表，但都是字符串 */
@@ -77,8 +87,7 @@ const pushShowStringValue = (stringValue: string, widthCount: number) => {
   if (!isWidthWillExceed && !isShowNumWillExceed) {
     const paneKey = toValue(item.paneKey);
     showStringValueList.value.push(paneKey.toString());
-    widthCount += navGapNumber.value;
-    widthCount += navElWidth!;
+    return widthCount + navGapNumber.value + navElWidth!;
   }
   return widthCount;
 };
@@ -326,8 +335,8 @@ const onHeadResize = debounceRAF(() => {
   >
     <DefineTabNavTemplate v-slot="{ stringValue, measurement }">
       <div
-        v-on-resize="measurement ? () => onHeadItemResize(stringValue) : () => {}"
         :ref="(el) => (measurement ? setNavMeasureEl(el, stringValue) : setNavEl(el, stringValue))"
+        v-on-resize="measurement ? () => onHeadItemResize(stringValue) : () => {}"
         :class="[
           'o-tab-nav',
           {
@@ -338,7 +347,7 @@ const onHeadResize = debounceRAF(() => {
         ]"
         @click="() => updateValue(stringValue)"
       >
-        <component v-if="childrenMap[stringValue].navRenderer" :is="childrenMap[stringValue].navRenderer" />
+        <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer" />
         <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
         <div v-if="childrenMap[stringValue].props.closable" class="o-tab-nav-close" @click="(e) => onDeletePane(e, stringValue)"><IconClose /></div>
       </div>
@@ -359,22 +368,34 @@ const onHeadResize = debounceRAF(() => {
         <slot name="prefix"></slot>
       </div>
       <div class="o-tab-navs">
-        <div ref="navsContainerRef" v-on-resize="onHeadResize" :class="{ 'o-tab-navs-container': true, overflown: !!hiddenStringValueList.length }">
+        <div
+          ref="navsContainerRef"
+          v-on-resize="onHeadResize"
+          :class="{
+            'o-tab-navs-container': true,
+            overflown: hiddenStringValueList.length,
+          }"
+        >
           <!-- 渲染一个全宽但是零高度的节点来测量每个节点的宽度，以计算溢出情况 -->
           <div ref="tabNavMeasurementRef" v-on-resize="onHeadResize" class="o-tab-nav-list width-measurement">
             <template v-for="stringValue in stringValueSet" :key="stringValue">
               <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" :measurement="true" />
             </template>
           </div>
-          <div class="o-tab-nav-list">
+          <div class="o-tab-nav-list" :style="navListStyle">
             <template v-for="stringValue in showStringValueList" :key="stringValue">
               <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" />
+            </template>
+            <template v-if="isUndefined(props.maxShow) || showStringValueList.length < props.maxShow">
+              <template v-for="stringValue in hiddenStringValueList" :key="stringValue">
+                <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" :measurement="true" />
+              </template>
             </template>
 
             <div
               v-if="props.variant !== 'button'"
-              ref="ellipsisRef"
               v-show="hiddenStringValueList.length"
+              ref="ellipsisRef"
               :class="[
                 'o-tab-nav',
                 {
@@ -418,7 +439,7 @@ const onHeadResize = debounceRAF(() => {
           :value="toValue(childrenMap[stringValue].paneKey)"
           @click="updateValue(stringValue)"
         >
-          <component v-if="childrenMap[stringValue].navRenderer" :is="childrenMap[stringValue].navRenderer" />
+          <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer" />
           <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
         </OOption>
       </OOptionList>
@@ -442,7 +463,7 @@ const onHeadResize = debounceRAF(() => {
           :value="toValue(childrenMap[stringValue].paneKey)"
           @click="updateValue(stringValue)"
         >
-          <component v-if="childrenMap[stringValue].navRenderer" :is="childrenMap[stringValue].navRenderer" />
+          <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer" />
           <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
         </OOption>
       </OOptionList>
