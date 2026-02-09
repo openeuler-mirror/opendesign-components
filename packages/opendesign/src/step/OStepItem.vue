@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, watch, ref, useSlots, computed } from 'vue';
-import { OIconDone, OIconWarning } from '../icon-components';
+import { OIconCheckMark, OIconExclamationMark } from '../icon-components';
 import { ODivider } from '../divider';
 import { isEmptySlot } from '../_utils/vue-utils';
 import { stepInjectKey } from './provide';
@@ -27,9 +27,9 @@ const hasDescription = computed(() => {
 
 const defaultIcon = computed(() => {
   if (props.status === 'failed') {
-    return OIconWarning;
+    return OIconExclamationMark;
   }
-  return OIconDone;
+  return OIconCheckMark;
 });
 
 watch(stepItemHeadRef, (val) => {

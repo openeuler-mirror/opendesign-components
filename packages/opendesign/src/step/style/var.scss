@@ -5,6 +5,8 @@
   --step-item-title-size: var(--o-font_size-text1);
   --step-item-title-height: var(--o-line_height-text1);
 
+  --step-item-title-font-weight: normal;
+
   --step-item-desc-size: var(--o-font_size-tip2);
   --step-item-desc-height: var(--o-line_height-tip2);
 
@@ -42,7 +44,8 @@
   --step-item-line-bg: var(--o-color-primary1);
 
   --step-item-title-color: var(--o-color-primary1);
-  --step-item-desc-color: var(--o-color-primary1);
+
+  --step-item-title-font-weight: 600;
 }
 
 .o-step-item-waiting {
@@ -54,10 +57,6 @@
 }
 
 .o-step-item-failed {
-  --step-item-head-color: var(--o-color-danger1);
   --step-item-head-bg: var(--o-color-danger1);
   --step-item-line-bg: var(--o-color-control4);
-
-  --step-item-title-color: var(--o-color-danger1);
-  --step-item-desc-color: var(--o-color-danger1);
 }
