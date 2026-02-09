@@ -1,17 +1,45 @@
-import { ref, watch, computed, MaybeRef, toValue, ToRefs } from 'vue';
+import { ref, watch, computed, ToRefs, Ref } from 'vue';
 import { useMounted, until } from '@vueuse/core';
 
-import { isNumeric } from '../_utils/is';
+import { isNumeric, isString } from '../_utils/is';
+import { getElementRectByRAF } from '../_utils/dom';
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
 
-export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: MaybeRef<HTMLTableElement | undefined> }) => {
-  const { tableEl, defaultEmptyCellText, columns, data, spanMethod } = options;
+export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<HTMLTableElement | undefined>; containerWidth: Ref<number> }) => {
+  const { tableEl, containerWidth, defaultEmptyCellText, columns, data, spanMethod } = options;
 
   const isMounted = useMounted();
   const dataColumnMap = new Map<string, EffectiveDataTableColumnT>();
   const dataColumns = ref<EffectiveDataTableColumnT[]>([]);
   const groupColumns = ref<EffectiveDataTableColumnT[][]>([]);
+
+  // 渲染后固定列宽以计算列定位
+  const fixColumnAfterMounted = () => {
+    until(() => dataColumns.value.every((column) => !!column.thRef) && data.value.length && tableEl.value && containerWidth.value)
+      .toBeTruthy()
+      .then(() => {
+        return Promise.all(
+          dataColumns.value.map(async (column) => {
+            let width = column.thRef?.style.width;
+            if (!width && isString(column.width) && column.width.includes('%')) {
+              width = `${Math.ceil((Number.parseFloat(column.width) * containerWidth.value) / 100)}px`;
+            }
+            if (!width && column.width) {
+              width = isNumeric(column.width) ? `${column.width}px` : column.width;
+            }
+            if (!width) {
+              width = `${Math.ceil(await getElementRectByRAF(column.thRef!).then((rect) => rect.width))}px`;
+            }
+            column.colRef!.style.width = width;
+            column.resizeWidth = Math.ceil(await getElementRectByRAF(column.thRef!).then((rect) => rect.width));
+          }),
+        );
+      })
+      .then(() => {
+        tableEl.value!.style.tableLayout = 'fixed';
+      });
+  };
 
   const parseColumns = () => {
     const res = getGroupColumns({
@@ -29,23 +57,7 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Mayb
     groupColumns.value = res.groupColumns;
 
     if (dataColumns.value.some((column) => column.fixed || column.width)) {
-      until(() => dataColumns.value.every((column) => !!column.colRef) && data.value.length && toValue(tableEl))
-        .toBeTruthy()
-        .then(() => {
-          // 固定列宽以计算列定位
-          dataColumns.value.forEach((column) => {
-            let width = column.colRef?.style.width;
-            if (!width) {
-              width = isNumeric(column.width) ? column.width + 'px' : column.width;
-            }
-            if (!width) {
-              width = Math.ceil(column.colRef!.getBoundingClientRect().width) + 'px';
-            }
-            column.colRef!.style.width = width;
-            column.resizeWidth = Math.ceil(column.colRef!.getBoundingClientRect().width);
-          });
-          toValue(tableEl)!.style.tableLayout = 'fixed';
-        });
+      fixColumnAfterMounted();
     }
   };
   watch(
@@ -142,7 +154,7 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Mayb
 
     const column = dataColumnMap.get(resizingColumnKey.value);
     if (column?.colRef) {
-      column.colRef.style.width = width + 'px';
+      column.colRef.style.width = `${width}px`;
     }
   };
 

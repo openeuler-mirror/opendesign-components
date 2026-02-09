@@ -144,7 +144,7 @@ const getRowKey = (row: TableRowT, rowIndex: number) => {
 const { emptyLabel, loadingLabel, borderClass, handleMouseOver, clearHighlight, handleTouchStart } = useTableCommon({ ...toRefs(props), tableEl });
 
 const { dataColumnMap, dataColumns, groupColumns, isCellRemoved, isLastLeftFixedCell, isFirstRightFixedCell, handleColumnResizerMousedown, resizingColumnKey } =
-  useDataColumn({ ...toRefs(props), tableEl });
+  useDataColumn({ ...toRefs(props), tableEl, containerWidth });
 
 const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
   if (!el) {
