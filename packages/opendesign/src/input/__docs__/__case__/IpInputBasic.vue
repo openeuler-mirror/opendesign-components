@@ -1,11 +1,11 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### ip地址输入框
+#### ip地址输入框
 
   <!-- en-US -->
 
-### IP address input box
+#### IP address input box
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';

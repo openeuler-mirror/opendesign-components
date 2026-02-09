@@ -15,6 +15,7 @@ kind: input
 <!-- @case InputPhoneAndCode -->
 <!-- @case InputFilter -->
 <!-- @case IpInputBasic -->
+<!-- @case InputNumberBasic -->
 
 ## Api
 
