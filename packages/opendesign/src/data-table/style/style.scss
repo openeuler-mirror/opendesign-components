@@ -113,12 +113,12 @@
     transition: opacity var(--o-duration-s) var(--o-easing-standard);
   }
   .o-table-cell-last-left-fixed:after {
-    right: calc(0px - var(--v-border-width));
+    right: 0;
     transform: translateX(100%);
     background: linear-gradient(90deg, var(--table-fixed-col-shadow-gradient));
   }
   .o-table-cell-first-right-fixed:before {
-    left: calc(0px - var(--v-border-width));
+    left: 0;
     transform: translateX(-100%);
     background: linear-gradient(-90deg, var(--table-fixed-col-shadow-gradient));
   }
