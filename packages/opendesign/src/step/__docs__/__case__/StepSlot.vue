@@ -8,6 +8,7 @@
 ### Custom icons
 </docs>
 <script setup lang="ts">
+import { ref } from 'vue';
 import { OStep, OStepItem, StepItemPropsT, OIconSkill } from '@opensig/opendesign';
 
 const list: Array<Partial<StepItemPropsT>> = [
@@ -15,6 +16,7 @@ const list: Array<Partial<StepItemPropsT>> = [
   { title: '步骤二', description: '这一步的描述' },
   { title: '步骤三', description: '这一步的描述' },
 ];
+const activeIndex = ref(0);
 </script>
 <template>
   <OStep direction="h">
@@ -26,6 +28,13 @@ const list: Array<Partial<StepItemPropsT>> = [
       :description="item.description"
       :status="item.status"
       :icon="item.icon"
+      :class="{ active: activeIndex === idx }"
+      class="demo-step-item"
+      @click="
+        () => {
+          activeIndex = idx;
+        }
+      "
     >
       <template #icon>
         <OIconSkill class="o-step-item-icon" />
@@ -33,3 +42,13 @@ const list: Array<Partial<StepItemPropsT>> = [
     </OStepItem>
   </OStep>
 </template>
+
+<style lang="scss" scoped>
+.active {
+  --step-item-head-color: var(--o-color-primary1);
+  --step-item-title-color: var(--o-color-primary1);
+}
+.demo-step-item {
+  cursor: pointer;
+}
+</style>
