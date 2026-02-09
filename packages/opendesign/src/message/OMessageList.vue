@@ -3,16 +3,11 @@ import { ref, Ref, shallowRef } from 'vue';
 import { messageListProps, MessageParamsT } from './types';
 import OMessage from './OMessage.vue';
 import { isString } from '../_utils/is';
+import { useGetUniqueId } from '../_utils/unique-id';
 
 const props = defineProps(messageListProps);
 
-const getUniqueId = (() => {
-  let id = 0;
-  return () => {
-    id += 1;
-    return id;
-  };
-})();
+const getUniqueId = useGetUniqueId();
 
 type MessageListOptionT = MessageParamsT & { id: number };
 
