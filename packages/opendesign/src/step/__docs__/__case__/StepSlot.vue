@@ -9,7 +9,7 @@
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { OStep, OStepItem, StepItemPropsT, OIconSkill } from '@opensig/opendesign';
+import { OStep, OStepItem, StepItemPropsT, OIconFile } from '@opensig/opendesign';
 
 const list: Array<Partial<StepItemPropsT>> = [
   { title: '步骤一', description: '这一步的描述' },
@@ -37,18 +37,19 @@ const activeIndex = ref(0);
       "
     >
       <template #icon>
-        <OIconSkill class="o-step-item-icon" />
+        <OIconFile class="o-step-item-icon" />
       </template>
     </OStepItem>
   </OStep>
 </template>
 
 <style lang="scss" scoped>
+.demo-step-item {
+  --step-item-head-color: var(--o-color-info3);
+  cursor: pointer;
+}
 .active {
   --step-item-head-color: var(--o-color-primary1);
   --step-item-title-color: var(--o-color-primary1);
-}
-.demo-step-item {
-  cursor: pointer;
 }
 </style>
