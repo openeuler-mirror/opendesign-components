@@ -74,6 +74,10 @@ const _oSchema = {
     default: 'key',
     disabled: true,
   },
+  selection: {
+    type: 'boolean',
+    default: false,
+  },
   highlightCurrentRow: {
     type: 'boolean',
     default: false,
@@ -136,7 +140,7 @@ const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => 
   return base;
 };
 
-const _oCtx = reactive<{ columns: DataTableColumnT[]; data: any[]; spanMethod: DataTableSpanMethod }>({
+const _oCtx = reactive<{ columns: DataTableColumnT[]; data: any[]; spanMethod: DataTableSpanMethod; selectedKeys: string[] }>({
   columns: [],
   data: [],
   spanMethod: ({ colIndex, rowIndex }) => {
@@ -147,6 +151,7 @@ const _oCtx = reactive<{ columns: DataTableColumnT[]; data: any[]; spanMethod: D
       return { colSpan: 2, rowSpan: 2 };
     }
   },
+  selectedKeys: [],
 });
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => {
@@ -161,6 +166,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => {
   :columns="ctx.columns"
   :data="ctx.data"
   ${_props.spanMethod ? ':span-method="ctx.spanMethod"' : ''}
+  ${_props.selection ? 'v-model:selected-keys="ctx.selectedKeys"' : ''}
 />
   `;
 };

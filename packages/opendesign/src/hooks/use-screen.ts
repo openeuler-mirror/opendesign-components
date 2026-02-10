@@ -22,8 +22,11 @@ export const useScreen = () => {
     return false;
   });
 
+  const isPhonePadSize = computed(() => {
+    return isPadSize.value || isPhoneSize.value;
+  });
   const isPhonePad = computed(() => {
-    return isTouchDevice && (isPadSize.value || isPhoneSize.value);
+    return isTouchDevice && isPhonePadSize.value;
   });
 
   const onResize = () => {
@@ -42,6 +45,7 @@ export const useScreen = () => {
     isTouchDevice,
     isPhoneSize,
     isPadSize,
+    isPhonePadSize,
     isPhonePad,
   };
 };

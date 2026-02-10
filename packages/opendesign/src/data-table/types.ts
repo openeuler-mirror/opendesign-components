@@ -24,9 +24,21 @@ export interface DataTableColumnFilterOption<TLabel = any, TValue = any> {
   value: TValue;
   [key: string]: any;
 }
-export type DataTableColumnFilterOptionsFn<TLabel = any, TValue = any> = (
-  column: EffectiveDataTableColumnT,
-) => DataTableColumnFilterOption<TLabel, TValue>[] | Promise<DataTableColumnFilterOption<TLabel, TValue>[]>;
+
+/** 筛选条件为“空”时的值 */
+export const TABLE_EMPTY_OPTION_VALUE = '__null__' as const;
+/** 筛选条件为单选时，筛选条件为“全选”时的值 */
+export const TABLE_ALL_OPTION_VALUE = '__all__' as const;
+
+/**
+ * 获取筛选项数组的方法，支持异步返回
+ * @param {EffectiveDataTableColumnT} option.column 当前列的配置
+ * @param {DataTableColumnFilterOption} option.emptyOption 空值选项，根据需求采用
+ */
+export type DataTableColumnFilterOptionsFn<TLabel = any, TValue = any> = (option: {
+  column: EffectiveDataTableColumnT;
+  emptyOption: { label: string; value: typeof TABLE_EMPTY_OPTION_VALUE };
+}) => DataTableColumnFilterOption<TLabel, TValue>[] | Promise<DataTableColumnFilterOption<TLabel, TValue>[]>;
 
 /**
  * 单元格渲染方法入参
@@ -64,6 +76,32 @@ export type DataTableColumnFormatter = (options: DataTableColumnFormatterOptions
 export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => { colSpan?: number; rowSpan?: number } | void;
 
 /**
+ * 行展开的计算方法，返回false则不可被展开
+ */
+export type DataTableExpandMethod = (row: any, rowIndex: number) => Component | VNode | string | false;
+
+export type DataTableColumnFilterT = {
+  /**
+   * 获取筛选可选项的方法
+   */
+  optionsFn: DataTableColumnFilterOptionsFn;
+  /**
+   * 移动端弹窗的title
+   */
+  optionTitle?: string;
+  /**
+   * 是否支持多选
+   * @default true
+   */
+  multiple?: boolean;
+  /**
+   * 是否显示选项筛选输入框
+   * @default (optionsCount) => optionsCount > 8
+   */
+  showInput?: boolean | ((optionsCount: number) => boolean);
+};
+
+/**
  * 列的配置文件
  */
 export interface DataTableColumnT {
@@ -89,12 +127,12 @@ export interface DataTableColumnT {
   /**
    * 列表头筛选配置
    */
-  filter?: {
-    /**
-     * 获取筛选可选项的方法
-     */
-    optionsFn?: DataTableColumnFilterOptionsFn;
-  };
+  filter?: DataTableColumnFilterT;
+  /**
+   * 表头单元格的自定义colspan
+   * @important 仅支持同层级兄弟单元格之间的合并
+   */
+  customColSpan?: number;
   /**
    * 嵌套表头配置
    */
@@ -120,6 +158,8 @@ export type EffectiveDataTableColumnCommonT = {
   isFirstCol?: boolean;
   /** 是否是最右边的列 */
   isLastCol?: boolean;
+  /** 表头是否由于自定义表头单元格合并而被合并后，不渲染 */
+  headerHidden?: boolean;
   colRef?: HTMLTableColElement;
   thRef?: HTMLTableCellElement;
   /**
@@ -185,16 +225,23 @@ export const dataTableProps = {
    * @en-US Unique Identifier Field Name for Table Data Rows
    */
   rowKey: {
-    type: String,
+    type: [String, Function] as PropType<string | ((row: TableRowT) => string)>,
     default: 'id',
   },
   /**
    * @zh-CN 合并单元格的计算方法，已被合并的单元格不会再次被合并
-   * @en-US Calculation Methods for Merged Cells​. Cells that have already been merged cannot be merged again
+   * @en-US Calculation Methods for Merged Cells. Cells that have already been merged cannot be merged again
    */
   spanMethod: {
     type: Function as PropType<DataTableSpanMethod>,
     default: () => () => undefined,
+  },
+  /**
+   * @zh-CN 行展开的计算方法，返回 `false` 则不可被展开
+   * @en-US Calculation Methods for Row expansion. Returns `false` if the row cannot be expanded.
+   */
+  expandMethod: {
+    type: Function as PropType<DataTableExpandMethod>,
   },
   /**
    * @zh-CN 表格是否可以调整列宽
@@ -203,6 +250,22 @@ export const dataTableProps = {
   columnResizable: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @zh-CN 表格是否可以行选择
+   * @en-US Whether row selection is available for the table.
+   */
+  selection: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @zh-CN 被选中行的rowKey对应的值
+   * @en-US Value of selected rows' rowKey prop
+   */
+  selectedKeys: {
+    type: Array as PropType<DataTableRowKeyValue[]>,
+    default: () => [],
   },
   stripe,
   border,

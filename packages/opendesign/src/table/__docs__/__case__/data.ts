@@ -2,7 +2,10 @@ function getItem(index: number) {
   return {
     no: index,
     key: index,
-    name: `William Smith ${index}`,
+    name: index % 2 ? `William Smith ${index}` : `Lilian Smith ${index}`,
+    gender: index % 2 ? 'Male' : 'Female',
+    age: 15 + index * 2,
+    phone: 18000000000 + index,
     salary: 27000 + index,
     address: `${index} Park Road, London`,
     email: `william.smith${index}@example.com`,
@@ -18,14 +21,14 @@ export function getTableData(total: number, idx = 0) {
   return rlt;
 }
 
-export function requestTableData(cursor: number, length: number): Promise<{ total: number, list: any[] }> {
+export function requestTableData(cursor: number, length: number): Promise<{ total: number; list: any[] }> {
   const total = 100;
   return new Promise((resolve) => {
     const list = getTableData(length, cursor);
     setTimeout(() => {
       resolve({
         total,
-        list
+        list,
       });
     }, 1000);
   });

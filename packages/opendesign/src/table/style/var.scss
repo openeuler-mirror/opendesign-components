@@ -29,6 +29,7 @@
   --table-body-min-height: 200px;
 
   --table-bg-color: var(--o-color-control5);
+  --table-expand-bg-color: var(--o-color-fill3);
   --table-stripe-bg-color: rgba(var(--o-color-control2-light-raw), 0.4);
 
   --table-radius: var(--o-radius_control-m);
@@ -45,8 +46,11 @@
   --table-cell-padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
 
   --table-edge-padding: 32px;
+  --table-expand-cell-padding: 32px;
 
   --table-column-resizer-width: 8px;
+  --table-row-icon-size: var(--o-icon_size-m);
+  --table-row-icon-gap: 8px;
 }
 
 .o-table-small {
@@ -62,4 +66,5 @@
   --table-cell-padding-y: 8px;
 
   --table-edge-padding: 16px;
+  --table-expand-cell-padding: 24px;
 }

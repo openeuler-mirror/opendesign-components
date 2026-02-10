@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { OIconSort } from '../icon-components';
+import { OButton } from '../button';
 import { DataTableSortMethod, DataTableSortMethodT } from './types.ts';
 
+const props = defineProps<{
+  disabled?: boolean;
+}>();
 const modelValue = defineModel<DataTableSortMethodT>('modelValue', { default: undefined });
 
 const handleSorterClick = () => {
@@ -20,11 +24,15 @@ const handleSorterClick = () => {
 </script>
 
 <template>
-  <OIconSort
+  <OButton
+    :disabled="props.disabled"
+    :icon="OIconSort"
+    size="small"
     :class="{
       'o-data-table-sorter': true,
       'o-data-table-sorter-asc': modelValue === DataTableSortMethod.ASC,
       'o-data-table-sorter-desc': modelValue === DataTableSortMethod.DESC,
+      disabled: props.disabled,
     }"
     @click="handleSorterClick"
   />

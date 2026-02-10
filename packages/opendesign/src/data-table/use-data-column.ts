@@ -1,4 +1,4 @@
-import { ref, watch, computed, ToRefs, Ref } from 'vue';
+import { ref, watch, computed, ToRefs, Ref, ComputedRef } from 'vue';
 import { useMounted, until } from '@vueuse/core';
 
 import { isNumeric, isString } from '../_utils/is';
@@ -6,7 +6,21 @@ import { getElementRectByRAF } from '../_utils/dom';
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
 
-export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<HTMLTableElement | undefined>; containerWidth: Ref<number> }) => {
+export const useDataColumn = (
+  options: ToRefs<DataTablePropsT> & { tableEl: Ref<HTMLTableElement | undefined>; containerWidth: Ref<number> },
+): {
+  dataColumnMap: Map<string, EffectiveDataTableColumnT>;
+  dataColumns: Ref<EffectiveDataTableColumnT[]>;
+  groupColumns: Ref<EffectiveDataTableColumnT[][]>;
+  removedBodyCellsBySpan: ComputedRef<string[]>;
+  isBodyCellRemoved: (rowIndex: number, colIndex: number) => boolean;
+  isLastLeftFixedCell: (rowIndex: number, colIndex: number) => boolean;
+  isFirstRightFixedCell: (rowIndex: number, colIndex: number) => boolean;
+  hasLeftFixedColumn: ComputedRef<boolean>;
+  hasRightFixedColumn: ComputedRef<boolean>;
+  handleColumnResizerMousedown: (options: { event: MouseEvent; column: EffectiveDataTableColumnT; colIndex: number }) => void;
+  resizingColumnKey: Ref<string, string>;
+} => {
   const { tableEl, containerWidth, defaultEmptyCellText, columns, data, spanMethod } = options;
 
   const isMounted = useMounted();
@@ -16,28 +30,35 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
 
   // 渲染后固定列宽以计算列定位
   const fixColumnAfterMounted = () => {
-    until(() => dataColumns.value.every((column) => !!column.thRef) && data.value.length && tableEl.value && containerWidth.value)
+    until(() => dataColumns.value.every((column) => !!column.colRef) && data.value.length && tableEl.value && containerWidth.value)
       .toBeTruthy()
       .then(() => {
         return Promise.all(
           dataColumns.value.map(async (column) => {
-            let width = column.thRef?.style.width;
+            let width = column.colRef?.style.width;
             if (!width && isString(column.width) && column.width.includes('%')) {
-              width = `${Math.ceil((Number.parseFloat(column.width) * containerWidth.value) / 100)}px`;
+              width = `${(Number.parseFloat(column.width) * containerWidth.value) / 100}px`;
             }
             if (!width && column.width) {
               width = isNumeric(column.width) ? `${column.width}px` : column.width;
             }
             if (!width) {
-              width = `${Math.ceil(await getElementRectByRAF(column.thRef!).then((rect) => rect.width))}px`;
+              width = `${await getElementRectByRAF(column.colRef!).then((rect) => rect.width)}px`;
             }
             column.colRef!.style.width = width;
-            column.resizeWidth = Math.ceil(await getElementRectByRAF(column.thRef!).then((rect) => rect.width));
+            column.resizeWidth = await getElementRectByRAF(column.colRef!).then((rect) => rect.width);
           }),
         );
       })
       .then(() => {
         tableEl.value!.style.tableLayout = 'fixed';
+        const totalWidth = dataColumns.value.reduce((_width, column) => _width + column.resizeWidth!, 2 /* 左右外边框宽度 */);
+        if (totalWidth < containerWidth.value) {
+          // 如果列宽不足以填满容器宽度，则将剩余宽度加到最后一列
+          const lastCol = dataColumns.value[dataColumns.value.length - 1]!;
+          lastCol.resizeWidth! += containerWidth.value - totalWidth;
+          lastCol.colRef!.style.width = `${lastCol.resizeWidth}px`;
+        }
       });
   };
 
@@ -65,10 +86,11 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
     () => parseColumns(),
     { immediate: true, deep: true },
   );
+
   /**
    * 由于合并单元格，导致去掉的单元格的索引，格式为：${rowIndex}_${colIndex}
    */
-  const removedCellsBySpan = computed<string[]>(() => {
+  const removedBodyCellsBySpan = computed<string[]>(() => {
     const toRemove: string[] = [];
     data.value.forEach((row, rowIndex) => {
       dataColumns.value.forEach((column, colIndex) => {
@@ -110,8 +132,8 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
     return toRemove;
   });
 
-  const isCellRemoved = (rowIndex: number, colIndex: number): boolean => {
-    return removedCellsBySpan.value.includes(`${rowIndex}_${colIndex}`);
+  const isBodyCellRemoved = (rowIndex: number, colIndex: number): boolean => {
+    return removedBodyCellsBySpan.value.includes(`${rowIndex}_${colIndex}`);
   };
 
   /** 计算是否是当前行最后一个左固定单元格 */
@@ -126,7 +148,7 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
       // 如果右边不再有固定列
       nextColumn?.fixed !== 'left' ||
       // 或是不再有被合并了的固定列(上方单元格向下合并)
-      !(nextColumn?.fixed === 'left' && isCellRemoved(rowIndex, colIndex + 1))
+      !(nextColumn?.fixed === 'left' && isBodyCellRemoved(rowIndex, colIndex + 1))
     );
   };
 
@@ -138,7 +160,7 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
       return false;
     }
     // 如果左边不再有固定列，或已经被合并了
-    return prevColumn?.fixed !== 'right' || isCellRemoved(rowIndex, colIndex - 1);
+    return prevColumn?.fixed !== 'right' || isBodyCellRemoved(rowIndex, colIndex - 1);
   };
 
   const hasLeftFixedColumn = computed(() => dataColumns.value.some((v) => v.fixed === 'left' || v.fixed === 'right'));
@@ -153,7 +175,7 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
       return;
     }
     const thRect = thEl.getBoundingClientRect();
-    const width = Math.ceil(event.clientX - thRect.x);
+    const width = Math.floor(event.clientX - thRect.x);
 
     const column = dataColumnMap.get(resizingColumnKey.value);
     if (column?.colRef) {
@@ -184,8 +206,8 @@ export const useDataColumn = (options: ToRefs<DataTablePropsT> & { tableEl: Ref<
     dataColumnMap,
     dataColumns,
     groupColumns,
-    removedCellsBySpan,
-    isCellRemoved,
+    removedBodyCellsBySpan,
+    isBodyCellRemoved,
     isLastLeftFixedCell,
     isFirstRightFixedCell,
     hasLeftFixedColumn,

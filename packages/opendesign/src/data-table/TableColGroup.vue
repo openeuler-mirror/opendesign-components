@@ -14,8 +14,8 @@ const dataTableInjection = inject(dataTableInjectKey);
  */
 const getPropWidth = (column: EffectiveDataTableColumnT) => {
   return {
-    minWidth: isNumeric(column.minWidth) ? column.minWidth + 'px' : column.minWidth,
-    maxWidth: isNumeric(column.maxWidth) ? column.maxWidth + 'px' : column.maxWidth,
+    minWidth: isNumeric(column.minWidth) ? `${column.minWidth}px` : column.minWidth,
+    maxWidth: isNumeric(column.maxWidth) ? `${column.maxWidth}px` : column.maxWidth,
   };
 };
 
@@ -35,7 +35,7 @@ const resizeHandler = debounceRAF(() => {
     if (!column.colRef) {
       return;
     }
-    column.resizeWidth = Math.ceil(column.colRef.getBoundingClientRect().width);
+    column.resizeWidth = column.colRef.getBoundingClientRect().width;
   });
 });
 watch(

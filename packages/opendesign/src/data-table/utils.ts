@@ -87,6 +87,76 @@ const clearIosMultiFixed = (dataColumns: EffectiveDataTableColumnT[], isMounted:
   }
 };
 
+/**
+ * 标记由于表头自定义合并单元格而被合并的表头单元格
+ * 只支持相邻同级合并
+ */
+const markHeaderHidden = (groupColumns: EffectiveDataTableColumnT[][]) => {
+  groupColumns.forEach((groupColumn) => {
+    for (let colIndex = 0; colIndex < groupColumn.length; colIndex++) {
+      const column = groupColumn[colIndex];
+      if (isNil(column.customColSpan) || column.customColSpan < 2) {
+        continue;
+      }
+
+      for (let j = colIndex + 1; j < colIndex + column.customColSpan; j++) {
+        groupColumn[j].headerHidden = true;
+      }
+    }
+  });
+};
+
+/**
+ * 标记两端的最内侧的固定列
+ */
+const markEdgeFixedColumns = (dataColumns: EffectiveDataTableColumnT[], groupColumns: EffectiveDataTableColumnT[][]) => {
+  groupColumns.forEach((group) => {
+    let lastLeftFixedI: number | undefined;
+    let firstRightFixedI: number | undefined;
+    for (let i = 0; i < group.length; i++) {
+      const column = group[i];
+      if (column.fixed === 'left') {
+        lastLeftFixedI = i;
+        continue;
+      }
+      const columnIndexInDataColumns = dataColumns.findIndex((v) => v.key === column.key);
+      const prevColumn = dataColumns[columnIndexInDataColumns - 1];
+      if (
+        isNil(firstRightFixedI) &&
+        column.fixed === 'right' &&
+        // 且前一列不是右固定列
+        (!prevColumn || prevColumn.fixed !== 'right')
+      ) {
+        firstRightFixedI = i;
+      }
+    }
+    if (!isNil(lastLeftFixedI)) {
+      group[lastLeftFixedI].isLastLeftFixedCol = true;
+      setParentFixed(group[lastLeftFixedI], 'left');
+    }
+    if (!isNil(firstRightFixedI)) {
+      group[firstRightFixedI].isFirstRightFixedCol = true;
+      setParentFixed(group[firstRightFixedI], 'right');
+    }
+  });
+};
+
+/**
+ * 标记最左和最右的列
+ */
+const markEdgeColumns = (groupColumns: EffectiveDataTableColumnT[][]) => {
+  let firstColumn: EffectiveDataTableColumnT | undefined = groupColumns[0]?.[0];
+  while (firstColumn) {
+    firstColumn.isFirstCol = true;
+    firstColumn = firstColumn.children?.[0];
+  }
+  let lastColumn: EffectiveDataTableColumnT | undefined = groupColumns[0]?.[groupColumns[0].length - 1];
+  while (lastColumn) {
+    lastColumn.isLastCol = true;
+    lastColumn = lastColumn.children?.[lastColumn.children?.length - 1];
+  }
+};
+
 export const getGroupColumns = (
   options: ToRefs<DataTablePropsT> & {
     isMounted: boolean;
@@ -135,36 +205,11 @@ export const getGroupColumns = (
 
   clearIosMultiFixed(dataColumns, isMounted);
 
-  groupColumns.forEach((group) => {
-    let lastLeftFixedI: number | undefined;
-    let firstRightFixedI: number | undefined;
-    for (let i = 0; i < group.length; i++) {
-      if (group[i].fixed === 'left') {
-        lastLeftFixedI = i;
-      } else if (isNil(firstRightFixedI) && group[i].fixed === 'right') {
-        firstRightFixedI = i;
-      }
-    }
-    if (!isNil(lastLeftFixedI)) {
-      group[lastLeftFixedI].isLastLeftFixedCol = true;
-      setParentFixed(group[lastLeftFixedI], 'left');
-    }
-    if (!isNil(firstRightFixedI)) {
-      group[firstRightFixedI].isFirstRightFixedCol = true;
-      setParentFixed(group[firstRightFixedI], 'right');
-    }
-  });
+  markHeaderHidden(groupColumns);
 
-  let firstColumn: EffectiveDataTableColumnT | undefined = groupColumns[0]?.[0];
-  while (firstColumn) {
-    firstColumn.isFirstCol = true;
-    firstColumn = firstColumn.children?.[0];
-  }
-  let lastColumn: EffectiveDataTableColumnT | undefined = groupColumns[0]?.[groupColumns[0].length - 1];
-  while (lastColumn) {
-    lastColumn.isLastCol = true;
-    lastColumn = lastColumn.children?.[lastColumn.children?.length - 1];
-  }
+  markEdgeFixedColumns(dataColumns, groupColumns);
+
+  markEdgeColumns(groupColumns);
 
   return { dataColumns, groupColumns };
 };
@@ -180,7 +225,7 @@ const getFirstChildColumn = (column: EffectiveDataTableColumnT): EffectiveDataTa
  * 获取嵌套列配置下的最后一个渲染列
  */
 const getLastChildColumn = (column: EffectiveDataTableColumnT): EffectiveDataTableColumnT => {
-  return column.children?.length ? getFirstChildColumn(column.children[column.children.length - 1]) : column;
+  return column.children?.length ? getLastChildColumn(column.children[column.children.length - 1]) : column;
 };
 
 /**
@@ -188,19 +233,21 @@ const getLastChildColumn = (column: EffectiveDataTableColumnT): EffectiveDataTab
  */
 export const getColumnPosition = (options: {
   column: EffectiveDataTableColumnT;
-  columns: EffectiveDataTableColumnT[];
+  dataColumns: EffectiveDataTableColumnT[];
+  groupColumns: EffectiveDataTableColumnT[][];
   border?: string;
+  isHeader?: boolean;
 }): { left?: string; right?: string } => {
-  const { column, columns, border } = options;
-  const hasFrameBorder = border?.includes('frame') || border?.includes('all');
+  const { column, dataColumns, groupColumns, isHeader = false } = options;
   if (!column.fixed) {
     return {};
   }
   let count = 0;
   if (column.fixed === 'left') {
     const firstCol = getFirstChildColumn(column);
-    for (let i = 0; i < columns.length; i++) {
-      const v = columns[i];
+    // 累加左侧列宽度
+    for (let i = 0; i < dataColumns.length; i++) {
+      const v = dataColumns[i];
       if (v.key === firstCol.key) {
         break;
       }
@@ -212,14 +259,23 @@ export const getColumnPosition = (options: {
   }
 
   const lastCol = getLastChildColumn(column);
-  for (let i = columns.length - 1; i > 0; i--) {
-    const v = columns[i];
+  for (let i = dataColumns.length - 1; i > 0; i--) {
+    // 累加右侧列宽度
+    const v = dataColumns[i];
     if (lastCol.key === v.key) {
       break;
     }
 
     if (v.fixed === 'right') {
       count += v.resizeWidth ?? 0;
+    }
+  }
+  if (isHeader && column.customColSpan && column.customColSpan > 1) {
+    // 如果是表头单元格切有自定义合并单元格的情况，需要把被合并的右侧的列的宽度减除
+    let columnIndex = dataColumns.findIndex((v) => v.key === column.key) + 1;
+    while (dataColumns[columnIndex] && dataColumns[columnIndex].headerHidden) {
+      count -= dataColumns[columnIndex].resizeWidth ?? 0;
+      columnIndex++;
     }
   }
   return { right: `${count}px` };
