@@ -24,9 +24,21 @@ export interface DataTableColumnFilterOption<TLabel = any, TValue = any> {
   value: TValue;
   [key: string]: any;
 }
-export type DataTableColumnFilterOptionsFn<TLabel = any, TValue = any> = (
-  column: EffectiveDataTableColumnT,
-) => DataTableColumnFilterOption<TLabel, TValue>[] | Promise<DataTableColumnFilterOption<TLabel, TValue>[]>;
+
+/** 筛选条件为“空”时的值 */
+export const TABLE_EMPTY_OPTION_VALUE = '__null__' as const;
+/** 筛选条件为单选时，筛选条件为“全选”时的值 */
+export const TABLE_ALL_OPTION_VALUE = '__all__' as const;
+
+/**
+ * 获取筛选项数组的方法，支持异步返回
+ * @param {EffectiveDataTableColumnT} option.column 当前列的配置
+ * @param {DataTableColumnFilterOption} option.emptyOption 空值选项，根据需求采用
+ */
+export type DataTableColumnFilterOptionsFn<TLabel = any, TValue = any> = (option: {
+  column: EffectiveDataTableColumnT;
+  emptyOption: { label: string; value: typeof TABLE_EMPTY_OPTION_VALUE };
+}) => DataTableColumnFilterOption<TLabel, TValue>[] | Promise<DataTableColumnFilterOption<TLabel, TValue>[]>;
 
 /**
  * 单元格渲染方法入参
@@ -63,6 +75,27 @@ export type DataTableColumnFormatter = (options: DataTableColumnFormatterOptions
  */
 export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => { colSpan?: number; rowSpan?: number } | void;
 
+export type DataTableColumnFilterT = {
+  /**
+   * 获取筛选可选项的方法
+   */
+  optionsFn: DataTableColumnFilterOptionsFn;
+  /**
+   * 移动端弹窗的title
+   */
+  optionTitle?: string;
+  /**
+   * 是否支持多选
+   * @default true
+   */
+  multiple?: boolean;
+  /**
+   * 是否显示选项筛选输入框
+   * @default (optionsCount) => optionsCount > 8
+   */
+  showInput?: boolean | ((optionsCount: number) => boolean);
+};
+
 /**
  * 列的配置文件
  */
@@ -89,12 +122,7 @@ export interface DataTableColumnT {
   /**
    * 列表头筛选配置
    */
-  filter?: {
-    /**
-     * 获取筛选可选项的方法
-     */
-    optionsFn?: DataTableColumnFilterOptionsFn;
-  };
+  filter?: DataTableColumnFilterT;
   /**
    * 嵌套表头配置
    */

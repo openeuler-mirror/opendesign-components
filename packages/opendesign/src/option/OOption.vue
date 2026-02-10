@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, toRefs, watch } from 'vue';
+import { computed, inject, ref, toRefs, toValue, watch } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
 import { optionProps } from './types';
 import { OCheckbox } from '../checkbox';
@@ -11,7 +11,7 @@ const { label, value } = toRefs(props);
 
 const selectInject = inject(selectOptionInjectKey, null);
 
-const isMultiple = selectInject?.multiple;
+const isMultiple = computed(() => toValue(selectInject?.multiple));
 
 const currentVal = computed(() => {
   return selectInject?.selectValue.value;
@@ -61,7 +61,7 @@ const clickOption = () => {
         },
       ]"
     >
-      <OCheckbox v-if="isMultiple" :model-value="currentVal" :value="props.value" class="o-option-checkbox" :disabled="props.disabled">
+      <OCheckbox v-if="isMultiple" :model-value="currentVal" :value="props.value" class="o-option-checkbox" :disabled="props.disabled" :indeterminate="props.indeterminate">
         <slot>{{ props.label || `${props.value}` }}</slot>
       </OCheckbox>
       <slot v-else>{{ props.label || `${props.value}` }}</slot>

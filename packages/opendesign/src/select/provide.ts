@@ -1,4 +1,4 @@
-import { InjectionKey, Ref } from 'vue';
+import { InjectionKey, MaybeRefOrGetter, Ref } from 'vue';
 import { SelectOptionT } from './types';
 
 export const selectOptionInjectKey: InjectionKey<{
@@ -9,5 +9,5 @@ export const selectOptionInjectKey: InjectionKey<{
   select: (option: SelectOptionT) => Promise<void>;
   registerOption: (option: SelectOptionT) => void;
   selectValue: Ref<Array<string | number>>;
-  multiple: boolean;
+  multiple: MaybeRefOrGetter<boolean>;
 }> = Symbol('provide-select-option');

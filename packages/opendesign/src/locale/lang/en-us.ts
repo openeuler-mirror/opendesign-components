@@ -5,6 +5,7 @@ export default {
   'common.empty': 'No Data',
   'common.loading': 'Loading...',
   'common.checkAll': 'Check All',
+  'common.filter': 'Filter',
   'common.confirm': 'Confirm',
   'common.reset': 'Reset',
   'common.search': 'Search',
@@ -26,4 +27,7 @@ export default {
   'select.confirm': 'Ok',
   // input
   'input.limit': '<b>{0}</b>/{1}',
+  // table
+  'table.filterEmptyOption': 'empty',
+  'table.filterPlaceholder': 'Enter keywords',
 };

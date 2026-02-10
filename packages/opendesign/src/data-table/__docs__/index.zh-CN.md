@@ -9,6 +9,7 @@ kind: container
 
 <!-- @usage DataTableUsage -->
 <!-- @case DataTableBasic -->
+<!-- @case DataTableFilterSorter -->
 
 ## API
 
@@ -25,4 +26,15 @@ kind: container
 | width     | string \| number                                                                                                           | undefined                                                   |      | 列宽                            |
 | minWidth  | string \| number                                                                                                           | undefined                                                   |      | 最小列宽                        |
 | maxWidth  | string \| number                                                                                                           | undefined                                                   |      | 最大列宽                        |
+| sortKey   | string                                                                                                                     | undefined                                                   |      | 触发排序时传给参数对象值的key   |
+| filter    | [DataTableColumnFilterT](#data-table-column-filter-t)                                                                      | undefined                                                   |      | 供筛选的选项等配置条件          |
 | children  | DataTableColumnT[]                                                                                                         | undefined                                                   |      | 嵌套表头配置                    |
+
+#### DataTableColumnFilterT
+
+| 属性名      | 类型                                                                                                                                                                                                                                     | 默认值                             | 必填 | 说明                   |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ---- | ---------------------- |
+| optionsFn   | <TLabel = any, TValue = any>(option: { column: EffectiveDataTableColumnT, emptyOption: { label: string; value: typeof TABLE_EMPTY_OPTION_VALUE } }) => { label: TLabel, value: TValue }[] \| Promise<{ label: TLabel, value: TValue }[]> |                                    | 🗸    | 获取筛选可选项的方法   |
+| optionTitle | string                                                                                                                                                                                                                                   | undefined                          |      | 移动端弹窗的title      |
+| multiple    | boolean                                                                                                                                                                                                                                  | undefined                          |      | 是否支持多选           |
+| showInput   | boolean \| ((optionsCount: number) => boolean)                                                                                                                                                                                           | (optionsCount) => optionsCount > 8 |      | 是否显示选项筛选输入框 |
