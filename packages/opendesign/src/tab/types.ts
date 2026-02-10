@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import type { SizeT } from '../_utils/types';
+import type { RoundT, SizeT } from '../_utils/types';
 
-export const TabVariantTypes = ['solid', 'text'] as const;
+export const TabVariantTypes = ['solid', 'text', 'button'] as const;
 export type TabVariantT = (typeof TabVariantTypes)[number];
 
 export const tabProps = {
@@ -30,6 +30,13 @@ export const tabProps = {
     type: String as PropType<SizeT>,
   },
   /**
+   * @zh-CN 圆角值(仅button模式可用)
+   * @en-US Border radius(Only available in button mode)
+   */
+  round: {
+    type: String as PropType<RoundT>,
+  },
+  /**
    * @zh-CN 是否首次激活后再渲染
    * @en-US Whether to render the tab content after the first activation
    */
@@ -51,13 +58,22 @@ export const tabProps = {
     type: Boolean,
   },
   /**
-   * @zh-CN 是否展示nav线
-   * @en-US Whether to show the nav line
+   * @zh-CN 是否展示nav线(button模式不可用)
+   * @en-US Whether to show the nav line(Unavailable in button mode)
    * @default true
    */
   line: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @zh-CN 是否是反色模式的button
+   * @en-US Whether inverse mode button
+   * @default false
+   */
+  buttonInverse: {
+    type: Boolean,
+    default: false,
   },
   /**
    * @zh-CN 头部自定义样式类名
@@ -135,3 +151,8 @@ export const tabPaneProps = {
 };
 
 export type TabPanePropsT = ExtractPropTypes<typeof tabPaneProps>;
+
+export type TabPaneSlotsT = {
+  nav?: () => any;
+  default?: () => any;
+};

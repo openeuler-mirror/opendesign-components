@@ -4,7 +4,11 @@
 
 - **OScroller:** 增加scroll事件与barClass支持
 - **OAnchor:** 增加横向锚点模式
+- **OTab:** 增加按钮模式
 
+### Bug Fixes
+
+- **OTab:** 修复了tab-nav由于teleport导致的渲染顺序错乱的问题
 
 ## 1.1.0
 

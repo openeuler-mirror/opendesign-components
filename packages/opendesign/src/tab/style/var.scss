@@ -17,6 +17,7 @@
 
   --tab-nav-close-size: var(--o-icon_size_control-xs);
   --tab-nav-icon-size: var(--o-icon_size_control-m);
+  --tab-nav-icon-gap: 8px;
 }
 
 .o-tab-large {
@@ -63,4 +64,48 @@
   --tab-nav-bd-color: transparent;
   --tab-nav-bd-color-hover: transparent;
   --tab-nav-bd-color-active: var(--o-color-primary1);
+}
+
+.o-tab-button {
+  --tab-nav-color-hover: var(--o-color-primary1);
+  --tab-nav-color-active: var(--o-color-primary1);
+  --tab-nav-bg-color: var(--o-color-fill3);
+  --tab-nav-bg-color-active: var(--o-color-fill2);
+  --tab-nav-active-border: 1px solid var(--o-color-control4-light);
+  --tab-nav-justify: flex-start;
+  --tab-nav-icon-gap: 4px;
+  --tab-btn-radius: var(--o-radius_control-s);
+
+  &.o-tab-large {
+    --tab-nav-text-size: var(--o-font_size-text2);
+    --tab-nav-text-height: var(--o-line_height-text2);
+    --tab-nav-icon-size: var(--o-icon_size-m);
+    --tab-nav-gap: 4px;
+    --tab-nav-padding: 6px 16px;
+    --tab-nav-list-padding: 4px;
+
+    .o-tab-nav:has(.o-icon:only-child) {
+      --tab-nav-padding: 7px 8px;
+      --tab-nav-icon-gap: 0;
+    }
+  }
+  &.o-tab-medium,
+  &.o-tab-small {
+    --tab-nav-text-size: var(--o-font_size-tip1);
+    --tab-nav-text-height: var(--o-line_height-tip1);
+    --tab-nav-icon-size: var(--o-icon_size-xs);
+    --tab-nav-gap: 4px;
+    --tab-nav-padding: 2px 16px;
+    --tab-nav-list-padding: 2px;
+
+    .o-tab-nav:has(.o-icon:only-child) {
+      --tab-nav-padding: 5px 6px;
+      --tab-nav-icon-gap: 0;
+    }
+  }
+}
+
+.o-tab-button-inverse {
+  --tab-nav-bg-color: var(--o-color-fill2);
+  --tab-nav-bg-color-active: var(--o-color-fill3);
 }
