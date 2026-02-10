@@ -13,6 +13,13 @@
       --anchor-item-sub-link-padding-v: 5px;
     }
   }
+  // 这里加个not主要是要调整和上面的相对优先级
+  .o-anchor-h:not(.o-anchor-menu) {
+    .o-anchor-item {
+      --anchor-item-gap: 24px;
+      --anchor-item-link-padding-v: 9px;
+    }
+  }
 }
 
 @include respond('<=pad_v') {
@@ -20,6 +27,12 @@
     .o-anchor-item {
       --anchor-item-sub-link-text-size: var(--o-font_size-tip2);
       --anchor-item-sub-link-text-height: var(--o-line_height-tip2);
+    }
+  }
+
+  .o-anchor-h {
+    .o-anchor-item {
+      --anchor-item-gap: 16px;
     }
   }
 }
