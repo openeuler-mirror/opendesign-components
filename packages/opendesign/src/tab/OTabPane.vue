@@ -8,7 +8,6 @@ import { computed, getCurrentInstance, inject, onMounted, ref, useSlots, watch }
 import { useMutationObserver } from '@vueuse/core';
 
 import ClientOnly from '../_components/client-only';
-import { promiseWithResolvers } from '../_utils/helper';
 import { isUndefined } from '../_utils/is';
 import { log } from '../_utils/log';
 import { isEmptySlot } from '../_utils/vue-utils';
@@ -33,13 +32,10 @@ const paneKey = computed(() => {
 
 const navRef = ref<HTMLDivElement>();
 const registerSelf = () => {
-  const { promise: navMounted, resolve: setNavMounted } = promiseWithResolvers<void>();
   tabInjection?.registerChild({
     props,
     paneKey,
     navRenderer: isEmptySlot(runtimeSlots.nav) ? undefined : () => runtimeSlots.nav?.(),
-    navMounted,
-    setNavMounted,
   });
 };
 registerSelf();
