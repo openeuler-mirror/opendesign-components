@@ -17,7 +17,9 @@ import { OAnchor, OAnchorItem, OIconLink } from '@opensig/opendesign';
 <template>
   <OAnchor container="#wrap">
     <OAnchorItem href="#container-block1">
-      <template #title><span class="anchor-title">container-block1<OIconLink /></span></template>
+      <template #title>
+        <span class="anchor-title">container-block1<OIconLink /></span>
+      </template>
     </OAnchorItem>
   </OAnchor>
 </template>

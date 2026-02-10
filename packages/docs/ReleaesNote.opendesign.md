@@ -3,6 +3,7 @@
 ### Features
 
 - **OScroller:** 增加scroll事件与barClass支持
+- **OAnchor:** 增加横向锚点模式
 
 
 ## 1.1.0
