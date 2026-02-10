@@ -51,5 +51,7 @@ const activeIndex = ref(0);
 .active {
   --step-item-head-color: var(--o-color-primary1);
   --step-item-title-color: var(--o-color-primary1);
+
+  --step-item-title-font-weight: 600;
 }
 </style>
