@@ -77,6 +77,7 @@ const sizes = ['medium', 'large'] as const;
   background-color: var(--o-color-fill2);
   padding: 16px;
   display: flex;
+  flex-wrap: wrap;
   gap: 32px;
 
   .o-tab + .o-tab {
