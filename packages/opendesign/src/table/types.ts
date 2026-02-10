@@ -23,7 +23,7 @@ export type CellSpanT = (
   rowIndex: number,
   columnIndex: number,
   rowData?: TableRowT,
-  column?: TableColumnT
+  column?: TableColumnT,
 ) => { rowspan?: number; colspan?: number } | undefined;
 
 export const TableBorderTypes = ['all', 'row', 'column', 'frame', 'row-column', 'row-frame', 'column-frame', 'none'] as const;
@@ -52,6 +52,14 @@ export const tableProps = {
   border: {
     type: String as PropType<TableBorderT>,
     default: 'row',
+  },
+  /**
+   * @zh-CN 表格斑马纹，仅body中无纵向合并单元格时生效
+   * @en-US Table striping, taking effect only when there are no vertically merged cells in the table body.
+   */
+  stripe: {
+    type: Boolean,
+    default: false,
   },
   /**
    * @zh-CN 是否使用小尺寸
@@ -88,6 +96,14 @@ export const tableProps = {
   loadingLabel: {
     type: String,
   },
-};
+  /**
+   * @zh-CN 是否高亮当前行
+   * @en-US Whether to highlight the current row
+   */
+  highlightCurrentRow: {
+    type: Boolean,
+    default: false,
+  },
+} as const;
 
 export type TablePropsT = ExtractPropTypes<typeof tableProps>;
