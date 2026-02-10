@@ -58,6 +58,20 @@ export const tabProps = {
     type: Boolean,
   },
   /**
+   * @zh-CN 最大展示个数，超过时使用“更多”展示
+   * @en-US Max display count; show via Show more when exceeded.
+   */
+  maxShow: {
+    type: Number,
+  },
+  /**
+   * @zh-CN 超出个数隐藏时按钮的文案，默认“更多”
+   * @en-US The button text when items are hidden for exceeding the maximum count, with the default value of "more".
+   */
+  moreLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 是否展示nav线(button模式不可用)
    * @en-US Whether to show the nav line(Unavailable in button mode)
    * @default true
@@ -69,7 +83,7 @@ export const tabProps = {
   /**
    * @zh-CN 是否是反色模式的button
    * @en-US Whether inverse mode button
-   * @default false
+   * @default true
    */
   buttonInverse: {
     type: Boolean,
