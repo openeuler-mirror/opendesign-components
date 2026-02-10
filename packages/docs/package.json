@@ -15,6 +15,7 @@
     "@opensig/open-scripts": "catalog:build",
     "@types/fs-extra": "catalog:typescript",
     "@types/markdown-it": "catalog:typescript",
+    "@vitejs/plugin-vue-jsx": "catalog:vue",
     "@vue/compiler-sfc": "catalog:vue",
     "fs-extra": "catalog:io",
     "glob": "catalog:io",

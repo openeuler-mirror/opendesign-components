@@ -113,7 +113,7 @@ export function chunk(arr: any[] = [], size = 1) {
     {
       length: Math.ceil(arr.length / size),
     },
-    (_v, i) => arr.slice(i * size, i * size + size)
+    (_v, i) => arr.slice(i * size, i * size + size),
   );
 }
 
@@ -252,7 +252,6 @@ export function pick(source: object, keys: string[]) {
   return result;
 }
 
-
 /**
  * 分批执行大量任务
  * tasks: 任务列表 Array<() => void>
@@ -287,4 +286,25 @@ export function idlePerformTask(tasks: Array<() => void>) {
   };
 
   performTask(tasks, sheduler);
+}
+
+/**
+ * polyfill to Promise.withResolvers (ES2024)
+ */
+export function promiseWithResolvers<T = unknown>(): {
+  promise: Promise<T>;
+  resolve: (value: T | PromiseLike<T>) => void;
+  reject: (reason?: any) => void;
+} {
+  let resolve: (value: T | PromiseLike<T>) => void;
+  let reject: (reason?: any) => void;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+  return {
+    promise,
+    resolve: resolve!,
+    reject: reject!,
+  };
 }
