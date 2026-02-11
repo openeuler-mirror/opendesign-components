@@ -52,7 +52,7 @@ watch(stepItemHeadRef, (val) => {
             <component class="o-step-item-icon" :is="typeof props.icon === 'boolean' ? defaultIcon : props.icon" />
           </template>
           <template v-else>
-            {{ props.stepIndex! + 1 }}
+            {{ props.stepIndex + 1 }}
           </template>
         </slot>
       </div>

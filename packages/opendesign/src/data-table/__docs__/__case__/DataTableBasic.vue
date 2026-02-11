@@ -1,3 +1,13 @@
+<docs lang="md">
+<!--zh-CN-->
+
+### Basic
+
+<!--en-US-->
+
+### Basic
+</docs>
+
 <script setup lang="ts">
 import { defineComponent, h, ref } from 'vue';
 import { DataTableColumnT, DataTableSpanMethod } from '@opensig/opendesign';

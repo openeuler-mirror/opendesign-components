@@ -10,8 +10,6 @@
   --v-frame-border-width: 0px;
   /* 水平内边框宽度 */
   --h-border-width: 0px;
-  /* 垂直内边框宽度 */
-  --v-border-width: 0px;
 
   table {
     width: 100%;
@@ -112,7 +110,6 @@
   thead:has([rowspan]),
   thead:has([colspan]) {
     --h-border-width: var(--table-border-width);
-    --v-border-width: var(--table-border-width);
     tr:not(:last-child) th:not(.o-table-last-header-row-cell) {
       border-bottom: var(--table-border);
     }
@@ -155,8 +152,6 @@
 
 .o-table-border-all,
 .o-table-border-column {
-  --v-border-width: var(--table-border-width);
-
   td {
     border-right: var(--table-border);
 

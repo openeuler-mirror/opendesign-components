@@ -32,11 +32,12 @@
     z-index: 2;
     transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
     white-space: nowrap;
+    background-color: var(--table-head-bg);
   }
   &.o-table-border-all,
   &.o-table-border-frame {
     .o-table-header {
-      top: calc(0px - var(--table-border-width)); // border有透明度，无法盖住下面的内容，故多定位一个宽度
+      top: 0;
     }
   }
 
@@ -64,8 +65,14 @@
 
   .o-table-cell__inner {
     display: flex;
+    align-items: center;
   }
 
+  .o-table-header-cell {
+    .o-svg-icon {
+      font-size: var(--o-icon_size-xs);
+    }
+  }
   .o-table-header-cell .o-table-cell__inner {
     padding: var(--table-head-cell-padding);
   }
@@ -76,7 +83,7 @@
 
   .o-table-cell {
     position: relative;
-    padding: unset;
+    padding: unset !important;
 
     &.o-cell-first-col {
       padding-left: unset;
@@ -97,15 +104,15 @@
   &.o-table-border-column {
     td {
       border-left: var(--table-border);
-      border-right-color: transparent;
+      border-right: none;
 
       &.o-cell-first-col {
-        border-left-color: transparent;
+        border-left: none;
       }
     }
 
     &.is-overflow-right .o-table-cell-first-right-fixed {
-      border-left-color: transparent;
+      border-left: none;
     }
   }
 
@@ -166,8 +173,6 @@
   }
   &.is-overflow-right {
     .o-table-cell-first-right-fixed {
-      --v-border-width: 0px;
-
       &:before {
         display: block;
       }
@@ -207,6 +212,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
+    z-index: 3;
     right: calc(0px - var(--table-column-resizer-width) / 2);
     width: var(--table-column-resizer-width);
 
@@ -221,4 +227,104 @@
       right: 0;
     }
   }
+}
+
+.o-data-table-column-filter__trigger,
+.o-data-table-sorter {
+  margin-left: var(--table-filter-trigger-gap);
+  font-size: var(--table-filter-trigger-size);
+
+  @include hover {
+    cursor: pointer;
+  }
+
+  &.active,
+  &.o-data-table-sorter-asc .sort_svg__up-arrow,
+  &.o-data-table-sorter-desc .sort_svg__down-arrow {
+    color: var(--o-color-primary1);
+  }
+}
+
+.o-data-table-column-filter-popup {
+  width: var(--table-filter-popup-width);
+}
+
+.o-data-table-column-filter__input-container {
+  padding: 16px 16px 4px 16px;
+  @include respond('<=pad_v') {
+    padding: 4px 0;
+  }
+
+  .o-input {
+    width: 100%;
+  }
+}
+
+.o-data-table-column-filter__options-container {
+  .o-option-list {
+    --option-list-max-height-default: var(--table-filter-option-list-max-height-default);
+  }
+
+  .o-option {
+    --option-text-size: var(--table-text-size);
+    --option-text-height: var(--table-text-height);
+  }
+  .o-checkbox {
+    --checkbox-text-size: var(--table-text-size);
+    --checkbox-text-height: var(--table-text-height);
+  }
+
+  .o-data-table-column-filter__empty {
+    text-align: center;
+    color: var(--o-color-info4);
+    padding: 12px 0;
+    font-size: var(--table-text-size);
+    line-height: var(--table-text-height);
+  }
+
+  @include respond('<=pad_v') {
+    .o-option-list {
+      padding: 0;
+    }
+    .o-option-multiple {
+      border-radius: 0;
+      --option-padding: 12px 0;
+      --option-gap: 0;
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--o-color-control4);
+      }
+    }
+    .o-checkbox {
+      width: 100%;
+    }
+    .o-checkbox-wrap {
+      width: 100%;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    .o-checkbox-label {
+      margin-left: 0;
+    }
+  }
+}
+
+.o-data-table-column-filter__divider {
+  --o-divider-gap: 4px;
+}
+
+.o-data-table-column-filter__footer {
+  padding: 4px 8px 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: var(--table-text-size);
+  line-height: var(--table-text-height);
 }

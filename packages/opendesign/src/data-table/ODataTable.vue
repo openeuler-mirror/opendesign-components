@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { computed, ref, reactive, provide, markRaw, toRefs } from 'vue';
-import { useElementSize } from '@vueuse/core';
+import { useElementSize, useCssVar } from '@vueuse/core';
 
 import { vOnResize } from '../directives/on-resize';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
@@ -25,6 +25,8 @@ import {
 import { getColumnPosition, getCellValue } from './utils.ts';
 import TableCellRenderer from './TableCellRenderer.vue';
 import TableColGroup from './TableColGroup.vue';
+import TableColumnFilter from './TableColumnFilter.vue';
+import TableColumnSorter from './TableColumnSorter.vue';
 import { dataTableInjectKey, DataTableCtx } from './provide.ts';
 import { useDataColumn } from './use-data-column.ts';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
@@ -57,15 +59,16 @@ type AllSlots = {
 
 const slots = defineSlots<AllSlots>();
 
-/** 表格筛选条件 */
+/**
+ * @zh-CN 表格筛选条件
+ * @en-US Table filter conditions
+ */
 const conditions = defineModel<Record<string, unknown>>('conditions', {
   /**
    * @important 兜底如果外面没有传值的情况
    */
   default: reactive({}),
 });
-/** 被选中行的rowKey对应的值 */
-const selectionKeys = defineModel<DataTableRowKeyValue[]>('selection-keys', { default: [] });
 
 const getTableFilterValue = (key: string) => {
   return getValueByPath(conditions.value, key) as string[];
@@ -75,13 +78,10 @@ const handleTableFilterChange = (key: string, newVal: DataTableConditionValue[])
   emits('condition-update', { key, newVal });
 };
 
-const getTableSorterValue = (key?: string): DataTableSortMethodT => {
-  if (!key) {
-    return;
-  }
+const getTableSorterValue = (key: string): DataTableSortMethodT => {
   return getValueByPath(conditions.value, key) as DataTableSortMethodT;
 };
-const sortKeys = computed(() => Array.from(new Set(props.columns.filter((v) => v.sortKey).map((v) => v.sortKey!))));
+const sortKeys = computed(() => Array.from(new Set(dataColumns.value.filter((v) => v.sortKey).map((v) => v.sortKey!))));
 const handleTableSorterChange = (key?: string, newVal?: DataTableSortMethodT) => {
   if (!key) {
     return;
@@ -95,6 +95,11 @@ const handleTableSorterChange = (key?: string, newVal?: DataTableSortMethodT) =>
   emits('sort-update', { key, newVal });
 };
 
+/**
+ * @zh-CN 被选中行的rowKey对应的值
+ * @en-US Value of selected rows' rowKey prop
+ */
+const selectionKeys = defineModel<DataTableRowKeyValue[]>('selection-keys', { default: [] });
 const allChecked = ref<number[]>([]);
 const indeterminate = computed(() => {
   return Boolean(selectionKeys.value.length && selectionKeys.value.length !== props.data.length);
@@ -121,6 +126,8 @@ const { width: containerWidth } = useElementSize(rootRef);
 
 const headerRef = ref<HTMLTableElement>();
 const { height: headerTableHeight } = useElementSize(headerRef);
+const tableTextSize = useCssVar('--table-text-size', headerRef);
+const tableTextHeight = useCssVar('--table-text-height', headerRef);
 
 // 溢出阴影
 const tableEl = ref<HTMLTableElement>();
@@ -244,6 +251,22 @@ defineExpose(exposeData);
                   <slot :name="`th_${column.key}`" :column="column">
                     <component :is="getRenderableComponent(column.label)" />
                   </slot>
+                  <TableColumnFilter
+                    v-if="column.filter"
+                    :column="column"
+                    :model-value="getTableFilterValue(column.key)"
+                    :style="{
+                      '--table-text-size': tableTextSize,
+                      '--table-text-height': tableTextHeight,
+                    }"
+                    @update:model-value="(newVal) => handleTableFilterChange(column.key, newVal)"
+                  />
+                  <TableColumnSorter
+                    v-else-if="column.sortKey"
+                    :column="column"
+                    :model-value="getTableSorterValue(column.sortKey)"
+                    @update:model-value="(newVal) => handleTableSorterChange(column.sortKey, newVal)"
+                  />
                 </span>
                 <div
                   v-if="props.columnResizable && !column.children?.length"
