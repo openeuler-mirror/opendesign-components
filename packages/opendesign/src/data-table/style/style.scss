@@ -116,7 +116,7 @@
   }
   .o-data-table-left-shadow,
   .o-data-table-right-shadow {
-    z-index: 1;
+    z-index: 3;
   }
 
   .o-table-cell-last-left-fixed:after,
@@ -197,7 +197,7 @@
   .o-table-column-resizer__indicator {
     position: absolute;
     left: calc(var(--table-column-resizer-width) / 2 - var(--table-border-width) / 2);
-    z-index: 1;
+    z-index: 3;
     width: var(--table-border-width);
     height: var(--table-height);
     border-left: var(--table-border-width) dashed var(--o-color-info4);
