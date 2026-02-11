@@ -1,0 +1,21 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-ip-input {
+  .o_box-main {
+    align-items: center;
+  }
+}
+
+.o-ip-segment {
+  flex: 1;
+}
+
+.o-ip-separator {
+  flex-shrink: 0;
+  width: var(--ip-separator-size);
+  height: var(--ip-separator-size);
+  margin: 0 var(--ip-separator-gap);
+  border-radius: 50%;
+  background-color: var(--ip-separator-bg-color);
+  user-select: none;
+}

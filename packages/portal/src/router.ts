@@ -405,6 +405,14 @@ export const routes = [
     },
   },
   {
+    path: '/ip-input',
+    name: 'Ip-input',
+    component: () => import('@opendesign-src/ip-input/__demo__/TheIndex.vue'),
+    meta: {
+      title: 'ip地址输入框 Ip-input',
+    },
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     component: () => import('@opendesign-src/resize-observer/__demo__/IndexResize.vue'),
