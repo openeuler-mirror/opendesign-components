@@ -102,13 +102,13 @@ const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => 
   }
   base.push(
     {
-      label: () => h('span', [h(OIconCalendar), 'Email']),
+      label: () => h('span', { style: 'display: inline-flex;gap: 4px; align-items: center;' }, [h(OIconCalendar), 'Email']),
       key: 'email',
       minWidth: 200,
       formatter: ({ cellValue }) => `the email is ${cellValue}`,
     },
-    { label: 'VNode', key: 'other1', minWidth: 50, formatter: () => h(OIconSkill, { style: 'font-size: var(--line-height);' }) },
-    { label: 'VNode2', key: 'ot1her1', minWidth: 50, formatter: () => () => h(OIconSkill, { style: 'font-size: var(--line-height);' }) },
+    { label: 'VNode', key: 'other1', minWidth: 50, formatter: () => h(OIconSkill) },
+    { label: 'VNode2', key: 'ot1her1', minWidth: 50, formatter: () => () => h(OIconSkill) },
     { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },
     { label: 'Empty', key: 'noSuchProp' },
   );
@@ -170,5 +170,8 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => {
 .usage-demo-data-table {
   white-space: nowrap;
   max-width: 900px;
+  .o-table-body .o-svg-icon {
+    font-size: 24px;
+  }
 }
 </style>
