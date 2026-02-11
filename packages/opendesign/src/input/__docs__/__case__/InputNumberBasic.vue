@@ -36,8 +36,8 @@ const color = computed(() => {
 </template>
 <style lang="scss" scoped>
 .demo-input-number {
-  --_input-text-align: center;
-  max-width: 82px;
+  width: 82px;
+  min-width: 82px;
 
   &.o_box-outline.o_box-danger {
     --_box-bd-color: var(--o-color-danger1);
@@ -52,6 +52,7 @@ const color = computed(() => {
 .demo-bottom {
   display: flex;
   align-items: center;
+  padding-left: 16px;
   margin-top: 8px;
   font-size: 12px;
   line-height: 18px;
