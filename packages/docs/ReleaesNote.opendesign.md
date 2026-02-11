@@ -1,4 +1,8 @@
-## 1.1.1
+## 1.2.0
+
+### BREAKING CHANGES
+
+- **OTab:** 增加个数限制与溢出隐藏交互(修改了内部dom结构)
 
 ### Features
 
