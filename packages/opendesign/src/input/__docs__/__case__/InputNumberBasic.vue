@@ -52,7 +52,6 @@ const color = computed(() => {
 .demo-bottom {
   display: flex;
   align-items: center;
-  padding-left: 16px;
   margin-top: 8px;
   font-size: 12px;
   line-height: 18px;
