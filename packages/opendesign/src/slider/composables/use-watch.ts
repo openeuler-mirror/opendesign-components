@@ -10,7 +10,7 @@ export const useWatch = (
   maxValue: ComputedRef<number>,
   emit: SetupContext<SliderEmits>['emit'],
 ) => {
-  const _emit = (val: Arrayable<number>) => {
+  const handleEmit = (val: Arrayable<number>) => {
     emit('update:modelValue', val);
     emit('input', val);
   };
@@ -30,13 +30,13 @@ export const useWatch = (
     const val = props.modelValue;
     if (props.range && isArray(val)) {
       if (val[1] < props.min) {
-        _emit([props.min, props.min]);
+        handleEmit([props.min, props.min]);
       } else if (val[0] > props.max) {
-        _emit([props.max, props.max]);
+        handleEmit([props.max, props.max]);
       } else if (val[0] < props.min) {
-        _emit([props.min, val[1]]);
+        handleEmit([props.min, val[1]]);
       } else if (val[1] > props.max) {
-        _emit([val[0], props.max]);
+        handleEmit([val[0], props.max]);
       } else {
         initData.firstBtnVal = val[0];
         initData.secondBtnVal = val[1];
@@ -46,9 +46,9 @@ export const useWatch = (
       }
     } else if (!props.range && isNumber(val)) {
       if (val < props.min) {
-        _emit(props.min);
+        handleEmit(props.min);
       } else if (val > props.max) {
-        _emit(props.max);
+        handleEmit(props.max);
       } else {
         initData.firstBtnVal = val;
         if (valueChanged()) {
