@@ -57,3 +57,4 @@ export * from './virtual-list';
 export * from './step';
 export * from './toast';
 export * from './ip-input';
+export * from './slider';
