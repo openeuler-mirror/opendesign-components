@@ -397,6 +397,14 @@ export const routes = [
     },
   },
   {
+    path: '/toast',
+    name: 'Toast',
+    component: () => import('@opendesign-src/toast/__demo__/TheIndex.vue'),
+    meta: {
+      title: '即时反馈 Toast',
+    },
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     component: () => import('@opendesign-src/resize-observer/__demo__/IndexResize.vue'),

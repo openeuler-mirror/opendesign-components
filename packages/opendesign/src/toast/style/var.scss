@@ -1,0 +1,27 @@
+.o-toast {
+  --toast-padding: 9px 16px;
+
+  --toast-bg-color: rgb(var(--o-grey-11));
+  --toast-color: var(--o-color-info1-inverse);
+
+  --toast-radius: 4px;
+
+  --toast-font-size: var(--o-font_size-tip1);
+  --toast-line-height: var(--o-line_height-tip1);
+
+  --toast-shadow: var(--o-shadow-3);
+
+  --toast-gap: 16px;
+
+  --toast-align: center;
+
+  --toast-max-width: 100%;
+}
+
+.o-toast-list {
+  --toast-list-offset: 80px;
+  --toast-list-top-offset: var(--toast-list-offset);
+  --toast-list-bottom-offset: var(--toast-list-offset);
+
+  --z-index: 1001;
+}
