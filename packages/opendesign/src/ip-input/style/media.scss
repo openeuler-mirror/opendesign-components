@@ -1,0 +1,21 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-ip-input {
+    &.o_box-large {
+      --_box-height: 36px;
+    }
+
+    &.o_box-medium {
+      --_box-height: 28px;
+    }
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-ip-input {
+    &.o_box-large {
+      --_box-height: var(--o-control_size-l);
+    }
+  }
+}

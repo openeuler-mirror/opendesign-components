@@ -1,0 +1,24 @@
+.o-ip-input {
+  --ip-separator-size: 4px;
+  --ip-separator-gap: 8px;
+  --ip-separator-bg-color: var(--o-color-info1);
+
+  &.o_box-small {
+    --_box-padding: 0 7px;
+    --_box-height: var(--o-control_size-s);
+  }
+  &.o_box-medium {
+    --_box-padding: 0 15px;
+    --_box-height: var(--o-control_size-m);
+  }
+  &.o_box-large {
+    --_box-padding: 0 15px;
+    --_box-height: var(--o-control_size-l);
+  }
+
+  & .o-ip-segment {
+    --_box-padding: 0;
+    --_box-bd: none;
+    --_input-text-align: center;
+  }
+}
