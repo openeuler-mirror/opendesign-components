@@ -2,6 +2,7 @@
 import { computed, MaybeRef, onMounted, provide, ref, toValue, watch } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 
+import { OButton } from '../button';
 import { OPopup } from '../popup';
 import { ODialog } from '../dialog';
 import { OIconSearch, OIconFilter } from '../icon-components';
@@ -122,7 +123,9 @@ const handleTriggerClick = () => {
 </script>
 
 <template>
-  <OIconFilter
+  <OButton
+    :icon="OIconFilter"
+    size="small"
     v-show="options.length"
     ref="targetIconRef"
     :class="{ 'o-data-table-column-filter__trigger': true, active: !!modelValue.length }"

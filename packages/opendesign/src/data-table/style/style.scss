@@ -233,6 +233,9 @@
 .o-data-table-sorter {
   margin-left: var(--table-filter-trigger-gap);
   font-size: var(--table-filter-trigger-size);
+  line-height: var(--table-filter-trigger-size);
+  width: var(--table-filter-trigger-size);
+  height: var(--table-filter-trigger-size);
 
   @include hover {
     cursor: pointer;
