@@ -174,6 +174,13 @@ export const dataTableProps = {
     default: 'fit-content',
   },
   /**
+   * @zh-CN 内部table元素最小宽度，超出时出现横向滚动条
+   * @en-US min-width of the inner table element; a horizontal scrollbar will appear when it exceeds the available width.
+   */
+  minTableWidth: {
+    type: [Number, String] as PropType<number | string>,
+  },
+  /**
    * @zh-CN 表格数据行唯一标识字段名
    * @en-US Unique Identifier Field Name for Table Data Rows
    */

@@ -208,7 +208,13 @@ defineExpose(exposeData);
       auto-update-on-scroll-size
       @scroll="checkTableOverflow"
     >
-      <table ref="tableEl" class="o-table-inner-table">
+      <table
+        ref="tableEl"
+        class="o-table-inner-table"
+        :style="{
+          minWidth: isNumeric(props.minTableWidth) ? `${props.minTableWidth}px` : props.minTableWidth,
+        }"
+      >
         <caption></caption>
         <TableColGroup />
         <thead ref="headerRef" class="o-table-header">

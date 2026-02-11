@@ -14,5 +14,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "cSpell.words": ["Resizer", ,"ellipsized", "navs"]
+  "cSpell.words": ["Resizer", "ellipsized", "navs"]
 }
