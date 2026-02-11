@@ -11,11 +11,17 @@
 - **OTab:** 增加按钮模式
 - **OTable:** 增加斑马纹模式
 - **ODataTable:** 新增数据表格组件(支持固定列与表头)
-
+- **OStep:** 新增步骤条组件
+- **OToast:** 新增即时反馈组件
+- **OIpInput:** 新增ip地址输入框组件
+- **OSlider:** 新增滑动条组件
+- **OUpload:** 新增`showProgress`属性控制上传中是否显示进度条的效果
+  
 ### Bug Fixes
 
 - **OTab:** 修复了tab-nav由于teleport导致的渲染顺序错乱的问题
 - **OTable:** 修复hover header时高亮错误的问题
+- **OInput:** 修复生产环境无法获取到inInputRef实例的问题
 
 ## 1.1.0
 
