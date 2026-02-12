@@ -1,1 +1,0 @@
-export { default as OIconStar } from './OIconStar.vue';
