@@ -1,1 +1,0 @@
-export { default as OIconEllipsis } from './OIconEllipsis.vue';

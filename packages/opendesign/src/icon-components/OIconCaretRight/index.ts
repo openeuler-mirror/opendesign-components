@@ -1,1 +1,0 @@
-export { default as OIconCaretRight } from './OIconCaretRight.vue';
