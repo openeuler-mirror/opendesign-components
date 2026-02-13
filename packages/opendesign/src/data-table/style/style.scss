@@ -15,7 +15,7 @@
       height: calc(100% - var(--table-header-height) * 1px - var(--table-cell-padding-y) * 2);
     }
     .o-scrollbar-rail {
-      z-index: 3;
+      z-index: 4;
     }
   }
   .o-table-wrap {
