@@ -10,10 +10,11 @@
 
 <script setup lang="tsx">
 import { computed, ref } from 'vue';
-import { DataTableColumnT, DataTableExpandMethod, ODataTable, OButton } from '@opensig/opendesign';
+import { DataTableColumnT, DataTableExpandMethod, ODataTable, OButton, DataTableInstance } from '@opensig/opendesign';
 import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
+const dataTableRef = ref<DataTableInstance>();
 const data = ref(getTableData(3));
 
 const columns = computed<DataTableColumnT[]>(() => {
@@ -41,10 +42,10 @@ const expandMethod: DataTableExpandMethod = (row, rowIndex) => {
 
 const expandedRowKeys = ref([2]);
 const expandAll = () => {
-  expandedRowKeys.value = data.value.map((v) => v.key);
+  dataTableRef.value?.expandAll();
 };
 const foldAll = () => {
-  expandedRowKeys.value = [];
+  dataTableRef.value?.foldAll();
 };
 </script>
 
@@ -52,10 +53,11 @@ const foldAll = () => {
   <div class="operations">
     <OButton color="primary" variant="solid" @click="expandAll">expand all</OButton>
     <OButton color="primary" variant="solid" @click="foldAll">fold all</OButton>
+    expandedRowKeys: {{ expandedRowKeys }}
   </div>
 
   <h4>By Method</h4>
-  <ODataTable v-model:expanded-row-keys="expandedRowKeys" :columns="columns" :data="data" :expand-method="expandMethod" row-key="key" />
+  <ODataTable ref="dataTableRef" v-model:expanded-row-keys="expandedRowKeys" :columns="columns" :data="data" :expand-method="expandMethod" row-key="key" />
   <h4>By Slot</h4>
   <ODataTable v-model:expanded-row-keys="expandedRowKeys" :columns="columns" :data="data" row-key="key">
     <template #expand="{ row }">
@@ -69,6 +71,7 @@ const foldAll = () => {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
+  align-items: center;
 }
 
 h4 {

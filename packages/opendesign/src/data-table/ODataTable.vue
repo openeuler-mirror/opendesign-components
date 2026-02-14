@@ -5,12 +5,12 @@ import { useElementSize, useCssVar } from '@vueuse/core';
 import { vOnResize } from '../directives';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
 import { checkElementOverflow, getCssVariable } from '../_utils/dom.ts';
-import { isFunction, isNil, isNumeric } from '../_utils/is.ts';
-import { IconLoading, IconChevronRight } from '../_utils/icons';
+import { isArray, isFunction, isNil, isNumeric } from '../_utils/is.ts';
+import { IconLoading } from '../_utils/icons';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 import { OScroller } from '../scrollbar';
 import { OCheckbox } from '../checkbox';
-import { DEFAULT_CELL_FIRST_COL_MARKER, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER, TableRowT } from '../table';
+import { DEFAULT_CELL_FIRST_COL_MARKER, DEFAULT_CELL_LAST_COL_MARKER, TableRowT } from '../table';
 import { useTableCommon } from '../table/useTableCommon';
 import {
   DataTableConditionUpdatePayload,
@@ -23,13 +23,14 @@ import {
   DataTableRowKeyValue,
   dataTableProps,
   EffectiveDataTableColumnT,
+  DataTableExposed,
 } from './types.ts';
-import { getColumnPosition, getCellValue } from './utils.ts';
-import TableCellRenderer from './TableCellRenderer.vue';
+import { getColumnPosition, getIsLevelExpandable } from './utils.ts';
 import TableColGroup from './TableColGroup.vue';
+import TableRow from './TableRow.vue';
 import TableColumnFilter from './TableColumnFilter.vue';
 import TableColumnSorter from './TableColumnSorter.vue';
-import { dataTableInjectKey, DataTableCtx } from './provide.ts';
+import { dataTableInjectKey, DataTableLoadChildrenPayload, dataTableRowInjectKey, DataTableRowKeyMap } from './provide.ts';
 import { useDataColumn } from './use-data-column.ts';
 
 const props = defineProps(dataTableProps);
@@ -40,12 +41,14 @@ const emits = defineEmits<{
   (e: 'sort-update', payload: DataTableSortUpdatePayload): void;
   /** 选中双向绑定状态更新 */
   (e: 'update:selected-keys', payload: DataTableRowKeyValue[]): void;
-  /** 单行选中状态更新 */
+  /** 单行checkbox点击时触发 */
   (e: 'selection', payload: DataTableSelectionPayload): void;
-  /** 多行选中状态更新 */
+  /** 已选择数据改变时触发 */
   (e: 'selection-change', payload: DataTableSelectionChangePayload): void;
-  /** 全选状态更新 */
+  /** 全选checkbox点击时触发 */
   (e: 'selection-all', allSelected: boolean): void;
+  /** 点击懒加载子节点时触发，分别调用resolve与reject表示加载成功或者失败状态 */
+  (e: 'load-children', payload: DataTableLoadChildrenPayload): void;
   /** 列宽调整 */
   (e: 'column-resize', column: EffectiveDataTableColumnT, width: number): void;
 }>();
@@ -121,40 +124,8 @@ const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
  * @en-US rowKey of expanded rows
  */
 const expandedRowKeys = defineModel<DataTableRowKeyValue[]>('expanded-row-keys', { default: reactive([]) });
-const isRowExpanded = (row: any, rowIndex: number) => !!expandedRowKeys.value.includes(getRowKey(row, rowIndex));
-const toggleRowExpand = (row: any, rowIndex: number) => {
-  const rowKey = getRowKey(row, rowIndex);
-  const index = expandedRowKeys.value.findIndex((v) => v === rowKey);
-  if (index === -1) {
-    expandedRowKeys.value.push(rowKey);
-  } else {
-    expandedRowKeys.value.splice(index, 1);
-  }
-};
-
-const isTableExpandable = computed(() => {
-  if (slots.expand) {
-    return { expandable: true, expandableRowIndexes: props.data.map((_, i) => i) };
-  }
-  if (isNil(props.expandMethod)) {
-    return { expandable: false, expandableRowIndexes: [] };
-  }
-  let expandable = false;
-  const expandableRowIndexes: number[] = [];
-  props.data.forEach((row, rowIndex) => {
-    if (props.expandMethod?.(row, rowIndex)) {
-      expandable = true;
-      expandableRowIndexes.push(rowIndex);
-    }
-  });
-  return { expandable, expandableRowIndexes };
-});
-const isRowExpandable = (rowIndex: number) => {
-  if (!isTableExpandable.value.expandable) {
-    return false;
-  }
-  return isTableExpandable.value.expandableRowIndexes.includes(rowIndex);
-};
+const hasExpandSlot = computed(() => !!slots.expand);
+const isLevelExpandable = computed(() => getIsLevelExpandable({ list: props.data, hasExpandSlot, expandMethod: props.expandMethod }));
 
 /**
  * @zh-CN 表格筛选条件
@@ -192,63 +163,142 @@ const handleTableSorterChange = (key?: string, newVal?: DataTableSortMethodT) =>
   emits('sort-update', { key, newVal });
 };
 
-const selectionChangedBySelect = ref(false);
-const _selectedKeys = computed<DataTableRowKeyValue[]>({
-  get() {
-    return props.selectedKeys;
-  },
-  set(newVal) {
-    selectionChangedBySelect.value = true;
-    emits('update:selected-keys', newVal);
-  },
+/** 计算数据相关的禁用状态、祖先节点、后代节点等信息 */
+const rowKeyMap = computed(() => {
+  const _map: DataTableRowKeyMap = new Map();
+  const traverse = ({
+    row,
+    rowIndex,
+    ancestorRowKeys,
+    setDescendant,
+  }: {
+    row: TableRowT;
+    rowIndex: number;
+    ancestorRowKeys: DataTableRowKeyValue[];
+    setDescendant?: (descendant: DataTableRowKeyValue) => void;
+  }) => {
+    const rowKey = getRowKey(row, rowIndex);
+    setDescendant?.(rowKey);
+    const record = {
+      row,
+      rowIndex,
+      disabled: isNil(props.disabledProp) ? false : !!getValueByPath(row, props.disabledProp),
+      ancestorRowKeys,
+      descendantRowKeys: [] as DataTableRowKeyValue[],
+    };
+    const _setDescendant = (descendant: DataTableRowKeyValue) => {
+      record.descendantRowKeys.push(descendant);
+      setDescendant?.(descendant);
+    };
+    if (isArray(row.children)) {
+      row.children.forEach((v, i) => traverse({ row: v, rowIndex: i, ancestorRowKeys: [rowKey, ...ancestorRowKeys], setDescendant: _setDescendant }));
+    }
+    _map.set(rowKey, record);
+  };
+  props.data?.forEach((row, rowIndex) => traverse({ row, rowIndex, ancestorRowKeys: [] }));
+
+  return _map;
 });
+/** 所有rowKey集合，包含树形节点 */
+const allRowKeys = computed(() => {
+  return (
+    props.data?.reduce<DataTableRowKeyValue[]>((prev, row, rowIndex) => {
+      const rowKey = getRowKey(row, rowIndex);
+      return [...prev, rowKey, ...(rowKeyMap.value.get(rowKey)?.descendantRowKeys || [])];
+    }, []) || []
+  );
+});
+const toFilteredSelectable = (arr: DataTableRowKeyValue[]) => {
+  return arr.filter((v) => !rowKeyMap.value.get(v)?.disabled);
+};
+/** 去掉禁用行后可选择的行的rowKey集合 */
+const selectableRowKeys = computed(() => toFilteredSelectable(allRowKeys.value));
+
+const selectedKeys = defineModel<DataTableRowKeyValue[]>('selectedKeys', { default: reactive([]) });
+
 const allChecked = ref<number[]>([]);
 const indeterminate = computed(() => {
-  return Boolean(_selectedKeys.value.length && _selectedKeys.value.length !== props.data.length);
+  return Boolean(
+    selectedKeys.value.length &&
+      selectableRowKeys.value.some((v) => !selectedKeys.value.includes(v)) &&
+      // 兼容数据分页时，selectedKeys中包含非data的key(可能来自于其他分页)
+      selectableRowKeys.value.some((v) => selectedKeys.value.includes(v)),
+  );
 });
+
+const selectionChangedBySelectAll = ref(false);
 watch(
-  _selectedKeys,
+  () => selectedKeys.value,
   () => {
-    if (selectionChangedBySelect.value) {
+    if (selectionChangedBySelectAll.value) {
+      selectionChangedBySelectAll.value = false;
       return;
     }
-
-    if (_selectedKeys.value.length === props.data?.length) {
+    if (selectedKeys.value.length === selectableRowKeys.value.length) {
       allChecked.value = [1];
-    } else if (!_selectedKeys.value.length) {
+    } else if (!selectedKeys.value.length) {
       allChecked.value = [];
     }
-    selectionChangedBySelect.value = false;
   },
   { immediate: true },
 );
-const handleRowSelectionChange = (key: DataTableRowKeyValue, newVal: DataTableRowKeyValue[]) => {
+
+const handleTableSelection = (key: DataTableRowKeyValue, newVal: DataTableRowKeyValue[]) => {
   emits('selection', { key, selected: !!newVal.length });
-  if (_selectedKeys.value.length === props.data?.length) {
-    allChecked.value = [1];
-    emits('selection-all', true);
-  } else if (!_selectedKeys.value.length) {
-    allChecked.value = [];
-    emits('selection-all', false);
-  }
-};
-const handleSelectionAll = (newVal: DataTableRowKeyValue[]) => {
-  emits('selection-all', !!newVal.length);
-  const prev = _selectedKeys.value;
-  _selectedKeys.value = newVal.length ? props.data.map((v, i) => getRowKey(v, i)) || [] : [];
-  emits('selection-change', { prev, cur: _selectedKeys.value });
 };
 
-const exposeData = {
+const handleSelectionAll = (newVal: DataTableRowKeyValue[]) => {
+  selectionChangedBySelectAll.value = true;
+  emits('selection-all', !!newVal.length);
+  const prev = selectedKeys.value;
+  selectedKeys.value = newVal.length ? [...selectableRowKeys.value] : [];
+  emits('selection-change', { prev, cur: selectedKeys.value });
+};
+
+provide(dataTableInjectKey, {
+  ...toRefs(props),
+  getRowKey,
   containerWidth,
   dataColumnMap,
   dataColumns,
   groupColumns,
-} as DataTableCtx; // TODO 修复实例化过深的报错
 
-provide(dataTableInjectKey, exposeData);
+  hasExpandSlot,
+  expandedRowKeys,
 
-defineExpose(exposeData);
+  isBodyCellRemoved,
+  isLastLeftFixedCell,
+  isFirstRightFixedCell,
+
+  rowKeyMap,
+  allRowKeys,
+  toFilteredSelectable,
+  selectedKeys,
+  handleTableSelection,
+
+  handleLoadChildren(payload) {
+    emits('load-children', payload);
+  },
+});
+
+provide(dataTableRowInjectKey, {
+  isLevelExpandable,
+});
+
+defineExpose<DataTableExposed>({
+  getRowKey,
+  dataColumnMap,
+  dataColumns,
+  groupColumns,
+  selectAll() {
+    selectedKeys.value = [...selectableRowKeys.value];
+  },
+  clearAll: () => (selectedKeys.value = []),
+  expandAll() {
+    expandedRowKeys.value = [...allRowKeys.value];
+  },
+  foldAll: () => (expandedRowKeys.value = []),
+});
 </script>
 
 <template>
@@ -293,7 +343,7 @@ defineExpose(exposeData);
       >
         <caption></caption>
         <TableColGroup />
-        <thead ref="headerRef" class="o-table-header">
+        <thead v-if="props.showHeader" ref="headerRef" class="o-table-header">
           <slot name="header" :columns="dataColumns" :group-columns="groupColumns">
             <tr v-for="groupColumn in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
               <template v-for="(column, colIndex) in groupColumn" :key="column.key">
@@ -325,7 +375,7 @@ defineExpose(exposeData);
                       class="o-table-row-checkbox"
                       @change="handleSelectionAll"
                     />
-                    <span v-if="column.isFirstCol && !props.selection && isTableExpandable.expandable" class="o-table-row-icon-placeholder" />
+                    <span v-if="column.isFirstCol && !props.selection && isLevelExpandable.expandable" class="o-table-row-icon-placeholder" />
                     <slot :name="`th_${column.key}`" :column="column">
                       <component :is="getRenderableComponent(column.label)" />
                     </slot>
@@ -361,85 +411,11 @@ defineExpose(exposeData);
         </thead>
         <tbody class="o-table-body" @mousemove="handleMouseOver" @mouseleave="clearHighlight" @touchstart="handleTouchStart">
           <template v-for="(row, rowIndex) in props.data" :key="getRowKey(row, rowIndex)">
-            <tr
-              :class="[
-                'o-table-row',
-                'o-table-body-row',
-                {
-                  [DEFAULT_ROW_LAST_MARKER]: rowIndex === props.data.length - 1 && !isRowExpandable(rowIndex),
-                },
-              ]"
-            >
-              <template v-for="(column, colIndex) in dataColumns" :key="column.key">
-                <td
-                  v-if="!isBodyCellRemoved(rowIndex, colIndex)"
-                  v-bind="props.spanMethod?.({ row, column, cellValue: getCellValue({ row, column }), rowIndex, colIndex })"
-                  :class="{
-                    'o-table-cell': true,
-                    'o-table-body-cell': true,
-                    'o-cell-last-row': rowIndex === props.data.length - 1 && !isRowExpandable(rowIndex),
-                    'o-table-cell-fixed': column.fixed,
-                    'o-table-cell-fixed-left': column.fixed === 'left',
-                    'o-table-cell-fixed-right': column.fixed === 'right',
-                    'o-table-cell-last-left-fixed': isLastLeftFixedCell(rowIndex, colIndex),
-                    'o-table-cell-first-right-fixed': isFirstRightFixedCell(rowIndex, colIndex),
-                    [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
-                    [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
-                  }"
-                  :style="getColumnPosition({ column, dataColumns, groupColumns, border: props.border })"
-                >
-                  <span class="o-table-cell__inner">
-                    <OCheckbox
-                      v-if="column.isFirstCol && props.selection"
-                      v-model="_selectedKeys"
-                      :value="getRowKey(row, rowIndex)"
-                      class="o-table-row-checkbox"
-                      @change="(newVal) => handleRowSelectionChange(getRowKey(row, rowIndex), newVal)"
-                    />
-                    <IconChevronRight
-                      v-if="column.isFirstCol && isTableExpandable.expandable"
-                      :class="{
-                        'o-table-row-expand-trigger': true,
-                        expandable: isRowExpandable(rowIndex),
-                        expanded: isRowExpanded(row, rowIndex),
-                      }"
-                      @click="() => toggleRowExpand(row, rowIndex)"
-                    />
-                    <slot :name="`td_${column.key}`" :row="row" :column="column" :cell-value="getCellValue({ row, column })" :index="rowIndex">
-                      <TableCellRenderer :row="row" :column="column" :cell-value="getCellValue({ row, column })" :row-index="rowIndex" :col-index="colIndex" />
-                    </slot>
-                  </span>
-                </td>
+            <TableRow :row="row" :row-index="rowIndex" :level="0">
+              <template v-if="slots.expand" #expand>
+                <slot name="expand" :row="row" :row-index="rowIndex"></slot>
               </template>
-            </tr>
-            <tr
-              v-if="isRowExpandable(rowIndex)"
-              v-show="isRowExpanded(row, rowIndex)"
-              :class="[
-                'o-table-row',
-                'o-table-body-row',
-                'o-table-row-expand',
-                {
-                  [DEFAULT_ROW_LAST_MARKER]: rowIndex === props.data.length - 1,
-                },
-              ]"
-            >
-              <td
-                :colspan="dataColumns.length"
-                :class="{
-                  'o-table-cell': true,
-                  'o-table-body-cell': true,
-                  'o-table-expand-cell': true,
-                  'o-cell-last-row': rowIndex === props.data.length - 1,
-                }"
-              >
-                <span class="o-table-cell__inner o-table-expand-cell__inner">
-                  <slot name="expand" :row="row" :row-index="rowIndex">
-                    <component :is="getRenderableComponent(props.expandMethod?.(row, rowIndex))" />
-                  </slot>
-                </span>
-              </td>
-            </tr>
+            </TableRow>
           </template>
           <div v-if="props.loading || !props.data?.length" class="empty-placeholder"></div>
         </tbody>

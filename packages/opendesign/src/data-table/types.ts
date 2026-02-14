@@ -1,4 +1,4 @@
-import { Component, ExtractPropTypes, PropType, VNode } from 'vue';
+import { Component, ExtractPropTypes, PropType, Ref, VNode } from 'vue';
 
 import { tableProps, TableRowT } from '../table';
 
@@ -237,6 +237,14 @@ export const dataTableProps = {
     default: () => () => undefined,
   },
   /**
+   * @zh-CN 是否展示header
+   * @en-US Whether to show the header.
+   */
+  showHeader: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @zh-CN 行展开的计算方法，返回 `false` 则不可被展开
    * @en-US Calculation Methods for Row expansion. Returns `false` if the row cannot be expanded.
    */
@@ -260,12 +268,20 @@ export const dataTableProps = {
     default: false,
   },
   /**
-   * @zh-CN 被选中行的rowKey对应的值
-   * @en-US Value of selected rows' rowKey prop
+   * @zh-CN 选择时指示行是否可被选择的键名
+   * @en-US Key name for indicating row selectability during selection
    */
-  selectedKeys: {
-    type: Array as PropType<DataTableRowKeyValue[]>,
-    default: () => [],
+  disabledProp: {
+    type: String,
+    default: 'disabled',
+  },
+  /**
+   * @zh-CN 树形表格选择时是否遵循父子不关联
+   * @en-US Whether to disable parent-child association in tree table selection
+   */
+  checkStrictly: {
+    type: Boolean,
+    default: true,
   },
   stripe,
   border,
@@ -323,4 +339,23 @@ export type DataTableSelectionChangePayload = {
   prev: DataTableRowKeyValue[];
   /** 改变后对应行数据的rowKey对应的值 */
   cur: DataTableRowKeyValue[];
+};
+
+export type DataTableExposed = {
+  /** 计算当前行的rowKey的方法 */
+  getRowKey: (row: TableRowT, rowIndex: number) => DataTableRowKeyValue;
+  /** 所有列配置的基于key的map */
+  dataColumnMap: Map<string, EffectiveDataTableColumnT>;
+  /** 所有的列的扁平数组 */
+  dataColumns: Ref<EffectiveDataTableColumnT[]>;
+  /** 列根据层级关系构造的二维数组 */
+  groupColumns: Ref<EffectiveDataTableColumnT[][]>;
+  /** 全选 */
+  selectAll: () => void;
+  /** 清空全选 */
+  clearAll: () => void;
+  /** 展开全部 */
+  expandAll: () => void;
+  /** 收起全部 */
+  foldAll: () => void;
 };

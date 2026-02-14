@@ -11,6 +11,7 @@ kind: container
 <!-- @case DataTableBasic -->
 <!-- @case DataTableFilterSorter -->
 <!-- @case DataTableExpand -->
+<!-- @case DataTableTree -->
 <!-- @case DataTableSelection -->
 
 ## API

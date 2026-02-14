@@ -57,6 +57,10 @@ const _oSchema = {
     type: 'boolean',
     default: false,
   },
+  showHeader: {
+    type: 'boolean',
+    default: true,
+  },
   empty: {
     type: 'boolean',
     default: false,

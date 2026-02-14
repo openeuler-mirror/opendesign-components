@@ -8,6 +8,10 @@ export interface TableColumnT {
 
 export interface TableRowT {
   key?: string | number;
+  /** 树形懒加载时指示本行是否有子节点 */
+  hasChildren?: boolean;
+  /** 子节点列表 */
+  children?: TableRowT[];
   [key: string]: unknown;
 }
 

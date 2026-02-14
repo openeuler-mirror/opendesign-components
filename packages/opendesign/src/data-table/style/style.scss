@@ -367,6 +367,9 @@
       cursor: pointer;
     }
   }
+  &.loading {
+    visibility: visible;
+  }
   &.expanded {
     transform: rotate(90deg);
   }

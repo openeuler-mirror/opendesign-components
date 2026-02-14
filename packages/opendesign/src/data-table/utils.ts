@@ -1,7 +1,7 @@
-import { ToRefs } from 'vue';
+import { ComputedRef, ToRefs } from 'vue';
 import { isArray, isNil, isIosDevice } from '../_utils/is.ts';
 import { TableRowT } from '../table';
-import { DataTableColumnFormatter, DataTableColumnT, DataTablePropsT, EffectiveDataTableColumnT } from './types.ts';
+import { DataTableColumnFormatter, DataTableColumnT, DataTableExpandMethod, DataTablePropsT, EffectiveDataTableColumnT } from './types.ts';
 import { getValueByPath } from '../_utils/helper.ts';
 
 export const getCellValue = ({ row, column }: { row: TableRowT; column: EffectiveDataTableColumnT }) => {
@@ -279,4 +279,46 @@ export const getColumnPosition = (options: {
     }
   }
   return { right: `${count}px` };
+};
+
+/**
+ * 判断当前层级是否有任何的可展开项，用于缩进对齐
+ */
+export const getIsLevelExpandable = ({
+  list,
+  hasExpandSlot,
+  expandMethod,
+}: {
+  list?: TableRowT[];
+  hasExpandSlot: ComputedRef<boolean>;
+  expandMethod?: DataTableExpandMethod;
+}) => {
+  if (!isArray(list) || !list.length) {
+    return { expandable: false, expandableRowIndexes: [] };
+  }
+  if (hasExpandSlot.value) {
+    return { expandable: true, expandableRowIndexes: list.map((_, i) => i) || [] };
+  }
+
+  if (!isNil(expandMethod)) {
+    let _expandable = false;
+    const _expandableRowIndexes: number[] = [];
+    list.forEach((_child, _childIndex) => {
+      if (expandMethod(_child, _childIndex)) {
+        _expandable = true;
+        _expandableRowIndexes.push(_childIndex);
+      }
+    });
+    return { expandable: _expandable, expandableRowIndexes: _expandableRowIndexes };
+  }
+
+  let expandable = false;
+  const expandableRowIndexes: number[] = [];
+  list.forEach((child, childIndex) => {
+    if ((isArray(child.children) && !!child.children.length) || child.hasChildren) {
+      expandable = true;
+      expandableRowIndexes.push(childIndex);
+    }
+  });
+  return { expandable, expandableRowIndexes };
 };

@@ -1,4 +1,4 @@
-function getItem(index: number) {
+function getItem(index: number): Record<string, any> {
   return {
     no: index,
     key: index,
@@ -10,6 +10,7 @@ function getItem(index: number) {
     address: `${index} Park Road, London`,
     email: `william.smith${index}@example.com`,
     other: `other info ${index}`,
+    disabled: undefined,
   };
 }
 
