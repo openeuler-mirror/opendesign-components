@@ -71,6 +71,17 @@
     display: flex;
     align-items: center;
   }
+  .o-table-cell-tooltip {
+    .o-table-cell__inner-content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: var(--cell-max-row);
+      line-clamp: var(--cell-max-row);
+      -webkit-box-orient: vertical;
+      word-break: break-word;
+    }
+  }
 
   .o-table-header-cell {
     .o-svg-icon {

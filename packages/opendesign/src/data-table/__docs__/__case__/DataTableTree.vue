@@ -17,7 +17,7 @@ import OSwitch from '../../../switch/OSwitch.vue';
 const dataTableRef = ref<DataTableInstance>();
 
 const data = ref([
-  { key: '1', name: 'William Smith 1', age: 17, salary: 27001, disabled: true },
+  { key: '1', name: 'William Smith 1', age: 17, salary: 27001 },
   {
     key: '2',
     name: 'Lilian Smith 2',

@@ -1,15 +1,16 @@
 <script setup lang="tsx">
-import { computed, ref, reactive, provide, markRaw, toRefs, watch } from 'vue';
+import { computed, ref, reactive, provide, markRaw, toRefs, watch, nextTick, shallowRef } from 'vue';
 import { useElementSize, useCssVar } from '@vueuse/core';
 
 import { vOnResize } from '../directives';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
-import { checkElementOverflow, getCssVariable } from '../_utils/dom.ts';
+import { checkElementOverflow, findClosestElementWithClass, getCssVariable, isOverflown } from '../_utils/dom.ts';
 import { isArray, isFunction, isNil, isNumeric } from '../_utils/is.ts';
 import { IconLoading } from '../_utils/icons';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 import { OScroller } from '../scrollbar';
 import { OCheckbox } from '../checkbox';
+import { OPopover } from '../popover';
 import { DEFAULT_CELL_FIRST_COL_MARKER, DEFAULT_CELL_LAST_COL_MARKER, TableRowT } from '../table';
 import { useTableCommon } from '../table/useTableCommon';
 import {
@@ -255,6 +256,30 @@ const handleSelectionAll = (newVal: DataTableRowKeyValue[]) => {
   emits('selection-change', { prev, cur: selectedKeys.value });
 };
 
+const popoverVisible = ref(false);
+const popoverTarget = shallowRef<HTMLElement>();
+const popoverContent = ref<string>();
+const popoverKey = ref<string>();
+
+const handleTableMouseover = async (e: MouseEvent) => {
+  const cellTarget = findClosestElementWithClass(e.target, 'o-table-cell-tooltip', tableEl.value!);
+
+  const cellInnerContent = cellTarget?.querySelector<HTMLSpanElement>(':scope > .o-table-cell__inner > .o-table-cell__inner-content');
+  if (cellTarget && cellInnerContent) {
+    popoverKey.value = cellTarget.dataset.cellIndex; // 在td上设置的自定义属性
+    popoverTarget.value = cellInnerContent;
+  }
+  if (!cellTarget || cellTarget === tableEl.value || !cellInnerContent || !isOverflown(cellInnerContent)) {
+    popoverVisible.value = false;
+    popoverTarget.value = undefined;
+    popoverContent.value = undefined;
+    return;
+  }
+  await nextTick();
+  popoverContent.value = cellInnerContent.innerText;
+  popoverVisible.value = true;
+};
+
 provide(dataTableInjectKey, {
   ...toRefs(props),
   getRowKey,
@@ -340,12 +365,13 @@ defineExpose<DataTableExposed>({
         :style="{
           minWidth: isNumeric(props.minTableWidth) ? `${props.minTableWidth}px` : props.minTableWidth,
         }"
+        @mouseover="handleTableMouseover"
       >
         <caption></caption>
         <TableColGroup />
         <thead v-if="props.showHeader" ref="headerRef" class="o-table-header">
           <slot name="header" :columns="dataColumns" :group-columns="groupColumns">
-            <tr v-for="groupColumn in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
+            <tr v-for="(groupColumn, groupIndex) in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
               <template v-for="(column, colIndex) in groupColumn" :key="column.key">
                 <th
                   v-if="!column.headerHidden"
@@ -355,6 +381,7 @@ defineExpose<DataTableExposed>({
                   :class="{
                     'o-table-cell': true,
                     'o-table-header-cell': true,
+                    'o-table-cell-tooltip': true,
                     'o-table-last-header-row-cell': !column.children?.length,
                     'o-table-cell-fixed': column.fixed,
                     'o-table-cell-fixed-left': column.fixed === 'left',
@@ -364,7 +391,8 @@ defineExpose<DataTableExposed>({
                     [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
                     [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
                   }"
-                  :style="getColumnPosition({ column, dataColumns, groupColumns, border: props.border, isHeader: true })"
+                  :style="{ ...getColumnPosition({ column, dataColumns, groupColumns, border: props.border, isHeader: true }), '--cell-max-row': 1 }"
+                  :data-cell-index="`th_${groupIndex}_${colIndex}`"
                 >
                   <span class="o-table-cell__inner">
                     <OCheckbox
@@ -376,9 +404,11 @@ defineExpose<DataTableExposed>({
                       @change="handleSelectionAll"
                     />
                     <span v-if="column.isFirstCol && !props.selection && isLevelExpandable.expandable" class="o-table-row-icon-placeholder" />
-                    <slot :name="`th_${column.key}`" :column="column">
-                      <component :is="getRenderableComponent(column.label)" />
-                    </slot>
+                    <span class="o-table-cell__inner-content">
+                      <slot :name="`th_${column.key}`" :column="column">
+                        <component :is="getRenderableComponent(column.label)" />
+                      </slot>
+                    </span>
                     <TableColumnFilter
                       v-if="column.filter"
                       :disabled="props.loading"
@@ -434,5 +464,8 @@ defineExpose<DataTableExposed>({
     </div>
 
     <div v-if="!hasRightFixedColumn && !props.loading && props.data.length" class="o-data-table-right-shadow"></div>
+    <OPopover v-if="popoverVisible" :key="popoverKey" visivle :target="popoverTarget" position="bottom" wrap-class="o-table-tooltip-wrapper">
+      {{ popoverContent }}
+    </OPopover>
   </div>
 </template>

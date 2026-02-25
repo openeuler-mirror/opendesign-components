@@ -116,9 +116,9 @@ export interface DataTableColumnT {
   /** 列的最大宽度 */
   maxWidth?: number | string;
   /**
-   * 是否显示溢出隐藏气泡
+   * 是否显示溢出隐藏气泡，传入数字以设置最大行数
    */
-  showOverflowToolTip?: boolean;
+  showOverflowToolTip?: boolean | number;
   /**
    * 排序方式绑定的条件对象的key
    * @important 只能进行单一列的排序，当前列排序修改后会清空其他列的排序

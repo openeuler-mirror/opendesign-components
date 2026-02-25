@@ -35,17 +35,21 @@ export const useDataColumn = (
       .then(() => {
         return Promise.all(
           dataColumns.value.map(async (column) => {
-            let width = column.colRef?.style.width;
+            let width: string | number | undefined = column.colRef?.style.width;
             if (!width && isString(column.width) && column.width.includes('%')) {
-              width = `${(Number.parseFloat(column.width) * containerWidth.value) / 100}px`;
+              width = (Number.parseFloat(column.width) * containerWidth.value) / 100;
             }
             if (!width && column.width) {
-              width = isNumeric(column.width) ? `${column.width}px` : column.width;
+              width = isString(column.width) ? Number.parseFloat(column.width) : column.width;
             }
             if (!width) {
-              width = `${await getElementRectByRAF(column.colRef!).then((rect) => rect.width)}px`;
+              width = await getElementRectByRAF(column.colRef!).then((rect) => rect.width);
             }
-            column.colRef!.style.width = width;
+            // col元素设置max-width无效，需要手动控制宽度
+            if (column.maxWidth) {
+              width = Math.min(width as number, Number.parseFloat(column.maxWidth.toString()));
+            }
+            column.colRef!.style.width = `${width}px`;
             column.resizeWidth = await getElementRectByRAF(column.colRef!).then((rect) => rect.width);
           }),
         );
@@ -175,9 +179,12 @@ export const useDataColumn = (
       return;
     }
     const thRect = thEl.getBoundingClientRect();
-    const width = Math.floor(event.clientX - thRect.x);
+    let width = Math.floor(event.clientX - thRect.x);
 
     const column = dataColumnMap.get(resizingColumnKey.value);
+    if (column?.maxWidth) {
+      width = Math.min(width, Number.parseFloat(column?.maxWidth.toString()));
+    }
     if (column?.colRef) {
       column.colRef.style.width = `${width}px`;
     }

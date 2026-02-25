@@ -15,16 +15,12 @@ import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
 const columns: DataTableColumnT[] = [
-  { label: 'Name', key: 'name', fixed: 'left', minWidth: '15%' },
+  { label: 'Name', key: 'name', fixed: 'left', minWidth: 150 },
   {
     label: 'children',
     key: 'sumCol',
     children: [
-      {
-        label: 'Salary',
-        key: 'salary',
-        fixed: 'left',
-      },
+      { label: 'Salary', key: 'salary' },
       { label: 'Address', key: 'address' },
       {
         label: 'Email',
@@ -40,9 +36,17 @@ const columns: DataTableColumnT[] = [
       { label: 'Gender', key: 'gender' },
     ],
   },
+  {
+    label: 'Ellipses Table Cells - showOverflowToolTip',
+    key: 'ellipses',
+    formatter: ({ row }) => h('span', `${row.email} text has overflowed`),
+    minWidth: 130,
+    maxWidth: 180,
+    showOverflowToolTip: 2,
+  },
   { label: 'VNode', key: 'other1', formatter: ({ row }) => h('span', { style: 'white-space: nowrap' }, `${row.email} render by VNode`) },
   { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },
-  { label: 'other', key: 'other', fixed: 'right' },
+  { label: 'other', key: 'other' },
   { label: 'rightFixed', key: 'rightFixed', fixed: 'right' },
 ];
 

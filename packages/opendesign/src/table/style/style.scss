@@ -66,6 +66,13 @@
     height: var(--table-cell-height);
   }
 
+  .o-table-row-disabled {
+    td {
+      background-color: var(--table-disabled-bg-color);
+      color: var(--table-disabled-cell-color);
+    }
+  }
+
   th:first-child,
   td:first-child {
     padding-left: var(--table-edge-padding);

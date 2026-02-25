@@ -1,5 +1,7 @@
 <template>
-  <component :is="renderContent" />
+  <span class="o-table-cell__inner-content">
+    <component :is="renderContent" />
+  </span>
 </template>
 
 <script setup lang="ts">

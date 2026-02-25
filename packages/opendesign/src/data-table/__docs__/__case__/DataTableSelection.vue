@@ -16,9 +16,10 @@ import '../../style';
 
 const dataTableRef = ref<DataTableInstance>();
 
-const data = ref(getTableData(3));
+const data = ref(getTableData(5));
 
 data.value[2].disabled = true;
+data.value[3].disabled = true;
 
 const columns = computed<DataTableColumnT[]>(() => {
   return [
@@ -29,7 +30,7 @@ const columns = computed<DataTableColumnT[]>(() => {
   ];
 });
 
-const selectedKeys = ref([2]);
+const selectedKeys = ref([2, 3]);
 const selectAll = () => {
   dataTableRef.value?.selectAll();
 };
@@ -46,7 +47,7 @@ const clearAll = () => {
     Selected Keys: {{ selectedKeys }}
   </div>
 
-  <ODataTable ref="dataTableRef" v-model:selected-keys="selectedKeys" :columns="columns" :data="data" row-key="key" selection />
+  <ODataTable ref="dataTableRef" v-model:selected-keys="selectedKeys" :columns="columns" :data="data" row-key="key" selection highlight-current-row />
 </template>
 
 <style lang="scss" scoped>

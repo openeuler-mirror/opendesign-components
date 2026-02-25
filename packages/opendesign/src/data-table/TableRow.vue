@@ -5,7 +5,7 @@ import { DEFAULT_CELL_FIRST_COL_MARKER, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_RO
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 import { OCheckbox } from '../checkbox';
 import { IconChevronRight, IconLoading } from '../_utils/icons.ts';
-import { isArray, isNil } from '../_utils/is.ts';
+import { isArray, isNil, isNumber } from '../_utils/is.ts';
 import { promiseWithResolvers } from '../_utils/helper.ts';
 
 import TableCellRenderer from './TableCellRenderer.vue';
@@ -147,6 +147,7 @@ provide(dataTableRowInjectKey, {
       'o-table-body-row',
       {
         [DEFAULT_ROW_LAST_MARKER]: rowIndex === data.length - 1 && !isRowExpandable,
+        'o-table-row-disabled': rowKeyMap.get(rowKey)?.disabled,
       },
     ]"
     :data-level="level"
@@ -166,8 +167,13 @@ provide(dataTableRowInjectKey, {
           'o-table-cell-first-right-fixed': isFirstRightFixedCell(rowIndex, colIndex),
           [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
           [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
+          'o-table-cell-tooltip': column.showOverflowToolTip,
         }"
-        :style="getColumnPosition({ column, dataColumns, groupColumns, border: border })"
+        :style="{
+          ...getColumnPosition({ column, dataColumns, groupColumns, border: border }),
+          '--cell-max-row': isNumber(column.showOverflowToolTip) ? column.showOverflowToolTip : 1,
+        }"
+        :data-cell-index="`td_${rowIndex}_${colIndex}`"
       >
         <span class="o-table-cell__inner">
           <OCheckbox
