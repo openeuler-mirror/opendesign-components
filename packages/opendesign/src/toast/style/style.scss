@@ -3,6 +3,7 @@
 .o-toast {
   display: flex;
   align-items: var(--toast-align);
+  justify-content: space-between;
   width: fit-content;
   max-width: var(--toast-max-width);
   padding: var(--toast-padding);
