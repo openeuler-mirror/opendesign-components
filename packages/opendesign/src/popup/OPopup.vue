@@ -41,7 +41,7 @@ let targetEl: HTMLElement | null = null;
 // 默认为true，避免props.visible为初始值为true时，无法计算popup位置
 const isTargetInViewport = ref(true);
 
-let wrapperEl: Ref<HTMLElement | null> = ref(null);
+const wrapperEl: Ref<HTMLElement | null> = ref(null);
 const popupRef: Ref<HTMLElement | null> = ref(null);
 const popStyle = reactive<{
   left?: string;
@@ -90,20 +90,39 @@ onMounted(() => {
   }
 
   const { target, wrapper } = toRefs(props);
-  // 绑定触发元素事件
-  resolveHtmlElement(target).then((el) => {
-    if (el) {
-      bindTargetEvent(el);
-    }
-  });
 
-  // 获取挂载容器
-  resolveHtmlElement(wrapper).then((el) => {
-    if (el) {
-      wrapperEl.value = el;
-    }
-  });
+  watch(
+    target,
+    () => {
+      triggerListener?.forEach((fn) => fn());
+      if (targetEl) {
+        ro?.unobserve(targetEl, onResize);
+      }
+      // 绑定触发元素事件
+      resolveHtmlElement(target).then((el) => {
+        if (el) {
+          bindTargetEvent(el);
+        }
+      });
+    },
+    { immediate: true },
+  );
 
+  watch(
+    wrapper,
+    () => {
+      if (wrapperEl.value) {
+        ro?.unobserve(wrapperEl.value, onResize);
+      }
+      // 获取挂载容器
+      resolveHtmlElement(wrapper).then((el) => {
+        if (el) {
+          wrapperEl.value = el;
+        }
+      });
+    },
+    { immediate: true },
+  );
 });
 
 let triggerListener: ReturnType<typeof bindTrigger> = [];
@@ -232,7 +251,7 @@ watch(
         updatePopupStyle();
       });
     }
-  }
+  },
 );
 
 let visibleTimer = 0;
