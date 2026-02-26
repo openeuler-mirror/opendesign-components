@@ -97,7 +97,6 @@ const num = list.length;
 }
 
 .carousel-indicator {
-  --carousel-indicator-bg-color-hover: var(--o-color-control1);
   cursor: pointer;
   @include hover {
     .indicator-title,
