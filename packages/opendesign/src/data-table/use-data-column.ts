@@ -1,7 +1,7 @@
 import { ref, watch, computed, ToRefs, Ref, ComputedRef } from 'vue';
 import { useMounted, until } from '@vueuse/core';
 
-import { isNumeric, isString } from '../_utils/is';
+import { isString } from '../_utils/is';
 import { getElementRectByRAF } from '../_utils/dom';
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
@@ -198,7 +198,7 @@ export const useDataColumn = (
     window.removeEventListener('contextmenu', handleColumnResizerMouseup);
   };
 
-  const handleColumnResizerMousedown = ({ event, column, colIndex }: { event: MouseEvent; column: EffectiveDataTableColumnT; colIndex: number }) => {
+  const handleColumnResizerMousedown = ({ event, column }: { event: MouseEvent; column: EffectiveDataTableColumnT; colIndex: number }) => {
     event.preventDefault();
     event.stopPropagation();
 

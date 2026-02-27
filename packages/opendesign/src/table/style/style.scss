@@ -46,7 +46,8 @@
     box-sizing: border-box;
   }
 
-  th {
+  th,
+  .o-table-column-as-header {
     text-align: left;
     font-weight: 600;
     background-color: var(--table-head-bg);

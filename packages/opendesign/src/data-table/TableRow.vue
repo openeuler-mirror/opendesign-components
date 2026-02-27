@@ -27,6 +27,7 @@ const {
   getRowKey,
   data,
   border,
+  headerStyle,
   spanMethod,
   selection,
   checkStrictly,
@@ -159,6 +160,7 @@ provide(dataTableRowInjectKey, {
         :class="{
           'o-table-cell': true,
           'o-table-body-cell': true,
+          'o-table-column-as-header': column.asHeader,
           'o-cell-last-row': rowIndex === data.length - 1 && !isRowExpandable,
           'o-table-cell-fixed': column.fixed,
           'o-table-cell-fixed-left': column.fixed === 'left',
@@ -203,6 +205,7 @@ provide(dataTableRowInjectKey, {
           </template>
           <TableCellRenderer :row="row" :column="column" :cell-value="getCellValue({ row, column })" :row-index="rowIndex" :col-index="colIndex" />
         </span>
+        <div v-if="headerStyle === 'split-line' && column.asHeader" class="o-data-table-header-divider-v"></div>
       </td>
     </template>
   </tr>

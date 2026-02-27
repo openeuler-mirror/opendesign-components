@@ -1,9 +1,11 @@
 .o-data-table {
-  --table-head-bg: var(--o-color-control3-light);
-  --table-head-border-bottom: var(--table-border-width) solid var(--o-color-control3-light);
-
   --table-filter-trigger-gap: 4px;
   --table-filter-trigger-size: 16px;
+}
+
+.o-table-header-fill {
+  --table-head-bg: var(--o-color-control3-light);
+  --table-head-border-bottom: var(--table-border-width) solid var(--table-head-bg);
 }
 
 .o-data-table-column-filter-popup {

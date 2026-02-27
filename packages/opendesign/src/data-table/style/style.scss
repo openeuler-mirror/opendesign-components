@@ -41,28 +41,63 @@
     }
   }
 
-  &.is-overflow-top {
+  &.is-overflow-top:not(.o-table-header-split-line) {
     .o-table-header {
       box-shadow: var(--table-fixed-head-shadow);
     }
   }
 
   .o-table-body-cell {
+    position: relative;
     .o-table-cell__inner {
       word-break: break-word;
     }
   }
 
-  // 重置OTable的样式
+  .o-data-table-header-divider-v {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: calc(0px - var(--table-border-width));
+    right: calc(0px - var(--table-border-width));
+    width: 1px;
+    background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+    background-size: 1px 100%;
+  }
   .o-table-header {
     &:after {
+      // 去掉o-table的样式，改用外侧元素以提高兼容性
       display: none;
     }
+  }
+
+  .o-data-table-header-divider-h {
+    position: sticky;
+    z-index: 3;
+    top: calc(var(--table-header-height) * 1px);
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+    background-size: 100% 1px;
+  }
+  &.o-table-header-fill {
     th {
       border-bottom: var(--table-head-border-bottom);
     }
   }
 
+  &.o-table-header-split-line {
+    .o-table-column-as-header {
+      & + .o-table-body-cell {
+        border-left-color: transparent;
+      }
+    }
+  }
   .o-table-expand-cell {
     background-color: var(--table-expand-bg-color);
   }

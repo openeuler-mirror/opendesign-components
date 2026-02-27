@@ -9,6 +9,8 @@ kind: container
 
 <!-- @usage DataTableUsage -->
 <!-- @case DataTableBasic -->
+<!-- @case DataTableColumnHeader -->
+<!-- @case DataTableHeaderStyle -->
 <!-- @case DataTableFilterSorter -->
 <!-- @case DataTableExpand -->
 <!-- @case DataTableTree -->

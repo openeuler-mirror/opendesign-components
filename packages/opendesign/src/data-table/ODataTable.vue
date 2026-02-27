@@ -333,6 +333,7 @@ defineExpose<DataTableExposed>({
     :class="[
       'o-table',
       `o-table-${props.size}`,
+      `o-table-header-${props.headerStyle}`,
       'o-data-table',
       {
         'o-table-stripe': props.stripe,
@@ -348,6 +349,7 @@ defineExpose<DataTableExposed>({
       '--table-max-height': isNumeric(props.maxHeight) ? props.maxHeight + 'px' : props.maxHeight,
     }"
   >
+    <div v-if="props.showHeader && props.headerStyle === 'split-line'" class="o-data-table-header-divider-h"></div>
     <div v-if="!hasLeftFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
     <OScroller
       class="o-table-scroller"
@@ -381,6 +383,7 @@ defineExpose<DataTableExposed>({
                   :class="{
                     'o-table-cell': true,
                     'o-table-header-cell': true,
+                    'o-table-column-as-header': column.asHeader,
                     'o-table-cell-tooltip': true,
                     'o-table-last-header-row-cell': !column.children?.length,
                     'o-table-cell-fixed': column.fixed,

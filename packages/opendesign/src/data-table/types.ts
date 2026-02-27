@@ -5,6 +5,9 @@ import { tableProps, TableRowT } from '../table';
 export const DataTableSizes = ['medium', 'small'] as const;
 export type DataTableSizeT = (typeof DataTableSizes)[number];
 
+export const DataTableHeaderStyles = ['fill', 'split-line'] as const;
+export type DataTableHeaderStyleT = (typeof DataTableHeaderStyles)[number];
+
 export const DataTableFixedTypes = [true, 'left', 'right'] as const; // true as 'left'
 export type DataTableFixedT = (typeof DataTableFixedTypes)[number];
 
@@ -111,6 +114,11 @@ export interface DataTableColumnT {
   description?: string | Component | VNode;
   formatter?: DataTableColumnFormatter;
   fixed?: DataTableFixedT;
+  /**
+   * 是否是作为竖向表头列
+   * @default false
+   */
+  asHeader?: boolean;
   /** 列的宽度，设置了fixed时必填 */
   width?: number | string;
   /** 列的最小宽度 */
@@ -245,6 +253,14 @@ export const dataTableProps = {
   showHeader: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @zh-CN 表头风格
+   * @en-US table header style
+   */
+  headerStyle: {
+    type: String as PropType<DataTableHeaderStyleT>,
+    default: 'fill',
   },
   /**
    * @zh-CN 行展开的计算方法，返回 `false` 则不可被展开
