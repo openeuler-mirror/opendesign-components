@@ -13,6 +13,7 @@ import {
   OIconChevronLeft,
   OIconChevronRight,
   OIconInfo,
+  OIconInfoTip,
   OIconSuccess,
   OIconWarning,
   OIconDanger,
@@ -87,6 +88,11 @@ export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
  * info图标
  */
 export const IconInfo = shallowRef<Component>(OIconInfo);
+
+/**
+ * info-tip图标
+ */
+export const IconInfoTip = shallowRef<Component>(OIconInfoTip);
 
 /**
  * success图标
@@ -204,4 +210,3 @@ export const IconCalendarPrevYear = shallowRef<Component>(OIconDoubleArrowLeft);
 export const IconCalendarNextYear = shallowRef<Component>(OIconDoubleArrowRight);
 export const IconCalendarPrevMonth = shallowRef<Component>(OIconChevronLeft);
 export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
-

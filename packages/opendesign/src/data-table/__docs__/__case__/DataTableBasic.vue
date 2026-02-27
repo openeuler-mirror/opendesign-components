@@ -10,12 +10,12 @@
 
 <script setup lang="ts">
 import { defineComponent, h, ref } from 'vue';
-import { DataTableColumnT, DataTableSpanMethod, ODataTable } from '@opensig/opendesign';
+import { DataTableColumnT, DataTableSpanMethod, ODataTable, OIconCalendar } from '@opensig/opendesign';
 import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
 const columns: DataTableColumnT[] = [
-  { label: 'Name', key: 'name', fixed: 'left', minWidth: 150 },
+  { label: 'Name', key: 'name', fixed: 'left', minWidth: 150, description: 'this is name col description' },
   {
     label: 'children',
     key: 'sumCol',
@@ -23,7 +23,7 @@ const columns: DataTableColumnT[] = [
       { label: 'Salary', key: 'salary' },
       { label: 'Address', key: 'address' },
       {
-        label: 'Email',
+        label: () => h('span', { style: 'display: inline-flex;gap: 4px; align-items: center;' }, [h(OIconCalendar), 'Email']),
         key: 'email',
         minWidth: 200,
         formatter: ({ cellValue }) => `the email is ${cellValue}`,

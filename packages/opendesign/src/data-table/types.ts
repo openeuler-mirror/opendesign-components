@@ -107,6 +107,8 @@ export type DataTableColumnFilterT = {
 export interface DataTableColumnT {
   key: string;
   label?: string | Component | VNode;
+  /** 列表头的描述文案，会以气泡的形式展示 */
+  description?: string | Component | VNode;
   formatter?: DataTableColumnFormatter;
   fixed?: DataTableFixedT;
   /** 列的宽度，设置了fixed时必填 */

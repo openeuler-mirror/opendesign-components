@@ -6,7 +6,7 @@ import { vOnResize } from '../directives';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
 import { checkElementOverflow, findClosestElementWithClass, getCssVariable, isOverflown } from '../_utils/dom.ts';
 import { isArray, isFunction, isNil, isNumeric } from '../_utils/is.ts';
-import { IconLoading } from '../_utils/icons';
+import { IconLoading, IconInfoTip } from '../_utils/icons';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 import { OScroller } from '../scrollbar';
 import { OCheckbox } from '../checkbox';
@@ -426,6 +426,12 @@ defineExpose<DataTableExposed>({
                       :model-value="getTableSorterValue(column.sortKey)"
                       @update:model-value="(newVal) => handleTableSorterChange(column.sortKey, newVal)"
                     />
+                    <OPopover v-if="column.description" position="top" wrap-class="o-table-tooltip-wrapper">
+                      <template #target>
+                        <IconInfoTip class="o-data-table-info__trigger" />
+                      </template>
+                      <component :is="getRenderableComponent(column.description)" />
+                    </OPopover>
                   </span>
                   <div
                     v-if="props.columnResizable && (isNil(column.customColSpan) || column.customColSpan <= 1) && !column.children?.length"
@@ -464,7 +470,14 @@ defineExpose<DataTableExposed>({
     </div>
 
     <div v-if="!hasRightFixedColumn && !props.loading && props.data.length" class="o-data-table-right-shadow"></div>
-    <OPopover v-if="popoverVisible" :key="popoverKey" visivle :target="popoverTarget" position="bottom" wrap-class="o-table-tooltip-wrapper">
+    <OPopover
+      v-if="popoverVisible"
+      :key="popoverKey"
+      visivle
+      :target="popoverTarget"
+      :position="popoverKey?.startsWith('td') ? 'bottom' : 'top'"
+      wrap-class="o-table-tooltip-wrapper"
+    >
       {{ popoverContent }}
     </OPopover>
   </div>
