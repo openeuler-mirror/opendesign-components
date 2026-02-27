@@ -22,6 +22,7 @@
     "@vitejs/plugin-vue-jsx": "catalog:vue",
     "@vue/compiler-dom": "catalog:vue",
     "@vue/compiler-sfc": "catalog:vue",
+    "dayjs": "catalog:utils",
     "fs-extra": "catalog:io",
     "glob": "catalog:io",
     "gray-matter": "catalog:markdown",
