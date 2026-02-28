@@ -4,7 +4,7 @@ import { computed, inject, provide, ref, toRefs, watch } from 'vue';
 import { DEFAULT_CELL_FIRST_COL_MARKER, DEFAULT_CELL_LAST_COL_MARKER, DEFAULT_ROW_LAST_MARKER, TableRowT } from '../table';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 import { OCheckbox } from '../checkbox';
-import { IconChevronRight, IconLoading } from '../_utils/icons.ts';
+import { IconChevronRightSmall, IconLoadingSmall } from '../_utils/icons.ts';
 import { isArray, isNil, isNumber } from '../_utils/is.ts';
 import { promiseWithResolvers } from '../_utils/helper.ts';
 
@@ -192,8 +192,8 @@ provide(dataTableRowInjectKey, {
             <span v-for="i in level" :key="i" class="o-table-row-icon-placeholder" />
           </template>
           <template v-if="column.isFirstCol && isLevelExpandable.expandable">
-            <IconLoading v-if="expandLoading" class="o-rotating o-table-row-expand-trigger loading" />
-            <IconChevronRight
+            <IconLoadingSmall v-if="expandLoading" class="o-rotating o-table-row-expand-trigger loading" />
+            <IconChevronRightSmall
               v-else
               :class="{
                 'o-table-row-expand-trigger': true,
