@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { computed, ref, reactive, provide, markRaw, toRefs, watch, nextTick, shallowRef } from 'vue';
-import { useElementSize, useCssVar } from '@vueuse/core';
+import { useElementBounding, useCssVar, refDebounced } from '@vueuse/core';
 
 import { vOnResize } from '../directives';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
@@ -69,10 +69,10 @@ type AllSlots = {
 const slots = defineSlots<AllSlots>();
 
 const rootRef = ref<HTMLDivElement>();
-const { width: containerWidth } = useElementSize(rootRef);
+const containerWidth = refDebounced(useElementBounding(rootRef).width);
 
 const headerRef = ref<HTMLTableElement>();
-const { height: headerTableHeight } = useElementSize(headerRef);
+const { height: headerTableHeight } = useElementBounding(headerRef);
 const tableTextSize = useCssVar('--table-text-size', headerRef);
 const tableTextHeight = useCssVar('--table-text-height', headerRef);
 

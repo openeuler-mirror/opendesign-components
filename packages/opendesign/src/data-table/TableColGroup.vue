@@ -3,9 +3,10 @@ import { inject, markRaw, ref, watch, onUnmounted } from 'vue';
 
 import { useResizeObserver } from '../hooks';
 import { debounceRAF } from '../_utils/helper.ts';
+import { isNil } from '../_utils/is.ts';
+
 import { EffectiveDataTableColumnT } from './types.ts';
 import { dataTableInjectKey } from './provide.ts';
-import { isNumeric } from '../_utils/is.ts';
 
 const dataTableInjection = inject(dataTableInjectKey);
 
@@ -14,8 +15,8 @@ const dataTableInjection = inject(dataTableInjectKey);
  */
 const getPropWidth = (column: EffectiveDataTableColumnT) => {
   return {
-    minWidth: isNumeric(column.minWidth) ? `${column.minWidth}px` : column.minWidth,
-    maxWidth: isNumeric(column.maxWidth) ? `${column.maxWidth}px` : column.maxWidth,
+    minWidth: !isNil(column._minWidth) ? `${column._minWidth}px` : column._minWidth,
+    maxWidth: !isNil(column._maxWidth) ? `${column._maxWidth}px` : column._maxWidth,
   };
 };
 

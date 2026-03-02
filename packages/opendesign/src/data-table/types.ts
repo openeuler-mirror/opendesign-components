@@ -155,6 +155,10 @@ export type EffectiveDataTableColumnCommonT = {
   rowSpan?: number;
   /** 列宽调整后的宽度，用于计算固定列的定位值 */
   resizeWidth?: number;
+  /** 列的最小宽度 - 通过容器宽度计算后 */
+  _minWidth?: number;
+  /** 列的最大宽度 - 通过容器宽度计算后 */
+  _maxWidth?: number;
   fixed?: 'left' | 'right';
   /** fix为undefined或left时当前列的left值 */
   left?: number;

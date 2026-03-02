@@ -1,10 +1,23 @@
 import { ref, watch, computed, ToRefs, Ref, ComputedRef } from 'vue';
 import { useMounted, until } from '@vueuse/core';
 
-import { isString } from '../_utils/is';
+import { isNil, isNumber, isClient } from '../_utils/is';
 import { getElementRectByRAF } from '../_utils/dom';
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
+
+const getStaticWidth = (width: string | number | undefined, containerWidth: number) => {
+  if (isNil(width)) {
+    return width;
+  }
+  if (isNumber(width)) {
+    return width;
+  }
+  if (width.endsWith('%')) {
+    return (Number.parseFloat(width) * containerWidth) / 100;
+  }
+  return Number.parseFloat(width);
+};
 
 export const useDataColumn = (
   options: ToRefs<DataTablePropsT> & { tableEl: Ref<HTMLTableElement | undefined>; containerWidth: Ref<number> },
@@ -30,24 +43,29 @@ export const useDataColumn = (
 
   // 渲染后固定列宽以计算列定位
   const fixColumnAfterMounted = () => {
-    until(() => dataColumns.value.every((column) => !!column.colRef) && data.value.length && tableEl.value && containerWidth.value)
+    if (!isClient || dataColumns.value.every(({ fixed, width, minWidth, maxWidth }) => [fixed, width, minWidth, maxWidth].every((v) => isNil(v)))) {
+      return;
+    }
+    until(() => dataColumns.value.every((column) => !!column.colRef) && data.value.length && tableEl.value && !!containerWidth.value)
       .toBeTruthy()
       .then(() => {
         return Promise.all(
           dataColumns.value.map(async (column) => {
             let width: string | number | undefined = column.colRef?.style.width;
-            if (!width && isString(column.width) && column.width.includes('%')) {
-              width = (Number.parseFloat(column.width) * containerWidth.value) / 100;
-            }
-            if (!width && column.width) {
-              width = isString(column.width) ? Number.parseFloat(column.width) : column.width;
+            if (!width) {
+              width = getStaticWidth(column.width, containerWidth.value);
             }
             if (!width) {
               width = await getElementRectByRAF(column.colRef!).then((rect) => rect.width);
             }
+            if (column.minWidth) {
+              column._minWidth = getStaticWidth(column.minWidth, containerWidth.value)!;
+              width = Math.max(width as number, column._minWidth);
+            }
             // col元素设置max-width无效，需要手动控制宽度
             if (column.maxWidth) {
-              width = Math.min(width as number, Number.parseFloat(column.maxWidth.toString()));
+              column._maxWidth = getStaticWidth(column.maxWidth, containerWidth.value)!;
+              width = Math.min(width as number, column._maxWidth);
             }
             column.colRef!.style.width = `${width}px`;
             column.resizeWidth = await getElementRectByRAF(column.colRef!).then((rect) => rect.width);
@@ -81,15 +99,16 @@ export const useDataColumn = (
     dataColumns.value = res.dataColumns;
     groupColumns.value = res.groupColumns;
 
-    if (dataColumns.value.some((column) => column.fixed || column.width)) {
-      fixColumnAfterMounted();
-    }
+    fixColumnAfterMounted();
   };
   watch(
     () => [columns.value, isMounted.value, data.value],
     () => parseColumns(),
     { immediate: true, deep: true },
   );
+  watch(containerWidth, () => {
+    fixColumnAfterMounted();
+  });
 
   /**
    * 由于合并单元格，导致去掉的单元格的索引，格式为：${rowIndex}_${colIndex}
@@ -182,8 +201,11 @@ export const useDataColumn = (
     let width = Math.floor(event.clientX - thRect.x);
 
     const column = dataColumnMap.get(resizingColumnKey.value);
-    if (column?.maxWidth) {
-      width = Math.min(width, Number.parseFloat(column?.maxWidth.toString()));
+    if (column?._minWidth) {
+      width = Math.max(width, column._minWidth);
+    }
+    if (column?._maxWidth) {
+      width = Math.min(width, column._maxWidth);
     }
     if (column?.colRef) {
       column.colRef.style.width = `${width}px`;

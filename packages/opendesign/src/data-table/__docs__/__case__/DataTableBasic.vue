@@ -15,7 +15,7 @@ import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
 const columns: DataTableColumnT[] = [
-  { label: 'Name', key: 'name', fixed: 'left', minWidth: 150, description: 'this is name col description' },
+  { label: 'Name', key: 'name', fixed: 'left', minWidth: '15%', description: 'this is name col description' },
   {
     label: 'children',
     key: 'sumCol',
