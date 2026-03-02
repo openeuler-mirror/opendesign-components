@@ -93,9 +93,11 @@ onMounted(() => {
 
   watch(
     target,
-    () => {
-      triggerListener?.forEach((fn) => fn());
-      if (targetEl) {
+    (newVal) => {
+      if (newVal) {
+        triggerListener?.forEach((fn) => fn());
+      }
+      if (newVal && targetEl) {
         ro?.unobserve(targetEl, onResize);
       }
       // 绑定触发元素事件
