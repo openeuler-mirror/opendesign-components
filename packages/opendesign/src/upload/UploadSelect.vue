@@ -94,13 +94,13 @@ const onDrap = (e: DragEvent) => {
       >
         <slot :name="slot.names.selectDrag">
           <IconAdd class="o-upload-drag-icon" />
-          <div class="o-upload-drag-label">{{ !isDragging ? props.dragLabel ?? t('upload.drag') : props.dragHoverLabel ?? t('upload.dragHover') }}</div>
+          <div class="o-upload-drag-label">{{ !isDragging ? (props.dragLabel ?? t('upload.drag')) : (props.dragHoverLabel ?? t('upload.dragHover')) }}</div>
           <div v-if="$slots[slot.names.selectDragExtra]" class="o-upload-select-extra">
             <slot :name="slot.names.selectDragExtra"></slot>
           </div>
         </slot>
       </div>
-      <OButton v-else round="pill" :disabled="props.disabled" :icon="IconAdd" >
+      <OButton v-else color="primary" round="pill" :disabled="props.disabled" :icon="IconAdd">
         {{ props.btnLabel ?? t('upload.buttonLabel') }}
       </OButton>
     </slot>

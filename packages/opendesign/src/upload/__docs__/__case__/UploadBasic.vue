@@ -1,8 +1,10 @@
 <docs lang="md">
 <!--zh-CN-->
+
 ### Upload basic
 
 <!--en-US-->
+
 ### Upload basic
 </docs>
 
@@ -56,6 +58,7 @@ const fileList = ref<UploadFileT[]>([
     id: '2',
     name: 'test2.png',
     status: 'failed',
+    retry: true,
     message: '上传失败',
   },
 ]);

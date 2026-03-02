@@ -26,6 +26,7 @@ const emits = defineEmits<{
   (e: 'itemReplace', value: UploadFileT, evt: Event): void;
   (e: 'itemPreview', value: UploadFileT, evt: Event): void;
   (e: 'itemClick', value: UploadFileT, evt: Event): void;
+  (e: 'download', value: UploadFileT, evt: Event): void;
 }>();
 
 const emitUpdateValue = (value: UploadFileT[]) => {
@@ -314,6 +315,18 @@ const previewItemById = (id: number | string) => {
   previewItemByIndex(idx);
 };
 
+/**
+ * 下载文件
+ */
+const onFileDownload = (file: UploadFileT, e: Event) => {
+  if (isFunction(props.downloadFile)) {
+    if (file.file) {
+      props.downloadFile(file.file);
+    }
+  }
+  emits('download', file, e);
+};
+
 defineExpose({
   upload: uploadAll,
   select: doSelect,
@@ -363,11 +376,13 @@ defineExpose({
         :file="item"
         :list-type="props.listType"
         :showProgress="props.showProgress"
+        :draggable="props.draggable"
         @remove="onRemoveFile"
         @retry="onFileUploadRetry"
         @replace="onFileReplace"
         @preview="onFilePreview"
         @item-click="onUploadItemLabelClick"
+        @download="onFileDownload"
       >
         <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>

@@ -33,7 +33,7 @@ export const requestUploadFile = (file: UploadFileT, options: OptionsT): Promise
             options.onSuccess(file);
           }
         },
-        onError(response?: { message?: string, [k:string]:unknown }, retry?: boolean) {
+        onError(response?: { message?: string; [k: string]: unknown }, retry?: boolean) {
           file.status = 'failed';
           file.message = response?.message;
           file.retry = retry;
@@ -112,5 +112,5 @@ export function generateImageDataUrl(file: File | string): string {
 }
 
 export function isPictureType(type?: string): boolean {
-  return !!type && ['picture', 'picture-card'].includes(type);
+  return !!type && ['picture', 'picture-card', 'text'].includes(type);
 }

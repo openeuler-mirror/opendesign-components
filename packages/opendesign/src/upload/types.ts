@@ -80,6 +80,13 @@ export const uploadProps = {
     type: Function as PropType<(fileList: FileList) => Promise<Array<UploadFileT>>>,
   },
   /**
+   * @zh-CN 下载文件
+   * @en-US Download the file.
+   */
+  downloadFile: {
+    type: Function as PropType<(file: File) => void>,
+  },
+  /**
    * @zh-CN 上传按钮文本
    * @en-US Upload button text.
    */

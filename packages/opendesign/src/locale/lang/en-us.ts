@@ -21,6 +21,9 @@ export default {
   'upload.delete': 'Delete',
   'upload.preview': 'Preview',
   'upload.edit': 'Edit',
+  'upload.loading': 'Uploading',
+  'upload.failed': 'Upload failed',
+  'upload.download': 'Download the file',
   // select
   'select.cancel': 'Cancel',
   'select.confirm': 'Ok',
