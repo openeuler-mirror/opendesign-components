@@ -229,7 +229,7 @@ const indeterminate = computed(() => {
 
 const selectionChangedBySelectAll = ref(false);
 watch(
-  () => selectedKeys.value,
+  () => [selectedKeys.value, selectableRowKeys.value],
   () => {
     if (selectionChangedBySelectAll.value) {
       selectionChangedBySelectAll.value = false;
@@ -436,6 +436,7 @@ defineExpose<DataTableExposed>({
                       <component :is="getRenderableComponent(column.description)" />
                     </OPopover>
                   </span>
+                  <!-- 如果可调整宽度，且没有合并单元格，则显示 -->
                   <div
                     v-if="props.columnResizable && (isNil(column.customColSpan) || column.customColSpan <= 1) && !column.children?.length"
                     class="o-table-column-resizer"
