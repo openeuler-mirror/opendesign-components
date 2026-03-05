@@ -4,6 +4,24 @@
   .o-upload-card-icons {
     opacity: 1;
   }
+
+  .o-upload-status-upper-layer {
+    opacity: 0;
+  }
+  .o-upload-status-lower-layer {
+    opacity: 1;
+  }
+
+  .o-upload-status-wrap-success {
+    opacity: 1;
+  }
+
+  .o-upload-row-item {
+    background-color: var(--upload-item-bg-hover);
+    .o-upload-icon-hover-in {
+      opacity: 1;
+    }
+  }
 }
 @include respond('<=laptop') {
   .o-upload {
@@ -13,7 +31,8 @@
     --upload-drag-max-width: 400px;
   }
 
-  .o-upload-card-add {
+  .o-upload-card-add,
+  .o-upload-status-info {
     font-size: var(--o-font_size-tip2);
     line-height: var(--o-line_height-tip2);
   }

@@ -21,6 +21,9 @@ export default {
   'upload.delete': '删除',
   'upload.preview': '预览',
   'upload.edit': '编辑',
+  'upload.loading': '上传中',
+  'upload.failed': '上传失败',
+  'upload.download': '下载文件',
   // select
   'select.cancel': '取消',
   'select.confirm': '确定',

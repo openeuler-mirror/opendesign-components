@@ -21,11 +21,11 @@ export const onAfterSelect = (fileList: FileList): Promise<UploadFileT[]> => {
         name: file.name,
         file: file,
       };
-    })
+    }),
   );
 };
 
-const SUCCESS_RATE = 0.9;
+const SUCCESS_RATE = 0.95;
 const UPLOAD_SPEED = 0.05;
 export const mockUpload = (file?: File, onFinished?: (success: boolean) => void, onProgress?: (p: number) => void) => {
   if (!file) {
@@ -81,11 +81,11 @@ export const uploadRequest = (options: UploadRequestOptionT, hasProgress: boolea
           {
             message: '上传失败:失败原因',
           },
-          true
+          true,
         );
       }
     },
-    hasProgress ? onProgress : undefined
+    hasProgress ? onProgress : undefined,
   );
 
   return {
@@ -104,4 +104,14 @@ export const onBeforeUpload = (file: UploadFileT) => {
 export const onBeforeRemove = (file: UploadFileT) => {
   const r = window.confirm(`确认删除文件:${file.name}`);
   return Promise.resolve(r);
+};
+
+export const downloadFile = (data: File) => {
+  const blob = new Blob([data], { type: data.type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', data.name);
+  link.click();
+  window.URL.revokeObjectURL(url);
 };
