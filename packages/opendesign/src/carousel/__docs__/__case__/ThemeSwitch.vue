@@ -36,7 +36,7 @@ const getTheme = (themeColor: string) => (ctx.skin ? `${ctx.skin}.${themeColor}`
 const controlTheme = computed(() => getTheme(pages[activeIndex.value].themeColor));
 </script>
 <template>
-  <OCarousel v-model:active-index="activeIndex" arrow="always" :data-o-theme="controlTheme" class="switch-color">
+  <OCarousel v-model:active-index="activeIndex" arrow="always" :data-o-theme="controlTheme" indicator-click class="switch-color">
     <OCarouselItem v-for="(item, index) in pages" :key="index" :style="{ backgroundColor: item.backgroundColor }" class="switch-color-item">
       {{ item.content }}
     </OCarouselItem>

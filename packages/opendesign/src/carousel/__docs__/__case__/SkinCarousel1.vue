@@ -30,7 +30,7 @@ The specifications define three types of carousels:
 import { OCarousel, OCarouselItem } from '@opensig/opendesign';
 </script>
 <template>
-  <OCarousel class="carousel-skin">
+  <OCarousel indicator-click class="carousel-skin">
     <OCarouselItem v-for="i in 3" :key="i" :class="['carousel-item-content', `item-${i}`]">{{ i }}</OCarouselItem>
   </OCarousel>
 </template>
