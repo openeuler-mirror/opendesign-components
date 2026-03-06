@@ -1,3 +1,16 @@
+## 1.2.1
+
+### Features
+
+- **InInput:** 增加`onlyNumericInput`属性，确保数字输入框仅限数字输入
+- **OUpload:** 拖拽上传文件成功后支持预览（仅限图片资源）与下载文件功能
+  
+### style
+
+- **OUpload:** 
+    - `o-upload-row-item`添加hover态，鼠标hover时显示背景色
+    - 调整`list-type`为`picture-card`时文件上传中、上传失败、上传成功状态的样式
+；
 ## 1.2.0
 
 ### BREAKING CHANGES
