@@ -13,7 +13,7 @@ const slots = defineSlots<{
   prefix(): any;
   suffix(): any;
   extra(): any;
-  length(props: {length: number}): any;
+  length(props: { length: number }): any;
 }>();
 
 type InInputEmitsT = {
@@ -24,7 +24,7 @@ const emits = defineEmits<InInputEmitsT>();
 
 const { t } = useI18n();
 
-const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength, showLength } = toRefs(props);
+const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength, showLength, onlyNumericInput } = toRefs(props);
 
 const {
   displayValue,
@@ -54,6 +54,7 @@ const {
   validate: props.validate,
   valueOnInvalidChange: props.valueOnInvalidChange,
   calculateLength: props.getLength,
+  onlyNumericInput,
 });
 
 const { showPassword, onEyeMouseDown, onEyeClick } = useInputPassword({
@@ -165,11 +166,7 @@ defineExpose({
         <IconEyeOff v-else class="o_input-eye-icon" />
       </div>
       <!-- 长度限制 -->
-      <div
-        v-if="isShowLength"
-        class="o_input-limit"
-        :class="{ 'o_input-limit-error': isOutLengthLimit }"
-      >
+      <div v-if="isShowLength" class="o_input-limit" :class="{ 'o_input-limit-error': isOutLengthLimit }">
         <slot name="length" :length="inputValueLength">
           <span v-if="props.maxLength ?? props.minLength" v-html="t('input.limit', inputValueLength, props.maxLength ?? props.minLength)"></span>
           <span v-else>{{ inputValueLength }}</span>
