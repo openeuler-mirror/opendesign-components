@@ -72,15 +72,33 @@ const onInput = (_e: Event, value: string) => {
   }
   codeValid.value = verifyCode(value);
 };
+
+const selectedVal = ref('+86(中国)');
+
+const options = [
+  {
+    label: '+86(中国)',
+    value: '+86(中国)',
+  },
+  {
+    label: '+81(日本)',
+    value: '+81(日本)',
+  },
+  {
+    label: '+82(韩国)',
+    value: '+82(韩国)',
+  },
+];
 </script>
 <template>
   <div class="demo-input-phone-wrap">
-    <OInput v-model="inputVal" class="input-medium" size="large" placeholder="请输入手机号">
-      <template #prefix>
-        <span class="international-area-code">+86（中国）</span>
-        <OIconChevronDown class="input-icon" />
-      </template>
-    </OInput>
+    <div class="input-wrap">
+      <OSelect v-model="selectedVal" size="large" class="demo-select" @click.stop>
+        <OOption v-for="(item, idx) in options" :label="item.label" :value="item.value" :key="idx"></OOption>
+      </OSelect>
+
+      <OInput class="demo-input" v-model="inputVal" size="large" placeholder="请输入手机号" />
+    </div>
     <div class="code-wrap">
       <OInput v-model="codeValue" class="input-medium code-input" size="large" placeholder="请输入验证码" @input="onInput">
         <template #suffix>
@@ -107,6 +125,35 @@ const onInput = (_e: Event, value: string) => {
   @include respond('<=pad_v') {
     flex-direction: column;
   }
+
+  .input-wrap {
+    display: flex;
+    align-items: center;
+    .demo-input {
+      position: relative;
+      z-index: 1;
+      width: 220px;
+
+      :deep(.o_box-main) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    .demo-select {
+      --select-icon-gap: 4px;
+      --select-padding: 0 7px;
+      z-index: 0;
+      width: 120px;
+      margin-right: -1px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &:hover {
+        z-index: 2;
+      }
+    }
+  }
   .code-wrap {
     margin-left: var(--o-gap-4);
     @include respond('<=pad_v') {
@@ -122,7 +169,9 @@ const onInput = (_e: Event, value: string) => {
     }
   }
   .code-input {
-    width: 220px;
+    --link-text-size: 14px;
+    --link-text-height: 22px;
+    width: 234px;
     @include respond('<=pad_v') {
       max-width: 320px;
       width: 100%;

@@ -30,7 +30,10 @@ const hasTextInputVal = ref('Hint');
         <span class="status-label"> Error </span>
         <div class="error-wrap">
           <OInput v-model="noTextInputVal" class="input-medium" size="large" placeholder="Hint" color="danger" />
-          <div class="error-tip">输入内容有误，请重新输入正确内容</div>
+          <div class="error-tip">
+            <OIconDanger class="error-icon" />
+            <span> 输入内容有误，请重新输入正确内容 </span>
+          </div>
         </div>
       </div>
     </div>
@@ -41,7 +44,10 @@ const hasTextInputVal = ref('Hint');
       <div class="input-wrap">
         <div class="error-wrap">
           <OInput v-model="hasTextInputVal" class="input-medium" size="large" :clearable="true" color="danger" />
-          <div class="error-tip">输入内容有误，请重新输入正确内容</div>
+          <div class="error-tip">
+            <OIconDanger class="error-icon" />
+            <span> 输入内容有误，请重新输入正确内容 </span>
+          </div>
         </div>
       </div>
     </div>
@@ -124,11 +130,18 @@ const hasTextInputVal = ref('Hint');
     }
   }
   .error-tip {
+    display: flex;
+    align-items: center;
     margin-top: 4px;
     padding-left: 16px;
     font-size: var(--o3-font_size-tip2);
     line-height: var(--o3-line_height-tip2);
     color: var(--o-color-danger1);
+
+    .error-icon {
+      margin-right: 4px;
+      font-size: 16px;
+    }
   }
 }
 </style>

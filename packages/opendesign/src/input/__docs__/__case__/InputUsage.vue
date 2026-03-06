@@ -5,7 +5,7 @@
 
 输入框包含 `primary`、`success`、`warning`、`danger` 四种主题色；
 
-三种尺寸：`small`、`medium`、`large` ；
+两种尺寸：`medium`、`large` ；
 
 三种形状：`solid`、`outline`、`text` ；
 
@@ -25,7 +25,7 @@
 
 The input includes four theme colors: `primary`, `success`, `warning`, and `danger`;
 
-Three sizes: `small`, `medium`, and `large`;
+Two sizes: `medium` and `large`;
 
 Three shapes: `solid`, `outline`, and `text`;
 
@@ -59,7 +59,7 @@ const _oSchema = {
   },
   size: {
     type: 'list',
-    list: ['large', 'medium', 'small'],
+    list: ['large', 'medium'],
   },
   type: { type: 'list', list: ['text', 'password'] },
   round: {

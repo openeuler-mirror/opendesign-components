@@ -1,4 +1,3 @@
- 
 import { useComposition } from '../hooks/use-composition';
 import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import { Enter } from '../_utils/keycode';
@@ -29,9 +28,10 @@ export interface InputOptionT {
   format?: (value: string) => string;
   maxLength?: Ref<number | undefined>;
   minLength?: Ref<number | undefined>;
-  showLength?: Ref<'always' | 'auto' | 'never' | ((length:number) => string | VNode)>
+  showLength?: Ref<'always' | 'auto' | 'never' | ((length: number) => string | VNode)>;
   calculateLength?: (value: string) => number;
   inputOnOutlimit?: Ref<boolean | undefined>;
+  onlyNumericInput?: Ref<boolean | undefined>;
 }
 
 /**
@@ -52,6 +52,7 @@ export function useInput(options: InputOptionT) {
     showLength,
     calculateLength,
     inputOnOutlimit,
+    onlyNumericInput,
   } = options;
 
   const formatFn = (v: string) => {
@@ -137,7 +138,7 @@ export function useInput(options: InputOptionT) {
     () => [maxLength?.value, minLength?.value],
     () => {
       validateValue(computedValue.value);
-    }
+    },
   );
 
   // 记录上一次有效输入值
@@ -155,7 +156,7 @@ export function useInput(options: InputOptionT) {
       } else {
         displayValue.value = formatFn(val);
       }
-    }
+    },
   );
 
   const updateValue = (value: string) => {
@@ -175,7 +176,7 @@ export function useInput(options: InputOptionT) {
         // 调用valueOnInvalidChange回调获取对应回调值
         validVal = valueOnInvalidChange(computedValue.value, lastValidValue);
         validateValue(validVal);
-      } else if (valueOnInvalidChange === true && lastValidValue !== ''){
+      } else if (valueOnInvalidChange === true && lastValidValue !== '') {
         // 回退到上一次有效值
         validVal = lastValidValue;
         isValid.value = true;
@@ -220,8 +221,17 @@ export function useInput(options: InputOptionT) {
     return false;
   };
 
+  const basicValidRegex = /^-?\d*\.?\d*$/;
+  const invalidFormatRegex = /-{2,}|\.{2,}|^-\.$|^-\.\d+$/;
+
   const handleInput = (e: Event) => {
-    const value = (e.target as HTMLInputElement)?.value;
+    let value = (e.target as HTMLInputElement)?.value;
+    const currentValue = value;
+
+    // 仅限制数字输入
+    if ((onlyNumericInput?.value && !basicValidRegex.test(currentValue)) || invalidFormatRegex.test(currentValue)) {
+      value = displayValue.value;
+    }
 
     if (composition.isComposing.value) {
       // 解决在输入中文时，组件触发onUpdate时,显示值被刷新成输入前的值
@@ -302,7 +312,6 @@ export function useInput(options: InputOptionT) {
     e.preventDefault();
     clearValue();
   };
-
 
   // 是否展示内容长度
   const isShowLength = computed(() => {

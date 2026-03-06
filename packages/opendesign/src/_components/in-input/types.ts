@@ -79,7 +79,7 @@ export const inInputProps = {
    */
   showLength: {
     type: [String, Function] as PropType<'always' | 'auto' | 'never'>,
-    default: 'auto'
+    default: 'auto',
   },
   /**
    * @zh-CN 获取长度方法
@@ -142,6 +142,13 @@ export const inInputProps = {
   passwordPlaceholder: {
     type: String,
     default: '\u2022',
+  },
+  /**
+   * @zh-CN 是否限制仅数字输入
+   * @en-US Limit only numeric input.
+   */
+  onlyNumericInput: {
+    type: Boolean,
   },
 };
 
