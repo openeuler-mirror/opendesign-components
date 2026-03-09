@@ -10,7 +10,7 @@
 
 <script setup lang="tsx">
 import { defineComponent, h, reactive } from 'vue';
-import { DataTableColumnT, DataTableSpanMethod, TableBorderTypes, OLink, OIconSkill, OIconCalendar, DataTableHeaderStyles } from '@opensig/opendesign';
+import { DataTableColumnT, DataTableSpanMethod, TableBorderTypes, OLink, OIconCalendar, DataTableHeaderStyles } from '@opensig/opendesign';
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types.ts';
 import { getTableData } from '../../../table/__docs__/__case__/data.ts';
@@ -123,8 +123,8 @@ const getColumns = (options: { headerGroup: boolean; columnFixed: boolean }) => 
       minWidth: 200,
       formatter: ({ cellValue }) => `the email is ${cellValue}`,
     },
-    { label: 'VNode', key: 'other1', minWidth: 50, formatter: () => h(OIconSkill) },
-    { label: 'VNode2', key: 'ot1her1', minWidth: 50, formatter: () => () => h(OIconSkill) },
+    { label: 'VNode', key: 'other1', minWidth: 50, formatter: () => h(OIconCalendar) },
+    { label: 'VNode2', key: 'ot1her1', minWidth: 50, formatter: () => () => h(OIconCalendar) },
     { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },
     { label: 'Empty', key: 'noSuchProp' },
   );

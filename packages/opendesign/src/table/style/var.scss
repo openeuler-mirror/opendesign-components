@@ -70,3 +70,9 @@
   --table-edge-padding: 16px;
   --table-expand-cell-padding: 24px;
 }
+
+[data-o-theme$='.dark'] {
+  .o-table {
+    --table-fixed-col-shadow-gradient: rgba(var(--o-grey-1), 0.1), rgba(var(--o-grey-1), 0.045) 80%, rgba(var(--o-grey-1), 0.022) 100%;
+  }
+}
