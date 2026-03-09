@@ -10,7 +10,14 @@
 - **OUpload:** 
     - `o-upload-row-item`添加hover态，鼠标hover时显示背景色
     - 调整`list-type`为`picture-card`时文件上传中、上传失败、上传成功状态的样式
-；
+
+### Bug Fixes
+
+- **OPopup:** 修复更新target后未正确生效的问题
+- **ODataTable:** 
+    - 修复横向溢出时竖向滚动条被遮挡无法滑动的问题
+    - 修复hover时合并单元格不高亮的bug
+
 ## 1.2.0
 
 ### BREAKING CHANGES
