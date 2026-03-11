@@ -1,9 +1,12 @@
-import fs from 'fs-extra';
-import path from 'path';
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { globSync } from 'glob';
-import Config from './config';
 import { compile } from 'sass-embedded';
 import CleanCSS from 'clean-css';
+
+import { outputFileSync, copyFileSync } from '../utils.ts';
+
+import Config from './config.ts';
 
 const base = process.cwd();
 
@@ -16,13 +19,13 @@ export default function main() {
     cwd: input,
     posix: true,
   });
-  fs.ensureDir('dist');
+  mkdirSync('dist', { recursive: true });
 
   files.forEach((fl) => {
     const fPath = path.resolve(input, fl);
     // Copy SCSS and CSS files to es/lib directories
-    fs.copySync(fPath, `es/${fl}`);
-    fs.copySync(fPath, `lib/${fl}`);
+    copyFileSync(fPath, `es/${fl}`);
+    copyFileSync(fPath, `lib/${fl}`);
 
     if (/index\.scss/.test(fl)) {
       // Compile all index.scss files to CSS
@@ -30,29 +33,29 @@ export default function main() {
       const result = compile(fPath, {});
 
       const cssName = fl.replace('.scss', '.css');
-      fs.outputFile(`es/${cssName}`, result.css);
-      fs.outputFile(`lib/${cssName}`, result.css);
+      outputFileSync(`es/${cssName}`, result.css);
+      outputFileSync(`lib/${cssName}`, result.css);
 
       // Compile index.scss and theme/**/index.scss to dist directory
       if (fl === 'index.scss') {
-        fs.outputFile('dist/index.css', result.css);
+        outputFileSync('dist/index.css', result.css);
         // compile min.css
         const compress = new CleanCSS().minify(result.css);
-        fs.outputFile('dist/index.min.css', compress.styles);
+        outputFileSync('dist/index.min.css', compress.styles);
 
-        fs.writeFileSync('dist/index.scss', "@import '../es/index.scss';");
+        writeFileSync('dist/index.scss', "@import '../es/index.scss';");
       }
       if (/theme\/(?!_)[^/]+\/index.scss$/.test(fl)) {
-        fs.outputFile(`dist/${fl.replace(/\.scss$/, '.css')}`, result.css);
+        outputFileSync(`dist/${fl.replace(/\.scss$/, '.css')}`, result.css);
         const compress = new CleanCSS().minify(result.css);
-        fs.outputFile(`dist/${fl.replace(/\.scss$/, '.min.css')}`, compress.styles);
+        outputFileSync(`dist/${fl.replace(/\.scss$/, '.min.css')}`, compress.styles);
       }
     }
     // Compile Skin files
     if (/theme-.+\.scss$/.test(fl)) {
       const result = compile(fPath, {});
-      fs.outputFile(`es/${fl.replace(/\.scss$/, '.css')}`, result.css);
-      fs.outputFile(`lib/${fl.replace(/\.scss$/, '.css')}`, result.css);
+      outputFileSync(`es/${fl.replace(/\.scss$/, '.css')}`, result.css);
+      outputFileSync(`lib/${fl.replace(/\.scss$/, '.css')}`, result.css);
     }
   });
   // build index
@@ -63,10 +66,10 @@ export default function main() {
   idxFiles.forEach((fl) => {
     const fpath = path.resolve(input, fl);
     const toFl = fl.replace(/\.ts$/, '.js');
-    fs.copySync(fpath, `es/${toFl}`);
-    fs.copySync(fpath, `lib/${toFl}`);
+    copyFileSync(fpath, `es/${toFl}`);
+    copyFileSync(fpath, `lib/${toFl}`);
 
-    const content = fs.readFileSync(fpath, 'utf-8');
+    const content = readFileSync(fpath, 'utf-8');
     const css = content
       .replace(/\.scss/g, '.css')
       .replace(/\/style';/g, "/style/css';")
@@ -78,19 +81,19 @@ export default function main() {
     } else {
       cssFile = fl.replace(/\.ts$/, '.css.js');
     }
-    fs.outputFile(`es/${cssFile}`, css);
-    fs.outputFile(`lib/${cssFile}`, css);
+    outputFileSync(`es/${cssFile}`, css);
+    outputFileSync(`lib/${cssFile}`, css);
   });
 
   // copy scss index
   const scssIndexContent = "import './index.scss';";
-  fs.outputFile('es/scss.mjs', scssIndexContent);
-  fs.outputFile('lib/scss.js', scssIndexContent);
+  outputFileSync('es/scss.mjs', scssIndexContent);
+  outputFileSync('lib/scss.js', scssIndexContent);
 
   // copy code-snippets
   const codeSnippets = globSync('theme/**/*code-snippets', { cwd: input });
   codeSnippets.forEach((item) => {
     const fpath = path.resolve(input, item);
-    fs.copySync(fpath, item.replace('theme', 'code-snippets'));
+    copyFileSync(fpath, item.replace('theme', 'code-snippets'));
   });
 }

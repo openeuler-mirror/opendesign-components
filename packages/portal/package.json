@@ -10,18 +10,16 @@
     "gen:icon": "open-scripts gen:icon --config __test_scripts/icons/icon.config.ts",
     "gen:token": "open-scripts gen:token --config __test_scripts/tokens/token.config.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@opensig/open-analytics": "catalog:utils",
     "@opensig/open-scripts": "workspace:^",
     "@opensig/opendesign": "workspace:^",
     "@opensig/opendesign-token": "catalog:css",
-    "vue": "catalog:vue",
-    "vue-router": "catalog:vue"
-  },
-  "devDependencies": {
     "sass": "catalog:css",
     "typescript": "catalog:typescript",
     "vite": "catalog:build",
-    "vue-tsc": "catalog:build"
+    "vue-tsc": "catalog:build",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   }
 }

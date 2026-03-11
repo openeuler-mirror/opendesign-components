@@ -28,11 +28,11 @@
     "release": "pnpm publish --registry https://registry.npmjs.org"
   },
   "peerDependencies": {
-    "vue": "^3.3.0",
-    "@vueuse/core": "catalog:vue"
+    "@vueuse/core": "catalog:vue",
+    "vue": "^3.3.0"
   },
   "devDependencies": {
-    "@opensig/open-scripts": "catalog:build",
+    "@opensig/open-scripts": "workspace:^",
     "typescript": "catalog:typescript",
     "vite": "catalog:build",
     "vue-tsc": "catalog:build"

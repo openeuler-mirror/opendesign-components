@@ -14,7 +14,7 @@ export const basePlugins: PluginConfig[] = [
       const nodes: string[] = ['*'];
       return {
         element: {
-          enter: (node) => {
+          enter: (node: any) => {
             if (nodes.includes('*') || nodes.includes(node.name)) {
               const classname = node.attributes.class || '';
               const id = node.attributes.id || '';
@@ -46,14 +46,14 @@ export const basePlugins: PluginConfig[] = [
     fn: () => {
       return {
         element: {
-          enter: (node) => {
+          enter: (node: any) => {
             const id = node.attributes.id;
             if (id) {
               delete node.attributes.id;
               node.attributes[':id'] = `\`${id}_\${globalId}\``;
             }
             for (const key of Object.keys(node.attributes)) {
-              const value = node.attributes[key];
+              const value: string = node.attributes[key];
               const urlReg = /url\((#[^)]+)\)/;
               const idRef = /^(#[^'"]+)/;
 
