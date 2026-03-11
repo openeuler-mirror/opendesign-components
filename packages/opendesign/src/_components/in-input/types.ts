@@ -53,6 +53,13 @@ export const inInputProps = {
     type: Boolean,
   },
   /**
+   * @zh-CN 是否调起虚拟键盘
+   * @en-US Whether to invoke the virtual keyboard.
+   */
+  noKeyboard: {
+    type: Boolean,
+  },
+  /**
    * @zh-CN 是否可以清除
    * @en-US clearable.
    */
