@@ -28,14 +28,9 @@
 }
 .o-input {
   @include respond('phone') {
+    --_box-padding-x: 11px;
     &.o_box-small {
-      --_box-padding: 0 5px;
-    }
-    &.o_box-medium {
-      --_box-padding: 0 11px;
-    }
-    &.o_box-large {
-      --_box-padding: 0 11px;
+      --_box-padding-x: 5px;
     }
   }
 }
