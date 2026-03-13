@@ -1,14 +1,16 @@
-import configUmd from './vite.config.umd';
-import config from './vite.config';
 import { build } from 'vite';
-import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
+
+import { emptyDirSync } from '../utils.ts';
+
+import configUmd from './vite.config.umd.ts';
+import config from './vite.config.ts';
 
 const base = process.cwd();
 
 export default async function main() {
-  fs.emptyDir(path.resolve(base, 'es'));
-  fs.emptyDir(path.resolve(base, 'lib'));
+  emptyDirSync(path.resolve(base, 'es'));
+  emptyDirSync(path.resolve(base, 'lib'));
   try {
     console.log('================================================================');
     console.log('generating component es/cjs...');
@@ -18,7 +20,7 @@ export default async function main() {
   }
 
   // umd
-  fs.emptyDir(path.resolve(base, 'dist'));
+  emptyDirSync(path.resolve(base, 'dist'));
 
   try {
     console.log('================================================================');

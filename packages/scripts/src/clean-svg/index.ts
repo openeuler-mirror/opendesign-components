@@ -1,8 +1,10 @@
-import path from 'path';
-import { defaultConfig, IconsConfig } from './config';
+import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { globSync } from 'glob';
 import { optimize } from 'svgo';
-import fs from 'fs-extra';
+
+import { outputFileSync, emptyDirSync, loadModule } from '../utils.ts';
+import { defaultConfig, IconsConfig } from './config.ts';
 
 /**
  * 读取配置文件
@@ -12,7 +14,7 @@ async function readConfig(cfg: string) {
   const configFile = path.resolve(base, cfg || './clear-svg.config.ts');
   const cfgDir = path.dirname(configFile);
 
-  const configData: IconsConfig = await require(configFile);
+  const configData = (await loadModule<{ default: IconsConfig }>(configFile)).default;
 
   const config = Object.assign(defaultConfig, configData);
 
@@ -58,11 +60,11 @@ function readSvgData(cfg: IconsConfig) {
 function generateSvgs(icons: Array<IconItem>, cfg: IconsConfig) {
   console.log('generating icon components...');
   // 清空构建目录
-  fs.emptyDirSync(cfg.output);
+  emptyDirSync(cfg.output);
 
   // 遍历生成图标组件
   icons.forEach((item) => {
-    const file = fs.readFileSync(item.path, 'utf-8');
+    const file = readFileSync(item.path, 'utf-8');
     const svgoCfg = cfg.svgo;
 
     const rlt = optimize(file, {
@@ -70,13 +72,12 @@ function generateSvgs(icons: Array<IconItem>, cfg: IconsConfig) {
       ...svgoCfg,
     });
 
-    fs.outputFile(path.resolve(cfg.output, item.name), rlt.data, (err) => {
-      if (err) {
-        console.log(`build [${item.name}] failed: ${err}`);
-      } else {
-        console.log(`build [${item.name}] success`);
-      }
-    });
+    try {
+      outputFileSync(path.resolve(cfg.output, item.name), rlt.data);
+      console.log(`build [${item.name}] success`);
+    } catch (err) {
+      console.log(`build [${item.name}] failed: ${err}`);
+    }
   });
 }
 export default async function main(options: { config: string }) {

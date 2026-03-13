@@ -1,4 +1,4 @@
-import { svgoConfig, SVGOConfigT } from './svgo.config';
+import { svgoConfig, SVGOConfigT } from './svgo.config.ts';
 
 export interface IconsConfig {
   svgo: SVGOConfigT;

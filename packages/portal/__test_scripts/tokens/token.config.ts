@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   prefix: '--o-',
   output: './dist',
   themeMap: [
@@ -13,7 +13,7 @@ module.exports = {
     {
       valueKey: 'light',
       name: 'o',
-      root: true
+      root: true,
     },
   ],
   tokenFile: ['./opendesign-token.json'],

@@ -12,7 +12,7 @@ export default (): InlineConfig => {
       // dts(),
       dts({
         outDir: ['es', 'lib'],
-        tsconfigPath: 'tsconfig.app.json'
+        tsconfigPath: 'tsconfig.app.json',
       }) as any,
     ],
     build: {
@@ -38,7 +38,7 @@ export default (): InlineConfig => {
             preserveModulesRoot: 'src',
           },
         ],
-        external: ['vue'],
+        external: ['vue', /^@vueuse/, 'dayjs'],
       },
       lib: {
         entry: 'src/index.ts',

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   input: './svgs',
   output: '../src/icon-components/',
   componentClass: 'o-svg-icon',
