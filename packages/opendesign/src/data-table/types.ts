@@ -70,6 +70,8 @@ export interface DataTableColumnFormatterOptions {
 }
 /**
  * 单元格的渲染方法
+ * @returns 可返回 string（纯文本）、VNode（h 函数创建）、Component（defineComponent 创建）、
+ *          或函数式组件 `() => VNode`（推荐用于 JSX/TSX 场景）
  */
 export type DataTableColumnFormatter = (options: DataTableColumnFormatterOptions) => Component | VNode | string;
 
@@ -79,13 +81,17 @@ export type DataTableColumnFormatter = (options: DataTableColumnFormatterOptions
 export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => { colSpan?: number; rowSpan?: number } | void;
 
 /**
- * 行展开的计算方法，返回false则不可被展开
+ * 行展开的计算方法，返回 false 则不可被展开
+ * @returns 可返回 Component、VNode、string、或函数式组件 `() => VNode`（推荐 JSX/TSX 场景）；
+ *          返回 false 表示该行不可展开
  */
 export type DataTableExpandMethod = (row: any, rowIndex: number) => Component | VNode | string | false;
 
 export type DataTableColumnFilterT = {
   /**
-   * 获取筛选可选项的方法
+   * 获取筛选可选项的方法，支持异步返回
+   * @param option.column 当前列的配置
+   * @param option.emptyOption 内置的"空值"选项，可直接放入返回数组以支持筛选空值数据
    */
   optionsFn: DataTableColumnFilterOptionsFn;
   /**
@@ -105,21 +111,36 @@ export type DataTableColumnFilterT = {
 };
 
 /**
- * 列的配置文件
+ * 列的配置
  */
 export interface DataTableColumnT {
+  /**
+   * 列的数据字段名，对应行数据对象的 key
+   */
   key: string;
+  /**
+   * 列表头文本，可传入字符串、VNode 或 Component 来自定义表头渲染
+   */
   label?: string | Component | VNode;
-  /** 列表头的描述文案，会以气泡的形式展示 */
+  /**
+   * 列表头的描述文案，会以气泡的形式展示在表头旁
+   */
   description?: string | Component | VNode;
+  /**
+   * 单元格渲染方法，可返回 string、VNode、Component 或函数式组件 `() => VNode`
+   */
   formatter?: DataTableColumnFormatter;
+  /**
+   * 列固定方向，true 等同 'left'
+   * @important IOS 端不支持多列固定
+   */
   fixed?: DataTableFixedT;
   /**
    * 是否是作为竖向表头列
    * @default false
    */
   asHeader?: boolean;
-  /** 列的宽度，设置了fixed时必填 */
+  /** 列的宽度 */
   width?: number | string;
   /** 列的最小宽度 */
   minWidth?: number | string;
@@ -333,6 +354,12 @@ export type DataTableConditionUpdatePayload<T = DataTableConditionValue> = {
   newVal: T[];
 };
 
+/**
+ * 排序方式常量
+ * - ASC (1): 升序排序
+ * - DESC (-1): 降序排序
+ * - NA (undefined): 不排序，用于初始化 conditions 中的排序字段
+ */
 export const DataTableSortMethod = {
   /** 升序排序 */
   ASC: 1,

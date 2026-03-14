@@ -74,7 +74,7 @@ export const useDataColumn = (
       })
       .then(() => {
         tableEl.value!.style.tableLayout = 'fixed';
-        const totalWidth = dataColumns.value.reduce((_width, column) => _width + column.resizeWidth!, 2 /* 左右外边框宽度 */);
+        const totalWidth = dataColumns.value.reduce((_width, column) => _width + column.resizeWidth!, 0);
         if (totalWidth < containerWidth.value) {
           // 如果列宽不足以填满容器宽度，则将剩余宽度加到最后一列
           const lastCol = dataColumns.value[dataColumns.value.length - 1]!;

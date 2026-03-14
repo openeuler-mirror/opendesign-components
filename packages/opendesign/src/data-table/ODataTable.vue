@@ -69,7 +69,14 @@ type AllSlots = {
 const slots = defineSlots<AllSlots>();
 
 const rootRef = ref<HTMLDivElement>();
-const containerWidth = refDebounced(useElementBounding(rootRef).width);
+const { width: containerBoundingWidth } = useElementBounding(rootRef);
+// 使用 clientWidth 排除边框宽度，避免百分比列宽转换时因包含border而溢出
+const containerWidth = refDebounced(
+  computed(() => {
+    void containerBoundingWidth.value;
+    return rootRef.value?.clientWidth ?? 0;
+  }),
+);
 
 const headerRef = ref<HTMLTableElement>();
 const { height: headerTableHeight } = useElementBounding(headerRef);
