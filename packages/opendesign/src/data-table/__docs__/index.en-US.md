@@ -12,6 +12,8 @@ kind: container
 <!-- @case DataTableColumnHeader -->
 <!-- @case DataTableHeaderStyle -->
 <!-- @case DataTableFilterSorter -->
+<!-- @case DataTableFilterSorterWatch -->
+<!-- @case DataTablePagination -->
 <!-- @case DataTableExpand -->
 <!-- @case DataTableTree -->
 <!-- @case DataTableSelection -->

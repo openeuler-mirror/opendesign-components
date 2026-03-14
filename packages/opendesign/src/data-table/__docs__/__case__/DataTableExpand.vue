@@ -33,10 +33,12 @@ const subTableColumns = computed<DataTableColumnT[]>(() => {
   ];
 });
 
+// 通过 expandMethod 可按行控制是否可展开：前3行不可展开，仅第4行可展开并渲染子表格
 const expandMethod: DataTableExpandMethod = (row, rowIndex) => {
   if (rowIndex < 3) {
     return false;
   }
+  // 返回函数式组件，推荐的 JSX/TSX 渲染方式
   return () => <ODataTable columns={subTableColumns.value} data={[row]} style="width: 100%" />;
 };
 

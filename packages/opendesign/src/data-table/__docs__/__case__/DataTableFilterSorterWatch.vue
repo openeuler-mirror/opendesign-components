@@ -1,15 +1,15 @@
 <docs lang="md">
 <!--zh-CN-->
 
-### 过滤与排序
+### 过滤与排序（watch 自动请求）
 
 <!--en-US-->
 
-### Filter & Sort
+### Filter & Sort (watch auto-request)
 </docs>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { DataTableColumnT, DataTableColumnFilterOption, DataTableSortMethod, DataTableSortMethodT } from '@opensig/opendesign';
 import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
@@ -33,13 +33,12 @@ const columns = computed<DataTableColumnT[]>(() => {
         showInput: true,
         multiple: true,
         optionTitle: 'Select Name',
-        // optionsFn 接收 { column, emptyOption } 参数；emptyOption 为内置的"空值"筛选项
         optionsFn({ emptyOption }) {
           return [
             ...getTableData(8).map((v) => {
               return { label: v.name, value: v.name };
             }),
-            emptyOption, // 将内置空值选项加入列表，用户可筛选出该列为空的数据
+            emptyOption,
           ];
         },
       },
@@ -75,8 +74,6 @@ const columns = computed<DataTableColumnT[]>(() => {
   ];
 });
 
-// conditions 对象的 key 需对应列的 key（筛选列）或 sortKey（排序列）
-// 筛选列初始值为空数组 []，排序列初始值用 DataTableSortMethod.NA
 const conditions = ref<{
   name: string[];
   gender: string[];
@@ -90,7 +87,7 @@ const conditions = ref<{
 });
 
 const loading = ref(false);
-// 监听 @condition-update 事件，在筛选/排序条件变更时重新请求数据
+
 const getData = async () => {
   loading.value = true;
   data.value = [];
@@ -121,9 +118,12 @@ const getData = async () => {
   }
 };
 
+// 用 watch 替代 @condition-update，conditions 变化时自动请求
+watch(conditions, getData, { deep: true });
+
 getData();
 </script>
 
 <template>
-  <ODataTable :columns="columns" :data="data" :conditions="conditions" :loading="loading" @condition-update="getData" />
+  <ODataTable :columns="columns" :data="data" :conditions="conditions" :loading="loading" />
 </template>

@@ -67,6 +67,7 @@ const foldAll = () => {
   expandedRowKeys.value = [];
 };
 
+// 懒加载子节点：通过 rowKey 判断加载逻辑，调用 resolve() 表示加载成功，reject() 表示加载失败
 const handleLoadChildren = ({ rowIndex, rowKey, resolve, reject }: DataTableLoadChildrenPayload) => {
   setTimeout(() => {
     if (rowKey === '4') {
