@@ -221,29 +221,36 @@ export const useDataColumn = (
   const hasLeftFixedColumn = computed(() => dataColumns.value.some((v) => v.fixed === 'left' || v.fixed === 'right'));
   const hasRightFixedColumn = computed(() => dataColumns.value.some((v) => v.fixed === 'right'));
 
+  /** 正在调整宽度的列key，用于显示拖拽指示器 */
   const resizingColumnKey = ref('');
+  /** 拖拽开始时的鼠标X坐标，用于计算拖拽偏移量 */
+  let resizeStartX = 0;
+  /** 拖拽开始时的列宽，与偏移量相加得到新宽度 */
+  let resizeStartWidth = 0;
 
+  /**
+   * 拖拽过程中持续触发，基于鼠标偏移量计算新列宽
+   * 使用 deltaX（相对位移）而非绝对坐标，避免表格 reflow 导致列位置偏移引起的宽度抖动
+   */
   const handleColumnResizerMouseMoving = (event: MouseEvent) => {
-    const thEl = dataColumnMap.get(resizingColumnKey.value)?.thRef;
-
-    if (!thEl) {
+    const column = dataColumnMap.get(resizingColumnKey.value);
+    if (!column?.colRef) {
       return;
     }
-    const thRect = thEl.getBoundingClientRect();
-    let width = Math.floor(event.clientX - thRect.x);
+    const deltaX = event.clientX - resizeStartX;
+    let width = Math.floor(resizeStartWidth + deltaX);
 
-    const column = dataColumnMap.get(resizingColumnKey.value);
-    if (column?._minWidth) {
+    // 限制在 minWidth / maxWidth 范围内
+    if (column._minWidth) {
       width = Math.max(width, column._minWidth);
     }
-    if (column?._maxWidth) {
+    if (column._maxWidth) {
       width = Math.min(width, column._maxWidth);
     }
-    if (column?.colRef) {
-      column.colRef.style.width = `${width}px`;
-    }
+    column.colRef.style.width = `${width}px`;
   };
 
+  /** 拖拽结束，清除状态并移除事件监听 */
   const handleColumnResizerMouseup = () => {
     resizingColumnKey.value = '';
 
@@ -252,14 +259,19 @@ export const useDataColumn = (
     window.removeEventListener('contextmenu', handleColumnResizerMouseup);
   };
 
+  /** 拖拽开始，记录初始鼠标位置和列宽快照，并绑定拖拽事件 */
   const handleColumnResizerMousedown = ({ event, column }: { event: MouseEvent; column: EffectiveDataTableColumnT; colIndex: number }) => {
     event.preventDefault();
     event.stopPropagation();
 
     resizingColumnKey.value = column.key;
+    resizeStartX = event.clientX;
+    // 使用 thRef（<th>元素）获取实际渲染宽度，colRef 是 <col> 元素，getBoundingClientRect() 不可靠
+    resizeStartWidth = column.thRef?.getBoundingClientRect().width ?? 0;
 
     window.addEventListener('mousemove', handleColumnResizerMouseMoving);
     window.addEventListener('mouseup', handleColumnResizerMouseup);
+    // 右键菜单也视为拖拽结束，防止状态残留
     window.addEventListener('contextmenu', handleColumnResizerMouseup);
   };
 
