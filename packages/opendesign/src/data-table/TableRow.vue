@@ -170,6 +170,7 @@ provide(dataTableRowInjectKey, {
           [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
           [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
           'o-table-cell-tooltip': column.showOverflowToolTip,
+          'o-table-cell-wrappable': isNumber(column.showOverflowToolTip) && column.showOverflowToolTip > 1,
         }"
         :style="{
           ...getColumnPosition({

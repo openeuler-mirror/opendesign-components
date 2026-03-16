@@ -43,6 +43,7 @@ const columns: DataTableColumnT[] = [
     minWidth: 130,
     maxWidth: 180,
     showOverflowToolTip: 2,
+    showHeaderOverflowToolTip: 2,
   },
   { label: 'VNode', key: 'other1', formatter: ({ row }) => h('span', { style: 'white-space: nowrap' }, `${row.email} render by VNode`) },
   { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },

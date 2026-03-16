@@ -5,7 +5,7 @@ import { useElementBounding, useCssVar, refDebounced } from '@vueuse/core';
 import { vOnResize } from '../directives';
 import { debounceRAF, getValueByPath, setValueByPath } from '../_utils/helper.ts';
 import { checkElementOverflow, findClosestElementWithClass, getCssVariable, isOverflown } from '../_utils/dom.ts';
-import { isArray, isFunction, isNil, isNumeric } from '../_utils/is.ts';
+import { isArray, isFunction, isNil, isNumber, isNumeric } from '../_utils/is.ts';
 import { IconLoading, IconInfoTip } from '../_utils/icons';
 import { getRenderableComponent } from '../_utils/vue-utils.ts';
 import { OScroller } from '../scrollbar';
@@ -391,7 +391,8 @@ defineExpose<DataTableExposed>({
                     'o-table-cell': true,
                     'o-table-header-cell': true,
                     'o-table-column-as-header': column.asHeader,
-                    'o-table-cell-tooltip': true,
+                    'o-table-cell-tooltip': column.showHeaderOverflowToolTip !== false && column.showHeaderOverflowToolTip !== 0,
+                    'o-table-cell-wrappable': isNumber(column.showHeaderOverflowToolTip) && column.showHeaderOverflowToolTip > 1,
                     'o-table-last-header-row-cell': !column.children?.length,
                     'o-table-cell-fixed': column.fixed,
                     'o-table-cell-fixed-left': column.fixed === 'left',
@@ -401,7 +402,10 @@ defineExpose<DataTableExposed>({
                     [DEFAULT_CELL_FIRST_COL_MARKER]: column.isFirstCol,
                     [DEFAULT_CELL_LAST_COL_MARKER]: column.isLastCol,
                   }"
-                  :style="{ ...getColumnPosition({ column, dataColumns, groupColumns, border: props.border, isHeader: true }), '--cell-max-row': 1 }"
+                  :style="{
+                    ...getColumnPosition({ column, dataColumns, groupColumns, border: props.border, isHeader: true }),
+                    '--cell-max-row': isNumber(column.showHeaderOverflowToolTip) ? column.showHeaderOverflowToolTip : 1,
+                  }"
                   :data-cell-index="`th_${groupIndex}_${colIndex}`"
                 >
                   <span class="o-table-cell__inner">

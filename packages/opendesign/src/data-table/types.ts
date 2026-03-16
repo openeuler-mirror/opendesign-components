@@ -147,7 +147,13 @@ export interface DataTableColumnT {
   /** 列的最大宽度 */
   maxWidth?: number | string;
   /**
-   * 是否显示溢出隐藏气泡，传入数字以设置最大行数
+   * 表头是否显示溢出隐藏气泡，传入数字以设置最大行数
+   * @default 1
+   */
+  showHeaderOverflowToolTip?: boolean | number;
+  /**
+   * 表体是否显示溢出隐藏气泡，传入数字以设置最大行数
+   * @default false
    */
   showOverflowToolTip?: boolean | number;
   /**
