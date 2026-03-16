@@ -172,7 +172,13 @@ provide(dataTableRowInjectKey, {
           'o-table-cell-tooltip': column.showOverflowToolTip,
         }"
         :style="{
-          ...getColumnPosition({ column, dataColumns, groupColumns, border: border }),
+          ...getColumnPosition({
+            column,
+            dataColumns,
+            groupColumns,
+            border: border,
+            colSpan: spanMethod?.({ row, column, cellValue: getCellValue({ row, column }), rowIndex, colIndex })?.colSpan,
+          }),
           '--cell-max-row': isNumber(column.showOverflowToolTip) ? column.showOverflowToolTip : 1,
         }"
         :data-cell-index="`td_${rowIndex}_${colIndex}`"

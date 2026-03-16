@@ -115,7 +115,7 @@ const markEdgeFixedColumns = (dataColumns: EffectiveDataTableColumnT[], groupCol
     let firstRightFixedI: number | undefined;
     for (let i = 0; i < group.length; i++) {
       const column = group[i];
-      if (column.fixed === 'left') {
+      if (column.fixed === 'left' && !column.headerHidden) {
         lastLeftFixedI = i;
         continue;
       }
@@ -229,6 +229,71 @@ const getLastChildColumn = (column: EffectiveDataTableColumnT): EffectiveDataTab
 };
 
 /**
+ * 计算左固定列的偏移量
+ */
+const getLeftFixedCount = (column: EffectiveDataTableColumnT, dataColumns: EffectiveDataTableColumnT[]): number => {
+  const firstCol = getFirstChildColumn(column);
+  let count = 0;
+  for (let i = 0; i < dataColumns.length; i++) {
+    const v = dataColumns[i];
+    if (v.key === firstCol.key) {
+      break;
+    }
+    count += v.resizeWidth ?? 0;
+  }
+  return count;
+};
+
+/**
+ * 计算右固定列的偏移量
+ */
+const getRightFixedCount = (column: EffectiveDataTableColumnT, dataColumns: EffectiveDataTableColumnT[]): number => {
+  const lastCol = getLastChildColumn(column);
+  let count = 0;
+  for (let i = dataColumns.length - 1; i > 0; i--) {
+    const v = dataColumns[i];
+    if (lastCol.key === v.key) {
+      break;
+    }
+    if (v.fixed === 'right') {
+      count += v.resizeWidth ?? 0;
+    }
+  }
+  return count;
+};
+
+/**
+ * 减除被合并的右侧固定列的宽度
+ */
+const adjustCountForMergedColumns = (options: {
+  count: number;
+  column: EffectiveDataTableColumnT;
+  dataColumns: EffectiveDataTableColumnT[];
+  isHeader: boolean;
+  colSpan?: number;
+}): number => {
+  const { column, dataColumns, isHeader, colSpan } = options;
+  let count = options.count;
+  if (isHeader && column.customColSpan && column.customColSpan > 1) {
+    let columnIndex = dataColumns.findIndex((v) => v.key === column.key) + 1;
+    while (dataColumns[columnIndex] && dataColumns[columnIndex].headerHidden) {
+      count -= dataColumns[columnIndex].resizeWidth ?? 0;
+      columnIndex++;
+    }
+  }
+  if (!isHeader && colSpan && colSpan > 1) {
+    const columnIndex = dataColumns.findIndex((v) => v.key === column.key);
+    for (let i = 1; i < colSpan; i++) {
+      const mergedCol = dataColumns[columnIndex + i];
+      if (mergedCol && mergedCol.fixed === 'right') {
+        count -= mergedCol.resizeWidth ?? 0;
+      }
+    }
+  }
+  return count;
+};
+
+/**
  * 计算固定列的左右定位样式
  */
 export const getColumnPosition = (options: {
@@ -237,47 +302,22 @@ export const getColumnPosition = (options: {
   groupColumns: EffectiveDataTableColumnT[][];
   border?: string;
   isHeader?: boolean;
+  colSpan?: number;
 }): { left?: string; right?: string } => {
-  const { column, dataColumns, groupColumns, isHeader = false } = options;
+  const { column, dataColumns, isHeader = false, colSpan } = options;
   if (!column.fixed) {
     return {};
   }
-  let count = 0;
   if (column.fixed === 'left') {
-    const firstCol = getFirstChildColumn(column);
-    // 累加左侧列宽度
-    for (let i = 0; i < dataColumns.length; i++) {
-      const v = dataColumns[i];
-      if (v.key === firstCol.key) {
-        break;
-      }
-      count += v.resizeWidth ?? 0;
-    }
-    return {
-      left: `${count}px`,
-    };
+    return { left: `${getLeftFixedCount(column, dataColumns)}px` };
   }
-
-  const lastCol = getLastChildColumn(column);
-  for (let i = dataColumns.length - 1; i > 0; i--) {
-    // 累加右侧列宽度
-    const v = dataColumns[i];
-    if (lastCol.key === v.key) {
-      break;
-    }
-
-    if (v.fixed === 'right') {
-      count += v.resizeWidth ?? 0;
-    }
-  }
-  if (isHeader && column.customColSpan && column.customColSpan > 1) {
-    // 如果是表头单元格切有自定义合并单元格的情况，需要把被合并的右侧的列的宽度减除
-    let columnIndex = dataColumns.findIndex((v) => v.key === column.key) + 1;
-    while (dataColumns[columnIndex] && dataColumns[columnIndex].headerHidden) {
-      count -= dataColumns[columnIndex].resizeWidth ?? 0;
-      columnIndex++;
-    }
-  }
+  const count = adjustCountForMergedColumns({
+    count: getRightFixedCount(column, dataColumns),
+    column,
+    dataColumns,
+    isHeader,
+    colSpan,
+  });
   return { right: `${count}px` };
 };
 

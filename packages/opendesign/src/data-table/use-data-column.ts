@@ -6,6 +6,15 @@ import { getElementRectByRAF } from '../_utils/dom';
 import { DataTablePropsT, EffectiveDataTableColumnT } from './types';
 import { getGroupColumns, isEmptyCell, getCellValue } from './utils';
 
+type RemovedBodyCellInfo = {
+  /** 当前单元格的索引 */
+  index: string;
+  /** 被如何合并的 */
+  removedMethod: 'colspan' | 'rowspan';
+  /** 由哪一列触发的合并 */
+  removedBy: string;
+};
+
 const getStaticWidth = (width: string | number | undefined, containerWidth: number) => {
   if (isNil(width)) {
     return width;
@@ -25,7 +34,7 @@ export const useDataColumn = (
   dataColumnMap: Map<string, EffectiveDataTableColumnT>;
   dataColumns: Ref<EffectiveDataTableColumnT[]>;
   groupColumns: Ref<EffectiveDataTableColumnT[][]>;
-  removedBodyCellsBySpan: ComputedRef<string[]>;
+  removedBodyCellsBySpan: ComputedRef<RemovedBodyCellInfo[]>;
   isBodyCellRemoved: (rowIndex: number, colIndex: number) => boolean;
   isLastLeftFixedCell: (rowIndex: number, colIndex: number) => boolean;
   isFirstRightFixedCell: (rowIndex: number, colIndex: number) => boolean;
@@ -113,12 +122,12 @@ export const useDataColumn = (
   /**
    * 由于合并单元格，导致去掉的单元格的索引，格式为：${rowIndex}_${colIndex}
    */
-  const removedBodyCellsBySpan = computed<string[]>(() => {
-    const toRemove: string[] = [];
+  const removedBodyCellsBySpan = computed(() => {
+    const toRemove: RemovedBodyCellInfo[] = [];
     data.value.forEach((row, rowIndex) => {
       dataColumns.value.forEach((column, colIndex) => {
         // 已被合并的单元格不会再次被合并
-        if (toRemove.includes(`${rowIndex}_${colIndex}`)) {
+        if (toRemove.some((v) => v.index === `${rowIndex}_${colIndex}`)) {
           return;
         }
 
@@ -138,16 +147,16 @@ export const useDataColumn = (
             // 同时覆盖行，实际生效为矩形而不是L形
             if (res?.rowSpan && res.rowSpan > 1) {
               for (let j = 0; j < res.rowSpan - 1; j++) {
-                toRemove.push(`${rowIndex + j + 1}_${targetColIndex}`);
+                toRemove.push({ index: `${rowIndex + j + 1}_${targetColIndex}`, removedMethod: 'rowspan', removedBy: column.key });
               }
             }
-            toRemove.push(`${rowIndex}_${targetColIndex}`);
+            toRemove.push({ index: `${rowIndex}_${targetColIndex}`, removedMethod: 'colspan', removedBy: column.key });
           }
         }
         // 覆盖只有行合并的情况
         if (res?.rowSpan && res.rowSpan > 1) {
           for (let i = 0; i < res.rowSpan - 1; i++) {
-            toRemove.push(`${rowIndex + i + 1}_${colIndex}`);
+            toRemove.push({ index: `${rowIndex + i + 1}_${colIndex}`, removedMethod: 'rowspan', removedBy: column.key });
           }
         }
       });
@@ -156,34 +165,57 @@ export const useDataColumn = (
   });
 
   const isBodyCellRemoved = (rowIndex: number, colIndex: number): boolean => {
-    return removedBodyCellsBySpan.value.includes(`${rowIndex}_${colIndex}`);
+    return removedBodyCellsBySpan.value.some((v) => v.index === `${rowIndex}_${colIndex}`);
   };
 
   /** 计算是否是当前行最后一个左固定单元格 */
   const isLastLeftFixedCell = (rowIndex: number, colIndex: number): boolean => {
     const column = dataColumns.value[colIndex];
-    const nextColumn = dataColumns.value[colIndex + 1];
     if (column.fixed !== 'left') {
       return false;
     }
 
-    return (
-      // 如果右边不再有固定列
-      nextColumn?.fixed !== 'left' ||
-      // 或是不再有被合并了的固定列(上方单元格向下合并)
-      !(nextColumn?.fixed === 'left' && isBodyCellRemoved(rowIndex, colIndex + 1))
-    );
+    // 向右扫描所有后续的左固定列，直到遇到非左固定列
+    let nextIndex = colIndex + 1;
+    while (nextIndex < dataColumns.value.length && dataColumns.value[nextIndex].fixed === 'left') {
+      const nextCellRemoveInfo = removedBodyCellsBySpan.value.filter((v) => v.index === `${rowIndex}_${nextIndex}`);
+      // 如果该列并没有被隐藏，说明存在可见的左固定列，当前列不是最后一个
+      if (!nextCellRemoveInfo.length) {
+        return false;
+      }
+      // 如果该单元格是被rowspan隐藏的，那固定列依然存在（来自上方行的rowspan），当前列不是最后一个
+      if (nextCellRemoveInfo.some((v) => v.removedMethod === 'rowspan')) {
+        return false;
+      }
+      // 该单元格是被colspan隐藏的，继续向右扫描
+      nextIndex++;
+    }
+    return true;
   };
 
   /** 计算是否是当前行第一个右固定单元格 */
   const isFirstRightFixedCell = (rowIndex: number, colIndex: number): boolean => {
     const column = dataColumns.value[colIndex];
-    const prevColumn = dataColumns.value[colIndex - 1];
     if (column.fixed !== 'right') {
       return false;
     }
-    // 如果左边不再有固定列，或已经被合并了
-    return prevColumn?.fixed !== 'right' || isBodyCellRemoved(rowIndex, colIndex - 1);
+
+    // 向左扫描所有前面的右固定列，直到遇到非右固定列
+    let prevIndex = colIndex - 1;
+    while (prevIndex >= 0 && dataColumns.value[prevIndex].fixed === 'right') {
+      const prevCellRemoveInfo = removedBodyCellsBySpan.value.filter((v) => v.index === `${rowIndex}_${prevIndex}`);
+      // 如果该列并没有被隐藏，说明存在可见的右固定列，当前列不是第一个
+      if (!prevCellRemoveInfo.length) {
+        return false;
+      }
+      // 如果该单元格是被rowspan隐藏的，那固定列依然存在（来自上方行的rowspan），当前列不是第一个
+      if (prevCellRemoveInfo.some((v) => v.removedMethod === 'rowspan')) {
+        return false;
+      }
+      // 该单元格是被colspan隐藏的，继续向左扫描
+      prevIndex--;
+    }
+    return true;
   };
 
   const hasLeftFixedColumn = computed(() => dataColumns.value.some((v) => v.fixed === 'left' || v.fixed === 'right'));
