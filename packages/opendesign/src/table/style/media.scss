@@ -9,6 +9,9 @@
     --table-cell-padding-y: 8px;
 
     --table-edge-padding: 24px;
+    --table-expand-cell-padding: 24px;
+
+    --table-row-icon-size: var(--o-icon_size-s);
   }
 
   @include respond('<=pad') {
@@ -18,6 +21,7 @@
     --table-cell-padding-x: 12px;
 
     --table-edge-padding: 20px;
+    --table-expand-cell-padding: 16px;
   }
 
   @include respond('<=pad_v') {
@@ -27,10 +31,16 @@
     --table-head-cell-padding-x: 8px;
     --table-cell-padding-x: 8px;
     --table-edge-padding: 8px;
+    --table-expand-cell-padding: 12px;
+
+    --table-row-icon-size: var(--o-icon_size-m);
   }
 }
 
 .o-table-small {
+  @include respond('<=laptop') {
+    --table-expand-cell-padding: 16px;
+  }
   @include respond('<=pad') {
     --table-text-size: var(--o-font_size-tip2);
     --table-text-height: var(--o-line_height-tip2);
@@ -38,6 +48,7 @@
     --table-cell-padding-x: 8px;
 
     --table-edge-padding: 8px;
+    --table-expand-cell-padding: 12px;
 
     --table-radius: var(--o-radius_control-s);
   }

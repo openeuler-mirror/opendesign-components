@@ -70,6 +70,40 @@ export function getScrollParents(el: HTMLElement) {
   return parents;
 }
 
+/**
+ * 从触发事件的目标元素向上遍历 DOM 树，查找第一个包含指定类名的元素
+ * @param target - 事件触发的原始 DOM 元素（e.target）
+ * @param className - 要查找的目标类名（纯类名字符串，无需带 .）
+ * @param rootContainer - 遍历的根边界容器（遍历到该容器则停止，不再向上查找）
+ * @returns 找到的带指定类名的元素 | 未找到则返回 null
+ * @example
+ * // 假设父容器是 #parent-container，点击了目标元素的子span
+ * const parent = document.getElementById('parent-container');
+ * const target = findClosestElementWithClass(e.target, 'target-item', parent);
+ * if (target) { console.log('找到目标元素：', target); }
+ */
+export function findClosestElementWithClass(target: EventTarget | null, className: string, rootContainer: HTMLElement): HTMLElement | null {
+  // 类型守卫：确保 target 是 HTMLElement 类型（排除文本节点、注释节点等）
+  if (!(target instanceof HTMLElement)) {
+    return null;
+  }
+
+  let currentElement: HTMLElement | null = target;
+
+  // 向上遍历直到找到目标类名元素，或遍历到根容器为止
+  while (currentElement && currentElement !== rootContainer) {
+    // 检查当前元素是否包含目标类名（兼容 classList 存在的情况）
+    if (currentElement.classList && currentElement.classList.contains(className)) {
+      return currentElement;
+    }
+    // 向上查找父元素（仅取 HTMLElement 类型的父元素）
+    currentElement = currentElement.parentElement;
+  }
+
+  // 未找到符合条件的元素
+  return null;
+}
+
 export function getRelativeBounding(e: DOMRect, c: DOMRect) {
   return {
     top: e.top,

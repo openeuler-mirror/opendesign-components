@@ -31,7 +31,6 @@
     top: 0;
     z-index: 2;
     transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
-    white-space: nowrap;
     background-color: var(--table-head-bg);
   }
   &.o-table-border-all,
@@ -41,36 +40,88 @@
     }
   }
 
-  &.is-overflow-top {
+  &.is-overflow-top:not(.o-table-header-split-line) {
     .o-table-header {
       box-shadow: var(--table-fixed-head-shadow);
     }
   }
 
   .o-table-body-cell {
-    .o-table-cell__inner {
-      word-break: break-word;
+    position: relative;
+  }
+
+  .o-data-table-header-divider-v {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: calc(0px - var(--table-border-width));
+    right: calc(0px - var(--table-border-width));
+    width: 1px;
+    background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+    background-size: 1px 100%;
+  }
+  .o-table-header {
+    &:after {
+      // 去掉o-table的样式，改用外侧元素以提高兼容性
+      display: none;
     }
   }
 
-  // 重置OTable的样式
-  .o-table-header {
-    &:after {
-      display: none;
-    }
+  .o-data-table-header-divider-h {
+    position: sticky;
+    z-index: 3;
+    top: calc(var(--table-header-height) * 1px);
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+    background-size: 100% 1px;
+  }
+  &.o-table-header-fill {
     th {
       border-bottom: var(--table-head-border-bottom);
     }
   }
 
+  &.o-table-header-split-line {
+    .o-table-column-as-header {
+      & + .o-table-body-cell {
+        border-left-color: transparent;
+      }
+    }
+  }
+  .o-table-expand-cell {
+    background-color: var(--table-expand-bg-color);
+  }
+
   .o-table-cell__inner {
     display: flex;
+    align-items: center;
+    word-break: break-word;
+  }
+  .o-table-cell-tooltip {
+    .o-table-cell__inner-content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: var(--cell-max-row);
+      line-clamp: var(--cell-max-row);
+      -webkit-box-orient: vertical;
+    }
   }
 
   .o-table-header-cell {
+    white-space: nowrap;
     .o-svg-icon {
       font-size: var(--o-icon_size-xs);
     }
+  }
+  .o-table-cell-wrappable {
+    white-space: normal;
   }
   .o-table-header-cell .o-table-cell__inner {
     padding: var(--table-head-cell-padding);
@@ -78,6 +129,10 @@
 
   .o-table-body-cell .o-table-cell__inner {
     padding: var(--table-cell-padding);
+  }
+
+  .o-table-cell .o-table-expand-cell__inner {
+    padding: var(--table-expand-cell-padding);
   }
 
   .o-table-cell {
@@ -94,6 +149,9 @@
       padding-right: unset;
       .o-table-cell__inner {
         padding-right: var(--table-edge-padding);
+      }
+      .o-table-expand-cell__inner {
+        padding-right: var(--table-expand-cell-padding);
       }
     }
   }
@@ -226,4 +284,145 @@
       right: 0;
     }
   }
+}
+
+.o-data-table-info__trigger,
+.o-data-table-column-filter__trigger,
+.o-data-table-sorter {
+  margin-left: var(--table-filter-trigger-gap);
+  font-size: var(--table-filter-trigger-size);
+  line-height: var(--table-filter-trigger-size);
+  width: var(--table-filter-trigger-size);
+  height: var(--table-filter-trigger-size);
+
+  @include hover {
+    cursor: pointer;
+    &.disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &.active,
+  &.o-data-table-sorter-asc .sort_svg__up-arrow,
+  &.o-data-table-sorter-desc .sort_svg__down-arrow {
+    color: var(--o-color-primary1);
+  }
+}
+
+.o-data-table-column-filter-popup {
+  width: var(--table-filter-popup-width);
+}
+
+.o-data-table-column-filter__input-container {
+  padding: 16px 16px 4px 16px;
+  @include respond('<=pad_v') {
+    padding: 4px 0;
+  }
+
+  .o-input {
+    width: 100%;
+  }
+}
+.o-data-table-column-filter__input-icon {
+  font-size: var(--table-text-size);
+}
+
+.o-data-table-column-filter__options-container {
+  .o-option-list {
+    --option-list-max-height-default: var(--table-filter-option-list-max-height-default);
+  }
+
+  .o-option {
+    --option-text-size: var(--table-text-size);
+    --option-text-height: var(--table-text-height);
+  }
+  .o-checkbox {
+    --checkbox-text-size: var(--table-text-size);
+    --checkbox-text-height: var(--table-text-height);
+  }
+
+  .o-data-table-column-filter__empty {
+    text-align: center;
+    color: var(--o-color-info4);
+    padding: 12px 0;
+    font-size: var(--table-text-size);
+    line-height: var(--table-text-height);
+  }
+
+  @include respond('<=pad_v') {
+    .o-option-list {
+      padding: 0;
+    }
+    .o-option-multiple {
+      border-radius: 0;
+      --option-padding: 12px 0;
+      --option-gap: 0;
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--o-color-control4);
+      }
+    }
+    .o-checkbox {
+      width: 100%;
+    }
+    .o-checkbox-wrap {
+      width: 100%;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    .o-checkbox-label {
+      margin-left: 0;
+    }
+  }
+}
+
+.o-data-table-column-filter__divider {
+  --o-divider-gap: 4px;
+}
+
+.o-data-table-column-filter__footer {
+  padding: 4px 8px 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: var(--table-text-size);
+  line-height: var(--table-text-height);
+}
+
+.o-table-row-icon-placeholder {
+  width: var(--table-row-icon-size);
+  margin-right: var(--table-row-icon-gap);
+  visibility: hidden;
+}
+.o-table-row-expand-trigger {
+  font-size: var(--table-row-icon-size);
+  margin-right: var(--table-row-icon-gap);
+  visibility: hidden;
+  transition: transform var(--o-duration-s) var(--o-easing-standard);
+
+  &.expandable {
+    visibility: visible;
+
+    @include hover {
+      cursor: pointer;
+    }
+  }
+  &.loading {
+    visibility: visible;
+  }
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.o-table-row-checkbox {
+  --checkbox-input-wrap-size: var(--table-row-icon-size);
+  --checkbox-label-gap: var(--table-row-icon-gap);
 }

@@ -5,6 +5,7 @@ export default {
   'common.empty': '暂无数据',
   'common.loading': '加载中...',
   'common.checkAll': '全选',
+  'common.filter': '筛选',
   'common.confirm': '确认',
   'common.reset': '重置',
   'common.search': '搜索',
@@ -29,4 +30,7 @@ export default {
   'select.confirm': '确定',
   // input
   'input.limit': '<b>{0}</b>/{1}',
+  // table
+  'table.filterEmptyOption': '空',
+  'table.filterPlaceholder': '请输入搜索内容',
 };

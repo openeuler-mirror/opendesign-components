@@ -12,11 +12,14 @@ import {
   OIconChevronDownBold,
   OIconChevronLeft,
   OIconChevronRight,
+  OIconChevronRightSmall,
   OIconInfo,
+  OIconInfoTip,
   OIconSuccess,
   OIconWarning,
   OIconDanger,
   OIconLoading,
+  OIconLoadingSmall,
   OIconLink,
   OIconClose,
   OIconAdd,
@@ -84,11 +87,20 @@ export const IconChevronLeft = shallowRef<Component>(OIconChevronLeft);
  * v形向右图标
  */
 export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
+/**
+ * v形向右图标 - 小
+ */
+export const IconChevronRightSmall = shallowRef<Component>(OIconChevronRightSmall);
 
 /**
  * info图标
  */
 export const IconInfo = shallowRef<Component>(OIconInfo);
+
+/**
+ * info-tip图标
+ */
+export const IconInfoTip = shallowRef<Component>(OIconInfoTip);
 
 /**
  * success图标
@@ -109,6 +121,11 @@ export const IconDanger = shallowRef<Component>(OIconDanger);
  * 全局loading图标
  */
 export const IconLoading = shallowRef<Component>(OIconLoading);
+
+/**
+ * loading图标 - 小
+ */
+export const IconLoadingSmall = shallowRef<Component>(OIconLoadingSmall);
 
 /**
  * link前缀图标

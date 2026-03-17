@@ -46,7 +46,8 @@
     box-sizing: border-box;
   }
 
-  th {
+  th,
+  .o-table-column-as-header {
     text-align: left;
     font-weight: 600;
     background-color: var(--table-head-bg);
@@ -64,6 +65,13 @@
     background-color: var(--table-bg-color);
     color: var(--table-cell-color);
     height: var(--table-cell-height);
+  }
+
+  .o-table-row-disabled {
+    td {
+      background-color: var(--table-disabled-bg-color);
+      color: var(--table-disabled-cell-color);
+    }
   }
 
   th:first-child,
