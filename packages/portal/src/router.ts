@@ -421,6 +421,14 @@ export const routes = [
     },
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: () => import('@opendesign-src/search/__demo__/TheIndex.vue'),
+    meta: {
+      title: '搜索框 Search',
+    },
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     component: () => import('@opendesign-src/resize-observer/__demo__/IndexResize.vue'),

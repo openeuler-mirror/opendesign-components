@@ -1,0 +1,23 @@
+.o-search {
+  --search-prefix-width: 136px;
+  --search-suffix-width: 100px;
+  --search-input-width: 320px;
+
+  --search-icon-size: var(--o-icon_size-m);
+}
+
+.o-search-xlarge {
+  .o-input.o_box-large {
+    --_box-padding: 0 15px;
+    --_box-height: var(--o-control_size-xl);
+  }
+
+  .o-select.o-select-large {
+    --select-padding: 0 15px;
+    --select-height: var(--o-control_size-xl);
+  }
+}
+
+.o-search-medium {
+  --search-icon-size: var(--o-icon_size-xs);
+}

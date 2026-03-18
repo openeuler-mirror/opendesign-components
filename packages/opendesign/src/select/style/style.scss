@@ -57,6 +57,15 @@
     color: var(--select-placeholder);
   }
 }
+.o-select-prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: var(--select-icon-gap);
+  font-size: var(--select-icon-size);
+  color: var(--select-icon-color);
+}
 .o-select-suffix {
   display: inline-flex;
   align-items: center;
