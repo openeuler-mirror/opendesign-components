@@ -1,6 +1,12 @@
 # [open-scripts]
 
-## 1.0.5
+## 1.0.6
+
+### Bug Fixes
+
+修复了`1.0.5`版本没有替换pnpm catalog的问题
+
+## 1.0.5(弃用)
 
 ### Features
 
