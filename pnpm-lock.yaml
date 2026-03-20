@@ -26,8 +26,8 @@ catalogs:
       version: 2.2.8
   css:
     '@opensig/opendesign-token':
-      specifier: 0.0.9
-      version: 0.0.9
+      specifier: 0.0.10
+      version: 0.0.10
     clean-css:
       specifier: ^5.3.3
       version: 5.3.3
@@ -200,7 +200,7 @@ importers:
         version: link:../scripts
       '@opensig/opendesign-token':
         specifier: catalog:css
-        version: 0.0.9
+        version: 0.0.10
       '@shikijs/langs':
         specifier: catalog:markdown
         version: 3.15.0
@@ -321,7 +321,7 @@ importers:
         version: link:../opendesign
       '@opensig/opendesign-token':
         specifier: catalog:css
-        version: 0.0.9
+        version: 0.0.10
       sass:
         specifier: catalog:css
         version: 1.94.2
@@ -783,8 +783,8 @@ packages:
   '@opensig/open-analytics@1.0.1':
     resolution: {integrity: sha512-MH+RsgfoPdckVm+Q3kOOunHpiFMHtBwjoGgAoDytxoms6P/HXiyPDEL8GdGAO/K7xaTYfOknk08c21dTq+panA==}
 
-  '@opensig/opendesign-token@0.0.9':
-    resolution: {integrity: sha512-dYSiDZpL9ZD02d5PQlmLNmslZZ/CuHENFjoIhI1f3RlvJEkTEyp5y7GP1HQtIKXxeWfM9izc9x79YIC797iGHg==}
+  '@opensig/opendesign-token@0.0.10':
+    resolution: {integrity: sha512-8yGeK+6LLQlBn2ZFz4DFTql3BDY94LhNjvRc8xjLL27O0C0Vfdo2hAYhXnnJyffhZTgRC30vyEaCfsBxatwqow==}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==}
@@ -3522,7 +3522,7 @@ snapshots:
       uuid: 11.1.0
       web-vitals: 3.5.2
 
-  '@opensig/opendesign-token@0.0.9': {}
+  '@opensig/opendesign-token@0.0.10': {}
 
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true

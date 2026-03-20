@@ -11,12 +11,16 @@
   .o-form {
     --form-item-gap: 12px;
     --form-label-main-gap: 16px;
+    --form-item-main-box-width-standard: min(var(--o-r-grid-4), 100%);
+    --form-item-main-box-width-wide: min(var(--o-r-grid-8), 100%);
   }
 }
 @include respond('<=pad_v') {
   .o-form {
     --form-item-gap: 12px;
     --form-label-main-gap: 8px;
+    --form-item-main-box-width-standard: 100%;
+    --form-item-main-box-width-wide: 100%;
   }
 }
 @include respond('phone') {
