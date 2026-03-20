@@ -100,12 +100,13 @@ onMounted(() => {
       if (newVal && targetEl) {
         ro?.unobserve(targetEl, onResize);
       }
-      // 绑定触发元素事件
-      resolveHtmlElement(target).then((el) => {
-        if (el) {
-          bindTargetEvent(el);
-        }
-      });
+      if (newVal) {
+        resolveHtmlElement(newVal).then((el) => {
+          if (el) {
+            bindTargetEvent(el);
+          }
+        });
+      }
     },
     { immediate: true },
   );
