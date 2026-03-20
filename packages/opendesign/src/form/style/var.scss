@@ -4,6 +4,14 @@
   --form-label-main-gap: 32px;
   --form-label-gap-top: 4px;
   --form-msg-gap: 4px 0 0 16px;
+  /** 标准输入框宽度 */
+  --form-item-main-box-width-standard: min(var(--o-r-grid-6), 100%);
+  /** 较宽输入框宽度 */
+  --form-item-main-box-width-wide: min(var(--o-r-grid-14), 100%);
+  /** 同域多控件输入框间距 */
+  --form-item-main-box-inline-gap: var(--o-r-gap-4);
+  /** 最小输入框宽度，通常在同域多输入框场景下使用 */
+  --form-item-main-box-width-min: calc((var(--form-item-main-box-width-standard) - var(--form-item-main-box-inline-gap)) / 2);
 }
 .o-form-layout-h {
   --form-label-width: 20%;
