@@ -245,7 +245,6 @@ watch(
       return;
     }
 
-    // visible.value = val;
     updateVisible(val);
     updateZIndex(val);
     if (val) {
