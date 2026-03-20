@@ -169,16 +169,19 @@ const sortStringValueList = debounceRAF(() => {
   return;
 });
 
-watch(
-  () => [stringValueSet.value, activeKey.value, navsContainerWidth.value, props.maxShow],
-  () => {
-    sortStringValueList();
-  },
-  {
-    immediate: true,
-    deep: true,
-  },
-);
+onMounted(() => {
+  watch(
+    () => [stringValueSet.value, activeKey.value, navsContainerWidth.value, props.maxShow],
+    () => {
+      sortStringValueList();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+});
+
 const gatherChildren = () => {
   if (!bodyRef.value) {
     return;
@@ -224,7 +227,7 @@ const updateAnchor = async () => {
   }
   await until(allRegistered).toBeTruthy();
   const activeItem = childrenMap.value[activeKey.value];
-  await until(() => activeItem.navEl && activeItem.navMeasureEl).toBeTruthy();
+  await until(() => activeItem?.navEl && activeItem.navMeasureEl).toBeTruthy();
 
   const { clientWidth, offsetLeft } = activeItem.navEl!;
   anchorStyle.value = {
