@@ -11,6 +11,7 @@ kind: nav
 <!-- @case ButtonTab -->
 <!-- @case AddDel -->
 <!-- @case CustomHead -->
+<!-- @case AlignLeft -->
 
 ## API
 

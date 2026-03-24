@@ -8,7 +8,9 @@
 ### Bug Fixes
 
 - **OPopup:** 修复popup更新target后未正确生效的问题
-- **OTab:** 修复在服务端渲染下的报错问题
+- **OTab:** 
+  - 修复在服务端渲染下的报错问题
+  - 修复 `--tab-nav-justify` 变量未被正确应用的问题
 - **OCheckbox/ORadio:** 调整图标中心颜色变量
 - **ODataTable:**
   - 修复hover时合并单元格不高亮的bug
