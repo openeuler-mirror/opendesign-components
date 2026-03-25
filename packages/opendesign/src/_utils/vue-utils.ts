@@ -250,11 +250,10 @@ export const isEmptySlot = (slot?: Slot) => {
 /**
  * 过滤插槽
  */
-export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) {
-  const names = Object.values(slotNames);
+export function filterSlots<T extends Record<string, string>>(slots: Slots, slotNames: T): Array<T[keyof T]> {
+  const names: string[] = Object.values(slotNames);
   const keys = Object.keys(slots);
-  const r = keys.filter((item) => names.includes(item));
-  return r || [];
+  return keys.filter((item) => names.includes(item)) as Array<T[keyof T]>;
 }
 
 /**

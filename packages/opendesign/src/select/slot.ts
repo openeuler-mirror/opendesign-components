@@ -7,4 +7,4 @@ export default {
       action: 'action',
     },
   },
-};
+} as const;

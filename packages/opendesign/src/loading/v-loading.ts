@@ -16,7 +16,7 @@ const VNODE = Symbol('vnode');
 type ModifiersT<K extends string> = { [P in K]?: boolean };
 type ModifiersKeys = 'body' | 'nomask';
 type BindingValueT = boolean | Partial<LoadingPropsT>;
-type HoistElement = HTMLElement & { [WATCH_HANDLE]?: WatchHandle; [VNODE]?: VNode };
+export type HoistElement = HTMLElement & { [WATCH_HANDLE]?: WatchHandle; [VNODE]?: VNode };
 
 const renderLoading = (el: HoistElement, value: BindingValueT, modifiers: ModifiersT<ModifiersKeys>, shouldWatch: boolean) => {
   const selfOption: Partial<LoadingPropsT> = {};
@@ -66,4 +66,4 @@ const vLoading: ObjectDirective<HoistElement, BindingValueT> = {
   },
 };
 
-export { vLoading, setVLoadingOption };
+export { vLoading, setVLoadingOption, WATCH_HANDLE, VNODE };
