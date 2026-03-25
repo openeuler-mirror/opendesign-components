@@ -18,6 +18,11 @@
   &:active {
     background-color: var(--switch-bg-color-active);
   }
+
+  .o-svg-icon {
+    width: var(--switch-icon-size);
+    height: var(--switch-icon-size);
+  }
 }
 
 .o-switch-wrap {
