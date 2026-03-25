@@ -278,6 +278,26 @@
     }
   }
 
+
+  // 当可调整宽度的列的resizer被hover时，若表头没有分割线则增加分割线
+  .o-table-header:where(:not(:has([rowspan])):not(:has([colspan]))) {
+    .o-table-column-resizer {
+      @include hover {
+        &:after {
+          display: block;
+          content: '';
+          position: absolute;
+          left: calc(var(--table-column-resizer-width) / 2);
+          top: 0;
+          bottom: calc(0px - var(--table-border-width));
+          z-index: 3;
+          width: var(--table-border-width);
+          border-left: var(--table-border);
+        }
+      }
+    }
+  }
+
   .o-cell-last-col {
     .o-table-column-resizer {
       width: calc(var(--table-column-resizer-width) / 2);
