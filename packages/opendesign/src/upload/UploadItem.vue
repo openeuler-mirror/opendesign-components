@@ -8,7 +8,7 @@ import { useTemplateRef } from 'vue';
 import slots from './slot';
 import { useI18n } from '../locale';
 
-interface UploadFileItemPropsT {
+export interface UploadFileItemPropsT {
   file: UploadFileT;
   listType: UploadListTypeT;
   showProgress: Boolean;

@@ -36,7 +36,7 @@ watch(
   () => props.list,
   (value) => {
     listData.value = value.map((item, index) => ({
-      id: item.id,
+      id: (item as { id: string | number }).id,
       data: item,
       index,
     }));
