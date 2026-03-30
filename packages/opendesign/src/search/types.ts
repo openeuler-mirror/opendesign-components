@@ -22,9 +22,11 @@ export const searchProps = {
   /**
    * @zh-CN 是否可以清除
    * @en-US clearable.
+   * @default true
    */
   clearable: {
     type: Boolean,
+    default: true,
   },
   /**
    * @zh-CN 是否禁用

@@ -40,6 +40,7 @@ const updatePrefixSelectedVal = (val: string) => {
     show-prefix-select
     :options-of-prefix-select="prefixOptions"
     :prefix-selected-val="prefixSelectedVal"
+    class="demo-usage-search"
     @prefix-selected="updatePrefixSelectedVal"
   />
 </template>
