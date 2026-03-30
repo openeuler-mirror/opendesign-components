@@ -25,5 +25,5 @@ const suggesstions = [
 ];
 </script>
 <template>
-  <OSearch v-model="inputVal" placeholder="搜索" :suggesstions="suggesstions" />
+  <OSearch v-model="inputVal" placeholder="搜索" :suggesstions="suggesstions" class="demo-usage-search" />
 </template>

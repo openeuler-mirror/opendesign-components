@@ -13,5 +13,5 @@ import { ref } from 'vue';
 const inputVal = ref('');
 </script>
 <template>
-  <OSearch v-model="inputVal" placeholder="搜索" />
+  <OSearch v-model="inputVal" placeholder="搜索" class="demo-usage-search" />
 </template>

@@ -57,6 +57,7 @@ const _oSchema = {
   clearable: {
     type: 'boolean',
     label: '快速清除',
+    default: true,
   },
   disabled: {
     type: 'boolean',
@@ -106,7 +107,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   :optionsOfPrefixSelect="ctx.prefixOptions"
   :optionsOfSuffixSelect="ctx.suffixOptions"
   :suggesstions="ctx.suggesstions"
-  ${propsToAttrStr(props)} >
+  ${propsToAttrStr(props)} class="demo-usage-search">
     <template #prefix-of-search-prefix>
       <OIconCalendar />
     </template>
@@ -120,3 +121,19 @@ const _oCtx = reactive({
   suggesstions,
 });
 </script>
+<style lang="scss">
+@use '../../../_styles/mixin.scss' as *;
+.demo-usage-search {
+  @include respond('<=pad_v') {
+    --search-input-width: auto;
+  }
+  @include respond('<=pad_v') {
+    --search-prefix-width: 96px;
+    --search-suffix-width: 80px;
+    .o-search-prefix,
+    .o-search-suffix {
+      flex-shrink: 0;
+    }
+  }
+}
+</style>
