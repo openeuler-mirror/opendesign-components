@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, watchEffect, inject } from 'vue';
+import { computed, provide, ref, watch, watchEffect, inject, useSlots } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
@@ -11,6 +11,7 @@ import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { OScroller } from '../scrollbar';
 import { isArray, isFunction, isArrayEqual, isUndefined } from '../_utils/is';
+import { isEmptySlot } from '../_utils/vue-utils';
 import SelectOption from './SelectOption.vue';
 import slot from './slot';
 import { filterSlots } from '../_utils/vue-utils';
@@ -27,6 +28,7 @@ const emits = defineEmits<{
   (e: 'options-visible-change', value: boolean): void;
   (e: 'clear', evt: Event): void;
 }>();
+const slots = useSlots();
 
 const { isPhonePad } = useScreen();
 
@@ -47,7 +49,7 @@ watch(
     if (isSelecting.value) {
       tagPopoverVisible.value = false;
     }
-  }
+  },
 );
 
 // 表单注入，用于规则校验
@@ -140,7 +142,7 @@ watch(
       }
     }
     finalValueList.value = [...valueList.value];
-  }
+  },
 );
 
 watchEffect(() => {
@@ -281,6 +283,11 @@ const onselectDlgOkClick = () => {
   emitChange(valueList.value);
   emitUpdateValue(valueList.value);
 };
+
+defineExpose({
+  selectRef,
+  isSelecting,
+});
 </script>
 <template>
   <div
@@ -302,6 +309,9 @@ const onselectDlgOkClick = () => {
     :style="round.style.value"
     @click="onSelectClick"
   >
+    <div v-if="!isEmptySlot(slots.prefix)" class="o-select-prefix">
+      <slot name="prefix"></slot>
+    </div>
     <input
       v-if="!props.multiple || (props.multiple && valueList.length === 0)"
       :value="optionLabels[valueList[0]]"
@@ -314,7 +324,7 @@ const onselectDlgOkClick = () => {
       <div class="o-select-tags-wrap">
         <div v-for="item in valueListDisplay" :key="item" class="o-select-tag">
           {{ optionLabels[item] }}
-          <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
+          <div class="o-select-tag-remove" @click="(e: MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
         </div>
         <OPopover
           v-if="showFoldTags && valueListFold.length > 0"
@@ -332,7 +342,7 @@ const onselectDlgOkClick = () => {
           <div class="o-select-tags">
             <div v-for="item in valueListFold" :key="item" class="o-select-tag">
               {{ optionLabels[item] }}
-              <div class="o-select-tag-remove" @click="(e:MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
+              <div class="o-select-tag-remove" @click="(e: MouseEvent) => onRemoveTag(item, e)"><IconClose /></div>
             </div>
           </div>
         </OPopover>

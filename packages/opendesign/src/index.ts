@@ -58,3 +58,4 @@ export * from './step';
 export * from './toast';
 export * from './ip-input';
 export * from './slider';
+export * from './search';
