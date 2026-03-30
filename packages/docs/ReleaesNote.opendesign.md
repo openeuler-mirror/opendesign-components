@@ -4,6 +4,7 @@
 
 - **ODataTable:** 增加列选择、列展开、列筛选、列排序、表头自定义合并单元格、树形数据、溢出气泡、首列作为表头、头部信息描述参数等功能
 - **OForm:** 增加form下各控件宽度变量(结合栅格)，供调用者使用
+- **OSearch:** 新增搜索框组件
 
 ### Bug Fixes
 
@@ -15,6 +16,11 @@
 - **ODataTable:**
   - 修复hover时合并单元格不高亮的bug
   - 修复横向溢出时竖向滚动条被遮挡无法滑动的问题
+  
+### style
+
+- **OSwitch:** 
+  - 调整`medium`尺寸的`--switch-text-size`、`--switch-text-height`值，增加`--switch-icon-size`变量用以控制icon大小。
 
 
 ## 1.2.1
