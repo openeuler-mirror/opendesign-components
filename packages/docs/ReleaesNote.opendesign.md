@@ -22,6 +22,10 @@
 - **OSwitch:** 
   - 调整`medium`尺寸的`--switch-text-size`、`--switch-text-height`值，增加`--switch-icon-size`变量用以控制icon大小。
 
+### Others
+
+- **common:** 调整部分组件ts，修复构建报错
+
 
 ## 1.2.1
 
