@@ -41,6 +41,7 @@ import {
   OIconVideoPlay,
   OIconImgError,
   OIconDownload,
+  OIconAvatar,
 } from '../icon-components';
 
 /**
@@ -233,3 +234,8 @@ export const IconCalendarPrevYear = shallowRef<Component>(OIconDoubleArrowLeft);
 export const IconCalendarNextYear = shallowRef<Component>(OIconDoubleArrowRight);
 export const IconCalendarPrevMonth = shallowRef<Component>(OIconChevronLeft);
 export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
+
+/**
+ * 默认用户头像图标
+ */
+export const IconAvatar = shallowRef<Component>(OIconAvatar);
