@@ -8,6 +8,7 @@ export * from './child-only';
 export * from './icon-components';
 // components
 export * from './anchor';
+export * from './avatar';
 export * from './badge';
 export * from './breadcrumb';
 export * from './button';
