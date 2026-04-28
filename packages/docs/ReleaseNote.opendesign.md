@@ -1,3 +1,10 @@
+## 1.2.3
+
+### Features
+
+- **OAvatar:** 增加头像组件
+
+
 ## 1.2.2
 
 ### Features
