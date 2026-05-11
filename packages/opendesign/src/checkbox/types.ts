@@ -2,7 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 
 export const checkboxProps = {
   /**
-   * @zh-CN 多选框value，会作为 modelValue 的值
+   * @zh-CN 复选框value，会作为 modelValue 的值
    * @en-US Checkbox value, which will be the value of modelValue
    */
   value: {
@@ -10,7 +10,7 @@ export const checkboxProps = {
     required: true as const,
   },
   /**
-   * @zh-CN 多选框双向绑定值
+   * @zh-CN 复选框双向绑定值
    * @en-US Checkbox two-way binding value
    */
   modelValue: {

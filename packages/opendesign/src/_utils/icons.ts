@@ -213,7 +213,7 @@ export const IconImageError = shallowRef<Component>(OIconImageError);
  */
 export const IconVideoPlay = shallowRef<Component>(OIconVideoPlay);
 
-// 多选框选中图标
+// 复选框选中图标
 export const IconChecked = shallowRef<Component>(OIconChecked);
 
 /**

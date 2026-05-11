@@ -7,7 +7,7 @@
 
 1. 将所有 `ORadio` 的双向绑定委托给 `ORadioGroup`
 2. `disabled` 属性控制所有的单选框是否禁用
-3. `direction` 属性控制多选框组内多选框的排列方向
+3. `direction` 属性控制复选框组内复选框的排列方向
 
 <!-- en-US -->
 
