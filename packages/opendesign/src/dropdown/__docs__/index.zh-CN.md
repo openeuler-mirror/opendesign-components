@@ -1,9 +1,9 @@
 ---
-sidebar: ODropdown 下拉
+sidebar: ODropdown 下拉按钮
 kind: operator
 ---
 
-# 下拉
+# 下拉按钮
 
 ## 示例
 

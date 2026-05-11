@@ -3,14 +3,14 @@ import type { ExtractPropTypes, PropType } from 'vue';
 
 export const checkboxGroupProps = {
   /**
-   * @zh-CN 多选框组双向绑定值
+   * @zh-CN 复选框组双向绑定值
    * @en-US checkbox group two-way binding value
    */
   modelValue: {
     type: Array as PropType<Array<string | number>>,
   },
   /**
-   * @zh-CN 非受控状态时，多选框组默认值
+   * @zh-CN 非受控状态时，复选框组默认值
    * @en-US Default value when not controlled
    */
   defaultValue: {
@@ -18,7 +18,7 @@ export const checkboxGroupProps = {
     default: () => [],
   },
   /**
-   * @zh-CN 是否禁用多选框组
+   * @zh-CN 是否禁用复选框组
    * @en-US Whether to disable the checkbox group
    */
   disabled: {
@@ -26,7 +26,7 @@ export const checkboxGroupProps = {
     default: false,
   },
   /**
-   * @zh-CN 多选框组布局方向
+   * @zh-CN 复选框组布局方向
    * @en-US Layout direction of checkbox group
    */
   direction: {

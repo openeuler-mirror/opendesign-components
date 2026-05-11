@@ -1,5 +1,5 @@
 ---
-sidebar: ODivider
+sidebar: ODivider 分割线
 kind: display
 ---
 

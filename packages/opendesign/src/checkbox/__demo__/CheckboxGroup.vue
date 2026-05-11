@@ -7,7 +7,7 @@ const checkboxVal2 = ref(['a']);
 </script>
 
 <template>
-  <h4>多选框组</h4>
+  <h4>复选框组</h4>
   <section>
     <OCheckboxGroup v-model="checkboxVal1">
       <OCheckbox :value="1">选项1</OCheckbox>

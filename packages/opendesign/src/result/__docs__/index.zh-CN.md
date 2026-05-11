@@ -3,7 +3,7 @@ sidebar: OResult 结果
 kind: feedback
 ---
 
-# 结果展示
+# 结果
 
 ## 示例
 
