@@ -7,7 +7,7 @@ export type DocDemoSchema =
     }
   | {
       type: 'list';
-      list: Array<string | number> | Readonly<Array<string | number>>;
+      list: Array<string | number | undefined> | Readonly<Array<string | number | undefined>>;
       default?: string | number;
       label?: string;
       disabled?: boolean;
@@ -41,38 +41,39 @@ export type DocDemoSchema =
       disabled?: boolean;
     };
 
-export type DocDemoState<T> = T extends Record<string, any>
-  ? {
-      [key in keyof T]: T[key] extends {
-        type: 'list';
-        list: Array<infer U>;
-        label?: string;
+export type DocDemoState<T> =
+  T extends Record<string, any>
+    ? {
+        [key in keyof T]: T[key] extends {
+          type: 'list';
+          list: Array<infer U>;
+          label?: string;
+        }
+          ? U
+          : T[key] extends {
+                type: 'radio';
+                list: Array<infer U>;
+                label?: string;
+              }
+            ? U
+            : T[key] extends {
+                  type: 'boolean';
+                  label?: string;
+                }
+              ? boolean
+              : T[key] extends {
+                    type: 'number';
+                    label?: string;
+                  }
+                ? number
+                : T[key] extends {
+                      type: 'string';
+                      label?: string;
+                    }
+                  ? string
+                  : never;
       }
-        ? U
-        : T[key] extends {
-            type: 'radio';
-            list: Array<infer U>;
-            label?: string;
-          }
-        ? U
-        : T[key] extends {
-            type: 'boolean';
-            label?: string;
-          }
-        ? boolean
-        : T[key] extends {
-            type: 'number';
-            label?: string;
-          }
-        ? number
-        : T[key] extends {
-            type: 'string';
-            label?: string;
-          }
-        ? string
-        : never;
-    }
-  : T;
+    : T;
 
 export type DocDemoTemplate<T> = ((props: DocDemoState<T>) => string) | string;
 export type DocDemoStyle = string;

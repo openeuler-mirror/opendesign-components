@@ -6,6 +6,7 @@ import { useInput, type UseInputEmitsT } from '../../_headless/use-input';
 import { useInputPassword } from '../../_headless/use-input-password';
 import { useI18n } from '../../locale';
 import { isUndefined } from '../../_utils/is';
+import { useScreen } from '../../hooks';
 
 const props = defineProps(inInputProps);
 const slots = defineSlots<{
@@ -23,6 +24,7 @@ type InInputEmitsT = {
 const emits = defineEmits<InInputEmitsT>();
 
 const { t } = useI18n();
+const { isPhonePad } = useScreen();
 
 const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength, showLength, onlyNumericInput } = toRefs(props);
 
@@ -136,7 +138,7 @@ defineExpose({
         :value="displayValue"
         :type="inputType"
         :placeholder="props.placeholder"
-        :readonly="props.readonly"
+        :readonly="props.readonly || (isPhonePad && props.noKeyboard)"
         :disabled="props.disabled"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -145,7 +147,7 @@ defineExpose({
       />
     </div>
 
-    <div v-if="slots.suffix?.() || isClearable || props.type === 'password' || isShowLength" class="o_input-suffix" @mousedown.prevent>
+    <div v-if="slots.suffix?.() || slots.extra?.() || isClearable || props.type === 'password' || isShowLength" class="o_input-suffix" @mousedown.prevent>
       <!-- 自定义图标 -->
       <span v-if="slots.suffix?.()" class="o_input-suffix-icon">
         <slot name="suffix"></slot>

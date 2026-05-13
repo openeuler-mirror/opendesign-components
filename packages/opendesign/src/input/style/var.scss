@@ -1,14 +1,16 @@
 .o-input {
+  --_box-padding-y: 0;
+  --_box-padding-x: 15px;
+  --_box-padding: var(--_box-padding-y) var(--_box-padding-x);
+
   &.o_box-small {
-    --_box-padding: 0 7px;
+    --_box-padding-x: 7px;
     --_box-height: var(--o-control_size-s);
   }
   &.o_box-medium {
-    --_box-padding: 0 15px;
     --_box-height: var(--o-control_size-m);
   }
   &.o_box-large {
-    --_box-padding: 0 15px;
     --_box-height: var(--o-control_size-l);
 
     --input-icon-size: var(--o-icon_size-m);
