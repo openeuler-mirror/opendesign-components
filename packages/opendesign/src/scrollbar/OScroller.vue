@@ -17,8 +17,16 @@ const scrollTo = (options?: ScrollToOptions | undefined) => {
   targetRef.value.scrollTo(options);
 };
 
+const scrollBy = (options?: ScrollToOptions | undefined) => {
+  if (!targetRef.value) {
+    return;
+  }
+  targetRef.value.scrollBy(options);
+};
+
 defineExpose({
   scrollTo,
+  scrollBy,
   getContainerEl() {
     return targetRef.value;
   },
