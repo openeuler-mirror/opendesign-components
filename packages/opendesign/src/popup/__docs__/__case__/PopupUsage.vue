@@ -3,7 +3,9 @@
 
 ### 使用
 
-`OPopup` 是一个通用组件，像很多组件比如 `OPopover`、`ODropdown`、`OSelect` 都会用到该组件。该组件常用的属性如下：
+`OPopup` 适合作为某个**组件自身的展开面板容器**，即触发元素与弹出内容存在强功能绑定关系，例如选择器的下拉列表、日期选择器的日历面板、下拉菜单的操作列表等。`OPopover`、`ODropdown`、`OSelect` 等组件均基于 `OPopup` 封装。若需要对某个元素做补充解释或提示，请使用 `OPopover`。
+
+该组件常用的属性如下：
 
 1. 弹出窗通过 `visible` 属性进行双向绑定；
 2. 弹出窗的位置可通过 `position` 属性控制；
@@ -17,7 +19,9 @@
 
 <!-- en-US -->
 
-`OPopup` is a universal component. Many components, such as `OPopover`, `ODropdown`, and `OSelect`, all use this component. The commonly used attributes of this component are as follows:
+`OPopup` is designed as an **expandable panel container for a specific component**, where the trigger element and the popup content have a strong functional binding — for example, a dropdown list for a Select, a calendar panel for a DatePicker, or an action menu for a Dropdown. Components such as `OPopover`, `ODropdown`, and `OSelect` are all built on top of `OPopup`. If you need to provide supplementary explanations or hints for an element, use `OPopover` instead.
+
+The commonly used attributes of this component are as follows:
 
 1. The pop-up window is bidirectionally bound through the `visible` attribute;
 

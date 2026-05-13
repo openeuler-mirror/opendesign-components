@@ -3,7 +3,9 @@
 
 ### 使用
 
-`OPopover` 组件本质上与 `OPopup` 没有太大区别，主要的一些差异点是 `OPopover` 调整了 `trigger`、`offset`、`anchor` 属性的默认值，并在 `OPopup` 外部控制`disable`的两种状态。
+`OPopover` 适合作为某个元素的**扩展解释气泡**，即弹出内容与触发元素是「说明」关系而非功能关系，例如字段名称的说明、图标的含义提示、操作的确认提醒等。`OPopover` 基于 `OPopup` 封装，相比 `OPopup` 默认以悬停触发、默认显示锚点箭头、默认有 8px 间距。若触发元素与弹出内容存在强功能绑定（如下拉列表、日历面板），请直接使用 `OPopup`。
+
+`OPopover` 调整了 `trigger`、`offset`、`anchor` 属性的默认值，并在 `OPopup` 外部控制 `disable` 的两种状态。常用属性如下：
 
 1. 弹出窗的位置可通过 `position` 属性控制；
 2. 弹出窗的触发方式可通过 `trigger` 属性控制；
@@ -14,7 +16,9 @@
 
 <!-- en-US -->
 
-The `OPopover` component is essentially not much different from `OPopup`. The main differences are that `OPopover` adjusts the default values of the `trigger`, `offset`, and `anchor` attributes. And control the two states of `disable` outside `OPopup`.
+`OPopover` is designed as a **supplementary explanation bubble** for an element — where the popup content serves an explanatory role rather than a functional one. Typical use cases include field descriptions, icon meaning hints, and operation confirmation tips. `OPopover` is built on top of `OPopup`, with different defaults: hover trigger, anchor arrow enabled, and 8px offset. If the trigger and popup have a strong functional binding (such as a dropdown list or a calendar panel), use `OPopup` directly instead.
+
+The `OPopover` component adjusts the default values of the `trigger`, `offset`, and `anchor` attributes, and controls the two `disable` states outside `OPopup`. The commonly used attributes are:
 
 1. The position of the pop-up window can be controlled by the `position` attribute.
 
