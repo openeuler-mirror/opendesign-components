@@ -1,0 +1,448 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-data-table {
+  border-radius: var(--table-radius);
+  overflow: hidden;
+  position: relative;
+
+  .o-table-scroll-bar {
+    .o-scrollbar-x {
+      width: calc(100% - var(--table-edge-padding) * 2);
+    }
+    // 让出header的滚动条距离
+    .o-scrollbar-y {
+      margin: calc(var(--table-header-height) * 1px + var(--table-cell-padding-y)) 0 var(--table-cell-padding-y) 0;
+      height: calc(100% - var(--table-header-height) * 1px - var(--table-cell-padding-y) * 2);
+    }
+    .o-scrollbar-rail {
+      z-index: 4;
+    }
+  }
+  .o-table-wrap {
+    height: var(--table-height);
+    max-height: var(--table-max-height);
+    overflow: auto;
+    position: relative;
+    border-radius: unset;
+  }
+
+  .o-table-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: box-shadow var(--o-duration-s) var(--o-easing-standard);
+    background-color: var(--table-head-bg);
+  }
+  &.o-table-border-all,
+  &.o-table-border-frame {
+    .o-table-header {
+      top: 0;
+    }
+  }
+
+  &.is-overflow-top:not(.o-table-header-split-line) {
+    .o-table-header {
+      box-shadow: var(--table-fixed-head-shadow);
+    }
+  }
+
+  .o-table-body-cell {
+    position: relative;
+  }
+
+  .o-data-table-header-divider-v {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: calc(0px - var(--table-border-width));
+    right: calc(0px - var(--table-border-width));
+    width: 1px;
+    background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+    background-size: 1px 100%;
+  }
+  .o-table-header {
+    &:after {
+      // 去掉o-table的样式，改用外侧元素以提高兼容性
+      display: none;
+    }
+  }
+
+  .o-data-table-header-divider-h {
+    position: sticky;
+    z-index: 3;
+    top: calc(var(--table-header-height) * 1px);
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-image: var(--o-color-main2, linear-gradient(to right, var(--o-color-control4), var(--o-color-control4)));
+    // 利用背景图回根据dpr缩放，避免dpr>1时1px渲染放大
+    background-size: 100% 1px;
+  }
+  &.o-table-header-fill {
+    th {
+      border-bottom: var(--table-head-border-bottom);
+    }
+  }
+
+  &.o-table-header-split-line {
+    .o-table-column-as-header {
+      & + .o-table-body-cell {
+        border-left-color: transparent;
+      }
+    }
+  }
+  .o-table-expand-cell {
+    background-color: var(--table-expand-bg-color);
+  }
+
+  .o-table-cell__inner {
+    display: flex;
+    align-items: center;
+    word-break: break-word;
+  }
+  .o-table-cell-tooltip {
+    .o-table-cell__inner-content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: var(--cell-max-row);
+      line-clamp: var(--cell-max-row);
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .o-table-header-cell {
+    white-space: nowrap;
+    .o-svg-icon {
+      font-size: var(--o-icon_size-xs);
+    }
+  }
+  .o-table-cell-wrappable {
+    white-space: normal;
+  }
+  .o-table-header-cell .o-table-cell__inner {
+    padding: var(--table-head-cell-padding);
+  }
+
+  .o-table-body-cell .o-table-cell__inner {
+    padding: var(--table-cell-padding);
+  }
+
+  .o-table-cell .o-table-expand-cell__inner {
+    padding: var(--table-expand-cell-padding);
+  }
+
+  .o-table-cell {
+    position: relative;
+    padding: unset !important;
+
+    &.o-cell-first-col {
+      padding-left: unset;
+      .o-table-cell__inner {
+        padding-left: var(--table-edge-padding);
+      }
+    }
+    &.o-cell-last-col {
+      padding-right: unset;
+      .o-table-cell__inner {
+        padding-right: var(--table-edge-padding);
+      }
+      .o-table-expand-cell__inner {
+        padding-right: var(--table-expand-cell-padding);
+      }
+    }
+  }
+
+  // 由于列定位等原因，将边框逻辑从OTable改为单元格左边框
+  &.o-table-border-all,
+  &.o-table-border-column {
+    td {
+      border-left: var(--table-border);
+      border-right: none;
+
+      &.o-cell-first-col {
+        border-left: none;
+      }
+    }
+
+    &.is-overflow-right .o-table-cell-first-right-fixed {
+      border-left: none;
+    }
+  }
+
+  .o-table-cell-fixed {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 1;
+  }
+  .o-data-table-left-shadow,
+  .o-data-table-right-shadow {
+    z-index: 3;
+  }
+
+  .o-table-cell-last-left-fixed:after,
+  .o-table-cell-first-right-fixed:before,
+  .o-data-table-left-shadow,
+  .o-data-table-right-shadow {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: calc(0px - var(--h-border-width));
+    width: var(--table-fixed-col-shadow-size);
+    display: none;
+  }
+  .o-table-cell-last-left-fixed:after,
+  .o-data-table-left-shadow {
+    background: linear-gradient(90deg, var(--table-fixed-col-shadow-gradient));
+  }
+
+  .o-table-cell-last-left-fixed:after {
+    right: 0;
+    transform: translateX(100%);
+  }
+  .o-data-table-left-shadow {
+    left: 0;
+  }
+  .o-table-cell-first-right-fixed:before,
+  .o-data-table-right-shadow {
+    background: linear-gradient(-90deg, var(--table-fixed-col-shadow-gradient));
+  }
+  .o-table-cell-first-right-fixed:before {
+    left: 0;
+    transform: translateX(-100%);
+  }
+  .o-data-table-right-shadow {
+    right: 0;
+  }
+
+  &.is-overflow-left {
+    .o-table-cell-last-left-fixed {
+      &:after {
+        display: block;
+      }
+    }
+    .o-data-table-left-shadow {
+      display: block;
+    }
+  }
+  &.is-overflow-right {
+    .o-table-cell-first-right-fixed {
+      &:before {
+        display: block;
+      }
+    }
+
+    .o-data-table-right-shadow {
+      display: block;
+    }
+  }
+
+  .empty-placeholder {
+    height: calc(var(--table-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+    min-height: calc(var(--table-body-min-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+  }
+  .o-table-loading-wrap,
+  .o-table-tip-wrap {
+    min-height: unset;
+    position: absolute;
+    top: calc(var(--table-header-height) * 1px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--table-bg-color);
+    border-radius: 0;
+  }
+
+  .o-table-column-resizer__indicator {
+    position: absolute;
+    left: calc(var(--table-column-resizer-width) / 2 - var(--table-border-width) / 2);
+    z-index: 3;
+    width: var(--table-border-width);
+    height: var(--table-height);
+    border-left: var(--table-border-width) dashed var(--o-color-info4);
+  }
+
+  .o-table-column-resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    right: calc(0px - var(--table-column-resizer-width) / 2);
+    width: var(--table-column-resizer-width);
+
+    @include hover {
+      cursor: col-resize;
+    }
+  }
+
+
+  // 当可调整宽度的列的resizer被hover时，若表头没有分割线则增加分割线
+  .o-table-header:where(:not(:has([rowspan])):not(:has([colspan]))) {
+    .o-table-column-resizer {
+      @include hover {
+        &:after {
+          display: block;
+          content: '';
+          position: absolute;
+          left: calc(var(--table-column-resizer-width) / 2);
+          top: 0;
+          bottom: calc(0px - var(--table-border-width));
+          z-index: 3;
+          width: var(--table-border-width);
+          border-left: var(--table-border);
+        }
+      }
+    }
+  }
+
+  .o-cell-last-col {
+    .o-table-column-resizer {
+      width: calc(var(--table-column-resizer-width) / 2);
+      right: 0;
+    }
+  }
+}
+
+.o-data-table-info__trigger,
+.o-data-table-column-filter__trigger,
+.o-data-table-sorter {
+  margin-left: var(--table-filter-trigger-gap);
+  font-size: var(--table-filter-trigger-size);
+  line-height: var(--table-filter-trigger-size);
+  width: var(--table-filter-trigger-size);
+  height: var(--table-filter-trigger-size);
+
+  @include hover {
+    cursor: pointer;
+    &.disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &.active,
+  &.o-data-table-sorter-asc .sort_svg__up-arrow,
+  &.o-data-table-sorter-desc .sort_svg__down-arrow {
+    color: var(--o-color-primary1);
+  }
+}
+
+.o-data-table-column-filter-popup {
+  width: var(--table-filter-popup-width);
+}
+
+.o-data-table-column-filter__input-container {
+  padding: 16px 16px 4px 16px;
+  @include respond('<=pad_v') {
+    padding: 4px 0;
+  }
+
+  .o-input {
+    width: 100%;
+  }
+}
+.o-data-table-column-filter__input-icon {
+  font-size: var(--table-text-size);
+}
+
+.o-data-table-column-filter__options-container {
+  .o-option-list {
+    --option-list-max-height-default: var(--table-filter-option-list-max-height-default);
+  }
+
+  .o-option {
+    --option-text-size: var(--table-text-size);
+    --option-text-height: var(--table-text-height);
+  }
+  .o-checkbox {
+    --checkbox-text-size: var(--table-text-size);
+    --checkbox-text-height: var(--table-text-height);
+  }
+
+  .o-data-table-column-filter__empty {
+    text-align: center;
+    color: var(--o-color-info4);
+    padding: 12px 0;
+    font-size: var(--table-text-size);
+    line-height: var(--table-text-height);
+  }
+
+  @include respond('<=pad_v') {
+    .o-option-list {
+      padding: 0;
+    }
+    .o-option-multiple {
+      border-radius: 0;
+      --option-padding: 12px 0;
+      --option-gap: 0;
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--o-color-control4);
+      }
+    }
+    .o-checkbox {
+      width: 100%;
+    }
+    .o-checkbox-wrap {
+      width: 100%;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    .o-checkbox-label {
+      margin-left: 0;
+    }
+  }
+}
+
+.o-data-table-column-filter__divider {
+  --o-divider-gap: 4px;
+}
+
+.o-data-table-column-filter__footer {
+  padding: 4px 8px 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: var(--table-text-size);
+  line-height: var(--table-text-height);
+}
+
+.o-table-row-icon-placeholder {
+  width: var(--table-row-icon-size);
+  margin-right: var(--table-row-icon-gap);
+  visibility: hidden;
+}
+.o-table-row-expand-trigger {
+  font-size: var(--table-row-icon-size);
+  margin-right: var(--table-row-icon-gap);
+  visibility: hidden;
+  transition: transform var(--o-duration-s) var(--o-easing-standard);
+
+  &.expandable {
+    visibility: visible;
+
+    @include hover {
+      cursor: pointer;
+    }
+  }
+  &.loading {
+    visibility: visible;
+  }
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.o-table-row-checkbox {
+  --checkbox-input-wrap-size: var(--table-row-icon-size);
+  --checkbox-label-gap: var(--table-row-icon-gap);
+}

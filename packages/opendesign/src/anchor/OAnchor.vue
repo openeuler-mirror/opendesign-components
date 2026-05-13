@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { CSSProperties, nextTick, onMounted, onUnmounted, provide, ref } from 'vue';
+import { CSSProperties, nextTick, onMounted, onUnmounted, provide, ref, shallowRef, toRef } from 'vue';
 import { anchorProps, type AnchorContainerT } from './types';
 import { anchorInjectKey } from './provide';
 import { isString, isUndefined, isWindow, isCurrentPageLink } from '../_utils/is';
-import { getScroll, scrollTo } from '../_utils/dom';
+import { checkElementOverflowHorizontal, getCssVariable, getScroll, getScrollParents, scrollTo } from '../_utils/dom';
+import { throttleRAF } from '../_utils/helper';
 
 const props = defineProps(anchorProps);
 
@@ -17,7 +18,8 @@ const emits = defineEmits<{
 
 const ANCHOR_REGX = /#([\S ]+)$/;
 
-const anchorRef = ref();
+const anchorRef = ref<HTMLDivElement>();
+const anchorItemsRef = ref<HTMLDivElement>();
 
 const isScrolling = ref(false);
 
@@ -37,18 +39,48 @@ const getContainer = (container: string | AnchorContainerT = window) => {
 };
 
 const updateIndicatorPosition = () => {
-  const el = anchorRef.value?.querySelector('.o-anchor-item-link.is-active');
+  const el = anchorRef.value?.querySelector<HTMLAnchorElement>('.o-anchor-item-link.is-active');
 
   if (!el) {
     indicatorStyle.value = {};
-  } else {
-    const { offsetTop, offsetHeight } = el;
-    const depth = el.getAttribute('data-depth');
-    indicatorStyle.value.top = `${offsetTop}px`;
-    indicatorStyle.value.height = `${offsetHeight}px`;
-    indicatorStyle.value.opacity = depth === '0' ? 0 : 1;
+    return;
   }
+  const { offsetTop, offsetHeight } = el;
+  const depth = el.getAttribute('data-depth');
+  indicatorStyle.value.top = `${offsetTop}px`;
+  indicatorStyle.value.height = `${offsetHeight}px`;
+  indicatorStyle.value.opacity = depth === '0' ? 0 : 1;
+
+  if (props.layout !== 'h') {
+    return;
+  }
+  const { isOverflowLeft, isOverflowRight, overflowLeft, overflowRight } = checkElementOverflowHorizontal({ element: el });
+
+  if (!isOverflowLeft && !isOverflowRight) {
+    return;
+  }
+  const xOverflownWidth = Number.parseInt(getCssVariable('--anchor-x-overflown-width', el));
+  const itemGap = Number.parseInt(getCssVariable('--anchor-item-gap', el));
+  const adjustX = xOverflownWidth + itemGap;
+  const toScrollLeftBy = isOverflowLeft ? -overflowLeft - adjustX : overflowRight + adjustX;
+  anchorItemsRef.value?.scrollBy({
+    left: toScrollLeftBy,
+    behavior: 'smooth',
+  });
 };
+
+const xOverflown = ref({ left: false, right: false });
+const itemsScrollLeft = ref(0);
+const handleScroll = throttleRAF(() => {
+  if (props.layout !== 'h') {
+    return;
+  }
+  const { scrollLeft, scrollWidth, clientWidth } = anchorItemsRef.value!;
+  itemsScrollLeft.value = scrollLeft;
+  xOverflown.value.left = scrollLeft > 0;
+  xOverflown.value.right = scrollLeft + clientWidth < scrollWidth;
+});
+onMounted(handleScroll);
 
 const setActiveLink = async (link: string) => {
   if (activeLink.value === link) {
@@ -139,7 +171,7 @@ const activeNearest = () => {
   }
 
   setActiveLink(active);
-}
+};
 
 // 滚动事件
 const onScroll = () => {
@@ -177,11 +209,10 @@ const removeLink = (link: string) => {
   links.value.add(link);
 };
 
-
 /**
  * @deprecated 兼容旧版本，计划1.2.0移除
  */
-const onItemClick = (options: { event: MouseEvent, link?: string }) => {
+const onItemClick = (options: { event: MouseEvent; link?: string }) => {
   const { event, link } = options;
   emits('click', event, link);
 };
@@ -192,6 +223,7 @@ provide(anchorInjectKey, {
   onItemClick,
   activeLink,
   scrollIntoView,
+  layout: toRef(props, 'layout'),
   getChangeHash: () => props.changeHash,
 });
 
@@ -211,14 +243,51 @@ onMounted(() => {
 onUnmounted(() => {
   unbindEvent();
 });
+
+/* 横向anchor是否是sticky状态*/
+const isAnchorStickying = ref(false);
+/* anchor的可滚动父元素，不是监听的那个元素*/
+const anchorParent = shallowRef<HTMLElement>();
+const detectSticking = throttleRAF(() => {
+  const elRect = anchorRef.value!.getBoundingClientRect();
+  const containerRect = anchorParent.value!.getBoundingClientRect();
+
+  const stickyOffset = parseFloat(window.getComputedStyle(anchorRef.value!).top) || 0;
+  isAnchorStickying.value = elRect.top <= containerRect.top + stickyOffset && elRect.bottom > containerRect.top + stickyOffset;
+});
+onMounted(() => {
+  if (props.container !== '#anchor-sticky-demo') {
+    return;
+  }
+  if (props.layout !== 'h') {
+    return;
+  }
+  anchorParent.value = getScrollParents(anchorRef.value!)[0];
+  anchorParent.value?.addEventListener('scroll', detectSticking, { passive: true });
+});
+onUnmounted(() => {
+  anchorParent.value?.removeEventListener('scroll', detectSticking);
+});
 </script>
 
 <template>
-  <div ref="anchorRef" :class="['o-anchor', `o-anchor-${props.size}`]">
-    <div class="o-anchor-line">
+  <div ref="anchorRef" :class="['o-anchor', `o-anchor-${props.layout}`, `o-anchor-${props.size}`, isAnchorStickying && `o-anchor-stickying`]">
+    <div v-if="props.layout === 'v'" class="o-anchor-line">
       <div class="o-anchor-indicator" :style="indicatorStyle"></div>
     </div>
-    <div class="o-anchor-items">
+    <div
+      ref="anchorItemsRef"
+      :class="{
+        'o-anchor-items': true,
+        'left-overflown': xOverflown.left,
+        'right-overflown': xOverflown.right,
+      }"
+      :style="{
+        '--o-anchor-ellipsis-left': itemsScrollLeft,
+        '--o-anchor-ellipsis-right': -itemsScrollLeft,
+      }"
+      @scroll="handleScroll"
+    >
       <slot></slot>
     </div>
   </div>

@@ -57,21 +57,21 @@
     --_box-bd-color-disabled: var(--o-color-control4);
   }
   &.o_box-success {
-    --_box-bd-color: var(--o-color-success1-light);
-    --_box-bd-color-hover: var(--o-color-success2-light);
+    --_box-bd-color: var(--o-color-success1);
+    --_box-bd-color-hover: var(--o-color-success2);
     --_box-bd-color-focus: var(--o-color-success3);
     --_box-bd-color-disabled: var(--o-color-success4);
   }
   &.o_box-warning {
-    --_box-bd-color: var(--o-color-warning1-light);
-    --_box-bd-color-hover: var(--o-color-warning2-light);
+    --_box-bd-color: var(--o-color-warning1);
+    --_box-bd-color-hover: var(--o-color-warning2);
     --_box-bd-color-focus: var(--o-color-warning3);
     --_box-bd-color-disabled: var(--o-color-warning4);
   }
 
   &.o_box-danger {
-    --_box-bd-color: var(--o-color-danger1-light);
-    --_box-bd-color-hover: var(--o-color-danger2-light);
+    --_box-bd-color: var(--o-color-danger1);
+    --_box-bd-color-hover: var(--o-color-danger2);
     --_box-bd-color-focus: var(--o-color-danger3);
     --_box-bd-color-disabled: var(--o-color-danger4);
   }

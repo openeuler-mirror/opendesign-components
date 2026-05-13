@@ -365,6 +365,14 @@ export const routes = [
     },
   },
   {
+    path: '/slider',
+    name: 'Slider',
+    component: () => import('@opendesign-src/slider/__demo__/TheIndex.vue'),
+    meta: {
+      title: '滑动条 Slider',
+    },
+  },
+  {
     path: '/anchor',
     name: 'Anchor',
     component: () => import('@opendesign-src/anchor/__demo__/TheIndex.vue'),
@@ -386,6 +394,38 @@ export const routes = [
     component: () => import('@opendesign-src/skeleton/__demo__/TheIndex.vue'),
     meta: {
       title: '骨架屏 Skeleton',
+    },
+  },
+  {
+    path: '/step',
+    name: 'Step',
+    component: () => import('@opendesign-src/step/__demo__/TheIndex.vue'),
+    meta: {
+      title: '步骤条 Step',
+    },
+  },
+  {
+    path: '/toast',
+    name: 'Toast',
+    component: () => import('@opendesign-src/toast/__demo__/TheIndex.vue'),
+    meta: {
+      title: '即时反馈 Toast',
+    },
+  },
+  {
+    path: '/ip-input',
+    name: 'Ip-input',
+    component: () => import('@opendesign-src/ip-input/__demo__/TheIndex.vue'),
+    meta: {
+      title: 'ip地址输入框 Ip-input',
+    },
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('@opendesign-src/search/__demo__/TheIndex.vue'),
+    meta: {
+      title: '搜索框 Search',
     },
   },
   {

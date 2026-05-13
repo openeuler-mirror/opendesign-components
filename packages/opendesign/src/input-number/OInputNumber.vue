@@ -44,7 +44,7 @@ watch(
       realValue.value = val ?? 0;
       lastValue = realValue.value;
     }
-  }
+  },
 );
 
 const validate = (value: string) => {
@@ -173,6 +173,7 @@ provide(innerComponentInjectKey, {
     :auto-width="props.autoWidth"
     :format="props.format"
     :input-id="props.inputId"
+    only-numeric-input
     type="text"
     @input="onInput"
     @blur="onBlur"

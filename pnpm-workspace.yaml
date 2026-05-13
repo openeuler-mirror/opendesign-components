@@ -3,16 +3,15 @@ packages:
 
 catalogs:
   build:
-    '@opensig/open-scripts': 1.0.4
+    '@opensig/open-scripts': 1.0.5
     '@rollup/plugin-terser': ^0.4.4
     svgo: ^3.3.2
-    tsdown: ^0.17.3
-    vite: ^6.2.3
+    vite: 6.3.5
     vite-plugin-dts: ^4.5.3
     vite-plugin-inspect: ^11.2.0
     vue-tsc: 2.2.8
   css:
-    '@opensig/opendesign-token': 0.0.9
+    '@opensig/opendesign-token': 0.0.10
     clean-css: ^5.3.3
     normalize.css: ^8.0.1
     sass: ^1.71.1
@@ -21,6 +20,7 @@ catalogs:
     commander: ^13.1.0
     fs-extra: ^11.3.0
     glob: ^11.0.1
+    jiti: 2.6.1
   lint:
     '@eslint/js': ^9.39.1
     eslint: ^9.39.1
@@ -46,13 +46,15 @@ catalogs:
     ts-morph: ^27.0.2
     typescript: ~5.8.3
   utils:
-    '@opensig/open-analytics': 0.0.3
+    '@opensig/open-analytics': 1.0.1
     magic-string: ^0.30.17
     vite-node: ^3.2.4
   vue:
-    '@vitejs/plugin-vue': ^6.0.2
+    '@vitejs/plugin-vue': ^6.0.3
+    '@vitejs/plugin-vue-jsx': ^5.1.3
     '@vue/compiler-dom': ^3.5.17
     '@vue/compiler-sfc': ^3.5.17
+    '@vueuse/core': 10.11.1
     pinia: ^3.0.3
     vue: ^3.5.25
     vue-component-meta: ^2.2.10

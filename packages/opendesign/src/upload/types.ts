@@ -21,8 +21,8 @@ export interface UploadFileT {
 }
 export interface UploadRequestOptionT {
   onProgress: (percent: number, event?: ProgressEvent) => void;
-  onSuccess: (response?: { messages?: string, [k: string]: unknown }) => void;
-  onError: (response?: { messages?: string, [k: string]: unknown }, retry?: boolean) => void;
+  onSuccess: (response?: { messages?: string; [k: string]: unknown }) => void;
+  onError: (response?: { messages?: string; [k: string]: unknown }, retry?: boolean) => void;
   file: UploadFileT;
 }
 
@@ -78,6 +78,13 @@ export const uploadProps = {
    */
   onAfterSelect: {
     type: Function as PropType<(fileList: FileList) => Promise<Array<UploadFileT>>>,
+  },
+  /**
+   * @zh-CN 下载文件
+   * @en-US Download the file.
+   */
+  downloadFile: {
+    type: Function as PropType<(file: File) => void>,
   },
   /**
    * @zh-CN 上传按钮文本
@@ -150,6 +157,14 @@ export const uploadProps = {
    */
   createThumbnail: {
     type: Function as PropType<(file: File) => Promise<string>>,
+  },
+  /**
+   * @zh-CN 文件上传中是否展示进度条
+   * @en-US Whether to display a progress bar during file upload.
+   */
+  showProgress: {
+    type: Boolean,
+    default: false,
   },
 };
 

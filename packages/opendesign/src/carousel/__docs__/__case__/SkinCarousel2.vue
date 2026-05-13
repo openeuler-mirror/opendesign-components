@@ -11,7 +11,7 @@
 import { OCarousel, OCarouselItem } from '@opensig/opendesign';
 </script>
 <template>
-  <OCarousel class="carousel-skin carousel-floor">
+  <OCarousel class="carousel-skin carousel-floor" indicator-click>
     <OCarouselItem v-for="i in 3" :key="i" :class="['carousel-item-content', `item-${i}`]">{{ i }}</OCarouselItem>
   </OCarousel>
 </template>

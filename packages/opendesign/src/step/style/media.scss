@@ -1,0 +1,24 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-step {
+    --step-item-head-width: var(--o-icon_size_control-m);
+    --step-item-icon-size: var(--o-icon_size-s);
+
+    --step-item-head-size: var(--o-font_size-text1);
+    --step-item-head-height: var(--o-line_height-text1);
+
+    --step-item-title-size: var(--o-font_size-tip1);
+    --step-item-title-height: var(--o-line_height-tip1);
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-step {
+    --step-item-head-size: var(--o-font_size-tip1);
+    --step-item-head-height: var(--o-line_height-tip1);
+
+    --step-item-title-size: var(--o-font_size-tip2);
+    --step-item-title-height: var(--o-line_height-tip2);
+  }
+}

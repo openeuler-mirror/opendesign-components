@@ -8,8 +8,10 @@ kind: nav
 ## 示例
 
 <!-- @usage TabUsage -->
+<!-- @case ButtonTab -->
 <!-- @case AddDel -->
 <!-- @case CustomHead -->
+<!-- @case AlignLeft -->
 
 ## API
 

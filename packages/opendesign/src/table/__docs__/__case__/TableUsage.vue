@@ -35,6 +35,10 @@ const _oSchema = {
     type: 'string',
     default: undefined,
   },
+  highlightCurrentRow: {
+    type: 'boolean',
+    default: false,
+  },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oCtx = reactive({

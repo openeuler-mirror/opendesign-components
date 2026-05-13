@@ -1,0 +1,57 @@
+<script setup lang="ts">
+import { OIconSkill } from '../../icon-components';
+import { OStep, OStepItem, StepItemPropsT } from '../index';
+
+const list: Array<Partial<StepItemPropsT>> = [
+  { title: '步骤一', description: '这一步的描述', status: 'finished', icon: true },
+  { title: '步骤二', description: '这一步的描述', status: 'processing', icon: false },
+  { title: '步骤三', description: '这一步的描述', status: 'waiting', icon: false },
+];
+</script>
+
+<template>
+  <h4>水平步骤条-自定义图标</h4>
+  <section>
+    <OStep class="step-demo" direction="h">
+      <OStepItem
+        v-for="(item, idx) in list"
+        :key="idx"
+        :step-index="idx"
+        :title="item.title"
+        :description="item.description"
+        :status="item.status"
+        :icon="item.icon"
+      >
+        <template #icon>
+          <OIconSkill class="o-step-item-icon" />
+        </template>
+      </OStepItem>
+    </OStep>
+  </section>
+
+  <h4>垂直步骤条-自定义图标</h4>
+  <section>
+    <OStep class="step-demo" direction="v">
+      <OStepItem
+        v-for="(item, idx) in list"
+        :key="idx"
+        :step-index="idx"
+        :title="item.title"
+        :description="item.description"
+        :status="item.status"
+        :icon="item.icon"
+        style="height: 80px"
+      >
+        <template #icon>
+          <OIconSkill class="o-step-item-icon" />
+        </template>
+      </OStepItem>
+    </OStep>
+  </section>
+</template>
+
+<style scoped lang="scss">
+:deep(.step-demo) {
+  width: 600px;
+}
+</style>

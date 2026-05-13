@@ -42,3 +42,22 @@ export const ArrowRight = {
   key: 'ArrowRight',
   code: 'ArrowRight',
 };
+
+export const Home = {
+  key: 'Home',
+  code: 'Home',
+};
+
+export const End = {
+  key: 'End',
+  code: 'End',
+};
+
+export const pageDown = {
+  key: 'PageDown',
+  code: 'PageDown',
+};
+export const pageUp = {
+  key: 'PageUp',
+  code: 'PageUp',
+};

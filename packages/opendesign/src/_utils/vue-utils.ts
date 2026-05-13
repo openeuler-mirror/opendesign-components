@@ -1,5 +1,22 @@
-import { Component, onMounted, ref, Slots, Slot, VNode, VNodeTypes, Comment, Fragment, ComponentPublicInstance, Ref, isRef, watch } from 'vue';
-import { isArray } from './is';
+import {
+  Component,
+  onMounted,
+  ref,
+  Slots,
+  Slot,
+  VNode,
+  VNodeTypes,
+  Comment,
+  Fragment,
+  ComponentPublicInstance,
+  Ref,
+  isRef,
+  watch,
+  MaybeRef,
+  h,
+  isVNode,
+} from 'vue';
+import { isArray, isNil } from './is';
 import { isHtmlElement } from './dom';
 import { log } from './log.ts';
 
@@ -170,7 +187,7 @@ const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement 
   }
   return null;
 };
-export const resolveHtmlElement = (elRef: Ref<ElementQuery> | ElementQuery): Promise<HTMLElement | null> => {
+export const resolveHtmlElement = (elRef: MaybeRef<ElementQuery>): Promise<HTMLElement | null> => {
   return new Promise((resolve) => {
     const resolveElement = (el: ElementQuery) => {
       if (isComponentPublicInstance(el)) {
@@ -189,7 +206,7 @@ export const resolveHtmlElement = (elRef: Ref<ElementQuery> | ElementQuery): Pro
             closeWatch();
           } else {
             log.warn(
-              `resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`
+              `resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`,
             );
           }
         });
@@ -233,11 +250,10 @@ export const isEmptySlot = (slot?: Slot) => {
 /**
  * 过滤插槽
  */
-export function filterSlots(slots: Slots, slotNames: { [key: string]: string }) {
-  const names = Object.values(slotNames);
+export function filterSlots<T extends Record<string, string>>(slots: Slots, slotNames: T): Array<T[keyof T]> {
+  const names: string[] = Object.values(slotNames);
   const keys = Object.keys(slots);
-  const r = keys.filter((item) => names.includes(item));
-  return r || [];
+  return keys.filter((item) => names.includes(item)) as Array<T[keyof T]>;
 }
 
 /**
@@ -255,4 +271,24 @@ export function mergeClass(...classList: Array<string | { [k: string]: boolean }
   });
 
   return rlt;
+}
+
+/**
+ * 根据传入的参数获取能被component渲染的内容
+ */
+export function getRenderableComponent(content: unknown): (() => VNode | string) | null {
+  if (isNil(content)) {
+    return null;
+  }
+  if (typeof content === 'string') {
+    return () => content;
+  }
+  if (isVNode(content)) {
+    return () => content;
+  }
+  if (typeof content === 'function' || typeof content === 'object') {
+    return () => h(content as Component);
+  }
+
+  return () => content.toString();
 }

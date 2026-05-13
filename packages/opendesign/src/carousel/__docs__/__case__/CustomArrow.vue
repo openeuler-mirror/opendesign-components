@@ -1,11 +1,14 @@
 <docs lang="md">
 <!-- zh-CN -->
+
 ### 自定义箭头
 
 可以通过 `arrow-prev` 和 `arrow-next` 插槽自定义箭头。如果只是想替换箭头图标应该使用 `arrow-pre-icon` 和 `arrow-next-icon` 插槽。
 
 <!-- en-US -->
+
 ### Custom Arrow
+
 You can customize the arrow by using the `arrow-prev` and `arrow-next` slots. If you only want to replace the arrow icon, use the `arrow-pre-icon` and `arrow-next-icon` slots.
 </docs>
 <script setup lang="ts">
@@ -13,7 +16,7 @@ import { OCarousel, OCarouselItem, OIconArrowLeft, OIconArrowRight } from '@open
 </script>
 <template>
   <div class="carousel-wrapper">
-    <OCarousel class="carousel-custom-style" arrow="always">
+    <OCarousel class="carousel-custom-style" arrow="always" indicator-click>
       <OCarouselItem class="carousel-item">1</OCarouselItem>
       <OCarouselItem class="carousel-item">2</OCarouselItem>
       <OCarouselItem class="carousel-item">3</OCarouselItem>

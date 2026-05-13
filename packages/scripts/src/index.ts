@@ -1,16 +1,20 @@
-import path from 'path';
-import fs from 'fs-extra';
+import path from 'node:path';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
 
-import buildIcons from './gen-icon';
-import cleanSvgs from './clean-svg';
-import buildComponents from './build-components';
-import buildStyle from './build-style';
-import genTokens from './gen-token';
+import buildIcons from './gen-icon/index.ts';
+import cleanSvgs from './clean-svg/index.ts';
+import buildComponents from './build-components/index.ts';
+import buildStyle from './build-style/index.ts';
+import genTokens from './gen-token/index.ts';
 
 const program = new Command();
 
-const packageStr = fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const packageStr = readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8');
 const packageJson = JSON.parse(packageStr);
 
 program.name('open-scripts').version(packageJson.version).usage('command [options] ');

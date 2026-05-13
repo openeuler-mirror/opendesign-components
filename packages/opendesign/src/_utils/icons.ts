@@ -12,11 +12,14 @@ import {
   OIconChevronDownBold,
   OIconChevronLeft,
   OIconChevronRight,
+  OIconChevronRightSmall,
   OIconInfo,
+  OIconInfoTip,
   OIconSuccess,
   OIconWarning,
   OIconDanger,
   OIconLoading,
+  OIconLoadingSmall,
   OIconLink,
   OIconClose,
   OIconAdd,
@@ -36,6 +39,9 @@ import {
   OIconDoubleArrowLeft,
   OIconDoubleArrowRight,
   OIconVideoPlay,
+  OIconImgError,
+  OIconDownload,
+  OIconAvatar,
 } from '../icon-components';
 
 /**
@@ -82,11 +88,20 @@ export const IconChevronLeft = shallowRef<Component>(OIconChevronLeft);
  * v形向右图标
  */
 export const IconChevronRight = shallowRef<Component>(OIconChevronRight);
+/**
+ * v形向右图标 - 小
+ */
+export const IconChevronRightSmall = shallowRef<Component>(OIconChevronRightSmall);
 
 /**
  * info图标
  */
 export const IconInfo = shallowRef<Component>(OIconInfo);
+
+/**
+ * info-tip图标
+ */
+export const IconInfoTip = shallowRef<Component>(OIconInfoTip);
 
 /**
  * success图标
@@ -107,6 +122,11 @@ export const IconDanger = shallowRef<Component>(OIconDanger);
  * 全局loading图标
  */
 export const IconLoading = shallowRef<Component>(OIconLoading);
+
+/**
+ * loading图标 - 小
+ */
+export const IconLoadingSmall = shallowRef<Component>(OIconLoadingSmall);
 
 /**
  * link前缀图标
@@ -197,6 +217,16 @@ export const IconVideoPlay = shallowRef<Component>(OIconVideoPlay);
 export const IconChecked = shallowRef<Component>(OIconChecked);
 
 /**
+ * 上传失败图标
+ */
+export const IconImgError = shallowRef<Component>(OIconImgError);
+
+/**
+ * 下载图标
+ */
+export const IconDownload = shallowRef<Component>(OIconDownload);
+
+/**
  * 日期组件图标
  */
 export const IconCalendar = shallowRef<Component>(OIconCalendar);
@@ -205,3 +235,7 @@ export const IconCalendarNextYear = shallowRef<Component>(OIconDoubleArrowRight)
 export const IconCalendarPrevMonth = shallowRef<Component>(OIconChevronLeft);
 export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
 
+/**
+ * 默认用户头像图标
+ */
+export const IconAvatar = shallowRef<Component>(OIconAvatar);

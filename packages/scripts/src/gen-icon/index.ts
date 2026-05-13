@@ -1,9 +1,11 @@
-import path from 'path';
-import { mergeConfig, IconsConfig } from './config';
+import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { globSync } from 'glob';
-import { toPascalCase } from '../utils';
 import { optimize } from 'svgo';
-import fs from 'fs-extra';
+
+import { toPascalCase, outputFileSync, emptyDirSync, loadModule } from '../utils.ts';
+
+import { mergeConfig, IconsConfig } from './config.ts';
 
 /**
  * 读取配置文件
@@ -14,7 +16,7 @@ async function readConfig(cfg: string) {
   const cfgDir = path.dirname(configFile);
   let configData: IconsConfig | null = null;
   try {
-    configData = await require(configFile);
+    configData = (await loadModule<{ default: IconsConfig }>(configFile)).default;
   } catch (error) {
     console.log('no config file');
   }
@@ -111,11 +113,11 @@ function readSvgData(cfg: IconsConfig) {
 function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
   console.log('generating icon components...');
   // 清空构建目录
-  fs.emptyDirSync(cfg.output);
+  emptyDirSync(cfg.output);
 
   // 遍历生成图标组件
   icons.forEach((item) => {
-    const file = fs.readFileSync(item.absolutePath, 'utf-8');
+    const file = readFileSync(item.absolutePath, 'utf-8');
     const svgoCfg = cfg.svgo[item.type];
 
     const rlt = optimize(file, {
@@ -132,22 +134,20 @@ function generateIconComponents(icons: Array<IconItem>, cfg: IconsConfig) {
       renderOnServer: cfg.renderOnServer,
     });
 
-    fs.outputFile(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content, (err) => {
-      if (err) {
-        console.log(`build [${item.componentName}] failed: ${err}`);
-      } else {
-        console.log(`build [${item.componentName}] success`);
-      }
-    });
+    try {
+      outputFileSync(path.resolve(cfg.output, `${item.componentName}/${item.componentName}.vue`), content);
+      console.log(`build [${item.componentName}] success`);
+    } catch (err) {
+      console.log(`build [${item.componentName}] failed: ${err}`);
+    }
 
     const idxContent = `export { default as ${item.componentName} } from './${item.componentName}.vue';`;
-    fs.outputFile(path.resolve(cfg.output, `${item.componentName}/index.ts`), idxContent, (err) => {
-      if (err) {
-        console.log(`build index [${item.componentName}] failed: ${err}`);
-      } else {
-        console.log(`build index [${item.componentName}] success`);
-      }
-    });
+    try {
+      outputFileSync(path.resolve(cfg.output, `${item.componentName}/index.ts`), idxContent);
+      console.log(`build index [${item.componentName}] success`);
+    } catch (err) {
+      console.log(`build index [${item.componentName}] failed: ${err}`);
+    }
   });
 }
 /**
@@ -161,20 +161,19 @@ function generateExportIndex(icons: Array<IconItem>, output: string) {
     return `export { ${item.componentName} } from './${item.componentName}';`;
   });
 
-  fs.outputFileSync(path.resolve(output, 'index.ts'), content.join('\n'));
+  outputFileSync(path.resolve(output, 'index.ts'), content.join('\n'));
 
   // 创建图标地图
-  fs.outputFileSync(
+  outputFileSync(
     path.resolve(output, 'icons.json'),
     JSON.stringify(
       icons.map((item) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { absolutePath: _, ...rest } = item;
         return rest;
       }),
       null,
-      2
-    )
+      2,
+    ),
   );
 }
 export default async function main(options: { config: string }) {

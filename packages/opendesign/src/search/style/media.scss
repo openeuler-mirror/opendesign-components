@@ -1,0 +1,51 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-search-xlarge {
+    .o-input.o_box-large {
+      --_box-height: var(--o-control_size-l);
+
+      --_box-text-size: var(--o-font_size-text1);
+      --_box-text-height: var(--o-line_height-text1);
+    }
+
+    .o-select.o-select-large {
+      --select-height: var(--o-control_size-l);
+
+      --select-text-size: var(--o-font_size-text1);
+      --select-text-height: var(--o-line_height-text1);
+
+      --select-icon-size: var(--o-icon_size_control-m);
+    }
+  }
+
+  .o-search-large {
+    --search-icon-size: var(--o-icon_size-s);
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-search-xlarge {
+    --search-icon-size: var(--o-icon_size-xs);
+
+    .o-input.o_box-large {
+      --_box-height: var(--o-control_size-m);
+
+      --_box-text-size: var(--o-font_size-tip1);
+      --_box-text-height: var(--o-line_height-tip1);
+    }
+
+    .o-select.o-select-large {
+      --select-height: var(--o-control_size-m);
+
+      --select-text-size: var(--o-font_size-tip1);
+      --select-text-height: var(--o-line_height-tip1);
+
+      --select-icon-size: var(--o-icon_size_control-xs);
+    }
+  }
+
+  .o-search-large {
+    --search-icon-size: var(--o-icon_size-m);
+  }
+}

@@ -114,7 +114,9 @@ defineExpose({
             h(
               InInput,
               {
-                ref: 'inInputRef',
+                ref: (el) => {
+                  inInputRef = el as InstanceType<typeof InInput>;
+                },
                 class: [
                   'o-input-wrap',
                   {
@@ -141,7 +143,8 @@ defineExpose({
                   'minLength',
                   'getLength',
                   'inputOnOutlimit',
-                  'showLength'
+                  'showLength',
+                  'onlyNumericInput',
                 ]),
                 onChange: onChange,
                 onInput: onInput,
@@ -151,10 +154,10 @@ defineExpose({
                 onClear: onClear,
                 'onUpdate:modelValue': onUpdatedModelValue,
               },
-              pick($slots, ['extra', 'prefix', 'suffix'])
+              pick($slots, ['extra', 'prefix', 'suffix']),
             ),
           ...pick($slots, ['append', 'prepend']),
-        }
+        },
       )
     "
   />

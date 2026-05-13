@@ -1,8 +1,14 @@
 export default {
   locale: 'zh-CN',
   // common
+  'common.more': '更多',
   'common.empty': '暂无数据',
   'common.loading': '加载中...',
+  'common.checkAll': '全选',
+  'common.filter': '筛选',
+  'common.confirm': '确认',
+  'common.reset': '重置',
+  'common.search': '搜索',
   // pagination
   'pagination.goto': '前往',
   'pagination.page': '页',
@@ -16,9 +22,15 @@ export default {
   'upload.delete': '删除',
   'upload.preview': '预览',
   'upload.edit': '编辑',
+  'upload.loading': '上传中',
+  'upload.failed': '上传失败',
+  'upload.download': '下载文件',
   // select
   'select.cancel': '取消',
   'select.confirm': '确定',
   // input
   'input.limit': '<b>{0}</b>/{1}',
+  // table
+  'table.filterEmptyOption': '空',
+  'table.filterPlaceholder': '请输入搜索内容',
 };

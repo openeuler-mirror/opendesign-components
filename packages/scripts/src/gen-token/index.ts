@@ -1,10 +1,11 @@
-import path from 'path';
-import fs from 'fs-extra';
+import path from 'node:path';
+
+import { outputFileSync, loadModule } from '../utils.ts';
 
 export interface TokenConfigT {
   output: string;
   prefix: string;
-  themeMap: Array<{ valueKey: string; name: string, root: boolean }>;
+  themeMap: Array<{ valueKey: string; name: string; root: boolean }>;
   defaultTheme: string;
   defaultThemeName: string;
   tokenFile: string[];
@@ -58,7 +59,7 @@ export interface TokenT {
 async function readConfig(cfg: string) {
   const base = process.cwd();
   const configFile = path.resolve(base, cfg || './token.config.ts');
-  const configData: TokenConfigT = await require(configFile);
+  const configData = (await loadModule<{ default: TokenConfigT }>(configFile)).default;
   const cfgDir = path.dirname(configFile);
 
   const { tokenFile, output = './', codeSnippetsFile } = configData;
@@ -89,9 +90,9 @@ async function readTokens(configData: TokenConfigT) {
   const { prefix, tokenFile } = configData;
   const tokens: Record<string, FlatTokenT> = {};
 
-  tokenFile.forEach((tk) => {
+  for (const tk of tokenFile) {
     try {
-      const tokenContent: TokenT = require(tk);
+      const tokenContent = (await loadModule<{ default: TokenT }>(tk)).default;
       Object.keys(tokenContent).forEach((k) => {
         const catg = tokenContent[k];
         catg.value.forEach((item) => {
@@ -118,7 +119,7 @@ async function readTokens(configData: TokenConfigT) {
     } catch {
       console.warn('load token error:', tk);
     }
-  });
+  }
 
   return tokens;
 }
@@ -139,13 +140,13 @@ function tokenCssTemplate(themeArray: string[], tokens: Array<ThemeTokenT>, isRo
 
   let selector = [':root'];
 
-  if(!isRoot){
+  if (!isRoot) {
     selector = themeArray.map((t) => {
-    if (t === 'default') {
-      return ':root';
-    }
-    return `[data-o-theme="${t}"]`;
-  });
+      if (t === 'default') {
+        return ':root';
+      }
+      return `[data-o-theme="${t}"]`;
+    });
   }
 
   return `/* theme: ${themeArray.join('|')} */
@@ -157,7 +158,7 @@ ${content.join('\n')}
 /**
  * 生成token.css
  */
-function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string; root: boolean}>, outDir: string) {
+function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ valueKey: string; name: string; root: boolean }>, outDir: string) {
   const themeToken: Record<string, Array<ThemeTokenT>> = {};
 
   Object.keys(tokens).forEach((k) => {
@@ -178,11 +179,11 @@ function generateTokenCss(tokens: Record<string, FlatTokenT>, themes: Array<{ va
   });
 
   themes.forEach((theme) => {
-    const themeArray = Array.isArray(theme.name)? theme.name : [theme.name];
-    
+    const themeArray = Array.isArray(theme.name) ? theme.name : [theme.name];
+
     const content = tokenCssTemplate(themeArray, themeToken[theme.valueKey], theme.root);
 
-    fs.outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
+    outputFileSync(path.join(outDir, `${themeArray.join('-')}.token.css`), content);
     console.log(`[${themeArray.join('|')}] theme token file generated!`);
   });
 }
@@ -203,7 +204,7 @@ function generateCodeSnippets(tokens: Record<string, FlatTokenT>, outFile: strin
       scope: 'css,scss,less',
     };
   });
-  fs.outputFileSync(outFile, JSON.stringify(snippets, null, '  '));
+  outputFileSync(outFile, JSON.stringify(snippets, null, '  '));
   console.log('code snippets generated!');
 }
 

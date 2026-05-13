@@ -89,11 +89,11 @@ li {
 }
 
 .markdown-body {
-  padding: 0 var(--o3-gap-5);
+  padding: 0 var(--o3-gap-5) var(--o3-gap-5) var(--o3-gap-5);
   .markdown-body {
     padding: 0;
   }
-  .o-table-wrap {
+  .o-table:not(.o-data-table) .o-table-wrap {
     overflow-x: auto;
     th:first-child,
     td:first-child {

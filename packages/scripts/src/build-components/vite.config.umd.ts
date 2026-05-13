@@ -18,22 +18,28 @@ export default (type: 'component' | 'icon'): InlineConfig => {
       sourcemap: true,
       minify: false,
       rollupOptions: {
-        external: 'vue',
+        external: ['vue', /^@vueuse/, 'dayjs'],
         output: [
           {
             format: 'umd',
             name: entryFileName,
             entryFileNames: `${entryFileName}.js`,
-            globals: {
-              vue: 'Vue',
+            globals(id: string) {
+              if (id === 'vue') return 'Vue';
+              if (id.startsWith('@vueuse/')) return 'VueUse';
+              if (id === 'dayjs') return 'dayjs';
+              return id;
             },
           },
           {
             format: 'umd',
             name: entryFileName,
             entryFileNames: `${entryFileName}.min.js`,
-            globals: {
-              vue: 'Vue',
+            globals(id: string) {
+              if (id === 'vue') return 'Vue';
+              if (id.startsWith('@vueuse/')) return 'VueUse';
+              if (id === 'dayjs') return 'dayjs';
+              return id;
             },
             plugins: [terser() as any],
           },

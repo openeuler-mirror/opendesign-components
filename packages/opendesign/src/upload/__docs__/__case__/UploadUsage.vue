@@ -42,7 +42,7 @@ Button text such as `btnLabel`, etc.
 
 <script setup lang="ts">
 import { propsToAttrStr } from '../../../_demo/utils';
-import { onAfterSelect, uploadRequest, onBeforeUpload, onBeforeRemove } from '../../__demo__/upload';
+import { onAfterSelect, uploadRequest, onBeforeUpload, onBeforeRemove, downloadFile } from '../../__demo__/upload';
 import { reactive } from 'vue';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types.ts';
 
@@ -56,14 +56,8 @@ const _oCtx = {
   uploadRequest,
   onBeforeUpload,
   onBeforeRemove,
-  singleFileList: reactive([
-    {
-      id: '1',
-      name: 'test.png',
-      status: 'finished',
-      imgUrl: imgs[0],
-    },
-  ]),
+  downloadFile,
+  singleFileList: reactive([]),
 };
 
 const _oSchema = {
@@ -103,6 +97,9 @@ const _oSchema = {
     type: 'list',
     list: ['text', 'picture', 'picture-card'] as const,
   },
+  showProgress: {
+    type: 'boolean',
+  },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
@@ -111,6 +108,7 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
   ${propsToAttrStr(props)}
   :on-after-select="ctx.onAfterSelect"
   :upload-request="ctx.uploadRequest"
+  :download-file="ctx.downloadFile"
   color="normal"
   variant="solid"
 />`;

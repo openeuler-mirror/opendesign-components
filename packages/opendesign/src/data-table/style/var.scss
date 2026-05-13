@@ -1,0 +1,20 @@
+.o-data-table {
+  --table-filter-trigger-gap: 4px;
+  --table-filter-trigger-size: 16px;
+}
+
+.o-table-header-fill {
+  --table-head-bg: var(--o-color-control3-light);
+  --table-head-border-bottom: var(--table-border-width) solid var(--table-head-bg);
+}
+
+.o-data-table-column-filter-popup {
+  --popup-bg-color: var(--o-color-control5-light);
+  --popup-radius: var(--o-radius-xs);
+  --popup-shadow: var(--o-shadow-2);
+  --table-filter-popup-width: 192px;
+}
+
+.o-data-table-column-filter-wrapper {
+  --table-filter-option-list-max-height-default: 256px;
+}

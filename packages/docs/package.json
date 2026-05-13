@@ -11,38 +11,37 @@
     "preview": "vite preview",
     "gen:api": "vite-node ./scripts/generateApi.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@opensig/open-analytics": "catalog:utils",
+    "@opensig/open-scripts": "workspace:^",
     "@opensig/opendesign-token": "catalog:css",
     "@shikijs/langs": "catalog:markdown",
     "@shikijs/themes": "catalog:markdown",
-    "@vue/compiler-dom": "catalog:vue",
-    "markdown-it": "catalog:markdown",
-    "pinia": "catalog:vue",
-    "prettier": "catalog:lint",
-    "shiki": "catalog:markdown",
-    "ts-morph": "catalog:typescript",
-    "vue": "catalog:vue",
-    "vue-router": "catalog:vue"
-  },
-  "devDependencies": {
-    "@opensig/open-scripts": "catalog:build",
     "@types/fs-extra": "catalog:typescript",
     "@types/markdown-it": "catalog:typescript",
+    "@vitejs/plugin-vue-jsx": "catalog:vue",
+    "@vue/compiler-dom": "catalog:vue",
     "@vue/compiler-sfc": "catalog:vue",
     "fs-extra": "catalog:io",
     "glob": "catalog:io",
     "gray-matter": "catalog:markdown",
     "magic-string": "catalog:utils",
+    "markdown-it": "catalog:markdown",
     "markdown-it-async": "catalog:markdown",
+    "pinia": "catalog:vue",
+    "prettier": "catalog:lint",
     "sass": "catalog:css",
+    "shiki": "catalog:markdown",
+    "ts-morph": "catalog:typescript",
     "typescript": "catalog:typescript",
     "unplugin-vue-markdown": "catalog:markdown",
     "vite": "catalog:build",
+    "vite-node": "catalog:utils",
     "vite-plugin-inspect": "catalog:build",
+    "vue": "catalog:vue",
     "vue-component-meta": "catalog:vue",
     "vue-docgen-api": "catalog:vue",
-    "vue-tsc": "catalog:build",
-    "vite-node": "catalog:utils"
+    "vue-router": "catalog:vue",
+    "vue-tsc": "catalog:build"
   }
 }

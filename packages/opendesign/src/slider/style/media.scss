@@ -1,0 +1,21 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-slider {
+    --slider-popover-font-size: var(--o-font_size-tip1);
+    --slider-popover-line-height: var(--o-line_height-tip1);
+  }
+}
+
+@include respond('<=pad_v') {
+  .o-slider {
+    --slider-btn-width: 24px;
+
+    --slider-stop-width: 3px;
+  }
+  .o-slider-with-stops {
+    --slider-runway-height: 12px;
+
+    --slider-bar-height: 16px;
+  }
+}

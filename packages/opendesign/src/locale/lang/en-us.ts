@@ -1,8 +1,14 @@
 export default {
   locale: 'en-US',
   // common
+  'common.more': 'more',
   'common.empty': 'No Data',
   'common.loading': 'Loading...',
+  'common.checkAll': 'Check All',
+  'common.filter': 'Filter',
+  'common.confirm': 'Confirm',
+  'common.reset': 'Reset',
+  'common.search': 'Search',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.page': 'Page',
@@ -16,9 +22,15 @@ export default {
   'upload.delete': 'Delete',
   'upload.preview': 'Preview',
   'upload.edit': 'Edit',
+  'upload.loading': 'Uploading',
+  'upload.failed': 'Upload failed',
+  'upload.download': 'Download the file',
   // select
   'select.cancel': 'Cancel',
   'select.confirm': 'Ok',
   // input
   'input.limit': '<b>{0}</b>/{1}',
+  // table
+  'table.filterEmptyOption': 'empty',
+  'table.filterPlaceholder': 'Enter keywords',
 };

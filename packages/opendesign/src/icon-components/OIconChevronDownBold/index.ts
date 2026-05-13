@@ -1,1 +1,0 @@
-export { default as OIconChevronDownBold } from './OIconChevronDownBold.vue';

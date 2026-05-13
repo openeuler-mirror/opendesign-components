@@ -14,7 +14,7 @@ const observerPool = new WeakMap<
 >();
 
 // 创建监听实例
-interface ObserveInstance {
+export interface ObserveInstance {
   observer: ResizeObserver;
   record: number;
 }

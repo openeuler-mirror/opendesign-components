@@ -26,6 +26,14 @@ export const optionProps = {
   disabled: {
     type: Boolean,
   },
+  /**
+   * @zh-CN 是否半选
+   * @en-US Whether to select half
+   */
+  indeterminate: {
+    type: Boolean,
+    default: false,
+  },
 };
 
 export type OptionPropsT = ExtractPropTypes<typeof optionProps>;

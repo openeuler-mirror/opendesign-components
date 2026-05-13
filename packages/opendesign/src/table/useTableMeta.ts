@@ -1,6 +1,7 @@
-import { shallowRef, onBeforeUnmount, type Ref } from 'vue';
+import { shallowRef, onBeforeUnmount, type MaybeRef } from 'vue';
 import { resolveHtmlElement } from '../_utils/vue-utils';
 import { debounce } from '../_utils/helper';
+import { log } from '../_utils/log';
 
 type CellT = {
   el: HTMLTableCellElement;
@@ -14,7 +15,7 @@ type CellT = {
   lastCol: boolean;
   /** 该单元格是否为最后一行 */
   lastRow: boolean;
-   
+
   section: TableSection;
 };
 type TableSection = {
@@ -36,10 +37,16 @@ type TableMetaOptions = {
   splitBySection?: boolean;
 };
 
+export const DEFAULT_CELL_FIRST_COL_MARKER = 'o-cell-first-col';
 export const DEFAULT_CELL_LAST_COL_MARKER = 'o-cell-last-col';
 export const DEFAULT_CELL_LAST_ROW_MARKER = 'o-cell-last-row';
 export const DEFAULT_ROW_LAST_MARKER = 'o-row-last';
 
+/**
+ * 在 grid 数组的对应位置填充填充 cellMeta 数据，若单元格有合并则对应的多个单元格 rowspan * colspan 都会被填充
+ * @param grid
+ * @param cellMeta
+ */
 function fillGrid(grid: (CellT | null)[][], cellMeta: CellT) {
   for (let r = cellMeta.rowStart; r < cellMeta.rowEnd; r++) {
     if (!grid[r]) grid[r] = [];
@@ -71,6 +78,7 @@ function processSection(section: HTMLTableSectionElement, scope: 'head' | 'body'
   for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
     const row = rows[rowIndex];
     let colIndex = 0;
+    let colEnd = 0;
 
     for (const cell of Array.from(row.cells)) {
       const colspan = cell.colSpan || 1;
@@ -79,12 +87,13 @@ function processSection(section: HTMLTableSectionElement, scope: 'head' | 'body'
         colIndex++;
       }
 
+      colEnd = colIndex + colspan;
       // 创建单元格元数据
       const cellMeta: CellT = {
         el: cell,
         colStart: colIndex,
         rowStart: rowIndex,
-        colEnd: colIndex + colspan,
+        colEnd: colEnd,
         rowEnd: rowIndex + rowspan,
         lastCol: false,
         lastRow: false,
@@ -96,11 +105,17 @@ function processSection(section: HTMLTableSectionElement, scope: 'head' | 'body'
 
       // 在网格中占据单元格的位置
       fillGrid(grid, cellMeta);
-      maxCols = Math.max(maxCols, cellMeta.colEnd);
 
       // 移动到下一个可用列位置
       colIndex += colspan;
     }
+    if (colEnd > maxCols && rowIndex > 0) {
+      log.warn(
+        `The row ${rowIndex + 1} has ${colEnd} columns, exceeding previous row's ${maxCols} columns. This may indicate inconsistent cell count or incorrect colspan/rowspan settings.`,
+        row,
+      );
+    }
+    maxCols = Math.max(maxCols, colEnd);
   }
   rtn.totalCols = maxCols;
   rtn.totalRows = rows.length;
@@ -136,7 +151,7 @@ function markCellEl(cell: CellT, colMarker: string | false | undefined, rowMarke
 function markSection(
   section: TableSection,
   isLastSection: boolean,
-  marker: { cellColMarker?: string | false; cellRowMarker?: string | false; rowMarker?: string | false }
+  marker: { cellColMarker?: string | false; cellRowMarker?: string | false; rowMarker?: string | false },
 ) {
   const { totalCols, totalRows, data } = section;
   for (let rowIndex = 0; rowIndex < totalRows; rowIndex++) {
@@ -188,13 +203,25 @@ const processTable = (el: HTMLTableElement, cellMap: WeakMap<HTMLTableCellElemen
     head = processSection(el.tHead, 'head', cellMap);
     maxCols = Math.max(maxCols, head.totalCols);
   }
-  const bodies = Array.from(el.tBodies).map((tbody) => {
+  const bodies = Array.from(el.tBodies).map((tbody, index) => {
     const body = processSection(tbody, 'body', cellMap);
+    if (body.totalCols > maxCols && maxCols > 0) {
+      log.warn(
+        `The tbody ${index + 1} has ${body.totalCols} columns, exceeding previous section's ${maxCols} columns. This may indicate inconsistent cell count or incorrect colspan/rowspan settings.`,
+        tbody,
+      );
+    }
     maxCols = Math.max(maxCols, body.totalCols);
     return body;
   });
   if (el.tFoot) {
     foot = processSection(el.tFoot, 'foot', cellMap);
+    if (foot.totalCols > maxCols && maxCols > 0) {
+      log.warn(
+        `The tfoot section has ${foot.totalCols} columns, exceeding the ${maxCols} columns in thead or tbody. This may indicate inconsistent cell count or incorrect colspan/rowspan settings.`,
+        el.tFoot,
+      );
+    }
     maxCols = Math.max(maxCols, foot.totalCols);
   }
   // 标准化表格数据（处理异常表格）
@@ -245,7 +272,7 @@ function shouldRefactorTableMeta(records: MutationRecord[]) {
   }
   return false;
 }
-export function useTableMeta(elRef: HTMLTableElement | Ref<HTMLTableElement | null | undefined>, options: TableMetaOptions = {}) {
+export function useTableMeta(elRef: MaybeRef<HTMLTableElement | undefined>, options: TableMetaOptions = {}) {
   const cellMap = new WeakMap<HTMLTableCellElement, CellT>();
   const head = shallowRef<TableSection | null>(null);
   const bodies = shallowRef<TableSection[]>([]);

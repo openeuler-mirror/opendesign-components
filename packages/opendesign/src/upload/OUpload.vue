@@ -26,6 +26,7 @@ const emits = defineEmits<{
   (e: 'itemReplace', value: UploadFileT, evt: Event): void;
   (e: 'itemPreview', value: UploadFileT, evt: Event): void;
   (e: 'itemClick', value: UploadFileT, evt: Event): void;
+  (e: 'download', value: UploadFileT, evt: Event): void;
 }>();
 
 const emitUpdateValue = (value: UploadFileT[]) => {
@@ -46,7 +47,7 @@ watch(
     } else {
       fileList.value = [];
     }
-  }
+  },
 );
 
 // 表单注入，用于规则校验
@@ -75,7 +76,7 @@ const uploadOption = computed(() => {
 });
 
 const selectRef = ref<InstanceType<typeof InputSelect> | null>(null);
-let replaceId:string | number = '';
+let replaceId: string | number = '';
 
 /**
  * 上传所有文件
@@ -170,7 +171,7 @@ const doRemoveFile = async (file: UploadFileT) => {
   }
   file.request?.abort();
 
-  const index = fileList.value.findIndex(item => item.id === file.id);
+  const index = fileList.value.findIndex((item) => item.id === file.id);
   fileList.value.splice(index, 1);
 
   formItemInjection?.fieldHandlers.onChange?.();
@@ -186,8 +187,8 @@ const removeFileByIndex = (index: number) => {
   }
   doRemoveFile(fileList.value[index]);
 };
-const removeById = (id: string|number) => {
-  const index = fileList.value.findIndex(item => item.id === id);
+const removeById = (id: string | number) => {
+  const index = fileList.value.findIndex((item) => item.id === id);
   removeFileByIndex(index);
 };
 
@@ -201,7 +202,6 @@ const removeAllFiles = () => {
       emitUpdateValue(fileList.value);
 
       emits('change', fileList.value);
-
     });
   });
 };
@@ -261,14 +261,13 @@ const replaceByIndex = (index: number, newFile: UploadFileT) => {
     emits('change', fileList.value);
 
     formItemInjection?.fieldHandlers.onChange?.();
-
   } else {
     doReplaceFile(file);
   }
 };
 
 const replaceById = (id: string, newFile: UploadFileT) => {
-  const index = fileList.value.findIndex(item => item.id === id);
+  const index = fileList.value.findIndex((item) => item.id === id);
 
   replaceByIndex(index, newFile);
 };
@@ -306,16 +305,27 @@ const onFilePreview = (file: UploadFileT, e: Event) => {
 };
 
 const uploadItems = useTemplateRef<InstanceType<typeof UploadItem>[]>('uploadItems');
-const previewItemByIndex = (index:number) => {
+const previewItemByIndex = (index: number) => {
   const item = uploadItems.value?.[index];
 
   item?.preview();
 };
-const previewItemById = (id:number|string) => {
-  const idx = fileList.value.findIndex(item => item.id === id);
+const previewItemById = (id: number | string) => {
+  const idx = fileList.value.findIndex((item) => item.id === id);
   previewItemByIndex(idx);
 };
 
+/**
+ * 下载文件
+ */
+const onFileDownload = (file: UploadFileT, e: Event) => {
+  if (isFunction(props.downloadFile)) {
+    if (file.file) {
+      props.downloadFile(file.file);
+    }
+  }
+  emits('download', file, e);
+};
 
 defineExpose({
   upload: uploadAll,
@@ -328,7 +338,7 @@ defineExpose({
   removeByIndex: removeFileByIndex,
   removeAll: removeAllFiles,
   previewItemByIndex,
-  previewItemById
+  previewItemById,
 });
 </script>
 <template>
@@ -365,11 +375,14 @@ defineExpose({
         :key="item.id"
         :file="item"
         :list-type="props.listType"
+        :showProgress="props.showProgress"
+        :draggable="props.draggable"
         @remove="onRemoveFile"
         @retry="onFileUploadRetry"
         @replace="onFileReplace"
         @preview="onFilePreview"
         @item-click="onUploadItemLabelClick"
+        @download="onFileDownload"
       >
         <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
