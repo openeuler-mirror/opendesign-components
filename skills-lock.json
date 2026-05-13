@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "skills": {
+    "antfu": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "d78a1ac9bf3aba693c7a4fb16041df11254c5b6e15b446aa8b7f1f88c109710d"
+    },
+    "create-adaptable-composable": {
+      "source": "vuejs-ai/skills",
+      "sourceType": "github",
+      "computedHash": "3d044f8c43ddaee6a58ab28acc9d6315775aed150c3a9ab059d2714768be5bec"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "645b891da1edbae76ab79c7b088d4e73397464f8396edaf773c0e01971ce75d6"
+    },
+    "karpathy-guidelines": {
+      "source": "forrestchang/andrej-karpathy-skills",
+      "sourceType": "github",
+      "computedHash": "0ec1641120accbb458780e0bd19a50a4182f2b97863e90851b91307f29802c9f"
+    },
+    "nuxt": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "6f5456948b35c0c0005424098eaf28ebbba1bbd92a3f3268466fe7d85e9e3789"
+    },
+    "opendesign-components": {
+      "source": "finch-poi/opendesign-skills",
+      "sourceType": "github",
+      "computedHash": "6c8cd4347f492db9dc965673e2067e1486c1b84a0059f6be70e8faa5ebd5b45c"
+    },
+    "opendesign-scripts": {
+      "source": "finch-poi/opendesign-skills",
+      "sourceType": "github",
+      "computedHash": "3913f3b743d9179057fcc58a36e67489d2d32d8681642e3a1bf510d92f7e055e"
+    },
+    "opendesign-tokens": {
+      "source": "finch-poi/opendesign-skills",
+      "sourceType": "github",
+      "computedHash": "0d34cd0d806eddbf08a77b423878f74ea1f26e1fdf63a87cf5647dea5504c61f"
+    },
+    "openeuler-frontend-tools": {
+      "source": "finch-poi/opendesign-skills",
+      "sourceType": "github",
+      "computedHash": "2d1909bcffd0bc822963c91d9e8dd60e0b2dc9dd969f9239de24f3a82d09c01c"
+    },
+    "pinia": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "8e8346fac8cb76d6f186462b712352d5a651c9c049076ea73559f47210c874ef"
+    },
+    "pnpm": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "d473204df25defd08a7d47b55c6d124b41ebde440b774995952b65223d0d8d6f"
+    },
+    "refactor": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/refactor/SKILL.md",
+      "computedHash": "87789a786b96f99ba0680e89345a975106e10e7db1071c7cdc2e76d507c449d6"
+    },
+    "refactor-method-complexity-reduce": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/refactor-method-complexity-reduce/SKILL.md",
+      "computedHash": "a09a18f7b370e105c20480f9c772169948262fa07fdf5fbd4c5d45b2def958e0"
+    },
+    "refactor-plan": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/refactor-plan/SKILL.md",
+      "computedHash": "e4b09e28e20bcfcd1c48b7a2504fb3cdab4c36b455f2d7689574470c76ea5c2c"
+    },
+    "review-and-refactor": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/review-and-refactor/SKILL.md",
+      "computedHash": "9236d06a1500089ddb46975b866e9a63478e502afe7095b1980c618678a7c7fe"
+    },
+    "slidev": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "ecde2e0d684f770a50c8718ab036e5df5e1ead082cb608739673507079a524a3"
+    },
+    "tsdown": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "7b755fabd4d2fe136cfa4d9e1815eeeb41a409e9b6ddbd81834b9247c27e282c"
+    },
+    "turborepo": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "3f57a70909bf0bef24c88820901812bb0d595bff9b0065e5b81ad6c7bc88423c"
+    },
+    "unocss": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "1054e69977e1d2d3b7c8479adf16b4db43191bf775f150ce8a06a0b1c191318b"
+    },
+    "vite": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "1cdc4bbecaa89544e6ef92566b015db989994bf90c4472683ac64f7a114dc3af"
+    },
+    "vitepress": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "a8aa9c4c23b88c5f6ff59159d8dd0678c8c87ae28bab19b4e84fa399022ce5ce"
+    },
+    "vitest": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "0efd9cf8c56aada060d418d009cfe621a7915d0c73a958fe611985bc0c2fa4b8"
+    },
+    "vue": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "f72b54618560c53d65740515ded5bb833750c4574dbe961fd21f022bd2b31a74"
+    },
+    "vue-best-practices": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "6aebf11b392505e1aa40a6805e714c36095830cc3f0a7a41aebffee2854596b8"
+    },
+    "vue-debug-guides": {
+      "source": "vuejs-ai/skills",
+      "sourceType": "github",
+      "computedHash": "58bb2ad9e92dce0c15b42acc65aeec1dd93bc36f9db96ab248e52b1d22945472"
+    },
+    "vue-jsx-best-practices": {
+      "source": "vuejs-ai/skills",
+      "sourceType": "github",
+      "computedHash": "4e214770e8c516a073929902c54cb17ab8ac45c01f11beabd85f470392de2a1c"
+    },
+    "vue-options-api-best-practices": {
+      "source": "vuejs-ai/skills",
+      "sourceType": "github",
+      "computedHash": "4c613ef2a6d5fd5599e6aa58f24bb6460a9f0903f389cf71bad3a71400dbad20"
+    },
+    "vue-pinia-best-practices": {
+      "source": "vuejs-ai/skills",
+      "sourceType": "github",
+      "computedHash": "ab191c9cc34d755e5e2133bbedc56bd5f9ba0841e242a7b54c818780a5c78a9c"
+    },
+    "vue-router-best-practices": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "405d377ebeef773b240f31902dfb204095d4bcc945e8a4c2f4b560062c032fbb"
+    },
+    "vue-testing-best-practices": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "c568e4abe743cd36a0eb15730f72de54b8d84c9bfbaa4395bc448428b9c71c12"
+    },
+    "vueuse-functions": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "5189e448e981e42e2153c1b5e8d19e51b01e642c2357ab0f2892c4d8b50ba2b5"
+    },
+    "web-design-guidelines": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "computedHash": "57cefa41cea390d412000acc24e5526034027ca46d4f7581ba8fa05777a8687f"
+    }
+  }
+}
