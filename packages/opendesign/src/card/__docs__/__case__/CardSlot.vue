@@ -1,5 +1,6 @@
 <docs lang="md">
 <!-- zh-CN -->
+
 ### 插槽
 
 插槽示意图
@@ -27,7 +28,7 @@ const cardInfo = {
   <OCard hoverable cursor="pointer" :detail="cardInfo.detail" target="_blank">
     <!-- custom header -->
     <template #header>
-      <span :style="{ fontWeight: 500 }">{{ cardInfo.title }}</span>
+      <span :style="{ fontWeight: 600 }">{{ cardInfo.title }}</span>
       <div class="card-tags">
         <OTag class="card-tag">tag 1</OTag>
         <OTag class="card-tag">tag 2</OTag>
