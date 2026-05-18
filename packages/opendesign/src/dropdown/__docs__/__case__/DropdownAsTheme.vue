@@ -3,14 +3,14 @@
 
 #### 运营下拉按钮
 
-- **配置方式**：需同时传递两个参数
+- **配置方式**：需同时传递两个参数给插槽中的OButton<br>
   `color="brand"`（标识颜色为主题色） + `variant="solid"`（实心样式）
 
 <!-- en-US -->
 
 #### Operational Dropdown Buttons
 
-- **Configuration Method**: Requires passing two parameters simultaneously:
+- **Configuration Method**: Requires passing two parameters simultaneously to OButton:<br>
   `color="brand"` (indicates the color as the theme color) + `variant="solid"` (solid style).
 </docs>
 <script setup lang="ts">

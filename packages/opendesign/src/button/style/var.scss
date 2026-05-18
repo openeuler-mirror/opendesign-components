@@ -142,10 +142,10 @@
 
 .o-btn-brand {
   &.o-btn-solid {
-    --btn-bg-image: var(--o-color-main2);
-    --btn-bg-image-hover: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-deepblue-6), 0.8), rgba(var(--o-purple-6), 0.8));
-    --btn-bg-image-active: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-deepblue-6), 0.9), rgba(var(--o-purple-6), 0.9));
-    --btn-bg-image-disabled: var(--o-color-main2);
+    --btn-bg-image: linear-gradient(var(--o-color-primary1));
+    --btn-bg-image-hover: linear-gradient(var(--o-color-primary2));
+    --btn-bg-image-active: linear-gradient(var(--o-color-primary3));
+    --btn-bg-image-disabled: linear-gradient(var(--o-color-primary4));
   }
 }
 
