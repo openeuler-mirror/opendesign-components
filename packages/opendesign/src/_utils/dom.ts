@@ -228,7 +228,7 @@ export function scrollTo(y: number, opts: ScrollTopOptions) {
   });
 }
 
-/* 判断一个元素是否触发溢出隐藏*/
+/* 判断元素自身内容是否超出其盒子边界（scrollWidth/scrollHeight > clientWidth/clientHeight），即文字等内容被 overflow:hidden 截断的场景。与 checkElementOverflow 不同，后者检测的是元素位置相对于滚动父容器可视区域的越界 */
 export function isOverflown(element?: HTMLElement) {
   if (!element) {
     return false;
@@ -380,10 +380,10 @@ export function checkElementOverflowVertical(options: { element: HTMLElement; pa
 }
 
 /**
- * 判断元素上下左右四个边界是否超出滚动父元素的可视区域，并计算每个方向超出的像素值
+ * 判断元素四个边界是否超出滚动父容器的可视区域，并计算各方向超出的像素值。与 isOverflown 不同，后者检测的是元素自身内容是否超出自身盒子边界
  * @param {HTMLElement} options.element - 目标元素
- * @param {HTMLElement} options.parentElement - 目标父元素， 可选
- * @param {number} options.threshold - 阈值，可选，如果溢出值大于阈值才算溢出,有的时候滚动到底还是差0.01个像素
+ * @param {HTMLElement} options.parentElement - 目标父元素，可选，不传则取最近的滚动父元素
+ * @param {number} options.threshold - 阈值，可选，超出值大于阈值才算溢出（可用于规避浮点误差）
  * @returns 包含是否超出、各方向超出像素值的结果
  */
 export function checkElementOverflow(options: { element: HTMLElement; parentElement?: HTMLElement; threshold?: number }) {

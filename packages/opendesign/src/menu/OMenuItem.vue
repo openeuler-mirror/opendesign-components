@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, inject, ref, onMounted, useTemplateRef } from 'vue';
+import {computed, inject, useTemplateRef} from 'vue';
+
 import { menuItemProps } from './types';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
-import { isOverflown } from '../_utils/dom';
+import { useElementOverflown } from '../hooks';
 import { OPopover } from '../popover';
 
 const props = defineProps(menuItemProps);
@@ -47,44 +48,36 @@ menuInjection?.menuTree.addChild({
   parentVal: subMenuInjection?.value,
 });
 
-// 支持超出隐藏，hover时popover提示，当前不支持内容变化，动态刷新
 const menuItemRef = useTemplateRef('menuItemRef');
 const itemContentRef = useTemplateRef('itemContentRef');
-const isContentOverflow = ref(false);
-const content= ref('');
-
-onMounted(() => {
-  if (!itemContentRef.value) {
-    return;
-  }
-  isContentOverflow.value = isOverflown(itemContentRef.value);
-  content.value = itemContentRef.value?.innerText || '';
-});
+const isContentOverflow = useElementOverflown(itemContentRef);
 
 </script>
 
 <template>
   <li
-      :class="{
-    'o-menu-item': true,
-    'o-menu-item-selected': isSelected,
-    'o-menu-item-disabled': $props.disabled ,
-  }"
+    ref="menuItemRef"
+    :class="{
+      'o-menu-item': true,
+      'o-menu-item-selected': isSelected,
+      'o-menu-item-disabled': $props.disabled ,
+    }"
     :style="{
       '--menu-level': currentDepth,
     }"
     :data-level="currentDepth"
     @click="onItemClick"
-    ref="menuItemRef"
   >
     <div v-if="props.icon || $slots.icon" class="o-menu-item-icon">
       <slot name="icon">
         <component :is="props.icon" />
       </slot>
     </div>
-    <div class="o-menu-item-content" ref="itemContentRef">
+    <div ref="itemContentRef" class="o-menu-item-content">
       <slot></slot>
     </div>
-    <OPopover v-if="isContentOverflow" :offset="12" :target="menuItemRef" position="bottom" wrapClass="o-menu-popover">{{ content }}</OPopover>
+    <OPopover v-if="isContentOverflow" :offset="12" :target="menuItemRef" position="bottom" wrap-class="o-menu-popover">
+      <slot></slot>
+    </OPopover>
   </li>
 </template>

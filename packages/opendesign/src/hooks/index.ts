@@ -3,5 +3,6 @@ export * from './use-intersection-observer';
 export * from './use-element';
 export * from './use-element-resize';
 export * from './use-element-intersection';
+export * from './use-element-overflown'
 export * from './use-theme';
 export * from './use-screen';
