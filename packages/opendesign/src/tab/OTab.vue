@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { provide, ref, nextTick, watch, computed, toValue, onMounted } from 'vue';
-import { useMutationObserver, createReusableTemplate, useElementBounding, useCssVar, until } from '@vueuse/core';
+import {provide, ref, nextTick, watch, computed, toValue, onMounted} from 'vue';
+import {useMutationObserver, createReusableTemplate, useElementBounding, until} from '@vueuse/core';
 
-import { OOption, OOptionList } from '../option';
-import { ODialog } from '../dialog';
-import { OPopup } from '../popup';
-import { IconAdd, IconClose, IconChevronDown } from '../_utils/icons';
-import { vOnResize } from '../directives';
-import { debounceRAF } from '../_utils/helper';
-import { defaultSize } from '../_utils/global';
-import { isUndefined } from '../_utils/is';
-import { useScreen } from '../hooks';
-import { mergeClass } from '../_utils/vue-utils';
-import { getRoundClass } from '../_utils/style-class';
-import { useI18n } from '../locale';
+import {OOption, OOptionList} from '../option';
+import {ODialog} from '../dialog';
+import {OPopup} from '../popup';
+import {IconAdd, IconClose, IconChevronDown} from '../_utils/icons';
+import {vOnResize} from '../directives';
+import {debounceRAF} from '../_utils/helper';
+import {defaultSize} from '../_utils/global';
+import {isUndefined} from '../_utils/is';
+import ClientOnly from "../_components/client-only.ts";
+import {useResponseCssVar} from "../hooks";
+import {useScreen} from '../hooks';
+import {mergeClass} from '../_utils/vue-utils';
+import {getRoundClass} from '../_utils/style-class';
+import {useI18n} from '../locale';
 
-import { TabChildData, tabInjectKey } from './provide';
-import { tabProps } from './types';
+import {TabChildData, tabInjectKey} from './provide';
+import {tabProps} from './types';
 
 type ChildDataT = TabChildData & {
   /** 导航item显示的元素，用于计算指示器的定位 */
@@ -37,34 +39,53 @@ const emits = defineEmits<{
 
 const round = getRoundClass(props, 'tab-btn');
 
-const { isPhonePad } = useScreen();
+const {isPhonePad} = useScreen();
 
-const { t } = useI18n();
+const {t} = useI18n();
 const moreLabel = computed(() => props.moreLabel || t('common.more'));
 
 const activeKey = ref(props.modelValue);
 const anchorStyle = ref<Record<string, string>>({});
 
 const navsContainerRef = ref<HTMLDivElement>();
-const { width: navsContainerWidth } = useElementBounding(navsContainerRef);
-const navGapString = useCssVar('--tab-nav-gap', navsContainerRef, { initialValue: '32px' });
-const navGapNumber = computed(() => {
-  return Number.parseInt(navGapString.value);
-});
+const {width: navsContainerWidth} = useElementBounding(navsContainerRef);
+const navGapNumber = useResponseCssVar(
+    '--tab-nav-gap',
+    navsContainerRef,
+    {
+      initialValue: '32px',
+      transform(value) {
+        return Number.parseInt(value);
+      }
+    }
+);
 const tabNavMeasurementRef = ref<HTMLDivElement>();
-const { width: tabNavMeasurementWidth } = useElementBounding(tabNavMeasurementRef);
+const {width: tabNavMeasurementWidth} = useElementBounding(tabNavMeasurementRef);
 const ellipsisRef = ref<HTMLDivElement>();
-const { width: ellipsisWidth } = useElementBounding(ellipsisRef);
-const navEllipsisShadowWidthString = useCssVar('--tab-nav-ellipsis-shadow-width', navsContainerRef, { initialValue: '8px' });
-const navEllipsisShadowWidthNumber = computed(() => {
-  return Number.parseInt(navEllipsisShadowWidthString.value);
-});
+const {width: ellipsisWidth} = useElementBounding(ellipsisRef);
+const navEllipsisShadowWidthNumber = useResponseCssVar(
+    '--tab-nav-ellipsis-shadow-width',
+    navsContainerRef,
+    {
+      initialValue: '8px',
+      transform(value) {
+        return Number.parseInt(value);
+      }
+    }
+);
+
 const bodyRef = ref<HTMLDivElement>();
 const navListStyle = computed(() => {
   if (props.variant === 'button') {
     return;
   }
-  return { width: `${navsContainerWidth.value - ellipsisWidth.value - navEllipsisShadowWidthNumber.value}px` };
+  if (props.maxShow && props.maxShow > 0) {
+    return {width: `${navsContainerWidth.value}px`}
+  }
+  if (ellipsisWidth.value) {
+    return {width: `${navsContainerWidth.value - ellipsisWidth.value - navEllipsisShadowWidthNumber.value}px`};
+  }
+  return undefined
 });
 
 const childrenMap = ref<Record<string, ChildDataT>>({});
@@ -78,16 +99,18 @@ watch(stringValueSet, () => {
   hiddenStringValueList.value = hiddenStringValueList.value.filter((v) => stringValueSet.value.includes(v));
 });
 
-/** 当能再塞下的时候塞 */
-const pushShowStringValue = (stringValue: string, widthCount: number) => {
+/** 当能再塞下的时候塞，操作本地数组而非响应式 ref */
+const pushShowStringValue = (localShow: string[], stringValue: string, widthCount: number) => {
   const item = childrenMap.value[stringValue];
-  const { navElWidth } = item;
-  const isWidthWillExceed = widthCount + navGapNumber.value + navElWidth! > navsContainerWidth.value;
-  const isShowNumWillExceed = isUndefined(props.maxShow) ? false : showStringValueList.value.length + 1 > props.maxShow;
+  const {navElWidth} = item;
+  // 第一项前没有间距，只有后续项才需要加 gap
+  const gap = widthCount > 0 ? navGapNumber.value : 0;
+  const isWidthWillExceed = widthCount + gap + navElWidth! > navsContainerWidth.value;
+  const isShowNumWillExceed = isUndefined(props.maxShow) ? false : localShow.length + 1 > props.maxShow;
   if (!isWidthWillExceed && !isShowNumWillExceed) {
     const paneKey = toValue(item.paneKey);
-    showStringValueList.value.push(paneKey.toString());
-    return widthCount + navGapNumber.value + navElWidth!;
+    localShow.push(paneKey.toString());
+    return widthCount + gap + navElWidth!;
   }
   return widthCount;
 };
@@ -97,88 +120,114 @@ const sortStringValueList = debounceRAF(() => {
     hiddenStringValueList.value = [];
     return;
   }
+
+  // 视口或CSS断点变化时，navElWidth可能因竞争条件而未及时更新，在此同步刷新
+  stringValueSet.value.forEach((stringValue) => {
+    const item = childrenMap.value[stringValue];
+    if (item?.navMeasureEl) {
+      item.navElWidth = item.navMeasureEl.clientWidth;
+    }
+  });
+
+  // 全程操作本地变量，避免中间状态写入响应式 ref 被其他 watcher 读取
+  let localShow: string[] = [...showStringValueList.value];
   let widthCount = 0;
 
-  if (!showStringValueList.value.length) {
+  if (!localShow.length) {
     // 如果是空显示列表先按顺序填满
     stringValueSet.value.forEach((stringValue) => {
-      widthCount = pushShowStringValue(stringValue, widthCount);
+      widthCount = pushShowStringValue(localShow, stringValue, widthCount);
     });
   }
 
-  widthCount = showStringValueList.value.reduce((count, stringValue) => {
+  // n 项之间只有 n-1 个 gap，以 -navGapNumber 为初始值抵消第一项多算的间距
+  widthCount = localShow.reduce((count, stringValue) => {
     const item = childrenMap.value[stringValue];
     return count + item.navElWidth! + navGapNumber.value;
-  }, 0);
+  }, -navGapNumber.value);
 
   const isTotalWidthExceed = tabNavMeasurementWidth.value > navsContainerWidth.value;
   const isTotalNumExceed = isUndefined(props.maxShow) ? false : stringValueSet.value.length > props.maxShow;
   // 如果有溢出的，则还要把溢出指示器的宽度算上
   if (isTotalWidthExceed || isTotalNumExceed) {
-    widthCount += isUndefined(props.maxShow) ? navGapNumber.value : 8; // 间距或阴影宽度
+    // ...模式：ellipsis绝对定位，tabs可用宽度=containerWidth-ellipsisWidth-shadowWidth，只需加shadowWidth
+    // 更多模式：ellipsis在flex流中，CSS兄弟选择器会加margin-left:gap，需加navGapNumber
+    widthCount += isUndefined(props.maxShow) ? navEllipsisShadowWidthNumber.value : navGapNumber.value;
     widthCount += ellipsisWidth.value;
   }
 
-  let activeItemIndex = showStringValueList.value.findIndex((stringValue) => stringValue === activeKey.value?.toString());
+  let activeItemIndex = localShow.findIndex((stringValue) => stringValue === activeKey.value?.toString());
   if (activeItemIndex === -1 && activeKey.value) {
     const activeItemIndexInTotal = stringValueSet.value.findIndex((v) => v === activeKey.value?.toString());
     const targetIndex =
-      activeItemIndexInTotal === 0
-        ? 0
-        : showStringValueList.value.findIndex((stringValue, i) => {
-            if (i === showStringValueList.value.length - 1) {
-              return true;
-            }
+        activeItemIndexInTotal === 0
+            ? 0
+            : localShow.findIndex((stringValue, i) => {
+          if (i === localShow.length - 1) {
+            return true;
+          }
 
-            const curIndexInTotal = stringValueSet.value.findIndex((v) => v === stringValue);
-            const nextIndexInTotal = stringValueSet.value.findIndex((v) => v === showStringValueList.value[i + 1]);
-            if (curIndexInTotal < activeItemIndexInTotal && nextIndexInTotal > activeItemIndexInTotal) {
-              return true;
-            }
-            return false;
-          }) + 1;
+          const curIndexInTotal = stringValueSet.value.findIndex((v) => v === stringValue);
+          const nextIndexInTotal = stringValueSet.value.findIndex((v) => v === localShow[i + 1]);
+          if (curIndexInTotal < activeItemIndexInTotal && nextIndexInTotal > activeItemIndexInTotal) {
+            return true;
+          }
+          return false;
+        }) + 1;
     const activeItem = childrenMap.value[activeKey.value];
-    showStringValueList.value.splice(targetIndex, 0, toValue(activeItem.paneKey).toString());
+    localShow.splice(targetIndex, 0, toValue(activeItem.paneKey).toString());
     widthCount += activeItem.navElWidth!;
     widthCount += navGapNumber.value;
-    activeItemIndex = showStringValueList.value.length - 1;
+    activeItemIndex = localShow.length - 1;
   }
   const getIsShowWidthExceed = () => widthCount > navsContainerWidth.value;
-  const getIsShowNumExceed = () => (isUndefined(props.maxShow) ? false : showStringValueList.value.length > props.maxShow);
+  const getIsShowNumExceed = () => (isUndefined(props.maxShow) ? false : localShow.length > props.maxShow);
   // 如果超出了宽度
-  while ((getIsShowWidthExceed() || getIsShowNumExceed()) && showStringValueList.value.length > 1) {
-    activeItemIndex = showStringValueList.value.findIndex((stringValue) => stringValue === activeKey.value?.toString());
+  while ((getIsShowWidthExceed() || getIsShowNumExceed()) && localShow.length > 1) {
+    activeItemIndex = localShow.findIndex((stringValue) => stringValue === activeKey.value?.toString());
     // 如果激活项在最后则去掉最前面，否则去掉最后面
-    const removedStringValue = activeItemIndex === showStringValueList.value.length - 1 ? showStringValueList.value.shift()! : showStringValueList.value.pop()!;
+    const removedStringValue = activeItemIndex === localShow.length - 1 ? localShow.shift()! : localShow.pop()!;
     const shiftedItem = childrenMap.value[removedStringValue];
     widthCount -= shiftedItem.navElWidth!;
     widthCount -= navGapNumber.value;
   }
-  hiddenStringValueList.value = stringValueSet.value.filter((v) => !showStringValueList.value.includes(v));
+  let localHidden = stringValueSet.value.filter((v) => !localShow.includes(v));
   // 如果屏幕宽度变宽需要用右侧的填充
-  hiddenStringValueList.value.forEach((stringValue) => {
-    widthCount = pushShowStringValue(stringValue, widthCount);
+  localHidden.forEach((stringValue) => {
+    widthCount = pushShowStringValue(localShow, stringValue, widthCount);
   });
-  hiddenStringValueList.value = stringValueSet.value.filter((v) => !showStringValueList.value.includes(v));
-  showStringValueList.value.sort((a, b) => {
+  localHidden = stringValueSet.value.filter((v) => !localShow.includes(v));
+  localShow.sort((a, b) => {
     return stringValueSet.value.findIndex((v) => v === a) - stringValueSet.value.findIndex((v) => v === b);
   });
-  hiddenStringValueList.value.sort((a, b) => {
+  localHidden.sort((a, b) => {
     return stringValueSet.value.findIndex((v) => v === a) - stringValueSet.value.findIndex((v) => v === b);
   });
-  return;
+  // 计算完成后一次性原子写入，保证两个列表始终互补
+  showStringValueList.value = localShow;
+  hiddenStringValueList.value = localHidden;
 });
 
 onMounted(() => {
   watch(
-    () => [stringValueSet.value, activeKey.value, navsContainerWidth.value, props.maxShow],
-    () => {
-      sortStringValueList();
-    },
-    {
-      immediate: true,
-      deep: true,
-    },
+      () => [
+        stringValueSet.value,
+        activeKey.value,
+        navsContainerWidth.value,
+        tabNavMeasurementWidth.value,
+        props.maxShow,
+        props.variant,
+        ellipsisWidth.value,
+        navGapNumber.value,
+        navEllipsisShadowWidthNumber.value,
+      ],
+      () => {
+        sortStringValueList();
+      },
+      {
+        immediate: true,
+        deep: true,
+      },
   );
 });
 
@@ -198,17 +247,17 @@ const gatherChildren = () => {
   });
 };
 useMutationObserver(
-  bodyRef,
-  async (mutations) => {
-    if (!mutations[0]) {
-      return;
-    }
-    await nextTick();
-    gatherChildren();
-  },
-  {
-    childList: true,
-  },
+    bodyRef,
+    async (mutations) => {
+      if (!mutations[0]) {
+        return;
+      }
+      await nextTick();
+      gatherChildren();
+    },
+    {
+      childList: true,
+    },
 );
 onMounted(() => gatherChildren());
 
@@ -229,18 +278,18 @@ const updateAnchor = async () => {
   const activeItem = childrenMap.value[activeKey.value];
   await until(() => activeItem?.navEl && activeItem.navMeasureEl).toBeTruthy();
 
-  const { clientWidth, offsetLeft } = activeItem.navEl!;
+  const {clientWidth, offsetLeft} = activeItem.navEl!;
   anchorStyle.value = {
     transform: `translate3d(${offsetLeft}px, 0px, 0px)`,
     width: `${clientWidth}px`,
   };
 };
 watch(
-  () => [showStringValueList.value, activeKey.value],
-  () => {
-    updateAnchor();
-  },
-  { immediate: true, deep: true },
+    () => [showStringValueList.value, activeKey.value],
+    () => {
+      updateAnchor();
+    },
+    {immediate: true, deep: true},
 );
 
 const setNavEl = async (el: any, stringValue: string) => {
@@ -259,7 +308,7 @@ const setNavMeasureEl = async (el: any, stringValue: string) => {
 
 // 更新tab当前选中值
 const updateValue = async (value: string | number) => {
-  const { paneKey } = childrenMap.value[value];
+  const {paneKey} = childrenMap.value[value];
   const _value = toValue(paneKey);
   emits('update:modelValue', _value);
   if (activeKey.value !== _value) {
@@ -269,19 +318,19 @@ const updateValue = async (value: string | number) => {
   isEllipsisOptionShow.value = false;
 };
 watch(
-  () => props.modelValue,
-  (v) => {
-    activeKey.value = v;
-    if (v) {
-      updateValue(v);
-    }
-  },
+    () => props.modelValue,
+    (v) => {
+      activeKey.value = v;
+      if (v) {
+        updateValue(v);
+      }
+    },
 );
 
 // 删除页签
 const onDeletePane = (e: MouseEvent, value: string) => {
   e.stopImmediatePropagation();
-  const { paneKey } = childrenMap.value[value];
+  const {paneKey} = childrenMap.value[value];
   const _value = toValue(paneKey);
   emits('delete', _value);
   const idx = stringValueSet.value.indexOf(value);
@@ -327,20 +376,20 @@ const onHeadResize = debounceRAF(() => {
 </script>
 <template>
   <div
-    class="o-tab"
-    :class="[
+      class="o-tab"
+      :class="[
       `o-tab-${props.variant}`,
       { 'o-tab-button-inverse': props.variant === 'button' && props.buttonInverse },
       `o-tab-${props.size || defaultSize}`,
       round.class.value,
     ]"
-    :style="round.style.value"
+      :style="round.style.value"
   >
     <DefineTabNavTemplate v-slot="{ stringValue, measurement }">
       <div
-        :ref="(el) => (measurement ? setNavMeasureEl(el, stringValue) : setNavEl(el, stringValue))"
-        v-on-resize="measurement ? () => onHeadItemResize(stringValue) : () => {}"
-        :class="[
+          :ref="(el) => (measurement ? setNavMeasureEl(el, stringValue) : setNavEl(el, stringValue))"
+          v-on-resize="measurement ? () => onHeadItemResize(stringValue) : () => {}"
+          :class="[
           'o-tab-nav',
           {
             'o-tab-nav-active': activeKey?.toString() === stringValue,
@@ -348,16 +397,20 @@ const onHeadResize = debounceRAF(() => {
             'o-tab-nav-closable': childrenMap[stringValue].props.closable,
           },
         ]"
-        @click="() => updateValue(stringValue)"
+          @click="() => updateValue(stringValue)"
       >
-        <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer" />
+        <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer"/>
         <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
-        <div v-if="childrenMap[stringValue].props.closable" class="o-tab-nav-close" @click="(e) => onDeletePane(e, stringValue)"><IconClose /></div>
+        <div
+            v-if="childrenMap[stringValue].props.closable" class="o-tab-nav-close"
+            @click="(e) => onDeletePane(e, stringValue)">
+          <IconClose/>
+        </div>
       </div>
     </DefineTabNavTemplate>
     <div
-      class="o-tab-head"
-      :class="
+        class="o-tab-head"
+        :class="
         mergeClass(
           {
             'with-act': !!$slots.suffix || !!$slots.prefix,
@@ -372,9 +425,9 @@ const onHeadResize = debounceRAF(() => {
       </div>
       <div class="o-tab-navs">
         <div
-          ref="navsContainerRef"
-          v-on-resize="onHeadResize"
-          :class="{
+            ref="navsContainerRef"
+            v-on-resize="onHeadResize"
+            :class="{
             'o-tab-navs-container': true,
             overflown: hiddenStringValueList.length,
           }"
@@ -382,35 +435,30 @@ const onHeadResize = debounceRAF(() => {
           <!-- 渲染一个全宽但是零高度的节点来测量每个节点的宽度，以计算溢出情况 -->
           <div ref="tabNavMeasurementRef" v-on-resize="onHeadResize" class="o-tab-nav-list width-measurement">
             <template v-for="stringValue in stringValueSet" :key="stringValue">
-              <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" :measurement="true" />
+              <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" :measurement="true"/>
             </template>
           </div>
           <div class="o-tab-nav-list" :style="navListStyle">
             <template v-for="stringValue in showStringValueList" :key="stringValue">
-              <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" />
-            </template>
-            <template v-if="isUndefined(props.maxShow) || showStringValueList.length < props.maxShow">
-              <template v-for="stringValue in hiddenStringValueList" :key="stringValue">
-                <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue" :measurement="true" />
-              </template>
+              <ReuseTabNavTemplate v-if="childrenMap[stringValue]" :string-value="stringValue"/>
             </template>
 
             <div
-              v-if="props.variant !== 'button'"
-              v-show="hiddenStringValueList.length"
-              ref="ellipsisRef"
-              :class="[
+                v-if="props.variant !== 'button'"
+                v-show="hiddenStringValueList.length"
+                ref="ellipsisRef"
+                :class="[
                 'o-tab-nav',
                 {
                   'o-tab-nav-active': props.maxShow && isEllipsisOptionShow,
                   'o-tab-nav-ellipsis': isUndefined(props.maxShow),
                 },
               ]"
-              @click="() => (isEllipsisOptionShow = true)"
+                @click="() => (isEllipsisOptionShow = true)"
             >
               <template v-if="props.maxShow">
                 {{ moreLabel }}
-                <IconChevronDown :class="{ 'o-tab-nav-more-arrow': true, active: isEllipsisOptionShow }" />
+                <IconChevronDown :class="{ 'o-tab-nav-more-arrow': true, active: isEllipsisOptionShow }"/>
               </template>
               <template v-else>...</template>
             </div>
@@ -423,7 +471,7 @@ const onHeadResize = debounceRAF(() => {
         </div>
 
         <div v-if="props.addable" class="o-tab-nav-add" @click="onAddNav">
-          <IconAdd />
+          <IconAdd/>
         </div>
       </div>
       <div v-if="$slots.suffix" class="o-tab-head-suffix">
@@ -433,43 +481,52 @@ const onHeadResize = debounceRAF(() => {
     <div ref="bodyRef" class="o-tab-body">
       <slot></slot>
     </div>
+    <ClientOnly>
+      <ODialog
+          v-if="isPhonePad" v-model:visible="isEllipsisOptionShow" hide-close class="o-select-dlg" mask-close
+          size="small" :scrollbar="false">
+        <OOptionList wrap-class="o-scrollbar-container">
+          <OOption
+              v-for="stringValue in hiddenStringValueList"
+              :key="stringValue"
+              :value="toValue(childrenMap[stringValue].paneKey)"
+              @click="updateValue(stringValue)"
+          >
+            <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer"/>
+            <template v-else>{{
+                childrenMap[stringValue].props.label || childrenMap[stringValue].props.value
+              }}
+            </template>
+          </OOption>
+        </OOptionList>
+      </ODialog>
 
-    <ODialog v-if="isPhonePad" v-model:visible="isEllipsisOptionShow" hide-close class="o-select-dlg" mask-close size="small" :scrollbar="false">
-      <OOptionList wrap-class="o-scrollbar-container">
-        <OOption
-          v-for="stringValue in hiddenStringValueList"
-          :key="stringValue"
-          :value="toValue(childrenMap[stringValue].paneKey)"
-          @click="updateValue(stringValue)"
-        >
-          <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer" />
-          <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
-        </OOption>
-      </OOptionList>
-    </ODialog>
-
-    <OPopup
-      v-else
-      v-model:visible="isEllipsisOptionShow"
-      wrap-class="o-options-popup o-tab-more-popup"
-      body-class="o-popup-body"
-      position="bl"
-      wrapper="body"
-      :target="ellipsisRef"
-      trigger="hover"
-      :offset="4"
-    >
-      <OOptionList wrap-class="o-scrollbar-container">
-        <OOption
-          v-for="stringValue in hiddenStringValueList"
-          :key="stringValue"
-          :value="toValue(childrenMap[stringValue].paneKey)"
-          @click="updateValue(stringValue)"
-        >
-          <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer" />
-          <template v-else>{{ childrenMap[stringValue].props.label || childrenMap[stringValue].props.value }}</template>
-        </OOption>
-      </OOptionList>
-    </OPopup>
+      <OPopup
+          v-else
+          v-model:visible="isEllipsisOptionShow"
+          wrap-class="o-options-popup o-tab-more-popup"
+          body-class="o-popup-body"
+          position="bl"
+          wrapper="body"
+          :target="ellipsisRef"
+          trigger="hover"
+          :offset="4"
+      >
+        <OOptionList wrap-class="o-scrollbar-container">
+          <OOption
+              v-for="stringValue in hiddenStringValueList"
+              :key="stringValue"
+              :value="toValue(childrenMap[stringValue].paneKey)"
+              @click="updateValue(stringValue)"
+          >
+            <component :is="childrenMap[stringValue].navRenderer" v-if="childrenMap[stringValue].navRenderer"/>
+            <template v-else>{{
+                childrenMap[stringValue].props.label || childrenMap[stringValue].props.value
+              }}
+            </template>
+          </OOption>
+        </OOptionList>
+      </OPopup>
+    </ClientOnly>
   </div>
 </template>
