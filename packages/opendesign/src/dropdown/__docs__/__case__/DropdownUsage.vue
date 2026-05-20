@@ -41,7 +41,7 @@ const _oSchema = {
 
 const options = [
   { label: '操作一', value: 'opt1' },
-  { label: '操作二', value: 'opt2' },
+  { label: '操作二', value: 'opt2', disabled: true },
   { label: '操作三', value: 'opt3' },
   { label: '操作四', value: 'opt4' },
 ];
@@ -53,7 +53,7 @@ const createTemplate = (arr: any[] = []) => {
   const res = arr
     .map((item) => {
       return `
-      <ODropdownItem label="${item.label}" value="${item.value}">
+      <ODropdownItem label="${item.label}" value="${item.value}" :disabled="${item.disabled}">
         ${item.label}
       </ODropdownItem>
        `;
