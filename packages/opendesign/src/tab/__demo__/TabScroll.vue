@@ -15,7 +15,7 @@ function getPanelItem(key: string) {
 const tabList = reactive(
   new Array(8).fill(1).map((k, idx) => {
     return getPanelItem(`${idx + 1}`);
-  })
+  }),
 );
 const tabAdd = () => {
   console.log('add tab');
@@ -26,7 +26,10 @@ const tabAdd = () => {
 };
 
 const tabDelete = (v: string | number) => {
-  console.log(v);
+  const idx = tabList.findIndex((item) => item.id === v);
+  if (idx > -1) {
+    tabList.splice(idx, 1);
+  }
 };
 
 let cnt = 0;
@@ -35,7 +38,7 @@ const changeLength = () => {
   if (cnt % 2) {
     tabList[tabList.length - 1].label = 'This is a very very very very very very very very long Text';
     tabList.push({
-      id: 9..toString(),
+      id: (9).toString(),
       label: 'item 9',
       content: 'content 9',
     });
