@@ -6,4 +6,6 @@ export * from './use-element-intersection';
 export * from './use-element-overflown'
 export * from './use-theme';
 export * from './use-screen';
-export * from './use-response-css-var'
+export * from './use-response-css-var';
+export * from './useSortedTeleportChildren';
+export * from './useRunOnceNextTick';

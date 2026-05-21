@@ -1,13 +1,6 @@
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, onMounted, ref, useSlots, watch } from 'vue';
-import { useMutationObserver } from '@vueuse/core';
+import { computed, getCurrentInstance, inject, ref, useSlots, watch } from 'vue';
 
-import ClientOnly from '../_components/client-only';
 import { isUndefined } from '../_utils/is';
 import { log } from '../_utils/log';
 import { isEmptySlot } from '../_utils/vue-utils';
@@ -22,7 +15,7 @@ const runtimeSlots = useSlots();
 
 const tabInjection = inject(tabInjectKey);
 
-const instance = getCurrentInstance();
+const instance = getCurrentInstance()!;
 if (isUndefined(props.value) && isUndefined(props.label)) {
   log.warn('OTabPane is missing prop: value or label');
 }
@@ -30,29 +23,16 @@ const paneKey = computed(() => {
   return props.value ?? props.label ?? instance?.uid ?? Math.random();
 });
 
-const navRef = ref<HTMLDivElement>();
 const registerSelf = () => {
-  tabInjection?.registerChild({
+  tabInjection?.addChild({
+    uid: instance.uid,
+    getVNode: () => instance?.vnode!,
     props,
     paneKey,
     navRenderer: isEmptySlot(runtimeSlots.nav) ? undefined : () => runtimeSlots.nav?.(),
   });
 };
 registerSelf();
-useMutationObserver(
-  navRef,
-  () => {
-    if (!navRef.value) {
-      return;
-    }
-    registerSelf();
-  },
-  {
-    attributes: true,
-    childList: true,
-    subtree: true,
-  },
-);
 
 const isActive = computed(() => paneKey.value === tabInjection?.activeValue?.value);
 const hasActived = ref(isActive.value);
@@ -76,19 +56,8 @@ watch(
     }
   },
 );
-onMounted(() => {
-  tabInjection?.handleChildMounted(paneKey.value);
-});
 </script>
 <template>
-  <ClientOnly>
-    <teleport to="body">
-      <div ref="navRef" style="display: none">
-        <!-- 做监听插槽渲染使用，不然无法监听到插槽渲染的变化 -->
-        <slot name="nav"></slot>
-      </div>
-    </teleport>
-  </ClientOnly>
   <transition :name="props.transition">
     <div
       v-if="toMount"
@@ -102,7 +71,6 @@ onMounted(() => {
         },
       ]"
       :data-tab-pane-key="paneKey"
-      v-bind="$attrs"
     >
       <slot></slot>
     </div>

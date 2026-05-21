@@ -8,15 +8,18 @@ import {
   VNodeTypes,
   Comment,
   Fragment,
-  ComponentPublicInstance,
   Ref,
   isRef,
   watch,
   MaybeRef,
   h,
   isVNode,
+  camelize,
+  capitalize,
+  type ComponentPublicInstance,
+  type VNodeNormalizedChildren,
 } from 'vue';
-import { isArray, isNil } from './is';
+import { isArray, isFunction, isNil, isString } from './is';
 import { isHtmlElement } from './dom';
 import { log } from './log.ts';
 
@@ -53,7 +56,7 @@ export const isTextElement = (vnode: VNode) => {
  * @param vnode vnode节点
  * @param type 组件信息
  */
-export function isComponent(vnode: VNode, _type?: VNodeTypes): _type is Component {
+export function isComponent(vnode: VNode, _type?: VNodeTypes): _type is Component & { __name?: string; name?: string } {
   return Boolean(vnode && vnode.shapeFlag & ShapeFlags.COMPONENT);
 }
 /**
@@ -292,3 +295,48 @@ export function getRenderableComponent(content: unknown): (() => VNode | string)
 
   return () => content.toString();
 }
+
+/**
+ * 判断该 VNode 是否由该 type 创建的
+ * @param vn 虚拟节点
+ * @param type 组件或组件名称，元素名称，
+ * @returns 是否是该组件/元素创建的虚拟节点
+ */
+export const isVNodeOfType = (vn: VNode, type: Component | string) => {
+  if (isString(type)) {
+    if (isString(vn.type)) {
+      return vn.type.toLowerCase() === type.toLowerCase();
+    }
+    if (isComponent(vn, vn.type)) {
+      // 无法判断出匿名组件
+      const selfName: string = isFunction(vn.type) ? (vn.type as any).displayName : vn.type.name || vn.type.__name;
+      return selfName && (selfName === type || selfName === camelize(type) || selfName === capitalize(camelize(type)));
+    }
+  }
+  return vn.type === type;
+};
+/** 从虚拟节点树中获取指定组件生成的虚拟节点 */
+export const flatComponentVNode = (vn: VNodeNormalizedChildren | VNode[] | VNode, type: Component | string) => {
+  const res: VNode[] = [];
+  const _vn = isArray(vn) ? vn : [vn];
+
+  _vn.forEach((child) => {
+    if (isArray(child)) {
+      res.push(...flatComponentVNode(child, type));
+      return;
+    }
+    if (!isVNode(child)) {
+      return;
+    }
+    if (isVNodeOfType(child, type)) {
+      res.push(child);
+    }
+    if (child.component?.subTree) {
+      res.push(...flatComponentVNode(child.component.subTree, type));
+    } else if (child.children) {
+      res.push(...flatComponentVNode(child.children, type));
+    }
+  });
+
+  return res;
+};
