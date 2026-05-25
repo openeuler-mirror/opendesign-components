@@ -1,5 +1,5 @@
 import { resolveHtmlElement } from '../_utils/vue-utils';
-import { Ref, ComponentPublicInstance, createApp } from 'vue';
+import { type Ref, type ComponentPublicInstance, createApp } from 'vue';
 import OScrollbar from './OScrollbar.vue';
 import { ScrollbarPropsT } from './types';
 
@@ -27,6 +27,10 @@ export function useScrollbar(options: UseScrollbarOptions) {
   let wrapperEl: HTMLElement;
 
   const mount = (wrap: HTMLElement | null) => {
+    // resolveHtmlElement 异步获取到 el 时，OScrollbar 可能已被卸载
+    if (div.childNodes.length === 0) {
+      return;
+    }
     wrapperEl = wrap || document.body;
     wrapperEl?.appendChild(div.childNodes[0]);
     wrapperEl?.classList.add(ScrollbarClass.wrapper);

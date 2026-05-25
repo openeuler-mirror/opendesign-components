@@ -8,9 +8,13 @@ export type TabChildData = {
   navRenderer?: () => any;
 };
 
+export type SortedChildData = TabChildData & {
+  uid: number;
+  getVNode: () => any;
+};
+
 export const tabInjectKey: InjectionKey<{
   lazy: boolean;
   activeValue: Ref<string | number | undefined>;
-  registerChild: (child: TabChildData) => void;
-  handleChildMounted: (paneKey: string | number) => void;
+  addChild: (child: SortedChildData) => void;
 }> = Symbol('provide-tab');

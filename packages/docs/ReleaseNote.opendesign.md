@@ -1,3 +1,24 @@
+## 1.2.3-sp1
+
+### Features
+
+- **hooks:** 
+  - 新增 `useElementOverflown`：自动监听元素文本溢出状态，实时返回是否出现水平/垂直滚动条
+  - 新增 `useResponseCssVar`：响应式获取CSS变量值，变量变化时自动更新返回结果
+  - 新增 `useRunOnceNextTick`：解决同一Vue tick内函数重复执行问题，自动合并重复调用并在下一个tick批量运行
+  - 新增 `useSortedTeleportChildren`：修复Teleport和动态组件渲染顺序与模板不一致的问题，自动维护按模板顺序排列的响应式子组件列表
+
+### Bug Fixes
+
+- **OTab:** 
+  - 修复溢出计算逻辑及移动端水合报错
+  - 修复lazy模式下的显示问题
+- **OMenu:** 修复溢出tooltip的内容在服务端渲染时为空的问题
+- **OButton/ODropdown:** 修复昇腾/鲲鹏主题运营色的样式、solid的字体颜色，及dropdown选项禁用时的样式
+- **OForm:** 补充840-601之间的`--form-item-main-box-width-standard`与`--form-item-main-box-width-wide`
+- **OLink:** 修复link组件图标对齐问题
+- **use-scrollbar:** 修复渲染后立即卸载时无法读取到childNodes的报错
+
 ## 1.2.3
 
 ### Features

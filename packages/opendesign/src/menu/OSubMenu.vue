@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed, inject, onMounted, provide, ref, useTemplateRef } from 'vue';
+import {computed, inject, provide, useTemplateRef} from 'vue';
 import { subMenuProps } from './types';
 import { IconChevronDownBold } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
-import { isOverflown } from '../_utils/dom.ts';
+import { useElementOverflown } from '../hooks';
 import { OPopover } from '../popover';
 
 const props = defineProps(subMenuProps);
@@ -90,19 +90,9 @@ menuInjection?.menuTree.addChild({
 });
 
 
-// 支持超出隐藏，hover时popover提示，当前不支持内容变化，动态刷新
 const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
 const itemContentRef = useTemplateRef('itemContentRef');
-const isContentOverflow = ref(false);
-const content= ref('');
-
-onMounted(() => {
-  if (!itemContentRef.value) {
-    return;
-  }
-  isContentOverflow.value = isOverflown(itemContentRef.value);
-  content.value = itemContentRef.value?.innerText || '';
-});
+const isContentOverflow = useElementOverflown(itemContentRef);
 </script>
 
 <template>
@@ -117,8 +107,8 @@ onMounted(() => {
     :data-level="currentDepth"
     @click="onSubItemClick"
   >
-    <div class="o-sub-menu-title" ref="subMenuTitleRef">
-      <div class="o-sub-menu-arrow" v-if="arrowPosition === 'left'">
+    <div ref="subMenuTitleRef" class="o-sub-menu-title">
+      <div v-if="arrowPosition === 'left'" class="o-sub-menu-arrow">
         <IconChevronDownBold />
       </div>
       <div v-if="$slots.icon || props.icon" class="o-sub-menu-title-icon">
@@ -129,7 +119,7 @@ onMounted(() => {
       <div ref="itemContentRef" class="o-sub-menu-title-content">
         <slot name="title"></slot>
       </div>
-      <div class="o-sub-menu-arrow" v-if="!arrowPosition || arrowPosition === 'right'">
+      <div v-if="!arrowPosition || arrowPosition === 'right'" class="o-sub-menu-arrow">
         <IconChevronDownBold />
       </div>
     </div>
@@ -139,6 +129,8 @@ onMounted(() => {
         </div>
       </ul>
 
-    <OPopover v-if="isContentOverflow" :offset="12" :target="subMenuTitleRef" position="bottom" wrapClass="o-menu-popover">{{ content }}</OPopover>
+    <OPopover v-if="isContentOverflow" :offset="12" :target="subMenuTitleRef" position="bottom" wrap-class="o-menu-popover">
+      <slot name="title"></slot>
+    </OPopover>
   </li>
 </template>
