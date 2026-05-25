@@ -1,4 +1,4 @@
-import { shallowRef, getCurrentInstance, onBeforeUnmount, type Component, type VNode, type ComponentInternalInstance, shallowReactive } from 'vue';
+import { shallowRef, getCurrentInstance, onBeforeUnmount, defineComponent, nextTick, type Component, type VNode, type ComponentInternalInstance } from 'vue';
 import { isArrayEqual } from '../_utils/is.ts';
 import { flatComponentVNode } from '../_utils/vue-utils.ts';
 import { useRunOnceNextTick } from './useRunOnceNextTick.ts';
@@ -30,35 +30,51 @@ type ComponentInternalInstanceWithRender = ComponentInternalInstance & {
  * - 适用于需要严格保持子组件顺序的场景
  */
 export const useSortedTeleportChildren = <T extends PublicChildT>(vm: ComponentInternalInstance, childType: Component | string) => {
-  const children = shallowReactive<Record<string, T>>({});
-  const sortedChildren = shallowRef<T[]>([]);
+  const childMap: Record<string, T> = {};
+  const children = shallowRef<T[]>([]);
   const parentVms = new WeakSet<ComponentInternalInstanceWithRender>();
   const runOnceNextTick = useRunOnceNextTick();
 
   const sortChildren = () => {
     const newSortedChildren: T[] = [];
     flatComponentVNode(vm.subTree, childType).forEach((child) => {
-      if (child.component?.uid && children[child.component.uid]) {
-        newSortedChildren.push(children[child.component.uid]);
+      if (child.component?.uid && childMap[child.component.uid]) {
+        newSortedChildren.push(childMap[child.component.uid]);
       }
     });
-    if (!isArrayEqual(sortedChildren.value, newSortedChildren, true)) {
-      sortedChildren.value = newSortedChildren;
+    if (!isArrayEqual(children.value, newSortedChildren, true)) {
+      // 由于 children 是 shallowRef，此处需要更新整个数组，而不是对原有数据重排序
+      children.value = newSortedChildren;
     }
   };
 
+  // 确保子组件对应数组更新时重排序
+  const OTeleportWrapper = defineComponent({
+    name: 'OTeleportWrapper',
+    setup(_, { slots }) {
+      return () => {
+        runOnceNextTick(sortChildren);
+        return slots.default?.();
+      };
+    },
+  });
+
   const removeChild = (uid: number) => {
-    const child = children[uid];
+    const child = childMap[uid];
     if (child) {
       runOnceNextTick(sortChildren);
-      delete children[uid];
+      nextTick(() => {
+        // nextTick: 确保先删除 children 数组中的元素，再删除 childMap 中的元素
+        delete childMap[uid];
+      });
     }
   };
 
   const addChild = (child: T) => {
     const childVm = getCurrentInstance()!;
     const parentVm = childVm.parent as ComponentInternalInstanceWithRender;
-    if (!parentVms.has(parentVm)) {
+    if (!parentVms.has(parentVm) && parentVm.type !== OTeleportWrapper) {
+      // 第一层采用 OTeleportWrapper，目的是为了减少无关响应式变量的干扰
       const originRender = parentVm.render;
       if (originRender) {
         parentVm.render = function (...args) {
@@ -71,9 +87,9 @@ export const useSortedTeleportChildren = <T extends PublicChildT>(vm: ComponentI
     onBeforeUnmount(() => {
       removeChild(child.uid);
     });
-    children[child.uid] = child;
+    childMap[child.uid] = child;
     runOnceNextTick(sortChildren);
   };
 
-  return { children: sortedChildren, childMap: children, addChild };
+  return { children, childMap, addChild, OTeleportWrapper };
 };

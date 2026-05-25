@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, ref, watch, computed, toValue, onMounted, getCurrentInstance, nextTick } from 'vue';
+import { provide, ref, watch, computed, toValue, onMounted, getCurrentInstance } from 'vue';
 import { createReusableTemplate, useElementBounding, until } from '@vueuse/core';
 
 import { OOption, OOptionList } from '../option';
@@ -80,7 +80,7 @@ const navListStyle = computed(() => {
 });
 
 const instance = getCurrentInstance()!;
-const { children: sortedChildren, childMap, addChild } = useSortedTeleportChildren<SortedChildData>(instance, OTabPaneComp);
+const { children: sortedChildren, childMap, addChild, OTeleportWrapper } = useSortedTeleportChildren<SortedChildData>(instance, OTabPaneComp);
 
 /** DOM 顺序的 uid 列表，由 useSortedTeleportChildren 保证按模板书写顺序排列 */
 const uidSet = computed(() => sortedChildren.value.map((c) => c.uid));
@@ -222,11 +222,6 @@ onMounted(() => {
   );
 });
 
-/** 是否所有的子节点已调用注册程序 */
-const allRegistered = computed(() => {
-  return uidSet.value.every((uid) => !!childMap[uid]);
-});
-
 const [DefineTabNavTemplate, ReuseTabNavTemplate] = createReusableTemplate();
 
 const isEllipsisOptionShow = ref(false);
@@ -235,7 +230,6 @@ const updateAnchor = async () => {
   if (isUndefined(activeKey.value)) {
     return;
   }
-  await until(allRegistered).toBeTruthy();
   const activeUid = paneKeyToUid.value.get(activeKey.value);
   if (activeUid == null) {
     return;
@@ -257,11 +251,10 @@ watch(
   { immediate: true, deep: true },
 );
 
-const setNavEl = async (el: any, uid: number) => {
+const setNavEl = (el: any, uid: number) => {
   if (el == null) {
     return;
   }
-  await until(allRegistered).toBeTruthy();
   const item = getChildData(uid);
   item.navEl = el as HTMLDivElement;
 };
@@ -269,7 +262,6 @@ const setNavMeasureEl = async (el: any, uid: number) => {
   if (el == null) {
     return;
   }
-  await until(allRegistered).toBeTruthy();
   const item = getChildData(uid);
   item.navMeasureEl = el as HTMLDivElement;
   if (el) {
@@ -400,15 +392,10 @@ const onHeadResize = debounceRAF(() => {
         >
           <!-- 渲染一个全宽但是零高度的节点来测量每个节点的宽度，以计算溢出情况 -->
           <div ref="tabNavMeasurementRef" v-on-resize="onHeadResize" class="o-tab-nav-list width-measurement">
-            <template v-for="uid in uidSet" :key="uid">
-              <ReuseTabNavTemplate v-if="childMap[uid]" :uid="uid" :measurement="true" />
-            </template>
+            <ReuseTabNavTemplate v-for="uid in uidSet" :key="childMap[uid].paneKey" :uid="uid" :measurement="true" />
           </div>
           <div class="o-tab-nav-list" :style="navListStyle">
-            <template v-for="uid in showUids" :key="uid">
-              <ReuseTabNavTemplate v-if="childMap[uid]" :uid="uid" />
-            </template>
-
+            <ReuseTabNavTemplate v-for="uid in showUids" :key="childMap[uid].paneKey" :uid="uid" />
             <div
               v-if="props.variant !== 'button'"
               v-show="hiddenUids.length"
@@ -445,7 +432,9 @@ const onHeadResize = debounceRAF(() => {
       </div>
     </div>
     <div class="o-tab-body">
-      <slot></slot>
+      <OTeleportWrapper>
+        <slot></slot>
+      </OTeleportWrapper>
     </div>
     <ClientOnly>
       <ODialog v-if="isPhonePad" v-model:visible="isEllipsisOptionShow" hide-close class="o-select-dlg" mask-close size="small" :scrollbar="false">

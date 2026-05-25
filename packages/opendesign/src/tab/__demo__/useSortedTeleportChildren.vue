@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, defineComponent } from 'vue';
 import { OTab, OTabPane } from '../index';
+import { OIcon } from '../../icon';
+import { OIconSearch } from '../../icon-components';
 
 type PaneItem = { id: number; label: string; content: string };
 
@@ -114,6 +116,34 @@ const onShuffleReset = () => {
   );
   shuffleLog.value.push(`↩️ 还原: ${prev}  →  ${getOrderStr()}`);
 };
+
+const isShow = ref(true);
+const isShow2 = ref(false);
+const value = ref('1');
+const EmptyWrapper = defineComponent({
+  name: 'EmptyWrapper',
+  setup(_, { slots }) {
+    return () => slots.default?.();
+  },
+});
+const tabList = reactive([
+  { label: 'Tab 1', value: '1' },
+  { label: 'Tab 2', value: '2' },
+  { label: 'Tab 3', value: '3' },
+]);
+const handleTab1Remove = (paneKey: number | string) => {
+  if (paneKey === '2') {
+    isShow.value = false;
+  } else if (paneKey === '3') {
+    isShow2.value = false;
+  }
+};
+const handleTab2Remove = (paneKey: number | string) => {
+  const idx = tabList.findIndex((item) => item.value === paneKey);
+  if (idx > -1) {
+    tabList.splice(idx, 1);
+  }
+};
 </script>
 <template>
   <h4>useSortedTeleportChildren 验证：基本排序</h4>
@@ -201,6 +231,30 @@ const onShuffleReset = () => {
       <p v-for="(log, i) in shuffleLog" :key="i">{{ log }}</p>
     </div>
   </div>
+  <div class="col">
+    <button @click="isShow = !isShow">switch 3</button>
+    <button @click="isShow2 = !isShow2">switch 5</button>
+  </div>
+  <OTab v-model="value" @delete="handleTab1Remove">
+    <OTabPane class="pane" label="Tab 1" value="1">pane 1</OTabPane>
+    <OTabPane class="pane" label="Tab 2" value="2">pane 2</OTabPane>
+    <EmptyWrapper>
+      <OTabPane v-if="isShow" class="pane" label="Tab 3" value="3" closable lazy><div style="height: 50px">pane 3</div></OTabPane>
+      <OTabPane class="pane" label="Tab 4" value="4">pane 4</OTabPane>
+    </EmptyWrapper>
+    <OTabPane v-if="isShow2" class="pane" label="Tab 5" value="5" closable unmount-on-hide>
+      <template #nav><OIcon :icon="OIconSearch" /> Nav 5</template>pane 5
+    </OTabPane>
+    <OTabPane class="pane" label="Tab 6" value="6">pane 6</OTabPane>
+  </OTab>
+  <h6>测试 OTabPane 并非 OTab 的直接子元素</h6>
+  <button @click="tabList.reverse()">reverse</button>
+  <pre>{{ tabList }}</pre>
+  <OTab @delete="handleTab2Remove">
+    <EmptyWrapper>
+      <OTabPane v-for="tab in tabList" :label="tab.label" :value="tab.value" :key="tab.value" closable class="pane">{{ tab.value }}</OTabPane>
+    </EmptyWrapper>
+  </OTab>
 </template>
 <style lang="scss" scoped>
 .sec {
