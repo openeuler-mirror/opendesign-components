@@ -239,9 +239,6 @@ export function useInput(options: InputOptionT) {
       return;
     }
 
-    // 始终上报当前输入的值，可能经过校验、或截断后显示的值与输入的不一致
-    emits('input', e, value);
-
     let newValue = value;
 
     if (!isAllowedToInputOnOutLimit(value)) {
@@ -250,6 +247,12 @@ export function useInput(options: InputOptionT) {
     }
 
     updateValue(newValue);
+
+    /**
+     * 1. 始终上报当前输入的值，可能经过校验、或截断后显示的值与输入的不一致
+     * 2. 模仿原生input行为，将input事件放在update:model-value后触发
+     */
+    emits('input', e, value);
 
     nextTick(() => {
       keepNativeDisplayValue();
