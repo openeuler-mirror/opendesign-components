@@ -1,3 +1,10 @@
+## 1.2.3-sp2
+
+### Bug Fixes
+
+- **OInput/OTextarea:** 修改触发`input`事件的时机为`update:model-value`之后（错误行为自 `1.1.0` 引入）
+- **OTab:** 修复`--tab-nav-justify`没有正常生效的bug
+
 ## 1.2.3-sp1
 
 ### Features
@@ -163,7 +170,7 @@
    - 修复右侧单元格为合并单元格时last条件计算错误的问题
    - 解决表格hover高亮不准确的问题 [#ICW5SF](https://gitee.com/openeuler/opendesign-components/issues/ICW5SF)
 - **OCarousel:** 修复hover暂停播放时指示器不显示激活状态的样式问题 [#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)
-- **OInput:** 修复在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)
+- **OInput:** 修复在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)；**注意**：`input` 事件始终上报用户当前输入的原始值（截断/校验处理前），`update:modelValue` 更新的值则为经过截断或校验处理后的值，两者在超出 `maxLength` 等场景下可能不一致
 - **OAnchor:** 修复`title`包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
 - **OFigure:** 
   - 移动端`previewClose`的`image`值修正为`body`值
