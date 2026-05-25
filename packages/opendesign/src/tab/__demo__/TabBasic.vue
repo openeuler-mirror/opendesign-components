@@ -20,9 +20,10 @@ const tabList = reactive(
     return getPanelItem(`${idx + 1}`);
   }),
 );
+let key = tabList.length + 1;
 const tabAdd = () => {
   console.log('add tab');
-  tabList.push(getPanelItem(`${tabList.length + 1}`));
+  tabList.push(getPanelItem(`${key++}`));
 };
 
 const tabDelete = (v: string | number) => {
