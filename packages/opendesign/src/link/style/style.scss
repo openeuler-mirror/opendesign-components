@@ -59,20 +59,22 @@
 .o-link-suffix {
   height: var(--link-icon-size, 1em);
   line-height: var(--link-icon-size, 1em);
-  font-size: var(--link-icon-size);
   display: inline-flex;
   align-items: center;
-  vertical-align: var(--link-icon-align);
 
   &::before {
     content: 'x';
     visibility: hidden;
     user-select: none;
     width: 0;
+    font-size: 1em;
+    flex-grow: 0;
   }
 
   .o-svg-icon {
+    flex-grow: 0;
     flex-shrink: 0;
+    font-size: var(--link-icon-size);
   }
 }
 
@@ -102,4 +104,3 @@
     background: none;
   }
 }
-

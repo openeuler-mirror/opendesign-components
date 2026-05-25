@@ -19,12 +19,14 @@
   .o-form {
     --form-item-gap: 12px;
     --form-label-main-gap: 8px;
-    --form-item-main-box-width-standard: 100%;
-    --form-item-main-box-width-wide: 100%;
+    --form-item-main-box-width-standard: min(var(--o-r-grid-6), 100%);
+    --form-item-main-box-width-wide: min(var(--o-r-grid-6), 100%);
   }
 }
 @include respond('phone') {
   .o-form {
     --form-msg-gap: 4px 0 0 12px;
+    --form-item-main-box-width-standard: min(var(--o-r-grid-4), 100%);
+    --form-item-main-box-width-wide: min(var(--o-r-grid-4), 100%);
   }
 }

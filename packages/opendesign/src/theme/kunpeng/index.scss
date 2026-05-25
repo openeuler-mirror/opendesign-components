@@ -46,3 +46,6 @@
 @use '../../toggle/style/theme-kunpeng.scss' as *;
 @use '../../upload/style/theme-kunpeng.scss' as *;
 @use '../../virtual-list/style/theme-kunpeng.scss' as *;
+
+// 特殊token
+@use './var.scss' as *;

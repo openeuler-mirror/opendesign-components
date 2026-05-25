@@ -1,0 +1,17 @@
+.o-btn:not(.o-btn-brand) {
+  &.o-btn-solid {
+    --btn-color: var(--o-color-info1-inverse);
+    --btn-color-hover: var(--o-color-info1-inverse);
+    --btn-color-active: var(--o-color-info1-inverse);
+    --btn-color-disabled: var(--o-color-info1-inverse);
+  }
+}
+
+.o-btn-brand {
+  &.o-btn-solid {
+    --btn-bg-image: var(--o-color-main2);
+    --btn-bg-image-hover: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-color-main2-start-raw), 0.8), rgba(var(--o-color-main2-end-raw), 0.8));
+    --btn-bg-image-active: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-color-main2-start-raw), 0.9), rgba(var(--o-color-main2-end-raw), 0.9));
+    --btn-bg-image-disabled: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-color-main2-start-raw), 0.4), rgba(var(--o-color-main2-end-raw), 0.4));
+  }
+}

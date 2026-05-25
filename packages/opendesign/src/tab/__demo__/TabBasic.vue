@@ -18,16 +18,26 @@ function getPanelItem(key: string) {
 const tabList = reactive(
   new Array(4).fill(1).map((k, idx) => {
     return getPanelItem(`${idx + 1}`);
-  })
+  }),
 );
+let key = tabList.length + 1;
 const tabAdd = () => {
   console.log('add tab');
-  tabList.push(getPanelItem(`${tabList.length + 1}`));
+  tabList.push(getPanelItem(`${key++}`));
 };
 
 const tabDelete = (v: string | number) => {
-  console.log(v);
+  const idx = tabList.findIndex((item) => item.id === v);
+  if (idx > -1) {
+    tabList.splice(idx, 1);
+  }
 };
+
+const variantDeleted = reactive(new Set<string>());
+const onVariantDelete = (v: string | number) => {
+  variantDeleted.add(String(v));
+};
+
 const onChange = (v: string | number, oldv?: string | number) => {
   console.log('change', v, oldv);
 };
@@ -40,78 +50,79 @@ const updateTab = (v: string) => {
   <div class="sec">
     <h4>Solid</h4>
     <p>large</p>
-    <OTab variant="solid" size="large" @change="onChange" head-class="sticky-tab">
+    <OTab variant="solid" size="large" @change="onChange" @delete="onVariantDelete" head-class="sticky-tab">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" unmount-on-hide>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <p>medium</p>
-    <OTab variant="solid" @change="onChange">
+    <OTab variant="solid" @change="onChange" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" unmount-on-hide>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <p>small</p>
-    <OTab variant="solid" size="small" @change="onChange">
+    <OTab variant="solid" size="small" @change="onChange" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" unmount-on-hide>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <p>line:false</p>
-    <OTab variant="solid" :line="false">
+    <OTab variant="solid" :line="false" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <br />
     <h4>Text</h4>
     <p>large</p>
-    <OTab variant="text" size="large">
+    <OTab variant="text" size="large" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <p>medium</p>
-    <OTab variant="text">
+    <OTab variant="text" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <p>small</p>
-    <OTab variant="text" size="small">
+    <OTab variant="text" size="small" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
     <p>line:false</p>
-    <OTab variant="text" :line="false">
+    <button @click="variantDeleted.has('Tab 2') ? variantDeleted.delete('Tab 2') : variantDeleted.add('Tab 2')">Switch Tab 2</button>
+    <OTab variant="text" :line="false" @delete="onVariantDelete">
       <OTabPane class="pane" label="Tab 1">pane 1</OTabPane>
-      <OTabPane class="pane" label="Tab 2" closable lazy><div style="height: 50px">pane 2</div></OTabPane>
+      <OTabPane class="pane" label="Tab 2" closable lazy v-if="!variantDeleted.has('Tab 2')"><div style="height: 50px">pane 2</div></OTabPane>
       <OTabPane class="pane" label="Tab 3" lazy>
         <template #nav><OIcon :icon="OIconSearch" /> Nav 3</template>pane 3
       </OTabPane>
-      <OTabPane class="pane" label="Tab 4" disabled closable>pane 4</OTabPane>
+      <OTabPane class="pane" label="Tab 4" disabled closable v-if="!variantDeleted.has('Tab 4')">pane 4</OTabPane>
     </OTab>
   </div>
   <h4>Slot & change</h4>

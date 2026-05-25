@@ -13,21 +13,23 @@ Enable the adding or closing functionality via the `addable` or `closable` prope
 and implement the addition and deletion logic through the `add` and `delete` events.
 </docs>
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
-import { OTab, OTabPane, OSwitch, OInputNumber } from '@opensig/opendesign';
+import {computed, reactive, ref} from 'vue';
+import {OTab, OTabPane, OSwitch, OInputNumber} from '@opensig/opendesign';
 
-const tabs = reactive([
-  { label: 'Tab 1', value: '1', content: 'Tab 1 Content' },
-  { label: 'Tab 2', value: '2', content: 'Tab 2 Content' },
-  { label: 'Tab 3', value: '3', content: 'Tab 3 Content' },
-]);
+const randomCharArr = [
+  'h', 'iQ', 'dPD', 'dYJm', 'PCnTJ', 'JnIUwj', 'kJXDlia', 'RIbUWqeg',
+];
+
+const tabs = reactive(new Array(6).fill(null).map((_, i) => {
+  return {label: `Tab ${i + 1} ${randomCharArr[i % randomCharArr.length]}`, value: i + 1, content: `Tab ${i + 1} Content`};
+}));
 
 let count = tabs.length;
 const addTab = () => {
   count += 1;
   tabs.push({
-    label: `Tab ${count}`,
-    value: `${count}`,
+    label: `Tab ${count} ${randomCharArr[count % randomCharArr.length]}`,
+    value: count,
     content: `Tab ${count} Content`,
   });
 };
@@ -38,7 +40,8 @@ const delTab = (val: string | number) => {
 };
 
 const limit = ref(false);
-const _maxShow = ref(6);
+const _maxShow = ref(12);
+
 const maxShow = computed(() => {
   return limit.value ? _maxShow.value : undefined;
 });
@@ -46,15 +49,17 @@ const maxShow = computed(() => {
 <template>
   <div class="demo-tab-control">
     <span>limit: </span>
-    <OSwitch v-model="limit" />
-    <OInputNumber v-model="_maxShow" :step="1" :min="1" />
+    <OSwitch v-model="limit"/>
+    <OInputNumber v-model="_maxShow" :step="1" :min="1"/>
   </div>
-  <OTab addable @add="addTab" @delete="delTab" :max-show="maxShow">
-    <OTabPane v-for="tab in tabs" :key="tab.value" :label="tab.label" :value="tab.value" closable>{{ tab.content }}</OTabPane>
+  <OTab addable :max-show="maxShow" @add="addTab" @delete="delTab">
+    <OTabPane v-for="tab in tabs" :key="tab.value" :label="tab.label" :value="tab.value" closable>
+      {{ tab.content }}
+    </OTabPane>
   </OTab>
 </template>
 
-<style lang="scss" >
+<style lang="scss">
 .demo-tab-control {
   display: flex;
   align-items: center;

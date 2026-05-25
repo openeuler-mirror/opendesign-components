@@ -38,7 +38,7 @@
   &:not(.overflown) {
     display: grid;
     grid-template-columns: 1fr;
-    justify-items: center;
+    justify-items: var(--tab-nav-justify, center);
   }
 }
 

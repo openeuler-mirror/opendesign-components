@@ -1,3 +1,31 @@
+## 1.2.3-sp2
+
+### Bug Fixes
+
+- **OInput/OTextarea:** 修改触发`input`事件的时机为`update:model-value`之后（错误行为自 `1.1.0` 引入）
+- **OTab:** 修复`--tab-nav-justify`没有正常生效的bug
+
+## 1.2.3-sp1
+
+### Features
+
+- **hooks:** 
+  - 新增 `useElementOverflown`：自动监听元素文本溢出状态，实时返回是否出现水平/垂直滚动条
+  - 新增 `useResponseCssVar`：响应式获取CSS变量值，变量变化时自动更新返回结果
+  - 新增 `useRunOnceNextTick`：解决同一Vue tick内函数重复执行问题，自动合并重复调用并在下一个tick批量运行
+  - 新增 `useSortedTeleportChildren`：修复Teleport和动态组件渲染顺序与模板不一致的问题，自动维护按模板顺序排列的响应式子组件列表
+
+### Bug Fixes
+
+- **OTab:** 
+  - 修复溢出计算逻辑及移动端水合报错
+  - 修复lazy模式下的显示问题
+- **OMenu:** 修复溢出tooltip的内容在服务端渲染时为空的问题
+- **OButton/ODropdown:** 修复昇腾/鲲鹏主题运营色的样式、solid的字体颜色，及dropdown选项禁用时的样式
+- **OForm:** 补充840-601之间的`--form-item-main-box-width-standard`与`--form-item-main-box-width-wide`
+- **OLink:** 修复link组件图标对齐问题
+- **use-scrollbar:** 修复渲染后立即卸载时无法读取到childNodes的报错
+
 ## 1.2.3
 
 ### Features
@@ -142,7 +170,7 @@
    - 修复右侧单元格为合并单元格时last条件计算错误的问题
    - 解决表格hover高亮不准确的问题 [#ICW5SF](https://gitee.com/openeuler/opendesign-components/issues/ICW5SF)
 - **OCarousel:** 修复hover暂停播放时指示器不显示激活状态的样式问题 [#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)
-- **OInput:** 修复在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)
+- **OInput:** 修复在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)；**注意**：`input` 事件始终上报用户当前输入的原始值（截断/校验处理前），`update:modelValue` 更新的值则为经过截断或校验处理后的值，两者在超出 `maxLength` 等场景下可能不一致
 - **OAnchor:** 修复`title`包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
 - **OFigure:** 
   - 移动端`previewClose`的`image`值修正为`body`值
