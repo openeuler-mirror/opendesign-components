@@ -1,0 +1,32 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('pad_v-laptop') {
+  .o-date-panel-large:not(.o-date-panel-touch) {
+    // header和footer的横向padding
+    --date-panel-operation-padding-x: 28px;
+    // header和footer的高度
+    --date-panel-operation-height: 40px;
+    // header的字号和尺寸
+    --date-panel-operation-text-size: var(--o-font_size-tip1);
+    --date-panel-operation-text-height: var(--o-line_height-tip1);
+
+    --date-panel-text-size: var(--o-font_size-tip1);
+
+    // 日期的body padding
+    --date-panel-body-padding-date: 12px 16px 8px 16px;
+    // 月份的body padding
+    --date-panel-body-padding-month: 12px 28px;
+    // 年份的body padding
+    --date-panel-body-padding-year: 12px 32px;
+
+    --date-panel-cell-gap-date-x: 0px;
+    --date-panel-cell-gap-date-y: 8px;
+    --date-panel-cell-gap-month-x: 32px;
+    --date-panel-cell-gap-month-y: 12px;
+    --date-panel-cell-gap-year-x: 40px;
+    --date-panel-cell-gap-year-y: 12px;
+  }
+}
+
+@include respond('>pad_v') {
+}

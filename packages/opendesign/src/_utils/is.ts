@@ -27,14 +27,15 @@ export function isNumber(val: unknown): val is number {
 /**
  * 是否是可转换成纯数字的字符串
  */
-export function isNumeric(val: any): val is number | string {
+export function isNumeric(val: any, float = true): val is number | string {
   if (isNil(val)) {
     return false;
   }
   if (typeof val === 'number') {
     return true;
   }
-  return /^-?\d+(?:\.\d+)?$/.test(val.toString());
+  const reg = float ? /^-?\d+(?:\.\d+)?$/ : /^\d+$/;
+  return reg.test(val.toString());
 }
 
 export function isFunction(val: unknown): val is Function {

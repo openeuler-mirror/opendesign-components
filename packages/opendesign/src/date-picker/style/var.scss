@@ -1,0 +1,89 @@
+.o-date-picker {
+  --date-range-picker-bg-color-focus: var(--o-color-control2-light);
+}
+
+.o-date-panel {
+  --date-panel-bg: var(--o-color-fill2);
+  --date-panel-shadow: var(--o-shadow-2);
+
+  // header和footer的横向padding
+  --date-panel-operation-padding-x: 28px;
+  // header和footer的高度
+  --date-panel-operation-height: 40px;
+  // header的字号和尺寸
+  --date-panel-operation-text-size: var(--o-font_size-tip1);
+  --date-panel-operation-text-height: var(--o-line_height-tip1);
+
+  --date-panel-text-size: var(--o-font_size-tip1);
+  --date-panel-text-height: var(--o-line_height-text1);
+
+  --date-panel-shortcut-text-size: var(--o-font_size-tip1);
+  --date-panel-shortcut-text-height: var(--o-line_height-tip1);
+
+  // 日期的body padding
+  --date-panel-body-padding-date: 16px 16px 8px 16px;
+  // 月份的body padding
+  --date-panel-body-padding-month: 12px 28px;
+  // 年份的body padding
+  --date-panel-body-padding-year: 12px 32px;
+
+  --date-panel-cell-gap-date-x: 0px;
+  --date-panel-cell-gap-date-y: 8px;
+  --date-panel-cell-gap-month-x: 32px;
+  --date-panel-cell-gap-month-y: 12px;
+  --date-panel-cell-gap-year-x: 40px;
+  --date-panel-cell-gap-year-y: 12px;
+
+  --date-panel-cell-width-date: 40px;
+  --date-panel-cell-width-month: 64px;
+  --date-panel-cell-width-year: 56px;
+
+  // 普通文本字色
+  --date-panel-cell-color: var(--o-color-info1);
+  // 激活文本反色
+  --date-panel-cell-color-active: var(--o-color-info1-inverse);
+  // 禁用日期、非本月日期字色
+  --date-panel-cell-color-disabled: var(--o-color-info4);
+
+  // 项目hover时背景色
+  --date-panel-cell-bg-hover: var(--o-color-control2-light);
+  // 日期激活时背景色
+  --date-panel-cell-bg-active: var(--o-color-primary1);
+  // 日期范围中间日期背景色
+  --date-panel-cell-bg-range: var(--o-color-control2-light);
+
+  --date-panel-cell-today-bd-color: var(--o-color-primary1);
+}
+
+.o-date-panel-large {
+  // header和footer的横向padding
+  --date-panel-operation-padding-x: 24px;
+  // header和footer的高度
+  --date-panel-operation-height: 48px;
+  // header的字号和尺寸
+  --date-panel-operation-text-size: var(--o-font_size-text1);
+  --date-panel-operation-text-height: var(--o-line_height-text1);
+
+  --date-panel-text-size: var(--o-font_size-text1);
+
+  // 日期的body padding
+  --date-panel-body-padding-date: 16px 16px 8px 16px;
+  // 月份的body padding
+  --date-panel-body-padding-month: 16px 28px;
+  // 年份的body padding
+  --date-panel-body-padding-year: 16px 32px;
+
+  --date-panel-cell-gap-date-x: 0px;
+  --date-panel-cell-gap-date-y: 12px;
+  --date-panel-cell-gap-month-x: 32px;
+  --date-panel-cell-gap-month-y: 16px;
+  --date-panel-cell-gap-year-x: 40px;
+  --date-panel-cell-gap-year-y: 16px;
+
+  --time-panel-col-show-item-count: 9;
+}
+
+.o-date-panel-touch {
+  --date-panel-width: 100%;
+  --time-panel-col-show-item-count: 5;
+}
