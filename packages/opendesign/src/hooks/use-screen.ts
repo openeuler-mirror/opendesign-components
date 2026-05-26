@@ -1,26 +1,16 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { isClient, isTouchDevice } from '../_utils/is';
+import { isTouchDevice } from '../_utils/is';
 import { mediaPoint } from '../_utils/global';
 
-const DEFAULT_SCREEN_SIZE = 0;
+const DEFAULT_SCREEN_SIZE = 1920;
 export const useScreen = () => {
-  const width = ref(isClient ? window.innerWidth : DEFAULT_SCREEN_SIZE);
+  const width = ref(DEFAULT_SCREEN_SIZE);
 
   // 当前是否为手机
-  const isPhoneSize = computed(() => {
-    if (isClient) {
-      return width.value <= mediaPoint.value.phone;
-    }
-    return false;
-  });
+  const isPhoneSize = computed(() => width.value <= mediaPoint.value.phone);
 
   // 当前是否为pad
-  const isPadSize = computed(() => {
-    if (isClient) {
-      return width.value > mediaPoint.value.phone && width.value <= mediaPoint.value.pad;
-    }
-    return false;
-  });
+  const isPadSize = computed(() => width.value > mediaPoint.value.phone && width.value <= mediaPoint.value.pad);
 
   const isPhonePadSize = computed(() => {
     return isPadSize.value || isPhoneSize.value;
@@ -34,6 +24,7 @@ export const useScreen = () => {
   };
 
   onMounted(() => {
+    onResize();
     window.addEventListener('resize', onResize);
   });
 
