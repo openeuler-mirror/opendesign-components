@@ -53,6 +53,7 @@
   height: var(--slider-btn-width);
   background-color: var(--slider-btn-bg);
   border-radius: 50%;
+  box-shadow: var(--slider-btn-shadow);
   cursor: var(--slider-btn-cursor);
   transition:
     width var(--o-duration-m1) var(--o-easing-linear),
