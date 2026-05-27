@@ -3,85 +3,9 @@
 
 ### 使用
 
-选中值: 通过 `modelValue` 完成双向绑定。`modelValue`的数据类型为`CascaderValueT`
-
-圆角：通过 `round` 属性设置圆角，值为 `border-radius` 的值，或者 `pill`(半圆) 这个特殊值
-
-按钮样式：通过 `variant` 属性设置按钮样式，值为 `solid`(实心)、`outline`(描边)、`text`(文字) 三种
-
-选项框显示位置：通过 `optionPosition` 属性设置：
-
-- `top`：顶部， `bottom`：底部，`left`：左侧，`right`：右侧
-- `tl`, `tr`, `bl`, `br`, `lt`, `lb`, `rt`, `rb`：第一个字母表示位置，第二个字母表示对齐方式
-
-  | 值  | 描述                 |
-  | --- | -------------------- |
-  | tl  | 显示在顶部，左对齐   |
-  | tr  | 显示在顶部，右对齐   |
-  | bl  | 显示在底部，左对齐   |
-  | br  | 显示在底部，右对齐   |
-  | lt  | 显示在左侧，顶部对齐 |
-  | lb  | 显示在左侧，底部对齐 |
-  | rt  | 显示在右侧，顶部对齐 |
-  | rb  | 显示在右侧，底部对齐 |
-
-选项: 通过 `options` 属性设置选项。`options` 的数据类型为 `CascaderOptionT[]`：
-
-```ts:line-numbers
-type CascaderNodeValueT = string | number;
-type CascaderNodePathT = Array<CascaderNodeValueT>;
-// modelValue 的数据类型
-type CascaderValueT = CascaderNodeValueT | CascaderNodePathT;
-
-// options 的数据类型
-type CascaderOptionT = {
-  value: CascaderNodeValueT;
-  label?: string;
-  children?: CascaderOptionT[];
-};
-```
-
 <!-- en-US -->
 
 ### Usage
-
-Selected value: Achieve two-way binding via `modelValue`.The type of `options` is `Array<PopupOptionT>`
-
-Rounded corners: Set via the `round` property, accepts valid `border-radius` values or the special value `pill` (half-circle).
-
-Button style: Configure via the `variant` property, available values: `solid`, `outline`, `text`.
-
-Option box position: Set via `optionPosition`:
-
-- `top`, `bottom`, `left`, `right`: Basic positions
-- `tl`, `tr`, `bl`, `br`, `lt`, `lb`, `rt`, `rb`: First letter indicates position, second letter indicates alignment
-
-  | Value | Description           |
-  | ----- | --------------------- |
-  | tl    | Top, left-aligned     |
-  | tr    | Top, right-aligned    |
-  | bl    | Bottom, left-aligned  |
-  | br    | Bottom, right-aligned |
-  | lt    | Left, top-aligned     |
-  | lb    | Left, bottom-aligned  |
-  | rt    | Right, top-aligned    |
-  | rb    | Right, bottom-aligned |
-
-Options: Configure via the `options` property. The type of `options` is `Array<PopupOptionT>`:
-
-```ts:line-numbers
-type CascaderNodeValueT = string | number;
-type CascaderNodePathT = Array<CascaderNodeValueT>;
-// CascaderValueT is the type of modelValue.
-type CascaderValueT = CascaderNodeValueT | CascaderNodePathT;
-
-// CascaderOptionT is the type of options.
-type CascaderOptionT = {
-  value: CascaderNodeValueT;
-  label?: string;
-  children?: CascaderOptionT[];
-};
-```
 </docs>
 <script lang="ts" setup>
 import { reactive } from 'vue';
@@ -90,13 +14,9 @@ import { DocDemoTemplate, DocDemoSchema } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
 
 const _oSchema = {
-  pathMode: {
-    type: 'boolean',
-    default: false,
-  },
   round: {
     type: 'list',
-    list: ['pill', '12px', 'var(--o-radius-l)'],
+    list: ['var(--o-radius-l)', 'pill', '12px'],
   },
   variant: {
     type: 'list',
@@ -105,7 +25,7 @@ const _oSchema = {
   },
   placeholder: {
     type: 'string',
-    default: 'Please select',
+    default: '请选择',
   },
   optionPosition: {
     type: 'list',
@@ -114,13 +34,68 @@ const _oSchema = {
   },
   size: {
     type: 'list',
-    list: SizeTypes,
+    list: SizeTypes.filter((item) => item !== 'small'),
     default: 'large',
+  },
+  multiple: {
+    type: 'boolean',
+    default: false,
+    label: '多选',
+  },
+  maxTagCount: {
+    type: 'number',
+    default: 1,
+  },
+  showAllLevels: {
+    type: 'boolean',
+    default: true,
+    label: '输入框显示完整路径',
+  },
+  filterable: {
+    type: 'boolean',
+    default: true,
+    label: '可搜索',
+  },
+  disabled: {
+    type: 'boolean',
+    default: false,
+    label: '禁用',
+  },
+  loading: {
+    type: 'boolean',
+    default: false,
+    label: '加载',
+  },
+  trigger: {
+    type: 'list',
+    list: ['click', 'hover', 'none', 'hover-outclick', 'focus', 'hover-outblur'],
+    default: 'click',
+  },
+  clearable: {
+    type: 'boolean',
+    default: true,
+    label: '可清除',
+  },
+  emitPath: {
+    type: 'boolean',
+    default: false,
+    label: 'emitPath',
+  },
+  allowSelectAnyNode: {
+    type: 'boolean',
+    default: false,
+    label: 'allowSelectAnyNode',
+  },
+  lazy: {
+    type: 'boolean',
+    default: false,
+    label: 'lazy',
   },
 } satisfies Record<string, DocDemoSchema>;
 
 const _oCtx = reactive({
-  modelValue: '' as string | number | Array<string | number>,
+  modelValue: undefined as any,
+  lazyload: null as any,
   options: [
     {
       label: 'Option 1',
@@ -135,7 +110,7 @@ const _oCtx = reactive({
               value: '1-1-1',
             },
             {
-              label: 'Sub-option 1-1-2; Sub-option 1-1-2; Sub-option 1-1-2',
+              label: 'Sub-option 1-1-2 + Sub-option 1-1-2 + Sub-option 1-1-2',
               value: '1-1-2',
             },
             {
@@ -218,6 +193,10 @@ const _oCtx = reactive({
         {
           label: 'Sub-option 2.1',
           value: '2.1',
+          children: {
+            label: 'Sub-option 2-1-3',
+            value: '2.1.1',
+          },
         },
         {
           label: 'Sub-option 2.2',
@@ -232,6 +211,7 @@ const _oCtx = reactive({
     {
       label: 'Option 4',
       value: '4',
+      disabled: true,
     },
     {
       label: 'Option 5',
@@ -259,16 +239,81 @@ const _oCtx = reactive({
     },
   ],
 });
+
+const _findNode = (opts: any[], val: string | number): any => {
+  for (const opt of opts) {
+    if (opt.value === val) return opt;
+    if (Array.isArray(opt.children)) {
+      const found = _findNode(opt.children, val);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
+_oCtx.lazyload = (node: { value: string | number | null }, resolve: (data: any[]) => void) => {
+  setTimeout(() => {
+    const toItem = (opt: any) => ({
+      value: opt.value,
+      label: opt.label,
+      disabled: opt.disabled,
+      leaf: !Array.isArray(opt.children) || opt.children.length === 0,
+    });
+    if (node.value === null) {
+      resolve(_oCtx.options.map(toItem));
+    } else {
+      const found = _findNode(_oCtx.options, node.value);
+      resolve(Array.isArray(found?.children) ? found.children.map(toItem) : []);
+    }
+  }, 800);
+};
+
+let _prevMultiple: boolean = _oSchema.multiple.default;
+let _prevEmitPath: boolean = _oSchema.emitPath.default;
+let _prevLazy: boolean = _oSchema.lazy.default;
+
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
+  let shouldReset = false;
+  if (props.multiple !== _prevMultiple) {
+    _prevMultiple = props.multiple;
+    shouldReset = true;
+  }
+  if (props.emitPath !== _prevEmitPath) {
+    _prevEmitPath = props.emitPath;
+    shouldReset = true;
+  }
+  if (props.lazy !== _prevLazy) {
+    _prevLazy = props.lazy;
+    shouldReset = true;
+  }
+  if (shouldReset) {
+    _oCtx.modelValue = props.multiple ? [] : undefined;
+  }
+  const dataSource = props.lazy ? ':lazyload="ctx.lazyload"' : ':options="ctx.options"';
   return `
-<OCascader
-  v-model="ctx.modelValue"
-  :options="ctx.options"
-  ${propsToAttrStr(props)}
-  class="cascader-doc-usage"
-/>
+    <div class="demo-cascader-v2-usage-wrap">
+      <OCascaderV2
+        v-model="ctx.modelValue"
+        ${dataSource}
+        ${propsToAttrStr(props)}
+        class="demo-cascader-v2-usage"
+      />
+    </div>
 <p>Selected: </p>
 <pre>{{ ctx.modelValue }}</pre>
 `;
 };
 </script>
+
+<style lang="scss">
+.demo-cascader-v2-usage-wrap {
+  .demo-cascader-v2-usage {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+.o-cascader-v2-panel {
+  --cascader-v2-panel-empty-min-width: 320px;
+}
+</style>

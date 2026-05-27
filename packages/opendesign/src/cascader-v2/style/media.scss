@@ -1,0 +1,30 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('pad_v-laptop') {
+  .o-cascader-v2-large {
+    --_box-height: 36px;
+    --cascader-v2-icon-size: var(--o-icon_size_control-s);
+    --cascader-v2-text-size: var(--o-font_size-tip1);
+    --cascader-v2-text-height: var(--o-line_height-tip1);
+    --cascader-v2-height: 36px;
+  }
+  .o-cascader-v2-panel-large {
+    --cascader-v2-option-padding: 6px 12px;
+    --cascader-v2-option-text-size: var(--o-font_size-tip1);
+    --cascader-v2-option-text-height: var(--o-line_height-tip1);
+    --cascader-v2-option-icon-size: var(--o-icon_size-s);
+  }
+  .o-cascader-v2-medium {
+    --_box-height: 28px;
+    --cascader-v2-icon-size: var(--o-icon_size_control-xs);
+    --cascader-v2-text-size: var(--o-font_size-tip1);
+    --cascader-v2-text-height: var(--o-line_height-tip1);
+    --cascader-v2-height: 28px;
+  }
+  .o-cascader-v2-panel-medium {
+    --cascader-v2-option-padding: 2px 12px;
+    --cascader-v2-option-text-size: var(--o-font_size-tip1);
+    --cascader-v2-option-text-height: var(--o-line_height-tip1);
+    --cascader-v2-option-icon-size: var(--o-icon_size-xs);
+  }
+}

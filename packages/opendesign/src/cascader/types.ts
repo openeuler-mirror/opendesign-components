@@ -10,6 +10,8 @@ export type CascaderOptionT = {
   value: CascaderNodeValueT;
   label?: string;
   children?: CascaderOptionT[];
+  disabled?: boolean;
+  leaf?: boolean;
 };
 
 export const cascaderProps = {
