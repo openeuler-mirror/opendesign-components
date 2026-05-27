@@ -268,6 +268,9 @@
       display: none;
     }
   }
+  .o-tab-button {
+    --tab-nav-justify: center;
+  }
 }
 
 // Date range picker

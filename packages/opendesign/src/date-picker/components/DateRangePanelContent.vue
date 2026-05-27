@@ -103,6 +103,30 @@ const navMonth = computed({
 // onMounted 批量设置初始值时，临时跳过 watch 的约束逻辑，避免中间态触发错误对齐
 let isInitializing = false;
 
+// 左面板前进时，将右面板对齐到更晚的合法位置
+const alignRightToLeft = (newLY: number, newLM: number) => {
+  if (newLY > rightYear.value || (newLY === rightYear.value && newLM >= rightMonth.value)) {
+    rightYear.value = newLY;
+    rightMonth.value = newLM + 1;
+    if (rightMonth.value > 11) {
+      rightYear.value += 1;
+      rightMonth.value = 0;
+    }
+  }
+};
+
+// 右面板后退时，将左面板对齐到更早的合法位置
+const alignLeftToRight = (newRY: number, newRM: number) => {
+  if (newRY < leftYear.value || (newRY === leftYear.value && newRM <= leftMonth.value)) {
+    leftYear.value = newRY;
+    leftMonth.value = newRM - 1;
+    if (leftMonth.value < 0) {
+      leftYear.value -= 1;
+      leftMonth.value = 11;
+    }
+  }
+};
+
 // 左面板变化后将右面板对齐到合法位置（右必须比左晚至少一个最小单位）
 watch(
   [leftYear, leftMonth],
@@ -113,14 +137,7 @@ watch(
     } else if (effectiveMode.value === 'month') {
       if (newLY >= rightYear.value) rightYear.value = newLY + 1;
     } else {
-      if (newLY > rightYear.value || (newLY === rightYear.value && newLM >= rightMonth.value)) {
-        rightYear.value = newLY;
-        rightMonth.value = newLM + 1;
-        if (rightMonth.value > 11) {
-          rightYear.value += 1;
-          rightMonth.value = 0;
-        }
-      }
+      alignRightToLeft(newLY, newLM);
     }
   },
   { flush: 'sync' },
@@ -136,14 +153,7 @@ watch(
     } else if (effectiveMode.value === 'month') {
       if (newRY <= leftYear.value) leftYear.value = newRY - 1;
     } else {
-      if (newRY < leftYear.value || (newRY === leftYear.value && newRM <= leftMonth.value)) {
-        leftYear.value = newRY;
-        leftMonth.value = newRM - 1;
-        if (leftMonth.value < 0) {
-          leftYear.value -= 1;
-          leftMonth.value = 11;
-        }
-      }
+      alignLeftToRight(newRY, newRM);
     }
   },
   { flush: 'sync' },
@@ -171,56 +181,65 @@ const getValue = () => ({
   end: rangeEnd.value?.valueOf(),
 });
 
-/**
- * 设置范围值，同时同步左面板导航到起始日期
- */
-const setValue = (start: number | undefined, end: number | undefined) => {
-  // 设置范围值
-  rangeStart.value = start ? dayjs(start) : null;
-  rangeEnd.value = end ? dayjs(end) : null;
+const toDayjs = (val: number | undefined): Dayjs | null => (val ? dayjs(val) : null);
 
-  // 年份模式：左面板锚定到起始年，右面板始终为左面板 +YEAR_VIEW_STEP（由 watch 自动同步）
-  if (effectiveMode.value === 'year') {
-    leftYear.value = start ? dayjs(start).year() : dayjs().year();
-    return;
+// 设置 start+end 均存在时的面板导航位置
+const setRangeBothEnds = (start: number, end: number) => {
+  const startDate = dayjs(start);
+  leftYear.value = startDate.year();
+  leftMonth.value = startDate.month();
+  const endDate = dayjs(end);
+  const compareUnit = effectiveMode.value === 'month' ? 'year' : 'month';
+  const sameUnit = startDate.isSame(endDate, compareUnit as any);
+  if (sameUnit) {
+    const offsetRight = getOffsetRight(startDate);
+    rightYear.value = offsetRight.year();
+    rightMonth.value = offsetRight.month();
+  } else {
+    rightYear.value = endDate.year();
+    rightMonth.value = endDate.month();
   }
+};
 
-  // 根据不同情况设置左面板导航位置
-  if (start && end) {
-    const startDate = dayjs(start);
-    leftYear.value = startDate.year();
-    leftMonth.value = startDate.month();
-    const endDate = dayjs(end);
+// 设置仅有一端存在时的面板导航位置
+const setSingleEdge = (edgeVal: number | undefined) => {
+  const edgeDate = dayjs(edgeVal);
+  leftYear.value = edgeDate.year();
+  leftMonth.value = edgeDate.month();
+  rightYear.value = getOffsetRight(edgeDate).year();
+  rightMonth.value = getOffsetRight(edgeDate).month();
+};
 
-    // 判断是否同单位：month模式按年比，date模式按月比
-    const compareUnit = effectiveMode.value === 'month' ? 'year' : 'month';
-    const sameUnit = startDate.isSame(endDate, compareUnit as any);
-    if (sameUnit) {
-      // 同单位：右面板偏移一个单位
-      const offsetRight = getOffsetRight(startDate);
-      rightYear.value = offsetRight.year();
-      rightMonth.value = offsetRight.month();
-    } else {
-      // 跨月：右面板定位到结束月
-      rightYear.value = endDate.year();
-      rightMonth.value = endDate.month();
-    }
-    return;
-  }
-  if ([start, end].filter((v) => v).length === 1) {
-    // 只有其中之一的情况
-    const edgeDate = dayjs(start || end);
-    leftYear.value = edgeDate.year();
-    leftMonth.value = edgeDate.month();
-    rightYear.value = getOffsetRight(edgeDate).year();
-    rightMonth.value = getOffsetRight(edgeDate).month();
-    return;
-  }
-  // 没有开始和结束的情况：切换回本月附近
+// 没有范围值时切换回本月附近
+const setEmptyRange = () => {
   leftYear.value = dayjs().year();
   leftMonth.value = dayjs().month();
   rightYear.value = getOffsetRight(dayjs()).year();
   rightMonth.value = getOffsetRight(dayjs()).month();
+};
+
+/**
+ * 设置范围值，同时同步左面板导航到起始日期
+ */
+const setValue = (start: number | undefined, end: number | undefined) => {
+  rangeStart.value = toDayjs(start);
+  rangeEnd.value = toDayjs(end);
+
+  // 年份模式：左面板锚定到起始年，右面板始终为左面板 +YEAR_VIEW_STEP（由 watch 自动同步）
+  if (effectiveMode.value === 'year') {
+    leftYear.value = rangeStart.value?.year() ?? dayjs().year();
+    return;
+  }
+
+  if (start && end) {
+    setRangeBothEnds(start, end);
+    return;
+  }
+  if ([start, end].filter((v) => v).length === 1) {
+    setSingleEdge(start || end);
+    return;
+  }
+  setEmptyRange();
 };
 
 /**

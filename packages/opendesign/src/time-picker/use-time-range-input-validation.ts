@@ -93,20 +93,42 @@ export function useTimeRangeInputValidation(params: {
     selectedMinute: endMinute,
   });
 
-  const isStartValid = createBoundaryValidator(parsedStart, startOptions, showSeconds, startMaxTime, tempStart, isTimeAfter);
-  const isEndValid = createBoundaryValidator(parsedEnd, endOptions, showSeconds, endMinTime, tempEnd, isTimeBefore);
+  const isStartValid = createBoundaryValidator({
+    parsedTime: parsedStart,
+    options: startOptions,
+    showSeconds,
+    boundaryTime: startMaxTime,
+    tempTime: tempStart,
+    checkFn: isTimeAfter,
+  });
+  const isEndValid = createBoundaryValidator({
+    parsedTime: parsedEnd,
+    options: endOptions,
+    showSeconds,
+    boundaryTime: endMinTime,
+    tempTime: tempEnd,
+    checkFn: isTimeBefore,
+  });
 
   return { isStartValid, isEndValid };
 }
 
-function createBoundaryValidator(
-  parsedTime: Ref<ParsedTime>,
-  options: ReturnType<typeof useTimePickerOptions>,
-  showSeconds: Ref<boolean>,
-  boundaryTime: Ref<string | undefined>,
-  tempTime: Ref<string>,
-  checkFn: (a: string, b: string) => boolean,
-) {
+interface BoundaryValidatorParams {
+  /** 已解析的时间对象 */
+  parsedTime: Ref<ParsedTime>;
+  /** 时间选择器选项（含禁用项） */
+  options: ReturnType<typeof useTimePickerOptions>;
+  /** 是否显示秒 */
+  showSeconds: Ref<boolean>;
+  /** 边界时间字符串 */
+  boundaryTime: Ref<string | undefined>;
+  /** 当前输入的临时时间字符串 */
+  tempTime: Ref<string>;
+  /** 边界检测函数（isTimeAfter 或 isTimeBefore） */
+  checkFn: (a: string, b: string) => boolean;
+}
+
+function createBoundaryValidator({ parsedTime, options, showSeconds, boundaryTime, tempTime, checkFn }: BoundaryValidatorParams) {
   return computed(() => {
     const { hour, minute, second } = parsedTime.value;
 

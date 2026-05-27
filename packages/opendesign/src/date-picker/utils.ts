@@ -4,6 +4,59 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { isNil } from '../_utils/is.ts';
 import { DateModelValue, DisabledMonthFn, DisabledYearFn } from './types';
 
+export interface RangeStateResult {
+  isRangeStart: boolean;
+  isRangeEnd: boolean;
+  isInRange: boolean;
+}
+
+interface ComputeRangeStateParams {
+  /** 当前格子的日期 */
+  cell: Dayjs;
+  /** 比较粒度（'day' | 'month' | 'year'） */
+  unit: string;
+  /** 已确认范围的起始日期（排序后） */
+  rangeStart: Dayjs | null;
+  /** 已确认范围的结束日期（排序后） */
+  rangeEnd: Dayjs | null;
+  /** 第一次点击的锚点日期（选择进行中时有值） */
+  anchorDate: Dayjs | null;
+  /** 鼠标悬停的日期（用于范围选择的实时预览） */
+  hoverDate: Dayjs | null;
+}
+
+/**
+ * 根据范围选择状态计算单个格子的范围高亮标记
+ * @param cell - 当前格子的日期
+ * @param unit - 比较粒度
+ * @param rangeStart - 已确认范围起始
+ * @param rangeEnd - 已确认范围结束
+ * @param anchorDate - 选择进行中的锚点
+ * @param hoverDate - 当前悬停日期
+ * @returns 范围高亮状态
+ */
+export function computeRangeState({ cell, unit, rangeStart, rangeEnd, anchorDate, hoverDate }: ComputeRangeStateParams): RangeStateResult {
+  if (rangeStart && rangeEnd) {
+    return {
+      isRangeStart: cell.isSame(rangeStart, unit as any),
+      isRangeEnd: cell.isSame(rangeEnd, unit as any),
+      isInRange: cell.isAfter(rangeStart, unit as any) && cell.isBefore(rangeEnd, unit as any),
+    };
+  }
+  if (anchorDate) {
+    if (hoverDate) {
+      const [effStart, effEnd] = hoverDate.isBefore(anchorDate, unit as any) ? [hoverDate, anchorDate] : [anchorDate, hoverDate];
+      return {
+        isRangeStart: cell.isSame(effStart, unit as any),
+        isRangeEnd: cell.isSame(effEnd, unit as any),
+        isInRange: cell.isAfter(effStart, unit as any) && cell.isBefore(effEnd, unit as any),
+      };
+    }
+    return { isRangeStart: cell.isSame(anchorDate, unit as any), isRangeEnd: false, isInRange: false };
+  }
+  return { isRangeStart: false, isRangeEnd: false, isInRange: false };
+}
+
 dayjs.extend(customParseFormat);
 
 /** year view 下面板导航每次跳跃的年数，同时也是双面板右侧偏移量 */

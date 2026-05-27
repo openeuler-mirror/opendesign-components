@@ -143,73 +143,88 @@ const getValue = () => {
   return selectedDate.value.valueOf();
 };
 
-const setValue = (value?: number) => {
-  const isColumnMode =
+const isColumnMode = computed(
+  () =>
     isResponding.value &&
-    (effectiveMode.value === 'date' || effectiveMode.value === 'month' || effectiveMode.value === 'year' || effectiveMode.value === 'datetime');
-  if (value) {
-    const d = dayjs(value);
+    (effectiveMode.value === 'date' || effectiveMode.value === 'month' || effectiveMode.value === 'year' || effectiveMode.value === 'datetime'),
+);
+
+// 设置 datetime 模式的时间部分（响应式 / 面板 / 延迟三路分发）
+const applyDatetimeTime = (timeStr: string) => {
+  pendingTimeStr.value = timeStr;
+  if (isResponding.value) {
+    until(timeColumnsRef)
+      .toBeTruthy()
+      .then(() => {
+        timeColumnsRef.value?.setValue(timeStr);
+      });
+  } else if (datePanelTimeRef.value) {
+    datePanelTimeRef.value.setValue(timeStr);
+  } else {
+    until(datePanelTimeRef)
+      .toBeTruthy()
+      .then(() => {
+        datePanelTimeRef.value?.setValue(timeStr);
+        emits('preview', getValue());
+      });
+  }
+};
+
+// 设置有日期值时的面板状态
+const setValueWithDate = (d: Dayjs, value: number) => {
+  selectedDate.value = d;
+  displayYear.value = d.year();
+  displayMonth.value = d.month();
+  if (isColumnMode.value) {
+    until(dateColumnsRef)
+      .toBeTruthy()
+      .then(() => {
+        dateColumnsRef.value?.setValue(value);
+      });
+  }
+  if (effectiveMode.value === 'datetime') {
+    applyDatetimeTime(d.format(timeFormat.value));
+  }
+};
+
+// 清空日期值时的面板状态
+const setValueEmpty = () => {
+  if (isColumnMode.value) {
+    const d = dayjs();
     selectedDate.value = d;
     displayYear.value = d.year();
     displayMonth.value = d.month();
-    if (isColumnMode) {
-      until(dateColumnsRef)
-        .toBeTruthy()
-        .then(() => {
-          dateColumnsRef.value?.setValue(value);
-        });
-    }
-    if (effectiveMode.value === 'datetime') {
-      const timeStr = d.format(timeFormat.value);
-      pendingTimeStr.value = timeStr;
-      if (isResponding.value) {
-        until(timeColumnsRef)
-          .toBeTruthy()
-          .then(() => {
-            timeColumnsRef.value?.setValue(timeStr);
-          });
-      } else if (datePanelTimeRef.value) {
-        datePanelTimeRef.value.setValue(timeStr);
-      } else {
-        until(datePanelTimeRef)
-          .toBeTruthy()
-          .then(() => {
-            datePanelTimeRef.value?.setValue(timeStr);
-            // snap 后通知外层同步输入框临时值
-            emits('preview', getValue());
-          });
-      }
-    }
+    until(dateColumnsRef)
+      .toBeTruthy()
+      .then(() => {
+        dateColumnsRef.value?.setValue(undefined);
+      });
   } else {
-    if (isColumnMode) {
-      const d = dayjs();
-      selectedDate.value = d;
-      displayYear.value = d.year();
-      displayMonth.value = d.month();
-      until(dateColumnsRef)
+    selectedDate.value = null;
+  }
+  if (effectiveMode.value === 'datetime') {
+    pendingTimeStr.value = dayjs().format(timeFormat.value);
+    if (isResponding.value) {
+      until(timeColumnsRef)
         .toBeTruthy()
         .then(() => {
-          dateColumnsRef.value?.setValue(undefined);
+          timeColumnsRef.value?.setValue(undefined);
         });
     } else {
-      selectedDate.value = null;
+      until(datePanelTimeRef)
+        .toBeTruthy()
+        .then(() => {
+          datePanelTimeRef.value?.reset();
+        });
     }
-    if (effectiveMode.value === 'datetime') {
-      pendingTimeStr.value = dayjs().format(timeFormat.value);
-      if (isResponding.value) {
-        until(timeColumnsRef)
-          .toBeTruthy()
-          .then(() => {
-            timeColumnsRef.value?.setValue(undefined);
-          });
-      } else {
-        until(datePanelTimeRef)
-          .toBeTruthy()
-          .then(() => {
-            datePanelTimeRef.value?.reset();
-          });
-      }
-    }
+  }
+};
+
+const setValue = (value?: number) => {
+  if (value) {
+    setValueWithDate(dayjs(value), value);
+  } else {
+    setValueEmpty();
   }
 };
 

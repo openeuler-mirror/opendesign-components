@@ -16,6 +16,7 @@ import { timePickerProps, type TimePickerShortcutSlotProps } from './types';
 import { timePickerInjectKey } from './provide';
 import { useTimePickerOptions } from './use-time-picker-options.ts';
 import { findNearestTime } from './find-nearest-time.ts';
+import { isValidTimeUnit } from './use-time-range-input-validation.ts';
 import TimePanel from './components/TimePanel.vue';
 
 const props = defineProps(timePickerProps);
@@ -126,16 +127,9 @@ provide(timePickerInjectKey, {
 
 const isTempInputValueValid = computed(() => {
   const { hour, minute, second } = tempParsed.value;
-  if (
-    !hourOptions.value.some((opt) => opt.value === hour) ||
-    !minuteOptions.value.some((opt) => opt.value === minute) ||
-    !secondOptions.value.some((opt) => opt.value === second)
-  ) {
-    return false;
-  }
-  if (disabledHourOptions.value.includes(hour) || disabledMinuteOptions.value.includes(minute) || disabledSecondOptions.value.includes(second)) {
-    return false;
-  }
+  if (!isValidTimeUnit(hour, hourOptions.value, disabledHourOptions.value)) return false;
+  if (!isValidTimeUnit(minute, minuteOptions.value, disabledMinuteOptions.value)) return false;
+  if (!isValidTimeUnit(second, secondOptions.value, disabledSecondOptions.value)) return false;
   return true;
 });
 

@@ -4,9 +4,48 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { OButton } from '../../button';
 
-import { isYearDisabled } from '../utils.ts';
+import { isYearDisabled, computeRangeState, RangeStateResult } from '../utils.ts';
 import { datePickerInjectKey } from '../provide.ts';
 import { DisabledYearFn } from '../types.ts';
+
+interface YearRangeStateParams {
+  /** 年份 */
+  y: number;
+  /** 是否在当前十年范围内 */
+  isInDecade: boolean;
+  /** 已确认范围起始日期 */
+  rangeStart?: Dayjs | null;
+  /** 已确认范围结束日期 */
+  rangeEnd?: Dayjs | null;
+  /** 选择进行中的锚点年份 */
+  anchorYear?: Dayjs | null;
+  /** 当前悬停年份 */
+  hoverYear?: Dayjs | null;
+}
+
+const NO_RANGE: RangeStateResult = { isRangeStart: false, isRangeEnd: false, isInRange: false };
+
+/**
+ * 计算年份格子的范围高亮状态（十年外的格子不参与范围高亮）
+ * @param y - 年份
+ * @param isInDecade - 是否在当前十年内
+ * @param rangeStart - 已确认范围起始
+ * @param rangeEnd - 已确认范围结束
+ * @param anchorYear - 锚点年份
+ * @param hoverYear - 悬停年份
+ * @returns 范围高亮状态
+ */
+function computeYearRangeState({ y, isInDecade, rangeStart, rangeEnd, anchorYear, hoverYear }: YearRangeStateParams): RangeStateResult {
+  if (!isInDecade) return NO_RANGE;
+  return computeRangeState({
+    cell: dayjs().year(y).startOf('year'),
+    unit: 'year',
+    rangeStart: rangeStart || null,
+    rangeEnd: rangeEnd || null,
+    anchorDate: anchorYear || null,
+    hoverDate: hoverYear || null,
+  });
+}
 
 const props = defineProps<{
   year: number;
@@ -40,48 +79,22 @@ const decadeStart = computed(() => Math.floor(props.year / 10) * 10);
 
 const years = computed(() => {
   const todayVal = today.value;
-  const rangeStartYear = props.rangeStart?.year() ?? null;
-  const rangeEndYear = props.rangeEnd?.year() ?? null;
-  const anchorYear = props.anchorYear?.year() ?? null;
-  const hoverYear = props.hoverYear?.year() ?? null;
-
   return Array.from({ length: 12 }, (_, i) => {
     const y = decadeStart.value - 1 + i;
     const isSelected = props.selectedDate ? props.selectedDate.year() === y : false;
     const isCurrent = todayVal ? todayVal.year() === y : false;
-    const disabled = isYearDisabled(y, {
-      disabledYear: props.disabledYear,
-      minDate: props.minDate ?? null,
-      maxDate: props.maxDate ?? null,
-    });
+    const isDisabled = isYearDisabled(y, { disabledYear: props.disabledYear, minDate: props.minDate ?? null, maxDate: props.maxDate ?? null });
     const isInDecade = i >= 1 && i <= 10;
     const isHidden = props.hideOutOfDecade && !isInDecade;
-
-    let isRangeStart = false;
-    let isRangeEnd = false;
-    let isInRange = false;
-
-    if (isInDecade) {
-      if (rangeStartYear !== null && rangeEndYear !== null) {
-        // 已确认的范围
-        isRangeStart = y === rangeStartYear;
-        isRangeEnd = y === rangeEndYear;
-        isInRange = y > rangeStartYear && y < rangeEndYear;
-      } else if (anchorYear !== null) {
-        // 选择进行中：anchorYear 是锚点，hoverYear 是另一端，按相对位置确定起止
-        if (hoverYear !== null) {
-          const effStart = Math.min(anchorYear, hoverYear);
-          const effEnd = Math.max(anchorYear, hoverYear);
-          isRangeStart = y === effStart;
-          isRangeEnd = y === effEnd;
-          isInRange = y > effStart && y < effEnd;
-        } else {
-          isRangeStart = y === anchorYear;
-        }
-      }
-    }
-
-    return { year: y, isSelected, isCurrent, isDisabled: disabled, isInDecade, isRangeStart, isRangeEnd, isInRange, isHidden };
+    const { isRangeStart, isRangeEnd, isInRange } = computeYearRangeState({
+      y,
+      isInDecade,
+      rangeStart: props.rangeStart,
+      rangeEnd: props.rangeEnd,
+      anchorYear: props.anchorYear,
+      hoverYear: props.hoverYear,
+    });
+    return { year: y, isSelected, isCurrent, isDisabled, isInDecade, isRangeStart, isRangeEnd, isInRange, isHidden };
   });
 });
 </script>

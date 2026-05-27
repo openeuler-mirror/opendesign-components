@@ -12,15 +12,26 @@ interface BoundaryParams {
   disabledFn?: () => number[];
 }
 
+/**
+ * 将自定义禁用函数返回的值加入禁用集合（仅已在选项中存在的值）
+ * @param disabled - 禁用值集合（原地修改）
+ * @param options - 可选选项列表
+ * @param disabledFn - 自定义禁用值函数
+ */
+function addFnDisabled(disabled: Set<number>, options: DatePickerColumnOption[], disabledFn: (() => number[]) | undefined): void {
+  if (!disabledFn) return;
+  for (const v of disabledFn()) {
+    if (options.some((opt) => opt.value === v)) disabled.add(v);
+  }
+}
+
 function buildDisabledSet({ options, minBoundary, maxBoundary, disabledFn }: BoundaryParams): Set<number> {
   const disabled = new Set<number>();
   for (const opt of options) {
     if (minBoundary?.match && opt.value < minBoundary.value) disabled.add(opt.value);
     if (maxBoundary?.match && opt.value > maxBoundary.value) disabled.add(opt.value);
   }
-  disabledFn?.().forEach((v) => {
-    if (options.some((opt) => opt.value === v)) disabled.add(v);
-  });
+  addFnDisabled(disabled, options, disabledFn);
   return disabled;
 }
 
@@ -36,7 +47,18 @@ interface TimeBounds {
   maxT: dayjs.Dayjs | null;
 }
 
-function resolveHour(options: DatePickerColumnOption[], bounds: TimeBounds, disabledFn: DisabledHoursFn | undefined, target: number): number | undefined {
+interface ResolveHourParams {
+  /** 小时选项列表 */
+  options: DatePickerColumnOption[];
+  /** 时间边界 */
+  bounds: TimeBounds;
+  /** 自定义禁用小时函数 */
+  disabledFn?: DisabledHoursFn;
+  /** 目标小时值 */
+  target: number;
+}
+
+function resolveHour({ options, bounds, disabledFn, target }: ResolveHourParams): number | undefined {
   const disabled = buildDisabledSet({
     options,
     minBoundary: bounds.minT ? { match: true, value: bounds.minT.hour() } : undefined,
@@ -46,13 +68,20 @@ function resolveHour(options: DatePickerColumnOption[], bounds: TimeBounds, disa
   return findClosest(options, disabled, target);
 }
 
-function resolveMinute(
-  options: DatePickerColumnOption[],
-  bounds: TimeBounds,
-  h: number,
-  disabledFn: DisabledMinutesFn | undefined,
-  target: number,
-): number | undefined {
+interface ResolveMinuteParams {
+  /** 分钟选项列表 */
+  options: DatePickerColumnOption[];
+  /** 时间边界 */
+  bounds: TimeBounds;
+  /** 已解析的小时值 */
+  h: number;
+  /** 自定义禁用分钟函数 */
+  disabledFn?: DisabledMinutesFn;
+  /** 目标分钟值 */
+  target: number;
+}
+
+function resolveMinute({ options, bounds, h, disabledFn, target }: ResolveMinuteParams): number | undefined {
   const disabled = buildDisabledSet({
     options,
     minBoundary: { match: h === bounds.minT?.hour(), value: bounds.minT?.minute() ?? 0 },
@@ -62,14 +91,22 @@ function resolveMinute(
   return findClosest(options, disabled, target);
 }
 
-function resolveSecond(
-  options: DatePickerColumnOption[],
-  bounds: TimeBounds,
-  h: number,
-  m: number,
-  disabledFn: DisabledSecondsFn | undefined,
-  target: number,
-): number | undefined {
+interface ResolveSecondParams {
+  /** 秒选项列表 */
+  options: DatePickerColumnOption[];
+  /** 时间边界 */
+  bounds: TimeBounds;
+  /** 已解析的小时值 */
+  h: number;
+  /** 已解析的分钟值 */
+  m: number;
+  /** 自定义禁用秒函数 */
+  disabledFn?: DisabledSecondsFn;
+  /** 目标秒值 */
+  target: number;
+}
+
+function resolveSecond({ options, bounds, h, m, disabledFn, target }: ResolveSecondParams): number | undefined {
   const disabled = buildDisabledSet({
     options,
     minBoundary: { match: h === bounds.minT?.hour() && m === bounds.minT?.minute(), value: bounds.minT?.second() ?? 0 },
@@ -99,15 +136,15 @@ export function findNearestTime(params: FindNearestTimeParams): string | undefin
     maxT: params.maxTime ? dayjs(TIME_PREFIX + params.maxTime) : null,
   };
 
-  const h = resolveHour(hourOptions, bounds, params.disabledHours, target.hour);
+  const h = resolveHour({ options: hourOptions, bounds, disabledFn: params.disabledHours, target: target.hour });
   if (h === undefined) return undefined;
 
   const mTarget = h === target.hour ? target.minute : 0;
-  const m = resolveMinute(minuteOptions, bounds, h, params.disabledMinutes, mTarget);
+  const m = resolveMinute({ options: minuteOptions, bounds, h, disabledFn: params.disabledMinutes, target: mTarget });
   if (m === undefined) return undefined;
 
   const sTarget = h === target.hour && m === target.minute ? target.second : 0;
-  const s = resolveSecond(secondOptions, bounds, h, m, params.disabledSeconds, sTarget) ?? 0;
+  const s = resolveSecond({ options: secondOptions, bounds, h, m, disabledFn: params.disabledSeconds, target: sTarget }) ?? 0;
 
   return dayjs(`1970-01-01 ${pad(h)}:${pad(m)}:${pad(s)}`).format(format);
 }

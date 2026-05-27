@@ -4,6 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { isArray } from '../_utils/is';
 
 import { DisabledDateFn } from './types';
+import { computeRangeState, RangeStateResult } from './utils';
 
 /** 日历单元格数据结构 */
 export interface CalendarCell {
@@ -51,6 +52,73 @@ interface UseCalendarParams {
   anchorDate?: Ref<Dayjs | null>;
   /** 鼠标悬停的日期（用于范围选择的实时预览） */
   hoverDate?: Ref<Dayjs | null>;
+}
+
+const NO_RANGE: RangeStateResult = { isRangeStart: false, isRangeEnd: false, isInRange: false };
+
+interface RangeDeps {
+  /** 已确认范围起始 */
+  rangeStart?: Ref<Dayjs | null>;
+  /** 已确认范围结束 */
+  rangeEnd?: Ref<Dayjs | null>;
+  /** 选择进行中的锚点 */
+  anchorDate?: Ref<Dayjs | null>;
+  /** 当前悬停日期 */
+  hoverDate?: Ref<Dayjs | null>;
+}
+
+/**
+ * 将可选 Ref 依赖解析为 computeRangeState 所需的原始值
+ * @param rangeStart - 范围起始 Ref
+ * @param rangeEnd - 范围结束 Ref
+ * @param anchorDate - 锚点 Ref
+ * @param hoverDate - 悬停 Ref
+ * @returns 解析后的原始值对象
+ */
+function resolveRangeDeps({ rangeStart, rangeEnd, anchorDate, hoverDate }: RangeDeps) {
+  return {
+    rangeStart: rangeStart?.value || null,
+    rangeEnd: rangeEnd?.value || null,
+    anchorDate: anchorDate?.value || null,
+    hoverDate: hoverDate?.value || null,
+  };
+}
+
+/**
+ * 根据选中状态计算单元格是否被选中
+ * @param date - 格子日期
+ * @param selectedValue - 当前选中值（单选或多选）
+ * @returns 是否选中
+ */
+function computeIsSelected(date: Dayjs, selectedValue: Dayjs | null | (Dayjs | null)[]): boolean {
+  if (isArray(selectedValue)) {
+    return selectedValue.some((v) => v && date.isSame(v));
+  }
+  return selectedValue ? date.isSame(selectedValue, 'day') : false;
+}
+
+interface CellDisabledParams {
+  /** 可选范围最小日期 */
+  minDate: Dayjs | null;
+  /** 可选范围最大日期 */
+  maxDate: Dayjs | null;
+  /** 自定义禁用日期函数 */
+  disabledDateFn: DisabledDateFn | undefined;
+}
+
+/**
+ * 判断单元格是否被禁用（超出 min/max 范围或被自定义函数禁用）
+ * @param date - 格子日期
+ * @param minDate - 可选范围最小日期
+ * @param maxDate - 可选范围最大日期
+ * @param disabledDateFn - 自定义禁用日期函数
+ * @returns 是否禁用
+ */
+function computeIsDisabled(date: Dayjs, { minDate, maxDate, disabledDateFn }: CellDisabledParams): boolean {
+  if (minDate && date.isBefore(minDate, 'day')) return true;
+  if (maxDate && date.isAfter(maxDate, 'day')) return true;
+  if (disabledDateFn?.({ date: date.toDate(), year: date.year(), month: date.month(), day: date.date() })) return true;
+  return false;
 }
 
 /**
@@ -121,46 +189,16 @@ export function useCalendar(params: UseCalendarParams) {
    */
   function makeCell(date: Dayjs, isCurrentMonth: boolean, _today: Dayjs | null): CalendarCell {
     const isToday = _today ? date.isSame(_today, 'day') : false;
-    let isSelected = false;
-
-    const selectedValue = toValue(selectedDate);
-    if (isArray(selectedValue)) {
-      isSelected = selectedValue.some((v) => v && date.isSame(v));
-    } else if (selectedValue) {
-      isSelected = date.isSame(selectedValue, 'day');
-    }
-
-    // 判断是否禁用：超出 min/max 范围或被自定义函数禁用
-    let isDisabled = false;
-    if (minDate?.value && date.isBefore(minDate.value, 'day')) isDisabled = true;
-    if (maxDate?.value && date.isAfter(maxDate.value, 'day')) isDisabled = true;
-    if (disabledDate?.value?.({ date: date.toDate(), year: date.year(), month: date.month(), day: date.date() })) isDisabled = true;
-
-    // 范围选择状态（非当前月格子不参与范围高亮）
-    let isRangeStart = false;
-    let isRangeEnd = false;
-    let isInRange = false;
-
-    if (isCurrentMonth && rangeStart?.value && rangeEnd?.value) {
-      // 已确认的范围：rangeStart/rangeEnd 是排序后的结果
-      isRangeStart = date.isSame(rangeStart.value, 'day');
-      isRangeEnd = date.isSame(rangeEnd.value, 'day');
-      isInRange = date.isAfter(rangeStart.value, 'day') && date.isBefore(rangeEnd.value, 'day');
-    } else if (isCurrentMonth && anchorDate?.value) {
-      // 选择进行中：anchorDate 是锚点，hoverDate 是另一端，按相对位置确定起止
-      if (hoverDate?.value) {
-        const anchor = anchorDate.value;
-        const hover = hoverDate.value;
-        const [effStart, effEnd] = hover.isBefore(anchor, 'day') ? [hover, anchor] : [anchor, hover];
-        isRangeStart = date.isSame(effStart, 'day');
-        isRangeEnd = date.isSame(effEnd, 'day');
-        isInRange = date.isAfter(effStart, 'day') && date.isBefore(effEnd, 'day');
-      } else {
-        isRangeStart = date.isSame(anchorDate.value, 'day');
-      }
-    }
-
-    return { date, day: date.date(), isCurrentMonth, isToday, isSelected, isDisabled, isRangeStart, isRangeEnd, isInRange };
+    const isSelected = computeIsSelected(date, toValue(selectedDate));
+    const isDisabled = computeIsDisabled(date, {
+      minDate: minDate?.value || null,
+      maxDate: maxDate?.value || null,
+      disabledDateFn: disabledDate?.value,
+    });
+    const rangeState = isCurrentMonth
+      ? computeRangeState({ cell: date, unit: 'day', ...resolveRangeDeps({ rangeStart, rangeEnd, anchorDate, hoverDate }) })
+      : NO_RANGE;
+    return { date, day: date.date(), isCurrentMonth, isToday, isSelected, isDisabled, ...rangeState };
   }
 
   /**

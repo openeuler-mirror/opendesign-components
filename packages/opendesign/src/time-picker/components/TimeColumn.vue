@@ -6,6 +6,36 @@ import { OScroller } from '../../scrollbar';
 import { useScreen } from '../../hooks';
 import { DatePickerColumnOption } from '../types.ts';
 
+interface LandedItemCheckParams {
+  /** 滚动列表项 DOM 元素 */
+  el: HTMLDivElement;
+  /** 滚动容器顶部位置 */
+  containerTop: number;
+  /** 是否为响应式（手机端）模式 */
+  responding: boolean;
+  /** 激活项的内边距偏移量 */
+  itemPadding: number;
+}
+
+/**
+ * 判断滚动列表项是否已停在激活位置，是则返回其值，否则返回 null
+ * @param el - 列表项 DOM 元素
+ * @param containerTop - 滚动容器顶部的 y 坐标
+ * @param responding - 是否为移动端响应式模式
+ * @param itemPadding - 激活项居中偏移量
+ * @returns 已停住的选项值，未停住返回 null
+ */
+function findLandedItemValue({ el, containerTop, responding, itemPadding }: LandedItemCheckParams): number | null {
+  const { top } = el.getBoundingClientRect();
+  const threshold = 5;
+  const inRespondingMiddle = responding && Math.abs(itemPadding - (top - containerTop)) < threshold;
+  const inUnrespondingTop = !responding && top - containerTop < threshold;
+  if (inRespondingMiddle || inUnrespondingTop) {
+    return Number.parseInt(el.dataset.itemValue as string);
+  }
+  return null;
+}
+
 const props = defineProps<{
   options: DatePickerColumnOption[];
   disabledOptions?: number[];
@@ -66,21 +96,29 @@ const findNearestEnabled = (value: number): number | null => {
 let scrollEndTimer: ReturnType<typeof setTimeout> | null = null;
 let isAutoScrolling = false;
 
+// 滚动停止后，如果停在禁用值上，自动滚到最近可用值
+const onScrollEnd = (landedValue: number | null) => {
+  if (landedValue !== null && isItemDisabled(landedValue)) {
+    const nearest = findNearestEnabled(landedValue);
+    if (nearest !== null) {
+      modelVale.value = nearest;
+      isAutoScrolling = true;
+      scrollToItem(true);
+      emits('change', nearest);
+    }
+  }
+};
+
 const handleScroll = () => {
   if (isAutoScrolling) {
     isAutoScrolling = false;
     return;
   }
+  const containerTop = columnRef.value?.getContainerEl()?.getBoundingClientRect().top ?? 0;
   let landedValue: number | null = null;
   itemsRef.value?.forEach((el) => {
-    const { top } = el.getBoundingClientRect();
-    const containerTop = columnRef.value?.getContainerEl()?.getBoundingClientRect().top ?? 0;
-    const threshold = 5; // 宽容5px
-    const inRespondingMiddle = isResponding.value && Math.abs(activeItemPadding.value - (top - containerTop)) < threshold;
-    const inUnrespondingTop = !isResponding.value && top - containerTop < threshold;
-    if (inRespondingMiddle || inUnrespondingTop) {
-      landedValue = Number.parseInt(el.dataset.itemValue as string);
-    }
+    const v = findLandedItemValue({ el, containerTop, responding: isResponding.value, itemPadding: activeItemPadding.value });
+    if (v !== null) landedValue = v;
   });
 
   if (landedValue !== null && !isItemDisabled(landedValue)) {
@@ -89,23 +127,10 @@ const handleScroll = () => {
 
   const _changedByOut = changedByOut;
   changedByOut = false;
-  if (!_changedByOut) {
-    emits('change', modelVale.value);
-  }
+  if (!_changedByOut) emits('change', modelVale.value);
 
-  // 滚动停止后，如果停在禁用值上，自动滚到最近可用值
-  if (scrollEndTimer) clearTimeout(scrollEndTimer);
-  scrollEndTimer = setTimeout(() => {
-    if (landedValue !== null && isItemDisabled(landedValue)) {
-      const nearest = findNearestEnabled(landedValue);
-      if (nearest !== null) {
-        modelVale.value = nearest;
-        isAutoScrolling = true;
-        scrollToItem(true);
-        emits('change', nearest);
-      }
-    }
-  }, 150);
+  clearTimeout(scrollEndTimer as ReturnType<typeof setTimeout>);
+  scrollEndTimer = setTimeout(() => onScrollEnd(landedValue), 150);
 };
 
 const handleItemClick = (item: DatePickerColumnOption) => {

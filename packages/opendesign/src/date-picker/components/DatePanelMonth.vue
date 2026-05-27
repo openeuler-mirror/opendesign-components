@@ -22,9 +22,34 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useI18n } from '../../locale';
 import { OButton } from '../../button';
 
-import { isMonthDisabled } from '../utils.ts';
+import { isMonthDisabled, computeRangeState } from '../utils.ts';
 import { datePickerInjectKey } from '../provide.ts';
 import { DisabledMonthFn } from '../types.ts';
+
+interface MonthCellBaseParams {
+  /** 月份索引（0-indexed） */
+  index: number;
+  /** 面板年份 */
+  year: number;
+  /** 当前选中日期 */
+  selectedDate: Dayjs | null;
+  /** 今天的日期 */
+  todayDate: Dayjs | null;
+}
+
+/**
+ * 计算月份格子的选中/当前状态
+ * @param index - 月份索引（0-indexed）
+ * @param year - 面板年份
+ * @param selectedDate - 当前选中日期
+ * @param todayDate - 今天的日期
+ * @returns isSelected 和 isCurrent 状态
+ */
+function computeMonthCellBase({ index, year, selectedDate, todayDate }: MonthCellBaseParams) {
+  const isSelected = selectedDate ? selectedDate.year() === year && selectedDate.month() === index : false;
+  const isCurrent = todayDate ? todayDate.year() === year && todayDate.month() === index : false;
+  return { isSelected, isCurrent };
+}
 
 const props = defineProps<{
   year: number;
@@ -59,42 +84,18 @@ onMounted(() => {
 const months = computed(() => {
   const todayVal = today.value;
   return Array.from({ length: 12 }, (_, i) => {
-    const isSelected = props.selectedDate ? props.selectedDate.year() === props.year && props.selectedDate.month() === i : false;
-    const isCurrent = todayVal ? todayVal.year() === props.year && todayVal.month() === i : false;
-    const disabled = isMonthDisabled(props.year, i, {
-      disabledMonth: props.disabledMonth,
-      minDate: props.minDate ?? null,
-      maxDate: props.maxDate ?? null,
-    });
-
+    const { isSelected, isCurrent } = computeMonthCellBase({ index: i, year: props.year, selectedDate: props.selectedDate, todayDate: todayVal });
+    const isDisabled = isMonthDisabled(props.year, i, { disabledMonth: props.disabledMonth, minDate: props.minDate ?? null, maxDate: props.maxDate ?? null });
     const cellDate = dayjs().year(props.year).month(i).startOf('month');
-    const rangeStart = props.rangeStart ? props.rangeStart.startOf('month') : null;
-    const rangeEnd = props.rangeEnd ? props.rangeEnd.startOf('month') : null;
-    const anchorMonth = props.anchorMonth ? props.anchorMonth.startOf('month') : null;
-
-    let isRangeStart = false;
-    let isRangeEnd = false;
-    let isInRange = false;
-
-    if (rangeStart && rangeEnd) {
-      // 已确认的范围
-      isRangeStart = cellDate.isSame(rangeStart, 'month');
-      isRangeEnd = cellDate.isSame(rangeEnd, 'month');
-      isInRange = cellDate.isAfter(rangeStart, 'month') && cellDate.isBefore(rangeEnd, 'month');
-    } else if (anchorMonth) {
-      // 选择进行中：anchorMonth 是锚点，hoverMonth 是另一端，按相对位置确定起止
-      if (props.hoverMonth) {
-        const hoverM = props.hoverMonth.startOf('month');
-        const [effStart, effEnd] = hoverM.isBefore(anchorMonth, 'month') ? [hoverM, anchorMonth] : [anchorMonth, hoverM];
-        isRangeStart = cellDate.isSame(effStart, 'month');
-        isRangeEnd = cellDate.isSame(effEnd, 'month');
-        isInRange = cellDate.isAfter(effStart, 'month') && cellDate.isBefore(effEnd, 'month');
-      } else {
-        isRangeStart = cellDate.isSame(anchorMonth, 'month');
-      }
-    }
-
-    return { index: i, isSelected, isCurrent, isDisabled: disabled, isRangeStart, isRangeEnd, isInRange };
+    const { isRangeStart, isRangeEnd, isInRange } = computeRangeState({
+      cell: cellDate,
+      unit: 'month',
+      rangeStart: props.rangeStart ? props.rangeStart.startOf('month') : null,
+      rangeEnd: props.rangeEnd ? props.rangeEnd.startOf('month') : null,
+      anchorDate: props.anchorMonth ? props.anchorMonth.startOf('month') : null,
+      hoverDate: props.hoverMonth ? props.hoverMonth.startOf('month') : null,
+    });
+    return { index: i, isSelected, isCurrent, isDisabled, isRangeStart, isRangeEnd, isInRange };
   });
 });
 </script>
