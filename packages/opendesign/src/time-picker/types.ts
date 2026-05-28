@@ -230,3 +230,6 @@ export type TimeRangeValue = {
   start: string | undefined;
   end: string | undefined;
 };
+
+/** dayjs 解析时间字符串所需的日期前缀，使 HH:mm 和 HH:mm:ss 格式均可被正确比较 */
+export const TIME_PREFIX = '1970-01-01 ';

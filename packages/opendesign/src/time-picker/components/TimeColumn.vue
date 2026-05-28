@@ -17,6 +17,9 @@ interface LandedItemCheckParams {
   itemPadding: number;
 }
 
+/** 判断元素停靠位置的宽容值 */
+const LANDED_THRESHOLD = 5;
+
 /**
  * 判断滚动列表项是否已停在激活位置，是则返回其值，否则返回 null
  * @param el - 列表项 DOM 元素
@@ -27,9 +30,9 @@ interface LandedItemCheckParams {
  */
 function findLandedItemValue({ el, containerTop, responding, itemPadding }: LandedItemCheckParams): number | null {
   const { top } = el.getBoundingClientRect();
-  const threshold = 5;
-  const inRespondingMiddle = responding && Math.abs(itemPadding - (top - containerTop)) < threshold;
-  const inUnrespondingTop = !responding && top - containerTop < threshold;
+
+  const inRespondingMiddle = responding && Math.abs(itemPadding - (top - containerTop)) < LANDED_THRESHOLD;
+  const inUnrespondingTop = !responding && top - containerTop < LANDED_THRESHOLD;
   if (inRespondingMiddle || inUnrespondingTop) {
     return Number.parseInt(el.dataset.itemValue as string);
   }
@@ -45,7 +48,7 @@ const emits = defineEmits<{
   (e: 'change', newVal: number | null): void;
 }>();
 
-const modelVale = defineModel<number | null>('modelValue', { required: true });
+const modelValue = defineModel<number | null>('modelValue', { required: true });
 
 const { isPhonePad } = useScreen();
 const isResponding = computed(() => !props.noResponsive && isPhonePad.value);
@@ -101,7 +104,7 @@ const onScrollEnd = (landedValue: number | null) => {
   if (landedValue !== null && isItemDisabled(landedValue)) {
     const nearest = findNearestEnabled(landedValue);
     if (nearest !== null) {
-      modelVale.value = nearest;
+      modelValue.value = nearest;
       isAutoScrolling = true;
       scrollToItem(true);
       emits('change', nearest);
@@ -122,12 +125,12 @@ const handleScroll = () => {
   });
 
   if (landedValue !== null && !isItemDisabled(landedValue)) {
-    modelVale.value = landedValue;
+    modelValue.value = landedValue;
   }
 
   const _changedByOut = changedByOut;
   changedByOut = false;
-  if (!_changedByOut) emits('change', modelVale.value);
+  if (!_changedByOut) emits('change', modelValue.value);
 
   clearTimeout(scrollEndTimer as ReturnType<typeof setTimeout>);
   scrollEndTimer = setTimeout(() => onScrollEnd(landedValue), 150);
@@ -135,7 +138,7 @@ const handleScroll = () => {
 
 const handleItemClick = (item: DatePickerColumnOption) => {
   if (isItemDisabled(item.value)) return;
-  modelVale.value = item.value;
+  modelValue.value = item.value;
   scrollToItem(true);
 };
 
@@ -176,7 +179,7 @@ defineExpose({
         :key="item.value"
         ref="itemsRef"
         class="o-time-panel-item"
-        :class="{ active: modelVale === item.value, disabled: isItemDisabled(item.value) }"
+        :class="{ active: modelValue === item.value, disabled: isItemDisabled(item.value) }"
         :data-item-value="item.value"
         @click="handleItemClick(item)"
       >

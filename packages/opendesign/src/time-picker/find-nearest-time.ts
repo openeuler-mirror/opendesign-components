@@ -2,8 +2,7 @@ import dayjs from 'dayjs';
 
 import { pad } from '../_utils/time.ts';
 
-import { DatePickerColumnOption, DisabledHoursFn, DisabledMinutesFn, DisabledSecondsFn } from './types.ts';
-import { TIME_PREFIX } from './use-time-range-constraints.ts';
+import { DatePickerColumnOption, DisabledHoursFn, DisabledMinutesFn, DisabledSecondsFn, TIME_PREFIX } from './types.ts';
 
 interface BoundaryParams {
   options: DatePickerColumnOption[];

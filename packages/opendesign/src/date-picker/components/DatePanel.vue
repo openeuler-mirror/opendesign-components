@@ -232,7 +232,13 @@ const open = async (newVal?: number) => {
   visible.value = true;
   mobileDateTimeTab.value = 'date';
   // 以模式决定初始视图：year 模式直接显示年份列表，month 模式先显示月份列表
-  currentView.value = effectiveMode.value === 'year' ? 'year' : effectiveMode.value === 'month' ? 'month' : 'date';
+  if (effectiveMode.value === 'year') {
+    currentView.value = 'year';
+  } else if (effectiveMode.value === 'month') {
+    currentView.value = 'month';
+  } else {
+    currentView.value = 'date';
+  }
   setValue(newVal);
 };
 const close = () => {

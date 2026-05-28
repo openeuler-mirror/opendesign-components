@@ -112,6 +112,8 @@ const closeAndBlur = () => {
   panelRef.value?.close();
   startFocused.value = false;
   endFocused.value = false;
+  startInputRef.value?.blur();
+  endInputRef.value?.blur();
 };
 
 const onStartFocus = (e: FocusEvent) => {

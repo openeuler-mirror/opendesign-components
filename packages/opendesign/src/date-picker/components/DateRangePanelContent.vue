@@ -253,9 +253,11 @@ const init = (start?: number, end?: number) => {
   setValue(start ?? undefined, end ?? undefined);
 };
 
+const modeUnitMap: Partial<Record<DatePickerMode, 'year' | 'month'>> = { year: 'year', month: 'month' };
+
 // dayjs比较单位：year比较年，month比较月，day比较日
 const finishSelection = (anchor: Dayjs, second: Dayjs) => {
-  const compareUnit = effectiveMode.value === 'year' ? 'year' : effectiveMode.value === 'month' ? 'month' : 'day';
+  const compareUnit = modeUnitMap[effectiveMode.value] ?? 'day';
   if (anchor.isAfter(second, compareUnit)) {
     rangeStart.value = second;
     rangeEnd.value = anchor;

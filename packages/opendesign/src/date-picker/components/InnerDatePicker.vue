@@ -139,12 +139,8 @@ const onFocus = (e: FocusEvent) => {
 let prevValue = modelValue.value;
 const handleChange = () => {
   // datetime 模式下时间列由 panel 管理，始终从 panel 取完整值
-  const newFormatted =
-    effectiveMode.value === 'datetime'
-      ? panelRef.value?.getValue()
-      : isTempInputValueValid.value
-        ? parseValue(tempInputValue.value)?.valueOf()
-        : panelRef.value?.getValue();
+  const useTempInput = effectiveMode.value !== 'datetime' && isTempInputValueValid.value;
+  const newFormatted = useTempInput ? parseValue(tempInputValue.value)?.valueOf() : panelRef.value?.getValue();
   modelValue.value = newFormatted;
   emits('change', newFormatted, prevValue);
   prevValue = newFormatted;

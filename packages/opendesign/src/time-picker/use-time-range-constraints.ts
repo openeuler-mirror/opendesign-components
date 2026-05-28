@@ -1,10 +1,9 @@
 import { computed, MaybeRefOrGetter, toValue } from 'vue';
 import dayjs from 'dayjs';
 
-type TimeUnit = 'second' | 'minute' | 'hour';
+import { TIME_PREFIX } from './types';
 
-/** dayjs 解析时间字符串所需的日期前缀，使 HH:mm 和 HH:mm:ss 格式均可被正确比较 */
-export const TIME_PREFIX = '1970-01-01 ';
+type TimeUnit = 'second' | 'minute' | 'hour';
 
 /** 判断时间字符串 a 是否严格早于 b，兼容 HH:mm 与 HH:mm:ss 混用 */
 export const isTimeBefore = (a: string, b: string) => dayjs(TIME_PREFIX + a).isBefore(dayjs(TIME_PREFIX + b));
