@@ -14,4 +14,7 @@
     --btn-bg-image-active: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-color-main2-start-raw), 0.9), rgba(var(--o-color-main2-end-raw), 0.9));
     --btn-bg-image-disabled: linear-gradient(var(--o-color-main2-angle), rgba(var(--o-color-main2-start-raw), 0.4), rgba(var(--o-color-main2-end-raw), 0.4));
   }
+  &.o-btn-disabled {
+    border: none;
+  }
 }
