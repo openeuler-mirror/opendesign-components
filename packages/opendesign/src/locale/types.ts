@@ -1,24 +1,11 @@
-export interface OpendesignLanguageT {
-  locale: string;
-  'common.empty'?: string;
-  'common.loading'?: string;
-  'pagination.goto'?: string;
-  'pagination.page'?: string;
-  'pagination.countPerPage'?: string;
-  'pagination.total'?: string;
-  'upload.buttonLabel'?: string;
-  'upload.drag'?: string;
-  'upload.dragHover'?: string;
-  'upload.retry'?: string;
-  'upload.delete'?: string;
-  'upload.preview'?: string;
-  'upload.edit'?: string;
-  'select.cancel'?: string;
-  'select.confirm'?: string;
-  'input.limit'?: string;
-}
+import zhCN from './lang/zh-cn.ts';
+import enUS from './lang/en-us.ts';
+
+export type OpendesignLanguageT = {
+  [key in keyof typeof zhCN & keyof typeof enUS]: string;
+};
 
 export interface i18nLanguagesT {
   locale: string;
-  [k: string]: string
+  [k: string]: string;
 }

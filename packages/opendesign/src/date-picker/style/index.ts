@@ -1,0 +1,10 @@
+import '../../_styles';
+import '../../input/style';
+import '../../select/style';
+import '../../popup/style';
+import '../../button/style';
+import '../../link/style';
+import '../../divider/style';
+import '../../time-picker/style';
+import '../../tab/style';
+import './index.scss';

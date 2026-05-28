@@ -29,10 +29,12 @@
   },
   "peerDependencies": {
     "@vueuse/core": "catalog:vue",
+    "dayjs": "catalog:utils",
     "vue": "^3.3.0"
   },
   "devDependencies": {
     "@opensig/open-scripts": "workspace:^",
+    "dayjs": "catalog:utils",
     "typescript": "catalog:typescript",
     "vite": "catalog:build",
     "vue-tsc": "catalog:build"

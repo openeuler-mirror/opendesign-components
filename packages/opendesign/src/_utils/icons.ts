@@ -42,6 +42,7 @@ import {
   OIconImgError,
   OIconDownload,
   OIconAvatar,
+  OIconTime,
 } from '../icon-components';
 
 /**
@@ -225,6 +226,11 @@ export const IconImgError = shallowRef<Component>(OIconImgError);
  * 下载图标
  */
 export const IconDownload = shallowRef<Component>(OIconDownload);
+
+/**
+ * 日期组件图标
+ */
+export const IconTime = shallowRef<Component>(OIconTime);
 
 /**
  * 日期组件图标

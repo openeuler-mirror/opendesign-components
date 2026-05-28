@@ -123,6 +123,9 @@ catalogs:
     '@opensig/open-analytics':
       specifier: 1.0.1
       version: 1.0.1
+    dayjs:
+      specifier: 1.11.13
+      version: 1.11.13
     magic-string:
       specifier: ^0.30.17
       version: 0.30.21
@@ -234,6 +237,9 @@ importers:
       '@vue/compiler-sfc':
         specifier: catalog:vue
         version: 3.5.25
+      dayjs:
+        specifier: catalog:utils
+        version: 1.11.13
       fs-extra:
         specifier: catalog:io
         version: 11.3.2
@@ -310,6 +316,9 @@ importers:
       '@opensig/open-scripts':
         specifier: workspace:^
         version: link:../scripts
+      dayjs:
+        specifier: catalog:utils
+        version: 1.11.13
       typescript:
         specifier: catalog:typescript
         version: 5.8.3
@@ -1588,6 +1597,9 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -4495,6 +4507,8 @@ snapshots:
       css-tree: 2.2.1
 
   csstype@3.2.3: {}
+
+  dayjs@1.11.13: {}
 
   de-indent@1.0.2: {}
 

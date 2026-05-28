@@ -220,11 +220,30 @@ export const resolveHtmlElement = (elRef: MaybeRef<ElementQuery>): Promise<HTMLE
   });
 };
 
+/**
+ * 检测插槽是否为空（无实际渲染内容）。
+ *
+ * 通过试渲染 slot({}) 来判断，可以正确处理以下情况：
+ * - 注释节点（v-if="false" 渲染出的注释节点视为空）
+ * - 空文本节点
+ * - 空片段节点
+ *
+ * 传入 {} 而非不传参，是为了避免 scoped slot 在使用解构语法时崩溃：
+ *   <template #foo="{ setValue }">  ← 若 slot() 传 undefined，解构会抛 TypeError
+ * 传入空对象是安全的折中方案，对普通插槽无影响。
+ *
+ * 注意：若 slot 内容通过 slot props 做条件渲染（如 v-if="setValue"），
+ * 试渲染时 props 为空对象，条件为 falsy，可能导致误判为空。
+ * 这属于极少数场景，实际使用中应避免在 slot 内依赖 slot props 做 v-if 判断。
+ *
+ * 另：直接用 $slots.foo 存在性判断不能检测注释节点（只要父组件写了 <template #foo> 就为 truthy），
+ * 因此不能替代本函数。
+ */
 export const isEmptySlot = (slot?: Slot) => {
   if (!slot) {
     return true;
   }
-  const children = slot();
+  const children = slot({});
 
   if (children.length > 1) {
     return false;
