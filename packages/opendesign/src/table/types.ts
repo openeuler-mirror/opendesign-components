@@ -6,14 +6,13 @@ export interface TableColumnT {
   style?: StyleValue;
 }
 
-export interface TableRowT {
+export type TableRowT = {
   key?: string | number;
   /** 树形懒加载时指示本行是否有子节点 */
   hasChildren?: boolean;
   /** 子节点列表 */
   children?: TableRowT[];
-  [key: string]: unknown;
-}
+} & Record<string, unknown>;
 
 export interface TableCellT {
   value: unknown;
