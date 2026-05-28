@@ -2,6 +2,7 @@
 
 .o-textarea {
   display: inline-flex;
+  max-width: 100%;
   cursor: text;
 
   &.o_box-round-pill {
