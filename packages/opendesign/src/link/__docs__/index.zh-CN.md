@@ -8,6 +8,7 @@ kind: operator
 ## 示例
 
 <!-- @usage LinkUsage -->
+<!-- @case LinkVueRouter -->
 <!-- @case LinkIconSize -->
 <!-- @case LinkLoading -->
 <!-- @case LinkGlobal -->
