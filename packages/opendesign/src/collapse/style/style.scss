@@ -44,8 +44,9 @@
   font-size: var(--collapse-item-body-text-size);
   line-height: var(--collapse-item-body-text-height);
   margin-bottom: var(--collapse-item-gap);
-  overflow: hidden;
-  transition: height var(--o-duration-m2) var(--o-easing-standard);
+  transition:
+    max-height var(--o-duration-m2) var(--o-easing-standard),
+    margin-bottom var(--o-duration-m2) var(--o-easing-standard);
 }
 
 .o-collapse-item-expanded {
