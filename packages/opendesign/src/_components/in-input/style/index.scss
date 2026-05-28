@@ -101,7 +101,15 @@
     .o_input-clear {
       visibility: visible;
       opacity: 1;
+      transform: scale(1);
     }
+  }
+}
+.o_input-clearable-focus {
+  .o_input-clear {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 .o_input-eye {

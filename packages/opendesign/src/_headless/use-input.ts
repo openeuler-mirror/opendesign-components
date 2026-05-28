@@ -340,6 +340,7 @@ export function useInput(options: InputOptionT) {
     isValid,
     inputEl,
     clearValue,
+    isFocus,
     inputValueLength,
     isShowLength,
     isOutLengthLimit,

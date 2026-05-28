@@ -41,6 +41,7 @@ const {
   handlePressEnter,
   handleClear,
   inputEl,
+  isFocus,
 } = useInput({
   emits,
   maxLength,
@@ -119,6 +120,7 @@ defineExpose({
     class="o_input"
     :class="{
       'o_input-clearable': isClearable && displayValue !== '',
+      'o_input-clearable-focus': isClearable && displayValue !== '' && isFocus,
       'o_input-disabled': props.disabled,
       'o_input-readonly': props.readonly,
       'o_input-password': props.type === 'password',
