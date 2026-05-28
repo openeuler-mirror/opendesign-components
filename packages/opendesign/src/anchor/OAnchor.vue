@@ -5,6 +5,7 @@ import { anchorInjectKey } from './provide';
 import { isString, isUndefined, isWindow, isCurrentPageLink } from '../_utils/is';
 import { checkElementOverflowHorizontal, getCssVariable, getScroll, getScrollParents, scrollTo } from '../_utils/dom';
 import { throttleRAF } from '../_utils/helper';
+import { useResizeObserver } from '../hooks/use-resize-observer';
 
 const props = defineProps(anchorProps);
 
@@ -72,7 +73,7 @@ const updateIndicatorPosition = () => {
 const xOverflown = ref({ left: false, right: false });
 const itemsScrollLeft = ref(0);
 const handleScroll = throttleRAF(() => {
-  if (props.layout !== 'h') {
+  if (props.layout !== 'h' || !anchorItemsRef.value) {
     return;
   }
   const { scrollLeft, scrollWidth, clientWidth } = anchorItemsRef.value!;
@@ -227,7 +228,14 @@ provide(anchorInjectKey, {
   getChangeHash: () => props.changeHash,
 });
 
+// 添加响应式
+const onAnchorResize = throttleRAF(() => {
+  updateIndicatorPosition();
+  handleScroll();
+});
+
 onMounted(() => {
+  const ro = useResizeObserver();
   scrollContainer.value = getContainer(props.container);
   const hash = decodeURIComponent(window.location.hash);
   if (hash) {
@@ -237,11 +245,18 @@ onMounted(() => {
   }
   nextTick(() => {
     bindEvent();
+    if (anchorRef.value) {
+      ro.observe(anchorRef.value, onAnchorResize);
+    }
   });
 });
 
 onUnmounted(() => {
   unbindEvent();
+  const ro = useResizeObserver();
+  if (anchorRef.value) {
+    ro.unobserve(anchorRef.value, onAnchorResize);
+  }
 });
 
 /* 横向anchor是否是sticky状态*/
