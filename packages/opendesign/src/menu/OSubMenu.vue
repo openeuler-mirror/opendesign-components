@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, inject, provide, useTemplateRef} from 'vue';
+import { computed, inject, provide, useTemplateRef } from 'vue';
 import { subMenuProps } from './types';
 import { IconChevronDownBold } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
@@ -89,7 +89,6 @@ menuInjection?.menuTree.addChild({
   parentVal: subMenuInjection?.value,
 });
 
-
 const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
 const itemContentRef = useTemplateRef('itemContentRef');
 const isContentOverflow = useElementOverflown(itemContentRef);
@@ -105,9 +104,8 @@ const isContentOverflow = useElementOverflown(itemContentRef);
     }"
     :style="{ '--menu-level': currentDepth }"
     :data-level="currentDepth"
-    @click="onSubItemClick"
   >
-    <div ref="subMenuTitleRef" class="o-sub-menu-title">
+    <div ref="subMenuTitleRef" class="o-sub-menu-title" @click="onSubItemClick">
       <div v-if="arrowPosition === 'left'" class="o-sub-menu-arrow">
         <IconChevronDownBold />
       </div>
@@ -123,11 +121,11 @@ const isContentOverflow = useElementOverflown(itemContentRef);
         <IconChevronDownBold />
       </div>
     </div>
-      <ul class="o-sub-menu-children" :class="{'expanded': isExpanded}">
-        <div class="o-sub-menu-children-wrap">
-          <slot></slot>
-        </div>
-      </ul>
+    <ul class="o-sub-menu-children" :class="{ expanded: isExpanded }">
+      <div class="o-sub-menu-children-wrap">
+        <slot></slot>
+      </div>
+    </ul>
 
     <OPopover v-if="isContentOverflow" :offset="12" :target="subMenuTitleRef" position="bottom" wrap-class="o-menu-popover">
       <slot name="title"></slot>
