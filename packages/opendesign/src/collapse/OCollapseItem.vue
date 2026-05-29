@@ -40,7 +40,7 @@ const resetStyle = (el: HTMLElement) => {
 };
 
 const onBeforeEnter = (el: Element) => {
-  const target = el as HTMLUListElement;
+  const target = el as HTMLElement;
   target.dataset.oldOverflow = target.style.overflow;
   target.dataset.oldMarginBottom = target.style.marginBottom;
   target.style.maxHeight = '0';
@@ -48,23 +48,23 @@ const onBeforeEnter = (el: Element) => {
   target.style.overflow = 'hidden';
 };
 const onEnter = (el: Element) => {
-  const target = el as HTMLUListElement;
+  const target = el as HTMLElement;
   target.style.maxHeight = `${target.scrollHeight !== 0 ? target.scrollHeight : 0}px`;
   target.style.marginBottom = target.dataset.oldMarginBottom ?? '';
 };
 // 进入动画完成后清空 max-height，支持嵌套子菜单展开
 const onAfterEnter = (el: Element) => {
-  resetStyle(el as HTMLUListElement);
+  resetStyle(el as HTMLElement);
 };
 const onBeforeLeave = (el: Element) => {
-  const target = el as HTMLUListElement;
+  const target = el as HTMLElement;
   target.dataset.oldOverflow = target.style.overflow;
   target.dataset.oldMarginBottom = target.style.marginBottom;
   target.style.maxHeight = `${target.scrollHeight}px`;
   target.style.overflow = 'hidden';
 };
 const onLeave = (el: Element) => {
-  const target = el as HTMLUListElement;
+  const target = el as HTMLElement;
   if (target.scrollHeight !== 0) {
     target.style.maxHeight = '0';
     target.style.marginBottom = '0';
