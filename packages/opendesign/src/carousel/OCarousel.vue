@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted, provide, Ref } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted, nextTick, provide, Ref } from 'vue';
 import { IconChevronLeft, IconChevronRight } from '../_utils/icons';
 import Gallery from './effects/gallery';
 import Toggle from './effects/toggle';
@@ -18,14 +18,25 @@ const emits = defineEmits<{
 }>();
 
 const containerRef: Ref<HTMLElement | null> = ref(null);
-const total = computed(() => containerRef.value?.children.length);
+
+const childrenLength = ref(0);
+const registerItem = () => {
+  childrenLength.value++;
+};
+const unregisterItem = () => {
+  childrenLength.value++;
+};
+const total = computed(() => {
+  childrenLength.value;
+  return containerRef.value?.children.length ?? 0;
+});
 
 const isAutoPlay = ref(props.autoPlay);
 watch(
   () => props.autoPlay,
   (a) => {
     isAutoPlay.value = a;
-  }
+  },
 );
 
 const fixIndex = (idx: number) => {
@@ -42,7 +53,7 @@ watch(
   () => props.activeIndex,
   (v) => {
     activeIndex.value = v ?? 0;
-  }
+  },
 );
 
 const initialized = ref(false);
@@ -50,6 +61,7 @@ const initialized = ref(false);
 const slidesRef = ref<HTMLElement | null>(null);
 
 const slideElList = computed(() => {
+  childrenLength.value;
   const c = containerRef.value?.children;
   return c ? Array.from(c).map((el) => el as HTMLElement) : null;
 });
@@ -136,29 +148,60 @@ const activeSlide = (index: number, resumeAutoPlay = true) => {
   });
 };
 
+// 更新时清理上一次的实例与监听
+const clickListenerCleanups: Array<() => void> = [];
+const cleanupClickListeners = () => {
+  clickListenerCleanups.forEach((fn) => fn());
+  clickListenerCleanups.length = 0;
+};
+
+// 优化复杂度 Complexity
+const buildEffectOptions = () => ({
+  activeClass: props.activeClass,
+  onTouchstart: () => {
+    pausePlay();
+  },
+  onTouchend: () => {
+    // 恢复自动播放
+    resumePlay();
+  },
+  onBeforeChange: (to: number, from: number) => {
+    emits('before-change', to, from);
+  },
+  onChanged: (to: number, from: number) => {
+    activeIndex.value = to;
+    emits('update:activeIndex', to);
+    emits('change', to, from);
+  },
+});
+
+const bindClickListeners = (els: HTMLElement[]) => {
+  els.forEach((el, idx) => {
+    const handler = () => {
+      if (idx !== activeIndex.value) {
+        activeSlide(idx);
+      }
+    };
+    el.addEventListener('click', handler);
+    clickListenerCleanups.push(() => el.removeEventListener('click', handler));
+  });
+};
+
 const initSlides = () => {
-  if (!slideElList.value || !containerRef.value || initialized.value) {
+  if (!slideElList.value || !containerRef.value) {
     return;
   }
 
-  const options = {
-    activeClass: props.activeClass,
-    onTouchstart: () => {
-      pausePlay();
-    },
-    onTouchend: () => {
-      // 恢复自动播放
-      resumePlay();
-    },
-    onBeforeChange: (to: number, from: number) => {
-      emits('before-change', to, from);
-    },
-    onChanged: (to: number, from: number) => {
-      activeIndex.value = to;
-      emits('update:activeIndex', to);
-      emits('change', to, from);
-    },
-  };
+  // 重新初始化前清理上一次的实例与监听
+  slidesInstance?.destroyed();
+  slidesInstance = null;
+  cleanupClickListeners();
+
+  // 子元素数量变化后，更新activeIndex
+  if (activeIndex.value >= slideElList.value.length) {
+    activeIndex.value = fixIndex(activeIndex.value);
+    emits('update:activeIndex', activeIndex.value);
+  }
 
   let EffectType = null;
   switch (props.effect) {
@@ -176,17 +219,11 @@ const initSlides = () => {
     }
   }
   if (EffectType) {
-    slidesInstance = new EffectType(slideElList.value, containerRef.value, activeIndex.value, options);
+    slidesInstance = new EffectType(slideElList.value, containerRef.value, activeIndex.value, buildEffectOptions());
   }
 
   if (props.clickToSwitch) {
-    slideElList.value.forEach((el, idx) => {
-      el.addEventListener('click', () => {
-        if (idx !== activeIndex.value) {
-          activeSlide(idx);
-        }
-      });
-    });
+    bindClickListeners(slideElList.value);
   }
 
   initialized.value = true;
@@ -200,7 +237,7 @@ watch(
     } else {
       pausePlay();
     }
-  }
+  },
 );
 const init = () => {
   initSlides();
@@ -219,9 +256,25 @@ onUnmounted(() => {
     timer = null;
   }
   slidesInstance?.destroyed();
+  cleanupClickListeners();
 });
+
+// 子元素数量变化时重新初始化效果实例
+watch(
+  () => slideElList.value?.length ?? 0,
+  async (now, prev) => {
+    if (!initialized.value || now === prev) {
+      return;
+    }
+    await nextTick();
+    initSlides();
+  }
+);
+
 provide(carouselInjectKey, {
   effect: props.effect,
+  register: registerItem,
+  unregister: unregisterItem,
 });
 
 const play = () => {
