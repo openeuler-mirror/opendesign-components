@@ -1,0 +1,349 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-date-picker {
+  .o_input-suffix-icon {
+    font-size: var(--icon-size);
+    color: var(--o-color-info2);
+  }
+
+  .o_box-disabled {
+    .o_input-suffix-icon {
+      color: var(--color-disabled);
+    }
+  }
+  .o_box-focused {
+    .o_input-clearable {
+      @include hoverable() {
+        .o_input-suffix-icon {
+          visibility: hidden;
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        .o_input-clear {
+          visibility: visible;
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+
+  // 范围选择器的clearable类名是手动给到外部的
+  &.o_input-clearable {
+    .o_box-focused {
+      @include hoverable() {
+        .o_input-suffix-icon {
+          visibility: hidden;
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        .o_input-clear {
+          visibility: visible;
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+}
+
+.o-date-panel {
+  user-select: none;
+  background-color: var(--date-panel-bg);
+  color: var(--date-panel-cell-color);
+  border-radius: var(--o-radius-m);
+  box-shadow: var(--date-panel-shadow);
+  font-size: var(--date-panel-text-size);
+  line-height: var(--date-panel-text-height);
+}
+
+.o-date-panel-divider {
+  --o-divider-gap: 0;
+}
+
+.o-date-panel-divider-v {
+  --o-divider-label-gap: 0px;
+  height: unset;
+}
+
+.o-date-panel-content {
+  padding: var(--date-panel-content-padding);
+}
+
+// Header & Footer
+.o-date-panel-header,
+.o-date-panel-footer {
+  --date-panel-text-size: var(--date-panel-operation-text-size);
+  --date-panel-text-height: var(--date-panel-operation-text-height);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding-left: var(--date-panel-operation-padding-x);
+  padding-right: var(--date-panel-operation-padding-x);
+  height: var(--date-panel-operation-height);
+}
+
+.o-date-panel-footer {
+  .o-link:not(:last-child) {
+    margin-right: 16px;
+  }
+}
+
+.o-date-panel-shortcut {
+  font-size: var(--date-panel-shortcut-text-size);
+  line-height: var(--date-panel-shortcut-text-height);
+
+  &:only-child {
+    margin: 0 auto;
+  }
+
+  &.hidden {
+    visibility: hidden;
+  }
+}
+
+.o-date-panel-calendar,
+.o-date-panel-months,
+.o-date-panel-years {
+  display: grid;
+  text-align: center;
+  font-size: var(--date-panel-text-size);
+  line-height: var(--date-panel-text-height);
+  align-items: center;
+
+  grid-template-columns:
+    calc((var(--item-width) + var(--item-padding-x) / 2))
+    repeat(calc(var(--item-count-per-row) - 2), calc(var(--item-width) + var(--item-padding-x)))
+    calc((var(--item-width) + var(--item-padding-x) / 2));
+
+  .o-date-panel-cell {
+    padding-left: calc(var(--item-padding-x) / 2);
+    padding-right: calc(var(--item-padding-x) / 2);
+  }
+}
+
+.o-date-panel-calendar {
+  --item-count-per-row: 7;
+  --item-width: var(--date-panel-cell-width-date);
+  --item-padding-x: var(--date-panel-cell-gap-date-x);
+  padding: var(--date-panel-body-padding-date);
+  row-gap: var(--date-panel-cell-gap-date-y);
+
+  .o-date-panel-cell:nth-of-type(7n) {
+    padding-right: unset;
+  }
+  .o-date-panel-cell:nth-of-type(7n + 1) {
+    padding-left: unset;
+  }
+}
+
+.o-date-panel-months {
+  --item-count-per-row: 3;
+  --item-width: var(--date-panel-cell-width-month);
+  --item-padding-x: var(--date-panel-cell-gap-month-x);
+  padding: var(--date-panel-body-padding-month);
+  row-gap: var(--date-panel-cell-gap-month-y);
+
+  .o-date-panel-cell:nth-of-type(3n) {
+    padding-right: unset;
+  }
+  .o-date-panel-cell:nth-of-type(3n + 1) {
+    padding-left: unset;
+  }
+}
+
+.o-date-panel-years {
+  --item-count-per-row: 3;
+  --item-width: var(--date-panel-cell-width-year);
+  --item-padding-x: var(--date-panel-cell-gap-year-x);
+  padding: var(--date-panel-body-padding-year);
+  row-gap: var(--date-panel-cell-gap-year-y);
+
+  .o-date-panel-cell:nth-of-type(3n) {
+    padding-right: unset;
+  }
+  .o-date-panel-cell:nth-of-type(3n + 1) {
+    padding-left: unset;
+  }
+}
+
+.o-date-panel {
+  .o-date-panel-header-direction {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .o-date-panel-header-label-btn,
+  .o-data-panel-header-time-label {
+    --btn-min-width: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-weight: 600;
+  }
+
+  .o-date-panel-btn {
+    --btn-height: var(--date-panel-text-height);
+    --btn-color-hover: var(--date-panel-cell-color);
+    --btn-bg-color: transparent;
+    --btn-bd-color: var(--btn-bg-color);
+    --btn-bd-color-hover: var(--btn-bg-color-hover);
+    --btn-color: var(--date-panel-cell-color);
+    --btn-bg-color-disabled: transparent;
+
+    border: 1px solid var(--btn-bd-color);
+    font-size: var(--date-panel-text-size);
+    line-height: calc(var(--date-panel-text-height) - 2px);
+
+    @include hover {
+      border: 1px solid var(--btn-bd-color-hover);
+    }
+
+    &.o-btn-disabled {
+      --btn-bd-color-hover: var(--btn-bg-color-disabled);
+    }
+  }
+
+  .o-date-panel-btn:not(.o-date-panel-header-btn) {
+    --btn-min-width: none;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .o-date-panel-header-btn.hidden {
+    visibility: hidden;
+  }
+
+  .is-other-period .o-date-panel-btn {
+    --btn-color: var(--date-panel-cell-color-disabled);
+  }
+
+  .is-current .o-date-panel-btn {
+    --btn-bd-color: var(--date-panel-cell-today-bd-color);
+  }
+
+  .is-selected .o-date-panel-btn {
+    --btn-bg-color: var(--date-panel-cell-bg-active);
+    --btn-bg-color-hover: var(--date-panel-cell-bg-active);
+    --btn-color: var(--date-panel-cell-color-active);
+    --btn-color-hover: var(--date-panel-cell-color-active);
+  }
+
+  .is-in-range {
+    background-color: var(--date-panel-cell-bg-range);
+  }
+
+  .is-range-start,
+  .is-range-end {
+    .o-date-panel-btn {
+      --btn-bg-color: var(--date-panel-cell-bg-active);
+      --btn-bg-color-hover: var(--date-panel-cell-bg-active);
+      --btn-color: var(--date-panel-cell-color-active);
+      --btn-color-hover: var(--date-panel-cell-color-active);
+      font-weight: 500;
+    }
+  }
+  .is-range-start {
+    background: linear-gradient(to right, transparent 0% 50%, var(--date-panel-cell-bg-range) 50% 100%);
+    border-radius: calc(var(--date-panel-cell-size) / 2) 0 0 calc(var(--date-panel-cell-size) / 2);
+  }
+
+  .is-range-end {
+    background: linear-gradient(to right, var(--date-panel-cell-bg-range) 0% 50%, transparent 50% 100%);
+    border-radius: 0 calc(var(--date-panel-cell-size) / 2) calc(var(--date-panel-cell-size) / 2) 0;
+  }
+
+  .is-range-start.is-range-end {
+    border-radius: var(--o-radius-l);
+    background: none;
+  }
+}
+
+.o-date-panel-touch {
+  .o-date-panel-column-scroller + .o-date-panel-column-scroller {
+    &:before {
+      display: none;
+    }
+  }
+  .o-tab-button {
+    --tab-nav-justify: center;
+  }
+}
+
+// Date range picker
+.o-date-range-picker {
+  .o-input-wrap {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .o-input-wrap-focused {
+    background-color: var(--date-range-picker-bg-color-focus);
+  }
+
+  .o_input-suffix-icon {
+    font-size: var(--icon-size);
+    color: var(--o-color-info2);
+  }
+}
+
+.o-date-range-picker-divider {
+  flex-shrink: 0;
+  width: 16px;
+  margin: 0 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--o-color-info4);
+  pointer-events: none;
+}
+
+// Range panel (dual calendar)
+.o-date-range-panel {
+  width: calc(var(--date-panel-width) * 2 + 1px);
+}
+
+.o-date-range-panel-body {
+  display: flex;
+  align-items: stretch;
+}
+
+.o-date-range-panel-side {
+  flex: 1;
+  min-width: 0;
+}
+
+.o-date-range-panel-separator {
+  width: 1px;
+  background-color: var(--o-color-control2);
+  flex-shrink: 0;
+  margin: var(--date-panel-content-padding) 0;
+}
+
+// Datetime panel layout
+.o-date-panel-body {
+  display: block;
+}
+
+.o-date-panel-body-datetime {
+  display: flex;
+  align-items: stretch;
+}
+
+.o-date-panel-date-side {
+  flex: 1 0 auto;
+  min-width: 0;
+}
+
+.o-date-panel-time-aside {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  .o-date-panel-header {
+    justify-content: center;
+  }
+}

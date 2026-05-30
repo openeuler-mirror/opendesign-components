@@ -8,6 +8,7 @@ kind: display
 ## 示例
 
 <!-- @usage CarouselUsage -->
+<!-- @case CarouselResponsive -->
 <!-- @case CustomArrow -->
 <!-- @case CustomIndicator -->
 <!-- @case ThemeSwitch -->

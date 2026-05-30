@@ -26,13 +26,17 @@
   }
 
   &.o-btn-text {
-    --btn-color-hover: var(--o-color-primary1);
+    --btn-color-hover: var(--o-color-primary2);
     --btn-color-active: var(--o-color-primary3);
     --btn-color-disabled: var(--o-color-info4);
   }
 }
 .o-btn-normal {
   --btn-color-disabled: var(--o-color-info4);
+  &.o-btn-icon-only {
+    --btn-color-hover: var(--o-color-primary2);
+    --btn-bd-color-hover: var(--o-color-primary2);
+  }
   &.o-btn-solid {
     --btn-color: var(--o-color-info2);
     --btn-color-hover: var(--o-color-info2);

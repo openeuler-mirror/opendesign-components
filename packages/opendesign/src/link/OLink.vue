@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { computed, inject, useAttrs } from 'vue';
+import { createReusableTemplate } from '@vueuse/core';
 import { configProviderInjectKey } from '../config-provider';
 import { defaultSize } from '../_utils/global';
 import { IconLinkArrow, IconLoading } from '../_utils/icons';
 import HtmlTag from '../_components/html-tag';
 
 import { linkProps } from './types';
-import { inject, useAttrs } from 'vue';
 
 const props = defineProps(linkProps);
 const configProvider = inject(configProviderInjectKey, {});
@@ -24,17 +25,21 @@ const onClick = (e: MouseEvent) => {
     configProvider.link?.click(e, props, $attr);
   }
 };
+
+const linkClass = computed(() => [
+  {
+    'o-link-disabled': props.disabled,
+    'o-link-hover-bg': props.hoverBg,
+    'o-link-hover-underline': props.hoverUnderline,
+  },
+  `o-link-${props.color}`,
+  `o-link-${props.size || defaultSize}`,
+]);
+
+const [DefineLinkContent, LinkContent] = createReusableTemplate();
 </script>
 <template>
-  <HtmlTag :tag="props.tag" class="o-link" :href="props.href" :target="props.target" :class="[
-    {
-      'o-link-disabled': props.disabled,
-      'o-link-hover-bg': props.hoverBg,
-      'o-link-hover-underline': props.hoverUnderline,
-    },
-    `o-link-${props.color}`,
-    `o-link-${props.size || defaultSize}`,
-  ]" v-bind="$attrs" @click="onClick">
+  <DefineLinkContent>
     <span v-if="$slots.icon || props.icon || props.loading" class="o-link-prefix">
       <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else name="icon">
@@ -52,5 +57,28 @@ const onClick = (e: MouseEvent) => {
         <IconLinkArrow class="o-link-icon-arrow" />
       </slot>
     </span>
+  </DefineLinkContent>
+  <router-link
+    v-if="props.to"
+    :to="props.to"
+    :replace="props.replace"
+    class="o-link"
+    :class="linkClass"
+    v-bind="$attrs"
+    @click="onClick"
+  >
+    <LinkContent />
+  </router-link>
+  <HtmlTag
+    v-else
+    :tag="props.tag"
+    class="o-link"
+    :href="props.href"
+    :target="props.target"
+    :class="linkClass"
+    v-bind="$attrs"
+    @click="onClick"
+  >
+    <LinkContent />
   </HtmlTag>
 </template>

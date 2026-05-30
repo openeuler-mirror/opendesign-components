@@ -1,9 +1,9 @@
 ---
-sidebar: OFigure 图片
+sidebar: OFigure 图片/视频
 kind: display
 ---
 
-# OFigure 图片
+# OFigure 图片/视频
 
 ## 示例
 

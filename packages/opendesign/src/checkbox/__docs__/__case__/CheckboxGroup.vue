@@ -1,18 +1,19 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 多选框组
+### 复选框组
 
-由于 `OCheckbox` 是通过判断 `modelValue` 数组中是否含有 `value` 值来判断是否被选中。因此多个多选框公用同一个响应式变量即可实现多选框组功能。
+由于 `OCheckbox` 是通过判断 `modelValue` 数组中是否含有 `value` 值来判断是否被选中。因此多个复选框公用同一个响应式变量即可实现复选框组功能。
 
-也可以配合 `OCheckGroup` 实现多选框组以及其它更丰富的功能：
+也可以配合 `OCheckGroup` 实现复选框组以及其它更丰富的功能：
 
-1. `OCheckboxGroup` 的 `disabled` 属性禁用整个多选框组（`OCheckbox` 的 `disabled` 禁用自身）
-2. `max` 属性限制多选框组可选数量
-3. `min` 属性限制多选框组至少可选数量
-4. `direction` 属性控制多选框组内多选框的排列方向
+1. `OCheckboxGroup` 的 `disabled` 属性禁用整个复选框组（`OCheckbox` 的 `disabled` 禁用自身）
+2. `max` 属性限制复选框组可选数量
+3. `min` 属性限制复选框组至少可选数量
+4. `direction` 属性控制复选框组内复选框的排列方向
 
 <!-- en-US -->
+
 ### Checkbox Group
 
 Since `OCheckbox` determines whether it's selected by checking if its `value` exists in the `modelValue` array, multiple checkboxes sharing the same reactive variable can implement a checkbox group.
@@ -29,7 +30,7 @@ It can also be used in conjunction with `OCheckboxGroup` to implement checkbox g
 import { ref } from 'vue';
 import { OCheckbox, OCheckboxGroup } from '@opensig/opendesign';
 
-const selected = ref(["1"]);
+const selected = ref(['1']);
 </script>
 <template>
   <p>checkbox group without OCheckboxGroup</p>

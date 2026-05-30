@@ -42,6 +42,7 @@ import {
   OIconImgError,
   OIconDownload,
   OIconAvatar,
+  OIconTime,
 } from '../icon-components';
 
 /**
@@ -213,7 +214,7 @@ export const IconImageError = shallowRef<Component>(OIconImageError);
  */
 export const IconVideoPlay = shallowRef<Component>(OIconVideoPlay);
 
-// 多选框选中图标
+// 复选框选中图标
 export const IconChecked = shallowRef<Component>(OIconChecked);
 
 /**
@@ -225,6 +226,11 @@ export const IconImgError = shallowRef<Component>(OIconImgError);
  * 下载图标
  */
 export const IconDownload = shallowRef<Component>(OIconDownload);
+
+/**
+ * 日期组件图标
+ */
+export const IconTime = shallowRef<Component>(OIconTime);
 
 /**
  * 日期组件图标

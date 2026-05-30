@@ -32,21 +32,46 @@ const onClick = (evt: Event) => {
 };
 
 // 过渡动画
+// 使用 max-height + margin-bottom 联动，规避 height 在 auto 与具体值之间无法过渡的问题
+const resetStyle = (el: HTMLElement) => {
+  el.style.maxHeight = '';
+  el.style.overflow = el.dataset.oldOverflow ?? '';
+  el.style.marginBottom = el.dataset.oldMarginBottom ?? '';
+};
+
 const onBeforeEnter = (el: Element) => {
-  (el as HTMLUListElement).style.height = '0px';
+  const target = el as HTMLElement;
+  target.dataset.oldOverflow = target.style.overflow;
+  target.dataset.oldMarginBottom = target.style.marginBottom;
+  target.style.maxHeight = '0';
+  target.style.marginBottom = '0';
+  target.style.overflow = 'hidden';
 };
 const onEnter = (el: Element) => {
-  (el as HTMLUListElement).style.height = `${el.scrollHeight}px`;
+  const target = el as HTMLElement;
+  target.style.maxHeight = `${target.scrollHeight !== 0 ? target.scrollHeight : 0}px`;
+  target.style.marginBottom = target.dataset.oldMarginBottom ?? '';
 };
-// 进入动画完成后高度设置为auto，支持嵌套子菜单展开
+// 进入动画完成后清空 max-height，支持嵌套子菜单展开
 const onAfterEnter = (el: Element) => {
-  (el as HTMLUListElement).style.height = 'auto';
+  resetStyle(el as HTMLElement);
 };
 const onBeforeLeave = (el: Element) => {
-  (el as HTMLUListElement).style.height = `${(el as HTMLUListElement).offsetHeight}px`;
+  const target = el as HTMLElement;
+  target.dataset.oldOverflow = target.style.overflow;
+  target.dataset.oldMarginBottom = target.style.marginBottom;
+  target.style.maxHeight = `${target.scrollHeight}px`;
+  target.style.overflow = 'hidden';
 };
 const onLeave = (el: Element) => {
-  (el as HTMLUListElement).style.height = '0px';
+  const target = el as HTMLElement;
+  if (target.scrollHeight !== 0) {
+    target.style.maxHeight = '0';
+    target.style.marginBottom = '0';
+  }
+};
+const onAfterLeave = (el: Element) => {
+  resetStyle(el as HTMLElement);
 };
 </script>
 
@@ -60,7 +85,14 @@ const onLeave = (el: Element) => {
         <slot name="title">{{ props.title }}</slot>
       </p>
     </div>
-    <Transition @before-enter="onBeforeEnter" @enter="onEnter" @after-enter="onAfterEnter" @before-leave="onBeforeLeave" @leave="onLeave">
+    <Transition
+      @before-enter="onBeforeEnter"
+      @enter="onEnter"
+      @after-enter="onAfterEnter"
+      @before-leave="onBeforeLeave"
+      @leave="onLeave"
+      @after-leave="onAfterLeave"
+    >
       <div v-show="isExpanded" class="o-collapse-item-body">
         <slot></slot>
       </div>

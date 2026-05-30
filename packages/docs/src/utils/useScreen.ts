@@ -1,15 +1,15 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-const DEFAULT_SCREEN_SIZE = 0;
-const isClient = typeof window !== 'undefined';
+const DEFAULT_SCREEN_SIZE = 1920;
 export const useScreen = () => {
-  const width = ref(isClient ? window.innerWidth : DEFAULT_SCREEN_SIZE);
+  const width = ref(DEFAULT_SCREEN_SIZE);
 
   const onResize = () => {
     width.value = window.innerWidth;
   };
 
   onMounted(() => {
+    onResize();
     window.addEventListener('resize', onResize);
   });
 

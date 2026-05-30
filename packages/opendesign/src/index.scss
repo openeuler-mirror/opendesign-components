@@ -54,3 +54,6 @@
 @use './ip-input/style/index.scss' as *;
 @use './slider/style/index.scss' as *;
 @use './search/style/index.scss' as *;
+@use './time-picker/style/index.scss' as *;
+@use './date-picker/style/index.scss' as *; // 相对顺序在time-picker后，因为会覆盖部分time-picker的样式
+@use './cascader-v2/style/index.scss' as *;

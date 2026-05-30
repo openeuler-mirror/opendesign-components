@@ -1,0 +1,8 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=laptop') {
+  .o-time-panel-large:not(.o-time-panel-touch) {
+    --time-panel-item-text-size: var(--o-font_size-tip1);
+    --time-panel-item-text-height: var(--o-line_height-tip1);
+  }
+}

@@ -52,7 +52,7 @@
 .o_box-outline {
   &.o_box-normal {
     --_box-bd-color: var(--o-color-control1);
-    --_box-bd-color-hover: var(--o-color-primary2);
+    --_box-bd-color-hover: var(--o-color-control2);
     --_box-bd-color-focus: var(--o-color-primary3);
     --_box-bd-color-disabled: var(--o-color-control4);
   }

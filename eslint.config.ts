@@ -4,8 +4,15 @@ import tseslint from 'typescript-eslint';
 import pluginVue from 'eslint-plugin-vue';
 import eslintPrettier from 'eslint-config-prettier';
 import { defineConfig } from 'eslint/config';
+import type { Linter } from 'eslint';
 
-const rules = {
+import { cumulativeComplexityRule } from './eslint-rules/cumulative-complexity.ts';
+
+const localPlugin = {
+  rules: { 'cumulative-complexity': cumulativeComplexityRule },
+};
+
+const rules: Linter.RulesRecord = {
   'no-debugger': 'warn',
   'no-console': 'warn',
   quotes: ['error', 'single', { avoidEscape: true }],
@@ -52,7 +59,7 @@ const rules = {
       skipBlankLines: true,
     },
   ],
-  complexity: ['warn', 20],
+  'local/cumulative-complexity': ['warn', 8, '^use[A-Z]'],
   'max-depth': ['warn', 4],
   'max-len': [
     'warn',
@@ -68,6 +75,7 @@ const rules = {
   'no-param-reassign': ['error', { props: false }],
   'no-shadow': 'off',
   '@typescript-eslint/no-shadow': ['error', { hoist: 'all' }],
+  'no-redeclare': 'off', // off以支持类型重载
   'no-use-before-define': ['error', { functions: false }],
 
   'no-unused-vars': 'off',
@@ -138,17 +146,20 @@ const rules = {
       ignoreRestSiblings: true,
     },
   ],
-  "@typescript-eslint/no-empty-object-type": [
+  '@typescript-eslint/no-empty-object-type': [
     'warn',
     {
-      allowInterfaces: 'with-single-extends'
+      allowInterfaces: 'with-single-extends',
     },
-  ]
+  ],
 };
 export default defineConfig([
   {
+    ignores: ['**/__demo__/**', '**/__docs__/**'],
+  },
+  {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
-    plugins: { js },
+    plugins: { js, local: localPlugin },
     extends: ['js/recommended'],
     languageOptions: {
       globals: globals.browser,
@@ -165,6 +176,7 @@ export default defineConfig([
   pluginVue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
+    plugins: { local: localPlugin },
     languageOptions: {
       parserOptions: { parser: tseslint.parser },
       globals: {

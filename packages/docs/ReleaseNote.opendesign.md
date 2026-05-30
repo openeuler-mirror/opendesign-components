@@ -1,3 +1,34 @@
+## 1.2.4
+
+### Features
+
+- **ODatePicker/OTimePicker**: 新增日期时间系列选择器，包含 ODatePicker、ODateRangePicker、ODateTimePicker、ODateTimeRangePicker、OMonthPicker、OMonthRangePicker、OYearPicker、OYearRangePicker、OTimePicker、OTimeRangePicker（运行时依赖 `dayjs`）
+- **OCascaderV2**: 新增 PC 端重构的级联选择器组件 OCascaderV2、OCascaderV2Panel；同时 CascaderOptionT 补充 `disabled` 和 `leaf` 字段
+- **OLink**: 新增 `to` 属性，支持 router-link 跳转
+- **OScroller**: 新增 `scrollBy` 方法
+
+### Bug Fixes
+
+- **OCarousel**: 修复组件初始化后动态新增的轮播页不被处理的问题
+- **OCollapse**: 修复折叠动画卡顿不流畅的问题
+- **OAnchor**: 修复窗口宽度变化后高亮选中项错位的问题
+- **OTable/ODataTable**: 修复导出的 `TableRowT` 类型要求强制索引签名的问题
+- **OTextarea**: 修复宽度显示问题
+- **OMenu**: 修复点击子菜单空白区域导致整个菜单关闭的问题
+- **OButton/ODropdown**: 修复 brand 模式禁用状态下错误显示边框的问题
+- **OInput**: 修复仅传入 `extra` slot 时不渲染的问题
+- **useScreen**: 修复服务端渲染时的水合报错（将值的赋值时机调整至 mounted 后）
+
+### Style
+
+- **OCard**: 标题字重由 500 调整为 600
+- **OSkeleton**: 骨架屏动画背景色调整
+- **OButton**:
+  - 文字按钮 hover 颜色由 `primary1` 调整为 `primary2`
+  - 纯图标按钮新增 hover 态颜色与边框色
+- **OSlider**: 滑块按钮新增阴影
+- **OSearch**: 输入图标默认颜色加深；清除按钮调整为聚焦时展示
+
 ## 1.2.3-sp2
 
 ### Bug Fixes
@@ -9,7 +40,7 @@
 
 ### Features
 
-- **hooks:** 
+- **hooks:**
   - 新增 `useElementOverflown`：自动监听元素文本溢出状态，实时返回是否出现水平/垂直滚动条
   - 新增 `useResponseCssVar`：响应式获取CSS变量值，变量变化时自动更新返回结果
   - 新增 `useRunOnceNextTick`：解决同一Vue tick内函数重复执行问题，自动合并重复调用并在下一个tick批量运行
@@ -17,7 +48,7 @@
 
 ### Bug Fixes
 
-- **OTab:** 
+- **OTab:**
   - 修复溢出计算逻辑及移动端水合报错
   - 修复lazy模式下的显示问题
 - **OMenu:** 修复溢出tooltip的内容在服务端渲染时为空的问题
@@ -32,7 +63,6 @@
 
 - **OAvatar:** 增加头像组件
 
-
 ## 1.2.2
 
 ### Features
@@ -44,23 +74,22 @@
 ### Bug Fixes
 
 - **OPopup:** 修复popup更新target后未正确生效的问题
-- **OTab:** 
+- **OTab:**
   - 修复在服务端渲染下的报错问题
   - 修复 `--tab-nav-justify` 变量未被正确应用的问题
 - **OCheckbox/ORadio:** 调整图标中心颜色变量
 - **ODataTable:**
   - 修复hover时合并单元格不高亮的bug
   - 修复横向溢出时竖向滚动条被遮挡无法滑动的问题
-  
+
 ### style
 
-- **OSwitch:** 
+- **OSwitch:**
   - 调整`medium`尺寸的`--switch-text-size`、`--switch-text-height`值，增加`--switch-icon-size`变量用以控制icon大小。
 
 ### Others
 
 - **common:** 调整部分组件ts，修复构建报错
-
 
 ## 1.2.1
 
@@ -68,19 +97,19 @@
 
 - **InInput:** 增加`onlyNumericInput`属性，确保数字输入框仅限数字输入
 - **OUpload:** 拖拽上传文件成功后支持预览（仅限图片资源）与下载文件功能
-  
+
 ### style
 
-- **OUpload:** 
-    - `o-upload-row-item`添加hover态，鼠标hover时显示背景色
-    - 调整`list-type`为`picture-card`时文件上传中、上传失败、上传成功状态的样式
+- **OUpload:**
+  - `o-upload-row-item`添加hover态，鼠标hover时显示背景色
+  - 调整`list-type`为`picture-card`时文件上传中、上传失败、上传成功状态的样式
 
 ### Bug Fixes
 
 - **OPopup:** 修复更新target后未正确生效的问题
-- **ODataTable:** 
-    - 修复横向溢出时竖向滚动条被遮挡无法滑动的问题
-    - 修复hover时合并单元格不高亮的bug
+- **ODataTable:**
+  - 修复横向溢出时竖向滚动条被遮挡无法滑动的问题
+  - 修复hover时合并单元格不高亮的bug
 
 ## 1.2.0
 
@@ -100,7 +129,7 @@
 - **OIpInput:** 新增ip地址输入框组件
 - **OSlider:** 新增滑动条组件
 - **OUpload:** 新增`showProgress`属性控制上传中是否显示进度条的效果
-  
+
 ### Bug Fixes
 
 - **OTab:** 修复了tab-nav由于teleport导致的渲染顺序错乱的问题
@@ -111,39 +140,38 @@
 
 ### BREAKING CHANGES
 
-- **Token:** 
-    - 组件变量迁移至`@opensig/opendesign-token`，不再本仓维护
-    - `o-color-control-light` 更改为 `o-color-control5-light`
-    - 变量值刷新
+- **Token:**
+  - 组件变量迁移至`@opensig/opendesign-token`，不再本仓维护
+  - `o-color-control-light` 更改为 `o-color-control5-light`
+  - 变量值刷新
 - **OTable:** 内部`tr.last`更名为`tr.o-row-last`，`td.last`更名为`td.o-cell-last-col`
 - **OCollapse:** css变量`--collapse-item`定义从`.o-collapse-item`类下迁移至`.o-collapse`
-
 
 ### Features
 
 - **OGrid:** 新增1680断点，通过`pcS`属性控制
-- **OMenu:** 
-    - 修复组件受控逻辑, `OSubMenu` 增加`icon`属性，支持通过属性配置图标
+- **OMenu:**
+  - 修复组件受控逻辑, `OSubMenu` 增加`icon`属性，支持通过属性配置图标
 - **OPopover:** 修改1680px以下字体大小
-- **OMessage:** 
-   - 新增变量`--message-list-top-offset`和`--message-list-bottom-offse`
-   - **useMessage:** `showMessage`返回关闭函数
-   - **OMessageList:** 新增实例方法`close`
-- **OLoading:** 
-   - 新增 `--loading-label-font-size`、`--loading-label-font-height`，`--loading-label-icon-gap`变量
-   - **vLoading:** 支持传入属性对象
+- **OMessage:**
+  - 新增变量`--message-list-top-offset`和`--message-list-bottom-offse`
+  - **useMessage:** `showMessage`返回关闭函数
+  - **OMessageList:** 新增实例方法`close`
+- **OLoading:**
+  - 新增 `--loading-label-font-size`、`--loading-label-font-height`，`--loading-label-icon-gap`变量
+  - **vLoading:** 支持传入属性对象
 - **OPagination:** `total`插槽新增`pageCount`参数
 - **OTable:** td插槽新增`row-index`参数，支持斑马纹
 - **OIcon:** 新增缩放类图标
 - **OInput:**
-   - 增加`length`插槽;
-   - 增加`showLength`参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
+  - 增加`length`插槽;
+  - 增加`showLength`参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
 - **OTextarea:**
-   - 增加`length`插槽;
-   - 增加`showLength`参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
+  - 增加`length`插槽;
+  - 增加`showLength`参数，控制是否显示内容长度信息；[#ID7C8R](https://gitee.com/openeuler/opendesign-components/issues/ID7C8R)
 - **OUpload:**
-   - 增加子项相关事件`itemRemove`、`itemRetry`、`itemReplace`、`itemPreview`、`itemClick`；
-   - 增加暴露的接口：`replaceById`、`replaceByIndex`、`removeById`、`previewItemByIndex`、`previewItemById` [#ICSTRO](https://gitee.com/openeuler/opendesign-components/issues/ICSTRO)
+  - 增加子项相关事件`itemRemove`、`itemRetry`、`itemReplace`、`itemPreview`、`itemClick`；
+  - 增加暴露的接口：`replaceById`、`replaceByIndex`、`removeById`、`previewItemByIndex`、`previewItemById` [#ICSTRO](https://gitee.com/openeuler/opendesign-components/issues/ICSTRO)
 - **OLayer:** 增加向后代组件注入`toggle`方法
 - **OLoading** 增加size属性：支持large、medium、small、mini，优化响应式适配
 - **OAnchor** 增加observeHref参数，以自定义监听元素
@@ -152,27 +180,27 @@
 
 ### Bug Fixes
 
-- **OToggle:** 
+- **OToggle:**
   - 刷新在laptop、pad竖屏以下 时的尺寸及内边距
   - `round`属性支持非`pill`的值(一般css值类型)
 - **OSwitch:** 修复未传递`modelValue`值时，组件不能工作的问题
-- **OMessageList:** 
+- **OMessageList:**
   - 修复`remove`方法未正确处理`destroy`回调
   - 暴露`close`方法
 - **useMessage:** 修复`close`函数功能
 - **OPagination:** 跳转元素内文本与输入框居中对齐
-- **OTab:** 
-   - 修复视口宽度变化时，滚动计算不正确的问题
-   - 修复`prefix`或`suffix`插槽增加内容时，`tab-navs`溢出问题
-   - 修复`tab-nav`高度不同时底部不能对齐横向分割线的问题
+- **OTab:**
+  - 修复视口宽度变化时，滚动计算不正确的问题
+  - 修复`prefix`或`suffix`插槽增加内容时，`tab-navs`溢出问题
+  - 修复`tab-nav`高度不同时底部不能对齐横向分割线的问题
 - **OTag:** 修复受控模式问题
-- **OTable:** 
-   - 修复右侧单元格为合并单元格时last条件计算错误的问题
-   - 解决表格hover高亮不准确的问题 [#ICW5SF](https://gitee.com/openeuler/opendesign-components/issues/ICW5SF)
+- **OTable:**
+  - 修复右侧单元格为合并单元格时last条件计算错误的问题
+  - 解决表格hover高亮不准确的问题 [#ICW5SF](https://gitee.com/openeuler/opendesign-components/issues/ICW5SF)
 - **OCarousel:** 修复hover暂停播放时指示器不显示激活状态的样式问题 [#ID40RO](https://gitee.com/openeuler/opendesign-components/issues/ID40RO)
 - **OInput:** 修复在长度限制后，粘贴字符串超出长度，粘贴失效问题 [#ID74CT](https://gitee.com/openeuler/opendesign-components/issues/ID74CT)；**注意**：`input` 事件始终上报用户当前输入的原始值（截断/校验处理前），`update:modelValue` 更新的值则为经过截断或校验处理后的值，两者在超出 `maxLength` 等场景下可能不一致
 - **OAnchor:** 修复`title`包含长单词/数字，导致盒子宽度被撑开的问题 [#ID77PX](https://gitee.com/openeuler/opendesign-components/issues/ID77PX)
-- **OFigure:** 
+- **OFigure:**
   - 移动端`previewClose`的`image`值修正为`body`值
   - 修复在百度浏览器中点击预览热区引发浏览器查看大图功能的问题
 - **OPopup:** 修复`click`事件未正确移除的bug
@@ -181,20 +209,20 @@
 ### style
 
 - **Mixin** 刷新响应式断点（laptop更新为[1200px, 1680px]），并新增respond
-- **OLink** 
-    - 尺寸为`large`时图标尺寸修改为从`--o-icon_size_control-m`变更为`--o-icon_size_control-s`
-    - `hoverUnderline`默认值更改为`true`
-    - `normal`态文本颜色改用`o-coloc-link1`
+- **OLink**
+  - 尺寸为`large`时图标尺寸修改为从`--o-icon_size_control-m`变更为`--o-icon_size_control-s`
+  - `hoverUnderline`默认值更改为`true`
+  - `normal`态文本颜色改用`o-coloc-link1`
 - **ORate** 优化star图标，primary态颜色使用`--o-color-main1`
-- **OButton** 
-    - 文本按妞去掉hover态背景色
-    - 图标按妞增加hover态背景色
+- **OButton**
+  - 文本按妞去掉hover态背景色
+  - 图标按妞增加hover态背景色
 - **OAnchor** 调整未选中时圆圈指示颜色为灰色
-- **textarea** 
-    - rows默认值修改为4；
-    - 删除最小高度样式；
-    - 圆角为`pill`时，值为`--o-radius_control-l`
-    - `o_textarea-count`块增加了背景色，通过变量`--limit-bg-color`控制
+- **textarea**
+  - rows默认值修改为4；
+  - 删除最小高度样式；
+  - 圆角为`pill`时，值为`--o-radius_control-l`
+  - `o_textarea-count`块增加了背景色，通过变量`--limit-bg-color`控制
 - **OPagination** 省略项页码在hover时去掉了左右箭头
 - **OPopver** 气泡带描边，通过变量`--popup-bd`控制
 - **OPopop** 描边的位置由`o-popup-body`上升到`o-popup-wrap`
@@ -204,11 +232,9 @@
 - **TypeScript:** 修复一系列组件相关ts类型声明，详见提交：[#IDCFAA](https://gitee.com/openeuler/opendesign-components/issues/IDCFAA)
 - **溢出打断规则** 修改为`break-word`，涉及组件`OMessage`、`OCard`、`OMenu`
 
-
 ### Others
 
 包含1.0.1-sp1的变更
-
 
 ## 1.0.1-sp5
 
@@ -216,42 +242,40 @@
 
 - **OTable:** 降级兼容ios下表头分割线定位问题
 
-
 ## 1.0.1-sp3/4
 
 ### Bug Fixes
 
 - **use-input:** 修复输入类组件输入一次触发两次input事件的问题
 
-
 ## 1.0.1-sp1
 
 ### BREAKING CHANGES
 
 - **OMenu:** 重构OMenu [#IDCF7H](https://gitee.com/openeuler/opendesign-components/issues/IDCF7H)
-    - 增加引导线风格菜单
-    - 增加`arrowPosition`参数，值为`left`时两行溢出隐藏
-    - 移除item的Mouseleave事件
-    - 移除levelIndent参数,每级节点增加了`data-level`属性
-    - popover组件已经监听相关事件
-    - 重构变量，不再区分item与sub的区别，而是根据层级区分样式
-    - 使用上下padding替代高度设置
+  - 增加引导线风格菜单
+  - 增加`arrowPosition`参数，值为`left`时两行溢出隐藏
+  - 移除item的Mouseleave事件
+  - 移除levelIndent参数,每级节点增加了`data-level`属性
+  - popover组件已经监听相关事件
+  - 重构变量，不再区分item与sub的区别，而是根据层级区分样式
+  - 使用上下padding替代高度设置
 - **OAnchor:** 重构OAnchor [#IDCF88](https://gitee.com/openeuler/opendesign-components/issues/IDCF88)
-    - 增加尺寸区别: small、medium、menu
-    - 增加一级锚点圆圈指示器
-    - 增加行溢出隐藏加气泡提示
-    - 增加外部链跳转逻辑(除_self都认为是外链)
-    - 增加item的disabled属性
-    - 去除hover与active的背托、增加hover与active的字体颜色
-    - 修改粗体字号为600
+  - 增加尺寸区别: small、medium、menu
+  - 增加一级锚点圆圈指示器
+  - 增加行溢出隐藏加气泡提示
+  - 增加外部链跳转逻辑(除\_self都认为是外链)
+  - 增加item的disabled属性
+  - 去除hover与active的背托、增加hover与active的字体颜色
+  - 修改粗体字号为600
 
 ### Features
 
 - **OTable:** 按新规范调整OTable样式 [#IDCF63](https://gitee.com/openeuler/opendesign-components/issues/IDCF63)
-    - 修改字号、行高、间距、字重
-    - 修改表头背景色及下分割线
-    - 增加o-table-medium选择器
-    - 修改响应式选择器为o-table-medium
+  - 修改字号、行高、间距、字重
+  - 修改表头背景色及下分割线
+  - 增加o-table-medium选择器
+  - 修改响应式选择器为o-table-medium
 - **ORate:** 修改ORate空样式为空心星 [#IDCF60](https://gitee.com/openeuler/opendesign-components/issues/IDCF60)
 - **OMessage:** 调整OMessage内联组件为带icon样式 [#IDCF5X](https://gitee.com/openeuler/opendesign-components/issues/IDCF5X)
 - **OCard:** 增加titleIcon属性 [#IDCF5V](https://gitee.com/openeuler/opendesign-components/issues/IDCF5V)
@@ -264,7 +288,6 @@
 ### Chore
 
 - 升级 `sass-embedded` 版本至1.85.1 [#IDCF6U](https://gitee.com/openeuler/opendesign-components/issues/IDCF6U)
-
 
 ## 1.0.4
 
@@ -290,8 +313,8 @@
 - **OBreadcrumb:** 修复 `--breadcrumb-seperator-size` 单词拼写错误，正确写法: `--breadcrumb-separator-size`
 - **OCascader:** 修复 `--cascader-options-bd-clor` 单词拼写错误，正确写法: `--cascader-options-bd-color`
 - **OFigure:**
-    - 修复组件 `lazyPreiew` 参数单词拼写错误, 正确写法: `lazyPreview`
-    - 组件background在dom中生效的位置自 `.o-figure-wrap` 调高至 `.o-figure`
+  - 修复组件 `lazyPreiew` 参数单词拼写错误, 正确写法: `lazyPreview`
+  - 组件background在dom中生效的位置自 `.o-figure-wrap` 调高至 `.o-figure`
 
 ### Features
 
@@ -310,11 +333,11 @@
 - **OSelect:** 优化select组件provide的select函数
 - **vScrollbar:** 优化类型签名
 - **OFigure:**
-    - 修复当 background 为真时图片懒加载完成前不能通过 ratio 属性保持宽高比的问题
-    - 修复组件在设置 background 为 true 且未设置 ratio 属性时
-        - background 不显示
-        - load 或 error 触发两次
-        - 组件的高度应该通过默认插槽中的内容撑开
+  - 修复当 background 为真时图片懒加载完成前不能通过 ratio 属性保持宽高比的问题
+  - 修复组件在设置 background 为 true 且未设置 ratio 属性时
+    - background 不显示
+    - load 或 error 触发两次
+    - 组件的高度应该通过默认插槽中的内容撑开
 
 ### Code Refactoring
 
@@ -403,8 +426,8 @@
 - **OInput/OTextarea:** onInvalidChange 修改为 valueForInvalid;样式重构;
 - **OScrollbar:** scrollbar 新增 barClass 接口，支持自定义类;
 - **ODialog:**
-    - actions 支持设置 `loading`、`disabled` 属性
-    - 新增 css 变量`--dlg-actions-justify` 控制 actions 布局
+  - actions 支持设置 `loading`、`disabled` 属性
+  - 新增 css 变量`--dlg-actions-justify` 控制 actions 布局
 
 ### Bug Fixes
 
@@ -434,9 +457,9 @@
 
 - **OLayer:** 新增 buttonClose 字段，支持通过关闭图标关闭弹层
 - **OFigure:**
-    - previewClose 新增 body 值，支持点击内容区域关闭预览
-    - 移动端蒙层样式修改为黑色;
-    - 原 slot "preview"修改为"preview-extra"，"preview"用于定制整个内容区域
+  - previewClose 新增 body 值，支持点击内容区域关闭预览
+  - 移动端蒙层样式修改为黑色;
+  - 原 slot "preview"修改为"preview-extra"，"preview"用于定制整个内容区域
 - **OInputNumber:** 新增 clearValue，用于设置清空输入框时，失焦后的默认值
 
 ### Bug Fixes
@@ -447,8 +470,8 @@
 ### Chore
 
 - 依赖升级
-    - vite5 -> vite6
-    - vue3.4 -> 3.5
+  - vite5 -> vite6
+  - vue3.4 -> 3.5
 
 ## 0.0.71
 
@@ -459,21 +482,21 @@
 ### Features
 
 - **OVirtualList:**
-    - 虚拟列表支持数据动态追加（头部/尾部）；
-    - 新增`renderChange`事件, 参数支持获取渲染可视区域序号；
-    - 新增 defaultItemSize 字段，支持不定高时，设置项默认高度
-    - API scrollToIndex => scrollToView
+  - 虚拟列表支持数据动态追加（头部/尾部）；
+  - 新增`renderChange`事件, 参数支持获取渲染可视区域序号；
+  - 新增 defaultItemSize 字段，支持不定高时，设置项默认高度
+  - API scrollToIndex => scrollToView
 - **OMessage:** 支持指定 message 显示到指定目标元素周围
 - 增加木兰许可证
 - **InBox:** 移除 input 属性
 - **OFigure:**
-    - 新增 previewClose 属性，支持控制关闭 preview 的方式；
-    - 支持通过 api：preivew 控制关闭预览
-    - 支持懒加载 lazy
+  - 新增 previewClose 属性，支持控制关闭 preview 的方式；
+  - 支持通过 api：preivew 控制关闭预览
+  - 支持懒加载 lazy
 - **OInput/OTextarea:**: 新增beforeInput，支持对输入控制
 - **hooks:**
-    - 重构 useIntersectionObserver 支持传入 options，添加 destroy 方法
-    - 优化 useResizeObserver，添加 destroy 方法
+  - 重构 useIntersectionObserver 支持传入 options，添加 destroy 方法
+  - 优化 useResizeObserver，添加 destroy 方法
 - **OLink:** 去掉 link 的 display：inline-flex 样式
 - **OCascaderPanel:** 导出 OCascaderPanel 组件
 
@@ -482,9 +505,9 @@
 - 修复部分文本错误
 - **OScrollbar:** 修复 showType 为 hover 且使用 useScrollbar 时，hover 不显示滚动条问题;
 - **OVirtualList:**
-    - 修正 endIndex 计算不正确问题
-    - 解决项较少，无滚动时，初始定位不正确导致显示错误问题
-    - 修复容器通过 display：none 切换后，设置 scrollToView(0)，未正确滚动到指定问题问题
+  - 修正 endIndex 计算不正确问题
+  - 解决项较少，无滚动时，初始定位不正确导致显示错误问题
+  - 修复容器通过 display：none 切换后，设置 scrollToView(0)，未正确滚动到指定问题问题
 - **OInputNumber:** 修复在直接修改 modelValue 值情况下，导致后续输入之前的值不触发 change 问题
 - **OOption:** 修复 OOption 组件 value 相同，label 不同时死循环 bug
 - **OLink:** 修复箭头动画；修复多行文本下划线显示不正确问题

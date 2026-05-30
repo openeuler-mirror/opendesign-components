@@ -168,7 +168,7 @@ export const routes = [
     name: 'Checkbox',
     component: () => import('@opendesign-src/checkbox/__demo__/TheIndex.vue'),
     meta: {
-      title: '多选框 Checkbox',
+      title: '复选框 Checkbox',
     },
   },
   {

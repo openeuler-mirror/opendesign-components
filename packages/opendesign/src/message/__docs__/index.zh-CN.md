@@ -1,9 +1,9 @@
 ---
-sidebar: OMessage 消息
+sidebar: OMessage 消息提示
 kind: feedback
 ---
 
-# OMessage 消息
+# OMessage 消息提示
 
 ## 示例
 

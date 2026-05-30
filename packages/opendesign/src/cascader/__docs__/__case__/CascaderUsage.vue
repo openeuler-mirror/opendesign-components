@@ -151,10 +151,6 @@ const _oCtx = reactive({
               value: '1-1-5',
             },
             {
-              label: 'Sub-option 1-1-1',
-              value: '1-1-1',
-            },
-            {
               label: 'Sub-option 1-1-6',
               value: '1-1-6',
             },
@@ -181,6 +177,38 @@ const _oCtx = reactive({
           label: 'Sub-option 1-2',
           value: '1-2',
         },
+        {
+          label: 'Sub-option 1-3',
+          value: '1-3',
+        },
+        {
+          label: 'Sub-option 1-4',
+          value: '1-4',
+        },
+        {
+          label: 'Sub-option 1-5',
+          value: '1-5',
+        },
+        {
+          label: 'Sub-option 1-6',
+          value: '1-6',
+        },
+        {
+          label: 'Sub-option 1-7',
+          value: '1-7',
+        },
+        {
+          label: 'Sub-option 1-8',
+          value: '1-8',
+        },
+        {
+          label: 'Sub-option 1-9',
+          value: '1-9',
+        },
+        {
+          label: 'Sub-option 1-10',
+          value: '1-10',
+        },
       ],
     },
     {
@@ -196,6 +224,38 @@ const _oCtx = reactive({
           value: '2.2',
         },
       ],
+    },
+    {
+      label: 'Option 3',
+      value: '3',
+    },
+    {
+      label: 'Option 4',
+      value: '4',
+    },
+    {
+      label: 'Option 5',
+      value: '5',
+    },
+    {
+      label: 'Option 6',
+      value: '6',
+    },
+    {
+      label: 'Option 7',
+      value: '7',
+    },
+    {
+      label: 'Option 8',
+      value: '8',
+    },
+    {
+      label: 'Option 9',
+      value: '9',
+    },
+    {
+      label: 'Option 10',
+      value: '10',
     },
   ],
 });
