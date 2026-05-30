@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 若你发现项目下有`skills-lock.json`但是没有找到`.agents/skills`，那你应该在项目根目录运行`pnpx skills experimental_install`以安装他们，然后再看问题中是否有命中的skills
 - **项目开发专属 skill**（手动编写、随代码一起提交）存放在 **`packages/skills/`**，优先在此查找与本项目开发相关的指导，例如：
   - [`clean-code`](packages/skills/clean-code/SKILL.md)：代码质量诊断与重构指南，涉及 clean code、重构函数/模块、降低复杂度、消除嵌套、参数过多、函数体过长等话题时使用
+  - [`release-note`](packages/skills/release-note/SKILL.md)：Release Note 生成指南，写版本日志、整理 feat/fix/breaking change、更新 ReleaseNote.opendesign.md 或 ReleaseNote.scripts.md 时使用
 - 你的所有回答应始终遵循`karpathy-guidelines`
 
 ## 仓库概览
