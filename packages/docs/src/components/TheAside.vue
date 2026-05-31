@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { h, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useSidebarStore, type NavItem } from '@/stores/sidebar';
-import { OMenu, OSubMenu, OMenuItem, vScrollbar, OInput, debounce } from '@opensig/opendesign';
+import { OMenu, vScrollbar, OInput, debounce } from '@opensig/opendesign';
+import RecursiveMenu from './RecursiveMenu';
 const router = useRouter();
 const route = useRoute();
 
@@ -12,12 +13,6 @@ const emits = defineEmits<{
   (e: 'clickSidebar'): void;
 }>();
 
-const RecursiveMenu = (props: NavItem) => {
-  if (props.children?.length) {
-    return h(OSubMenu, { value: props.value }, { default: () => props.children!.map((item) => h(RecursiveMenu, item)), title: () => props.label });
-  }
-  return h(OMenuItem, { value: props.value }, { default: () => props.label });
-};
 const path = ref('');
 const expand = ref<string[]>([]);
 watch(

@@ -5,7 +5,8 @@ import { type MarkdownItAsync } from 'markdown-it-async';
  * @param md markdown-it instance
  */
 export default function wrapTable(md: MarkdownItAsync) {
-  md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
+  md.renderer.rules.table_open = (...args) => {
+    const [tokens, idx, , , self] = args;
     const attrs = tokens[idx].attrs || self.renderAttrs(tokens[idx]);
     return `<div class="o-table o-table-small portal-table"><div class="o-table-wrap o-table-border-row"><table ${attrs}>`;
   };

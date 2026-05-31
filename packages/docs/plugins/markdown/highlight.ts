@@ -8,6 +8,51 @@ const baseConfig = {
   themes: [import('@shikijs/themes/light-plus'), import('@shikijs/themes/dark-plus')],
   engine: createJavaScriptRegexEngine(),
 };
+
+/** SFC 块定位信息（用于排序比较） */
+interface SfcBlockWithOffset {
+  /** 块的定位信息 */
+  loc: { start: { offset: number } };
+}
+
+/**
+ * 按 SFC 块起始偏移量排序的比较函数
+ * @param a - 第一个块
+ * @param b - 第二个块
+ * @returns 偏移量差值
+ */
+const sortByOffset = (a: SfcBlockWithOffset, b: SfcBlockWithOffset): number => a.loc.start.offset - b.loc.start.offset;
+
+/**
+ * 将单行代码包裹为高亮行 span 标签
+ * @param line - 单行代码内容
+ * @returns 包裹后的 HTML 字符串
+ */
+const wrapLine = (line: string): string => `<span class="line">${line}</span>`;
+
+/** Vue SFC 块高亮上下文 */
+interface VueBlockHighlightContext {
+  /** Vue 模板专用高亮器 */
+  vueTemplateHighlighter: Awaited<ReturnType<typeof createHighlighterCore>>;
+  /** 主高亮器 */
+  mainHighlighter: Awaited<ReturnType<typeof createHighlighterCore>>;
+  /** 主题配置 */
+  themeConfig: { themes: { light: string; dark: string }; defaultColor: false };
+  /** 去除 pre/code 标签函数 */
+  stripPreCodeTag: (html: string) => string;
+}
+
+/**
+ * 高亮单个 Vue SFC 块
+ * @param block - SFC 块描述对象
+ * @param ctx - 高亮上下文
+ * @returns 高亮后的代码字符串
+ */
+const highlightVueBlock = (block: any, ctx: VueBlockHighlightContext): string => {
+  const highlighter = block.type === 'template' ? ctx.vueTemplateHighlighter : ctx.mainHighlighter;
+  return ctx.stripPreCodeTag(highlighter.codeToHtml(generateCode(block), { ...ctx.themeConfig, lang: 'vue' }));
+};
+
 /**
  * 创建高亮函数
  * @returns 高亮函数
@@ -79,10 +124,7 @@ export const createHighlighter = async () => {
 
   return function highlight(code: string, lang: string) {
     if (!supportLangs.has(lang)) {
-      return escapeHtml(code)
-        .split('\n')
-        .map((line) => `<span class="line">${line}</span>`)
-        .join('\n');
+      return escapeHtml(code).split('\n').map(wrapLine).join('\n');
     }
 
     if (lang === 'vue') {
@@ -90,14 +132,10 @@ export const createHighlighter = async () => {
       // vue的template模块需要单独处理，因此分块高亮
       const blocks = [descriptor.script, ...descriptor.styles, descriptor.scriptSetup, ...descriptor.customBlocks, descriptor.template]
         .filter(Boolean)
-        .sort((a, b) => a.loc.start.offset - b.loc.start.offset);
+        .sort(sortByOffset);
 
-      return blocks
-        .map((block) => {
-          const highlighter = block.type === 'template' ? vueTemplateHighlighter : mainHighlighter;
-          return stripPreCodeTag(highlighter.codeToHtml(generateCode(block), { ...themeConfig, lang: 'vue' }));
-        })
-        .join('\n');
+      const ctx = { vueTemplateHighlighter, mainHighlighter, themeConfig, stripPreCodeTag };
+      return blocks.map((block) => highlightVueBlock(block, ctx)).join('\n');
     }
 
     return stripPreCodeTag(mainHighlighter.codeToHtml(code, { ...themeConfig, lang }));

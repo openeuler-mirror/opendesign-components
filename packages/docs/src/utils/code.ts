@@ -33,7 +33,7 @@ export async function highlight(code: string, lang: string) {
   if (!highlighter) {
     highlighter = await createHighlighter();
   }
-  return highlighter(code, lang);
+  return highlighter!(code, lang);
 }
 
 export async function prettier(code: string, parser: string): Promise<string> {

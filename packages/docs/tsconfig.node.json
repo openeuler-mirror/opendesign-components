@@ -6,10 +6,5 @@
     "allowSyntheticDefaultImports": true,
     "target": "esnext"
   },
-  "include": [
-    "vite.config.ts",
-    "plugins/**/*.ts",
-    "scripts/**/*.ts",
-    "helper/**/*.ts"
-  ]
+  "include": ["shared/**/*.ts", "vite.config.ts", "plugins/**/*.ts", "scripts/**/*.ts", "helper/**/*.ts"]
 }
