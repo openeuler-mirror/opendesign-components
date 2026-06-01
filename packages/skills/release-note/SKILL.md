@@ -1,15 +1,21 @@
 ---
 name: release-note
-description: Release Note 生成指南。当被要求写 release note、生成版本日志、更新 changelog、总结版本变更，或讨论 feat/fix/breaking change/style 变更归类等相关话题时应用。
+description: Release Note 生成指南。当被要求写 release note、生成版本日志、更新 changelog、总结版本变更、确认版本号、归类 feat/fix/breaking change/style 变更、处理 sp 版本、发布 scripts 包版本日志时应用。
 metadata:
-  version: '1.1.0'
+  version: '1.2.0'
 ---
 
 # Release Note 生成指南
 
-> **触发场景：** 写 release note / 生成版本日志 / 更新 changelog / 归类版本变更 / 整理 feat/fix/breaking change
+> **触发场景：** 写 release note / 生成版本日志 / 更新 changelog / 归类版本变更 / 确认版本号 / sp 版本 / scripts 包发布 / 整理 feat/fix/breaking change
 
 > **上下文：** 本项目是一个 Vue 3 组件库。release note 的读者是**组件库使用者**（调用方），而非仓库内部开发者。判断变更是否值得写入 release note、以及归入哪个分区，始终以「对组件库使用者是否可见/有影响」为第一标准。
+
+> **详细规范按话题分放在 references 目录下：**
+>
+> - **提交分区判断**（分区归属、Style 边界）→ [`references/classification.md`](references/classification.md)
+> - **Scope 规范化**（组件名称、hooks 命名）→ [`references/scope-format.md`](references/scope-format.md)
+> - **版本占位符替换**（@since NEXT → 实际版本号）→ [`references/version-placeholder.md`](references/version-placeholder.md)
 
 ---
 
@@ -53,98 +59,12 @@ git log <last_tag>..HEAD --format="%h %s" --no-merges
 
 ---
 
-## 第二步：逐条判断提交的分区归属
+## 第二步～第四步
 
-**提交消息仅供参考，不能作为分区的唯一依据。** 必须结合实际变更内容综合判断。
+逐条判断提交的分区归属 → Style 分区边界 → scope 名称规范化，详见：
 
-对每条提交，先查看具体改了哪些文件：
-
-```bash
-git show <commit_hash> --stat
-```
-
-对关键文件查看具体改动：
-
-```bash
-git show <commit_hash> -- packages/opendesign/src/<component>/
-```
-
-**判断原则（以对组件库使用者的影响为准）：**
-
-| 实际变更内容                                                        | 归属分区                         |
-| ------------------------------------------------------------------- | -------------------------------- |
-| 新增组件、新增 prop/event/slot/expose                               | `### Features`                   |
-| 新增对使用者可见的 CSS 变量                                         | `### Features`                   |
-| 修复功能性 bug（含 SSR、类型错误等）                                | `### Bug Fixes`                  |
-| 修复视觉 bug（组件显示错误、样式异常）                              | `### Bug Fixes`                  |
-| 调整 CSS 变量默认值、组件视觉细节（非 bug，非新功能，但使用者可见） | `### Style`                      |
-| 删除/重命名 prop、修改 DOM 结构、CSS 变量重命名                     | `### BREAKING CHANGES`           |
-| 内部重构（使用者不可见、不影响 API）                                | `### Code Refactoring`           |
-| 引入新 `peerDependency`                                             | `### BREAKING CHANGES`           |
-| 引入新运行时 `dependency`（支撑某功能）                             | 附注在对应功能条目，不单独开条目 |
-| 引入新运行时 `dependency`（无对应功能）                             | `### Chore`                      |
-| 升级已有依赖、构建脚本、CI 配置                                     | `### Chore`                      |
-| 仅更新文档、测试文件                                                | **跳过，不写入 release note**    |
-
-**第三方依赖附注写法：** 运行时依赖随所支撑的功能条目一并说明，不单独列条目：
-
-```markdown
-- **ODatePicker:** 新增日期时间系列选择器（运行时依赖 `dayjs`）
-```
-
-**模糊情况：** 若变更内容仍难以判断归属（如：既像功能调整又像 bug 修复），**主动询问用户**，说明具体变更，请用户定夺。
-
----
-
-## 第三步：`### Style` 分区的使用边界
-
-`### Style` 分区专指：**不改变组件功能逻辑，但使用者可以观察到的视觉/样式调整**。
-
-常见例子：
-
-- 调整 CSS 变量的默认值（如修改 `--switch-text-size` 的值）
-- 修改组件某个状态下的颜色、字号、间距，但属于视觉优化而非 bug
-- 修改某个 prop 的默认表现（如字体加粗、hover 色等），没有改 API
-
-**以下情况不归 `### Style`：**
-
-| 情况                                 | 正确归属                          |
-| ------------------------------------ | --------------------------------- |
-| 视觉变更修复了已知 bug               | `### Bug Fixes`                   |
-| 新增 CSS 变量供用户使用              | `### Features`                    |
-| 纯代码格式化/linting，不影响构建产物 | **跳过**                          |
-| 组件内部实现调整，使用者无法感知     | `### Code Refactoring` 或**跳过** |
-
----
-
-## 第四步：scope → 条目名称规范化
-
-所有条目名称统一使用 `**name:**` 加粗格式，包括组件、hooks、工具方法。
-
-| commit scope         | Release Note 中的名称                                     |
-| -------------------- | --------------------------------------------------------- |
-| `OInput`             | `**OInput:**`（保持原样）                                 |
-| `OInput/OTextarea`   | `**OInput/OTextarea:**`（保持原样）                       |
-| `cascader`           | `**OCascader:**`（加 `O` 前缀 + 首字母大写）              |
-| `tab`                | `**OTab:**`                                               |
-| `hooks`（泛指多个）  | `**hooks:**`                                              |
-| `utils`（泛指多个）  | `**utils:**`                                              |
-| `useScreen`          | `**useScreen:**`（具名 hook，直接使用）                   |
-| `use-scrollbar`      | `**useScrollbar:**`（默认导出，文件名转化为小驼峰后使用） |
-| 无 scope（全局变更） | 直接写描述，不加粗名称                                    |
-
-**规则：**
-
-- scope 若已含 `O` 前缀（组件），直接使用
-- scope 是组件目录名但没有 `O` 前缀，检查 `packages/opendesign/src/` 下是否有同名子目录，有则加 `O` + 首字母大写
-- scope 是具名 hook 或公共工具方法（`useXxx`、`use-xxx`），**直接使用原名加粗**，不加 `O` 前缀，若是默认导出，文件名转化为小驼峰后使用
-- scope 泛指多个 hooks 时用 `**hooks:**`，并在下方嵌套列出各具名方法：
-
-```markdown
-- **hooks:**
-  - 新增 `useElementOverflown`：自动监听元素文本溢出状态
-  - 新增 `useResponseCssVar`：响应式获取 CSS 变量值
-```
+- [`references/classification.md`](references/classification.md)（分区归属判断 + Style 边界）
+- [`references/scope-format.md`](references/scope-format.md)（scope → 条目名称规范化）
 
 ---
 
@@ -219,7 +139,7 @@ git show <commit_hash> -- packages/opendesign/src/<component>/
 
 ### Bug Fixes
 
-- **OComponentName:** 修复描述（如有 issue 链接：[#IDXXXX](https://gitee.com/openeuler/opendesign-components/issues/IDXXXX)）
+- **OComponentName:** 修复描述（如有 issue 链接：[#IDXXXX](https://atomgit.com/openeuler/opendesign-components/issues/IDXXXX)）
 
 ### Style
 
@@ -240,7 +160,7 @@ git show <commit_hash> -- packages/opendesign/src/<component>/
 2. `### BREAKING CHANGES` 若存在，始终放在最前
 3. 分区顺序：`BREAKING CHANGES` → `Features` → `Bug Fixes` → `Style` → `Code Refactoring` → `Chore` → `Others`
 4. 版本号与用户确认的 `<new_version>` 一致，格式 `## <new_version>`
-5. Issue 链接格式：`[#IDXXXX](https://atomgi.com/openeuler/opendesign-components/issues/IDXXXX)`
+5. Issue 链接格式：`[#IDXXXX](https://atomgit.com/openeuler/opendesign-components/issues/IDXXXX)`
 
 ---
 
@@ -253,11 +173,13 @@ git show <commit_hash> -- packages/opendesign/src/<component>/
 2. git log <last_tag>..HEAD --format="%h %s" --no-merges
                                   ← 获取全部原始提交
 3. 对每条提交: git show <hash> --stat
-                                  ← 结合实际文件变更判断分区
+                                  ← 结合实际文件变更判断分区（→ classification.md）
 4. 遇到模糊提交，向用户说明变更内容，请用户定夺归属
-5. 规范化组件名，同组件多条提交聚合
+5. 规范化组件名（→ scope-format.md），同组件多条提交聚合
 6. 按模板格式化，插入 release note 文件头部
 7. 向用户展示草稿，并注明「以上内容基于分支 <branch>」
+8. 批量替换版本占位符（→ version-placeholder.md）
+9. pnpm gen:api → 最终确认自动生成文件
 ```
 
 ---
@@ -281,3 +203,20 @@ git show <commit_hash> -- packages/opendesign/src/<component>/
 ### scripts 包
 
 `open-scripts` 的 release note 格式相同，tag 前缀为 `scripts-`，release note 文件为 `ReleaseNote.scripts.md`。
+
+---
+
+## 检查清单
+
+- [ ] 已与用户确认 `last_tag` 和 `new_version`（不得自行假设）
+- [ ] 已记录当前分支名，并在草稿中注明
+- [ ] 每条提交已查看实际文件变更（`git show <hash> --stat`），而非仅凭 commit 消息判断分区
+- [ ] 分区归属判断遵循「对使用者是否可见/有影响」原则（→ [`classification.md`](references/classification.md))
+- [ ] 模糊归属的提交已向用户说明并请用户定夺
+- [ ] scope 名称已按规范加 `O` 前缀或保持原名（→ [`scope-format.md`](references/scope-format.md))
+- [ ] 同一组件的多条提交已聚合为净变化描述
+- [ ] 新建组件只算一条 Features 条目，建设期 fix 不拆分列出
+- [ ] 格式模板分区顺序正确（BREAKING → Features → Bug Fixes → Style → Refactoring → Chore）
+- [ ] 没有变更的分区整体省略，无空标题
+- [ ] 版本占位符已批量替换（`@since NEXT` → 实际版本号、`^[NEXT](primary)` → 实际版本号）（→ [`version-placeholder.md`](references/version-placeholder.md))
+- [ ] 替换完成后运行了 `pnpm gen:api` 并检查 git diff

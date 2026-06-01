@@ -9,6 +9,8 @@ metadata:
 
 > **触发场景：** clean code / 代码质量 / 重构函数或模块 / 降低复杂度 / 消除嵌套 / 参数过多 / 函数体过长 / 圈复杂度 / 认知复杂度 / 卫语句 / 查表 / 状态机 / 拆分 composable
 
+> **关联 skill：** 涉及组件 `types.ts` JSDoc 注释质量（中文注释完整性、参数说明规范）时，参见 [`component-docs`](../component-docs/SKILL.md) skill 的 [`annotations.md`](../component-docs/references/annotations.md)。clean-code 侧重代码结构质量，component-docs 侧重 API 文档注释规范——两者互为补充。
+
 ## 第一步：用 ESLint 扫描问题（必须最先执行）
 
 **所有问题必须由 ESLint 报告，禁止用模型阅读代码后自行估算。** 模型心算容易漏计分支、误判运算符，结论不可信。

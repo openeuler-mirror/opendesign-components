@@ -9,7 +9,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **项目开发专属 skill**（手动编写、随代码一起提交）存放在 **`packages/skills/`**，优先在此查找与本项目开发相关的指导，例如：
   - [`clean-code`](packages/skills/clean-code/SKILL.md)：代码质量诊断与重构指南，涉及 clean code、重构函数/模块、降低复杂度、消除嵌套、参数过多、函数体过长等话题时使用
   - [`release-note`](packages/skills/release-note/SKILL.md)：Release Note 生成指南，写版本日志、整理 feat/fix/breaking change、更新 ReleaseNote.opendesign.md 或 ReleaseNote.scripts.md 时使用
+  - [`component-docs`](packages/skills/component-docs/SKILL.md)：组件文档与注释规范指南，涉及 types.ts JSDoc 注释、Demo/Case 编写、文档页面编写、gen:api 流程等话题时使用
+- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)。
 - 你的所有回答应始终遵循`karpathy-guidelines`
+- **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 [`clean-code`](packages/skills/clean-code/SKILL.md) skill。
+- **中文注释要求：** 所有新增或修改的代码必须附带完备的 JSDoc 格式中文注释，包括：`@description` 功能说明、`@param` 参数含义、`@returns` 返回值说明、关键逻辑的行内注释、复杂条件分支的解释。注释应准确、简洁，避免无意义的翻译式注释。
 
 ## 仓库概览
 
@@ -31,6 +35,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm docs:dev      # 启动文档站开发服务器（端口 3300）
 pnpm docs:build    # 构建文档站
 pnpm docs:install  # 完整初始化：install + 生成图标 + 生成 API 文档
+
+# opendesign 组件库构建
+pnpm -C packages/opendesign build
 ```
 
 ## CSS 变量规范
@@ -116,7 +123,7 @@ pc: (1680px, 1920px)
 ### 4. 响应式变量使用限制（重要）
 
 - **packages/opendesign（组件库本身）**：禁止使用响应式变量（如 `--o-r-*`），只使用基础变量
-- \***\*docs**目录下\*\*：无此限制，可以使用响应式变量实现响应式排版
+- **packages/docs和**docs**目录下**：无此限制，可以使用响应式变量实现响应式排版
 
 ---
 
