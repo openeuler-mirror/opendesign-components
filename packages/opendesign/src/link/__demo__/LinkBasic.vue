@@ -27,8 +27,8 @@ const linkConfig: LinkConfigT = {
 <template>
   <h4>基本</h4>
   <section>
-    <OLink :href="link">普通链接</OLink>
-    <OLink :href="link" target="_blank">新页签打开的链接</OLink>
+    <OLink :href="link" class="scoped-class">普通链接</OLink>
+    <OLink :href="link" target="_blank" custom-attr="custom-attr" title="hello">新页签打开的链接</OLink>
     <OLink :href="link" disabled>禁用链接</OLink>
   </section>
   <h4>段落</h4>
@@ -158,7 +158,10 @@ const linkConfig: LinkConfigT = {
     </div>
   </section>
 </template>
-<style lang="scss">
+<style scoped lang="scss">
+.scoped-class {
+  background-color: yellow;
+}
 .color-tip {
   color: var(--o-color-info4);
 }
