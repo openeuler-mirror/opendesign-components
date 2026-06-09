@@ -1,36 +1,41 @@
 # opendesign-components
 
-#### Description
-The repository of OpenDesign components
+A Vue 3 enterprise component library, consisting of the component package, build CLI, and documentation site.
 
-#### Software Architecture
-Software architecture description
+## Quick Start
 
-#### Installation
+```bash
+# Clone the repository
+git clone https://atomgit.com/openeuler/opendesign-components.git
+cd opendesign-components
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# Install dependencies + compile components + generate API docs (one-step setup)
+pnpm docs:install
 
-#### Instructions
+# Start the documentation dev server
+pnpm docs:dev
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+Visit http://localhost:3300 in your browser.
 
-#### Contribution
+## Project Architecture
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+A pnpm workspace monorepo:
 
+| Package                 | Path                  | Description                            |
+| ----------------------- | --------------------- | -------------------------------------- |
+| `@opensig/opendesign`   | `packages/opendesign` | Published Vue 3 component library      |
+| `@opensig/open-scripts` | `packages/scripts`    | Build CLI for the component library    |
+| docs                    | `packages/docs`       | Documentation site + component testing |
 
-#### Gitee Feature
+## Changelog
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- [opendesign changelog](./packages/docs/ReleaseNote.opendesign.md)
+- [open-scripts changelog](./packages/docs/ReleaseNote.scripts.md)
+
+## Contributing
+
+1. Fork this repository
+2. Create a feat/xxx branch from the release/xxx branch
+3. Commit your changes to your fork
+4. Create a PR to merge into the upstream release/xxx branch

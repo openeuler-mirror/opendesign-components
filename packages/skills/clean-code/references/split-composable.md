@@ -9,7 +9,7 @@ metadata:
 
 ## 触发场景
 
-ESLint 报告 `max-lines-per-function` 超限（默认阈值 60 行），或 composable 同时处理多个不同关注点。
+ESLint 报告 `max-lines-per-function` 超限（阈值 100 行），或 composable 同时处理多个不同关注点。
 
 ## 核心思路
 
@@ -26,17 +26,17 @@ export function useForm() {
 // ✅ 三个子 composable，各司其职
 /** 管理字段值与 dirty 状态 */
 function useFormState() {
-  /* ≤ 60 行 */
+  /* ≤ 100 行 */
 }
 
 /** 提供字段校验逻辑，依赖 state */
 function useFormValidation(state: ReturnType<typeof useFormState>) {
-  /* ≤ 60 行 */
+  /* ≤ 100 行 */
 }
 
 /** 处理提交流程，依赖 state 和 validation */
 function useFormSubmit(state: ReturnType<typeof useFormState>, validation: ReturnType<typeof useFormValidation>) {
-  /* ≤ 60 行 */
+  /* ≤ 100 行 */
 }
 
 /** 对外暴露统一接口，本身只做装配 */

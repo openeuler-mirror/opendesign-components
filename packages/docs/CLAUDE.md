@@ -2,11 +2,7 @@
 
 文档站 + 组件库测试包（private）。
 
-**依赖**：根目录 CLAUDE.md 的项目概览、命令。
-
-## TODO
-
-本包中所有的自动化测试为[WIP]，先忽略测试内容及任务
+**依赖**：根目录 CLAUDE.md 的项目概览、命令、CSS 变量规范。
 
 ## 命令
 
@@ -50,59 +46,97 @@ pnpm vitest run --config vitest.config.ts __tests__/date-picker/ODatePicker/ODat
 | 源码注入  | `injectDemoSource.ts`        | `__case__/*.vue` 源码提取 → 挂载到 `_sfc_main.DemoSource`                |
 | Markdown  | `plugins/markdown/`          | 代码高亮（Shiki）、行号、链接替换、表格样式、自定义 `^[]()` popover 语法 |
 
-### Markdown 自定义语法
+### 行内注解标签
 
-文档 Markdown 中支持一个特殊行内语法，用于插入气泡提示：
+文档中支持 `^[内容](颜色)`tooltip``行内注解语法，渲染为`OTag`或`OPopover`+`OTag`。语法详细说明见 `component-docs` skill 的 [`doc-pages.md`](../../skills/component-docs/references/doc-pages.md)，管线机制见 [`pipeline.md`](../../skills/component-docs/references/pipeline.md)。涉及模块：
 
-```md
-^[显示文字](primary)`气泡内容`
-```
-
-渲染为 `<OPopover>` + `<OTag>`，可用于术语标注。
+| 模块                           | 职责                                                                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `shared/inlineTagConstants.ts` | 共享常量：正则 `TAG_REG_EXP`、颜色类型 `TagColor`、间距 `TAG_INLINE_MARGIN_LEFT`                              |
+| `plugins/markdown/popover.ts`  | Markdown-it 插件：`^[]()` 语法 → HTML（`<OTag>`/`<OPopover>`），写入 `data-annotation-*` 属性供运行时反向提取 |
+| `src/utils/inlineTag.ts`       | `renderInlineTagContent()`：文本 → VNode（运行时渲染，用于侧边栏、锚点等非 Markdown 场景）                    |
+| `src/utils/getHeads.ts`        | `extractTitleWithTags()`：从 DOM `data-annotation-*` 属性还原 `^[]()` 语法，供锚点组件显示注解标签            |
 
 ### 脚本（`scripts/`）
 
-**`generateApi.ts`**（`pnpm gen:api` 调用）：基于 `vue-component-meta` + `vue-docgen-api` 解析组件 props/events/slots/expose，自动生成 `__docs__/{ComponentName}-api.{zh-CN|en-US}.md`。**修改组件 props 后需重新运行。**
+**`generateApi.ts`**（`pnpm gen:api` 调用）：基于 `vue-component-meta` + `vue-docgen-api` 解析组件 props/events/slots/expose，自动生成 `__docs__/{ComponentName}-api.{zh-CN|en-US}.md`。
 
-## 文档站共享组件（`src/components/`）
+- 支持 JSDoc 注解标签（`@since`、`@deprecated`、`@experimental`），在 API 表格名称列渲染为 `^[]()` 语法
+- 支持 `@zh-CN`/`@en-US` JSDoc 标签，用于说明列本地化描述
+- `ANNOTATION_TAG_DEFS` 定义注解标签的颜色与显示模式：`since`→`(primary)` 显示文本、`deprecated`→`(danger)` 显示标签名、`experimental`→`(warning)` 显示标签名
 
-| 组件                   | 职责                                                                      |
-| ---------------------- | ------------------------------------------------------------------------- |
-| `DemoContainer.vue`    | Demo 展示容器：渲染 `__docs__` 说明文字 + demo 预览 + 代码展开按钮        |
-| `DemoUsage.vue`        | 交互式 Usage Demo：根据 `schema` 自动生成表单控件，动态编译并实时预览模板 |
-| `CodeContainer.vue`    | 代码块展示：含复制按钮、语言标签、行号、语法高亮（接收 base64 编码内容）  |
-| `DocConfigProvide.vue` | 向子树注入 `docs-config` context，控制代码展开等共享状态                  |
+**`parseSlotsAndExpose.ts`**：基于 `ts-morph` 解析 `defineSlots`、`defineExpose`、`defineEmits`，提取 JSDoc 标签（`tags`）。`defineExpose` 对象字面量内的 JSDoc 因 ts-morph 剥离问题，使用 `parseExposeJSDocFromRaw()` 从原始文本提取。
+
+**修改组件 props 后需重新运行 `pnpm gen:api`。**
+
+## 文档站共享模块
+
+### 共享常量（`shared/`）
+
+| 文件                    | 职责                                                                                                                         |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `inlineTagConstants.ts` | 行内注解标签的共享常量：正则 `TAG_REG_EXP`、颜色类型 `TagColor`、间距 `TAG_INLINE_MARGIN_LEFT`，供 Markdown 插件与运行时共用 |
+
+### 组件（`src/components/`）
+
+| 组件                   | 职责                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------- |
+| `DemoContainer.vue`    | Demo 展示容器：渲染 `__docs__` 说明文字 + demo 预览 + 代码展开按钮                    |
+| `DemoUsage.vue`        | 交互式 Usage Demo：根据 `schema` 自动生成表单控件，动态编译并实时预览模板             |
+| `CodeContainer.vue`    | 代码块展示：含复制按钮、语言标签、行号、语法高亮（接收 base64 编码内容）              |
+| `DocConfigProvide.vue` | 向子树注入 `docs-config` context，控制代码展开等共享状态                              |
+| `DocLink.vue`          | 文档链接组件：自动识别外链并添加 `target=_blank`、外链图标                            |
+| `OperatorView.ts`      | 表单控件组件：根据 `schema` 类型自动生成 Checkbox/Select/Input/Radio 等               |
+| `RecursiveMenu.ts`     | 递归菜单组件：根据 `NavItem` 渲染 `OSubMenu`/`OMenuItem`，label 支持 `^[]()` 注解语法 |
+| `TheAnchor.ts`         | 锚点导航组件：从标题结构渲染 `OAnchorItem` 树，title 支持 `^[]()` 注解语法            |
+| `TheAside.vue`         | 侧边栏组件：搜索过滤 + `RecursiveMenu` 渲染导航树 + 响应式折叠控制                    |
+| `TheHeader.vue`        | 页面头部组件                                                                          |
 
 #### DemoUsage schema 类型
 
-`schema` 决定 Usage Demo 自动生成的表单控件类型：
+`schema` 决定 Usage Demo 自动生成的表单控件类型（详见 `OperatorView.ts`）：
 
 ```ts
-type DocDemoSchema =
-  | { type: 'boolean'; default?: boolean }
-  | { type: 'radio'; list: string[]; default?: string }
-  | { type: 'list'; list: string[]; default?: string }
-  | { type: 'string'; default?: string }
-  | { type: 'number'; default?: number }
-  | { type: 'textarea'; default?: string };
+type SchemeT =
+  | { type: 'boolean'; default?: boolean; label?: string; disabled?: boolean }
+  | { type: 'radio'; list: Array<string | number>; default?: string | number; disabled?: boolean }
+  | { type: 'list'; list: Array<string | number>; default?: string | number; label?: string; disabled?: boolean }
+  | { type: 'string'; default?: string; label?: string; disabled?: boolean }
+  | { type: 'textarea'; default?: string; row?: number; disabled?: boolean }
+  | { type: 'number'; default?: number; min?: number; max?: number; step?: number; label?: string; disabled?: boolean };
+```
+
+#### NavItem 类型
+
+`NavItem` 定义在 `src/stores/sidebar.ts`，用于侧边栏导航树和 `RecursiveMenu`：
+
+```ts
+type NavItem = {
+  value: string;
+  label: string; // 支持 ^[]() 注解语法
+  children?: NavItem[];
+};
 ```
 
 ## 文档站运行时（`src/`）
 
 ### stores/
 
-| Store        | 职责                                                                |
-| ------------ | ------------------------------------------------------------------- |
-| `theme.ts`   | 管理皮肤（e/k/a/g/m/u）和明暗色，动态加载 Token CSS，同步 URL query |
-| `sidebar.ts` | 管理侧边栏导航树，从路由元数据构建，支持多语言过滤                  |
+| Store        | 职责                                                                                                                             |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `theme.ts`   | 管理皮肤（e/k/a/g/m/u）和明暗色，动态加载 Token CSS，同步 URL query                                                              |
+| `sidebar.ts` | 管理侧边栏导航树（`NavItem[]`），从路由元数据构建，支持多语言过滤、排序（第一层按 `subMenuOrder`，其余按标题）、深度就近节点查找 |
 
 ### utils/
 
-| 文件           | 主要导出                                                              |
-| -------------- | --------------------------------------------------------------------- |
-| `code.ts`      | `compileComponent()`（动态编译 Vue SFC）、`highlight()`（Shiki 高亮） |
-| `useScreen.ts` | 屏幕断点工具                                                          |
-| `getHeads.ts`  | 从 Markdown 提取标题结构（目录锚点）                                  |
+| 文件           | 主要导出                                                                                                                    |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `code.ts`      | `compileComponent()`（动态编译 Vue SFC）、`highlight()`（Shiki 高亮）                                                       |
+| `inlineTag.ts` | `renderInlineTagContent()`（文本 → VNode，运行时渲染 `^[]()` 注解标签）                                                     |
+| `useScreen.ts` | 屏幕断点工具                                                                                                                |
+| `getHeads.ts`  | `getHeads()` 从 Markdown DOM 提取标题结构（目录锚点）、`extractTitleWithTags()` 从 `data-annotation-*` 属性还原注解标签语法 |
+| `named.ts`     | 命名工具函数                                                                                                                |
+| `optimize.ts`  | 优化工具函数                                                                                                                |
 
 ## 测试架构
 

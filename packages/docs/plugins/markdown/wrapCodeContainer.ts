@@ -6,7 +6,8 @@ import { MarkdownItAsync } from 'markdown-it-async';
  */
 export default function wrapCodeContainer(md: MarkdownItAsync) {
   const fence = md.renderer.rules.fence;
-  md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+  md.renderer.rules.fence = (...args) => {
+    const [tokens, idx, options, env, self] = args;
     const token = tokens[idx];
     if (!token.attrGet('v-pre')) {
       token.attrSet('v-pre', '');

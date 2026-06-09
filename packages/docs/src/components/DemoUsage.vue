@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* global __DEV__ */
 import { h, reactive, ref, watchEffect, watch, shallowRef, type Component, isReactive, isRef } from 'vue';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
@@ -33,67 +34,114 @@ const clampNumber = (num: number, boundary?: { min?: number; max?: number }) => 
   const max = boundary?.max ?? Infinity;
   return Math.min(Math.max(Number.isFinite(num) ? num : 0, min), max);
 };
+
+interface InitialValuesContext {
+  /** 状态对象 */
+  state: Record<string, any>;
+  /** 复选框组值数组 */
+  checkboxGroupValue: (string | number)[];
+  /** 用户传入的默认值覆盖 */
+  defaults?: Record<string, any>;
+}
+
+interface ResolveDefaultContext {
+  /** 字段名 */
+  key: string;
+  /** schema 默认值 */
+  schemaDefault: any;
+  /** 用户传入的默认值覆盖 */
+  defaults?: Record<string, any>;
+  /** 类型校验函数 */
+  typeCheck?: (v: any) => boolean;
+}
+
+/**
+ * 根据字段名和默认值配置计算初始值，优先使用用户传入的 defaults
+ * @param key - 字段名
+ * @param schemaDefault - schema 默认值
+ * @param defaults - 用户传入的默认值覆盖
+ * @param typeCheck - 类型校验函数
+ * @returns 计算后的初始值
+ */
+function resolveDefaultValue({ key, schemaDefault, defaults, typeCheck }: ResolveDefaultContext): any {
+  if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && typeCheck?.(defaults[key])) {
+    return defaults[key];
+  }
+  return schemaDefault;
+}
+
+/**
+ * 处理布尔类型字段的初始值
+ * @param key - 字段名
+ * @param scheme - 布尔类型配置
+ * @param ctx - 初始值上下文
+ */
+function processBooleanItem(key: string, scheme: CheckboxScheme, ctx: InitialValuesContext): void {
+  const defaultValue = resolveDefaultValue({ key, schemaDefault: scheme.default ?? false, defaults: ctx.defaults, typeCheck: (v) => typeof v === 'boolean' });
+  ctx.state[key] = Boolean(defaultValue);
+  if (ctx.state[key]) {
+    ctx.checkboxGroupValue.push(key);
+  }
+}
+
+/**
+ * 处理选择器/单选类型字段的初始值
+ * @param key - 字段名
+ * @param scheme - 选择器或单选配置
+ * @param ctx - 初始值上下文
+ */
+function processSelectorItem(key: string, scheme: SelectorScheme | RadioScheme, ctx: InitialValuesContext): void {
+  const defaultValue = resolveDefaultValue({
+    key,
+    schemaDefault: scheme.default ?? scheme.list[0],
+    defaults: ctx.defaults,
+    typeCheck: (v) => scheme.list.includes(v),
+  });
+  ctx.state[key] = defaultValue;
+}
+
+/**
+ * 处理字符串/文本域类型字段的初始值
+ * @param key - 字段名
+ * @param scheme - 字符串或文本域配置
+ * @param ctx - 初始值上下文
+ */
+function processStringItem(key: string, scheme: InputScheme | TextareaScheme, ctx: InitialValuesContext): void {
+  const defaultValue = resolveDefaultValue({ key, schemaDefault: scheme.default ?? '', defaults: ctx.defaults, typeCheck: (v) => typeof v === 'string' });
+  ctx.state[key] = defaultValue;
+}
+
+/**
+ * 处理数字类型字段的初始值
+ * @param key - 字段名
+ * @param scheme - 数字类型配置
+ * @param ctx - 初始值上下文
+ */
+function processNumberItem(key: string, scheme: InputNumberScheme, ctx: InitialValuesContext): void {
+  const defaultValue = resolveDefaultValue({ key, schemaDefault: scheme.default ?? 0, defaults: ctx.defaults, typeCheck: (v) => Number.isFinite(v) });
+  ctx.state[key] = clampNumber(defaultValue, scheme);
+}
+
+const INITIAL_VALUE_PROCESSOR_MAP: Record<SchemeT['type'], (key: string, scheme: any, ctx: InitialValuesContext) => void> = {
+  boolean: processBooleanItem,
+  radio: processSelectorItem,
+  list: processSelectorItem,
+  string: processStringItem,
+  textarea: processStringItem,
+  number: processNumberItem,
+};
+
 /**
  * 通过表单控制数据，生成表单控件响应式变量的默认值
- * @param schema 表单控件配置数据
- * @param defaults 表单控件默认值
+ * @param schema - 表单控件配置数据
+ * @param defaults - 表单控件默认值
  */
 function getInitialValues(schema: Record<string, SchemeT>, defaults?: Record<string, any>) {
-  const _checkboxGroupValue: (string | number)[] = [];
-  const _state: Record<string, any> = {};
-  const processBoolean = (key: string, scheme: CheckboxScheme) => {
-    let defaultValue = scheme.default ?? false;
-    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && typeof defaults[key] === 'boolean') {
-      defaultValue = defaults[key];
-    }
-    _state[key] = Boolean(defaultValue);
-    if (_state[key]) {
-      _checkboxGroupValue.push(key);
-    }
-  };
-  const processSelector = (key: string, scheme: SelectorScheme | RadioScheme) => {
-    let defaultValue = scheme.default ?? scheme.list[0];
-    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && scheme.list.includes(defaults[key])) {
-      defaultValue = defaults[key];
-    }
-    _state[key] = defaultValue;
-  };
-  const processString = (key: string, scheme: InputScheme | TextareaScheme) => {
-    let defaultValue = scheme.default ?? '';
-    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && typeof defaults[key] === 'string') {
-      defaultValue = defaults[key];
-    }
-    _state[key] = defaultValue;
-  };
-  const processNumber = (key: string, scheme: InputNumberScheme) => {
-    let defaultValue = scheme.default ?? 0;
-    if (defaults && Object.prototype.hasOwnProperty.call(defaults, key) && Number.isFinite(defaults[key])) {
-      defaultValue = defaults[key];
-    }
-    _state[key] = clampNumber(defaultValue, scheme);
-  };
+  const ctx: InitialValuesContext = { state: {}, checkboxGroupValue: [], defaults };
   Object.entries(schema).forEach(([key, value]) => {
-    switch (value.type) {
-      case 'boolean':
-        processBoolean(key, value);
-        break;
-      case 'radio':
-      case 'list':
-        processSelector(key, value);
-        break;
-      case 'textarea':
-      case 'string':
-        processString(key, value);
-        break;
-      case 'number':
-        processNumber(key, value);
-        break;
-    }
+    INITIAL_VALUE_PROCESSOR_MAP[value.type]?.(key, value, ctx);
   });
-  return {
-    state: _state,
-    checkboxGroupValue: _checkboxGroupValue,
-  };
+  return { state: ctx.state, checkboxGroupValue: ctx.checkboxGroupValue };
 }
 const initialValues = getInitialValues(props.schema);
 const state = reactive(initialValues.state);
@@ -121,23 +169,42 @@ const sourceCode = ref('');
 const showcaseComponent = shallowRef<Component>(() => {});
 
 /**
+ * 构建 SFC 代码字符串，自动补充 template 和 style 标签
+ * @param template - 模板字符串
+ * @param style - 样式字符串
+ * @returns 完整的 SFC 代码
+ */
+function buildSfcCode(template: string, style: string): string {
+  let sfcCode = template.trimStart().startsWith('<template') ? template : `<template>${template}</template>`;
+  if (style) {
+    sfcCode += `\n${style.trimStart().startsWith('<style') ? style : `<style lang="scss">${style}</style>`}`;
+  }
+  return sfcCode;
+}
+
+/**
+ * 创建 prettier 错误处理函数，开发环境下打印错误并返回备用代码
+ * @param fallbackCode - 错误时返回的备用代码
+ * @returns 错误处理回调
+ */
+const createErrorHandler = (fallbackCode: string) => (err: any) => {
+  if (__DEV__) {
+    console.error(err);
+  }
+  return fallbackCode;
+};
+
+/**
  * 通过 props.template 动态编译vue组件，同时格式化并高亮源码
  * 动态编译的组件保存在 showcaseComponent 中，格式化的源码保存在 sourceCode 中，高亮的源码保存在 highlightedCode 中
- * @param demoProps 演示组件的属性
+ * @param demoProps - 演示组件的属性
+ * @param style - 样式字符串
  */
 function createShowcaseComponent(demoProps: Record<string, any>, style: string = '') {
   const template = typeof props.template === 'function' ? props.template(demoProps) : props.template;
-  let sfcCode = template.trimStart().startsWith('<template') ? template : `<template>${template}</template>`;
-  if (style) {
-    sfcCode = `${sfcCode}\n${style.trimStart().startsWith('<style') ? style : `<style lang="scss">${style}</style>`}`;
-  }
+  const sfcCode = buildSfcCode(template, style);
   prettier(sfcCode, 'vue')
-    .catch((err) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.error(err);
-      }
-      return sfcCode;
-    })
+    .catch(createErrorHandler(sfcCode))
     .then((code) => {
       sourceCode.value = code;
       return highlight(code, 'vue');

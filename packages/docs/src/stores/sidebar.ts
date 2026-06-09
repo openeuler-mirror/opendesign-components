@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { computed, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ref, watch, type Ref } from 'vue';
+import { useRouter, type Router } from 'vue-router';
 import { sidebarRouteConfig, type SidebarNameT } from '@/router';
 import { useI18n } from '@opensig/opendesign';
 export type NavItem = {
@@ -80,6 +80,38 @@ const normalizeSidebarName = (sidebarName: any) => {
   }
   return '';
 };
+
+interface NavigateToSidebarContext {
+  /** 新的侧边栏名称 */
+  newName: SidebarNameT | '';
+  /** 侧边栏名称 ref */
+  nameRef: Ref<SidebarNameT | ''>;
+  /** 路由实例 */
+  router: Router;
+  /** 基于新名称重新计算导航列表 */
+  getNewNavList: () => NavItem[];
+}
+
+/**
+ * 切换侧边栏并导航到最近的菜单项
+ * @param newName - 新的侧边栏名称
+ * @param nameRef - 侧边栏名称 ref
+ * @param router - 路由实例
+ * @param getNewNavList - 基于新名称重新计算导航列表的函数
+ */
+function navigateToSidebar({ newName, nameRef, router, getNewNavList }: NavigateToSidebarContext): void {
+  if (!hasTheSidebar(newName)) {
+    nameRef.value = '';
+    return;
+  }
+  nameRef.value = newName;
+  const navList = getNewNavList();
+  const dfNavItem = getDeepestNearestNavItem(navList);
+  if (dfNavItem) {
+    router.push(dfNavItem.value);
+  }
+}
+
 export const useSidebarStore = defineStore('sidebar', () => {
   const router = useRouter();
   const { locale, t } = useI18n();
@@ -94,17 +126,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
   const navList = computed(() => getNavList(sidebarName.value, locale.value, t));
   const hasData = computed(() => sidebarName.value && navList.value.length);
   const changeSidebar = (_sidebarName: SidebarNameT | '') => {
-    if (hasTheSidebar(_sidebarName)) {
-      sidebarName.value = _sidebarName;
-      const dfNavItem = getDeepestNearestNavItem(navList.value);
-      if (dfNavItem) {
-        router.push(dfNavItem.value);
-      } else {
-        sidebarName.value = _sidebarName;
-      }
-    } else {
-      sidebarName.value = '';
-    }
+    navigateToSidebar({ newName: _sidebarName, nameRef: sidebarName, router, getNewNavList: () => getNavList(_sidebarName, locale.value, t) });
   };
   return {
     sidebarName: computed(() => sidebarName.value),
