@@ -20,7 +20,7 @@
       "@opensig/opendesign": ["../opendesign/src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "../opendesign/**/*.ts"],
+  "include": ["shared/**/*.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "../opendesign/**/*.ts"],
   "exclude": ["../opendesign/**/*.config.ts"],
   "references": [
     {
