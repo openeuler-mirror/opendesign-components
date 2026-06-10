@@ -8,9 +8,25 @@ import { isArray, isUndefined } from '../_utils/is';
 const props = defineProps(menuProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 菜单选中值更新时触发
+   * @en-US Triggered when the menu selected value is updated
+   */
   (e: 'update:modelValue', val: string): void;
+  /**
+   * @zh-CN 菜单选中值变化时触发
+   * @en-US Triggered when the menu selected value changes
+   */
   (e: 'change', val: string): void;
+  /**
+   * @zh-CN 菜单展开节点列表更新时触发
+   * @en-US Triggered when the menu expanded nodes list is updated
+   */
   (e: 'update:expanded', val: Array<string>): void;
+  /**
+   * @zh-CN 菜单展开节点列表变化时触发
+   * @en-US Triggered when the menu expanded nodes list changes
+   */
   (e: 'expanded-change', val: Array<string>): void;
 }>();
 

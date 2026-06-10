@@ -16,7 +16,15 @@ const round = getRoundClass(props, 'toggle');
 const isChecked = ref(props.checked ?? props.defaultChecked);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 切换状态变化时触发
+   * @en-US Triggered when the toggle checked state changes
+   */
   (e: 'update:checked', val: boolean): void;
+  /**
+   * @zh-CN 切换状态变更后触发
+   * @en-US Triggered after the toggle state changes
+   */
   (e: 'change', val: boolean, ev: MouseEvent): void;
 }>();
 

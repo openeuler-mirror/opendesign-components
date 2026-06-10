@@ -6,17 +6,45 @@ import { selectProps } from '../select';
 import { timePickerProps, DisabledHoursFn, DisabledMinutesFn, DisabledSecondsFn } from '../time-picker';
 
 export type { DisabledHoursFn, DisabledMinutesFn, DisabledSecondsFn };
+/**
+ * @zh-CN 日期选择器模式
+ * @en-US Date picker mode
+ */
 export type DatePickerMode = 'datetime' | 'date' | 'month' | 'year';
+/**
+ * @zh-CN 禁用日期判断函数
+ * @en-US Function to determine if a date should be disabled
+ */
 export type DisabledDateFn = (opts: { date: Date; year: number; /** 0-indexed，0=一月，11=十二月 */ month: number; day: number }) => boolean;
+/**
+ * @zh-CN 禁用月份判断函数，month 为 0-indexed（0=一月，11=十二月）
+ * @en-US Function to determine if a month should be disabled, month is 0-indexed (0=January, 11=December)
+ */
 export type DisabledMonthFn = (opts: { date: Date; year: number; /** 0-indexed，0=一月，11=十二月 */ month: number }) => boolean;
+/**
+ * @zh-CN 禁用年份判断函数
+ * @en-US Function to determine if a year should be disabled
+ */
 export type DisabledYearFn = (opts: { date: Date; year: number }) => boolean;
+/**
+ * @zh-CN 日期选择器绑定值类型，支持 Date 对象、格式字符串、时间戳、undefined 或 null
+ * @en-US Date picker value type, supports Date object, formatted string, timestamp, undefined or null
+ */
 export type DateModelValue = Date | string | number | undefined | null;
 
+/**
+ * @zh-CN 日期选择器快捷选项 slot 的 props
+ * @en-US Date picker shortcut slot props
+ */
 export type DatePickerShortcutSlotProps = {
   setValue: (value?: number) => void;
   emitChange: () => void;
 };
 
+/**
+ * @zh-CN 日期范围选择器快捷选项 slot 的 props
+ * @en-US Date range picker shortcut slot props
+ */
 export type DatePickerRangeShortcutSlotProps = {
   setValue: (start?: number, end?: number) => void;
   emitChange: () => void;

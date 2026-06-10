@@ -65,6 +65,7 @@ export const baseScrollarProps = {
   /**
    * @zh-CN 自定义滚动条类
    * @en-US Custom scroll bar class.
+   * @since 1.2.0
    */
   barClass: {
     type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,

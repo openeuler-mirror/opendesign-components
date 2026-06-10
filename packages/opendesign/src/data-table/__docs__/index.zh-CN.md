@@ -1,5 +1,5 @@
 ---
-sidebar: ODataTable 数据表格
+sidebar: ODataTable 数据表格 ^[1.2.0](primary)
 kind: container
 ---
 
@@ -48,3 +48,22 @@ kind: container
 | optionTitle | string                                                                                                                                                                                                                                   | undefined                          |      | 移动端弹窗的title      |
 | multiple    | boolean                                                                                                                                                                                                                                  | undefined                          |      | 是否支持多选           |
 | showInput   | boolean \| ((optionsCount: number) => boolean)                                                                                                                                                                                           | (optionsCount) => optionsCount > 8 |      | 是否显示选项筛选输入框 |
+
+### CSS 变量
+
+| CSS 变量 | 默认值 | 描述 |
+| --- | --- | --- |
+| --table-filter-trigger-gap | 4px | 筛选触发器间距 |
+| --table-filter-trigger-size | 16px | 筛选触发器大小 |
+| --table-head-bg | var(--o-color-control3-light) | 表头背景色（fill 风格） |
+| --table-head-border-bottom | var(--table-border-width) solid var(--table-head-bg) | 表头底部边框 |
+| --popup-bg-color | var(--o-color-control5-light) | 筛选弹窗背景色 |
+| --popup-radius | var(--o-radius-xs) | 筛选弹窗圆角 |
+| --popup-shadow | var(--o-shadow-2) | 筛选弹窗阴影 |
+| --table-filter-popup-width | 192px | 筛选弹窗宽度 |
+| --table-filter-option-list-max-height-default | 256px | 筛选选项列表默认最大高度 |
+| --table-header-height ⚠ 运行时赋值 | - | 表头高度（由组件内部根据 DOM 封闭计算赋值，CSS 覆盖无效） |
+| --table-height ⚠ 运行时赋值 | - | 表格高度（由 `height` prop 赋值，CSS 覆盖无效） |
+| --table-max-height ⚠ 运行时赋值 | - | 表格最大高度（由 `maxHeight` prop 赋值，CSS 覆盖无效） |
+| --table-text-size ⚠ 运行时赋值 | `var(--o-font_size-text1)` | 表格文字字号（由 useCssVar 读取后再 inline 写回，CSS 覆盖可能无效） |
+| --table-text-height ⚠ 运行时赋值 | `var(--o-line_height-text1)` | 表格文字行高（同上） |

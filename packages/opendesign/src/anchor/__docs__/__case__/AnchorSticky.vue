@@ -1,13 +1,13 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 横向锚点
+### 横向锚点 ^[1.2.0](primary)
 
 横向锚点支持上滑吸附(父节点需设置`overflow-y`为`auto`或`scroll`)、自动横向滚动遮罩等功能
 
 <!-- en-US -->
 
-### Horizontal Anchor
+### Horizontal Anchor ^[1.2.0](primary)
 
 The horizontal anchor supports features such as upward sticky
 (The parent node needs to have its `overflow-y` property set to `auto` or `scroll`)

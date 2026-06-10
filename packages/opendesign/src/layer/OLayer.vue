@@ -16,9 +16,25 @@ import { OIcon } from '../icon';
 const props = defineProps(layerProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 浮层可见状态变化时触发
+   * @en-US Triggered when the layer visibility changes
+   */
   (e: 'change', visible: boolean): void;
+  /**
+   * @zh-CN 浮层可见状态更新时触发
+   * @en-US Triggered when the layer visibility is updated
+   */
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
+  /**
+   * @zh-CN 点击遮罩层时触发
+   * @en-US Triggered when the mask layer is clicked
+   */
   (e: 'click:mask', evt: MouseEvent): void;
+  /**
+   * @zh-CN 点击关闭按钮时触发
+   * @en-US Triggered when the close button is clicked
+   */
   (e: 'click:button', evt: MouseEvent): void;
 }>();
 
@@ -200,7 +216,10 @@ onUnmounted(() => {
 provide(layerInjectKey, { toggle });
 
 defineExpose({
-  /** Toggle the OLayer */
+  /**
+   * @zh-CN 切换浮层显示状态
+   * @en-US Toggle the layer visibility
+   */
   toggle,
 });
 </script>

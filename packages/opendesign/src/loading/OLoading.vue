@@ -9,13 +9,24 @@ import { ref } from 'vue';
 const props = defineProps(loadingProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 加载状态可见性变化时触发
+   * @en-US Triggered when the loading visibility changes
+   */
   (e: 'change', val: boolean): void;
+  /**
+   * @zh-CN 加载状态可见性更新时触发
+   * @en-US Triggered when the loading visibility is updated
+   */
   (e: 'update:visible', val: boolean, evt?: MouseEvent): void;
 }>();
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
 defineExpose({
-  /** Toggle loading */
+  /**
+   * @zh-CN 切换加载状态显示
+   * @en-US Toggle loading visibility
+   */
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
   },

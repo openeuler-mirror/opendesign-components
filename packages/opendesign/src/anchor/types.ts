@@ -12,6 +12,7 @@ export const anchorProps = {
    * @zh-CN 锚点的方向，支持水平(h)与垂直(v)
    * @en-US The orientation of the anchor, supports both horizontal(h) and vertical(v).
    * @default 'v'
+   * @since 1.2.0 新增水平模式(h)
    */
   layout: {
     type: String as PropType<AnchorDirectionT>,

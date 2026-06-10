@@ -9,13 +9,15 @@ export interface LinkConfigT {
 
 export const configProviderProps = {
   /**
-   * 语言词条
+   * @zh-CN 语言词条
+   * @en-US Language locale
    */
   locale: {
     type: Object as PropType<LanguageConfigT>,
   },
   /**
-   * Link组件全局配置
+   * @zh-CN Link 组件全局配置
+   * @en-US Global configuration for the Link component
    */
   link: {
     type: Object as PropType<LinkConfigT>,

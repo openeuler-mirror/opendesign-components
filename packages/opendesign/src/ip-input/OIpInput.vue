@@ -12,7 +12,15 @@ type InstanceOfOInputT = InstanceType<typeof OInput>;
 const props = defineProps(ipInputProps);
 
 const emit = defineEmits<{
+  /**
+   * @zh-CN 输入框值更新
+   * @en-US Input value update
+   */
   (e: 'update:modelValue', value: string): void;
+  /**
+   * @zh-CN IP值改变时触发，valid表示IP是否合法，ip为当前IP值
+   * @en-US Triggered when IP value changes, valid indicates whether the IP is valid, ip is the current IP value
+   */
   (e: 'change', valid: boolean, ip: string): void;
 }>();
 

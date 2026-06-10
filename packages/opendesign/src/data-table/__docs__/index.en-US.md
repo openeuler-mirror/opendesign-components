@@ -1,5 +1,5 @@
 ---
-sidebar: ODataTable 数据表格
+sidebar: ODataTable ^[1.2.0](primary)
 kind: container
 ---
 
@@ -48,3 +48,22 @@ kind: container
 | optionTitle | string                                                                                                                                                                                                                                   | undefined                          |          | 移动端弹窗的title      |
 | multiple    | boolean                                                                                                                                                                                                                                  | undefined                          |          | 是否支持多选           |
 | showInput   | boolean \| ((optionsCount: number) => boolean)                                                                                                                                                                                           | (optionsCount) => optionsCount > 8 |          | 是否显示选项筛选输入框 |
+
+### CSS Variables
+
+| CSS Variable | Default | Description |
+| --- | --- | --- |
+| --table-filter-trigger-gap | 4px | Filter trigger gap |
+| --table-filter-trigger-size | 16px | Filter trigger size |
+| --table-head-bg | var(--o-color-control3-light) | Header background color (fill style) |
+| --table-head-border-bottom | var(--table-border-width) solid var(--table-head-bg) | Header bottom border |
+| --popup-bg-color | var(--o-color-control5-light) | Filter popup background color |
+| --popup-radius | var(--o-radius-xs) | Filter popup radius |
+| --popup-shadow | var(--o-shadow-2) | Filter popup shadow |
+| --table-filter-popup-width | 192px | Filter popup width |
+| --table-filter-option-list-max-height-default | 256px | Filter option list default max height |
+| --table-header-height ⚠ Runtime assignment | - | Header height (computed from DOM layout internally, CSS override ineffective) |
+| --table-height ⚠ Runtime assignment | - | Table height (assigned by `height` prop, CSS override ineffective) |
+| --table-max-height ⚠ Runtime assignment | - | Table maximum height (assigned by `maxHeight` prop, CSS override ineffective) |
+| --table-text-size ⚠ Runtime assignment | `var(--o-font_size-text1)` | Table text font size (read via useCssVar then written back inline, CSS override may be ineffective) |
+| --table-text-height ⚠ Runtime assignment | `var(--o-line_height-text1)` | Table text line height (same as above) |

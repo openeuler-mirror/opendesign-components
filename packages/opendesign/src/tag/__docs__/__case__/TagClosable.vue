@@ -1,8 +1,9 @@
 <docs lang="md">
-<!--zh-CN-->
-### 可关闭按钮
+<!-- zh-CN -->
 
-<!--en-US-->
+### 可关闭标签
+
+<!-- en-US -->
 ### Closeable
 </docs>
 

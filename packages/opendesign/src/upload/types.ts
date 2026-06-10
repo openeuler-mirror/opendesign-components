@@ -82,6 +82,7 @@ export const uploadProps = {
   /**
    * @zh-CN 下载文件
    * @en-US Download the file.
+   * @since 1.2.1
    */
   downloadFile: {
     type: Function as PropType<(file: File) => void>,
@@ -161,6 +162,7 @@ export const uploadProps = {
   /**
    * @zh-CN 文件上传中是否展示进度条
    * @en-US Whether to display a progress bar during file upload.
+   * @since 1.2.0
    */
   showProgress: {
     type: Boolean,

@@ -1,3 +1,12 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+#### 纯图卡片（昇腾暗色主题）
+
+<!-- en-US -->
+
+#### Plain Image Card (Ascend Dark Theme)
+</docs>
 <script setup lang="ts">
 import { OFigure, OButton, OLink, OIconChevronRight } from '@opensig/opendesign';
 </script>

@@ -1,7 +1,20 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+### 异步加载
+
+通过 `lazyload` 属性实现级联选择器的异步加载子节点功能。
+
+<!-- en-US -->
+
+### Lazy Loading
+
+Enable asynchronous loading of child nodes via the `lazyload` prop.
+</docs>
+
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { OCascaderV2 } from '@opensig/opendesign';
-import type { CascaderV2LazyNodeT, CascaderV2OptionT, CascaderV2LazyloadFn } from '../../types';
+import { OCascaderV2, type CascaderV2LazyNodeT, type CascaderV2OptionT, type CascaderV2LazyloadFn } from '@opensig/opendesign';
 
 const modelValue = ref(undefined);
 const errorLog = ref<string[]>([]);

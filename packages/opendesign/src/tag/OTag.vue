@@ -8,7 +8,15 @@ import { isFunction } from '../_utils/is';
 const props = defineProps(tagProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 标签可见性变化时触发
+   * @en-US Triggered when the tag visibility changes
+   */
   (e: 'update:visible', val: boolean): void;
+  /**
+   * @zh-CN 标签关闭时触发
+   * @en-US Triggered when the tag is closed
+   */
   (e: 'close', ev: MouseEvent): void;
 }>();
 

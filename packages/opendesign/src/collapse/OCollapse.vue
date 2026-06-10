@@ -7,7 +7,15 @@ import { isArray, isArrayEqual } from '../_utils/is';
 const props = defineProps(collapseProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 折叠面板选中值变化时触发
+   * @en-US Triggered when the collapse selected value changes
+   */
   (e: 'update:modelValue', val: Array<string | number>): void;
+  /**
+   * @zh-CN 折叠面板展开/折叠时触发
+   * @en-US Triggered when a collapse panel is expanded or collapsed
+   */
   (e: 'change', val: Array<string | number>, evt?: Event): void;
 }>();
 

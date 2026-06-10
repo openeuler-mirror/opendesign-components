@@ -6,10 +6,18 @@ import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(scrollerProps);
 const emits = defineEmits<{
+  /**
+   * @zh-CN 滚动事件
+   * @en-US Scroll event
+   * @since 1.2.0
+   */
   (e: 'scroll', event: Event): void;
 }>();
 const targetRef: Ref<HTMLElement | null> = ref(null);
 
+/**
+ * 滚动至指定位置
+ */
 const scrollTo = (options?: ScrollToOptions | undefined) => {
   if (!targetRef.value) {
     return;
@@ -17,6 +25,10 @@ const scrollTo = (options?: ScrollToOptions | undefined) => {
   targetRef.value.scrollTo(options);
 };
 
+/**
+ * 按偏移量滚动
+ * @since 1.2.4
+ */
 const scrollBy = (options?: ScrollToOptions | undefined) => {
   if (!targetRef.value) {
     return;
@@ -26,7 +38,14 @@ const scrollBy = (options?: ScrollToOptions | undefined) => {
 
 defineExpose({
   scrollTo,
-  scrollBy,
+  /**
+   * 按偏移量滚动
+   * @since 1.2.4
+   */
+  scrollBy: scrollBy,
+  /**
+   * 获取容器DOM元素
+   */
   getContainerEl() {
     return targetRef.value;
   },

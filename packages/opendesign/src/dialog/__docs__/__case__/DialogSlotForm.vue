@@ -1,3 +1,16 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+### 表单弹窗
+
+弹窗内嵌入表单，通过插槽自定义头部和内容。
+
+<!-- en-US -->
+
+### Form Dialog
+
+Embed a form inside a dialog, customizing the header and content via slots.
+</docs>
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ODialog, OButton, OIconClose, OIconDone, OForm, OFormItem, OInput, OIcon } from '@opensig/opendesign';

@@ -12,6 +12,10 @@ import { isUndefined } from '../_utils/is';
 const props = defineProps(buttonProps);
 
 const emit = defineEmits<{
+  /**
+   * @zh-CN 点击按钮时触发
+   * @en-US Triggered when the button is clicked
+   */
   (e: 'click', evt: MouseEvent): void;
 }>();
 

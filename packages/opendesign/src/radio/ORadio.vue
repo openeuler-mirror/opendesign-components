@@ -9,7 +9,15 @@ import { uniqueId } from '../_utils/helper';
 const props = defineProps(radioProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 选中值变化时触发
+   * @en-US Triggered when the selected value changes
+   */
   (e: 'update:modelValue', val: string | number | boolean): void;
+  /**
+   * @zh-CN 选中状态变化时触发
+   * @en-US Triggered when the selected state changes
+   */
   (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
@@ -46,6 +54,10 @@ watch(
 );
 
 defineExpose({
+  /**
+   * @zh-CN 是否已选中
+   * @en-US Whether the radio is checked
+   */
   checked: isChecked,
 });
 

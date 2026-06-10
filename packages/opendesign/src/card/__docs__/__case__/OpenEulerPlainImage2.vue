@@ -1,3 +1,12 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+#### 纯图卡片（欧拉暗色主题）
+
+<!-- en-US -->
+
+#### Plain Image Card (openEuler Dark Theme)
+</docs>
 <script setup lang="ts">
 import { OFigure, OButton, OLink, OIconChevronRight } from '@opensig/opendesign';
 </script>

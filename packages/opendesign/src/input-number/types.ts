@@ -9,100 +9,122 @@ export type InputNumberControlT = (typeof InputNumberControlTypes)[number];
 
 export const inputNumberProps = {
   /**
-   * 下拉框的值
-   * v-model
+   * @zh-CN 数字输入框的值 v-model
+   * @en-US The value of the input number
    */
   modelValue: {
     type: Number,
   },
   /**
-   * 下拉框的默认值
-   * 非受控
+   * @zh-CN 数字输入框的默认值,非受控
+   * @en-US The default value of the input number, uncontrolled
    */
   defaultValue: {
     type: Number,
   },
   /**
-   * 按钮点击时步长
+   * @zh-CN 按钮点击时步长
+   * @en-US Step size when clicking buttons
+   * @default 1
    */
   step: {
     type: Number,
     default: 1,
   },
   /**
-   * 最小值
+   * @zh-CN 最小值
+   * @en-US Minimum value
    */
   min: {
     type: Number,
   },
   /**
-   * 最大值
+   * @zh-CN 最大值
+   * @en-US Maximum value
    */
   max: {
     type: Number,
   },
   /**
-   * 控制按钮位置 InputNumberControlT
+   * @zh-CN 控制按钮位置
+   * @en-US Control button position
+   * @default 'both'
    */
   controls: {
     type: String as PropType<InputNumberControlT>,
     default: 'both',
   },
   /**
-   * 是否可以清除
+   * @zh-CN 是否可以清除
+   * @en-US Whether the value can be cleared
+   * @default false
    */
   clearable: {
     type: Boolean,
     default: false,
   },
   /**
-   * 大小 SizeT
+   * @zh-CN 大小
+   * @en-US Size
    */
   size,
   /**
-   * 圆角值 RoundT
+   * @zh-CN 圆角值
+   * @en-US Round
    */
   round,
   /**
-   * 颜色类型 Color2T
+   * @zh-CN 颜色类型
+   * @en-US Color type
+   * @default 'normal'
    */
   color,
   /**
-   * 按钮类型 VariantT
+   * @zh-CN 按钮类型
+   * @en-US Variant type
+   * @default 'outline'
    */
   variant,
   /**
-   * 提示文本
+   * @zh-CN 提示文本
+   * @en-US Prompt text
    */
   placeholder,
   /**
-   * 是否禁用
+   * @zh-CN 是否禁用
+   * @en-US Whether to disable
    */
   disabled,
   /**
-   * 是否只读
+   * @zh-CN 是否只读
+   * @en-US Readonly
    */
   readonly,
   /**
-   * 是否自动增加宽度
+   * @zh-CN 是否自动适配宽度
+   * @en-US Whether the width is automatically adapted
    */
   autoWidth,
   /**
-   * 对值格式化，控制显示格式
+   * @zh-CN 对值格式化，控制显示格式
+   * @en-US Format the value and control the display format
    */
   format,
   /**
-   * 无效值判断
+   * @zh-CN 无效值判断
+   * @en-US Invalid value validation
    */
   validate: {
     type: Function as PropType<(value: number) => boolean>,
   },
   /**
-   * input id
+   * @zh-CN input id, 用于label关联
+   * @en-US Input id, used for label association
    */
   inputId,
   /**
-   * 当输入为空字符串时，默认值
+   * @zh-CN 当输入为空字符串时的默认值
+   * @en-US Default value when the input is empty
    */
   clearValue: {
     type: Number,
