@@ -18,16 +18,54 @@ import { cascaderV2Props, type CascaderV2NodePathT, type CascaderV2NodeValueT, t
 
 const props = defineProps(cascaderV2Props);
 const emits = defineEmits<{
-  /** v-model 双向绑定的更新事件，选中值变化时触发，值形态受 `pathMode` / `multiple` 影响 */
+  /**
+   * @zh-CN v-model 双向绑定的更新事件，选中值变化时触发，值形态受 pathMode / multiple 影响
+   * @en-US v-model update event, emitted when the selected value changes, value form depends on pathMode / multiple
+   */
   (e: 'update:modelValue', value: CascaderV2NodeValueT | CascaderV2NodePathT | Array<CascaderV2NodeValueT | CascaderV2NodePathT> | undefined): void;
-  /** 选中值变化时触发，参数与 `update:modelValue` 一致，便于不使用 v-model 的场景监听 */
+  /**
+   * @zh-CN 选中值变化时触发，参数与 update:modelValue 一致，便于不使用 v-model 的场景监听
+   * @en-US Emitted when the selected value changes, same params as update:modelValue, for non-v-model scenarios
+   */
   (e: 'change', value: CascaderV2NodeValueT | CascaderV2NodePathT | Array<CascaderV2NodeValueT | CascaderV2NodePathT> | undefined): void;
-  /** 选项浮层显示/隐藏切换时触发，true 表示打开，false 表示关闭 */
+  /**
+   * @zh-CN 选项浮层显示/隐藏切换时触发，true 表示打开，false 表示关闭
+   * @en-US Emitted when the options panel visibility changes, true for open, false for close
+   */
   (e: 'options-visible-change', value: boolean): void;
-  /** 点击清除按钮时触发，参数为原始 DOM 事件 */
+  /**
+   * @zh-CN 点击清除按钮时触发，参数为原始 DOM 事件
+   * @en-US Emitted when the clear button is clicked, parameter is the original DOM event
+   */
   (e: 'clear', evt: Event): void;
-  /** 懒加载子节点失败时触发，参数为加载失败的节点信息，可用于提示用户或记录日志 */
+  /**
+   * @zh-CN 懒加载子节点失败时触发，参数为加载失败的节点信息
+   * @en-US Emitted when lazy loading fails, parameter is the failed node info
+   */
   (e: 'lazyload-error', node: CascaderV2LazyNodeT): void;
+}>();
+
+defineSlots<{
+  /**
+   * @zh-CN 默认面板内容，可自定义整个下拉面板
+   * @en-US Default panel content, can customize the entire dropdown panel
+   */
+  default(): any;
+  /**
+   * @zh-CN 折叠标签自定义文本
+   * @en-US Custom text for folded tags
+   */
+  tagFold(): any;
+  /**
+   * @zh-CN 下拉箭头图标，参数 active 表示面板是否展开
+   * @en-US Dropdown arrow icon, param active indicates whether the panel is open
+   */
+  arrow(props: { active: boolean }): any;
+  /**
+   * @zh-CN 后缀区域内容，参数 active 表示面板是否展开
+   * @en-US Suffix area content, param active indicates whether the panel is open
+   */
+  suffix(props: { active: boolean }): any;
 }>();
 
 const cascaderV2Ref = ref<InstanceType<typeof InBox>>();

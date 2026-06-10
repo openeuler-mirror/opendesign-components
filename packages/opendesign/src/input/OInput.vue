@@ -19,12 +19,40 @@ defineSlots<{
 }>();
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 输入框值变化时触发
+   * @en-US Triggered when the input value changes
+   */
   (e: 'update:modelValue', value: string): void;
+  /**
+   * @zh-CN 输入框值变化且失去焦点后触发
+   * @en-US Triggered when the input value changes and loses focus
+   */
   (e: 'change', value: string): void;
+  /**
+   * @zh-CN 输入内容时触发
+   * @en-US Triggered when inputting content
+   */
   (e: 'input', evt: Event, value: string): void;
+  /**
+   * @zh-CN 输入框失去焦点时触发
+   * @en-US Triggered when the input loses focus
+   */
   (e: 'blur', evt: FocusEvent): void;
+  /**
+   * @zh-CN 输入框获得焦点时触发
+   * @en-US Triggered when the input gains focus
+   */
   (e: 'focus', evt: FocusEvent): void;
+  /**
+   * @zh-CN 点击清除按钮时触发
+   * @en-US Triggered when the clear button is clicked
+   */
   (e: 'clear', evt?: Event): void;
+  /**
+   * @zh-CN 按下 Enter 键时触发
+   * @en-US Triggered when the Enter key is pressed
+   */
   (e: 'pressEnter', evt: KeyboardEvent): void;
 }>();
 
@@ -87,10 +115,30 @@ onMounted(() => {
 });
 
 defineExpose({
+  /**
+   * @zh-CN 聚焦输入框
+   * @en-US Focus the input
+   */
   focus: () => inInputRef.value?.focus(),
+  /**
+   * @zh-CN 取消输入框聚焦
+   * @en-US Blur the input
+   */
   blur: () => inInputRef.value?.blur(),
+  /**
+   * @zh-CN 清空输入内容
+   * @en-US Clear the input value
+   */
   clear: () => inInputRef.value?.clear(),
+  /**
+   * @zh-CN 获取原生 input 元素
+   * @en-US Get the native input element
+   */
   inputEl: () => inInputRef.value?.inputEl,
+  /**
+   * @zh-CN 切换密码显示/隐藏
+   * @en-US Toggle password visibility
+   */
   togglePassword: () => inInputRef.value?.togglePassword(),
 });
 </script>

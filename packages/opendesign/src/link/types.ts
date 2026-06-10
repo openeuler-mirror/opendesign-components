@@ -22,6 +22,7 @@ export const linkProps = {
   /**
    * @zh-CN 路由跳转对象。当使用该参数时，OLink 会渲染为 RouterLink 组件
    * @en-US Route jump object. When using this parameter, OLink will render as a RouterLink component
+   * @since 1.2.4
    */
   to: {
     type: [String, Object] as PropType<string | Record<string, unknown>>,
@@ -30,6 +31,7 @@ export const linkProps = {
    * @zh-CN 路由跳转时，是否覆盖浏览器历史记录。该参数会作为 RouterLink 的 replace 属性
    * @en-US Whether to replace the browser history when routing. This parameter will be used as the replace attribute of RouterLink
    * @default false
+   * @since 1.2.4
    */
   replace: {
     type: Boolean,

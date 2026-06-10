@@ -31,9 +31,25 @@ type ChildDataT = TabChildData & {
 const props = defineProps(tabProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 页签选中值变化时触发
+   * @en-US Triggered when the tab selected value changes
+   */
   (e: 'update:modelValue', value: string | number): void;
+  /**
+   * @zh-CN 页签选中值变化后触发
+   * @en-US Triggered after the tab selected value changes
+   */
   (e: 'change', value: string | number, oldValue?: string | number): void;
+  /**
+   * @zh-CN 页签被删除时触发
+   * @en-US Triggered when a tab is deleted
+   */
   (e: 'delete', value: string | number): void;
+  /**
+   * @zh-CN 新增页签按钮被点击时触发
+   * @en-US Triggered when the add tab button is clicked
+   */
   (e: 'add', evt: MouseEvent): void;
 }>();
 

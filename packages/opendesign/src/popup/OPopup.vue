@@ -22,7 +22,18 @@ import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
 const props = defineProps(popupProps);
 
-const emits = defineEmits<{ (e: 'update:visible', val: boolean): void; (e: 'change', val: boolean): void }>();
+const emits = defineEmits<{
+  /**
+   * @zh-CN 弹层显示状态更新时触发
+   * @en-US Triggered when the popup visibility is updated
+   */
+  (e: 'update:visible', val: boolean): void;
+  /**
+   * @zh-CN 弹层显示状态变化时触发
+   * @en-US Triggered when the popup visibility changes
+   */
+  (e: 'change', val: boolean): void;
+}>();
 
 const { isPhonePad } = useScreen();
 

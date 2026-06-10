@@ -17,6 +17,22 @@ kind: feedback
 
 ## API
 
+### CSS Variables
+
+| CSS Variable | Description |
+| --- | --- |
+| --loading-mask | Loading mask color |
+| --loading-icon-size | Loading icon size |
+| --loading-icon-color | Loading icon color |
+| --loading-mask-icon-color | Loading mask icon color |
+| --loading-color | Loading text color |
+| --loading-mask-color | Loading mask text color |
+| --loading-z-index | Loading z-index |
+| --loading-label-font-size | Loading label font size |
+| --loading-label-line-height | Loading label line height |
+| --loading-label-icon-gap | Loading label-icon gap |
+| --loading-content-direction | Loading content direction |
+
 ### useLoading
 
 ```ts:line-numbers

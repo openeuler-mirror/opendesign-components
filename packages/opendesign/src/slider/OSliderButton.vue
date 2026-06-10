@@ -8,6 +8,10 @@ import { sliderButtonProps, type SliderButtonInitData } from './types';
 
 const props = defineProps(sliderButtonProps);
 const emit = defineEmits<{
+  /**
+   * @zh-CN 双向绑定值更新
+   * @en-US v-model value update
+   */
   (e: 'update:modelValue', v: number): void;
 }>();
 

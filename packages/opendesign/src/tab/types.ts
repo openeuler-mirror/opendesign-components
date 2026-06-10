@@ -17,6 +17,7 @@ export const tabProps = {
    * @zh-CN 页签类型
    * @en-US Tab variant
    * @default 'text'
+   * @since 1.2.0 新增button模式
    */
   variant: {
     type: String as PropType<TabVariantT>,
@@ -32,6 +33,7 @@ export const tabProps = {
   /**
    * @zh-CN 圆角值(仅button模式可用)
    * @en-US Border radius(Only available in button mode)
+   * @since 1.2.0
    */
   round: {
     type: String as PropType<RoundT>,
@@ -60,13 +62,15 @@ export const tabProps = {
   /**
    * @zh-CN 最大展示个数，超过时使用“更多”展示
    * @en-US Max display count; show via Show more when exceeded.
+   * @since 1.2.0
    */
   maxShow: {
     type: Number,
   },
   /**
    * @zh-CN 超出个数隐藏时按钮的文案，默认“更多”
-   * @en-US The button text when items are hidden for exceeding the maximum count, with the default value of "more".
+   * @en-US The button text when items are hidden for exceeding the maximum count, with the default value of “more”.
+   * @since 1.2.0
    */
   moreLabel: {
     type: String,
@@ -75,6 +79,7 @@ export const tabProps = {
    * @zh-CN 是否展示nav线(button模式不可用)
    * @en-US Whether to show the nav line(Unavailable in button mode)
    * @default true
+   * @since 1.2.0
    */
   line: {
     type: Boolean,
@@ -84,6 +89,7 @@ export const tabProps = {
    * @zh-CN 是否是反色模式的button
    * @en-US Whether inverse mode button
    * @default false
+   * @since 1.2.0
    */
   buttonInverse: {
     type: Boolean,
@@ -92,6 +98,7 @@ export const tabProps = {
   /**
    * @zh-CN 头部自定义样式类名
    * @en-US Header custom style class name
+   * @since 1.2.0
    */
   headerClass: {
     type: [String, Array, Object] as PropType<string | { [k: string]: boolean } | Array<{ [k: string]: boolean } | string>>,

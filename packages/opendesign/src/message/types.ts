@@ -65,7 +65,8 @@ export const messageProps = {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * 消息标题
+   * @zh-CN 消息标题
+   * @en-US Message title
    */
   title: {
     type: String,
@@ -74,14 +75,17 @@ export const messageProps = {
 
 export const messageListProps = {
   /**
-   * 消息列表位置 MessagePositionT
+   * @zh-CN 消息列表位置
+   * @en-US Message list position
+   * @default 'top'
    */
   position: {
     type: String as PropType<MessagePositionT>,
     default: 'top',
   },
   /**
-   * 消息列表销毁前的钩子函数
+   * @zh-CN 消息列表销毁前的钩子函数
+   * @en-US Hook function before the message list is destroyed
    */
   onDestroy: {
     type: Function as PropType<() => void>,

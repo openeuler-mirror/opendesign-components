@@ -1,5 +1,5 @@
 ---
-sidebar: OToast 即时反馈
+sidebar: OToast 即时反馈 ^[1.2.0](primary)
 kind: feedback
 ---
 
@@ -47,3 +47,22 @@ function useToast(target?: Ref<ToastTarget> | ToastTarget): {
   closeAll: () => void;
 };
 ```
+
+### CSS 变量
+
+| CSS 变量 | 默认值 | 描述 |
+| --- | --- | --- |
+| --toast-padding | 9px 16px | 即时反馈内边距 |
+| --toast-bg-color | rgb(var(--o-grey-11)) | 即时反馈背景色 |
+| --toast-color | var(--o-color-info1-inverse) | 即时反馈文字颜色 |
+| --toast-radius | 4px | 即时反馈圆角 |
+| --toast-font-size | var(--o-font_size-tip1) | 即时反馈文字大小 |
+| --toast-line-height | var(--o-line_height-tip1) | 即时反馈文字行高 |
+| --toast-shadow | var(--o-shadow-3) | 即时反馈阴影 |
+| --toast-gap | 16px | 即时反馈条间距 |
+| --toast-align | center | 即时反馈内容对齐方式 |
+| --toast-max-width | 100% | 即时反馈最大宽度 |
+| --toast-list-offset | 80px | 即时反馈列表偏移量 |
+| --toast-list-top-offset | var(--toast-list-offset) | 即时反馈列表顶部偏移量 |
+| --toast-list-bottom-offset | var(--toast-list-offset) | 即时反馈列表底部偏移量 |
+| --z-index | 1001 | 即时反馈列表层级 |

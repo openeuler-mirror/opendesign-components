@@ -83,6 +83,9 @@ provide(sliderInjectKey, {
 });
 
 defineExpose({
+  /**
+   * 点击滑轨时触发滑块移动
+   */
   onSliderClick,
 });
 </script>

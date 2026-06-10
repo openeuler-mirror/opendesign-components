@@ -36,32 +36,77 @@ import { useDataColumn } from './use-data-column.ts';
 
 const props = defineProps(dataTableProps);
 const emits = defineEmits<{
-  /** 表格筛选条件更新,如果是排序条件更新则无payload */
+  /**
+   * @zh-CN 表格筛选条件更新，如果是排序条件更新则无 payload
+   * @en-US Table filter condition updated; no payload if it's a sort condition update
+   * @since 1.2.2
+   */
   (e: 'condition-update', payload?: DataTableConditionUpdatePayload): void;
-  /** 表格列排序更新 */
+  /**
+   * @zh-CN 表格列排序更新
+   * @en-US Table column sort updated
+   * @since 1.2.2
+   */
   (e: 'sort-update', payload: DataTableSortUpdatePayload): void;
-  /** 选中双向绑定状态更新 */
+  /**
+   * @zh-CN 选中行双向绑定状态更新
+   * @en-US Selected rows binding state updated
+   * @since 1.2.2
+   */
   (e: 'update:selected-keys', payload: DataTableRowKeyValue[]): void;
-  /** 单行checkbox点击时触发 */
+  /**
+   * @zh-CN 单行 checkbox 点击时触发
+   * @en-US Triggered when a single row checkbox is clicked
+   * @since 1.2.2
+   */
   (e: 'selection', payload: DataTableSelectionPayload): void;
-  /** 已选择数据改变时触发 */
+  /**
+   * @zh-CN 已选择数据改变时触发
+   * @en-US Triggered when the selected data changes
+   * @since 1.2.2
+   */
   (e: 'selection-change', payload: DataTableSelectionChangePayload): void;
-  /** 全选checkbox点击时触发 */
+  /**
+   * @zh-CN 全选 checkbox 点击时触发
+   * @en-US Triggered when the select-all checkbox is clicked
+   * @since 1.2.2
+   */
   (e: 'selection-all', allSelected: boolean): void;
-  /** 点击懒加载子节点时触发，分别调用resolve与reject表示加载成功或者失败状态 */
+  /**
+   * @zh-CN 点击懒加载子节点时触发，分别调用 resolve 与 reject 表示加载成功或失败状态
+   * @en-US Triggered when a lazy-load child node is clicked; call resolve or reject to indicate success or failure
+   * @since 1.2.2
+   */
   (e: 'load-children', payload: DataTableLoadChildrenPayload): void;
-  /** 列宽调整 */
+  /**
+   * @zh-CN 列宽调整
+   * @en-US Column width resized
+   * @since 1.2.2
+   */
   (e: 'column-resize', column: EffectiveDataTableColumnT, width: number): void;
 }>();
 
 type AllSlots = {
-  /** thead插槽 */
+  /**
+   * @zh-CN thead插槽
+   * @en-US Thead slot
+   */
   header?: (options: { columns: EffectiveDataTableColumnT[]; groupColumns: EffectiveDataTableColumnT[][] }) => any;
-  /** 加载状态插槽 */
+  /**
+   * @zh-CN 加载状态插槽
+   * @en-US Loading state slot
+   */
   loading?: () => any;
-  /** 空状态插槽 */
+  /**
+   * @zh-CN 空状态插槽
+   * @en-US Empty state slot
+   */
   empty?: () => any;
-  /** 行展开插槽 */
+  /**
+   * @zh-CN 行展开插槽
+   * @en-US Row expand slot
+   * @since 1.2.2
+   */
   expand?: (scope: { row: TableRowT; rowIndex: number }) => any;
 } & Record<`th_${string}`, (options: { column: EffectiveDataTableColumnT }) => any> &
   Record<`td_${string}`, (options: { column: EffectiveDataTableColumnT; row: TableRowT; cellValue: any; index: number }) => any>;
@@ -130,6 +175,7 @@ const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
 /**
  * @zh-CN 已展开的行的rowKey
  * @en-US rowKey of expanded rows
+ * @since 1.2.2
  */
 const expandedRowKeys = defineModel<DataTableRowKeyValue[]>('expanded-row-keys', { default: reactive([]) });
 const hasExpandSlot = computed(() => !!slots.expand);
@@ -138,6 +184,7 @@ const isLevelExpandable = computed(() => getIsLevelExpandable({ list: props.data
 /**
  * @zh-CN 表格筛选条件
  * @en-US Table filter conditions
+ * @since 1.2.2
  */
 const conditions = defineModel<Record<string, unknown>>('conditions', {
   /**
@@ -222,6 +269,11 @@ const toFilteredSelectable = (arr: DataTableRowKeyValue[]) => {
 /** 去掉禁用行后可选择的行的rowKey集合 */
 const selectableRowKeys = computed(() => toFilteredSelectable(allRowKeys.value));
 
+/**
+ * @zh-CN 选中行的rowKey集合
+ * @en-US Selected row keys collection
+ * @since 1.2.2
+ */
 const selectedKeys = defineModel<DataTableRowKeyValue[]>('selectedKeys', { default: reactive([]) });
 
 const allChecked = ref<number[]>([]);
@@ -322,13 +374,33 @@ defineExpose<DataTableExposed>({
   dataColumnMap,
   dataColumns,
   groupColumns,
+  /**
+   * @zh-CN 全选
+   * @en-US Select all
+   * @since 1.2.2
+   */
   selectAll() {
     selectedKeys.value = [...selectableRowKeys.value];
   },
+  /**
+   * @zh-CN 清空全选
+   * @en-US Clear all selections
+   * @since 1.2.2
+   */
   clearAll: () => (selectedKeys.value = []),
+  /**
+   * @zh-CN 展开全部
+   * @en-US Expand all rows
+   * @since 1.2.2
+   */
   expandAll() {
     expandedRowKeys.value = [...allRowKeys.value];
   },
+  /**
+   * @zh-CN 收起全部
+   * @en-US Fold all rows
+   * @since 1.2.2
+   */
   foldAll: () => (expandedRowKeys.value = []),
 });
 </script>

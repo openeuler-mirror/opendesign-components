@@ -1,3 +1,12 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+#### 复合卡片（昇腾暗色主题）
+
+<!-- en-US -->
+
+#### Composite Card (Ascend Dark Theme)
+</docs>
 <script setup lang="ts">
 import { OCard, OLink, OButton, OIconSkill } from '@opensig/opendesign';
 </script>

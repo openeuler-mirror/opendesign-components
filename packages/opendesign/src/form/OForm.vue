@@ -7,9 +7,25 @@ import { isFunction } from '../_utils/is';
 const props = defineProps(formProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 表单提交时触发
+   * @en-US Triggered when the form is submitted
+   */
   (e: 'submit', results: FieldResultT[]): void;
+  /**
+   * @zh-CN 表单校验完成时触发
+   * @en-US Triggered when form validation completes
+   */
   (e: 'validate', results: FieldResultT[]): void;
+  /**
+   * @zh-CN 清除表单校验状态时触发
+   * @en-US Triggered when form validation state is cleared
+   */
   (e: 'clear', filed?: string | string[]): void;
+  /**
+   * @zh-CN 重置表单字段时触发
+   * @en-US Triggered when form fields are reset
+   */
   (e: 'reset', filed?: string | string[]): void;
 }>();
 

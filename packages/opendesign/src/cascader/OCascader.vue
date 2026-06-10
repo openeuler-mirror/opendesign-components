@@ -10,7 +10,15 @@ import { mergeClass } from '../_utils/vue-utils';
 const props = defineProps(cascaderProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 级联选择器值变化时触发
+   * @en-US Triggered when the cascader value changes
+   */
   (e: 'change', val: CascaderValueT): void;
+  /**
+   * @zh-CN 级联选择器选中值变化时触发
+   * @en-US Triggered when the cascader selected value changes
+   */
   (e: 'update:modelValue', val: CascaderValueT): void;
 }>();
 

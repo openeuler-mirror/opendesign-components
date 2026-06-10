@@ -14,8 +14,20 @@ import { useScreen } from '../hooks';
 const props = defineProps(figureProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 图片加载失败时触发
+   * @en-US Triggered when the image fails to load
+   */
   (e: 'error'): void;
+  /**
+   * @zh-CN 图片加载成功时触发
+   * @en-US Triggered when the image loads successfully
+   */
   (e: 'load'): void;
+  /**
+   * @zh-CN 图片预览可见状态变化时触发
+   * @en-US Triggered when the image preview visibility changes
+   */
   (e: 'preview', visible: boolean): void;
 }>();
 const imgRef = ref<HTMLImageElement | null>(null);
@@ -126,6 +138,10 @@ const onFigureClick = () => {
 };
 
 defineExpose({
+  /**
+   * @zh-CN 预览图片
+   * @en-US Preview the image
+   */
   preview,
 });
 </script>

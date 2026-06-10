@@ -9,9 +9,34 @@ import { normalizeSize } from './utils.ts';
 const props = defineProps(avatarProps);
 
 const emit = defineEmits<{
+  /**
+   * @zh-CN 点击头像时触发，仅在 clickable 为 true 时生效
+   * @en-US Emitted when avatar is clicked, only when clickable is true
+   */
   (e: 'click', evt: MouseEvent): void;
+  /**
+   * @zh-CN 图片加载失败时触发
+   * @en-US Emitted when image loading fails
+   */
   (e: 'error'): void;
+  /**
+   * @zh-CN 图片加载成功时触发
+   * @en-US Emitted when image loads successfully
+   */
   (e: 'load'): void;
+}>();
+
+defineSlots<{
+  /**
+   * @zh-CN 名称文字自定义内容，默认显示首字符或 nameFormatter 渲染结果
+   * @en-US Custom name text content, default shows first character or nameFormatter result
+   */
+  name(): any;
+  /**
+   * @zh-CN 可点击时触发图标自定义内容，默认显示编辑图标
+   * @en-US Custom trigger icon content when clickable, default shows edit icon
+   */
+  triggerIcon(): any;
 }>();
 
 const hasError = ref(false);

@@ -1,3 +1,12 @@
+<docs lang="md">
+<!-- zh-CN -->
+
+#### 复合卡片（欧拉暗色主题）
+
+<!-- en-US -->
+
+#### Composite Card (openEuler Dark Theme)
+</docs>
 <script setup lang="ts">
 import { OCard, OLink, OButton, OIconSkill } from '@opensig/opendesign';
 </script>

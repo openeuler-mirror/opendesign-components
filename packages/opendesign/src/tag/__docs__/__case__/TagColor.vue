@@ -1,8 +1,9 @@
 <docs lang="md">
-<!--zh-CN-->
-### Colors
+<!-- zh-CN -->
 
-<!--en-US-->
+### 颜色
+
+<!-- en-US -->
 ### Colors
 </docs>
 

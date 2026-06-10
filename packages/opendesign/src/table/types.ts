@@ -59,6 +59,7 @@ export const tableProps = {
   /**
    * @zh-CN 表格斑马纹，仅body中无纵向合并单元格时生效
    * @en-US Table striping, taking effect only when there are no vertically merged cells in the table body.
+   * @since 1.2.0
    */
   stripe: {
     type: Boolean,

@@ -10,7 +10,15 @@ import { uniqueId } from '../_utils/helper';
 const props = defineProps(checkboxProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 选中值变化时触发
+   * @en-US Triggered when the checked value changes
+   */
   (e: 'update:modelValue', val: Array<string | number>): void;
+  /**
+   * @zh-CN 选中状态变化时触发
+   * @en-US Triggered when the checked state changes
+   */
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
@@ -90,7 +98,10 @@ const onChange = (ev: Event) => {
 };
 
 defineExpose({
-  /** is checked */
+  /**
+   * @zh-CN 是否已选中
+   * @en-US Whether the checkbox is checked
+   */
   checked: isChecked,
 });
 

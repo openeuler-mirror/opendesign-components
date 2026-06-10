@@ -56,7 +56,7 @@ const onClick = (event: MouseEvent) => {
     event.preventDefault();
   }
   /**
-   * @deprecated 兼容旧版本，计划1.2.0移除
+   * @deprecated 请使用 `item-click` 事件替代，将在 v2.0.0 移除
    */
   anchorInjection?.onItemClick({
     event: event,

@@ -19,6 +19,10 @@ const props = defineProps(paginationProps);
 const round = getRoundClass(props, 'pagination');
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 页码或每页条数变化时触发
+   * @en-US Triggered when the page number or page size changes
+   */
   (e: 'change', newValue: { page: number; pageSize: number }, oldValue: { page: number; pageSize: number }): void;
 }>();
 
@@ -153,7 +157,10 @@ const validateInput = (value: number) => {
 };
 
 defineExpose({
-  /** Total number of pages */
+  /**
+   * @zh-CN 总页数
+   * @en-US Total number of pages
+   */
   pageCount: totalPage,
 });
 </script>

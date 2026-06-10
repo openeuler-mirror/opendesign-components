@@ -77,7 +77,7 @@ export interface AvatarItem {
   url?: string;
   /**
    * @zh-CN 名称
-   * @zh-CN name
+   * @en-US name
    * */
   name?: string;
   /**

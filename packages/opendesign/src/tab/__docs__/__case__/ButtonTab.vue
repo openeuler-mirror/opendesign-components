@@ -1,13 +1,13 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 按钮页签
+### 按钮页签 ^[1.2.0](primary)
 
 **注意:** 若使用图标+文本型，请用inline元素(如span)将文本包裹
 
 <!-- en-US -->
 
-### Button mode
+### Button mode ^[1.2.0](primary)
 
 **Note:** When using the icon + text pattern, wrap the text with an inline element (such as span).
 </docs>

@@ -14,7 +14,7 @@ import { OSlider } from '@opensig/opendesign';
 const BOUNDARY = 840;
 const sliderVal = ref(0);
 
-const viewportWidth = ref(window.innerWidth);
+const viewportWidth = ref(1920);
 
 const updateWidth = () => {
   viewportWidth.value = window.innerWidth;
@@ -25,6 +25,7 @@ const lePadV = computed(() => {
 });
 
 onMounted(() => {
+  viewportWidth.value = window.innerWidth;
   window.addEventListener('resize', updateWidth);
 });
 

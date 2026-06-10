@@ -14,16 +14,60 @@ import { searchProps } from './types';
 const props = defineProps(searchProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 输入值更新事件
+   * @en-US Input value update event
+   */
   (e: 'update:modelValue', value: string): void;
+  /**
+   * @zh-CN 值变化时触发
+   * @en-US Emitted when the value changes
+   */
   (e: 'change', value: string): void;
+  /**
+   * @zh-CN 输入时触发
+   * @en-US Emitted when typing in the input
+   */
   (e: 'input', evt: Event, value: string): void;
+  /**
+   * @zh-CN 失去焦点时触发
+   * @en-US Emitted when losing focus
+   */
   (e: 'blur', evt: FocusEvent): void;
+  /**
+   * @zh-CN 获得焦点时触发
+   * @en-US Emitted when gaining focus
+   */
   (e: 'focus', evt: FocusEvent): void;
+  /**
+   * @zh-CN 清除时触发
+   * @en-US Emitted when clearing
+   */
   (e: 'clear', evt?: Event): void;
+  /**
+   * @zh-CN 头部筛选框选中值变化时触发
+   * @en-US Emitted when prefix select value changes
+   */
   (e: 'prefix-selected', value: string | undefined): void;
+  /**
+   * @zh-CN 尾部筛选框选中值变化时触发
+   * @en-US Emitted when suffix select value changes
+   */
   (e: 'suffix-selected', value: string | undefined): void;
+  /**
+   * @zh-CN 联想建议选中时触发
+   * @en-US Emitted when a suggestion is selected
+   */
   (e: 'suggesstion-selected', value: string | undefined): void;
+  /**
+   * @zh-CN 按下回车键时触发
+   * @en-US Emitted when pressing Enter key
+   */
   (e: 'pressEnter', evt: KeyboardEvent): void;
+  /**
+   * @zh-CN 选项浮层显示/隐藏切换时触发
+   * @en-US Emitted when suggestion panel visibility changes
+   */
   (e: 'options-visible-change', value: boolean): void;
 }>();
 

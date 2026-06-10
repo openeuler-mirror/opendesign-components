@@ -11,9 +11,25 @@ import Effect from './effects/effect';
 const props = defineProps(carouselProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 幻灯片切换前触发
+   * @en-US Triggered before the slide changes
+   */
   (e: 'before-change', to: number, from: number): void;
+  /**
+   * @zh-CN 幻灯片切换完成时触发
+   * @en-US Triggered when the slide change is complete
+   */
   (e: 'change', to: number, from: number): void;
+  /**
+   * @zh-CN 当前激活的幻灯片索引变化时触发
+   * @en-US Triggered when the active slide index changes
+   */
   (e: 'update:activeIndex', value: number): void;
+  /**
+   * @zh-CN 自动播放暂停时触发
+   * @en-US Triggered when auto play is paused
+   */
   (e: 'pause', value: number): void;
 }>();
 
@@ -299,9 +315,25 @@ const onHoverOut = () => {
 };
 
 defineExpose({
+  /**
+   * @zh-CN 初始化轮播组件
+   * @en-US Initialize the carousel component
+   */
   init: init,
+  /**
+   * @zh-CN 开始自动播放
+   * @en-US Start auto play
+   */
   play,
+  /**
+   * @zh-CN 暂停自动播放
+   * @en-US Pause auto play
+   */
   pause,
+  /**
+   * @zh-CN 切换到指定幻灯片
+   * @en-US Switch to the specified slide
+   */
   active: activeSlide,
 });
 </script>

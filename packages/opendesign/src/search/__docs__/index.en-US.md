@@ -1,5 +1,5 @@
 ---
-sidebar: OSearch
+sidebar: OSearch ^[1.2.2](primary)
 kind: input
 ---
 
@@ -12,7 +12,16 @@ kind: input
 <!-- @case SearchWithFilter -->
 <!-- @case SearchWithSuggesstions -->
 
-## Api
+## API
+
+### CSS Variables
+
+| CSS Variable                              | Description          | Default                   |
+| ----------------------------------------- | -------------------- | ------------------------- |
+| `--search-prefix-width` | Prefix select width  | `136px`                   |
+| `--search-suffix-width` | Suffix select width  | `100px`                   |
+| `--search-input-width`  | Search input width   | `320px`                   |
+| `--search-icon-size`    | Search icon size     | `var(--o-icon_size-m)`    |
 
 <!-- @api OSearch -->
 
