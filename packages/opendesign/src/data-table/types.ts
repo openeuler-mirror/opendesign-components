@@ -5,6 +5,10 @@ import { tableProps, TableRowT } from '../table';
 export const DataTableSizes = ['medium', 'small'] as const;
 export type DataTableSizeT = (typeof DataTableSizes)[number];
 
+/**
+ * 表头风格类型
+ * @since 1.2.2
+ */
 export const DataTableHeaderStyles = ['fill', 'split-line'] as const;
 export type DataTableHeaderStyleT = (typeof DataTableHeaderStyles)[number];
 
@@ -97,6 +101,10 @@ export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => 
  */
 export type DataTableExpandMethod = (row: any, rowIndex: number) => Component | VNode | string | false;
 
+/**
+ * 列筛选配置类型
+ * @since 1.2.2
+ */
 export type DataTableColumnFilterT = {
   /**
    * 获取筛选可选项的方法，支持异步返回
@@ -135,6 +143,7 @@ export interface DataTableColumnT {
   label?: string | Component | VNode;
   /**
    * 列表头的描述文案，会以气泡的形式展示在表头旁
+   * @since 1.2.2
    */
   description?: string | Component | VNode;
   /**
@@ -149,6 +158,7 @@ export interface DataTableColumnT {
   /**
    * 是否是作为竖向表头列
    * @default false
+   * @since 1.2.2
    */
   asHeader?: boolean;
   /** 列的宽度 */
@@ -160,11 +170,13 @@ export interface DataTableColumnT {
   /**
    * 表头是否显示溢出隐藏气泡，传入数字以设置最大行数
    * @default 1
+   * @since 1.2.2
    */
   showHeaderOverflowToolTip?: boolean | number;
   /**
    * 表体是否显示溢出隐藏气泡，传入数字以设置最大行数
    * @default false
+   * @since 1.2.2
    */
   showOverflowToolTip?: boolean | number;
   /**
@@ -181,6 +193,7 @@ export interface DataTableColumnT {
   /**
    * 表头单元格的自定义colspan
    * @important 仅支持同层级兄弟单元格之间的合并
+   * @since 1.2.2
    */
   customColSpan?: number;
   /**
@@ -293,6 +306,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 是否展示header
    * @en-US Whether to show the header.
+   * @since 1.2.2
    */
   showHeader: {
     type: Boolean,
@@ -301,6 +315,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 表头风格
    * @en-US table header style
+   * @since 1.2.2
    */
   headerStyle: {
     type: String as PropType<DataTableHeaderStyleT>,
@@ -317,7 +332,6 @@ export const dataTableProps = {
   /**
    * @zh-CN 表格是否可以调整列宽
    * @en-US Resize column width
-   * @since 1.2.2
    */
   columnResizable: {
     type: Boolean,
