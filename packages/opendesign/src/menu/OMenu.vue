@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, provide, ref, toRefs, toRef } from 'vue';
+import { computed, provide, ref, toRefs, toRef, watch, onMounted } from 'vue';
 import { menuInjectKey } from './provide';
 import { menuProps } from './types';
 import MenuTree from './menu';
-import { isArray, isUndefined } from '../_utils/is';
+import { isArray } from '../_utils/is';
 
 const props = defineProps(menuProps);
 
@@ -36,8 +36,14 @@ const realExpanded = computed(() => {
   }
   return innerExpanded.value;
 });
+
 // 选中节点列表
-const activeNodes = computed(() => menuTree.selectNode(realValue.value));
+const activeNodes = ref<Array<string | undefined>>([]);
+const notifyTreeChange = () => {
+  activeNodes.value = menuTree.selectNode(realValue.value || '');
+};
+watch(realValue, notifyTreeChange, { flush: 'post' });
+onMounted(() => notifyTreeChange());
 
 const updateExpanded = (val: Array<string>) => {
   innerExpanded.value = val;
@@ -52,19 +58,15 @@ provide(menuInjectKey, {
   activeNodes,
   realExpanded,
   menuTree,
+  notifyTreeChange,
   updateModelValue,
   updateExpanded,
-  arrowPosition: toRef(props, 'arrowPosition')
+  arrowPosition: toRef(props, 'arrowPosition'),
 });
 </script>
 
 <template>
-  <ul :class="[
-    'o-menu',
-    `o-menu-${size}`,
-    arrowPosition && `o-menu-arrow-${arrowPosition}`
-    ]"
-  >
+  <ul :class="['o-menu', `o-menu-${size}`, arrowPosition && `o-menu-arrow-${arrowPosition}`]">
     <slot></slot>
   </ul>
 </template>
