@@ -1,3 +1,10 @@
+## 1.2.4-sp1
+
+### Bug Fixes
+
+- **OMenu:** 修复父节点没有跟随子节点高亮的问题
+- **OLink:** 修复无法继承父级 scopedId，导致父级 scoped 样式失效的问题
+
 ## 1.2.4
 
 ### Features
