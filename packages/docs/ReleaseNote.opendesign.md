@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 
+- **OPopup/OPopover:** 修复快速切换 visible 或鼠标高速移动时，popup 可能无法正确隐藏的问题
 - **OMenu:** 修复父节点没有跟随子节点高亮的问题
 - **OLink:** 修复无法继承父级 scopedId，导致父级 scoped 样式失效的问题
 
