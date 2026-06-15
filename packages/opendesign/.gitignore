@@ -27,3 +27,7 @@ es
 lib
 code-snippets
 *api.*.md
+
+coverage
+playwright
+test-results

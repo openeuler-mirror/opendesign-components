@@ -11,6 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - [`release-note`](packages/skills/release-note/SKILL.md)：Release Note 生成指南，写版本日志、整理 feat/fix/breaking change、更新 ReleaseNote.opendesign.md 或 ReleaseNote.scripts.md 时使用
   - [`component-docs`](packages/skills/component-docs/SKILL.md)：组件文档与注释规范指南，涉及 types.ts JSDoc 注释、Demo/Case 编写、文档页面编写、gen:api 流程等话题时使用
 - **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)。
+  - [`component-testing`](packages/skills/component-testing/SKILL.md)：组件库测试用例编写指南，涉及为组件加测试、调试测试失败、补响应式 / SSR / 视觉契约断言、判断维度归属哪个文件、vitest browser mode 排错等话题时使用
 - 你的所有回答应始终遵循`karpathy-guidelines`
 - **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 [`clean-code`](packages/skills/clean-code/SKILL.md) skill。
 - **中文注释要求：** 所有新增或修改的代码必须附带完备的 JSDoc 格式中文注释，包括：`@description` 功能说明、`@param` 参数含义、`@returns` 返回值说明、关键逻辑的行内注释、复杂条件分支的解释。注释应准确、简洁，避免无意义的翻译式注释。

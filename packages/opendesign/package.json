@@ -25,6 +25,10 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "type-check": "vue-tsc --build",
+    "test": "vitest --config vitest.config.ts",
+    "test:run": "vitest run --config vitest.config.ts",
+    "test:ui": "vitest --ui --config vitest.config.ts",
+    "test:cov": "vitest run --coverage --config vitest.config.ts",
     "release": "pnpm publish --registry https://registry.npmjs.org"
   },
   "peerDependencies": {
@@ -34,9 +38,19 @@
   },
   "devDependencies": {
     "@opensig/open-scripts": "workspace:^",
+    "@opensig/opendesign-token": "catalog:css",
+    "@vitejs/plugin-vue": "catalog:vue",
+    "@vitejs/plugin-vue-jsx": "catalog:vue",
+    "@vitest/browser": "catalog:test",
+    "@vitest/coverage-v8": "catalog:test",
+    "@vitest/ui": "catalog:test",
+    "@vue/server-renderer": "catalog:vue",
     "dayjs": "catalog:utils",
+    "playwright": "catalog:test",
     "typescript": "catalog:typescript",
     "vite": "catalog:build",
+    "vitest": "catalog:test",
+    "vitest-browser-vue": "catalog:test",
     "vue-tsc": "catalog:build"
   },
   "bugs": "https://atomgit.com/openeuler/opendesign-components/issues",

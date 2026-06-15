@@ -49,6 +49,12 @@
       "skillPath": "skills/opendesign-tokens/SKILL.md",
       "computedHash": "fa455216804a5a6f5f92d455dc00fe01395889f8fc0f0f6d1944fff5adaeae47"
     },
+    "openeuler-frontend-tools": {
+      "source": "finch-poi/opendesign-skills",
+      "sourceType": "github",
+      "skillPath": "skills/openeuler-frontend-tools/SKILL.md",
+      "computedHash": "2d1909bcffd0bc822963c91d9e8dd60e0b2dc9dd969f9239de24f3a82d09c01c"
+    },
     "pinia": {
       "source": "antfu/skills",
       "sourceType": "github",
