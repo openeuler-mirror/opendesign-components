@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { computed, inject, useAttrs } from 'vue';
-import { createReusableTemplate } from '@vueuse/core';
+import { computed, inject, useAttrs, resolveComponent, h, useSlots, renderSlot, type VNode } from 'vue';
 import { configProviderInjectKey } from '../config-provider';
 import { defaultSize } from '../_utils/global';
 import { IconLinkArrow, IconLoading } from '../_utils/icons';
-import HtmlTag from '../_components/html-tag';
 
 import { linkProps } from './types';
 
@@ -36,49 +34,55 @@ const linkClass = computed(() => [
   `o-link-${props.size || defaultSize}`,
 ]);
 
-const [DefineLinkContent, LinkContent] = createReusableTemplate();
+const $slots = useSlots();
+const RouterLink = resolveComponent('RouterLink');
+
+const prefix = () => {
+  const children: VNode[] = [];
+  if (props.loading) {
+    children.push(h(IconLoading.value, { class: 'o-rotating' }));
+  } else if ($slots.icon || props.icon) {
+    children.push(renderSlot($slots, 'icon', {}, () => (props.icon ? [h(props.icon)] : [])));
+  }
+  if (children.length) {
+    return h('span', { class: 'o-link-prefix' }, children);
+  }
+  return null;
+};
+const main = () => {
+  const children: VNode[] = [];
+  const slotVnode = renderSlot($slots, 'default');
+  if (props.hoverUnderline) {
+    children.push(h('span', { class: 'o-link-label' }, slotVnode));
+  } else {
+    children.push(slotVnode);
+  }
+  return h('span', { class: 'o-link-main' }, children);
+};
+const suffix = () => {
+  if ($slots.suffix || props.suffix) {
+    return h(
+      'span',
+      { class: 'o-link-suffix' },
+      renderSlot($slots, 'suffix', {}, () => (props.suffix ? [h(IconLinkArrow.value, { class: 'o-link-icon-arrow' })] : [])),
+    );
+  }
+  return null;
+};
+const Link = () => {
+  const _props: Record<string, any> = { ...$attr, class: ['o-link', linkClass.value], onClick };
+  if (props.to && RouterLink) {
+    _props.to = props.to;
+    _props.replace = props.replace;
+    return h(RouterLink, _props, { default: () => [prefix(), main(), suffix()] });
+  }
+  if (props.tag === 'a') {
+    _props.href = props.href;
+    _props.target = props.target;
+  }
+  return h(props.tag, _props, { default: () => [prefix(), main(), suffix()] });
+};
 </script>
 <template>
-  <DefineLinkContent>
-    <span v-if="$slots.icon || props.icon || props.loading" class="o-link-prefix">
-      <IconLoading v-if="props.loading" class="o-rotating" />
-      <slot v-else name="icon">
-        <component :is="props.icon" />
-      </slot>
-    </span>
-    <span class="o-link-main">
-      <span v-if="props.hoverUnderline" class="o-link-label">
-        <slot></slot>
-      </span>
-      <slot v-else></slot>
-    </span>
-    <span v-if="$slots.suffix || props.suffix" class="o-link-suffix">
-      <slot name="suffix">
-        <IconLinkArrow class="o-link-icon-arrow" />
-      </slot>
-    </span>
-  </DefineLinkContent>
-  <router-link
-    v-if="props.to"
-    :to="props.to"
-    :replace="props.replace"
-    class="o-link"
-    :class="linkClass"
-    v-bind="$attrs"
-    @click="onClick"
-  >
-    <LinkContent />
-  </router-link>
-  <HtmlTag
-    v-else
-    :tag="props.tag"
-    class="o-link"
-    :href="props.href"
-    :target="props.target"
-    :class="linkClass"
-    v-bind="$attrs"
-    @click="onClick"
-  >
-    <LinkContent />
-  </HtmlTag>
+  <Link />
 </template>

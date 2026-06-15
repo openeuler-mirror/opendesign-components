@@ -340,6 +340,23 @@ const onPopupResize = debounce((en: ResizeObserverEntry) => {
 const handleTransitionStart = () => {
   isAnimating.value = true;
 };
+const popupWrapDom = ref<HTMLDivElement>();
+const checkVisibleState = debounce(
+  () => {
+    // transition 设置 name 属性后搭配 v-show，在 visible 快速切换时偶现元素未被隐藏
+    // 根因：Transition 设置 name 后会通过异步 nextFrame 监听 transitionend/animationend，监听前检查 el._isLeaving。
+    // 快速切换时，之前的 transitionend/animationend 回调将 _isLeaving 重置为 false，导致新一轮异步检测跳过隐藏处理。
+    if (popupWrapDom.value && visible.value === false && popupWrapDom.value.style.display !== 'none') {
+      popupWrapDom.value.style.display = 'none';
+    }
+  },
+  200, // 动画播放时间
+  false,
+);
+const onBeforeLeave = () => {
+  checkVisibleState();
+  handleTransitionStart();
+};
 const handleTransitionEnd = () => {
   isAnimating.value = false;
   if (!visible.value && props.unmountOnHide) {
@@ -447,10 +464,10 @@ const sholdUmMount = computed(() => {
             :appear="true"
             @before-enter="handleTransitionStart"
             @after-enter="handleTransitionEnd"
-            @before-leave="handleTransitionStart"
+            @before-leave="onBeforeLeave"
             @after-leave="handleTransitionEnd"
           >
-            <div v-show="visible" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
+            <div v-show="visible" ref="popupWrapDom" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
               <div class="o-popup-body" :class="props.bodyClass">
                 <slot></slot>
               </div>
