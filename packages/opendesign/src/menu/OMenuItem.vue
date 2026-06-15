@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, inject, useTemplateRef} from 'vue';
+import { computed, inject, useTemplateRef } from 'vue';
 
 import { menuItemProps } from './types';
 import { menuInjectKey, subMenuInjectKey } from './provide';
@@ -15,7 +15,6 @@ const emits = defineEmits<{
 
 const menuInjection = inject(menuInjectKey, null);
 const subMenuInjection = inject(subMenuInjectKey, null);
-
 
 const isSelected = computed(() => {
   if (menuInjection) {
@@ -47,11 +46,11 @@ menuInjection?.menuTree.addChild({
   value: props.value as string,
   parentVal: subMenuInjection?.value,
 });
+menuInjection?.notifyTreeChange();
 
 const menuItemRef = useTemplateRef('menuItemRef');
 const itemContentRef = useTemplateRef('itemContentRef');
 const isContentOverflow = useElementOverflown(itemContentRef);
-
 </script>
 
 <template>
@@ -60,7 +59,7 @@ const isContentOverflow = useElementOverflown(itemContentRef);
     :class="{
       'o-menu-item': true,
       'o-menu-item-selected': isSelected,
-      'o-menu-item-disabled': $props.disabled ,
+      'o-menu-item-disabled': $props.disabled,
     }"
     :style="{
       '--menu-level': currentDepth,

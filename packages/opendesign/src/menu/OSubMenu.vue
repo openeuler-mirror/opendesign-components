@@ -88,6 +88,7 @@ menuInjection?.menuTree.addChild({
   value: props.value as string,
   parentVal: subMenuInjection?.value,
 });
+menuInjection?.notifyTreeChange();
 
 const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
 const itemContentRef = useTemplateRef('itemContentRef');
