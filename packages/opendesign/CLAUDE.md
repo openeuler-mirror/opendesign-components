@@ -13,7 +13,16 @@ pnpm build:style      # 编译所有 SCSS 到 es/lib 对应路径
 pnpm gen:icon         # 从 SVG 重新生成图标组件
 pnpm lint             # ESLint（排除 __demo__ 和 __docs__）
 pnpm type-check       # vue-tsc 类型检查
+
+# 测试（Vitest Browser Mode + Playwright Chromium）
+pnpm test             # 监听模式
+pnpm test:run         # 单次运行
+pnpm test:ui          # Vitest UI 面板
+pnpm test:cov         # 覆盖率（V8）
 ```
+
+测试 co-located 在 `src/<comp>/__tests__/`，每个组件 3 个文件（index / responsive / ssr）。
+测试方法论见 [component-testing skill](../skills/component-testing/SKILL.md)，运行命令/覆盖率/CI 见 [`__tests__/README.md`](./__tests__/README.md)。
 
 构建产物：`es/`（ESM）、`lib/`（CJS）、`dist/opendesign.min.js`（UMD）。
 
