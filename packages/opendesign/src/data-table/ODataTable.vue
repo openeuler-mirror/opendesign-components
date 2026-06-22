@@ -193,6 +193,18 @@ const conditions = defineModel<Record<string, unknown>>('conditions', {
   default: () => reactive({}),
 });
 
+/**
+ * @zh-CN 排序条件的操作序列，数组顺序即用户点击的先后顺序；新增追加末尾，取消移除，切换方向位置不变，取消后再次赋予追加末尾；优先级由调用者自行解读
+ * @en-US The sequence of sort condition activations; array order reflects the order of user clicks. New conditions appended, cancelled removed, direction-only changes stay in place, re-activated after cancellation appended. Sort priority interpretation is up to the caller
+ * @since NEXT
+ */
+const sortSequence = defineModel<string[]>('sortSequence', {
+  /**
+   * @important 兜底如果外面没有传值的情况
+   */
+  default: () => reactive([]),
+});
+
 const getTableFilterValue = (key: string) => {
   return getValueByPath(conditions.value, key) as string[];
 };
@@ -205,17 +217,41 @@ const getTableSorterValue = (key: string): DataTableSortMethodT => {
   return getValueByPath(conditions.value, key) as DataTableSortMethodT;
 };
 const sortKeys = computed(() => Array.from(new Set(dataColumns.value.filter((v) => v.sortKey).map((v) => v.sortKey!))));
+
+/**
+ * @description 处理排序条件变更，维护 sortSequence 操作序列
+ * - 两种模式都需要设置当前列排序值并维护 sortSequence
+ * - 单条件排序额外清空其他列的排序条件，sortSequence 仅保留当前列
+ * - sortSequence 维护规则：新增追加末尾、取消移除、仅切换方向时位置不变、取消后再次赋予追加末尾
+ * @param {string} key - 排序条件对应的 sortKey
+ * @param {DataTableSortMethodT} newVal - 新的排序方向
+ */
 const handleTableSorterChange = (key?: string, newVal?: DataTableSortMethodT) => {
   if (!key) {
     return;
   }
-  // 只允许单一排序条件，清空其他条件
-  sortKeys.value.forEach((_key) => {
-    setValueByPath(conditions.value, _key, DataTableSortMethod.NA);
-  });
+  let _sortSequence = [...sortSequence.value];
+  // 单条件排序：清空其他列的排序条件，sortSequence 仅保留当前列
+  if (props.sortMode === 'single') {
+    sortKeys.value.forEach((_key) => {
+      setValueByPath(conditions.value, _key, DataTableSortMethod.NA);
+    });
+    _sortSequence = [key];
+  }
+
   setValueByPath(conditions.value, key, newVal);
+
+  // 维护 sortSequence 操作序列（两种模式都需要）
+  if (newVal === DataTableSortMethod.NA) {
+    // 取消排序时，从序列中移除
+    _sortSequence = _sortSequence.filter((k) => k !== key);
+  } else if (!_sortSequence.includes(key)) {
+    _sortSequence.push(key);
+  }
+  sortSequence.value = _sortSequence;
+
   emits('condition-update');
-  emits('sort-update', { key, newVal });
+  emits('sort-update', { key, newVal, sortSequence: [..._sortSequence] });
 };
 
 /** 计算数据相关的禁用状态、祖先节点、后代节点等信息 */
