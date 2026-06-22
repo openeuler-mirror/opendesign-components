@@ -3,17 +3,19 @@
 
 ### 使用
 
-两种尺寸：`small`、`medium` ；
+两种尺寸：`small`、`medium`；
 
-通过 `accordion` 属性开启手风情模式；
+通过 `accordion` 属性开启手风琴模式；
 
 通过 `expanded` 属性控制展开的节点值；
 
-通过 `subMenu` 的 `icon` 控制菜单的图标。注意：`small` 尺寸的 `menu` 不支持自定义图标；
+通过 `OSubMenu` 的 `icon` 控制菜单的图标。注意：`small` 尺寸的 `OMenu` 不支持自定义图标；
 
-通过 `selectable` 可以控制 `subMenu` 本身是否可以被选中；
+通过 `selectable` 可以控制 `OSubMenu` 本身是否可以被选中；
 
-通过css变量 `--menu-item-base-indent`、`--sub-menu-base-indent` 控制层级缩进距离。
+通过 CSS 变量 `--menu-item-base-indent`、`--sub-menu-base-indent` 控制层级缩进距离。
+
+**注意**：`OSubMenu` 不支持 `disabled` 状态。若子菜单项需要呈现为禁用态，请改用 `OMenuItem` 的 `disabled` 属性来渲染。
 
 <!-- en-US -->
 
@@ -21,15 +23,17 @@
 
 Two sizes: `small`, `medium`;
 
-Enable the hand style mode through the `accordion` attribute;
+Enable accordion mode through the `accordion` prop;
 
-Control the expanded node value through the `expanded` attribute;
+Control expanded node values through the `expanded` prop;
 
-Control the icon of the menu through the `icon` of the `subMenu`. Note: that the `small` size `menu` does not support custom ICONS;
+Control the menu icon through the `icon` prop of `OSubMenu`. Note: `OMenu` in `small` size does not support custom icons;
 
-You can control whether the `subMenu` itself can be selected through `selectable`;
+Control whether `OSubMenu` itself is selectable through the `selectable` prop;
 
-Control the level indentation distance through the css variable `--menu-item-base-indent` and `--sub-menu-base-indent`.
+Control level indentation distance through CSS variables `--menu-item-base-indent` and `--sub-menu-base-indent`.
+
+**Note**: `OSubMenu` does not support the `disabled` state. If a sub-menu item needs to appear disabled, use `OMenuItem` with the `disabled` prop instead.
 </docs>
 <script setup lang="ts">
 import { reactive, resolveComponent, type Component, shallowRef } from 'vue';
@@ -50,7 +54,7 @@ const _oSchema = {
   },
   arrowPosition: {
     type: 'list',
-    list: ['right', 'left' ],
+    list: ['right', 'left'],
   },
   accordion: {
     type: 'boolean',
