@@ -13,12 +13,6 @@
       "skillPath": "skills/create-adaptable-composable/SKILL.md",
       "computedHash": "3d044f8c43ddaee6a58ab28acc9d6315775aed150c3a9ab059d2714768be5bec"
     },
-    "find-skills": {
-      "source": "vercel-labs/skills",
-      "sourceType": "github",
-      "skillPath": "skills/find-skills/SKILL.md",
-      "computedHash": "645b891da1edbae76ab79c7b088d4e73397464f8396edaf773c0e01971ce75d6"
-    },
     "karpathy-guidelines": {
       "source": "forrestchang/andrej-karpathy-skills",
       "sourceType": "github",
@@ -32,28 +26,22 @@
       "computedHash": "6f5456948b35c0c0005424098eaf28ebbba1bbd92a3f3268466fe7d85e9e3789"
     },
     "opendesign-components": {
-      "source": "finch-poi/opendesign-skills",
-      "sourceType": "github",
+      "source": "git@atomgit.com:openeuler/opendesign-skills.git",
+      "sourceType": "git",
       "skillPath": "skills/opendesign-components/SKILL.md",
-      "computedHash": "20e15c88c9e6c0da95b6d6eee4020897a19a6c54ed8bea1ca1fa8d3e87cbc1e9"
+      "computedHash": "78f5f56f45ca9bef5bf8e741d06d552616e2ec7f0a47365fd5f28981fe3c1495"
     },
     "opendesign-scripts": {
-      "source": "finch-poi/opendesign-skills",
-      "sourceType": "github",
+      "source": "git@atomgit.com:openeuler/opendesign-skills.git",
+      "sourceType": "git",
       "skillPath": "skills/opendesign-scripts/SKILL.md",
       "computedHash": "3913f3b743d9179057fcc58a36e67489d2d32d8681642e3a1bf510d92f7e055e"
     },
     "opendesign-tokens": {
-      "source": "finch-poi/opendesign-skills",
-      "sourceType": "github",
+      "source": "git@atomgit.com:openeuler/opendesign-skills.git",
+      "sourceType": "git",
       "skillPath": "skills/opendesign-tokens/SKILL.md",
       "computedHash": "fa455216804a5a6f5f92d455dc00fe01395889f8fc0f0f6d1944fff5adaeae47"
-    },
-    "openeuler-frontend-tools": {
-      "source": "finch-poi/opendesign-skills",
-      "sourceType": "github",
-      "skillPath": "skills/openeuler-frontend-tools/SKILL.md",
-      "computedHash": "2d1909bcffd0bc822963c91d9e8dd60e0b2dc9dd969f9239de24f3a82d09c01c"
     },
     "pinia": {
       "source": "antfu/skills",
@@ -91,41 +79,23 @@
       "skillPath": "skills/review-and-refactor/SKILL.md",
       "computedHash": "9236d06a1500089ddb46975b866e9a63478e502afe7095b1980c618678a7c7fe"
     },
-    "slidev": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/slidev/SKILL.md",
-      "computedHash": "ecde2e0d684f770a50c8718ab036e5df5e1ead082cb608739673507079a524a3"
-    },
     "tsdown": {
-      "source": "antfu/skills",
+      "source": "rolldown/tsdown",
       "sourceType": "github",
       "skillPath": "skills/tsdown/SKILL.md",
-      "computedHash": "7b755fabd4d2fe136cfa4d9e1815eeeb41a409e9b6ddbd81834b9247c27e282c"
+      "computedHash": "47f632fbbbdefb7d5b18263502c218cec477255c0fa14baf168c47b83edabeee"
     },
-    "turborepo": {
-      "source": "antfu/skills",
+    "tsdown-migrate": {
+      "source": "rolldown/tsdown",
       "sourceType": "github",
-      "skillPath": "skills/turborepo/SKILL.md",
-      "computedHash": "3f57a70909bf0bef24c88820901812bb0d595bff9b0065e5b81ad6c7bc88423c"
-    },
-    "unocss": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/unocss/SKILL.md",
-      "computedHash": "1054e69977e1d2d3b7c8479adf16b4db43191bf775f150ce8a06a0b1c191318b"
+      "skillPath": "skills/tsdown-migrate/SKILL.md",
+      "computedHash": "2ef3e45913861eaf12af22188656733c3b3f7244258f46a60ff892eae9831537"
     },
     "vite": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/vite/SKILL.md",
       "computedHash": "1cdc4bbecaa89544e6ef92566b015db989994bf90c4472683ac64f7a114dc3af"
-    },
-    "vitepress": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/vitepress/SKILL.md",
-      "computedHash": "a8aa9c4c23b88c5f6ff59159d8dd0678c8c87ae28bab19b4e84fa399022ce5ce"
     },
     "vitest": {
       "source": "antfu/skills",
@@ -156,12 +126,6 @@
       "sourceType": "github",
       "skillPath": "skills/vue-jsx-best-practices/SKILL.md",
       "computedHash": "4e214770e8c516a073929902c54cb17ab8ac45c01f11beabd85f470392de2a1c"
-    },
-    "vue-options-api-best-practices": {
-      "source": "vuejs-ai/skills",
-      "sourceType": "github",
-      "skillPath": "skills/vue-options-api-best-practices/SKILL.md",
-      "computedHash": "4c613ef2a6d5fd5599e6aa58f24bb6460a9f0903f389cf71bad3a71400dbad20"
     },
     "vue-pinia-best-practices": {
       "source": "vuejs-ai/skills",
