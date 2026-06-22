@@ -6,7 +6,7 @@ import { DataTableSortMethod, DataTableSortMethodT } from './types.ts';
 const props = defineProps<{
   disabled?: boolean;
 }>();
-const modelValue = defineModel<DataTableSortMethodT>('modelValue', { default: undefined });
+const modelValue = defineModel<DataTableSortMethodT>('modelValue', { default: () => undefined });
 
 const handleSorterClick = () => {
   switch (modelValue.value) {
