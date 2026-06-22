@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, MaybeRef, onMounted, provide, ref, toValue, watch } from 'vue';
+import { computed, MaybeRef, onMounted, provide, reactive, ref, toValue, watch } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 
 import { OButton } from '../button';
@@ -27,7 +27,7 @@ const props = defineProps<{
 const emits = defineEmits<{
   (e: 'confirm'): void;
 }>();
-const modelValue = defineModel<ValueT[]>('modelValue', { default: [] });
+const modelValue = defineModel<ValueT[]>('modelValue', { default: () => reactive([]) });
 
 const [DefineBodyTemplate, ReuseBodyTemplate] = createReusableTemplate();
 const targetIconRef = ref<HTMLElement>();

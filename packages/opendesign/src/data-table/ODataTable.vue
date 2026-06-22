@@ -177,7 +177,7 @@ const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
  * @en-US rowKey of expanded rows
  * @since 1.2.2
  */
-const expandedRowKeys = defineModel<DataTableRowKeyValue[]>('expanded-row-keys', { default: reactive([]) });
+const expandedRowKeys = defineModel<DataTableRowKeyValue[]>('expanded-row-keys', { default: () => reactive([]) });
 const hasExpandSlot = computed(() => !!slots.expand);
 const isLevelExpandable = computed(() => getIsLevelExpandable({ list: props.data, hasExpandSlot, expandMethod: props.expandMethod }));
 
@@ -190,7 +190,7 @@ const conditions = defineModel<Record<string, unknown>>('conditions', {
   /**
    * @important 兜底如果外面没有传值的情况
    */
-  default: reactive({}),
+  default: () => reactive({}),
 });
 
 const getTableFilterValue = (key: string) => {
@@ -274,7 +274,7 @@ const selectableRowKeys = computed(() => toFilteredSelectable(allRowKeys.value))
  * @en-US Selected row keys collection
  * @since 1.2.2
  */
-const selectedKeys = defineModel<DataTableRowKeyValue[]>('selectedKeys', { default: reactive([]) });
+const selectedKeys = defineModel<DataTableRowKeyValue[]>('selectedKeys', { default: () => reactive([]) });
 
 const allChecked = ref<number[]>([]);
 const indeterminate = computed(() => {
