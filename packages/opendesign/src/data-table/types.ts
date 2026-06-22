@@ -12,6 +12,16 @@ export type DataTableSizeT = (typeof DataTableSizes)[number];
 export const DataTableHeaderStyles = ['fill', 'split-line'] as const;
 export type DataTableHeaderStyleT = (typeof DataTableHeaderStyles)[number];
 
+/**
+ * 排序模式类型
+ * - single: 单条件排序，点击排序时清空其他列的排序
+ * - multiple: 多条件排序，支持同时按多列排序，通过 sortSequence 维护排序条件的操作序列，
+ *             序列仅记录操作先后，优先级由调用者自行解读
+ * @since NEXT
+ */
+export const DataTableSortModes = ['single', 'multiple'] as const;
+export type DataTableSortModeT = (typeof DataTableSortModes)[number];
+
 export const DataTableFixedTypes = [true, 'left', 'right'] as const; // true as 'left'
 export type DataTableFixedT = (typeof DataTableFixedTypes)[number];
 
@@ -181,7 +191,8 @@ export interface DataTableColumnT {
   showOverflowToolTip?: boolean | number;
   /**
    * 排序方式绑定的条件对象的key
-   * @important 只能进行单一列的排序，当前列排序修改后会清空其他列的排序
+   * @important sortMode 为 single 时为单条件排序，当前列排序修改后会清空其他列的排序；
+   *            sortMode 为 multiple 时为多条件排序，通过 sortSequence 维护排序条件的操作序列
    * @since 1.2.2
    */
   sortKey?: string;
@@ -322,6 +333,15 @@ export const dataTableProps = {
     default: 'fill',
   },
   /**
+   * @zh-CN 排序模式，single 为单条件排序，multiple 为多条件排序
+   * @en-US Sort mode, 'single' for single-condition sort, 'multiple' for multi-condition sort
+   * @since NEXT
+   */
+  sortMode: {
+    type: String as PropType<DataTableSortModeT>,
+    default: 'single',
+  },
+  /**
    * @zh-CN 行展开的计算方法，返回 `false` 则不可被展开
    * @en-US Calculation Methods for Row expansion. Returns `false` if the row cannot be expanded.
    * @since 1.2.2
@@ -421,9 +441,15 @@ export type DataTableSortMethodT = (typeof DataTableSortMethod)[keyof typeof Dat
  * @since 1.2.2
  */
 export type DataTableSortUpdatePayload = {
-  /** 对应column的key */
+  /** 对应column的sortKey */
   key: string;
+  /** 排序方向 */
   newVal?: DataTableSortMethodT;
+  /**
+   * 排序条件的操作序列，详细说明见 sortSequence prop
+   * @since NEXT
+   */
+  sortSequence: string[];
 };
 
 /**
