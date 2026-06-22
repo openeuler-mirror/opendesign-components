@@ -1,19 +1,12 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents when working with code in this repository.
 
 **重要:**
 
-- 本项目的从互联网下载的 AI 技能统一存放在：**.agents/skills/**
-- 若你发现项目下有`skills-lock.json`但是没有找到`.agents/skills`，那你应该在项目根目录运行`pnpx skills experimental_install`以安装他们，然后再看问题中是否有命中的skills
-- **项目开发专属 skill**（手动编写、随代码一起提交）存放在 **`packages/skills/`**，优先在此查找与本项目开发相关的指导，例如：
-  - [`clean-code`](packages/skills/clean-code/SKILL.md)：代码质量诊断与重构指南，涉及 clean code、重构函数/模块、降低复杂度、消除嵌套、参数过多、函数体过长等话题时使用
-  - [`release-note`](packages/skills/release-note/SKILL.md)：Release Note 生成指南，写版本日志、整理 feat/fix/breaking change、更新 ReleaseNote.opendesign.md 或 ReleaseNote.scripts.md 时使用
-  - [`component-docs`](packages/skills/component-docs/SKILL.md)：组件文档与注释规范指南，涉及 types.ts JSDoc 注释、Demo/Case 编写、文档页面编写、gen:api 流程等话题时使用
-- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)。
-  - [`component-testing`](packages/skills/component-testing/SKILL.md)：组件库测试用例编写指南，涉及为组件加测试、调试测试失败、补响应式 / SSR / 视觉契约断言、判断维度归属哪个文件、vitest browser mode 排错等话题时使用
+- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)。
 - 你的所有回答应始终遵循`karpathy-guidelines`
-- **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 [`clean-code`](packages/skills/clean-code/SKILL.md) skill。
+- **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 `clean-code` skill。
 - **中文注释要求：** 所有新增或修改的代码必须附带完备的 JSDoc 格式中文注释，包括：`@description` 功能说明、`@param` 参数含义、`@returns` 返回值说明、关键逻辑的行内注释、复杂条件分支的解释。注释应准确、简洁，避免无意义的翻译式注释。
 
 ## 仓库概览
@@ -22,9 +15,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 包                      | 路径                  | 说明                                                         |
 | ----------------------- | --------------------- | ------------------------------------------------------------ |
-| `@opensig/opendesign`   | `packages/opendesign` | 发布的组件库 → [CLAUDE.md](packages/opendesign/CLAUDE.md)    |
-| `@opensig/open-scripts` | `packages/scripts`    | 组件库专用构建 CLI → [CLAUDE.md](packages/scripts/CLAUDE.md) |
-| `docs`                  | `packages/docs`       | 文档站 + 测试 → [CLAUDE.md](packages/docs/CLAUDE.md)         |
+| `@opensig/opendesign`   | `packages/opendesign` | 发布的组件库 → [AGENTS.md](packages/opendesign/AGENTS.md)    |
+| `@opensig/open-scripts` | `packages/scripts`    | 组件库专用构建 CLI → [AGENTS.md](packages/scripts/AGENTS.md) |
+| `docs`                  | `packages/docs`       | 文档站 + 测试 → [AGENTS.md](packages/docs/AGENTS.md)         |
 
 依赖版本通过 `pnpm-workspace.yaml` 的 catalog 统一管理（`catalog:vue`、`catalog:css`、`catalog:build` 等），新增依赖应使用 `catalog:` 引用。
 
@@ -128,9 +121,9 @@ pc: (1680px, 1920px)
 
 ---
 
-## CLAUDE.md 层级规范
+## AGENTS.md 层级规范
 
-各子包 CLAUDE.md **禁止重复** 本文件已定义的通用规则（CSS 变量、响应式断点等），仅通过引用链接指向本文件对应章节。
+各子包 AGENTS.md **禁止重复** 本文件已定义的通用规则（CSS 变量、响应式断点等），仅通过引用链接指向本文件对应章节。
 
 | 子包                  | 专属内容                                              |
 | --------------------- | ----------------------------------------------------- |

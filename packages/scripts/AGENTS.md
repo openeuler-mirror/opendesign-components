@@ -1,4 +1,4 @@
-# packages/scripts CLAUDE.md
+# packages/scripts AGENTS.md
 
 `@opensig/open-scripts` 构建 CLI，供 `packages/opendesign` 调用。
 

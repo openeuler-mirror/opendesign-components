@@ -4,11 +4,12 @@
 
 ## 开发阶段 → Skill 映射
 
-| 开发阶段            | Skill                                       | 典型场景                                                             | 可以给 AI agent 的提示语                                                                         |
-| ------------------- | ------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| **组件开发**        | [`component-docs`](component-docs/SKILL.md) | 新建组件、写 `types.ts` 注释、写 demo/case、写文档页、运行 `gen:api` | "帮我给 Button 的 props 加 JSDoc 注释"、"帮我写一个 disabled case"、"运行 gen:api 更新 API 文档" |
-| **日常编码 / 重构** | [`clean-code`](clean-code/SKILL.md)         | 写新 composable、重构复杂函数、消除嵌套、精简参数                    | "帮我重构这个 composable，降低复杂度"、"这个函数参数太多了，帮我优化"、"帮我用卫语句消除嵌套"    |
-| **版本发布**        | [`release-note`](release-note/SKILL.md)     | 写版本日志、整理变更归类、更新 ReleaseNote 文件                      | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
+| 开发阶段            | Skill                                             | 典型场景                                                             | 可以给 AI agent 的提示语                                                                         |
+| ------------------- | ------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **组件开发**        | [`component-docs`](component-docs/SKILL.md)       | 新建组件、写 `types.ts` 注释、写 demo/case、写文档页、运行 `gen:api` | "帮我给 Button 的 props 加 JSDoc 注释"、"帮我写一个 disabled case"、"运行 gen:api 更新 API 文档" |
+| **日常编码 / 重构** | [`clean-code`](clean-code/SKILL.md)               | 写新 composable、重构复杂函数、消除嵌套、精简参数                    | "帮我重构这个 composable，降低复杂度"、"这个函数参数太多了，帮我优化"、"帮我用卫语句消除嵌套"    |
+| **测试用例**        | [`component-testing`](component-testing/SKILL.md) | 写组件测试用例、调试测试失败、补响应式/SSR/视觉断言、理解测试约定    | "帮我给 Button 写测试用例"、"帮我补 SSR 测试"、"这个 responsive 测试失败了帮我看看"              |
+| **版本发布**        | [`release-note`](release-note/SKILL.md)           | 写版本日志、整理变更归类、更新 ReleaseNote 文件                      | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
 
 ## 各 Skill 速览
 
@@ -55,6 +56,27 @@
 | [`split-composable.md`](clean-code/references/split-composable.md)   | `max-lines-per-function` (>100) | 拆分过长的 composable          |
 
 自动触发关键词：clean code、重构、降低复杂度、消除嵌套、参数过多、函数过长、圈复杂度、认知复杂度、卫语句、配置对象、状态机、查表
+
+---
+
+### component-testing
+
+组件库测试用例编写指南。核心原则：
+
+- 测试 co-located：每个组件 `src/<comp>/__tests__/` 下放 3 个固定文件（index / responsive / ssr）
+- 测试用例按 `types.ts` prop 组织，而非"想到什么测什么"
+- 视觉断言用 **CSS 变量 wiring**（不硬编码 RGB）
+- 所有颜色/状态 token 断言必须在 light + dark 两个主题下双跑
+
+参考文档索引：
+
+| 文件                                                                              | 用途                                     |
+| --------------------------------------------------------------------------------- | ---------------------------------------- |
+| [`three-file-structure.md`](component-testing/references/three-file-structure.md) | 三个文件职责边界 + 骨架代码 + 决策表     |
+| [`visual-contract.md`](component-testing/references/visual-contract.md)           | 视觉断言策略 + 双主题 + variant 承载属性 |
+| [`pitfalls.md`](component-testing/references/pitfalls.md)                         | 踩坑速查（完整版，含排查顺序 L0~L3）     |
+
+自动触发关键词：测试用例、vitest、browser mode、responsive test、SSR test、hydration、token wiring、视觉断言、双主题、describe 分组、test.fails
 
 ---
 

@@ -10,10 +10,13 @@
     "docs:install": "pnpm i && pnpm -C packages/scripts build && pnpm i && pnpm -C packages/opendesign gen:icon && pnpm -C packages/docs gen:icon && pnpm -C packages/docs gen:api",
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build",
-    "prepare": "simple-git-hooks || true"
+    "prepare": "simple-git-hooks || true",
+    "skills:install": "npx -y skills@latest experimental_install",
+    "sync-agents": "node scripts/sync-agents.js"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "npx lint-staged",
+    "post-checkout": "pnpm sync-agents"
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,mts,cts,vue}": [
