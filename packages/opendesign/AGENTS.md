@@ -1,8 +1,8 @@
-# packages/opendesign CLAUDE.md
+# packages/opendesign AGENTS.md
 
 `@opensig/opendesign` 组件库源码包。
 
-**依赖**：根目录 CLAUDE.md 的 CSS 变量规范、CSS 值优先级规则、响应式断点。
+**依赖**：根目录 AGENTS.md 的 CSS 变量规范、CSS 值优先级规则、响应式断点。
 
 ## 命令
 
@@ -92,7 +92,7 @@ style/
 | `@include respond('<=laptop')` | 响应式媒体查询        |
 | `@include x-svg-hover`         | SVG 旋转关闭效果      |
 
-**断点速查**：响应式断点定义见 [根目录 CLAUDE.md CSS 值优先级规则](/CLAUDE.md#css-%E5%80%BC%E4%BC%98%E5%85%88%E8%A7%84%E5%88%9B)。
+**断点速查**：响应式断点定义见 [根目录 AGENTS.md CSS 值优先级规则](/AGENTS.md#css-%E5%80%BC%E4%BC%98%E5%85%88%E8%A7%84%E5%88%9B)。
 
 ## 内部共享组件（`src/_components/`）
 

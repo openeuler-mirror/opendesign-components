@@ -35,6 +35,7 @@ temp
 # AI agent skill 目录（npx skills add 创建，均为本地缓存）
 # 只忽略各 agent 目录下的 skills/ 子目录，保留 rules/配置等文件
 .*/skills/
+CLAUDE.md
 .claude/settings.local.json
 # Windows: Node/Playwright 在 Windows 下误将 /dev/null 路径解析为当前目录的 "nul" 文件
 nul

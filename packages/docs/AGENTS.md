@@ -1,8 +1,8 @@
-# packages/docs CLAUDE.md
+# packages/docs AGENTS.md
 
 文档站 + 组件库测试包（private）。
 
-**依赖**：根目录 CLAUDE.md 的项目概览、命令、CSS 变量规范。
+**依赖**：根目录 AGENTS.md 的项目概览、命令、CSS 变量规范。
 
 ## 命令
 
@@ -203,7 +203,7 @@ resolve: {
 
 ## SSR / 水合测试目标
 
-`*.ssr.test.ts` 和 `*.hydration.test.ts` 对应 `packages/opendesign/CLAUDE.md` 中"SSR 兼容"章节的 review 要点，每个组件的 SSR 测试应覆盖：
+`*.ssr.test.ts` 和 `*.hydration.test.ts` 对应 `packages/opendesign/AGENTS.md` 中"SSR 兼容"章节的 review 要点，每个组件的 SSR 测试应覆盖：
 
 | 测试目标                                                   | 验证方式                                                   |
 | ---------------------------------------------------------- | ---------------------------------------------------------- |
@@ -239,7 +239,7 @@ resolve: {
 **前提条件：**
 
 - 本地已安装并启动 Pixso Desktop，且目标设计文件处于激活状态
-- Claude Code 已配置本地 Pixso MCP（`http://localhost:3667/mcp`，`claude mcp add --transport http pixso http://localhost:3667/mcp`）
+- AI coding agent 已配置本地 Pixso MCP（`http://localhost:3667/mcp`，`claude mcp add --transport http pixso http://localhost:3667/mcp`）
 
 **DSL 可表达的设计属性：**
 
