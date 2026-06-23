@@ -25,7 +25,7 @@
  */
 import { test, expect, describe, vi } from 'vitest';
 import { render } from 'vitest-browser-vue';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { h, markRaw } from 'vue';
 import OButton from '../OButton.vue';
 import OIconAddRaw from '../../icon-components/OIconAdd/OIconAdd.vue';
