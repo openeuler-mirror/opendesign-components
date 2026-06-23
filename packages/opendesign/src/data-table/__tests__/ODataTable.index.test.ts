@@ -18,7 +18,7 @@
  */
 import { test, expect, describe, vi } from 'vitest';
 import { render } from 'vitest-browser-vue';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { h, ref } from 'vue';
 import ODataTable from '../ODataTable.vue';
 import type { DataTableColumnT } from '../types';

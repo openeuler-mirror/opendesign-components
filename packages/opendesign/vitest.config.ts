@@ -2,9 +2,10 @@ import path from 'path';
 import { defineConfig } from 'vitest/config';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { playwright } from '@vitest/browser-playwright';
 
 export default defineConfig({
-  // 类型断言：vite@6 (项目 catalog) 与 vite@7 (vitest 3 peer) 的 Plugin 类型不互通，仅 IDE 红线，运行时无影响
+  // 类型断言：vite@6 Plugin 类型与 vitest 4 内部依赖的 vite 类型不互通，仅 IDE 红线，运行时无影响
   plugins: [vue(), vueJsx()] as never,
   resolve: {
     alias: {
@@ -17,7 +18,7 @@ export default defineConfig({
     setupFiles: ['__tests__/setup.ts'],
     browser: {
       enabled: true,
-      provider: 'playwright',
+      provider: playwright(),
       headless: false,
       screenshotFailures: false,
       instances: [{ browser: 'chromium' }],

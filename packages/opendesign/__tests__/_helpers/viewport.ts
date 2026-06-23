@@ -1,4 +1,4 @@
-import { page } from '@vitest/browser/context';
+import { page } from 'vitest/browser';
 
 /**
  * 按"适配规则一致"的三大类组织视口（与根 CLAUDE.md 响应式断点对齐）。

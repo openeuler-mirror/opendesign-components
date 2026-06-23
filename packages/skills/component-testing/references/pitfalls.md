@@ -171,9 +171,11 @@ expect(el.classList.contains('o-<comp>-disabled')).toBe(true);
 **修法**：**确认在 vitest browser mode 而非 jsdom**。检查 vitest.config.ts 应该有：
 
 ```ts
+import { playwright } from '@vitest/browser-playwright'
+
 browser: {
   enabled: true,
-  provider: 'playwright',
+  provider: playwright(),
 }
 ```
 

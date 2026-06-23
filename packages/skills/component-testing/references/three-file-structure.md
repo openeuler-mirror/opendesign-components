@@ -73,7 +73,7 @@ src/<ComponentName>/__tests__/
 ```ts
 import { test, expect, describe, vi } from 'vitest';
 import { render } from 'vitest-browser-vue';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { h, markRaw, ref } from 'vue';
 import OComp from '../OComp.vue';
 import { flush } from '../../../__tests__/_helpers/dom';

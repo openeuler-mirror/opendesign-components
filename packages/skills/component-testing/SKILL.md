@@ -13,7 +13,7 @@ metadata:
 
 | 层          | 选型                                                                                                                           |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 运行器      | Vitest 3.x（`pnpm test:run` / `pnpm test:ui`）                                                                                 |
+| 运行器      | Vitest 4.x（`pnpm test:run` / `pnpm test:ui`）                                                                                 |
 | 浏览器      | **Playwright Chromium 真浏览器**（不是 jsdom/happy-dom）                                                                       |
 | 渲染        | `vitest-browser-vue` 的 `render()`                                                                                             |
 | SSR         | `@vue/server-renderer` 在浏览器里 `renderToString`                                                                             |
