@@ -153,7 +153,7 @@ defineExpose({
         ref="input"
         class="o-slider-input"
         round="pill"
-        controls="never"
+        controls="none"
         :model-value="firstBtnVal"
         :step="step"
         :disabled="sliderDisabled"
