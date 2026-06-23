@@ -16,6 +16,7 @@ defineSlots<{
   append(): any;
   prefix(): any;
   suffix(): any;
+  extra(): any;
 }>();
 
 const emits = defineEmits<{
