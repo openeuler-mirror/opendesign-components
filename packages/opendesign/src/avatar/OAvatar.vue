@@ -36,7 +36,7 @@ defineSlots<{
    * @zh-CN 可点击时触发图标自定义内容，默认显示编辑图标
    * @en-US Custom trigger icon content when clickable, default shows edit icon
    */
-  triggerIcon(): any;
+  'trigger-icon'(): any;
 }>();
 
 const hasError = ref(false);

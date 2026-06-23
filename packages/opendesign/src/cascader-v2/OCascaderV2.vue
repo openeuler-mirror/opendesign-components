@@ -55,7 +55,7 @@ defineSlots<{
    * @zh-CN 折叠标签自定义文本
    * @en-US Custom text for folded tags
    */
-  tagFold(): any;
+  'tag-fold'(): any;
   /**
    * @zh-CN 下拉箭头图标，参数 active 表示面板是否展开
    * @en-US Dropdown arrow icon, param active indicates whether the panel is open
