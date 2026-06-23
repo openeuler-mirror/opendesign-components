@@ -11,7 +11,7 @@ import { promiseWithResolvers } from '../_utils/helper.ts';
 import TableCellRenderer from './TableCellRenderer.vue';
 import { dataTableInjectKey, dataTableRowInjectKey } from './provide.ts';
 import { getCellValue, getColumnPosition, getIsLevelExpandable } from './utils.ts';
-import { DataTableRowKeyValue } from './types.ts';
+import type { DataTableRowKeyValue, DataTableRowSlots } from './types.ts';
 
 type ExpandByT = 'expand' | 'children';
 
@@ -22,6 +22,11 @@ const props = defineProps<{
   level: number;
 }>();
 const { row, rowIndex, level } = toRefs(props);
+
+const slots = defineSlots<DataTableRowSlots>();
+
+// 收集当前组件收到的 td_ 前缀插槽名，用于递归透传给子行 TableRow
+const tdSlotNames = computed(() => Object.keys(slots).filter((name): name is `td_${string}` => name.startsWith('td_')));
 
 const {
   getRowKey,
@@ -210,7 +215,9 @@ provide(dataTableRowInjectKey, {
               @click="toggleRowExpand"
             />
           </template>
-          <TableCellRenderer :row="row" :column="column" :cell-value="getCellValue({ row, column })" :row-index="rowIndex" :col-index="colIndex" />
+          <slot :name="`td_${column.key}`" :row="row" :column="column" :cell-value="getCellValue({ row, column })" :index="rowIndex">
+            <TableCellRenderer :row="row" :column="column" :cell-value="getCellValue({ row, column })" :row-index="rowIndex" :col-index="colIndex" />
+          </slot>
         </span>
         <div v-if="headerStyle === 'split-line' && column.asHeader" class="o-data-table-header-divider-v"></div>
       </td>
@@ -245,6 +252,9 @@ provide(dataTableRowInjectKey, {
   </tr>
   <template v-else-if="isArray(row.children) && row.children.length && isRowExpanded">
     <TableRow v-for="(child, childIndex) in row.children" :key="getRowKey(child, childIndex)" :row="child" :row-index="childIndex" :level="level + 1">
+      <template v-for="name in tdSlotNames" :key="name" #[name]="slotProps">
+        <slot :name="name" v-bind="slotProps"></slot>
+      </template>
       <template #expand>
         <slot name="expand" :row="child" :row-index="childIndex"></slot>
       </template>
