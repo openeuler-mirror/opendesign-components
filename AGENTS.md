@@ -18,10 +18,42 @@ This file provides guidance to AI coding agents when working with code in this r
 | `@opensig/opendesign`   | `packages/opendesign` | 发布的组件库 → [AGENTS.md](packages/opendesign/AGENTS.md)    |
 | `@opensig/open-scripts` | `packages/scripts`    | 组件库专用构建 CLI → [AGENTS.md](packages/scripts/AGENTS.md) |
 | `docs`                  | `packages/docs`       | 文档站 + 测试 → [AGENTS.md](packages/docs/AGENTS.md)         |
+| `portal`                | `packages/portal`     | Portal 门户站点（无专属 AGENTS.md）                          |
+| `skills`                | `packages/skills`     | AI agent skill 定义（非 npm 包，无专属 AGENTS.md）           |
+
+### 子包依赖关系
+
+各子包之间的内部依赖（`workspace:^`）和引用方式如下：
+
+> 箭头方向：`A ──► B` 表示 **A 依赖 B**（A 引用了 B 的能力）
+
+```
+@opensig/open-scripts（独立包，无 workspace 依赖）
+    ↑ opendesign / docs / portal 均以 devDep 依赖此包，
+    │ opendesign 构建时调用 open-scripts 执行 build:component / build:style / gen:icon
+
+@opensig/opendesign ──► @opensig/open-scripts（devDep，构建工具）
+                    ──► @opensig/opendesign-token（devDep，CSS 变量源）
+
+docs ──► @opensig/open-scripts（devDep，gen:icon 等脚本）
+     ──► @opensig/opendesign（Vite alias → ../opendesign/src，非 workspace dep）
+     ──► @opensig/opendesign-token（devDep，CSS 变量源）
+
+portal ──► @opensig/opendesign（workspace dep + Vite alias → ../opendesign/src）
+        ──► @opensig/open-scripts（devDep，gen:icon / gen:token）
+        ──► @opensig/opendesign-token（devDep，CSS 变量源）
+```
+
+**关键说明：**
+
+- **`@opensig/open-scripts`** 是最底层的独立包，无 workspace 依赖，仅通过 `catalog:` 引用外部构建工具（vite、svgo、sass-embedded 等）。`opendesign` 的 `build` 命令内部调用 `open-scripts build:component` 和 `open-scripts build:style`，因此修改 scripts 后需先执行 `pnpm -C packages/scripts build`，再重新构建 opendesign 方可生效。
+- **`docs` 和 `portal`** 通过 Vite alias 直接引用 `@opensig/opendesign` 的源码（`../opendesign/src`），开发时修改组件源码可即时生效，无需重新构建组件库。
+- **`@opensig/opendesign-token`** 是外部 CSS 变量定义包（通过 `catalog:css` 统一版本），非本仓库子包，所有需要 CSS token 的包均依赖此包。
+- **构建顺序**：`scripts` → `opendesign` → `docs/portal`。完整初始化流程见 `docs:install` 命令。
 
 依赖版本通过 `pnpm-workspace.yaml` 的 catalog 统一管理（`catalog:vue`、`catalog:css`、`catalog:build` 等），新增依赖应使用 `catalog:` 引用。
 
-当运行任务需要安装包，要确定目标版本时：如果 `packages/docs` 中引用的包（如 nuxt等）出现新版本，且该包没有被 `packages/opendesign` 或 `packages/scripts` 引用，则可以在 `pnpm-workspace.yaml` 中升级该包版本。
+当运行任务需要安装包，要确定目标版本时：如果 `packages/docs` 或 `packages/portal` 中引用的包（如 nuxt等）出现新版本，且该包没有被 `packages/opendesign` 或 `packages/scripts` 引用，则可以在 `pnpm-workspace.yaml` 中升级该包版本。
 
 ## 根目录命令
 
@@ -129,4 +161,6 @@ pc: (1680px, 1920px)
 | --------------------- | ----------------------------------------------------- |
 | `packages/opendesign` | 组件内部规范、SSR兼容、实现范式、样式约定             |
 | `packages/docs`       | 文档站构建、测试架构、Vite 插件                       |
+| `packages/portal`     | Portal 站点路由、页面布局                             |
 | `packages/scripts`    | CLI 构建命令（详细用法见 `opendesign-scripts` skill） |
+| `packages/skills`     | AI agent skill 定义及工作流配置                       |
