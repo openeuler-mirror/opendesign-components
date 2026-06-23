@@ -25,6 +25,7 @@ import {
   dataTableProps,
   EffectiveDataTableColumnT,
   DataTableExposed,
+  DataTableRowSlots,
 } from './types.ts';
 import { getColumnPosition, getIsLevelExpandable } from './utils.ts';
 import TableColGroup from './TableColGroup.vue';
@@ -102,16 +103,13 @@ type AllSlots = {
    * @en-US Empty state slot
    */
   empty?: () => any;
-  /**
-   * @zh-CN 行展开插槽
-   * @en-US Row expand slot
-   * @since 1.2.2
-   */
-  expand?: (scope: { row: TableRowT; rowIndex: number }) => any;
-} & Record<`th_${string}`, (options: { column: EffectiveDataTableColumnT }) => any> &
-  Record<`td_${string}`, (options: { column: EffectiveDataTableColumnT; row: TableRowT; cellValue: any; index: number }) => any>;
+} & DataTableRowSlots &
+  Record<`th_${string}`, (options: { column: EffectiveDataTableColumnT }) => any>;
 
 const slots = defineSlots<AllSlots>();
+
+// 收集以 td_ 为前缀的具名插槽，透传给 TableRow 用于自定义单元格渲染
+const tdSlotNames = computed(() => Object.keys(slots).filter((name): name is `td_${string}` => name.startsWith('td_')));
 
 const rootRef = ref<HTMLDivElement>();
 const { width: containerBoundingWidth } = useElementBounding(rootRef);
@@ -571,6 +569,9 @@ defineExpose<DataTableExposed>({
         <tbody class="o-table-body" @mousemove="handleMouseOver" @mouseleave="clearHighlight" @touchstart="handleTouchStart">
           <template v-for="(row, rowIndex) in props.data" :key="getRowKey(row, rowIndex)">
             <TableRow :row="row" :row-index="rowIndex" :level="0">
+              <template v-for="name in tdSlotNames" :key="name" #[name]="slotProps">
+                <slot :name="name" v-bind="slotProps"></slot>
+              </template>
               <template v-if="slots.expand" #expand>
                 <slot name="expand" :row="row" :row-index="rowIndex"></slot>
               </template>

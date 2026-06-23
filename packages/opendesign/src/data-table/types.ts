@@ -98,6 +98,15 @@ export interface DataTableColumnFormatterOptions {
 export type DataTableColumnFormatter = (options: DataTableColumnFormatterOptions) => Component | VNode | string;
 
 /**
+ * 表格行级共享插槽类型
+ * @description ODataTable 与 TableRow 共用的行级插槽，包括行展开插槽和单元格自定义插槽（td_ 前缀）
+ */
+export type DataTableRowSlots = {
+  /** 行展开插槽 */
+  expand?: (scope: { row: TableRowT; rowIndex: number }) => any;
+} & Record<`td_${string}`, (options: { column: EffectiveDataTableColumnT; row: TableRowT; cellValue: any; index: number }) => any>;
+
+/**
  * 合并单元格的计算方法
  * @since 1.2.2
  */

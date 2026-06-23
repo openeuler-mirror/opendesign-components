@@ -808,10 +808,7 @@ describe('插槽契约（具名插槽）', () => {
     expect(screen.container.querySelectorAll('thead th')[1].textContent).toContain('Age');
   });
 
-  // ⚠️ 已知 L1 偏差：types.ts 中 AllSlots 定义了 `td_${string}` 插槽，但 ODataTable.vue 模板未实际渲染该 slot
-  // （body 单元格走 TableCellRenderer，仅消费 formatter），所以传入的 td_xxx 函数不会被调用。
-  // 标 test.fails 锁定行为，待组件侧补 slot 输出后改回普通断言。
-  test.fails('ODataTable slot=td_${key} - 替换指定列每一行的单元格内容', async () => {
+  test('ODataTable slot=td_${key} - 替换指定列每一行的单元格内容', async () => {
     const screen = render(ODataTable, {
       props: { data: baseData, columns: baseColumns },
       slots: { td_email: ({ cellValue }: any) => h('a', { class: 'custom-td-email', href: `mailto:${cellValue}` }, `→${cellValue}`) },
