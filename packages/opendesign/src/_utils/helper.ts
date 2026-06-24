@@ -1,21 +1,55 @@
 import { isObject, isUndefined, isNull, isPlainObject } from './is';
-export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number = 0, runFirst: boolean = true) {
+
+/**
+ * 创建一个防抖函数，延迟执行目标函数，直到停止调用一段时间后。
+ *
+ * @template T - 被包装函数的类型
+ * @param {T} fn - 需要防抖处理的目标函数
+ * @param {number} [wait=0] - 延迟等待的时间（毫秒）
+ * @param {boolean} [leading=true] - 是否在首次调用时立即执行一次函数
+ * @param {boolean} [trailing=false] - 当 `leading` 为 `true` 时，是否允许在**等待期间发生过后续调用**的情况下，于延迟结束后再次执行一次函数
+ * @returns {T} - 返回新的防抖函数
+ *
+ * @example
+ * // 默认行为：首次调用立即执行，后续调用重置计时器，停止调用后不再执行
+ * const debouncedFn = debounce(fn, 500);
+ *
+ * @example
+ * // 仅延迟执行：等待 500ms 无新调用后才执行一次
+ * const debouncedFn = debounce(fn, 500, false);
+ *
+ * @example
+ * // 立即执行 + 尾部执行：首次立即执行，若在 500ms 内又调用了，则停止调用 500ms 后再执行一次
+ * const debouncedFn = debounce(fn, 500, true, true);
+ *
+ * @remarks
+ * - 当 `leading` 和 `trailing` 均为 `true` 时，函数在连续快速调用中最多执行两次：开始一次，结束一次。
+ * - 如果在等待期间只调用了一次（即没有后续调用重置计时器），则不会触发 `trailing` 执行。
+ */
+export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait?: number, leading?: false): T;
+export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number, leading: true, trailing?: boolean): T;
+export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: number = 0, leading: boolean = true, trailing = false) {
   let handler = 0;
+  let hasTrailingCall = false;
   return (...args: Array<any>) => {
-    if (runFirst) {
+    if (leading) {
       if (handler === 0) {
         fn(...args);
+      } else {
+        hasTrailingCall = true;
       }
     }
     clearTimeout(handler);
     handler = window.setTimeout(() => {
-      if (!runFirst) {
+      if (!leading || (hasTrailingCall && trailing)) {
         fn(...args);
       }
       handler = 0;
+      hasTrailingCall = false;
     }, wait);
   };
 }
+
 // 防抖 时间为一个一帧
 export function debounceRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;
