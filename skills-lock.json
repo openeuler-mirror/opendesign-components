@@ -5,7 +5,7 @@
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/antfu/SKILL.md",
-      "computedHash": "36eef78a205ff2618a6916a76cfb593a2fa5cb9dd428b321c5a73790e439b8bd"
+      "computedHash": "79a663bcf1f0580143905b81dc86bc86a21a6e759bdfa674f70a3d0a94e06ba3"
     },
     "create-adaptable-composable": {
       "source": "vuejs-ai/skills",
@@ -23,7 +23,7 @@
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/nuxt/SKILL.md",
-      "computedHash": "6f5456948b35c0c0005424098eaf28ebbba1bbd92a3f3268466fe7d85e9e3789"
+      "computedHash": "3f271d53fd31dbb482e6aad3f54992955f1b5cb0afa9972c592b087316005436"
     },
     "opendesign-components": {
       "source": "git@atomgit.com:openeuler/opendesign-skills.git",
@@ -53,7 +53,7 @@
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/pnpm/SKILL.md",
-      "computedHash": "d473204df25defd08a7d47b55c6d124b41ebde440b774995952b65223d0d8d6f"
+      "computedHash": "20bca721bb934e39c8ff2dc3df2cd1712f9efb5419afe2cb847267f6fe0eacbc"
     },
     "refactor": {
       "source": "github/awesome-copilot",
@@ -149,7 +149,7 @@
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/vueuse-functions/SKILL.md",
-      "computedHash": "5189e448e981e42e2153c1b5e8d19e51b01e642c2357ab0f2892c4d8b50ba2b5"
+      "computedHash": "0a762ae555673c6a7705749bd58d74e2ae9b07007a2cde8168f1f6c480b8d8d9"
     },
     "web-design-guidelines": {
       "source": "antfu/skills",
