@@ -18,6 +18,7 @@ import {
   capitalize,
   type ComponentPublicInstance,
   type VNodeNormalizedChildren,
+  toValue,
 } from 'vue';
 import { isArray, isFunction, isNil, isString } from './is';
 import { isHtmlElement } from './dom';
@@ -190,32 +191,42 @@ const queryElement = (el: string | HTMLElement | null | undefined): HTMLElement 
   }
   return null;
 };
+
+/**
+ * 将 MaybeRef 类型的元素查询值解析为 HTMLElement
+ * @param elRef - 元素查询值，可以是字符串选择器、HTMLElement、组件实例，或 Ref 包装的上述类型
+ * @returns 解析后的 HTMLElement，若无法解析则返回 null
+ * @todo elQuery.$el 的类型可能为 SVGElement Text Comment 等，此处没有处理
+ */
+export const getHtmlElement = (elRef: MaybeRef<ElementQuery>): HTMLElement | null => {
+  const elQuery = toValue(elRef);
+  if (isComponentPublicInstance(elQuery)) {
+    return elQuery.$el;
+  } else {
+    return queryElement(elQuery);
+  }
+};
+
+/**
+ * 异步解析 MaybeRef 类型的元素查询值为 HTMLElement，当值为 Ref 且当前为 falsy 时会等待其变为 truthy 后再解析
+ * @param elRef - 元素查询值，可以是字符串选择器、HTMLElement、组件实例，或 Ref 包装的上述类型
+ * @returns Promise，解析为 HTMLElement；若值变为 falsy 会打印警告，Promise 可能不会 resolve
+ */
 export const resolveHtmlElement = (elRef: MaybeRef<ElementQuery>): Promise<HTMLElement | null> => {
   return new Promise((resolve) => {
-    const resolveElement = (el: ElementQuery) => {
-      if (isComponentPublicInstance(el)) {
-        resolve(el.$el);
-      } else {
-        resolve(queryElement(el));
-      }
-    };
-    if (isRef(elRef)) {
-      if (elRef.value) {
-        resolveElement(elRef.value);
-      } else {
-        const closeWatch = watch(elRef, (el, oldEl) => {
-          if (el) {
-            resolveElement(el);
-            closeWatch();
-          } else {
-            log.warn(
-              `resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`,
-            );
-          }
-        });
-      }
+    if (isRef(elRef) && !elRef.value) {
+      const closeWatch = watch(elRef, (el, oldEl) => {
+        if (el) {
+          resolve(getHtmlElement(el));
+          closeWatch();
+        } else {
+          log.warn(
+            `resolveHtmlElement: elRef value is falsy, this might be a bug and could cause the promise to remain pending. Please check elRef.value: ${oldEl} -> ${el}`,
+          );
+        }
+      });
     } else {
-      resolveElement(elRef);
+      resolve(getHtmlElement(elRef));
     }
   });
 };
