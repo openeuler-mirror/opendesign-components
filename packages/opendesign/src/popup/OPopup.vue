@@ -15,7 +15,7 @@ import { OResizeObserver } from '../resize-observer';
 import { useIntersectionObserver, useScreen } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
-import { resolveHtmlElement } from '../_utils/vue-utils';
+import { resolveHtmlElement, getHtmlElement } from '../_utils/vue-utils';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 
 // TODO 处理嵌套
@@ -44,17 +44,20 @@ const isTargetInViewport = ref(true);
 const wrapperEl: Ref<HTMLElement | null> = ref(null);
 const popupRef: Ref<HTMLElement | null> = ref(null);
 const popStyle = reactive<{
-  left?: string;
-  top?: string;
-  right?: string;
-  bottom?: string;
+  left: string;
+  top: string;
+  transform?: string;
   minWidth?: string;
   width?: string;
   '--popup-z-index'?: number;
   '--popup-edge-offset'?: string;
 }>({
   '--popup-edge-offset': `${props.edgeOffset}px`,
+  // left, top 恒为 0px
+  left: '0px',
+  top: '0px',
 });
+
 const popPosition = ref(props.position);
 
 const wrapOrigin = ref<{ left: string; top: string }>({ left: '0px', top: '0px' });
@@ -62,7 +65,7 @@ const wrapStyle = computed(() => ({
   transformOrigin: `${wrapOrigin.value.left} ${wrapOrigin.value.top}`,
 }));
 
-const anchorStyle = reactive<{ left?: string; top?: string; right?: string; bottom?: string }>({});
+const anchorStyle = ref<{ left?: string; top?: string; right?: string; bottom?: string }>({});
 
 // 是否需要挂载
 const toMount = ref(false);
@@ -78,7 +81,7 @@ const updateZIndex = (show: boolean) => {
     removeZIndex(popStyle['--popup-z-index']);
   }
 };
-
+const { target, wrapper } = toRefs(props);
 onMounted(() => {
   ro = useResizeObserver();
   io = useIntersectionObserver();
@@ -88,29 +91,30 @@ onMounted(() => {
   if (props.visible) {
     updateZIndex(props.visible);
   }
+});
 
-  const { target, wrapper } = toRefs(props);
-
+onMounted(() => {
   watch(
     target,
     (newVal) => {
-      if (newVal) {
-        triggerListener?.forEach((fn) => fn());
-      }
       if (newVal && targetEl) {
         ro?.unobserve(targetEl, onResize);
       }
       if (newVal) {
-        resolveHtmlElement(newVal).then((el) => {
-          if (el) {
-            bindTargetEvent(el);
-          }
-        });
+        // 同步绑定 bindTargetEvent，以同步设置 targetEl
+        const el = getHtmlElement(newVal);
+        if (el) {
+          bindTargetEvent(el);
+          // 更换 target 后更新弹窗位置
+          updatePopupStyle();
+        }
       }
     },
     { immediate: true },
   );
+});
 
+onMounted(() => {
   watch(
     wrapper,
     () => {
@@ -129,10 +133,12 @@ onMounted(() => {
 });
 
 let triggerListener: ReturnType<typeof bindTrigger> = [];
+const removeTriggerListener = () => triggerListener.forEach((fn) => fn());
 const bindTargetEvent = (el: HTMLElement | null) => {
   if (!el) {
     return;
   }
+  removeTriggerListener();
   targetEl = el;
 
   // 初始化popup宽度，避免引起resize，触发重复计算
@@ -142,8 +148,11 @@ const bindTargetEvent = (el: HTMLElement | null) => {
     popStyle.width = `${targetEl.offsetWidth}px`;
   }
 
-  triggerListener = bindTrigger(el, popupRef, triggers.value, {
-    updateFn: updateVisible,
+  triggerListener = bindTrigger({
+    el,
+    popupRef,
+    triggers: triggers.value,
+    updateFn: setVisible,
     hoverDelay: props.hoverDelay,
     autoHide: props.autoHide,
   });
@@ -155,9 +164,7 @@ const bindTargetEvent = (el: HTMLElement | null) => {
 
 onUnmounted(() => {
   // 移除触发事件
-  triggerListener.forEach((fn) => {
-    fn();
-  });
+  removeTriggerListener();
   // 销毁popup 的 resize监听
   if (wrapperEl.value) {
     ro?.unobserve(wrapperEl.value, onResize);
@@ -167,13 +174,14 @@ onUnmounted(() => {
   }
 });
 
+const isHiddenWhenTargetOutViewport = () => props.hideWhenTargetInvisible && !isTargetInViewport.value;
 // 处理popup位置
 const updatePopupStyle = () => {
-  if (props.hideWhenTargetInvisible && !isTargetInViewport.value) {
+  if (isHiddenWhenTargetOutViewport()) {
     return;
   }
 
-  if (!targetEl || !popupRef.value || !wrapperEl.value) {
+  if (!targetEl || !popupRef.value || !popupContent.value) {
     return;
   }
 
@@ -181,7 +189,10 @@ const updatePopupStyle = () => {
     popupStyle: pStyle,
     position,
     anchorStyle: aStyle,
-  } = calcPopupStyle(popupRef.value, targetEl, props.position, {
+  } = calcPopupStyle({
+    popupEl: popupRef.value,
+    targetEl,
+    position: props.position,
     adaptive: props.adaptive,
     offset: props.offset,
     edgeOffset: props.edgeOffset,
@@ -189,19 +200,11 @@ const updatePopupStyle = () => {
   });
 
   wrapOrigin.value = getTransformOrigin(position);
-  if (pStyle) {
-    popStyle.top = `${Math.floor(pStyle.top)}px`;
-    popStyle.left = `${Math.floor(pStyle.left)}px`;
 
-    popPosition.value = position;
-  }
+  popPosition.value = position;
+  popStyle.transform = `translate(${pStyle.left}px, ${pStyle.top}px)`;
 
-  if (aStyle) {
-    Object.keys(aStyle).forEach((k) => {
-      const val = aStyle[k as keyof typeof aStyle];
-      anchorStyle[k as keyof typeof anchorStyle] = `${Math.floor(val as number)}px`;
-    });
-  }
+  anchorStyle.value = aStyle;
 };
 
 // 定义变量，避免首次监听与popup默认显示时重复计算
@@ -236,26 +239,10 @@ const beforeToggle = async (show: boolean) => {
 watch(
   () => props.visible,
   async (val) => {
-    if (visible.value === val) {
-      return;
-    }
-
-    const goon = await beforeToggle(val);
-    if (!goon) {
-      emits('update:visible', visible.value);
-      return;
-    }
-
-    updateVisible(val);
-    updateZIndex(val);
-    if (val) {
-      nextTick(() => {
-        updatePopupStyle();
-      });
-    }
+    // setVisble 中已有 beforeToggle 等逻辑，此处不必处理
+    setVisible(val);
   },
 );
-
 let visibleTimer = 0;
 const clearVisibleTimer = () => {
   if (visibleTimer) {
@@ -263,49 +250,48 @@ const clearVisibleTimer = () => {
     visibleTimer = 0;
   }
 };
+const applyVisible = (isVisible: boolean) => {
+  visible.value = isVisible;
+  updateZIndex(isVisible);
+  if (props.visible !== isVisible) {
+    emits('update:visible', isVisible);
+    emits('change', isVisible);
+  }
 
+  if (visible.value) {
+    toMount.value = true;
+    // 在切换 visible.value 时不必手动调用 updatePopupStyle，因为 v-show 的切换会触发 onResize
+    if (props.hideWhenTargetInvisible && targetEl) {
+      io?.observe(targetEl, onTargetInterscting);
+    }
+  }
+};
+let visibleToggleId = 0;
 // 更新可见状态，支持延迟更新
-const updateVisible = async (isVisible?: boolean, delay?: number) => {
+const setVisible = async (isVisible?: boolean, delay?: number) => {
   if (props.disabled) {
     return;
   }
-
-  const v = isVisible === undefined ? !visible.value : isVisible;
-
+  const currentVisibleToggleId = ++visibleToggleId;
+  const v = isVisible ?? !visible.value;
   if (v === visible.value && visibleTimer === 0) {
     return;
   }
-
-  const update = () => {
-    if (visible.value === v) {
-      return;
-    }
-    // 设置popup是否显示，不需要手动触发计算位置，显示时会触发resize，计算位置
-    visible.value = v;
-    updateZIndex(v);
-
-    emits('update:visible', v);
-    emits('change', v);
-
-    if (v) {
-      toMount.value = true;
-
-      if (props.hideWhenTargetInvisible && targetEl) {
-        io?.observe(targetEl, onTargetInterscting);
-      }
-    }
-  };
-
-  const goon = await beforeToggle(v);
-  if (!goon) {
+  if (!(await beforeToggle(v))) {
     return;
   }
-
+  // 避免 beforeToggle 异步回调竞态导致 visible 混乱
+  if (currentVisibleToggleId !== visibleToggleId) {
+    return;
+  }
+  clearVisibleTimer();
   if (delay) {
-    clearVisibleTimer();
-    visibleTimer = window.setTimeout(update, delay);
+    visibleTimer = window.setTimeout(() => {
+      applyVisible(v);
+      visibleTimer = 0;
+    }, delay /** delay 时间相同，无竞态问题 */);
   } else {
-    update();
+    applyVisible(v);
   }
 };
 
@@ -323,20 +309,25 @@ const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
 /**
  * popup
  */
-const onPopupResize = debounce((en: ResizeObserverEntry) => {
-  onResize(en, false);
-}, 100);
+const onPopupResize = debounce(
+  (en: ResizeObserverEntry) => {
+    onResize(en, false);
+  },
+  100,
+  true,
+  true,
+);
 const handleTransitionStart = () => {
   isAnimating.value = true;
 };
-const popupWrapDom = ref<HTMLDivElement>();
+const popupContent = ref<HTMLDivElement>();
 const checkVisibleState = debounce(
   () => {
     // transition 设置 name 属性后搭配 v-show，在 visible 快速切换时偶现元素未被隐藏
     // 根因：Transition 设置 name 后会通过异步 nextFrame 监听 transitionend/animationend，监听前检查 el._isLeaving。
     // 快速切换时，之前的 transitionend/animationend 回调将 _isLeaving 重置为 false，导致新一轮异步检测跳过隐藏处理。
-    if (popupWrapDom.value && visible.value === false && popupWrapDom.value.style.display !== 'none') {
-      popupWrapDom.value.style.display = 'none';
+    if (popupContent.value && visible.value === false && popupContent.value.style.display !== 'none') {
+      popupContent.value.style.display = 'none';
     }
   },
   200, // 动画播放时间
@@ -359,7 +350,7 @@ const scrollListener = throttleRAF(() => {
   }
 });
 
-const listenScroll = (el: HTMLElement) => {
+const listenScroll = (el: HTMLElement | Window) => {
   el.addEventListener('scroll', scrollListener, { passive: true });
   return () => {
     el.removeEventListener('scroll', scrollListener);
@@ -374,11 +365,13 @@ watch(popupRef, (popEl) => {
      */
 
     if (targetEl) {
-      // 监听targetEl父组件滚动
+      // 监听 targetEl 滚动父链 + window 自身的滚动
       const scrollers = getScrollParents(targetEl);
+
       handles = scrollers.map((el) => {
         return listenScroll(el);
       });
+      handles.push(listenScroll(window));
 
       // 监听targetEL尺寸变化
       ro?.observe(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
@@ -413,15 +406,15 @@ watch(popupRef, (popEl) => {
 });
 const onPopupHoverIn = () => {
   if (triggers.value.includes('hover')) {
-    updateVisible(true, props.hoverDelay);
+    setVisible(true, props.hoverDelay);
   }
 };
 const onPopupHoverOut = () => {
   if (triggers.value.includes('hover') && props.autoHide) {
-    updateVisible(false, props.hoverDelay);
+    setVisible(false, props.hoverDelay);
   }
 };
-const sholdUmMount = computed(() => {
+const shouldMount = computed(() => {
   return toMount.value || visible.value || !props.unmountOnHide;
 });
 </script>
@@ -433,7 +426,7 @@ const sholdUmMount = computed(() => {
     <teleport :to="props.wrapper" :disabled="!props.wrapper">
       <OResizeObserver @resize="onPopupResize">
         <div
-          v-if="sholdUmMount"
+          v-if="shouldMount"
           ref="popupRef"
           class="o-popup"
           :style="popStyle"
@@ -456,7 +449,7 @@ const sholdUmMount = computed(() => {
             @before-leave="onBeforeLeave"
             @after-leave="handleTransitionEnd"
           >
-            <div v-show="visible" ref="popupWrapDom" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
+            <div v-show="visible" ref="popupContent" class="o-popup-wrap" :style="wrapStyle" :class="props.wrapClass">
               <div class="o-popup-body" :class="props.bodyClass">
                 <slot></slot>
               </div>

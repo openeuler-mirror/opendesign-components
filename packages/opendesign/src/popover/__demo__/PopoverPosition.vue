@@ -4,8 +4,9 @@ import { OButton } from '../../button';
 import '../../button/style';
 import { OPopover } from '../index';
 
-const content =
-  'this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content';
+const content = ref(
+  'this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content this is popup content',
+);
 const btn1 = ref(null);
 const btn2 = ref(null);
 const btn3 = ref(null);
@@ -21,6 +22,7 @@ const btn12 = ref(null);
 </script>
 <template>
   <h4>popup position</h4>
+  <textarea v-model="content" type="text" style="width: 100%" />
   <div class="position-wrap">
     <div class="top">
       <OPopover position="tl" trigger="click-outclick">
@@ -32,7 +34,6 @@ const btn12 = ref(null);
       <OButton ref="btn2"> TOP </OButton>
       <OPopover position="top" :target="btn2">
         <div class="box">T {{ content }}</div>
-        <div>{{ content }}</div>
       </OPopover>
       <OButton ref="btn3">TR</OButton>
       <OPopover position="tr" :target="btn3" trigger="click">
