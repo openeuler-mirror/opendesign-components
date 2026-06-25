@@ -30,6 +30,7 @@ const updateVisible = (val: boolean) => {
     :target="props.target"
     :wrapper="props.wrapper"
     :wrap-class="mergeClass('o-popover-wrap', props.wrapClass)"
+    :anchor="props.anchor"
     :anchor-class="props.anchor ? mergeClass('o-popover-anchor', props.anchorClass) : ''"
     :unmount-on-hide="props.unmountOnHide"
     :auto-hide="props.autoHide"
