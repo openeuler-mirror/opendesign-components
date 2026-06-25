@@ -48,7 +48,7 @@
   --upload-card-bg-color-hover: var(--o-color-control2-light);
   --upload-card-bg-color-disabled: var(--o-color-control4-light);
 
-  --upload-card-img-fit: cover;
+  --upload-card-img-fit: contain;
   --upload-card-mask: var(--o-color-mask1);
   --upload-card-icon-color: var(--o-color-info1-inverse);
   --upload-card-icon-color-hover: var(--o-color-info2-inverse);

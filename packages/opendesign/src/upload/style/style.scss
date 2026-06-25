@@ -282,9 +282,9 @@
 }
 
 .o-upload-thumbnail {
+  --figure-fit: var(--upload-card-img-fit);
   width: 100%;
   height: 100%;
-  object-fit: var(--upload-card-img-fit);
   border-radius: inherit;
 }
 .o-upload-icon-file {
