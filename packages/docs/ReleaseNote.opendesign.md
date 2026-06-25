@@ -1,3 +1,22 @@
+## 1.2.4-sp2
+
+### Features
+
+- **vue-utils:** 新增 `getHtmlElement`，同步获取对应 DOM
+- **helper:** `debounce` 新增 `trailing` 参数，支持在 `leading` 模式下延时结束后再执行一次
+
+### Bug Fixes
+
+- **OPopup:**
+  - 修复外部修改 `visible` 时重复调用 `beforeToggle` 与冗余触发 `update:visible`/`change` 的问题
+  - 修复 `bindTargetEvent` 异步导致父级滚动容器 scroll 监听丢失及缺失 `window` scroll 监听的问题
+  - 修复 `left` 定位下 popup 宽度变化触发位置重算死循环的问题
+  - 修复 `beforeToggle` 异步回调与 `setVisible` 重入的竞态问题
+  - 修复 `target` 切换时旧 `targetEl` 上 trigger 监听器泄漏的问题
+  - 修复 `target` 切换时弹窗位置未更新的问题
+- **OPopover:** 修复 `anchor` 属性不生效的问题
+- **dom-utils:** 修复 `getScrollParents` 可能会包含自身的问题
+
 ## 1.2.4-sp1
 
 ### Bug Fixes
