@@ -4,7 +4,7 @@ import { OButton } from '../../button';
 import '../../button/style';
 import { OPopup } from '../index';
 
-const content = 'this is popup content';
+const content = 'this is popup content this is popup content';
 const btn1 = ref(null);
 const btn2 = ref(null);
 const visible = ref(false);
@@ -24,7 +24,7 @@ const change = () => {
       <OPopup v-model:visible="visible" position="tl" :target="btn1" trigger="click-outclick">
         <div class="popup-box">TL {{ content }}</div>
       </OPopup>
-      <OButton ref="btn2" class="btn"> TOP </OButton>
+      <OButton ref="btn2" class="btn"> BOTTOM </OButton>
       <OPopup :visible="visible" position="bottom" :target="btn2" trigger="none">
         <div class="popup-box">TL {{ content }}</div>
       </OPopup>

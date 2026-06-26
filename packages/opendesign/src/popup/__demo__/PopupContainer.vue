@@ -17,7 +17,6 @@ const btn9 = ref(null);
 const visible = ref(true);
 const text = ref('text');
 const width = ref('50vw');
-
 </script>
 <template>
   <h4>popup container</h4>
@@ -101,8 +100,8 @@ const width = ref('50vw');
   background-color: #eee;
 }
 .content {
-  height: 50vh;
-  width: 80vw;
+  height: 1600px;
+  width: 200vw;
 
   position: relative;
   :deep(.o-btn) {
@@ -137,8 +136,8 @@ const width = ref('50vw');
   top: 15vh;
 }
 .btn7 {
-  left: 0;
-  bottom: 0;
+  left: 300px;
+  bottom: 800px;
 }
 .btn8 {
   left: 45vw;

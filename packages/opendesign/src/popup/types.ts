@@ -172,15 +172,15 @@ export const popupProps = {
     default: true,
   },
   /**
-   * @zh-CN 显示前回调，根据返回值判断是否显示, false: 不显示； true|undefined: 显示
-   * @en-US Before display the callback, determine whether to display based on the return value. false: No display. true|undefined: Display.
+   * @zh-CN 显示前的回调函数。返回 `false` 取消显示，返回 `true` 或 `undefined`（Promise resolve 为 `true`/`undefined`）则继续显示。注意：该函数中不应包含副作用，仅用于判断
+   * @en-US Callback invoked before showing. Return `false` to cancel showing; return `true` or `undefined` (or a Promise resolving to `true`/`undefined`) to proceed. Pure function only — do not perform side effects inside
    */
   beforeShow: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   /**
-   * @zh-CN 隐藏前回调，根据返回值判断是否隐藏，false: 不隐藏； true|undefined: 隐藏
-   * @en-US Hide the callback before hiding. Determine whether to hide it based on the return value. false: Not hidden. true|undefined: Hidden.
+   * @zh-CN 隐藏前的回调函数。返回 `false` 取消隐藏，返回 `true` 或 `undefined`（Promise resolve 为 `true`/`undefined`）则继续隐藏。注意：该函数中不应包含副作用，仅用于判断
+   * @en-US Callback invoked before hiding. Return `false` to cancel hiding; return `true` or `undefined` (or a Promise resolving to `true`/`undefined`) to proceed. Pure function only — do not perform side effects inside
    */
   beforeHide: {
     type: Function as PropType<() => Promise<boolean> | boolean>,
