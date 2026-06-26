@@ -146,6 +146,14 @@ export const cardProps = {
     type: String as PropType<TexTOverflowT>,
     default: 'fade',
   },
+  /**
+   * @zh-CN 是否有鼠标悬停文字溢出效果
+   * @en-US Whether the card has a hover text overflow effect
+   */
+  hoverableOverflow: {
+    type: Boolean,
+    default: false,
+  },
 };
 
 export type CardPropsT = ExtractPropTypes<typeof cardProps>;

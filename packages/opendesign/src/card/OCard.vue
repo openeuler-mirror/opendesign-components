@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_components/html-tag';
 import { isString, isUndefined } from '../_utils/is';
 import { mergeClass } from '../_utils/vue-utils';
+import { OPopover } from '../popover';
+import { useElementOverflown, useResizeObserver } from '../hooks';
 
 const props = defineProps(cardProps);
 
@@ -20,12 +22,12 @@ const slots = defineSlots<{
   cover(): any;
 }>();
 
-const showFadeOut = computed(()=>{
+const showFadeOut = computed(() => {
   return props.textOverflow === 'fade';
-})
+});
 
 const hasMain = computed(
-  () => slots.main || props.icon || slots.icon || props.title || slots.title || slots.header || props.detail || slots.detail || slots.default
+  () => slots.main || props.icon || slots.icon || props.title || slots.title || slots.header || props.detail || slots.detail || slots.default,
 );
 
 const isTitleLimited = computed(() => {
@@ -42,10 +44,42 @@ const hasCover = computed(() => {
 const hasTitleIcon = computed(() => {
   return props.titleIcon;
 });
+
+// 支持超出隐藏，hover时popover提示，并添加响应式
+const cardRef = ref<InstanceType<typeof HtmlTag>>();
+const titleRef = ref<HTMLDivElement>();
+const detailRef = ref<HTMLDivElement>();
+const isTitleOverflow = useElementOverflown(titleRef);
+const isDetailOverflow = useElementOverflown(detailRef);
+const cardWidth = ref<number | undefined>();
+
+const popoverStyle = computed(() => ({
+  '--card-popover-width': cardWidth.value ? `${cardWidth.value * 0.8}px` : undefined,
+}));
+
+const onCardResize = (entry: ResizeObserverEntry) => {
+  cardWidth.value = (entry.target as HTMLElement).offsetWidth;
+};
+
+onMounted(() => {
+  const ro = useResizeObserver();
+  const cardEl = cardRef.value?.$el as HTMLElement | undefined;
+  if (cardEl) {
+    ro.observe(cardEl, onCardResize);
+  }
+});
+onBeforeUnmount(() => {
+  const ro = useResizeObserver();
+  const cardEl = cardRef.value?.$el as HTMLElement | undefined;
+  if (cardEl) {
+    ro.unobserve(cardEl, onCardResize);
+  }
+});
 </script>
 
 <template>
   <HtmlTag
+    ref="cardRef"
     :tag="!!props.href ? 'a' : 'div'"
     :href="props.href"
     class="o-card"
@@ -65,13 +99,15 @@ const hasTitleIcon = computed(() => {
       <div
         v-if="hasCover"
         class="o-card-cover"
-        :class="mergeClass(
-          `o-card-cover-${props.layout}`,
-          {
-            'o-card-only-cover': !hasMain,
-          },
-          props.coverClass,
-        )"
+        :class="
+          mergeClass(
+            `o-card-cover-${props.layout}`,
+            {
+              'o-card-only-cover': !hasMain,
+            },
+            props.coverClass,
+          )
+        "
       >
         <slot name="cover">
           <OFigure
@@ -100,16 +136,17 @@ const hasTitleIcon = computed(() => {
                 v-if="props.title || !!slots.header || !!slots.title"
                 :class="{
                   'o-card-header': true,
-                  'o-card-header-with-icon': hasTitleIcon
+                  'o-card-header-with-icon': hasTitleIcon,
                 }"
               >
                 <slot name="header">
                   <div v-if="hasTitleIcon" class="o-card-title-icon">
-                    <OFigure v-if="isString(props.titleIcon)" :src="props.titleIcon" class="o-card-title-icon-figure"/>
+                    <OFigure v-if="isString(props.titleIcon)" :src="props.titleIcon" class="o-card-title-icon-figure" />
                     <component :is="props.titleIcon" v-else />
                   </div>
                   <div
                     v-if="props.title"
+                    ref="titleRef"
                     class="o-card-title"
                     :class="{ 'o-card-title-limited': isTitleLimited }"
                     :style="{ '--card-title-row': props.titleRow, '--card-title-max-row': props.titleMaxRow }"
@@ -118,12 +155,24 @@ const hasTitleIcon = computed(() => {
                       {{ props.title }}
                     </slot>
                   </div>
+                  <OPopover
+                    v-if="isTitleOverflow && props.hoverableOverflow"
+                    :offset="12"
+                    :target="titleRef"
+                    :adjust-min-width="false"
+                    :adjust-width="false"
+                    position="bottom"
+                    class="o-card-popover"
+                    :style="popoverStyle"
+                    >{{ props.title }}</OPopover
+                  >
                 </slot>
               </div>
               <!-- content -->
               <div class="o-card-content">
                 <div
                   v-if="props.detail || !!slots.detail"
+                  ref="detailRef"
                   class="o-card-detail"
                   :class="{ 'o-card-detail-limited': isDetailLimited }"
                   :style="{ '--card-detail-row': props.detailRow, '--card-detail-max-row': props.detailMaxRow }"
@@ -132,6 +181,17 @@ const hasTitleIcon = computed(() => {
                     {{ props.detail }}
                   </slot>
                 </div>
+                <OPopover
+                  v-if="isDetailOverflow && props.hoverableOverflow"
+                  :offset="12"
+                  :target="detailRef"
+                  :adjust-min-width="false"
+                  :adjust-width="false"
+                  position="bottom"
+                  class="o-card-popover"
+                  :style="popoverStyle"
+                  >{{ props.detail }}</OPopover
+                >
                 <slot></slot>
               </div>
             </div>
