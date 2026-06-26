@@ -56,10 +56,14 @@ export function getScroll(el: ScrollTarget) {
   return rlt;
 }
 
-// 获取元素的可滚动的父元素
+/**
+ * 获取元素的所有可滚动的父元素
+ * @param el - 起始 HTML 元素
+ * @returns 从当前元素向上遍历找到的所有可滚动父元素数组（不包含 document.documentElement）
+ */
 export function getScrollParents(el: HTMLElement) {
   const parents: Array<HTMLElement> = [];
-  let ele: HTMLElement | null = el;
+  let ele: HTMLElement | null = el?.parentElement;
   while (ele && ele !== document.documentElement) {
     const { offsetHeight, offsetWidth, scrollHeight, scrollWidth } = ele;
     if (offsetHeight < scrollHeight || offsetWidth < scrollWidth) {
