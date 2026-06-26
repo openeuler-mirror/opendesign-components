@@ -5,6 +5,12 @@ import PopupPosition from './PopupPosition.vue';
 import PopupVisible from './PopupVisible.vue';
 import PopupContainer from './PopupContainer.vue';
 import PopupTarget from './PopupTarget.vue';
+import PopupChangeTarget from './PopupChangeTarget.vue';
+import PopupBeforeToggle from './PopupBeforeToggle.vue';
+import PopupLeftWidth from './PopupLeftWidth.vue';
+import PopupScrollContainer from './PopupScrollContainer.vue';
+import PopupAsyncRace from './PopupAsyncRace.vue';
+import PopupTargetListenerLeak from './PopupTargetListenerLeak.vue';
 </script>
 <template>
   <div class="page-demo">
@@ -12,6 +18,12 @@ import PopupTarget from './PopupTarget.vue';
     <PopupContainer />
     <PopupPosition />
     <PopupVisible />
+    <PopupChangeTarget />
+    <PopupBeforeToggle />
+    <PopupLeftWidth />
+    <PopupScrollContainer />
+    <PopupAsyncRace />
+    <PopupTargetListenerLeak />
   </div>
 </template>
 <style lang="scss">

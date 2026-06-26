@@ -27,7 +27,7 @@ const btn12 = ref(null);
         <div class="popup-box">TL {{ content }}</div>
       </OPopup>
       <OButton ref="btn2"> TOP </OButton>
-      <OPopup anchor-class="popup-arrow" position="top" :target="btn2" :trigger="['click', 'hover']">
+      <OPopup anchor-class="popup-arrow" position="top" :target="btn2" trigger="click">
         <div class="popup-box">T {{ content }}</div>
       </OPopup>
       <OButton ref="btn3">TR</OButton>
@@ -42,7 +42,7 @@ const btn12 = ref(null);
           <div class="popup-box">LT {{ content }}</div>
         </OPopup>
         <OButton ref="btn5"> LEFT </OButton>
-        <OPopup anchor-class="popup-arrow" position="left" :target="btn5">
+        <OPopup anchor-class="popup-arrow" position="left" :target="btn5" trigger="click">
           <div class="popup-box">L {{ content }}</div>
         </OPopup>
         <OButton ref="btn6"> LB </OButton>
@@ -59,7 +59,7 @@ const btn12 = ref(null);
           </template>
         </OPopup>
         <OButton ref="btn8"> RIGHT </OButton>
-        <OPopup position="right" :target="btn8">
+        <OPopup position="right" :target="btn8" trigger="click">
           <div class="popup-box">R {{ content }}</div>
           <template #anchor>
             <div class="popup-arrow"></div>
@@ -83,7 +83,7 @@ const btn12 = ref(null);
         </template>
       </OPopup>
       <OButton ref="btn11"> BOTTOM </OButton>
-      <OPopup position="bottom" :target="btn11">
+      <OPopup position="bottom" :target="btn11" trigger="click">
         <div class="popup-box">B {{ content }}</div>
         <template #anchor>
           <div class="popup-arrow"></div>
