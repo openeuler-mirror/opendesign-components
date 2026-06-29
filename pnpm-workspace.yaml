@@ -3,18 +3,18 @@ packages:
 
 catalogs:
   build:
-    '@opensig/open-scripts': 1.0.6
-    '@rollup/plugin-terser': ^1.0.0
+    '@opensig/open-scripts': 1.0.5
+    '@rollup/plugin-terser': ^0.4.4
     svgo: ^3.3.2
-    vite: 7.3.2
-    vite-plugin-dts: ^5.0.2
-    vite-plugin-inspect: ^11.4.1
-    vue-tsc: ^3.3.5
+    vite: 6.3.5
+    vite-plugin-dts: ^4.5.3
+    vite-plugin-inspect: ^11.2.0
+    vue-tsc: 2.2.8
   css:
-    '@opensig/opendesign-token': 0.0.11
+    '@opensig/opendesign-token': 0.0.10
     clean-css: ^5.3.3
     normalize.css: ^8.0.1
-    sass: ^1.85.0
+    sass: ^1.71.1
     sass-embedded: 1.85.1
   io:
     commander: ^13.1.0
@@ -51,9 +51,9 @@ catalogs:
     '@opensig/open-analytics': 1.0.1
     dayjs: 1.11.13
     magic-string: ^0.30.17
-    vite-node: ^6.0.0
+    vite-node: ^3.2.4
   vue:
-    '@vitejs/plugin-vue': ^6.0.4
+    '@vitejs/plugin-vue': ^6.0.3
     '@vitejs/plugin-vue-jsx': ^5.1.3
     '@vue/compiler-dom': ^3.5.17
     '@vue/compiler-sfc': ^3.5.17
