@@ -46,7 +46,7 @@ const emits = defineEmits<{
 }>();
 const slots = useSlots();
 
-const { isPhonePad } = useScreen();
+const { isPhonePadSize } = useScreen();
 
 const { t } = useI18n();
 
@@ -55,7 +55,7 @@ const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
 const isResponding = computed(() => {
-  return !props.noResponsive && isPhonePad.value;
+  return !props.noResponsive && isPhonePadSize.value;
 });
 
 const tagPopoverVisible = ref(false);
