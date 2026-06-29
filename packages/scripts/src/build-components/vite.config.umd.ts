@@ -12,7 +12,7 @@ export default (type: 'component' | 'icon'): InlineConfig => {
   return {
     mode: 'production',
     build: {
-      target: 'es2020',
+      target: 'modules',
       outDir: 'dist',
       emptyOutDir: false,
       sourcemap: true,
@@ -41,16 +41,17 @@ export default (type: 'component' | 'icon'): InlineConfig => {
               if (id === 'dayjs') return 'dayjs';
               return id;
             },
-            plugins: [terser()],
+            plugins: [terser() as any],
           },
         ],
       },
       // 开启lib模式
       lib: {
         entry,
+        // formats: ['umd'],
         name,
       },
     },
-    plugins: [vue()],
+    plugins: [vue() as any],
   };
 };

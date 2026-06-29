@@ -8,14 +8,15 @@ const langs = globSync('src/locale/lang/*.ts');
 export default (): InlineConfig => {
   return {
     plugins: [
-      vue(),
+      vue() as any,
+      // dts(),
       dts({
-        outDirs: ['es', 'lib'],
+        outDir: ['es', 'lib'],
         tsconfigPath: 'tsconfig.app.json',
-      }),
+      }) as any,
     ],
     build: {
-      target: 'es2020',
+      target: 'modules',
       outDir: 'es',
       emptyOutDir: false,
       minify: false,

@@ -5,7 +5,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import { playwright } from '@vitest/browser-playwright';
 
 export default defineConfig({
-  plugins: [vue(), vueJsx()],
+  // 类型断言：vite@6 Plugin 类型与 vitest 4 内部依赖的 vite 类型不互通，仅 IDE 红线，运行时无影响
+  plugins: [vue(), vueJsx()] as never,
   resolve: {
     alias: {
       '@opensig/opendesign': path.resolve(__dirname, './src'),

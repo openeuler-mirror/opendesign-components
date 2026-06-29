@@ -22,7 +22,7 @@ export default defineConfig({
   },
   plugins: [
     dts({
-      outDirs: ['dist'],
+      outDir: 'dist',
       entryRoot: 'src',
       tsconfigPath: 'tsconfig.json',
     }),
