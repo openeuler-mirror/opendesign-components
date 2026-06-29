@@ -132,6 +132,11 @@
   }
 }
 
+.o-card-popover {
+  word-wrap: break-word;
+  max-width: var(--card-popover-width);
+}
+
 [data-o-theme*='dark'] {
   .o-card-detail-limited {
     // 其实应该是--o-color-fill2的，但是不支持透明度，所以用原始值，同卡片背景色
