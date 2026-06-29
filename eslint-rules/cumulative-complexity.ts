@@ -43,7 +43,7 @@ interface StackFrame {
   /**
    * 该函数的累计复杂度：
    *   = 自身分支数 + 所有直接/间接嵌套函数的复杂度之和
-   * 初始值 1，代表函数本身的一条执行路径。
+   * 初始值 0——无决策点的函数复杂度为 0，只有 if/for/while 等分支节点才 +1。
    */
   complexity: number;
 }
@@ -156,8 +156,8 @@ export const cumulativeComplexityRule: Rule.RuleModule = {
     // ── 进入函数 ──────────────────────────────────────────────────────────
 
     function enterFunction(): void {
-      // 每个函数的起始复杂度为 1（代表函数自身的一条基础路径）
-      stack.push({ complexity: 1 });
+      // 无决策点的函数复杂度为 0，只有分支节点才 +1
+      stack.push({ complexity: 0 });
     }
 
     // ── 退出函数 ──────────────────────────────────────────────────────────
