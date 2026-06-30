@@ -28,6 +28,6 @@ kind: input
 | \-\-upload-drag-radius                               | Drag area border radius                                                                        |
 | \-\-upload-card-radius                               | Card border radius                                                                             |
 | \-\-upload-card-width                                | Card width                                                                                     |
-| \-\-upload-card-img-fit ^[NEXT](primary)             | Card thumbnail image fit mode (cover &vert; contain &vert; fill &vert; none &vert; scale-down) |
+| \-\-upload-card-img-fit ^[1.2.5](primary)            | Card thumbnail image fit mode (cover &vert; contain &vert; fill &vert; none &vert; scale-down) |
 
 <!-- @api OUpload -->

@@ -54,11 +54,11 @@ kind: container
 
 #### DataTableSortUpdatePayload ^[1.2.2](primary)
 
-| 属性名                        | 类型                 | 说明                                              |
-| ----------------------------- | -------------------- | ------------------------------------------------- |
-| key                           | string               | 对应column的sortKey                               |
-| newVal                        | 1 \| -1 \| undefined | 排序方向，1 为升序，-1 为降序，undefined 为不排序 |
-| sortSequence ^[NEXT](primary) | string[]             | 排序条件的操作序列，详细说明见 sortSequence prop  |
+| 属性名                         | 类型                 | 说明                                              |
+| ------------------------------ | -------------------- | ------------------------------------------------- |
+| key                            | string               | 对应column的sortKey                               |
+| newVal                         | 1 \| -1 \| undefined | 排序方向，1 为升序，-1 为降序，undefined 为不排序 |
+| sortSequence ^[1.2.5](primary) | string[]             | 排序条件的操作序列，详细说明见 sortSequence prop  |
 
 ### CSS 变量
 

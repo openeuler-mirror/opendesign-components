@@ -28,6 +28,6 @@ kind: input
 | \-\-upload-drag-radius                               | 拖拽区域圆角                                                                         |
 | \-\-upload-card-radius                               | 卡片圆角                                                                             |
 | \-\-upload-card-width                                | 卡片宽度                                                                             |
-| \-\-upload-card-img-fit ^[NEXT](primary)             | 卡片缩略图填充方式（cover &vert; contain &vert; fill &vert; none &vert; scale-down） |
+| \-\-upload-card-img-fit ^[1.2.5](primary)            | 卡片缩略图填充方式（cover &vert; contain &vert; fill &vert; none &vert; scale-down） |
 
 <!-- @api OUpload -->

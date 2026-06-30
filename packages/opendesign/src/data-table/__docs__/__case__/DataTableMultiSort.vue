@@ -1,7 +1,7 @@
 <docs lang="md">
 <!--zh-CN-->
 
-### 多条件排序 ^[NEXT](primary)
+### 多条件排序 ^[1.2.5](primary)
 
 设置 `sortMode` 为 `multiple` 开启多条件排序模式，多列可同时排序。通过 `sortSequence` 维护排序条件的操作序列，数组顺序即用户点击的先后顺序：
 
@@ -16,7 +16,7 @@
 
 <!--en-US-->
 
-### Multi-Column Sort ^[NEXT](primary)
+### Multi-Column Sort ^[1.2.5](primary)
 
 Set `sortMode` to `multiple` to enable multi-column sorting, where multiple columns can be sorted simultaneously. The `sortSequence` prop maintains the operation sequence of sort conditions, where array order reflects the order of user clicks:
 
