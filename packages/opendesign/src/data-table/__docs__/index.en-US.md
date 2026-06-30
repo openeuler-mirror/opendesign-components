@@ -54,11 +54,11 @@ kind: container
 
 #### DataTableSortUpdatePayload ^[1.2.2](primary)
 
-| Property                      | Type                 | Description                                                                   |
-| ----------------------------- | -------------------- | ----------------------------------------------------------------------------- |
-| key                           | string               | The sortKey of the corresponding column                                       |
-| newVal                        | 1 \| -1 \| undefined | Sort direction: 1 for ascending, -1 for descending, undefined for no sort     |
-| sortSequence ^[NEXT](primary) | string[]             | The sequence of sort condition activations; see sortSequence prop for details |
+| Property                       | Type                 | Description                                                                   |
+| ------------------------------ | -------------------- | ----------------------------------------------------------------------------- |
+| key                            | string               | The sortKey of the corresponding column                                       |
+| newVal                         | 1 \| -1 \| undefined | Sort direction: 1 for ascending, -1 for descending, undefined for no sort     |
+| sortSequence ^[1.2.5](primary) | string[]             | The sequence of sort condition activations; see sortSequence prop for details |
 
 ### CSS Variables
 

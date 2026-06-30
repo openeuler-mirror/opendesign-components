@@ -194,7 +194,7 @@ const conditions = defineModel<Record<string, unknown>>('conditions', {
 /**
  * @zh-CN 排序条件的操作序列，数组顺序即用户点击的先后顺序；新增追加末尾，取消移除，切换方向位置不变，取消后再次赋予追加末尾；优先级由调用者自行解读
  * @en-US The sequence of sort condition activations; array order reflects the order of user clicks. New conditions appended, cancelled removed, direction-only changes stay in place, re-activated after cancellation appended. Sort priority interpretation is up to the caller
- * @since NEXT
+ * @since 1.2.5
  */
 const sortSequence = defineModel<string[]>('sortSequence', {
   /**

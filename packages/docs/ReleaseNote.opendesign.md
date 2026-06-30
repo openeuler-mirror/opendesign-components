@@ -1,3 +1,22 @@
+## 1.2.5
+
+### Features
+
+- **ODataTable:** 新增多条件排序功能，`sortMode` 设为 `multiple` 时支持同时按多列排序，并通过 `sortSequence`（v-model）维护排序条件的操作序列
+- **OCard:**
+  - 新增 `showOverflowTooltip` 属性，文本溢出时悬停以气泡展示完整内容
+  - 新增 `--card-header-text-weight` CSS 变量，标题字重由硬编码提升为可配置变量
+
+### Bug Fixes
+
+- **ODataTable:**
+  - 补全单元格插槽（`td_` 前缀）的渲染
+  - 修复未传入 `modelValue` 时默认值为函数返回的问题
+- **OSelect:** 修复响应式判断逻辑（`isPhonePad` 改为 `isPhonePadSize`）
+- **OUpload:** 修复 `--upload-card-img-fit` 不生效的问题，卡片缩略图默认填充方式由 `cover` 调整为 `contain`
+- **OSlider:** 修正内部 `OInputNumber` 的 `controls` 属性值（`never` → `none`）
+- **OInput/OAvatar/OCascaderV2:** 补全并修正插槽类型声明
+
 ## 1.2.4-sp2
 
 ### Features

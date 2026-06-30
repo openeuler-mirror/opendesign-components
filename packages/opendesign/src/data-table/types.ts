@@ -17,7 +17,7 @@ export type DataTableHeaderStyleT = (typeof DataTableHeaderStyles)[number];
  * - single: 单条件排序，点击排序时清空其他列的排序
  * - multiple: 多条件排序，支持同时按多列排序，通过 sortSequence 维护排序条件的操作序列，
  *             序列仅记录操作先后，优先级由调用者自行解读
- * @since NEXT
+ * @since 1.2.5
  */
 export const DataTableSortModes = ['single', 'multiple'] as const;
 export type DataTableSortModeT = (typeof DataTableSortModes)[number];
@@ -344,7 +344,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 排序模式，single 为单条件排序，multiple 为多条件排序
    * @en-US Sort mode, 'single' for single-condition sort, 'multiple' for multi-condition sort
-   * @since NEXT
+   * @since 1.2.5
    */
   sortMode: {
     type: String as PropType<DataTableSortModeT>,
@@ -456,7 +456,7 @@ export type DataTableSortUpdatePayload = {
   newVal?: DataTableSortMethodT;
   /**
    * 排序条件的操作序列，详细说明见 sortSequence prop
-   * @since NEXT
+   * @since 1.2.5
    */
   sortSequence: string[];
 };
