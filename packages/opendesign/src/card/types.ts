@@ -147,10 +147,12 @@ export const cardProps = {
     default: 'fade',
   },
   /**
-   * @zh-CN 是否有鼠标悬停文字溢出效果
-   * @en-US Whether the card has a hover text overflow effect
+   * @zh-CN 文本溢出时，悬停是否以气泡展示完整内容（仅对 prop 传入的 title/detail 生效，通过 slot 传入时需调用者自行实现）
+   * @en-US Whether to show a popover with the full content on hover when text overflows (only applies to title/detail passed via props; for slot content, the caller must implement it themselves)
+   * @default false
+   * @since NEXT
    */
-  hoverableOverflow: {
+  showOverflowTooltip: {
     type: Boolean,
     default: false,
   },
