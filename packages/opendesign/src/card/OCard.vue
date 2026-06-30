@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed, ref } from 'vue';
+import { useElementBounding } from '@vueuse/core';
 import { cardProps } from './types';
 import { OFigure } from '../figure';
 import HtmlTag from '../_components/html-tag';
+import ClientOnly from '../_components/client-only.ts';
 import { isString, isUndefined } from '../_utils/is';
 import { mergeClass } from '../_utils/vue-utils';
 import { OPopover } from '../popover';
-import { useElementOverflown, useResizeObserver } from '../hooks';
+import { useElementOverflown } from '../hooks';
 
 const props = defineProps(cardProps);
 
@@ -51,30 +53,11 @@ const titleRef = ref<HTMLDivElement>();
 const detailRef = ref<HTMLDivElement>();
 const isTitleOverflow = useElementOverflown(titleRef);
 const isDetailOverflow = useElementOverflown(detailRef);
-const cardWidth = ref<number | undefined>();
+const { width: cardWidth } = useElementBounding(cardRef);
 
 const popoverStyle = computed(() => ({
   '--card-popover-width': cardWidth.value ? `${cardWidth.value * 0.8}px` : undefined,
 }));
-
-const onCardResize = (entry: ResizeObserverEntry) => {
-  cardWidth.value = (entry.target as HTMLElement).offsetWidth;
-};
-
-onMounted(() => {
-  const ro = useResizeObserver();
-  const cardEl = cardRef.value?.$el as HTMLElement | undefined;
-  if (cardEl) {
-    ro.observe(cardEl, onCardResize);
-  }
-});
-onBeforeUnmount(() => {
-  const ro = useResizeObserver();
-  const cardEl = cardRef.value?.$el as HTMLElement | undefined;
-  if (cardEl) {
-    ro.unobserve(cardEl, onCardResize);
-  }
-});
 </script>
 
 <template>
@@ -155,17 +138,19 @@ onBeforeUnmount(() => {
                       {{ props.title }}
                     </slot>
                   </div>
-                  <OPopover
-                    v-if="isTitleOverflow && props.hoverableOverflow"
-                    :offset="12"
-                    :target="titleRef"
-                    :adjust-min-width="false"
-                    :adjust-width="false"
-                    position="bottom"
-                    class="o-card-popover"
-                    :style="popoverStyle"
-                    >{{ props.title }}</OPopover
-                  >
+                  <ClientOnly>
+                    <OPopover
+                      v-if="isTitleOverflow && props.showOverflowTooltip"
+                      :offset="12"
+                      :target="titleRef"
+                      :adjust-min-width="false"
+                      :adjust-width="false"
+                      position="bottom"
+                      class="o-card-popover"
+                      :style="popoverStyle"
+                      >{{ props.title }}</OPopover
+                    >
+                  </ClientOnly>
                 </slot>
               </div>
               <!-- content -->
@@ -181,17 +166,19 @@ onBeforeUnmount(() => {
                     {{ props.detail }}
                   </slot>
                 </div>
-                <OPopover
-                  v-if="isDetailOverflow && props.hoverableOverflow"
-                  :offset="12"
-                  :target="detailRef"
-                  :adjust-min-width="false"
-                  :adjust-width="false"
-                  position="bottom"
-                  class="o-card-popover"
-                  :style="popoverStyle"
-                  >{{ props.detail }}</OPopover
-                >
+                <ClientOnly>
+                  <OPopover
+                    v-if="isDetailOverflow && props.showOverflowTooltip"
+                    :offset="12"
+                    :target="detailRef"
+                    :adjust-min-width="false"
+                    :adjust-width="false"
+                    position="bottom"
+                    class="o-card-popover"
+                    :style="popoverStyle"
+                    >{{ props.detail }}</OPopover
+                  >
+                </ClientOnly>
                 <slot></slot>
               </div>
             </div>
