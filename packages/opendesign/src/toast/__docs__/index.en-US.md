@@ -1,5 +1,5 @@
 ---
-sidebar: OToast
+sidebar: OToast ^[1.2.0](primary)
 kind: feedback
 ---
 
@@ -47,3 +47,22 @@ function useToast(target?: Ref<ToastTarget> | ToastTarget): {
   closeAll: () => void;
 };
 ```
+
+### CSS Variables
+
+| CSS Variable | Default | Description |
+| --- | --- | --- |
+| --toast-padding | 9px 16px | Toast padding |
+| --toast-bg-color | rgb(var(--o-grey-11)) | Toast background color |
+| --toast-color | var(--o-color-info1-inverse) | Toast text color |
+| --toast-radius | 4px | Toast border radius |
+| --toast-font-size | var(--o-font_size-tip1) | Toast font size |
+| --toast-line-height | var(--o-line_height-tip1) | Toast line height |
+| --toast-shadow | var(--o-shadow-3) | Toast shadow |
+| --toast-gap | 16px | Toast gap between items |
+| --toast-align | center | Toast content alignment |
+| --toast-max-width | 100% | Toast max width |
+| --toast-list-offset | 80px | Toast list offset |
+| --toast-list-top-offset | var(--toast-list-offset) | Toast list top offset |
+| --toast-list-bottom-offset | var(--toast-list-offset) | Toast list bottom offset |
+| --z-index | 1001 | Toast list z-index |

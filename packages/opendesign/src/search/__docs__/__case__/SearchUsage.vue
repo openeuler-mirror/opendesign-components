@@ -23,7 +23,7 @@ The prefix slots `prefix-of-search-prefix` and `prefix-of-search-suffix` are use
 import { reactive } from 'vue';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 import { propsToAttrStr } from '../../../_demo/utils';
-import { OIconCalendar } from '../../../icon-components';
+import { OIconCalendar } from '@opensig/opendesign';
 
 const _oSchema = {
   placeholderOfPrefixSelect: {

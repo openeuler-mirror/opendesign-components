@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 配合 Vue Router 使用
+### 配合 Vue Router 使用 ^[1.2.4](primary)
 
 当给 `OLink` 组件传入 `to` 属性时，它会使用`RouterLink`组件渲染。这样可以实现与 Vue Router 的集成，支持 SPA 应用跳转。
 
@@ -22,7 +22,7 @@ app.use(router); // 此处确保 OLink 能正确解析RouterLink组件
 
   <!-- en-US -->
 
-### Using with Vue Router
+### Using with Vue Router ^[1.2.4](primary)
 
 When the `to` property is passed to the `OLink` component, it will render using the `RouterLink` component. This allows integration with Vue Router, supporting SPA application navigation.
 

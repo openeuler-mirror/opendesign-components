@@ -226,8 +226,20 @@ export type ButtonRefs = Record<'firstButton' | 'secondButton', Ref<SliderButton
 const isValidValue = (value: Arrayable<number>) => isNumber(value) || (isArray(value) && value.every(isNumber));
 
 export const sliderEmits = {
+  /**
+   * @zh-CN 双向绑定值更新
+   * @en-US v-model value update
+   */
   'update:modelValue': isValidValue,
+  /**
+   * @zh-CN 滑块拖动时触发
+   * @en-US Triggered while dragging the slider
+   */
   input: isValidValue,
+  /**
+   * @zh-CN 滑块值改变后触发
+   * @en-US Triggered after the slider value changes
+   */
   change: isValidValue,
 };
 

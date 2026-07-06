@@ -26,6 +26,11 @@ const emits = defineEmits<{
   (e: 'itemReplace', value: UploadFileT, evt: Event): void;
   (e: 'itemPreview', value: UploadFileT, evt: Event): void;
   (e: 'itemClick', value: UploadFileT, evt: Event): void;
+  /**
+   * @zh-CN 下载文件事件
+   * @en-US Download file event
+   * @since 1.2.1
+   */
   (e: 'download', value: UploadFileT, evt: Event): void;
 }>();
 

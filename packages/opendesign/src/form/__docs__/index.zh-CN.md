@@ -31,10 +31,10 @@ OForm 提供的宽度变量及其响应式行为：
 
 | CSS 变量 | 桌面端默认值 | 平板横屏（841–1200px） | ≤840px |
 |---------|------------|----------------------|--------|
-| `--form-item-main-box-width-standard` | `--o-r-grid-6` | `--o-r-grid-4` | `100%` |
-| `--form-item-main-box-width-wide` | `--o-r-grid-14` | `--o-r-grid-8` | `100%` |
-| `--form-item-main-box-inline-gap` | `--o3-gap-4` | — | — |
-| `--form-item-main-box-width-min` | `(standard - gap) / 2` | — | — |
+| `--form-item-main-box-width-standard` ^[1.2.2](primary) | `min(var(--o-r-grid-6), 100%)` | `min(var(--o-r-grid-4), 100%)` | `min(var(--o-r-grid-6), 100%)` |
+| `--form-item-main-box-width-wide` ^[1.2.2](primary) | `min(var(--o-r-grid-14), 100%)` | `min(var(--o-r-grid-8), 100%)` | `min(var(--o-r-grid-6), 100%)` |
+| `--form-item-main-box-inline-gap` ^[1.2.2](primary) | `var(--o-r-gap-4)` | — | — |
+| `--form-item-main-box-width-min` ^[1.2.2](primary) | `calc((var(--form-item-main-box-width-standard) - var(--form-item-main-box-inline-gap)) / 2)` | — | — |
 
 若项目设计稿与默认值不符，全局覆盖变量即可：
 
@@ -44,6 +44,17 @@ OForm 提供的宽度变量及其响应式行为：
   --form-item-main-box-width-wide: 560px;
 }
 ```
+
+### 运行时动态变量
+
+以下 CSS 变量由组件运行时逻辑动态赋值，CSS 覆盖无效：
+
+| CSS 变量 | 说明 |
+| --- | --- |
+| --form-label-width ⚠ 运行时赋值 | 由 `labelWidth` prop 赋值 |
+| --form-label-align ⚠ 运行时赋值 | 由 `labelAlign` prop 赋值 |
+| --form-label-justify ⚠ 运行时赋值 | 由 computed 计算 |
+| --form-item-align ⚠ 运行时赋值 | 由 computed 计算 |
 
 ## API
 

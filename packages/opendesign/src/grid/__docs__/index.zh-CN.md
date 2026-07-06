@@ -14,5 +14,12 @@ kind: container
 
 ## API
 
+### CSS 变量
+
+| CSS 变量 | 描述 |
+| --- | --- |
+| \-\-flex-gap-x | 弹性盒水平间距 |
+| \-\-flex-gap-y | 弹性盒垂直间距 |
+
 <!-- @api ORow -->
 <!-- @api OCol -->

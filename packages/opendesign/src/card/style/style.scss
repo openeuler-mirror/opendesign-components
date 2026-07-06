@@ -63,7 +63,7 @@
 .o-card-title {
   height: calc(var(--card-title-row) * var(--card-header-text-height));
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--card-header-text-weight);
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: var(--card-title-text-align);
@@ -130,6 +130,11 @@
     width: var(--card-detail-mask-width);
     height: var(--card-content-text-height);
   }
+}
+
+.o-card-popover {
+  word-wrap: break-word;
+  max-width: var(--card-popover-width);
 }
 
 [data-o-theme*='dark'] {

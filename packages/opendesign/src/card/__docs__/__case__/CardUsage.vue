@@ -29,6 +29,7 @@ OCard 分为图文卡片，和图标卡片。
 2. `href` 设置卡片跳转链接；**注**：设置 `href` 属性后，卡片将以 `a` 标签渲染
 3. `cursor` 控制鼠标悬停样式；当值为 `auto` 时，若设置了 `href` 属性，鼠标悬停样式为 `pointer`
 4. `noResponsive` 值为真时，卡片尺寸 (间距、字体、行高等) 将不会随着视口尺寸改变而改变
+5. `showOverflowTooltip` 控制文本溢出时悬停是否以气泡展示完整内容（仅对 prop 传入的 title/detail 生效，通过 slot 传入时需调用者自行实现）
 
 <!-- en-US -->
 
@@ -62,6 +63,7 @@ Other features
 2. `href` sets card navigation link; **Note**: Setting `href` will render card as `a` tag
 3. `cursor` controls mouse hover style; when set to `auto`, cursor shows as `pointer` if `href` is configured
 4. When `noResponsive` is true, card dimensions (spacing, font size, line height, etc.) remain fixed regardless of viewport size changes
+5. `showOverflowTooltip` controls whether to show a popover with the full content on hover when text overflows (only applies to title/detail passed via props; for slot content, the caller must implement it themselves)
 </docs>
 <script setup lang="ts">
 import { TextOverflowTypes } from '@opensig/opendesign';
@@ -133,6 +135,10 @@ const _oSchema = {
   textOverflow: {
     type: 'list',
     list: TextOverflowTypes,
+  },
+  showOverflowTooltip: {
+    type: 'boolean',
+    default: false,
   },
 } satisfies Record<string, DocDemoSchema>;
 

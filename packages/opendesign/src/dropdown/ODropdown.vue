@@ -10,7 +10,15 @@ import { mergeClass } from '../_utils/vue-utils';
 const props = defineProps(dropdownProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 下拉菜单显示状态更新时触发
+   * @en-US Triggered when the dropdown visibility is updated
+   */
   (e: 'update:visible', val: boolean): void;
+  /**
+   * @zh-CN 下拉菜单显示状态变化时触发
+   * @en-US Triggered when the dropdown visibility changes
+   */
   (e: 'visible-change', val: boolean): void;
 }>();
 

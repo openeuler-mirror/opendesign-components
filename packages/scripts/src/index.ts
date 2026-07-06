@@ -44,9 +44,7 @@ program
 program
   .command('build:style')
   .description('build opendesign style')
-  .action(() => {
-    buildStyle();
-  });
+  .action(() => buildStyle());
 
 program
   .command('gen:token')

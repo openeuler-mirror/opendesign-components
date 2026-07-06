@@ -83,6 +83,9 @@ provide(sliderInjectKey, {
 });
 
 defineExpose({
+  /**
+   * 点击滑轨时触发滑块移动
+   */
   onSliderClick,
 });
 </script>
@@ -150,7 +153,7 @@ defineExpose({
         ref="input"
         class="o-slider-input"
         round="pill"
-        controls="never"
+        controls="none"
         :model-value="firstBtnVal"
         :step="step"
         :disabled="sliderDisabled"

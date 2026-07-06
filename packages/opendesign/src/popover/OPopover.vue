@@ -11,6 +11,10 @@ import { mergeClass } from '../_utils/vue-utils';
 const props = defineProps(popoverProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 弹出层可见性变化时触发
+   * @en-US Triggered when the popover visibility changes
+   */
   (e: 'update:visible', val: boolean): void;
 }>();
 const updateVisible = (val: boolean) => {

@@ -1,7 +1,7 @@
-import { ComputedRef, InjectionKey, ModelRef, Ref, ToRefs, WritableComputedRef } from 'vue';
+import type { ComputedRef, InjectionKey, ModelRef, Ref, ToRefs } from 'vue';
 
-import { TableRowT } from '../table';
-import { DataTablePropsT, DataTableRowKeyValue, EffectiveDataTableColumnT } from './types';
+import type { TableRowT } from '../table';
+import type { DataTablePropsT, DataTableRowKeyValue, EffectiveDataTableColumnT } from './types';
 
 export type DataTableRowKeyMap = Map<
   DataTableRowKeyValue,

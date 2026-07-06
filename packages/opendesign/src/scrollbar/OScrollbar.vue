@@ -316,6 +316,10 @@ const onBarHoverOut = (d: ScrollerDirection) => {
 };
 
 defineExpose({
+  /**
+   * @zh-CN 更新滚动条样式
+   * @en-US Update scrollbar styles
+   */
   update: updateScrollbar,
 });
 </script>

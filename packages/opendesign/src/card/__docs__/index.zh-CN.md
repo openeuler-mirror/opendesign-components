@@ -50,17 +50,23 @@ kind: container
 | \-\-card-icon-gap | 图标与内容之间的间距：垂直布局时为下外边距，水平布局时为右外边距，水平反向布局时为左外边距 |
 | \-\-card-icon-color | 图标颜色 |
 | \-\-card-icon-size | 图标大小 |
+| \-\-card-title-icon-color | title开头行内图标颜色 |
 | \-\-card-title-icon-gap | title开头行内图标与文字之间的间距 |
 | \-\-card-title-icon-size | title开头行内图标大小 |
 | \-\-card-header-color | 标题颜色 |
 | \-\-card-header-text-size | 标题字体大小 |
 | \-\-card-header-text-height | 标题字体高度 |
+| \-\-card-header-text-weight ^[1.2.4](primary) | 标题字体粗细，默认600（v1.2.4起从500改为600） |
 | \-\-card-title-word-break | 标题 `word-break` 属性值 |
+| \-\-card-title-row ⚠ 运行时赋值 | 标题限行数（由 `titleRow` prop 赋值，CSS 覆盖无效） |
+| \-\-card-title-max-row ⚠ 运行时赋值 | 标题最大限行数（由 `titleMaxRow` prop 赋值，CSS 覆盖无效） |
 | \-\-card-content-gap | 标题与内容之间的间距 |
 | \-\-card-content-color | 内容颜色 |
 | \-\-card-content-text-size | 内容字体大小 |
 | \-\-card-content-text-height | 内容字体高度 |
 | \-\-card-detail-word-break | 详情 `word-break` 属性值  |
+| \-\-card-detail-row ⚠ 运行时赋值 | 详情限行数（由 `detailRow` prop 赋值，CSS 覆盖无效） |
+| \-\-card-detail-max-row ⚠ 运行时赋值 | 详情最大限行数（由 `detailMaxRow` prop 赋值，CSS 覆盖无效） |
 | \-\-card-footer-gap | 脚注与内容之间的间距 |
 | \-\-card-footer-color | 脚注颜色 |
 | \-\-card-footer-text-size | 脚注字体大小 |

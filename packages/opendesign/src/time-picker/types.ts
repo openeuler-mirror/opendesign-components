@@ -4,8 +4,20 @@ import { PopupPositionT, PopupTriggerT } from '../popup';
 import { inputProps } from '../input';
 import { selectProps } from '../select';
 
+/**
+ * @zh-CN 禁用小时的判断函数，返回被禁用的小时数组
+ * @en-US Function to determine disabled hours, returns array of disabled hour numbers
+ */
 export type DisabledHoursFn = () => number[];
+/**
+ * @zh-CN 禁用分钟的判断函数，接收当前小时，返回被禁用的分钟数组
+ * @en-US Function to determine disabled minutes, receives current hour and returns array of disabled minute numbers
+ */
 export type DisabledMinutesFn = (hour: number) => number[];
+/**
+ * @zh-CN 禁用秒的判断函数，接收当前小时和分钟，返回被禁用的秒数组
+ * @en-US Function to determine disabled seconds, receives current hour and minute and returns array of disabled second numbers
+ */
 export type DisabledSecondsFn = (hour: number, minute: number) => number[];
 
 const { placeholder, inputId, disabled, readonly, size, round, color, variant } = inputProps;
@@ -211,21 +223,37 @@ export const timeRangePickerProps = {
 
 export type TimeRangePickerPropsT = ExtractPropTypes<typeof timeRangePickerProps>;
 
+/**
+ * @zh-CN 时间选择器列选项数据结构
+ * @en-US Time picker column option data structure
+ */
 export interface DatePickerColumnOption {
   label: string;
   value: number;
 }
 
+/**
+ * @zh-CN 时间选择器快捷选项 slot 的 props
+ * @en-US Time picker shortcut slot props
+ */
 export type TimePickerShortcutSlotProps = {
   setValue: (value?: string) => void;
   emitChange: () => void;
 };
 
+/**
+ * @zh-CN 时间范围选择器快捷选项 slot 的 props
+ * @en-US Time range picker shortcut slot props
+ */
 export type TimePickerRangeShortcutSlotProps = {
   setValue: (start?: string, end?: string) => void;
   emitChange: () => void;
 };
 
+/**
+ * @zh-CN 时间范围值，包含开始时间和结束时间
+ * @en-US Time range value, containing start and end time
+ */
 export type TimeRangeValue = {
   start: string | undefined;
   end: string | undefined;

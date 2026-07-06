@@ -5,8 +5,22 @@ import { tableProps, TableRowT } from '../table';
 export const DataTableSizes = ['medium', 'small'] as const;
 export type DataTableSizeT = (typeof DataTableSizes)[number];
 
+/**
+ * 表头风格类型
+ * @since 1.2.2
+ */
 export const DataTableHeaderStyles = ['fill', 'split-line'] as const;
 export type DataTableHeaderStyleT = (typeof DataTableHeaderStyles)[number];
+
+/**
+ * 排序模式类型
+ * - single: 单条件排序，点击排序时清空其他列的排序
+ * - multiple: 多条件排序，支持同时按多列排序，通过 sortSequence 维护排序条件的操作序列，
+ *             序列仅记录操作先后，优先级由调用者自行解读
+ * @since 1.2.5
+ */
+export const DataTableSortModes = ['single', 'multiple'] as const;
+export type DataTableSortModeT = (typeof DataTableSortModes)[number];
 
 export const DataTableFixedTypes = [true, 'left', 'right'] as const; // true as 'left'
 export type DataTableFixedT = (typeof DataTableFixedTypes)[number];
@@ -15,6 +29,7 @@ export type DataTableFixedT = (typeof DataTableFixedTypes)[number];
  * 被选项通用类型
  * @template TLabel - label字段的类型，默认any
  * @template TValue - value字段的类型，默认any
+ * @since 1.2.2
  */
 export interface DataTableColumnFilterOption<TLabel = any, TValue = any> {
   /**
@@ -28,15 +43,22 @@ export interface DataTableColumnFilterOption<TLabel = any, TValue = any> {
   [key: string]: any;
 }
 
-/** 筛选条件为“空”时的值 */
+/**
+ * 筛选条件为“空”时的值
+ * @since 1.2.2
+ */
 export const TABLE_EMPTY_OPTION_VALUE = '__null__' as const;
-/** 筛选条件为单选时，筛选条件为“全选”时的值 */
+/**
+ * 筛选条件为单选时，筛选条件为“全选”时的值
+ * @since 1.2.2
+ */
 export const TABLE_ALL_OPTION_VALUE = '__all__' as const;
 
 /**
  * 获取筛选项数组的方法，支持异步返回
  * @param {EffectiveDataTableColumnT} option.column 当前列的配置
  * @param {DataTableColumnFilterOption} option.emptyOption 空值选项，根据需求采用
+ * @since 1.2.2
  */
 export type DataTableColumnFilterOptionsFn<TLabel = any, TValue = any> = (option: {
   column: EffectiveDataTableColumnT;
@@ -76,7 +98,17 @@ export interface DataTableColumnFormatterOptions {
 export type DataTableColumnFormatter = (options: DataTableColumnFormatterOptions) => Component | VNode | string;
 
 /**
+ * 表格行级共享插槽类型
+ * @description ODataTable 与 TableRow 共用的行级插槽，包括行展开插槽和单元格自定义插槽（td_ 前缀）
+ */
+export type DataTableRowSlots = {
+  /** 行展开插槽 */
+  expand?: (scope: { row: TableRowT; rowIndex: number }) => any;
+} & Record<`td_${string}`, (options: { column: EffectiveDataTableColumnT; row: TableRowT; cellValue: any; index: number }) => any>;
+
+/**
  * 合并单元格的计算方法
+ * @since 1.2.2
  */
 export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => { colSpan?: number; rowSpan?: number } | void;
 
@@ -84,14 +116,20 @@ export type DataTableSpanMethod = (options: DataTableColumnFormatterOptions) => 
  * 行展开的计算方法，返回 false 则不可被展开
  * @returns 可返回 Component、VNode、string、或函数式组件 `() => VNode`（推荐 JSX/TSX 场景）；
  *          返回 false 表示该行不可展开
+ * @since 1.2.2
  */
 export type DataTableExpandMethod = (row: any, rowIndex: number) => Component | VNode | string | false;
 
+/**
+ * 列筛选配置类型
+ * @since 1.2.2
+ */
 export type DataTableColumnFilterT = {
   /**
    * 获取筛选可选项的方法，支持异步返回
    * @param option.column 当前列的配置
    * @param option.emptyOption 内置的"空值"选项，可直接放入返回数组以支持筛选空值数据
+   * @since 1.2.2
    */
   optionsFn: DataTableColumnFilterOptionsFn;
   /**
@@ -124,6 +162,7 @@ export interface DataTableColumnT {
   label?: string | Component | VNode;
   /**
    * 列表头的描述文案，会以气泡的形式展示在表头旁
+   * @since 1.2.2
    */
   description?: string | Component | VNode;
   /**
@@ -138,6 +177,7 @@ export interface DataTableColumnT {
   /**
    * 是否是作为竖向表头列
    * @default false
+   * @since 1.2.2
    */
   asHeader?: boolean;
   /** 列的宽度 */
@@ -149,25 +189,31 @@ export interface DataTableColumnT {
   /**
    * 表头是否显示溢出隐藏气泡，传入数字以设置最大行数
    * @default 1
+   * @since 1.2.2
    */
   showHeaderOverflowToolTip?: boolean | number;
   /**
    * 表体是否显示溢出隐藏气泡，传入数字以设置最大行数
    * @default false
+   * @since 1.2.2
    */
   showOverflowToolTip?: boolean | number;
   /**
    * 排序方式绑定的条件对象的key
-   * @important 只能进行单一列的排序，当前列排序修改后会清空其他列的排序
+   * @important sortMode 为 single 时为单条件排序，当前列排序修改后会清空其他列的排序；
+   *            sortMode 为 multiple 时为多条件排序，通过 sortSequence 维护排序条件的操作序列
+   * @since 1.2.2
    */
   sortKey?: string;
   /**
    * 列表头筛选配置
+   * @since 1.2.2
    */
   filter?: DataTableColumnFilterT;
   /**
    * 表头单元格的自定义colspan
    * @important 仅支持同层级兄弟单元格之间的合并
+   * @since 1.2.2
    */
   customColSpan?: number;
   /**
@@ -280,6 +326,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 是否展示header
    * @en-US Whether to show the header.
+   * @since 1.2.2
    */
   showHeader: {
     type: Boolean,
@@ -288,14 +335,25 @@ export const dataTableProps = {
   /**
    * @zh-CN 表头风格
    * @en-US table header style
+   * @since 1.2.2
    */
   headerStyle: {
     type: String as PropType<DataTableHeaderStyleT>,
     default: 'fill',
   },
   /**
+   * @zh-CN 排序模式，single 为单条件排序，multiple 为多条件排序
+   * @en-US Sort mode, 'single' for single-condition sort, 'multiple' for multi-condition sort
+   * @since 1.2.5
+   */
+  sortMode: {
+    type: String as PropType<DataTableSortModeT>,
+    default: 'single',
+  },
+  /**
    * @zh-CN 行展开的计算方法，返回 `false` 则不可被展开
    * @en-US Calculation Methods for Row expansion. Returns `false` if the row cannot be expanded.
+   * @since 1.2.2
    */
   expandMethod: {
     type: Function as PropType<DataTableExpandMethod>,
@@ -311,6 +369,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 表格是否可以行选择
    * @en-US Whether row selection is available for the table.
+   * @since 1.2.2
    */
   selection: {
     type: Boolean,
@@ -319,6 +378,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 选择时指示行是否可被选择的键名
    * @en-US Key name for indicating row selectability during selection
+   * @since 1.2.2
    */
   disabledProp: {
     type: String,
@@ -327,6 +387,7 @@ export const dataTableProps = {
   /**
    * @zh-CN 树形表格选择时是否遵循父子不关联
    * @en-US Whether to disable parent-child association in tree table selection
+   * @since 1.2.2
    */
   checkStrictly: {
     type: Boolean,
@@ -352,7 +413,15 @@ export type DataTablePropsT = ExtractPropTypes<typeof dataTableProps>;
 
 /** rowKey对应的值的可能类型 */
 export type DataTableRowKeyValue = string | number;
+/**
+ * 筛选条件值类型
+ * @since 1.2.2
+ */
 export type DataTableConditionValue = string | number | boolean;
+/**
+ * 筛选条件更新事件传参
+ * @since 1.2.2
+ */
 export type DataTableConditionUpdatePayload<T = DataTableConditionValue> = {
   /** 对应column的key */
   key: string;
@@ -365,6 +434,7 @@ export type DataTableConditionUpdatePayload<T = DataTableConditionValue> = {
  * - ASC (1): 升序排序
  * - DESC (-1): 降序排序
  * - NA (undefined): 不排序，用于初始化 conditions 中的排序字段
+ * @since 1.2.2
  */
 export const DataTableSortMethod = {
   /** 升序排序 */
@@ -375,13 +445,26 @@ export const DataTableSortMethod = {
   NA: undefined,
 } as const;
 export type DataTableSortMethodT = (typeof DataTableSortMethod)[keyof typeof DataTableSortMethod];
+/**
+ * 排序更新事件传参
+ * @since 1.2.2
+ */
 export type DataTableSortUpdatePayload = {
-  /** 对应column的key */
+  /** 对应column的sortKey */
   key: string;
+  /** 排序方向 */
   newVal?: DataTableSortMethodT;
+  /**
+   * 排序条件的操作序列，详细说明见 sortSequence prop
+   * @since 1.2.5
+   */
+  sortSequence: string[];
 };
 
-/** 单行数据选中、取消事件传参 */
+/**
+ * 单行数据选中、取消事件传参
+ * @since 1.2.2
+ */
 export type DataTableSelectionPayload = {
   /** 对应行数据的rowKey对应的值 */
   key: DataTableRowKeyValue;
@@ -389,6 +472,10 @@ export type DataTableSelectionPayload = {
   selected: boolean;
 };
 
+/**
+ * 选中状态变更事件传参
+ * @since 1.2.2
+ */
 export type DataTableSelectionChangePayload = {
   /** 改变前对应行数据的rowKey对应的值 */
   prev: DataTableRowKeyValue[];
@@ -405,12 +492,12 @@ export type DataTableExposed = {
   dataColumns: Ref<EffectiveDataTableColumnT[]>;
   /** 列根据层级关系构造的二维数组 */
   groupColumns: Ref<EffectiveDataTableColumnT[][]>;
-  /** 全选 */
+  /** 全选 @since 1.2.2 */
   selectAll: () => void;
-  /** 清空全选 */
+  /** 清空全选 @since 1.2.2 */
   clearAll: () => void;
-  /** 展开全部 */
+  /** 展开全部 @since 1.2.2 */
   expandAll: () => void;
-  /** 收起全部 */
+  /** 收起全部 @since 1.2.2 */
   foldAll: () => void;
 };

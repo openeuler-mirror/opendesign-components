@@ -1,9 +1,9 @@
 <docs lang="md">
-<!--zh-CN-->
+<!-- zh-CN -->
 
-### Round
+### 圆角
 
-<!--en-US-->
+<!-- en-US -->
 
 ### Round
 </docs>

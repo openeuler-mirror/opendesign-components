@@ -25,6 +25,7 @@ import {
   dataTableProps,
   EffectiveDataTableColumnT,
   DataTableExposed,
+  DataTableRowSlots,
 } from './types.ts';
 import { getColumnPosition, getIsLevelExpandable } from './utils.ts';
 import TableColGroup from './TableColGroup.vue';
@@ -36,37 +37,79 @@ import { useDataColumn } from './use-data-column.ts';
 
 const props = defineProps(dataTableProps);
 const emits = defineEmits<{
-  /** 表格筛选条件更新,如果是排序条件更新则无payload */
+  /**
+   * @zh-CN 表格筛选条件更新，如果是排序条件更新则无 payload
+   * @en-US Table filter condition updated; no payload if it's a sort condition update
+   * @since 1.2.2
+   */
   (e: 'condition-update', payload?: DataTableConditionUpdatePayload): void;
-  /** 表格列排序更新 */
+  /**
+   * @zh-CN 表格列排序更新
+   * @en-US Table column sort updated
+   * @since 1.2.2
+   */
   (e: 'sort-update', payload: DataTableSortUpdatePayload): void;
-  /** 选中双向绑定状态更新 */
+  /**
+   * @zh-CN 选中行双向绑定状态更新
+   * @en-US Selected rows binding state updated
+   * @since 1.2.2
+   */
   (e: 'update:selected-keys', payload: DataTableRowKeyValue[]): void;
-  /** 单行checkbox点击时触发 */
+  /**
+   * @zh-CN 单行 checkbox 点击时触发
+   * @en-US Triggered when a single row checkbox is clicked
+   * @since 1.2.2
+   */
   (e: 'selection', payload: DataTableSelectionPayload): void;
-  /** 已选择数据改变时触发 */
+  /**
+   * @zh-CN 已选择数据改变时触发
+   * @en-US Triggered when the selected data changes
+   * @since 1.2.2
+   */
   (e: 'selection-change', payload: DataTableSelectionChangePayload): void;
-  /** 全选checkbox点击时触发 */
+  /**
+   * @zh-CN 全选 checkbox 点击时触发
+   * @en-US Triggered when the select-all checkbox is clicked
+   * @since 1.2.2
+   */
   (e: 'selection-all', allSelected: boolean): void;
-  /** 点击懒加载子节点时触发，分别调用resolve与reject表示加载成功或者失败状态 */
+  /**
+   * @zh-CN 点击懒加载子节点时触发，分别调用 resolve 与 reject 表示加载成功或失败状态
+   * @en-US Triggered when a lazy-load child node is clicked; call resolve or reject to indicate success or failure
+   * @since 1.2.2
+   */
   (e: 'load-children', payload: DataTableLoadChildrenPayload): void;
-  /** 列宽调整 */
+  /**
+   * @zh-CN 列宽调整
+   * @en-US Column width resized
+   * @since 1.2.2
+   */
   (e: 'column-resize', column: EffectiveDataTableColumnT, width: number): void;
 }>();
 
 type AllSlots = {
-  /** thead插槽 */
+  /**
+   * @zh-CN thead插槽
+   * @en-US Thead slot
+   */
   header?: (options: { columns: EffectiveDataTableColumnT[]; groupColumns: EffectiveDataTableColumnT[][] }) => any;
-  /** 加载状态插槽 */
+  /**
+   * @zh-CN 加载状态插槽
+   * @en-US Loading state slot
+   */
   loading?: () => any;
-  /** 空状态插槽 */
+  /**
+   * @zh-CN 空状态插槽
+   * @en-US Empty state slot
+   */
   empty?: () => any;
-  /** 行展开插槽 */
-  expand?: (scope: { row: TableRowT; rowIndex: number }) => any;
-} & Record<`th_${string}`, (options: { column: EffectiveDataTableColumnT }) => any> &
-  Record<`td_${string}`, (options: { column: EffectiveDataTableColumnT; row: TableRowT; cellValue: any; index: number }) => any>;
+} & DataTableRowSlots &
+  Record<`th_${string}`, (options: { column: EffectiveDataTableColumnT }) => any>;
 
 const slots = defineSlots<AllSlots>();
+
+// 收集以 td_ 为前缀的具名插槽，透传给 TableRow 用于自定义单元格渲染
+const tdSlotNames = computed(() => Object.keys(slots).filter((name): name is `td_${string}` => name.startsWith('td_')));
 
 const rootRef = ref<HTMLDivElement>();
 const { width: containerBoundingWidth } = useElementBounding(rootRef);
@@ -130,20 +173,34 @@ const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
 /**
  * @zh-CN 已展开的行的rowKey
  * @en-US rowKey of expanded rows
+ * @since 1.2.2
  */
-const expandedRowKeys = defineModel<DataTableRowKeyValue[]>('expanded-row-keys', { default: reactive([]) });
+const expandedRowKeys = defineModel<DataTableRowKeyValue[]>('expanded-row-keys', { default: () => reactive([]) });
 const hasExpandSlot = computed(() => !!slots.expand);
 const isLevelExpandable = computed(() => getIsLevelExpandable({ list: props.data, hasExpandSlot, expandMethod: props.expandMethod }));
 
 /**
  * @zh-CN 表格筛选条件
  * @en-US Table filter conditions
+ * @since 1.2.2
  */
 const conditions = defineModel<Record<string, unknown>>('conditions', {
   /**
    * @important 兜底如果外面没有传值的情况
    */
-  default: reactive({}),
+  default: () => reactive({}),
+});
+
+/**
+ * @zh-CN 排序条件的操作序列，数组顺序即用户点击的先后顺序；新增追加末尾，取消移除，切换方向位置不变，取消后再次赋予追加末尾；优先级由调用者自行解读
+ * @en-US The sequence of sort condition activations; array order reflects the order of user clicks. New conditions appended, cancelled removed, direction-only changes stay in place, re-activated after cancellation appended. Sort priority interpretation is up to the caller
+ * @since 1.2.5
+ */
+const sortSequence = defineModel<string[]>('sortSequence', {
+  /**
+   * @important 兜底如果外面没有传值的情况
+   */
+  default: () => reactive([]),
 });
 
 const getTableFilterValue = (key: string) => {
@@ -158,17 +215,41 @@ const getTableSorterValue = (key: string): DataTableSortMethodT => {
   return getValueByPath(conditions.value, key) as DataTableSortMethodT;
 };
 const sortKeys = computed(() => Array.from(new Set(dataColumns.value.filter((v) => v.sortKey).map((v) => v.sortKey!))));
+
+/**
+ * @description 处理排序条件变更，维护 sortSequence 操作序列
+ * - 两种模式都需要设置当前列排序值并维护 sortSequence
+ * - 单条件排序额外清空其他列的排序条件，sortSequence 仅保留当前列
+ * - sortSequence 维护规则：新增追加末尾、取消移除、仅切换方向时位置不变、取消后再次赋予追加末尾
+ * @param {string} key - 排序条件对应的 sortKey
+ * @param {DataTableSortMethodT} newVal - 新的排序方向
+ */
 const handleTableSorterChange = (key?: string, newVal?: DataTableSortMethodT) => {
   if (!key) {
     return;
   }
-  // 只允许单一排序条件，清空其他条件
-  sortKeys.value.forEach((_key) => {
-    setValueByPath(conditions.value, _key, DataTableSortMethod.NA);
-  });
+  let _sortSequence = [...sortSequence.value];
+  // 单条件排序：清空其他列的排序条件，sortSequence 仅保留当前列
+  if (props.sortMode === 'single') {
+    sortKeys.value.forEach((_key) => {
+      setValueByPath(conditions.value, _key, DataTableSortMethod.NA);
+    });
+    _sortSequence = [key];
+  }
+
   setValueByPath(conditions.value, key, newVal);
+
+  // 维护 sortSequence 操作序列（两种模式都需要）
+  if (newVal === DataTableSortMethod.NA) {
+    // 取消排序时，从序列中移除
+    _sortSequence = _sortSequence.filter((k) => k !== key);
+  } else if (!_sortSequence.includes(key)) {
+    _sortSequence.push(key);
+  }
+  sortSequence.value = _sortSequence;
+
   emits('condition-update');
-  emits('sort-update', { key, newVal });
+  emits('sort-update', { key, newVal, sortSequence: [..._sortSequence] });
 };
 
 /** 计算数据相关的禁用状态、祖先节点、后代节点等信息 */
@@ -222,7 +303,12 @@ const toFilteredSelectable = (arr: DataTableRowKeyValue[]) => {
 /** 去掉禁用行后可选择的行的rowKey集合 */
 const selectableRowKeys = computed(() => toFilteredSelectable(allRowKeys.value));
 
-const selectedKeys = defineModel<DataTableRowKeyValue[]>('selectedKeys', { default: reactive([]) });
+/**
+ * @zh-CN 选中行的rowKey集合
+ * @en-US Selected row keys collection
+ * @since 1.2.2
+ */
+const selectedKeys = defineModel<DataTableRowKeyValue[]>('selectedKeys', { default: () => reactive([]) });
 
 const allChecked = ref<number[]>([]);
 const indeterminate = computed(() => {
@@ -322,13 +408,33 @@ defineExpose<DataTableExposed>({
   dataColumnMap,
   dataColumns,
   groupColumns,
+  /**
+   * @zh-CN 全选
+   * @en-US Select all
+   * @since 1.2.2
+   */
   selectAll() {
     selectedKeys.value = [...selectableRowKeys.value];
   },
+  /**
+   * @zh-CN 清空全选
+   * @en-US Clear all selections
+   * @since 1.2.2
+   */
   clearAll: () => (selectedKeys.value = []),
+  /**
+   * @zh-CN 展开全部
+   * @en-US Expand all rows
+   * @since 1.2.2
+   */
   expandAll() {
     expandedRowKeys.value = [...allRowKeys.value];
   },
+  /**
+   * @zh-CN 收起全部
+   * @en-US Fold all rows
+   * @since 1.2.2
+   */
   foldAll: () => (expandedRowKeys.value = []),
 });
 </script>
@@ -463,6 +569,9 @@ defineExpose<DataTableExposed>({
         <tbody class="o-table-body" @mousemove="handleMouseOver" @mouseleave="clearHighlight" @touchstart="handleTouchStart">
           <template v-for="(row, rowIndex) in props.data" :key="getRowKey(row, rowIndex)">
             <TableRow :row="row" :row-index="rowIndex" :level="0">
+              <template v-for="name in tdSlotNames" :key="name" #[name]="slotProps">
+                <slot :name="name" v-bind="slotProps"></slot>
+              </template>
               <template v-if="slots.expand" #expand>
                 <slot name="expand" :row="row" :row-index="rowIndex"></slot>
               </template>

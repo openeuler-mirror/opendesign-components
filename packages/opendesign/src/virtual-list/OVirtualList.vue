@@ -8,6 +8,10 @@ import { debounceRAF } from '../_utils/helper';
 
 const props = defineProps(virtualListProps);
 const emits = defineEmits<{
+  /**
+   * @zh-CN 虚拟列表渲染区域变化时触发
+   * @en-US Triggered when the virtual list render area changes
+   */
   (e: 'renderChange', renderIndex: RenderIndexInfo): void;
 }>();
 /**
@@ -398,7 +402,10 @@ onMounted(() => {
 });
 
 defineExpose({
-  /** scroll into view */
+  /**
+   * @zh-CN 将指定项滚动到视口内
+   * @en-US Scroll the specified item into view
+   */
   scrollToView,
 });
 </script>

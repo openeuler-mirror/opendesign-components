@@ -10,11 +10,35 @@ import { formateToString, uniqueId, pick } from '../_utils/helper';
 const props = defineProps(textareaProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 文本域值变化时触发
+   * @en-US Triggered when the textarea value changes
+   */
   (e: 'update:modelValue', value: string): void;
+  /**
+   * @zh-CN 文本域值改变后触发
+   * @en-US Triggered when the textarea value changes
+   */
   (e: 'change', value: string): void;
+  /**
+   * @zh-CN 文本域输入时触发
+   * @en-US Triggered when inputting in the textarea
+   */
   (e: 'input', evt: Event): void;
+  /**
+   * @zh-CN 文本域失焦时触发
+   * @en-US Triggered when the textarea loses focus
+   */
   (e: 'blur', evt: FocusEvent): void;
+  /**
+   * @zh-CN 文本域聚焦时触发
+   * @en-US Triggered when the textarea gets focus
+   */
   (e: 'focus', evt: FocusEvent): void;
+  /**
+   * @zh-CN 清空文本域内容时触发
+   * @en-US Triggered when the textarea content is cleared
+   */
   (e: 'clear', evt?: Event): void;
 }>();
 
@@ -83,13 +107,25 @@ const round = computed(()=>{
 })
 
 defineExpose({
-  /** Focus method */
+  /**
+   * @zh-CN 聚焦文本域
+   * @en-US Focus the textarea
+   */
   focus: () => inTextareaRef.value?.focus(),
-  /** Blur method */
+  /**
+   * @zh-CN 取消文本域聚焦
+   * @en-US Blur the textarea
+   */
   blur: () => inTextareaRef.value?.blur(),
-  /** Clear method */
+  /**
+   * @zh-CN 清空文本域内容
+   * @en-US Clear the textarea value
+   */
   clear: () => inTextareaRef.value?.clear(),
-  /** Textarea element */
+  /**
+   * @zh-CN 获取原生 textarea 元素
+   * @en-US Get the native textarea element
+   */
   inputEl: () => inTextareaRef.value?.inputEl as HTMLTextAreaElement | undefined,
 });
 </script>

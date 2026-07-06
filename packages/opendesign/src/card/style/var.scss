@@ -26,6 +26,7 @@
   --card-header-color: var(--o-color-info1);
   --card-header-text-size: var(--o-font_size-h3);
   --card-header-text-height: var(--o-line_height-h3);
+  --card-header-text-weight: 600;
 
   --card-title-word-break: break-word;
 
@@ -60,4 +61,8 @@
 
 .o-card-only-cover {
   --card-cover-padding: 0;
+}
+
+.o-card-popover {
+  --card-popover-width: auto;
 }

@@ -6,6 +6,8 @@
     /* Documentation code */
     { "path": "./tsconfig.doc.json" },
     /* Application code */
-    { "path": "./tsconfig.app.json"}
+    { "path": "./tsconfig.app.json" },
+    /* Test code */
+    { "path": "./tsconfig.test.json" }
   ]
 }

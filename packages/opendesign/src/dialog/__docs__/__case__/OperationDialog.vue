@@ -4,6 +4,12 @@
 ### 运营弹窗
 
 运营弹窗的关闭按钮有特殊样式，可通过给 `ODialog` 组件添加 `c-dlg-operation` 类名来设置。
+
+<!-- en-US -->
+
+### Operation Dialog
+
+The close button of an operation dialog has a special style, which can be set by adding the `c-dlg-operation` class to the `ODialog` component.
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';

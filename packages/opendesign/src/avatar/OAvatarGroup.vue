@@ -10,6 +10,14 @@ import { normalizeSize } from './utils.ts';
 
 const props = defineProps(avatarGroupProps);
 
+defineSlots<{
+  /**
+   * @zh-CN 溢出头像自定义内容，默认显示省略图标或 +N 计量
+   * @en-US Overflow avatar custom content, default shows ellipsis icon or +N count
+   */
+  more(): any;
+}>();
+
 const size = normalizeSize(props.size);
 const total = computed(() => props.urlList.length);
 

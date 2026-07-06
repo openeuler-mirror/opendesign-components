@@ -5,7 +5,7 @@ export const anchorInjectKey: InjectionKey<{
   addLink: (link: string) => void;
   removeLink: (link: string) => void;
   /**
-   * @deprecated 兼容旧版本，计划1.2.0移除
+   * @deprecated 请使用 `item-click` 事件替代，将在 v2.0.0 移除
    */
   onItemClick: (options: { event: MouseEvent; link?: string }) => void;
   activeLink: Ref<string>;

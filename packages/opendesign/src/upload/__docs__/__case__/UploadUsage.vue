@@ -17,6 +17,8 @@ MIME类型 `accept`；
 
 文件列表类型 `listType`；
 
+上传进度条 `showProgress` ^[1.2.0](primary)；
+
 按钮文本 `btnLabel` 等。
 
 <!-- en-US -->
@@ -34,6 +36,8 @@ Upload trigger time `lazyUpload`;
 Drag and drop upload `draggable`;
 
 File list type `listType`;
+
+Upload progress bar `showProgress` ^[1.2.0](primary);
 
 Button text such as `btnLabel`, etc.
 

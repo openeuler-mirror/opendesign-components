@@ -23,14 +23,30 @@ import { useScreen } from '../hooks';
 // TODO 下拉展开时，选中值默认在视口里
 const props = defineProps(selectProps);
 const emits = defineEmits<{
+  /**
+   * @zh-CN 选中值变化时触发
+   * @en-US Triggered when the selected value changes
+   */
   (e: 'update:modelValue', value: SelectValueT): void;
+  /**
+   * @zh-CN 选中值变化时触发
+   * @en-US Triggered when the selected value changes
+   */
   (e: 'change', value: SelectValueT): void;
+  /**
+   * @zh-CN 下拉选项展开/收起时触发
+   * @en-US Triggered when the dropdown options expand or collapse
+   */
   (e: 'options-visible-change', value: boolean): void;
+  /**
+   * @zh-CN 点击清除按钮时触发
+   * @en-US Triggered when the clear button is clicked
+   */
   (e: 'clear', evt: Event): void;
 }>();
 const slots = useSlots();
 
-const { isPhonePad } = useScreen();
+const { isPhonePadSize } = useScreen();
 
 const { t } = useI18n();
 
@@ -39,7 +55,7 @@ const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
 const isResponding = computed(() => {
-  return !props.noResponsive && isPhonePad.value;
+  return !props.noResponsive && isPhonePadSize.value;
 });
 
 const tagPopoverVisible = ref(false);
@@ -285,7 +301,15 @@ const onselectDlgOkClick = () => {
 };
 
 defineExpose({
+  /**
+   * @zh-CN 选择器根元素引用
+   * @en-US Reference to the select root element
+   */
   selectRef,
+  /**
+   * @zh-CN 是否正在选择中
+   * @en-US Whether the select is in selecting state
+   */
   isSelecting,
 });
 </script>

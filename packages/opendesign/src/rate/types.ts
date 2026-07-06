@@ -87,13 +87,16 @@ export const rateProps = {
 
 export const rateItemProps = {
   /**
-   * 序号
+   * @zh-CN 序号
+   * @en-US Index
    */
   index: {
     type: Number,
   },
   /**
-   * 状态
+   * @zh-CN 状态
+   * @en-US Status
+   * @default 'empty'
    */
   status: {
     type: String as PropType<RateItemStatusT>,

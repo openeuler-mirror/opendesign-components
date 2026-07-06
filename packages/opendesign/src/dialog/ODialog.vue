@@ -12,7 +12,15 @@ import { useScreen } from '../hooks';
 const props = defineProps(dialogProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 弹窗显示状态变化时触发
+   * @en-US Triggered when the dialog visibility changes
+   */
   (e: 'change', visible: boolean): void;
+  /**
+   * @zh-CN 弹窗显示状态更新时触发
+   * @en-US Triggered when the dialog visibility is updated
+   */
   (e: 'update:visible', value: boolean, evt?: MouseEvent): void;
 }>();
 
@@ -46,7 +54,10 @@ const scrollbarProps = computed(() => {
 });
 
 defineExpose({
-  /** Toggle the ODialog */
+  /**
+   * @zh-CN 切换对话框显示状态
+   * @en-US Toggle the dialog visibility
+   */
   toggle(show?: boolean) {
     layerRef.value?.toggle(show);
   },

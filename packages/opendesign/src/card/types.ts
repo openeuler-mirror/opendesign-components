@@ -146,6 +146,16 @@ export const cardProps = {
     type: String as PropType<TexTOverflowT>,
     default: 'fade',
   },
+  /**
+   * @zh-CN 文本溢出时，悬停是否以气泡展示完整内容（仅对 prop 传入的 title/detail 生效，通过 slot 传入时需调用者自行实现）
+   * @en-US Whether to show a popover with the full content on hover when text overflows (only applies to title/detail passed via props; for slot content, the caller must implement it themselves)
+   * @default false
+   * @since 1.2.5
+   */
+  showOverflowTooltip: {
+    type: Boolean,
+    default: false,
+  },
 };
 
 export type CardPropsT = ExtractPropTypes<typeof cardProps>;

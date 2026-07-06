@@ -14,5 +14,12 @@ Due to limited browser support for the `gap` property in flex-box (Chrome 84, Sa
 
 ## API
 
+### CSS 变量
+
+| CSS Variables | Description |
+| --- | --- |
+| \-\-flex-gap-x | Flex horizontal gap |
+| \-\-flex-gap-y | Flex vertical gap |
+
 <!-- @api ORow -->
 <!-- @api OCol -->

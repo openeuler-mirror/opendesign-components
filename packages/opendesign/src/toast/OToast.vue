@@ -9,8 +9,20 @@ const innerIsVisible = ref(props.visible ?? props.defaultVisible);
 const isVisible = computed(() => props.visible ?? innerIsVisible.value);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 持续时间结束时触发
+   * @en-US Triggered when the duration ends
+   */
   (e: 'duration-end'): void;
+  /**
+   * @zh-CN 关闭时触发
+   * @en-US Triggered when closed
+   */
   (e: 'close', ev?: MouseEvent): void;
+  /**
+   * @zh-CN 可见状态更新
+   * @en-US Visible state update
+   */
   (e: 'update:visible', val: boolean): void;
 }>();
 
@@ -62,6 +74,9 @@ onUnmounted(() => {
 });
 
 defineExpose({
+  /**
+   * 关闭即时反馈
+   */
   close: onClose,
 });
 </script>

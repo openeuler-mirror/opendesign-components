@@ -10,6 +10,10 @@ import { OPopover } from '../popover';
 const props = defineProps(menuItemProps);
 
 const emits = defineEmits<{
+  /**
+   * @zh-CN 菜单项被点击时触发
+   * @en-US Triggered when the menu item is clicked
+   */
   (e: 'click', ev: Event): void;
 }>();
 
