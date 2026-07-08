@@ -24,9 +24,11 @@
   }
 
   &.active {
-    font-weight: 600;
     color: var(--option-color-active);
     background-color: var(--option-bg-color-active);
+  }
+  &:not(.o-option-multiple).active {
+    font-weight: 600;
   }
 }
 
