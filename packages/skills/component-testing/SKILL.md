@@ -29,12 +29,12 @@ metadata:
 
 所有 helper 位于 [`packages/opendesign/__tests__/_helpers/`](../../opendesign/__tests__/_helpers/)，测试文件通过相对路径导入（如 `import { THEMES } from '../../../__tests__/_helpers/theme'`）。
 
-| 文件                                                             | 导出                                                  | 用途                                                                                                               |
-| ---------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                      |
-| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrThenHydrate`、`spyHydrationErrors`   | SSR 字符串渲染 + hydration 测试，用于 `*.ssr.test.ts`                                                              |
-| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                |
-| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`                             | 异步渲染等待 + CSS 变量 px 值解析，用于 `*.index.test.ts`（exposed 方法）和 `*.responsive.test.ts`（token 链断言） |
+| 文件                                                             | 导出                                                  | 用途                                                                                                                 |
+| ---------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                        |
+| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrHydrateAndCompare`                   | SSR 字符串渲染 + console.warn 为主的水合 mismatch 检测（textContent / Element 引用为诊断字段），用于 `*.ssr.test.ts` |
+| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                  |
+| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`                             | 异步渲染等待 + CSS 变量 px 值解析，用于 `*.index.test.ts`（exposed 方法）和 `*.responsive.test.ts`（token 链断言）   |
 
 ---
 
@@ -58,7 +58,7 @@ metadata:
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | --------------------------------------------------------------- |
 | `*.index.test.ts`      | **5 维度 describe**：静态契约（DOM/class/默认值/单主题视觉语义） + 动态契约（emit/键盘/阻断） + 视觉契约（双主题 token wiring） + 子配置契约 + 插槽契约 | 像素值、响应式断点尺寸、SSR | [three-file-structure.md](./references/three-file-structure.md) |
 | `*.responsive.test.ts` | 视口 × size 的尺寸数值（字面 px 精确比对 / token 链变量变化断言 / 级联一致性）                                                                          | 颜色、行为                  | [three-file-structure.md](./references/three-file-structure.md) |
-| `*.ssr.test.ts`        | renderToString 不抛 + hydration mismatch（用 `test.fails` 标记已知问题）                                                                                | 视觉、布局                  | [three-file-structure.md](./references/three-file-structure.md) |
+| `*.ssr.test.ts`        | renderToString 不抛 + console.warn 为主的水合 mismatch 检测（用 `test.fails` 标记已知问题）                                                             | 视觉、布局                  | [three-file-structure.md](./references/three-file-structure.md) |
 
 ---
 
@@ -289,7 +289,7 @@ test('ODataTable small @phone - 无专属覆盖，所有变量值级联自 pad_h
 | 状态阻断        | `<OComp> disabled - 用户操作时阻止 emit <事件>`                                               |
 | 响应式          | `<OComp> <prop>=<值> @<断点> - <尺寸表现>`                                                    |
 | SSR             | `<OComp> SSR <prop>=<值> - <HTML 输出特征>`                                                   |
-| 水合            | `<OComp> hydration <prop>=<值> - 无 hydration mismatch 警告`                                  |
+| 水合            | `<OComp> hydration <prop>=<值> - 无水合 mismatch`                                             |
 | Wiring 矩阵     | `<OComp> <state> wiring @${theme} - N color × M variant 矩阵下 <state> 系 token 与 base 不同` |
 | 双主题          | `<OComp> <场景> @${theme} - <断言摘要>`                                                       |
 | 跨主题对比      | `<OComp> <prop> - light / dark 下 <token> 解析值不同`                                         |
@@ -307,11 +307,10 @@ test('ODataTable small @phone - 无专属覆盖，所有变量值级联自 pad_h
 ```ts
 // 已知问题：loading=true 时 SSR 与客户端首帧不一致
 // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
-test.fails('ODataTable hydration loading=true - 无 hydration mismatch 警告', async () => {
-  const spy = spyHydrationErrors();
-  mountedRoot = await ssrThenHydrate(ODataTable, { data: [], columns, loading: true });
-  expect(spy.hasHydrationMismatch()).toBe(false);
-  spy.restore();
+test.fails('ODataTable hydration loading=true - 无水合 mismatch', async () => {
+  const result = await ssrHydrateAndCompare(ODataTable, { data: [], columns, loading: true });
+  mountedRoot = result.root;
+  expect(result.hasMismatch).toBe(false);
 });
 
 // 插槽未实现：types.ts 定义了但模板未渲染

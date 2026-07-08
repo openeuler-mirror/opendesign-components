@@ -29,19 +29,19 @@
       "source": "git@atomgit.com:openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-components/SKILL.md",
-      "computedHash": "78f5f56f45ca9bef5bf8e741d06d552616e2ec7f0a47365fd5f28981fe3c1495"
+      "computedHash": "a9cead56568a8c8e365ab406828e4a389b49b36bf920ce95d512c9d6c3beeae4"
     },
     "opendesign-scripts": {
       "source": "git@atomgit.com:openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-scripts/SKILL.md",
-      "computedHash": "3913f3b743d9179057fcc58a36e67489d2d32d8681642e3a1bf510d92f7e055e"
+      "computedHash": "458564f9e91c160e0a85b3a185ac689a0df613b72d74faeddcf8d47642bf4c04"
     },
     "opendesign-tokens": {
       "source": "git@atomgit.com:openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-tokens/SKILL.md",
-      "computedHash": "fa455216804a5a6f5f92d455dc00fe01395889f8fc0f0f6d1944fff5adaeae47"
+      "computedHash": "b1de85b307d34b5e0565a56e6118a817d1e66466f1350ee6eff39710c9c6a876"
     },
     "pinia": {
       "source": "antfu/skills",

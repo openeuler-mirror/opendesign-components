@@ -4,14 +4,21 @@
  * 抓的问题：
  *   - 模块顶层或 setup 同步段访问 window/document/ResizeObserver 等浏览器 API（会让 renderToString 报错）
  *   - props 默认值依赖运行时环境
- *   - hydration 时虚拟 DOM 与 SSR HTML 不一致（随机值 / 时区 / Teleport 未包 ClientOnly 等）
+ *   - hydration mismatch（console.warn 为主检测，textContent / Element 引用为诊断字段）
  *
- * 抓不到的：像素级渲染差异、:hover/:active 视觉切换。
+ * console.warn 覆盖的 mismatch 类型：
+ *   - 文本值不同（随机值/时间戳）、节点类型不同、子节点数量不同
+ *   - class/style/属性 mismatch（check-only，Vue 只 warn 不 patch DOM）
+ *   - 非法 HTML 嵌套被浏览器修正、Teleport 移出 root
+ *
+ * 唯一盲区：v-html 内容不同但文本相同。
+ *
+ * 抓不到的：像素级渲染差异、:hover/:active 视觉切换、真实 SSR（Node.js）环境差异。
  */
 import { test, expect, describe, afterEach } from 'vitest';
 import ODataTable from '../ODataTable.vue';
 import type { DataTableColumnT } from '../types';
-import { renderSSR, ssrThenHydrate, spyHydrationErrors } from '../../../__tests__/_helpers/ssr';
+import { renderSSR, ssrHydrateAndCompare } from '../../../__tests__/_helpers/ssr';
 
 const columns: DataTableColumnT[] = [
   { label: 'Name', key: 'name' },
@@ -88,54 +95,51 @@ describe('SSR 契约（客户端水合）', () => {
     }
   });
 
-  test('ODataTable hydration default - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data, columns });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('ODataTable hydration default - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data, columns });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('ODataTable hydration size=small - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data, columns, size: 'small' });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('ODataTable hydration size=small - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data, columns, size: 'small' });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('ODataTable hydration headerStyle=split-line - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data, columns, headerStyle: 'split-line' });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('ODataTable hydration headerStyle=split-line - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data, columns, headerStyle: 'split-line' });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
   // 已知问题：loading=true 时 SSR 与客户端首帧不一致（疑似 useDataColumn 的 isMounted 分支差异）。
   // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
-  test.fails('ODataTable hydration loading=true - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data: [], columns, loading: true });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test.fails('ODataTable hydration loading=true - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data: [], columns, loading: true });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('ODataTable hydration data=[] - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data: [], columns });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  // 已知问题：data=[] 时 SSR 渲染 <div class="empty-placeholder">，客户端渲染 <table>。
+  // 这是结构性 hydration mismatch（节点类型不同），之前 textContent 对比法无法检测，
+  // console.warn 拦截增强后捕获到 Vue 的 Hydration node mismatch 警告。
+  // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
+  test.fails('ODataTable hydration data=[] - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data: [], columns });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('ODataTable hydration selection=true - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data, columns, selection: true });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('ODataTable hydration selection=true - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data, columns, selection: true });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('ODataTable hydration border=all - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(ODataTable, { data, columns, border: 'all' });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('ODataTable hydration border=all - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(ODataTable, { data, columns, border: 'all' });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 });
