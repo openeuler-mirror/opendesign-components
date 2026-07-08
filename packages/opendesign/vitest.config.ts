@@ -13,7 +13,7 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['src/**/__tests__/*.test.ts'],
+    include: ['src/**/__tests__/*.test.ts', '__tests__/*.test.ts'],
     exclude: ['**/node_modules/**'],
     setupFiles: ['__tests__/setup.ts'],
     browser: {

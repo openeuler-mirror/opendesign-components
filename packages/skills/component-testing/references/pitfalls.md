@@ -197,7 +197,7 @@ pnpm -C packages/opendesign build:style
 
 **真因**：Vitest 每个测试后自动卸载组件，提前清空 body 会破坏 Vue unmount 流程。
 
-**修法**：**禁止这么做**。需要清理副作用挂载（如 `ssrThenHydrate` 的 root）改用专门的 ref：
+**修法**：**禁止这么做**。需要清理副作用挂载（如 `ssrHydrateAndCompare` 的 root）改用专门的 ref：
 
 ```ts
 let mountedRoot: HTMLElement | null = null;
@@ -208,6 +208,8 @@ afterEach(() => {
   }
 });
 ```
+
+注意：`ssrHydrateAndCompare` 返回的对象含 `root` 属性，赋给 `mountedRoot` 即可在 afterEach 中清理。
 
 ---
 
