@@ -4,7 +4,9 @@
 
 ---
 
-## 文件结构
+## 文件放置规则
+
+### Vue 组件（`.vue` SFC）— 三文件结构
 
 ```
 src/<ComponentName>/__tests__/
@@ -14,6 +16,28 @@ src/<ComponentName>/__tests__/
 ```
 
 文件名固定：`<ComponentName>.<type>.test.ts`。**只有这 3 种 type**，不要新建 `*.visual.test.ts` / `*.a11y.test.ts` 等——理由见根 SKILL.md「合并教训」段（先合再分，不要一上来就拆细）。
+
+### 纯函数 / composable / 指令（`.ts`）— 同级放置
+
+```
+src/_utils/
+├── is.ts
+├── is.test.ts                      # ← 与源文件同级
+├── helper.ts
+└── helper.test.ts                  # ← 与源文件同级
+
+src/hooks/
+├── use-theme.ts
+└── use-theme.test.ts               # ← 与源文件同级
+
+src/directives/
+├── focus.ts
+└── directives.test.ts              # ← 与源文件同级
+```
+
+不建 `__tests__/` 子目录，测试文件直接放在源文件旁。文件名 `<name>.test.ts`。
+
+**判断标准**：源文件是 `.vue` SFC → 三文件结构（`__tests__/`）；源文件是 `.ts`（纯函数 / composable / 指令）→ 同级放置。
 
 ---
 

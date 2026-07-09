@@ -21,7 +21,10 @@ metadata:
 | 启动副作用  | [`packages/opendesign/__tests__/setup.ts`](../../opendesign/__tests__/setup.ts) 加载 `dist/index.css` + e.light + e.dark token |
 | 共享 helper | [`packages/opendesign/__tests__/_helpers/`](../../opendesign/__tests__/_helpers/) 内含 viewport + ssr + theme + dom            |
 
-**测试 co-located**：每个组件 `src/<comp>/__tests__/` 下放 3 个固定文件。
+**测试 co-located**：
+
+- **Vue 组件**（`.vue`）：每个组件 `src/<comp>/__tests__/` 下放 3 个固定文件。
+- **纯函数 / composable / 指令**（`.ts`）：测试文件与源文件**同级**放置，文件名 `<name>.test.ts`，不建 `__tests__/` 子目录。
 
 ---
 
@@ -40,12 +43,24 @@ metadata:
 
 ## 工作流（写测试的标准动作）
 
+### Vue 组件（`.vue` SFC）
+
 ```
 1. 看组件结构 → src/<comp>/{OComp.vue, types.ts, style/}
 2. 按 types.ts prop 顺序，定 *.index.test.ts 静态契约用例数
 3. 看 media.scss 决定 *.responsive.test.ts 跑哪些视口
 4. SSR 兼容性照搬模板（*.ssr.test.ts）
 5. pnpm vitest run src/<comp>/__tests__/   ← 跑通
+```
+
+### 纯函数 / composable / 指令（`.ts`）
+
+```
+1. 看源文件导出的函数/类/composable 签名 → src/<dir>/<name>.ts
+2. 按导出顺序，每个函数一条 test，覆盖正常/边界/异常分支
+3. composable 需在 effectScope 或组件上下文中调用
+4. 测试文件放在源文件同级 → src/<dir>/<name>.test.ts
+5. pnpm vitest run src/<dir>/<name>.test.ts   ← 跑通
 ```
 
 **不允许跳过步骤 1**：测试用例必须按 prop 而非"想到什么测什么"组织，参见 [three-file-structure](./references/three-file-structure.md)。
@@ -416,7 +431,9 @@ describe('插槽契约（具名插槽）', () => {
 
 ---
 
-## 新组件接入步骤
+## 新组件 / 模块接入步骤
+
+### Vue 组件（`.vue` SFC）
 
 以新组件 `OComp` 为例：
 
@@ -436,6 +453,19 @@ describe('插槽契约（具名插槽）', () => {
 7. **跑通**：
    ```bash
    pnpm vitest run src/<comp>/__tests__
+   ```
+
+### 纯函数 / composable / 指令（`.ts`）
+
+以新工具函数 `useFoo` 为例：
+
+1. **看导出**：读 `src/<dir>/<name>.ts`，按导出的函数/类签名定用例数
+2. **建文件**：`src/<dir>/<name>.test.ts`（与源文件同级，不建 `__tests__/`）
+3. **按导出顺序写用例**：每个函数一条 `test()`，覆盖正常值 / 边界值 / 异常输入
+4. **composable 注意**：含 `onMounted` / `watchEffect` 的 composable 需在 `effectScope` 或组件 `setup` 上下文中调用
+5. **跑通**：
+   ```bash
+   pnpm vitest run src/<dir>/<name>.test.ts
    ```
 
 ---
