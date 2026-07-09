@@ -32,9 +32,7 @@ export const dateTimeNumberToString = (
   if (toValidate.some((v) => isNil(v))) {
     return undefined;
   }
-  const dayjsDate = dayjs(
-    `${isNil(year) ? 1970 : year}-${isNil(month) ? 0 : month - 1 /* month是从0开始的*/}-${isNil(date) ? 1 : date} ${hour}:${minute}:${second}`,
-  );
+  const dayjsDate = dayjs(`${isNil(year) ? 1970 : year}-${isNil(month) ? 1 : month}-${isNil(date) ? 1 : date} ${hour}:${minute}:${second}`);
   return dayjsDate.isValid() ? dayjsDate.format(format) : undefined;
 };
 
