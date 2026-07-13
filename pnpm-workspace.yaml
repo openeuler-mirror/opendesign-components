@@ -11,7 +11,7 @@ catalogs:
     vite-plugin-inspect: ^11.2.0
     vue-tsc: 2.2.8
   css:
-    '@opensig/opendesign-token': 0.0.10
+    '@opensig/opendesign-token': 0.1.1
     clean-css: ^5.3.3
     normalize.css: ^8.0.1
     sass: ^1.71.1

@@ -46,6 +46,7 @@
     "@vitest/ui": "catalog:test",
     "@vue/server-renderer": "catalog:vue",
     "dayjs": "catalog:utils",
+    "sass-embedded": "catalog:css",
     "typescript": "catalog:typescript",
     "vite": "catalog:build",
     "vitest": "catalog:test",
