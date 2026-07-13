@@ -8,7 +8,40 @@
   flex-shrink: 1;
   min-width: 0px;
   justify-content: var(--tab-nav-justify, center);
+
+  @include respond('<=pad_v') {
+    // 添加按钮存在时，右遮罩需偏移按钮占位宽度
+    &:has(.o-tab-nav-add) {
+      --_mb-right-offset: calc(var(--tab-nav-btn-size) + 8px);
+    }
+
+    &.o-tab-navs-overflown-left:before {
+      display: block;
+      content: '';
+      position: absolute;
+      width: var(--tab-nav-ellipsis-shadow-width);
+      left: 0;
+      top: 1px;
+      bottom: 1px;
+      pointer-events: none;
+      z-index: 2;
+      background: linear-gradient(270deg, var(--tab-nav-ellipsis-shadow-gradient));
+    }
+    &.o-tab-navs-overflown-right:after {
+      display: block;
+      content: '';
+      position: absolute;
+      width: var(--tab-nav-ellipsis-shadow-width);
+      right: var(--_mb-right-offset, 0px);
+      top: 1px;
+      bottom: 1px;
+      pointer-events: none;
+      z-index: 2;
+      background: linear-gradient(90deg, var(--tab-nav-ellipsis-shadow-gradient));
+    }
+  }
 }
+
 .o-tab-head {
   font-size: var(--tab-nav-text-size);
   line-height: var(--tab-nav-text-height);
@@ -19,6 +52,7 @@
     display: flex;
     align-items: center;
   }
+
   &.show-line::after {
     content: '';
     position: absolute;
@@ -40,6 +74,17 @@
     grid-template-columns: 1fr;
     justify-items: var(--tab-nav-justify, center);
   }
+
+  @include respond('<=pad_v') {
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &.o-tab-navs-container-mb-overflown {
+      justify-items: start;
+    }
+  }
 }
 
 .o-tab-nav-list {
@@ -53,9 +98,11 @@
     height: 0;
   }
 }
+
 .o-tab-navs-container.overflown .o-tab-nav-list {
   justify-content: flex-start;
 }
+
 .o-tab-nav {
   display: flex;
   flex-shrink: 0;
@@ -68,9 +115,11 @@
   padding: var(--tab-nav-padding);
   z-index: 1;
   color: var(--tab-icon-color);
+
   + .o-tab-nav {
     margin-left: var(--tab-nav-gap);
   }
+
   &.o-tab-nav-ellipsis {
     margin-left: unset;
     padding-left: var(--tab-nav-ellipsis-padding-x);
@@ -87,13 +136,9 @@
       left: calc(0px - var(--tab-nav-ellipsis-shadow-width));
       top: 0;
       bottom: 0;
-      background: linear-gradient(
-        90deg,
-        rgba(var(--o-grey-14), 0),
-        rgba(var(--o-grey-14), 0.022) 40%,
-        rgba(var(--o-grey-14), 0.045) 59%,
-        rgba(var(--o-grey-14), 0.1) 100%
-      );
+      pointer-events: none;
+      z-index: 2;
+      background: linear-gradient(90deg, var(--tab-nav-ellipsis-shadow-gradient));
     }
   }
 
@@ -102,6 +147,7 @@
     border-color: var(--tab-nav-bd-color-hover);
     background-color: var(--tab-nav-bg-color-hover);
   }
+
   .o-tab-solid & {
     margin-right: var(--tab-solid-nav-gap);
     padding: var(--tab-solid-nav-padding);
@@ -112,8 +158,10 @@
     margin-right: var(--tab-nav-icon-gap);
   }
 }
+
 .o-tab-nav-active {
   font-weight: 600;
+
   &,
   &:hover {
     color: var(--tab-nav-color-active);
@@ -121,6 +169,7 @@
     background-color: var(--tab-nav-bg-color-active);
   }
 }
+
 .o-tab-nav-disabled {
   &,
   &:hover {
@@ -130,9 +179,11 @@
     background-color: var(--tab-nav-bg-color-disabled);
   }
 }
+
 .o-tab-nav-closable {
   position: relative;
   padding-right: 12px;
+
   .o-tab-text & {
     padding-right: 0;
   }
@@ -143,12 +194,15 @@
     border: none;
   }
 }
+
 .o-tab-head-prefix {
   flex-shrink: 0;
 }
+
 .o-tab-head-suffix {
   flex-shrink: 0;
 }
+
 .o-tab-nav-anchor {
   position: absolute;
   left: 0;
@@ -159,12 +213,14 @@
   display: flex;
   justify-content: center;
 }
+
 .o-tab-nav-anchor-line {
   width: 100%;
   height: var(--tab-nav-anchor-height);
   background-color: var(--tab-nav-anchor-color);
   border-radius: var(--tab-nav-anchor-height);
 }
+
 .o-tab-nav-close,
 .o-tab-nav-more-arrow {
   font-size: var(--tab-nav-close-size);
@@ -180,9 +236,11 @@
   }
   @include x-svg-hover;
 }
+
 .o-tab-nav-more-arrow.active {
   transform: rotate(-180deg);
 }
+
 .o-tab-more-popup {
   min-width: 120px;
 }
@@ -214,6 +272,7 @@
   width: 100%;
   display: none;
 }
+
 .o-tab-pane-active {
   display: block;
 }
@@ -223,6 +282,7 @@
     background-color: var(--tab-nav-bg-color);
     padding: var(--tab-nav-list-padding);
   }
+
   .width-measurement {
     padding: 0;
   }
@@ -231,6 +291,7 @@
   .o-tab-nav {
     border-radius: var(--tab-btn-radius);
   }
+
   .o-tab-nav-active {
     border: var(--tab-nav-active-border);
   }

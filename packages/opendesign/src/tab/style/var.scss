@@ -21,6 +21,10 @@
 
   --tab-nav-ellipsis-padding-x: 16px;
   --tab-nav-ellipsis-shadow-width: 8px;
+  --tab-nav-ellipsis-shadow-color: var(--o-grey-14);
+  --tab-nav-ellipsis-shadow-gradient:
+    rgba(var(--tab-nav-ellipsis-shadow-color), 0), rgba(var(--tab-nav-ellipsis-shadow-color), 0.022) 40%, rgba(var(--tab-nav-ellipsis-shadow-color), 0.045) 59%,
+    rgba(var(--tab-nav-ellipsis-shadow-color), 0.1) 100%;
 }
 
 .o-tab-large {
@@ -30,6 +34,7 @@
   --tab-nav-icon-size: var(--o-icon_size_control-l);
   --tab-nav-padding: 0 0 18px;
 }
+
 .o-tab-medium {
   --tab-nav-text-size: var(--o-font_size-text2);
   --tab-nav-text-height: var(--o-line_height-text2);
@@ -38,6 +43,7 @@
 
   --tab-nav-padding: 0 0 16px;
 }
+
 .o-tab-small {
   --tab-nav-text-size: var(--o-font_size-text1);
   --tab-nav-text-height: var(--o-line_height-text1);
@@ -61,6 +67,7 @@
   --tab-solid-nav-padding: 4px 16px;
   --tab-solid-nav-gap: 8px;
 }
+
 .o-tab-text {
   --tab-nav-color-hover: var(--o-color-primary1);
   --tab-nav-color-active: var(--o-color-primary1);
@@ -92,6 +99,7 @@
       --tab-nav-icon-gap: 0;
     }
   }
+
   &.o-tab-medium,
   &.o-tab-small {
     --tab-nav-text-size: var(--o-font_size-tip1);
