@@ -81,7 +81,7 @@ $o-breakpoints: (
   '<=laptop_s': (0, 1440px),
   '>laptop_l': 1441px,
   // pc
-  'pc': (1680px, 1920px),
+  'pc': (1681px, 1920px),
   '>pc': 1921px
 );
 @mixin respond($breakname) {
