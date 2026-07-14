@@ -13,16 +13,16 @@ Enable the adding or closing functionality via the `addable` or `closable` prope
 and implement the addition and deletion logic through the `add` and `delete` events.
 </docs>
 <script setup lang="ts">
-import {computed, reactive, ref} from 'vue';
-import {OTab, OTabPane, OSwitch, OInputNumber} from '@opensig/opendesign';
+import { computed, reactive, ref } from 'vue';
+import { OTab, OTabPane, OSwitch, OInputNumber } from '@opensig/opendesign';
 
-const randomCharArr = [
-  'h', 'iQ', 'dPD', 'dYJm', 'PCnTJ', 'JnIUwj', 'kJXDlia', 'RIbUWqeg',
-];
+const randomCharArr = ['h', 'iQ', 'dPD', 'dYJm', 'PCnTJ', 'JnIUwj', 'kJXDlia', 'RIbUWqeg'];
 
-const tabs = reactive(new Array(6).fill(null).map((_, i) => {
-  return {label: `Tab ${i + 1} ${randomCharArr[i % randomCharArr.length]}`, value: i + 1, content: `Tab ${i + 1} Content`};
-}));
+const tabs = reactive(
+  new Array(6).fill(null).map((_, i) => {
+    return { label: `Tab ${i + 1} ${randomCharArr[i % randomCharArr.length]}`, value: i + 1, content: `Tab ${i + 1} Content` };
+  }),
+);
 
 let count = tabs.length;
 const addTab = () => {
@@ -49,8 +49,8 @@ const maxShow = computed(() => {
 <template>
   <div class="demo-tab-control">
     <span>limit: </span>
-    <OSwitch v-model="limit"/>
-    <OInputNumber v-model="_maxShow" :step="1" :min="1"/>
+    <OSwitch v-model="limit" />
+    <OInputNumber v-model="_maxShow" :step="1" :min="1" />
   </div>
   <OTab addable :max-show="maxShow" @add="addTab" @delete="delTab">
     <OTabPane v-for="tab in tabs" :key="tab.value" :label="tab.label" :value="tab.value" closable>
@@ -59,10 +59,15 @@ const maxShow = computed(() => {
   </OTab>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .demo-tab-control {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+.o-tab {
+  @include respond('<=pad_v') {
+    --tab-nav-ellipsis-shadow-color: var(--o-grey-2);
+  }
 }
 </style>
