@@ -8,11 +8,11 @@ import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentP
 import { popupProps, PopupTriggerT } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
 import { throttleRAF, debounce } from '../_utils/helper';
-import { isArray, isFunction } from '../_utils/is';
+import { isArray, isFunction, isTouchDevice } from '../_utils/is';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
-import { useIntersectionObserver, useScreen } from '../hooks';
+import { useIntersectionObserver } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
 import { resolveHtmlElement, getHtmlElement } from '../_utils/vue-utils';
@@ -35,13 +35,13 @@ const emits = defineEmits<{
   (e: 'change', val: boolean): void;
 }>();
 
-const { isPhonePad } = useScreen();
-
 const triggers = computed<PopupTriggerT[]>(() => {
   const triggers = isArray(props.trigger) ? props.trigger : [props.trigger];
-  if (isPhonePad.value) {
-    const r = triggers.filter((item) => ['none', 'click-outclick', 'click'].includes(item));
-    return r.length > 0 ? r : ['click'];
+  // 触摸设备兜底：保留原触发器（hover 对鼠标/笔仍有效），若缺少 click 型
+  // 触发则追加 click，确保触摸屏操作可打开/关闭 popup
+  if (isTouchDevice) {
+    const hasClick = triggers.some((item) => item === 'click' || item === 'click-outclick');
+    return hasClick || triggers.includes('none') ? triggers : [...triggers, 'click'];
   }
   return triggers;
 });
