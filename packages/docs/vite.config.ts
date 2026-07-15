@@ -37,6 +37,7 @@ export default defineConfig({
     host: '0.0.0.0',
     allowedHosts: true,
     port: 3300,
+    strictPort: false,
   },
   define: {
     __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
