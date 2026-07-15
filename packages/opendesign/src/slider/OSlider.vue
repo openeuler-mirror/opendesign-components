@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs, onMounted, onUnmounted, useSlots } from 'vue';
+import { computed, provide, reactive, toRefs, onMounted, onUnmounted } from 'vue';
 import { OInputNumber } from '../input-number';
 import OSliderButton from './OSliderButton.vue';
 import OSliderMarker from './OSliderMarker.vue';
@@ -16,7 +16,13 @@ import { sliderProps, type SliderInitData, sliderEmits } from './types';
 const props = defineProps(sliderProps);
 const emit = defineEmits(sliderEmits);
 
-const slots = useSlots();
+/**
+ * 插槽定义
+ */
+const slots = defineSlots<{
+  /** 单位插槽，用于自定义单位显示 */
+  unit?(): any;
+}>();
 
 const initData = reactive<SliderInitData>({
   firstBtnVal: 0,
