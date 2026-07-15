@@ -38,7 +38,7 @@ export default (): InlineConfig => {
             preserveModulesRoot: 'src',
           },
         ],
-        external: ['vue', /^@vueuse/, 'dayjs'],
+        external: ['vue', /^@vueuse/, /^dayjs/],
       },
       lib: {
         entry: 'src/index.ts',

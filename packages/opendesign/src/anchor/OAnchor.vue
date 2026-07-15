@@ -259,29 +259,48 @@ onUnmounted(() => {
   }
 });
 
-/* 横向anchor是否是sticky状态*/
+/** 横向 anchor 是否处于 sticky 吸附状态 */
 const isAnchorStickying = ref(false);
-/* anchor的可滚动父元素，不是监听的那个元素*/
+/**
+ * anchor 的可滚动祖先元素，用于检测 sticky 状态。
+ * 为空时表示 anchor 直接挂在页面顶层，参照系为视口（window）。
+ */
 const anchorParent = shallowRef<HTMLElement>();
-const detectSticking = throttleRAF(() => {
-  const elRect = anchorRef.value!.getBoundingClientRect();
-  const containerRect = anchorParent.value!.getBoundingClientRect();
 
-  const stickyOffset = parseFloat(window.getComputedStyle(anchorRef.value!).top) || 0;
-  isAnchorStickying.value = elRect.top <= containerRect.top + stickyOffset && elRect.bottom > containerRect.top + stickyOffset;
-});
-onMounted(() => {
-  if (props.container !== '#anchor-sticky-demo') {
+/**
+ * @description 检测横向 anchor 是否处于 sticky 吸附状态，
+ * 通过比较 anchor 与其滚动参照系（可滚动祖先元素或视口）的矩形位置判断
+ */
+const detectSticking = throttleRAF(() => {
+  if (!anchorRef.value) {
     return;
   }
+  const elRect = anchorRef.value.getBoundingClientRect();
+  // 无可滚动祖先时以视口顶部（top: 0）为参照
+  const containerTop = anchorParent.value ? anchorParent.value.getBoundingClientRect().top : 0;
+
+  const stickyOffset = parseFloat(window.getComputedStyle(anchorRef.value).top) || 0;
+  isAnchorStickying.value = elRect.top <= containerTop + stickyOffset && elRect.bottom > containerTop + stickyOffset;
+});
+onMounted(() => {
+  // 仅横向布局需要 sticky 检测
   if (props.layout !== 'h') {
     return;
   }
+  // 获取 anchor 的第一个可滚动祖先元素；若无（如直接挂在页面顶层），则监听 window 滚动
   anchorParent.value = getScrollParents(anchorRef.value!)[0];
-  anchorParent.value?.addEventListener('scroll', detectSticking, { passive: true });
+  if (anchorParent.value) {
+    anchorParent.value.addEventListener('scroll', detectSticking, { passive: true });
+  } else {
+    window.addEventListener('scroll', detectSticking, { passive: true });
+  }
 });
 onUnmounted(() => {
-  anchorParent.value?.removeEventListener('scroll', detectSticking);
+  if (anchorParent.value) {
+    anchorParent.value.removeEventListener('scroll', detectSticking);
+  } else {
+    window.removeEventListener('scroll', detectSticking);
+  }
 });
 </script>
 

@@ -18,7 +18,7 @@ export default (type: 'component' | 'icon'): InlineConfig => {
       sourcemap: true,
       minify: false,
       rollupOptions: {
-        external: ['vue', /^@vueuse/, 'dayjs'],
+        external: ['vue', /^@vueuse/, /^dayjs/],
         output: [
           {
             format: 'umd',

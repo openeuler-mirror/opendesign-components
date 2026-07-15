@@ -12,39 +12,51 @@
   --o-font-password: Arial, 'Helvetica Neue', Helvetica, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-[data-o-theme="e.light"] {
+[data-o-theme='e.light'] {
   --o-color-control2-light-raw: var(--o-brand-1);
+  --o-color-fill2-raw: var(--o-grey-1);
 }
-[data-o-theme="e.dark"] {
+[data-o-theme='e.dark'] {
   --o-color-control2-light-raw: var(--o-grey-5);
+  --o-color-fill2-raw: var(--o-grey-4);
 }
-[data-o-theme="g.light"] {
+[data-o-theme='g.light'] {
   --o-color-control2-light-raw: var(--o-brand-1);
+  --o-color-fill2-raw: var(--o-grey-1);
 }
-[data-o-theme="g.dark"] {
+[data-o-theme='g.dark'] {
   --o-color-control2-light-raw: var(--o-grey-5);
+  --o-color-fill2-raw: var(--o-grey-4);
 }
-[data-o-theme="u.light"] {
+[data-o-theme='u.light'] {
   --o-color-control2-light-raw: var(--o-brand-1);
+  --o-color-fill2-raw: var(--o-grey-1);
 }
-[data-o-theme="u.dark"] {
+[data-o-theme='u.dark'] {
   --o-color-control2-light-raw: var(--o-grey-5);
+  --o-color-fill2-raw: var(--o-grey-4);
 }
-[data-o-theme="m.light"] {
+[data-o-theme='m.light'] {
   --o-color-control2-light-raw: var(--o-brand-1);
+  --o-color-fill2-raw: var(--o-grey-1);
 }
-[data-o-theme="m.dark"] {
+[data-o-theme='m.dark'] {
   --o-color-control2-light-raw: var(--o-grey-5);
+  --o-color-fill2-raw: var(--o-grey-4);
 }
-[data-o-theme="a.light"] {
+[data-o-theme='a.light'] {
   --o-color-control2-light-raw: var(--o-grey-3);
+  --o-color-fill2-raw: var(--o-grey-1);
 }
-[data-o-theme="a.dark"] {
+[data-o-theme='a.dark'] {
   --o-color-control2-light-raw: var(--o-grey-5);
+  --o-color-fill2-raw: var(--o-grey-4);
 }
-[data-o-theme="k.light"] {
+[data-o-theme='k.light'] {
   --o-color-control2-light-raw: var(--o-grey-3);
+  --o-color-fill2-raw: var(--o-grey-1);
 }
-[data-o-theme="k.dark"] {
+[data-o-theme='k.dark'] {
   --o-color-control2-light-raw: var(--o-grey-5);
+  --o-color-fill2-raw: var(--o-grey-4);
 }
