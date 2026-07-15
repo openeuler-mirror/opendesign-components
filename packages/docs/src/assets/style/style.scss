@@ -3,9 +3,10 @@
 }
 body {
   // 采用鸿蒙字体
+  font-family: var(--o-font_family);
   font-size: var(--o3-font_size-text1);
   line-height: var(--o3-line_height-text1);
-  font-weight: 400;
+  font-weight: var(--o-font_weight-regular);
 
   color-scheme: light dark;
 
@@ -24,7 +25,7 @@ body {
 }
 code {
   // 代码中使用等宽字体
-  font-family: 'Cascadia Code', 'SF Mono', 'Menlo', 'Consolas', 'DejaVu Sans Mono', 'Ubuntu Mono', monospace;
+  font-family: var(--o-font_family-code);
 }
 
 p,
@@ -45,11 +46,13 @@ h1 {
   font-size: var(--o3-font_size-h1);
   line-height: var(--o3-line_height-h1);
 }
-h2, h3 {
+h2,
+h3 {
   font-size: var(--o3-font_size-h3);
   line-height: var(--o3-line_height-h3);
 }
-h4, h5 {
+h4,
+h5 {
   font-size: var(--o-font_size-text2);
   line-height: var(--o3-line_height-text2);
 }
@@ -132,7 +135,11 @@ section {
   }
 }
 .o-form {
-  .o-input, .o-select, .o-input-number, .o-cascader, .o-ip-input {
+  .o-input,
+  .o-select,
+  .o-input-number,
+  .o-cascader,
+  .o-ip-input {
     width: var(--form-item-main-box-width-standard);
   }
   .o-textarea {

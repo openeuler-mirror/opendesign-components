@@ -94,7 +94,7 @@ pnpm -C packages/opendesign build
 
 ### 2. margin / padding 例外规则
 
-margin、padding **不使用 opendesign-token**，直接使用硬编码值，然后在对应的 `media.scss` 中使用 `@include respond('断点')` 声明响应式。
+margin、padding **不使用 opendesign-token**，直接使用硬编码值，然后在对应的 `media.scss` 中使用 `@include respond('断点')` 声明响应式。`__demo__`与`__docs__`中的示例除外，因为他们不是组件代码的一部分
 
 允许的响应式断点（来自 `mixin.scss`）：
 
