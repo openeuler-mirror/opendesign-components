@@ -14,6 +14,25 @@ import { useI18n } from '../locale';
 import { log } from '../_utils/log';
 
 const props = defineProps(uploadProps);
+/**
+ * 插槽定义
+ */
+const slots = defineSlots<{
+  /** 默认插槽（透传至 UploadSelect） */
+  default?(props: Record<string, any>): any;
+  /** 上传项插槽（透传至 UploadItem），可获取文件信息 */
+  item?(props: Record<string, any>): any;
+  /** 拖拽区域插槽（透传至 UploadSelect） */
+  'select-drag'?(props: Record<string, any>): any;
+  /** 拖拽区域额外插槽（透传至 UploadSelect） */
+  'select-drag-extra'?(props: Record<string, any>): any;
+  /** 选择区域下方额外内容 */
+  'select-extra'?(): any;
+  /** 添加按钮区域 */
+  'select-add'?(): any;
+  /** 添加按钮文字 */
+  'select-add-label'?(): any;
+}>();
 const emits = defineEmits<{
   (e: 'progress', value: UploadFileT): void;
   (e: 'success', value: UploadFileT): void;
@@ -359,11 +378,11 @@ defineExpose({
         @to-select="doSelect"
         @selected="onFileSelected"
       >
-        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
+        <template v-for="name in filterSlots(slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadSelect>
-      <div v-if="$slots['select-extra']" class="o-upload-select-extra">
+      <div v-if="slots['select-extra']" class="o-upload-select-extra">
         <slot name="select-extra"></slot>
       </div>
     </div>
@@ -380,7 +399,7 @@ defineExpose({
         :key="item.id"
         :file="item"
         :list-type="props.listType"
-        :showProgress="props.showProgress"
+        :show-progress="props.showProgress"
         :draggable="props.draggable"
         @remove="onRemoveFile"
         @retry="onFileUploadRetry"
@@ -389,7 +408,7 @@ defineExpose({
         @item-click="onUploadItemLabelClick"
         @download="onFileDownload"
       >
-        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
+        <template v-for="name in filterSlots(slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadItem>

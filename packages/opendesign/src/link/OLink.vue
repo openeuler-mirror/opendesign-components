@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, useAttrs, resolveComponent, h, useSlots, renderSlot, type VNode } from 'vue';
+import { computed, inject, useAttrs, resolveComponent, h, renderSlot, type VNode } from 'vue';
 import { configProviderInjectKey } from '../config-provider';
 import { defaultSize } from '../_utils/global';
 import { IconLinkArrow, IconLoading } from '../_utils/icons';
@@ -34,7 +34,17 @@ const linkClass = computed(() => [
   `o-link-${props.size || defaultSize}`,
 ]);
 
-const $slots = useSlots();
+/**
+ * 插槽定义
+ */
+const $slots = defineSlots<{
+  /** 默认插槽，链接内容 */
+  default?(): any;
+  /** 前缀图标插槽 */
+  icon?(): any;
+  /** 后缀插槽 */
+  suffix?(): any;
+}>();
 const RouterLink = resolveComponent('RouterLink');
 
 const prefix = () => {

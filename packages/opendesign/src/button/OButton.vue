@@ -5,7 +5,7 @@ import { getRoundClass } from '../_utils/style-class';
 import { buttonProps } from './types';
 import HtmlTag from '../_components/html-tag';
 import { isEmptySlot } from '../_utils/vue-utils';
-import { computed, useSlots } from 'vue';
+import { computed } from 'vue';
 import { VariantT } from '../_utils/types';
 import { isUndefined } from '../_utils/is';
 
@@ -23,7 +23,17 @@ const tag = computed(() => (props.href ? 'a' : props.tag));
 
 const round = getRoundClass(props, 'btn');
 
-const slots = useSlots();
+/**
+ * 插槽定义
+ */
+const slots = defineSlots<{
+  /** 默认插槽，按钮内容 */
+  default?(): any;
+  /** 前缀图标插槽 */
+  icon?(): any;
+  /** 后缀插槽 */
+  suffix?(): any;
+}>();
 
 const isOnlyIcon = computed(() => isEmptySlot(slots.default) && (props.icon || slots.icon));
 // 仅图标按妞，variant默认值为'outline'
@@ -61,14 +71,14 @@ const onClick = (e: MouseEvent) => {
     :style="round.style.value"
     @click="onClick"
   >
-    <span v-if="props.icon || $slots.icon || props.loading" class="o-btn-prefix" :class="{ loading: props.loading }">
+    <span v-if="props.icon || slots.icon || props.loading" class="o-btn-prefix" :class="{ loading: props.loading }">
       <IconLoading v-if="props.loading" class="o-rotating" />
       <slot v-else name="icon">
         <component :is="props.icon" />
       </slot>
     </span>
     <slot></slot>
-    <span v-if="$slots.suffix" class="o-btn-suffix">
+    <span v-if="slots.suffix" class="o-btn-suffix">
       <slot name="suffix"></slot>
     </span>
   </HtmlTag>

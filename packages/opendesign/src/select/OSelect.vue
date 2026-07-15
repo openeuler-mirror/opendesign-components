@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, watchEffect, inject, useSlots } from 'vue';
+import { computed, provide, ref, watch, watchEffect, inject } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
@@ -44,7 +44,25 @@ const emits = defineEmits<{
    */
   (e: 'clear', evt: Event): void;
 }>();
-const slots = useSlots();
+/**
+ * 插槽定义
+ */
+const slots = defineSlots<{
+  /** 默认插槽，自定义下拉选项内容 */
+  default?(): any;
+  /** 前缀插槽 */
+  prefix?(): any;
+  /** 标签折叠插槽，用于自定义折叠标签的显示 */
+  'tag-fold'?(): any;
+  /** 箭头插槽，可获取下拉展开状态 */
+  arrow?(props: { active: boolean }): any;
+  /** 后缀插槽，可获取下拉展开状态 */
+  suffix?(props: { active: boolean }): any;
+  /** 空状态插槽 */
+  empty?(): any;
+  /** 选项操作插槽（透传至 SelectOption） */
+  action?(): any;
+}>();
 
 const { isPhonePadSize } = useScreen();
 
@@ -431,7 +449,7 @@ defineExpose({
               :option-title="props.optionTitle"
               :multiple="props.multiple"
             >
-              <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+              <template v-for="name in filterSlots(slots, slot.option.names)" #[name]>
                 <slot :name="name"></slot>
               </template>
 
@@ -460,7 +478,7 @@ defineExpose({
           @change="onOptionVisibleChange"
         >
           <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
-            <template v-for="name in filterSlots($slots, slot.option.names)" #[name]>
+            <template v-for="name in filterSlots(slots, slot.option.names)" #[name]>
               <slot :name="name"></slot>
             </template>
             <!-- option选项单独处理 -->

@@ -282,6 +282,10 @@ export const isEmptySlot = (slot?: Slot) => {
 
 /**
  * 过滤插槽
+ * @description 根据 slotNames 中的插槽名，筛选出 slots 中实际存在的插槽名
+ * @param slots - Vue 插槽对象
+ * @param slotNames - 插槽名称映射表
+ * @returns slots 中存在的插槽名称数组，类型为 slotNames 值的联合类型
  */
 export function filterSlots<T extends Record<string, string>>(slots: Slots, slotNames: T): Array<T[keyof T]> {
   const names: string[] = Object.values(slotNames);
