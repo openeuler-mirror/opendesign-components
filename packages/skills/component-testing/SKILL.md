@@ -1,13 +1,13 @@
 ---
 name: component-testing
-description: 组件库测试用例编写指南。当被要求为组件加测试用例、调试测试失败、补响应式/SSR/视觉断言、理解项目测试约定、判断某个维度应该放哪个文件测、或讨论 vitest browser mode / vitest-browser-vue / 测试方法论时应用。涵盖：静态契约、动态契约、视觉 wiring、响应式断点、SSR 水合、暴露方法、插槽、子配置等维度。
+description: 组件库测试用例编写指南。当被要求为组件加测试用例、调试测试失败、补响应式/SSR/视觉断言、理解项目测试约定、判断某个维度应该放哪个文件测、或讨论 vitest browser mode / vitest-browser-vue / 测试方法论时应用。涵盖：测试设计原则（真实业务不出错）、静态契约、动态契约、视觉 wiring、响应式断点、SSR 水合、暴露方法、插槽、子配置等维度。
 metadata:
-  version: '1.0.0'
+  version: '1.1.0'
 ---
 
 # 组件库测试用例编写指南
 
-> **触发场景：** 为新组件搭测试 / 给现有组件加用例 / 调试测试失败 / 视觉契约断言怎么写 / 响应式断点怎么测 / SSR 兼容性怎么验 / 测试文件应该拆几个 / vitest 报错排查 / 跨 wrapper strict mode 冲突 / 暴露方法怎么测 / 插槽怎么测 / 子配置（如 column/option/item）怎么测
+> **触发场景：** 为新组件搭测试 / 给现有组件加用例 / 调试测试失败 / 视觉契约断言怎么写 / 响应式断点怎么测 / SSR 兼容性怎么验 / 测试文件应该拆几个 / vitest 报错排查 / 跨 wrapper strict mode 冲突 / 暴露方法怎么测 / 插槽怎么测 / 子配置（如 column/option/item）怎么测 / **判断测试用例是否人造（框架不会产生的调用路径）**
 
 ## 框架速览
 
@@ -67,7 +67,98 @@ metadata:
 
 ---
 
-## 三个测试文件职责
+## 测试设计原则：以「真实业务不出错」为导向
+
+测试场景必须来自**框架/浏览器真实产生的调用路径**，不构造运行时不可能出现的调用来"凑覆盖"。
+
+### 判断标准
+
+> 写完测试后问自己：**Vue / 浏览器在真实组件中会产生这个调用序列吗？**
+
+- 答案"会" → 有效测试（如：组件 mount → ResizeObserver 触发 → unmount → pending RAF 执行）
+- 答案"不会" → 人造测试，删除或重写（如：同一元素连续两次 `mounted` 不经过 `unmounted`）
+
+### 红线
+
+| 红线                                 | 反例                                                                               | 正确做法                                                                                 |
+| ------------------------------------ | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **不构造框架不会产生的生命周期路径** | 同一元素连续两次 `mounted` 不调 `unmounted`（Vue 永远先 `unmounted` 再 `mounted`） | 用 `v-if` 切换或 `:key` 变化来触发 mount/unmount，让 Vue 管理生命周期                    |
+| **断言业务行为而非内部实现**         | 断言 `observerPool` 内部数组的长度                                                 | 断言"卸载后改变尺寸，回调不再触发"                                                       |
+| **优先用组件验证而非直接调 API**     | 直接 `vOnResize.mounted?.(el, binding)`                                            | `render(TestComp)` 让 Vue 驱动 mount/unmount                                             |
+| **直接调 API 仅限基础契约**          | —                                                                                  | 纯函数/指令的基础 API 契约（参数校验、返回值）可直接调用，但涉及生命周期的场景必须走组件 |
+| **测试描述契约而非 bug 机制**        | 测试名写「listener 被 fnB 覆盖导致 unobserve 传错回调」、注释贴 bug 调用链         | 测试名写「卸载元素A → A回调不再触发，B仍正常」、注释只描述验证的业务场景                 |
+
+### 预防性契约 vs 定位用例
+
+测试描述的是**「正确行为应该是什么」**，不是**「bug 是怎么触发的」**。判断标准：
+
+| 信号             | 预防性契约 ✅                                 | 定位用例 ❌                                     |
+| ---------------- | --------------------------------------------- | ----------------------------------------------- |
+| **测试名/注释**  | 描述业务行为                                  | 描述 bug 机制（listener 覆盖、splice(-1,1) 等） |
+| **对实现的依赖** | 换实现（WeakMap、per-element 存储）测试仍有效 | 换了实现就白写，断言绑死了当前数据结构          |
+| **独立可读性**   | 删掉所有注释，测试名+断言本身就说明验证什么   | 删掉注释看不懂，必须读 bug 调用链注释才能理解   |
+
+> 定位用例在 bug 修复后失去价值；预防性契约在任何正确实现下都应通过、在任何错误实现下都应失败。
+
+### 案例：on-resize 指令测试
+
+以下展示了同一个测试目标（多元素 v-on-resize 的 mount/unmount 正确性）的三种写法演进：
+
+**❌ 人造场景 + bug 机制注释（两次错误叠加）**
+
+```ts
+// 测试名：'domA注册fnA、domB注册fnB → unmounted(domA)时unobserve传参为domA+fnB'
+// ① mounted(domA, fnA) → listener = fnA
+// ② mounted(domB, fnB) → listener = fnB（覆盖）     ← bug 机制写进注释
+// ③ unmounted(domA) → unobserve(domA, fnB)          ← 应该传 fnA
+vOnResize.mounted?.(elA, { value: fnA });            ← 直接调 API
+vOnResize.mounted?.(elA, { value: fnB });            ← 同一元素两次 mounted，Vue 不会这样做
+```
+
+问题：测试名是 bug 机制描述；注释是 bug 调用链；调用序列 Vue 不产生；实现换了就白写。
+
+**❌ 仅去掉了人造场景，仍保留 bug 机制注释**
+
+```ts
+// 测试名：'同一元素多次 mounted 后 unmounted 仅移除最后一个 listener，残留旧回调'
+// pool: el → [cb1, cb2], listener === cb2
+// unobserve(el, cb2) → indexOf(cb2) → splice(1,1) → cb1 残留
+vOnResize.mounted?.(elA, { value: fnA });
+vOnResize.mounted?.(elB, { value: fnB });
+```
+
+问题：调用序列合法了，但测试名和注释仍然是 bug 定位描述，不是行为契约。
+
+**✅ 预防性契约（最终写法）**
+
+```ts
+// 测试名：'卸载元素A → A 回调不再触发，B 回调仍正常'
+const elA = createEl('A');
+const elB = createEl('B');
+const cbA = vi.fn();
+const cbB = vi.fn();
+
+mountDir(elA, cbA);
+mountDir(elB, cbB);
+await waitForRO();
+cbA.mockClear();
+cbB.mockClear();
+
+unmountDir(elA); // 只卸载 A
+
+elA.style.width = '200px'; // 改变两个元素尺寸
+elB.style.width = '300px';
+await waitForRO();
+
+expect(cbA).not.toHaveBeenCalled(); // A 停了
+expect(cbB).toHaveBeenCalled(); // B 仍正常
+```
+
+测试名描述行为契约；不提 listener/splice/observerPool；换任何正确实现都应通过。
+
+---
+
+## 测试文件职责
 
 | 文件                   | 测什么                                                                                                                                                  | 不测什么                    | 详细                                                            |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | --------------------------------------------------------------- |
