@@ -108,4 +108,63 @@ describe('useResizeObserver', () => {
     expect(ro.observe(null as any, () => {})).toBeNull();
     expect(ro.observe(document.createElement('div'), null as any)).toBeNull();
   });
+
+  test('useResizeObserver - unobserve 未注册的回调应为 no-op，不影响已注册回调', async () => {
+    const ro = useResizeObserver();
+    const el = document.createElement('div');
+    el.style.width = '100px';
+    el.style.height = '50px';
+    document.body.appendChild(el);
+
+    const cb1 = vi.fn();
+    const cb2 = vi.fn();
+    const notRegistered = vi.fn();
+
+    ro.observe(el, cb1);
+    ro.observe(el, cb2);
+    await waitForRO();
+    cb1.mockClear();
+    cb2.mockClear();
+
+    // 传入从未注册过的回调，unobserve 应为 no-op
+    ro.unobserve(el, notRegistered);
+
+    el.style.width = '300px';
+    await waitForRO();
+
+    // 已注册的回调不应受到未注册回调 unobserve 的影响
+    expect(cb1).toHaveBeenCalled();
+    expect(cb2).toHaveBeenCalled();
+
+    ro.unobserve(el, cb1);
+    ro.unobserve(el, cb2);
+    el.remove();
+  });
+
+  test('useResizeObserver - 单回调下 unobserve 未注册回调后已注册回调仍触发', async () => {
+    const ro = useResizeObserver();
+    const el = document.createElement('div');
+    el.style.width = '100px';
+    el.style.height = '50px';
+    document.body.appendChild(el);
+
+    const cb = vi.fn();
+    const notRegistered = vi.fn();
+
+    ro.observe(el, cb);
+    await waitForRO();
+    cb.mockClear();
+
+    // 传入未注册回调，unobserve 应为 no-op
+    ro.unobserve(el, notRegistered);
+
+    el.style.width = '300px';
+    await waitForRO();
+
+    // 已注册的 cb 应仍正常触发
+    expect(cb).toHaveBeenCalled();
+
+    ro.unobserve(el, cb);
+    el.remove();
+  });
 });
