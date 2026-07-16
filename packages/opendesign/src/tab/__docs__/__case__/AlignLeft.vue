@@ -8,7 +8,9 @@
 ### Align Left
 </docs>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { OTab, OTabPane } from '@opensig/opendesign';
+</script>
 
 <template>
   <OTab class="my-tab">
