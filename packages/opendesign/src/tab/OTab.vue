@@ -3,7 +3,6 @@ import { provide, ref, watch, computed, toValue, onMounted, getCurrentInstance }
 import { createReusableTemplate, useElementBounding, until, useMutationObserver } from '@vueuse/core';
 
 import { OOption, OOptionList } from '../option';
-import { ODialog } from '../dialog';
 import { OPopup } from '../popup';
 import { IconAdd, IconClose, IconChevronDown } from '../_utils/icons';
 import { vOnResize } from '../directives';
@@ -386,7 +385,10 @@ provide(tabInjectKey, {
 });
 const onHeadItemResize = debounceRAF((uid: number) => {
   const item = getChildData(uid);
-  item.navElWidth = item.navMeasureEl!.clientWidth;
+  if (!item?.navMeasureEl) {
+    return;
+  }
+  item.navElWidth = item.navMeasureEl.clientWidth;
 });
 const onHeadResize = debounceRAF(() => {
   checkOverflow();
@@ -403,6 +405,9 @@ useMutationObserver(
   },
   { childList: true },
 );
+watch(lePadV, () => {
+  onHeadResize();
+});
 </script>
 <template>
   <div
@@ -479,7 +484,6 @@ useMutationObserver(
                   'o-tab-nav-ellipsis': isUndefined(props.maxShow),
                 },
               ]"
-              @click="() => (isEllipsisOptionShow = true)"
             >
               <template v-if="props.maxShow">
                 {{ moreLabel }}
@@ -509,24 +513,14 @@ useMutationObserver(
       </OTeleportWrapper>
     </div>
     <ClientOnly>
-      <ODialog v-if="lePadV" v-model:visible="isEllipsisOptionShow" hide-close class="o-select-dlg" mask-close size="small" :scrollbar="false">
-        <OOptionList wrap-class="o-scrollbar-container">
-          <OOption v-for="uid in hiddenUids" :key="uid" :value="toValue(childMap[uid].paneKey)" @click="updateValue(uid)">
-            <component :is="childMap[uid].navRenderer" v-if="childMap[uid].navRenderer" />
-            <template v-else>{{ childMap[uid].props.label || childMap[uid].props.value }} </template>
-          </OOption>
-        </OOptionList>
-      </ODialog>
-
       <OPopup
-        v-else
         v-model:visible="isEllipsisOptionShow"
         wrap-class="o-options-popup o-tab-more-popup"
         body-class="o-popup-body"
         position="bl"
         wrapper="body"
         :target="ellipsisRef"
-        trigger="hover"
+        :trigger="['click-outclick', 'hover']"
         :offset="4"
       >
         <OOptionList wrap-class="o-scrollbar-container">
