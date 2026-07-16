@@ -3,6 +3,7 @@
 .o-virtual-list {
   display: block;
 }
+
 .o-virtual-list-wrapper {
   height: 100%;
   width: 100%;
@@ -11,14 +12,37 @@
   max-width: inherit;
   min-width: inherit;
   overflow: auto;
+  // 禁用浏览器滚动锚定，防止动态头部插入时与组件自身的 scrollTop 修正冲突
+  overflow-anchor: none;
 }
+
 .o-virtual-body {
   overflow: hidden;
-  height: var(--content-height);
+  height: var(--_vl-content-height, auto);
+  width: var(--_vl-content-width, auto);
 }
+
 .o-virtual-render-list {
-  transform: translate3d(var(--offsetX, 0), var(--offsetY), 0);
+  transform: translate3d(var(--_vl-offset-x, 0), var(--_vl-offset-y, 0), 0);
 }
+
 .o-virtual-render-item {
   overflow: auto;
+}
+
+// 水平布局模式
+.o-horizontal {
+  .o-virtual-list-wrapper {
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+
+  .o-virtual-render-list {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .o-virtual-render-item {
+    flex-shrink: 0;
+  }
 }
