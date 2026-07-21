@@ -4,7 +4,7 @@ RUN mkdir -p /home/openDesign/web
 WORKDIR /home/openDesign/web
 COPY . /home/openDesign/web
 
-RUN npm install pnpm@10.16.1 -g && \
+RUN npm install pnpm@11.10.0 -g && \
     pnpm docs:install && \
     pnpm docs:build
 
