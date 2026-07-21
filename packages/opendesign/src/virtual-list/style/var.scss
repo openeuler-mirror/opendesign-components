@@ -1,0 +1,17 @@
+/**
+ * OVirtualList 组件级 CSS 变量
+ *
+ * 以下变量为只读内部变量，由组件 JS 运行时通过内联 style 动态注入，
+ * 控制虚拟滚动的尺寸和偏移。此处声明的默认回退值仅在 JS 未执行
+ * （如 SSR 首屏）时生效，确保安全渲染。调用方不应自行覆盖这些变量。
+ */
+.o-virtual-list {
+  // 内容总高度（垂直模式，由 JS 根据 itemSize × length 或运行时测量计算）
+  --_vl-content-height: auto;
+  // 内容总宽度（水平模式，由 JS 根据 itemSize × length 或运行时测量计算）
+  --_vl-content-width: auto;
+  // 渲染列表 Y 轴偏移（垂直模式，由 JS 根据滚动位置计算）
+  --_vl-offset-y: 0px;
+  // 渲染列表 X 轴偏移（水平模式，由 JS 根据滚动位置计算）
+  --_vl-offset-x: 0px;
+}
