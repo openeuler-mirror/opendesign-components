@@ -40,5 +40,6 @@
     "simple-git-hooks": "catalog:lint",
     "typescript": "catalog:typescript",
     "typescript-eslint": "catalog:lint"
-  }
+  },
+  "packageManager": "pnpm@11.10.0"
 }
