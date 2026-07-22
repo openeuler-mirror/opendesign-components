@@ -13,9 +13,10 @@
     }
   },
   "bin": {
-    "open-scripts": "dist/index.mjs"
+    "open-scripts": "bin.mjs"
   },
   "files": [
+    "bin.mjs",
     "dist"
   ],
   "scripts": {
