@@ -1,1 +1,15 @@
+@use '../../_styles/mixin.scss' as *;
 @use './theme-common.scss' as *;
+
+/**
+ * >1680px → 16px | 1201-1680px → 12px | ≤1200px → 8px
+ */
+.o-dialog {
+  --dlg-radius: var(--o-radius_control-l);
+  @include respond('laptop') {
+    --dlg-radius: var(--o-radius_control-m);
+  }
+  @include respond('<=pad') {
+    --dlg-radius: var(--o-radius_control-s);
+  }
+}
