@@ -78,6 +78,11 @@ const _oSchema = reactive({
     label: 'No Responsive',
     disabled: false as boolean,
   },
+  hideClose: {
+    type: 'boolean',
+    label: 'Hide Close',
+    disabled: false as boolean,
+  },
 }) satisfies Record<string, DocDemoSchema>;
 
 const _oCtx = reactive({
