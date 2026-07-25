@@ -98,6 +98,7 @@
 
 .o-select-clear {
   position: absolute;
+  font-size: var(--select-icon-size);
   transition: all var(--o-duration-m1) var(--o-easing-standard-in);
   opacity: 0;
   display: flex;
