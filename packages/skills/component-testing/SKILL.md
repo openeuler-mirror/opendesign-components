@@ -1,13 +1,13 @@
 ---
 name: component-testing
-description: 组件库测试用例编写指南。当被要求为组件加测试用例、调试测试失败、补响应式/SSR/视觉断言、理解项目测试约定、判断某个维度应该放哪个文件测、或讨论 vitest browser mode / vitest-browser-vue / 测试方法论时应用。涵盖：测试设计原则（真实业务不出错）、静态契约、动态契约、视觉 wiring、响应式断点、SSR 水合、暴露方法、插槽、子配置等维度。
+description: 组件库测试用例编写指南。当被要求为组件加测试用例、调试测试失败、补响应式/SSR/视觉断言、理解项目测试约定、判断某个维度应该放哪个文件测、或讨论 vitest browser mode / vitest-browser-vue / 测试方法论时应用。涵盖：测试设计原则（真实业务不出错）、静态契约、动态契约、视觉 wiring、响应式断点、SSR 水合、暴露方法、插槽、子配置、精确运行特定用例（按文件 / 按用例名 / it.only）等维度。
 metadata:
-  version: '1.1.0'
+  version: '1.2.0'
 ---
 
 # 组件库测试用例编写指南
 
-> **触发场景：** 为新组件搭测试 / 给现有组件加用例 / 调试测试失败 / 视觉契约断言怎么写 / 响应式断点怎么测 / SSR 兼容性怎么验 / 测试文件应该拆几个 / vitest 报错排查 / 跨 wrapper strict mode 冲突 / 暴露方法怎么测 / 插槽怎么测 / 子配置（如 column/option/item）怎么测 / **判断测试用例是否人造（框架不会产生的调用路径）**
+> **触发场景：** 为新组件搭测试 / 给现有组件加用例 / 调试测试失败 / 视觉契约断言怎么写 / 响应式断点怎么测 / SSR 兼容性怎么验 / 测试文件应该拆几个 / vitest 报错排查 / 跨 wrapper strict mode 冲突 / 暴露方法怎么测 / 插槽怎么测 / 子配置（如 column/option/item）怎么测 / **判断测试用例是否人造（框架不会产生的调用路径）** / **修复 bug 时只跑特定用例而非全量** / **按用例名或文件路径过滤运行**
 
 ## 框架速览
 
@@ -583,28 +583,18 @@ describe('插槽契约（具名插槽）', () => {
 
 ## 命令
 
-```bash
-cd packages/opendesign
+所有命令在 `packages/opendesign` 目录下执行：
 
-pnpm test            # watch 模式
-pnpm test:run        # 单次运行
-pnpm test:ui         # Vitest UI 面板
+```bash
+pnpm test            # watch 模式（监听文件变化自动重跑）
+pnpm test:run        # 单次运行全部用例
+pnpm test:ui         # Vitest UI 面板（可勾选用例交互运行）
 pnpm test:cov        # 覆盖率
-
-# 单文件
-pnpm vitest run --config vitest.config.ts src/<comp>/__tests__/OComp.index.test.ts
-
-# 单用例按名过滤
-pnpm test:run -- -t "用例名片段"
 ```
 
-**首次跑额外步骤**：
+**精确运行特定用例**（按文件路径 / 按用例名 / `it.only` / UI 面板）及 **Bug 修复的运行节奏**（单文件 → 组件目录 → 全量）见 [run-specific-tests.md](./references/run-specific-tests.md)。
 
-```bash
-pnpm install
-pnpm exec playwright install chromium
-pnpm -C packages/opendesign build:style    # 产出 dist/index.css
-```
+**首次跑额外步骤**：`pnpm install` + `pnpm exec playwright install chromium` + `pnpm -C packages/opendesign build:style`（产出 `dist/index.css`）。
 
 ---
 
@@ -810,6 +800,7 @@ CI 配置尚未落地。建议步骤：
 - [three-file-structure.md](./references/three-file-structure.md) — 三个文件职责边界 + 骨架代码 + 决策表
 - [visual-contract.md](./references/visual-contract.md) — 视觉断言策略 + 双主题 + variant 承载属性
 - [pitfalls.md](./references/pitfalls.md) — 踩坑速查（完整版，含排查顺序 L0~L3）
+- [run-specific-tests.md](./references/run-specific-tests.md) — 精确运行特定用例（按文件 / 按用例名 / `it.only`）+ Bug 修复运行节奏
 
 标杆组件测试：
 
