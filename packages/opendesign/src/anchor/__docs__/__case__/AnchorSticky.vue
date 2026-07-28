@@ -15,28 +15,26 @@ and automatic horizontal scrolling mask.
 </docs>
 
 <script setup lang="ts">
-import { OAnchor, OAnchorItem } from '@opensig/opendesign';
+import { OAnchor, OAnchorItem, OScroller } from '@opensig/opendesign';
+
 const blockNum = 3;
 </script>
 
 <template>
-  <div id="anchor-sticky-demo">
+  <OScroller id="anchor-sticky-demo" wrap-class="anchor-sticky-scroll" show-type="always" disabled-x>
     <div class="height-holder"></div>
-    <OAnchor class="demo-anchor" container="#anchor-sticky-demo" layout="h">
+    <OAnchor class="demo-anchor" container="#anchor-sticky-demo .anchor-sticky-scroll" layout="h">
       <OAnchorItem v-for="i in blockNum" :key="i" :href="`#anchor-sticky-demo-block${i}`" :title="`block${i}`" />
     </OAnchor>
     <div class="demo-wrap">
       <div v-for="i in blockNum" :id="`anchor-sticky-demo-block${i}`" :key="i" class="block">anchor-sticky-demo-block{{ i }}</div>
     </div>
-  </div>
+  </OScroller>
 </template>
 
 <style scoped lang="scss">
 #anchor-sticky-demo {
-  position: relative;
   height: 400px;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 .height-holder {
   height: 100px;

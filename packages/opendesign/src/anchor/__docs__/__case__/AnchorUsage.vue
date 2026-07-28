@@ -76,8 +76,7 @@ Nested anchors: `OAnchorItem` can be nested to create multi-level anchor structu
 </docs>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { OAnchor, OAnchorItem, AnchorSizeTypes, DirectionTypes } from '@opensig/opendesign';
+import { OAnchor, OAnchorItem, OScroller, AnchorSizeTypes, DirectionTypes } from '@opensig/opendesign';
 
 import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
@@ -93,7 +92,7 @@ const _oSchema = {
   },
   container: {
     type: 'string',
-    default: '#wrap',
+    default: '#wrap .anchor-usage-scroll',
     disabled: true,
   },
   maxWidth: {
@@ -115,43 +114,62 @@ const _oSchema = {
   },
 } satisfies Record<string, DocDemoSchema>;
 
+const anchorItems = `<OAnchorItem href="#container-block1" title="container-block1">
+    <OAnchorItem href="#container-block1-1" title="container-block1-1" />
+  </OAnchorItem>
+  <OAnchorItem href="#container-block2" title="container-block2">
+    <OAnchorItem href="https://docs.openeuler.org" observe-href="#container-block2-1" title="自定义监听container-block2-1" />
+    <OAnchorItem href="#container-block2-2" title="container-block2-2">
+      <OAnchorItem href="#container-block2-2-1" title="container-block2-2-1换行openEuler Developer Day 2023 （简称 ODD 2023）是开放原子开源基金会旗下 openEuler 社区" />
+    </OAnchorItem>
+  </OAnchorItem>
+  <OAnchorItem href="#container-block4" title="container-block4(disabled)" disabled/>
+  <OAnchorItem href="#container-block5" title="container-block5">
+    <OAnchorItem href="#container-block5-1" title="container-block5-1" />
+  </OAnchorItem>
+  <OAnchorItem href="#container-block6" title="container-block6" />
+  <OAnchorItem href="#container-block7" title="container-block7" />
+  <OAnchorItem href="#container-block8" title="container-block8" />
+  <OAnchorItem href="#container-block9" title="container-block9" />`;
+
+const blocks = `<div id="container-block1" class="block">container-block1</div>
+  <div id="container-block1-1" class="block">container-block1-1</div>
+  <div id="container-block2" class="block">container-block2</div>
+  <div id="container-block2-1" class="block">container-block2-1</div>
+  <div id="container-block2-2" class="block">container-block2-2</div>
+  <div id="container-block2-2-1" class="block">container-block2-2-1</div>
+  <div id="container-block4" class="block">container-block4</div>
+  <div id="container-block5" class="block">container-block5</div>
+  <div id="container-block5-1" class="block">container-block5-1</div>
+  <div id="container-block6" class="block">container-block6</div>
+  <div id="container-block7" class="block">container-block7</div>
+  <div id="container-block8" class="block">container-block8</div>
+  <div id="container-block9" class="block">container-block9</div>`;
+
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
-  return `<div ${props.layout === 'h' ? 'id="wrap"' : ''} class="demo-anchor-usage-wrap ${props.layout === 'v' ? 'row' : ''} demo-anchor-usage-wrap-${props.layout}">
-    ${props.layout === 'h' ? '<div class="height-holder"></div>' : ''}
-    <OAnchor class="demo-anchor" ${propsToAttrStr(props)}>
-      <OAnchorItem href="#container-block1" title="container-block1">
-        <OAnchorItem href="#container-block1-1" title="container-block1-1" />
-      </OAnchorItem>
-      <OAnchorItem href="#container-block2" title="container-block2">
-        <OAnchorItem href="https://docs.openeuler.org" observe-href="#container-block2-1" title="自定义监听container-block2-1" />
-        <OAnchorItem href="#container-block2-2" title="container-block2-2">
-          <OAnchorItem href="#container-block2-2-1" title="container-block2-2-1换行openEuler Developer Day 2023 （简称 ODD 2023）是开放原子开源基金会旗下 openEuler 社区" />
-        </OAnchorItem>
-      </OAnchorItem>
-      <OAnchorItem href="#container-block4" title="container-block4(disabled)" disabled/>
-      <OAnchorItem href="#container-block5" title="container-block5">
-        <OAnchorItem href="#container-block5-1" title="container-block5-1" />
-      </OAnchorItem>
-      <OAnchorItem href="#container-block6" title="container-block6" />
-      <OAnchorItem href="#container-block7" title="container-block7" />
-      <OAnchorItem href="#container-block8" title="container-block8" />
-      <OAnchorItem href="#container-block9" title="container-block9" />
+  const attrs = propsToAttrStr(props);
+
+  if (props.layout === 'h') {
+    return `<OScroller id="wrap" class="demo-anchor-usage-wrap demo-anchor-usage-wrap-h" wrap-class="anchor-usage-scroll" show-type="always" disabled-x>
+      <div class="height-holder"></div>
+      <OAnchor class="demo-anchor" ${attrs}>
+        ${anchorItems}
+      </OAnchor>
+      <div class="demo-wrap">
+        ${blocks}
+      </div>
+    </OScroller>`;
+  }
+
+  return `<div class="demo-anchor-usage-wrap row demo-anchor-usage-wrap-v">
+    <OAnchor class="demo-anchor" ${attrs}>
+      ${anchorItems}
     </OAnchor>
-    <div ${props.layout === 'v' ? 'id="wrap"' : ''} class="demo-wrap">
-      <div id="container-block1" class="block">container-block1</div>
-      <div id="container-block1-1" class="block">container-block1-1</div>
-      <div id="container-block2" class="block">container-block2</div>
-      <div id="container-block2-1" class="block">container-block2-1</div>
-      <div id="container-block2-2" class="block">container-block2-2</div>
-      <div id="container-block2-2-1" class="block">container-block2-2-1</div>
-      <div id="container-block4" class="block">container-block4</div>
-      <div id="container-block5" class="block">container-block5</div>
-      <div id="container-block5-1" class="block">container-block5-1</div>
-      <div id="container-block6" class="block">container-block6</div>
-      <div id="container-block7" class="block">container-block7</div>
-      <div id="container-block8" class="block">container-block8</div>
-      <div id="container-block9" class="block">container-block9</div>
-    </div>
+    <OScroller id="wrap" class="demo-scroller-v" wrap-class="anchor-usage-scroll" show-type="always">
+      <div class="demo-wrap">
+        ${blocks}
+      </div>
+    </OScroller>
   </div>`;
 };
 
@@ -174,10 +192,9 @@ const _oCtx = {};
 }
 
 .demo-anchor-usage-wrap-v {
-  .demo-wrap {
+  .demo-scroller-v {
     flex: 1;
     height: 400px;
-    overflow: auto;
   }
 
   .demo-anchor {
@@ -187,8 +204,6 @@ const _oCtx = {};
 .demo-anchor-usage-wrap-h {
   position: relative;
   height: 400px;
-  overflow-y: scroll;
-  overflow-x: hidden;
 
   @include respond('>pad') {
     width: 50vw;
