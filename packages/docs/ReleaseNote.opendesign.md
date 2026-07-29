@@ -1,3 +1,22 @@
+## 1.2.5-sp1
+
+### Features
+
+- **useScreen:** 新增一系列屏幕断点判断方法（`isPhone`/`gtPhone`、`lePadV`/`isPadV`/`gtPadV`、`lePadH`/`isPadH`/`gtPadH`、`leLaptop`/`isLaptop`/`gtLaptop`、`lePc`/`isPc`/`gtPc`），并新增 `Breakpoints` 常量及衍生类型；旧的 `isPhoneSize`/`isPadSize`/`isPhonePadSize`/`isPhonePad` 标记为 `@deprecated`
+
+### Bug Fixes
+
+- **OTab:** 移动端（≤pad_v）页签溢出改为横向滚动模式，修复触摸屏下溢出气泡显示问题，并移除对 ODialog 的依赖
+- **OPopup:** 触摸设备 trigger 兜底策略由过滤替换改为追加 `click`
+- **ODatePicker:** 修复 dayjs 插件导入路径缺少 `.js` 扩展名
+- **OAnchor:** 修复横向 anchor sticky 检测在无滚动祖先时不生效的问题
+- 修复 dayjs 插件被重复打包进产物的问题（构建配置 external 由字符串改为正则匹配）
+
+### Style
+
+- **ODialog:** 优化圆角响应式策略，由断点与主题共同决定；`--dlg-radius` 默认值调整为 `control-xs`，`--dlg-margin` 默认值改为 `24px`
+- **OSelect:** 调整 close icon 的大小
+
 ## 1.2.5
 
 ### Features
