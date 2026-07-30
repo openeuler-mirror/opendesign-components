@@ -9,8 +9,8 @@ export type TagVariantT = (typeof TagVariantTypes)[number];
 
 export const tagProps = {
   /**
-   * @zh-CN 标签颜色 ['pending', 'disabled', 'main2']为 `NEXT` 版本新增
-   * @en-US Tag color ['pending', 'disabled', 'main2']为 `NEXT` 版本新增
+   * @zh-CN 标签颜色 ['pending', 'disabled', 'main2']为 1.2.6 版本新增
+   * @en-US Tag color ['pending', 'disabled', 'main2'] new in 1.2.6
    * @default 'normal'
    */
   color: {
@@ -55,7 +55,7 @@ export const tagProps = {
    * @zh-CN 是否可交互，用于渲染不同的交互态样式
    * @en-US Whether interactive, used to render different interaction state styles
    * @default 当 closable 为 true 时默认 true，否则 false
-   * @since NEXT
+   * @since 1.2.6
    */
   interactive: {
     type: Boolean,

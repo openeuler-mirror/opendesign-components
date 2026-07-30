@@ -1,13 +1,13 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 虚拟化阈值 ^[NEXT](primary)
+### 虚拟化阈值 ^[1.2.6](primary)
 
 通过 `threshold` 属性控制虚拟滚动的启用条件：数据量低于阈值时全量渲染，高于阈值时启用虚拟化。设为 `null` 时始终启用虚拟化。
 
 <!-- en-US -->
 
-### Virtualization Threshold ^[NEXT](primary)
+### Virtualization Threshold ^[1.2.6](primary)
 
 Control the virtual scrolling enable condition via the `threshold` prop: full rendering when data count is below the threshold, virtualization enabled when above. Set to `null` to always enable virtualization.
 </docs>

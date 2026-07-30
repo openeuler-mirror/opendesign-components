@@ -40,7 +40,7 @@ export const virtualListProps = {
   /**
    * @zh-CN 每一项的高度。传数字为定高模式；传函数为按项定高模式（函数接收 item 和 index 参数）；不传为不定高模式（运行时测量）
    * @en-US Height of each item. Number for fixed height; function for per-item height (receives item and index); undefined for dynamic height (measured at runtime)
-   * @since NEXT
+   * @since 1.2.6
    */
   itemSize: {
     type: [Number, Function] as PropType<number | ((item: unknown, index: number) => number)>,
@@ -76,7 +76,7 @@ export const virtualListProps = {
    * @zh-CN 布局方向，'vertical' 为垂直滚动，'horizontal' 为水平滚动
    * @en-US Layout direction, 'vertical' for vertical scrolling, 'horizontal' for horizontal scrolling
    * @default 'vertical'
-   * @since NEXT
+   * @since 1.2.6
    */
   layout: {
     type: String as PropType<Layout>,
@@ -86,7 +86,7 @@ export const virtualListProps = {
    * @zh-CN 数据量阈值，低于此值不启用虚拟化；null 表示始终启用
    * @en-US Data count threshold, below which virtualization is disabled; null means always enabled
    * @default null
-   * @since NEXT
+   * @since 1.2.6
    */
   threshold: {
     type: Number as PropType<number | null>,
@@ -126,7 +126,7 @@ export interface VirtualListExpose {
    * @description 直接设置滚动容器的 scrollTop（水平模式为 scrollLeft），
    *              传入值会自动 clamp 到 [0, maxScroll] 范围内
    * @param px 像素偏移量（负值 clamp 到 0，超过最大范围 clamp 到 maxScroll）
-   * @since NEXT
+   * @since 1.2.6
    */
   scrollToOffset(px: number): void;
 }

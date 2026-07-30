@@ -1,3 +1,26 @@
+## 1.2.6
+
+### Features
+
+- **OTag:** 重构颜色与交互态体系，新增 pending/disabled/main2 颜色及 interactive 属性
+- **OVirtualList:** 重构虚拟滚动核心，新增水平布局、对齐策略、阈值控制等能力
+
+### Bug Fixes
+
+- **OButton/OLink/OSelect/OSlider/OUpload:** 使用 defineSlots 补全插槽类型声明，修复 TS 类型缺失
+- **OCarousel:** 修复 activeClass 在对象/数组形式下不生效的问题（使用 normalizeClass 重构处理逻辑）
+- **OOption:** 修复多选激活时的字重为 regular
+- **utils:**
+  - 修复 v-on-resize 多元素共用 listener 导致回调误删与泄漏的问题
+  - 调整 dateTimeNumberToString 的 padding 为 1970-1-1
+  - 修复 isEmptyObject 的判定条件
+  - log 适配服务端环境
+  - RAF 防抖节流函数在 SSR 环境下调用时告警
+
+### Style
+
+- **OInput/OSearch:** 背景色由 control5-light/control4-light 调整为 fill2
+
 ## 1.2.5-sp1
 
 ### Features
