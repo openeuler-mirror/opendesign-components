@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 
 import { isNil } from '../_utils/is.ts';
 import { DateModelValue, DisabledMonthFn, DisabledYearFn } from './types';

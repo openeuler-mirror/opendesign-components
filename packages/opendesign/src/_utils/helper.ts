@@ -1,4 +1,7 @@
-import { isObject, isUndefined, isNull, isPlainObject } from './is';
+import { isObject, isUndefined, isNull, isPlainObject, isClient } from './is';
+import { Log } from './log.ts';
+
+const log = new Log('helper');
 
 /**
  * 创建一个防抖函数，延迟执行目标函数，直到停止调用一段时间后。
@@ -32,6 +35,9 @@ export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: nu
   let handler = 0;
   let hasTrailingCall = false;
   return (...args: Array<any>) => {
+    if (!isClient) {
+      log.error('[debounce] 此函数应仅在客户端环境使用。');
+    }
     if (leading) {
       if (handler === 0) {
         fn(...args);
@@ -50,10 +56,20 @@ export function debounce<T extends (...args: Array<any>) => any>(fn: T, wait: nu
   };
 }
 
-// 防抖 时间为一个一帧
+/**
+ * @description 基于 requestAnimationFrame 的防抖，仅在客户端环境下有意义。
+ * 调用方应确保仅在客户端激活后使用此函数。
+ *
+ * @template T - 被包装函数的类型
+ * @param {T} fn - 需要防抖处理的目标函数
+ * @returns {T & { cancel: () => void }} 返回防抖函数，附带 cancel 方法用于取消待执行帧
+ */
 export function debounceRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;
   const rlt = (...args: Array<any>) => {
+    if (!isClient) {
+      log.error('[debounceRAF] 此函数依赖 requestAnimationFrame，仅可在客户端环境使用。');
+    }
     if (handle) {
       cancelAnimationFrame(handle);
     }
@@ -68,12 +84,22 @@ export function debounceRAF<T extends (...args: Array<any>) => any>(fn: T) {
   };
   return rlt;
 }
-// 节流 时间为一个一帧
+/**
+ * @description 基于 requestAnimationFrame 的节流，仅在客户端环境下有意义。
+ * 调用方应确保仅在客户端激活后使用此函数。
+ *
+ * @template T - 被包装函数的类型
+ * @param {T} fn - 需要节流处理的目标函数
+ * @returns {T & { cancel: () => void }} 返回节流函数，附带 cancel 方法用于取消待执行帧
+ */
 export function throttleRAF<T extends (...args: Array<any>) => any>(fn: T) {
   let handle = 0;
   const rlt = (...args: Array<any>) => {
     if (handle) {
       return;
+    }
+    if (!isClient) {
+      log.error('[throttleRAF] 此函数依赖 requestAnimationFrame，仅可在客户端环境使用。');
     }
     handle = requestAnimationFrame(() => {
       fn(...args);

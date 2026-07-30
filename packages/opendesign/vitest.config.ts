@@ -13,7 +13,7 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['src/**/__tests__/*.test.ts'],
+    include: ['src/**/*.test.ts', '__tests__/*.test.ts'],
     exclude: ['**/node_modules/**'],
     setupFiles: ['__tests__/setup.ts'],
     browser: {
@@ -27,7 +27,15 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
       include: ['src/**/*.{ts,vue}'],
-      exclude: ['src/**/__tests__/**', 'src/**/__docs__/**', 'src/**/__demo__/**', 'src/**/*.d.ts', 'src/_virtual/**', 'src/icon-components/**'],
+      exclude: [
+        'src/**/__tests__/**',
+        'src/**/*.test.ts',
+        'src/**/__docs__/**',
+        'src/**/__demo__/**',
+        'src/**/*.d.ts',
+        'src/_virtual/**',
+        'src/icon-components/**',
+      ],
     },
   },
 });

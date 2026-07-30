@@ -1,7 +1,7 @@
 import { ExtractPropTypes, PropType } from 'vue';
-import { RoundT, ColorT, SizeT } from '../_utils/types';
+import { RoundT, SizeT } from '../_utils/types';
 
-export const TagColorTypes = ['normal', 'info', 'primary', 'success', 'warning', 'danger'] as const;
+export const TagColorTypes = ['normal', 'info', 'primary', 'success', 'warning', 'danger', 'pending', 'disabled', 'main2'] as const;
 export type TagColorT = (typeof TagColorTypes)[number];
 
 export const TagVariantTypes = ['solid', 'outline'] as const;
@@ -9,12 +9,12 @@ export type TagVariantT = (typeof TagVariantTypes)[number];
 
 export const tagProps = {
   /**
-   * @zh-CN 标签颜色
-   * @en-US Tag color
+   * @zh-CN 标签颜色 ['pending', 'disabled', 'main2']为 1.2.6 版本新增
+   * @en-US Tag color ['pending', 'disabled', 'main2'] new in 1.2.6
    * @default 'normal'
    */
   color: {
-    type: String as PropType<ColorT>,
+    type: String as PropType<TagColorT>,
     default: 'normal',
   },
   /**
@@ -48,6 +48,16 @@ export const tagProps = {
    * @default false
    */
   closable: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @zh-CN 是否可交互，用于渲染不同的交互态样式
+   * @en-US Whether interactive, used to render different interaction state styles
+   * @default 当 closable 为 true 时默认 true，否则 false
+   * @since 1.2.6
+   */
+  interactive: {
     type: Boolean,
     default: false,
   },

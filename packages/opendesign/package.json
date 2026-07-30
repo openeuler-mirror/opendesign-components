@@ -1,6 +1,6 @@
 {
   "name": "@opensig/opendesign",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
@@ -46,6 +46,7 @@
     "@vitest/ui": "catalog:test",
     "@vue/server-renderer": "catalog:vue",
     "dayjs": "catalog:utils",
+    "sass-embedded": "catalog:css",
     "typescript": "catalog:typescript",
     "vite": "catalog:build",
     "vitest": "catalog:test",

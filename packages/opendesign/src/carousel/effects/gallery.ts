@@ -1,4 +1,4 @@
-import { nextTick } from 'vue';
+import { nextTick, normalizeClass } from 'vue';
 import { isFunction } from '../../_utils/is';
 import { PointMoveT } from '../../_utils/types';
 import Effect, { EffectOptionT } from './effect';
@@ -159,8 +159,10 @@ export default class Gallery extends Effect {
     fromSlide?.el.classList.remove(GalleryClass.CURRENT);
 
     if (this.activeClass) {
-      toSlide.el.classList.add(this.activeClass);
-      fromSlide?.el.classList.remove(this.activeClass);
+      // normalizeClass 将 string/object/array 形式的类名统一转为字符串，再拆分为数组供 classList 使用
+      const classes = normalizeClass(this.activeClass).split(/\s+/).filter(Boolean);
+      toSlide.el.classList.add(...classes);
+      fromSlide?.el.classList.remove(...classes);
     }
 
     if (!toSlide) {

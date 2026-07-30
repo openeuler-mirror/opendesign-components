@@ -1,4 +1,4 @@
-import '../dist/index.css';
+import '../src/index.scss';
 // 同时加载 light + dark 两套 token，让测试用例通过 element.setAttribute('data-o-theme', ...)
 // 在元素粒度切主题（scope 到该 button 子树），不污染 documentElement 全局状态
 import '@opensig/opendesign-token/themes/e.light.token.css';

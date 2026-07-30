@@ -4,7 +4,9 @@
 
 ---
 
-## 文件结构
+## 文件放置规则
+
+### Vue 组件（`.vue` SFC）— 三文件结构
 
 ```
 src/<ComponentName>/__tests__/
@@ -14,6 +16,28 @@ src/<ComponentName>/__tests__/
 ```
 
 文件名固定：`<ComponentName>.<type>.test.ts`。**只有这 3 种 type**，不要新建 `*.visual.test.ts` / `*.a11y.test.ts` 等——理由见根 SKILL.md「合并教训」段（先合再分，不要一上来就拆细）。
+
+### 纯函数 / composable / 指令（`.ts`）— 同级放置
+
+```
+src/_utils/
+├── is.ts
+├── is.test.ts                      # ← 与源文件同级
+├── helper.ts
+└── helper.test.ts                  # ← 与源文件同级
+
+src/hooks/
+├── use-theme.ts
+└── use-theme.test.ts               # ← 与源文件同级
+
+src/directives/
+├── focus.ts
+└── directives.test.ts              # ← 与源文件同级
+```
+
+不建 `__tests__/` 子目录，测试文件直接放在源文件旁。文件名 `<name>.test.ts`。
+
+**判断标准**：源文件是 `.vue` SFC → 三文件结构（`__tests__/`）；源文件是 `.ts`（纯函数 / composable / 指令）→ 同级放置。
 
 ---
 
@@ -67,6 +91,37 @@ src/<ComponentName>/__tests__/
 - 子配置类型字段数
 - 插槽数量
 - exposed 方法数量
+
+### 检测方法：`ssrHydrateAndCompare` console.warn 为主
+
+`ssrHydrateAndCompare` 执行 SSR → 注入 DOM → hydrate → 拦截 console.warn，判断是否存在水合 mismatch。`hasMismatch` 仅基于 Vue 的 hydration 警告判定；textContent 对比和 Element 引用对比作为诊断字段保留，不参与判定。
+
+| 检测机制          | 检测内容                                       | 角色       | 能捕获的 mismatch 类型                                                                              | 无法捕获                                                                                     |
+| ----------------- | ---------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| console.warn 拦截 | Vue hydrate 过程中发的 Hydration mismatch 警告 | **主判据** | 文本值不同、节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root、class/style/属性 mismatch | v-html 不同但文本相同                                                                        |
+| textContent 对比  | SSR DOM textContent ≠ hydrated DOM textContent | 诊断字段   | 文本值不同、非法 HTML 嵌套、子节点增减、Teleport 移出 root                                          | class/style/属性 mismatch（文本不变）、节点类型不同但文本相同、v-html 不同但文本相同         |
+| Element 引用对比  | hydrate 前后 Element 对象引用集合的差异        | 诊断字段   | 节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root                                        | 文本值不同（只替换文本节点不替换 Element）、class/style/属性 mismatch、v-html 不同但文本相同 |
+
+**唯一不可突破的盲区**：v-html 内容不同但文本相同（Vue 对 v-html 视为"不透明"，hydrate 时跳过 innerHTML 比较——不 patch、不 warn、不替换 Element）。
+
+**Browser Mode 环境共享限制**：SSR 和客户端在同一个浏览器上下文执行，`typeof window !== 'undefined'`、`window.innerWidth`、`navigator.userAgent` 等在两端结果一致——无法测试"真实 SSR（Node.js）与客户端环境差异"。`ssrHydrateAndCompare` 在 1920×1080 desktop 视口下执行，避免响应式断点导致 DOM 变化。
+
+**返回值结构**：
+
+```ts
+const result = await ssrHydrateAndCompare(OComp, { prop: value }, 'slotText');
+result.root; // HTMLElement — hydrate 后的 DOM root
+result.ssrHtml; // string — renderToString 产出的原始 HTML
+result.ssrTextContent; // string — SSR 注入 DOM 后的 textContent
+result.hydratedTextContent; // string — hydrate 后的 textContent
+result.hasMismatch; // boolean — console.warn 检测到 mismatch（主判据）
+result.hydrationWarnings; // string[] — Vue 发的 Hydration mismatch 警告列表
+result.structuralMismatch; // boolean — 诊断字段：Element 引用对比检测到结构性 mismatch
+```
+
+组件测试只需断言 `result.hasMismatch === false`（即 console.warn 无 hydration 警告）。若想辅助定位 mismatch 类型，可检查 `hydrationWarnings` 消息内容、`structuralMismatch`、`ssrTextContent !== hydratedTextContent` 诊断字段。
+
+检测能力验证（探针组件覆盖矩阵）见 [`__tests__/SsrSafety.test.ts`](../../opendesign/__tests__/SsrSafety.test.ts)。
 
 ### 骨架
 
@@ -269,6 +324,37 @@ describe('插槽契约（具名插槽）', () => {
 
 **不强求 5 个全跑**。
 
+### 检测方法：`ssrHydrateAndCompare` console.warn 为主
+
+`ssrHydrateAndCompare` 执行 SSR → 注入 DOM → hydrate → 拦截 console.warn，判断是否存在水合 mismatch。`hasMismatch` 仅基于 Vue 的 hydration 警告判定；textContent 对比和 Element 引用对比作为诊断字段保留，不参与判定。
+
+| 检测机制          | 检测内容                                       | 角色       | 能捕获的 mismatch 类型                                                                              | 无法捕获                                                                                     |
+| ----------------- | ---------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| console.warn 拦截 | Vue hydrate 过程中发的 Hydration mismatch 警告 | **主判据** | 文本值不同、节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root、class/style/属性 mismatch | v-html 不同但文本相同                                                                        |
+| textContent 对比  | SSR DOM textContent ≠ hydrated DOM textContent | 诊断字段   | 文本值不同、非法 HTML 嵌套、子节点增减、Teleport 移出 root                                          | class/style/属性 mismatch（文本不变）、节点类型不同但文本相同、v-html 不同但文本相同         |
+| Element 引用对比  | hydrate 前后 Element 对象引用集合的差异        | 诊断字段   | 节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root                                        | 文本值不同（只替换文本节点不替换 Element）、class/style/属性 mismatch、v-html 不同但文本相同 |
+
+**唯一不可突破的盲区**：v-html 内容不同但文本相同（Vue 对 v-html 视为"不透明"，hydrate 时跳过 innerHTML 比较——不 patch、不 warn、不替换 Element）。
+
+**Browser Mode 环境共享限制**：SSR 和客户端在同一个浏览器上下文执行，`typeof window !== 'undefined'`、`window.innerWidth`、`navigator.userAgent` 等在两端结果一致——无法测试"真实 SSR（Node.js）与客户端环境差异"。`ssrHydrateAndCompare` 在 1920×1080 desktop 视口下执行，避免响应式断点导致 DOM 变化。
+
+**返回值结构**：
+
+```ts
+const result = await ssrHydrateAndCompare(OComp, { prop: value }, 'slotText');
+result.root; // HTMLElement — hydrate 后的 DOM root
+result.ssrHtml; // string — renderToString 产出的原始 HTML
+result.ssrTextContent; // string — SSR 注入 DOM 后的 textContent
+result.hydratedTextContent; // string — hydrate 后的 textContent
+result.hasMismatch; // boolean — console.warn 检测到 mismatch（主判据）
+result.hydrationWarnings; // string[] — Vue 发的 Hydration mismatch 警告列表
+result.structuralMismatch; // boolean — 诊断字段：Element 引用对比检测到结构性 mismatch
+```
+
+组件测试只需断言 `result.hasMismatch === false`（即 console.warn 无 hydration 警告）。若想辅助定位 mismatch 类型，可检查 `hydrationWarnings` 消息内容、`structuralMismatch`、`ssrTextContent !== hydratedTextContent` 诊断字段。
+
+检测能力验证（探针组件覆盖矩阵）见 [`__tests__/SsrSafety.test.ts`](../../opendesign/__tests__/SsrSafety.test.ts)。
+
 ### 骨架（字面 px 变量精确比对 + 级联一致性）
 
 ```ts
@@ -337,6 +423,37 @@ describe('响应式契约（size=large @断点矩阵）', () => {
 // 其他 size 同理…
 ```
 
+### 检测方法：`ssrHydrateAndCompare` console.warn 为主
+
+`ssrHydrateAndCompare` 执行 SSR → 注入 DOM → hydrate → 拦截 console.warn，判断是否存在水合 mismatch。`hasMismatch` 仅基于 Vue 的 hydration 警告判定；textContent 对比和 Element 引用对比作为诊断字段保留，不参与判定。
+
+| 检测机制          | 检测内容                                       | 角色       | 能捕获的 mismatch 类型                                                                              | 无法捕获                                                                                     |
+| ----------------- | ---------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| console.warn 拦截 | Vue hydrate 过程中发的 Hydration mismatch 警告 | **主判据** | 文本值不同、节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root、class/style/属性 mismatch | v-html 不同但文本相同                                                                        |
+| textContent 对比  | SSR DOM textContent ≠ hydrated DOM textContent | 诊断字段   | 文本值不同、非法 HTML 嵌套、子节点增减、Teleport 移出 root                                          | class/style/属性 mismatch（文本不变）、节点类型不同但文本相同、v-html 不同但文本相同         |
+| Element 引用对比  | hydrate 前后 Element 对象引用集合的差异        | 诊断字段   | 节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root                                        | 文本值不同（只替换文本节点不替换 Element）、class/style/属性 mismatch、v-html 不同但文本相同 |
+
+**唯一不可突破的盲区**：v-html 内容不同但文本相同（Vue 对 v-html 视为"不透明"，hydrate 时跳过 innerHTML 比较——不 patch、不 warn、不替换 Element）。
+
+**Browser Mode 环境共享限制**：SSR 和客户端在同一个浏览器上下文执行，`typeof window !== 'undefined'`、`window.innerWidth`、`navigator.userAgent` 等在两端结果一致——无法测试"真实 SSR（Node.js）与客户端环境差异"。`ssrHydrateAndCompare` 在 1920×1080 desktop 视口下执行，避免响应式断点导致 DOM 变化。
+
+**返回值结构**：
+
+```ts
+const result = await ssrHydrateAndCompare(OComp, { prop: value }, 'slotText');
+result.root; // HTMLElement — hydrate 后的 DOM root
+result.ssrHtml; // string — renderToString 产出的原始 HTML
+result.ssrTextContent; // string — SSR 注入 DOM 后的 textContent
+result.hydratedTextContent; // string — hydrate 后的 textContent
+result.hasMismatch; // boolean — console.warn 检测到 mismatch（主判据）
+result.hydrationWarnings; // string[] — Vue 发的 Hydration mismatch 警告列表
+result.structuralMismatch; // boolean — 诊断字段：Element 引用对比检测到结构性 mismatch
+```
+
+组件测试只需断言 `result.hasMismatch === false`（即 console.warn 无 hydration 警告）。若想辅助定位 mismatch 类型，可检查 `hydrationWarnings` 消息内容、`structuralMismatch`、`ssrTextContent !== hydratedTextContent` 诊断字段。
+
+检测能力验证（探针组件覆盖矩阵）见 [`__tests__/SsrSafety.test.ts`](../../opendesign/__tests__/SsrSafety.test.ts)。
+
 ### 骨架（token 链变量变化断言）
 
 ```ts
@@ -399,10 +516,10 @@ describe('响应式契约（size=large token 链跨断点）', () => {
 
 **两个 describe，对应 SSR 完整链路的前后两段**：
 
-| describe           | 测什么                                             | 抓什么 bug                                                                                                                   |
-| ------------------ | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **SSR 字符串渲染** | `renderToString` 不抛 + HTML 包含预期内容          | 服务端不兼容的 API（模块顶层访问 `window`/`document`、props 默认值依赖运行时环境）                                           |
-| **客户端水合**     | `mount(root, true)` 后 console 无 `[Hh]ydrat` 警告 | 服务端首帧 HTML 与客户端 hydrate 时的虚拟 DOM 不一致（随机值、`Date.now()`、`v-if="isClient"`、未包 ClientOnly 的 Teleport） |
+| describe           | 测什么                                              | 抓什么 bug                                                                                                                                                    |
+| ------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SSR 字符串渲染** | `renderToString` 不抛 + HTML 包含预期内容           | 服务端不兼容的 API（模块顶层访问 `window`/`document`、props 默认值依赖运行时环境）                                                                            |
+| **客户端水合**     | `ssrHydrateAndCompare` console.warn 检测无 mismatch | SSR 首帧与客户端 hydrate 时的虚拟 DOM 不一致（文本值不同、节点类型不同、子节点数量不同、class/style/属性 mismatch、非法 HTML 嵌套、Teleport 未包 ClientOnly） |
 
 ### 不测什么
 
@@ -419,13 +536,44 @@ describe('响应式契约（size=large token 链跨断点）', () => {
 | 用了全局 ref 的 prop（如 size 走 `defaultSize`）        | SSR 模块级状态隐患                         |
 | 纯 class 注入的 prop（color / variant 等）              | **不补** — 零 SSR 风险，机械补会让信噪比差 |
 
+### 检测方法：`ssrHydrateAndCompare` console.warn 为主
+
+`ssrHydrateAndCompare` 执行 SSR → 注入 DOM → hydrate → 拦截 console.warn，判断是否存在水合 mismatch。`hasMismatch` 仅基于 Vue 的 hydration 警告判定；textContent 对比和 Element 引用对比作为诊断字段保留，不参与判定。
+
+| 检测机制          | 检测内容                                       | 角色       | 能捕获的 mismatch 类型                                                                              | 无法捕获                                                                                     |
+| ----------------- | ---------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| console.warn 拦截 | Vue hydrate 过程中发的 Hydration mismatch 警告 | **主判据** | 文本值不同、节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root、class/style/属性 mismatch | v-html 不同但文本相同                                                                        |
+| textContent 对比  | SSR DOM textContent ≠ hydrated DOM textContent | 诊断字段   | 文本值不同、非法 HTML 嵌套、子节点增减、Teleport 移出 root                                          | class/style/属性 mismatch（文本不变）、节点类型不同但文本相同、v-html 不同但文本相同         |
+| Element 引用对比  | hydrate 前后 Element 对象引用集合的差异        | 诊断字段   | 节点类型不同、子节点增减、非法 HTML 嵌套、Teleport 移出 root                                        | 文本值不同（只替换文本节点不替换 Element）、class/style/属性 mismatch、v-html 不同但文本相同 |
+
+**唯一不可突破的盲区**：v-html 内容不同但文本相同（Vue 对 v-html 视为"不透明"，hydrate 时跳过 innerHTML 比较——不 patch、不 warn、不替换 Element）。
+
+**Browser Mode 环境共享限制**：SSR 和客户端在同一个浏览器上下文执行，`typeof window !== 'undefined'`、`window.innerWidth`、`navigator.userAgent` 等在两端结果一致——无法测试"真实 SSR（Node.js）与客户端环境差异"。`ssrHydrateAndCompare` 在 1920×1080 desktop 视口下执行，避免响应式断点导致 DOM 变化。
+
+**返回值结构**：
+
+```ts
+const result = await ssrHydrateAndCompare(OComp, { prop: value }, 'slotText');
+result.root; // HTMLElement — hydrate 后的 DOM root
+result.ssrHtml; // string — renderToString 产出的原始 HTML
+result.ssrTextContent; // string — SSR 注入 DOM 后的 textContent
+result.hydratedTextContent; // string — hydrate 后的 textContent
+result.hasMismatch; // boolean — console.warn 检测到 mismatch（主判据）
+result.hydrationWarnings; // string[] — Vue 发的 Hydration mismatch 警告列表
+result.structuralMismatch; // boolean — 诊断字段：Element 引用对比检测到结构性 mismatch
+```
+
+组件测试只需断言 `result.hasMismatch === false`（即 console.warn 无 hydration 警告）。若想辅助定位 mismatch 类型，可检查 `hydrationWarnings` 消息内容、`structuralMismatch`、`ssrTextContent !== hydratedTextContent` 诊断字段。
+
+检测能力验证（探针组件覆盖矩阵）见 [`__tests__/SsrSafety.test.ts`](../../opendesign/__tests__/SsrSafety.test.ts)。
+
 ### 骨架
 
 ```ts
 import { test, expect, describe, afterEach } from 'vitest';
 import { markRaw } from 'vue';
 import OComp from '../OComp.vue';
-import { renderSSR, ssrThenHydrate, spyHydrationErrors } from '../../../__tests__/_helpers/ssr';
+import { renderSSR, ssrHydrateAndCompare } from '../../../__tests__/_helpers/ssr';
 
 describe('SSR 契约（字符串渲染）', () => {
   test('OComp SSR default - renderToString 不抛出错误', async () => {
@@ -444,20 +592,18 @@ describe('SSR 契约（客户端水合）', () => {
     }
   });
 
-  test('OComp hydration default - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OComp, {}, 'Hi');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OComp hydration default - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OComp, {}, 'Hi');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
   // 按 prop 加…
 
   // 已知问题：组件实现有 SSR bug 但暂不修复
-  test.fails('OComp hydration <prop>=<value> - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OComp, { <prop>: <value> });
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test.fails('OComp hydration <prop>=<value> - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OComp, { <prop>: <value> });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 });
 ```
@@ -485,7 +631,7 @@ describe('SSR 契约（客户端水合）', () => {
 | **token 链变量跨断点值变化**                          | **responsive**    | 视口数值（不硬比对 px）                |
 | **级联区间值来自上游断点**                            | **responsive**    | 视口数值                               |
 | renderToString 不抛                                   | **ssr**           | SSR 链路                               |
-| hydration mismatch 警告                               | **ssr**           | SSR 链路                               |
+| hydration mismatch（console.warn 检测）               | **ssr**           | SSR 链路                               |
 | 像素级颜色对照设计稿                                  | ❌ **不在本框架** | E2E 截图回归                           |
 | 跨浏览器渲染差异                                      | ❌ **不在本框架** | E2E                                    |
 | 真实 `:active` mouse.down 后颜色变                    | ❌ **不在本框架** | E2E（vitest userEvent 无 pointer API） |

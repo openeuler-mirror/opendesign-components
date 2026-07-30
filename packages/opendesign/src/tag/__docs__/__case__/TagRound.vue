@@ -14,15 +14,15 @@ import { OTag } from '@opensig/opendesign';
 
 <template>
   <section>
-    <p>round="pill"</p>
-    <OTag round="pill" color="primary">Primary Tag</OTag>
-  </section>
-  <section>
-    <p>round="2px"</p>
-    <OTag round="2px" color="primary">Primary Tag</OTag>
-  </section>
-  <section>
-    <p>round="4px"</p>
-    <OTag round="4px" color="primary">Primary Tag</OTag>
+    <OTag round="pill" color="primary">round="pill"</OTag>
+    <OTag round="2px" color="primary">round="2px"</OTag>
+    <OTag round="4px" color="primary">round="4px"</OTag>
   </section>
 </template>
+
+<style lang="scss" scoped>
+section {
+  background-color: var(--o-color-fill2);
+  padding: var(--o-r-gap-4);
+}
+</style>

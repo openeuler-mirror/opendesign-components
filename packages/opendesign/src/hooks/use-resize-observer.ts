@@ -99,6 +99,10 @@ export function useResizeObserver() {
 
       if (val) {
         const idx = val.callbacks.indexOf(listener);
+        // 未找到回调时不做任何操作，避免 splice(-1, 1) 误删最后一个元素
+        if (idx === -1) {
+          return;
+        }
         val.callbacks.splice(idx, 1);
 
         // 当el无监听回调时，不再监听该元素

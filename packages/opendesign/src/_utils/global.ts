@@ -27,11 +27,31 @@ export function initPrestColor(colors: string[]) {
   defaultPrestColorPool.value = new ColorPool(colors);
 }
 
-// 断点
-export const mediaPoint = ref<Record<'phone' | 'pad', number>>({
-  phone: 600,
+export const Breakpoints = {
+  Phone: 'phone',
+  PadV: 'pad_v',
+  PadH: 'pad_h',
+  Laptop: 'laptop',
+  Pc: 'pc',
+} as const;
+
+export type Breakpoints = (typeof Breakpoints)[keyof typeof Breakpoints];
+
+type MediaPoints = Record<Breakpoints | 'pad', number>;
+
+// 断点,值为断点上限
+export const mediaPoint = ref<MediaPoints>({
+  [Breakpoints.Phone]: 600,
+  [Breakpoints.PadV]: 840,
+  /**
+   * @deprecated use padH
+   */
   pad: 1200,
+  [Breakpoints.PadH]: 1200,
+  [Breakpoints.Laptop]: 1680,
+  [Breakpoints.Pc]: 1920,
 });
-export function initMediaPoint(point: Record<'phone' | 'pad', number>) {
-  mediaPoint.value = point;
+
+export function initMediaPoint(point: Partial<MediaPoints>) {
+  mediaPoint.value = { ...mediaPoint.value, ...point };
 }

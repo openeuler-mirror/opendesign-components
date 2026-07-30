@@ -21,7 +21,11 @@ pnpm test:ui          # Vitest UI 面板
 pnpm test:cov         # 覆盖率（V8）
 ```
 
-测试 co-located 在 `src/<comp>/__tests__/`，每个组件 3 个文件（index / responsive / ssr）。
+测试 co-located 规则：
+
+- **Vue 组件**（`.vue`）：`src/<comp>/__tests__/` 下放 3 个固定文件（index / responsive / ssr）。
+- **纯函数 / composable / 指令**（`.ts`）：测试文件与源文件**同级**放置，文件名 `<name>.test.ts`，**不建** `__tests__/` 子目录。如 `src/hooks/use-foo.test.ts`、`src/directives/on-resize.test.ts`。
+
 测试方法论见 [component-testing skill](../skills/component-testing/SKILL.md)，运行命令/覆盖率/CI 见 [`__tests__/README.md`](./__tests__/README.md)。
 
 构建产物：`es/`（ESM）、`lib/`（CJS）、`dist/opendesign.min.js`（UMD）。

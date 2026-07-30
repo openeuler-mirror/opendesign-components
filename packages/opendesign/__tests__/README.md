@@ -7,9 +7,10 @@
 ```
 packages/opendesign/__tests__/   ← 本文件夹
 ├── setup.ts                     ← Browser Mode 启动前自动执行（加载 dist/index.css + e.light/e.dark token）
+├── SsrSafety.test.ts            ← ssrHydrateAndCompare 检测能力验证（探针组件 + console.warn 为主的水合 mismatch 检测覆盖矩阵）
 ├── _helpers/
 │   ├── viewport.ts              ← setViewport / BREAKPOINTS
-│   ├── ssr.ts                   ← renderSSR / ssrThenHydrate / spyHydrationErrors
+│   ├── ssr.ts                   ← renderSSR / ssrHydrateAndCompare（console.warn 为主检测水合 mismatch，textContent / Element 引用为诊断字段）
 │   ├── theme.ts                 ← THEMES / paintThemed / isTransparent
 │   └── dom.ts                   ← flush / resolveTokenPx
 └── README.md                    ← 本文件
@@ -31,3 +32,4 @@ packages/opendesign/__tests__/   ← 本文件夹
 | 视觉断言策略 / 双主题                                        | SKILL → references/[visual-contract.md](../../skills/component-testing/references/visual-contract.md)           |
 | 踩坑速查 / L0~L3 排查                                        | SKILL → references/[pitfalls.md](../../skills/component-testing/references/pitfalls.md)                         |
 | 框架边界 / 不支持的测试类型                                  | SKILL → [框架边界](../../skills/component-testing/SKILL.md#框架边界本框架不支持的测试类型)                      |
+| SSR helper 检测能力验证（探针组件覆盖矩阵）                  | [`SsrSafety.test.ts`](./SsrSafety.test.ts)                                                                      |

@@ -1,3 +1,45 @@
+## 1.2.6
+
+### Features
+
+- **OTag:** 重构颜色与交互态体系，新增 pending/disabled/main2 颜色及 interactive 属性
+- **OVirtualList:** 重构虚拟滚动核心，新增水平布局、对齐策略、阈值控制等能力
+
+### Bug Fixes
+
+- **OButton/OLink/OSelect/OSlider/OUpload:** 使用 defineSlots 补全插槽类型声明，修复 TS 类型缺失
+- **OCarousel:** 修复 activeClass 在对象/数组形式下不生效的问题（使用 normalizeClass 重构处理逻辑）
+- **OOption:** 修复多选激活时的字重为 regular
+- **utils:**
+  - 修复 v-on-resize 多元素共用 listener 导致回调误删与泄漏的问题
+  - 调整 dateTimeNumberToString 的 padding 为 1970-1-1
+  - 修复 isEmptyObject 的判定条件
+  - log 适配服务端环境
+  - RAF 防抖节流函数在 SSR 环境下调用时告警
+
+### Style
+
+- **OInput/OSearch:** 背景色由 control5-light/control4-light 调整为 fill2
+
+## 1.2.5-sp1
+
+### Features
+
+- **useScreen:** 新增一系列屏幕断点判断方法（`isPhone`/`gtPhone`、`lePadV`/`isPadV`/`gtPadV`、`lePadH`/`isPadH`/`gtPadH`、`leLaptop`/`isLaptop`/`gtLaptop`、`lePc`/`isPc`/`gtPc`），并新增 `Breakpoints` 常量及衍生类型；旧的 `isPhoneSize`/`isPadSize`/`isPhonePadSize`/`isPhonePad` 标记为 `@deprecated`
+
+### Bug Fixes
+
+- **OTab:** 移动端（≤pad_v）页签溢出改为横向滚动模式，修复触摸屏下溢出气泡显示问题，并移除对 ODialog 的依赖
+- **OPopup:** 触摸设备 trigger 兜底策略由过滤替换改为追加 `click`
+- **ODatePicker:** 修复 dayjs 插件导入路径缺少 `.js` 扩展名
+- **OAnchor:** 修复横向 anchor sticky 检测在无滚动祖先时不生效的问题
+- 修复 dayjs 插件被重复打包进产物的问题（构建配置 external 由字符串改为正则匹配）
+
+### Style
+
+- **ODialog:** 优化圆角响应式策略，由断点与主题共同决定；`--dlg-radius` 默认值调整为 `control-xs`，`--dlg-margin` 默认值改为 `24px`
+- **OSelect:** 调整 close icon 的大小
+
 ## 1.2.5
 
 ### Features

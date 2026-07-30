@@ -1,15 +1,35 @@
 @use '../../_styles/mixin.scss' as *;
 
+$o-tag-transition: var(--o-duration-s) var(--o-easing-standard);
+
 .o-tag {
   height: var(--tag-height);
-  border: 1px solid var(--tag-bd-color);
+  border: var(--tag-bd);
   border-radius: var(--tag-radius);
   padding: var(--tag-padding);
+  background-image: var(--tag-bg-image);
   background-color: var(--tag-bg-color);
   color: var(--tag-color);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background-clip: padding-box;
+}
+
+.o-tag-interactive {
+  transition:
+    background-color $o-tag-transition,
+    border-color $o-tag-transition,
+    color $o-tag-transition;
+  @include hover {
+    background-color: var(--tag-bg-color-hover, var(--tag-bg-color));
+    border-color: var(--tag-bd-color-hover, var(--tag-bd-color));
+
+    &.o-tag-outline {
+      color: var(--tag-color-hover, var(--tag-color));
+      background-color: var(--tag-bg-color, transparent);
+    }
+  }
 }
 
 .o-tag-label {
@@ -46,5 +66,52 @@
 
   &:active {
     color: var(--tag-icon-close-color-active);
+  }
+}
+
+.o-tag-main2 {
+  --tag-color: var(--o-color-white);
+  --tag-bd: none;
+  --tag-bg-color: transparent;
+  --tag-bg-image: var(--o-color-main2);
+
+  &.o-tag-outline {
+    position: relative;
+    --tag-bg-image: var(--o-color-main2);
+
+    --tag-color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    --tag-icon-close-color: var(--o-color-main2-end);
+    --tag-icon-close-color-hover: var(--o-color-main2-end);
+    --tag-icon-close-color-active: var(--o-color-main2-end);
+
+    .o-tag-icon {
+      color: var(--o-color-main2-start);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+
+      background-image: var(--o-color-main2);
+
+      -webkit-background-clip: border-box;
+      background-clip: border-box;
+
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+
+      pointer-events: none;
+    }
   }
 }

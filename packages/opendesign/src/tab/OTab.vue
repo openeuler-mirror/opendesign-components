@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { provide, ref, watch, computed, toValue, onMounted, getCurrentInstance } from 'vue';
-import { createReusableTemplate, useElementBounding, until } from '@vueuse/core';
+import { createReusableTemplate, useElementBounding, until, useMutationObserver } from '@vueuse/core';
 
 import { OOption, OOptionList } from '../option';
-import { ODialog } from '../dialog';
 import { OPopup } from '../popup';
 import { IconAdd, IconClose, IconChevronDown } from '../_utils/icons';
 import { vOnResize } from '../directives';
@@ -14,6 +13,7 @@ import ClientOnly from '../_components/client-only.ts';
 import { useScreen, useResponseCssVar, useSortedTeleportChildren } from '../hooks';
 import { mergeClass } from '../_utils/vue-utils';
 import { getRoundClass } from '../_utils/style-class';
+import { checkElementOverflowHorizontal } from '../_utils/dom.ts';
 import { useI18n } from '../locale';
 
 import { TabChildData, SortedChildData, tabInjectKey } from './provide';
@@ -55,7 +55,7 @@ const emits = defineEmits<{
 
 const round = getRoundClass(props, 'tab-btn');
 
-const { isPhonePad } = useScreen();
+const { lePadV } = useScreen();
 
 const { t } = useI18n();
 const moreLabel = computed(() => props.moreLabel || t('common.more'));
@@ -83,7 +83,7 @@ const navEllipsisShadowWidthNumber = useResponseCssVar('--tab-nav-ellipsis-shado
 });
 
 const navListStyle = computed(() => {
-  if (props.variant === 'button') {
+  if (props.variant === 'button' || lePadV.value) {
     return;
   }
   if (props.maxShow && props.maxShow > 0) {
@@ -94,6 +94,19 @@ const navListStyle = computed(() => {
   }
   return undefined;
 });
+
+const tabNavRef = ref<HTMLDivElement>();
+const tabNavLeftOverflown = ref(false);
+const tabNavRightOverflown = ref(false);
+const checkOverflow = debounceRAF(() => {
+  if (!lePadV.value || !tabNavRef.value) {
+    return;
+  }
+  const result = checkElementOverflowHorizontal({ element: tabNavRef.value, threshold: 1 });
+  tabNavLeftOverflown.value = result.isOverflowLeft;
+  tabNavRightOverflown.value = result.isOverflowRight;
+});
+until(tabNavRef).toBeTruthy().then(checkOverflow);
 
 const instance = getCurrentInstance()!;
 const { children: sortedChildren, childMap, addChild, OTeleportWrapper } = useSortedTeleportChildren<SortedChildData>(instance, OTabPaneComp);
@@ -133,7 +146,7 @@ const pushShowUid = (localShow: number[], uid: number, widthCount: number) => {
   return widthCount;
 };
 const sortUidList = debounceRAF(() => {
-  if (props.variant === 'button') {
+  if (props.variant === 'button' || lePadV.value) {
     showUids.value = uidSet.value;
     hiddenUids.value = [];
     return;
@@ -259,10 +272,38 @@ const updateAnchor = async () => {
     width: `${clientWidth}px`,
   };
 };
+
+/**
+ * @description 移动端横向滚动模式下，将当前激活页签滚动到可视区域内
+ * 仅在 lePadV（屏幕宽度 ≤ pad_v 断点）时执行，桌面端无横向滚动无需处理
+ */
+const scrollActiveIntoView = async () => {
+  if (!lePadV.value || !navsContainerRef.value) {
+    return;
+  }
+  if (isUndefined(activeKey.value)) {
+    return;
+  }
+  const activeUid = paneKeyToUid.value.get(activeKey.value);
+  if (activeUid == null) {
+    return;
+  }
+  const activeItem = getChildData(activeUid);
+  await until(() => activeItem?.navEl).toBeTruthy();
+  activeItem.navEl?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',
+    inline: 'center',
+  });
+};
+onMounted(() => {
+  scrollActiveIntoView();
+});
 watch(
   [showUids, activeKey],
   () => {
     updateAnchor();
+    scrollActiveIntoView();
   },
   { immediate: true, deep: true },
 );
@@ -344,10 +385,28 @@ provide(tabInjectKey, {
 });
 const onHeadItemResize = debounceRAF((uid: number) => {
   const item = getChildData(uid);
-  item.navElWidth = item.navMeasureEl!.clientWidth;
+  if (!item?.navMeasureEl) {
+    return;
+  }
+  item.navElWidth = item.navMeasureEl.clientWidth;
 });
 const onHeadResize = debounceRAF(() => {
+  checkOverflow();
   updateAnchor();
+  scrollActiveIntoView();
+});
+// 子项目数量变更后重新计算
+useMutationObserver(
+  tabNavRef,
+  (mutations) => {
+    if (mutations[0]) {
+      onHeadResize();
+    }
+  },
+  { childList: true },
+);
+watch(lePadV, () => {
+  onHeadResize();
 });
 </script>
 <template>
@@ -397,20 +456,22 @@ const onHeadResize = debounceRAF(() => {
       <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>
       </div>
-      <div class="o-tab-navs">
+      <div :class="{ 'o-tab-navs': true, 'o-tab-navs-overflown-left': tabNavLeftOverflown, 'o-tab-navs-overflown-right': tabNavRightOverflown }">
         <div
           ref="navsContainerRef"
           v-on-resize="onHeadResize"
           :class="{
             'o-tab-navs-container': true,
             overflown: hiddenUids.length,
+            'o-tab-navs-container-mb-overflown': tabNavLeftOverflown || tabNavRightOverflown,
           }"
+          @scroll="checkOverflow"
         >
           <!-- 渲染一个全宽但是零高度的节点来测量每个节点的宽度，以计算溢出情况 -->
-          <div ref="tabNavMeasurementRef" v-on-resize="onHeadResize" class="o-tab-nav-list width-measurement">
+          <div v-show="!lePadV" ref="tabNavMeasurementRef" v-on-resize="onHeadResize" class="o-tab-nav-list width-measurement">
             <ReuseTabNavTemplate v-for="uid in uidSet" :key="childMap[uid].paneKey" :uid="uid" :measurement="true" />
           </div>
-          <div class="o-tab-nav-list" :style="navListStyle">
+          <div ref="tabNavRef" v-on-resize="onHeadResize" class="o-tab-nav-list" :style="navListStyle">
             <ReuseTabNavTemplate v-for="uid in showUids" :key="childMap[uid].paneKey" :uid="uid" />
             <div
               v-if="props.variant !== 'button'"
@@ -423,7 +484,6 @@ const onHeadResize = debounceRAF(() => {
                   'o-tab-nav-ellipsis': isUndefined(props.maxShow),
                 },
               ]"
-              @click="() => (isEllipsisOptionShow = true)"
             >
               <template v-if="props.maxShow">
                 {{ moreLabel }}
@@ -453,24 +513,14 @@ const onHeadResize = debounceRAF(() => {
       </OTeleportWrapper>
     </div>
     <ClientOnly>
-      <ODialog v-if="isPhonePad" v-model:visible="isEllipsisOptionShow" hide-close class="o-select-dlg" mask-close size="small" :scrollbar="false">
-        <OOptionList wrap-class="o-scrollbar-container">
-          <OOption v-for="uid in hiddenUids" :key="uid" :value="toValue(childMap[uid].paneKey)" @click="updateValue(uid)">
-            <component :is="childMap[uid].navRenderer" v-if="childMap[uid].navRenderer" />
-            <template v-else>{{ childMap[uid].props.label || childMap[uid].props.value }} </template>
-          </OOption>
-        </OOptionList>
-      </ODialog>
-
       <OPopup
-        v-else
         v-model:visible="isEllipsisOptionShow"
         wrap-class="o-options-popup o-tab-more-popup"
         body-class="o-popup-body"
         position="bl"
         wrapper="body"
         :target="ellipsisRef"
-        trigger="hover"
+        :trigger="['click-outclick', 'hover']"
         :offset="4"
       >
         <OOptionList wrap-class="o-scrollbar-container">

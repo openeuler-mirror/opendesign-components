@@ -41,6 +41,9 @@
     --dlg-edge-gap: 16px;
     --dlg-inner-gap: 12px;
   }
+  @include respond('<=pad_v') {
+    --dlg-radius: var(--o-radius_control-s);
+  }
 }
 
 .o-dlg-header {
@@ -147,7 +150,9 @@
     &.o-dialog-auto,
     &.o-dialog-small,
     &.o-dialog-medium {
-      --dlg-radius: var(--o-radius_control-l) var(--o-radius_control-l) 0 0;
+      .o-dlg-main {
+        border-radius: var(--dlg-radius) var(--dlg-radius) 0 0;
+      }
     }
   }
 }

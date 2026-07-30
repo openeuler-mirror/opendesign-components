@@ -1,13 +1,13 @@
 ---
 name: component-testing
-description: 组件库测试用例编写指南。当被要求为组件加测试用例、调试测试失败、补响应式/SSR/视觉断言、理解项目测试约定、判断某个维度应该放哪个文件测、或讨论 vitest browser mode / vitest-browser-vue / 测试方法论时应用。涵盖：静态契约、动态契约、视觉 wiring、响应式断点、SSR 水合、暴露方法、插槽、子配置等维度。
+description: 组件库测试用例编写指南。当被要求为组件加测试用例、调试测试失败、补响应式/SSR/视觉断言、理解项目测试约定、判断某个维度应该放哪个文件测、或讨论 vitest browser mode / vitest-browser-vue / 测试方法论时应用。涵盖：测试设计原则（真实业务不出错）、静态契约、动态契约、视觉 wiring、响应式断点、SSR 水合、暴露方法、插槽、子配置、精确运行特定用例（按文件 / 按用例名 / it.only）等维度。
 metadata:
-  version: '1.0.0'
+  version: '1.2.0'
 ---
 
 # 组件库测试用例编写指南
 
-> **触发场景：** 为新组件搭测试 / 给现有组件加用例 / 调试测试失败 / 视觉契约断言怎么写 / 响应式断点怎么测 / SSR 兼容性怎么验 / 测试文件应该拆几个 / vitest 报错排查 / 跨 wrapper strict mode 冲突 / 暴露方法怎么测 / 插槽怎么测 / 子配置（如 column/option/item）怎么测
+> **触发场景：** 为新组件搭测试 / 给现有组件加用例 / 调试测试失败 / 视觉契约断言怎么写 / 响应式断点怎么测 / SSR 兼容性怎么验 / 测试文件应该拆几个 / vitest 报错排查 / 跨 wrapper strict mode 冲突 / 暴露方法怎么测 / 插槽怎么测 / 子配置（如 column/option/item）怎么测 / **判断测试用例是否人造（框架不会产生的调用路径）** / **修复 bug 时只跑特定用例而非全量** / **按用例名或文件路径过滤运行**
 
 ## 框架速览
 
@@ -21,7 +21,10 @@ metadata:
 | 启动副作用  | [`packages/opendesign/__tests__/setup.ts`](../../opendesign/__tests__/setup.ts) 加载 `dist/index.css` + e.light + e.dark token |
 | 共享 helper | [`packages/opendesign/__tests__/_helpers/`](../../opendesign/__tests__/_helpers/) 内含 viewport + ssr + theme + dom            |
 
-**测试 co-located**：每个组件 `src/<comp>/__tests__/` 下放 3 个固定文件。
+**测试 co-located**：
+
+- **Vue 组件**（`.vue`）：每个组件 `src/<comp>/__tests__/` 下放 3 个固定文件。
+- **纯函数 / composable / 指令**（`.ts`）：测试文件与源文件**同级**放置，文件名 `<name>.test.ts`，不建 `__tests__/` 子目录。
 
 ---
 
@@ -29,16 +32,18 @@ metadata:
 
 所有 helper 位于 [`packages/opendesign/__tests__/_helpers/`](../../opendesign/__tests__/_helpers/)，测试文件通过相对路径导入（如 `import { THEMES } from '../../../__tests__/_helpers/theme'`）。
 
-| 文件                                                             | 导出                                                  | 用途                                                                                                               |
-| ---------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                      |
-| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrThenHydrate`、`spyHydrationErrors`   | SSR 字符串渲染 + hydration 测试，用于 `*.ssr.test.ts`                                                              |
-| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                |
-| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`                             | 异步渲染等待 + CSS 变量 px 值解析，用于 `*.index.test.ts`（exposed 方法）和 `*.responsive.test.ts`（token 链断言） |
+| 文件                                                             | 导出                                                  | 用途                                                                                                                 |
+| ---------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                        |
+| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrHydrateAndCompare`                   | SSR 字符串渲染 + console.warn 为主的水合 mismatch 检测（textContent / Element 引用为诊断字段），用于 `*.ssr.test.ts` |
+| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                  |
+| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`                             | 异步渲染等待 + CSS 变量 px 值解析，用于 `*.index.test.ts`（exposed 方法）和 `*.responsive.test.ts`（token 链断言）   |
 
 ---
 
 ## 工作流（写测试的标准动作）
+
+### Vue 组件（`.vue` SFC）
 
 ```
 1. 看组件结构 → src/<comp>/{OComp.vue, types.ts, style/}
@@ -48,17 +53,118 @@ metadata:
 5. pnpm vitest run src/<comp>/__tests__/   ← 跑通
 ```
 
+### 纯函数 / composable / 指令（`.ts`）
+
+```
+1. 看源文件导出的函数/类/composable 签名 → src/<dir>/<name>.ts
+2. 按导出顺序，每个函数一条 test，覆盖正常/边界/异常分支
+3. composable 需在 effectScope 或组件上下文中调用
+4. 测试文件放在源文件同级 → src/<dir>/<name>.test.ts
+5. pnpm vitest run src/<dir>/<name>.test.ts   ← 跑通
+```
+
 **不允许跳过步骤 1**：测试用例必须按 prop 而非"想到什么测什么"组织，参见 [three-file-structure](./references/three-file-structure.md)。
 
 ---
 
-## 三个测试文件职责
+## 测试设计原则：以「真实业务不出错」为导向
+
+测试场景必须来自**框架/浏览器真实产生的调用路径**，不构造运行时不可能出现的调用来"凑覆盖"。
+
+### 判断标准
+
+> 写完测试后问自己：**Vue / 浏览器在真实组件中会产生这个调用序列吗？**
+
+- 答案"会" → 有效测试（如：组件 mount → ResizeObserver 触发 → unmount → pending RAF 执行）
+- 答案"不会" → 人造测试，删除或重写（如：同一元素连续两次 `mounted` 不经过 `unmounted`）
+
+### 红线
+
+| 红线                                 | 反例                                                                               | 正确做法                                                                                 |
+| ------------------------------------ | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **不构造框架不会产生的生命周期路径** | 同一元素连续两次 `mounted` 不调 `unmounted`（Vue 永远先 `unmounted` 再 `mounted`） | 用 `v-if` 切换或 `:key` 变化来触发 mount/unmount，让 Vue 管理生命周期                    |
+| **断言业务行为而非内部实现**         | 断言 `observerPool` 内部数组的长度                                                 | 断言"卸载后改变尺寸，回调不再触发"                                                       |
+| **优先用组件验证而非直接调 API**     | 直接 `vOnResize.mounted?.(el, binding)`                                            | `render(TestComp)` 让 Vue 驱动 mount/unmount                                             |
+| **直接调 API 仅限基础契约**          | —                                                                                  | 纯函数/指令的基础 API 契约（参数校验、返回值）可直接调用，但涉及生命周期的场景必须走组件 |
+| **测试描述契约而非 bug 机制**        | 测试名写「listener 被 fnB 覆盖导致 unobserve 传错回调」、注释贴 bug 调用链         | 测试名写「卸载元素A → A回调不再触发，B仍正常」、注释只描述验证的业务场景                 |
+
+### 预防性契约 vs 定位用例
+
+测试描述的是**「正确行为应该是什么」**，不是**「bug 是怎么触发的」**。判断标准：
+
+| 信号             | 预防性契约 ✅                                 | 定位用例 ❌                                     |
+| ---------------- | --------------------------------------------- | ----------------------------------------------- |
+| **测试名/注释**  | 描述业务行为                                  | 描述 bug 机制（listener 覆盖、splice(-1,1) 等） |
+| **对实现的依赖** | 换实现（WeakMap、per-element 存储）测试仍有效 | 换了实现就白写，断言绑死了当前数据结构          |
+| **独立可读性**   | 删掉所有注释，测试名+断言本身就说明验证什么   | 删掉注释看不懂，必须读 bug 调用链注释才能理解   |
+
+> 定位用例在 bug 修复后失去价值；预防性契约在任何正确实现下都应通过、在任何错误实现下都应失败。
+
+### 案例：on-resize 指令测试
+
+以下展示了同一个测试目标（多元素 v-on-resize 的 mount/unmount 正确性）的三种写法演进：
+
+**❌ 人造场景 + bug 机制注释（两次错误叠加）**
+
+```ts
+// 测试名：'domA注册fnA、domB注册fnB → unmounted(domA)时unobserve传参为domA+fnB'
+// ① mounted(domA, fnA) → listener = fnA
+// ② mounted(domB, fnB) → listener = fnB（覆盖）     ← bug 机制写进注释
+// ③ unmounted(domA) → unobserve(domA, fnB)          ← 应该传 fnA
+vOnResize.mounted?.(elA, { value: fnA });            ← 直接调 API
+vOnResize.mounted?.(elA, { value: fnB });            ← 同一元素两次 mounted，Vue 不会这样做
+```
+
+问题：测试名是 bug 机制描述；注释是 bug 调用链；调用序列 Vue 不产生；实现换了就白写。
+
+**❌ 仅去掉了人造场景，仍保留 bug 机制注释**
+
+```ts
+// 测试名：'同一元素多次 mounted 后 unmounted 仅移除最后一个 listener，残留旧回调'
+// pool: el → [cb1, cb2], listener === cb2
+// unobserve(el, cb2) → indexOf(cb2) → splice(1,1) → cb1 残留
+vOnResize.mounted?.(elA, { value: fnA });
+vOnResize.mounted?.(elB, { value: fnB });
+```
+
+问题：调用序列合法了，但测试名和注释仍然是 bug 定位描述，不是行为契约。
+
+**✅ 预防性契约（最终写法）**
+
+```ts
+// 测试名：'卸载元素A → A 回调不再触发，B 回调仍正常'
+const elA = createEl('A');
+const elB = createEl('B');
+const cbA = vi.fn();
+const cbB = vi.fn();
+
+mountDir(elA, cbA);
+mountDir(elB, cbB);
+await waitForRO();
+cbA.mockClear();
+cbB.mockClear();
+
+unmountDir(elA); // 只卸载 A
+
+elA.style.width = '200px'; // 改变两个元素尺寸
+elB.style.width = '300px';
+await waitForRO();
+
+expect(cbA).not.toHaveBeenCalled(); // A 停了
+expect(cbB).toHaveBeenCalled(); // B 仍正常
+```
+
+测试名描述行为契约；不提 listener/splice/observerPool；换任何正确实现都应通过。
+
+---
+
+## 测试文件职责
 
 | 文件                   | 测什么                                                                                                                                                  | 不测什么                    | 详细                                                            |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | --------------------------------------------------------------- |
 | `*.index.test.ts`      | **5 维度 describe**：静态契约（DOM/class/默认值/单主题视觉语义） + 动态契约（emit/键盘/阻断） + 视觉契约（双主题 token wiring） + 子配置契约 + 插槽契约 | 像素值、响应式断点尺寸、SSR | [three-file-structure.md](./references/three-file-structure.md) |
 | `*.responsive.test.ts` | 视口 × size 的尺寸数值（字面 px 精确比对 / token 链变量变化断言 / 级联一致性）                                                                          | 颜色、行为                  | [three-file-structure.md](./references/three-file-structure.md) |
-| `*.ssr.test.ts`        | renderToString 不抛 + hydration mismatch（用 `test.fails` 标记已知问题）                                                                                | 视觉、布局                  | [three-file-structure.md](./references/three-file-structure.md) |
+| `*.ssr.test.ts`        | renderToString 不抛 + console.warn 为主的水合 mismatch 检测（用 `test.fails` 标记已知问题）                                                             | 视觉、布局                  | [three-file-structure.md](./references/three-file-structure.md) |
 
 ---
 
@@ -289,7 +395,7 @@ test('ODataTable small @phone - 无专属覆盖，所有变量值级联自 pad_h
 | 状态阻断        | `<OComp> disabled - 用户操作时阻止 emit <事件>`                                               |
 | 响应式          | `<OComp> <prop>=<值> @<断点> - <尺寸表现>`                                                    |
 | SSR             | `<OComp> SSR <prop>=<值> - <HTML 输出特征>`                                                   |
-| 水合            | `<OComp> hydration <prop>=<值> - 无 hydration mismatch 警告`                                  |
+| 水合            | `<OComp> hydration <prop>=<值> - 无水合 mismatch`                                             |
 | Wiring 矩阵     | `<OComp> <state> wiring @${theme} - N color × M variant 矩阵下 <state> 系 token 与 base 不同` |
 | 双主题          | `<OComp> <场景> @${theme} - <断言摘要>`                                                       |
 | 跨主题对比      | `<OComp> <prop> - light / dark 下 <token> 解析值不同`                                         |
@@ -307,11 +413,10 @@ test('ODataTable small @phone - 无专属覆盖，所有变量值级联自 pad_h
 ```ts
 // 已知问题：loading=true 时 SSR 与客户端首帧不一致
 // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
-test.fails('ODataTable hydration loading=true - 无 hydration mismatch 警告', async () => {
-  const spy = spyHydrationErrors();
-  mountedRoot = await ssrThenHydrate(ODataTable, { data: [], columns, loading: true });
-  expect(spy.hasHydrationMismatch()).toBe(false);
-  spy.restore();
+test.fails('ODataTable hydration loading=true - 无水合 mismatch', async () => {
+  const result = await ssrHydrateAndCompare(ODataTable, { data: [], columns, loading: true });
+  mountedRoot = result.root;
+  expect(result.hasMismatch).toBe(false);
 });
 
 // 插槽未实现：types.ts 定义了但模板未渲染
@@ -417,7 +522,9 @@ describe('插槽契约（具名插槽）', () => {
 
 ---
 
-## 新组件接入步骤
+## 新组件 / 模块接入步骤
+
+### Vue 组件（`.vue` SFC）
 
 以新组件 `OComp` 为例：
 
@@ -437,6 +544,19 @@ describe('插槽契约（具名插槽）', () => {
 7. **跑通**：
    ```bash
    pnpm vitest run src/<comp>/__tests__
+   ```
+
+### 纯函数 / composable / 指令（`.ts`）
+
+以新工具函数 `useFoo` 为例：
+
+1. **看导出**：读 `src/<dir>/<name>.ts`，按导出的函数/类签名定用例数
+2. **建文件**：`src/<dir>/<name>.test.ts`（与源文件同级，不建 `__tests__/`）
+3. **按导出顺序写用例**：每个函数一条 `test()`，覆盖正常值 / 边界值 / 异常输入
+4. **composable 注意**：含 `onMounted` / `watchEffect` 的 composable 需在 `effectScope` 或组件 `setup` 上下文中调用
+5. **跑通**：
+   ```bash
+   pnpm vitest run src/<dir>/<name>.test.ts
    ```
 
 ---
@@ -463,28 +583,18 @@ describe('插槽契约（具名插槽）', () => {
 
 ## 命令
 
-```bash
-cd packages/opendesign
+所有命令在 `packages/opendesign` 目录下执行：
 
-pnpm test            # watch 模式
-pnpm test:run        # 单次运行
-pnpm test:ui         # Vitest UI 面板
+```bash
+pnpm test            # watch 模式（监听文件变化自动重跑）
+pnpm test:run        # 单次运行全部用例
+pnpm test:ui         # Vitest UI 面板（可勾选用例交互运行）
 pnpm test:cov        # 覆盖率
-
-# 单文件
-pnpm vitest run --config vitest.config.ts src/<comp>/__tests__/OComp.index.test.ts
-
-# 单用例按名过滤
-pnpm test:run -- -t "用例名片段"
 ```
 
-**首次跑额外步骤**：
+**精确运行特定用例**（按文件路径 / 按用例名 / `it.only` / UI 面板）及 **Bug 修复的运行节奏**（单文件 → 组件目录 → 全量）见 [run-specific-tests.md](./references/run-specific-tests.md)。
 
-```bash
-pnpm install
-pnpm exec playwright install chromium
-pnpm -C packages/opendesign build:style    # 产出 dist/index.css
-```
+**首次跑额外步骤**：`pnpm install` + `pnpm exec playwright install chromium` + `pnpm -C packages/opendesign build:style`（产出 `dist/index.css`）。
 
 ---
 
@@ -690,6 +800,7 @@ CI 配置尚未落地。建议步骤：
 - [three-file-structure.md](./references/three-file-structure.md) — 三个文件职责边界 + 骨架代码 + 决策表
 - [visual-contract.md](./references/visual-contract.md) — 视觉断言策略 + 双主题 + variant 承载属性
 - [pitfalls.md](./references/pitfalls.md) — 踩坑速查（完整版，含排查顺序 L0~L3）
+- [run-specific-tests.md](./references/run-specific-tests.md) — 精确运行特定用例（按文件 / 按用例名 / `it.only`）+ Bug 修复运行节奏
 
 标杆组件测试：
 
