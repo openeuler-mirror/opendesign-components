@@ -3,20 +3,20 @@
 
 ### API 调用
 
-组件暴露 `scrollToView`、`scrollToOffset` ^[NEXT](primary) 两个方法，支持在定尺寸、不定尺寸、垂直、水平四种模式下调用。通过上方切换器可组合选择布局方向与尺寸模式，观察各模式下的 API 行为差异。
+组件暴露 `scrollToView`、`scrollToOffset` ^[1.2.6](primary) 两个方法，支持在定尺寸、不定尺寸、垂直、水平四种模式下调用。通过上方切换器可组合选择布局方向与尺寸模式，观察各模式下的 API 行为差异。
 
 - **定尺寸模式**（垂直=定高，水平=定宽）：项尺寸已知，两个 API 均完全支持，`behavior` 可选 smooth / instant，对齐精准。
-- **不定尺寸模式**（垂直=不定高，水平=不定宽）：项尺寸运行时测量，`scrollToView` 的 `behavior` 将被强制为 instant；目标项未测量时会先以 start 对齐触发渲染，测量后通过"二次逼近"^[NEXT](primary)机制重新滚动到目标位置。
+- **不定尺寸模式**（垂直=不定高，水平=不定宽）：项尺寸运行时测量，`scrollToView` 的 `behavior` 将被强制为 instant；目标项未测量时会先以 start 对齐触发渲染，测量后通过"二次逼近"^[1.2.6](primary)机制重新滚动到目标位置。
 - **水平模式**：所有 API 通过轴选择器自动适配水平滚动轴，行为与垂直模式一致。
 
 <!-- en-US -->
 
 ### API Call
 
-The component exposes two methods: `scrollToView` and `scrollToOffset` ^[NEXT](primary), all supported in fixed-size, dynamic-size, vertical, and horizontal modes. Use the switcher above to combine layout direction and size mode to observe API behavior differences.
+The component exposes two methods: `scrollToView` and `scrollToOffset` ^[1.2.6](primary), all supported in fixed-size, dynamic-size, vertical, and horizontal modes. Use the switcher above to combine layout direction and size mode to observe API behavior differences.
 
 - **Fixed-size mode** (vertical=fixed-height, horizontal=fixed-width): Item sizes are known, both APIs are fully supported, `behavior` can be smooth or instant, alignment is precise.
-- **Dynamic-size mode** (vertical=dynamic-height, horizontal=dynamic-width): Item sizes are measured at runtime, `scrollToView`'s `behavior` is forced to instant; unmeasured target items are first start-aligned to trigger rendering, then re-scrolled to the target position via a "two-pass approach" ^[NEXT](primary) mechanism after measurement.
+- **Dynamic-size mode** (vertical=dynamic-height, horizontal=dynamic-width): Item sizes are measured at runtime, `scrollToView`'s `behavior` is forced to instant; unmeasured target items are first start-aligned to trigger rendering, then re-scrolled to the target position via a "two-pass approach" ^[1.2.6](primary) mechanism after measurement.
 - **Horizontal mode**: All APIs automatically adapt to the horizontal scroll axis via an axis selector, behaving identically to vertical mode.
 </docs>
 

@@ -1,7 +1,7 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### defaultStartIndex 精准定位 ^[NEXT](primary)
+### defaultStartIndex 精准定位 ^[1.2.6](primary)
 
 展示 `defaultStartIndex` 在不同高度模式下的初始定位行为：
 
@@ -10,7 +10,7 @@
 
 <!-- en-US -->
 
-### defaultStartIndex Precision ^[NEXT](primary)
+### defaultStartIndex Precision ^[1.2.6](primary)
 
 Demonstrates the initial positioning behavior of `defaultStartIndex` under different height modes:
 

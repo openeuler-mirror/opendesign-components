@@ -1,13 +1,13 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 水平布局 ^[NEXT](primary)
+### 水平布局 ^[1.2.6](primary)
 
 通过 `layout="horizontal"` 切换为水平滚动模式，支持定宽、按项定宽、不定宽三种尺寸模式，行为与垂直模式一致。
 
 <!-- en-US -->
 
-### Horizontal Layout ^[NEXT](primary)
+### Horizontal Layout ^[1.2.6](primary)
 
 Switch to horizontal scrolling mode via `layout="horizontal"`, supporting fixed-width, per-item-width, and dynamic-width modes with behavior identical to vertical mode.
 </docs>
