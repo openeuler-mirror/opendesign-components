@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { inject, markRaw, ref, watch, onUnmounted } from 'vue';
+import { inject, markRaw, ref } from 'vue';
+import { useResizeObserver } from '@vueuse/core';
 
-import { useResizeObserver } from '../hooks';
 import { debounceRAF } from '../_utils/helper.ts';
 import { isNil } from '../_utils/is.ts';
 
@@ -27,7 +27,11 @@ const setColRef = async (col: any, column: EffectiveDataTableColumnT) => {
   }
   column.colRef = markRaw(col as HTMLTableColElement);
 };
-const resizeObserver = useResizeObserver();
+
+/**
+ * @description colgroup 尺寸变化回调——遍历所有列，读取每列 <col> 元素的实际渲染宽度并写入 column.resizeWidth，
+ *              供自适应列宽计算使用。debounceRAF 将多帧合并为单帧，避免布局抖动。
+ */
 const resizeHandler = debounceRAF(() => {
   if (!colgroupRef.value || !dataTableInjection) {
     return;
@@ -39,24 +43,11 @@ const resizeHandler = debounceRAF(() => {
     column.resizeWidth = column.colRef.getBoundingClientRect().width;
   });
 });
-watch(
-  colgroupRef,
-  (newVal, oldVal) => {
-    if (oldVal) {
-      resizeObserver.unobserve(oldVal, resizeHandler);
-    }
-    if (newVal) {
-      resizeHandler();
-      resizeObserver.observe(newVal, resizeHandler);
-    }
-  },
-  { immediate: true },
-);
-onUnmounted(() => {
-  if (colgroupRef.value) {
-    resizeObserver.unobserve(colgroupRef.value, resizeHandler);
-  }
-});
+
+/**
+ * @description 监听 colgroup 尺寸变化，同步各列实际渲染宽度到 column.resizeWidth。
+ */
+useResizeObserver(colgroupRef, resizeHandler);
 </script>
 
 <template>
