@@ -577,7 +577,9 @@ defineExpose<DataTableExposed>({
               </template>
             </TableRow>
           </template>
-          <div v-if="props.loading || !props.data?.length" class="empty-placeholder"></div>
+          <tr v-if="props.loading || !props.data?.length">
+            <td :colspan="dataColumns.length" class="empty-placeholder"></td>
+          </tr>
         </tbody>
       </table>
     </OScroller>
