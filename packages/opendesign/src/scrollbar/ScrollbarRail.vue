@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { ScrollerSizeT } from './types';
+import { ScrollerSizeT, ScrollbarSlotProps } from './types';
 import { vOnResize } from '../directives/on-resize';
 
 const props = withDefaults(
@@ -30,12 +30,25 @@ const props = withDefaults(
     direction: 'y',
     offsetRate: 0,
     size: 'medium',
-    thumbRate: 0
-  }
+    thumbRate: 0,
+  },
 );
 
 const emits = defineEmits<{
   (e: 'scroll', ratio: number): void;
+}>();
+
+defineSlots<{
+  /**
+   * @zh-CN 滑块插槽，接收滚动方向与拖拽状态
+   * @en-US Thumb slot, receives direction and dragging state
+   */
+  thumb?(props: ScrollbarSlotProps): any;
+  /**
+   * @zh-CN 轨道插槽，接收滚动方向与拖拽状态
+   * @en-US Track slot, receives direction and dragging state
+   */
+  track?(props: ScrollbarSlotProps): any;
 }>();
 
 const isY = computed(() => props.direction === 'y');
@@ -76,7 +89,7 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 );
 
 const offsetStyle = computed(() => {
@@ -205,7 +218,7 @@ const onResize = () => {
         ></div>
       </slot>
     </div>
-    <slot name="track" :direction="props.direction">
+    <slot name="track" :direction="props.direction" :dragging="isDarggingBar">
       <div class="o-scrollbar-track" :class="[`o-scrollbar-${props.direction}-track`]"></div>
     </slot>
   </div>

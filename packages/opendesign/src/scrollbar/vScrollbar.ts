@@ -1,5 +1,5 @@
 import { ObjectDirective } from 'vue';
-import { useScrollbar } from './use-scrollebar';
+import { useScrollbar } from './use-scrollbar';
 import { BaseScrollerPropsT } from './types';
 
 const scrollbarMap = new WeakMap();
