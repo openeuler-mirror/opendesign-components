@@ -71,6 +71,20 @@ describe('静态契约（按 types.ts 属性）', () => {
     const el = screen.container.querySelector('.o-avatar') as HTMLElement;
     expect(el.style.getPropertyValue('--avatar-size')).toBe('48px');
   });
+
+  test('OAvatar name - 同一 name 始终产生相同的背景色（确定性）', async () => {
+    const screen1 = render(OAvatar, { props: { name: 'Alice' } });
+    await flush();
+    const bg1 = (screen1.container.querySelector('.o-avatar') as HTMLElement).style.getPropertyValue('--avatar-bg');
+
+    const screen2 = render(OAvatar, { props: { name: 'Alice' } });
+    await flush();
+    const bg2 = (screen2.container.querySelector('.o-avatar') as HTMLElement).style.getPropertyValue('--avatar-bg');
+
+    // 同一 name 的两次渲染应产生完全一致的背景色，不依赖随机数
+    expect(bg1).toBe(bg2);
+    expect(bg1).toMatch(/--o-color-auxiliary[1-8]/);
+  });
 });
 
 describe('动态契约（用户交互 → 组件响应）', () => {
