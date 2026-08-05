@@ -1,7 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-layer {
-  position: var(--layer-position, 'fixed');
+  position: var(--layer-position, fixed);
   left: 0;
   right: 0;
   top: 0;

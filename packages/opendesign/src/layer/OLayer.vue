@@ -7,13 +7,23 @@ export default {
 import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref, provide } from 'vue';
 import { layerProps } from './types';
 import { layerInjectKey } from './provide';
-import { useMouse, UseMouseT } from '../hooks/use-mouse';
-import { isFunction } from '../_utils/is';
+import { useMouse } from '../hooks/use-mouse';
+import { isFunction, isUndefined } from '../_utils/is';
+import { Log } from '../_utils/log';
 import { createTopZIndex, removeZIndex } from '../_utils/z-index';
 import { IconClose } from '../_utils/icons';
 import { OIcon } from '../icon';
 
 const props = defineProps(layerProps);
+
+const logger = new Log('OLayer');
+// 运行时废弃警告：transitionOrign 拼写已纠正为 transitionOrigin
+if (!isUndefined(props.transitionOrign)) {
+  logger.warn('[OLayer] prop `transitionOrign` 已废弃，请使用 `transitionOrigin` 替代');
+}
+
+// 合并新旧 prop：旧 transitionOrign 作为兼容回退
+const transitionOrigin = computed(() => props.transitionOrign ?? props.transitionOrigin);
 
 const emits = defineEmits<{
   /**
@@ -49,7 +59,7 @@ const LayerClass = {
 };
 const mainRef: Ref<HTMLElement | null> = ref(null);
 
-let mouse: UseMouseT = useMouse({
+let mouse = useMouse({
   type: 'client',
 });
 
@@ -104,7 +114,7 @@ const getOriginStyle = () => {
   return `${ox} ${oy}`;
 };
 const updateOrigin = (_el: HTMLElement | null) => {
-  if (props.transitionOrign === 'mouse') {
+  if (transitionOrigin.value === 'mouse') {
     initWrapperEl();
     mainStyle.value.transformOrigin = getOriginStyle();
   }
