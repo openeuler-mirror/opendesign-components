@@ -48,14 +48,15 @@
 
 参考文档索引：
 
-| 文件                                                                 | 对应 ESLint 规则                | 用途                           |
-| -------------------------------------------------------------------- | ------------------------------- | ------------------------------ |
-| [`config-object.md`](clean-code/references/config-object.md)         | `max-params` (>3)               | 函数参数过多时，用配置对象替代 |
-| [`guard-clause.md`](clean-code/references/guard-clause.md)           | `max-depth` (>5)                | 用卫语句消除深层嵌套           |
-| [`reduce-complexity.md`](clean-code/references/reduce-complexity.md) | `cumulative-complexity` (>8)    | 10 种降低认知复杂度的技术      |
-| [`split-composable.md`](clean-code/references/split-composable.md)   | `max-lines-per-function` (>100) | 拆分过长的 composable          |
+| 文件                                                                     | 对应 ESLint 规则                | 用途                                                       |
+| ------------------------------------------------------------------------ | ------------------------------- | ---------------------------------------------------------- |
+| [`config-object.md`](clean-code/references/config-object.md)             | `max-params` (>3)               | 函数参数过多时，用配置对象替代                             |
+| [`guard-clause.md`](clean-code/references/guard-clause.md)               | `max-depth` (>5)                | 用卫语句消除深层嵌套                                       |
+| [`reduce-complexity.md`](clean-code/references/reduce-complexity.md)     | `cumulative-complexity` (>8)    | 10 种降低认知复杂度的技术                                  |
+| [`split-composable.md`](clean-code/references/split-composable.md)       | `max-lines-per-function` (>100) | 拆分过长的 composable                                      |
+| [`async-scope-cleanup.md`](clean-code/references/async-scope-cleanup.md) | 无（人工判断）                  | 异步延续中 VueUse composable 的 tryOnScopeDispose 失效预防 |
 
-自动触发关键词：clean code、重构、降低复杂度、消除嵌套、参数过多、函数过长、圈复杂度、认知复杂度、卫语句、配置对象、状态机、查表
+自动触发关键词：clean code、重构、降低复杂度、消除嵌套、参数过多、函数过长、圈复杂度、认知复杂度、卫语句、配置对象、状态机、查表、tryOnScopeDispose、Promise.then 内存泄漏
 
 ---
 
@@ -70,13 +71,14 @@
 
 参考文档索引：
 
-| 文件                                                                              | 用途                                     |
-| --------------------------------------------------------------------------------- | ---------------------------------------- |
-| [`three-file-structure.md`](component-testing/references/three-file-structure.md) | 三个文件职责边界 + 骨架代码 + 决策表     |
-| [`visual-contract.md`](component-testing/references/visual-contract.md)           | 视觉断言策略 + 双主题 + variant 承载属性 |
-| [`pitfalls.md`](component-testing/references/pitfalls.md)                         | 踩坑速查（完整版，含排查顺序 L0~L3）     |
+| 文件                                                                              | 用途                                                         |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [`three-file-structure.md`](component-testing/references/three-file-structure.md) | 三个文件职责边界 + 骨架代码 + 决策表                         |
+| [`visual-contract.md`](component-testing/references/visual-contract.md)           | 视觉断言策略 + 双主题 + variant 承载属性                     |
+| [`pitfalls.md`](component-testing/references/pitfalls.md)                         | 踩坑速查（完整版，含排查顺序 L0~L3）                         |
+| [`resource-cleanup.md`](component-testing/references/resource-cleanup.md)         | 资源清理测试（内存泄漏检测）：spy / mock 检测原理 + 骨架代码 |
 
-自动触发关键词：测试用例、vitest、browser mode、responsive test、SSR test、hydration、token wiring、视觉断言、双主题、describe 分组、test.fails
+自动触发关键词：测试用例、vitest、browser mode、responsive test、SSR test、hydration、token wiring、视觉断言、双主题、describe 分组、test.fails、内存泄漏、资源清理、useEventListener 泄漏
 
 ---
 
