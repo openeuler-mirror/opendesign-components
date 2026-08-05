@@ -211,6 +211,14 @@ afterEach(() => {
 
 注意：`ssrHydrateAndCompare` 返回的对象含 `root` 属性，赋给 `mountedRoot` 即可在 afterEach 中清理。
 
+### 组件卸载后事件监听 / ResizeObserver 未清理（内存泄漏）
+
+**现象**：组件多次挂载/卸载后，事件监听或 ResizeObserver 持续累积不释放。
+
+**真因**：`onMounted` 回调中使用 `Promise.then()` / `await` 延续异步逻辑，在该延续中调用 `useEventListener` / `useResizeObserver` 等 VueUse composable。此时组件 effect scope 已关闭（Vue 的 `injectHook` 在回调同步返回后立即 `scope.off()`），`tryOnScopeDispose` 返回 `false`，清理函数不被注册。组件卸载时 `scope.stop()` 无法触发清理。
+
+**修法**：捕获 composable 返回的 stop 函数，在 `onUnmounted` 中手动调用。详细原理与修复手法见 [clean-code: async-scope-cleanup.md](../../clean-code/references/async-scope-cleanup.md)。测试方法见 [resource-cleanup.md](./resource-cleanup.md)。
+
 ---
 
 ## 七、其他

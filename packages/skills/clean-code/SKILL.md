@@ -1,13 +1,13 @@
 ---
 name: clean-code
-description: 代码质量诊断与重构指南。当被要求做 clean code、提升代码质量、重构函数/模块、降低复杂度、消除嵌套、精简参数、拆分过长函数，或讨论圈复杂度、认知复杂度、卫语句、配置对象、状态机、查表等 clean code 子话题时应用。
+description: 代码质量诊断与重构指南。当被要求做 clean code、提升代码质量、重构函数/模块、降低复杂度、消除嵌套、精简参数、拆分过长函数，或讨论圈复杂度、认知复杂度、卫语句、配置对象、状态机、查表、tryOnScopeDispose / 异步延续中的资源清理等 clean code 子话题时应用。
 metadata:
-  version: '1.1.0'
+  version: '1.2.0'
 ---
 
 # 代码质量诊断与重构指南
 
-> **触发场景：** clean code / 代码质量 / 重构函数或模块 / 降低复杂度 / 消除嵌套 / 参数过多 / 函数体过长 / 圈复杂度 / 认知复杂度 / 卫语句 / 查表 / 状态机 / 拆分 composable
+> **触发场景：** clean code / 代码质量 / 重构函数或模块 / 降低复杂度 / 消除嵌套 / 参数过多 / 函数体过长 / 圈复杂度 / 认知复杂度 / 卫语句 / 查表 / 状态机 / 拆分 composable / tryOnScopeDispose 失效 / Promise.then 中的资源泄漏
 
 > **关联 skill：** 涉及组件 `types.ts` JSDoc 注释质量（中文注释完整性、参数说明规范）时，参见 [`component-docs`](../component-docs/SKILL.md) skill 的 [`annotations.md`](../component-docs/references/annotations.md)。clean-code 侧重代码结构质量，component-docs 侧重 API 文档注释规范——两者互为补充。
 
@@ -33,6 +33,8 @@ pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <目标�
 只有出现在 ESLint 输出中的问题才是重构目标，其余不处理。
 
 **认知复杂度无 ESLint 规则检测**，需人工判断。当代码存在嵌套条件难读、复杂布尔表达式、嵌套三元、Promise 链嵌套、多层循环等问题时，直接参考 [reduce-complexity.md](./references/reduce-complexity.md) 手法六～十。
+
+**异步延续中的资源清理风险无 ESLint 规则检测**，需人工判断。当 `onMounted` 回调中使用 `Promise.then()` / `await` / `setTimeout` 延续异步逻辑，且在该延续中调用了 `useEventListener` / `useResizeObserver` / `useTimeoutFn` 等 VueUse composable 时，`tryOnScopeDispose` 会因 effect scope 已关闭而静默失效，导致组件卸载时事件监听、ResizeObserver、定时器不被清理。识别模式与修复手法见 [async-scope-cleanup.md](./references/async-scope-cleanup.md)。
 
 ---
 
