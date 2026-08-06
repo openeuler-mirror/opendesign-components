@@ -20,7 +20,7 @@
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,mts,cts,vue}": [
-      "eslint --fix",
+      "eslint --fix --no-warn-ignored",
       "prettier --write"
     ],
     "*.{scss,css,json,md}": [

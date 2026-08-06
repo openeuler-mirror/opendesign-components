@@ -170,6 +170,19 @@ style/
 | `getRenderableComponent(content)` | 将任意内容转为可渲染函数                     |
 | `resolveHtmlElement(elRef)`       | 将 Ref/组件实例解析为 `Promise<HTMLElement>` |
 
+### `hooks/use-render-with-ctx.ts` — 上下文继承渲染
+
+函数式弹窗、命令式 API 等组件树外挂载场景的上下文继承方案。在组件 setup 同步期通过 `getCurrentInstance` 捕获 `appContext + provides` 快照，使后续在事件回调、异步代码等非 setup 作用域中挂载的组件仍能正常 `inject` 组件级与 app 级注入（Pinia / Router / i18n / configProvider 等）。
+
+| 导出 / 返回成员                           | 说明                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------- |
+| `useRenderWithCtx()`                      | 捕获当前实例上下文，返回 `{ renderWithCtx, mountWithCtx, cleanup }` |
+| → `renderWithCtx(vnode, container)`       | 兼容 Vue `render` 签名，挂载前自动嫁接 appContext + provides        |
+| → `mountWithCtx(input, props?, options?)` | 高层封装：创建 VNode → 挂载 → 返回含 `unmount()` 的 `MountHandle`   |
+| → `cleanup()`                             | 回收所有 `mountWithCtx` 创建的挂载实例                              |
+
+`mountWithCtx` 创建的挂载实例均被内部追踪，宿主组件卸载时通过 `onUnmounted` 自动调用 `cleanup` 统一回收，亦可手动调用提前清理。
+
 ### `dom.ts` — DOM 工具
 
 | 导出                         | 说明                  |
