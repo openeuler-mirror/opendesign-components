@@ -35,7 +35,11 @@ const imgRef = ref<HTMLImageElement | null>(null);
 const { isPhonePad } = useScreen();
 const isLoading = ref(true);
 const isError = ref(false);
-const prestColor = props.colorful ? defaultPrestColorPool.value.pick() : '';
+
+/**
+ * 预制随机背景色，仅在图片加载完成前展示（colorful=true 时生效）。
+ */
+const prsetColor = ref('');
 
 const imgSrc = ref<string | undefined>(undefined); // 当使用img标签时，图片地址
 const bgUrl = computed(() => (props.background && imgSrc.value ? `url(${imgSrc.value})` : undefined));
@@ -78,6 +82,10 @@ let io: ReturnType<typeof useIntersectionObserver> | null = null;
 const rootEl = ref<InstanceType<typeof HtmlTag> | null>(null);
 
 onMounted(() => {
+  if (props.colorful) {
+    prsetColor.value = defaultPrestColorPool.value.pick();
+  }
+
   // 修复服务端渲染时，加载过快未刷新load状态问题
   if (imgRef.value && imgRef.value.complete && imgSrc.value) {
     onImgLoaded();
@@ -162,7 +170,7 @@ defineExpose({
       'o-figure-no-ratio': !props.ratio,
     }"
     :style="{
-      '--figure-prest-color': prestColor,
+      '--figure-prest-color': prsetColor,
       '--figure-padding-top': paddingTop,
       '--figure-fit': props.fit,
       backgroundImage: bgUrl,
