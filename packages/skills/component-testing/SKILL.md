@@ -599,6 +599,8 @@ describe('插槽契约（具名插槽）', () => {
 | **token 链变量跨断点值相同（如 radius）**                                   | 当前主题别名指向同 px。跳过该跃迁断言，待主题区分后再补                                                                                          | 见上文「响应式数值断言策略」                            |
 | **插槽测试 fail 但 types.ts 有定义**                                        | 模板未实际渲染该 slot。用 `test.fails` 标记，待组件侧补实现                                                                                      | 见上文「已知问题标记」                                  |
 | **组件卸载后事件监听 / ResizeObserver 未清理**                              | `onMounted` 内 `Promise.then` 微任务中调用 VueUse composable，`tryOnScopeDispose` 因 scope 已关闭失效。捕获返回值在 `onUnmounted` 手动清理       | [resource-cleanup.md](./references/resource-cleanup.md) |
+| **`logger.warn` 在测试中不被触发**                                          | Vite 编译时静态替换 `process.env.NODE_ENV`，Log 类 `getLogFunction` 恒为 no-op。改用 `setLogEnabled(true)` + `vi.spyOn(console, 'warn')`         | [pitfalls.md](./references/pitfalls.md)                 |
+| **`vi.mock` 在 browser 模式下不生效**                                       | Playwright browser provider 下 `vi.mock` 的模块替换不生效。改用 `setLogEnabled` / `vi.spyOn` 方案                                                | [pitfalls.md](./references/pitfalls.md)                 |
 
 ---
 
