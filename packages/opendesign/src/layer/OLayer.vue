@@ -80,14 +80,21 @@ const initWrapperEl = () => {
   return wrapperEl;
 };
 
+const hasSetLayerClass = ref(false);
 const handleWrapperScroll = () => {
   nextTick(() => {
     initWrapperEl();
     if (wrapperEl) {
       if (visible.value) {
-        wrapperEl.classList.add(LayerClass.OPEN);
+        if (!wrapperEl.classList.contains(LayerClass.OPEN)) {
+          wrapperEl.classList.add(LayerClass.OPEN);
+          hasSetLayerClass.value = true;
+        }
       } else {
-        wrapperEl.classList.remove(LayerClass.OPEN);
+        if (hasSetLayerClass.value) {
+          wrapperEl.classList.remove(LayerClass.OPEN);
+          hasSetLayerClass.value = false;
+        }
       }
     }
   });
@@ -219,8 +226,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   mouse?.destroy();
-  // 卸载时移除类
-  wrapperEl?.classList.remove(LayerClass.OPEN);
+  if (hasSetLayerClass.value && wrapperEl) {
+    wrapperEl.classList.remove(LayerClass.OPEN);
+    hasSetLayerClass.value = false;
+  }
 });
 
 provide(layerInjectKey, { toggle });
