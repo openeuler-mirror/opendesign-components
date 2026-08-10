@@ -1,7 +1,7 @@
 /**
  * 定义全局图标，支持全局初始化自定义
  */
-import { Component, shallowRef } from 'vue';
+import { Component, shallowRef, h } from 'vue';
 import {
   OIconArrowUp,
   OIconArrowDown,
@@ -43,6 +43,9 @@ import {
   OIconDownload,
   OIconAvatar,
   OIconTime,
+  OIconZoomIn,
+  OIconZoomOut,
+  OIconOneToOne,
 } from '../icon-components';
 
 /**
@@ -245,3 +248,33 @@ export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
  * 默认用户头像图标
  */
 export const IconAvatar = shallowRef<Component>(OIconAvatar);
+
+/**
+ * 放大图标
+ */
+export const IconZoomIn = shallowRef<Component>(OIconZoomIn);
+
+/**
+ * 缩小图标
+ */
+export const IconZoomOut = shallowRef<Component>(OIconZoomOut);
+
+/**
+ * 原始比例图标
+ */
+export const IconOneToOne = shallowRef<Component>(OIconOneToOne);
+
+/**
+ * 顺时针旋转图标
+ */
+export const IconRotateClockwise = shallowRef<Component>(OIconRefresh);
+
+/**
+ * 逆时针旋转图标（使用 Refresh 水平翻转）
+ */
+export const IconRotateAnticlockwise = shallowRef<Component>({
+  name: 'OIconRotateAnticlockwise',
+  setup() {
+    return () => h(OIconRefresh, { class: 'o-icon-rotate-anticlockwise' });
+  },
+});
