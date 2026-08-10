@@ -1,0 +1,22 @@
+.o-image-viewer {
+  --image-viewer-ratio-width: 82px;
+  --image-viewer-ratio-height: 24px;
+  --image-viewer-ratio-bgc: var(--o-color-mask2);
+  --image-viewer-ratio-color: var(--o-color-white);
+  --image-viewer-ratio-radius: var(--o-radius-xs);
+  --image-viewer-ratio-backdrop-filter: 4px;
+
+  --image-viewer-action-bottom: var(--o-r-gap-10);
+  --image-viewer-action-padding: var(--o-r-gap-4) var(--o-r-gap-5);
+  --image-viewer-action-item-gap: var(--o-r-gap-7);
+  --image-viewer-action-bgc: var(--o-color-white);
+  --image-viewer-action-radius: var(--o-radius-m);
+  --image-viewer-cursor-type: move;
+
+  --image-viewer-icon-color: var(--o-color-info2);
+  --image-viewer-icon-color-hover: var(--o-color-info1);
+  --image-viewer-icon-size: var(--o-control_size-s);
+
+  --image-viewer-progress-color: var(--o-color-info2-inverse);
+  --image-viewer-error-color: var(--o-color-info2-inverse);
+}

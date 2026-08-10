@@ -88,4 +88,14 @@ export default {
   'dateRangePicker.placeholderStart': '开始日期',
   'dateRangePicker.placeholderEnd': '结束日期',
   'dateRangePicker.selectRange': '选择日期范围',
+  // imageViewer
+  'imageViewer.zoomIn': '放大',
+  'imageViewer.zoomOut': '缩小',
+  'imageViewer.reset': '重置',
+  'imageViewer.rotateLeft': '逆时针旋转',
+  'imageViewer.rotateRight': '顺时针旋转',
+  'imageViewer.close': '关闭',
+  'imageViewer.prev': '上一张',
+  'imageViewer.next': '下一张',
+  'imageViewer.error': '图片加载失败，点击重试',
 } as const;
