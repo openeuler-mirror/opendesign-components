@@ -5,8 +5,6 @@
  *
  * 注意：OLayer 默认 visible=false 时 isMounted=false（v-if 阻断），
  *       SSR 输出仅含 Teleport 标记，无实际浮层内容。
- *       水合测试统一使用 wrapper=null（禁用 Teleport），避免
- *       Teleport 在水合阶段将内容移出 root 导致结构性 mismatch。
  *       不测试 visible=true 的 SSR，因为 createTopZIndex() 全局计数器
  *       在 SSR 与客户端两阶段递增，会导致 --layer-z-index mismatch。
  */
@@ -15,7 +13,7 @@ import OLayer from '../OLayer.vue';
 import { renderSSR, ssrHydrateAndCompare } from '../../../__tests__/_helpers/ssr';
 
 describe('SSR 契约（字符串渲染）', () => {
-  test('OLayer SSR 默认 - renderToString 不抛出错误', async () => {
+  test('OLayer SSR default - renderToString 不抛出错误', async () => {
     await expect(renderSSR(OLayer, {}, '')).resolves.toEqual(expect.any(String));
   });
 
@@ -46,14 +44,20 @@ describe('SSR 契约（客户端水合）', () => {
     }
   });
 
-  test('OLayer 水合 默认（wrapper=null）- 无水合 mismatch', async () => {
+  test('OLayer hydration default - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OLayer, {}, '');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
+  });
+
+  test('OLayer hydration wrapper=null - 无水合 mismatch', async () => {
     const result = await ssrHydrateAndCompare(OLayer, { wrapper: null }, '');
     mountedRoot = result.root;
     expect(result.hasMismatch).toBe(false);
   });
 
-  test('OLayer 水合 mask=false（wrapper=null）- 无水合 mismatch', async () => {
-    const result = await ssrHydrateAndCompare(OLayer, { wrapper: null, mask: false }, '');
+  test('OLayer hydration mask=false - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OLayer, { mask: false }, '');
     mountedRoot = result.root;
     expect(result.hasMismatch).toBe(false);
   });

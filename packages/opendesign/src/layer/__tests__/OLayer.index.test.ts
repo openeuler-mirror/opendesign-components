@@ -2,18 +2,17 @@
  * OLayer 单组件契约测试。
  *
  * 组织原则：
- *   1. 静态契约：按 types.ts prop 顺序
- *   2. 动态契约：visible 切换 / mask 点击 / close 按钮 / beforeShow/beforeHide 拦截
+ *   1. 静态契约：按 types.ts prop 顺序，每个 prop 一条用例
+ *   2. 动态契约：visible 切换 / mask 点击 / close 按钮 / beforeShow·beforeHide 拦截
  *   3. 暴露方法：toggle()
  *   4. 插槽契约：default / close
- *   5. 废弃兼容：transitionOrign -> transitionOrigin
- *   6. z-index 嵌套管理
- *   7. unmountOnHide 过渡行为
- *   8. transitionOrigin=mouse 计算验证
- *   9. wrapper 滚动锁定（o-layer-open class）
- *   10. useMouse 清理
+ *   5. 废弃兼容：transitionOrign → transitionOrigin 迁移
  *
- * 命名规范：OLayer <prop / scene> - description
+ * 命名规范：OLayer <prop / 场景> - <中文描述>
+ *
+ * 不归属本文件的维度：
+ *   - SSR 字符串渲染 + hydration mismatch → OLayer.ssr.test.ts
+ *   - 像素级渲染 / 跨浏览器渲染差异          → E2E 截图回归
  */
 import { test, expect, describe, vi, afterEach } from 'vitest';
 import { render } from 'vitest-browser-vue';
@@ -22,18 +21,28 @@ import OLayer from '../OLayer.vue';
 import { flush } from '../../../__tests__/_helpers/dom';
 import { getZIndex } from '../../_utils/z-index';
 
+/**
+ * 清理 document.body 上可能残留的 teleport 内容和 o-layer-open 类。
+ * OLayer 在 wrapper='body' 时将内容 teleport 到 document.body，
+ * 并向 wrapper 元素添加 o-layer-open 类（overflow:hidden）。
+ */
 afterEach(() => {
   document.body.classList.remove('o-layer-open');
   document.body.querySelectorAll(':scope > .o-layer').forEach((el) => el.remove());
 });
-describe('静态契约（按 types.ts prop 顺序）', () => {
-  test('OLayer visible - 默认 false 不渲染根元素', async () => {
+
+// ============================================================================
+// 静态契约：按 types.ts 的 prop 顺序，每个 prop 一条用例
+// ============================================================================
+describe('静态契约（按 types.ts 属性）', () => {
+  // ---- visible ----
+  test('OLayer visible - 默认 false 时不渲染浮层根元素', async () => {
     const screen = render(OLayer, { props: { wrapper: null } });
     await flush();
     expect(screen.container.querySelector('.o-layer')).toBeNull();
   });
 
-  test('OLayer visible=true - 渲染根元素与内容', async () => {
+  test('OLayer visible=true - 渲染浮层根元素及内容', async () => {
     const screen = render(OLayer, {
       props: { visible: true, wrapper: null },
       slots: { default: () => h('div', { class: 'test-content' }, 'Content') },
@@ -44,7 +53,8 @@ describe('静态契约（按 types.ts prop 顺序）', () => {
     expect(screen.container.querySelector('.test-content')).not.toBeNull();
   });
 
-  test('OLayer wrapper=body - 传送至 document.body', async () => {
+  // ---- wrapper ----
+  test('OLayer wrapper=body - 默认值，内容 teleport 到 document.body', async () => {
     const screen = render(OLayer, {
       props: { visible: true },
       slots: { default: () => h('div', { class: 'test-body-content' }, 'Body') },
@@ -53,10 +63,11 @@ describe('静态契约（按 types.ts prop 顺序）', () => {
     const layer = document.querySelector('.o-layer');
     expect(layer).not.toBeNull();
     expect(layer?.classList.contains('o-layer-to-body')).toBe(true);
+    // teleport 到 body，不在 test container 内
     expect(screen.container.querySelector('.o-layer')).toBeNull();
   });
 
-  test('OLayer wrapper=null - 内联渲染（无传送）', async () => {
+  test('OLayer wrapper=null - 内容渲染在当前组件位置（不 teleport）', async () => {
     const screen = render(OLayer, {
       props: { visible: true, wrapper: null },
       slots: { default: () => 'Inline' },
@@ -65,7 +76,8 @@ describe('静态契约（按 types.ts prop 顺序）', () => {
     expect(screen.container.querySelector('.o-layer')).not.toBeNull();
   });
 
-  test('OLayer unmountOnHide=true - 默认值，visible=false 时无 DOM', async () => {
+  // ---- unmountOnHide ----
+  test('OLayer unmountOnHide=true - 默认值，visible=false 时不渲染 DOM', async () => {
     const screen = render(OLayer, {
       props: { visible: false, wrapper: null, unmountOnHide: true },
     });
@@ -78,12 +90,15 @@ describe('静态契约（按 types.ts prop 顺序）', () => {
       props: { visible: false, wrapper: null, unmountOnHide: false },
     });
     await flush();
+    // isMounted=true → 根元素渲染
     const layer = screen.container.querySelector('.o-layer');
     expect(layer).not.toBeNull();
+    // v-show=false → 隐藏
     expect(layer?.style.display).toBe('none');
   });
 
-  test('OLayer mainClass - 自定义类名挂载到 .o-layer-main', async () => {
+  // ---- mainClass ----
+  test('OLayer mainClass - 自定义类名注入到 .o-layer-main', async () => {
     const screen = render(OLayer, {
       props: { visible: true, wrapper: null, mainClass: 'custom-main' },
     });
@@ -92,38 +107,51 @@ describe('静态契约（按 types.ts prop 顺序）', () => {
     expect(main.classList.contains('custom-main')).toBe(true);
   });
 
-  test('OLayer mainTransition - 默认 o-zoom-fade2，内容存在', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null } });
+  // ---- mainTransition ----
+  test('OLayer mainTransition - 默认 o-zoom-fade2', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null },
+    });
     await flush();
+    // transition name 体现为 enter/leave 阶段的 CSS 类名前缀
+    // 验证 transition 元素存在（.o-layer-main 被 <transition> 包裹）
     expect(screen.container.querySelector('.o-layer-main')).not.toBeNull();
   });
 
-  test('OLayer maskTransition - 默认 o-fade-in，遮罩存在', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null } });
+  // ---- maskTransition ----
+  test('OLayer maskTransition - 默认 o-fade-in', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer-mask')).not.toBeNull();
   });
-});
-describe('transitionOrigin 契约', () => {
-  test('OLayer transitionOrigin=mouse - 默认值，组件正常渲染', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null } });
+
+  // ---- transitionOrigin ----
+  test('OLayer transitionOrigin=mouse - 默认值，设置内联 transform-origin', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null },
+    });
     await flush();
     const main = screen.container.querySelector('.o-layer-main') as HTMLElement;
     expect(main).not.toBeNull();
-    // mouse 模式下，transitionOrigin 默认值为 'mouse'（由 types.ts 定义）
+    // mouse 模式下，transition enter 钩子设置 mainStyle.transformOrigin
+    expect(main.style.transformOrigin).not.toBe('');
   });
 
-  test('OLayer transitionOrigin=css - 无内联 transform-origin', async () => {
+  test('OLayer transitionOrigin=css - 不设置内联 transform-origin（使用 CSS 变量）', async () => {
     const screen = render(OLayer, {
       props: { visible: true, wrapper: null, transitionOrigin: 'css' },
     });
     await flush();
     const main = screen.container.querySelector('.o-layer-main') as HTMLElement;
     expect(main).not.toBeNull();
+    // css 模式下，transform-origin 由 --layer-origin CSS 变量控制，不设置内联样式
     expect(main.style.transformOrigin).toBe('');
   });
 
-  test('OLayer transitionOrign=css（已废弃）- 等同 transitionOrigin=css', async () => {
+  // ---- transitionOrign（废弃 prop 兼容）----
+  test('OLayer transitionOrign=css (废弃) - 行为与 transitionOrigin=css 一致', async () => {
     const screen = render(OLayer, {
       props: { visible: true, wrapper: null, transitionOrign: 'css' },
     });
@@ -133,7 +161,7 @@ describe('transitionOrigin 契约', () => {
     expect(main.style.transformOrigin).toBe('');
   });
 
-  test('OLayer transitionOrign 优先级高于 transitionOrigin', async () => {
+  test('OLayer transitionOrign 优先于 transitionOrigin (旧值优先兼容)', async () => {
     const screen = render(OLayer, {
       props: {
         visible: true,
@@ -144,58 +172,81 @@ describe('transitionOrigin 契约', () => {
     });
     await flush();
     const main = screen.container.querySelector('.o-layer-main') as HTMLElement;
+    // transitionOrign ?? transitionOrigin → 'css' ?? 'mouse' → 'css'
     expect(main.style.transformOrigin).toBe('');
   });
-});
 
-describe('遮罩与关闭按钮契约', () => {
-  test('OLayer mask=true - 默认值，渲染遮罩', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null, mask: true } });
+  // ---- mask ----
+  test('OLayer mask=true - 默认值，渲染遮罩层', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null, mask: true },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer-mask')).not.toBeNull();
   });
 
-  test('OLayer mask=false - 无遮罩', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null, mask: false } });
+  test('OLayer mask=false - 不渲染遮罩层', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null, mask: false },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer-mask')).toBeNull();
   });
 
-  test('OLayer maskClose=true - 默认值，遮罩存在', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null, maskClose: true } });
+  // ---- maskClose ----
+  test('OLayer maskClose=true - 默认值', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null, maskClose: true },
+    });
     await flush();
+    // maskClose 是行为属性，不产生视觉差异，验证遮罩存在即可
     expect(screen.container.querySelector('.o-layer-mask')).not.toBeNull();
   });
 
+  // ---- buttonClose ----
   test('OLayer buttonClose=true - 渲染关闭按钮', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null, buttonClose: true } });
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null, buttonClose: true },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer-close')).not.toBeNull();
+    // 默认渲染 OIcon 关闭图标
     expect(screen.container.querySelector('.o-layer-close-icon')).not.toBeNull();
   });
 
-  test('OLayer buttonClose=false - 默认值，无关闭按钮', async () => {
-    const screen = render(OLayer, { props: { visible: true, wrapper: null } });
+  test('OLayer buttonClose=false - 默认值，不渲染关闭按钮', async () => {
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer-close')).toBeNull();
   });
 
-  test('OLayer beforeShow - 函数 prop，正常渲染', async () => {
+  // ---- beforeShow / beforeHide ----
+  test('OLayer beforeShow - 传入函数，组件正常渲染不报错', async () => {
     const beforeShow = vi.fn(() => true);
-    const screen = render(OLayer, { props: { visible: true, wrapper: null, beforeShow } });
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null, beforeShow },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer')).not.toBeNull();
   });
 
-  test('OLayer beforeHide - 函数 prop，正常渲染', async () => {
+  test('OLayer beforeHide - 传入函数，组件正常渲染不报错', async () => {
     const beforeHide = vi.fn(() => true);
-    const screen = render(OLayer, { props: { visible: true, wrapper: null, beforeHide } });
+    const screen = render(OLayer, {
+      props: { visible: true, wrapper: null, beforeHide },
+    });
     await flush();
     expect(screen.container.querySelector('.o-layer')).not.toBeNull();
   });
 });
-describe('动态契约（用户交互）', () => {
-  test('OLayer change - visible prop 变化时触发', async () => {
+
+// ============================================================================
+// 动态契约：用户操作 → 组件响应（emit + 行为拦截）
+// ============================================================================
+describe('动态契约（用户交互 → 组件响应）', () => {
+  test('OLayer change - visible prop 变更时触发', async () => {
     const visible = ref(false);
     const onChange = vi.fn();
     render({
@@ -209,7 +260,7 @@ describe('动态契约（用户交互）', () => {
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
-  test('OLayer update:visible - 切换时触发', async () => {
+  test('OLayer update:visible - toggle 时触发', async () => {
     const layerRef = ref<any>(null);
     const onUpdateVisible = vi.fn();
     render({
@@ -289,7 +340,7 @@ describe('动态契约（用户交互）', () => {
     expect(onUpdateVisible).toHaveBeenCalledWith(false);
   });
 
-  test('OLayer maskClose=false - 点击遮罩不关闭', async () => {
+  test('OLayer maskClose=false - 点击遮罩不关闭浮层', async () => {
     const onUpdateVisible = vi.fn();
     const screen = render({
       setup() {
@@ -308,9 +359,9 @@ describe('动态契约（用户交互）', () => {
     await flush();
     expect(onUpdateVisible).not.toHaveBeenCalled();
   });
-});
-describe('beforeShow / beforeHide 拦截', () => {
-  test('OLayer beforeShow=false - 阻止打开（prop 变更路径）', async () => {
+
+  // ---- beforeShow / beforeHide 拦截 ----
+  test('OLayer beforeShow=false - 取消打开（prop 变更路径，同步回旧值）', async () => {
     const visible = ref(false);
     const beforeShow = vi.fn(() => false);
     const onChange = vi.fn();
@@ -332,6 +383,7 @@ describe('beforeShow / beforeHide 拦截', () => {
     await flush();
     expect(beforeShow).toHaveBeenCalled();
     expect(onChange).not.toHaveBeenCalled();
+    // 被阻止时，emits('update:visible', visible.value) 同步回旧值
     expect(onUpdateVisible).toHaveBeenCalledWith(false);
   });
 
@@ -341,7 +393,13 @@ describe('beforeShow / beforeHide 拦截', () => {
     const onChange = vi.fn();
     render({
       setup() {
-        return () => h(OLayer, { visible: visible.value, wrapper: null, beforeShow, onChange });
+        return () =>
+          h(OLayer, {
+            visible: visible.value,
+            wrapper: null,
+            beforeShow,
+            onChange,
+          });
       },
     });
     await flush();
@@ -351,7 +409,7 @@ describe('beforeShow / beforeHide 拦截', () => {
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
-  test('OLayer beforeShow=false - 阻止打开（toggle 路径，静默）', async () => {
+  test('OLayer beforeShow=false - 取消打开（toggle 路径，静默返回）', async () => {
     const layerRef = ref<any>(null);
     const beforeShow = vi.fn(() => false);
     const onChange = vi.fn();
@@ -377,7 +435,7 @@ describe('beforeShow / beforeHide 拦截', () => {
     expect(onUpdateVisible).not.toHaveBeenCalled();
   });
 
-  test('OLayer beforeHide=false - 阻止关闭（toggle 路径，静默）', async () => {
+  test('OLayer beforeHide=false - 取消关闭（toggle 路径，静默返回）', async () => {
     const layerRef = ref<any>(null);
     const beforeHide = vi.fn(() => false);
     const onChange = vi.fn();
@@ -403,13 +461,19 @@ describe('beforeShow / beforeHide 拦截', () => {
     expect(onUpdateVisible).not.toHaveBeenCalled();
   });
 
-  test('OLayer beforeShow 支持 Promise - 异步返回 false 阻止打开', async () => {
+  test('OLayer beforeShow 支持 Promise - 异步返回 false 取消打开', async () => {
     const visible = ref(false);
     const beforeShow = vi.fn(async () => false);
     const onChange = vi.fn();
     render({
       setup() {
-        return () => h(OLayer, { visible: visible.value, wrapper: null, beforeShow, onChange });
+        return () =>
+          h(OLayer, {
+            visible: visible.value,
+            wrapper: null,
+            beforeShow,
+            onChange,
+          });
       },
     });
     await flush();
@@ -419,8 +483,12 @@ describe('beforeShow / beforeHide 拦截', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 });
+
+// ============================================================================
+// 暴露方法：OLayer 通过 defineExpose 暴露 toggle()
+// ============================================================================
 describe('暴露方法（defineExpose）', () => {
-  test('OLayer 暴露 toggle() - 切换可见性', async () => {
+  test('OLayer exposed toggle() - 无参数切换可见状态', async () => {
     const layerRef = ref<any>(null);
     const onChange = vi.fn();
     const onUpdateVisible = vi.fn();
@@ -437,18 +505,25 @@ describe('暴露方法（defineExpose）', () => {
       },
     });
     await flush();
+    // toggle() 无参数 → 切换为 false
     await layerRef.value.toggle();
     await flush();
     expect(onUpdateVisible).toHaveBeenCalledWith(false);
     expect(onChange).toHaveBeenCalledWith(false);
   });
 
-  test('OLayer 暴露 toggle(true) - 打开浮层', async () => {
+  test('OLayer exposed toggle(true) - 打开浮层', async () => {
     const layerRef = ref<any>(null);
     const onChange = vi.fn();
     render({
       setup() {
-        return () => h(OLayer as any, { ref: layerRef, visible: false, wrapper: null, onChange });
+        return () =>
+          h(OLayer as any, {
+            ref: layerRef,
+            visible: false,
+            wrapper: null,
+            onChange,
+          });
       },
     });
     await flush();
@@ -457,12 +532,18 @@ describe('暴露方法（defineExpose）', () => {
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
-  test('OLayer 暴露 toggle(false) - 关闭浮层', async () => {
+  test('OLayer exposed toggle(false) - 关闭浮层', async () => {
     const layerRef = ref<any>(null);
     const onChange = vi.fn();
     render({
       setup() {
-        return () => h(OLayer as any, { ref: layerRef, visible: true, wrapper: null, onChange });
+        return () =>
+          h(OLayer as any, {
+            ref: layerRef,
+            visible: true,
+            wrapper: null,
+            onChange,
+          });
       },
     });
     await flush();
@@ -471,22 +552,32 @@ describe('暴露方法（defineExpose）', () => {
     expect(onChange).toHaveBeenCalledWith(false);
   });
 
-  test('OLayer 暴露 toggle - 相同状态时无操作', async () => {
+  test('OLayer exposed toggle - 当前状态与目标相同时不操作', async () => {
     const layerRef = ref<any>(null);
     const onChange = vi.fn();
     render({
       setup() {
-        return () => h(OLayer as any, { ref: layerRef, visible: true, wrapper: null, onChange });
+        return () =>
+          h(OLayer as any, {
+            ref: layerRef,
+            visible: true,
+            wrapper: null,
+            onChange,
+          });
       },
     });
     await flush();
+    // visible 已为 true，toggle(true) 应直接返回
     await layerRef.value.toggle(true);
     await flush();
     expect(onChange).not.toHaveBeenCalled();
   });
 });
 
-describe('插槽契约', () => {
+// ============================================================================
+// 插槽契约：OLayer 提供 default / close 两个具名插槽
+// ============================================================================
+describe('插槽契约（具名插槽）', () => {
   test('OLayer slot=default - 渲染默认插槽内容', async () => {
     const screen = render(OLayer, {
       props: { visible: true, wrapper: null },
@@ -507,6 +598,7 @@ describe('插槽契约', () => {
     const closeWrap = screen.container.querySelector('.o-layer-close') as HTMLElement;
     expect(closeWrap).not.toBeNull();
     expect(closeWrap.querySelector('.custom-close')).not.toBeNull();
+    // 自定义 slot 替换了默认 OIcon 关闭图标
     expect(closeWrap.querySelector('.o-layer-close-icon')).toBeNull();
   });
 });
