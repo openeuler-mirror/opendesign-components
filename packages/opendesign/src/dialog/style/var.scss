@@ -26,23 +26,23 @@
 }
 
 .o-dialog-exlarge {
-  --dlg-width: 65%;
+  --dlg-width: var(--o-r-grid-16);
   --dlg-max-height: 780px;
   --dlg-min-height: 520px;
 }
 .o-dialog-large {
-  --dlg-width: 60%;
+  --dlg-width: var(--o-r-grid-14);
   --dlg-max-height: 780px;
   --dlg-min-height: 424px;
 }
 .o-dialog-medium {
-  --dlg-width: 40%;
+  --dlg-width: var(--o-r-grid-10);
   --dlg-max-height: 480px;
   --dlg-min-height: 328px;
 }
 
 .o-dialog-small {
-  --dlg-width: 25%;
+  --dlg-width: var(--o-r-grid-6);
   --dlg-max-height: 272px;
   --dlg-min-height: 224px;
 
