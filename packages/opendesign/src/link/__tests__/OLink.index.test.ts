@@ -13,6 +13,7 @@ import { userEvent } from 'vitest/browser';
 import { h, markRaw } from 'vue';
 import OLink from '../OLink.vue';
 import OIconAddRaw from '../../icon-components/OIconAdd/OIconAdd.vue';
+import { configProviderInjectKey } from '../../config-provider';
 import { THEMES, paintThemed } from '../../../__tests__/_helpers/theme';
 import { flush } from '../../../__tests__/_helpers/dom';
 
@@ -93,6 +94,18 @@ describe('静态契约（按 types.ts 属性）', () => {
     const prefix = screen.container.querySelector('.o-link-prefix');
     expect(prefix).not.toBeNull();
   });
+
+  test('OLink hoverUnderline=false - 不包裹 .o-link-label', async () => {
+    const screen = render(OLink, { props: { hoverUnderline: false }, slots: { default: () => 'NoLabel' } });
+    expect(screen.container.querySelector('.o-link-label')).toBeNull();
+    expect(screen.container.querySelector('.o-link-main')?.textContent).toBe('NoLabel');
+  });
+
+  test('OLink suffix - 默认渲染箭头图标 .o-link-icon-arrow', async () => {
+    const screen = render(OLink, { props: { suffix: true }, slots: { default: () => 'X' } });
+    await flush();
+    expect(screen.container.querySelector('.o-link-icon-arrow')).not.toBeNull();
+  });
 });
 
 describe('动态契约（用户交互 → 组件响应）', () => {
@@ -168,5 +181,37 @@ describe('插槽契约（具名插槽）', () => {
     const screen = render(OLink, { slots: { default: () => 'X' } });
     await flush();
     expect(screen.container.querySelector('.o-link-suffix')).toBeNull();
+  });
+});
+
+describe('全局配置契约（configProvider 联动）', () => {
+  test('OLink global - 点击时触发 configProvider.link.click 回调', async () => {
+    const linkClick = vi.fn();
+    const screen = render(OLink, {
+      slots: { default: () => 'X' },
+      global: {
+        provide: {
+          [configProviderInjectKey]: { link: { click: linkClick } },
+        },
+      },
+    });
+    await screen.container.querySelector('.o-link')!.click();
+    expect(linkClick).toHaveBeenCalledTimes(1);
+    expect(linkClick.mock.calls[0][0]).toBeInstanceOf(MouseEvent);
+  });
+
+  test('OLink global=false - 点击时不触发 configProvider.link.click 回调', async () => {
+    const linkClick = vi.fn();
+    const screen = render(OLink, {
+      props: { global: false },
+      slots: { default: () => 'X' },
+      global: {
+        provide: {
+          [configProviderInjectKey]: { link: { click: linkClick } },
+        },
+      },
+    });
+    await screen.container.querySelector('.o-link')!.click();
+    expect(linkClick).not.toHaveBeenCalled();
   });
 });
