@@ -32,3 +32,18 @@ $text-types: display1, display2, display3, display4, display5, h1, h2, h3, h4, t
     fill: currentColor;
   }
 }
+
+/**
+ * @description 屏幕阅读器专用隐藏文本——视觉零渲染，供屏幕阅读器和爬虫读取
+ */
+.o-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
