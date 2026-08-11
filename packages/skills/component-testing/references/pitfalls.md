@@ -60,6 +60,43 @@ expect(after).not.toBe(before); // ✓
 
 **修法 2（推荐）**：直接断言 token wiring，不依赖事件触发——参见 [visual-contract.md](./visual-contract.md) 策略 3。
 
+### hover 触发的元素可见性测试（opacity/visibility 切换）
+
+**场景**：组件中某些 UI 元素（如清除按钮）默认 `opacity: 0`，仅 hover 父容器后变为 `opacity: 1`。token wiring 不适用——这里验证的不是颜色 token 值，而是 CSS 可见性切换行为。
+
+**写法**：
+
+```ts
+test('clearable + 有选中值 — hover 后清除按钮可见', async () => {
+  const screen = render(OSelect, {
+    props: { clearable: true, modelValue: 'a', options: [{ label: 'A', value: 'a' }] },
+  });
+  await flush();
+  const selectEl = screen.container.querySelector('.o-select') as HTMLElement;
+  const clearEl = screen.container.querySelector('.o-select-clear') as HTMLElement;
+
+  // 默认不可见
+  expect(getComputedStyle(clearEl).opacity).toBe('0');
+
+  // 禁用过渡，避免读取到过渡中间值
+  clearEl.style.transition = 'none';
+  await userEvent.hover(selectEl);
+  await flush();
+
+  // hover 后可见
+  expect(getComputedStyle(clearEl).opacity).toBe('1');
+});
+```
+
+**要点**：
+
+1. **先断言默认隐藏态**（`opacity: 0`）——确保元素存在但不可见，而非"元素一直可见"
+2. **设 `el.style.transition = 'none'`**——组件 CSS 通常有 `transition: all`，hover 后立刻读值可能拿到过渡中间值
+3. **`userEvent.hover()` + `await flush()`**——触发 hover 伪类后等一帧让样式生效
+4. **仅在 CLI 模式可靠**——UI 模式下鼠标位置不可控，详见下方"UI 模式 hover 测试红色"
+
+**适用范围**：任何 hover 触发的可见性切换（清除按钮、操作工具栏、遮罩层等），元素存在于 DOM 但通过 `opacity`/`visibility`/`display` 控制显隐。如果元素由 `v-if`/`v-else-if` 控制（不存在于 DOM），直接用 `querySelector` 断言存在性即可，不需要 hover。
+
 ### `pnpm test:ui` 面板里 hover 测试红色，CLI 跑过
 
 **现象**：CLI `pnpm test:run` 全过，开 UI 模式 `pnpm test:ui` 同一个用例红色。
