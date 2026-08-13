@@ -3,11 +3,14 @@
 .o-select {
   display: inline-flex;
   align-items: center;
+  // renderLabel overlay 的绝对定位上下文（左右边界由 JS 测量注入 --_overlay-left / --_overlay-right）
+  position: relative;
   padding: var(--select-padding);
   color: var(--select-color);
   height: var(--select-height);
   border-radius: var(--select-radius);
   border: 1px solid var(--select-bd-color);
+
   background-color: var(--select-bg-color);
   cursor: pointer;
   @include hover {
@@ -48,12 +51,50 @@
   background-color: transparent;
   display: inline-flex;
   width: 100%;
+  // 作为 .o-select flex 子项填充剩余宽度
+  flex: 1 1 100%;
+  // 允许收缩，保证超长文本 ellipsis 生效
+  min-width: 0;
   font-size: var(--select-text-size);
   line-height: var(--select-text-height);
   overflow: hidden;
   text-overflow: ellipsis;
   &::-webkit-input-placeholder {
     color: var(--select-placeholder);
+  }
+
+  // renderLabel overlay 激活时：文本与 placeholder 透明，仅保留光标
+  &.o-select-input--overlay {
+    color: transparent;
+    caret-color: var(--select-color);
+    &::-webkit-input-placeholder {
+      color: transparent;
+    }
+  }
+}
+
+// renderLabel overlay：覆盖在 input 之上，渲染选中值的 VNode。
+// 相对 .o-select（position: relative）绝对定位，左右边界与主 input 区域对齐
+// （--_overlay-left / --_overlay-right 由 JS 测量注入，见 OSelect.vue syncOverlayBounds）
+.o-select-label-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--_overlay-left);
+  right: var(--_overlay-right);
+  display: inline-flex;
+  align-items: center;
+  pointer-events: none;
+  font-size: var(--select-text-size);
+  line-height: var(--select-text-height);
+  color: var(--select-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--o-duration-s) var(--o-easing-standard);
+
+  // filterable 下拉展开时半透明退到下层，提示用户可输入
+  &.is-faded {
+    opacity: 0.3;
   }
 }
 .o-select-prefix {
@@ -148,6 +189,18 @@
   max-height: var(--option-list-max-height, var(--option-list-max-height-default));
 }
 
+// 虚拟滚动模式：OVirtualList 直接渲染在 .o-select-options 内，
+// 无 .o-option-list 包裹层，需补齐相同的内边距以保持选项与弹层边缘的间距一致
+.o-select-options.is-virtual {
+  padding: var(--option-list-padding, var(--option-list-padding-default));
+}
+
+.o-select-options {
+  .o-virtual-list-wrapper {
+    max-height: var(--option-list-max-height, var(--option-list-max-height-default));
+  }
+}
+
 .o-select-options-loading {
   display: flex;
   align-items: center;
@@ -190,6 +243,11 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  &.is-responsive {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    width: 100%;
+  }
 }
 .o-select-tag {
   padding: var(--select-tag-padding);
@@ -201,8 +259,12 @@
   line-height: var(--select-tag-text-height);
   display: inline-flex;
   align-items: center;
-  &:last-child {
-    margin-right: 0;
+  &:first-child {
+    margin-left: 0;
+  }
+  // 紧邻 tag-input-wrap 前的 tag 右间距，使其与内联搜索 input 之间保持间距
+  &:has(+ .o-select-tag-input-wrap) {
+    margin-right: 4px;
   }
 }
 .o-select-tag-remove {
@@ -218,4 +280,45 @@
 .o-select-tag-popover {
   max-width: var(--select-tag-popover-max-width);
   --popover-padding: 6px 8px;
+}
+
+// 多选有 tag 时，dropdown 展开渲染的内联搜索 input wrapper
+.o-select-tag-input-wrap {
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-width: 80px;
+  max-width: 100%;
+  // nowrap 模式下不被压缩，保证 input 有完整可用空间
+  .is-responsive & {
+    flex-shrink: 0;
+  }
+}
+
+// 测量阶段：将 input wrapper 移出 flex 流，并禁止 tag 被 flex 压缩，
+// 确保 offsetWidth 返回自然宽度（flex-shrink:1 + flex-wrap:nowrap 会导致 tag 被压缩）
+// opacity:0 不影响焦点状态（visibility:hidden 会导致 blur）
+.o-select-tags-wrap.is-measuring {
+  .o-select-tag-input-wrap {
+    position: absolute;
+    opacity: 0;
+  }
+  .o-select-tag {
+    flex-shrink: 0;
+  }
+}
+
+// 镜像 span：根据文本宽度自动撑开 wrapper，无需 JS 测量
+.o-select-input-mirror {
+  visibility: hidden;
+  white-space: pre;
+  font-size: var(--select-text-size);
+  line-height: var(--select-text-height);
+}
+
+// 多选 tag 状态下的 input，absolute 覆盖在镜像 span 之上
+.o-select-input--tag {
+  position: absolute;
+  inset: 0;
+  width: 100%;
 }

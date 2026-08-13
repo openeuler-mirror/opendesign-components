@@ -9,6 +9,7 @@
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { OForm, OFormItem, OOption, OSelect } from '@opensig/opendesign';
 
 const options = [
   { label: 'option 1', value: 'opt1' },
@@ -26,8 +27,8 @@ const selectVal5 = ref();
 const selectVal6 = ref([]);
 </script>
 <template>
-  <div class="demo-select-basic-wrap">
-    <div class="demo-select-basic">
+  <OForm layout="v" class="demo-select-basic-wrap">
+    <OFormItem label="单选">
       <OSelect
         v-model="selectVal5"
         option-title="选项标题"
@@ -40,7 +41,11 @@ const selectVal6 = ref([]);
       >
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-
+      <template #extra
+        ><u>selectVal5: {{ JSON.stringify(selectVal5) }}</u></template
+      >
+    </OFormItem>
+    <OFormItem label="多选">
       <OSelect
         v-model="selectVal6"
         :max-tag-count="1"
@@ -54,14 +59,26 @@ const selectVal6 = ref([]);
       >
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-
+      <template #extra
+        ><u>selectVal6: {{ JSON.stringify(selectVal6) }}</u></template
+      >
+    </OFormItem>
+    <OFormItem label="禁用">
       <OSelect placeholder="禁用文字选择器" variant="text" size="large" disabled class="demo-text-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-
+    </OFormItem>
+    <OFormItem label="加载中">
       <OSelect placeholder="加载文字选择器" variant="text" size="large" loading class="demo-text-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-    </div>
-  </div>
+    </OFormItem>
+  </OForm>
 </template>
+<style lang="scss">
+.demo-select-basic-wrap {
+  .demo-text-select {
+    width: 200px;
+  }
+}
+</style>

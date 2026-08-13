@@ -67,3 +67,76 @@ describe('SSR 契约（客户端水合）', () => {
     expect(result.hasMismatch).toBe(false);
   });
 });
+
+// ============================================================================
+// SSR 补充：有 OOption 子组件 + 有 modelValue + clearable 场景
+//
+// 现有 SSR 测试只覆盖空 props，未验证有选项内容/有选中值时的 SSR 渲染。
+// ============================================================================
+
+describe('SSR 契约补充（有选项内容场景）', () => {
+  let mountedRoot: HTMLElement | null = null;
+
+  afterEach(() => {
+    if (mountedRoot) {
+      mountedRoot.remove();
+      mountedRoot = null;
+    }
+  });
+
+  test('OSelect SSR 有 OOption 子组件 - renderToString 不抛错', async () => {
+    const html = await renderSSR({
+      render: () =>
+        h(OSelect, null, {
+          default: () => h(OOption, { value: 'a', label: 'A' }),
+        }),
+    });
+    expect(html).toContain('o-select');
+    expect(typeof html).toBe('string');
+  });
+
+  test('OSelect hydration 有 OOption 子组件 - 无水合 mismatch', async () => {
+    const Component = {
+      render: () =>
+        h(OSelect, null, {
+          default: () => h(OOption, { value: 'a', label: 'A' }),
+        }),
+    };
+    const result = await ssrHydrateAndCompare(Component as any);
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
+  });
+
+  test('OSelect SSR clearable + 有值 - renderToString 不抛错', async () => {
+    const html = await renderSSR(OSelect, { clearable: true, modelValue: 'test' });
+    expect(html).toContain('o-select');
+  });
+
+  test('OSelect hydration clearable + 有值 - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OSelect, { clearable: true, modelValue: 'test' });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
+  });
+
+  test('OSelect SSR multiple + 有值 - renderToString 不抛错', async () => {
+    const html = await renderSSR(OSelect, { multiple: true, modelValue: ['a', 'b'] });
+    expect(html).toContain('o-select');
+  });
+
+  test('OSelect hydration multiple + 有值 - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OSelect, { multiple: true, modelValue: ['a', 'b'] });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
+  });
+
+  test('OSelect SSR round=pill - renderToString 不抛错且含圆角类', async () => {
+    const html = await renderSSR(OSelect, { round: 'pill' });
+    expect(html).toContain('o-select-round-pill');
+  });
+
+  test('OSelect hydration round=pill - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OSelect, { round: 'pill' });
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
+  });
+});
