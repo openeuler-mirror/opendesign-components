@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, inject, nextTick, provide, reactive, ref, useId, watch, watchEffect } from 'vue';
+import { computed, h, inject, nextTick, provide, ref, useId, watch, watchEffect } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { defaultSize } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
@@ -7,16 +7,7 @@ import { OPopup } from '../popup';
 import { OPopover } from '../popover';
 import { ODialog } from '../dialog';
 import { selectOptionInjectKey } from './provide';
-import {
-  SelectFieldNames,
-  SelectMixedOption,
-  SelectOptionData,
-  SelectOptionGroupData,
-  SelectOptionT,
-  selectProps,
-  SelectValueT,
-  SelectVirtualItem,
-} from './types';
+import { SelectOptionData, SelectOptionGroupData, SelectOptionT, selectProps, SelectValueT, SelectVirtualItem } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import ClientOnly from '../_components/client-only';
 import { OScroller } from '../scrollbar';
@@ -32,6 +23,11 @@ import { OButton } from '../button';
 import { useScreen } from '../hooks';
 import { useComposition } from '../hooks/use-composition';
 import type { VirtualListExpose } from '../virtual-list';
+import { useResponsiveTags } from './composables/use-responsive-tags';
+import { useSelectFilter } from './composables/use-select-filter';
+import { useOptionData } from './composables/use-option-data';
+import { useScrollTo } from './composables/use-scroll-to';
+import { useCreateOption } from './composables/use-create-option';
 
 const props = defineProps(selectProps);
 const emits = defineEmits<{
@@ -189,169 +185,11 @@ const color = computed(() => {
 });
 
 // ============================================================================
-// optionLabels 派生机制
-// optionInfoMap：当前已注册的选项（OOption 挂载时写入，卸载时删除）
-// cachedOptionMap：已选值的选项缓存（选项卸载后保留，供 label 显示）
-// optionLabels：从两个 Map 派生的 computed
-// ============================================================================
-
-/** 当前已注册的选项 Map（OOption 挂载时写入，卸载时删除） */
-const optionInfoMap = reactive(new Map<string | number, SelectOptionT>());
-
-/** 已选值的选项缓存 Map（选项卸载后保留，防止 label 丢失） */
-const cachedOptionMap = reactive(new Map<string | number, SelectOptionT>());
-
-/** 用户通过 allowCreate 创建的选项列表，合并到 resolvedOptions 使后续展开面板可见 */
-const createdOptions = ref<SelectOptionData[]>([]);
-
-// ============================================================================
-// options prop 数据驱动 + fieldNames 字段名定制
-// 插槽优先：有默认插槽时忽略 options；无插槽时按 fieldNames 解析 options
-// ============================================================================
-
-/** 默认字段名，与 OOption 的固定 props 一致 */
-const DEFAULT_FIELD_NAMES: Required<SelectFieldNames> = {
-  value: 'value',
-  label: 'label',
-  disabled: 'disabled',
-  children: 'children',
-  options: 'options',
-};
-
-/** 合并后的字段名（默认值 + 使用者传入的 fieldNames） */
-const mergedFieldNames = computed<Required<SelectFieldNames>>(() => ({
-  ...DEFAULT_FIELD_NAMES,
-  ...props.fieldNames,
-}));
-
-/**
- * 按字段名从原始数据解析标准化选项
- * @param raw 原始选项数据
- * @returns 标准化的 { value, label, disabled }
- */
-const resolveOptionData = (raw: Record<string, unknown>): SelectOptionData => {
-  const fn = mergedFieldNames.value;
-  const value = raw[fn.value] as string | number;
-  return {
-    ...raw, // 保留原始字段，供对象值模式查找原始对象
-    value,
-    label: (raw[fn.label] as string | undefined) ?? `${value}`,
-    disabled: raw[fn.disabled] as boolean | undefined,
-  };
-};
-
-/**
- * 类型守卫：判断 SelectMixedOption 是否为分组选项
- * @description SelectOptionData 的索引签名导致内联 `'type' in item` 检查无法收窄，
- * 使用 `is` 类型谓词强制收窄为 SelectOptionGroupData
- */
-const isOptionGroup = (item: SelectMixedOption): item is SelectOptionGroupData => 'type' in item && item.type === 'group';
-
-/** 获取选项 key（分组用 key，普通用 value），供模板使用 */
-const getOptionKey = (item: SelectMixedOption): string | number => (isOptionGroup(item) ? item.key : item.value);
-
-/** 获取选项 value（仅非分组项有值），供模板使用 */
-const getOptionValue = (item: SelectMixedOption): string | number | undefined => (isOptionGroup(item) ? undefined : item.value);
-
-/** 获取选项 disabled（仅非分组项），供模板使用 */
-const getOptionDisabled = (item: SelectMixedOption): boolean | undefined => (isOptionGroup(item) ? undefined : item.disabled);
-
-/** 获取原始选项数据（仅非分组项），供模板透传 :raw，保留自定义字段供 renderLabel 访问 */
-const getOptionRaw = (item: SelectMixedOption): SelectOptionData | undefined => (isOptionGroup(item) ? undefined : item);
-
-/** 获取分组 children（非分组返回空数组），供模板使用 */
-const getOptionChildren = (item: SelectMixedOption): SelectOptionData[] => (isOptionGroup(item) ? item.children : []);
-
-/**
- * 按 fieldNames 解析 props.options 为标准化选项列表（含分组处理）
- * @param fn 合并后的字段名映射
- * @returns 标准化后的选项数组（含分组结构）
- */
-const parsePropsOptions = (fn: typeof mergedFieldNames.value): SelectMixedOption[] => {
-  const result: SelectMixedOption[] = [];
-  if (!props.options || props.options.length === 0) return result;
-  for (const item of props.options) {
-    if (isOptionGroup(item)) {
-      const rawGroup = item as unknown as Record<string, unknown>;
-      const children = (rawGroup[fn.children] as SelectOptionData[] | undefined) ?? item.children ?? [];
-      result.push({
-        type: 'group' as const,
-        key: item.key ?? result.length,
-        label: (rawGroup[fn.label] as string | undefined) ?? item.label ?? '',
-        children: children.map((child) => resolveOptionData(child as Record<string, unknown>)),
-      });
-    } else {
-      result.push(resolveOptionData(item as Record<string, unknown>));
-    }
-  }
-  return result;
-};
-
-/**
- * 追加已创建的选项（去重：不在 result 中的才追加）
- * @param result 已解析的选项数组，函数会原地追加
- */
-const appendCreatedOptions = (result: SelectMixedOption[]) => {
-  const existingValues = new Set<string | number>();
-  for (const item of result) {
-    if (!isOptionGroup(item)) {
-      existingValues.add(item.value);
-    }
-  }
-  for (const created of createdOptions.value) {
-    if (!existingValues.has(created.value)) {
-      result.push(created);
-    }
-  }
-};
-
-/**
- * 解析后的选项数据
- * 有默认插槽时返回空数组（插槽优先，options 被忽略）
- * 无插槽时按 fieldNames 解析 props.options 为标准化选项，并追加已创建的选项
- */
-const resolvedOptions = computed<SelectMixedOption[]>(() => {
-  if (!isEmptySlot(slots.default)) {
-    return [];
-  }
-  const result = parsePropsOptions(mergedFieldNames.value);
-  appendCreatedOptions(result);
-  return result;
-});
-
-watchEffect(() => {
-  // 仅检查插槽函数是否存在，不在 watchEffect 中调用它（避免 render 外触发 Vue 警告）
-  if (slots.default && props.options && props.options.length > 0) {
-    logger.warn('options prop 与默认插槽同时存在，已忽略 options，优先使用插槽');
-  }
-  if (props.filterable && slots.default) {
-    logger.warn('filterable 在插槽模式下不生效，请使用 options prop 进行过滤');
-  }
-});
-
-// ============================================================================
-// 值归一化
+// 值归一化（前置——useOptionData 的 optionLabels 依赖 valueList）
 // ============================================================================
 
 /** 内部值类型 */
 type SelectInternalValue = string | number;
-
-/**
- * 在 resolvedOptions 中按 value 查找原始选项对象
- * @description 供 renderLabel / #option-label 的 overlay 渲染获取自定义字段（如 icon），
- * 查找不到时由调用方回退 { value, label }
- */
-const findOptionByValue = (key: string | number): SelectOptionData | null => {
-  for (const item of resolvedOptions.value) {
-    if (isOptionGroup(item)) {
-      const found = item.children.find((child) => child.value === key);
-      if (found) return found;
-    } else if (item.value === key) {
-      return item;
-    }
-  }
-  return null;
-};
 
 /**
  * 从 modelValue/defaultValue 提取内部值数组
@@ -379,57 +217,53 @@ const finalValueList = ref<Array<SelectInternalValue>>([...valueList.value]); //
  */
 const selectedKeySet = computed(() => new Set(valueList.value));
 
-/** 从 resolvedOptions 收集 label 到 result（跳过已存在的 key），SSR 友好 */
-const collectResolvedOptionLabels = (result: Record<string | number, string>) => {
-  for (const item of resolvedOptions.value) {
-    if (isOptionGroup(item)) {
-      for (const child of item.children) {
-        if (!(child.value in result)) {
-          result[child.value] = child.label;
-        }
-      }
-    } else if (!(item.value in result)) {
-      result[item.value] = item.label;
-    }
-  }
-};
+// ============================================================================
+// 选项数据归一化 + Label 派生
+// 提取至 composables/use-option-data.ts
+// ============================================================================
+const {
+  optionInfoMap,
+  cachedOptionMap,
+  createdOptions,
+  resolvedOptions,
+  optionLabels,
+  isOptionGroup,
+  getOptionKey,
+  getOptionValue,
+  getOptionDisabled,
+  getOptionRaw,
+  getOptionChildren,
+} = useOptionData(props, {
+  hasDefaultSlot: () => !isEmptySlot(slots.default),
+  valueList,
+});
 
-/** 从 fallbackOption 补充未匹配值的 label */
-const collectFallbackLabels = (result: Record<string | number, string>) => {
-  if (!props.fallbackOption) return;
-  for (const v of valueList.value) {
-    if (!(v in result)) {
-      const fb = props.fallbackOption(v);
-      if (fb) {
-        result[v] = fb.label;
-      }
-    }
+watchEffect(() => {
+  // 仅检查插槽函数是否存在，不在 watchEffect 中调用它（避免 render 外触发 Vue 警告）
+  if (slots.default && props.options && props.options.length > 0) {
+    logger.warn('options prop 与默认插槽同时存在，已忽略 options，优先使用插槽');
   }
-};
+  if (props.filterable && slots.default) {
+    logger.warn('filterable 在插槽模式下不生效，请使用 options prop 进行过滤');
+  }
+});
 
 /**
- * value → label 的映射（从 optionInfoMap + resolvedOptions + cachedOptionMap + fallbackOption 派生）
- * 优先级：optionInfoMap（已注册选项）→ resolvedOptions（props.options 直接派生，SSR 友好）
- * → cachedOptionMap（已选缓存）→ fallbackOption（用户兜底）
+ * 在 resolvedOptions 中按 value 查找原始选项对象
+ * @description 供 renderLabel / #option-label 的 overlay 渲染获取自定义字段（如 icon），
+ * 查找不到时由调用方回退 { value, label }
  */
-const optionLabels = computed<Record<string | number, string>>(() => {
-  const result: Record<string | number, string> = {};
-  // 1. optionInfoMap：当前已注册的选项（OOption 挂载时写入）
-  optionInfoMap.forEach((option, key) => {
-    result[key] = option.label;
-  });
-  // 2. resolvedOptions：从 props.options 直接派生（SSR 友好，无需等 OOption 挂载）
-  collectResolvedOptionLabels(result);
-  // 3. cachedOptionMap：已选值缓存（选项卸载后保留）
-  cachedOptionMap.forEach((option, key) => {
-    if (!(key in result)) {
-      result[key] = option.label;
+const findOptionByValue = (key: string | number): SelectOptionData | null => {
+  for (const item of resolvedOptions.value) {
+    if (isOptionGroup(item)) {
+      const found = item.children.find((child) => child.value === key);
+      if (found) return found;
+    } else if (item.value === key) {
+      return item;
     }
-  });
-  // 4. fallbackOption：用户提供的兜底函数
-  collectFallbackLabels(result);
-  return result;
-});
+  }
+  return null;
+};
 
 /** 实际是否开启创建：allowCreate 或（autoTagInMultiple && multiple） */
 const effectiveAllowCreate = computed(() => props.allowCreate || (props.autoTagInMultiple && props.multiple));
@@ -442,134 +276,13 @@ const showTagInput = computed(() => props.filterable || effectiveAllowCreate.val
 
 // ============================================================================
 // maxTagCount='responsive' 容器宽度自适应
-// 使用 VueUse useResizeObserver 自动管理监听生命周期（target 为 null 时不观察，
-// 变为非 null 时自动开始观察）；重置-测量-设置策略确保容器宽度变化时可恢复
+// 提取至 composables/use-responsive-tags.ts，使用 VueUse useResizeObserver
+// 自动管理监听生命周期；重置-测量-设置策略确保容器宽度变化时可恢复
 // ============================================================================
-
-/** 是否为响应式折叠模式 */
-const isResponsiveTag = computed(() => props.maxTagCount === 'responsive');
-/** 响应式折叠：实际可显示的 tag 数量，null 表示全部显示（SSR 阶段或全部可放下时） */
-const responsiveTagCount = ref<number | null>(null);
-/** tags 容器引用，供 useResizeObserver 监听与 DOM 查询使用 */
-const tagsWrapRef = ref<HTMLElement | null>(null);
-/** 上次测量的容器宽度，防止 ResizeObserver 因高度变化振荡 */
-let lastContainerWidth = 0;
-/**
- * 是否正在执行异步测量（防止重入）
- * @description ref 类型，驱动模板 .is-measuring class，使 input wrapper 在测量期间脱离 flex 流，
- * 避免 tag 被 flex 压缩导致 offsetWidth 偏小
- */
-const isMeasuring = ref(false);
-/** 折叠指示器（+N…）的预留宽度，确保指示器不被 overflow:hidden 裁剪 */
-const FOLD_INDICATOR_RESERVE = 56;
-/** 多选 Tag 状态下展开时 input wrapper 的最小宽度，折叠计算需预留此空间 */
-const INPUT_MIN_WIDTH = 80;
-
-/**
- * 计算折叠指示器与内联 input 的预留宽度
- * @description dropdown 展开且需要搜索/创建时 input wrapper 占用 INPUT_MIN_WIDTH，折叠计算需一并预留
- * @returns 预留宽度（px）
- */
-const getTagReserveWidth = (): number => (isSelecting.value && showTagInput.value ? FOLD_INDICATOR_RESERVE + INPUT_MIN_WIDTH : FOLD_INDICATOR_RESERVE);
-
-/**
- * 在 nextTick 后测量 tag 实际宽度并设置 responsiveTagCount
- * @description responsiveTagCount=null 时 DOM 中出现全部 tag，逐个累加 offsetWidth，超出容器宽度则停止
- * @param containerWidth 测量时的容器宽度
- */
-const measureTags = (containerWidth: number) => {
-  isMeasuring.value = false;
-  if (!tagsWrapRef.value) return;
-
-  const tags = tagsWrapRef.value.querySelectorAll('.o-select-tag');
-  if (tags.length === 0 || containerWidth === 0) {
-    responsiveTagCount.value = null;
-    return;
-  }
-
-  let totalWidth = 0;
-  let count = 0;
-  const reserve = getTagReserveWidth();
-  for (const tag of tags) {
-    totalWidth += (tag as HTMLElement).offsetWidth + 4; // 4px margin
-    // 预留折叠指示器 + input 空间：已有至少 1 个 tag 且加上预留后超出容器则停止
-    if (totalWidth + reserve > containerWidth && count > 0) break;
-    count++;
-  }
-
-  // 全部 tag 都能放下（含折叠指示器预留空间）则不折叠
-  responsiveTagCount.value = count >= tags.length ? null : Math.max(1, count);
-};
-
-/**
- * 计算响应式 tag 数量
- * @description 先重置为全部显示（responsiveTagCount=null），在 nextTick 后 DOM 中出现全部 tag，
- * 逐个累加 offsetWidth，超过容器宽度则停止。通过宽度变化检测防止 ResizeObserver 振荡。
- * @param force 是否强制重新计算（tag 数量变化时为 true，宽度未变也重算）
- */
-const calculateResponsiveTags = (force = false) => {
-  if (!tagsWrapRef.value || isMeasuring.value) return;
-  const containerWidth = tagsWrapRef.value.clientWidth;
-
-  // 非强制模式下，仅当容器宽度变化时才重新计算（防止高度变化引起的振荡）
-  if (!force && containerWidth === lastContainerWidth) return;
-  lastContainerWidth = containerWidth;
-
-  // 重置为全部显示，以便在 DOM 中测量所有 tag 的真实宽度
-  responsiveTagCount.value = null;
-  isMeasuring.value = true;
-
-  nextTick(() => measureTags(containerWidth));
-};
-
-// VueUse useResizeObserver：自动管理生命周期，target 变化时自动重新观察
-useResizeObserver(tagsWrapRef, () => {
-  if (isResponsiveTag.value) calculateResponsiveTags(false);
-});
-
-// tag 数量变化时强制重新计算
-watch(
-  () => finalValueList.value.length,
-  () => {
-    if (isResponsiveTag.value) {
-      nextTick(() => calculateResponsiveTags(true));
-    }
-  },
+const { tagsWrapRef, isResponsiveTag, isMeasuring, valueListDisplay, valueListFold, foldLabel, foldTrigger, calculateResponsiveTags } = useResponsiveTags(
+  props,
+  { isSelecting, showTagInput, finalValueList, optionLabels },
 );
-
-const valueListDisplay = computed(() => {
-  if (!props.maxTagCount) {
-    return finalValueList.value;
-  }
-  if (props.maxTagCount === 'responsive') {
-    const count = responsiveTagCount.value;
-    if (count === null) return finalValueList.value; // SSR: 显示全部
-    return finalValueList.value.slice(0, count);
-  }
-  return finalValueList.value.slice(0, props.maxTagCount);
-});
-const valueListFold = computed(() => {
-  if (!props.maxTagCount) {
-    return [];
-  }
-  if (props.maxTagCount === 'responsive') {
-    const count = responsiveTagCount.value;
-    if (count === null) return []; // SSR: 无折叠
-    return finalValueList.value.slice(count);
-  }
-  return finalValueList.value.slice(props.maxTagCount);
-});
-const foldLabel = computed(() => {
-  if (props.foldLabel) {
-    const tags = valueListFold.value.map((item) => ({
-      value: item,
-      label: optionLabels.value[item] ?? '',
-    }));
-    return props.foldLabel(tags);
-  }
-  return `+${valueListFold.value.length}...`;
-});
-const foldTrigger = typeof props.showFoldTags === 'string' ? props.showFoldTags : 'hover';
 
 const round = getRoundClass(props, 'select');
 
@@ -626,47 +339,20 @@ const limitReached = computed(() => {
   return props.multiple && props.limit > 0 && valueList.value.length >= props.limit;
 });
 
-// ============================================================================
-// 搜索/过滤能力
-// filterable=true 时 input 可编辑，内置/自定义过滤，search 事件
-// ============================================================================
-
-/** 内部搜索词（非受控） */
-const innerInputValue = ref('');
-
 /** IME 组合输入状态（compositionstart → compositionend 期间为 true），compositionend 时主动派发合成 input 事件确保跨浏览器一致 */
 const { isComposing, onCompositionStart, onCompositionEnd } = useComposition();
 
-/** 合并后的搜索词（受控优先，非受控兜底） */
-const mergedInputValue = computed(() => props.inputValue ?? innerInputValue.value);
-
-/**
- * 是否可清除
- * @description 有选中值或搜索词时显示清除按钮
- */
-const isClearable = computed(() => props.clearable && !props.disabled && (valueList.value.length > 0 || !!mergedInputValue.value));
-
-/**
- * input 的显示值
- * - 多选模式：始终返回空（tag 负责展示选中值，input 不回填 label）
- *   - filterable=true + 有搜索词：返回搜索词
- *   - filterable=true/false + 无搜索词：返回空
- * - 单选 filterable=false：显示已选值 label
- * - 单选 filterable=true + 有搜索词：显示搜索词
- * - 单选 filterable=true + 下拉展开 + 无搜索词：显示空
- * - 单选 filterable=true + 下拉收起 + 无搜索词：显示已选值 label
- */
-const displayInputValue = computed(() => {
-  if (props.multiple) {
-    return mergedInputValue.value ?? '';
-  }
-  if (props.filterable) {
-    if (mergedInputValue.value) return mergedInputValue.value;
-    // 下拉展开时空搜索词显示空，避免用户删除搜索词后被 label 回填
-    if (isSelecting.value) return '';
-    return valueList.value.length > 0 ? (optionLabels.value[valueList.value[0]] ?? '') : '';
-  }
-  return valueList.value.length > 0 ? (optionLabels.value[valueList.value[0]] ?? '') : '';
+// ============================================================================
+// 搜索/过滤能力
+// 提取至 composables/use-select-filter.ts
+// ============================================================================
+const { innerInputValue, mergedInputValue, isClearable, displayInputValue, filteredOptions } = useSelectFilter(props, {
+  isComposing,
+  isSelecting,
+  valueList,
+  optionLabels,
+  resolvedOptions,
+  isOptionGroup,
 });
 
 // ============================================================================
@@ -721,136 +407,12 @@ const syncOverlayBounds = () => {
 useResizeObserver(selectRef, () => syncOverlayBounds());
 useResizeObserver(mainInputRef, () => syncOverlayBounds());
 
-/** 内置默认过滤：label 包含匹配，不区分大小写 */
-const defaultFilterOption = (input: string, option: SelectOptionData): boolean => {
-  return option.label.toLowerCase().includes(input.toLowerCase());
-};
-
-/**
- * 过滤分组选项的 children，保留有匹配子项的分组
- * @param item 分组选项
- * @param filterFn 过滤函数
- * @param query 搜索词
- * @returns 过滤后的分组选项，无匹配子项时返回 null
- */
-const filterGroupOption = (
-  item: SelectMixedOption,
-  filterFn: (input: string, option: SelectOptionData) => boolean,
-  query: string,
-): SelectMixedOption | null => {
-  if (!isOptionGroup(item)) return null;
-  const filteredChildren = item.children.filter((child) => filterFn(query, child));
-  if (filteredChildren.length === 0) return null;
-  return { ...item, children: filteredChildren };
-};
-
-/**
- * 比较两个选项（非分组），用于 filterSort 排序
- * @param a 选项 A
- * @param b 选项 B
- * @returns 排序值
- */
-const compareOptions = (a: SelectMixedOption, b: SelectMixedOption): number => {
-  if (isOptionGroup(a) || isOptionGroup(b)) return 0;
-  return props.filterSort!(a, b);
-};
-
-/**
- * 对分组项的 children 执行 filterSort 排序
- * @param item 选项（分组或普通）
- * @returns 排序后的选项
- */
-const sortGroupChildren = (item: SelectMixedOption): SelectMixedOption => {
-  if (!isOptionGroup(item)) return item;
-  return { ...item, children: [...item.children].sort(props.filterSort) };
-};
-
-/**
- * 对过滤结果执行 filterSort 排序（仅搜索结果非空时生效）
- * @param result 过滤后的选项列表（原地修改）
- */
-const sortFilteredOptions = (result: SelectMixedOption[]) => {
-  if (!props.filterSort || result.length === 0) return;
-  for (let i = 0; i < result.length; i++) {
-    result[i] = sortGroupChildren(result[i]);
-  }
-  result.sort(compareOptions);
-};
-
-/**
- * 对 resolvedOptions 执行过滤，返回过滤后的列表
- * @param filterFn 过滤函数
- * @param query 搜索词
- * @returns 过滤后的选项数组
- */
-const applyFilter = (filterFn: (input: string, option: SelectOptionData) => boolean, query: string): SelectMixedOption[] => {
-  const result: SelectMixedOption[] = [];
-  for (const item of resolvedOptions.value) {
-    if ('type' in item && item.type === 'group') {
-      const filtered = filterGroupOption(item, filterFn, query);
-      if (filtered) result.push(filtered);
-    } else if (filterFn(query, item as SelectOptionData)) {
-      result.push(item);
-    }
-  }
-  return result;
-};
-
-/**
- * 过滤后的选项列表
- * - filterable=false 或无搜索词：返回 resolvedOptions（不过滤）
- * - IME 组合输入期间：返回 resolvedOptions（不过滤，避免组合中间值触发过滤）
- * - filterMethod 存在：调用 filterMethod（自行处理），OSelect 不做过滤
- * - filterOption=false：不过滤（远程搜索）
- * - filterOption=true（默认）或函数：按 filterOption 过滤
- */
-const filteredOptions = computed<SelectMixedOption[]>(() => {
-  if (!props.filterable || !mergedInputValue.value || isComposing.value) {
-    return resolvedOptions.value;
-  }
-  const query = mergedInputValue.value;
-  // filterMethod 优先：业务自行处理过滤逻辑
-  if (props.filterMethod) {
-    props.filterMethod(query);
-    return resolvedOptions.value;
-  }
-  // filterOption=false：不过滤
-  if (props.filterOption === false) {
-    return resolvedOptions.value;
-  }
-  // 确定过滤函数
-  const filterFn = typeof props.filterOption === 'function' ? props.filterOption : defaultFilterOption;
-  // 过滤
-  const result = applyFilter(filterFn, query);
-  // filterSort 排序
-  sortFilteredOptions(result);
-  return result;
-});
-
 /**
  * 触发 search 事件
  * @description 直接 emit，防抖由调用者通过 useDebounceFn 等方式自行控制
  */
 const onSearch = (value: string) => {
   emits('search', value);
-};
-
-/**
- * 按分隔符拆分输入值
- * @param input 原始输入
- * @param separators 分隔符数组
- * @returns 拆分后的 token 数组
- */
-const splitBySeparators = (input: string, separators: string[]): string[] => {
-  let result = [input];
-  for (const sep of separators) {
-    const next: string[] = [];
-    for (const piece of result) {
-      next.push(...piece.split(sep));
-    }
-    result = next;
-  }
-  return result;
 };
 
 // ============================================================================
@@ -888,43 +450,6 @@ const onOptionScroll = (evt: Event) => {
   }
 };
 
-// ============================================================================
-// 创建选项（tags 模式）
-// allowCreate=true 时输入不存在的值，下拉首项显示「创建 xxx」
-// effectiveAllowCreate / showTagInput 定义于响应式折叠区之前（被 calculateResponsiveTags 引用）
-// ============================================================================
-
-/** 检查 value 是否已存在于 resolvedOptions 中 */
-const valueExistsInOptions = (value: string | number): boolean => {
-  for (const item of resolvedOptions.value) {
-    if (isOptionGroup(item)) {
-      if (item.children.some((child) => child.value === value)) return true;
-    } else {
-      if (item.value === value) return true;
-    }
-  }
-  return false;
-};
-
-/**
- * 创建项数据
- * 当 effectiveAllowCreate=true 且有搜索词且搜索词不在 options 中时，生成创建项
- */
-const createOption = computed<SelectOptionData | null>(() => {
-  if (!effectiveAllowCreate.value || !mergedInputValue.value) {
-    return null;
-  }
-  const inputValue = mergedInputValue.value;
-  // 搜索词已存在于 options 中时不显示创建项
-  if (valueExistsInOptions(inputValue)) {
-    return null;
-  }
-  return {
-    value: inputValue,
-    label: props.createLabel ? props.createLabel(inputValue) : t('select.create', { input: inputValue }),
-  };
-});
-
 /**
  * 构建 emit 值
  * @returns SelectValueT（多选返回数组，单选返回标量）
@@ -954,46 +479,27 @@ const emitUpdateValue = (value: Array<SelectInternalValue>) => {
   emits('update:modelValue', buildEmitValue(value));
 };
 
-/**
- * 处理单个 token：如果不在已选列表中则添加
- * @param token 输入的分词片段
- */
-const processToken = (token: string) => {
-  const trimmed = token.trim();
-  if (!trimmed || valueList.value.some((v) => v === trimmed)) return;
-  if (!valueExistsInOptions(trimmed)) {
-    emits('create', trimmed);
-    createdOptions.value = [...createdOptions.value, { value: trimmed, label: trimmed }];
-  }
-  cachedOptionMap.set(trimmed, { value: trimmed, label: trimmed });
-  valueList.value.push(trimmed);
-};
-
-/**
- * 处理 tokenSeparators 分词输入（仅 multiple + allowCreate 模式生效）
- * @param value 原始输入值
- * @returns 是否已处理分词（true 时调用方应跳过后续逻辑）
- */
-const handleTokenSeparators = (value: string): boolean => {
-  if (isComposing.value || props.tokenSeparators.length === 0 || !props.multiple || !effectiveAllowCreate.value) {
-    return false;
-  }
-  const tokens = splitBySeparators(value, props.tokenSeparators);
-  if (tokens.length <= 1) return false;
-
-  // 有分隔符：逐个 token 选中，清空 input
-  for (const token of tokens) {
-    processToken(token);
-  }
-  if (!isResponding.value) {
-    emitUpdateValue(valueList.value);
-    emitChange(valueList.value);
-  }
-  // 清空 input
-  innerInputValue.value = '';
-  emits('update:inputValue', '');
-  return true;
-};
+// ============================================================================
+// 创建选项（tags 模式）
+// 提取至 composables/use-create-option.ts
+// ============================================================================
+const { createOption, handleTokenSeparators, valueExistsInOptions } = useCreateOption(props, {
+  resolvedOptions,
+  isOptionGroup,
+  effectiveAllowCreate,
+  mergedInputValue,
+  isComposing,
+  isResponding,
+  innerInputValue,
+  valueList,
+  createdOptions,
+  cachedOptionMap,
+  t,
+  emitCreate: (value: string) => emits('create', value),
+  emitUpdateInputValue: (value: string) => emits('update:inputValue', value),
+  emitUpdateValue,
+  emitChange,
+});
 
 /**
  * input 输入事件处理
@@ -1302,6 +808,7 @@ const virtualListRef = computed<VirtualListExpose | null>(() => {
 
 // ============================================================================
 // focus / blur / scrollTo 实例方法
+// scrollTo 提取至 composables/use-scroll-to.ts
 // ============================================================================
 
 /**
@@ -1318,149 +825,67 @@ const blur = () => {
   inputRef.value?.blur();
 };
 
+const { flattenOptions, scrollTo } = useScrollTo({
+  resolvedOptions,
+  isOptionGroup,
+  virtualListRef,
+  optionsRef,
+  warn: (msg: string) => logger.warn(msg),
+});
+
 /**
- * 将 resolvedOptions 展平为 SelectOptionData[]
- * 分组选项的 children 被展开到顶层
- * @returns 展平后的选项数组
+ * 将首个已选值滚动至可见区域
+ * @description 展开下拉面板时，若已有选中项则滚动至首个选中值所在位置
  */
-const flattenOptions = (): SelectOptionData[] => {
-  const flat: SelectOptionData[] = [];
-  for (const item of resolvedOptions.value) {
-    if (isOptionGroup(item)) {
-      flat.push(...item.children);
-    } else {
-      flat.push(item);
+const scrollToSelectedValue = () => {
+  if (valueList.value.length === 0) return;
+  const key = valueList.value[0];
+  const idx = flattenOptions().findIndex((o) => o.value === key);
+  if (idx >= 0) {
+    scrollTo(idx);
+  }
+};
+
+/**
+ * 下拉展开时处理
+ * @description 响应式折叠重算（reserve 56→136，input wrapper 进入 DOM）；
+ * 滚动至已选值；多选且有选中项时自动聚焦搜索输入框
+ */
+const handleDropdownOpen = () => {
+  nextTick(() => {
+    // 响应式折叠：展开时 reserve 从 56→136，input wrapper 进入 DOM，需重算
+    if (isResponsiveTag.value) {
+      calculateResponsiveTags(true);
     }
-  }
-  return flat;
-};
-
-/**
- * 解析 scrollTo 参数，返回目标索引
- * - number 类型直接返回
- * - 对象类型按 key/index 解析（key 与 index 互斥，同时传时以 key 为准）
- * @param index 选项索引或 { index, key } 对象
- * @returns 目标索引，无效时返回 undefined
- */
-const resolveScrollTarget = (index: number | { index?: number; key?: string | number }): number | undefined => {
-  if (typeof index === 'number') return index;
-
-  let targetKey: string | number | undefined;
-  if (index.key !== undefined && index.index !== undefined) {
-    // index 与 key 互斥，同时传时 dev warn 并以 key 为准
-    logger.warn('scrollTo 的 index 与 key 不应同时传入，以 key 为准');
-    targetKey = index.key;
-  } else if (index.key !== undefined) {
-    targetKey = index.key;
-  } else if (index.index !== undefined) {
-    return index.index;
-  }
-
-  // key 模式：在 resolvedOptions 中查找 index
-  if (targetKey !== undefined) {
-    return flattenOptions().findIndex((o) => o.value === targetKey);
-  }
-  return undefined;
-};
-
-/**
- * 查找元素最近的可滚动祖先
- * @description 遍历父元素链，找到第一个 overflow 为 auto/scroll 且内容超出可视区域的元素。
- * 用于 scrollTo 中手动滚动 popup 内部容器，避免 scrollIntoView 滚动 window。
- * @param el 起始元素
- * @returns 可滚动祖先元素，未找到时返回 null
- */
-const findScrollableAncestor = (el: HTMLElement): HTMLElement | null => {
-  let parent = el.parentElement;
-  while (parent && parent !== document.body) {
-    const style = getComputedStyle(parent);
-    const overflowY = style.overflowY;
-    if ((overflowY === 'auto' || overflowY === 'scroll') && parent.scrollHeight > parent.clientHeight) {
-      return parent;
+    scrollToSelectedValue();
+    // 多选有选中项时，展开后自动聚焦 input wrapper 内的 input
+    if (props.multiple && valueList.value.length > 0) {
+      inputRef.value?.focus();
     }
-    parent = parent.parentElement;
-  }
-  return null;
+  });
 };
 
 /**
- * 编程式滚动到指定选项
- * - 虚拟模式：调用 virtualListRef.scrollToView
- * - 非虚拟模式：手动滚动选项列表的可滚动容器，将目标选项带入可见区域。
- *   不使用 scrollIntoView，因为 OPopup 通过 ResizeObserver 异步定位，
- *   在 nextTick 中调用 scrollIntoView 时 popup 可能尚未定位完成，
- *   导致 option 元素位于页面顶部，scrollIntoView 滚动 window 引起页面跳转。
- * @param index 选项索引或 { index, key } 对象（key 与 index 互斥，同时传时以 key 为准）
+ * 下拉收起时处理
+ * @description 不保留搜索词时清空 input；响应式折叠重算（input wrapper 从 DOM 移除，reserve 136→56）
  */
-const scrollTo = (index: number | { index?: number; key?: string | number }) => {
-  const targetIndex = resolveScrollTarget(index);
-  if (targetIndex === undefined || targetIndex < 0) return;
-
-  // 虚拟模式：调用 virtualListRef.scrollToView
-  const virtualList = virtualListRef.value;
-  if (virtualList) {
-    virtualList.scrollToView(targetIndex);
-    return;
+const handleDropdownClose = () => {
+  if (!props.retainInputValue && innerInputValue.value) {
+    innerInputValue.value = '';
+    emits('update:inputValue', '');
   }
-
-  // 非虚拟模式：手动滚动可滚动容器（用 optionsRef 限定查询范围）
-  const container = optionsRef.value;
-  if (!container) return;
-  const optionEls = container.querySelectorAll('.o-option');
-  if (!optionEls[targetIndex]) return;
-
-  const optionEl = optionEls[targetIndex] as HTMLElement;
-  // 查找选项元素最近的可滚动祖先，仅滚动该容器而非 window
-  const scrollContainer = findScrollableAncestor(optionEl);
-  if (!scrollContainer) return;
-
-  const optionRect = optionEl.getBoundingClientRect();
-  const containerRect = scrollContainer.getBoundingClientRect();
-  // 选项在容器上方：向上滚动使选项顶部对齐容器顶部
-  if (optionRect.top < containerRect.top) {
-    scrollContainer.scrollTop -= containerRect.top - optionRect.top;
-  } else if (optionRect.bottom > containerRect.bottom) {
-    // 选项在容器下方：向下滚动使选项底部对齐容器底部
-    scrollContainer.scrollTop += optionRect.bottom - containerRect.bottom;
+  // 响应式折叠：收起时 input wrapper 从 DOM 移除，reserve 从 136→56，需重算
+  if (isResponsiveTag.value) {
+    nextTick(() => calculateResponsiveTags(true));
   }
 };
 
-// 关闭下拉时根据 retainInputValue 决定是否清空搜索词
-// 展开时自动 scrollIntoView 到已选值
-// 多选有 tag 时展开后自动聚焦 input
-// 展开/收起时强制重算响应式折叠（reserve 在 56↔136 间切换，容器宽度可能不变，需 force 触发）
+// 展开/收起时联动处理：搜索词清空、滚动至已选值、多选自动聚焦、响应式折叠重算
 watch(
   () => isSelecting.value,
   (visible) => {
-    if (visible) {
-      // 展开时滚动到已选值
-      nextTick(() => {
-        // 响应式折叠：展开时 reserve 从 56→136，input wrapper 进入 DOM，需重算
-        if (isResponsiveTag.value) {
-          calculateResponsiveTags(true);
-        }
-        if (valueList.value.length > 0) {
-          const key = valueList.value[0];
-          const idx = flattenOptions().findIndex((o) => o.value === key);
-          if (idx >= 0) {
-            scrollTo(idx);
-          }
-        }
-        // 多选有选中项时，展开后自动聚焦 input wrapper 内的 input
-        if (props.multiple && valueList.value.length > 0) {
-          inputRef.value?.focus();
-        }
-      });
-    } else {
-      if (!props.retainInputValue && innerInputValue.value) {
-        innerInputValue.value = '';
-        emits('update:inputValue', '');
-      }
-      // 响应式折叠：收起时 input wrapper 从 DOM 移除，reserve 从 136→56，需重算
-      if (isResponsiveTag.value) {
-        nextTick(() => calculateResponsiveTags(true));
-      }
-    }
+    if (visible) handleDropdownOpen();
+    else handleDropdownClose();
   },
 );
 
