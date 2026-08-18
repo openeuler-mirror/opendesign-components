@@ -3,7 +3,7 @@
 
 ### 主题规范
 
-昇腾、鲲鹏及欧拉的主题规范中要求，不同的尺寸的弹窗且宽度占有不同的栅格数量。组件默认通过百分比设置宽度，如果要通过栅格设置宽度则需要引入响应的皮肤样式文件。
+昇腾、鲲鹏及欧拉的主题规范中要求，不同尺寸的弹窗宽度对应不同的栅格列数。组件默认通过 `--o-r-grid-*` 栅格变量设置宽度，各断点自动适配。
 
 #### PC 弹窗
 
@@ -11,8 +11,7 @@
 
 ### Theme Specification
 
-The Ascend, Kunpeng, and openEuler theme specifications require that dialogs of different sizes occupy varying numbers of grid columns in width. By default,
-the component sets the width using percentages. If grid-based width setting is required, the corresponding skin style file needs to be imported.
+The Ascend, Kunpeng, and openEuler theme specifications require that dialogs of different sizes occupy varying numbers of grid columns in width. The component uses `--o-r-grid-*` grid variables for width by default, adapting automatically across breakpoints.
 
 #### PC Dialog
 </docs>
