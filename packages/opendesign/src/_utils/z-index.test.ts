@@ -1,47 +1,32 @@
 /**
  * _utils/z-index.ts z-index 管理测试。
  *
- * 覆盖 getZIndex / createTopZIndex / removeZIndex。
- * 每个测试通过 beforeEach 重置 topZIndex 到 1000，确保隔离。
+ * 覆盖 getZIndex / createTopZIndex / watchEffect 同步逻辑。
+ * 浏览器模式下 vi.resetModules 无法重置模块状态，
+ * 因此采用单测试内顺序验证，或通过 initZIndex 显式控制起点。
  */
-import { test, expect, describe, beforeEach } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import { nextTick } from 'vue';
-import { getZIndex, createTopZIndex, removeZIndex } from './z-index';
+import { getZIndex, createTopZIndex } from './z-index';
 import { initZIndex } from './global';
 
-beforeEach(async () => {
-  // 改变再恢复 defaultZIndex，触发 watchEffect 同步 topZIndex 到 1000
-  initZIndex(0);
-  initZIndex(1000);
-  await nextTick();
-});
-
 describe('z-index 管理', () => {
-  test('getZIndex - 返回当前顶层 z-index 值', () => {
-    expect(getZIndex()).toBe(1000);
+  test('createTopZIndex 单调递增，getZIndex 返回当前值', () => {
+    const before = getZIndex();
+    const next = createTopZIndex();
+    expect(next).toBe(before + 1);
+    expect(getZIndex()).toBe(next);
   });
 
-  test('createTopZIndex - 每次调用递增 1', () => {
-    expect(createTopZIndex()).toBe(1001);
-    expect(getZIndex()).toBe(1001);
-  });
-
-  test('removeZIndex - 不传参数时递减 1', () => {
-    createTopZIndex(); // → 1001
-    createTopZIndex(); // → 1002
-    removeZIndex();
-    expect(getZIndex()).toBe(1001);
-  });
-
-  test('removeZIndex - 传入当前值时递减', () => {
-    const current = createTopZIndex(); // → 1001
-    removeZIndex(current);
-    expect(getZIndex()).toBe(1000);
-  });
-
-  test('removeZIndex - 传入非当前值时不递减', () => {
-    createTopZIndex(); // → 1001
-    removeZIndex(999); // 不匹配当前值
-    expect(getZIndex()).toBe(1001);
+  test('defaultZIndex 变更同步：较大值生效，较小值不回退', async () => {
+    const base = getZIndex();
+    createTopZIndex();
+    initZIndex(base + 5000);
+    await nextTick();
+    expect(getZIndex()).toBe(base + 5000);
+    createTopZIndex();
+    initZIndex(500);
+    await nextTick();
+    expect(getZIndex()).toBe(base + 5001);
   });
 });

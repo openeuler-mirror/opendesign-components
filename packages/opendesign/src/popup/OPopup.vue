@@ -16,7 +16,7 @@ import { useIntersectionObserver } from '../hooks';
 import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
 import { resolveHtmlElement, getHtmlElement } from '../_utils/vue-utils';
-import { createTopZIndex, removeZIndex } from '../_utils/z-index';
+import { createTopZIndex } from '../_utils/z-index';
 
 // TODO 处理嵌套
 
@@ -88,8 +88,6 @@ let io: ReturnType<typeof useIntersectionObserver> | null = null;
 const updateZIndex = (show: boolean) => {
   if (show) {
     popStyle['--popup-z-index'] = createTopZIndex();
-  } else {
-    removeZIndex(popStyle['--popup-z-index']);
   }
 };
 const { target, wrapper } = toRefs(props);

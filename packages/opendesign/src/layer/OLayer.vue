@@ -10,7 +10,7 @@ import { layerInjectKey } from './provide';
 import { useMouse } from '../hooks/use-mouse';
 import { isFunction, isUndefined } from '../_utils/is';
 import { Log } from '../_utils/log';
-import { createTopZIndex, removeZIndex } from '../_utils/z-index';
+import { createTopZIndex } from '../_utils/z-index';
 import { IconClose } from '../_utils/icons';
 import { OIcon } from '../icon';
 
@@ -137,8 +137,6 @@ const beforeToggle = async (show: boolean) => {
 const updateZIndex = (show: boolean) => {
   if (show) {
     zIndex.value = createTopZIndex();
-  } else {
-    removeZIndex(zIndex.value);
   }
 };
 watch(

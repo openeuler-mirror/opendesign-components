@@ -3,8 +3,11 @@ import { defaultZIndex } from './global';
 
 let topZIndex = 100;
 
+/**
+ * @description 当 defaultZIndex 变更时同步 topZIndex，但仅取较大值，防止回退导致已分配的 z-index 被复用
+ */
 watchEffect(() => {
-  topZIndex = defaultZIndex.value;
+  topZIndex = Math.max(topZIndex, defaultZIndex.value);
 });
 
 export function getZIndex() {
@@ -13,15 +16,5 @@ export function getZIndex() {
 
 export function createTopZIndex() {
   topZIndex += 1;
-  return topZIndex;
-}
-/**
- * 减少顶层值
- * @param current 当前zindex值，如果传入，则只有当topZIndex与current相等时，才减1
- */
-export function removeZIndex(current?: number) {
-  if (current === undefined || current === topZIndex) {
-    topZIndex -= 1;
-  }
   return topZIndex;
 }
