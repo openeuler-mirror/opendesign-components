@@ -13,6 +13,7 @@ kind: container
 <!-- @case DataTableHeaderStyle -->
 <!-- @case DataTableFilterSorter -->
 <!-- @case DataTableFilterSorterWatch -->
+<!-- @case DataTableFilterReactive -->
 <!-- @case DataTableMultiSort -->
 <!-- @case DataTablePagination -->
 <!-- @case DataTableExpand -->
