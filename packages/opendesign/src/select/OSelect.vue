@@ -139,7 +139,7 @@ const slots = defineSlots<{
 }>();
 
 const logger = new Log('OSelect');
-const { isPhonePadSize } = useScreen();
+const { lePadV } = useScreen();
 
 const { t } = useI18n();
 
@@ -160,7 +160,7 @@ const optionsRef = ref<HTMLElement | null>(null);
 
 const isSelecting = ref(false);
 const isResponding = computed(() => {
-  return !props.noResponsive && isPhonePadSize.value;
+  return !props.noResponsive && lePadV.value;
 });
 
 const tagPopoverVisible = ref(false);
@@ -265,14 +265,15 @@ const findOptionByValue = (key: string | number): SelectOptionData | null => {
   return null;
 };
 
-/** 实际是否开启创建：allowCreate 或（autoTagInMultiple && multiple） */
-const effectiveAllowCreate = computed(() => props.allowCreate || (props.autoTagInMultiple && props.multiple));
+/** 实际是否开启创建：allowCreate 或（autoTagInMultiple && multiple），移动端禁用 */
+const effectiveAllowCreate = computed(() => !isResponding.value && (props.allowCreate || (props.autoTagInMultiple && props.multiple)));
 
 /**
  * 多选 Tag 状态下是否需要渲染内联搜索 input
- * @description filterable 或 allowCreate 任一开启时才需要 input；两者均关闭时不渲染，避免无意义的 readonly input 撑宽导致 tag 换行
+ * @description filterable 或 allowCreate 任一开启时才需要 input；两者均关闭时不渲染，避免无意义的 readonly input 撑宽导致 tag 换行。
+ * 移动端（isResponding）始终不渲染搜索 input，避免吊起输入法
  */
-const showTagInput = computed(() => props.filterable || effectiveAllowCreate.value);
+const showTagInput = computed(() => !isResponding.value && (props.filterable || effectiveAllowCreate.value));
 
 // ============================================================================
 // maxTagCount='responsive' 容器宽度自适应
@@ -367,18 +368,30 @@ const overlayOptionData = computed<SelectOptionData | null>(() => {
   return findOptionByValue(key) ?? { value: key, label: optionLabels.value[key] ?? '' };
 });
 
+/** 单选且已有选中值——overlay 渲染的前提条件 */
+const hasSingleSelection = computed(() => !props.multiple && valueList.value.length > 0);
+
+/** filterable 模式下搜索框已有输入文本，overlay 需让位给搜索词显示 */
+const hasSearchInput = computed(() => props.filterable && !!mergedInputValue.value);
+
+/** 非移动端 filterable 模式下弹窗展开，overlay 需半透明退避以提示用户可搜索 */
+const shouldFadeOverlay = computed(() => !isResponding.value && props.filterable && isSelecting.value);
+
+/** 存在自定义渲染（renderLabel prop 或 #option-label 插槽），overlay 以自定义 VNode 替换纯文本 */
+const hasCustomLabelRender = computed(() => !!props.renderLabel || !!slots['option-label']);
+
 /**
  * overlay 渲染状态：visible 正常显示 | faded 半透明 | hidden 不渲染
- * - renderLabel / #option-label 模式：非搜索时 visible（自定义渲染蒙层），搜索展开时 faded
- * - 非自定义模式（filterable）：搜索展开时 faded（纯文本蒙层），其余 hidden（input 直接显示）
+ * @description 由四个独立条件组合决定，每个条件提取为 computed 以保持单一职责与低圈复杂度：
+ * - 无单选值或正在搜索 → hidden（input 直接显示搜索词）
+ * - 弹窗展开且可搜索 → faded（半透明退避，移动端无搜索能力故不退避）
+ * - 自定义渲染模式 → visible（renderLabel / #option-label 蒙层）
+ * - 其余 → hidden（input 直接显示文本，无需蒙层）
  */
 const labelOverlayState = computed<'visible' | 'faded' | 'hidden'>(() => {
-  if (props.multiple || valueList.value.length === 0) return 'hidden';
-  if (props.filterable && mergedInputValue.value) return 'hidden';
-  if (props.filterable && isSelecting.value) return 'faded';
-  // 自定义渲染模式：renderLabel prop 或 #option-label 插槽存在时用自定义渲染替换 input 文本
-  if (props.renderLabel || slots['option-label']) return 'visible';
-  // 非自定义模式：input 直接显示文本，不需要蒙层
+  if (!hasSingleSelection.value || hasSearchInput.value) return 'hidden';
+  if (shouldFadeOverlay.value) return 'faded';
+  if (hasCustomLabelRender.value) return 'visible';
   return 'hidden';
 });
 
@@ -529,8 +542,8 @@ const clearClick = (e: Event) => {
   valueList.value = [];
   // 清除值时清理 cachedOptionMap
   cachedOptionMap.clear();
-  // 清空搜索词（仅 filterable 模式下有搜索词，避免非 filterable 时多余 emit）
-  if (props.filterable && mergedInputValue.value) {
+  // 清空搜索词（有搜索输入时才需要 emit，避免非 filterable 时多余事件）
+  if (hasSearchInput.value) {
     innerInputValue.value = '';
     emits('update:inputValue', '');
   }
@@ -971,11 +984,12 @@ defineExpose({
       class="o-select-input"
       :class="{ 'o-select-input--overlay': labelOverlayState !== 'hidden' }"
       :readonly="!showTagInput"
+      :inputmode="isResponding ? 'none' : undefined"
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="isSelecting"
       :aria-controls="optionsId"
-      :aria-autocomplete="props.filterable ? 'list' : undefined"
+      :aria-autocomplete="!isResponding && props.filterable ? 'list' : undefined"
       :aria-disabled="props.disabled || undefined"
       @input="onInput"
       @compositionstart="onCompositionStart"

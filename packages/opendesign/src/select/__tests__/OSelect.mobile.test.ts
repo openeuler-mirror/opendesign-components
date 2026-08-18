@@ -76,7 +76,7 @@ describe('移动端单选 — Dialog 内交互', () => {
     expect(onChange).toHaveBeenCalledWith('b', expect.anything());
   });
 
-  test('单选 filterable — Dialog 内输入搜索词过滤选项', async () => {
+  test('单选 filterable — 移动端禁用搜索：input readonly + 不触发 search', async () => {
     const onSearch = vi.fn();
     const screen = render(OSelect, {
       props: {
@@ -95,14 +95,16 @@ describe('移动端单选 — Dialog 内交互', () => {
     await flush();
 
     const input = screen.container.querySelector('.o-select-input') as HTMLInputElement;
-    await userEvent.fill(input, 'ban');
-    await flush();
+    // 移动端 input 为 readonly，不可编辑
+    expect(input.readOnly).toBe(true);
+    expect(input.getAttribute('inputmode')).toBe('none');
 
-    expect(onSearch).toHaveBeenCalledWith('ban');
-    // 过滤后 Dialog 内仅显示 Banana
+    // 不应触发 search 事件
+    expect(onSearch).not.toHaveBeenCalled();
+
+    // 选项列表不过滤，全部显示
     const options = document.querySelectorAll('.o-select-dlg .o-option');
-    expect(options.length).toBe(1);
-    expect(options[0].textContent).toContain('Banana');
+    expect(options.length).toBe(3);
   });
 
   test('单选 mask 点击 — 关闭 Dialog（mask-close=true）', async () => {
@@ -133,21 +135,19 @@ describe('移动端单选 — Dialog 内交互', () => {
   });
 });
 
-describe('移动端 allowCreate — Dialog 内创建选项', () => {
+describe('移动端 allowCreate — 禁用创建', () => {
   beforeEach(async () => {
     await setViewport('pad_v');
   });
   afterEach(cleanupBodyPopups);
 
-  test('单选 allowCreate — 输入新值点击创建项立即 emit', async () => {
+  test('单选 allowCreate — 移动端 input readonly + 无创建项', async () => {
     const onCreate = vi.fn();
-    const onUpdate = vi.fn();
     const screen = render(OSelect, {
       props: {
         filterable: true,
         allowCreate: true,
         onCreate,
-        'onUpdate:modelValue': onUpdate,
         options: [
           { label: 'A', value: 'a' },
           { label: 'B', value: 'b' },
@@ -160,24 +160,18 @@ describe('移动端 allowCreate — Dialog 内创建选项', () => {
     await flush();
 
     const input = screen.container.querySelector('.o-select-input') as HTMLInputElement;
-    await userEvent.fill(input, 'new-item');
-    await flush();
+    // 移动端 input readonly，不可编辑
+    expect(input.readOnly).toBe(true);
 
-    // 应出现创建项
-    const createOption = findOptionInDialog('new-item');
-    expect(createOption).toBeTruthy();
-    await createOption.click();
-    await flush();
-
-    // 单选模式下点击创建项应立即 emit
-    expect(onCreate).toHaveBeenCalledWith('new-item');
-    expect(onUpdate).toHaveBeenCalledWith('new-item');
+    // 不应出现创建项（effectiveAllowCreate 在移动端为 false）
+    expect(onCreate).not.toHaveBeenCalled();
+    // Dialog 内仅有原始选项，无创建项
+    const options = document.querySelectorAll('.o-select-dlg .o-option');
+    expect(options.length).toBe(2);
   });
 
-  test('多选 allowCreate — 搜索 → 创建 → 确认完整链路', async () => {
+  test('多选 allowCreate — 移动端不渲染 tag 搜索 input', async () => {
     const onCreate = vi.fn();
-    const onUpdate = vi.fn();
-    const onChange = vi.fn();
     const screen = render(OSelect, {
       props: {
         multiple: true,
@@ -185,8 +179,6 @@ describe('移动端 allowCreate — Dialog 内创建选项', () => {
         allowCreate: true,
         modelValue: ['a'],
         onCreate,
-        'onUpdate:modelValue': onUpdate,
-        onChange,
         options: [
           { label: 'A', value: 'a' },
           { label: 'B', value: 'b' },
@@ -198,28 +190,12 @@ describe('移动端 allowCreate — Dialog 内创建选项', () => {
     await selectEl.click();
     await flush();
 
-    // Dialog 内 tag 模式的 input
-    const input = screen.container.querySelector('.o-select-input--tag') as HTMLInputElement;
-    await userEvent.fill(input, 'new-tag');
-    await flush();
+    // 移动端 showTagInput=false → tag 内联搜索 input 不渲染
+    const tagInput = screen.container.querySelector('.o-select-input--tag');
+    expect(tagInput).toBeNull();
 
-    // 点击创建项
-    const createOption = findOptionInDialog('new-tag');
-    expect(createOption).toBeTruthy();
-    await createOption.click();
-    await flush();
-
-    // 多选模式下不应立即 emit（需确认按钮）
-    expect(onUpdate).not.toHaveBeenCalled();
-    expect(onCreate).toHaveBeenCalledWith('new-tag');
-
-    // 点击确认
-    const okBtn = findDlgButton('确定');
-    await okBtn.click();
-    await flush();
-
-    expect(onUpdate).toHaveBeenLastCalledWith(['a', 'new-tag']);
-    expect(onChange).toHaveBeenLastCalledWith(['a', 'new-tag'], expect.anything());
+    // 不应触发 create
+    expect(onCreate).not.toHaveBeenCalled();
   });
 });
 
@@ -544,13 +520,13 @@ describe('移动端多选 — 取消/确认/mask', () => {
   });
 });
 
-describe('移动端多选 — filterable 搜索确认链路', () => {
+describe('移动端多选 — filterable 禁用搜索', () => {
   beforeEach(async () => {
     await setViewport('pad_v');
   });
   afterEach(cleanupBodyPopups);
 
-  test('多选 filterable — 搜索过滤后点击选项 → 确认 emit', async () => {
+  test('多选 filterable — 移动端不渲染 tag 搜索 input + 选项不过滤', async () => {
     const onUpdate = vi.fn();
     const screen = render(OSelect, {
       props: {
@@ -570,24 +546,138 @@ describe('移动端多选 — filterable 搜索确认链路', () => {
     await selectEl.click();
     await flush();
 
-    // 在 tag input 内搜索
-    const input = screen.container.querySelector('.o-select-input--tag') as HTMLInputElement;
-    await userEvent.fill(input, 'che');
-    await flush();
+    // 移动端 showTagInput=false → tag 内联搜索 input 不渲染
+    const tagInput = screen.container.querySelector('.o-select-input--tag');
+    expect(tagInput).toBeNull();
 
-    // 过滤后仅 Cherry 可见
+    // 选项列表不过滤，全部显示
     const options = document.querySelectorAll('.o-select-dlg .o-option');
-    expect(options.length).toBe(1);
-    expect(options[0].textContent).toContain('Cherry');
+    expect(options.length).toBe(3);
 
-    await (options[0] as HTMLElement).click();
+    // 仍可正常选中选项 → 确认 emit
+    const optionC = findOptionInDialog('Cherry');
+    await optionC.click();
     await flush();
 
-    // 确认
     const okBtn = findDlgButton('确定');
     await okBtn.click();
     await flush();
 
     expect(onUpdate).toHaveBeenLastCalledWith(['a', 'c']);
+  });
+});
+
+/**
+ * 移动端滚动条隐藏测试。
+ *
+ * OSelect 在 lePadV（width ≤ 840）视口下进入 Dialog 模式（isResponding=true），
+ * 此时 SelectOption 内部的 OOptionList / OVirtualList 的滚动条 showType 应为 'never'，
+ * 即 OScrollbar 根元素不携带 o-scrollbar-always-show / o-scrollbar-hover-show / o-scrollbar-auto-show 类。
+ *
+ * jsdom 非 touchDevice → isPhonePad 恒为 false，因此用 isPhonePad 判断的旧代码无法隐藏滚动条；
+ * 改用 lePadV（纯视口宽度判断）后可正确隐藏。
+ */
+describe('移动端滚动条隐藏 — lePadV', () => {
+  test('非虚拟模式 — pad_v 视口下选项列表滚动条 showType=never', async () => {
+    await setViewport('pad_v');
+    const screen = render(OSelect, {
+      props: {
+        options: Array.from({ length: 50 }, (_, i) => ({ label: `Option ${i}`, value: i })),
+      },
+    });
+    await flush();
+    await (screen.container.querySelector('.o-select') as HTMLElement).click();
+    await flush();
+
+    const scrollbar = document.querySelector('.o-select-dlg .o-scrollbar');
+    expect(scrollbar).not.toBeNull();
+    // showType='never' → 不应有任何显示模式类
+    expect(scrollbar!.classList.contains('o-scrollbar-always-show')).toBe(false);
+    expect(scrollbar!.classList.contains('o-scrollbar-hover-show')).toBe(false);
+    expect(scrollbar!.classList.contains('o-scrollbar-auto-show')).toBe(false);
+    cleanupBodyPopups();
+  });
+
+  test('虚拟模式 — pad_v 视口下虚拟列表滚动条 showType=never', async () => {
+    await setViewport('pad_v');
+    const screen = render(OSelect, {
+      props: {
+        virtual: true,
+        options: Array.from({ length: 50 }, (_, i) => ({ label: `Option ${i}`, value: `opt-${i}` })),
+      },
+    });
+    await flush();
+    await (screen.container.querySelector('.o-select') as HTMLElement).click();
+    await flush();
+
+    const scrollbar = document.querySelector('.o-select-dlg .o-scrollbar');
+    expect(scrollbar).not.toBeNull();
+    // 虚拟列表默认 showType='always'，移动端应覆盖为 'never'
+    expect(scrollbar!.classList.contains('o-scrollbar-always-show')).toBe(false);
+    expect(scrollbar!.classList.contains('o-scrollbar-hover-show')).toBe(false);
+    cleanupBodyPopups();
+  });
+
+  test('phone 视口下非虚拟模式滚动条 showType=never', async () => {
+    await setViewport('phone');
+    const screen = render(OSelect, {
+      props: {
+        options: Array.from({ length: 50 }, (_, i) => ({ label: `Option ${i}`, value: i })),
+      },
+    });
+    await flush();
+    await (screen.container.querySelector('.o-select') as HTMLElement).click();
+    await flush();
+
+    const scrollbar = document.querySelector('.o-select-dlg .o-scrollbar');
+    expect(scrollbar).not.toBeNull();
+    expect(scrollbar!.classList.contains('o-scrollbar-always-show')).toBe(false);
+    expect(scrollbar!.classList.contains('o-scrollbar-hover-show')).toBe(false);
+    cleanupBodyPopups();
+  });
+});
+
+/**
+ * 桌面端滚动条正常显示对照测试。
+ *
+ * lePadV=false 时（desktop 视口），SelectOption 使用 popup 模式，
+ * 滚动条 showType 保持默认值（非虚拟='hover'，虚拟='always'）。
+ */
+describe('桌面端滚动条正常显示 — 对照组', () => {
+  test('非虚拟模式 — desktop 视口下滚动条 showType=hover', async () => {
+    await setViewport('desktop');
+    const screen = render(OSelect, {
+      props: {
+        options: Array.from({ length: 50 }, (_, i) => ({ label: `Option ${i}`, value: i })),
+      },
+    });
+    await flush();
+    await (screen.container.querySelector('.o-select') as HTMLElement).click();
+    await flush();
+
+    const scrollbar = document.querySelector('.o-options-popup .o-scrollbar');
+    expect(scrollbar).not.toBeNull();
+    // jsdom 非 touch → isPhonePad=false → hover-show 类应存在
+    expect(scrollbar!.classList.contains('o-scrollbar-hover-show')).toBe(true);
+    cleanupBodyPopups();
+  });
+
+  test('虚拟模式 — desktop 视口下滚动条 showType=always', async () => {
+    await setViewport('desktop');
+    const screen = render(OSelect, {
+      props: {
+        virtual: true,
+        options: Array.from({ length: 50 }, (_, i) => ({ label: `Option ${i}`, value: `opt-${i}` })),
+      },
+    });
+    await flush();
+    await (screen.container.querySelector('.o-select') as HTMLElement).click();
+    await flush();
+
+    const scrollbar = document.querySelector('.o-options-popup .o-scrollbar');
+    expect(scrollbar).not.toBeNull();
+    // 虚拟列表默认 showType='always'
+    expect(scrollbar!.classList.contains('o-scrollbar-always-show')).toBe(true);
+    cleanupBodyPopups();
   });
 });

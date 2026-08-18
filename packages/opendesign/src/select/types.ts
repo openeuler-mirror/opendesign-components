@@ -301,8 +301,8 @@ export const selectProps = {
     default: undefined,
   },
   /**
-   * @zh-CN 开启搜索/过滤能力，开启后 input 可编辑。多选有 tag 时，主输入框（`.o-select-input`）不渲染，改为在 tag 区域内联渲染搜索 input（`.o-select-input--tag`），两者互斥，请勿依赖固定的 input DOM 位置
-   * @en-US Enable search/filter capability, input becomes editable when enabled. In multiple mode with tags, the main input (`.o-select-input`) is not rendered; instead an inline search input (`.o-select-input--tag`) is rendered inside the tag area — the two are mutually exclusive, do not rely on a fixed input DOM position
+   * @zh-CN 开启搜索/过滤能力，开启后 input 可编辑。多选有 tag 时，主输入框（`.o-select-input`）不渲染，改为在 tag 区域内联渲染搜索 input（`.o-select-input--tag`），两者互斥，请勿依赖固定的 input DOM 位置。移动端（响应式模式，屏幕宽度 ≤ 840px）不渲染搜索 input，此 prop 不生效
+   * @en-US Enable search/filter capability, input becomes editable when enabled. In multiple mode with tags, the main input (`.o-select-input`) is not rendered; instead an inline search input (`.o-select-input--tag`) is rendered inside the tag area — the two are mutually exclusive, do not rely on a fixed input DOM position. On mobile (responsive mode, screen width ≤ 840px), the search input is not rendered and this prop has no effect
    * @since NEXT
    */
   filterable: {
@@ -346,8 +346,8 @@ export const selectProps = {
     default: false,
   },
   /**
-   * @zh-CN 开启创建新选项能力，输入不存在的值时下拉首项显示「创建 xxx」
-   * @en-US Enable create new option, shows "Create xxx" as first item when input value doesn't exist
+   * @zh-CN 开启创建新选项能力，输入不存在的值时下拉首项显示「创建 xxx」。移动端（响应式模式，屏幕宽度 ≤ 840px）不支持创建选项，此 prop 不生效
+   * @en-US Enable create new option, shows "Create xxx" as first item when input value doesn't exist. Not supported on mobile (responsive mode, screen width ≤ 840px), this prop has no effect
    * @since NEXT
    */
   allowCreate: {
@@ -364,8 +364,8 @@ export const selectProps = {
     default: undefined,
   },
   /**
-   * @zh-CN 多选模式下自动开启 tags 创建行为（默认 false 不自动开启）
-   * @en-US Auto-enable tags creation in multiple mode (default false)
+   * @zh-CN 多选模式下自动开启 tags 创建行为（默认 false 不自动开启）。移动端（响应式模式，屏幕宽度 ≤ 840px）不支持
+   * @en-US Auto-enable tags creation in multiple mode (default false). Not supported on mobile (responsive mode, screen width ≤ 840px)
    * @since NEXT
    */
   autoTagInMultiple: {
@@ -418,8 +418,8 @@ export const selectProps = {
     default: undefined,
   },
   /**
-   * @zh-CN 分词符数组，输入或粘贴含分隔符时拆分为多个值，仅 multiple + allowCreate 模式生效
-   * @en-US Token separators array, split input/paste into multiple values, only in multiple + allowCreate mode
+   * @zh-CN 分词符数组，输入或粘贴含分隔符时拆分为多个值，仅 multiple + allowCreate 模式生效。移动端（响应式模式，屏幕宽度 ≤ 840px）不支持
+   * @en-US Token separators array, split input/paste into multiple values, only in multiple + allowCreate mode. Not supported on mobile (responsive mode, screen width ≤ 840px)
    * @since NEXT
    */
   tokenSeparators: {

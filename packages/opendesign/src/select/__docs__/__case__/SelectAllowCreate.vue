@@ -12,6 +12,8 @@
 
 多选模式下创建的选项会以 tag 形式展示，可逐个删除。
 
+> ℹ️ **移动端限制**：响应式模式（屏幕宽度 ≤ 840px）下不支持创建选项，`allowCreate` 及 `autoTagInMultiple` 不生效。如需在移动端启用创建，设置 `noResponsive` 以禁用响应式模式。
+
   <!-- en-US -->
 
 ### Allow Create New Option ^[NEXT](primary)
@@ -24,6 +26,8 @@ Enable creating new options via `allowCreate`. When the input value doesn't exis
 - `renderLabel` / `#option-label`: custom option label rendering, also applies to created options
 
 Created options in multiple mode are displayed as tags and can be removed individually.
+
+> ℹ️ **Mobile Limitation**: In responsive mode (screen width ≤ 840px), creating options is not supported — `allowCreate` and `autoTagInMultiple` have no effect. To enable creation on mobile, set `noResponsive` to disable responsive mode.
 </docs>
 <script setup lang="ts">
 import { ref, h } from 'vue';

@@ -9,6 +9,7 @@ import type { SizeT } from '../_utils/types';
 import slot from './slot';
 import { BaseScrollerPropsT } from '../scrollbar';
 import type { SelectVirtualItem } from './types';
+import { useScreen } from '../hooks';
 
 const props = defineProps<{
   size?: SizeT;
@@ -28,6 +29,9 @@ const props = defineProps<{
   emptySlot?: any;
 }>();
 
+/** 是否为移动端视口（width ≤ 840，对应 pad_v 断点） */
+const { lePadV } = useScreen();
+
 // 透传选项列表滚动事件（scroll 事件不冒泡，用 capture 捕获）
 const emits = defineEmits<{
   (e: 'scroll', evt: Event): void;
@@ -37,11 +41,18 @@ const onScrollCapture = (evt: Event) => {
   emits('scroll', evt);
 };
 
-const scrollbarCfg: Partial<BaseScrollerPropsT> = {
+/** 滚动条配置：移动端视口 showType='never'，隐藏自定义与原生滚动条 */
+const scrollbarCfg = computed<Partial<BaseScrollerPropsT>>(() => ({
   barClass: 'o-select-options-scrollbar',
   size: 'small',
-  showType: 'hover',
-};
+  showType: lePadV.value ? 'never' : 'hover',
+}));
+
+/** 虚拟列表合并配置：移动端视口覆盖 scrollbar.showType='never' */
+const mergedVirtualListProps = computed(() => {
+  if (!lePadV.value) return props.virtualListProps;
+  return { ...(props.virtualListProps ?? {}), scrollbar: { showType: 'never' } };
+});
 
 /** OVirtualList 实例引用，供 OSelect 通过 expose 间接访问 */
 const virtualListRef = ref<VirtualListExpose | null>(null);
@@ -75,7 +86,7 @@ defineExpose({ virtualListRef });
       <div v-else-if="isVirtualEmpty" class="o-select-empty">
         <slot name="empty-content" />
       </div>
-      <OVirtualList v-else ref="virtualListRef" :list="props.virtualItems!" v-bind="props.virtualListProps" class="o-option-list">
+      <OVirtualList v-else ref="virtualListRef" :list="props.virtualItems!" v-bind="mergedVirtualListProps" class="o-option-list">
         <template #default="{ item }">
           <slot name="virtual-item" :item="item" />
         </template>

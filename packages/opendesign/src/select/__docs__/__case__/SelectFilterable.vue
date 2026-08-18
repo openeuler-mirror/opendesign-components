@@ -14,6 +14,8 @@
 
 > ⚠️ **DOM 结构提示**：多选有 tag 时，主输入框（`.o-select-input`）不渲染，改为在 tag 区域内联渲染搜索 input（`.o-select-input--tag`），两者互斥。请勿通过 `querySelector` 等方式依赖固定的 input DOM 位置。
 
+> ℹ️ **移动端限制**：响应式模式（屏幕宽度 ≤ 840px）下不渲染搜索 input，`filterable` 及相关搜索能力不生效。如需在移动端启用搜索，设置 `noResponsive` 以禁用响应式模式。
+
   <!-- en-US -->
 
 ### Filterable Selector ^[NEXT](primary)
@@ -28,6 +30,8 @@ Enable search/filter capability via `filterable`, the input becomes editable.
 - `@search`: triggered when search query changes, callers can debounce via `useDebounceFn` or similar
 
 > ⚠️ **DOM Structure Note**: In multiple mode with tags, the main input (`.o-select-input`) is not rendered; instead an inline search input (`.o-select-input--tag`) is rendered inside the tag area — the two are mutually exclusive. Do not rely on a fixed input DOM position via `querySelector` or similar.
+
+> ℹ️ **Mobile Limitation**: In responsive mode (screen width ≤ 840px), the search input is not rendered and `filterable` has no effect. To enable search on mobile, set `noResponsive` to disable responsive mode.
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
