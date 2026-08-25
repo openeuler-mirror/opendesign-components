@@ -40,7 +40,7 @@ const emits = defineEmits<{
 const { isPhonePad } = useScreen();
 const isResponding = computed(() => !noResponsive?.value && isPhonePad.value);
 
-const round = getRoundClass({ round: timePickerCtx.round?.value }, 'time-picker-columns');
+const round = getRoundClass({ round: timePickerCtx.round }, 'time-picker-columns');
 
 const showSecond = computed(() => format.value.toLowerCase().includes('s'));
 

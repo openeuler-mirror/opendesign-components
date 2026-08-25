@@ -7,14 +7,6 @@
     margin: 0 var(--form-item-gap) var(--form-item-gap) 0;
   }
 }
-.o-form-layout-h {
-  &.o-form-has-required {
-    .o-form-require-symbol {
-      display: block;
-    }
-  }
-}
-
 .o-form-layout-h,
 .o-form-layout-v {
   .o-form-item {
@@ -47,9 +39,11 @@
   display: inline-flex;
   align-items: center;
   max-width: var(--form-label-max-width);
+  min-width: var(--form-label-min-width);
   justify-content: var(--form-label-justify);
   flex: 0 0 var(--form-label-width);
-  width: var(--form-label-width);
+  position: relative;
+  overflow-wrap: anywhere;
   .o-form-layout-h &,
   .o-form-layout-inline & {
     margin: var(--form-label-gap-top) 0;
@@ -61,17 +55,17 @@
 }
 
 .o-form-require-symbol {
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--o-color-danger1);
-  font-size: var(--o-font_size-tip2);
+  font-size: 8px;
   line-height: 1;
-  margin-right: 4px;
   font-family: monospace;
-  opacity: 0;
-  transition: opacity var(--o-easing-linear) var(--o-duration-m3);
-  display: none;
   font-weight: bold;
-  &.visible {
-    opacity: 1;
+  display: none;
+  .o-form-has-required & {
     display: block;
   }
 }

@@ -84,14 +84,16 @@ export const selectProps = {
    * @en-US Support quick clearing.
    */
   clearable: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 支持禁用
    * @en-US Support disabling.
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 选项触发方式

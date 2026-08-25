@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, inject, ref, onMounted, h } from 'vue';
+import { ref, h } from 'vue';
 import { textareaProps } from './types';
-import { formItemInjectKey } from '../form/provide';
 
 import { InBox } from '../_components/in-box';
 import { InTextarea } from '../_components/in-textarea';
-import { formateToString, uniqueId, pick } from '../_utils/helper';
+import { formateToString, pick } from '../_utils/helper';
+import { useFormField } from '../_composables/use-form-field';
 
 const props = defineProps(textareaProps);
 
@@ -48,24 +48,27 @@ defineSlots<{
   suffix(): any;
 }>();
 
-const formItemInjection = inject(formItemInjectKey, null);
+const {
+  effectiveColor: color,
+  effectiveDisabled,
+  effectiveSize,
+  effectiveRound,
+  effectiveClearable,
+  inputId: textareaId,
+  isFocus,
+  triggerFocus,
+  triggerBlur,
+  onChange: onFormItemChange,
+  onInput: onFormItemInput,
+} = useFormField(props, emits);
 
 const inTextareaRef = ref<InstanceType<typeof InTextarea>>();
 
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type || 'normal';
-  } else {
-    return props.color;
-  }
-});
-
 const onInput = (e: Event) => {
   emits('input', e);
-  formItemInjection?.fieldHandlers.onInput?.();
+  onFormItemInput();
 };
 
-const isFocus = ref(false);
 const onFocus = (e: FocusEvent) => {
   if (isFocus.value) {
     return;
@@ -73,13 +76,13 @@ const onFocus = (e: FocusEvent) => {
 
   isFocus.value = true;
   emits('focus', e);
-  formItemInjection?.fieldHandlers.onFocus?.();
+  triggerFocus(e);
 };
 
 const onBlur = (e: FocusEvent) => {
   isFocus.value = false;
   emits('blur', e);
-  formItemInjection?.fieldHandlers.onBlur?.();
+  triggerBlur();
 };
 
 const onClear = (e?: Event) => {
@@ -92,19 +95,8 @@ const onUpdatedModelValue = (value: string) => {
 
 const onChange = (value: string) => {
   emits('change', value);
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
-
-const textareaId = ref(props.textareaId);
-onMounted(() => {
-  if (!textareaId.value) {
-    textareaId.value = uniqueId();
-  }
-});
-
-const round = computed(()=>{
-  return props.round === 'pill' ? 'var(--o-radius_control-l)' : props.round;
-})
 
 defineExpose({
   /**
@@ -136,12 +128,12 @@ defineExpose({
         InBox,
         {
           class: 'o-textarea',
-          size: props.size,
+          size: effectiveSize,
           variant: props.variant,
           color: color,
-          disabled: props.disabled,
+          disabled: effectiveDisabled,
           readonly: props.readonly,
-          round: round,
+          round: effectiveRound,
           focused: isFocus,
         },
         {
@@ -157,9 +149,7 @@ defineExpose({
                 ...pick(props, [
                   'scrollbar',
                   'placeholder',
-                  'disabled',
                   'readonly',
-                  'clearable',
                   'format',
                   'validate',
                   'valueOnInvalidChange',
@@ -170,8 +160,10 @@ defineExpose({
                   'getLength',
                   'maxLength',
                   'inputOnOutlimit',
-                  'showLength'
+                  'showLength',
                 ]),
+                disabled: effectiveDisabled,
+                clearable: effectiveClearable,
                 onChange: onChange,
                 onInput: onInput,
                 onFocus: onFocus,
@@ -179,9 +171,9 @@ defineExpose({
                 onClear: onClear,
                 'onUpdate:modelValue': onUpdatedModelValue,
               },
-              pick($slots, ['prefix', 'suffix'])
+              pick($slots, ['prefix', 'suffix']),
             ),
-        }
+        },
       )
     "
   />

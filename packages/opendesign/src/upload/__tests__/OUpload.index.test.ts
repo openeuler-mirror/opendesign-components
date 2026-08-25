@@ -12,6 +12,8 @@ import { test, expect, describe } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h } from 'vue';
 import OUpload from '../OUpload.vue';
+import OForm from '../../form/OForm.vue';
+import OFormItem from '../../form/OFormItem.vue';
 import { flush } from '../../../__tests__/_helpers/dom';
 
 describe('静态契约（按 types.ts 属性）', () => {
@@ -25,6 +27,24 @@ describe('静态契约（按 types.ts 属性）', () => {
     const screen = render(OUpload, { props: { disabled: true } });
     await flush();
     expect(screen.container.querySelector('.o-upload')).not.toBeNull();
+  });
+
+  test('OUpload size/round - 继承自 OForm/OFormItem 透传至触发按钮', async () => {
+    const screen = render({
+      render: () =>
+        h(
+          OForm,
+          { model: {}, size: 'small', round: '4px' },
+          {
+            default: () => h(OFormItem, { label: 'file', field: 'file' }, { default: () => h(OUpload, { listType: 'text' }) }),
+          },
+        ),
+    });
+    await flush();
+    const btn = screen.container.querySelector('.o-upload-select .o-btn') as HTMLElement;
+    expect(btn).not.toBeNull();
+    expect(btn.classList.contains('o-btn-small')).toBe(true);
+    expect(btn.style.getPropertyValue('--btn-radius')).toBe('4px');
   });
 
   test('OUpload listType=text - 渲染 .o-upload-select-wrap', async () => {

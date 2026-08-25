@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, inject, watch, type ComponentPublicInstance, nextTick } from 'vue';
+import { computed, ref, watch, type ComponentPublicInstance, nextTick } from 'vue';
 import { OSelect } from '../select';
 import { OOption } from '../option';
 import { OInput } from '../input';
@@ -7,7 +7,7 @@ import { isArray } from '../_utils/is';
 import { splitByMatch } from '../_utils/string';
 import { debounce } from '../_utils/helper';
 import { OIconSearch } from '../icon-components';
-import { formItemInjectKey } from '../form/provide';
+import { useFormField, type FormFieldProps } from '../_composables/use-form-field';
 import { vOutClick } from '../directives';
 import { searchProps } from './types';
 
@@ -71,7 +71,19 @@ const emits = defineEmits<{
   (e: 'options-visible-change', value: boolean): void;
 }>();
 
-const formItemInjection = inject(formItemInjectKey, null);
+const {
+  effectiveColor: color,
+  triggerFocus,
+  triggerBlur,
+  onChange: onFormItemChange,
+  onInput: onFormItemInput,
+  blockChildInject,
+} = useFormField(props as unknown as Partial<FormFieldProps>, emits);
+
+/**
+ * @description 阻断内嵌 OInput/OSelect 的 FormItem inject，OSearch 自身通过 useFormField 统一获取继承值
+ */
+blockChildInject();
 
 const searchInputRef = ref<ComponentPublicInstance>();
 const searchSelectRef = ref<InstanceType<typeof OSelect>>();
@@ -83,14 +95,6 @@ const inputValue = ref(props.modelValue ?? (props.defaultValue || ''));
 let previousValue = inputValue.value;
 
 const isOutClick = ref(false);
-
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type || undefined;
-  } else {
-    return props.color;
-  }
-});
 
 // 因存在xlarge尺寸 为避免编辑器警告 做映射处理
 const size = computed(() => {
@@ -157,17 +161,17 @@ const emitUpdateValue = () => {
 const onInput = (evt: Event, value: string) => {
   emits('input', evt, value);
   formatSuggesstions(value);
-  formItemInjection?.fieldHandlers.onInput?.();
+  onFormItemInput();
 };
 
 const onFocus = (evt: FocusEvent) => {
   emits('focus', evt);
-  formItemInjection?.fieldHandlers.onFocus?.();
+  triggerFocus(evt);
 };
 
 const onBlur = (evt: FocusEvent) => {
   emits('blur', evt);
-  formItemInjection?.fieldHandlers.onBlur?.();
+  triggerBlur();
 };
 
 const onPressEnter = (evt: KeyboardEvent): void => {
@@ -183,7 +187,7 @@ const emitChange = () => {
   if (inputValue.value !== previousValue) {
     emits('change', inputValue.value);
     previousValue = inputValue.value;
-    formItemInjection?.fieldHandlers.onChange?.();
+    onFormItemChange();
   }
 };
 

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, watch, onMounted } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch, onMounted, toValue } from 'vue';
 import { checkboxInjectKey } from './provide';
 import { checkboxGroupInjectKey } from '../checkbox-group/provide';
+import { formItemInjectKey } from '../form/provide';
 import { checkboxProps } from './types';
 import { IconChecked } from '../_utils/icons';
 import { isArray, isUndefined } from '../_utils/is';
@@ -29,6 +30,7 @@ onMounted(() => {
   }
 });
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
+const formItem = inject(formItemInjectKey, null);
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
@@ -52,14 +54,15 @@ watch(
   (val) => {
     _checked.value = val;
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 是否禁用
 const isDisabled = computed(() => {
+  const propDisabled = props.disabled ?? toValue(formItem?.disabled) ?? false;
   return (
     checkboxGroupInjection?.disabled.value ||
-    props.disabled ||
+    propDisabled ||
     (isChecked.value && (checkboxGroupInjection?.isMinimum.value ?? false)) ||
     (!isChecked.value && (checkboxGroupInjection?.isMaximum.value ?? false))
   );
@@ -79,8 +82,8 @@ const onChange = (ev: Event) => {
   const set = checkboxGroupInjection
     ? new Set([...checkboxGroupInjection.realValue.value])
     : isArray(props.modelValue)
-    ? new Set([...props.modelValue])
-    : new Set([]);
+      ? new Set([...props.modelValue])
+      : new Set([]);
   if (checked) {
     set.add(props.value);
   } else {
@@ -93,7 +96,11 @@ const onChange = (ev: Event) => {
   checkboxGroupInjection?.updateModelValue(val);
   nextTick(() => {
     emits('change', val, ev);
-    checkboxGroupInjection?.onChange(val, ev);
+    if (checkboxGroupInjection) {
+      checkboxGroupInjection.onChange(val, ev);
+    } else {
+      formItem?.fieldHandlers.onChange?.();
+    }
   });
 };
 

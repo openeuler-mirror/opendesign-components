@@ -1,4 +1,5 @@
 import { Component, ExtractPropTypes, PropType } from 'vue';
+import type { SizeT, RoundT } from '../_utils/types';
 export interface UploadRequestT {
   abort: () => void; // 取消上传
 }
@@ -56,7 +57,24 @@ export const uploadProps = {
    * @en-US Disable uploading.
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
+  },
+  /**
+   * @zh-CN 尺寸，继承自 OForm / OFormItem
+   * @en-US Size, inherited from OForm / OFormItem
+   * @since NEXT
+   */
+  size: {
+    type: String as PropType<SizeT>,
+  },
+  /**
+   * @zh-CN 圆角，继承自 OForm / OFormItem
+   * @en-US Round, inherited from OForm / OFormItem
+   * @since NEXT
+   */
+  round: {
+    type: String as PropType<RoundT>,
   },
   /**
    * @zh-CN 是否支持多文件上传

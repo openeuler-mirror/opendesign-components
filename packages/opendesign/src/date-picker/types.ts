@@ -205,7 +205,8 @@ const formatProps = {
    * @en-US Support quick clearing.
    */
   clearable: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
 };
 
