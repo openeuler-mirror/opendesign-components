@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, MaybeRef, onMounted, provide, reactive, ref, toValue, watch } from 'vue';
+import { computed, MaybeRef, provide, reactive, ref, toValue, watch, watchEffect } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 
 import { OButton } from '../button';
@@ -37,13 +37,39 @@ const { isPhonePadSize } = useScreen();
 const tempValue = ref<ValueT[]>([]);
 
 const options = ref<OptionT[]>([]);
-onMounted(async () => {
-  options.value =
-    (await props.column.filter?.optionsFn?.({
+/**
+ * 版本计数器，防止异步竞态：optionsFn 异步返回前若依赖再次变更，
+ * 旧 Promise 的结果将被丢弃，不会覆盖最新数据。
+ */
+let optionsVersion = 0;
+
+/**
+ * @description 使用 watchEffect 自动追踪 optionsFn 内部的响应式依赖；
+ *              当依赖变更时自动重新调用 optionsFn 获取最新选项。
+ *              flush: 'post' 确保在 DOM 更新后执行，服务端不运行（SSR 兼容）。
+ * @important optionsFn 同步段访问的 ref/reactive 会被自动追踪；
+ *            async optionsFn 中 await 之后的依赖无法被追踪（Vue 限制）。
+ */
+watchEffect(
+  async () => {
+    const filter = props.column.filter;
+    if (!filter?.optionsFn) {
+      options.value = [];
+      return;
+    }
+
+    const currentVersion = ++optionsVersion;
+    const result = await filter.optionsFn({
       column: props.column,
       emptyOption: { label: t('table.filterEmptyOption'), value: TABLE_EMPTY_OPTION_VALUE },
-    })) || [];
-});
+    });
+
+    if (currentVersion === optionsVersion) {
+      options.value = result || [];
+    }
+  },
+  { flush: 'post' },
+);
 const filterKeywords = ref('');
 const showOptions = computed(() => {
   return filterKeywords.value
