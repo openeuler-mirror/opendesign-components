@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, MaybeRef, onMounted, provide, reactive, ref, toValue, watch } from 'vue';
+import { computed, MaybeRef, provide, reactive, ref, toValue, watch, watchEffect } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 
 import { OButton } from '../button';
@@ -37,13 +37,39 @@ const { isPhonePadSize } = useScreen();
 const tempValue = ref<ValueT[]>([]);
 
 const options = ref<OptionT[]>([]);
-onMounted(async () => {
-  options.value =
-    (await props.column.filter?.optionsFn?.({
+/**
+ * 版本计数器，防止异步竞态：optionsFn 异步返回前若依赖再次变更，
+ * 旧 Promise 的结果将被丢弃，不会覆盖最新数据。
+ */
+let optionsVersion = 0;
+
+/**
+ * @description 使用 watchEffect 自动追踪 optionsFn 内部的响应式依赖；
+ *              当依赖变更时自动重新调用 optionsFn 获取最新选项。
+ *              flush: 'post' 确保在 DOM 更新后执行，服务端不运行（SSR 兼容）。
+ * @important optionsFn 同步段访问的 ref/reactive 会被自动追踪；
+ *            async optionsFn 中 await 之后的依赖无法被追踪（Vue 限制）。
+ */
+watchEffect(
+  async () => {
+    const filter = props.column.filter;
+    if (!filter?.optionsFn) {
+      options.value = [];
+      return;
+    }
+
+    const currentVersion = ++optionsVersion;
+    const result = await filter.optionsFn({
       column: props.column,
       emptyOption: { label: t('table.filterEmptyOption'), value: TABLE_EMPTY_OPTION_VALUE },
-    })) || [];
-});
+    });
+
+    if (currentVersion === optionsVersion) {
+      options.value = result || [];
+    }
+  },
+  { flush: 'post' },
+);
 const filterKeywords = ref('');
 const showOptions = computed(() => {
   return filterKeywords.value
@@ -52,9 +78,10 @@ const showOptions = computed(() => {
 });
 
 const visible = ref(false);
+const multiple = computed(() => props.column.filter?.multiple ?? true);
 watch(visible, () => {
   tempValue.value = [...modelValue.value];
-  if (tempValue.value.length === options.value.length || (props.column.filter?.multiple === false && !tempValue.value.length)) {
+  if (multiple.value && tempValue.value.length === options.value.length) {
     tempValue.value.push(TABLE_ALL_OPTION_VALUE);
   }
 });
@@ -77,7 +104,6 @@ const handleReset = () => {
   emits('confirm');
 };
 
-const multiple = computed(() => props.column.filter?.multiple ?? true);
 const showInput = computed(() => {
   if (isFunction(props.column.filter?.showInput)) {
     return props.column.filter.showInput(options.value.length);
@@ -144,7 +170,7 @@ const handleTriggerClick = () => {
 
     <div class="o-data-table-column-filter__options-container">
       <OOptionList v-if="showOptions.length" :scrollbar="{ size: 'small', showType: 'hover' }">
-        <OOption v-if="!filterKeywords" :value="TABLE_ALL_OPTION_VALUE" :label="t('common.checkAll')" :indeterminate="indeterminate" />
+        <OOption v-if="!filterKeywords && multiple" :value="TABLE_ALL_OPTION_VALUE" :label="t('common.checkAll')" :indeterminate="indeterminate" />
         <OOption v-for="option in showOptions" :key="option.value" :value="option.value" :label="option.label" />
       </OOptionList>
 

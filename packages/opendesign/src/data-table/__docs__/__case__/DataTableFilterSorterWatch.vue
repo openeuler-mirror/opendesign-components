@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { DataTableColumnT, DataTableColumnFilterOption, DataTableSortMethod, DataTableSortMethodT } from '@opensig/opendesign';
+import { DataTableColumnT, DataTableColumnFilterOption, DataTableSortMethod, DataTableSortMethodT, ODataTable } from '@opensig/opendesign';
 import { getTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
