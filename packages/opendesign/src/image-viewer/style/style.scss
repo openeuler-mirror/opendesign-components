@@ -81,8 +81,31 @@
   pointer-events: none;
 }
 
+// 缩放比例提示淡入淡出过渡（配合 v-show + <Transition> 使用）
+.o-image-zoom-ratio-enter-active,
+.o-image-zoom-ratio-leave-active {
+  transition: opacity var(--o-duration-l);
+}
+
+.o-image-zoom-ratio-enter-from,
+.o-image-zoom-ratio-leave-to {
+  opacity: 0;
+}
+
 // ---- 导航按钮 ----
 // pointer-events: auto 恢复点击穿透（父级 .o-image-viewer-overlay 设为 none）
+.o-btn.o-image-viewer-nav {
+  --btn-color: var(--o-color-info1-inverse);
+  --btn-color-hover: var(--o-color-info2-inverse);
+  --btn-color-active: var(--o-color-info2-inverse);
+  --btn-bg-color: var(--o-color-mask1);
+  --btn-bg-color-hover: var(--o-color-mask1);
+  --btn-bg-color-active: var(--o-color-mask1);
+  --btn-bd-color: none;
+  --btn-bd-color-hover: none;
+  --btn-bd-color-active: none;
+}
+
 .o-image-viewer-nav {
   position: absolute;
   top: 50%;
@@ -91,11 +114,11 @@
 }
 
 .o-image-viewer-nav-prev {
-  left: 16px;
+  left: var(--o-r-gap-7);
 }
 
 .o-image-viewer-nav-next {
-  right: 16px;
+  right: var(--o-r-gap-7);
 }
 
 // ---- 进度指示器 ----

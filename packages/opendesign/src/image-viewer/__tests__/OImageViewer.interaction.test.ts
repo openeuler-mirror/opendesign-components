@@ -140,10 +140,10 @@ describe('缩放边界', () => {
     });
     await ensureLoaded(screen);
     const zoomInBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
-    // 1x1 图片 fitScale=1，zoomIn: 1*2=2
+    // 1x1 图片 fitScale=2，zoomIn: 2*2=4 但 clamp 到 maxScale=3
     zoomInBtn.click();
     await flush();
-    // 再 zoomIn: 2*2=4 但 clamp 到 maxScale=3
+    // 再 zoomIn: 已在 maxScale=3，不放大
     zoomInBtn.click();
     await flush();
     const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
@@ -162,6 +162,10 @@ describe('缩放边界', () => {
     });
     await ensureLoaded(screen);
     const zoomOutBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
+    // 1x1 图片 fitScale=2，zoomOut: 2/2=1
+    zoomOutBtn.click();
+    await flush();
+    // 再 zoomOut: 1/2=0.5，clamp 到 minScale=0.5
     zoomOutBtn.click();
     await flush();
     const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
@@ -178,15 +182,15 @@ describe('scale prop 外部控制', () => {
       },
     });
     await ensureLoaded(screen);
-    // 加载后 fitScale=1（1x1 图片不超出屏幕）
+    // 加载后 fitScale=2（1x1 图片，200% 目标不超屏幕）
     const before = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(before.style.transform).toMatch(/scale\(1\)/);
+    expect(before.style.transform).toMatch(/scale\(2\)/);
 
-    // 外部设置 scale=2，通过 v-model watcher 同步到 transform
-    await screen.rerender({ scale: 2 });
+    // 外部设置 scale=3，通过 v-model watcher 同步到 transform
+    await screen.rerender({ scale: 3 });
     await flush();
     const after = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(after.style.transform).toMatch(/scale\(2\)/);
+    expect(after.style.transform).toMatch(/scale\(3\)/);
   });
 
   test('scale prop 被 clamp 到 maxScale 范围', async () => {
@@ -199,9 +203,9 @@ describe('scale prop 外部控制', () => {
       },
     });
     await ensureLoaded(screen);
-    // 加载后 fitScale=1（1x1 图片）
+    // 加载后 fitScale=2（1x1 图片）
     const container = () => screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container().style.transform).toMatch(/scale\(1\)/);
+    expect(container().style.transform).toMatch(/scale\(2\)/);
 
     // 外部设置 scale=100，通过 v-model watcher clamp 到 maxScale=5
     await screen.rerender({ scale: 100 });
@@ -257,6 +261,9 @@ describe('duration prop', () => {
       },
     });
     await ensureLoaded(screen);
+    // 加载后初始展示缩放比例提示（200% 默认缩放），等待自动隐藏
+    await new Promise((r) => setTimeout(r, 600));
+    await flush();
     const ratioBefore = screen.container.querySelector('.o-image-zoom-ratio') as HTMLElement;
     expect(ratioBefore.style.display).toBe('none');
     const zoomInBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
@@ -288,7 +295,9 @@ describe('duration prop 响应式', () => {
     const getRatio = () => screen.container.querySelector('.o-image-zoom-ratio') as HTMLElement;
     const zoomInBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
 
-    // 初始：提示隐藏
+    // 加载后初始提示已自动隐藏（duration=150ms）
+    await new Promise((r) => setTimeout(r, 300));
+    await flush();
     expect(getRatio().style.display).toBe('none');
 
     // 触发缩放 → 提示显示
@@ -330,6 +339,14 @@ describe('比例指示器显示时机', () => {
     });
     await ensureLoaded(screen);
     const getRatio = () => screen.container.querySelector('.o-image-zoom-ratio') as HTMLElement;
+    // 加载后初始提示显示（200% 缩放），等待自动隐藏
+    await new Promise((r) => setTimeout(r, 200));
+    await flush();
+    // duration=5000ms，提示仍可见（加载时触发）
+    // 等待提示隐藏需超过 5000ms，这里先验证旋转不额外触发
+    // 先等待足够长时间让初始提示隐藏
+    await new Promise((r) => setTimeout(r, 5500));
+    await flush();
     expect(getRatio().style.display).toBe('none');
 
     const rotateBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
@@ -354,17 +371,13 @@ describe('比例指示器显示时机', () => {
     const getRatio = () => screen.container.querySelector('.o-image-zoom-ratio') as HTMLElement;
     const zoomInBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
 
-    // 第一次放大：1 → 2（达到 maxScale），指示器显示
-    zoomInBtn.click();
-    await flush();
-    expect(getRatio().style.display).not.toBe('none');
-
-    // 等待指示器自动隐藏（duration=150ms）
+    // 1x1 图片 fitScale=2=maxScale，zoomIn 不改变 scale
+    // 但加载时已触发提示，等待自动隐藏（duration=150ms）
     await new Promise((r) => setTimeout(r, 300));
     await flush();
     expect(getRatio().style.display).toBe('none');
 
-    // 第二次放大：已在 maxScale，scale 不变，指示器不应显示
+    // zoomIn：已在 maxScale=2，scale 不变，指示器不应显示
     zoomInBtn.click();
     await flush();
     expect(getRatio().style.display).toBe('none');
@@ -381,9 +394,12 @@ describe('比例指示器显示时机', () => {
     });
     await ensureLoaded(screen);
     const getRatio = () => screen.container.querySelector('.o-image-zoom-ratio') as HTMLElement;
+    // 加载后初始提示显示（200% 缩放），等待自动隐藏
+    await new Promise((r) => setTimeout(r, 5500));
+    await flush();
     expect(getRatio().style.display).toBe('none');
 
-    // 图片加载后 scale=fitScale=1，reset 不改变 scale，指示器不应显示
+    // 图片加载后 scale=fitScale=2，reset 不改变 scale，指示器不应显示
     const resetBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
     resetBtn.click();
     await flush();
@@ -403,13 +419,13 @@ describe('exposed 方法（间接验证）', () => {
     });
     await ensureLoaded(screen);
     const before = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(before.style.transform).toMatch(/scale\(1\)/);
+    expect(before.style.transform).toMatch(/scale\(2\)/);
     const buttons = screen.container.querySelectorAll('.o-image-action-item');
     const zoomInBtn = Array.from(buttons).find((b) => b.getAttribute('aria-label') === '放大') as HTMLButtonElement;
     zoomInBtn.click();
     await flush();
     const after = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(after.style.transform).toMatch(/scale\(1\.2\)/);
+    expect(after.style.transform).toMatch(/scale\(2\.4\)/);
   });
 
   test('resetTransform 重置缩放和旋转', async () => {
@@ -430,12 +446,12 @@ describe('exposed 方法（间接验证）', () => {
     rotateBtn.click();
     await flush();
     const changed = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(changed.style.transform).toMatch(/scale\(1\.2\)/);
+    expect(changed.style.transform).toMatch(/scale\(2\.4\)/);
     expect(changed.style.transform).toContain('rotate(90deg)');
     resetBtn.click();
     await flush();
     const reset = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(reset.style.transform).toMatch(/scale\(1\)/);
+    expect(reset.style.transform).toMatch(/scale\(2\)/);
     expect(reset.style.transform).not.toContain('rotate(90deg)');
   });
 

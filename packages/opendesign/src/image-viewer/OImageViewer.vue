@@ -197,24 +197,32 @@ const closeGuard = ref(false);
 const justDragged = ref(false);
 
 /**
- * 适屏缩放比例
+ * 适屏缩放比例（默认展示比例）
  * @description 图片加载后根据自然尺寸与容器尺寸计算（见 updateFitScale）：
- * 统一使用 contain 模式（整张图片完整可见且不超原始尺寸）。
+ * 目标为 200%（2 倍原始尺寸），但不超过屏幕可视区域（两边都不超出）。
+ * 即 min(2, scaleW, scaleH)，对于大图自动降为适屏 contain 比例。
  * resetTransform 重置、图片切换重置、图片加载初始化均使用此值。
  */
 const fitScale = ref(initialScale);
+
+/**
+ * contain 缩放比例（整图可见，不超原始尺寸）
+ * @description min(1, scaleW, scaleH)，用于 scalable=false 时锁定为 contain 模式，
+ * 以及 effectiveMinScale 的动态下界计算。
+ */
+const containScale = ref(initialScale);
 
 /**
  * 有效最小缩放比例
  * @description 动态扩展用户设定的 minScale：若 containScale 低于 minScale，
  * 以 containScale 为有效下界，确保从适屏位置手动放大时平滑过渡，不跳跃。
  */
-const effectiveMinScale = computed(() => Math.min(props.minScale, fitScale.value));
+const effectiveMinScale = computed(() => Math.min(props.minScale, containScale.value));
 
 /**
  * 有效最大缩放比例
- * @description 动态扩展用户设定的 maxScale：若 containScale 高于 maxScale（极端小图场景），
- * 以 containScale 为有效上界，确保从适屏位置手动缩小时平滑过渡。
+ * @description 动态扩展用户设定的 maxScale：若 fitScale 高于 maxScale（极端小图场景），
+ * 以 fitScale 为有效上界，确保初始 200% 展示后用户仍可缩放至该比例。
  */
 const effectiveMaxScale = computed(() => Math.max(props.maxScale, fitScale.value));
 
@@ -411,8 +419,10 @@ const onLayerChange = (val: boolean) => {
 /**
  * 计算适屏缩放比例
  * @description 根据图片自然尺寸与容器可用尺寸计算：
- * 取 min(1, scaleW, scaleH)，确保整张图片完整可见且不超过原始尺寸（contain 模式）。
- * 计算结果存入 fitScale，供 onImgLoaded 设置初始 scale 及 resetTransform 重置。
+ * - fitScale = min(2, scaleW, scaleH)：目标 200%，但两边都不超出屏幕
+ * - containScale = min(1, scaleW, scaleH)：整图可见且不超原始尺寸（contain 模式），
+ *   用于 scalable=false 场景
+ * 计算结果存入 fitScale / containScale，供 onImgLoaded 设置初始 scale 及 resetTransform 重置。
  */
 const updateFitScale = () => {
   const img = imgRef.value;
@@ -431,7 +441,23 @@ const updateFitScale = () => {
 
   const scaleW = viewWidth / naturalWidth;
   const scaleH = viewHeight / naturalHeight;
-  fitScale.value = Math.min(1, scaleW, scaleH);
+  fitScale.value = Math.min(2, scaleW, scaleH);
+  containScale.value = Math.min(1, scaleW, scaleH);
+};
+
+/** 缩放比例提示定时器（自动随组件卸载清理，interval 通过 getter 响应 prop 变化） */
+const timeoutRef = useTimeoutFn(
+  () => {
+    hideZoomRatio.value = true;
+  },
+  () => props.duration,
+);
+
+/** 短暂展示缩放比例提示，持续时长由 useTimeoutFn 的 interval（props.duration）决定 */
+const toggleZoomRatioBubble = () => {
+  if (!props.showZoomRatio) return;
+  hideZoomRatio.value = false;
+  timeoutRef.start();
 };
 
 /** 图片加载完成 */
@@ -440,16 +466,19 @@ const onImgLoaded = () => {
   loadError.value = false;
   // 图片加载完成后计算适屏缩放并应用为初始 scale
   updateFitScale();
+  // scalable=false 且非移动端时锁定为 contain 模式（整图可见，不超原始尺寸）；
+  // 否则使用 fitScale（目标 200%，两边不超屏幕）
+  const targetScale = zoomDisabled.value ? containScale.value : fitScale.value;
   // 同步设置 transform 和 scale model，用 sync lock 阻止 watcher 链干扰
-  // （watch(scale) 的 getter 依赖 scale.value 求值，若 scale.value 还是旧值，
-  //  clamp(旧scale, 新effectiveMinScale, maxScale) 可能覆盖 containScale）
   isSyncingScale = true;
-  transform.value.scale = fitScale.value;
-  scale.value = fitScale.value;
+  transform.value.scale = targetScale;
+  scale.value = targetScale;
   transform.value.enableTransition = true;
   nextTick(() => {
     isSyncingScale = false;
   });
+  // 图片加载后初始展示时显示缩放比例指示器，0.5s 后自动消失
+  toggleZoomRatioBubble();
 };
 
 /** 图片加载失败 */
@@ -510,21 +539,6 @@ const onMouseDown = (e: MouseEvent) => {
   });
 
   e.preventDefault();
-};
-
-/** 缩放比例提示定时器（自动随组件卸载清理，interval 通过 getter 响应 prop 变化） */
-const timeoutRef = useTimeoutFn(
-  () => {
-    hideZoomRatio.value = true;
-  },
-  () => props.duration,
-);
-
-/** 短暂展示缩放比例提示，持续时长由 useTimeoutFn 的 interval（props.duration）决定 */
-const toggleZoomRatioBubble = () => {
-  if (!props.showZoomRatio) return;
-  hideZoomRatio.value = false;
-  timeoutRef.start();
 };
 
 /**
@@ -935,20 +949,20 @@ watch(currentUrl, () => {
 /**
  * 缩放禁用时重置缩放与位移
  * @description `zoomDisabled` 变为 `true` 时（`scalable` 切换为 `false` 或非移动端环境检测生效），
- * 重置缩放比例到适屏状态并清零位移，确保图片不停留在已缩放/偏移状态。
- * 旋转角度保留不变——旋转是独立于缩放的操作。
+ * 重置缩放比例到 contain 模式（整图可见，不超原始尺寸）并清零位移，
+ * 确保图片不停留在已缩放/偏移状态。旋转角度保留不变——旋转是独立于缩放的操作。
  */
 watch(zoomDisabled, (disabled) => {
   if (!disabled) return;
   isSyncingScale = true;
   transform.value = {
     ...transform.value,
-    scale: fitScale.value,
+    scale: containScale.value,
     offsetX: 0,
     offsetY: 0,
     enableTransition: true,
   };
-  scale.value = fitScale.value;
+  scale.value = containScale.value;
   nextTick(() => {
     isSyncingScale = false;
   });
@@ -992,12 +1006,15 @@ useEventListener(rootElRef, 'keydown', onFocusTrap);
 useEventListener(window, 'resize', () => {
   if (isLoading.value || loadError.value) return;
   const prevScale = transform.value.scale;
+  const oldFitScale = fitScale.value;
+  const oldContainScale = containScale.value;
   updateFitScale();
-  // 用户未手动缩放（当前 scale 等于旧的 fitScale）时跟随适屏更新
-  if (prevScale === fitScale.value || prevScale === initialScale) {
+  // 用户未手动缩放（当前 scale 等于旧的 fitScale 或 containScale 或 initialScale）时跟随适屏更新
+  if (prevScale === oldFitScale || prevScale === oldContainScale || prevScale === initialScale) {
+    const targetScale = zoomDisabled.value ? containScale.value : fitScale.value;
     isSyncingScale = true;
-    transform.value.scale = fitScale.value;
-    scale.value = fitScale.value;
+    transform.value.scale = targetScale;
+    scale.value = targetScale;
     nextTick(() => {
       isSyncingScale = false;
     });
@@ -1118,7 +1135,9 @@ defineExpose({
         />
 
         <!-- 缩放比例提示 -->
-        <div v-show="showZoomRatio" class="o-image-zoom-ratio">{{ zoomRatio }}</div>
+        <Transition name="o-image-zoom-ratio">
+          <div v-show="showZoomRatio" class="o-image-zoom-ratio">{{ zoomRatio }}</div>
+        </Transition>
 
         <!-- 进度指示器 -->
         <div v-if="props.showProgress || $slots.progress" class="o-image-viewer-progress">

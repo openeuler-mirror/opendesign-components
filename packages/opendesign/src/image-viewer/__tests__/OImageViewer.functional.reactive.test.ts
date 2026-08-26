@@ -154,7 +154,7 @@ describe('previewList 响应式变化', () => {
 // scale — defineModel 双向，ref 变化后 transform 同步
 // ──────────────────────────────────────────────────────────────
 describe('scale 响应式变化', () => {
-  test('ref: scale 从 1 变为 2 后 transform 更新', async () => {
+  test('ref: scale 从初始值变为新值后 transform 更新', async () => {
     const scaleVal = ref(1);
     const { open, unmount } = useOutOfScope({
       previewList: [DATA_IMG_A],
@@ -164,13 +164,13 @@ describe('scale 响应式变化', () => {
     await ensureLoaded();
 
     const before = document.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(before.style.transform).toMatch(/scale\(1\)/);
+    expect(before.style.transform).toMatch(/scale\(2\)/);
 
-    scaleVal.value = 2;
+    scaleVal.value = 3;
     await flush();
 
     const after = document.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(after.style.transform).toMatch(/scale\(2\)/);
+    expect(after.style.transform).toMatch(/scale\(3\)/);
     unmount();
   });
 });
@@ -190,14 +190,14 @@ describe('zoomRate 响应式变化', () => {
     open();
     await ensureLoaded();
 
-    // zoomRate=2 时放大：1 × 2 = 2
+    // 1x1 图片 fitScale=2，zoomRate=2 时放大：2 × 2 = 4
     const buttons = document.querySelectorAll('.o-image-action-item');
     const zoomInBtn = buttons[0] as HTMLButtonElement;
     const resetBtn = buttons[1] as HTMLButtonElement;
     zoomInBtn.click();
     await flush();
     let container = document.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(2\)/);
+    expect(container.style.transform).toMatch(/scale\(4\)/);
 
     // 重置
     resetBtn.click();
@@ -207,12 +207,12 @@ describe('zoomRate 响应式变化', () => {
     rate.value = 3;
     await flush();
 
-    // zoomRate=3 时放大：1 × 3 = 3
+    // zoomRate=3 时放大：2 × 3 = 6
     const zoomInAgain = document.querySelector('.o-image-action-item') as HTMLButtonElement;
     zoomInAgain.click();
     await flush();
     container = document.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(3\)/);
+    expect(container.style.transform).toMatch(/scale\(6\)/);
     unmount();
   });
 });

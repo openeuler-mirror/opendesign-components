@@ -52,7 +52,7 @@ describe('切换上下张后重置缩放', () => {
     await flush();
 
     const beforeSwitch = getContainer(screen);
-    expect(beforeSwitch.style.transform).toMatch(/scale\(1\.\d+\)/);
+    expect(beforeSwitch.style.transform).toMatch(/scale\(2\.\d+\)/);
     expect(beforeSwitch.style.transform).toContain('rotate(90deg)');
 
     // 切换到下一张
@@ -68,8 +68,8 @@ describe('切换上下张后重置缩放', () => {
     await ensureLoaded(screen);
 
     const afterSwitch = getContainer(screen);
-    // 1×1 图片 fitScale=1（contain 模式，不超出屏幕）
-    expect(afterSwitch.style.transform).toMatch(/scale\(1\)/);
+    // 1×1 图片 fitScale=2（200% 目标，两边不超屏幕）
+    expect(afterSwitch.style.transform).toMatch(/scale\(2\)/);
     expect(afterSwitch.style.transform).not.toContain('rotate(90deg)');
     // 位移应归零（transform 模板始终含 translate，验证值为 0px）
     expect(afterSwitch.style.transform).toContain('translate(0px, 0px)');
@@ -92,7 +92,7 @@ describe('切换上下张后重置缩放', () => {
     await flush();
 
     const beforeSwitch = getContainer(screen);
-    expect(beforeSwitch.style.transform).toMatch(/scale\(1\.\d+\)/);
+    expect(beforeSwitch.style.transform).toMatch(/scale\(2\.\d+\)/);
 
     // 切换到上一张
     const prevBtn = screen.container.querySelector('.o-image-viewer-nav-prev') as HTMLButtonElement;
@@ -106,7 +106,7 @@ describe('切换上下张后重置缩放', () => {
     await ensureLoaded(screen);
 
     const afterSwitch = getContainer(screen);
-    expect(afterSwitch.style.transform).toMatch(/scale\(1\)/);
+    expect(afterSwitch.style.transform).toMatch(/scale\(2\)/);
   });
 });
 

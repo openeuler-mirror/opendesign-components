@@ -23,7 +23,7 @@ const imgList = ['https://www.hiascend.com/p/resource/202511/75b8f0b96d9645b4bd0
 
 <template>
   <div class="demo-wrap">
-    <OFigure :src="imgList[1]" :preview="{ previewList: imgList, zoomRate: 1.1, minScale: 0.6, maxScale: 5, duration: 800 }" preview-close="body" />
+    <OFigure :src="imgList[1]" :preview="{ previewList: imgList, zoomRate: 1.1, minScale: 0.6, maxScale: 5, duration: 800 }" />
   </div>
 </template>
 

@@ -7,7 +7,7 @@
  *   3. toolbar 中 'mode' 项被忽略
  *   4. Space 键不再切换模式
  *   5. toggleMode 不在 exposed API 中
- *   6. 小图加载后 scale=1（原始尺寸，不超出屏幕）
+ *   6. 小图加载后 scale=2（200% 缩放，两边不超屏幕）
  *   7. 4K 横向大图加载后 scale<1（适屏缩放）
  *   8. 4K 竖向大图加载后 scale<1（适屏缩放）
  *   9. resetTransform 重置到适屏缩放比例
@@ -131,14 +131,14 @@ describe('exposed API', () => {
 });
 
 describe('适屏缩放', () => {
-  test('小图加载后 scale=1（原始尺寸）', async () => {
+  test('小图加载后 scale=2（200% 缩放，两边不超屏幕）', async () => {
     const screen = render(OImageViewer, {
       props: { previewList: [DATA_IMG] },
     });
     await ensureLoaded(screen);
     const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    // 1x1 图片不超出屏幕，fitScale=1
-    expect(container.style.transform).toMatch(/scale\(1\)/);
+    // 1x1 图片不超出屏幕，fitScale=min(2, scaleW, scaleH)=2
+    expect(container.style.transform).toMatch(/scale\(2\)/);
   });
 
   test('4K 横向大图加载后 scale<1（适屏缩放）', async () => {

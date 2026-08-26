@@ -80,12 +80,12 @@ describe('scale 响应式变化', () => {
     });
     await ensureLoaded(screen);
     const before = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(before.style.transform).toMatch(/scale\(1\)/);
+    expect(before.style.transform).toMatch(/scale\(2\)/);
 
-    await screen.rerender({ scale: 2 });
+    await screen.rerender({ scale: 3 });
     await flush();
     const after = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(after.style.transform).toMatch(/scale\(2\)/);
+    expect(after.style.transform).toMatch(/scale\(3\)/);
   });
 
   test('scale 超过 maxScale 时被 clamp', async () => {
@@ -105,7 +105,7 @@ describe('scale 响应式变化', () => {
       props: { previewList: [DATA_IMG], scale: 1, maxScale: 8 },
     });
     await ensureLoaded(screen);
-    // 加载后 fitScale=1，通过 rerender 设置 scale=5
+    // 加载后 fitScale=2，通过 rerender 设置 scale=5
     await screen.rerender({ scale: 5 });
     await flush();
     const before = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
@@ -460,16 +460,16 @@ describe('zoomRate 响应式变化', () => {
     });
     await ensureLoaded(screen);
 
-    // zoomRate=2 时放大：1 × 2 = 2
+    // 1x1 图片 fitScale=2，zoomRate=2 时放大：2 × 2 = 4
     const buttons = screen.container.querySelectorAll('.o-image-action-item');
     const zoomInBtn = buttons[0] as HTMLButtonElement;
     const resetBtn = buttons[1] as HTMLButtonElement;
     zoomInBtn.click();
     await flush();
     let container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(2\)/);
+    expect(container.style.transform).toMatch(/scale\(4\)/);
 
-    // 重置回 scale=1
+    // 重置回 fitScale=2
     resetBtn.click();
     await flush();
 
@@ -477,12 +477,12 @@ describe('zoomRate 响应式变化', () => {
     await screen.rerender({ zoomRate: 3 });
     await flush();
 
-    // zoomRate=3 时放大：1 × 3 = 3
+    // zoomRate=3 时放大：2 × 3 = 6
     const zoomInBtnAfter = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
     zoomInBtnAfter.click();
     await flush();
     container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(3\)/);
+    expect(container.style.transform).toMatch(/scale\(6\)/);
   });
 });
 
@@ -501,13 +501,13 @@ describe('defineModel 默认值', () => {
     expect(progress?.textContent?.trim()).toBe('1 / 2');
   });
 
-  test('不传 scale 时默认缩放为 1', async () => {
+  test('不传 scale 时默认缩放为适屏 200%', async () => {
     const screen = render(OImageViewer, {
       props: { previewList: [DATA_IMG] },
     });
     await ensureLoaded(screen);
     const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(1\)/);
+    expect(container.style.transform).toMatch(/scale\(2\)/);
   });
 });
 
@@ -558,8 +558,8 @@ describe('v-model 双向绑定', () => {
     zoomInBtn.click();
     await flush();
     const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(1\.2\)/);
-    expect(onUpdateScale).toHaveBeenCalledWith(1.2);
+    expect(container.style.transform).toMatch(/scale\(2\.4\)/);
+    expect(onUpdateScale).toHaveBeenCalledWith(2.4);
   });
 
   test('v-model:scale — 点击重置时 transform 回到初始值', async () => {
@@ -583,6 +583,6 @@ describe('v-model 双向绑定', () => {
     (buttons[1] as HTMLButtonElement).click();
     await flush();
     const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(container.style.transform).toMatch(/scale\(1\)/);
+    expect(container.style.transform).toMatch(/scale\(2\)/);
   });
 });
