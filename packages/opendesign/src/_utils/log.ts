@@ -8,15 +8,22 @@
 type LogLevel = 'info' | 'warn' | 'error';
 
 /**
- * 是否打印 log。模块加载时根据 process.env.NODE_ENV 评估一次
- * （Vite 编译时将 process.env.NODE_ENV 替换为字面量，测试环境为 false）
+ * 是否打印 log。
+ * 库构建产物保留 process.env.NODE_ENV 表达式原样（不替换为字面量），
+ * 交由消费者的打包器（Vite / Webpack）根据其构建模式做文本替换：
+ * - 消费者 dev → 替换为 "development" → "development" === 'development' → true → 日志可见
+ * - 消费者 build → 替换为 "production" → "production" === 'development' → false → 日志静默
+ *
+ * 文本替换后产物中不残留 process 引用，浏览器环境无 ReferenceError 风险。
+ * UMD 构建不覆盖 define，始终替换为 "production"，浏览器直引场景日志静默。
  */
 let isLogEnabled = process.env.NODE_ENV === 'development';
 
 /**
  * @description 测试专用：设置是否打印 log
- * Vite 编译时将 process.env.NODE_ENV 替换为字面量，测试环境无法通过
- * 修改环境变量启用日志。调用 setLogEnabled(true) 可在测试中显式开启
+ * 库构建产物保留了 process.env.NODE_ENV 表达式，由消费者打包器替换。
+ * 但在某些环境下（如 Vitest）NODE_ENV 可能非 "development"，
+ * 调用 setLogEnabled(true) 可在测试中显式开启日志输出
  * @param {boolean} enabled - 是否打印 log
  */
 export function setLogEnabled(enabled: boolean) {
