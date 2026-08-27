@@ -14,31 +14,6 @@
     &:has(.o-tab-nav-add) {
       --_mb-right-offset: calc(var(--tab-nav-btn-size) + 8px);
     }
-
-    &.o-tab-navs-overflown-left:before {
-      display: block;
-      content: '';
-      position: absolute;
-      width: var(--tab-nav-ellipsis-shadow-width);
-      left: 0;
-      top: 1px;
-      bottom: 1px;
-      pointer-events: none;
-      z-index: 2;
-      background: linear-gradient(270deg, var(--tab-nav-ellipsis-shadow-gradient));
-    }
-    &.o-tab-navs-overflown-right:after {
-      display: block;
-      content: '';
-      position: absolute;
-      width: var(--tab-nav-ellipsis-shadow-width);
-      right: var(--_mb-right-offset, 0px);
-      top: 1px;
-      bottom: 1px;
-      pointer-events: none;
-      z-index: 2;
-      background: linear-gradient(90deg, var(--tab-nav-ellipsis-shadow-gradient));
-    }
   }
 }
 
