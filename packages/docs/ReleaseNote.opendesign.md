@@ -8,7 +8,9 @@
   - 修复窄列宽下行图标被挤压的问题
   - 修复空数据/loading 状态下 SSR hydration mismatch
 - **OUpload:** 修复接口回显文件缩略图不显示问题
-- **OTab:** 去除移动端溢出时的阴影
+- **OTab:**
+  - 去除移动端溢出时的阴影
+  - scrollActiveIntoView 改用容器 scrollLeft 替代 scrollIntoView，避免移动端页面垂直滚动
 - 修复类型定义输出目录错误的问题
 
 ## 1.2.5-sp2
