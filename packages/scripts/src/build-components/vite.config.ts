@@ -13,6 +13,9 @@ export default (): InlineConfig => {
       dts({
         outDir: ['es', 'lib'],
         tsconfigPath: 'tsconfig.app.json',
+        // 与 Rollup 的 preserveModulesRoot: 'src' 对齐，
+        // 避免 .d.ts 落入 es/src/... 与 .mjs 的 es/... 路径错位
+        entryRoot: 'src',
       }) as any,
     ],
     build: {
