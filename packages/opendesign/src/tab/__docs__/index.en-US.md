@@ -13,6 +13,7 @@ kind: nav
 <!-- @case CustomHead -->
 <!-- @case AlignLeft -->
 <!-- @case MobileOverflow -->
+<!-- @case VModelInitial -->
 
 > [!WARNING]
 > **BREAKING CHANGE (v1.2.0)**: Tab overflow interaction has been refactored and the internal DOM structure has changed. If you relied on internal DOM structure via CSS selectors (e.g., children of `.o-tab-navs-container`), please verify your styles still work correctly.
