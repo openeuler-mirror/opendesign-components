@@ -416,8 +416,7 @@
 }
 
 .o-table-row-icon-placeholder {
-  width: var(--table-row-icon-size);
-  margin-right: var(--table-row-icon-gap);
+  width: var(--table-row-icon-placeholder-size);
   visibility: hidden;
 }
 .o-table-row-expand-trigger {
