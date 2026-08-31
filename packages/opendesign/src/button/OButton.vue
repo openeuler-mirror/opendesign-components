@@ -5,9 +5,10 @@ import { getRoundClass } from '../_utils/style-class';
 import { buttonProps } from './types';
 import HtmlTag from '../_components/html-tag';
 import { isEmptySlot } from '../_utils/vue-utils';
-import { computed } from 'vue';
+import { computed, inject, toValue } from 'vue';
 import { VariantT } from '../_utils/types';
 import { isUndefined } from '../_utils/is';
+import { formInjectKey, formItemInjectKey } from '../form/provide';
 
 const props = defineProps(buttonProps);
 
@@ -21,7 +22,21 @@ const emit = defineEmits<{
 
 const tag = computed(() => (props.href ? 'a' : props.tag));
 
-const round = getRoundClass(props, 'btn');
+// 表单/表单项注入
+const formCtx = inject(formInjectKey, null);
+const formItemCtx = inject(formItemInjectKey, null);
+const mergedSize = computed(() => props.size ?? toValue(formItemCtx?.size) ?? toValue(formCtx?.size) ?? defaultSize.value);
+const mergedRound = computed(() => props.round ?? toValue(formItemCtx?.round) ?? toValue(formCtx?.round));
+const mergedDisabled = computed(() => props.disabled ?? toValue(formItemCtx?.disabled) ?? toValue(formCtx?.disabled));
+
+const round = getRoundClass(
+  {
+    get round() {
+      return mergedRound.value;
+    },
+  },
+  'btn',
+);
 
 /**
  * 插槽定义
@@ -45,7 +60,7 @@ const variant = computed<VariantT>(() => {
 });
 
 const onClick = (e: MouseEvent) => {
-  if (props.disabled || props.loading) {
+  if (mergedDisabled.value || props.loading) {
     e.preventDefault();
     return;
   }
@@ -60,12 +75,12 @@ const onClick = (e: MouseEvent) => {
     class="o-btn"
     :class="[
       `o-btn-${props.color}`,
-      `o-btn-${props.size || defaultSize}`,
+      `o-btn-${mergedSize}`,
       `o-btn-${variant}`,
       round.class.value,
       {
         'o-btn-icon-only': isOnlyIcon,
-        'o-btn-disabled': props.disabled,
+        'o-btn-disabled': mergedDisabled,
       },
     ]"
     :style="round.style.value"

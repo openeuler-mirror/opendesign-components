@@ -1,8 +1,16 @@
-// packages/opendesign/src/_composables/use-form-field.ts
-import { computed, inject, onMounted, ref } from 'vue';
-import { formItemInjectKey } from '../form';
-import { uniqueId } from '../_utils/helper.ts';
-import { Color2T } from '../_utils/types.ts';
+import { computed, inject, onMounted, ref, toValue, type MaybeRefOrGetter } from 'vue';
+import { formItemInjectKey } from '../form/provide';
+import { uniqueId } from '../_utils/helper';
+import type { Color2T, RoundT, SizeT } from '../_utils/types';
+
+export type FormFieldProps = {
+  color?: Color2T;
+  inputId?: string;
+  disabled?: boolean | undefined;
+  size?: SizeT | undefined;
+  round?: MaybeRefOrGetter<RoundT | undefined>;
+  clearable?: boolean | undefined;
+};
 
 export interface FormFieldEmits {
   (e: 'focus', evt: FocusEvent): void;
@@ -11,12 +19,42 @@ export interface FormFieldEmits {
   (e: 'pressEnter'): void;
 }
 
-export function useFormField(props: { color?: Color2T; inputId?: string }, emit: FormFieldEmits) {
+/**
+ * @description 兼容 Vue `defineEmits` 返回值的宽松 emit 函数类型
+ *
+ * `defineEmits` 返回的 `__VLS_Emit` 其事件名为联合字面量，与 `FormFieldEmits` 的重载签名
+ * 天然不兼容（字面量集合不一致）。`useFormField` 的 emit 参数改用此宽松类型以消除赋值冲突，
+ * `FormFieldEmits` 仍保留作为 useFormField 内部触发事件的契约文档
+ */
+type FormFieldEmitFn = (...args: any[]) => void;
+
+export function useFormField(props: Partial<FormFieldProps>, emit?: FormFieldEmitFn) {
   const formItem = inject(formItemInjectKey, null);
 
   const effectiveColor = computed<Color2T>(() => {
     const result = formItem?.fieldResult.value;
     return result ? result.type || 'normal' : (props.color ?? 'normal');
+  });
+
+  const effectiveDisabled = computed<boolean | undefined>(() => {
+    if (props.disabled !== undefined) return props.disabled;
+    return toValue(formItem?.disabled);
+  });
+
+  const effectiveSize = computed<SizeT | undefined>(() => {
+    if (props.size !== undefined) return props.size;
+    return toValue(formItem?.size);
+  });
+
+  const effectiveRound = computed<RoundT | undefined>(() => {
+    const propRound = toValue(props.round);
+    if (propRound !== undefined) return propRound;
+    return toValue(formItem?.round);
+  });
+
+  const effectiveClearable = computed<boolean | undefined>(() => {
+    if (props.clearable !== undefined) return props.clearable;
+    return toValue(formItem?.clearable);
   });
 
   const inputId = ref(props.inputId);
@@ -30,28 +68,59 @@ export function useFormField(props: { color?: Color2T; inputId?: string }, emit:
 
   const onFocus = (e: FocusEvent) => {
     isFocus.value = true;
-    emit('focus', e);
+    emit?.('focus', e);
     formItem?.fieldHandlers.onFocus?.();
   };
 
   const onBlur = () => {
     isFocus.value = false;
-    emit('blur');
+    emit?.('blur');
     formItem?.fieldHandlers.onBlur?.();
   };
 
   const onClear = (e?: Event) => {
     e?.stopPropagation();
-    emit('clear', e);
+    emit?.('clear', e);
   };
 
   const onPressEnter = () => {
-    emit('pressEnter');
+    emit?.('pressEnter');
   };
 
-  const notifyChange = () => {
+  const onChange = () => {
     formItem?.fieldHandlers.onChange?.();
   };
 
-  return { effectiveColor, inputId, isFocus, onFocus, onBlur, onClear, onPressEnter, notifyChange };
+  const onInput = () => {
+    formItem?.fieldHandlers.onInput?.();
+  };
+
+  const triggerFocus = (e: FocusEvent) => {
+    onFocus(e);
+  };
+
+  const triggerBlur = () => {
+    onBlur();
+  };
+
+  const blockChildInject = () => {};
+
+  return {
+    effectiveColor,
+    effectiveDisabled,
+    effectiveSize,
+    effectiveRound,
+    effectiveClearable,
+    inputId,
+    isFocus,
+    onFocus,
+    onBlur,
+    onClear,
+    onPressEnter,
+    onChange,
+    onInput,
+    triggerFocus,
+    triggerBlur,
+    blockChildInject,
+  };
 }

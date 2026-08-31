@@ -88,11 +88,10 @@ export const cascaderV2Props = {
   /**
    * @zh-CN 选择框大小
    * @en-US Select box size.
-   * @default 'large'
    */
   size: {
-    type: String as PropType<Exclude<SizeT, 'small'>>,
-    default: 'large',
+    type: String as PropType<SizeT | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 选择框圆角
@@ -345,11 +344,10 @@ export const cascaderV2PanelProps = {
   /**
    * @zh-CN 下拉面板大小
    * @en-US Dropdown panel size.
-   * @default 'large'
    */
   size: {
-    type: String as PropType<Exclude<SizeT, 'small'>>,
-    default: 'large',
+    type: String as PropType<Exclude<SizeT, 'small'> | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 输入框中是否显示完整的路径

@@ -28,6 +28,7 @@ import { render } from 'vitest-browser-vue';
 import { userEvent } from 'vitest/browser';
 import { h, markRaw } from 'vue';
 import OButton from '../OButton.vue';
+import OForm from '../../form/OForm.vue';
 import OIconAddRaw from '../../icon-components/OIconAdd/OIconAdd.vue';
 import { THEMES, paintThemed, isTransparent } from '../../../__tests__/_helpers/theme';
 
@@ -120,6 +121,24 @@ describe('静态契约（按 types.ts 属性）', () => {
     const elDis = dis.container.querySelector('.o-btn') as HTMLButtonElement;
     expect(elDis.classList.contains('o-btn-disabled')).toBe(true);
     expect(elDis.hasAttribute('disabled')).toBe(false);
+  });
+
+  test('OButton size/round/disabled - 继承自 OForm（未显式传时取表单值）', async () => {
+    const screen = render({
+      render: () =>
+        h(
+          OForm,
+          { model: {}, size: 'small', round: '4px', disabled: true },
+          {
+            default: () => h(OButton, {}, { default: () => 'Submit' }),
+          },
+        ),
+    });
+    const btn = screen.container.querySelector('.o-btn') as HTMLElement;
+    expect(btn).not.toBeNull();
+    expect(btn.classList.contains('o-btn-small')).toBe(true);
+    expect(btn.style.getPropertyValue('--btn-radius')).toBe('4px');
+    expect(btn.classList.contains('o-btn-disabled')).toBe(true);
   });
 
   test('OButton href - 渲染 <a> 标签且 href 透传，强覆盖 tag prop', async () => {

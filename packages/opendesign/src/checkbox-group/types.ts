@@ -22,8 +22,8 @@ export const checkboxGroupProps = {
    * @en-US Whether to disable the checkbox group
    */
   disabled: {
-    type: Boolean,
-    default: false,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 复选框组布局方向

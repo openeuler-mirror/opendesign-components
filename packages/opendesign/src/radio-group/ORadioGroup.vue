@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { provide, ref, toRef, watch, inject } from 'vue';
+import { provide, ref, watch } from 'vue';
 import { radioGroupProps } from './types';
 import { radioGroupInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
-import { formItemInjectKey } from '../form/provide';
+import { useFormField } from '../_composables/use-form-field';
 
 const props = defineProps(radioGroupProps);
 
@@ -12,10 +12,10 @@ const emits = defineEmits<{
   (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
-const realValue = ref(props.modelValue ?? props.defaultValue);
-
 // 表单注入，用于规则校验
-const formItemInjection = inject(formItemInjectKey, null);
+const { effectiveDisabled, onChange: onFormItemChange } = useFormField(props);
+
+const realValue = ref(props.modelValue ?? props.defaultValue);
 
 watch(
   () => props.modelValue,
@@ -23,7 +23,7 @@ watch(
     if (!isUndefined(val)) {
       realValue.value = val;
     }
-  }
+  },
 );
 
 const updateModelValue = (val: string | number | boolean) => {
@@ -33,12 +33,12 @@ const updateModelValue = (val: string | number | boolean) => {
 
 const onChange = (val: string | number | boolean, ev: Event) => {
   emits('change', val, ev);
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 
 provide(radioGroupInjectKey, {
   realValue,
-  disabled: toRef(props, 'disabled'),
+  disabled: effectiveDisabled,
   updateModelValue,
   onChange,
 });

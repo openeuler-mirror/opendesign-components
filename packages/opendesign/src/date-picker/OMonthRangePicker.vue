@@ -74,8 +74,12 @@ const {
   startTimestamp,
   endTimestamp,
   effectiveColor,
+  effectiveRound,
+  effectiveClearable,
+  effectiveDisabled,
+  effectiveSize,
   onFocus: baseOnFocus,
-  notifyChange,
+  onChange: onFormItemChange,
 } = useRangePickerBase({ props, mode: 'month', start, end, emit: emits });
 
 const { t } = useI18n();
@@ -107,12 +111,12 @@ const startInputRef = ref<InstanceType<typeof InInput>>();
 const endInputRef = ref<InstanceType<typeof InInput>>();
 const panelRef = ref<InstanceType<typeof DateRangePanel>>();
 
-const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly && (!!tempStart.value || !!tempEnd.value));
+const isClearable = computed(() => effectiveClearable.value && !effectiveDisabled.value && !props.readonly && (!!tempStart.value || !!tempEnd.value));
 
 let skipOpenPanel = false;
 
 const openPanel = () => {
-  if (props.disabled || props.readonly) return;
+  if (effectiveDisabled.value || props.readonly) return;
   panelRef.value?.open(startTimestamp.value, endTimestamp.value);
 };
 
@@ -152,7 +156,7 @@ const handlePanelChange = (newStart: number | undefined, newEnd: number | undefi
   endTimestamp.value = newEnd;
   if ((newStart && newEnd) || (!newStart && !newEnd)) {
     emits('change', start.value, end.value);
-    notifyChange();
+    onFormItemChange();
     if (newStart && newEnd) closeAndBlur();
   }
 };
@@ -163,7 +167,7 @@ const onClear = (e?: Event) => {
   endTimestamp.value = undefined;
   emits('clear', e);
   emits('change', undefined, undefined);
-  notifyChange();
+  onFormItemChange();
   closeAndBlur();
 };
 
@@ -193,12 +197,12 @@ defineExpose({
   <InBox
     ref="inBoxRef"
     v-bind="{
-      size: props.size,
+      size: effectiveSize,
       variant: props.variant,
       color: effectiveColor,
-      disabled: props.disabled,
+      disabled: effectiveDisabled,
       readonly: props.readonly,
-      round: props.round,
+      round: effectiveRound,
       focused: !!anyFocused,
     }"
     :class="['o-date-picker', 'o-month-range-picker', 'o-time-picker', 'o-time-range-picker', { 'o_input-clearable': isClearable }, 'o-input']"

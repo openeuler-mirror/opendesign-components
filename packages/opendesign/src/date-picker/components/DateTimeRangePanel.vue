@@ -48,7 +48,7 @@ const secondStep = ctx.secondStep ?? ref(1);
 
 // Provide timePickerInjectKey for TimeColumns
 provide(timePickerInjectKey, {
-  disabled: datePickerCtx.disabled as Ref<boolean>,
+  disabled: datePickerCtx.disabled,
   readonly: datePickerCtx.readonly as Ref<boolean>,
   size: datePickerCtx.size,
   round: datePickerCtx.round,

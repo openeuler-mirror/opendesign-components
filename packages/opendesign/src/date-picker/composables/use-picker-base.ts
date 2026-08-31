@@ -17,6 +17,10 @@ export function usePickerBase(opts: { props: DatePickerPropsT; mode: DatePickerM
     ...propsRefs,
     mode: modeRef,
     color: formField.effectiveColor,
+    disabled: formField.effectiveDisabled,
+    size: formField.effectiveSize,
+    round: formField.effectiveRound,
+    clearable: formField.effectiveClearable,
     disabledMonth: propsRefs.disabledMonth,
     disabledYear: propsRefs.disabledYear,
   });

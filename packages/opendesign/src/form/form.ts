@@ -1,5 +1,5 @@
 import { isArray, isEmptyArray, isEmptyObject, isFunction, isNull, isUndefined } from '../_utils/is';
-import { RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT, TriggerRulesT, TriggerT, ValidatorT } from './types';
+import { FormRulesT, RequiredRuleT, RulesT, TypeRuleT, ValidatorRuleT, TriggerRulesT, TriggerT, ValidatorT } from './types';
 
 export function getFlexValue(val?: 'top' | 'center' | 'bottom' | 'left' | 'center' | 'right'): string {
   if (!val) {
@@ -63,4 +63,12 @@ export function groupRules(rules?: RulesT[], required?: boolean): TriggerRulesT 
   }
 
   return tRules;
+}
+
+export function mergeRules(globalRules: FormRulesT | undefined, field: string | undefined, localRules: RulesT[] | undefined): RulesT[] | undefined {
+  if (!field) return localRules;
+  const global = globalRules?.[field];
+  if (!global && !localRules) return undefined;
+  const globalArr = isArray(global) ? global : global ? [global] : [];
+  return [...globalArr, ...(localRules || [])];
 }

@@ -43,6 +43,7 @@ import {
   OIconDownload,
   OIconAvatar,
   OIconTime,
+  OIconAsterisk,
 } from '../icon-components';
 
 /**
@@ -245,3 +246,8 @@ export const IconCalendarNextMonth = shallowRef<Component>(OIconChevronRight);
  * 默认用户头像图标
  */
 export const IconAvatar = shallowRef<Component>(OIconAvatar);
+
+/**
+ * 表单项必选星号
+ */
+export const IconAsterisk = shallowRef<Component>(OIconAsterisk);
