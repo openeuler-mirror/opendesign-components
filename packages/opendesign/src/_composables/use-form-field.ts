@@ -14,7 +14,7 @@ export type FormFieldProps = {
 
 export interface FormFieldEmits {
   (e: 'focus', evt: FocusEvent): void;
-  (e: 'blur'): void;
+  (e: 'blur', evt?: FocusEvent): void;
   (e: 'clear', evt?: Event): void;
   (e: 'pressEnter'): void;
 }
@@ -66,15 +66,23 @@ export function useFormField(props: Partial<FormFieldProps>, emit?: FormFieldEmi
 
   const isFocus = ref(false);
 
+  /**
+   * @description 聚焦处理：emit focus 事件（携带 FocusEvent）并通知表单项触发校验
+   * @param e 原生 FocusEvent
+   */
   const onFocus = (e: FocusEvent) => {
     isFocus.value = true;
     emit?.('focus', e);
     formItem?.fieldHandlers.onFocus?.();
   };
 
-  const onBlur = () => {
+  /**
+   * @description 失焦处理：emit blur 事件（携带 FocusEvent）并通知表单项触发校验
+   * @param e 原生 FocusEvent，可选——向后兼容不传参的调用方
+   */
+  const onBlur = (e?: FocusEvent) => {
     isFocus.value = false;
-    emit?.('blur');
+    emit?.('blur', e);
     formItem?.fieldHandlers.onBlur?.();
   };
 
@@ -95,12 +103,20 @@ export function useFormField(props: Partial<FormFieldProps>, emit?: FormFieldEmi
     formItem?.fieldHandlers.onInput?.();
   };
 
+  /**
+   * @description 触发聚焦：onFocus 的语义别名，接受 FocusEvent
+   * @param e 原生 FocusEvent
+   */
   const triggerFocus = (e: FocusEvent) => {
     onFocus(e);
   };
 
-  const triggerBlur = () => {
-    onBlur();
+  /**
+   * @description 触发失焦：onBlur 的语义别名，接受可选 FocusEvent
+   * @param e 原生 FocusEvent，透传给 emit('blur', e)
+   */
+  const triggerBlur = (e?: FocusEvent) => {
+    onBlur(e);
   };
 
   const blockChildInject = () => {};

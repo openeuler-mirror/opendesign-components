@@ -9,6 +9,7 @@
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { OForm, OFormItem, OOption, OSelect } from '@opensig/opendesign';
 
 const options = [
   { label: 'option 1', value: 'opt1' },
@@ -29,33 +30,22 @@ const selectVal1 = ref();
 const selectVal2 = ref();
 </script>
 <template>
-  <div class="demo-select-size-wrap">
-    <div class="demo-select-size">
-      <span class="demo-label">L</span>
+  <OForm layout="v" class="demo-select-size-wrap">
+    <OFormItem label="L">
       <OSelect v-model="selectVal1" :placeholder="placeholder" option-title="选项标题" size="large" clearable style="width: 320px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-    </div>
-    <div class="demo-select-size">
-      <span class="demo-label">M</span>
+      <template #extra
+        ><u>selectVal1: {{ JSON.stringify(selectVal1) }}</u></template
+      >
+    </OFormItem>
+    <OFormItem label="M">
       <OSelect v-model="selectVal2" :placeholder="placeholder" option-title="选项标题" size="medium" clearable style="width: 320px">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-    </div>
-  </div>
+      <template #extra
+        ><u>selectVal2: {{ JSON.stringify(selectVal2) }}</u></template
+      >
+    </OFormItem>
+  </OForm>
 </template>
-<style lang="scss">
-.demo-select-size-wrap {
-  .demo-select-size {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .demo-label {
-    flex-shrink: 0;
-    width: 20px;
-    margin-right: 16px;
-    font-size: 16px;
-  }
-}
-</style>

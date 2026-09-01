@@ -1,5 +1,6 @@
-import { InjectionKey, MaybeRefOrGetter, Ref } from 'vue';
-import { SelectOptionT } from './types';
+import { ComputedRef, InjectionKey, MaybeRefOrGetter, Ref } from 'vue';
+import type { VNodeChild } from 'vue';
+import { SelectOptionT, SelectOptionData } from './types';
 
 export const selectOptionInjectKey: InjectionKey<{
   /**
@@ -8,6 +9,21 @@ export const selectOptionInjectKey: InjectionKey<{
    */
   select: (option: SelectOptionT) => Promise<void>;
   registerOption: (option: SelectOptionT) => void;
+  /**
+   * 选项卸载时从 optionInfoMap 清理，保留 cachedOptionMap
+   * @since NEXT
+   */
+  unregisterOption?: (option: SelectOptionT) => void;
   selectValue: Ref<Array<string | number>>;
   multiple: MaybeRefOrGetter<boolean>;
+  /**
+   * 多选已达上限（limit > 0 && 已选数 >= limit），用于禁用未选项
+   * @since NEXT
+   */
+  limitReached?: ComputedRef<boolean>;
+  /**
+   * renderLabel 函数，用于 OOption 内部 fallback 渲染
+   * @since NEXT
+   */
+  renderLabelFn?: ComputedRef<((option: SelectOptionData, selected: boolean) => VNodeChild) | undefined>;
 }> = Symbol('provide-select-option');

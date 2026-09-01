@@ -18,6 +18,11 @@
   --select-icon-color-disabled: var(--o-color-info4);
 
   --select-icon-gap: var(--o-gap-2);
+
+  // 内部变量：renderLabel overlay 相对 .o-select padding-box 的左右偏移（px），
+  // 由 JS 测量主 input 区域后注入，默认 0 供 SSR/未测量场景回退
+  --_overlay-left: 0;
+  --_overlay-right: 0;
 }
 
 .o-select,
@@ -29,7 +34,7 @@
   --select-tag-text-height: var(--o-line_height-tip2);
   --select-tag-padding: 3px 12px;
   // --select-tag-min-height: var(--o-control_size-s);
-  --select-tag-margin: 2px 4px 2px 0;
+  --select-tag-margin: 2px 0 2px 4px;
 }
 
 .o-select-tag-popover {
@@ -180,7 +185,7 @@
 
   --select-multiple-max-height: 48px;
   --select-multiple-padding: 1px 8px 1px 5px;
-  --select-tag-margin: 1px 2px 1px 0;
+  --select-tag-margin: 1px 0 1px 2px;
 }
 
 .o-select-round-pill {
