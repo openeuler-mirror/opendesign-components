@@ -1,0 +1,61 @@
+.o-tour {
+  --tour-width: var(--o-r-grid-6);
+  --tour-bg-color: var(--o-color-control5-light);
+  --tour-shadow: var(--o-shadow-1);
+  --tour-radius: var(--o-radius_control-s);
+  --tour-padding: 24px;
+
+  --tour-title-size: var(--o-font_size-tip1);
+  --tour-title-height: var(--o-line_height-tip1);
+  --tour-title-color: var(--o-color-info1);
+  --tour-title-weight: var(--o-font_weight-semibold);
+
+  --tour-detail-size: var(--o-font_size-tip2);
+  --tour-detail-height: var(--o-line_height-tip2);
+  --tour-detail-color: var(--o-color-info2);
+  --tour-detail-gap: 8px;
+
+  --tour-footer-gap: 12px;
+
+  --tour-indicators-size: var(--o-font_size-tip1);
+  --tour-indicators-height: var(--o-line_height-tip1);
+  --tour-indicators-color: var(--o-color-info3);
+
+  --tour-close-size: var(--o-icon_size_control-m);
+  --tour-close-color: var(--o-color-info2);
+  --tour-close-color-hover: var(--o-color-primary2);
+  --tour-close-color-active: var(--o-color-primary3);
+  --tour-close-img-size: 32px;
+  --tour-close-img-bg: var(--o-color-control1);
+
+  --tour-btn-gap: 16px;
+
+  --popup-bd: 1px solid var(--o-color-control4);
+  --popup-bg-color: var(--o-color-control5-light);
+
+  --_tour-anchor-bg: var(--popup-bg-color);
+
+  --tour-mask-fill: rgba(0, 0, 0, 0.5);
+}
+
+.o-tour-center {
+  --tour-width: var(--o-r-grid-10);
+  --tour-detail-gap: 16px;
+  --tour-footer-gap: 32px;
+}
+.o-tour-not-mask {
+  --tour-padding: 16px;
+
+  --tour-title-size: var(--o-font_size-text1);
+  --tour-title-height: var(--o-line_height-text1);
+
+  --tour-detail-size: var(--o-font_size-tip1);
+  --tour-detail-height: var(--o-line_height-tip1);
+
+  --tour-detail-gap: 4px;
+  --tour-footer-gap: 8px;
+}
+
+.o-tour-img-close {
+  --tour-close-color: var(--o-color-white);
+}

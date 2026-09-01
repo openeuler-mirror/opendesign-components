@@ -88,6 +88,11 @@ export default {
   'dateRangePicker.placeholderStart': 'Start date',
   'dateRangePicker.placeholderEnd': 'End date',
   'dateRangePicker.selectRange': 'Select date range',
+  // tour
+  'tour.close': 'Close',
+  'tour.prev': 'Previous',
+  'tour.next': 'Next',
+  'tour.finish': 'Finish',
   // imageViewer
   'imageViewer.zoomIn': 'Zoom In',
   'imageViewer.zoomOut': 'Zoom Out',
