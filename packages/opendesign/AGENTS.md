@@ -88,13 +88,32 @@ style/
 - 颜色、圆角、阴影、字号等全局设计 Token 使用 `--o-*` 变量（由 `@opensig/opendesign-token` 提供）。
 - 响应式在 `media.scss` 中用断点覆盖 `var.scss` 的局部变量。
 
-`_styles/mixin.scss` 全局注入，组件 SCSS 中可直接使用：
+### 全局 SCSS Mixin（`_styles/mixin.scss`）
+
+全局注入，组件 SCSS 中可直接使用：
 
 | Mixin                          | 用途                  |
 | ------------------------------ | --------------------- |
 | `@include hover`               | 仅支持 hover 设备生效 |
 | `@include respond('<=laptop')` | 响应式媒体查询        |
 | `@include x-svg-hover`         | SVG 旋转关闭效果      |
+
+### 全局 CSS 工具类（`_styles/common.scss` + `_styles/animation.scss`）
+
+定义在 `_styles/` 中的全局类，所有组件可直接使用，**禁止在组件内重复定义同类样式**：
+
+| 类名                    | 来源             | 用途                                                     |
+| ----------------------- | ---------------- | -------------------------------------------------------- |
+| `.o-txt-{type}`         | `common.scss`    | 文字排版（display1~5, h1~h4, text1~2, tip1~2）           |
+| `.o-hide-scrollbar`     | `common.scss`    | 隐藏滚动条                                               |
+| `.o-svg-icon`           | `common.scss`    | SVG 图标基类（尺寸 1em、颜色继承）                       |
+| `.o-sr-only`            | `common.scss`    | 屏幕阅读器专用隐藏文本，视觉零渲染                       |
+| `.o-rotating`           | `animation.scss` | 持续旋转动画                                             |
+| `.o-zoom-fade-*-active` | `animation.scss` | 缩放淡入/淡出过渡（`enter` / `leave`，`zoom` / `zoom2`） |
+| `.o-fade-in-*-active`   | `animation.scss` | 淡入/淡出过渡                                            |
+| `.o-fade-up-*-active`   | `animation.scss` | 上滑淡入/淡出过渡                                        |
+
+> **维护约束：** 新增、重命名或废弃上述全局类 / Mixin 时，必须同步更新 [global-utilities skill](../skills/global-utilities/SKILL.md) 的快速索引表和 [`references/css-classes.md`](../skills/global-utilities/references/css-classes.md)。同理，`_utils/` / `_composables/` / `_hooks/` / `_components/` 的变更须更新 [`references/ts-utilities.md`](../skills/global-utilities/references/ts-utilities.md)。
 
 **断点速查**：响应式断点定义见 [根目录 AGENTS.md CSS 值优先级规则](/AGENTS.md#css-%E5%80%BC%E4%BC%98%E5%85%88%E8%A7%84%E5%88%9B)。
 

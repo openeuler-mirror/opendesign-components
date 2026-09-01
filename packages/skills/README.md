@@ -10,6 +10,7 @@
 | **日常编码 / 重构** | [`clean-code`](clean-code/SKILL.md)               | 写新 composable、重构复杂函数、消除嵌套、精简参数                    | "帮我重构这个 composable，降低复杂度"、"这个函数参数太多了，帮我优化"、"帮我用卫语句消除嵌套"    |
 | **测试用例**        | [`component-testing`](component-testing/SKILL.md) | 写组件测试用例、调试测试失败、补响应式/SSR/视觉断言、理解测试约定    | "帮我给 Button 写测试用例"、"帮我补 SSR 测试"、"这个 responsive 测试失败了帮我看看"              |
 | **版本发布**        | [`release-note`](release-note/SKILL.md)           | 写版本日志、整理变更归类、更新 ReleaseNote 文件                      | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
+| **资源发现**        | [`global-utilities`](global-utilities/SKILL.md)   | 查找全局 CSS 类、SCSS mixin、TS 工具函数、composable、内部组件       | "有没有全局的 sr-only？"、"防抖函数在哪？"、"InBox 怎么用？"、"有哪些全局工具类"                 |
 
 ## 各 Skill 速览
 
@@ -106,6 +107,31 @@ Release Note 生成指南。6 步工作流：
 | [`version-placeholder.md`](release-note/references/version-placeholder.md) | 版本占位符替换（@since NEXT → 实际版本号） |
 
 自动触发关键词：release note、版本日志、changelog、版本变更、版本号确认、feat / fix / breaking change / style 变更归类、sp 版本、scripts 包发布
+
+---
+
+### global-utilities
+
+组件库全局资源发现与复用指南。核心原则：编写新代码前，先确认是否已有全局资源可复用，禁止重复实现同类逻辑。
+
+涵盖范围：
+
+- **全局 CSS 工具类**：`.o-sr-only`、`.o-hide-scrollbar`、`.o-txt-*`、`.o-svg-icon`、`.o-rotating`、动画过渡类
+- **全局 SCSS Mixin**：`@include hover`、`@include respond()`、`@include x-svg-hover`
+- **全局 TS 工具函数**：`debounce`、`throttleRAF`、`getRoundClass`、`createTopZIndex`、类型判断、DOM 工具、VNode/Slot 工具
+- **全局 Composable**：`useFormField`、`useRenderWithCtx`、`useSlotFirstElement`
+- **内部共享组件**：`InBox`、`InInput`、`InTextarea`、`ClientOnly`、`OPopup`、`OPopover`
+
+参考文档索引：
+
+| 文件                                                             | 用途                                         |
+| ---------------------------------------------------------------- | -------------------------------------------- |
+| [`css-classes.md`](global-utilities/references/css-classes.md)   | 全局 CSS 工具类 + SCSS Mixin 速查            |
+| [`ts-utilities.md`](global-utilities/references/ts-utilities.md) | 全局 TS 工具函数 + Composable + 内部组件速查 |
+
+自动触发关键词：sr-only / o-sr-only、hide-scrollbar、svg-icon、rotating、fade-in、zoom-fade、respond mixin、hover mixin、getRoundClass、createTopZIndex、debounce、throttleRAF、isString、isEmptySlot、useFormField、useRenderWithCtx、InBox、InInput、ClientOnly、OPopup、OPopover、全局类、全局方法、有哪些全局
+
+> **维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局资源发生新增、重命名、废弃等变更时，必须同步更新此 skill 的 `SKILL.md` 快速索引表和对应 reference 文档。详见 [SKILL.md → 维护规则](global-utilities/SKILL.md#维护规则强制)。
 
 ## Skill 触发机制
 

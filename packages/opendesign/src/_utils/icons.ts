@@ -46,6 +46,7 @@ import {
   OIconZoomIn,
   OIconZoomOut,
   OIconOneToOne,
+  OIconAsterisk,
 } from '../icon-components';
 
 /**
@@ -278,3 +279,8 @@ export const IconRotateAnticlockwise = shallowRef<Component>({
     return () => h(OIconRefresh, { class: 'o-icon-rotate-anticlockwise' });
   },
 });
+
+/**
+ * 表单项必选星号
+ */
+export const IconAsterisk = shallowRef<Component>(OIconAsterisk);

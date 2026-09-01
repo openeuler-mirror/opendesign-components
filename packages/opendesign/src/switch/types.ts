@@ -44,11 +44,10 @@ export const switchProps = {
   /**
    * @zh-CN 组件尺寸
    * @en-US Component size
-   * @default 'medium'
    */
   size: {
-    type: String as PropType<SwitchSizeT>,
-    default: 'medium',
+    type: String as PropType<SwitchSizeT | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 圆角大小
@@ -62,8 +61,8 @@ export const switchProps = {
    * @en-US Whether to disable
    */
   disabled: {
-    type: Boolean,
-    default: false,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 是否处于加载状态

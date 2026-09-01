@@ -60,6 +60,43 @@ expect(after).not.toBe(before); // ✓
 
 **修法 2（推荐）**：直接断言 token wiring，不依赖事件触发——参见 [visual-contract.md](./visual-contract.md) 策略 3。
 
+### hover 触发的元素可见性测试（opacity/visibility 切换）
+
+**场景**：组件中某些 UI 元素（如清除按钮）默认 `opacity: 0`，仅 hover 父容器后变为 `opacity: 1`。token wiring 不适用——这里验证的不是颜色 token 值，而是 CSS 可见性切换行为。
+
+**写法**：
+
+```ts
+test('clearable + 有选中值 — hover 后清除按钮可见', async () => {
+  const screen = render(OSelect, {
+    props: { clearable: true, modelValue: 'a', options: [{ label: 'A', value: 'a' }] },
+  });
+  await flush();
+  const selectEl = screen.container.querySelector('.o-select') as HTMLElement;
+  const clearEl = screen.container.querySelector('.o-select-clear') as HTMLElement;
+
+  // 默认不可见
+  expect(getComputedStyle(clearEl).opacity).toBe('0');
+
+  // 禁用过渡，避免读取到过渡中间值
+  clearEl.style.transition = 'none';
+  await userEvent.hover(selectEl);
+  await flush();
+
+  // hover 后可见
+  expect(getComputedStyle(clearEl).opacity).toBe('1');
+});
+```
+
+**要点**：
+
+1. **先断言默认隐藏态**（`opacity: 0`）——确保元素存在但不可见，而非"元素一直可见"
+2. **设 `el.style.transition = 'none'`**——组件 CSS 通常有 `transition: all`，hover 后立刻读值可能拿到过渡中间值
+3. **`userEvent.hover()` + `await flush()`**——触发 hover 伪类后等一帧让样式生效
+4. **仅在 CLI 模式可靠**——UI 模式下鼠标位置不可控，详见下方"UI 模式 hover 测试红色"
+
+**适用范围**：任何 hover 触发的可见性切换（清除按钮、操作工具栏、遮罩层等），元素存在于 DOM 但通过 `opacity`/`visibility`/`display` 控制显隐。如果元素由 `v-if`/`v-else-if` 控制（不存在于 DOM），直接用 `querySelector` 断言存在性即可，不需要 hover。
+
 ### `pnpm test:ui` 面板里 hover 测试红色，CLI 跑过
 
 **现象**：CLI `pnpm test:run` 全过，开 UI 模式 `pnpm test:ui` 同一个用例红色。
@@ -374,3 +411,82 @@ test.fails('ODataTable slot=td_${key} - 替换指定列每一行的单元格内�
 | **L3** Skill / 文档错    | 描述的 class/prop 与源码不符              | 同步修文档 + 当前测试                  |
 
 **例外**：若设计稿和现有组件实现真冲突（Token 错、设计稿过时），属于 L1.5 → 拉 owner 决策，不擅自改测试。
+
+---
+
+## 十二、日志 / console.warn 测试相关
+
+### 组件的 `logger.warn` 在测试中不被触发
+
+**现象**：
+
+```ts
+const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+render(OComp, { props: { ... } });
+expect(warnSpy).toHaveBeenCalled(); // ❌ 失败：0 calls
+```
+
+**真因**：Vite 编译时将 `process.env.NODE_ENV` 静态替换为字面量（测试环境为 `'test'`），运行时 `process` 对象本身也不存在。`_utils/log.ts` 的 `getLogFunction` 检查 `process.env.NODE_ENV === 'development'`，编译后变为 `'test' === 'development'` → `false` → 返回 no-op。`vi.spyOn(console, 'warn')` 拦截的是 `console.warn`，但 Log 类的 `warn` 根本没调用 `console.warn`。
+
+**修法**：调用 `setLogEnabled(true)` 开启日志 + `vi.spyOn(console, 'warn')` 拦截输出：
+
+```ts
+import { setLogEnabled } from '../../_utils/log';
+
+describe('日志契约', () => {
+  // 在 describe 体顶层开启，afterEach 中关闭
+  setLogEnabled(true);
+  afterEach(() => setLogEnabled(false));
+
+  test('OComp 某场景 - 触发 warn 提示', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    render(OComp, { props: { ... } });
+    // Log 类的 warn getter 会 bind 前缀 '[OComp]'，首参为前缀，次参为消息
+    expect(warnSpy).toHaveBeenCalledWith('[OComp]', expect.stringContaining('xxx'));
+    warnSpy.mockRestore();
+  });
+});
+```
+
+> **原理**：`setLogEnabled(true)` 将 Log 模块的 `isLogEnabled` 变量设为 `true`，`getLogFunction` 不再返回 no-op 而是运行时从 `console[level]` 动态获取方法（非模块加载时缓存），因此 `vi.spyOn` 能拦截。
+
+### `vi.mock` 在 vitest browser 模式下不生效
+
+**现象**：
+
+```ts
+vi.mock('../../_utils/log', () => ({
+  Log: class MockLog {
+    warn = vi.fn();
+  },
+}));
+import OComp from '../OComp.vue';
+// OComp 内部使用的 Log 仍是原始版本，mock factory 未被应用
+```
+
+**真因**：vitest browser 模式下模块在浏览器上下文执行，`vi.mock` 的模块替换机制在 Playwright browser provider 下不生效。
+
+**修法**：不使用 `vi.mock`，改用 `setLogEnabled(true)` + `vi.spyOn(console, 'warn')` 方案（见上）。
+
+### `vi.stubEnv('NODE_ENV', 'development')` 在 browser 模式下不生效
+
+**现象**：在 `vi.hoisted` 或 `beforeAll` 中调用 `vi.stubEnv('NODE_ENV', 'development')`，测试中 `process.env.NODE_ENV` 仍为 `'test'`，甚至 `process is not defined`。
+
+**真因**：Vite 的 `define` 在编译时已将 `process.env.NODE_ENV` 替换为字面量字符串，`vi.stubEnv` 运行时修改 `process.env` 无法影响已编译的代码。browser 模式下 `process` 对象本身也可能不存在（已被编译移除）。
+
+**修法**：同上，使用 `setLogEnabled(true)` 而非环境变量切换。
+
+### 组件直接调用 `console.warn`（不经过 Log 类）
+
+**场景**：部分组件（如 OVirtualList）直接调用 `console.warn`，不经过 `Log` 类，因此不受 `process.env.NODE_ENV` 限制。
+
+**测试方法**：直接 `vi.spyOn(console, 'warn')` 即可，无需 `setLogEnabled`：
+
+```ts
+const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+render(OVirtualList, { props: { list: noIdList } });
+expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('OVirtualList'));
+warnSpy.mockRestore();
+```
+
+> **判断依据**：组件源码中 `import { Log } from '../_utils/log'` → 需 `setLogEnabled(true)`；直接 `console.warn(...)` → 直接 spy 即可。

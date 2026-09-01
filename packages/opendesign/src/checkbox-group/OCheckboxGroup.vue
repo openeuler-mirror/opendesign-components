@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { computed, provide, ref, toRef, watch, inject } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 import { checkboxGroupProps } from './types';
 import { checkboxGroupInjectKey } from './provide';
 import { isArray, isUndefined } from '../_utils/is';
-
-import { formItemInjectKey } from '../form/provide';
+import { useFormField } from '../_composables/use-form-field';
 
 const props = defineProps(checkboxGroupProps);
 
@@ -13,10 +12,10 @@ const emits = defineEmits<{
   (e: 'change', val: Array<string | number>, ev: Event): void;
 }>();
 
-const realValue = ref(isArray(props.modelValue) ? props.modelValue : props.defaultValue);
-
 // 表单注入，用于规则校验
-const formItemInjection = inject(formItemInjectKey, null);
+const { effectiveDisabled, onChange: onFormItemChange } = useFormField(props);
+
+const realValue = ref(isArray(props.modelValue) ? props.modelValue : props.defaultValue);
 
 watch(
   () => props.modelValue,
@@ -24,7 +23,7 @@ watch(
     if (isArray(val)) {
       realValue.value = val;
     }
-  }
+  },
 );
 
 const isMinimum = computed(() => (isUndefined(props.min) ? false : realValue.value.length <= props.min));
@@ -38,12 +37,12 @@ const updateModelValue = (val: Array<string | number>) => {
 
 const onChange = (val: Array<string | number>, ev: Event) => {
   emits('change', val, ev);
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 
 provide(checkboxGroupInjectKey, {
   realValue,
-  disabled: toRef(props, 'disabled'),
+  disabled: effectiveDisabled,
   isMinimum,
   isMaximum,
   updateModelValue,

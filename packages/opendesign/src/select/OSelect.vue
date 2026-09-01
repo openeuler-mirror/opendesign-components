@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, watchEffect, inject } from 'vue';
+import { computed, provide, ref, watch, watchEffect } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
@@ -15,7 +15,7 @@ import { isEmptySlot } from '../_utils/vue-utils';
 import SelectOption from './SelectOption.vue';
 import slot from './slot';
 import { filterSlots } from '../_utils/vue-utils';
-import { formItemInjectKey } from '../form/provide';
+import { useFormField } from '../_composables/use-form-field';
 import { useI18n } from '../locale';
 import { OButton } from '../button';
 import { useScreen } from '../hooks';
@@ -68,6 +68,9 @@ const { isPhonePadSize } = useScreen();
 
 const { t } = useI18n();
 
+// 表单注入，用于规则校验
+const { effectiveColor: color, effectiveDisabled, effectiveSize, effectiveRound, effectiveClearable, onChange: onFormItemChange } = useFormField(props, emits);
+
 const selectRef = ref<HTMLElement>();
 const optionsRef = ref<HTMLElement | null>(null);
 
@@ -85,17 +88,6 @@ watch(
     }
   },
 );
-
-// 表单注入，用于规则校验
-const formItemInjection = inject(formItemInjectKey, null);
-
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type;
-  } else {
-    return props.color;
-  }
-});
 
 // 存储每个value对应的label
 const optionLabels = ref<Record<string | number, string>>({});
@@ -142,7 +134,7 @@ const foldLabel = computed(() => {
 });
 const foldTrigger = typeof props.showFoldTags === 'string' ? props.showFoldTags : 'hover';
 
-const round = getRoundClass(props, 'select');
+const round = getRoundClass({ round: effectiveRound }, 'select');
 
 watch(
   () => props.modelValue,
@@ -185,7 +177,7 @@ watchEffect(() => {
   }
 });
 
-const isClearable = computed(() => props.clearable && !props.disabled && valueList.value.length > 0);
+const isClearable = computed(() => effectiveClearable.value && !effectiveDisabled.value && valueList.value.length > 0);
 
 const emitChange = (value: Array<string | number>) => {
   if (props.multiple) {
@@ -193,7 +185,7 @@ const emitChange = (value: Array<string | number>) => {
   } else {
     emits('change', value[0]);
   }
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 const emitUpdateValue = (value: Array<string | number>) => {
   if (props.multiple) {
@@ -294,7 +286,7 @@ const beforeTagPopoverShow = () => {
 
 const onSelectClick = () => {
   if (isResponding.value) {
-    if (!props.disabled) {
+    if (!effectiveDisabled.value) {
       isSelecting.value = true;
     }
   }
@@ -338,12 +330,12 @@ defineExpose({
     :class="[
       `o-select-${color}`,
       `o-select-${props.variant}`,
-      `o-select-${props.size || defaultSize}`,
+      `o-select-${effectiveSize || defaultSize}`,
       round.class.value,
       {
         'is-selecting': isSelecting,
         'is-multiple': props.multiple && valueList.length > 0,
-        'o-select-disabled': props.disabled,
+        'o-select-disabled': effectiveDisabled,
         'o-select-clearable': isClearable,
         'o-select-is-loading': props.loading,
       },
@@ -442,7 +434,7 @@ defineExpose({
           </template>
           <template #default>
             <SelectOption
-              :size="props.size"
+              :size="effectiveSize"
               :wrap-class="props.optionWrapClass"
               :loading="props.loading"
               class="o-select-options-dlg"
@@ -461,7 +453,7 @@ defineExpose({
       </template>
       <template v-else>
         <OPopup
-          v-if="!props.disabled"
+          v-if="!effectiveDisabled"
           v-model:visible="isSelecting"
           wrap-class="o-options-popup"
           :transition="props.transition"
@@ -477,7 +469,7 @@ defineExpose({
           :before-hide="props.beforeOptionsHide"
           @change="onOptionVisibleChange"
         >
-          <SelectOption :size="props.size" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
+          <SelectOption :size="effectiveSize" :wrap-class="props.optionWrapClass" :loading="props.loading" :multiple="props.multiple">
             <template v-for="name in filterSlots(slots, slot.option.names)" #[name]>
               <slot :name="name"></slot>
             </template>

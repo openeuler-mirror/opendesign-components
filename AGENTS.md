@@ -4,7 +4,8 @@ This file provides guidance to AI coding agents when working with code in this r
 
 **重要:**
 
-- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
+- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing` | 资源发现 → `global-utilities`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
+- **全局资源维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局 CSS 类、SCSS Mixin、TS 工具函数、composable 或内部组件发生新增、重命名、废弃等变更时，必须同步更新 [`global-utilities`](packages/skills/global-utilities/SKILL.md) skill 的快速索引表和对应 reference 文档。
 - 你的所有回答应始终遵循`karpathy-guidelines`
 - **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 `clean-code` skill。
 - **异步延续中的资源清理风险：** 在 `onMounted` 的 `Promise.then()` / `await` / `setTimeout` 等异步延续中调用 VueUse composable（`useEventListener` / `useResizeObserver` / `useTimeoutFn` / `useIntervalFn`）时，组件 effect scope 已关闭，`tryOnScopeDispose` 会静默失效导致内存泄漏。必须捕获返回值并在 `onUnmounted` 中手动清理，或优先将异步逻辑改为同步执行。预防模式见 [clean-code: async-scope-cleanup.md](packages/skills/clean-code/references/async-scope-cleanup.md)，测试方法见 [component-testing: resource-cleanup.md](packages/skills/component-testing/references/resource-cleanup.md)。

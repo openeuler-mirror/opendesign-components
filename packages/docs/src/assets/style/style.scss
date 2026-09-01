@@ -135,10 +135,11 @@ section {
   }
 }
 .o-form {
-  .o-input,
+  .o-input:not(.o-slider-input),
   .o-select,
-  .o-input-number,
+  .o-input-number:not(.o-slider-input),
   .o-cascader,
+  .o-cascader-v2,
   .o-ip-input {
     width: var(--form-item-main-box-width-standard);
   }

@@ -588,6 +588,7 @@ describe('插槽契约（具名插槽）', () => {
 | 同一 test 多次 `render()` 后 `getByText/getByRole` 报 strict mode violation | Playwright Locator 在 body 范围搜，命中 ≥2 元素就 fail。改用 `wrapper.container.querySelector('.o-<comp>')` 从各自根节点取                       | [pitfalls.md](./references/pitfalls.md)                 |
 | `pnpm test:ui` 面板里 hover 测试红色，CLI 跑过                              | 用户鼠标实际位置可能已悬在 button 上，`before === after === hover 色`。改用 **token wiring 断言** 替代真实事件触发                               | [pitfalls.md](./references/pitfalls.md)                 |
 | hover 后立刻读 `borderColor` 拿到旧值                                       | `transition: all` 让读取时机不稳定。测试前 `el.style.transition = 'none'`；更稳直接断言 token wiring                                             | [visual-contract.md](./references/visual-contract.md)   |
+| **hover 触发的元素可见性测试（opacity 切换）**                              | 元素默认 `opacity:0`，hover 后 `opacity:1`，token wiring 不适用。设 `transition:none` + `userEvent.hover()` + 断言 `getComputedStyle().opacity`  | [pitfalls.md](./references/pitfalls.md)                 |
 | `:active` 怎么也触发不到                                                    | `userEvent` 无 `pointer/mouse.down` API；`dispatchEvent('mousedown')` 不触发 `:active` 伪类。改用 **active wiring 断言**                         | [visual-contract.md](./references/visual-contract.md)   |
 | icon prop 传组件时 Vue warn "reactive object"                               | `icon = markRaw(IconComp)` 包一下                                                                                                                | [pitfalls.md](./references/pitfalls.md)                 |
 | 空 `<svg>` 把按钮撑到 ~300px 宽                                             | SVG 无 width/height 时浏览器默认 300×150。用真实 icon 组件（`OIconAdd` 等）                                                                      | [pitfalls.md](./references/pitfalls.md)                 |
@@ -600,6 +601,8 @@ describe('插槽契约（具名插槽）', () => {
 | **token 链变量跨断点值相同（如 radius）**                                   | 当前主题别名指向同 px。跳过该跃迁断言，待主题区分后再补                                                                                          | 见上文「响应式数值断言策略」                            |
 | **插槽测试 fail 但 types.ts 有定义**                                        | 模板未实际渲染该 slot。用 `test.fails` 标记，待组件侧补实现                                                                                      | 见上文「已知问题标记」                                  |
 | **组件卸载后事件监听 / ResizeObserver 未清理**                              | `onMounted` 内 `Promise.then` 微任务中调用 VueUse composable，`tryOnScopeDispose` 因 scope 已关闭失效。捕获返回值在 `onUnmounted` 手动清理       | [resource-cleanup.md](./references/resource-cleanup.md) |
+| **`logger.warn` 在测试中不被触发**                                          | Vite 编译时静态替换 `process.env.NODE_ENV`，Log 类 `getLogFunction` 恒为 no-op。改用 `setLogEnabled(true)` + `vi.spyOn(console, 'warn')`         | [pitfalls.md](./references/pitfalls.md)                 |
+| **`vi.mock` 在 browser 模式下不生效**                                       | Playwright browser provider 下 `vi.mock` 的模块替换不生效。改用 `setLogEnabled` / `vi.spyOn` 方案                                                | [pitfalls.md](./references/pitfalls.md)                 |
 
 ---
 

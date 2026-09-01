@@ -10,7 +10,7 @@ import { layerInjectKey } from './provide';
 import { useMouse } from '../hooks/use-mouse';
 import { isFunction, isUndefined } from '../_utils/is';
 import { Log } from '../_utils/log';
-import { createTopZIndex, removeZIndex } from '../_utils/z-index';
+import { createTopZIndex } from '../_utils/z-index';
 import { IconClose } from '../_utils/icons';
 import { OIcon } from '../icon';
 
@@ -80,14 +80,21 @@ const initWrapperEl = () => {
   return wrapperEl;
 };
 
+const hasSetLayerClass = ref(false);
 const handleWrapperScroll = () => {
   nextTick(() => {
     initWrapperEl();
     if (wrapperEl) {
       if (visible.value) {
-        wrapperEl.classList.add(LayerClass.OPEN);
+        if (!wrapperEl.classList.contains(LayerClass.OPEN)) {
+          wrapperEl.classList.add(LayerClass.OPEN);
+          hasSetLayerClass.value = true;
+        }
       } else {
-        wrapperEl.classList.remove(LayerClass.OPEN);
+        if (hasSetLayerClass.value) {
+          wrapperEl.classList.remove(LayerClass.OPEN);
+          hasSetLayerClass.value = false;
+        }
       }
     }
   });
@@ -137,8 +144,6 @@ const beforeToggle = async (show: boolean) => {
 const updateZIndex = (show: boolean) => {
   if (show) {
     zIndex.value = createTopZIndex();
-  } else {
-    removeZIndex(zIndex.value);
   }
 };
 watch(
@@ -219,8 +224,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   mouse?.destroy();
-  // 卸载时移除类
-  wrapperEl?.classList.remove(LayerClass.OPEN);
+  if (hasSetLayerClass.value && wrapperEl) {
+    wrapperEl.classList.remove(LayerClass.OPEN);
+    hasSetLayerClass.value = false;
+  }
 });
 
 provide(layerInjectKey, { toggle });
