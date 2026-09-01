@@ -12,6 +12,7 @@ An image preview component supporting drag, zoom, rotation, and multi-image navi
 <!-- @case ImageViewerBasic -->
 <!-- @case ImageViewerOversized -->
 <!-- @case ImageViewerZoomBounds -->
+<!-- @case ImageViewerScaleControl -->
 <!-- @case ImageViewerStandalone -->
 <!-- @case ImageViewerError -->
 <!-- @case ImageViewerInFigure -->
@@ -29,10 +30,14 @@ Use `infinite` to enable infinite loop navigation. Use `show-progress` to displa
 
 - `zoom-rate`: Controls the zoom rate per step. Higher values mean faster zoom. Default `1.2`.
 - `min-scale` / `max-scale`: Limit the user's manual zoom range to prevent over-shrinking or over-enlarging. When the fit-to-screen scale (containScale) falls below `min-scale`, the effective lower bound automatically expands to containScale, ensuring the initial display is a fully visible contain state and that zooming in from that position transitions smoothly without jumping to `min-scale`.
-- `scale`: Sets the initial zoom ratio. Default `1` (original size). After loading, if the image exceeds the screen, a fit-to-screen scale is automatically calculated; reset returns to this ratio.
+- `scale`: Sets the initial zoom ratio. When provided, the image keeps this scale after loading without auto-fitting; when omitted, a fit-to-screen scale is automatically calculated (small images zoom to 200%, large images shrink to fit screen). Switching images and clicking reset both return to this ratio.
 - `show-zoom-ratio`: Briefly displays the current zoom percentage. `duration` controls how long the hint stays (in milliseconds).
 - `scalable`: Whether image scaling is allowed. Default `true`. When `false`, scaling is locked to the fit-to-screen ratio on non-mobile devices (hover-capable with fine pointer) — wheel, keyboard, and other zoom interactions are disabled; zoom-related toolbar buttons (zoom out, zoom in, reset) are hidden, and if only `close` remains after filtering, the entire action area is hidden. Pinch-to-zoom remains available on touch devices (natural gesture).
 - `rotateLeft` / `rotateRight` in `toolbar` rotate the image 90° counter-clockwise / clockwise respectively. The `rotate` event fires on rotation.
+
+### Parent-Controlled Scale
+
+The `scale` property supports `v-model:scale` two-way binding. When `scale` is omitted, the image auto-fits after loading (small images zoom to 200%, large images shrink to fit screen). When `scale` is provided, the image keeps that scale after loading, skipping auto-fit. Switching images and clicking reset both return to this ratio. After user zoom interaction, the new ratio propagates back to the parent via `v-model:scale`.
 
 ### Oversized Image Auto-Fit
 

@@ -162,7 +162,7 @@ describe('缩放边界', () => {
     });
     await ensureLoaded(screen);
     const zoomOutBtn = screen.container.querySelector('.o-image-action-item') as HTMLButtonElement;
-    // 1x1 图片 fitScale=2，zoomOut: 2/2=1
+    // 父组件传入 scale=0.8，跳过适屏；zoomOut: 0.8/2=0.4，clamp 到 minScale=0.5
     zoomOutBtn.click();
     await flush();
     // 再 zoomOut: 1/2=0.5，clamp 到 minScale=0.5
@@ -178,7 +178,6 @@ describe('scale prop 外部控制', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
       },
     });
     await ensureLoaded(screen);
@@ -197,7 +196,6 @@ describe('scale prop 外部控制', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
         maxScale: 5,
         minScale: 0.1,
       },
@@ -412,7 +410,6 @@ describe('exposed 方法（间接验证）', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
         zoomRate: 1.2,
         maxScale: 8,
       },
@@ -432,7 +429,6 @@ describe('exposed 方法（间接验证）', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
         zoomRate: 1.2,
         toolbar: ['zoomIn', 'rotateRight', 'reset'],
       },

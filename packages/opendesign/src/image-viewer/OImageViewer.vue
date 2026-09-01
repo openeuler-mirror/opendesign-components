@@ -33,9 +33,11 @@ const currentIndex = defineModel<number>('currentIndex', { default: 0 });
 
 /**
  * @zh-CN 当前缩放比例，双向绑定属性
+ * @description 传入该值时图片加载后保持该缩放比例，不自动适屏；不传时自动计算适屏缩放（小图放大至 200%，大图缩至整屏可见）。
  * @en-US Current scale of the preview image, two-way binding property.
+ * @description When provided, the image keeps this scale after loading without auto-fitting; when omitted, auto-fit is applied (small images zoom to 200%, large images shrink to fit screen).
  */
-const scale = defineModel<number>('scale', { default: 1 });
+const scale = defineModel<number>('scale');
 
 /**
  * 是否为非移动端（具备 hover 且 fine pointer）
@@ -45,7 +47,12 @@ const scale = defineModel<number>('scale', { default: 1 });
  */
 const isDesktop = useMediaQuery('(hover: hover) and (pointer: fine)');
 
-/** 缩放比例初始快照，用于 resetTransform 重置基准 */
+/**
+ * 缩放比例初始快照，用于 resetTransform 重置基准
+ * @description 父组件传入 scale 时为该值（数字），未传入时为 undefined。
+ * undefined 作为"自动适屏模式"信号：onImgLoaded 应用 fitScale，
+ * resetTransform / 切图重置回退到 fitScale，zoomDisabled contain 锁定生效。
+ */
 const initialScale = scale.value;
 
 const emits = defineEmits<{
@@ -216,15 +223,17 @@ const containScale = ref(initialScale);
  * 有效最小缩放比例
  * @description 动态扩展用户设定的 minScale：若 containScale 低于 minScale，
  * 以 containScale 为有效下界，确保从适屏位置手动放大时平滑过渡，不跳跃。
+ * 图片加载前 containScale 为 undefined，此时回退到 minScale 避免 NaN。
  */
-const effectiveMinScale = computed(() => Math.min(props.minScale, containScale.value));
+const effectiveMinScale = computed(() => (containScale.value == null ? props.minScale : Math.min(props.minScale, containScale.value)));
 
 /**
  * 有效最大缩放比例
  * @description 动态扩展用户设定的 maxScale：若 fitScale 高于 maxScale（极端小图场景），
  * 以 fitScale 为有效上界，确保初始 200% 展示后用户仍可缩放至该比例。
+ * 图片加载前 fitScale 为 undefined，此时回退到 maxScale 避免 NaN。
  */
-const effectiveMaxScale = computed(() => Math.max(props.maxScale, fitScale.value));
+const effectiveMaxScale = computed(() => (fitScale.value == null ? props.maxScale : Math.max(props.maxScale, fitScale.value)));
 
 /**
  * 是否禁用缩放交互
@@ -236,7 +245,8 @@ const zoomDisabled = computed(() => !props.scalable && isDesktop.value);
 
 /** 缩放与位移状态 */
 const transform = ref({
-  scale: scale.value,
+  // 父组件传入 scale 时用该值，未传入时回退到 1 作为加载前安全默认值
+  scale: scale.value ?? 1,
   deg: 0,
   offsetX: 0,
   offsetY: 0,
@@ -466,6 +476,11 @@ const onImgLoaded = () => {
   loadError.value = false;
   // 图片加载完成后计算适屏缩放并应用为初始 scale
   updateFitScale();
+  // 父组件显式传入 scale 时，尊重其缩放设置，跳过自动适屏
+  if (initialScale !== undefined) {
+    transform.value.enableTransition = true;
+    return;
+  }
   // scalable=false 且非移动端时锁定为 contain 模式（整图可见，不超原始尺寸）；
   // 否则使用 fitScale（目标 200%，两边不超屏幕）
   const targetScale = zoomDisabled.value ? containScale.value : fitScale.value;
@@ -609,22 +624,24 @@ const onWheel = (e: WheelEvent) => {
 
 /**
  * 重置缩放、位移与旋转
- * @description 重置到适屏缩放比例（fitScale），而非 initialScale。
- * fitScale 在图片加载时计算：统一使用 contain 模式（整张图片完整可见）。
+ * @description 父组件传入 scale 时重置到 initialScale（父组件指定的基准），
+ * 否则重置到适屏缩放比例（fitScale）。
  * 仅在缩放比例实际变化时显示比例指示器。
  */
 const resetTransform = () => {
   const prevScale = transform.value.scale;
+  // 父组件传入 scale 时重置到该值，否则重置到适屏比例
+  const targetScale = initialScale ?? fitScale.value;
   // 同步设置 transform 和 scale model，用 sync lock 阻止 watcher 链干扰
   isSyncingScale = true;
   transform.value = {
-    scale: fitScale.value,
+    scale: targetScale,
     deg: 0,
     offsetX: 0,
     offsetY: 0,
     enableTransition: true,
   };
-  scale.value = fitScale.value;
+  scale.value = targetScale;
   nextTick(() => {
     isSyncingScale = false;
   });
@@ -872,7 +889,8 @@ const onBackgroundClick = () => {
 
 // ---- 图片切换时重置状态 ----
 // 切换上下张后立即重置缩放、位移、旋转到适屏状态（fitScale），
-// 禁用过渡避免与图片滑动动画叠加；新图加载后 onImgLoaded 会重新计算 fitScale 并应用
+// 父组件传入 scale 时重置到该值；禁用过渡避免与图片滑动动画叠加；
+// 新图加载后 onImgLoaded 会重新计算 fitScale 并应用（未传 scale 时）
 watch(currentIndex, (val) => {
   const len = props.previewList.length;
   if (len > 0 && (val < 0 || val >= len)) {
@@ -881,17 +899,19 @@ watch(currentIndex, (val) => {
   }
   loadError.value = false;
   isLoading.value = true;
+  // 父组件传入 scale 时重置到该值，否则重置到适屏比例
+  const targetScale = initialScale ?? fitScale.value;
   // 切换图片时立即重置 transform（禁用过渡），避免容器缩放/旋转动画与图片滑动动画叠加
   // 同步设置 transform 和 scale model，用 sync lock 阻止 watcher 链干扰
   isSyncingScale = true;
   transform.value = {
-    scale: fitScale.value,
+    scale: targetScale,
     deg: 0,
     offsetX: 0,
     offsetY: 0,
     enableTransition: false,
   };
-  scale.value = fitScale.value;
+  scale.value = targetScale;
   nextTick(() => {
     isSyncingScale = false;
   });
@@ -951,9 +971,12 @@ watch(currentUrl, () => {
  * @description `zoomDisabled` 变为 `true` 时（`scalable` 切换为 `false` 或非移动端环境检测生效），
  * 重置缩放比例到 contain 模式（整图可见，不超原始尺寸）并清零位移，
  * 确保图片不停留在已缩放/偏移状态。旋转角度保留不变——旋转是独立于缩放的操作。
+ * 父组件显式传入 scale 时跳过 contain 锁定，尊重父组件的缩放设置。
  */
 watch(zoomDisabled, (disabled) => {
   if (!disabled) return;
+  // 父组件传入 scale 时，不强制 contain 模式
+  if (initialScale !== undefined) return;
   isSyncingScale = true;
   transform.value = {
     ...transform.value,
@@ -1002,15 +1025,15 @@ useEventListener(
 useEventListener(rootElRef, 'keydown', onKeydown);
 useEventListener(rootElRef, 'keydown', onFocusTrap);
 
-// 窗口尺寸变化时重新计算适屏缩放（仅在未交互缩放时跟随更新）
+// 窗口尺寸变化时重新计算适屏缩放（仅在未传 scale 且未交互缩放时跟随更新）
 useEventListener(window, 'resize', () => {
   if (isLoading.value || loadError.value) return;
   const prevScale = transform.value.scale;
   const oldFitScale = fitScale.value;
   const oldContainScale = containScale.value;
   updateFitScale();
-  // 用户未手动缩放（当前 scale 等于旧的 fitScale 或 containScale 或 initialScale）时跟随适屏更新
-  if (prevScale === oldFitScale || prevScale === oldContainScale || prevScale === initialScale) {
+  // 仅在自动适屏模式（未传 scale）且用户未手动缩放时跟随适屏更新
+  if (initialScale === undefined && (prevScale === oldFitScale || prevScale === oldContainScale)) {
     const targetScale = zoomDisabled.value ? containScale.value : fitScale.value;
     isSyncingScale = true;
     transform.value.scale = targetScale;

@@ -74,9 +74,9 @@ describe('currentIndex 响应式变化', () => {
 // scale / minScale / maxScale — defineModel + watch(clamp(scale, ...)) 同步 transform
 // ──────────────────────────────────────────────────────────────
 describe('scale 响应式变化', () => {
-  test('scale 从 1 变为 2 后 transform 更新', async () => {
+  test('scale 从适屏值变为新值后 transform 更新', async () => {
     const screen = render(OImageViewer, {
-      props: { previewList: [DATA_IMG], scale: 1 },
+      props: { previewList: [DATA_IMG] },
     });
     await ensureLoaded(screen);
     const before = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
@@ -90,7 +90,7 @@ describe('scale 响应式变化', () => {
 
   test('scale 超过 maxScale 时被 clamp', async () => {
     const screen = render(OImageViewer, {
-      props: { previewList: [DATA_IMG], scale: 1, maxScale: 8 },
+      props: { previewList: [DATA_IMG], maxScale: 8 },
     });
     await ensureLoaded(screen);
 
@@ -102,7 +102,7 @@ describe('scale 响应式变化', () => {
 
   test('maxScale 变小后已超出的 scale 被 clamp', async () => {
     const screen = render(OImageViewer, {
-      props: { previewList: [DATA_IMG], scale: 1, maxScale: 8 },
+      props: { previewList: [DATA_IMG], maxScale: 8 },
     });
     await ensureLoaded(screen);
     // 加载后 fitScale=2，通过 rerender 设置 scale=5
@@ -452,7 +452,6 @@ describe('zoomRate 响应式变化', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
         zoomRate: 2,
         maxScale: 8,
         toolbar: ['zoomIn', 'reset'],
@@ -546,7 +545,6 @@ describe('v-model 双向绑定', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
         zoomRate: 1.2,
         maxScale: 8,
         toolbar: ['zoomIn'],
@@ -566,7 +564,6 @@ describe('v-model 双向绑定', () => {
     const screen = render(OImageViewer, {
       props: {
         previewList: [DATA_IMG],
-        scale: 1,
         zoomRate: 1.2,
         maxScale: 8,
         toolbar: ['zoomIn', 'reset'],

@@ -108,11 +108,12 @@ export const imageViewerProps = {
   },
   /**
    * @zh-CN 当前缩放比例，支持 `v-model`
+   * @description 传入该值时图片加载后保持该缩放比例，不自动适屏；不传时自动计算适屏缩放（小图放大至 200%，大图缩至整屏可见）。
    * @en-US Current scale of the preview image, supports `v-model`.
+   * @description When provided, the image keeps this scale after loading without auto-fitting; when omitted, auto-fit is applied (small images zoom to 200%, large images shrink to fit screen).
    */
   scale: {
     type: Number,
-    default: 1,
   },
   /**
    * @zh-CN 图片的 crossorigin 属性

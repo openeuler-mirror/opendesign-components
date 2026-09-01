@@ -163,8 +163,9 @@ describe('scale 响应式变化', () => {
     open();
     await ensureLoaded();
 
+    // 父组件传入 scale=1，跳过自动适屏，保持该比例
     const before = document.querySelector('.o-image-viewer-container') as HTMLElement;
-    expect(before.style.transform).toMatch(/scale\(2\)/);
+    expect(before.style.transform).toMatch(/scale\(1\)/);
 
     scaleVal.value = 3;
     await flush();

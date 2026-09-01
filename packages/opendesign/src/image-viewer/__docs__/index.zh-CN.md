@@ -12,6 +12,7 @@ kind: display
 <!-- @case ImageViewerBasic -->
 <!-- @case ImageViewerOversized -->
 <!-- @case ImageViewerZoomBounds -->
+<!-- @case ImageViewerScaleControl -->
 <!-- @case ImageViewerStandalone -->
 <!-- @case ImageViewerError -->
 <!-- @case ImageViewerInFigure -->
@@ -29,10 +30,14 @@ kind: display
 
 - `zoom-rate`：控制每次缩放的速率，值越大缩放越快，默认 `1.2`。
 - `min-scale` / `max-scale`：限制用户手动缩放的范围，防止过度缩小或放大。当适屏缩放比例（containScale）低于 `min-scale` 时，有效下界自动扩展至 containScale，确保初始展示为完整可见的 contain 状态，且从该位置手动放大时平滑过渡，不会跳跃到 `min-scale`。
-- `scale`：设置初始缩放比例，默认 `1`（原始大小）。图片加载后若超出屏幕会自动计算适屏缩放比例，重置时回到该比例。
+- `scale`：设置初始缩放比例。传入该值时图片加载后保持该比例，不自动适屏；不传时自动计算适屏缩放比例（小图放大至 200%，大图缩至整屏可见）。切换图片、点击重置均回到该比例。
 - `show-zoom-ratio`：缩放时短暂显示当前缩放百分比，`duration` 控制提示持续时间（毫秒）。
 - `scalable`：是否允许缩放图片，默认 `true`。设为 `false` 时，非移动端（具备 hover 且 fine pointer）缩放锁定为适屏比例，滚轮、键盘等缩放操作均被禁用；工具栏不展示缩放相关按钮（缩小、放大、重置），若过滤后仅剩 `close` 则隐藏整个操作区。移动端（触摸设备）仍允许双指缩放（自然手势）。
 - `toolbar` 中的 `rotateLeft` / `rotateRight` 按钮分别逆时针 / 顺时针旋转 90°，旋转时触发 `rotate` 事件。
+
+### 父组件控制缩放
+
+`scale` 属性支持 `v-model:scale` 双向绑定。不传 `scale` 时，图片加载后自动计算适屏缩放比例（小图放大至 200%，大图缩至整屏可见）；传入 `scale` 时，图片加载后保持该比例，跳过自动适屏。切换图片、点击重置均回到该比例。用户交互缩放后，新比例通过 `v-model:scale` 回传父组件。
 
 ### 超屏幕图片适屏
 
