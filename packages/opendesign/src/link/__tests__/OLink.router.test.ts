@@ -4,11 +4,10 @@
  * 验证 to / replace 属性与 RouterLink 的联动行为，
  * 以及无 vue-router 环境下的警告提示。
  */
-import { test, expect, describe, vi, afterEach } from 'vitest';
+import { test, expect, describe, vi } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h, defineComponent } from 'vue';
 import { flush } from '../../../__tests__/_helpers/dom';
-import { setLogEnabled } from '../../_utils/log';
 import OLink from '../OLink.vue';
 
 /**
@@ -92,10 +91,6 @@ describe('路由契约（to prop + RouterLink）', () => {
 });
 
 describe('路由警告契约（无 RouterLink 环境）', () => {
-  // 测试中手动开启日志，结束后恢复关闭状态
-  setLogEnabled(true);
-  afterEach(() => setLogEnabled(false));
-
   test('OLink to - 无 vue-router 环境下 warn 提示用户并降级渲染', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const screen = render(OLink, {
