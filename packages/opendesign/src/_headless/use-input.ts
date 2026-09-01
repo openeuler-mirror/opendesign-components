@@ -229,7 +229,7 @@ export function useInput(options: InputOptionT) {
     const currentValue = value;
 
     // 仅限制数字输入
-    if ((onlyNumericInput?.value && !basicValidRegex.test(currentValue)) || invalidFormatRegex.test(currentValue)) {
+    if (onlyNumericInput?.value && (!basicValidRegex.test(currentValue) || invalidFormatRegex.test(currentValue))) {
       value = displayValue.value;
     }
 

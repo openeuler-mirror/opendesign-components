@@ -276,6 +276,7 @@ const updateAnchor = async () => {
 /**
  * @description 移动端横向滚动模式下，将当前激活页签滚动到可视区域内
  * 仅在 lePadV（屏幕宽度 ≤ pad_v 断点）时执行，桌面端无横向滚动无需处理
+ * 仅操作 navsContainerRef 的 scrollLeft，避免触发页面级垂直滚动
  */
 const scrollActiveIntoView = async () => {
   if (!lePadV.value || !navsContainerRef.value) {
@@ -290,10 +291,23 @@ const scrollActiveIntoView = async () => {
   }
   const activeItem = getChildData(activeUid);
   await until(() => activeItem?.navEl).toBeTruthy();
-  activeItem.navEl?.scrollIntoView({
+
+  const container = navsContainerRef.value;
+  const activeEl = activeItem.navEl;
+  if (!container || !activeEl) {
+    return;
+  }
+
+  // 计算激活 tab 相对容器左边缘的偏移量
+  const containerRect = container.getBoundingClientRect();
+  const activeRect = activeEl.getBoundingClientRect();
+  const offsetLeft = activeRect.left - containerRect.left;
+  // 居中位置 = 当前 scrollLeft + 偏移量 - 半容器宽 + 半 tab 宽
+  const targetScrollLeft = container.scrollLeft + offsetLeft - containerRect.width / 2 + activeRect.width / 2;
+
+  container.scrollTo({
+    left: targetScrollLeft,
     behavior: 'smooth',
-    block: 'nearest',
-    inline: 'center',
   });
 };
 onMounted(() => {

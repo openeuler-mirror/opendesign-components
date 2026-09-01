@@ -21,6 +21,27 @@
 
 - **OInput/OSearch:** 背景色由 control5-light/control4-light 调整为 fill2
 
+## 1.2.5-sp3
+
+### Bug Fixes
+
+- **ODataTable:**
+  - 去除单选筛选的"全部"选项
+  - 修复筛选项在响应式数据变更后不更新的问题
+  - 修复窄列宽下行图标被挤压的问题
+  - 修复空数据/loading 状态下 SSR hydration mismatch
+- **OUpload:** 修复接口回显文件缩略图不显示问题
+- **OTab:**
+  - 去除移动端溢出时的阴影
+  - scrollActiveIntoView 改用容器 scrollLeft 替代 scrollIntoView，避免移动端页面垂直滚动
+- 修复类型定义输出目录错误的问题
+
+## 1.2.5-sp2
+
+### Bug Fixes
+
+- **useInput:** 修正 `onlyNumericInput` 输入处理中的运算符优先级，修复未开启该属性时普通文本中的 `..`、`--`、`-.x` 等格式序列被错误丢弃的问题
+
 ## 1.2.5-sp1
 
 ### Features
