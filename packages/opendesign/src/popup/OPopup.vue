@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
-import { popupProps, PopupTriggerT } from './types';
+import { popupProps, PopupTriggerT, VirtualElement } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
 import { throttleRAF, debounce } from '../_utils/helper';
 import { isArray, isFunction, isTouchDevice } from '../_utils/is';
@@ -17,10 +17,21 @@ import { OChildOnly } from '../child-only';
 import ClientOnly from '../_components/client-only';
 import { resolveHtmlElement, getHtmlElement } from '../_utils/vue-utils';
 import { createTopZIndex } from '../_utils/z-index';
+import { Log } from '../_utils/log';
 
 // TODO 处理嵌套
 
 const props = defineProps(popupProps);
+const log = new Log('OPopup');
+// targetRect 优先级高于 target，同时传入时 target 会被忽略
+watch(
+  () => [props.target, props.targetRect],
+  () => {
+    if (props.target && props.targetRect) {
+      log.warn('`target` 与 `targetRect` 同时传入，`target` 将被忽略，请仅使用其一');
+    }
+  },
+);
 
 const emits = defineEmits<{
   /**
@@ -48,7 +59,7 @@ const triggers = computed<PopupTriggerT[]>(() => {
 
 const visible = ref(false);
 const targetElRef = ref<ComponentPublicInstance | null>(null);
-let targetEl: HTMLElement | null = null;
+let targetEl: HTMLElement | VirtualElement | null = null;
 // 默认为true，避免props.visible为初始值为true时，无法计算popup位置
 const isTargetInViewport = ref(true);
 
@@ -90,7 +101,7 @@ const updateZIndex = (show: boolean) => {
     popStyle['--popup-z-index'] = createTopZIndex();
   }
 };
-const { target, wrapper } = toRefs(props);
+const { target, wrapper, targetRect } = toRefs(props);
 onMounted(() => {
   ro = useResizeObserver();
   io = useIntersectionObserver();
@@ -102,12 +113,35 @@ onMounted(() => {
   }
 });
 
+/**
+ * @description targetRect prop 优先：直接作为定位目标，跳过 slot/target prop 解析
+ * 适用于 OTour 等需要传入 VirtualElement 的场景
+ */
+onMounted(() => {
+  watch(
+    targetRect,
+    (newVal) => {
+      targetEl = newVal;
+      if (newVal) {
+        nextTick(updatePopupStyle);
+      } else {
+        // targetRect 清空时清除残留定位样式，使父级居中布局（如 OTour 居中步骤）生效
+        popStyle.transform = '';
+      }
+    },
+    { immediate: true },
+  );
+});
+
 onMounted(() => {
   watch(
     target,
     (newVal) => {
+      if (props.targetRect) {
+        return;
+      }
       if (newVal && targetEl) {
-        ro?.unobserve(targetEl, onResize);
+        ro?.unobserve(targetEl as HTMLElement, onResize);
       }
       if (newVal) {
         // 同步绑定 bindTargetEvent，以同步设置 targetEl
@@ -151,10 +185,12 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   targetEl = el;
 
   // 初始化popup宽度，避免引起resize，触发重复计算
-  if (props.adjustMinWidth) {
-    popStyle.minWidth = `${targetEl.offsetWidth}px`;
-  } else if (props.adjustWidth) {
-    popStyle.width = `${targetEl.offsetWidth}px`;
+  if (isTargetHtmlElement(el)) {
+    if (props.adjustMinWidth) {
+      popStyle.minWidth = `${el.offsetWidth}px`;
+    } else if (props.adjustWidth) {
+      popStyle.width = `${el.offsetWidth}px`;
+    }
   }
 
   triggerListener = bindTrigger({
@@ -166,8 +202,8 @@ const bindTargetEvent = (el: HTMLElement | null) => {
     autoHide: props.autoHide,
   });
 
-  if (props.hideWhenTargetInvisible) {
-    io?.observe(targetEl, onTargetInterscting);
+  if (props.hideWhenTargetInvisible && isTargetHtmlElement(el)) {
+    io?.observe(el, onTargetInterscting);
   }
 };
 
@@ -178,7 +214,7 @@ onUnmounted(() => {
   if (wrapperEl.value) {
     ro?.unobserve(wrapperEl.value, onResize);
   }
-  if (targetEl) {
+  if (targetEl && isTargetHtmlElement(targetEl)) {
     ro?.unobserve(targetEl, onResize);
   }
 });
@@ -270,7 +306,7 @@ const applyVisible = (isVisible: boolean) => {
   if (visible.value) {
     toMount.value = true;
     // 在切换 visible.value 时不必手动调用 updatePopupStyle，因为 v-show 的切换会触发 onResize
-    if (props.hideWhenTargetInvisible && targetEl) {
+    if (props.hideWhenTargetInvisible && isTargetHtmlElement(targetEl)) {
       io?.observe(targetEl, onTargetInterscting);
     }
   }
@@ -366,6 +402,11 @@ const listenScroll = (el: HTMLElement | Window) => {
   };
 };
 
+/**
+ * @description 判断 targetEl 是否为真实 DOM 元素（非 VirtualElement）
+ */
+const isTargetHtmlElement = (el: HTMLElement | VirtualElement | null): el is HTMLElement => isHtmlElement(el);
+
 watch(popupRef, (popEl) => {
   let handles: Array<() => void> = [];
   if (popEl) {
@@ -373,9 +414,10 @@ watch(popupRef, (popEl) => {
      * popup显示时，监听挂载容器、关联元素
      */
 
-    if (targetEl) {
+    if (targetEl && isTargetHtmlElement(targetEl)) {
       // 监听 targetEl 滚动父链 + window 自身的滚动
-      const scrollers = getScrollParents(targetEl);
+      const targetHtmlEl = targetEl;
+      const scrollers = getScrollParents(targetHtmlEl);
 
       handles = scrollers.map((el) => {
         return listenScroll(el);
@@ -383,14 +425,16 @@ watch(popupRef, (popEl) => {
       handles.push(listenScroll(window));
 
       // 监听targetEL尺寸变化
-      ro?.observe(targetEl, (en: ResizeObserverEntry, isFirst: boolean) => {
+      ro?.observe(targetHtmlEl, (en: ResizeObserverEntry, isFirst: boolean) => {
         if (props.adjustMinWidth) {
-          popStyle.minWidth = `${targetEl?.offsetWidth}px`;
+          popStyle.minWidth = `${targetHtmlEl.offsetWidth}px`;
         } else if (props.adjustWidth) {
-          popStyle.width = `${targetEl?.offsetWidth}px`;
+          popStyle.width = `${targetHtmlEl.offsetWidth}px`;
         }
         onResize(en, isFirst);
       });
+    } else if (targetEl) {
+      handles.push(listenScroll(window));
     }
 
     if (wrapperEl.value) {
@@ -406,7 +450,7 @@ watch(popupRef, (popEl) => {
     if (wrapperEl.value) {
       ro?.unobserve(wrapperEl.value, onResize);
     }
-    if (targetEl) {
+    if (targetEl && isTargetHtmlElement(targetEl)) {
       ro?.unobserve(targetEl, onResize);
       io?.unobserve(targetEl, onTargetInterscting);
       isTargetInViewport.value = true;
