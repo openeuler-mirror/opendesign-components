@@ -6,6 +6,14 @@ export type PopupPositionT = (typeof PopupPositionTypes)[number];
 export const PopupTriggerTypes = ['none', 'click', 'click-outclick', 'hover', 'hover-outclick', 'focus', 'contextmenu'] as const;
 export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
+/**
+ * 虚拟元素接口，用于 OTour 等无真实 DOM 的定位场景
+ * @description 仅需提供 getBoundingClientRect 方法，无需 DOM 父节点
+ */
+export interface VirtualElement {
+  getBoundingClientRect(): DOMRect;
+}
+
 export const popupProps = {
   /**
    * @zh-CN 是否可见，双向绑定值
@@ -39,6 +47,15 @@ export const popupProps = {
    */
   target: {
     type: [String, Object] as PropType<string | ComponentPublicInstance | HTMLElement | null>,
+    default: null,
+  },
+  /**
+   * @zh-CN 目标矩形，优先级高于 target。传入 VirtualElement 时跳过 scroll/resize/intersection 监听与 trigger 绑定
+   * @en-US Target rect, takes priority over target. When a VirtualElement is passed, scroll/resize/intersection observers and trigger binding are skipped.
+   * @default null
+   */
+  targetRect: {
+    type: [Object] as PropType<VirtualElement | null>,
     default: null,
   },
   /**

@@ -88,6 +88,11 @@ export default {
   'dateRangePicker.placeholderStart': '开始日期',
   'dateRangePicker.placeholderEnd': '结束日期',
   'dateRangePicker.selectRange': '选择日期范围',
+  // tour
+  'tour.close': '关闭',
+  'tour.prev': '上一步',
+  'tour.next': '下一步',
+  'tour.finish': '完成',
   // imageViewer
   'imageViewer.zoomIn': '放大',
   'imageViewer.zoomOut': '缩小',
