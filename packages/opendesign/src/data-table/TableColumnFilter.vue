@@ -78,9 +78,10 @@ const showOptions = computed(() => {
 });
 
 const visible = ref(false);
+const multiple = computed(() => props.column.filter?.multiple ?? true);
 watch(visible, () => {
   tempValue.value = [...modelValue.value];
-  if (tempValue.value.length === options.value.length || (props.column.filter?.multiple === false && !tempValue.value.length)) {
+  if (multiple.value && tempValue.value.length === options.value.length) {
     tempValue.value.push(TABLE_ALL_OPTION_VALUE);
   }
 });
@@ -103,7 +104,6 @@ const handleReset = () => {
   emits('confirm');
 };
 
-const multiple = computed(() => props.column.filter?.multiple ?? true);
 const showInput = computed(() => {
   if (isFunction(props.column.filter?.showInput)) {
     return props.column.filter.showInput(options.value.length);
@@ -170,7 +170,7 @@ const handleTriggerClick = () => {
 
     <div class="o-data-table-column-filter__options-container">
       <OOptionList v-if="showOptions.length" :scrollbar="{ size: 'small', showType: 'hover' }">
-        <OOption v-if="!filterKeywords" :value="TABLE_ALL_OPTION_VALUE" :label="t('common.checkAll')" :indeterminate="indeterminate" />
+        <OOption v-if="!filterKeywords && multiple" :value="TABLE_ALL_OPTION_VALUE" :label="t('common.checkAll')" :indeterminate="indeterminate" />
         <OOption v-for="option in showOptions" :key="option.value" :value="option.value" :label="option.label" />
       </OOptionList>
 
