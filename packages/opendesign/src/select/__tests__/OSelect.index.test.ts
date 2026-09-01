@@ -122,7 +122,7 @@ describe('动态契约（用户交互 → 组件响应）', () => {
   test('OSelect disabled - 禁用时不渲染下拉浮层容器', async () => {
     const screen = render(OSelect, { props: { disabled: true } });
     await flush();
-    // disabled 时不挂载 OPopup（v-if="!props.disabled"）
+    // disabled 时不挂载 OPopup（v-if="!isDisabled"）
     const popup = screen.container.querySelector('[data-v-popper-escaped]');
     expect(popup).toBeNull();
   });

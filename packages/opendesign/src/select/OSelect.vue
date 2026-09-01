@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, inject, nextTick, provide, ref, useId, watch, watchEffect } from 'vue';
+import { computed, h, nextTick, provide, ref, useId, watch, watchEffect } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { defaultSize } from '../_utils/global';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
@@ -17,7 +17,7 @@ import { filterSlots, isEmptySlot } from '../_utils/vue-utils';
 import SelectOption from './SelectOption.vue';
 import { OOption, OOptionGroup } from '../option';
 import slot from './slot';
-import { formItemInjectKey } from '../form/provide';
+import { useFormField } from '../_composables/use-form-field';
 import { useI18n } from '../locale';
 import { OButton } from '../button';
 import { useScreen } from '../hooks';
@@ -173,16 +173,23 @@ watch(
   },
 );
 
-// 表单注入，用于规则校验
-const formItemInjection = inject(formItemInjectKey, null);
+// 表单继承：统一通过 useFormField 接入表单系统（color/disabled/size/round/clearable + 校验触发）
+const {
+  effectiveColor: color,
+  effectiveDisabled,
+  effectiveSize,
+  effectiveRound,
+  effectiveClearable,
+  triggerFocus,
+  triggerBlur,
+  onChange: onFormItemChange,
+} = useFormField(props, emits);
 
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type;
-  } else {
-    return props.color;
-  }
-});
+/** 有效禁用状态：effectiveDisabled 可能 undefined（未传且无表单），归一为 boolean */
+const isDisabled = computed(() => effectiveDisabled.value ?? false);
+
+/** 有效尺寸：effectiveSize 可能 undefined（未传且无表单），回退到全局 defaultSize */
+const currentSize = computed(() => effectiveSize.value || defaultSize.value);
 
 // ============================================================================
 // 值归一化（前置——useOptionData 的 optionLabels 依赖 valueList）
@@ -285,7 +292,7 @@ const { tagsWrapRef, isResponsiveTag, isMeasuring, valueListDisplay, valueListFo
   { isSelecting, showTagInput, finalValueList, optionLabels },
 );
 
-const round = getRoundClass(props, 'select');
+const round = getRoundClass({ round: effectiveRound }, 'select');
 
 // ============================================================================
 // 选中值的 DOM 文本可读性
@@ -354,6 +361,8 @@ const { innerInputValue, mergedInputValue, isClearable, displayInputValue, filte
   optionLabels,
   resolvedOptions,
   isOptionGroup,
+  effectiveDisabled,
+  effectiveClearable,
 });
 
 // ============================================================================
@@ -429,23 +438,24 @@ const onSearch = (value: string) => {
 };
 
 // ============================================================================
-// focus / blur 事件（emit 仅在此处调用，其他位置不得触发）
+// focus / blur 事件
+// triggerFocus/triggerBlur 内部统一处理 emit + 通知表单项触发校验，禁止额外手动 emit
 // ============================================================================
 
 /**
  * input 聚焦事件处理
- * ⚠️ 仅在此处调用 emit('focus')，其他任何地方均不得调用
+ * @description 通过 triggerFocus 统一完成 emit('focus', evt) + formItem.onFocus()
  */
 const onInputFocus = (evt: FocusEvent) => {
-  emits('focus', evt);
+  triggerFocus(evt);
 };
 
 /**
  * input 失焦事件处理
- * ⚠️ 仅在此处调用 emit('blur')，其他任何地方均不得调用
+ * @description 通过 triggerBlur 统一完成 emit('blur', evt) + formItem.onBlur()
  */
 const onInputBlur = (evt: FocusEvent) => {
-  emits('blur', evt);
+  triggerBlur(evt);
 };
 
 /**
@@ -486,7 +496,7 @@ const buildEmitOption = (value: Array<SelectInternalValue>): SelectOptionData[] 
 
 const emitChange = (value: Array<SelectInternalValue>) => {
   emits('change', buildEmitValue(value), buildEmitOption(value));
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 const emitUpdateValue = (value: Array<SelectInternalValue>) => {
   emits('update:modelValue', buildEmitValue(value));
@@ -679,7 +689,7 @@ const onOptionVisibleChange = (visible: boolean) => {
  * @param value 待移除的值
  */
 const removeTag = (value: SelectInternalValue) => {
-  if (props.disabled) return;
+  if (isDisabled.value) return;
   const idx = valueList.value.indexOf(value);
   if (idx > -1) {
     valueList.value.splice(idx, 1);
@@ -719,7 +729,7 @@ const beforeTagPopoverShow = () => !isSelecting.value;
  */
 const onSelectClick = (e: MouseEvent) => {
   if (isResponding.value) {
-    if (!props.disabled) {
+    if (!isDisabled.value) {
       isSelecting.value = true;
     }
     return;
@@ -959,12 +969,12 @@ defineExpose({
     :class="[
       `o-select-${color}`,
       `o-select-${props.variant}`,
-      `o-select-${props.size || defaultSize}`,
+      `o-select-${currentSize}`,
       round.class.value,
       {
         'is-selecting': isSelecting,
         'is-multiple': props.multiple && valueList.length > 0,
-        'o-select-disabled': props.disabled,
+        'o-select-disabled': isDisabled,
         'o-select-clearable': isClearable,
         'o-select-is-loading': props.loading,
       },
@@ -990,7 +1000,7 @@ defineExpose({
       :aria-expanded="isSelecting"
       :aria-controls="optionsId"
       :aria-autocomplete="!isResponding && props.filterable ? 'list' : undefined"
-      :aria-disabled="props.disabled || undefined"
+      :aria-disabled="isDisabled || undefined"
       @input="onInput"
       @compositionstart="onCompositionStart"
       @compositionend="onCompositionEnd"
@@ -1005,7 +1015,7 @@ defineExpose({
           </template>
           <template v-else>
             {{ optionLabels[item] ?? '' }}
-            <div v-if="!props.disabled" class="o-select-tag-remove" @click="(e: MouseEvent) => onRemoveTag(item, e)">
+            <div v-if="!isDisabled" class="o-select-tag-remove" @click="(e: MouseEvent) => onRemoveTag(item, e)">
               <IconClose />
             </div>
           </template>
@@ -1026,7 +1036,7 @@ defineExpose({
           <div class="o-select-tags">
             <div v-for="item in valueListFold" :key="item" class="o-select-tag">
               {{ optionLabels[item] ?? '' }}
-              <div v-if="!props.disabled" class="o-select-tag-remove" @click="(e: MouseEvent) => onRemoveTag(item, e)">
+              <div v-if="!isDisabled" class="o-select-tag-remove" @click="(e: MouseEvent) => onRemoveTag(item, e)">
                 <IconClose />
               </div>
             </div>
@@ -1151,7 +1161,7 @@ defineExpose({
           <template #default>
             <SelectOption
               ref="selectOptionRef"
-              :size="props.size"
+              :size="currentSize"
               :wrap-class="props.optionWrapClass"
               :loading="props.loading"
               class="o-select-options-dlg"
@@ -1194,7 +1204,7 @@ defineExpose({
       </template>
       <template v-else>
         <OPopup
-          v-if="!props.disabled"
+          v-if="!isDisabled"
           v-model:visible="isSelecting"
           wrap-class="o-options-popup"
           :transition="props.transition"
@@ -1212,7 +1222,7 @@ defineExpose({
         >
           <SelectOption
             ref="selectOptionRef"
-            :size="props.size"
+            :size="currentSize"
             :wrap-class="props.optionWrapClass"
             :loading="props.loading"
             :multiple="props.multiple"

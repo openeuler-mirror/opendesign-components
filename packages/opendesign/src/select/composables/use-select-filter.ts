@@ -16,10 +16,6 @@ interface UseSelectFilterProps {
   filterMethod?: ((query: string) => void) | undefined;
   /** 搜索结果排序函数 */
   filterSort?: ((optionA: SelectOptionData, optionB: SelectOptionData) => number) | undefined;
-  /** 支持快速清除 */
-  clearable: boolean;
-  /** 是否禁用 */
-  disabled: boolean;
   /** 支持多选 */
   multiple: boolean;
 }
@@ -41,6 +37,10 @@ interface UseSelectFilterDeps {
   resolvedOptions: ComputedRef<SelectMixedOption[]>;
   /** 类型守卫：判断 SelectMixedOption 是否为分组选项 */
   isOptionGroup: (item: SelectMixedOption) => item is SelectOptionGroupData;
+  /** 表单继承后的有效禁用状态（来自 useFormField） */
+  effectiveDisabled: ComputedRef<boolean | undefined>;
+  /** 表单继承后的有效可清除状态（来自 useFormField） */
+  effectiveClearable: ComputedRef<boolean | undefined>;
 }
 
 /**
@@ -56,7 +56,7 @@ interface UseSelectFilterDeps {
  * @returns innerInputValue, mergedInputValue, isClearable, displayInputValue, filteredOptions
  */
 export function useSelectFilter(props: UseSelectFilterProps, deps: UseSelectFilterDeps) {
-  const { isComposing, isSelecting, valueList, optionLabels, resolvedOptions, isOptionGroup } = deps;
+  const { isComposing, isSelecting, valueList, optionLabels, resolvedOptions, isOptionGroup, effectiveDisabled, effectiveClearable } = deps;
 
   /** 内部搜索词（非受控） */
   const innerInputValue = ref('');
@@ -66,9 +66,9 @@ export function useSelectFilter(props: UseSelectFilterProps, deps: UseSelectFilt
 
   /**
    * 是否可清除
-   * @description 有选中值或搜索词时显示清除按钮
+   * @description 有选中值或搜索词时显示清除按钮；clearable 和 disabled 取自表单继承后的 effective 值
    */
-  const isClearable = computed(() => props.clearable && !props.disabled && (valueList.value.length > 0 || !!mergedInputValue.value));
+  const isClearable = computed(() => effectiveClearable.value && !effectiveDisabled.value && (valueList.value.length > 0 || !!mergedInputValue.value));
 
   /**
    * input 的显示值
