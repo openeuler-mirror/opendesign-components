@@ -1,25 +1,29 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### transitionOrigin
+### 自定义过渡动画
 
-`transitionOrigin` 设置内容盒子缩放动画的原点（transform-origin）：
+通过 `mainTransition` 和 `maskTransition` 属性可以自定义浮层和遮罩的过渡动画。
 
-- `'mouse'`: 鼠标点击位置（默认值）
-- `'css'`: 通过 CSS 变量 `--layer-origin` 设置（默认 center）
+`transitionOrigin` 控制内容盒子的缩放原点（`transform-origin`）：
 
-`mainTransition` 和 `maskTransition` 自定义过渡动画。
+- `'mouse'`：以鼠标点击位置为缩放原点（默认值）
+- `'css'`：通过 CSS 变量 `--layer-origin` 设置（默认 `center`）
+
+可用过渡名称：`o-zoom-fade2`（默认）、`o-zoom-fade`、`o-fade-in`、`o-fade-up`。
 
 <!-- en-US -->
 
-### transitionOrigin
+### Custom Transition
 
-`transitionOrigin` controls the scaling origin of the content box (`transform-origin`):
+Customize the layer and mask transitions via the `mainTransition` and `maskTransition` props.
 
-- `'mouse'`: Mouse click position (default)
-- `'css'`: CSS variable `--layer-origin` (default: center)
+`transitionOrigin` controls the scaling origin (`transform-origin`) of the content box:
 
-Available transitions: `o-zoom-fade2` (default), `o-fade-up`, `o-fade-in`.
+- `'mouse'`: Scale from the mouse click position (default)
+- `'css'`: Use the CSS variable `--layer-origin` (default: `center`)
+
+Available transition names: `o-zoom-fade2` (default), `o-zoom-fade`, `o-fade-in`, `o-fade-up`.
 </docs>
 <script lang="ts" setup>
 import { ref } from 'vue';
@@ -36,7 +40,7 @@ const visible4 = ref(false);
     <OLayer v-model:visible="visible1" main-transition="o-zoom-fade2" :wrapper="null">
       <div class="layer-doc-transition-main">
         <h2>o-zoom-fade2</h2>
-        <p>scale(0.8) to scale(1)</p>
+        <p>scale(0.8) → scale(1)，默认过渡动画</p>
       </div>
     </OLayer>
 
@@ -44,15 +48,15 @@ const visible4 = ref(false);
     <OLayer v-model:visible="visible2" main-transition="o-fade-up" :wrapper="null">
       <div class="layer-doc-transition-main">
         <h2>o-fade-up</h2>
-        <p>translateY(10px) to translateY(0)</p>
+        <p>translateY(10px) → translateY(0)，向上淡入</p>
       </div>
     </OLayer>
 
-    <OButton color="primary" @click="visible3 = true">o-fade-in</OButton>
+    <OButton color="primary" @click="visible3 = true">o-fade-in (main + mask)</OButton>
     <OLayer v-model:visible="visible3" main-transition="o-fade-in" mask-transition="o-fade-in" :wrapper="null">
       <div class="layer-doc-transition-main">
         <h2>o-fade-in</h2>
-        <p>Pure fade, no scaling</p>
+        <p>纯淡入过渡，无缩放</p>
       </div>
     </OLayer>
 
@@ -60,7 +64,7 @@ const visible4 = ref(false);
     <OLayer v-model:visible="visible4" transition-origin="css" :wrapper="null">
       <div class="layer-doc-transition-main">
         <h2>transitionOrigin: css</h2>
-        <p>Origin controlled by --layer-origin variable</p>
+        <p>缩放原点由 CSS 变量 --layer-origin 控制（默认 center）</p>
       </div>
     </OLayer>
   </div>

@@ -32,12 +32,12 @@ metadata:
 
 所有 helper 位于 [`packages/opendesign/__tests__/_helpers/`](../../opendesign/__tests__/_helpers/)，测试文件通过相对路径导入（如 `import { THEMES } from '../../../__tests__/_helpers/theme'`）。
 
-| 文件                                                             | 导出                                                  | 用途                                                                                                                 |
-| ---------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                        |
-| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrHydrateAndCompare`                   | SSR 字符串渲染 + console.warn 为主的水合 mismatch 检测（textContent / Element 引用为诊断字段），用于 `*.ssr.test.ts` |
-| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                  |
-| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`                             | 异步渲染等待 + CSS 变量 px 值解析，用于 `*.index.test.ts`（exposed 方法）和 `*.responsive.test.ts`（token 链断言）   |
+| 文件                                                             | 导出                                                  | 用途                                                                                                                                                                                                  |
+| ---------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                                                                                                         |
+| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrHydrateAndCompare`                   | SSR 字符串渲染 + console.warn 为主的水合 mismatch 检测（textContent / Element 引用为诊断字段），用于 `*.ssr.test.ts`                                                                                  |
+| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                                                                                                   |
+| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`、`createMouseEvent`         | 异步渲染等待 + CSS 变量 px 值解析 + 携带 pageX/pageY 的 MouseEvent 构造（绕过 MouseEventInit 类型限制），用于 `*.index.test.ts`（exposed 方法）、`*.responsive.test.ts`（token 链断言）及交互拖拽测试 |
 
 ---
 
@@ -592,6 +592,7 @@ describe('插槽契约（具名插槽）', () => {
 | `:active` 怎么也触发不到                                                    | `userEvent` 无 `pointer/mouse.down` API；`dispatchEvent('mousedown')` 不触发 `:active` 伪类。改用 **active wiring 断言**                         | [visual-contract.md](./references/visual-contract.md)   |
 | icon prop 传组件时 Vue warn "reactive object"                               | `icon = markRaw(IconComp)` 包一下                                                                                                                | [pitfalls.md](./references/pitfalls.md)                 |
 | 空 `<svg>` 把按钮撑到 ~300px 宽                                             | SVG 无 width/height 时浏览器默认 300×150。用真实 icon 组件（`OIconAdd` 等）                                                                      | [pitfalls.md](./references/pitfalls.md)                 |
+| `new MouseEvent(type, { pageX, pageY })` 报 TS2353                          | `MouseEventInit` 类型未声明 pageX/pageY。用 `createMouseEvent` helper 构造携带坐标的事件                                                         | [pitfalls.md](./references/pitfalls.md)                 |
 | `style.borderRadius` 是空字符串                                             | `round` prop 把值写入 `--<comp>-radius` CSS 变量。断言 `style.getPropertyValue('--<comp>-radius')` 或 `getComputedStyle(el).borderTopLeftRadius` | [pitfalls.md](./references/pitfalls.md)                 |
 | disabled prop 在 DOM 上找不到 `disabled` 属性                               | opendesign 的 disabled 只用 class + 内部 preventDefault，不透传原生属性。断言 class 而非 attribute                                               | [pitfalls.md](./references/pitfalls.md)                 |
 | Browser Mode 下样式全没 / Token 报错                                        | `dist/index.css` 缺失。先跑 `pnpm build:style`                                                                                                   | [pitfalls.md](./references/pitfalls.md)                 |

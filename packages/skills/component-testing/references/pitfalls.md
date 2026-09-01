@@ -168,6 +168,30 @@ const OIconAdd = markRaw(OIconAddRaw);
 // 不要用 IconStub = markRaw({ render: () => h('svg') })
 ```
 
+### `new MouseEvent(type, { pageX, pageY })` 报 TS2353
+
+**现象**：
+
+```
+TS2353: Object literal may only specify known properties, and 'pageX' does not exist in type 'MouseEventInit'.
+```
+
+**真因**：DOM 规范的 `MouseEventInit` 类型未声明 `pageX`/`pageY`（它们是 `MouseEvent` 实例上的只读属性，不属于 init dict），但 jsdom / 浏览器运行时**确实支持**从构造参数注入。TypeScript 的对象字面量冗余属性检查拦截了这个赋值。
+
+**修法**：用 `createMouseEvent` helper（位于 `__tests__/_helpers/dom.ts`），通过中间变量绕过冗余属性检查：
+
+```ts
+import { createMouseEvent } from '../../../__tests__/_helpers/dom';
+
+// ❌ TS2353
+container.dispatchEvent(new MouseEvent('mousedown', { pageX: 100, pageY: 100, bubbles: true }));
+
+// ✅ 类型安全 + 运行时正确
+container.dispatchEvent(createMouseEvent('mousedown', 100, 100, { bubbles: true }));
+```
+
+**适用场景**：任何需要模拟鼠标拖拽 / 点击坐标的交互测试（如 image-viewer 的拖拽缩放、figure 的预览交互等）。组件读取 `e.pageX`/`e.pageY` 时必须用此 helper 设置坐标，否则 jsdom 默认 `pageX = 0` 会导致拖拽偏移为零。
+
 ---
 
 ## 五、CSS 变量 / 属性相关

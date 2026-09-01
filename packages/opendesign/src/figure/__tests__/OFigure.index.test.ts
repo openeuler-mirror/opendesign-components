@@ -211,7 +211,7 @@ describe('静态契约（按 types.ts 属性）', () => {
     expect(defEl.querySelector('.o-figure-mask')).toBeNull();
   });
 
-  test('OFigure previewClose - 字符串 / 数组 / 默认值控制关闭方式', async () => {
+  test('OFigure previewClose - 每种 PreviewCloseType 控制关闭方式', async () => {
     // 默认（不传 previewClose）→ desktop 下 ['mask', 'button']
     const defScreen = render(OFigure, { props: { src: SRC, preview: true } });
     await flush();
@@ -220,15 +220,63 @@ describe('静态契约（按 types.ts 属性）', () => {
     expect(document.body.querySelector('.o-layer-close')).not.toBeNull();
     document.body.querySelectorAll('.o-layer').forEach((el) => el.remove());
 
-    // previewClose='none' → 关闭按钮不渲染
-    const noneScreen = render(OFigure, { props: { src: SRC, preview: true, previewClose: 'none' } });
+    // ---- previewClose='none' → 关闭按钮不渲染，遮罩点击不关闭 ----
+    const noneOnPreview = vi.fn();
+    const noneScreen = render(OFigure, { props: { src: SRC, preview: true, previewClose: 'none', onPreview: noneOnPreview } });
     await flush();
     await noneScreen.container.querySelector('.o-figure')!.click();
     await flush();
     expect(document.body.querySelector('.o-layer-close')).toBeNull();
+    // 遮罩点击不关闭（maskClose=false）
+    const noneMask = document.body.querySelector('.o-layer-mask') as HTMLElement;
+    await noneMask.click();
+    await flush();
+    expect(noneOnPreview).not.toHaveBeenCalledWith(false);
     document.body.querySelectorAll('.o-layer').forEach((el) => el.remove());
 
-    // previewClose=['mask', 'button'] → 关闭按钮渲染
+    // ---- previewClose='button' → 关闭按钮渲染，遮罩点击不关闭 ----
+    const btnOnPreview = vi.fn();
+    const btnScreen = render(OFigure, { props: { src: SRC, preview: true, previewClose: 'button', onPreview: btnOnPreview } });
+    await flush();
+    await btnScreen.container.querySelector('.o-figure')!.click();
+    await flush();
+    expect(document.body.querySelector('.o-layer-close')).not.toBeNull();
+    // 遮罩点击不关闭（maskClose=false）
+    const btnMask = document.body.querySelector('.o-layer-mask') as HTMLElement;
+    await btnMask.click();
+    await flush();
+    expect(btnOnPreview).not.toHaveBeenCalledWith(false);
+    document.body.querySelectorAll('.o-layer').forEach((el) => el.remove());
+
+    // ---- previewClose='mask' → 关闭按钮不渲染，遮罩点击关闭 ----
+    const maskOnPreview = vi.fn();
+    const maskScreen = render(OFigure, { props: { src: SRC, preview: true, previewClose: 'mask', onPreview: maskOnPreview } });
+    await flush();
+    await maskScreen.container.querySelector('.o-figure')!.click();
+    await flush();
+    expect(document.body.querySelector('.o-layer-close')).toBeNull();
+    // 遮罩点击关闭（maskClose=true）
+    const maskEl = document.body.querySelector('.o-layer-mask') as HTMLElement;
+    await maskEl.click();
+    await flush();
+    expect(maskOnPreview).toHaveBeenCalledWith(false);
+    document.body.querySelectorAll('.o-layer').forEach((el) => el.remove());
+
+    // ---- previewClose='body' → 关闭按钮不渲染，点击图片容器关闭 ----
+    const bodyOnPreview = vi.fn();
+    const bodyScreen = render(OFigure, { props: { src: SRC, preview: true, previewClose: 'body', onPreview: bodyOnPreview } });
+    await flush();
+    await bodyScreen.container.querySelector('.o-figure')!.click();
+    await flush();
+    expect(document.body.querySelector('.o-layer-close')).toBeNull();
+    // 点击图片容器关闭（bodyClose=true）
+    const container = document.body.querySelector('.o-image-viewer-container') as HTMLElement;
+    await container.click();
+    await flush();
+    expect(bodyOnPreview).toHaveBeenCalledWith(false);
+    document.body.querySelectorAll('.o-layer').forEach((el) => el.remove());
+
+    // ---- previewClose=['mask', 'button'] → 关闭按钮渲染 ----
     const arrScreen = render(OFigure, { props: { src: SRC, preview: true, previewClose: ['mask', 'button'] } });
     await flush();
     await arrScreen.container.querySelector('.o-figure')!.click();
@@ -477,5 +525,150 @@ describe('插槽契约（具名插槽）', () => {
     await screen.container.querySelector('.o-figure')!.click();
     await flush();
     expect(document.body.querySelector('.custom-extra')).not.toBeNull();
+  });
+});
+
+// ============================================================================
+// scalable 与 preview 插槽：有 #preview 插槽且未明确指定 scalable 时默认不允许缩放
+// ============================================================================
+describe('scalable 与 preview 插槽', () => {
+  test('无 #preview 插槽时，预览默认允许缩放（操作区含 4 个按钮）', async () => {
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: true },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    const actionArea = document.body.querySelector('.o-image-viewer-action');
+    expect(actionArea).not.toBeNull();
+    const buttons = actionArea!.querySelectorAll('.o-image-action-item');
+    // 默认 toolbar: zoomOut, zoomIn, reset, close → scalable=true 不过滤
+    expect(buttons.length).toBe(4);
+  });
+
+  test('无 #preview 插槽且 preview 配置 scalable=false 时，操作区隐藏', async () => {
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: { scalable: false } },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    // scalable=false → 默认 toolbar 过滤后仅剩 close → 操作区隐藏
+    expect(document.body.querySelector('.o-image-viewer-action')).toBeNull();
+  });
+
+  test('无 #preview 插槽且 preview 配置 scalable=true 时，操作区含缩放按钮', async () => {
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: { scalable: true } },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    const actionArea = document.body.querySelector('.o-image-viewer-action');
+    expect(actionArea).not.toBeNull();
+    const buttons = actionArea!.querySelectorAll('.o-image-action-item');
+    expect(buttons.length).toBe(4);
+  });
+
+  test('有 #preview 插槽时，自定义内容替换默认预览 UI（含工具栏）', async () => {
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: true },
+      slots: { preview: () => h('div', { class: 'custom-preview' }, 'Preview') },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    // #preview 插槽替换整个预览 UI
+    expect(document.body.querySelector('.custom-preview')).not.toBeNull();
+    // 默认操作区被替换，不在 DOM 中
+    expect(document.body.querySelector('.o-image-viewer-action')).toBeNull();
+  });
+
+  test('有 #preview 插槽且明确指定 scalable=true 时，仍使用自定义预览 UI', async () => {
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: { scalable: true } },
+      slots: { preview: () => h('div', { class: 'custom-preview' }, 'Preview') },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    // scalable=true 不影响 #preview 插槽替换行为
+    expect(document.body.querySelector('.custom-preview')).not.toBeNull();
+    expect(document.body.querySelector('.o-image-viewer-action')).toBeNull();
+  });
+
+  test('有 #preview 插槽且 preview 为对象未指定 scalable 时，使用自定义预览 UI', async () => {
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: { zoomRate: 1.5 } },
+      slots: { preview: () => h('div', { class: 'custom-preview' }, 'Preview') },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    // #preview 插槽替换默认 UI（scalable 自动设为 false 但不影响替换行为）
+    expect(document.body.querySelector('.custom-preview')).not.toBeNull();
+  });
+
+  test('preview 为对象时透传 showProgress 属性到 OImageViewer（进度指示器渲染）', async () => {
+    // preview={ showProgress: true } → 浅拷贝透传 → OImageViewer 渲染进度指示器
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: { showProgress: true } },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    expect(document.body.querySelector('.o-image-viewer-progress')).not.toBeNull();
+  });
+
+  test('preview 为对象时透传 toolbar=false 属性到 OImageViewer（操作区隐藏）', async () => {
+    // preview={ toolbar: false } → 浅拷贝透传 → OImageViewer 操作区整体隐藏
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: { toolbar: false } },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    expect(document.body.querySelector('.o-image-viewer-action')).toBeNull();
+  });
+
+  test('preview=true 时 OImageViewer 使用全部默认值（无进度指示器）', async () => {
+    // preview=true → 空对象 → OImageViewer 全部走默认值
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: true },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    // 默认 showProgress=false → 不渲染进度指示器
+    expect(document.body.querySelector('.o-image-viewer-progress')).toBeNull();
+  });
+
+  test('有 #preview 插槽且未指定 scalable 时，OImageViewer 的 scalable 自动设为 false', async () => {
+    // 有 #preview 插槽 + preview=true（scalable 未指定）→ imageViewerConfig 自动设 scalable=false
+    const screen = render(OFigure, {
+      props: { src: SRC, preview: true },
+      slots: { preview: () => h('div', { class: 'custom-preview' }, 'Preview') },
+    });
+    await flush();
+    await screen.container.querySelector('.o-figure')!.click();
+    await flush();
+    // #preview 插槽替换了默认预览 UI，通过 DOM 元素访问 OImageViewer 组件实例验证 scalable
+    const viewerEl = document.body.querySelector('.o-image-viewer') as any;
+    const layerInstance = viewerEl?.__vueParentComponent;
+    const imageViewerInstance = layerInstance?.parent;
+    expect(imageViewerInstance?.props?.scalable).toBe(false);
+
+    // 对照组：无 #preview 插槽时，scalable 保持默认值 true
+    document.body.querySelectorAll('.o-layer').forEach((el) => el.remove());
+    const def = render(OFigure, {
+      props: { src: SRC, preview: true },
+    });
+    await flush();
+    await def.container.querySelector('.o-figure')!.click();
+    await flush();
+    const defViewerEl = document.body.querySelector('.o-image-viewer') as any;
+    const defLayerInstance = defViewerEl?.__vueParentComponent;
+    const defImageViewerInstance = defLayerInstance?.parent;
+    expect(defImageViewerInstance?.props?.scalable).toBe(true);
   });
 });

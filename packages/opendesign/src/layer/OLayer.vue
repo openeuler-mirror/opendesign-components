@@ -238,6 +238,24 @@ defineExpose({
    * @en-US Toggle the layer visibility
    */
   toggle,
+  /**
+   * @zh-CN 根 DOM 元素（即 `.o-layer` 容器）
+   * @en-US Root DOM element (the `.o-layer` container)
+   * @description 供外部组件绑定键盘事件、焦点陷阱等需要覆盖整个浮层的行为。
+   * 元素受 `v-if="isMounted"` 控制，未挂载时返回 null。
+   */
+  get rootEl() {
+    return layerRef.value;
+  },
+  /**
+   * @zh-CN 内容区 DOM 元素（即 `.o-layer-main` 容器）
+   * @en-US Content DOM element (the `.o-layer-main` container)
+   * @description 接收 `mainClass` / `mainStyle` 的元素，包裹 slot 内容。
+   * 供外部组件绑定 click 等内容区级别的事件。
+   */
+  get mainEl() {
+    return mainRef.value;
+  },
 });
 </script>
 <template>
