@@ -142,8 +142,18 @@ const isDragging = ref(false);
 const isLoading = ref(true);
 /** 图片是否加载失败 */
 const loadError = ref(false);
-/** 触摸过程中是否发生了拖拽/缩放位移（用于区分 swipe 手势和拖拽） */
+/** 双指缩放过程中是否发生了位移（仅用于阻止缩放后的误触切图） */
 const touchMoved = ref(false);
+/** 本次触摸结束时是否发生了拖拽（onTouchEnd 快照，供 onSwipeEnd 判断） */
+const wasDragging = ref(false);
+/** 拖拽过程中是否超出了图片平移边界（到达边缘后继续滑动） */
+let dragExceededEdge = false;
+/** 超出边缘的方向（'left' | 'right' | 'up' | 'down'） */
+let exceededEdgeDir = '';
+/** 拖拽开始时图片是否已在左边缘 */
+let startedAtLeftEdge = false;
+/** 拖拽开始时图片是否已在右边缘 */
+let startedAtRightEdge = false;
 /** 索引越界纠正（previewList 为空或 currentIndex 超出范围时回退到 0） */
 if (currentIndex.value < 0 || currentIndex.value >= props.previewList.length) {
   currentIndex.value = 0;
@@ -703,15 +713,44 @@ const getTouchCenter = (touches: TouchList) => ({
 });
 
 /**
+ * 计算图片可平移的最大偏移量（从中心到边缘）
+ * @description 基于图片自然尺寸 × 缩放比例与容器尺寸的差值。
+ * 图片未放大时（渲染尺寸 ≤ 容器尺寸）maxPan 为 0，任意方向滑动均视为切图手势。
+ * 旋转场景使用近似值（不计算旋转后包围盒），允许略多平移空间。
+ * @returns X/Y 方向的最大偏移量
+ */
+const getPanBounds = () => {
+  const img = imgRef.value;
+  const root = rootElRef.value;
+  if (!img || !root) return { maxX: 0, maxY: 0 };
+  const { naturalWidth, naturalHeight } = img;
+  if (!naturalWidth || !naturalHeight) return { maxX: 0, maxY: 0 };
+  const containerWidth = root.clientWidth || window.innerWidth;
+  const containerHeight = root.clientHeight || window.innerHeight;
+  const renderedWidth = naturalWidth * transform.value.scale;
+  const renderedHeight = naturalHeight * transform.value.scale;
+  return {
+    maxX: Math.max(0, (renderedWidth - containerWidth) / 2),
+    maxY: Math.max(0, (renderedHeight - containerHeight) / 2),
+  };
+};
+
+/**
  * 触摸开始：单指进入拖拽，双指进入缩放
  * @description isLoading / loadError 检查确保图片就绪后才允许交互。
  * 图片未放大且未偏移时（scale <= 1 且 offset 为 0），不进入拖拽模式，
  * 让 useSwipe 处理滑动手势（导航/关闭），避免拖拽与滑动冲突。
+ * 进入拖拽模式时检查图片是否已在边缘，用于 onSwipeEnd 的边缘检测切图。
  * @param e 触摸事件
  */
 const onTouchStart = (e: TouchEvent) => {
   if (isLoading.value || loadError.value) return;
   touchMoved.value = false;
+  wasDragging.value = false;
+  dragExceededEdge = false;
+  exceededEdgeDir = '';
+  startedAtLeftEdge = false;
+  startedAtRightEdge = false;
   const touches = e.touches;
   // 图片未放大且未偏移时，触摸用于滑动而非拖拽
   const canDrag = transform.value.scale > 1 || transform.value.offsetX !== 0 || transform.value.offsetY !== 0;
@@ -722,6 +761,10 @@ const onTouchStart = (e: TouchEvent) => {
       transform.value.enableTransition = false;
       dragStartX = touches[0].clientX - transform.value.offsetX;
       dragStartY = touches[0].clientY - transform.value.offsetY;
+      // 检查图片是否已在水平边缘（用于边缘检测切图）
+      const { maxX } = getPanBounds();
+      startedAtLeftEdge = transform.value.offsetX <= -maxX;
+      startedAtRightEdge = transform.value.offsetX >= maxX;
     }
   } else if (touches.length === 2) {
     isDragging.value = false;
@@ -733,46 +776,76 @@ const onTouchStart = (e: TouchEvent) => {
   }
 };
 
-/** 节流后的触摸移动处理器 */
+/**
+ * 更新拖拽位移并检测边缘超出
+ * @description 将 raw offset clamp 到 pan bounds，防止图片被拖出可视区域。
+ * 当 raw offset 超出 pan bounds 时标记 dragExceededEdge 和方向，供 onSwipeEnd 边缘检测切图。
+ * @param clientX 当前触摸 X 坐标
+ * @param clientY 当前触摸 Y 坐标
+ */
+const updateDragOffset = (clientX: number, clientY: number) => {
+  const rawX = clientX - dragStartX;
+  const rawY = clientY - dragStartY;
+  const { maxX, maxY } = getPanBounds();
+  transform.value.offsetX = clamp(rawX, -maxX, maxX);
+  transform.value.offsetY = clamp(rawY, -maxY, maxY);
+  // raw 超出 clamp 范围 → 图片到达边缘后继续滑动
+  if (Math.abs(rawX) > maxX) {
+    dragExceededEdge = true;
+    exceededEdgeDir = rawX > 0 ? 'right' : 'left';
+  } else if (Math.abs(rawY) > maxY && maxY > 0) {
+    dragExceededEdge = true;
+    exceededEdgeDir = rawY > 0 ? 'down' : 'up';
+  }
+};
+
+/**
+ * 处理双指缩放移动
+ * @description 从 start 时的基准值推导当前缩放比，以双指中心为原点保持中心不变。
+ * @param touches 当前触摸点列表（双指）
+ */
+const updatePinchZoom = (touches: TouchList) => {
+  const minScale = effectiveMinScale.value;
+  const maxScale = effectiveMaxScale.value;
+  const distance = getTouchDistance(touches);
+  const tempScale = Number.parseFloat((pinchStartScale * (distance / pinchStartDistance)).toFixed(3));
+  const newScale = clamp(tempScale, minScale, maxScale);
+  const touchCenter = getTouchCenter(touches);
+  const imageRect = imageWrapperRef.value?.getBoundingClientRect();
+  if (imageRect) {
+    const cx = touchCenter.x - imageRect.left - imageRect.width / 2;
+    const cy = touchCenter.y - imageRect.top - imageRect.height / 2;
+    const ratio = newScale / transform.value.scale;
+    transform.value.offsetX = transform.value.offsetX + cx * (1 - ratio);
+    transform.value.offsetY = transform.value.offsetY + cy * (1 - ratio);
+  }
+  transform.value.scale = newScale;
+  touchMoved.value = true;
+};
+
+/**
+ * 节流后的触摸移动处理器
+ * @description 单指拖拽 → clamp + 边缘检测；双指 → 缩放。
+ */
 const onTouchMoveThrottled = useThrottleFn((e: TouchEvent) => {
   const touches = e.touches;
   if (isDragging.value && touches.length === 1) {
-    transform.value.offsetX = touches[0].clientX - dragStartX;
-    transform.value.offsetY = touches[0].clientY - dragStartY;
-    touchMoved.value = true;
+    updateDragOffset(touches[0].clientX, touches[0].clientY);
   } else if (touches.length === 2 && pinchStartDistance) {
-    const minScale = effectiveMinScale.value;
-    const maxScale = effectiveMaxScale.value;
-    const distance = getTouchDistance(touches);
-    // 使用绝对计算：从 start 时的基准值推导当前缩放比
-    const tempScale = Number.parseFloat((pinchStartScale * (distance / pinchStartDistance)).toFixed(3));
-    const newScale = clamp(tempScale, minScale, maxScale);
-
-    // 以双指中心为缩放原点，保持中心不变
-    const touchCenter = getTouchCenter(touches);
-    const imageRect = imageWrapperRef.value?.getBoundingClientRect();
-    if (imageRect) {
-      // 双指中心相对于图片视觉中心的坐标
-      const cx = touchCenter.x - imageRect.left - imageRect.width / 2;
-      const cy = touchCenter.y - imageRect.top - imageRect.height / 2;
-      // 当前缩放比相对于上一帧的变化比例
-      const ratio = newScale / transform.value.scale;
-      // 修正公式：newOffset = oldOffset + center * (1 - ratio)
-      transform.value.offsetX = transform.value.offsetX + cx * (1 - ratio);
-      transform.value.offsetY = transform.value.offsetY + cy * (1 - ratio);
-    }
-    transform.value.scale = newScale;
-    touchMoved.value = true;
+    updatePinchZoom(touches);
   }
 }, 16);
 
 /**
  * 触摸移动（节流）
+ * @description 始终阻止单指 touchmove 默认行为，防止浏览器窃取触摸序列
+ * （如 iOS 返回手势、Chrome 水平滚动），确保 useSwipe 能收到完整 touch
+ * 事件以正确判断左右滑动方向。双指缩放时同样阻止默认行为。
  * @param e 触摸事件
  */
 const onTouchMove = (e: TouchEvent) => {
   const touches = e.touches;
-  const shouldPrevent = (isDragging.value && touches.length === 1) || (touches.length === 2 && pinchStartDistance);
+  const shouldPrevent = touches.length === 1 || (touches.length === 2 && pinchStartDistance);
   if (shouldPrevent) {
     e.preventDefault();
   }
@@ -781,11 +854,20 @@ const onTouchMove = (e: TouchEvent) => {
 
 /**
  * 触摸结束：全部手指离开时重置状态，双指变单指时切换为拖拽
+ * @description 全部手指离开时快照 wasDragging 供 onSwipeEnd 使用，
+ * 并通过 changedTouches 做最终边缘检查（避免节流遗漏最后几帧）。
  * @param e 触摸事件
  */
 const onTouchEnd = (e: TouchEvent) => {
   const touches = e.touches;
   if (touches.length === 0) {
+    // 快照拖拽状态供 onSwipeEnd 使用（onTouchEnd 先于 useSwipe 的 touchend 触发）
+    wasDragging.value = isDragging.value;
+    // 节流可能遗漏最后几帧，用 changedTouches 做最终边缘检查
+    if (isDragging.value && !dragExceededEdge && e.changedTouches.length > 0) {
+      const ct = e.changedTouches[0];
+      updateDragOffset(ct.clientX, ct.clientY);
+    }
     isDragging.value = false;
     pinchStartDistance = 0;
   } else if (touches.length === 1) {
@@ -805,20 +887,51 @@ const {
 } = useSwipe(rootElRef, {
   threshold: 50,
   onSwipeEnd: () => {
-    // 图片发生了拖拽或缩放位移时，不触发滑动手势
     if (touchMoved.value) return;
-    if (swipeDirection.value === 'down' && swipeLengthY.value > 50) {
-      onClose();
-    } else if (swipeLengthX.value > 50 && canNavigate.value) {
-      // 水平滑动且可切换时，根据方向切换图片
-      if (swipeDirection.value === 'left') {
-        next();
-      } else if (swipeDirection.value === 'right') {
-        prev();
-      }
+    if (wasDragging.value) {
+      handleEdgeSwipe();
+      return;
     }
+    handleNormalSwipe();
   },
 });
+
+/**
+ * 缩放态拖拽后的边缘检测切图
+ * @description 当图片缩放后拖拽到达边缘并继续同方向滑动时触发切图/关闭。
+ * 仅当拖拽超出 pan bounds 或拖拽开始时已在边缘，且滑动方向与边缘方向一致时生效。
+ */
+function handleEdgeSwipe() {
+  if (!dragExceededEdge && !startedAtLeftEdge && !startedAtRightEdge) return;
+  const dir = swipeDirection.value;
+  const atLeft = exceededEdgeDir === 'left' || startedAtLeftEdge;
+  const atRight = exceededEdgeDir === 'right' || startedAtRightEdge;
+  if (dir === 'left' && atLeft && canNavigate.value) {
+    next();
+  } else if (dir === 'right' && atRight && canNavigate.value) {
+    prev();
+  } else if (dir === 'down' && exceededEdgeDir === 'down' && Math.abs(swipeLengthY.value) > 50) {
+    onClose();
+  }
+}
+
+/**
+ * 未缩放态的正常滑动切图/关闭
+ * @description 水平滑动 > 50px 切换图片，向下滑动 > 50px 关闭预览。
+ * useSwipe 的 lengthX/lengthY 为有符号差值（start - end），左滑/上滑为正，
+ * 右滑/下滑为负，需取绝对值比较阈值。
+ */
+function handleNormalSwipe() {
+  if (swipeDirection.value === 'down' && Math.abs(swipeLengthY.value) > 50) {
+    onClose();
+  } else if (Math.abs(swipeLengthX.value) > 50 && canNavigate.value) {
+    if (swipeDirection.value === 'left') {
+      next();
+    } else if (swipeDirection.value === 'right') {
+      prev();
+    }
+  }
+}
 
 // ---- 焦点陷阱（无障碍） ----
 /**
