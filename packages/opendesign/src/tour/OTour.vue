@@ -66,7 +66,13 @@ const mergedShowArrow = computed(() => !!currentTarget.value && (currentStep.val
 
 const nowZIndex = createTopZIndex();
 const maskZIndex = computed(() => nowZIndex - 1);
-const { mergedPosInfo: pos, triggerTarget } = useTarget(currentTarget, visibleModel, ref(12), toRef(props, 'spotlightRadius'), mergedMask);
+const { mergedPosInfo: pos, triggerTarget } = useTarget({
+  target: currentTarget,
+  open: visibleModel,
+  spotlightPadding: ref(12),
+  spotlightRadius: toRef(props, 'spotlightRadius'),
+  mergedMask,
+});
 
 const { path, maskStyle, pathStyle, viewBox } = useMask(pos, maskZIndex);
 

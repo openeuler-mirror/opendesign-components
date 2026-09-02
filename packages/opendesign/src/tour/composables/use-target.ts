@@ -1,5 +1,5 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { isFunction, isString } from '../../_utils/is';
+import { isClient, isFunction, isString } from '../../_utils/is';
 import type { Ref } from 'vue';
 import type { PosInfo } from '../types';
 import type { VirtualElement } from '../../popup/types';
@@ -14,7 +14,7 @@ const DEFAULT_SPOTLIGHT_RADIUS = 4;
  */
 function measureCssLengthPx(raw: string): number {
   // SSR 环境无 document，回退默认值
-  if (typeof document === 'undefined') {
+  if (!isClient) {
     return DEFAULT_SPOTLIGHT_RADIUS;
   }
   const probe = document.createElement('div');
@@ -38,21 +38,26 @@ function isInViewPort(element: HTMLElement): boolean {
   return top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight;
 }
 
+/** useTarget 选项参数 */
+export interface UseTargetOptions {
+  /** 目标元素引用 */
+  target: Ref<string | HTMLElement | (() => HTMLElement | null) | null | undefined>;
+  /** 是否打开 */
+  open: Ref<boolean>;
+  /** 间隙偏移量 */
+  spotlightPadding: Ref<number>;
+  /** 镂空圆角，支持 'pill' 或任意 CSS 长度字符串 */
+  spotlightRadius: Ref<string | undefined>;
+  /** 合并后的遮罩配置 */
+  mergedMask: Ref<boolean>;
+}
+
 /**
  * @description 解析 target 并计算镂空位置信息
- * @param target - 目标元素引用
- * @param open - 是否打开
- * @param spotlightPadding - 间隙偏移量
- * @param spotlightRadius - 镂空圆角，支持 'pill' 或 '8px'
- * @param mergedMask - 合并后的遮罩配置
+ * @param options - 选项参数
  */
-export function useTarget(
-  target: Ref<string | HTMLElement | (() => HTMLElement | null) | null | undefined>,
-  open: Ref<boolean>,
-  spotlightPadding: Ref<number>,
-  spotlightRadius: Ref<'pill' | '8px' | undefined>,
-  mergedMask: Ref<boolean>,
-) {
+export function useTarget(options: UseTargetOptions) {
+  const { target, open, spotlightPadding, spotlightRadius, mergedMask } = options;
   const posInfo: Ref<PosInfo | null> = ref(null);
 
   /**
@@ -66,7 +71,7 @@ export function useTarget(
         spotlightRadiusPx.value = DEFAULT_SPOTLIGHT_RADIUS;
         return;
       }
-      // '8px' 解析为像素值；'pill' 由 mergedPosInfo 按镂空尺寸计算
+      // 非 pill 的 CSS 长度字符串解析为像素值；'pill' 由 mergedPosInfo 按镂空尺寸计算
       spotlightRadiusPx.value = measureCssLengthPx(raw);
     },
     { immediate: true },
