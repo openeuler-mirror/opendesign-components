@@ -5,12 +5,12 @@
 
 `OImageViewer` 内部持有 `OLayer`，通过 `layer-options` 配置遮罩层行为，通过 `v-model:visible` 控制预览显隐：
 
-| 选项          | 说明                                      | 默认值 |
-| ------------- | ----------------------------------------- | ------ |
-| `mask`        | 是否渲染遮罩层                            | `true` |
-| `maskClose`   | 点击遮罩层是否关闭                        | `true` |
-| `buttonClose` | 是否渲染右上角关闭按钮                    | `true` |
-| `wrapper`     | teleport 目标节点，`null` 表示不 teleport | `null` |
+| 选项          | 说明                                      | 默认值  |
+| ------------- | ----------------------------------------- | ------- |
+| `mask`        | 是否渲染遮罩层                            | `true`  |
+| `maskClose`   | 点击遮罩层是否关闭                        | `false` |
+| `buttonClose` | 是否渲染右上角关闭按钮                    | `true`  |
+| `wrapper`     | teleport 目标节点，`null` 表示不 teleport | `null`  |
 
 遮罩层场景示例：设置 `mask: true`、`wrapper: 'body'` 将预览 teleport 到 body 并渲染遮罩层。
 
@@ -25,7 +25,7 @@
 | Option        | Description                                    | Default |
 | ------------- | ---------------------------------------------- | ------- |
 | `mask`        | Whether to render the mask layer               | `true`  |
-| `maskClose`   | Whether clicking the mask closes the preview   | `true`  |
+| `maskClose`   | Whether clicking the mask closes the preview   | `false` |
 | `buttonClose` | Whether to render a top-right close button     | `true`  |
 | `wrapper`     | Teleport target node, `null` means no teleport | `null`  |
 

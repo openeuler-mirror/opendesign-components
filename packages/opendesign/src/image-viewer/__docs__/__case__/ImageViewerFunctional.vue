@@ -9,7 +9,7 @@
 
 下方示例模拟了异步请求数据的典型场景：`previewList` 初始为空数组，点击"请求数据"后通过 mock 接口填充 `imgList` ref，随后即可打开预览。由于传入的是 `ref` 而非静态值，数据到达后打开的预览会自动呈现最新内容。
 
-函数式场景下 `layerOptions` 默认为 `{ mask: true, maskClose: true, buttonClose: true, wrapper: 'body' }`，可通过传入 `layerOptions` 覆盖。支持全部组件 props（`visible` 除外，由 hook 内部维护）及事件回调（`onClose` / `onSwitch` / `onRotate` / `onZoomDrag` / `onError`）。
+函数式场景下 `layerOptions` 默认为 `{ mask: true, maskClose: false, buttonClose: true, wrapper: null }`，与组件场景一致，可通过传入 `layerOptions` 覆盖。支持全部组件 props（`visible` 除外，由 hook 内部维护）及事件回调（`onClose` / `onSwitch` / `onRotate` / `onZoomDrag` / `onError`）。
 
 `autoDestroyOnClose` 控制关闭时是否自动销毁挂载实例：`true` 时 `close()` 卸载实例并释放 DOM，下次 `open()` 重新挂载；`false` 时仅切换 `visible`，保留实例以便复用。默认值在 effect scope 内为 `false`，作用域外为 `true`。
 
@@ -23,7 +23,7 @@ Options accept `MaybeRefOrGetter` — value props like `previewList` / `currentI
 
 The example below simulates a typical async-data scenario: `previewList` starts as an empty array. Click "Fetch Data" to populate the `imgList` ref via a mock API, then open the preview. Because a `ref` is passed instead of a static value, the open preview reflects the latest content once data arrives.
 
-In functional mode, `layerOptions` defaults to `{ mask: true, maskClose: true, buttonClose: true, wrapper: 'body' }`. Override via the `layerOptions` option. Supports all component props (except `visible`, managed internally) and event callbacks (`onClose` / `onSwitch` / `onRotate` / `onZoomDrag` / `onError`).
+In functional mode, `layerOptions` defaults to `{ mask: true, maskClose: false, buttonClose: true, wrapper: null }`, matching the component scenario. Override via the `layerOptions` option. Supports all component props (except `visible`, managed internally) and event callbacks (`onClose` / `onSwitch` / `onRotate` / `onZoomDrag` / `onError`).
 
 `autoDestroyOnClose` controls whether the mounted instance is automatically destroyed on close: when `true`, `close()` unmounts the instance and releases the DOM — the next `open()` re-mounts; when `false`, it only toggles `visible`, keeping the instance for reuse. Defaults to `false` within an effect scope and `true` outside.
 </docs>
