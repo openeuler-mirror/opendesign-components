@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 分词批量创建 ^[NEXT](primary)
+### 分词批量创建 ^[1.2.7](primary)
 
 通过 `tokenSeparators` 指定分词符，用户在输入框中粘贴或输入分隔符时，自动将分隔出的片段作为新选项批量创建。
 
@@ -13,7 +13,7 @@
 
   <!-- en-US -->
 
-### Token Batch Creation ^[NEXT](primary)
+### Token Batch Creation ^[1.2.7](primary)
 
 Specify delimiters via `tokenSeparators`. When users type or paste a separator, the split fragments are automatically batch-created as new options.
 

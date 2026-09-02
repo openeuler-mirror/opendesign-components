@@ -15,7 +15,7 @@ kind: container
 <!-- @case FormSetInitialValues -->
 <!-- @case FormScrollToError -->
 
-## 继承关系 ^[NEXT](primary)
+## 继承关系 ^[1.2.7](primary)
 
 `size`、`disabled`、`round`、`clearable` 可通过 `OForm` 统一设置，所有 `OFormItem` 自动继承。FormItem 的同名属性优先级更高可覆盖，控件自身的同名 prop 优先级最高。
 

@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 虚拟滚动 ^[NEXT](primary)
+### 虚拟滚动 ^[1.2.7](primary)
 
 通过 `virtual` prop 开启虚拟滚动，大数据量时只渲染可见项，显著提升渲染性能。
 
@@ -11,7 +11,7 @@
 
   <!-- en-US -->
 
-### Virtual Scroll ^[NEXT](primary)
+### Virtual Scroll ^[1.2.7](primary)
 
 Enable virtual scrolling via the `virtual` prop. Only visible items are rendered for large data, significantly improving rendering performance.
 

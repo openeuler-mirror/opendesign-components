@@ -15,7 +15,7 @@ kind: container
 <!-- @case FormSetInitialValues -->
 <!-- @case FormScrollToError -->
 
-## Inheritance ^[NEXT](primary)
+## Inheritance ^[1.2.7](primary)
 
 `size`, `disabled`, `round`, `clearable` can be set via `OForm` and all `OFormItem` components inherit automatically. FormItem's same-named prop takes priority and can override inherited values. The control's own same-named prop has the highest priority.
 

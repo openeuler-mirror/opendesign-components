@@ -25,7 +25,7 @@ const emits = defineEmits<{
   /**
    * @zh-CN 任一表单项校验完成后触发，返回包含字段名、是否通过、错误消息的对象
    * @en-US Triggered after any form item is validated, returns an object containing field name, validity, and error message
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'validateField', payload: { field: string; isValid: boolean; message: string }): void;
   /**
@@ -97,7 +97,7 @@ const initialValues = new Map<string, any>();
  * @description 滚动到指定字段对应的表单项
  * @param field 字段名
  * @param options scrollIntoView 选项，默认 `{ behavior: 'smooth', block: 'center' }`
- * @since NEXT
+ * @since 1.2.7
  */
 const scrollToField = async (
   field: string,
@@ -356,7 +356,7 @@ defineExpose({
    * validate specific fields
    * @param field 字段名或字段名数组
    * @param trigger 触发校验的事件类型，不传则校验全部 trigger 分组的规则
-   * @since NEXT
+   * @since 1.2.7
    */
   validateField,
   /** reset form */
@@ -364,7 +364,7 @@ defineExpose({
   /**
    * 设置表单初始值，同时写入 model 和重置基准
    * set initial values for form fields, also writes to model and updates reset baseline
-   * @since NEXT
+   * @since 1.2.7
    */
   setInitialValues,
   /** clear validate state */
@@ -372,7 +372,7 @@ defineExpose({
   /**
    * 滚动到指定字段对应的表单项
    * scroll to the form item of the specified field
-   * @since NEXT
+   * @since 1.2.7
    */
   scrollToField,
 });

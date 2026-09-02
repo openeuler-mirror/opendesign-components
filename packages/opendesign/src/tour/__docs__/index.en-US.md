@@ -1,5 +1,5 @@
 ---
-sidebar: OTour Tour ^[NEXT](primary)
+sidebar: OTour Tour ^[1.2.7](primary)
 kind: nav
 ---
 

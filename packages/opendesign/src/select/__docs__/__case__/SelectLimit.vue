@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 多选上限与事件 ^[NEXT](primary)
+### 多选上限与事件 ^[1.2.7](primary)
 
 通过 `limit` 限制多选数量，达到上限后未选项自动 disabled。触发 `exceed-limit` 事件提示用户。
 
@@ -9,7 +9,7 @@
 
   <!-- en-US -->
 
-### Multiple Limit & Events ^[NEXT](primary)
+### Multiple Limit & Events ^[1.2.7](primary)
 
 Use `limit` to restrict multiple selection count. Unselected options become disabled when the limit is reached, and `exceed-limit` event is emitted.
 

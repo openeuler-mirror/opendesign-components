@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 标签溢出自适应 ^[NEXT](primary)
+### 标签溢出自适应 ^[1.2.7](primary)
 
 多选模式下选项过多时，`maxTagCount` 控制标签的折叠行为：
 
@@ -16,7 +16,7 @@
 
   <!-- en-US -->
 
-### Tag Overflow Adaptation ^[NEXT](primary)
+### Tag Overflow Adaptation ^[1.2.7](primary)
 
 When too many tags overflow in multiple mode, `maxTagCount` controls folding behavior:
 

@@ -2,7 +2,7 @@
  * OForm 事件 + Props + Expose 补充测试。
  *
  * 填补现有测试文件的覆盖空白：
- *   1. 事件：validateField（@since NEXT）、clear、reset
+ *   1. 事件：validateField（@since 1.2.7）、clear、reset
  *   2. Props：validateOnRuleChange、scrollToError、defaultTrigger
  *   3. Triggers：input trigger（唯一无测试的 trigger 类型）
  *   4. Expose：setInitialValues 延迟注册缓存、scrollToField 调用验证
@@ -52,10 +52,10 @@ const StubTriggerChild = defineComponent({
 });
 
 // ============================================================================
-// 事件：validateField（@since NEXT）
+// 事件：validateField（@since 1.2.7）
 // ============================================================================
 
-describe('validateField 事件（@since NEXT）', () => {
+describe('validateField 事件（@since 1.2.7）', () => {
   test('validate() 后 emit validateField — 每个校验项触发一次', async () => {
     const onValidateField = vi.fn();
     const { formRef } = renderFormWithRef(

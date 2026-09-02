@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 兜底显示与异步加载 ^[NEXT](primary)
+### 兜底显示与异步加载 ^[1.2.7](primary)
 
 当值不在选项列表中时，`fallbackOption` 可自定义兜底 label 显示。
 
@@ -9,7 +9,7 @@
 
   <!-- en-US -->
 
-### Fallback & Async Loading ^[NEXT](primary)
+### Fallback & Async Loading ^[1.2.7](primary)
 
 When a value is not in the option list, `fallbackOption` can customize the fallback label display.
 

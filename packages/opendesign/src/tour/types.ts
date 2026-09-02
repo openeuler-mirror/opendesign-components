@@ -62,7 +62,7 @@ export const tourProps = {
   /**
    * @zh-CN 引导卡片容器自定义类名
    * @en-US Custom class name for the guide card container
-   * @since NEXT
+   * @since 1.2.7
    */
   popupClass: {
     type: String,

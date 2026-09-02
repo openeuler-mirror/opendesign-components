@@ -5,7 +5,7 @@
 
 通过 `#thumb` 和 `#track` 插槽自定义滚动条的滑块和轨道样式，实现与品牌主题一致的滚动条外观。
 
-- `#thumb` 与 `#track` 插槽均提供 `direction`（方向）和 `dragging`（是否拖拽中）两个作用域参数 ^[NEXT](primary)`插槽新增 direction 和 dragging 作用域参数`，可据此区分常态与拖拽态样式
+- `#thumb` 与 `#track` 插槽均提供 `direction`（方向）和 `dragging`（是否拖拽中）两个作用域参数 ^[1.2.7](primary)`插槽新增 direction 和 dragging 作用域参数`，可据此区分常态与拖拽态样式
 - `barClass` 属性可为滚动条根元素添加自定义类名，通过 `:deep` 穿透后利用内部 `.is-dragging` 类同样可区分拖拽态
 
 <!-- en-US -->
@@ -14,7 +14,7 @@
 
 Customize the scrollbar thumb and track styles via the `#thumb` and `#track` slots, achieving a scrollbar appearance consistent with the brand theme.
 
-- Both `#thumb` and `#track` slots provide `direction` and `dragging` scoped props ^[NEXT](primary)`Slots now provide direction and dragging scoped props`, enabling distinct normal and dragging styles
+- Both `#thumb` and `#track` slots provide `direction` and `dragging` scoped props ^[1.2.7](primary)`Slots now provide direction and dragging scoped props`, enabling distinct normal and dragging styles
 - The `barClass` prop adds custom classes to the scrollbar root element; with `:deep` penetration, the internal `.is-dragging` class can also be used to differentiate the dragging state
 </docs>
 

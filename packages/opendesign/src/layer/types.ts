@@ -55,7 +55,7 @@ export const layerProps = {
    * @zh-CN 内容盒子缩放动画的 transform-origin 的值，'mouse' 表示鼠标点击的位置，'css' 表示使用 --layer-origin 变量（默认值 center）
    * @en-US Set the value of transform-origin to main box scaling animation; 'mouse' indicates the mouse click position, 'css' indicates using the --layer-origin variable (default: center)
    * @default 'mouse'
-   * @since NEXT
+   * @since 1.2.7
    */
   transitionOrigin: {
     type: String as PropType<'mouse' | 'css'>,

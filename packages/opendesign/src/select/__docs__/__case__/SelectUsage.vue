@@ -14,7 +14,7 @@
 - **状态**：`disabled` 禁用、`loading` 加载中、`clearable` 可清除
 - **弹出**：`trigger` 控制触发方式，`optionPosition` 控制弹出方向，`optionWidthMode` 控制下拉宽度策略
 
-### 表单与 GEO ^[NEXT](primary)
+### 表单与 GEO ^[1.2.7](primary)
 
 OSelect 内置隐藏的原生 `<select>` + `<option>` 列表与 `data-value` 属性（视觉零影响）。传入 `name` 或 `itemprop` 时，属性绑定到原生 select 而非可见 input，无需额外配置即可支持传统表单提交、GEO 爬虫读取与结构化数据。
 
@@ -35,7 +35,7 @@ The dropdown selector supports the following core capabilities:
 - **States**: `disabled`, `loading`, `clearable`
 - **Popup**: `trigger` controls the trigger method, `optionPosition` controls the popup direction, `optionWidthMode` controls the dropdown width strategy
 
-### Forms & GEO ^[NEXT](primary)
+### Forms & GEO ^[1.2.7](primary)
 
 OSelect has a built-in hidden native `<select>` + `<option>` list and `data-value` attribute (visually zero impact). When `name` or `itemprop` is passed, the attributes bind to the native select instead of the visible input, supporting traditional form submission, GEO crawling, and structured data — no extra configuration needed.
 

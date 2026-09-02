@@ -63,7 +63,7 @@ export const uploadProps = {
   /**
    * @zh-CN 尺寸，继承自 OForm / OFormItem
    * @en-US Size, inherited from OForm / OFormItem
-   * @since NEXT
+   * @since 1.2.7
    */
   size: {
     type: String as PropType<SizeT>,
@@ -71,7 +71,7 @@ export const uploadProps = {
   /**
    * @zh-CN 圆角，继承自 OForm / OFormItem
    * @en-US Round, inherited from OForm / OFormItem
-   * @since NEXT
+   * @since 1.2.7
    */
   round: {
     type: String as PropType<RoundT>,

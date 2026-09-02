@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 创建新选项 ^[NEXT](primary)
+### 创建新选项 ^[1.2.7](primary)
 
 通过 `allowCreate` 开启创建新选项能力。当输入的值不存在于选项列表时，下拉首项显示「创建 xxx」。创建的选项会持久化到选项列表中，失焦后重新展开面板仍可见。
 
@@ -16,7 +16,7 @@
 
   <!-- en-US -->
 
-### Allow Create New Option ^[NEXT](primary)
+### Allow Create New Option ^[1.2.7](primary)
 
 Enable creating new options via `allowCreate`. When the input value doesn't exist in the options list, the first dropdown item shows "Create xxx". Created options persist in the options list, remaining visible after blur and refocus.
 
