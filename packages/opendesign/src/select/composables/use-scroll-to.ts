@@ -29,7 +29,7 @@ interface UseScrollToDeps {
  * @param deps 外部依赖
  * @returns flattenOptions, scrollTo
  */
-export function useScrollTo(deps: UseScrollToDeps) {
+function UseScrollTo(deps: UseScrollToDeps) {
   const { resolvedOptions, isOptionGroup, virtualListRef, optionsRef, warn } = deps;
 
   /**
@@ -141,3 +141,5 @@ export function useScrollTo(deps: UseScrollToDeps) {
     scrollTo,
   };
 }
+
+export { UseScrollTo as useScrollTo };
