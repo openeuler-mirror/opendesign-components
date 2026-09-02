@@ -69,6 +69,14 @@ export function mergeRules(globalRules: FormRulesT | undefined, field: string | 
   if (!field) return localRules;
   const global = globalRules?.[field];
   if (!global && !localRules) return undefined;
-  const globalArr = isArray(global) ? global : global ? [global] : [];
+  // 将全局规则统一为数组形式
+  let globalArr: RulesT[];
+  if (isArray(global)) {
+    globalArr = global;
+  } else if (global) {
+    globalArr = [global];
+  } else {
+    globalArr = [];
+  }
   return [...globalArr, ...(localRules || [])];
 }
