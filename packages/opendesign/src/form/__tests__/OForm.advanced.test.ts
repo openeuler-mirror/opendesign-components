@@ -75,8 +75,8 @@ describe('validateField 事件（@since NEXT）', () => {
     await flush();
     expect(onValidateField).toHaveBeenCalledTimes(2);
     // 第一个参数是 field 名
-    expect(onValidateField).toHaveBeenCalledWith('name', expect.any(Boolean), expect.any(String));
-    expect(onValidateField).toHaveBeenCalledWith('age', expect.any(Boolean), expect.any(String));
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: expect.any(Boolean), message: expect.any(String) });
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'age', isValid: expect.any(Boolean), message: expect.any(String) });
   });
 
   test('校验通过时 isValid=true', async () => {
@@ -93,7 +93,7 @@ describe('validateField 事件（@since NEXT）', () => {
     await flush();
     await formRef.value?.validate();
     await flush();
-    expect(onValidateField).toHaveBeenCalledWith('name', true, '');
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: true, message: '' });
   });
 
   test('校验失败时 isValid=false + message', async () => {
@@ -110,7 +110,7 @@ describe('validateField 事件（@since NEXT）', () => {
     await flush();
     await formRef.value?.validate();
     await flush();
-    expect(onValidateField).toHaveBeenCalledWith('name', false, expect.stringContaining('required'));
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: false, message: expect.stringContaining('required') });
   });
 
   test('validateField(field) 仅触发指定字段的 validateField 事件', async () => {
@@ -131,7 +131,7 @@ describe('validateField 事件（@since NEXT）', () => {
     await formRef.value?.validateField('a');
     await flush();
     expect(onValidateField).toHaveBeenCalledTimes(1);
-    expect(onValidateField).toHaveBeenCalledWith('a', expect.any(Boolean), expect.any(String));
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'a', isValid: expect.any(Boolean), message: expect.any(String) });
   });
 });
 
@@ -332,7 +332,7 @@ describe('defaultTrigger', () => {
     await formRef.value?.validate();
     await flush();
     expect(onValidateField).toHaveBeenCalledTimes(1);
-    expect(onValidateField).toHaveBeenCalledWith('name', false, 'blur 必填');
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: false, message: 'blur 必填' });
   });
 
   test('defaultTrigger=change — validate() 仅校验 change 分组规则', async () => {
@@ -359,9 +359,9 @@ describe('defaultTrigger', () => {
     await formRef.value?.validate();
     await flush();
     // defaultTrigger=change → 只跑 change 分组，blur 规则不跑
-    expect(onValidateField).toHaveBeenCalledWith('name', false, '不能 bad');
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: false, message: '不能 bad' });
     // 不应包含 blur 规则的消息
-    expect(onValidateField).not.toHaveBeenCalledWith('name', false, 'blur 规则');
+    expect(onValidateField).not.toHaveBeenCalledWith({ field: 'name', isValid: false, message: 'blur 规则' });
   });
 
   test('无 defaultTrigger — validate() 跑全部分组规则', async () => {
@@ -388,7 +388,7 @@ describe('defaultTrigger', () => {
     await flush();
     // 无 defaultTrigger → 跑全部分组，两条规则都触发
     // change 规则先返回 danger，blur 规则也返回 danger
-    expect(onValidateField).toHaveBeenCalledWith('name', false, expect.any(String));
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: false, message: expect.any(String) });
   });
 });
 
@@ -449,8 +449,8 @@ describe('input trigger 校验', () => {
     await formRef.value?.validateField('name', 'input');
     await flush();
     // 应触发 input 规则，不触发 change 规则
-    expect(onValidateField).toHaveBeenCalledWith('name', false, 'input 必填');
-    expect(onValidateField).not.toHaveBeenCalledWith('name', false, 'change 不应触发');
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: false, message: 'input 必填' });
+    expect(onValidateField).not.toHaveBeenCalledWith({ field: 'name', isValid: false, message: 'change 不应触发' });
   });
 
   test('validateField(field, "focus") — 仅校验 focus 分组规则', async () => {
@@ -477,7 +477,7 @@ describe('input trigger 校验', () => {
     await formRef.value?.validateField('name', 'focus');
     await flush();
     // warning → isValid=true（非 danger）
-    expect(onValidateField).toHaveBeenCalledWith('name', true, 'focus 警告');
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: true, message: 'focus 警告' });
   });
 
   test('validateField(field, "blur") — 仅校验 blur 分组规则', async () => {
@@ -502,7 +502,7 @@ describe('input trigger 校验', () => {
     await flush();
     await formRef.value?.validateField('name', 'blur');
     await flush();
-    expect(onValidateField).toHaveBeenCalledWith('name', false, 'blur 必填');
+    expect(onValidateField).toHaveBeenCalledWith({ field: 'name', isValid: false, message: 'blur 必填' });
   });
 });
 
