@@ -5,7 +5,7 @@
 
 当图片地址无效或加载失败时，组件自动展示错误占位——显示错误图标与提示文案，点击可重新加载。通过 `error` 事件可监听加载失败并执行自定义逻辑（如上报埋点、降级处理）。下方示例使用不存在的图片地址触发错误状态，点击错误占位可重试。
 
-`error` 插槽可自定义错误占位内容，作用域参数包含 `activeIndex`（当前索引）与 `src`（图片地址），便于根据上下文渲染差异化提示。
+自定义错误占位内容请参考「自定义插槽」示例。
 
 <!-- en-US -->
 
@@ -13,7 +13,7 @@
 
 When an image URL is invalid or fails to load, the component automatically displays an error placeholder — showing an error icon and hint text, clickable to retry. Listen to the `error` event to execute custom logic on load failure (e.g., analytics reporting, fallback handling). The example below uses a non-existent image URL to trigger the error state — click the placeholder to retry.
 
-The `error` slot allows customizing the error placeholder content. Scope props include `activeIndex` (current index) and `src` (image URL) for context-aware rendering.
+For customizing the error placeholder content, see the "Custom Slots" example.
 </docs>
 
 <script setup lang="ts">

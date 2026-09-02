@@ -4,6 +4,7 @@ import { useEventListener } from '@vueuse/core';
 import { OButton } from '../button';
 import { IconClose } from '../_utils/icons';
 import { ArrowLeft, ArrowRight } from '../_utils/keycode';
+import { isEmptySlot } from '../_utils/vue-utils';
 import { useI18n } from '../locale';
 import { tourStepProps } from './types';
 import { tourKey } from './provide';
@@ -24,37 +25,37 @@ defineSlots<{
    * 左侧内容区
    * Left content area
    */
-  left(): void;
+  left(): any;
   /**
    * 图片区域，默认渲染 props.img 对应的 <img>
    * Image area, renders <img> from props.img by default
    */
-  img(): void;
+  img(): any;
   /**
    * 标题区域，默认渲染 props.title
    * Title area, renders props.title by default
    */
-  title(): void;
+  title(): any;
   /**
    * 详情区域，默认渲染 props.detail
    * Detail area, renders props.detail by default
    */
-  detail(): void;
+  detail(): any;
   /**
    * 跳过按钮区域
    * Skip button area
    */
-  skip(): void;
+  skip(): any;
   /**
    * 步骤指示器，接收当前步骤索引与步骤总数
    * Step indicator, receives current step index and total step count
    */
-  indicators(props: { current: number; total: number }): void;
+  indicators(props: { current: number; total: number }): any;
   /**
    * 底部按钮区域，接收当前步骤索引、步骤总数及上一步/下一步方法；覆盖默认按钮时需自行调用 onPrev/onNext
    * Footer button area, receives current step index, total count and prev/next methods; call onPrev/onNext manually when overriding default buttons
    */
-  footer(props: { current: number; total: number; onPrev: () => void; onNext: () => void }): void;
+  footer(props: { current: number; total: number; onPrev: () => void; onNext: () => void }): any;
 }>();
 
 const { t } = useI18n();
@@ -156,7 +157,7 @@ useEventListener('keydown', handleKeydown);
           <div class="o-tour-skip">
             <slot name="skip"></slot>
           </div>
-          <div v-if="total > 1 || $slots.indicators" class="o-tour-indicators">
+          <div v-if="total > 1 || !isEmptySlot($slots.indicators)" class="o-tour-indicators">
             <slot name="indicators" :current="current" :total="total"> {{ current + 1 }}/{{ total }} </slot>
           </div>
           <div class="o-tour-buttons">

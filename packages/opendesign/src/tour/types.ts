@@ -86,11 +86,11 @@ export const tourProps = {
     default: true,
   },
   /**
-   * @zh-CN 镂空区域圆角，支持 'pill'（胶囊形，圆角为短边的一半）或 '8px'；未设置时默认 4px
-   * @en-US Corner radius of the hollow area, supports 'pill' (capsule, radius is half of the shorter side) or '8px'; defaults to 4px when unset
+   * @zh-CN 镂空区域圆角，支持 'pill'（胶囊形，圆角为短边的一半）或任意 CSS 长度字符串（如 '8px'、'2em'）；未设置时默认 4px
+   * @en-US Corner radius of the hollow area, supports 'pill' (capsule, radius is half of the shorter side) or any CSS length string (e.g. '8px', '2em'); defaults to 4px when unset
    */
   spotlightRadius: {
-    type: String as PropType<'pill' | '8px'>,
+    type: String as PropType<string>,
   },
   wrapper,
   /**

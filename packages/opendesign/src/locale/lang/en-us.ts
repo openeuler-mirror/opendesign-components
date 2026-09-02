@@ -103,4 +103,6 @@ export default {
   'imageViewer.prev': 'Previous',
   'imageViewer.next': 'Next',
   'imageViewer.error': 'Image load failed, click to retry',
+  'imageViewer.dialogLabel': 'Image Preview',
+  'imageViewer.imageAlt': 'Image {0} of {1}',
 } as const;

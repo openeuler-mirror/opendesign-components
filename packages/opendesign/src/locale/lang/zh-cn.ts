@@ -103,4 +103,6 @@ export default {
   'imageViewer.prev': '上一张',
   'imageViewer.next': '下一张',
   'imageViewer.error': '图片加载失败，点击重试',
+  'imageViewer.dialogLabel': '图片预览',
+  'imageViewer.imageAlt': '图片 {0}，共 {1} 张',
 } as const;

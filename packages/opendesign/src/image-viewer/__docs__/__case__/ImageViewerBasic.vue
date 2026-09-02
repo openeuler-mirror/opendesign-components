@@ -9,6 +9,12 @@
 
 通过 `infinite` 属性可开启无限循环切换。通过 `show-progress` 属性可显示图片切换进度指示器。
 
+缩放相关属性：
+
+- `zoom-rate`：控制每次缩放的速率，值越大缩放越快，默认 `1.2`。
+- `show-zoom-ratio`：缩放时短暂显示当前缩放百分比，`duration` 控制提示持续时间（毫秒）。
+- `toolbar` 中的 `rotateLeft` / `rotateRight` 按钮分别逆时针 / 顺时针旋转 90°，旋转时触发 `rotate` 事件。
+
 <!-- en-US -->
 
 ### Basic
@@ -18,6 +24,12 @@ Pass an array of image URLs via `preview-list`. Supports wheel zoom, mouse drag,
 Control visibility via `v-model:visible`. Use `toolbar` to customize which tool buttons are shown and their order. The default includes zoom out, zoom in, reset, rotate left, and rotate right. The close button is provided by OLayer (controlled via `layer-options.buttonClose`).
 
 Use `infinite` to enable infinite loop navigation. Use `show-progress` to display an image switching progress indicator.
+
+Zoom-related props:
+
+- `zoom-rate`: Controls the zoom rate per step. Higher values mean faster zoom. Default `1.2`.
+- `show-zoom-ratio`: Briefly displays the current zoom percentage. `duration` controls how long the hint stays (in milliseconds).
+- `rotateLeft` / `rotateRight` in `toolbar` rotate the image 90° counter-clockwise / clockwise respectively. The `rotate` event fires on rotation.
 </docs>
 
 <script setup lang="ts">

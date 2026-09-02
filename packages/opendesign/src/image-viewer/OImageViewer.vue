@@ -209,31 +209,31 @@ const justDragged = ref(false);
  * 目标为 200%（2 倍原始尺寸），但不超过屏幕可视区域（两边都不超出）。
  * 即 min(2, scaleW, scaleH)，对于大图自动降为适屏 contain 比例。
  * resetTransform 重置、图片切换重置、图片加载初始化均使用此值。
+ * 图片加载前以 maxScale 占位，加载后由 updateFitScale 覆盖为实际计算值。
  */
-const fitScale = ref(initialScale);
+const fitScale = ref<number>(initialScale ?? props.maxScale);
 
 /**
  * contain 缩放比例（整图可见，不超原始尺寸）
  * @description min(1, scaleW, scaleH)，用于 scalable=false 时锁定为 contain 模式，
  * 以及 effectiveMinScale 的动态下界计算。
+ * 图片加载前以 minScale 占位，加载后由 updateFitScale 覆盖为实际计算值。
  */
-const containScale = ref(initialScale);
+const containScale = ref<number>(initialScale ?? props.minScale);
 
 /**
  * 有效最小缩放比例
  * @description 动态扩展用户设定的 minScale：若 containScale 低于 minScale，
  * 以 containScale 为有效下界，确保从适屏位置手动放大时平滑过渡，不跳跃。
- * 图片加载前 containScale 为 undefined，此时回退到 minScale 避免 NaN。
  */
-const effectiveMinScale = computed(() => (containScale.value == null ? props.minScale : Math.min(props.minScale, containScale.value)));
+const effectiveMinScale = computed(() => Math.min(props.minScale, containScale.value));
 
 /**
  * 有效最大缩放比例
  * @description 动态扩展用户设定的 maxScale：若 fitScale 高于 maxScale（极端小图场景），
  * 以 fitScale 为有效上界，确保初始 200% 展示后用户仍可缩放至该比例。
- * 图片加载前 fitScale 为 undefined，此时回退到 maxScale 避免 NaN。
  */
-const effectiveMaxScale = computed(() => (fitScale.value == null ? props.maxScale : Math.max(props.maxScale, fitScale.value)));
+const effectiveMaxScale = computed(() => Math.max(props.maxScale, fitScale.value));
 
 /**
  * 是否禁用缩放交互
@@ -667,7 +667,7 @@ const onToolbarItem = (item: ImageViewerToolbarItem) => {
 };
 
 /**
- * 键盘导航：左右切换图片，上下缩放，Esc 关闭
+ * 键盘导航：左右切换图片，上下或 +/- 缩放，Esc 关闭
  * @param e 键盘事件
  */
 const onKeydown = (e: KeyboardEvent) => {
@@ -676,6 +676,9 @@ const onKeydown = (e: KeyboardEvent) => {
     ArrowRight: next,
     ArrowUp: () => handleActions('zoomIn'),
     ArrowDown: () => handleActions('zoomOut'),
+    '+': () => handleActions('zoomIn'),
+    '=': () => handleActions('zoomIn'),
+    '-': () => handleActions('zoomOut'),
     Escape: () => {
       if (props.closeOnPressEscape) {
         onClose();
@@ -917,9 +920,19 @@ watch(currentIndex, (val) => {
   });
 });
 
-/** visible model 变为 true 时重置 closeGuard */
+/**
+ * visible model 变化时处理
+ * @description 变为 true 时重置 closeGuard，并在 DOM 渲染后将焦点设到根元素，
+ * 确保键盘导航（方向键/ESC/Tab 循环）在浮层打开后立即可用。
+ * onMounted 仅在组件首次挂载时执行，真实场景 visible 初始 false，focus 不触发；
+ * 此 watch 覆盖 visible 从 false→true 的运行时切换场景。
+ */
 watch(visible, (val) => {
-  if (val) closeGuard.value = false;
+  if (!val) return;
+  closeGuard.value = false;
+  if (props.focusTrap && typeof window !== 'undefined') {
+    nextTick(() => requestAnimationFrame(() => rootElRef.value?.focus()));
+  }
 });
 
 /** previewList 缩容时 clamp currentIndex 到有效范围，防止越界 */
@@ -933,19 +946,23 @@ watch(
   },
 );
 
+/**
+ * 外部 scale 经 clamp 后的有效值
+ * @description scale 未绑定（undefined）时返回 undefined，不触发 transform 同步；
+ * 同时依赖 effectiveMinScale / effectiveMaxScale，在适屏边界变化时重新 clamp。
+ */
+const clampedExternalScale = computed(() => (scale.value == null ? undefined : clamp(scale.value, effectiveMinScale.value, effectiveMaxScale.value)));
+
 /** scale model → transform 同步（外部控制缩放），同时响应 maxScale 变化 */
-watch(
-  () => clamp(scale.value, effectiveMinScale.value, effectiveMaxScale.value),
-  (val) => {
-    if (isSyncingScale) return;
-    isSyncingScale = true;
-    transform.value.scale = val;
-    // 延迟重置锁，确保同一 flush 周期内的关联 watcher 被跳过
-    nextTick(() => {
-      isSyncingScale = false;
-    });
-  },
-);
+watch(clampedExternalScale, (val) => {
+  if (val == null || isSyncingScale) return;
+  isSyncingScale = true;
+  transform.value.scale = val;
+  // 延迟重置锁，确保同一 flush 周期内的关联 watcher 被跳过
+  nextTick(() => {
+    isSyncingScale = false;
+  });
+});
 
 /** transform → scale model 同步（用户交互缩放回传） */
 watch(
@@ -1085,6 +1102,9 @@ defineExpose({
     ref="rootRef"
     v-model:visible="visible"
     class="o-image-viewer"
+    role="dialog"
+    aria-modal="true"
+    :aria-label="t('imageViewer.dialogLabel')"
     :tabindex="props.focusTrap ? -1 : undefined"
     main-class="o-image-viewer-body"
     v-bind="{
@@ -1118,7 +1138,7 @@ defineExpose({
               :key="`${currentIndex}-${imgKey}`"
               class="o-image-viewer-img"
               :src="currentUrl"
-              :alt="currentUrl"
+              :alt="t('imageViewer.imageAlt', currentIndex + 1, props.previewList.length)"
               :crossorigin="props.crossorigin || undefined"
               @load="onImgLoaded"
               @error="onImgError"
@@ -1159,11 +1179,15 @@ defineExpose({
 
         <!-- 缩放比例提示 -->
         <Transition name="o-image-zoom-ratio">
-          <div v-show="showZoomRatio" class="o-image-zoom-ratio">{{ zoomRatio }}</div>
+          <div v-show="showZoomRatio" class="o-image-zoom-ratio" :aria-label="zoomRatio">{{ zoomRatio }}</div>
         </Transition>
 
         <!-- 进度指示器 -->
-        <div v-if="props.showProgress || $slots.progress" class="o-image-viewer-progress">
+        <div
+          v-if="props.showProgress || $slots.progress"
+          class="o-image-viewer-progress"
+          :aria-label="t('imageViewer.imageAlt', currentIndex + 1, props.previewList.length)"
+        >
           <slot name="progress" :active-index="currentIndex" :total="props.previewList.length">
             {{ progress }}
           </slot>

@@ -20,15 +20,14 @@ const emits = defineEmits<{
   /**
    * @zh-CN 表单校验完成后触发，返回所有已校验项的结果数组
    * @en-US Triggered after form validation completes, returns the result array of all validated items
-   * @deprecated 请使用 `validateField` 事件监听逐字段校验结果，将在 v2.0.0 移除
    */
   (e: 'validate', results: FieldResultT[]): void;
   /**
-   * @zh-CN 任一表单项校验完成后触发，返回字段名、是否通过、错误消息
-   * @en-US Triggered after any form item is validated, returns field name, validity, and error message
+   * @zh-CN 任一表单项校验完成后触发，返回包含字段名、是否通过、错误消息的对象
+   * @en-US Triggered after any form item is validated, returns an object containing field name, validity, and error message
    * @since NEXT
    */
-  (e: 'validateField', field: string, isValid: boolean, message: string): void;
+  (e: 'validateField', payload: { field: string; isValid: boolean; message: string }): void;
   /**
    * @zh-CN 清除表单校验状态时触发
    * @en-US Triggered when form validation state is cleared
@@ -128,7 +127,7 @@ const scrollToField = async (
  * @description 校验失败时滚动到首个错误项
  * @param fieldResults 字段名与校验结果的对应列表，直接定位错误字段，不依赖过滤后数组下标反查 filedList
  */
-const scrollToFirstError = (fieldResults: { filed?: string; result: FieldResultT }[]) => {
+const scrollToFirstError = (fieldResults: { filed: string | undefined; result: FieldResultT }[]) => {
   const error = fieldResults.find((fr) => fr.result?.type === 'danger');
   if (error?.filed) {
     scrollToField(error.filed);
@@ -136,12 +135,12 @@ const scrollToFirstError = (fieldResults: { filed?: string; result: FieldResultT
 };
 
 /** 单项校验结果与字段名的对应结构 */
-type FieldResultEntry = { filed?: string; result: Exclude<FieldResultT, null> };
+type FieldResultEntry = { filed: string | undefined; result: Exclude<FieldResultT, null> };
 
 /**
  * @description 类型守卫：保留有校验结果的数据（排除 null 与 result 为 null 的通过项）
  */
-const hasResult = (r: unknown): r is FieldResultEntry => r !== null && typeof r === 'object' && (r as { result: unknown }).result !== null;
+const hasResult = (r: { filed: string | undefined; result: FieldResultT } | null): r is FieldResultEntry => r !== null && r.result !== null;
 
 /**
  * @description 处理单项校验结果：派发 validateField 事件并返回带字段名的结果
@@ -152,7 +151,7 @@ const handleItemResult = (item: FiledInfoT, result: FieldResultT) => {
   if (item.filed) {
     const isValid = !result || result.type !== 'danger';
     const message = result?.message?.join('; ') ?? '';
-    emits('validateField', item.filed, isValid, message);
+    emits('validateField', { field: item.filed, isValid, message });
   }
   // 保留字段名与结果的对应关系，供 scrollToFirstError 直接定位错误字段
   return { filed: item.filed, result };
