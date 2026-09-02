@@ -55,7 +55,7 @@ interface UseSelectFilterDeps {
  * @param deps 外部依赖
  * @returns innerInputValue, mergedInputValue, isClearable, displayInputValue, filteredOptions
  */
-export function useSelectFilter(props: UseSelectFilterProps, deps: UseSelectFilterDeps) {
+function UseSelectFilter(props: UseSelectFilterProps, deps: UseSelectFilterDeps) {
   const { isComposing, isSelecting, valueList, optionLabels, resolvedOptions, isOptionGroup, effectiveDisabled, effectiveClearable } = deps;
 
   /** 内部搜索词（非受控） */
@@ -207,3 +207,5 @@ export function useSelectFilter(props: UseSelectFilterProps, deps: UseSelectFilt
     filteredOptions,
   };
 }
+
+export { UseSelectFilter as useSelectFilter };

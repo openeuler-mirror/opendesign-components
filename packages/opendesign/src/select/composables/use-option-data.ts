@@ -37,7 +37,7 @@ interface UseOptionDataDeps {
  * @param deps 外部依赖
  * @returns optionInfoMap, cachedOptionMap, createdOptions, resolvedOptions, optionLabels, isOptionGroup, getOptionKey, getOptionValue, getOptionDisabled, getOptionRaw, getOptionChildren
  */
-export function useOptionData(props: UseOptionDataProps, deps: UseOptionDataDeps) {
+function UseOptionData(props: UseOptionDataProps, deps: UseOptionDataDeps) {
   const { hasDefaultSlot, valueList } = deps;
 
   // ============================================================================
@@ -240,3 +240,5 @@ export function useOptionData(props: UseOptionDataProps, deps: UseOptionDataDeps
     getOptionChildren,
   };
 }
+
+export { UseOptionData as useOptionData };

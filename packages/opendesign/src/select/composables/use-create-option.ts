@@ -57,7 +57,7 @@ interface UseCreateOptionDeps {
  * @param deps 外部依赖
  * @returns createOption, handleTokenSeparators, valueExistsInOptions
  */
-export function useCreateOption(props: UseCreateOptionProps, deps: UseCreateOptionDeps) {
+function UseCreateOption(props: UseCreateOptionProps, deps: UseCreateOptionDeps) {
   const {
     resolvedOptions,
     isOptionGroup,
@@ -172,3 +172,5 @@ export function useCreateOption(props: UseCreateOptionProps, deps: UseCreateOpti
     valueExistsInOptions,
   };
 }
+
+export { UseCreateOption as useCreateOption };

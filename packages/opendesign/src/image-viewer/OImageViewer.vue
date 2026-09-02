@@ -319,8 +319,15 @@ const zoomRatio = computed(() => `${Math.round(transform.value.scale * 100)}%`);
 const SCALE_TOOLBAR_ITEMS = new Set<ImageViewerToolbarItem>(['zoomIn', 'zoomOut', 'reset']);
 const validToolbarItems = new Set<string>(ImageViewerToolbarItemTypes);
 const toolbarItems = computed<ImageViewerToolbarItem[]>(() => {
-  const baseItems =
-    props.toolbar === true ? [...ImageViewerToolbarItemTypes] : Array.isArray(props.toolbar) ? props.toolbar.filter((item) => validToolbarItems.has(item)) : [];
+  // 根据 toolbar prop 类型确定基础工具栏项列表
+  let baseItems: ImageViewerToolbarItem[];
+  if (props.toolbar === true) {
+    baseItems = [...ImageViewerToolbarItemTypes];
+  } else if (Array.isArray(props.toolbar)) {
+    baseItems = props.toolbar.filter((item) => validToolbarItems.has(item));
+  } else {
+    baseItems = [];
+  }
   // scalable 为 false 时过滤缩放相关工具栏项
   if (!props.scalable) {
     return baseItems.filter((item) => !SCALE_TOOLBAR_ITEMS.has(item));

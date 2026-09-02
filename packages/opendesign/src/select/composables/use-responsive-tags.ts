@@ -39,7 +39,7 @@ interface UseResponsiveTagsDeps {
  * @param deps 外部依赖（isSelecting / showTagInput / finalValueList / optionLabels）
  * @returns tagsWrapRef, isResponsiveTag, isMeasuring, valueListDisplay, valueListFold, foldLabel, foldTrigger, calculateResponsiveTags
  */
-export function useResponsiveTags(props: UseResponsiveTagsProps, deps: UseResponsiveTagsDeps) {
+function UseResponsiveTags(props: UseResponsiveTagsProps, deps: UseResponsiveTagsDeps) {
   const { isSelecting, showTagInput, finalValueList, optionLabels } = deps;
 
   /** 是否为响应式折叠模式 */
@@ -191,3 +191,5 @@ export function useResponsiveTags(props: UseResponsiveTagsProps, deps: UseRespon
     calculateResponsiveTags,
   };
 }
+
+export { UseResponsiveTags as useResponsiveTags };

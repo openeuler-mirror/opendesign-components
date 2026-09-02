@@ -116,7 +116,14 @@ const scrollToField = async (
     const parentRect = scrollParent.getBoundingClientRect();
     const elRect = el.getBoundingClientRect();
     const offset = Math.max(0, elRect.top - parentRect.top + scrollParent.scrollTop - (parentRect.height - elRect.height) / 2);
-    scrollParent.scrollTo({ top: offset, behavior: options === undefined ? 'smooth' : typeof options === 'object' ? (options.behavior ?? 'smooth') : 'auto' });
+    // 根据传入 options 解析滚动行为：undefined→smooth，对象→取 behavior 字段，布尔→auto
+    let behavior: 'auto' | 'smooth' | 'instant' = 'smooth';
+    if (typeof options === 'object') {
+      behavior = options.behavior ?? 'smooth';
+    } else if (typeof options === 'boolean') {
+      behavior = 'auto';
+    }
+    scrollParent.scrollTo({ top: offset, behavior });
   } else {
     // 无可滚动父容器时回退到原生 scrollIntoView
     el.scrollIntoView(options === undefined ? { behavior: 'smooth', block: 'center' } : options);
