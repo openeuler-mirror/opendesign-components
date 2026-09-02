@@ -26,6 +26,39 @@ export function createMouseEvent(type: string, pageX: number, pageY: number, ini
 }
 
 /**
+ * 构造携带 clientX/clientY 的模拟 Touch 事件。
+ * @description Playwright Chromium 环境下 TouchEvent 构造函数可能不可用或
+ * TouchList 无法直接构造，通过 Event + Object.defineProperty 模拟。
+ * 组件代码仅访问 touches[0].clientX/clientY 和 touches.length，
+ * 不依赖 TouchList 原型方法，因此该模拟可满足测试需求。
+ * @param type 事件类型（'touchstart' | 'touchmove' | 'touchend'）
+ * @param coords 触摸点坐标列表
+ * @returns 模拟的 Touch 事件
+ */
+export function createTouchEvent(type: string, coords: Array<{ clientX: number; clientY: number }>): Event {
+  const event = new Event(type, { bubbles: true, cancelable: true });
+  const touches = coords.map((c, i) => ({
+    identifier: i,
+    target: event.target ?? document.body,
+    clientX: c.clientX,
+    clientY: c.clientY,
+    pageX: c.clientX,
+    pageY: c.clientY,
+    radiusX: 1,
+    radiusY: 1,
+    rotationAngle: 0,
+    force: 1,
+  }));
+  // touchend 时 touches 应为空，changedTouches 保留最后位置
+  const touchList = type === 'touchend' ? [] : touches;
+  const changedList = touches;
+  Object.defineProperty(event, 'touches', { value: touchList, writable: false });
+  Object.defineProperty(event, 'changedTouches', { value: changedList, writable: false });
+  Object.defineProperty(event, 'targetTouches', { value: touchList, writable: false });
+  return event;
+}
+
+/**
  * 解析 CSS 自定义属性（token 链变量）的实际 px 值。
  * 用于响应式测试中 token 链变量跨断点变化断言，不硬比对绝对 px。
  */

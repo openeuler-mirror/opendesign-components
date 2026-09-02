@@ -9,16 +9,21 @@
  *   5. 缩放边界 - minScale / maxScale
  *   6. scale prop 外部控制
  *   7. duration prop - 缩放比例提示持续
+ *   8. 触摸滑动切图 - 左右滑切图、缩放后边缘检测切图
  */
 import { test, expect, describe, vi } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { defineComponent, h, ref } from 'vue';
 import OImageViewer from '../OImageViewer.vue';
-import { flush, createMouseEvent } from '../../../__tests__/_helpers/dom';
+import { flush, createMouseEvent, createTouchEvent } from '../../../__tests__/_helpers/dom';
 
 /** 1x1 透明 PNG data URL，浏览器中同步加载成功，不触发 error 状态 */
 const DATA_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 const DATA_IMG_B = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
+/** 200×200 蓝色 PNG data URL，尺寸远大于测试视口 → fitScale < 1 → canDrag=false */
+const LARGE_IMG =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAAAAA6JQ8AAAAAQklEQVR42u3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8OQ1UAAP+0ADMIAAAAAElFTkSuQmCC';
 
 /** 获取根元素 */
 async function getRoot(screen: ReturnType<typeof render>) {
@@ -462,5 +467,111 @@ describe('exposed 方法（间接验证）', () => {
     nextBtn.click();
     await flush();
     expect(onSwitch).toHaveBeenCalledWith(1);
+  });
+});
+
+// ─── 触摸滑动切图（缺陷 1 + 缺陷 2 修复验证） ───
+
+/**
+ * 模拟单指触摸滑动序列：touchstart → touchmove → touchend。
+ * @param container 图片容器元素
+ * @param startX 起始 X 坐标
+ * @param endX 结束 X 坐标
+ * @param startY 起始 Y 坐标（默认与结束相同，纯水平滑动）
+ * @param endY 结束 Y 坐标
+ */
+async function simulateSwipe(container: HTMLElement, startX: number, endX: number, startY = 200, endY = 200) {
+  container.dispatchEvent(createTouchEvent('touchstart', [{ clientX: startX, clientY: startY }]));
+  await flush();
+  // 分多步 touchmove，模拟真实滑动（useSwipe 需 touchmove 更新 coordsEnd）
+  const steps = 5;
+  for (let i = 1; i <= steps; i++) {
+    const x = startX + ((endX - startX) * i) / steps;
+    const y = startY + ((endY - startY) * i) / steps;
+    container.dispatchEvent(createTouchEvent('touchmove', [{ clientX: x, clientY: y }]));
+    await flush();
+  }
+  container.dispatchEvent(createTouchEvent('touchend', [{ clientX: endX, clientY: endY }]));
+  await flush();
+}
+
+describe('触摸滑动切图（未缩放）', () => {
+  // 缺陷 1：右滑切图失效。未缩放状态下 useSwipe 应正确检测左右方向。
+  // 使用大图 data URL 确保 fitScale ≤ 1（canDrag=false），排除缺陷 2 的干扰。
+
+  test('未缩放左滑切换到下一张', async () => {
+    const onSwitch = vi.fn();
+    const screen = render(OImageViewer, {
+      props: { previewList: [LARGE_IMG, DATA_IMG_B] },
+      attrs: { onSwitch },
+    });
+    await ensureLoaded(screen);
+    const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
+    // 左滑：手指从右向左移动 120px
+    await simulateSwipe(container, 300, 180);
+    expect(onSwitch).toHaveBeenCalledWith(1);
+  });
+
+  test('未缩放右滑切换到上一张', async () => {
+    const onSwitch = vi.fn();
+    const screen = render(OImageViewer, {
+      props: { previewList: [LARGE_IMG, DATA_IMG_B], currentIndex: 1 },
+      attrs: { onSwitch },
+    });
+    await ensureLoaded(screen);
+    const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
+    // 右滑：手指从左向右移动 120px
+    await simulateSwipe(container, 180, 300);
+    expect(onSwitch).toHaveBeenCalledWith(0);
+  });
+});
+
+describe('缩放后边缘检测切图（缺陷 2）', () => {
+  // 缺陷 2：缩放后到达边缘继续同方向滑动应触发切图。
+  // 使用 1×1 小图 → fitScale=2（200%），canDrag=true。
+  // 需要在 onTouchStart 时模拟图片已在边缘（offset 已达 maxPan）。
+
+  test('缩放后在左边缘继续左滑切换到下一张', async () => {
+    const onSwitch = vi.fn();
+    const screen = render(OImageViewer, {
+      props: { previewList: [DATA_IMG, DATA_IMG_B], scale: 3 },
+      attrs: { onSwitch },
+    });
+    await ensureLoaded(screen);
+    const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
+    // scale=3 的 1×1 图片，渲染尺寸 3×3，容器远大于此 → maxPan=0
+    // 图片始终在"边缘"（maxPan=0），任何水平滑动都应触发切图
+    await simulateSwipe(container, 300, 180);
+    expect(onSwitch).toHaveBeenCalledWith(1);
+  });
+
+  test('缩放后在右边缘继续右滑切换到上一张', async () => {
+    const onSwitch = vi.fn();
+    const screen = render(OImageViewer, {
+      props: { previewList: [DATA_IMG, DATA_IMG_B], currentIndex: 1, scale: 3 },
+      attrs: { onSwitch },
+    });
+    await ensureLoaded(screen);
+    const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
+    await simulateSwipe(container, 180, 300);
+    expect(onSwitch).toHaveBeenCalledWith(0);
+  });
+
+  test('缩放后短距离滑动不触发切图（平移）', async () => {
+    // 1×1 图片 scale=3，maxPan=0，任何滑动都超出边界 → 会切图
+    // 此用例验证：当 maxPan > 0（图片大于容器）时，在边界内的短滑动不切图
+    // 使用大图 + 高 scale 确保 maxPan > 0
+    const onSwitch = vi.fn();
+    const screen = render(OImageViewer, {
+      props: { previewList: [LARGE_IMG, DATA_IMG_B], scale: 10 },
+      attrs: { onSwitch },
+    });
+    await ensureLoaded(screen);
+    const container = screen.container.querySelector('.o-image-viewer-container') as HTMLElement;
+    // 200×200 × scale=10 = 2000×2000 渲染尺寸，容器约 1920×1080
+    // maxPan ≈ (2000-1920)/2 = 40px，短距离滑动（10px）在范围内
+    await simulateSwipe(container, 200, 210);
+    // 未到达边缘，不应切图
+    expect(onSwitch).not.toHaveBeenCalled();
   });
 });
