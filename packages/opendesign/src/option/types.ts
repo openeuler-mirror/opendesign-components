@@ -39,7 +39,7 @@ export const optionProps = {
    * @en-US Raw option data (forwarded by OSelect in data-driven mode)
    * @description 携带 options prop 中的所有自定义字段（如 icon、iconColor 等），
    * 供 renderLabel / #option-label 访问；插槽模式下不传，OOption 内部从 label/value/disabled 重建
-   * @since NEXT
+   * @since 1.2.7
    */
   raw: {
     type: Object as PropType<Record<string, unknown>>,

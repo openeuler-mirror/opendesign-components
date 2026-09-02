@@ -15,7 +15,7 @@ export type SelectValueT = string | number | string[] | number[] | (string | num
 
 /**
  * options prop 数据驱动模式的选项数据
- * @since NEXT
+ * @since 1.2.7
  */
 export interface SelectOptionData {
   label: string;
@@ -26,7 +26,7 @@ export interface SelectOptionData {
 
 /**
  * options prop 数据驱动模式的分组数据
- * @since NEXT
+ * @since 1.2.7
  */
 export interface SelectOptionGroupData {
   type: 'group';
@@ -37,13 +37,13 @@ export interface SelectOptionGroupData {
 
 /**
  * options prop 接受的混合类型（扁平选项或分组）
- * @since NEXT
+ * @since 1.2.7
  */
 export type SelectMixedOption = SelectOptionData | SelectOptionGroupData;
 
 /**
  * fieldNames 字段名定制接口
- * @since NEXT
+ * @since 1.2.7
  */
 export interface SelectFieldNames {
   value?: string;
@@ -56,7 +56,7 @@ export interface SelectFieldNames {
 /**
  * 虚拟滚动模式下的扁平化列表项
  * @description 将分组选项展平为统一结构，供 OVirtualList 渲染
- * @since NEXT
+ * @since 1.2.7
  */
 export interface SelectVirtualItem {
   /** 虚拟列表项唯一标识，用于 OVirtualList 不定高模式下的稳定定位 */
@@ -285,7 +285,7 @@ export const selectProps = {
   /**
    * @zh-CN 数据驱动模式的选项数据数组，支持扁平选项与 `{ type: 'group', children }` 分组结构
    * @en-US Option data array for data-driven mode, supports flat options and `{ type: 'group', children }` group structure
-   * @since NEXT
+   * @since 1.2.7
    */
   options: {
     type: Array as PropType<SelectMixedOption[]>,
@@ -294,7 +294,7 @@ export const selectProps = {
   /**
    * @zh-CN 自定义选项数据字段名，仅在 options 模式下生效，插槽模式不介入
    * @en-US Custom field names for option data, only effective in options mode, not in slot mode
-   * @since NEXT
+   * @since 1.2.7
    */
   fieldNames: {
     type: Object as PropType<SelectFieldNames>,
@@ -303,7 +303,7 @@ export const selectProps = {
   /**
    * @zh-CN 开启搜索/过滤能力，开启后 input 可编辑。多选有 tag 时，主输入框（`.o-select-input`）不渲染，改为在 tag 区域内联渲染搜索 input（`.o-select-input--tag`），两者互斥，请勿依赖固定的 input DOM 位置。移动端（响应式模式，屏幕宽度 ≤ 840px）不渲染搜索 input，此 prop 不生效
    * @en-US Enable search/filter capability, input becomes editable when enabled. In multiple mode with tags, the main input (`.o-select-input`) is not rendered; instead an inline search input (`.o-select-input--tag`) is rendered inside the tag area — the two are mutually exclusive, do not rely on a fixed input DOM position. On mobile (responsive mode, screen width ≤ 840px), the search input is not rendered and this prop has no effect
-   * @since NEXT
+   * @since 1.2.7
    */
   filterable: {
     type: Boolean,
@@ -312,7 +312,7 @@ export const selectProps = {
   /**
    * @zh-CN 过滤函数，true 为内置默认过滤（label 包含匹配，不区分大小写），false 为不过滤（远程搜索），也可传入自定义函数
    * @en-US Filter function, true for built-in default filter (label includes match, case-insensitive), false for no filter (remote search), or custom function
-   * @since NEXT
+   * @since 1.2.7
    */
   filterOption: {
     type: [Boolean, Function] as PropType<boolean | ((inputValue: string, option: SelectOptionData) => boolean)>,
@@ -321,7 +321,7 @@ export const selectProps = {
   /**
    * @zh-CN 完全自定义过滤方法，优先级高于 filterOption
    * @en-US Fully custom filter method, takes precedence over filterOption
-   * @since NEXT
+   * @since 1.2.7
    */
   filterMethod: {
     type: Function as PropType<(query: string) => void>,
@@ -330,7 +330,7 @@ export const selectProps = {
   /**
    * @zh-CN 受控搜索词，配合 update:inputValue 事件使用
    * @en-US Controlled search query, used with update:inputValue event
-   * @since NEXT
+   * @since 1.2.7
    */
   inputValue: {
     type: String,
@@ -339,7 +339,7 @@ export const selectProps = {
   /**
    * @zh-CN 关闭下拉时是否保留搜索词，默认 false 清空
    * @en-US Whether to retain search query when closing dropdown, default false to clear
-   * @since NEXT
+   * @since 1.2.7
    */
   retainInputValue: {
     type: Boolean,
@@ -348,7 +348,7 @@ export const selectProps = {
   /**
    * @zh-CN 开启创建新选项能力，输入不存在的值时下拉首项显示「创建 xxx」。移动端（响应式模式，屏幕宽度 ≤ 840px）不支持创建选项，此 prop 不生效
    * @en-US Enable create new option, shows "Create xxx" as first item when input value doesn't exist. Not supported on mobile (responsive mode, screen width ≤ 840px), this prop has no effect
-   * @since NEXT
+   * @since 1.2.7
    */
   allowCreate: {
     type: Boolean,
@@ -357,7 +357,7 @@ export const selectProps = {
   /**
    * @zh-CN 创建项的显示文案生成函数，不传时走 i18n 默认文案
    * @en-US Label generator for create option, uses i18n default when not provided
-   * @since NEXT
+   * @since 1.2.7
    */
   createLabel: {
     type: Function as PropType<(input: string) => string>,
@@ -366,7 +366,7 @@ export const selectProps = {
   /**
    * @zh-CN 多选模式下自动开启 tags 创建行为（默认 false 不自动开启）。移动端（响应式模式，屏幕宽度 ≤ 840px）不支持
    * @en-US Auto-enable tags creation in multiple mode (default false). Not supported on mobile (responsive mode, screen width ≤ 840px)
-   * @since NEXT
+   * @since 1.2.7
    */
   autoTagInMultiple: {
     type: Boolean,
@@ -375,7 +375,7 @@ export const selectProps = {
   /**
    * @zh-CN 开启虚拟滚动，大数据量时只渲染可见项
    * @en-US Enable virtual scrolling, only render visible items for large data
-   * @since NEXT
+   * @since 1.2.7
    */
   virtual: {
     type: Boolean,
@@ -384,7 +384,7 @@ export const selectProps = {
   /**
    * @zh-CN 虚拟列表配置项，透传到 OVirtualList（如 itemSize、buffer 等）
    * @en-US Virtual list props, forwarded to OVirtualList (e.g. itemSize, buffer)
-   * @since NEXT
+   * @since 1.2.7
    */
   virtualListProps: {
     type: Object as PropType<Partial<typeof virtualListProps>>,
@@ -393,7 +393,7 @@ export const selectProps = {
   /**
    * @zh-CN 多选数量上限，0 表示无限制，达到上限后未选项变 disabled
    * @en-US Multiple selection limit, 0 means unlimited, unselected options become disabled when limit is reached
-   * @since NEXT
+   * @since 1.2.7
    */
   limit: {
     type: Number,
@@ -402,7 +402,7 @@ export const selectProps = {
   /**
    * @zh-CN 值不在选项列表时的兜底显示，false 不显示，函数返回完整 option 对象
    * @en-US Fallback display when value not in options, false to not show, function returns full option object
-   * @since NEXT
+   * @since 1.2.7
    */
   fallbackOption: {
     type: [Boolean, Function] as PropType<false | ((value: string | number) => SelectOptionData)>,
@@ -411,7 +411,7 @@ export const selectProps = {
   /**
    * @zh-CN 搜索结果排序函数，仅在搜索结果非空时生效
    * @en-US Sort function for search results, only effective when results are non-empty
-   * @since NEXT
+   * @since 1.2.7
    */
   filterSort: {
     type: Function as PropType<(optionA: SelectOptionData, optionB: SelectOptionData) => number>,
@@ -420,7 +420,7 @@ export const selectProps = {
   /**
    * @zh-CN 分词符数组，输入或粘贴含分隔符时拆分为多个值，仅 multiple + allowCreate 模式生效。移动端（响应式模式，屏幕宽度 ≤ 840px）不支持
    * @en-US Token separators array, split input/paste into multiple values, only in multiple + allowCreate mode. Not supported on mobile (responsive mode, screen width ≤ 840px)
-   * @since NEXT
+   * @since 1.2.7
    */
   tokenSeparators: {
     type: Array as PropType<string[]>,
@@ -429,7 +429,7 @@ export const selectProps = {
   /**
    * @zh-CN 自定义选项 label 渲染函数，与 `#option-label` 插槽同时存在时插槽优先
    * @en-US Custom option label render function, `#option-label` slot takes precedence when both exist
-   * @since NEXT
+   * @since 1.2.7
    */
   renderLabel: {
     type: Function as PropType<(option: SelectOptionData, selected: boolean) => VNodeChild>,
@@ -438,7 +438,7 @@ export const selectProps = {
   /**
    * @zh-CN 自定义多选 tag 渲染函数
    * @en-US Custom tag render function for multiple mode
-   * @since NEXT
+   * @since 1.2.7
    */
   renderTag: {
     type: Function as PropType<(option: SelectOptionData, onClose: () => void) => VNodeChild>,
@@ -447,7 +447,7 @@ export const selectProps = {
   /**
    * @zh-CN 表单字段名，透传到隐藏 input/select 供表单提交
    * @en-US Form field name, forwarded to hidden input/select for form submission
-   * @since NEXT
+   * @since 1.2.7
    */
   name: {
     type: String,
@@ -456,7 +456,7 @@ export const selectProps = {
   /**
    * @zh-CN Schema.org itemprop 属性，透传到隐藏 input/select 供结构化数据
    * @en-US Schema.org itemprop attribute, forwarded to hidden input/select for structured data
-   * @since NEXT
+   * @since 1.2.7
    */
   itemprop: {
     type: String,

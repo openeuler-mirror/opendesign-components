@@ -70,7 +70,7 @@ const sharedProps = {
   /**
    * @zh-CN 是否禁用表单内所有控件
    * @en-US Whether to disable all controls within the form
-   * @since NEXT
+   * @since 1.2.7
    */
   disabled: {
     type: Boolean as PropType<boolean | undefined>,
@@ -79,7 +79,7 @@ const sharedProps = {
   /**
    * @zh-CN 表单内控件尺寸
    * @en-US Control size within the form
-   * @since NEXT
+   * @since 1.2.7
    */
   size: {
     type: String as PropType<SizeT>,
@@ -87,7 +87,7 @@ const sharedProps = {
   /**
    * @zh-CN 表单内控件圆角模式
    * @en-US Control round mode within the form
-   * @since NEXT
+   * @since 1.2.7
    */
   round: {
     type: String as PropType<RoundT>,
@@ -95,7 +95,7 @@ const sharedProps = {
   /**
    * @zh-CN 表单内控件是否可清空
    * @en-US Whether form controls are clearable
-   * @since NEXT
+   * @since 1.2.7
    */
   clearable: {
     type: Boolean as PropType<boolean | undefined>,
@@ -114,7 +114,7 @@ export const formProps = {
   /**
    * @zh-CN 表单验证规则（全局），按字段名匹配 FormItem
    * @en-US Form validation rules (global), matched to FormItem by field name
-   * @since NEXT
+   * @since 1.2.7
    */
   rules: {
     type: Object as PropType<FormRulesT>,
@@ -132,7 +132,7 @@ export const formProps = {
    * @zh-CN 是否仅展示必填星号而不触发默认 required 校验，适用于自定义校验逻辑的场景
    * @en-US Whether to only show the required asterisk without triggering default required validation, suitable for custom validation scenarios
    * @default false
-   * @since NEXT
+   * @since 1.2.7
    */
   requiredIcon: {
     type: Boolean,
@@ -152,7 +152,7 @@ export const formProps = {
    * @zh-CN 表单项文本宽度（全局），支持 `'auto'` 自动计算最宽标签
    * @en-US The width of form item labels (global), supports `'auto'` for auto-calculating the widest label
    * @default 'auto'
-   * @since NEXT
+   * @since 1.2.7
    */
   labelWidth: {
     type: String,
@@ -163,7 +163,7 @@ export const formProps = {
    * @zh-CN 是否显示校验错误消息
    * @en-US Whether to show validation error messages
    * @default true
-   * @since NEXT
+   * @since 1.2.7
    */
   showMessage: {
     type: Boolean,
@@ -173,7 +173,7 @@ export const formProps = {
    * @zh-CN 规则变更时是否自动触发校验
    * @en-US Whether to trigger validation automatically when rules change
    * @default true
-   * @since NEXT
+   * @since 1.2.7
    */
   validateOnRuleChange: {
     type: Boolean,
@@ -182,7 +182,7 @@ export const formProps = {
   /**
    * @zh-CN 校验失败时是否滚动到首个错误项
    * @en-US Whether to scroll to the first error item when validation fails
-   * @since NEXT
+   * @since 1.2.7
    */
   scrollToError: {
     type: Boolean,
@@ -212,7 +212,7 @@ export const formItemProps = {
   /**
    * @zh-CN 是否仅展示必填星号而不触发默认 required 校验，未设置时继承 Form 的 requiredIcon
    * @en-US Whether to only show the required asterisk without triggering default required validation, inherits Form's requiredIcon when unset
-   * @since NEXT
+   * @since 1.2.7
    */
   requiredIcon: {
     type: Boolean as PropType<boolean | undefined>,
@@ -229,7 +229,7 @@ export const formItemProps = {
   /**
    * @zh-CN 表单项文本宽度，支持 `'auto'`
    * @en-US The width of form item labels, supports `'auto'`
-   * @since NEXT
+   * @since 1.2.7
    */
   labelWidth: {
     type: String,
@@ -251,7 +251,7 @@ export const formItemProps = {
   /**
    * @zh-CN 手动设置校验错误信息，设置后立即显示错误状态
    * @en-US Manually set validation error message, shown immediately
-   * @since NEXT
+   * @since 1.2.7
    */
   error: {
     type: String,
@@ -259,7 +259,7 @@ export const formItemProps = {
   /**
    * @zh-CN 手动设置校验状态
    * @en-US Manually set validation status
-   * @since NEXT
+   * @since 1.2.7
    */
   validateStatus: {
     type: String as PropType<ValidateStatusT>,
@@ -267,7 +267,7 @@ export const formItemProps = {
   /**
    * @zh-CN 是否显示校验消息，未设置时继承 Form 的 showMessage
    * @en-US Whether to show validation message, inherits Form's showMessage when unset
-   * @since NEXT
+   * @since 1.2.7
    */
   showMessage: {
     type: Boolean as PropType<boolean | undefined>,

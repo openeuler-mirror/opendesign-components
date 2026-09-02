@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 数据驱动选项 ^[NEXT](primary)
+### 数据驱动选项 ^[1.2.7](primary)
 
 通过 `options` prop 传入选项数据，无需使用 `OOption` 插槽。支持扁平选项与 `{ type: 'group', children }` 分组结构。
 
@@ -9,7 +9,7 @@
 
   <!-- en-US -->
 
-### Data-driven Options ^[NEXT](primary)
+### Data-driven Options ^[1.2.7](primary)
 
 Pass option data via the `options` prop without using `OOption` slots. Supports flat options and `{ type: 'group', children }` group structure.
 

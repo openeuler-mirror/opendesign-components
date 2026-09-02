@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 插槽自定义渲染 ^[NEXT](primary)
+### 插槽自定义渲染 ^[1.2.7](primary)
 
 `#option-label` 插槽是 `renderLabel` prop 的插槽等价物，用于自定义下拉选项和输入框中选中值的 label 渲染。插槽与 prop 同时存在时**插槽优先**。
 
@@ -9,7 +9,7 @@
 
   <!-- en-US -->
 
-### Slot-based Custom Rendering ^[NEXT](primary)
+### Slot-based Custom Rendering ^[1.2.7](primary)
 
 The `#option-label` slot is the slot equivalent of the `renderLabel` prop, used to customize the label rendering of dropdown options and the selected value in the input box. When both exist, the **slot takes precedence**.
 

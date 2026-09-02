@@ -1,13 +1,13 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 自定义选项渲染 ^[NEXT](primary)
+### 自定义选项渲染 ^[1.2.7](primary)
 
 通过 `renderLabel` 渲染函数自定义下拉选项的 label 内容（如「图标 + 文字」），`label` 字段保持纯字符串用于过滤匹配、input 显示与无障碍读屏。`renderTag` 可自定义多选 tag 渲染——以选项图标颜色作色条、携带选项图标，与默认 tag 形成明显区分；`onClose` 回调由组件注入，调用后移除对应 tag。
 
   <!-- en-US -->
 
-### Custom Option Rendering ^[NEXT](primary)
+### Custom Option Rendering ^[1.2.7](primary)
 
 Use `renderLabel` render function to customize dropdown option label content (e.g. "icon + text"). The `label` field stays as plain string for filtering, input display, and accessibility. `renderTag` customizes multiple selection tags — color-coded by option with a colored left border and icon, clearly distinct from the default tag. The `onClose` callback is injected by the component to remove the tag.
 </docs>

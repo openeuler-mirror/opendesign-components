@@ -54,55 +54,55 @@ const emits = defineEmits<{
   /**
    * @zh-CN 搜索词变化时触发（filterable=true 时）
    * @en-US Triggered when search query changes (when filterable=true)
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'update:inputValue', value: string): void;
   /**
    * @zh-CN 搜索时触发（filterable=true 时）
    * @en-US Triggered on search (when filterable=true)
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'search', value: string): void;
   /**
    * @zh-CN 创建新选项时触发（allowCreate=true 时点击创建项）
    * @en-US Triggered when creating a new option (clicking create option when allowCreate=true)
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'create', value: string): void;
   /**
    * @zh-CN 多选超过 limit 上限时触发，参数为被尝试选中的值
    * @en-US Triggered when multiple selection exceeds limit, parameter is the attempted value
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'exceed-limit', value: string | number): void;
   /**
    * @zh-CN 多选删除 tag 时触发，参数为被删除的值
    * @en-US Triggered when removing a tag in multiple mode, parameter is the removed value
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'remove-tag', value: string | number): void;
   /**
    * @zh-CN input 聚焦时触发，参数为原生 FocusEvent
    * @en-US Triggered when input is focused, parameter is native FocusEvent
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'focus', evt: FocusEvent): void;
   /**
    * @zh-CN input 失焦时触发，参数为原生 FocusEvent
    * @en-US Triggered when input is blurred, parameter is native FocusEvent
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'blur', evt: FocusEvent): void;
   /**
    * @zh-CN 选项列表滚动时触发，参数为原生 Event
    * @en-US Triggered when option list scrolls, parameter is native Event
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'scroll', evt: Event): void;
   /**
    * @zh-CN 选项列表滚动到底部时触发
    * @en-US Triggered when option list scrolls to bottom
-   * @since NEXT
+   * @since 1.2.7
    */
   (e: 'scroll-to-bottom', evt: Event): void;
 }>();
@@ -127,13 +127,13 @@ const slots = defineSlots<{
   /**
    * 分组标题插槽，自定义分组标题渲染
    * @description item 在非虚拟模式为 SelectOptionGroupData，在虚拟模式为 SelectVirtualItem
-   * @since NEXT
+   * @since 1.2.7
    */
   'group-label'(props: { item: SelectOptionGroupData | SelectVirtualItem }): any;
   /**
    * 自定义选项 label 插槽，与 renderLabel prop 同时存在时插槽优先
    * @description 用于自定义下拉选项和输入框中选中值的 label 渲染，保留 OOption 的点击/选中/无障碍能力
-   * @since NEXT
+   * @since 1.2.7
    */
   'option-label'?(props: { option: SelectOptionData; selected: boolean }): any;
 }>();
@@ -939,25 +939,25 @@ defineExpose({
   /**
    * @zh-CN 虚拟列表实例引用，可调用 scrollToView 等方法
    * @en-US Virtual list instance ref, can call scrollToView etc.
-   * @since NEXT
+   * @since 1.2.7
    */
   virtualListRef,
   /**
    * @zh-CN 编程式聚焦内部 input 元素
    * @en-US Programmatically focus the internal input element
-   * @since NEXT
+   * @since 1.2.7
    */
   focus,
   /**
    * @zh-CN 编程式移除内部 input 元素焦点
    * @en-US Programmatically blur the internal input element
-   * @since NEXT
+   * @since 1.2.7
    */
   blur,
   /**
    * @zh-CN 编程式滚动到指定选项
    * @en-US Programmatically scroll to a specific option
-   * @since NEXT
+   * @since 1.2.7
    */
   scrollTo,
 });

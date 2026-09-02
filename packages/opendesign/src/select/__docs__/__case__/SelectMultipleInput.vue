@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 多选 Tag 状态下的搜索与创建 ^[NEXT](primary)
+### 多选 Tag 状态下的搜索与创建 ^[1.2.7](primary)
 
 当 `multiple=true` 且已有选中项（渲染了 tag）时，展开下拉后会在 `filterable=true` 或 `allowCreate=true` 时出现内联搜索 input，支持搜索过滤与创建新值；两者均关闭时不渲染 input，避免无意义换行。
 
@@ -12,7 +12,7 @@
 
   <!-- en-US -->
 
-### Search & Create in Multiple Tag Mode ^[NEXT](primary)
+### Search & Create in Multiple Tag Mode ^[1.2.7](primary)
 
 When `multiple=true` and selected items exist (tags rendered), an inline search input appears on dropdown open, supporting search filtering and new value creation.
 

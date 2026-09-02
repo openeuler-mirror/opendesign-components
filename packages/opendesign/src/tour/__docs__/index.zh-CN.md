@@ -1,5 +1,5 @@
 ---
-sidebar: OTour 漫游引导 ^[NEXT](primary)
+sidebar: OTour 漫游引导 ^[1.2.7](primary)
 kind: nav
 ---
 

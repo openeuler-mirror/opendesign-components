@@ -1,3 +1,49 @@
+## 1.2.7
+
+### Features
+
+- **OTour:** 新增漫游引导组件，支持遮罩高亮聚焦、自定义指示器插槽与分步引导配置
+- **OImageViewer:** 新增图片查看器组件，支持缩放与自动适屏、无限循环切图、无障碍增强与移动端手势切图
+- **OPopup:** 新增 `targetRect` 属性，支持无实际 DOM 时的定位计算
+- **OSelect:** 能力增强
+  - 数据驱动：新增 `options`/`fieldNames`，支持扁平与分组选项结构
+  - 搜索过滤：`filterable`、自定义过滤/排序、远程搜索与输入值保留
+  - 虚拟滚动：`virtual` 基于 OVirtualList 渲染大数据量选项
+  - 创建选项：`allowCreate` 输入不存在值时快速创建，支持 `tokenSeparators` 分词输入
+  - 多选增强：`limit` 数量上限（超限触发 `exceed-limit`）、标签随容器宽度响应式折叠、`renderTag` 自定义标签、`change` 事件新增选中项第二参数
+  - 自定义渲染：`renderLabel`/`renderTag` 与 `#group-label`/`#option-label` 插槽
+  - 无障碍与移动端：listbox role 与 aria 属性、移动端交互适配
+  - 表单兜底：`fallbackOption` 值不在选项列表时的显示兜底；暴露 `focus`/`blur`/`scrollTo` 方法
+- **OForm:** 表单容器统一管控与校验增强
+  - 属性继承：新增 `disabled`/`size`/`round`/`clearable` 表单级属性，经 `useFormField` 下发给全部表单控件（控件自身设置优先）——表单容器一处声明即可统一管控整表控件状态，无需逐控件配置
+  - 校验增强：新增 `rules` 全局校验规则与 `requiredIcon` 仅星号模式；新增 `validateField` 事件（载荷 `{ field, isValid, message }`），原 `validate` 事件废弃，将在 v2.0.0 移除
+  - 方法扩展：暴露 `scrollToField` 滚动定位指定字段，校验失败自动滚动至首个错误项
+  - 布局：`labelWidth` 支持 `'auto'` 自动测量标签最大宽度对齐
+- **OFigure:** 预览层从 OLayer 切换至 OImageViewer
+- **OLayer:** 暴露 `rootEl`/`mainEl` 引用
+- **hooks:** 新增 `useRenderWithCtx`：在非 setup 作用域挂载组件时继承 appContext 与 inject 链
+- 新增 `o-sr-only` 全局工具类，用于无障碍屏幕阅读器隐藏
+
+### Bug Fixes
+
+- **OAnchor:** 修复滚动到底部无法选中最后一项：接近底部时剩余可滚动距离不足一屏，末个锚点可能永远无法进入固定阈值范围，现按滚动进度动态上调阈值确保底部锚点可被选中
+- **OPopover:** 修复 z-index 层级导致遮挡的问题
+- **OLayer:**
+  - 修复弹窗嵌套导致滚动穿透的问题
+  - 修正 `transitionOrign` 拼写为 `transitionOrigin`，旧名保留兼容并输出废弃警告
+- **OVirtualList/OOption:** 使用 `OScrollbar` 替代 `v-scrollbar` 以提供响应性
+- **OScrollbar:** 修复 SSR 兼容性与资源泄漏，透传插槽作用域参数
+- **OLink:** 调整 RouterLink 解析时机，避免无 vue-router 环境下的 Vue resolve 警告
+- **OFigure:** 修复 preset-color 水合报错
+- **OSwitch:** 修复背景底上文字的颜色
+- **OAvatar:** 修复 SSR 水合不一致问题
+- **ODataTable:** 优化树型表格里面的缩进
+
+### Style
+
+- **ODialog:** 弹窗宽度由百分比改为栅格列计算，重构响应式宽度策略
+- **OLayer:** 关闭按钮新增响应式样式适配
+
 ## 1.2.6
 
 ### Features

@@ -1,7 +1,7 @@
 <docs lang="md">
   <!-- zh-CN -->
 
-### 可搜索选择器 ^[NEXT](primary)
+### 可搜索选择器 ^[1.2.7](primary)
 
 通过 `filterable` 开启搜索过滤能力，input 变为可编辑状态。
 
@@ -18,7 +18,7 @@
 
   <!-- en-US -->
 
-### Filterable Selector ^[NEXT](primary)
+### Filterable Selector ^[1.2.7](primary)
 
 Enable search/filter capability via `filterable`, the input becomes editable.
 

@@ -11,19 +11,19 @@ export const selectOptionInjectKey: InjectionKey<{
   registerOption: (option: SelectOptionT) => void;
   /**
    * 选项卸载时从 optionInfoMap 清理，保留 cachedOptionMap
-   * @since NEXT
+   * @since 1.2.7
    */
   unregisterOption?: (option: SelectOptionT) => void;
   selectValue: Ref<Array<string | number>>;
   multiple: MaybeRefOrGetter<boolean>;
   /**
    * 多选已达上限（limit > 0 && 已选数 >= limit），用于禁用未选项
-   * @since NEXT
+   * @since 1.2.7
    */
   limitReached?: ComputedRef<boolean>;
   /**
    * renderLabel 函数，用于 OOption 内部 fallback 渲染
-   * @since NEXT
+   * @since 1.2.7
    */
   renderLabelFn?: ComputedRef<((option: SelectOptionData, selected: boolean) => VNodeChild) | undefined>;
 }> = Symbol('provide-select-option');
