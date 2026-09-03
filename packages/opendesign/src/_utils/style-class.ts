@@ -1,18 +1,22 @@
-import { computed } from 'vue';
+import { computed, toValue, type MaybeRefOrGetter } from 'vue';
 import { defaultRound } from '../_utils/global';
+import type { RoundT } from './types';
 
-export function getRoundClass(props: any, name: string) {
+export function getRoundClass(props: { round?: MaybeRefOrGetter<RoundT | undefined> }, name: string) {
+  const round = () => toValue(props.round);
   return {
     class: computed(() => {
-      if (props.round === 'pill' || (!props.round && defaultRound.value === 'pill')) {
+      const r = round();
+      if (r === 'pill' || (!r && defaultRound.value === 'pill')) {
         return ['-', '_'].includes(name[0]) ? `o${name}-round-pill` : `o-${name}-round-pill`;
       }
       return '';
     }),
     style: computed(() => {
-      if (props.round) {
+      const r = round();
+      if (r) {
         return {
-          [`--${name}-radius`]: props.round === 'pill' ? '100vh' : props.round,
+          [`--${name}-radius`]: r === 'pill' ? '100vh' : r,
         };
       }
       return {};

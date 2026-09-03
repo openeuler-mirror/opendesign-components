@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, PropType } from 'vue';
 
 export const radioProps = {
   /**
@@ -31,8 +31,8 @@ export const radioProps = {
    * @default false
    */
   disabled: {
-    type: Boolean,
-    default: false,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 用于关联label元素与input元素

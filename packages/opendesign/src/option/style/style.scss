@@ -58,7 +58,7 @@
   font-size: var(--option-group-text-size);
   line-height: var(--option-group-text-height);
 
-  + .o-option-group {
+  &:not(:first-child) {
     margin-top: var(--option-group-gap);
   }
 }

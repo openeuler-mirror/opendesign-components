@@ -59,12 +59,12 @@
 
 .o-dialog-exlarge {
   @include respond('laptop') {
-    --dlg-width: 75%;
+    --dlg-width: var(--o-r-grid-18);
     --dlg-max-height: 80%;
     --dlg-min-height: 65%;
   }
   @include respond('pad_h') {
-    --dlg-width: 80%;
+    --dlg-width: var(--o-r-grid-10);
     --dlg-max-height: 80%;
     --dlg-min-height: 65%;
   }
@@ -78,12 +78,12 @@
 }
 .o-dialog-large {
   @include respond('laptop') {
-    --dlg-width: 60%;
+    --dlg-width: var(--o-r-grid-14);
     --dlg-max-height: 80%;
     --dlg-min-height: 50%;
   }
   @include respond('pad_h') {
-    --dlg-width: 65%;
+    --dlg-width: var(--o-r-grid-8);
     --dlg-max-height: 80%;
     --dlg-min-height: 50%;
   }
@@ -97,22 +97,22 @@
 }
 .o-dialog-medium {
   @include respond('laptop') {
-    --dlg-width: 40%;
+    --dlg-width: var(--o-r-grid-10);
     --dlg-max-height: 80%;
     --dlg-min-height: 35%;
   }
   @include respond('pad_h') {
-    --dlg-width: 65%;
+    --dlg-width: var(--o-r-grid-6);
     --dlg-max-height: 80%;
     --dlg-min-height: 128px;
   }
   @include respond('pad_v') {
-    --dlg-width: 75%;
+    --dlg-width: var(--o-r-grid-6);
     --dlg-max-height: 80%;
     --dlg-min-height: 128px;
   }
   @include respond('phone') {
-    --dlg-width: 100vw;
+    --dlg-width: var(--o-r-grid-4);
     --dlg-max-height: 65%;
     --dlg-min-height: 128px;
     --dlg-margin: 24px;
@@ -120,22 +120,22 @@
 }
 .o-dialog-small {
   @include respond('laptop') {
-    --dlg-width: 25%;
+    --dlg-width: var(--o-r-grid-6);
     --dlg-max-height: 50%;
     --dlg-min-height: 20%;
   }
   @include respond('pad_h') {
-    --dlg-width: 32%;
+    --dlg-width: var(--o-r-grid-4);
     --dlg-min-height: 128px;
     --dlg-max-height: 80%;
   }
   @include respond('pad_v') {
-    --dlg-width: 75%;
+    --dlg-width: var(--o-r-grid-6);
     --dlg-min-height: 128px;
     --dlg-max-height: 80%;
   }
   @include respond('phone') {
-    --dlg-width: 100vw;
+    --dlg-width: var(--o-r-grid-4);
     --dlg-min-height: 128px;
     --dlg-max-height: 65%;
 

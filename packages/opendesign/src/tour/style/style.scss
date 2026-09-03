@@ -1,0 +1,135 @@
+@use '../../_styles/mixin.scss' as *;
+
+.o-tour-open {
+  overflow: hidden !important;
+}
+
+.o-tour-mask-hollow {
+  transition: all var(--o-duration-m1) var(--o-easing-standard);
+}
+
+/**
+ * @description 当 Tour 使用 OPopup 定位时，重置 OPopup 自身的视觉样式
+ * Tour 的视觉样式由 .o-tour-content 自行控制
+ */
+.o-tour .o-popup-wrap {
+  box-shadow: none;
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+}
+.o-tour .o-popup-body {
+  padding: 0;
+  min-width: 0;
+}
+/**
+ * @description 箭头背景色优先取采样到的图片像素色 --_tour-anchor-bg，
+ * 未采样到（无图 / 跨域 / 箭头不在图片上）时回退到默认 --popup-bg-color
+ */
+.o-tour .o-popover-anchor {
+  background-color: var(--_tour-anchor-bg, var(--popup-bg-color));
+}
+
+.o-tour-center .o-popup {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate3d(-50%, -50%, 0) !important;
+}
+
+.o-tour-content {
+  width: var(--tour-width);
+  border: var(--tour-bd);
+  border-radius: var(--tour-radius);
+  background: var(--tour-bg-color);
+  box-shadow: var(--tour-shadow);
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  outline: none;
+}
+
+.o-tour-img {
+  display: block;
+  width: 100%;
+  height: calc(var(--tour-width) / 3);
+  border-top-left-radius: var(--tour-radius);
+  border-top-right-radius: var(--tour-radius);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  object-fit: cover;
+}
+
+.o-tour-body {
+  padding-top: var(--tour-padding);
+  padding-left: var(--tour-padding);
+  padding-right: var(--tour-padding);
+}
+
+.o-tour-title {
+  font-size: var(--tour-title-size);
+  line-height: var(--tour-title-height);
+  color: var(--tour-title-color);
+  font-weight: var(--tour-title-weight);
+}
+
+.o-tour-detail {
+  font-size: var(--tour-detail-size);
+  line-height: var(--tour-detail-height);
+  color: var(--tour-detail-color);
+  margin-top: var(--tour-detail-gap);
+}
+
+.o-tour-footer {
+  padding-top: var(--tour-footer-gap);
+  padding-left: var(--tour-padding);
+  padding-right: var(--tour-padding);
+  padding-bottom: var(--tour-padding);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.o-tour-indicators {
+  display: inline-flex;
+  flex: 1;
+  font-size: var(--tour-indicators-size);
+  line-height: var(--tour-indicators-height);
+  color: var(--tour-indicators-color);
+}
+
+.o-tour-buttons {
+  display: flex;
+}
+.o-btn + .o-btn {
+  margin-left: var(--tour-btn-gap);
+}
+
+.o-tour-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  font-size: var(--tour-close-size);
+  color: var(--tour-close-color);
+  display: flex;
+  transition: transform var(--o-easing-standard) var(--o-duration-m2);
+  cursor: pointer;
+  z-index: 1;
+  @include x-svg-hover;
+  @include hover {
+    color: var(--tour-close-color-hover);
+  }
+  &:active {
+    color: var(--tour-close-color-active);
+    transform: scale(0.9);
+  }
+}
+.o-tour-img-close {
+  width: var(--tour-close-img-size);
+  height: var(--tour-close-img-size);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--tour-close-img-bg);
+}

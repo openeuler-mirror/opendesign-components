@@ -11,6 +11,7 @@ kind: container
 <!-- @case DialogActions -->
 <!-- @case DialogSlot -->
 <!-- @case DialogSlotForm -->
+<!-- @case DialogNested -->
 
 ### Non-modal Dialog
 

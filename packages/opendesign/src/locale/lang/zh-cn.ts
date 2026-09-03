@@ -88,4 +88,21 @@ export default {
   'dateRangePicker.placeholderStart': '开始日期',
   'dateRangePicker.placeholderEnd': '结束日期',
   'dateRangePicker.selectRange': '选择日期范围',
+  // tour
+  'tour.close': '关闭',
+  'tour.prev': '上一步',
+  'tour.next': '下一步',
+  'tour.finish': '完成',
+  // imageViewer
+  'imageViewer.zoomIn': '放大',
+  'imageViewer.zoomOut': '缩小',
+  'imageViewer.reset': '重置',
+  'imageViewer.rotateLeft': '逆时针旋转',
+  'imageViewer.rotateRight': '顺时针旋转',
+  'imageViewer.close': '关闭',
+  'imageViewer.prev': '上一张',
+  'imageViewer.next': '下一张',
+  'imageViewer.error': '图片加载失败，点击重试',
+  'imageViewer.dialogLabel': '图片预览',
+  'imageViewer.imageAlt': '图片 {0}，共 {1} 张',
 } as const;

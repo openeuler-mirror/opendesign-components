@@ -9,6 +9,7 @@
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { OForm, OFormItem, OOption, OSelect } from '@opensig/opendesign';
 
 const options = [
   { label: 'option 1', value: 'opt1' },
@@ -28,37 +29,31 @@ const placeholder = 'Hint';
 const selectVal1 = ref();
 </script>
 <template>
-  <div class="demo-select-basic-wrap">
-    <div class="demo-select-basic">
+  <OForm layout="v" class="demo-select-basic-wrap">
+    <OFormItem>
       <OSelect v-model="selectVal1" :placeholder="placeholder" option-title="选项标题" size="large" clearable class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-
+      <template #extra
+        ><u>selectVal1: {{ JSON.stringify(selectVal1) }}</u></template
+      >
+    </OFormItem>
+    <OFormItem label="禁用">
       <OSelect :placeholder="placeholder" size="large" disabled class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-
+    </OFormItem>
+    <OFormItem label="加载中">
       <OSelect :placeholder="placeholder" size="large" loading class="demo-select">
         <OOption v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
-    </div>
-  </div>
+    </OFormItem>
+  </OForm>
 </template>
 <style lang="scss">
 .demo-select-basic-wrap {
-  .demo-select-basic {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-    & > :not(:last-child) {
-      margin-bottom: 16px;
-    }
-  }
   .demo-select {
     max-width: 320px;
-  }
-  .demo-text-select {
-    width: 200px;
   }
 }
 </style>

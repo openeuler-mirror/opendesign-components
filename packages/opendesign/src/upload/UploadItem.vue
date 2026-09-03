@@ -100,13 +100,14 @@ defineExpose({
       >
         <div class="o-upload-card-item-wrap">
           <div class="o-upload-card-file">
-            <template v-if="props.file.status === 'finished'">
+            <!-- 仅在明确处于 uploading/failed 时隐藏缩略图；undefined（接口回显）走 finished 分支 -->
+            <template v-if="props.file.status !== 'uploading' && props.file.status !== 'failed'">
               <OFigure v-if="props.file.imgUrl" ref="figureRef" lazy-preview class="o-upload-thumbnail" :src="props.file.imgUrl" />
               <IconFile v-else class="o-upload-icon-file" />
             </template>
           </div>
           <div class="o-upload-card-icons">
-            <div class="o-upload-status-wrap" v-if="showLoading()">
+            <div v-if="showLoading()" class="o-upload-status-wrap">
               <OIcon class="o-upload-status-icon">
                 <IconLoading class="o-rotating" />
               </OIcon>

@@ -858,3 +858,51 @@ describe('插槽契约（具名插槽）', () => {
     expect(expandedContent?.textContent).toBe('E:Alice');
   });
 });
+
+// ============================================================================
+// 响应式契约：optionsFn 依赖的响应式数据变更后应自动重新调用
+//
+// 问题描述：optionsFn 在 onMounted 中仅调用一次，其内部访问的响应式数据
+// （如 ref / reactive）不会被追踪，数据变更时筛选项不会更新。
+// ============================================================================
+describe('响应式契约（optionsFn 依赖追踪）', () => {
+  test('ODataTable column.filter.optionsFn - 依赖的响应式数据变更后自动重新调用 optionsFn', async () => {
+    const filterOptions = ref([
+      { label: 'Option A', value: 'a' },
+      { label: 'Option B', value: 'b' },
+    ]);
+
+    const columns: DataTableColumnT[] = [
+      {
+        label: 'Name',
+        key: 'name',
+        filter: {
+          optionsFn: () => filterOptions.value,
+        },
+      },
+      { label: 'Age', key: 'age' },
+    ];
+
+    const screen = render(ODataTable, { props: { data: baseData, columns } });
+    await flush();
+
+    // 初始渲染：options.length > 0，filter trigger 可见
+    const trigger = screen.container.querySelector('.o-data-table-column-filter__trigger') as HTMLElement;
+    expect(trigger).not.toBeNull();
+    expect(getComputedStyle(trigger).display).not.toBe('none');
+
+    // 清空 options 数据 —— optionsFn 应被重新调用
+    filterOptions.value = [];
+    await flush();
+
+    // options 为空后 trigger 应隐藏（v-show="options.length" → display:none）
+    expect(getComputedStyle(trigger).display).toBe('none');
+
+    // 恢复数据 —— optionsFn 应再次被重新调用
+    filterOptions.value = [{ label: 'New', value: 'new' }];
+    await flush();
+
+    // trigger 应重新可见
+    expect(getComputedStyle(trigger).display).not.toBe('none');
+  });
+});

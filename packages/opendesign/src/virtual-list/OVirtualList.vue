@@ -4,7 +4,7 @@ import { useResizeObserver, type ResizeObserverEntry } from '@vueuse/core';
 import { isClient, isFunction, isNumber, isUndefined } from '../_utils/is';
 import { debounceRAF } from '../_utils/helper';
 import { useGetUniqueId } from '../_utils/unique-id';
-import { type BaseScrollerPropsT, vScrollbar } from '../scrollbar';
+import { type BaseScrollerPropsT, OScrollbar } from '../scrollbar';
 
 import { type Alignment, type RenderIndexInfo, type VirtualListExpose, virtualListProps } from './types';
 import VirtualListItem from './VirtualListItem.vue';
@@ -27,7 +27,8 @@ const emits = defineEmits<{
   (e: 'renderChange', renderIndex: RenderIndexInfo): void;
 }>();
 /**
- * 设置滚动条参数
+ * 滚动条参数，同时作为 OScrollbar 组件的渲染条件（v-if）与 props 数据源（v-bind）
+ * @description scrollbar=true 时提供默认配置；为 false 时返回 falsy 值以跳过 OScrollbar 渲染
  */
 const scrollbarProps = computed(() => {
   if (props.scrollbar === true) {
@@ -857,8 +858,8 @@ defineExpose<VirtualListExpose>({
 </script>
 
 <template>
-  <div :class="{ 'o-horizontal': isHorizontal }" class="o-virtual-list">
-    <div ref="wrapperRef" v-scrollbar="scrollbarProps" class="o-virtual-list-wrapper" @scroll.passive="onScroll">
+  <div :class="{ 'o-horizontal': isHorizontal, 'o-scrollbar-wrapper': scrollbarProps }" class="o-virtual-list">
+    <div ref="wrapperRef" class="o-virtual-list-wrapper" @scroll.passive="onScroll">
       <div :style="contentStyle" class="o-virtual-body">
         <div :style="renderListStyle" class="o-virtual-render-list">
           <template v-for="item in renderList" :key="item.index">
@@ -875,5 +876,6 @@ defineExpose<VirtualListExpose>({
         </div>
       </div>
     </div>
+    <OScrollbar v-if="scrollbarProps" :target="wrapperRef" v-bind="scrollbarProps" />
   </div>
 </template>

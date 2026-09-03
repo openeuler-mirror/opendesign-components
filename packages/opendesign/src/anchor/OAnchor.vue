@@ -146,18 +146,58 @@ const scrollIntoView = async (link: string) => {
   isScrolling.value = false;
 };
 
+/**
+ * @description 获取滚动容器的滚动度量（已滚动距离、内容总高、可视高度）。
+ * 统一 window 与 HTMLElement 两种容器的取值方式，消除重复分支。
+ * @param container 滚动容器，window 或 HTMLElement
+ * @returns 滚动度量对象，含 scrollTop、scrollHeight、clientHeight
+ */
+const getScrollMetrics = (container: AnchorContainerT) => {
+  if (isWindow(container)) {
+    const doc = document.documentElement;
+    return {
+      scrollTop: window.scrollY,
+      scrollHeight: doc.scrollHeight,
+      clientHeight: doc.clientHeight,
+    };
+  }
+
+  return {
+    scrollTop: container.scrollTop,
+    scrollHeight: container.scrollHeight,
+    clientHeight: container.clientHeight,
+  };
+};
+
+/**
+ * @description 计算当前滚动位置下应激活的锚点。
+ * 当页面接近底部时，剩余可滚动距离不足一屏，最后一个锚点可能永远无法进入
+ * targetOffset + bounds 的固定阈值范围。此时动态上调阈值，使观察点随之下移，
+ * 确保底部锚点仍可被选中。
+ * 下调量按滚动进度（scrollTop / maxScroll）线性插值：页面顶部时下调量为 0，确保首个锚点被激活；
+ * 滚动到底部时下调量取满，确保末个锚点可被选中。短页面（maxScroll 很小）下也能平滑过渡。
+ */
 const activeNearest = () => {
   const distances: Array<{ link: string; top: number }> = [];
   const { targetOffset, bounds } = props;
 
   let active = '';
 
+  const container = scrollContainer.value as AnchorContainerT;
+  const { scrollTop, scrollHeight, clientHeight } = getScrollMetrics(container);
+
+  const maxScroll = Math.max(0, scrollHeight - clientHeight);
+  const remainingScroll = maxScroll - scrollTop;
+  const rawAdjustment = Math.max(0, clientHeight - remainingScroll);
+  const downwardAdjustment = maxScroll > 0 ? rawAdjustment * (scrollTop / maxScroll) : 0;
+  const threshold = targetOffset + bounds + downwardAdjustment;
+
   links.value.forEach((link) => {
     const target = getAnchorTarget(link);
     if (target) {
-      const top = getOffsetTop(target, scrollContainer.value as AnchorContainerT);
+      const top = getOffsetTop(target, container);
 
-      if (top < targetOffset + bounds) {
+      if (top < threshold) {
         distances.push({
           link,
           top,
@@ -174,13 +214,16 @@ const activeNearest = () => {
   setActiveLink(active);
 };
 
-// 滚动事件
-const onScroll = () => {
+/**
+ * @description 滚动事件回调（rAF 节流），实时计算并激活最近锚点。
+ * 程序滚动（scrollIntoView）期间通过 isScrolling 屏蔽，避免覆盖用户点击的激活态。
+ */
+const onScroll = throttleRAF(() => {
   if (isScrolling.value) {
     return;
   }
   activeNearest();
-};
+});
 
 const bindEvent = () => {
   if (isUndefined(scrollContainer.value)) {
@@ -207,7 +250,7 @@ const addLink = (link: string) => {
 };
 
 const removeLink = (link: string) => {
-  links.value.add(link);
+  links.value.delete(link);
 };
 
 /**
@@ -252,6 +295,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  onScroll.cancel();
   unbindEvent();
   const ro = useResizeObserver();
   if (anchorRef.value) {

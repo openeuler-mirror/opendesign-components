@@ -35,6 +35,7 @@
 @use './dialog/style/index.scss' as *;
 @use './loading/style/index.scss' as *;
 @use './figure/style/index.scss' as *;
+@use './image-viewer/style/index.scss' as *;
 @use './card/style/index.scss' as *;
 @use './carousel/style/index.scss' as *;
 @use './message/style/index.scss' as *;
@@ -57,3 +58,4 @@
 @use './time-picker/style/index.scss' as *;
 @use './date-picker/style/index.scss' as *; // 相对顺序在time-picker后，因为会覆盖部分time-picker的样式
 @use './cascader-v2/style/index.scss' as *;
+@use './tour/style/index.scss' as *;

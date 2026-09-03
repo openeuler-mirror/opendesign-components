@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { getElementSize, getOffsetElement, getScroll } from '../_utils/dom';
 import type { PositionT } from '../_utils/types';
-import type { PopupPositionT, PopupTriggerT } from './types';
+import type { PopupPositionT, PopupTriggerT, VirtualElement } from './types';
 
 import { useOutClick } from '../hooks/use-out-click';
 
@@ -494,8 +494,8 @@ function getAnchorOffset(position: PopupPositionT, { tRect, popupStyle, popupSiz
 interface CalcPopupStyleOptions {
   /** popup 元素 */
   popupEl: HTMLElement;
-  /** target 元素 */
-  targetEl: HTMLElement;
+  /** target 元素，支持 HTMLElement 或 VirtualElement（如 OTour 的虚拟定位点） */
+  targetEl: HTMLElement | VirtualElement;
   /** popup 位置 */
   position: PopupPositionT;
   /** 自适应容器边缘 */

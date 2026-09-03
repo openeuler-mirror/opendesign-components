@@ -5,6 +5,7 @@ import { test, expect, describe } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h } from 'vue';
 import OScrollbar from '../OScrollbar.vue';
+import OScroller from '../OScroller.vue';
 import { flush } from '../../../__tests__/_helpers/dom';
 import { renderSSR, ssrHydrateAndCompare } from '../../../__tests__/_helpers/ssr';
 
@@ -83,5 +84,92 @@ describe('SSR 契约', () => {
     const result = await ssrHydrateAndCompare(OScrollbar, {}, '');
     expect(result.hasMismatch).toBe(false);
     if (result.root) result.root.remove();
+  });
+});
+
+// ============================================================================
+// 插槽契约：验证 #thumb / #track scoped slot props 在 OScroller → OScrollbar →
+// ScrollbarRail 三层透传后仍正确接收 direction 和 dragging。
+// ============================================================================
+
+describe('插槽契约（scoped slot props 透传）', () => {
+  test('OScroller #thumb slot - 渲染自定义滑块内容', async () => {
+    const screen = render({
+      render: () =>
+        h(
+          OScroller,
+          { showType: 'always', style: 'height:200px;' },
+          {
+            default: () => h('div', { style: 'height:600px;' }, 'content'),
+            thumb: () => h('div', { class: 'custom-thumb' }, 'T'),
+          },
+        ),
+    });
+    await flush();
+    expect(screen.container.querySelector('.custom-thumb')).not.toBeNull();
+  });
+
+  test('OScroller #thumb slot - 透传 direction 和 dragging', async () => {
+    const screen = render({
+      render: () =>
+        h(
+          OScroller,
+          { showType: 'always', style: 'height:200px;' },
+          {
+            default: () => h('div', { style: 'height:600px;' }, 'content'),
+            thumb: (props: { direction: string; dragging: boolean }) =>
+              h('div', {
+                class: 'custom-thumb',
+                'data-direction': props.direction,
+                'data-dragging': String(props.dragging),
+              }),
+          },
+        ),
+    });
+    await flush();
+    const thumb = screen.container.querySelector('.custom-thumb') as HTMLElement;
+    expect(thumb).not.toBeNull();
+    expect(thumb.getAttribute('data-direction')).toBe('y');
+    expect(thumb.getAttribute('data-dragging')).toBe('false');
+  });
+
+  test('OScroller #track slot - 渲染自定义轨道内容', async () => {
+    const screen = render({
+      render: () =>
+        h(
+          OScroller,
+          { showType: 'always', style: 'height:200px;' },
+          {
+            default: () => h('div', { style: 'height:600px;' }, 'content'),
+            track: () => h('div', { class: 'custom-track' }, 'Track'),
+          },
+        ),
+    });
+    await flush();
+    expect(screen.container.querySelector('.custom-track')).not.toBeNull();
+  });
+
+  test('OScroller #track slot - 透传 direction 和 dragging', async () => {
+    const screen = render({
+      render: () =>
+        h(
+          OScroller,
+          { showType: 'always', style: 'height:200px;' },
+          {
+            default: () => h('div', { style: 'height:600px;' }, 'content'),
+            track: (props: { direction: string; dragging: boolean }) =>
+              h('div', {
+                class: 'custom-track',
+                'data-direction': props.direction,
+                'data-dragging': String(props.dragging),
+              }),
+          },
+        ),
+    });
+    await flush();
+    const track = screen.container.querySelector('.custom-track') as HTMLElement;
+    expect(track).not.toBeNull();
+    expect(track.getAttribute('data-direction')).toBe('y');
+    expect(track.getAttribute('data-dragging')).toBe('false');
   });
 });

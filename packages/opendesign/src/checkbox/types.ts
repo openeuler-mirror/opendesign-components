@@ -29,8 +29,8 @@ export const checkboxProps = {
    * @en-US Whether to disable
    */
   disabled: {
-    type: Boolean,
-    default: false,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 是否半选

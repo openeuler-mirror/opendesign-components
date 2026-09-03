@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, computed, inject } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { OInput } from '../input';
 import { InBox } from '../_components/in-box';
 import { ipInputProps, type IpSegment } from './types';
-import { formItemInjectKey } from '../form/provide';
 import { Backspace } from '../_utils/keycode';
 import { formateToString } from '../_utils/helper';
+import { useFormField } from '../_composables/use-form-field';
 
 type InstanceOfOInputT = InstanceType<typeof OInput>;
 
@@ -24,6 +24,13 @@ const emit = defineEmits<{
   (e: 'change', valid: boolean, ip: string): void;
 }>();
 
+const { effectiveColor: color, effectiveDisabled, effectiveSize, effectiveRound, onChange: onFormItemChange, blockChildInject } = useFormField(props);
+
+/**
+ * @description 阻断内嵌 OInput 的 FormItem inject，OIpInput 自身通过 useFormField 统一获取继承值
+ */
+blockChildInject();
+
 const MAX_LEN = 3;
 const MIN_NUM = 0;
 const MAX_NUM = 255;
@@ -32,16 +39,6 @@ const originObj = { value: '', invalid: false };
 
 const inputRefs = ref<Array<InstanceOfOInputT>>([]);
 const segmentsLen = computed(() => props.segmentsLen);
-
-const formItemInjection = inject(formItemInjectKey, null);
-
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type || undefined;
-  } else {
-    return props.color;
-  }
-});
 
 const initData = (data: typeof originObj, n: number) => {
   return Array(n)
@@ -84,6 +81,20 @@ const initIpSegments = () => {
   });
 };
 
+const focusNextInput = (index: number) => {
+  if (index < segmentsLen.value) {
+    const nextInput = inputRefs.value[index + 1];
+    nextInput?.focus();
+  }
+};
+
+const focusPrevInput = (index: number) => {
+  if (index > 0) {
+    const prevInput = inputRefs.value[index - 1];
+    prevInput?.focus();
+  }
+};
+
 const handleUpdate = (index: number, v: string) => {
   ipSegments.value[index].value = v.replace(reg, '');
 
@@ -95,7 +106,7 @@ const handleUpdate = (index: number, v: string) => {
 };
 
 const handleKeydown = (e: KeyboardEvent, index: number) => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     return;
   }
 
@@ -119,20 +130,6 @@ const getValidIp = (): string => {
   return isValid ? validSegments.join('.') : '';
 };
 
-const focusNextInput = (index: number) => {
-  if (index < segmentsLen.value) {
-    const nextInput = inputRefs.value[index + 1];
-    nextInput?.focus();
-  }
-};
-
-const focusPrevInput = (index: number) => {
-  if (index > 0) {
-    const prevInput = inputRefs.value[index - 1];
-    prevInput?.focus();
-  }
-};
-
 watch(
   () => props.modelValue,
   () => initIpSegments(),
@@ -145,7 +142,7 @@ watch(
     const ip = getValidIp();
     emit('update:modelValue', ip);
     emit('change', Boolean(ip), ip);
-    formItemInjection?.fieldHandlers.onChange?.();
+    onFormItemChange();
   },
   { deep: true },
 );
@@ -159,32 +156,32 @@ onMounted(() => {
   <InBox
     class="o-ip-input"
     :color="color"
-    :size="props.size"
-    :disabled="props.disabled"
-    :round="props.round"
+    :size="effectiveSize"
+    :disabled="effectiveDisabled"
+    :round="effectiveRound"
     :readonly="props.readonly"
     :variant="props.variant"
   >
     <template v-for="(segment, index) in ipSegments" :key="index">
       <OInput
+        :ref="(el) => (inputRefs[index] = el as InstanceOfOInputT)"
         class="o-ip-segment"
         show-length="never"
         :variant="props.variant"
         :readonly="props.readonly"
-        :size="props.size"
-        :disabled="props.disabled"
-        :modelValue="segment.value"
+        :size="effectiveSize"
+        :disabled="effectiveDisabled"
+        :model-value="segment.value"
         :max-length="3"
         :input-on-outlimit="false"
-        :ref="(el) => (inputRefs[index] = el as InstanceOfOInputT)"
         @keydown="handleKeydown($event, index)"
-        @update:modelValue="
+        @update:model-value="
           (v) => {
             handleUpdate(index, v);
           }
         "
       />
-      <div class="o-ip-separator" v-if="index < ipSegments.length - 1"></div>
+      <div v-if="index < ipSegments.length - 1" class="o-ip-separator"></div>
     </template>
   </InBox>
 </template>

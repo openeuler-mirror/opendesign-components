@@ -1,0 +1,243 @@
+@use '../../_styles/mixin.scss' as *;
+
+// ---- 基础布局 ----
+// .o-image-viewer 位于 OLayer 根元素（div.o-layer）上，
+// 布局属性（position/display/align-items/inset）由 .o-layer 提供，此处仅补充 focus 轮廓与 CSS 变量
+.o-image-viewer {
+  &:focus {
+    outline: none;
+  }
+}
+
+// .o-image-viewer-body 是查看器内容容器，负责图片居中与 absolute 定位上下文
+// width: 100% 使 body 填满 .o-layer（即视口宽度），而非收缩到图片自然宽度，
+// 配合 justify-content: center 使图片在 body 内水平居中
+// height: 100vh 将 body 锁定为视口高度，防止超大图片（如 4K）的 intrinsic size 撑大容器，
+// 确保 overlay（position: absolute; inset: 0）始终覆盖视口而非图片实际尺寸，
+// 避免 toolbar 等 bottom 定位元素被挤出视口外
+// overflow: hidden 裁剪图片溢出（缩放/旋转由 transform 控制，不依赖布局尺寸）
+.o-image-viewer-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// .o-image-viewer-wrapper 是预览内容包裹层，对齐旧版 OFigure 预览的 .o-figure-preview-wrapper 结构。
+// 作为 .o-image-viewer-body 的 flex 子项，包裹图片容器与默认插槽内容；
+// position: relative 为默认插槽内的绝对定位覆盖内容提供定位上下文。
+.o-image-viewer-wrapper {
+  position: relative;
+}
+
+.o-image-viewer-container {
+  position: relative;
+  user-select: none;
+  will-change: transform;
+}
+
+.o-image-viewer-dragging {
+  cursor: var(--image-viewer-cursor-type);
+}
+
+// 图片按自然尺寸渲染，transform scale 全权控制缩放。
+// 提升特异性覆盖 .markdown-body img { max-width: 100% } 等外部重置规则，
+// 避免图片被约束到容器宽度后再被 scale 二次缩小。
+.o-image-viewer .o-image-viewer-img {
+  display: block;
+  max-width: none;
+}
+
+// ---- UI 操作层 ----
+// overlay 覆盖整个查看器框，通过 z-index 位于图层之上
+// pointer-events: none 让触摸/鼠标事件穿透到图片包裹元素，
+// 仅交互元素（导航按钮、工具栏、触屏关闭）恢复 pointer-events: auto
+.o-image-viewer-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+// ---- 缩放比例提示 ----
+.o-image-zoom-ratio {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: var(--image-viewer-ratio-width);
+  height: var(--image-viewer-ratio-height);
+  line-height: var(--image-viewer-ratio-height);
+  text-align: center;
+  font-weight: 500;
+  color: var(--image-viewer-ratio-color);
+  background-color: var(--image-viewer-ratio-bgc);
+  border-radius: var(--image-viewer-ratio-radius);
+  backdrop-filter: blur(var(--image-viewer-ratio-backdrop-filter));
+  user-select: none;
+  pointer-events: none;
+}
+
+// 缩放比例提示淡入淡出过渡（配合 v-show + <Transition> 使用）
+.o-image-zoom-ratio-enter-active,
+.o-image-zoom-ratio-leave-active {
+  transition: opacity var(--o-duration-l);
+}
+
+.o-image-zoom-ratio-enter-from,
+.o-image-zoom-ratio-leave-to {
+  opacity: 0;
+}
+
+// ---- 导航按钮 ----
+// pointer-events: auto 恢复点击穿透（父级 .o-image-viewer-overlay 设为 none）
+.o-btn.o-image-viewer-nav {
+  --btn-color: var(--o-color-info1-inverse);
+  --btn-color-hover: var(--o-color-info2-inverse);
+  --btn-color-active: var(--o-color-info2-inverse);
+  --btn-bg-color: var(--o-color-mask1);
+  --btn-bg-color-hover: var(--o-color-mask1);
+  --btn-bg-color-active: var(--o-color-mask1);
+  --btn-bd-color: none;
+  --btn-bd-color-hover: none;
+  --btn-bd-color-active: none;
+}
+
+.o-image-viewer-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.o-image-viewer-nav-prev {
+  left: var(--o-r-gap-7);
+}
+
+.o-image-viewer-nav-next {
+  right: var(--o-r-gap-7);
+}
+
+// ---- 进度指示器 ----
+.o-image-viewer-progress {
+  position: absolute;
+  left: 50%;
+  bottom: 140px;
+  transform: translate3d(-50%, 0, 0);
+  color: var(--image-viewer-progress-color);
+  font-size: var(--o-font_size-text2);
+  user-select: none;
+}
+
+// ---- 图片加载错误 ----
+.o-image-viewer-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.o-image-viewer-error-icon {
+  width: var(--o-icon_size-xl);
+  height: var(--o-icon_size-xl);
+  color: var(--image-viewer-error-color);
+  opacity: 0.6;
+}
+
+.o-image-viewer-error-text {
+  font-size: var(--o-font_size-text2);
+  color: var(--image-viewer-error-color);
+  opacity: 0.8;
+}
+
+// ---- 操作区 ----
+.o-image-viewer-action {
+  position: absolute;
+  left: 50%;
+  bottom: var(--image-viewer-action-bottom);
+  transform: translate3d(-50%, 0, 0);
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: var(--image-viewer-action-padding);
+  background-color: var(--image-viewer-action-bgc);
+  border-radius: var(--image-viewer-action-radius);
+  pointer-events: auto;
+}
+
+.o-image-action-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.8;
+
+  &:not(:first-child) {
+    margin-left: var(--image-viewer-action-item-gap);
+  }
+
+  @include hover {
+    opacity: 1;
+
+    .o-image-action-icon {
+      color: var(--image-viewer-icon-color-hover);
+    }
+  }
+}
+
+.o-image-action-icon {
+  display: block;
+  width: var(--image-viewer-icon-size);
+  height: var(--image-viewer-icon-size);
+  color: var(--image-viewer-icon-color);
+}
+
+// 逆时针旋转图标翻转
+.o-icon-rotate-anticlockwise {
+  transform: scaleX(-1);
+}
+
+// ---- 图片切换滑动动画 ----
+// 导航切换（上一张/下一张）时图片以方向性滑动动画进出；
+// retry 等非导航场景复用全局 o-fade-in 动画。
+// 使用 Vue <Transition mode="out-in">：旧图先滑出再滑入新图，避免同屏叠加。
+
+// 向后切换（next）：新图从右侧滑入，旧图向左侧滑出
+.o-image-slide-next-enter-active,
+.o-image-slide-next-leave-active {
+  transition:
+    transform var(--o-duration-s) var(--o-easing-standard),
+    opacity var(--o-duration-s) var(--o-easing-standard);
+}
+.o-image-slide-next-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.o-image-slide-next-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+// 向前切换（prev）：新图从左侧滑入，旧图向右侧滑出
+.o-image-slide-prev-enter-active,
+.o-image-slide-prev-leave-active {
+  transition:
+    transform var(--o-duration-s) var(--o-easing-standard),
+    opacity var(--o-duration-s) var(--o-easing-standard);
+}
+.o-image-slide-prev-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.o-image-slide-prev-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}

@@ -4,7 +4,9 @@ import { renderToString } from '@vue/server-renderer';
 /**
  * SSR 渲染组件，返回 HTML 字符串。
  *
- * @description 在服务端语义下将组件渲染成 HTML 字符串，用于验证 renderToString 不抛错、输出包含预期内容
+ * @description 在服务端语义下将组件渲染成 HTML 字符串，用于验证 renderToString 不抛错、输出包含预期内容。
+ * 渲染完成后调用 app.unmount() 清理 effect scope，防止 setup 中启动的定时器（如 useIntervalFn）
+ * 在渲染结束后继续运行，导致 Node.js 环境下 timer 回调访问 window 报错（uncaughtException）。
  * @param component Vue 组件定义
  * @param props 组件 props
  * @param slotText 默认插槽文本
@@ -20,7 +22,12 @@ export async function renderSSR(component: Component, props?: Record<string, unk
   const app = createSSRApp({
     render: () => h(component, props, slotText ? { default: () => slotText } : undefined),
   });
-  return await renderToString(app);
+  try {
+    return await renderToString(app);
+  } finally {
+    // 清理 effect scope，确保 setup 中启动的定时器/监听器被正确释放
+    app.unmount();
+  }
 }
 
 /**

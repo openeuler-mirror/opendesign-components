@@ -1,7 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
 .o-layer {
-  position: var(--layer-position, 'fixed');
+  position: var(--layer-position, fixed);
   left: 0;
   right: 0;
   top: 0;
@@ -31,8 +31,8 @@
 }
 .o-layer-close {
   position: absolute;
-  top: 40px;
-  right: 40px;
+  top: var(--o-r-gap-7);
+  right: var(--o-r-gap-7);
 }
 .o-layer-close-icon {
   font-size: var(--o-icon_size-m);

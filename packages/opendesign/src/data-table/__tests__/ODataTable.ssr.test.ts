@@ -113,19 +113,17 @@ describe('SSR 契约（客户端水合）', () => {
     expect(result.hasMismatch).toBe(false);
   });
 
-  // 已知问题：loading=true 时 SSR 与客户端首帧不一致（疑似 useDataColumn 的 isMounted 分支差异）。
-  // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
-  test.fails('ODataTable hydration loading=true - 无水合 mismatch', async () => {
+  // 已修复：loading=true 时的 hydration mismatch 由 <div> 嵌入 <tbody> 导致（非法 HTML 嵌套被浏览器修正）。
+  // 修复方式：将 <div class="empty-placeholder"> 改为 <tr><td class="empty-placeholder">。
+  test('ODataTable hydration loading=true - 无水合 mismatch', async () => {
     const result = await ssrHydrateAndCompare(ODataTable, { data: [], columns, loading: true });
     mountedRoot = result.root;
     expect(result.hasMismatch).toBe(false);
   });
 
-  // 已知问题：data=[] 时 SSR 渲染 <div class="empty-placeholder">，客户端渲染 <table>。
-  // 这是结构性 hydration mismatch（节点类型不同），之前 textContent 对比法无法检测，
-  // console.warn 拦截增强后捕获到 Vue 的 Hydration node mismatch 警告。
-  // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
-  test.fails('ODataTable hydration data=[] - 无水合 mismatch', async () => {
+  // 已修复：data=[] 时的 hydration mismatch由 <div> 嵌入 <tbody> 导致（非法 HTML 嵌套被浏览器修正）。
+  // 修复方式：将 <div class="empty-placeholder"> 改为 <tr><td class="empty-placeholder">。
+  test('ODataTable hydration data=[] - 无水合 mismatch', async () => {
     const result = await ssrHydrateAndCompare(ODataTable, { data: [], columns });
     mountedRoot = result.root;
     expect(result.hasMismatch).toBe(false);

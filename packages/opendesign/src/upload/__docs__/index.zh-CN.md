@@ -9,6 +9,7 @@ kind: input
 
 <!-- @usage UploadUsage -->
 <!-- @case UploadBasic -->
+<!-- @case UploadEcho -->
 <!-- @case UploadSlots -->
 
 ## Api

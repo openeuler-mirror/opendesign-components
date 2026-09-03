@@ -4,12 +4,14 @@ This file provides guidance to AI coding agents when working with code in this r
 
 **重要:**
 
-- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
+- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing` | 资源发现 → `global-utilities`。详细工作流指南见 [`packages/skills/README.md`](packages/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
+- **全局资源维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局 CSS 类、SCSS Mixin、TS 工具函数、composable 或内部组件发生新增、重命名、废弃等变更时，必须同步更新 [`global-utilities`](packages/skills/global-utilities/SKILL.md) skill 的快速索引表和对应 reference 文档。
 - 你的所有回答应始终遵循`karpathy-guidelines`
 - **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 `clean-code` skill。
+- **异步延续中的资源清理风险：** 在 `onMounted` 的 `Promise.then()` / `await` / `setTimeout` 等异步延续中调用 VueUse composable（`useEventListener` / `useResizeObserver` / `useTimeoutFn` / `useIntervalFn`）时，组件 effect scope 已关闭，`tryOnScopeDispose` 会静默失效导致内存泄漏。必须捕获返回值并在 `onUnmounted` 中手动清理，或优先将异步逻辑改为同步执行。预防模式见 [clean-code: async-scope-cleanup.md](packages/skills/clean-code/references/async-scope-cleanup.md)，测试方法见 [component-testing: resource-cleanup.md](packages/skills/component-testing/references/resource-cleanup.md)。
 - **中文注释要求：** 所有新增或修改的代码必须附带完备的 JSDoc 格式中文注释，包括：`@description` 功能说明、`@param` 参数含义、`@returns` 返回值说明、关键逻辑的行内注释、复杂条件分支的解释。注释应准确、简洁，避免无意义的翻译式注释。注释应描述代码"当前是什么"及"为什么这样设计"，而非"之前存在什么问题、做了什么修复"——对历史问题的修复说明应写入 commit message，不得出现在代码注释中。
 - **文档修改原则：** 对项目中的文档进行修改时，应以"融合"方式整合新内容，而非"补丁"式叠加——优先将新增内容自然融入原有结构与行文脉络，必要时重排章节、调整上下文衔接，保持文档的连贯性与整体性；禁止简单追加段落、堆砌附录，或留下"以下为新增"等拼接痕迹。
-- **Bug 修复流程：** 修复任何 bug 前，必须遵循"测试先行"原则——先编写描述具体业务场景的测试用例，**只运行该用例所在文件**（而非全量测试）确认得到**失败的**测试结果，随后向用户确认用例场景与失败结果均真实可信，最后才进入修复阶段。修复完成后按「单文件 → 组件目录 → 全量」逐步扩大回归范围，严禁未经此流程直接修改代码。精确运行特定用例的命令见 [component-testing skill → 命令](packages/skills/component-testing/SKILL.md#命令)。
+- **Bug 修复流程：** 修复任何 bug 前，必须遵循"测试先行"原则——先编写描述具体业务场景的测试用例，**只运行该用例所在文件**（而非全量测试）确认得到**失败的**测试结果，随后向用户确认用例场景与失败结果均真实可信，最后才进入修复阶段。修复完成后按「单文件 → 组件目录」逐步回归，随后询问用户是否扩大至全量测试，由用户决定，严禁未经此流程直接修改代码。精确运行特定用例的命令见 [component-testing skill → 命令](packages/skills/component-testing/SKILL.md#命令)。
 
 ## 仓库概览
 

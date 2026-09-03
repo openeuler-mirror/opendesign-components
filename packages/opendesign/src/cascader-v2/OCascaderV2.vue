@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, inject, nextTick } from 'vue';
+import { computed, provide, ref, watch, nextTick } from 'vue';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
@@ -10,7 +10,9 @@ import OCascaderV2Panel from './OCascaderV2Panel.vue';
 
 import { isArray, isFunction, isArrayEqual, isUndefined } from '../_utils/is';
 
-import { formItemInjectKey } from '../form/provide';
+import { useFormField } from '../_composables/use-form-field';
+
+const cascaderDefaultSize = 'large';
 import { cascaderV2InjectKey } from './provide';
 
 import { SelectOptionT } from '../select/types';
@@ -43,6 +45,16 @@ const emits = defineEmits<{
    * @en-US Emitted when lazy loading fails, parameter is the failed node info
    */
   (e: 'lazyload-error', node: CascaderV2LazyNodeT): void;
+  /**
+   * @zh-CN 聚焦时触发，面板展开即为聚焦
+   * @en-US Emitted when focused, panel open equals focused
+   */
+  (e: 'focus', evt: FocusEvent): void;
+  /**
+   * @zh-CN 失焦时触发，面板关闭即为失焦
+   * @en-US Emitted when blurred, panel close equals blurred
+   */
+  (e: 'blur', evt: FocusEvent): void;
 }>();
 
 defineSlots<{
@@ -85,16 +97,24 @@ const effectiveLoading = computed(() => props.loading);
 const tagPopoverVisible = ref(false);
 
 // 表单注入，用于规则校验
-const formItemInjection = inject(formItemInjectKey, null);
+const {
+  effectiveColor: color,
+  effectiveRound,
+  effectiveClearable,
+  effectiveDisabled,
+  effectiveSize,
+  triggerFocus,
+  triggerBlur,
+  onChange: onFormItemChange,
+} = useFormField(props, emits);
+
+const panelSize = computed<'large' | 'medium' | undefined>(() => {
+  const s = effectiveSize.value;
+  if (s === 'large' || s === 'medium') return s;
+  return undefined;
+});
 
 const foldTrigger = typeof props.showFoldTags === 'string' ? props.showFoldTags : 'hover';
-
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type || 'normal';
-  }
-  return props.color;
-});
 
 // 存储每个value对应的label
 const optionLabels = ref<Record<string | number, string>>({});
@@ -195,7 +215,7 @@ const foldLabel = computed(() => {
 });
 
 const isClearable = computed(
-  () => props.clearable && !props.disabled && (valueList.value.some((v) => v !== '' && !isUndefined(v)) || Boolean(filterValue.value)),
+  () => effectiveClearable.value && !effectiveDisabled.value && (valueList.value.some((v) => v !== '' && !isUndefined(v)) || Boolean(filterValue.value)),
 );
 
 watch(
@@ -234,7 +254,7 @@ const getEmitValue = (value: Array<string | number>) => {
 
 const emitChange = (value: Array<string | number>) => {
   emits('change', getEmitValue(value));
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 
 const emitUpdateValue = (value: Array<string | number>) => {
@@ -365,7 +385,7 @@ const onOptionVisibleChange = (visible: boolean) => {
 };
 
 const onRemoveTag = (value: string | number, e: Event) => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     return;
   }
 
@@ -387,14 +407,14 @@ const onFoldTagClick = (e: Event) => {
 };
 
 const beforeTagPopoverShow = () => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     return false;
   }
   return true;
 };
 
 const handleClickEvent = (e: Event) => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     e.stopPropagation();
     e.preventDefault();
     return false;
@@ -441,6 +461,7 @@ watch(
   (newVal) => {
     if (newVal) {
       tagPopoverVisible.value = false;
+      triggerFocus(new FocusEvent('focus'));
       // 可搜索状态下聚焦输入框
       if (props.filterable) {
         nextTick(() => {
@@ -452,6 +473,7 @@ watch(
     } else {
       // 面板真正关闭后再清空过滤值，避免 hover 触发场景下被推测性关闭误清空
       filterValue.value = '';
+      triggerBlur();
     }
   },
 );
@@ -460,16 +482,16 @@ watch(
   <InBox
     ref="cascaderV2Ref"
     v-bind="{
-      size: props.size,
+      size: effectiveSize,
       variant: props.variant,
       color: color,
-      disabled: props.disabled,
-      round: props.round,
+      disabled: effectiveDisabled,
+      round: effectiveRound,
       focused: isSelecting,
     }"
     class="o-cascader-v2"
     :class="[
-      `o-cascader-v2-${props.size}`,
+      `o-cascader-v2-${effectiveSize || cascaderDefaultSize}`,
       {
         'is-selecting': isSelecting,
         'is-multiple': props.multiple && valueList.length > 0,
@@ -480,11 +502,18 @@ watch(
     @click="handleClickEvent"
     @mouseleave="handleMouseLeave"
   >
-    <OScroller class="o-cascader-v2-tags-scroller" wrap-class="o-cascader-v2-value-list" show-type="hover" size="small" :disabled-y="props.disabled" disabled-x>
+    <OScroller
+      class="o-cascader-v2-tags-scroller"
+      wrap-class="o-cascader-v2-value-list"
+      show-type="hover"
+      size="small"
+      :disabled-y="effectiveDisabled"
+      disabled-x
+    >
       <input
         v-if="!props.multiple || (props.multiple && valueList.length === 0)"
         ref="inputRef"
-        :disabled="props.disabled"
+        :disabled="effectiveDisabled"
         :value="filterValue || optionLabels[valueList[0]]"
         :placeholder="props.placeholder"
         :readonly="!props.filterable"
@@ -495,7 +524,7 @@ watch(
       <div v-else class="o-cascader-v2-tags-wrap">
         <div v-for="item in valueListDisplay" :key="item" class="o-cascader-v2-tag">
           <span class="o-cascader-v2-tag-text">{{ optionLabels[item] }}</span>
-          <div class="o-cascader-v2-tag-remove" :class="{ 'o-cascader-v2-tag-remove-disabled': props.disabled }" @click="(e: Event) => onRemoveTag(item, e)">
+          <div class="o-cascader-v2-tag-remove" :class="{ 'o-cascader-v2-tag-remove-disabled': effectiveDisabled }" @click="(e: Event) => onRemoveTag(item, e)">
             <IconClose />
           </div>
         </div>
@@ -504,7 +533,7 @@ watch(
           v-model:visible="tagPopoverVisible"
           :trigger="foldTrigger"
           :before-show="beforeTagPopoverShow"
-          :disabled="props.disabled"
+          :disabled="effectiveDisabled"
           wrap-class="o-cascader-v2-tag-popover"
           position="top"
         >
@@ -518,7 +547,7 @@ watch(
               <span class="o-cascader-v2-tag-text">{{ optionLabels[item] }}</span>
               <div
                 class="o-cascader-v2-tag-remove"
-                :class="{ 'o-cascader-v2-tag-remove-disabled': props.disabled }"
+                :class="{ 'o-cascader-v2-tag-remove-disabled': effectiveDisabled }"
                 @click="(e: Event) => onRemoveTag(item, e)"
               >
                 <IconClose />
@@ -537,7 +566,7 @@ watch(
           ref="inputRef"
           :value="filterValue"
           :readonly="!props.filterable"
-          :disabled="props.disabled"
+          :disabled="effectiveDisabled"
           type="text"
           class="o-cascader-v2-input"
           :style="props.filterable && valueListDisplay.length > 0 ? { width: `${inputWidth}px` } : { width: '100%' }"
@@ -570,7 +599,7 @@ watch(
               :model-value="props.modelValue"
               :path-mode="props.pathMode"
               :expand-trigger="props.expandTrigger"
-              :size="props.size"
+              :size="panelSize || cascaderDefaultSize"
               :show-all-levels="props.showAllLevels"
               :filterable="props.filterable"
               :lazy="props.lazy"
@@ -580,7 +609,7 @@ watch(
         </div>
       </teleport>
       <OPopup
-        v-if="!props.disabled"
+        v-if="!effectiveDisabled"
         v-model:visible="isSelecting"
         :transition="props.transition"
         :unmount-on-hide="props.unmountOnHide"

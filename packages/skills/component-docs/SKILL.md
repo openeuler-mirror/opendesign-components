@@ -34,6 +34,7 @@ metadata:
 | 输入类组件 case（OForm + #extra 展示 modelValue）     | cases.md                   |
 | 高级 Usage（联动 \_oCtx、条件属性、lang="tsx"）       | cases.md                   |
 | case 中的 SSR 安全写法                                | cases.md                   |
+| case 中 import opendesign 组件/图标/类型              | cases.md                   |
 | case 中变量声明使用包导出类型                         | cases.md                   |
 | 处理实验性/废弃功能的 case                            | cases.md                   |
 | 编辑 index.zh-CN.md / index.en-US.md                  | doc-pages.md               |

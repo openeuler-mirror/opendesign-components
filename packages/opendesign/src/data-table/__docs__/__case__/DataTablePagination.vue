@@ -19,7 +19,7 @@ Demonstrates two request patterns for backend pagination with filtering and sort
  * conditions 对象的 key 需对应列的 key（筛选列）或 sortKey（排序列）
  */
 import { computed, ref, watch } from 'vue';
-import { DataTableColumnT, DataTableSortMethod, DataTableSortMethodT } from '@opensig/opendesign';
+import { DataTableColumnT, DataTableSortMethod, DataTableSortMethodT, ODataTable, OPagination } from '@opensig/opendesign';
 import { requestTableData } from '../../../table/__docs__/__case__/data.ts';
 import '../../style';
 
@@ -61,7 +61,7 @@ const loading = ref(false);
 const data = ref<any[]>([]);
 const total = ref(0);
 const currentPage = ref(1);
-const pageSize = ref(5);
+const pageSize = ref(6);
 
 // 竞态控制：丢弃过期请求的响应
 let fetchVersion = 0;

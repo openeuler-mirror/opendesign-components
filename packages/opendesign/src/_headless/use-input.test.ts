@@ -25,6 +25,7 @@ function createHost(initialProps: Record<string, any> = {}) {
   const modelValue = initialProps.modelValue !== undefined ? ref(initialProps.modelValue) : undefined;
   const maxLength = ref(initialProps.maxLength);
   const minLength = ref(initialProps.minLength);
+  const onlyNumericInput = ref(initialProps.onlyNumericInput);
 
   const Host = defineComponent({
     name: 'TestInputHost',
@@ -38,6 +39,7 @@ function createHost(initialProps: Record<string, any> = {}) {
         minLength,
         validate: initialProps.validate,
         format: initialProps.format,
+        onlyNumericInput,
       };
       const input = useInput(options);
       return { input };
@@ -72,7 +74,7 @@ function createHost(initialProps: Record<string, any> = {}) {
     },
   });
 
-  return { Host, modelValue, emits, emitUpdate, maxLength, minLength };
+  return { Host, modelValue, emits, emitUpdate, maxLength, minLength, onlyNumericInput };
 }
 
 describe('useInput', () => {
@@ -182,5 +184,109 @@ describe('useInput', () => {
     await flush();
     // watch(computedValue) 触发 validateValue → isValid=false
     expect(input.getAttribute('data-valid')).toBe('false');
+  });
+});
+
+/**
+ * onlyNumericInput 行为契约：
+ *   - 未开启时，普通文本输入不受 illegal 格式字符序列约束
+ *   - 开启时，输入被限制为合法数字（含负号/小数点），非法字符/格式序列被回退
+ */
+describe('useInput onlyNumericInput 行为契约', () => {
+  test('useInput onlyNumericInput=false - 输入含连续点号的普通文本保留原值', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: false });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = 'a..b';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), 'a..b');
+    expect(input.value).toBe('a..b');
+  });
+
+  test('useInput onlyNumericInput=false - 输入含连续短横线的普通文本保留原值', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: false });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = 'a--b';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), 'a--b');
+    expect(input.value).toBe('a--b');
+  });
+
+  test('useInput onlyNumericInput=false - 输入 "-.5" 类格式保留原值', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: false });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = '-.5';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), '-.5');
+    expect(input.value).toBe('-.5');
+  });
+
+  test('useInput onlyNumericInput=true - 输入字母被回退为上一次合法值', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: true });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = 'a';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    // 字母不通过 basicValidRegex，value 回退为 displayValue.value（初始空字符串）
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), '');
+    expect(input.value).toBe('');
+  });
+
+  test('useInput onlyNumericInput=true - 输入连续点号被回退', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: true });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = '..';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), '');
+  });
+
+  test('useInput onlyNumericInput=true - 输入合法数字 -1.5 保留原值', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: true });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = '-1.5';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), '-1.5');
+    expect(input.value).toBe('-1.5');
+  });
+
+  test('useInput onlyNumericInput=true - 输入 ".5" 保留原值', async () => {
+    const { Host, emits } = createHost({ defaultValue: '', onlyNumericInput: true });
+    const screen = render(Host);
+    await flush();
+    const input = screen.container.querySelector('.test-input') as HTMLInputElement;
+    input.focus();
+    await flush();
+    input.value = '.5';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await flush();
+    expect(emits).toHaveBeenCalledWith('input', expect.any(Event), '.5');
   });
 });

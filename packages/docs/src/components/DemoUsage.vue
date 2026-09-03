@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* global __DEV__ */
-import { h, reactive, ref, watchEffect, watch, shallowRef, type Component, isReactive, isRef } from 'vue';
+import { h, reactive, ref, watchEffect, watch, shallowRef, type Component, isReactive, isRef, defineComponent } from 'vue';
 import { LINENUMBER_TAG_ATTR, LINENUMBER_CSS_ATTR } from '../../plugins/markdown/lineNumber';
 import CodeContainer from './CodeContainer.vue';
 import { compileComponent, highlight, prettier } from '@/utils/code';
@@ -215,13 +215,20 @@ function createShowcaseComponent(demoProps: Record<string, any>, style: string =
   return compileComponent(template, props.ctx);
 }
 /**
- * 函数式组件，用来渲染 showcaseComponent 的演示组件，以及OperatorView表单控件
+ * 声明式组件，渲染 showcaseComponent 演示组件及 OperatorView 表单控件
+ * 使用 defineComponent 确保拥有独立 render effect，当 showcaseComponent 异步更新时能自主重渲染
  */
-const Demo: DemoComponent = () =>
-  h('div', { class: 'props-playground-demo' }, [
-    h('div', { class: 'props-playground-content' }, [h(showcaseComponent.value)]),
-    h('div', { class: 'props-playground-operator' }, [h(OperatorView, { schema: props.schema, state: state, checkboxGroupValue: checkboxGroupValue.value })]),
-  ]);
+const Demo = defineComponent({
+  setup() {
+    return () =>
+      h('div', { class: 'props-playground-demo' }, [
+        h('div', { class: 'props-playground-content' }, [h(showcaseComponent.value)]),
+        h('div', { class: 'props-playground-operator' }, [
+          h(OperatorView, { schema: props.schema, state: state, checkboxGroupValue: checkboxGroupValue.value }),
+        ]),
+      ]);
+  },
+}) as DemoComponent;
 // 将DemoSource组件保存到Demo中，会被 DemoContainer 渲染为源码
 Demo.DemoSource = () => {
   if (sourceCode.value) {
