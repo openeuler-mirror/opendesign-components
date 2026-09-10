@@ -45,7 +45,7 @@ const columns: DataTableColumnT[] = [
     showOverflowToolTip: 2,
     showHeaderOverflowToolTip: 2,
   },
-  { label: 'VNode', key: 'other1', formatter: ({ row }) => h('span', { style: 'white-space: nowrap' }, `${row.email} render by VNode`) },
+  { label: 'VNode', key: 'other1', formatter: ({ row }) => h('span', `${row.email} render by VNode`) },
   { label: 'Component', key: 'other2', formatter: () => defineComponent({ render: () => `render by Component` }) },
   { label: 'other', key: 'other' },
   { label: 'rightFixed', key: 'rightFixed', fixed: 'right' },
