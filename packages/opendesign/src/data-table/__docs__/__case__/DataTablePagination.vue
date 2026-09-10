@@ -130,7 +130,7 @@ fetchData();
 </script>
 
 <template>
-  <ODataTable :columns="columns" :data="data" v-model:conditions="conditions" :loading="loading" @condition-update="handleConditionUpdate" />
+  <ODataTable :columns="columns" :data="data" v-model:conditions="conditions" :loading="loading" column-resizable @condition-update="handleConditionUpdate" />
   <OPagination
     v-model:page="currentPage"
     v-model:page-size="pageSize"

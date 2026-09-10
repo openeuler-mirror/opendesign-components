@@ -109,9 +109,9 @@ describe('SSR 契约（客户端水合）', () => {
     spy.restore();
   });
 
-  // 已知问题：loading=true 时 SSR 与客户端首帧不一致（疑似 useDataColumn 的 isMounted 分支差异）。
-  // 标记为预期失败，待组件侧修复后改回普通断言。归类 L2（组件实现 bug）。
-  test.fails('ODataTable hydration loading=true - 无 hydration mismatch 警告', async () => {
+  // loading=true 时原存在 hydration mismatch（fixColumnAfterMounted 命令式设置 style.width 导致），
+  // 改为 :style 响应式绑定后已修复，改回普通断言。
+  test('ODataTable hydration loading=true - 无 hydration mismatch 警告', async () => {
     const spy = spyHydrationErrors();
     mountedRoot = await ssrThenHydrate(ODataTable, { data: [], columns, loading: true });
     expect(spy.hasHydrationMismatch()).toBe(false);

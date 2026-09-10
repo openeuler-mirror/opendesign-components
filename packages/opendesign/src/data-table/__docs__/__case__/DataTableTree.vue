@@ -101,6 +101,7 @@ const handleLoadChildren = ({ rowIndex, rowKey, resolve, reject }: DataTableLoad
     :columns="columns"
     :data="data"
     row-key="key"
+    column-resizable
     @load-children="handleLoadChildren"
   />
   <br />
@@ -111,6 +112,7 @@ const handleLoadChildren = ({ rowIndex, rowKey, resolve, reject }: DataTableLoad
     :columns="columns"
     :data="data"
     row-key="key"
+    column-resizable
     selection
     :check-strictly="checkStrictly"
     @load-children="handleLoadChildren"
