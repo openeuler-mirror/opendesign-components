@@ -173,6 +173,34 @@ describe('静态契约（按 types.ts 属性）', () => {
     expect(sl.container.querySelector('.o-data-table-header-divider-h')).not.toBeNull();
   });
 
+  test('ODataTable --table-header-height - 祖先 transform 缩放不影响测量值', async () => {
+    // OLayer 默认动画 o-zoom-fade2 使用 transform: scale(0.8)
+    // 旧实现用 getBoundingClientRect().height 会包含缩放 → 值偏小 → 分隔线偏移
+    // 修复后用 offsetHeight（布局属性，不受 transform 影响）
+    const screen = render({
+      setup() {
+        return () =>
+          h('div', { style: { transform: 'scale(0.8)', transformOrigin: 'top left' } }, [
+            h(ODataTable as any, { data: baseData, columns: baseColumns, headerStyle: 'split-line' }),
+          ]);
+      },
+    });
+    await flush();
+    await flush();
+
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    const thead = root.querySelector('thead.o-table-header') as HTMLElement;
+
+    // --table-header-height 应等于 thead 的 offsetHeight（布局高度，不受 transform 影响）
+    const cssVar = root.style.getPropertyValue('--table-header-height');
+    expect(cssVar).not.toBe('');
+    expect(parseFloat(cssVar)).toBeCloseTo(thead.offsetHeight, 0);
+
+    // 且不应等于 getBoundingClientRect().height（会被 scale(0.8) 缩小）
+    const scaledHeight = thead.getBoundingClientRect().height;
+    expect(parseFloat(cssVar)).not.toBeCloseTo(scaledHeight, 0);
+  });
+
   test('ODataTable expandMethod - 返回 VNode 时该行可展开，返回 false 时不可', async () => {
     const expandMethod = (_row: any, rowIndex: number) => {
       if (rowIndex === 0) {
