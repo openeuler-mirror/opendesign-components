@@ -52,6 +52,7 @@
   line-height: var(--select-text-height);
   overflow: hidden;
   text-overflow: ellipsis;
+  pointer-events: none;
   &::-webkit-input-placeholder {
     color: var(--select-placeholder);
   }
@@ -182,14 +183,18 @@
   flex-wrap: wrap;
   align-items: center;
   max-height: var(--select-multiple-max-height);
+  min-width: 0;
 }
 .o-select-tags-scroller {
   width: 100%;
+  min-width: 0;
 }
 .o-select-tags-wrap {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  min-width: 0;
+  overflow: hidden;
 }
 .o-select-tag {
   padding: var(--select-tag-padding);
@@ -201,6 +206,8 @@
   line-height: var(--select-tag-text-height);
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
+  overflow: hidden;
   &:last-child {
     margin-right: 0;
   }
@@ -212,6 +219,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
 
   @include x-svg-hover;
 }
