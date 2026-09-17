@@ -21,6 +21,10 @@ export const popupProps = {
    */
   visible: {
     type: Boolean,
+    // 显式声明 default: undefined，禁用 Vue 对缺省 Boolean prop 的布尔转换（缺省转为 false），
+    // 保证非受控模式（不传 visible）下 props.visible 保持 undefined，
+    // 隐藏时也能正常 emit update:visible / change
+    default: undefined,
   },
   /**
    * @zh-CN 弹出位置
