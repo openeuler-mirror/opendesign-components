@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
-import { popupProps, PopupTriggerT, TargetRect, VirtualElement } from './types';
+import { popupProps, PopupTriggerT, TargetRect } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
 import { throttleRAF, debounce } from '../_utils/helper';
 import { isArray, isFunction, isTouchDevice } from '../_utils/is';
@@ -130,16 +130,6 @@ const innerTargetRect = ref<TargetRect | null>(null);
 const copyRect = (r: TargetRect): TargetRect => ({ left: r.left, top: r.top, width: r.width, height: r.height });
 
 /**
- * @description 从定位源 prop 读取矩形快照。
- * 过渡期兼容 VirtualElement（经其 getBoundingClientRect 取值），
- * OTour 迁移到纯数据后移除该分支
- * @param r - 定位源 prop（纯数据或 VirtualElement）
- * @returns 矩形快照
- */
-const readTargetRect = (r: TargetRect | VirtualElement): TargetRect =>
-  typeof (r as VirtualElement).getBoundingClientRect === 'function' ? copyRect((r as VirtualElement).getBoundingClientRect()) : copyRect(r as TargetRect);
-
-/**
  * @description 元素模式：从交互元素读取实时矩形写入定位源；
  * 数据模式下为 no-op——定位真相是 prop 数据，元素观察者不得写入
  */
@@ -167,7 +157,7 @@ watch(
   () => props.targetRect,
   (r) => {
     if (r) {
-      innerTargetRect.value = readTargetRect(r);
+      innerTargetRect.value = copyRect(r);
     } else {
       syncInnerRect();
     }
@@ -352,7 +342,7 @@ const applyVisible = (isVisible: boolean) => {
     // 靠显示时刷新兑底；popup RO（v-show 切换触发 onResize）仍作为自然兑底保留
     nextTick(() => {
       if (props.targetRect) {
-        innerTargetRect.value = readTargetRect(props.targetRect);
+        innerTargetRect.value = copyRect(props.targetRect);
       } else {
         syncInnerRect();
       }
@@ -442,14 +432,9 @@ const handleTransitionEnd = () => {
 
 const scrollListener = throttleRAF(() => {
   if (visible.value) {
-    if (props.targetRect) {
-      // 过渡期：数据模式滚动时重读定位源（VirtualElement 活闭包实时取值），
-      // OTour 接管滚动跟随后移除此分支
-      innerTargetRect.value = readTargetRect(props.targetRect);
-    } else {
-      // 元素模式：从交互元素同步实时矩形，经唯一定位重算入口更新
-      syncInnerRect();
-    }
+    // 元素模式：从交互元素同步实时矩形，经唯一定位重算入口更新；
+    // 数据模式下无滚动监听——滚动跟随职责在调用方（ADR 0001）
+    syncInnerRect();
   }
 });
 
@@ -493,10 +478,6 @@ watch(popupRef, (popEl) => {
           syncInnerRect();
         }
       });
-    } else if (props.targetRect) {
-      // 过渡期：数据模式（VirtualElement）下监听 window 滚动重读定位源，
-      // OTour 接管滚动跟随后移除此分支
-      handles.push(listenScroll(window));
     }
 
     if (wrapperEl.value) {
