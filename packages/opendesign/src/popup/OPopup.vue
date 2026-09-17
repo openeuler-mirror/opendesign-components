@@ -120,12 +120,13 @@ onMounted(() => {
 onMounted(() => {
   watch(
     targetRect,
-    (newVal) => {
-      targetEl = newVal;
+    (newVal, oldValue) => {
       if (newVal) {
+        // 仅 targetRect 有值时才接管定位目标，避免覆盖 target prop / #target 插槽已绑定的 targetEl
+        targetEl = newVal;
         nextTick(updatePopupStyle);
-      } else {
-        // targetRect 清空时清除残留定位样式，使父级居中布局（如 OTour 居中步骤）生效
+      } else if (oldValue) {
+        // 仅在曾有值变为空时清除残留定位样式，使父级居中布局（如 OTour 居中步骤）生效
         popStyle.transform = '';
       }
     },
