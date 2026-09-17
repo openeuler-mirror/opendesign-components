@@ -429,6 +429,19 @@ describe('动态契约（用户交互 → 组件响应）', () => {
     expect(hp.getPopup()?.classList.contains('o-popup-pos-bottom')).toBe(true);
   });
 
+  test('OPopup trigger=hover + #target 插槽 - 弹层定位跟随触发元素而非停留视口左上角（#199 回归）', async () => {
+    // 宿主远离原点固定：若定位丢失（回归路径），弹层将停留在视口 (0,0)，与触发元素坐标明显可分辨
+    const hp = renderPopup({ trigger: 'hover', hoverDelay: 0, position: 'bl' }, 'position:fixed;top:200px;left:150px;');
+    await flush();
+    await userEvent.hover(hp.getTarget());
+    await flush();
+    const tRect = hp.getTarget().getBoundingClientRect();
+    const pRect = (hp.getPopup() as HTMLElement).getBoundingClientRect();
+    // position=bl（左下）且 offset=0：弹层顶边贴合触发元素底边、左边缘对齐
+    expect(Math.abs(pRect.top - tRect.bottom)).toBeLessThan(1);
+    expect(Math.abs(pRect.left - tRect.left)).toBeLessThan(1);
+  });
+
   test('OPopup unmountOnHide=true - 隐藏过渡结束后弹层从 DOM 卸载', async () => {
     const hp = renderPopup();
     await flush();
