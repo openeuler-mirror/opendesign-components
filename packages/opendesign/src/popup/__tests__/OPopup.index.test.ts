@@ -4,11 +4,12 @@
  * OPopup 是 T5 浮层基座组件：触发元素原地渲染（#target 插槽 + OChildOnly），
  * 弹层内容通过 Teleport 挂载到 wrapper（默认 body），由 ClientOnly 包裹保证 SSR 安全。
  *
- * 组织原则（4 维度）：
+ * 组织原则（5 维度）：
  *   1. 静态契约：按 types.ts prop 顺序
  *   2. 动态契约：trigger 交互 / v-model / beforeShow、beforeHide、disabled 阻断 / 嵌套 ODialog
  *   3. 视觉契约：--popup-* token 链双主题 wiring
  *   4. 插槽契约：default / target / anchor
+ *   5. 定位源契约：元素模式 / targetRect 数据模式 / 模式回退与 null 路径
  *
  * 查询约定：触发元素在组件容器内（screen.container 查询）；
  * 弹层内容 Teleport 到 document.body，且同一测试内多次渲染会留下多个弹层，
@@ -21,7 +22,7 @@
 import { test, expect, describe, beforeEach } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { userEvent } from 'vitest/browser';
-import { h, defineComponent, ref } from 'vue';
+import { h, defineComponent, ref, reactive } from 'vue';
 import OPopup from '../OPopup.vue';
 import ODialog from '../../dialog/ODialog.vue';
 import { PopupPositionTypes } from '../types';
@@ -495,6 +496,149 @@ describe('视觉契约（双主题 light / dark）', () => {
     paintThemed(light.screen.container, 'e.light', wrapLight);
     paintThemed(dark.screen.container, 'e.dark', wrapDark);
     expect(getComputedStyle(wrapLight).backgroundColor).not.toBe(getComputedStyle(wrapDark).backgroundColor);
+  });
+});
+
+describe('定位源契约（元素模式 / targetRect 数据模式 / 模式回退）', () => {
+  /** 定位场景默认 props：trigger=none + 受控 visible，屏蔽交互干扰只验定位 */
+  const POSITIONING_PROPS: Record<string, unknown> = { trigger: 'none', visible: true, unmountOnHide: false, position: 'bl' };
+
+  /** 定位场景默认内容：固定尺寸避免自适应干扰 */
+  const positioningSlots = {
+    default: () => h('div', { class: 'test-content', style: 'width:200px;height:120px;' }, '弹层内容'),
+  };
+
+  /**
+   * 渲染纯定位场景（trigger=none + 受控 visible）。
+   * @param props OPopup props（targetRect / position 等）
+   * @param withTargetSlot 是否通过 #target 插槽提供交互元素（模式回退场景需要）
+   */
+  function renderPositioning(props: Record<string, unknown> = {}, withTargetSlot = false) {
+    const screen = render(OPopup, {
+      props: { ...POSITIONING_PROPS, ...props },
+      slots: {
+        ...positioningSlots,
+        ...(withTargetSlot ? { target: () => h('button', { class: 'test-target', style: 'width:120px;height:40px;' }, '触发元素') } : {}),
+      },
+      ...REAL_TRANSITION,
+    });
+    return {
+      screen,
+      getPopup: () => lastBodyEl('.o-popup'),
+      getTarget: () => screen.container.querySelector('.test-target') as HTMLElement | null,
+    };
+  }
+
+  test('OPopup targetRect 数据模式 - 传入纯数据快照时弹层定位到矩形（无需 DOM target）', async () => {
+    const hp = renderPositioning({ targetRect: { left: 300, top: 200, width: 100, height: 40 } });
+    await flush();
+    const pRect = (hp.getPopup() as HTMLElement).getBoundingClientRect();
+    // position=bl、offset=0：弹层顶边贴合矩形底边、左边缘对齐
+    expect(Math.abs(pRect.top - 240)).toBeLessThan(1);
+    expect(Math.abs(pRect.left - 300)).toBeLessThan(1);
+  });
+
+  test('OPopup targetRect 数据模式 - 整体替换快照对象时弹层重新定位', async () => {
+    const hp = renderPositioning({ targetRect: { left: 300, top: 200, width: 100, height: 40 } });
+    await flush();
+    await hp.screen.rerender({ targetRect: { left: 500, top: 100, width: 100, height: 40 } });
+    await flush();
+    const pRect = (hp.getPopup() as HTMLElement).getBoundingClientRect();
+    expect(Math.abs(pRect.top - 140)).toBeLessThan(1);
+    expect(Math.abs(pRect.left - 500)).toBeLessThan(1);
+  });
+
+  test('OPopup targetRect 数据模式 - 响应式对象原地修改坐标时弹层跟随更新', async () => {
+    const rect = reactive({ left: 300, top: 200, width: 100, height: 40 });
+    const Host = defineComponent({
+      setup() {
+        return () => h(OPopup as any, { ...POSITIONING_PROPS, targetRect: rect }, positioningSlots);
+      },
+    });
+    render(Host, REAL_TRANSITION);
+    await flush();
+    // 原地修改坐标（deep 监听契约）
+    rect.left = 600;
+    rect.top = 80;
+    await flush();
+    const pRect = (lastBodyEl('.o-popup') as HTMLElement).getBoundingClientRect();
+    expect(Math.abs(pRect.top - 120)).toBeLessThan(1);
+    expect(Math.abs(pRect.left - 600)).toBeLessThan(1);
+  });
+
+  test('OPopup targetRect 数据模式 - 普通对象原地修改不触发重算（快照契约的文档化行为）', async () => {
+    const rect = { left: 300, top: 200, width: 100, height: 40 };
+    const Host = defineComponent({
+      setup() {
+        return () => h(OPopup as any, { ...POSITIONING_PROPS, targetRect: rect }, positioningSlots);
+      },
+    });
+    render(Host, REAL_TRANSITION);
+    await flush();
+    const before = (lastBodyEl('.o-popup') as HTMLElement).getBoundingClientRect();
+    // 普通对象无响应性，原地修改不触发重算，弹层停留在原定位
+    rect.left = 600;
+    rect.top = 80;
+    await flush();
+    const after = (lastBodyEl('.o-popup') as HTMLElement).getBoundingClientRect();
+    expect(after.left).toBe(before.left);
+    expect(after.top).toBe(before.top);
+  });
+
+  test('OPopup targetRect 清空且存在交互元素 - 定位回退到元素实时矩形', async () => {
+    const hp = renderPositioning({ targetRect: { left: 400, top: 100, width: 100, height: 40 } }, true);
+    await flush();
+    const before = (hp.getPopup() as HTMLElement).getBoundingClientRect();
+    expect(Math.abs(before.left - 400)).toBeLessThan(1);
+
+    await hp.screen.rerender({ targetRect: null });
+    await flush();
+    const pRect = (hp.getPopup() as HTMLElement).getBoundingClientRect();
+    const tRect = (hp.getTarget() as HTMLElement).getBoundingClientRect();
+    // 回退元素模式：position=bl 贴合交互元素
+    expect(Math.abs(pRect.top - tRect.bottom)).toBeLessThan(1);
+    expect(Math.abs(pRect.left - tRect.left)).toBeLessThan(1);
+  });
+
+  test('OPopup targetRect 清空且无交互元素 - 清除定位样式回归父级布局', async () => {
+    const hp = renderPositioning({ targetRect: { left: 400, top: 100, width: 100, height: 40 } });
+    await flush();
+    expect((hp.getPopup() as HTMLElement).style.transform).not.toBe('');
+
+    await hp.screen.rerender({ targetRect: null });
+    await flush();
+    expect((hp.getPopup() as HTMLElement).style.transform).toBe('');
+  });
+
+  test('OPopup 元素模式 - 滚动容器后弹层在两个 rAF 内跟随交互元素（不滞后超过一帧）', async () => {
+    const Host = defineComponent({
+      setup() {
+        return () =>
+          h('div', { class: 'scroll-host', style: 'height:150px;overflow:auto;' }, [
+            h('div', { style: 'height:600px;padding-top:50px;' }, [
+              h(
+                OPopup as any,
+                { ...POSITIONING_PROPS },
+                {
+                  target: () => h('button', { class: 'test-target', style: 'width:120px;height:40px;' }, '触发元素'),
+                  ...positioningSlots,
+                },
+              ),
+            ]),
+          ]);
+      },
+    });
+    const screen = render(Host, REAL_TRANSITION);
+    await flush();
+    const scroller = screen.container.querySelector('.scroll-host') as HTMLElement;
+    const before = (lastBodyEl('.o-popup') as HTMLElement).getBoundingClientRect();
+
+    scroller.scrollTop = 40; // 交互元素视口位置上移 40px（保持可见，不触发边缘钳制）
+    // 滚动事件异步派发（帧内晚于 rAF 注册），允许一帧延迟：两个 rAF 内必须完成重算
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(null))));
+
+    const after = (lastBodyEl('.o-popup') as HTMLElement).getBoundingClientRect();
+    expect(Math.abs(before.top - after.top - 40)).toBeLessThan(1);
   });
 });
 
