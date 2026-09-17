@@ -160,27 +160,6 @@ watch(innerTargetRect, (r) => {
   updatePopupStyle();
 });
 
-// 定位源 prop 监听：数据模式下拷贝写入 innerTargetRect（deep 支持响应式对象原地修改）；
-// 清空时回退交互元素实时矩形，无元素则置空走父级布局
-watch(
-  () => props.targetRect,
-  (r) => {
-    if (r) {
-      innerTargetRect.value = copyRect(r);
-    } else {
-      // 回退场景：target prop 因同传被跳过绑定时补绑，使清空后能回退到其定位
-      if (!targetEl && target.value) {
-        const el = getHtmlElement(target.value);
-        if (el) {
-          bindTargetEvent(el);
-        }
-      }
-      syncInnerRect();
-    }
-  },
-  { immediate: true, deep: true },
-);
-
 /**
  * @description 显示后刷新定位源并触发重算：unmountOnHide 场景隐藏期间
  * 观察者解绑、矩形可能陈旧，靠显示时刷新兜底
@@ -407,6 +386,29 @@ watch(targetElRef, (elRef) => {
     bindTargetEvent(elRef?.$el);
   }
 });
+
+// 定位源 prop 监听：数据模式下拷贝写入 innerTargetRect（deep 支持响应式对象原地修改）；
+// 清空时回退交互元素实时矩形，无元素则置空走父级布局
+// 声明位置约束：immediate 回调在 setup 期同步调用 bindTargetEvent，其函数体又会求值
+// setVisible / onTargetInterscting 等 const 声明，故本 watch 须置于这些声明全部之后，避开暂存死区
+watch(
+  () => props.targetRect,
+  (r) => {
+    if (r) {
+      innerTargetRect.value = copyRect(r);
+    } else {
+      // 回退场景：target prop 因同传被跳过绑定时补绑，使清空后能回退到其定位
+      if (!targetEl && target.value) {
+        const el = getHtmlElement(target.value);
+        if (el) {
+          bindTargetEvent(el);
+        }
+      }
+      syncInnerRect();
+    }
+  },
+  { immediate: true, deep: true },
+);
 
 const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
