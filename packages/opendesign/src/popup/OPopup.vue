@@ -237,7 +237,9 @@ const updatePopupStyle = () => {
     anchorStyle: aStyle,
   } = calcPopupStyle({
     popupEl: popupRef.value,
-    targetEl,
+    // 定位源矩形：元素模式与 targetRect 模式的 targetEl 均提供 getBoundingClientRect，
+    // 此处取快照传入，calcPopupStyle 不再感知 target 形态
+    tRect: targetEl.getBoundingClientRect(),
     position: props.position,
     adaptive: props.adaptive,
     offset: props.offset,

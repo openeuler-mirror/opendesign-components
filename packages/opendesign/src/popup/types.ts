@@ -7,8 +7,27 @@ export const PopupTriggerTypes = ['none', 'click', 'click-outclick', 'hover', 'h
 export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
 /**
+ * 目标矩形快照数据，视口坐标系，与 DOMRect 结构兼容。
+ *
+ * 定位源的数据契约：可直接传 `el.getBoundingClientRect()` 的返回值，
+ * 也可由调用方（如 OTour）自行构造。滚动/缩放的跟随职责在调用方，
+ * 组件不代劳；传入后组件内部拷贝使用，不持有调用方引用。
+ */
+export interface TargetRect {
+  /** 视口坐标系下目标左边缘 X */
+  left: number;
+  /** 视口坐标系下目标顶边 Y */
+  top: number;
+  /** 目标宽度 */
+  width: number;
+  /** 目标高度 */
+  height: number;
+}
+
+/**
  * 虚拟元素接口，用于 OTour 等无真实 DOM 的定位场景
  * @description 仅需提供 getBoundingClientRect 方法，无需 DOM 父节点
+ * @deprecated 已由 {@link TargetRect} 快照数据契约取代，将在 OTour 迁移后移除
  */
 export interface VirtualElement {
   getBoundingClientRect(): DOMRect;
