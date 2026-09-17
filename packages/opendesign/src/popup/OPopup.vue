@@ -117,7 +117,7 @@ onMounted(() => {
 
 /**
  * @description 定位源状态：元素模式的观察者与数据模式的 targetRect 监听统一写入此处，
- * 作为唯一定位真相驱动重算（#199 回归的根治点）
+ * 作为唯一定位源驱动重算（#199 回归的根治点）
  */
 const innerTargetRect = ref<TargetRect | null>(null);
 
@@ -129,9 +129,10 @@ const innerTargetRect = ref<TargetRect | null>(null);
  */
 const copyRect = (r: TargetRect): TargetRect => ({ left: r.left, top: r.top, width: r.width, height: r.height });
 
+// 交互元素绑定：元素模式定位源同步与 trigger 绑定均由此发起
 /**
  * @description 元素模式：从交互元素读取实时矩形写入定位源；
- * 数据模式下为 no-op——定位真相是 prop 数据，元素观察者不得写入
+ * 数据模式下为 no-op——定位源是 prop 数据，元素观察者不得写入
  */
 const syncInnerRect = () => {
   if (props.targetRect) {
@@ -143,6 +144,14 @@ const syncInnerRect = () => {
 // 唯一定位重算入口：定位源变化 → 重算弹层位置。
 // 默认 pre-flush（微任务级触发），滚动场景与观察者同帧完成，不引入额外 rAF 延迟
 watch(innerTargetRect, (r) => {
+  // 数据模式：宽度镜像跟随矩形宽度（「触发元素宽度」即 rect 宽度）
+  if (r && props.targetRect) {
+    if (props.adjustMinWidth) {
+      popStyle.minWidth = `${r.width}px`;
+    } else if (props.adjustWidth) {
+      popStyle.width = `${r.width}px`;
+    }
+  }
   if (!r) {
     // 定位源全空：清除定位样式，回归父级布局（如 OTour 居中步骤）
     popStyle.transform = '';
@@ -159,11 +168,30 @@ watch(
     if (r) {
       innerTargetRect.value = copyRect(r);
     } else {
+      // 回退场景：target prop 因同传被跳过绑定时补绑，使清空后能回退到其定位
+      if (!targetEl && target.value) {
+        const el = getHtmlElement(target.value);
+        if (el) {
+          bindTargetEvent(el);
+        }
+      }
       syncInnerRect();
     }
   },
   { immediate: true, deep: true },
 );
+
+/**
+ * @description 显示后刷新定位源并触发重算：unmountOnHide 场景隐藏期间
+ * 观察者解绑、矩形可能陈旧，靠显示时刷新兜底
+ */
+const refreshPositionSource = () => {
+  if (props.targetRect) {
+    innerTargetRect.value = copyRect(props.targetRect);
+  } else {
+    syncInnerRect();
+  }
+};
 
 onMounted(() => {
   watch(
@@ -338,15 +366,8 @@ const applyVisible = (isVisible: boolean) => {
 
   if (visible.value) {
     toMount.value = true;
-    // 显示后刷新定位源并重算：unmountOnHide 场景隐藏期间观察者解绑、矩形可能陈旧，
-    // 靠显示时刷新兑底；popup RO（v-show 切换触发 onResize）仍作为自然兑底保留
-    nextTick(() => {
-      if (props.targetRect) {
-        innerTargetRect.value = copyRect(props.targetRect);
-      } else {
-        syncInnerRect();
-      }
-    });
+    // 靠显示时刷新兜底；popup RO（v-show 切换触发 onResize）仍作为自然兜底保留
+    nextTick(refreshPositionSource);
     if (props.hideWhenTargetInvisible && targetEl) {
       io?.observe(targetEl, onTargetInterscting);
     }
@@ -444,11 +465,6 @@ const listenScroll = (el: HTMLElement | Window) => {
     el.removeEventListener('scroll', scrollListener);
   };
 };
-
-/**
- * @description 判断元素是否为真实 DOM 元素（交互元素约定为 HTMLElement）
- */
-const isTargetHtmlElement = (el: HTMLElement | null): el is HTMLElement => isHtmlElement(el);
 
 watch(popupRef, (popEl) => {
   let handles: Array<() => void> = [];

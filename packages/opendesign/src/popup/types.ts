@@ -64,7 +64,7 @@ export const popupProps = {
     default: null,
   },
   /**
-   * @zh-CN 定位源矩形快照（视口坐标系，结构兼容 DOMRect），作为弹层定位目标，优先级高于 target。
+   * @zh-CN 定位源矩形快照（视口坐标系，结构兼容 DOMRect），作为弹层定位源，优先级高于 target。
    * 整体替换对象为主用法；传入响应式对象时支持原地修改坐标；普通对象原地修改不触发重算。
    * 滚动/缩放的跟随职责在调用方（如 OTour 自行监听 scroll 写回）
    * @en-US Target rect snapshot (viewport coordinates, DOMRect-compatible) as the positioning source, taking priority over target.
