@@ -11,7 +11,7 @@
 import { ref } from 'vue';
 
 const options = [
-  { label: 'option 1', value: 'opt1' },
+  { label: 'optionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoption', value: 'opt1' },
   { label: 'option 2', value: 'opt2' },
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
