@@ -228,6 +228,39 @@ describe('静态契约（按 types.ts 属性）', () => {
     expect(events).toContainEqual(['update:visible', true]);
     expect(isWrapShown(lastBodyEl('.o-popup-wrap'))).toBe(true);
   });
+
+  test('OPopup target prop - 挂载时即传入元素不抛 TDZ 错误且绑定触发事件', async () => {
+    const events: Array<[string, boolean]> = [];
+    // 预创建元素：使 target 在 OPopup setup 期间即为非空，
+    // 区别于 ref 挂载后才生效的路径（文档站 OPopover 即此形态）
+    const preset = document.createElement('button');
+    preset.className = 'preset-target';
+    preset.textContent = '预设触发元素';
+    document.body.appendChild(preset);
+    const Host = defineComponent({
+      setup() {
+        return () =>
+          h(
+            OPopup as any,
+            {
+              target: preset,
+              'onUpdate:visible': (v: boolean) => events.push(['update:visible', v]),
+            },
+            { default: () => h('div', '弹层内容') },
+          );
+      },
+    });
+    try {
+      const screen = render(Host, REAL_TRANSITION);
+      await flush();
+      await userEvent.click(preset);
+      await flush();
+      expect(events).toContainEqual(['update:visible', true]);
+      expect(isWrapShown(lastBodyEl('.o-popup-wrap'))).toBe(true);
+    } finally {
+      preset.remove();
+    }
+  });
 });
 
 describe('动态契约（用户交互 → 组件响应）', () => {
