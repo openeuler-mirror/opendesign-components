@@ -10,6 +10,7 @@ kind: feedback
 <!-- @usage PopupUsage -->
 <!-- @case PopupTrigger -->
 <!-- @case PopupPosition -->
+<!-- @case PopupTargetSlot -->
 <!-- @case PopupInDialog -->
 
 ## Api
