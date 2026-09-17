@@ -71,6 +71,7 @@ export const popupProps = {
    * Replacing the whole object is the primary usage; reactive objects support in-place coordinate mutation; in-place mutation of plain objects does not trigger recalculation.
    * Scroll/zoom following is the caller's responsibility (e.g. OTour listens to scroll and writes back)
    * @default null
+   * @since NEXT
    */
   targetRect: {
     type: Object as PropType<TargetRect | null>,

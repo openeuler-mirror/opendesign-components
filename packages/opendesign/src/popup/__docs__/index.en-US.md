@@ -11,6 +11,7 @@ kind: feedback
 <!-- @case PopupTrigger -->
 <!-- @case PopupPosition -->
 <!-- @case PopupTargetSlot -->
+<!-- @case PopupTargetRect -->
 <!-- @case PopupInDialog -->
 
 ## Api
