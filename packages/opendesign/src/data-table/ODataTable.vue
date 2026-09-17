@@ -122,7 +122,15 @@ const containerWidth = refDebounced(
 );
 
 const headerRef = ref<HTMLTableElement>();
-const { height: headerTableHeight } = useElementBounding(headerRef);
+const headerTableHeight = ref(0);
+// 用 offsetHeight（布局属性，不受祖先 transform 缩放影响）而非
+// getBoundingClientRect（视觉尺寸，包含祖先 transform 缩放）：
+// 浮层缩放动画期间 getBoundingClientRect 会测到缩小后的高度，而
+// transform 不改变布局尺寸、ResizeObserver 不会因此触发重测，错误值
+// 会一直滞留；offsetHeight 在动画任意时刻测量都是正确值。
+const onHeaderResize = () => {
+  headerTableHeight.value = headerRef.value?.offsetHeight ?? 0;
+};
 const tableTextSize = useCssVar('--table-text-size', headerRef);
 const tableTextHeight = useCssVar('--table-text-height', headerRef);
 
@@ -484,7 +492,7 @@ defineExpose<DataTableExposed>({
       >
         <caption></caption>
         <TableColGroup />
-        <thead v-if="props.showHeader" ref="headerRef" class="o-table-header">
+        <thead v-if="props.showHeader" ref="headerRef" v-on-resize="onHeaderResize" class="o-table-header">
           <slot name="header" :columns="dataColumns" :group-columns="groupColumns">
             <tr v-for="(groupColumn, groupIndex) in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
               <template v-for="(column, colIndex) in groupColumn" :key="column.key">
