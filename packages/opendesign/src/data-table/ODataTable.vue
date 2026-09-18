@@ -162,6 +162,7 @@ const {
   dataColumnMap,
   dataColumns,
   groupColumns,
+  userWidths,
   isBodyCellRemoved,
   isLastLeftFixedCell,
   isFirstRightFixedCell,
@@ -169,7 +170,7 @@ const {
   hasRightFixedColumn,
   handleColumnResizerMousedown,
   resizingColumnKey,
-} = useDataColumn({ ...toRefs(props), tableEl, containerWidth });
+} = useDataColumn({ ...toRefs(props), tableEl, containerWidth, onColumnsFixed: () => checkTableOverflow() });
 
 const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
   if (!el) {
@@ -388,6 +389,7 @@ provide(dataTableInjectKey, {
   dataColumnMap,
   dataColumns,
   groupColumns,
+  userWidths,
 
   hasExpandSlot,
   expandedRowKeys,
@@ -416,6 +418,7 @@ defineExpose<DataTableExposed>({
   dataColumnMap,
   dataColumns,
   groupColumns,
+  userWidths,
   /**
    * @zh-CN 全选
    * @en-US Select all
@@ -471,7 +474,7 @@ defineExpose<DataTableExposed>({
     }"
   >
     <div v-if="props.showHeader && props.headerStyle === 'split-line'" class="o-data-table-header-divider-h"></div>
-    <div v-if="!hasLeftFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
+    <div v-if="!hasLeftFixedColumn && !hasRightFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
     <OScroller
       class="o-table-scroller"
       wrap-class="o-table-wrap"

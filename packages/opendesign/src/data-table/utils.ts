@@ -1,5 +1,5 @@
 import { ComputedRef, ToRefs } from 'vue';
-import { isArray, isNil, isIosDevice } from '../_utils/is.ts';
+import { isArray, isNil, isNumber, isIosDevice } from '../_utils/is.ts';
 import { TableRowT } from '../table';
 import { DataTableColumnFormatter, DataTableColumnT, DataTableExpandMethod, DataTablePropsT, EffectiveDataTableColumnT } from './types.ts';
 import { getValueByPath } from '../_utils/helper.ts';
@@ -361,4 +361,67 @@ export const getIsLevelExpandable = ({
     }
   });
   return { expandable, expandableRowIndexes };
+};
+
+/**
+ * @description 将声明的列宽（数字 / 百分比字符串 / 数值字符串）转换为像素值
+ * @param width 声明的列宽
+ * @param containerWidth 容器宽度（用于百分比换算）
+ * @returns 像素值；传入 nil 或无法解析时返回 undefined
+ */
+export const getStaticWidth = (width: string | number | undefined, containerWidth: number): number | undefined => {
+  if (isNil(width)) {
+    return undefined;
+  }
+  if (isNumber(width)) {
+    return width;
+  }
+  let px: number;
+  if (width.endsWith('%')) {
+    px = (Number.parseFloat(width) * containerWidth) / 100;
+  } else {
+    px = Number.parseFloat(width);
+  }
+  return Number.isNaN(px) ? undefined : px;
+};
+
+/**
+ * @description 将列宽钳制到 [_minWidth, _maxWidth] 区间
+ * @param column 列配置（读取 _minWidth / _maxWidth）
+ * @param width 待钳制的原始宽度
+ * @returns 钳制后的宽度；_minWidth / _maxWidth 为 nil 时跳过对应方向
+ */
+export const clampColumnWidth = (column: EffectiveDataTableColumnT, width: number): number => {
+  let w = width;
+  if (!isNil(column._minWidth)) {
+    w = Math.max(w, column._minWidth!);
+  }
+  if (!isNil(column._maxWidth)) {
+    w = Math.min(w, column._maxWidth!);
+  }
+  return w;
+};
+
+/**
+ * @description 按优先级解析列宽（不涉及 DOM 测量）：
+ *              userWidths > 声明 width > undefined（需 DOM 测量）
+ *              userWidths 不钳制（拖拽处理器已钳制，填充逻辑需保留原始值防止 :style 覆盖命令式宽度导致跳动）；
+ *              声明 width 钳制到 [_minWidth, _maxWidth]（修复 P1：resizeWidth 与 getColStyle 口径一致）。
+ * @param column 列配置
+ * @param userWidths 用户拖拽设定的列宽 Map
+ * @param containerWidth 容器宽度（用于百分比换算）
+ * @returns 解析后的像素宽度；需 DOM 测量时返回 undefined
+ */
+export const resolveColumnWidth = (column: EffectiveDataTableColumnT, userWidths: Map<string, number>, containerWidth: number): number | undefined => {
+  const userWidth = userWidths.get(column.key);
+  if (!isNil(userWidth)) {
+    return userWidth;
+  }
+  if (!isNil(column.width)) {
+    const px = getStaticWidth(column.width, containerWidth);
+    if (!isNil(px)) {
+      return clampColumnWidth(column, px);
+    }
+  }
+  return undefined;
 };
