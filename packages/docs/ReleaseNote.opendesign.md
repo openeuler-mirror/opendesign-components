@@ -1,3 +1,13 @@
+## 1.2.5-sp4
+
+### Bug Fixes
+
+- **ODataTable:**
+  - 修改列宽重分配机制：新增按表格尺寸的默认最小列宽，初始测量与拖拽均按最小/最大宽度钳制，末列自动吸收盈余宽度，并暴露 `userWidths`（用户拖拽设定的列宽 Map）
+  - 修复祖先元素 transform 缩放导致表头高度测量值错误的问题
+- **OSelect:** 修复选项文本过长时溢出容器的问题；同时 ODialog 内容区允许正常收缩，移动端（≤pad_v）选项与多选标签支持横向滚动
+- **OButton:** 修复 ascend/kunpeng 主题下 solid 按钮样式误影响 DatePicker 面板按钮、导致文字不可见的问题
+
 ## 1.2.5-sp3
 
 ### Bug Fixes
