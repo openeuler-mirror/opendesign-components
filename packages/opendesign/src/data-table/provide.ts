@@ -30,6 +30,8 @@ export type DataTableCtx = ToRefs<DataTablePropsT> & {
   dataColumnMap: Map<string, EffectiveDataTableColumnT>;
   dataColumns: Ref<EffectiveDataTableColumnT[]>;
   groupColumns: Ref<EffectiveDataTableColumnT[][]>;
+  /** 用户拖拽设定的列宽，与自动分配状态物理隔离 */
+  userWidths: Map<string, number>;
 
   hasExpandSlot: ComputedRef<boolean>;
   expandedRowKeys: ModelRef<DataTableRowKeyValue[]>;

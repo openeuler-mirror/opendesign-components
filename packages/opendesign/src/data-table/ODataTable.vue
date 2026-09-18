@@ -122,7 +122,15 @@ const containerWidth = refDebounced(
 );
 
 const headerRef = ref<HTMLTableElement>();
-const { height: headerTableHeight } = useElementBounding(headerRef);
+const headerTableHeight = ref(0);
+// 用 offsetHeight（布局属性，不受祖先 transform 缩放影响）而非
+// getBoundingClientRect（视觉尺寸，包含祖先 transform 缩放）：
+// 浮层缩放动画期间 getBoundingClientRect 会测到缩小后的高度，而
+// transform 不改变布局尺寸、ResizeObserver 不会因此触发重测，错误值
+// 会一直滞留；offsetHeight 在动画任意时刻测量都是正确值。
+const onHeaderResize = () => {
+  headerTableHeight.value = headerRef.value?.offsetHeight ?? 0;
+};
 const tableTextSize = useCssVar('--table-text-size', headerRef);
 const tableTextHeight = useCssVar('--table-text-height', headerRef);
 
@@ -154,6 +162,7 @@ const {
   dataColumnMap,
   dataColumns,
   groupColumns,
+  userWidths,
   isBodyCellRemoved,
   isLastLeftFixedCell,
   isFirstRightFixedCell,
@@ -161,7 +170,7 @@ const {
   hasRightFixedColumn,
   handleColumnResizerMousedown,
   resizingColumnKey,
-} = useDataColumn({ ...toRefs(props), tableEl, containerWidth });
+} = useDataColumn({ ...toRefs(props), tableEl, containerWidth, onColumnsFixed: () => checkTableOverflow() });
 
 const setThRef = (el: any, column: EffectiveDataTableColumnT) => {
   if (!el) {
@@ -380,6 +389,7 @@ provide(dataTableInjectKey, {
   dataColumnMap,
   dataColumns,
   groupColumns,
+  userWidths,
 
   hasExpandSlot,
   expandedRowKeys,
@@ -408,6 +418,7 @@ defineExpose<DataTableExposed>({
   dataColumnMap,
   dataColumns,
   groupColumns,
+  userWidths,
   /**
    * @zh-CN 全选
    * @en-US Select all
@@ -463,7 +474,7 @@ defineExpose<DataTableExposed>({
     }"
   >
     <div v-if="props.showHeader && props.headerStyle === 'split-line'" class="o-data-table-header-divider-h"></div>
-    <div v-if="!hasLeftFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
+    <div v-if="!hasLeftFixedColumn && !hasRightFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
     <OScroller
       class="o-table-scroller"
       wrap-class="o-table-wrap"
@@ -484,7 +495,7 @@ defineExpose<DataTableExposed>({
       >
         <caption></caption>
         <TableColGroup />
-        <thead v-if="props.showHeader" ref="headerRef" class="o-table-header">
+        <thead v-if="props.showHeader" ref="headerRef" v-on-resize="onHeaderResize" class="o-table-header">
           <slot name="header" :columns="dataColumns" :group-columns="groupColumns">
             <tr v-for="(groupColumn, groupIndex) in groupColumns" :key="groupColumn[0]?.key" class="o-table-row o-table-header-row">
               <template v-for="(column, colIndex) in groupColumn" :key="column.key">

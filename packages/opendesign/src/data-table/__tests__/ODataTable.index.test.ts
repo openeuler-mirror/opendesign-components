@@ -22,8 +22,21 @@ import { userEvent } from 'vitest/browser';
 import { h, ref } from 'vue';
 import ODataTable from '../ODataTable.vue';
 import type { DataTableColumnT } from '../types';
-import { flush } from '../../../__tests__/_helpers/dom';
+import { flush, waitFor } from '../../../__tests__/_helpers/dom';
+import { setViewport } from '../../../__tests__/_helpers/viewport';
 import { THEMES, paintThemed } from '../../../__tests__/_helpers/theme';
+import { getStaticWidth } from '../utils';
+
+/**
+ * fixColumnAfterMounted 三阶段完成后的可观测信号：
+ * phase 3 (finalizeFixedLayout) 将 table-layout 设为 'fixed'。
+ * 通过 tableRef.dataColumns[0].colRef 反查 <table> 元素，无需 screen.container。
+ */
+const isFixReady = (tableRef: { value: any }): boolean => {
+  const col = tableRef.value?.dataColumns?.[0]?.colRef;
+  const table = col?.closest?.('table') as HTMLTableElement | null;
+  return !!table && table.style.tableLayout === 'fixed';
+};
 
 // 通用列与数据
 const baseColumns: DataTableColumnT[] = [
@@ -171,6 +184,34 @@ describe('静态契约（按 types.ts 属性）', () => {
     // split-line 时渲染 header-divider
     const sl = render(ODataTable, { props: { data: baseData, columns: baseColumns, headerStyle: 'split-line' } });
     expect(sl.container.querySelector('.o-data-table-header-divider-h')).not.toBeNull();
+  });
+
+  test('ODataTable --table-header-height - 祖先 transform 缩放不影响测量值', async () => {
+    // OLayer 默认动画 o-zoom-fade2 使用 transform: scale(0.8)
+    // 旧实现用 getBoundingClientRect().height 会包含缩放 → 值偏小 → 分隔线偏移
+    // 修复后用 offsetHeight（布局属性，不受 transform 影响）
+    const screen = render({
+      setup() {
+        return () =>
+          h('div', { style: { transform: 'scale(0.8)', transformOrigin: 'top left' } }, [
+            h(ODataTable as any, { data: baseData, columns: baseColumns, headerStyle: 'split-line' }),
+          ]);
+      },
+    });
+    await flush();
+    await flush();
+
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    const thead = root.querySelector('thead.o-table-header') as HTMLElement;
+
+    // --table-header-height 应等于 thead 的 offsetHeight（布局高度，不受 transform 影响）
+    const cssVar = root.style.getPropertyValue('--table-header-height');
+    expect(cssVar).not.toBe('');
+    expect(parseFloat(cssVar)).toBeCloseTo(thead.offsetHeight, 0);
+
+    // 且不应等于 getBoundingClientRect().height（会被 scale(0.8) 缩小）
+    const scaledHeight = thead.getBoundingClientRect().height;
+    expect(parseFloat(cssVar)).not.toBeCloseTo(scaledHeight, 0);
   });
 
   test('ODataTable expandMethod - 返回 VNode 时该行可展开，返回 false 时不可', async () => {
@@ -438,6 +479,526 @@ describe('动态契约（用户交互 → 组件响应）', () => {
     expect(tableRef.value.dataColumnMap.size).toBeGreaterThanOrEqual(3);
     expect(tableRef.value.groupColumns.length).toBe(2); // 两行表头
   });
+
+  // ==========================================================================
+  // 列宽重分配反馈环回归测试
+  //
+  // fixColumnAfterMounted 在分页/排序/窗口调整/列 schema 变更/拖拽后被反复触发。
+  // Bug 根因：style.width 读回返回带 px 后缀的字符串，参与 Math.max 产生 NaN；
+  //           重分配块累加无基线；TableColGroup ResizeObserver 写回同一字段形成二级放大。
+  // 以下用例验证修复后 width 在多次 recalc 下的稳定性 + 拖拽宽度不被重算覆盖。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - 列 schema 变更后声明宽度更新生效', async () => {
+    const columnsRef = ref<DataTableColumnT[]>([
+      { label: 'Name', key: 'name', width: 200 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email' },
+    ]);
+    const tableRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns: columnsRef.value });
+      },
+    });
+    // fixColumnAfterMounted 内含 until() + Promise.all(getElementRectByRAF) 多层 rAF 链
+    await waitFor(() => isFixReady(tableRef));
+
+    // 初始渲染后 colRef.style.width 应已设为 "200px"
+    const nameCol = tableRef.value.dataColumnMap.get('name');
+    expect(nameCol.colRef?.style.width).toContain('200');
+
+    // 变更列 schema：将 Name 声明宽度从 200 改为 300
+    columnsRef.value = [
+      { label: 'Name', key: 'name', width: 300 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email' },
+    ];
+    await waitFor(() => isFixReady(tableRef));
+
+    // Bug: 读回旧 style.width="200px" → 跳过 getStaticWidth(300,...) → 写 "200pxpx"（非法，被浏览器拒绝）
+    // 修复后：应从声明值重算，style.width 更新为 "300px"
+    const nameColAfter = tableRef.value.dataColumnMap.get('name');
+    expect(nameColAfter.colRef?.style.width).toContain('300');
+  });
+
+  test('ODataTable 列宽稳定性 - 多次 data 变化后最后一列宽度不累积膨胀', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 200 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email', minWidth: 200 },
+    ];
+    const dataRef = ref(baseData);
+    const tableRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: dataRef.value, columns });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const getLastColWidth = () => {
+      const cols = tableRef.value?.dataColumns ?? [];
+      return cols[cols.length - 1]?.resizeWidth ?? 0;
+    };
+
+    const w1 = getLastColWidth();
+    expect(w1).toBeGreaterThan(0);
+
+    // 模拟连续 3 次分页切换，每次触发 fixColumnAfterMounted 重算
+    for (let i = 0; i < 3; i++) {
+      dataRef.value = [...baseData].reverse();
+      await waitFor(() => isFixReady(tableRef), 1000);
+    }
+
+    const w2 = getLastColWidth();
+
+    // Bug: 重分配块 lastCol.resizeWidth! += extra 为累加式，无基线重算
+    //   + style.width 读回产生 NaN/非法字符串 → 宽度无法正确重算 → 可能累积膨胀
+    // 修复后：每次重算应从声明值出发，宽度不应显著增长
+    expect(w2).toBeLessThanOrEqual(w1 + 10);
+  });
+
+  test('ODataTable 列宽稳定性 - 容器宽度变化后最后一列宽度重算不滞留旧值', async () => {
+    // 初始宽视口
+    await setViewport('laptop');
+
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 200 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email' },
+    ];
+    const tableRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const getLastColWidth = () => {
+      const cols = tableRef.value?.dataColumns ?? [];
+      return cols[cols.length - 1]?.resizeWidth ?? 0;
+    };
+
+    const w1 = getLastColWidth();
+    expect(w1).toBeGreaterThan(0);
+
+    // 缩小容器宽度，触发 containerWidth watch → fixColumnAfterMounted
+    // containerWidth 是 refDebounced（~200ms），isFixReady 的 tableLayout 信号在旧 fix 完成后已为 true，
+    // 需等待末列 resizeWidth 实际变化才能确认新 fix 已完成
+    await setViewport('phone');
+    await waitFor(() => {
+      const cols = tableRef.value?.dataColumns ?? [];
+      const lastCol = cols[cols.length - 1];
+      return !!lastCol && lastCol.resizeWidth != null && Math.abs(lastCol.resizeWidth - w1) > 10;
+    });
+
+    const w2 = getLastColWidth();
+
+    // Bug: style.width 读回旧值（宽容器时的膨胀值），写非法字符串被拒绝
+    //   → 最后一列宽度滞留在旧值，不随容器缩小而重算
+    // 修复后：宽度应随容器缩小而减小
+    expect(w2).toBeLessThan(w1);
+  });
+
+  test('ODataTable 列宽稳定性 - 拖拽列宽在 data 变化后不被重分配覆盖', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 100, minWidth: 50, maxWidth: 300 },
+      { label: 'Age', key: 'age', width: 100 },
+      { label: 'Email', key: 'email' },
+    ];
+    const dataRef = ref(baseData);
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: dataRef.value, columns, columnResizable: true });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    // 获取 Name 列的 col 元素初始 style.width
+    const nameCol = tableRef.value.dataColumnMap.get('name');
+    const initialStyleWidth = nameCol.colRef?.style.width;
+    expect(initialStyleWidth).toContain('100');
+
+    // 模拟拖拽：通过 DOM 事件触发 handleColumnResizerMousedown + mousemove
+    const resizer = screen.container.querySelector('.o-table-column-resizer') as HTMLElement;
+    expect(resizer).not.toBeNull();
+
+    const th = screen.container.querySelector('thead th') as HTMLElement;
+    const thRect = th.getBoundingClientRect();
+
+    // mousedown 在 resizer 上
+    resizer.dispatchEvent(
+      new MouseEvent('mousedown', {
+        clientX: thRect.right,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    // mousemove 向右拖拽 50px — handleColumnResizerMouseMoving 写入 colRef.style.width
+    window.dispatchEvent(
+      new MouseEvent('mousemove', {
+        clientX: thRect.right + 50,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    // 记录拖拽后的 style.width（拖拽同时写 colRef.style.width 和 resizeWidth）
+    const nameColAfterDrag = tableRef.value.dataColumnMap.get('name');
+    const draggedStyleWidth = nameColAfterDrag.colRef?.style.width;
+    // 拖拽后宽度应增大（100 + 50 = 150px，受 maxWidth=300 钳制）
+    expect(parseFloat(draggedStyleWidth!)).toBeGreaterThan(100);
+
+    // mouseup 结束拖拽
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await flush();
+
+    // 模拟分页：切换数据
+    dataRef.value = [...baseData].reverse();
+    await waitFor(() => isFixReady(tableRef));
+
+    // Bug: fixColumnAfterMounted 重算时，拖拽写入的 style.width 被读回并参与重分配
+    //   → 拖拽宽度被覆盖或污染
+    // 修复后：用户拖拽设定的宽度应被保留，不被自动重分配覆盖
+    const nameColAfterData = tableRef.value.dataColumnMap.get('name');
+    const finalStyleWidth = nameColAfterData.colRef?.style.width;
+    // 拖拽后的宽度应被保留（允许 ±5px 浮动来自重分配微调，但不应被重置回声明值）
+    expect(Math.abs(parseFloat(finalStyleWidth!) - parseFloat(draggedStyleWidth!))).toBeLessThan(10);
+  });
+
+  // ==========================================================================
+  // P0 回归：填充列不污染 userWidths
+  // 拖拽非填充列后，填充列宽度不应被写入 userWidths（否则容器变大时表格不再填满）。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - 拖拽缩窄后填充列写入 userWidths，data 变化重算时 autoFillKeys 被清除', async () => {
+    await setViewport('desktop');
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 200, minWidth: 50, maxWidth: 300 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email' },
+    ];
+    const dataRef = ref(baseData);
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: dataRef.value, columns, columnResizable: true });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    // 拖拽 Name 列缩窄 100px → 触发填充模式，末列 (email) 吸收盈余写入 userWidths
+    const resizer = screen.container.querySelector('.o-table-column-resizer') as HTMLElement;
+    expect(resizer).not.toBeNull();
+    const th = screen.container.querySelector('thead th') as HTMLElement;
+    const thRect = th.getBoundingClientRect();
+
+    resizer.dispatchEvent(
+      new MouseEvent('mousedown', {
+        clientX: thRect.right,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    window.dispatchEvent(
+      new MouseEvent('mousemove', {
+        clientX: thRect.right - 100,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await flush();
+
+    const userWidths = tableRef.value?.userWidths as Map<string, number>;
+    // 用户拖拽的列 (name) 保留在 userWidths 中
+    expect(userWidths.has('name')).toBe(true);
+
+    // 触发 fixColumnAfterMounted 重算：prepareAutoLayoutPhase 清除 autoFillKeys
+    dataRef.value = [...baseData].reverse();
+    await waitFor(() => isFixReady(tableRef));
+
+    // autoFillKeys 被清除后，填充列 (email) 不再在 userWidths 中（重新参与自动分配）
+    expect(userWidths.has('name')).toBe(true);
+    expect(userWidths.has('email')).toBe(false);
+  });
+
+  // ==========================================================================
+  // P0 回归：拖拽早于 fixColumnAfterMounted 完成时最小宽度仍生效
+  // 拖拽若早于 fix phase 3（_minWidth 未设），同步迷你 fix 须兜底设 _minWidth，
+  // 否则 mousemove 钳制失效，被拖列可突破到负值。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - 拖拽早于 fix 完成时被拖列仍受最小宽度约束', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 200 },
+      { label: 'Age', key: 'age' },
+    ];
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns, columnResizable: true });
+      },
+    });
+    await flush();
+
+    // 不等 fixColumnAfterMounted 完成，立即拖拽
+    const resizer = screen.container.querySelector('.o-table-column-resizer') as HTMLElement;
+    expect(resizer).not.toBeNull();
+    const th = screen.container.querySelector('thead th') as HTMLElement;
+    const thRect = th.getBoundingClientRect();
+    resizer.dispatchEvent(
+      new MouseEvent('mousedown', {
+        clientX: thRect.right,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    // 向左拖拽 300px，远超 width(200) - 默认最小宽度(136) 的余量，试图突破下限
+    window.dispatchEvent(
+      new MouseEvent('mousemove', {
+        clientX: thRect.right - 300,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    const nameCol = tableRef.value.dataColumnMap.get('name');
+    // _minWidth 应已由同步迷你 fix 兜底设置（>0）
+    expect(nameCol._minWidth).toBeGreaterThan(0);
+    // 被拖列宽度不低于 _minWidth（不突破最小宽度到负值）
+    expect(nameCol.resizeWidth).toBeGreaterThanOrEqual(nameCol._minWidth);
+
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await flush();
+  });
+
+  // ==========================================================================
+  // P1 回归：钳制口径统一
+  // width 小于 minWidth 时，resizeWidth 应被钳制到 minWidth，与实际渲染宽度一致。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - width 小于 minWidth 时 resizeWidth 被钳制到 minWidth', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 50, minWidth: 100 },
+      { label: 'Age', key: 'age', width: 200 },
+    ];
+    const tableRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const nameCol = tableRef.value.dataColumnMap.get('name');
+    // resizeWidth 应被钳制到 minWidth（100），而非保留声明值 50
+    expect(nameCol.resizeWidth).toBeGreaterThanOrEqual(100);
+    // getColStyle 返回的 width 也应与 resizeWidth 一致
+    const colEl = nameCol.colRef as HTMLTableColElement;
+    const styleWidth = parseFloat(colEl.style.width);
+    expect(styleWidth).toBeGreaterThanOrEqual(100);
+    // resizeWidth 与 col 实际 style.width 应一致（固定列偏移计算依赖此一致性）
+    expect(Math.abs(nameCol.resizeWidth - styleWidth)).toBeLessThan(2);
+  });
+
+  // ==========================================================================
+  // P0 回归：末列吸收盈余（applyFillColumnResize 填充模式 + getFillColumn）
+  // 拖拽缩窄非末列时，末个非固定列应吸收盈余防止表格缩窄；
+  // 拖拽恢复后末列应恢复基础宽度（固定模式分支）。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - 拖拽缩窄非末列时末个非固定列吸收盈余', async () => {
+    await setViewport('desktop');
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 200, minWidth: 50, maxWidth: 400 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email', width: 200 },
+    ];
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns, columnResizable: true });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const emailColBefore = tableRef.value.dataColumnMap.get('email');
+    const emailWidthBefore = emailColBefore.resizeWidth ?? 0;
+    expect(emailWidthBefore).toBeGreaterThan(0);
+
+    // 拖拽 Age 列缩窄 100px → email（末个非固定列）应吸收盈余
+    const resizers = screen.container.querySelectorAll('.o-table-column-resizer');
+    const ageResizer = resizers[1] as HTMLElement;
+    const ths = screen.container.querySelectorAll('thead th');
+    const ageTh = ths[1] as HTMLElement;
+    const thRect = ageTh.getBoundingClientRect();
+
+    ageResizer.dispatchEvent(
+      new MouseEvent('mousedown', {
+        clientX: thRect.right,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    window.dispatchEvent(
+      new MouseEvent('mousemove', {
+        clientX: thRect.right - 100,
+        clientY: thRect.top + thRect.height / 2,
+        bubbles: true,
+      }),
+    );
+    await flush();
+
+    const emailColAfter = tableRef.value.dataColumnMap.get('email');
+    // 末列吸收盈余后宽度应增大
+    expect(emailColAfter.resizeWidth).toBeGreaterThan(emailWidthBefore);
+
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await flush();
+  });
+
+  test('ODataTable 列宽稳定性 - 列总宽超过容器时拖拽缩窄末列不吸收盈余（固定模式分支）', async () => {
+    await setViewport('desktop');
+    // 列总宽 2400 > 容器 1920 → 拖拽缩窄时 sum + base >= minTableWidth → 固定模式
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 800, minWidth: 50, maxWidth: 1200 },
+      { label: 'Age', key: 'age', width: 800, minWidth: 50, maxWidth: 1200 },
+      { label: 'Email', key: 'email', width: 800, minWidth: 50, maxWidth: 1200 },
+    ];
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns, columnResizable: true });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const emailCol = tableRef.value.dataColumnMap.get('email');
+    const emailWidthBefore = emailCol.resizeWidth ?? 0;
+    expect(emailWidthBefore).toBeGreaterThan(0);
+
+    // 拖拽 Age 列缩窄 100px → 固定模式：email 不吸收盈余
+    const resizers = screen.container.querySelectorAll('.o-table-column-resizer');
+    const ageResizer = resizers[1] as HTMLElement;
+    const ths = screen.container.querySelectorAll('thead th');
+    const ageTh = ths[1] as HTMLElement;
+    const thRect = ageTh.getBoundingClientRect();
+
+    ageResizer.dispatchEvent(new MouseEvent('mousedown', { clientX: thRect.right, clientY: thRect.top + thRect.height / 2, bubbles: true }));
+    await flush();
+    window.dispatchEvent(new MouseEvent('mousemove', { clientX: thRect.right - 100, clientY: thRect.top + thRect.height / 2, bubbles: true }));
+    await flush();
+
+    const emailColAfter = tableRef.value.dataColumnMap.get('email');
+    // 固定模式：email 保持基础宽度，不吸收盈余
+    expect(Math.abs(emailColAfter.resizeWidth - emailWidthBefore)).toBeLessThan(20);
+
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await flush();
+  });
+
+  // ==========================================================================
+  // P0 回归：cleanupRemovedKeys（动态删列后 userWidths 拘留清理）
+  // 拖拽设定 userWidths 后删除该列，残留 key 应被 cleanupRemovedKeys 清理。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - 列删除后 userWidths 中残留 key 被清理', async () => {
+    const columnsRef = ref<DataTableColumnT[]>([
+      { label: 'Name', key: 'name', width: 200, minWidth: 50, maxWidth: 400 },
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email', width: 200 },
+    ]);
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns: columnsRef.value, columnResizable: true });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    // 拖拽 Name 列设定 userWidths
+    const resizer = screen.container.querySelector('.o-table-column-resizer') as HTMLElement;
+    const th = screen.container.querySelector('thead th') as HTMLElement;
+    const thRect = th.getBoundingClientRect();
+    resizer.dispatchEvent(new MouseEvent('mousedown', { clientX: thRect.right, clientY: thRect.top + thRect.height / 2, bubbles: true }));
+    await flush();
+    window.dispatchEvent(new MouseEvent('mousemove', { clientX: thRect.right + 50, clientY: thRect.top + thRect.height / 2, bubbles: true }));
+    await flush();
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await flush();
+
+    const userWidths = tableRef.value?.userWidths as Map<string, number>;
+    expect(userWidths.has('name')).toBe(true);
+
+    // 删除 Name 列
+    columnsRef.value = [
+      { label: 'Age', key: 'age', width: 200 },
+      { label: 'Email', key: 'email', width: 200 },
+    ];
+    await waitFor(() => isFixReady(tableRef));
+
+    // cleanupRemovedKeys 应已清理 'name' 的残留 key
+    expect(userWidths.has('name')).toBe(false);
+  });
+
+  // ==========================================================================
+  // P1 回归：mouseup → onColumnsFixed 回调（checkTableOverflow 触发）
+  // 拖拽结束后 onColumnsFixed 回调应触发 checkTableOverflow，更新 overflowState。
+  // ==========================================================================
+
+  test('ODataTable 列宽稳定性 - 拖拽结束后 onColumnsFixed 回调触发 checkTableOverflow', async () => {
+    await setViewport('pad_h');
+    // 列总宽 900 < pad_h 容器 1100 → 初始无溢出
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 300, minWidth: 50, maxWidth: 800 },
+      { label: 'Age', key: 'age', width: 300 },
+      { label: 'Email', key: 'email', width: 300 },
+    ];
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns, columnResizable: true });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    // 初始：列总宽 < 容器 → 无溢出
+    expect(root.classList.contains('is-overflow-right')).toBe(false);
+
+    // 拖拽 Name 列加宽 300px → 列总宽 1200 > 1100 → 表格溢出
+    const resizer = screen.container.querySelector('.o-table-column-resizer') as HTMLElement;
+    const th = screen.container.querySelector('thead th') as HTMLElement;
+    const thRect = th.getBoundingClientRect();
+
+    resizer.dispatchEvent(new MouseEvent('mousedown', { clientX: thRect.right, clientY: thRect.top + thRect.height / 2, bubbles: true }));
+    await flush();
+    window.dispatchEvent(new MouseEvent('mousemove', { clientX: thRect.right + 300, clientY: thRect.top + thRect.height / 2, bubbles: true }));
+    await flush();
+
+    // mouseup → onColumnsFixed → checkTableOverflow（debounced） → overflowState 更新
+    window.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await waitFor(() => isFixReady(tableRef));
+
+    // checkTableOverflow 应已检测到溢出并设置 is-overflow-right
+    expect(root.classList.contains('is-overflow-right')).toBe(true);
+  });
 });
 
 // ============================================================================
@@ -584,6 +1145,45 @@ describe('子配置契约（按 DataTableColumnT 字段）', () => {
     expect(trueTh.classList.contains('o-table-cell-fixed-left')).toBe(true);
   });
 
+  test('ODataTable column.fixed - 固定列偏移值（left/right）依赖 resizeWidth 正确测量', async () => {
+    // 验证删除 ResizeObserver 后，fixColumnAfterMounted 仍能正确设置 resizeWidth，
+    // getColumnPosition 能正确计算 left/right 偏移值
+    // 布局：A | L(left fixed) | B | R1(right fixed) | R2(right fixed)
+    //   L.left  = resizeWidth(A) ≈ 200px
+    //   R1.right = resizeWidth(R2) ≈ 200px
+    //   R2.right = 0px（最后一个右固定列，贴边）
+    const columns: DataTableColumnT[] = [
+      { label: 'A', key: 'a', width: 200 },
+      { label: 'L', key: 'l', fixed: 'left', width: 200 },
+      { label: 'B', key: 'b', width: 200 },
+      { label: 'R1', key: 'r1', fixed: 'right', width: 200 },
+      { label: 'R2', key: 'r2', fixed: 'right', width: 200 },
+    ];
+    const tableRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const ths = screen.container.querySelectorAll('thead th');
+    // L (index 1) fixed=left → left = sum(resizeWidth of columns before L) = resizeWidth(A)
+    const lTh = ths[1] as HTMLElement;
+    expect(lTh.style.left).not.toBe('');
+    expect(parseFloat(lTh.style.left)).toBeCloseTo(200, -1); // ~200px
+
+    // R1 (index 3) fixed=right → right = resizeWidth(R2)（R2 是 R1 之后的右固定列）
+    const r1Th = ths[3] as HTMLElement;
+    expect(r1Th.style.right).not.toBe('');
+    expect(parseFloat(r1Th.style.right)).toBeCloseTo(200, -1); // ~200px
+
+    // R2 (index 4) fixed=right → right = 0px（最后一个右固定列，贴右边）
+    const r2Th = ths[4] as HTMLElement;
+    expect(r2Th.style.right).not.toBe('');
+    expect(parseFloat(r2Th.style.right)).toBeCloseTo(0, -1);
+  });
+
   test('ODataTable column.asHeader - 注入 o-table-column-as-header 类（表头列形态）', async () => {
     const columns: DataTableColumnT[] = [
       { label: 'Name', key: 'name', asHeader: true },
@@ -644,6 +1244,141 @@ describe('子配置契约（按 DataTableColumnT 字段）', () => {
     });
     await flush();
     expect(tableRef.value.dataColumnMap.get('name').maxWidth).toBe(100);
+  });
+
+  test('ODataTable column.fixed - 仅右固定列时不渲染 left-shadow，仅左固定列时仍渲染 right-shadow', async () => {
+    // 仅右固定列：left-shadow 不渲染（!hasLeftFixedColumn && !hasRightFixedColumn 为 false）
+    const rightOnly = render(ODataTable, {
+      props: {
+        data: baseData,
+        columns: [
+          { label: 'A', key: 'name' },
+          { label: 'B', key: 'age', fixed: 'right' as const },
+        ],
+      },
+    });
+    const rightRoot = rightOnly.container.querySelector('.o-data-table') as HTMLElement;
+    expect(rightRoot.querySelector('.o-data-table-left-shadow')).toBeNull();
+    expect(rightRoot.querySelector('.o-data-table-right-shadow')).toBeNull();
+
+    // 仅左固定列：left-shadow 不渲染，right-shadow 也不渲染（hasRightFixedColumn=false 但 hasLeftFixedColumn=true）
+    const leftOnly = render(ODataTable, {
+      props: {
+        data: baseData,
+        columns: [
+          { label: 'A', key: 'name', fixed: 'left' as const },
+          { label: 'B', key: 'age' },
+        ],
+      },
+    });
+    const leftRoot = leftOnly.container.querySelector('.o-data-table') as HTMLElement;
+    expect(leftRoot.querySelector('.o-data-table-left-shadow')).toBeNull();
+    // right-shadow 在 !hasRightFixedColumn 时渲染（但需 data.length > 0 且非 loading）
+    expect(leftRoot.querySelector('.o-data-table-right-shadow')).not.toBeNull();
+
+    // 无固定列：两个 shadow 都渲染
+    const noFixed = render(ODataTable, {
+      props: { data: baseData, columns: baseColumns },
+    });
+    const noFixedRoot = noFixed.container.querySelector('.o-data-table') as HTMLElement;
+    expect(noFixedRoot.querySelector('.o-data-table-left-shadow')).not.toBeNull();
+    expect(noFixedRoot.querySelector('.o-data-table-right-shadow')).not.toBeNull();
+  });
+
+  test('ODataTable column.width - 声明宽度超过 maxWidth 时 resizeWidth 被钳制到 maxWidth', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', width: 300, maxWidth: 200 },
+      { label: 'Age', key: 'age', width: 200 },
+    ];
+    const tableRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const nameCol = tableRef.value.dataColumnMap.get('name');
+    // width(300) > maxWidth(200) → resizeWidth 应被钳制到 maxWidth(200)
+    expect(nameCol.resizeWidth).toBeLessThanOrEqual(202);
+    expect(nameCol.resizeWidth).toBeGreaterThanOrEqual(198);
+    // col 的 style.width 也应反映钳制后的值
+    const styleWidth = parseFloat(nameCol.colRef?.style.width);
+    expect(styleWidth).toBeLessThanOrEqual(202);
+    expect(styleWidth).toBeGreaterThanOrEqual(198);
+  });
+
+  test('ODataTable column.minWidth - 未声明 minWidth 时按 size 回退默认值（small=96, medium=136）', async () => {
+    // small → _minWidth = 96
+    const smallColumns: DataTableColumnT[] = [
+      { label: 'A', key: 'name', width: 200 },
+      { label: 'B', key: 'age' },
+    ];
+    const smallRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: smallRef, data: baseData, columns: smallColumns, size: 'small' });
+      },
+    });
+    await waitFor(() => isFixReady(smallRef));
+
+    const smallCol = smallRef.value.dataColumnMap.get('age');
+    expect(smallCol._minWidth).toBe(96);
+
+    // medium → _minWidth = 136
+    const mediumColumns: DataTableColumnT[] = [
+      { label: 'A', key: 'name', width: 200 },
+      { label: 'B', key: 'age' },
+    ];
+    const mediumRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: mediumRef, data: baseData, columns: mediumColumns });
+      },
+    });
+    await waitFor(() => isFixReady(mediumRef));
+
+    const mediumCol = mediumRef.value.dataColumnMap.get('age');
+    expect(mediumCol._minWidth).toBe(136);
+  });
+
+  test('ODataTable column.width - 百分比宽度按容器宽度换算，非法字符串回退 DOM 测量', async () => {
+    // 直接测试 getStaticWidth 工具函数
+    expect(getStaticWidth('50%', 1000)).toBe(500);
+    expect(getStaticWidth(200, 1000)).toBe(200);
+    expect(getStaticWidth('abc', 1000)).toBeUndefined();
+    expect(getStaticWidth(undefined, 1000)).toBeUndefined();
+
+    // 通过组件验证百分比宽度换算
+    const columns: DataTableColumnT[] = [
+      { label: 'A', key: 'name', width: '50%' },
+      { label: 'B', key: 'age', width: 200 },
+    ];
+    const tableRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: tableRef, data: baseData, columns });
+      },
+    });
+    await waitFor(() => isFixReady(tableRef));
+
+    const nameCol = tableRef.value.dataColumnMap.get('name');
+    // resizeWidth 应为容器宽度的 ~50%（允许误差来自钳制和布局）
+    expect(nameCol.resizeWidth).toBeGreaterThan(0);
+    // 非法字符串宽度不崩溃，回退到 DOM 测量
+    const badColumns: DataTableColumnT[] = [
+      { label: 'A', key: 'name', width: 'abc' as any },
+      { label: 'B', key: 'age', width: 200 },
+    ];
+    const badRef = ref<any>(null);
+    render({
+      setup() {
+        return () => h(ODataTable as any, { ref: badRef, data: baseData, columns: badColumns });
+      },
+    });
+    await waitFor(() => isFixReady(badRef));
+    const badCol = badRef.value.dataColumnMap.get('name');
+    expect(badCol.resizeWidth).toBeGreaterThan(0);
   });
 
   test('ODataTable column.showHeaderOverflowToolTip - true / number > 1 / 0 三种值的 class 注入', async () => {

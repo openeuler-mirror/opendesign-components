@@ -21,7 +21,7 @@ const options = [
   { label: 'option 7', value: 'opt7' },
   { label: 'option 8', value: 'opt8' },
   { label: 'option 9', value: 'opt9' },
-  { label: 'option 10', value: 'opt10' },
+  { label: 'optionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoption', value: 'opt10' },
 ];
 
 /** 长文本选项——展示选项溢出换行与 tag 溢出 */
