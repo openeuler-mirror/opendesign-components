@@ -2,7 +2,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { isClient, isFunction, isString } from '../../_utils/is';
 import type { Ref } from 'vue';
 import type { PosInfo } from '../types';
-import type { VirtualElement } from '../../popup/types';
+import type { TargetRect } from '../../popup/types';
 
 /** 默认镂空圆角半径（px），未配置或值非法时回退 */
 const DEFAULT_SPOTLIGHT_RADIUS = 4;
@@ -91,7 +91,17 @@ export function useTarget(options: UseTargetOptions) {
   };
 
   /**
-   * @description 更新目标元素的位置信息
+   * @description 仅刷新目标矩形，不做 scrollIntoView。
+   * 滚动跟随场景下不得与用户滚动对抗，故与 updatePosInfo 拆分
+   * @param targetEl - 目标元素
+   */
+  const syncPosInfo = (targetEl: HTMLElement) => {
+    const { left, top, width, height } = targetEl.getBoundingClientRect();
+    posInfo.value = { left, top, width, height, radius: 0 };
+  };
+
+  /**
+   * @description 更新目标元素的位置信息：目标不在视口时先滚动入视口再取矩形
    */
   const updatePosInfo = () => {
     const targetEl = getTargetEl();
@@ -102,19 +112,42 @@ export function useTarget(options: UseTargetOptions) {
     if (!isInViewPort(targetEl)) {
       targetEl.scrollIntoView({ block: 'center' });
     }
-    const { left, top, width, height } = targetEl.getBoundingClientRect();
-    posInfo.value = { left, top, width, height, radius: 0 };
+    syncPosInfo(targetEl);
   };
 
   watch([open, target], () => updatePosInfo());
 
+  /**
+   * @description 页面滚动时刷新目标矩形（rAF 节流），
+   * 驱动遮罩镂空与步骤弹层同步跟随（滚动跟随职责在调用方，ADR 0001）
+   */
+  let scrollRAF = 0;
+  const onScroll = () => {
+    if (scrollRAF) {
+      return;
+    }
+    scrollRAF = requestAnimationFrame(() => {
+      scrollRAF = 0;
+      const targetEl = getTargetEl();
+      if (targetEl && open.value) {
+        syncPosInfo(targetEl);
+      }
+    });
+  };
+
   onMounted(() => {
     updatePosInfo();
     window.addEventListener('resize', updatePosInfo);
+    window.addEventListener('scroll', onScroll, { passive: true });
   });
 
   onBeforeUnmount(() => {
     window.removeEventListener('resize', updatePosInfo);
+    window.removeEventListener('scroll', onScroll);
+    if (scrollRAF) {
+      cancelAnimationFrame(scrollRAF);
+      scrollRAF = 0;
+    }
   });
 
   const mergedPosInfo = computed(() => {
@@ -134,23 +167,26 @@ export function useTarget(options: UseTargetOptions) {
   });
 
   /**
-   * @description 虚拟触发元素，提供给 OPopup 的 targetRect。
-   * 始终返回 VirtualElement：有遮罩时用含间隙的区域，无遮罩时委托真实元素的 getBoundingClientRect。
+   * @description 定位源快照，提供给 OPopup 的 targetRect（视口坐标系纯数据，ADR 0001）。
+   * 始终从 mergedPosInfo 派生以建立响应依赖（scroll/resize/步骤切换均写回 posInfo）；
+   * 有遮罩时为含间隙区域，无遮罩时去除间隙贴合真实元素
    */
-  const triggerTarget = computed<VirtualElement | undefined>(() => {
-    const targetEl = getTargetEl();
-    if (!targetEl || typeof window === 'undefined') {
+  const triggerTarget = computed<TargetRect | undefined>(() => {
+    const pos = mergedPosInfo.value;
+    if (!pos) {
       return undefined;
     }
     if (!mergedMask.value) {
-      // 无遮罩时委托真实元素，保持 VirtualElement 类型一致
-      return { getBoundingClientRect: () => targetEl.getBoundingClientRect() };
+      // 无遮罩：去除间隙，贴合真实元素矩形
+      const gap = spotlightPadding.value;
+      return {
+        left: pos.left + gap,
+        top: pos.top + gap,
+        width: pos.width - gap * 2,
+        height: pos.height - gap * 2,
+      };
     }
-    return {
-      getBoundingClientRect() {
-        return new DOMRect(mergedPosInfo.value?.left || 0, mergedPosInfo.value?.top || 0, mergedPosInfo.value?.width || 0, mergedPosInfo.value?.height || 0);
-      },
-    };
+    return { left: pos.left, top: pos.top, width: pos.width, height: pos.height };
   });
 
   return { mergedPosInfo, triggerTarget, getTargetEl };

@@ -7,11 +7,21 @@ export const PopupTriggerTypes = ['none', 'click', 'click-outclick', 'hover', 'h
 export type PopupTriggerT = (typeof PopupTriggerTypes)[number];
 
 /**
- * 虚拟元素接口，用于 OTour 等无真实 DOM 的定位场景
- * @description 仅需提供 getBoundingClientRect 方法，无需 DOM 父节点
+ * 目标矩形快照数据，视口坐标系，与 DOMRect 结构兼容。
+ *
+ * 定位源的数据契约：可直接传 `el.getBoundingClientRect()` 的返回值，
+ * 也可由调用方（如 OTour）自行构造。滚动/缩放的跟随职责在调用方，
+ * 组件不代劳；传入后组件内部拷贝使用，不持有调用方引用。
  */
-export interface VirtualElement {
-  getBoundingClientRect(): DOMRect;
+export interface TargetRect {
+  /** 视口坐标系下目标左边缘 X */
+  left: number;
+  /** 视口坐标系下目标顶边 Y */
+  top: number;
+  /** 目标宽度 */
+  width: number;
+  /** 目标高度 */
+  height: number;
 }
 
 export const popupProps = {
@@ -54,12 +64,17 @@ export const popupProps = {
     default: null,
   },
   /**
-   * @zh-CN 目标矩形，优先级高于 target。传入 VirtualElement 时跳过 scroll/resize/intersection 监听与 trigger 绑定
-   * @en-US Target rect, takes priority over target. When a VirtualElement is passed, scroll/resize/intersection observers and trigger binding are skipped.
+   * @zh-CN 定位源矩形快照（视口坐标系，结构兼容 DOMRect），作为弹层定位源，优先级高于 target。
+   * 整体替换对象为主用法；传入响应式对象时支持原地修改坐标；普通对象原地修改不触发重算。
+   * 滚动/缩放的跟随职责在调用方（如 OTour 自行监听 scroll 写回）
+   * @en-US Target rect snapshot (viewport coordinates, DOMRect-compatible) as the positioning source, taking priority over target.
+   * Replacing the whole object is the primary usage; reactive objects support in-place coordinate mutation; in-place mutation of plain objects does not trigger recalculation.
+   * Scroll/zoom following is the caller's responsibility (e.g. OTour listens to scroll and writes back)
    * @default null
+   * @since NEXT
    */
   targetRect: {
-    type: [Object] as PropType<VirtualElement | null>,
+    type: Object as PropType<TargetRect | null>,
     default: null,
   },
   /**

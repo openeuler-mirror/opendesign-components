@@ -10,7 +10,7 @@ import { createTopZIndex } from '../_utils/z-index';
 import ClientOnly from '../_components/client-only';
 import { useScreen } from '../hooks';
 import { OPopup } from '../popup';
-import type { VirtualElement } from '../popup';
+import type { TargetRect } from '../popup';
 import { useTarget } from './composables/use-target';
 import { useMask } from './composables/use-mask';
 import { useAnchorImageColor } from './composables/use-anchor-image-color';
@@ -89,9 +89,9 @@ const { anchorBg } = useAnchorImageColor({
 const tourStyle = computed(() => (anchorBg.value ? { '--_tour-anchor-bg': anchorBg.value } : {}));
 
 /**
- * @description 传给 OPopup 的 targetRect，当遮罩存在时为含间隙区域的 VirtualElement
+ * @description 传给 OPopup 的 targetRect，当遮罩存在时为含间隙区域的定位源快照
  */
-const popupTargetRect = computed<VirtualElement | null>(() => {
+const popupTargetRect = computed<TargetRect | null>(() => {
   if (!showTour.value) return null;
   return triggerTarget.value ?? null;
 });

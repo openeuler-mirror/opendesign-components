@@ -5,7 +5,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
-import { popupProps, PopupTriggerT, VirtualElement } from './types';
+import { popupProps, PopupTriggerT, TargetRect } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
 import { throttleRAF, debounce } from '../_utils/helper';
 import { isArray, isFunction, isTouchDevice } from '../_utils/is';
@@ -57,9 +57,11 @@ const triggers = computed<PopupTriggerT[]>(() => {
   return triggers;
 });
 
-const visible = ref(false);
+const visible = ref<boolean | undefined>(false);
 const targetElRef = ref<ComponentPublicInstance | null>(null);
-let targetEl: HTMLElement | VirtualElement | null = null;
+// 交互元素：仅承担 trigger 事件绑定与可见性观察，不参与定位计算。
+// 定位源统一收敛到 innerTargetRect，消除多 watcher 写同一变量的踩踏
+let targetEl: HTMLElement | null = null;
 // 默认为true，避免props.visible为初始值为true时，无法计算popup位置
 const isTargetInViewport = ref(true);
 
@@ -101,7 +103,7 @@ const updateZIndex = (show: boolean) => {
     popStyle['--popup-z-index'] = createTopZIndex();
   }
 };
-const { target, wrapper, targetRect } = toRefs(props);
+const { target, wrapper } = toRefs(props);
 onMounted(() => {
   ro = useResizeObserver();
   io = useIntersectionObserver();
@@ -114,25 +116,61 @@ onMounted(() => {
 });
 
 /**
- * @description targetRect prop 优先：直接作为定位目标，跳过 slot/target prop 解析
- * 适用于 OTour 等需要传入 VirtualElement 的场景
+ * @description 定位源状态：元素模式的观察者与数据模式的 targetRect 监听统一写入此处，
+ * 作为唯一定位源驱动重算（#199 回归的根治点）
  */
-onMounted(() => {
-  watch(
-    targetRect,
-    (newVal, oldValue) => {
-      if (newVal) {
-        // 仅 targetRect 有值时才接管定位目标，避免覆盖 target prop / #target 插槽已绑定的 targetEl
-        targetEl = newVal;
-        nextTick(updatePopupStyle);
-      } else if (oldValue) {
-        // 仅在曾有值变为空时清除残留定位样式，使父级居中布局（如 OTour 居中步骤）生效
-        popStyle.transform = '';
-      }
-    },
-    { immediate: true },
-  );
+const innerTargetRect = ref<TargetRect | null>(null);
+
+/**
+ * @description 拷贝矩形为普通对象：始终整体替换写入，保证内部浅层 watch 可靠触发
+ * （直接存 prop 引用的话，调用方原地修改字段无法触发重算，见 ADR 0001）
+ * @param r - 定位源矩形
+ * @returns 拷贝后的普通矩形对象
+ */
+const copyRect = (r: TargetRect): TargetRect => ({ left: r.left, top: r.top, width: r.width, height: r.height });
+
+// 交互元素绑定：元素模式定位源同步与 trigger 绑定均由此发起
+/**
+ * @description 元素模式：从交互元素读取实时矩形写入定位源；
+ * 数据模式下为 no-op——定位源是 prop 数据，元素观察者不得写入
+ */
+const syncInnerRect = () => {
+  if (props.targetRect) {
+    return;
+  }
+  innerTargetRect.value = targetEl ? copyRect(targetEl.getBoundingClientRect()) : null;
+};
+
+// 唯一定位重算入口：定位源变化 → 重算弹层位置。
+// 默认 pre-flush（微任务级触发），滚动场景与观察者同帧完成，不引入额外 rAF 延迟
+watch(innerTargetRect, (r) => {
+  // 数据模式：宽度镜像跟随矩形宽度（「触发元素宽度」即 rect 宽度）
+  if (r && props.targetRect) {
+    if (props.adjustMinWidth) {
+      popStyle.minWidth = `${r.width}px`;
+    } else if (props.adjustWidth) {
+      popStyle.width = `${r.width}px`;
+    }
+  }
+  if (!r) {
+    // 定位源全空：清除定位样式，回归父级布局（如 OTour 居中步骤）
+    popStyle.transform = '';
+    return;
+  }
+  updatePopupStyle();
 });
+
+/**
+ * @description 显示后刷新定位源并触发重算：unmountOnHide 场景隐藏期间
+ * 观察者解绑、矩形可能陈旧，靠显示时刷新兜底
+ */
+const refreshPositionSource = () => {
+  if (props.targetRect) {
+    innerTargetRect.value = copyRect(props.targetRect);
+  } else {
+    syncInnerRect();
+  }
+};
 
 onMounted(() => {
   watch(
@@ -145,12 +183,10 @@ onMounted(() => {
         ro?.unobserve(targetEl as HTMLElement, onResize);
       }
       if (newVal) {
-        // 同步绑定 bindTargetEvent，以同步设置 targetEl
+        // 同步绑定 bindTargetEvent（内部末尾 syncInnerRect 同步定位源）
         const el = getHtmlElement(newVal);
         if (el) {
           bindTargetEvent(el);
-          // 更换 target 后更新弹窗位置
-          updatePopupStyle();
         }
       }
     },
@@ -186,12 +222,10 @@ const bindTargetEvent = (el: HTMLElement | null) => {
   targetEl = el;
 
   // 初始化popup宽度，避免引起resize，触发重复计算
-  if (isTargetHtmlElement(el)) {
-    if (props.adjustMinWidth) {
-      popStyle.minWidth = `${el.offsetWidth}px`;
-    } else if (props.adjustWidth) {
-      popStyle.width = `${el.offsetWidth}px`;
-    }
+  if (props.adjustMinWidth) {
+    popStyle.minWidth = `${el.offsetWidth}px`;
+  } else if (props.adjustWidth) {
+    popStyle.width = `${el.offsetWidth}px`;
   }
 
   triggerListener = bindTrigger({
@@ -203,9 +237,12 @@ const bindTargetEvent = (el: HTMLElement | null) => {
     autoHide: props.autoHide,
   });
 
-  if (props.hideWhenTargetInvisible && isTargetHtmlElement(el)) {
+  if (props.hideWhenTargetInvisible) {
     io?.observe(el, onTargetInterscting);
   }
+
+  // 交互元素绑定/更换后同步定位源，触发唯一定位重算入口
+  syncInnerRect();
 };
 
 onUnmounted(() => {
@@ -215,19 +252,20 @@ onUnmounted(() => {
   if (wrapperEl.value) {
     ro?.unobserve(wrapperEl.value, onResize);
   }
-  if (targetEl && isTargetHtmlElement(targetEl)) {
+  if (targetEl) {
     ro?.unobserve(targetEl, onResize);
   }
 });
 
 const isHiddenWhenTargetOutViewport = () => props.hideWhenTargetInvisible && !isTargetInViewport.value;
-// 处理popup位置
+// 处理popup位置（以 innerTargetRect 为定位源，不感知 target 形态）
 const updatePopupStyle = () => {
   if (isHiddenWhenTargetOutViewport()) {
     return;
   }
 
-  if (!targetEl || !popupRef.value || !popupContent.value) {
+  const tRect = innerTargetRect.value;
+  if (!tRect || !popupRef.value || !popupContent.value) {
     return;
   }
 
@@ -237,7 +275,7 @@ const updatePopupStyle = () => {
     anchorStyle: aStyle,
   } = calcPopupStyle({
     popupEl: popupRef.value,
-    targetEl,
+    tRect,
     position: props.position,
     adaptive: props.adaptive,
     offset: props.offset,
@@ -261,7 +299,8 @@ const onTargetInterscting: (entry: IntersectionObserverEntry) => void = (entry: 
   if (oldIntersecting !== null && entry.isIntersecting) {
     if (visible.value) {
       nextTick(() => {
-        updatePopupStyle();
+        // 重新进入视口后同步定位源（元素可能已移动）
+        syncInnerRect();
       });
     }
   }
@@ -306,8 +345,9 @@ const applyVisible = (isVisible: boolean) => {
 
   if (visible.value) {
     toMount.value = true;
-    // 在切换 visible.value 时不必手动调用 updatePopupStyle，因为 v-show 的切换会触发 onResize
-    if (props.hideWhenTargetInvisible && isTargetHtmlElement(targetEl)) {
+    // 靠显示时刷新兜底；popup RO（v-show 切换触发 onResize）仍作为自然兜底保留
+    nextTick(refreshPositionSource);
+    if (props.hideWhenTargetInvisible && targetEl) {
       io?.observe(targetEl, onTargetInterscting);
     }
   }
@@ -346,6 +386,29 @@ watch(targetElRef, (elRef) => {
     bindTargetEvent(elRef?.$el);
   }
 });
+
+// 定位源 prop 监听：数据模式下拷贝写入 innerTargetRect（deep 支持响应式对象原地修改）；
+// 清空时回退交互元素实时矩形，无元素则置空走父级布局
+// 声明位置约束：immediate 回调在 setup 期同步调用 bindTargetEvent，其函数体又会求值
+// setVisible / onTargetInterscting 等 const 声明，故本 watch 须置于这些声明全部之后，避开暂存死区
+watch(
+  () => props.targetRect,
+  (r) => {
+    if (r) {
+      innerTargetRect.value = copyRect(r);
+    } else {
+      // 回退场景：target prop 因同传被跳过绑定时补绑，使清空后能回退到其定位
+      if (!targetEl && target.value) {
+        const el = getHtmlElement(target.value);
+        if (el) {
+          bindTargetEvent(el);
+        }
+      }
+      syncInnerRect();
+    }
+  },
+  { immediate: true, deep: true },
+);
 
 const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
@@ -392,7 +455,9 @@ const handleTransitionEnd = () => {
 
 const scrollListener = throttleRAF(() => {
   if (visible.value) {
-    updatePopupStyle();
+    // 元素模式：从交互元素同步实时矩形，经唯一定位重算入口更新；
+    // 数据模式下无滚动监听——滚动跟随职责在调用方（ADR 0001）
+    syncInnerRect();
   }
 });
 
@@ -403,11 +468,6 @@ const listenScroll = (el: HTMLElement | Window) => {
   };
 };
 
-/**
- * @description 判断 targetEl 是否为真实 DOM 元素（非 VirtualElement）
- */
-const isTargetHtmlElement = (el: HTMLElement | VirtualElement | null): el is HTMLElement => isHtmlElement(el);
-
 watch(popupRef, (popEl) => {
   let handles: Array<() => void> = [];
   if (popEl) {
@@ -415,8 +475,8 @@ watch(popupRef, (popEl) => {
      * popup显示时，监听挂载容器、关联元素
      */
 
-    if (targetEl && isTargetHtmlElement(targetEl)) {
-      // 监听 targetEl 滚动父链 + window 自身的滚动
+    if (targetEl) {
+      // 监听交互元素滚动父链 + window 自身的滚动
       const targetHtmlEl = targetEl;
       const scrollers = getScrollParents(targetHtmlEl);
 
@@ -425,17 +485,17 @@ watch(popupRef, (popEl) => {
       });
       handles.push(listenScroll(window));
 
-      // 监听targetEL尺寸变化
+      // 监听交互元素尺寸变化：宽度镜像 + 定位源同步（rect 随尺寸变化）
       ro?.observe(targetHtmlEl, (en: ResizeObserverEntry, isFirst: boolean) => {
         if (props.adjustMinWidth) {
           popStyle.minWidth = `${targetHtmlEl.offsetWidth}px`;
         } else if (props.adjustWidth) {
           popStyle.width = `${targetHtmlEl.offsetWidth}px`;
         }
-        onResize(en, isFirst);
+        if (visible.value && !isFirst) {
+          syncInnerRect();
+        }
       });
-    } else if (targetEl) {
-      handles.push(listenScroll(window));
     }
 
     if (wrapperEl.value) {
@@ -451,7 +511,7 @@ watch(popupRef, (popEl) => {
     if (wrapperEl.value) {
       ro?.unobserve(wrapperEl.value, onResize);
     }
-    if (targetEl && isTargetHtmlElement(targetEl)) {
+    if (targetEl) {
       ro?.unobserve(targetEl, onResize);
       io?.unobserve(targetEl, onTargetInterscting);
       isTargetInViewport.value = true;
