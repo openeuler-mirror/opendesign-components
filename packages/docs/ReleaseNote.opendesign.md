@@ -1,3 +1,25 @@
+## 1.2.7-sp1
+
+### BREAKING CHANGES
+
+- **OPopup/OPopover:** `targetRect` 属性类型从 `VirtualElement`（`getBoundingClientRect` 闭包）切换为 `TargetRect` 快照数据（视口坐标系纯数据，结构兼容 `DOMRect`），旧闭包形态不再支持；滚动/缩放的跟随职责移交调用方（OTour 已同步迁移并自行监听滚动）
+
+### Bug Fixes
+
+- **OPopup:**
+  - 修复挂载即传 `target` 时 immediate 监听器级联 TDZ 抛错导致 setup 失败的问题
+  - 修复非受控模式隐藏时丢失 `update:visible` / `change` 事件的问题
+  - 修复空 `targetRect` 覆盖插槽/`target` 绑定的触发元素导致弹层停留在 (0,0) 的问题
+- **OTour:** 修复页面滚动时遮罩镂空与步骤弹层未同步跟随目标的问题
+- **ODataTable:**
+  - 修改列宽重分配机制：新增按表格尺寸的默认最小列宽，初始测量与拖拽均按最小/最大宽度钳制，末列自动吸收盈余宽度，并暴露 `userWidths`（用户拖拽设定的列宽 Map）
+  - 修复祖先元素 transform 缩放导致表头高度测量值错误的问题
+- **OStep:** 修复 SSR 渲染时 setup 顶层创建 ResizeObserver 抛 ReferenceError 的问题（[#201](https://atomgit.com/openeuler/opendesign-components/issues/201)）
+- **OSelect:** 修复选项文本过长时溢出容器的问题；同时 ODialog 内容区允许正常收缩，移动端（≤pad_v）选项与多选标签支持横向滚动
+- **OInput/OSelect:** 修复禁用态背景色与 prepend/append 区域禁用态样式异常
+- **OImageViewer:** 修复暗色模式下操作栏背景及进度/错误文字颜色异常
+- **OButton:** 修复 ascend/kunpeng 主题下 solid 按钮样式误影响 DatePicker 面板按钮、导致文字不可见的问题
+
 ## 1.2.5-sp4
 
 ### Bug Fixes
@@ -9,6 +31,10 @@
 - **OButton:** 修复 ascend/kunpeng 主题下 solid 按钮样式误影响 DatePicker 面板按钮、导致文字不可见的问题
 
 ## 1.2.7
+
+### Warning
+
+本版本 `OPopup`/`OPopover` 的 `targetRect` 属性采用 `VirtualElement`（`getBoundingClientRect` 闭包）契约，该契约存在设计缺陷且已在后续版本中移除，请勿在 1.2.7 中使用 `targetRect`，建议升级到 1.2.7-sp1 并按 `TargetRect` 快照数据新契约传参（详见 1.2.7-sp1 的 BREAKING CHANGES）
 
 ### Features
 

@@ -1,7 +1,7 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 定位源矩形 targetRect ^[NEXT](primary)
+### 定位源矩形 targetRect ^[1.2.7-sp1](primary)
 
 `targetRect` 接收视口坐标系下的矩形快照（结构兼容 `DOMRect`）作为弹层定位源，优先级高于 `target` 属性与 `#target` 插槽，适用于没有真实触发元素、定位目标由外部数据描述的场景（如 OTour 的高亮步骤）。
 
@@ -11,7 +11,7 @@
 
 <!-- en-US -->
 
-### Target Rect ^[NEXT](primary)
+### Target Rect ^[1.2.7-sp1](primary)
 
 `targetRect` accepts a rect snapshot in viewport coordinates (DOMRect-compatible) as the positioning source of the popup. It takes priority over the `target` prop and the `#target` slot, and fits scenarios where no real trigger element exists and the positioning target is described by external data (e.g. highlighted steps of OTour).
 
