@@ -13,11 +13,12 @@
   --_box-bg-color: var(--o-color-fill2);
   --_box-bg-color-hover: var(--o-color-fill2);
   --_box-bg-color-focus: var(--o-color-fill2);
-  --_box-bg-color-disabled: var(--o-color-fill2);
+  --_box-bg-color-disabled: var(--o-color-control4-light);
 
   --_box-prepend-append-bd: 1px solid var(--o-color-control1);
-  --_box-prepend-append-bd-color-disabled: var(--o-color-control4-light);
+  --_box-prepend-append-bd-color-disabled: var(--o-color-control4);
   --_box-prepend-append-bg-color: var(--o-color-control5-light);
+  --_box-prepend-append-bg-color-disabled: var(--o-color-control4-light);
 }
 
 .o_box-solid {
