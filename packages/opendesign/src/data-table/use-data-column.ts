@@ -507,7 +507,6 @@ const useCellSpan = (
         const res = spanMethod.value({
           row,
           column,
-          // @ts-ignore
           cellValue: getCellValue({ row, column }),
           rowIndex,
           colIndex,
