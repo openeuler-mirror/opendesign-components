@@ -43,6 +43,7 @@
   align-items: center;
   width: var(--checkbox-input-wrap-size);
   height: var(--checkbox-input-wrap-size);
+  flex-shrink: 0;
 }
 
 .o-checkbox-input {
@@ -57,7 +58,9 @@
   border: 1px solid var(--checkbox-input-bd-color);
   border-radius: var(--checkbox-radius);
   flex-shrink: 0;
-  transition: border-color var(--o-duration-s) var(--o-easing-standard), background-color var(--o-duration-s) var(--o-easing-standard);
+  transition:
+    border-color var(--o-duration-s) var(--o-easing-standard),
+    background-color var(--o-duration-s) var(--o-easing-standard);
 
   svg {
     width: 24px;
