@@ -57,7 +57,7 @@ const triggers = computed<PopupTriggerT[]>(() => {
   return triggers;
 });
 
-const visible = ref(false);
+const visible = ref<boolean | undefined>(false);
 const targetElRef = ref<ComponentPublicInstance | null>(null);
 // 交互元素：仅承担 trigger 事件绑定与可见性观察，不参与定位计算。
 // 定位源统一收敛到 innerTargetRect，消除多 watcher 写同一变量的踩踏
