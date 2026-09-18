@@ -15,7 +15,7 @@ src/<ComponentName>/__tests__/
 └── OComponent.ssr.test.ts          # SSR + hydration
 ```
 
-文件名固定：`<ComponentName>.<type>.test.ts`。**只有这 3 种 type**，不要新建 `*.visual.test.ts` / `*.a11y.test.ts` 等——理由见根 SKILL.md「合并教训」段（先合再分，不要一上来就拆细）。
+文件名固定：`<ComponentName>.<type>.test.ts`。**只有这 3 种 type**，不要新建 `*.visual.test.ts` / `*.a11y.test.ts` 等——理由见根 SKILL.md「合并教训」段（先合再分，不要一上来就拆细）。唯一例外是 `*.ssr-node-env.test.ts`（Node 环境模拟）：仅在组件 setup 同步段触达浏览器全局变量（如 `ResizeObserver`）时创建，且因模块级单例隔离的硬性要求必须独立成文件（见 `*.ssr.test.ts` 章节的「Node 环境模拟」），不属于常规拆分。
 
 ### 纯函数 / composable / 指令（`.ts`）— 同级放置
 
@@ -566,6 +566,22 @@ result.structuralMismatch; // boolean — 诊断字段：Element 引用对比检
 组件测试只需断言 `result.hasMismatch === false`（即 console.warn 无 hydration 警告）。若想辅助定位 mismatch 类型，可检查 `hydrationWarnings` 消息内容、`structuralMismatch`、`ssrTextContent !== hydratedTextContent` 诊断字段。
 
 检测能力验证（探针组件覆盖矩阵）见 [`__tests__/SsrSafety.test.ts`](../../opendesign/__tests__/SsrSafety.test.ts)。
+
+### 检测方法：`runWithoutGlobals` Node 环境模拟
+
+上述「Browser Mode 环境共享限制」意味着一类真实故障在 `*.ssr.test.ts` 里**永远绿**：组件 setup 同步段访问浏览器全局变量（如 OStep 曾在 setup 顶层 `new ResizeObserver`，真实 Nuxt 预渲染直接 500，而 Browser Mode 下 `ResizeObserver` 恒存在、复现不出来）。`runWithoutGlobals` 把 `window` 上指定的全局变量临时删除后执行 `fn`、结束后恢复，补齐该盲区：
+
+```ts
+import { renderSSR, runWithoutGlobals } from '../../../__tests__/_helpers/ssr';
+
+await expect(runWithoutGlobals(['ResizeObserver'], () => renderSSR(OStep))).resolves.toEqual(expect.any(String));
+```
+
+三条硬性约定：
+
+- **必须用 delete 移除而非赋值 `undefined`**：第三方库（如 @vueuse）带 `"ResizeObserver" in window` 式守卫，赋值 `undefined` 时属性仍在、守卫失效，会产生真实 Node 环境不存在的误报；
+- **必须独立成文件**（`*.ssr-node-env.test.ts`，即三文件结构一节的唯一例外）：被测代码若存在模块级单例（如 `use-resize-observer` 的 `instance`），一旦在同文件更早的用例中创建过，后续调用不再访问全局变量，会静默绕过模拟环境（vitest 按文件隔离模块状态，独立文件即全新模块）；
+- **只配 `renderSSR`**：`renderSSR` 只执行 setup 与 render、不触发 `onMounted`，精确复刻服务端渲染语义。
 
 ### 骨架
 
