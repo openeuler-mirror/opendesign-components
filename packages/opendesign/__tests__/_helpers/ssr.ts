@@ -31,6 +31,44 @@ export async function renderSSR(component: Component, props?: Record<string, unk
 }
 
 /**
+ * 在「指定浏览器全局变量不可用」的环境下执行 fn，模拟 Node.js 服务端环境。
+ *
+ * @description 将 window 上指定的全局变量（如 ResizeObserver）临时删除后执行 fn，
+ * 结束后恢复原值。Browser Mode 下 SSR 与客户端共享同一浏览器上下文，
+ * ResizeObserver / matchMedia 等全局变量恒存在，无法暴露「组件在 Node.js
+ * 服务端渲染时访问浏览器 API」类问题；本函数通过移除这些变量补齐该盲区。
+ * 注意必须用 delete 移除而非赋值 undefined：第三方库（如 @vueuse）带
+ * `"ResizeObserver" in window` 式守卫，赋值 undefined 时属性仍在、守卫失效，
+ * 会产生真实 Node 环境不存在的误报。
+ *
+ * fn 内部应使用 renderSSR（只执行 setup 与 render，不触发 onMounted），
+ * 以精确复刻服务端渲染语义。
+ *
+ * 使用前提：fn 执行前目标全局变量未被使用过（如 use-resize-observer 的
+ * 模块级单例一旦创建便不再访问全局变量，会绕过模拟环境），
+ * 因此基于本函数的用例应放在独立测试文件中运行，避免与其他用例共享模块状态。
+ *
+ * @param globalNames 需要临时删除的 window 全局变量名列表
+ * @param fn 在模拟 Node 环境下执行的异步函数（通常为 renderSSR 调用）
+ * @returns fn 的返回值
+ */
+export async function runWithoutGlobals<T>(globalNames: string[], fn: () => Promise<T>): Promise<T> {
+  const originals = globalNames.map((name) => (window as unknown as Record<string, unknown>)[name]);
+  const globalScope = window as unknown as Record<string, unknown>;
+  globalNames.forEach((name) => {
+    // delete 移除属性，使 `name in window` 守卫与真实 Node 环境一致返回 false
+    delete globalScope[name];
+  });
+  try {
+    return await fn();
+  } finally {
+    globalNames.forEach((name, index) => {
+      globalScope[name] = originals[index];
+    });
+  }
+}
+
+/**
  * 收集指定根元素下所有后代 Element 对象的引用。
  *
  * @description 递归遍历 root 的所有后代 Element，将每个 Element 对象存入 Set。
