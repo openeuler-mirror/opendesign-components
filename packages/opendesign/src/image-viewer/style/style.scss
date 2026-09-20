@@ -95,12 +95,12 @@
 // ---- 导航按钮 ----
 // pointer-events: auto 恢复点击穿透（父级 .o-image-viewer-overlay 设为 none）
 .o-btn.o-image-viewer-nav {
-  --btn-color: var(--o-color-info1-inverse);
-  --btn-color-hover: var(--o-color-info2-inverse);
-  --btn-color-active: var(--o-color-info2-inverse);
-  --btn-bg-color: var(--o-color-mask1);
-  --btn-bg-color-hover: var(--o-color-mask1);
-  --btn-bg-color-active: var(--o-color-mask1);
+  --btn-color: rgba(var(--o-white), 0.8);
+  --btn-color-hover: rgba(var(--o-white), 0.6);
+  --btn-color-active: rgba(var(--o-white), 0.6);
+  --btn-bg-color: var(--o-color-info4);
+  --btn-bg-color-hover: var(--o-color-info4);
+  --btn-bg-color-active: var(--o-color-info4);
   --btn-bd-color: none;
   --btn-bd-color-hover: none;
   --btn-bd-color-active: none;

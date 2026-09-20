@@ -226,11 +226,19 @@ export type EffectiveDataTableColumnCommonT = {
   formatter: DataTableColumnFormatter;
   colSpan?: number;
   rowSpan?: number;
-  /** 列宽调整后的宽度，用于计算固定列的定位值 */
+  /**
+   * @description 列的实际渲染宽度（px）。由 fixColumnAfterMounted 测量/解析，或拖拽时由用户设定。
+   *              用于 lockTableWidth 求和、getColStyle 优先级解析、固定列 getColumnPosition 偏移计算。
+   */
   resizeWidth?: number;
-  /** 列的最小宽度 - 通过容器宽度计算后 */
+  /**
+   * @description 列的最小宽度下限（px）。由 minWidth prop 经容器宽度解析，未声明时回退 DEFAULT_MIN_COL_WIDTH（按 size）。
+   *              fixColumnAfterMounted 与拖拽前同步兜底均计算此值，mousemove 据此钳制下限。
+   */
   _minWidth?: number;
-  /** 列的最大宽度 - 通过容器宽度计算后 */
+  /**
+   * @description 列的最大宽度上限（px）。由 maxWidth prop 经容器宽度解析，仅声明时计算。拖拽与 fix 据此钳制上限。
+   */
   _maxWidth?: number;
   fixed?: 'left' | 'right';
   /** fix为undefined或left时当前列的left值 */
@@ -247,7 +255,13 @@ export type EffectiveDataTableColumnCommonT = {
   isLastCol?: boolean;
   /** 表头是否由于自定义表头单元格合并而被合并后，不渲染 */
   headerHidden?: boolean;
+  /**
+   * @description <col> 元素引用，由 TableColGroup.setColRef 赋值。fix 与拖拽通过此引用命令式设置 col 宽度。
+   */
   colRef?: HTMLTableColElement;
+  /**
+   * @description <th> 元素引用，由 ODataTable.setThRef 赋值。fix 测量列宽与拖拽起始基线读取此引用。
+   */
   thRef?: HTMLTableCellElement;
   /**
    * 嵌套表头配置
@@ -492,6 +506,8 @@ export type DataTableExposed = {
   dataColumns: Ref<EffectiveDataTableColumnT[]>;
   /** 列根据层级关系构造的二维数组 */
   groupColumns: Ref<EffectiveDataTableColumnT[][]>;
+  /** 用户拖拽设定的列宽 Map @since 1.2.5 */
+  userWidths: Map<string, number>;
   /** 全选 @since 1.2.2 */
   selectAll: () => void;
   /** 清空全选 @since 1.2.2 */

@@ -125,5 +125,5 @@ getData();
 </script>
 
 <template>
-  <ODataTable :columns="columns" :data="data" :conditions="conditions" :loading="loading" @condition-update="getData" />
+  <ODataTable :columns="columns" :data="data" :conditions="conditions" :loading="loading" column-resizable @condition-update="getData" />
 </template>

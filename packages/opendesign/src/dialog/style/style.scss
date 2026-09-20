@@ -62,6 +62,9 @@
 }
 .o-dlg-body-content {
   flex: 1;
+  // 覆盖 flex item 默认的 min-width: auto，允许内容在超出可用宽度时正常收缩而非撑破 Dialog，
+  // 溢出内容交由内部滚动条或文字换行处理
+  min-width: 0;
 }
 .o-dlg-footer {
   overflow: hidden;

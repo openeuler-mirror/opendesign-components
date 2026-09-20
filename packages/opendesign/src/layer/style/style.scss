@@ -36,16 +36,16 @@
 }
 .o-layer-close-icon {
   font-size: var(--o-icon_size-m);
-  color: var(--o-color-info1-inverse);
-  background-color: var(--o-color-mask1);
+  color: rgba(var(--o-white), 0.8);
+  background-color: var(--o-color-info4);
   border-radius: 50%;
   padding: 8px;
   @include x-svg-hover;
   @include hover {
-    color: var(--o-color-info2-inverse);
+    color: rgba(var(--o-white), 0.6);
   }
   &:active {
-    color: var(--o-color-info3-inverse);
+    color: rgba(var(--o-white), 0.6);
     transform: scale(0.9);
   }
 }

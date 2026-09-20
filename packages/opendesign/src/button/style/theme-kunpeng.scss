@@ -1,4 +1,4 @@
-.o-btn:not(.o-btn-brand) {
+.o-btn:not(.o-btn-brand):not(.o-date-panel-btn) {
   &.o-btn-solid {
     --btn-color: var(--o-color-info1-inverse);
     --btn-color-hover: var(--o-color-info1-inverse);

@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { getElementSize, getOffsetElement, getScroll } from '../_utils/dom';
 import type { PositionT } from '../_utils/types';
-import type { PopupPositionT, PopupTriggerT, VirtualElement } from './types';
+import type { PopupPositionT, PopupTriggerT, TargetRect } from './types';
 
 import { useOutClick } from '../hooks/use-out-click';
 
@@ -52,8 +52,8 @@ interface FlipCtx {
   popupPosition: Pos;
   /** popup 自身尺寸 */
   popupSize: ElementSize;
-  /** target 元素视口矩形 */
-  tRect: DOMRect;
+  /** target 视口矩形快照 */
+  tRect: TargetRect;
   /** popup 允许的边缘范围 */
   edge: ReturnType<typeof getWrapperViewEdge>;
   /** popup 距离 target 的偏移 */
@@ -87,7 +87,7 @@ function getWrapperContentRect(wrapperEl: HTMLElement, wrapperRect?: DOMRect): D
  * @param offset - popup 距离 target 的偏移
  * @returns 视口坐标的 popup 左/上边缘
  */
-type ViewOffsetBuilder = (t: DOMRect, pSize: ElementSize, offset: number) => Pos;
+type ViewOffsetBuilder = (t: TargetRect, pSize: ElementSize, offset: number) => Pos;
 
 const viewOffsetBuilders: Record<PopupPositionT, ViewOffsetBuilder> = {
   top: (t, pSize, offset) => ({
@@ -96,14 +96,14 @@ const viewOffsetBuilders: Record<PopupPositionT, ViewOffsetBuilder> = {
   }),
   bottom: (t, pSize, offset) => ({
     left: t.left + t.width / 2 - pSize.width / 2,
-    top: t.bottom + offset,
+    top: t.top + t.height + offset,
   }),
   left: (t, pSize, offset) => ({
     left: t.left - offset - pSize.width,
     top: t.top + t.height / 2 - pSize.height / 2,
   }),
   right: (t, pSize, offset) => ({
-    left: t.right + offset,
+    left: t.left + t.width + offset,
     top: t.top + t.height / 2 - pSize.height / 2,
   }),
   tl: (t, pSize, offset) => ({
@@ -111,16 +111,16 @@ const viewOffsetBuilders: Record<PopupPositionT, ViewOffsetBuilder> = {
     top: t.top - offset - pSize.height,
   }),
   tr: (t, pSize, offset) => ({
-    left: t.right - pSize.width,
+    left: t.left + t.width - pSize.width,
     top: t.top - offset - pSize.height,
   }),
   bl: (t, _pSize, offset) => ({
     left: t.left,
-    top: t.bottom + offset,
+    top: t.top + t.height + offset,
   }),
   br: (t, pSize, offset) => ({
-    left: t.right - pSize.width,
-    top: t.bottom + offset,
+    left: t.left + t.width - pSize.width,
+    top: t.top + t.height + offset,
   }),
   lt: (t, pSize, offset) => ({
     left: t.left - offset - pSize.width,
@@ -128,21 +128,21 @@ const viewOffsetBuilders: Record<PopupPositionT, ViewOffsetBuilder> = {
   }),
   lb: (t, pSize, offset) => ({
     left: t.left - offset - pSize.width,
-    top: t.bottom - pSize.height,
+    top: t.top + t.height - pSize.height,
   }),
   rt: (t, _pSize, offset) => ({
-    left: t.right + offset,
+    left: t.left + t.width + offset,
     top: t.top,
   }),
   rb: (t, pSize, offset) => ({
-    left: t.right + offset,
-    top: t.bottom - pSize.height,
+    left: t.left + t.width + offset,
+    top: t.top + t.height - pSize.height,
   }),
 };
 
 interface ViewOffsetOptions {
-  /** target 视口矩形 */
-  t: DOMRect;
+  /** target 视口矩形快照 */
+  t: TargetRect;
   /** popup 尺寸 */
   pSize: ElementSize;
   /** popup 距离 target 的偏移 */
@@ -387,8 +387,8 @@ interface AdjustOffsetOptions {
   popupPosition: Pos;
   /** popup 尺寸 (整轮 calc 冻结) */
   popupSize: ElementSize;
-  /** target 视口矩形 */
-  tRect: DOMRect;
+  /** target 视口矩形快照 */
+  tRect: TargetRect;
   /** wrapper 内容矩形 (可选) */
   wRect?: DomContentRect;
   /** anchor 钳制时使用的偏移 */
@@ -436,8 +436,8 @@ function adjustOffset(position: PopupPositionT, { popupPosition, popupSize, tRec
 
 /** getAnchorOffset 的可选项 */
 interface GetAnchorOffsetOptions {
-  /** target 元素视口矩形 */
-  tRect: DOMRect;
+  /** target 视口矩形快照 */
+  tRect: TargetRect;
   /** viewOffsetBuilders 输出的 Pos (已 flip + clamp 后) */
   popupStyle: Pos;
   /** popup 尺寸 */
@@ -494,8 +494,8 @@ function getAnchorOffset(position: PopupPositionT, { tRect, popupStyle, popupSiz
 interface CalcPopupStyleOptions {
   /** popup 元素 */
   popupEl: HTMLElement;
-  /** target 元素，支持 HTMLElement 或 VirtualElement（如 OTour 的虚拟定位点） */
-  targetEl: HTMLElement | VirtualElement;
+  /** 定位源矩形快照（视口坐标系），不再感知 target 是元素还是数据 */
+  tRect: TargetRect;
   /** popup 位置 */
   position: PopupPositionT;
   /** 自适应容器边缘 */
@@ -512,7 +512,7 @@ interface CalcPopupStyleOptions {
 
 /**
  * 计算 popup 最终的位置与样式 (含自适应翻转、anchor 位置、wrapper 坐标转换)
- * @param opts - 配置项 (popupEl / targetEl / position / adaptive / anchor / anchorOffset / offset / edgeOffset)
+ * @param opts - 配置项 (popupEl / tRect / position / adaptive / anchor / anchorOffset / offset / edgeOffset)
  * @returns popup 最终的位置、样式、anchor 位置与是否翻转
  */
 /** resolveWrapperContext 的返回值 */
@@ -557,13 +557,13 @@ function resolveWrapperContext(popupEl: HTMLElement): WrapperContext {
  * 与 adjustOffset 内的 flip/clamp 共享同一份 pSize, 避免写出的 popStyle 触发 CSS
  * shrink-to-fit 重新收敛导致 pSize 漂移。
  *
- * @param opts - 配置项 (popupEl / targetEl / position / adaptive / anchor / anchorOffset / offset / edgeOffset)
+ * @param opts - 配置项 (popupEl / tRect / position / adaptive / anchor / anchorOffset / offset / edgeOffset)
  * @returns popup 最终的位置、样式、anchor 位置与是否翻转
  * @todo getBoundingClientRect 与 offsetWidth clientWidth 混用可能在有 scale 时产生问题
  */
 export function calcPopupStyle({
   popupEl,
-  targetEl,
+  tRect,
   position,
   adaptive = true,
   anchor = true,
@@ -571,7 +571,6 @@ export function calcPopupStyle({
   offset = 8,
   edgeOffset = 0,
 }: CalcPopupStyleOptions) {
-  const tRect = targetEl.getBoundingClientRect();
   const popupSize = getElementSize(popupEl);
   const { wrapperEl, wrapperContentRect, isWrapperBounded } = resolveWrapperContext(popupEl);
   const emptyAnchor: AnchorPosition = {};

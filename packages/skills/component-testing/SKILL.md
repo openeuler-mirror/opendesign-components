@@ -32,12 +32,12 @@ metadata:
 
 所有 helper 位于 [`packages/opendesign/__tests__/_helpers/`](../../opendesign/__tests__/_helpers/)，测试文件通过相对路径导入（如 `import { THEMES } from '../../../__tests__/_helpers/theme'`）。
 
-| 文件                                                             | 导出                                                  | 用途                                                                                                                                                                                                  |
-| ---------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`        | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                                                                                                         |
-| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrHydrateAndCompare`                   | SSR 字符串渲染 + console.warn 为主的水合 mismatch 检测（textContent / Element 引用为诊断字段），用于 `*.ssr.test.ts`                                                                                  |
-| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent` | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                                                                                                   |
-| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`、`createMouseEvent`         | 异步渲染等待 + CSS 变量 px 值解析 + 携带 pageX/pageY 的 MouseEvent 构造（绕过 MouseEventInit 类型限制），用于 `*.index.test.ts`（exposed 方法）、`*.responsive.test.ts`（token 链断言）及交互拖拽测试 |
+| 文件                                                             | 导出                                                     | 用途                                                                                                                                                                                                                                    |
+| ---------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`viewport.ts`](../../opendesign/__tests__/_helpers/viewport.ts) | `BREAKPOINTS`、`setViewport`、`BreakpointName`           | 5 个断点视口切换，用于 `*.responsive.test.ts`                                                                                                                                                                                           |
+| [`ssr.ts`](../../opendesign/__tests__/_helpers/ssr.ts)           | `renderSSR`、`ssrHydrateAndCompare`、`runWithoutGlobals` | SSR 字符串渲染 + console.warn 为主的水合 mismatch 检测（textContent / Element 引用为诊断字段），用于 `*.ssr.test.ts`；`runWithoutGlobals` 删除浏览器全局变量模拟 Node 环境补齐「真实 Node SSR 差异」盲区，用于 `*.ssr-node-env.test.ts` |
+| [`theme.ts`](../../opendesign/__tests__/_helpers/theme.ts)       | `THEMES`、`ThemeName`、`paintThemed`、`isTransparent`    | 双主题常量 + 主题挂载 + 透明色判断，用于 `*.index.test.ts` 视觉断言                                                                                                                                                                     |
+| [`dom.ts`](../../opendesign/__tests__/_helpers/dom.ts)           | `flush`、`resolveTokenPx`、`createMouseEvent`            | 异步渲染等待 + CSS 变量 px 值解析 + 携带 pageX/pageY 的 MouseEvent 构造（绕过 MouseEventInit 类型限制），用于 `*.index.test.ts`（exposed 方法）、`*.responsive.test.ts`（token 链断言）及交互拖拽测试                                   |
 
 ---
 
@@ -49,7 +49,7 @@ metadata:
 1. 看组件结构 → src/<comp>/{OComp.vue, types.ts, style/}
 2. 按 types.ts prop 顺序，定 *.index.test.ts 静态契约用例数
 3. 看 media.scss 决定 *.responsive.test.ts 跑哪些视口
-4. SSR 兼容性照搬模板（*.ssr.test.ts）
+4. SSR 兼容性照搬模板（*.ssr.test.ts；组件 setup 同步段触达浏览器全局变量时另建 *.ssr-node-env.test.ts）
 5. pnpm vitest run src/<comp>/__tests__/   ← 跑通
 ```
 
@@ -160,11 +160,12 @@ expect(cbB).toHaveBeenCalled(); // B 仍正常
 
 ## 测试文件职责
 
-| 文件                   | 测什么                                                                                                                                                  | 不测什么                    | 详细                                                            |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | --------------------------------------------------------------- |
-| `*.index.test.ts`      | **5 维度 describe**：静态契约（DOM/class/默认值/单主题视觉语义） + 动态契约（emit/键盘/阻断） + 视觉契约（双主题 token wiring） + 子配置契约 + 插槽契约 | 像素值、响应式断点尺寸、SSR | [three-file-structure.md](./references/three-file-structure.md) |
-| `*.responsive.test.ts` | 视口 × size 的尺寸数值（字面 px 精确比对 / token 链变量变化断言 / 级联一致性）                                                                          | 颜色、行为                  | [three-file-structure.md](./references/three-file-structure.md) |
-| `*.ssr.test.ts`        | renderToString 不抛 + console.warn 为主的水合 mismatch 检测（用 `test.fails` 标记已知问题）                                                             | 视觉、布局                  | [three-file-structure.md](./references/three-file-structure.md) |
+| 文件                     | 测什么                                                                                                                                                                                                | 不测什么                    | 详细                                                            |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | --------------------------------------------------------------- |
+| `*.index.test.ts`        | **5 维度 describe**：静态契约（DOM/class/默认值/单主题视觉语义） + 动态契约（emit/键盘/阻断） + 视觉契约（双主题 token wiring） + 子配置契约 + 插槽契约                                               | 像素值、响应式断点尺寸、SSR | [three-file-structure.md](./references/three-file-structure.md) |
+| `*.responsive.test.ts`   | 视口 × size 的尺寸数值（字面 px 精确比对 / token 链变量变化断言 / 级联一致性）                                                                                                                        | 颜色、行为                  | [three-file-structure.md](./references/three-file-structure.md) |
+| `*.ssr.test.ts`          | renderToString 不抛 + console.warn 为主的水合 mismatch 检测（用 `test.fails` 标记已知问题）                                                                                                           | 视觉、布局                  | [three-file-structure.md](./references/three-file-structure.md) |
+| `*.ssr-node-env.test.ts` | Node 环境模拟（`runWithoutGlobals` 删除 `ResizeObserver` 等浏览器全局变量）下 `renderSSR` 不抛——抓「setup 顶层访问浏览器 API」类 SSR 崩溃；须独立成文件（模块级单例隔离，见 three-file-structure.md） | 视觉、布局、水合 mismatch   | [three-file-structure.md](./references/three-file-structure.md) |
 
 ---
 
@@ -668,11 +669,12 @@ src/**/*.{ts,vue}
 
 覆盖率衡量的是**源码在测试中的执行情况**，对应 3 个测试文件各自覆盖的维度：
 
-| 测试文件               | 覆盖的源码维度                                                                                                                                  | 对覆盖率指标的贡献                                                                             |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `*.index.test.ts`      | 静态契约（按 `types.ts` 每个 prop → DOM 结构 / class 注入 / 默认值 / token wiring）+ 动态契约（用户交互 → emit / disabled 阻断 / exposed 方法） | 覆盖 `<script setup>` 的大部分语句/分支/函数，是 `% Stmts` / `% Branch` / `% Funcs` 的主要来源 |
-| `*.responsive.test.ts` | 视口 × size 的尺寸数值（字面 px 精确比对 / token 链跃迁断言）                                                                                   | 覆盖 `media.scss` 对应的响应式条件分支，补充 `% Branch`                                        |
-| `*.ssr.test.ts`        | `renderToString` 不抛 + hydration mismatch                                                                                                      | 覆盖 SSR 路径（`<script setup>` 在服务端渲染的执行路径），补充 `% Stmts` / `% Branch`          |
+| 测试文件                 | 覆盖的源码维度                                                                                                                                  | 对覆盖率指标的贡献                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `*.index.test.ts`        | 静态契约（按 `types.ts` 每个 prop → DOM 结构 / class 注入 / 默认值 / token wiring）+ 动态契约（用户交互 → emit / disabled 阻断 / exposed 方法） | 覆盖 `<script setup>` 的大部分语句/分支/函数，是 `% Stmts` / `% Branch` / `% Funcs` 的主要来源 |
+| `*.responsive.test.ts`   | 视口 × size 的尺寸数值（字面 px 精确比对 / token 链跃迁断言）                                                                                   | 覆盖 `media.scss` 对应的响应式条件分支，补充 `% Branch`                                        |
+| `*.ssr.test.ts`          | `renderToString` 不抛 + hydration mismatch                                                                                                      | 覆盖 SSR 路径（`<script setup>` 在服务端渲染的执行路径），补充 `% Stmts` / `% Branch`          |
+| `*.ssr-node-env.test.ts` | Node 环境模拟下 `renderSSR` 不抛（仅当组件 setup 触达浏览器全局变量时存在）                                                                     | 与 `*.ssr.test.ts` 同维度，不额外增加覆盖语句                                                  |
 
 **未被覆盖率反映的维度**（测试验证了但覆盖率数字看不到）→ 见 [框架边界 §10](#10-覆盖率不反映的维度)。
 

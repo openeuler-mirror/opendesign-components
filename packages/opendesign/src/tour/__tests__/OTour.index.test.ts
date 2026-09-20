@@ -408,6 +408,43 @@ describe('动态契约（用户交互 → 组件响应）', () => {
     await flush();
     expect(document.body.classList.contains('o-tour-open')).toBe(false);
   });
+
+  test('OTour 页面滚动 - 遮罩镂空与步骤弹层同步跟随目标', async () => {
+    // 目标随文档流定位（absolute），页面滚动时其视口位置变化；
+    // 滚动跟随职责在调用方（use-target 监听 scroll 写回矩形，ADR 0001）
+    const spacer = document.createElement('div');
+    spacer.style.height = '2000px';
+    document.body.appendChild(spacer);
+    const target = document.createElement('div');
+    target.className = 'tour-test-target scroll-follow';
+    target.style.cssText = 'position:absolute; left:300px; top:400px; width:120px; height:80px;';
+    document.body.appendChild(target);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tour-test-wrapper';
+    document.body.appendChild(wrapper);
+    try {
+      render(OTour, {
+        props: { visible: true, wrapper },
+        slots: { default: () => h(OTourStep, { target, title: '跟随' }) },
+      });
+      await flush();
+      const popup = wrapper.querySelector('.o-popup') as HTMLElement;
+      const path = wrapper.querySelector('.o-tour-mask-hollow') as SVGPathElement;
+      const before = popup.getBoundingClientRect().top;
+      const dBefore = path.getAttribute('d');
+
+      window.scrollTo(0, 150);
+      await flush();
+
+      // 弹层与遮罩镂空均上移跟随目标（同步移动，不再只跟随其一）
+      expect(popup.getBoundingClientRect().top).toBeLessThan(before - 100);
+      expect(path.getAttribute('d')).not.toBe(dBefore);
+    } finally {
+      window.scrollTo(0, 0);
+      cleanup();
+      spacer.remove();
+    }
+  });
 });
 
 describe('视觉契约（双主题 light / dark）', () => {

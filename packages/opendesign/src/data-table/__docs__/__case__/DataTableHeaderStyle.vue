@@ -25,7 +25,7 @@ const columns: DataTableColumnT[] = [
 </script>
 
 <template>
-  <ODataTable :columns="columns" :data="data" header-style="split-line" />
+  <ODataTable :columns="columns" :data="data" column-resizable header-style="split-line" />
 </template>
 
 <style scoped lang="scss"></style>

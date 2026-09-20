@@ -19,6 +19,7 @@ kind: container
 <!-- @case DataTableExpand -->
 <!-- @case DataTableTree -->
 <!-- @case DataTableSelection -->
+<!-- @case DataTableLayer -->
 
 ## API
 

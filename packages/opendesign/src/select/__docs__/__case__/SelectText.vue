@@ -12,7 +12,7 @@ import { ref } from 'vue';
 import { OForm, OFormItem, OOption, OSelect } from '@opensig/opendesign';
 
 const options = [
-  { label: 'option 1', value: 'opt1' },
+  { label: 'optionoptionoptionoptionoptionoptionoptionoptionoptionoptionoptionoption', value: 'opt1' },
   { label: 'option 2', value: 'opt2' },
   { label: 'option 3', value: 'opt3' },
   { label: 'option 4', value: 'opt4' },
