@@ -20,6 +20,7 @@ kind: container
 <!-- @case DataTableTree -->
 <!-- @case DataTableSelection -->
 <!-- @case DataTableLayer -->
+<!-- @case DataTableEmpty -->
 
 ## API
 
