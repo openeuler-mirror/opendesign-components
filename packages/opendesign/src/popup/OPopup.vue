@@ -4,11 +4,12 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs } from 'vue';
+import { onMounted, reactive, ref, Ref, watch, nextTick, onUnmounted, ComponentPublicInstance, computed, toRefs, onBeforeUnmount } from 'vue';
 import { popupProps, PopupTriggerT, TargetRect } from './types';
 import { isHtmlElement, getScrollParents } from '../_utils/dom';
 import { throttleRAF, debounce } from '../_utils/helper';
 import { isArray, isFunction, isTouchDevice } from '../_utils/is';
+import { useEventListener } from '@vueuse/core';
 import { calcPopupStyle, bindTrigger, getTransformOrigin } from './popup';
 import { useResizeObserver } from '../hooks/use-resize-observer';
 import { OResizeObserver } from '../resize-observer';
@@ -412,6 +413,10 @@ watch(
 
 const onResize = (_en: ResizeObserverEntry, isFirst: boolean) => {
   if (visible.value && !isFirst) {
+    // wrapper / popup 尺寸变化前先刷新定位源快照，避免基于过期矩形重算（固定显示 + 窗口缩放场景）；
+    // 元素模式下 syncInnerRect 已触发 innerTargetRect watch 完成重算，此处直接调用属幂等重复；
+    // 数据模式下 syncInnerRect 为 no-op 不触发 watch，直接调用是唯一重算路径
+    syncInnerRect();
     updatePopupStyle();
   }
 };
@@ -459,6 +464,26 @@ const scrollListener = throttleRAF(() => {
     // 数据模式下无滚动监听——滚动跟随职责在调用方（ADR 0001）
     syncInnerRect();
   }
+});
+
+onMounted(() => {
+  /**
+   * @description 窗口尺寸变化监听（rAF 节流）：窗口缩放使 fixed / 右对齐容器的视口位置改变
+   * 而尺寸不变时，滚动与 ResizeObserver 均不触发，必须显式刷新定位源快照再走唯一重算入口；
+   * 数据模式下 syncInnerRect 为 no-op，不干扰 targetRect 定位契约
+   */
+  const resizeListener = throttleRAF(() => {
+    if (visible.value) {
+      syncInnerRect();
+    }
+  });
+  const stopWindowResize = useEventListener('resize', resizeListener, { passive: true });
+
+  // 窗口 resize 监听：onMounted 回调处于组件 effect scope 之外，useEventListener 的
+  // tryOnScopeDispose 自动清理静默失效，须捕获 stop 在 onUnmounted 手动移除
+  onBeforeUnmount(() => {
+    stopWindowResize?.();
+  });
 });
 
 const listenScroll = (el: HTMLElement | Window) => {
