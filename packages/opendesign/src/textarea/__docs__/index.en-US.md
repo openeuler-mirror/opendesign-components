@@ -20,13 +20,14 @@ kind: input
 
 ### CSS 变量
 
-| CSS Variables | Description |
-| --- | --- |
-| \-\-textarea-min-height | Textarea minimum height |
-| \-\-textarea-min-width | Textarea minimum width |
-| \-\-textarea-padding-v | Textarea vertical padding (effective under small/medium/large size) |
-| \-\-textarea-padding-h | Textarea horizontal padding (effective under small/medium/large size) |
-| \-\-textarea-color | Textarea text color (effective under text variant with success/warning/danger state) |
-| \-\-textarea-color-disabled | Textarea disabled text color (effective under text variant with success/warning/danger state) |
+| CSS Variables                               | Description                                                                                   |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| \-\-textarea-min-height                     | Textarea minimum height                                                                       |
+| \-\-textarea-min-width                      | Textarea minimum width                                                                        |
+| \-\-textarea-padding-v                      | Textarea vertical padding (effective under small/medium/large size)                           |
+| \-\-textarea-padding-h                      | Textarea horizontal padding (effective under small/medium/large size)                         |
+| \-\-textarea-color                          | Textarea text color (effective under text variant with success/warning/danger state)          |
+| \-\-textarea-color-disabled                 | Textarea disabled text color (effective under text variant with success/warning/danger state) |
+| \-\-o-textarea-pill-radius ^[NEXT](primary) | Half-control-height radius for pill round (effective under small/medium/large size)           |
 
 <!-- @api OTextarea -->

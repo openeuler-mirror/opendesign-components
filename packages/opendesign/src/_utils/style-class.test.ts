@@ -45,6 +45,24 @@ describe('getRoundClass', () => {
     defaultRound.value = savedDefault;
   });
 
+  test('getRoundClass - round 未设置但 defaultRound=pill 时 style 注入 100vh 圆角', () => {
+    const savedDefault = defaultRound.value;
+    defaultRound.value = 'pill';
+    const props = { round: undefined };
+    const { style: styleRef } = getRoundClass(props, 'btn');
+    expect(styleRef.value['--btn-radius']).toBe('100vh');
+    defaultRound.value = savedDefault;
+  });
+
+  test('getRoundClass - round 未设置且 defaultRound 非 pill 时 style 为空', () => {
+    const savedDefault = defaultRound.value;
+    defaultRound.value = undefined;
+    const props = { round: undefined };
+    const { style: styleRef } = getRoundClass(props, 'btn');
+    expect(styleRef.value).toEqual({});
+    defaultRound.value = savedDefault;
+  });
+
   test('getRoundClass - name 以 - 开头时类名格式正确', () => {
     const props = { round: 'pill' as const };
     const { class: classRef } = getRoundClass(props, '-box');
