@@ -12,6 +12,7 @@ kind: feedback
 <!-- @case PopupPosition -->
 <!-- @case PopupTargetSlot -->
 <!-- @case PopupTargetRect -->
+<!-- @case PopupResizeFixed -->
 <!-- @case PopupInDialog -->
 
 ## Api
