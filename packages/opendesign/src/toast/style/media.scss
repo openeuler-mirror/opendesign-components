@@ -1,13 +1,13 @@
 @use '../../_styles/mixin.scss' as *;
 
 @include respond('<=pad_v') {
-  .o-toast {
-    --toast-max-width: 75%;
+  .o-toast-list {
+    --toast-list-max-width: 75%;
   }
 }
 
 @include respond('phone') {
-  .o-toast {
-    --toast-max-width: 100%;
+  .o-toast-list {
+    --toast-list-max-width: 100%;
   }
 }
