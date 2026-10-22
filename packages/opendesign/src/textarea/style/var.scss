@@ -29,4 +29,15 @@
       --textarea-color-disabled: var(--o-color-danger4);
     }
   }
+
+  &.o_box-round-pill {
+    --o-textarea-pill-radius: calc(var(--o-control_size-m) / 2);
+
+    &.o_box-small {
+      --o-textarea-pill-radius: calc(var(--o-control_size-s) / 2);
+    }
+    &.o_box-large {
+      --o-textarea-pill-radius: calc(var(--o-control_size-l) / 2);
+    }
+  }
 }
