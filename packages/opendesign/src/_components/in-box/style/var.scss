@@ -147,3 +147,7 @@
   --_box-radius: var(--o-radius_control-l);
   --icon-size: var(--o-icon_size_control-s);
 }
+
+.o_box-round-pill {
+  --_box-radius: var(--o-control_size-l);
+}

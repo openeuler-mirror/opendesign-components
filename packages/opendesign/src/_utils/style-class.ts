@@ -13,7 +13,7 @@ export function getRoundClass(props: { round?: MaybeRefOrGetter<RoundT | undefin
       return '';
     }),
     style: computed(() => {
-      const r = round() || defaultRound.value;
+      const r = round();
       if (r) {
         return {
           [`--${name}-radius`]: r === 'pill' ? '100vh' : r,

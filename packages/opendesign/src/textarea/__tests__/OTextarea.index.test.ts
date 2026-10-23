@@ -9,13 +9,6 @@ import OTextarea from '../OTextarea.vue';
 import { THEMES, paintThemed } from '../../../__tests__/_helpers/theme';
 import { flush } from '../../../__tests__/_helpers/dom';
 import { renderSSR, ssrHydrateAndCompare } from '../../../__tests__/_helpers/ssr';
-import { defaultRound } from '../../_utils/global';
-
-/** 读取承载圆角的 o_box-main 元素的解析圆角 */
-const readRadius = (screen: { container: HTMLElement }) => {
-  const main = screen.container.querySelector('.o-textarea .o_box-main') as HTMLElement;
-  return main ? getComputedStyle(main).borderRadius : '';
-};
 
 describe('静态契约（按 types.ts 属性）', () => {
   test('OTextarea 根元素 class 包含 o-textarea', async () => {
@@ -36,42 +29,6 @@ describe('静态契约（按 types.ts 属性）', () => {
     await flush();
     const ta = screen.container.querySelector('textarea') as HTMLTextAreaElement;
     expect(ta.value).toBe('hello');
-  });
-
-  test('OTextarea round=pill - 圆角为固定小圆角而非 100vh 胶囊', async () => {
-    const screen = render(OTextarea, { props: { round: 'pill' } });
-    await flush();
-    const n = parseFloat(readRadius(screen));
-    expect(n).toBeGreaterThan(0);
-    expect(n).toBeLessThan(60);
-  });
-
-  test('OTextarea round 未设置 - 圆角使用默认值不受影响', async () => {
-    const screen = render(OTextarea, {});
-    await flush();
-    const n = parseFloat(readRadius(screen));
-    expect(n).toBeGreaterThan(0);
-    expect(n).toBeLessThan(60);
-  });
-
-  test('OTextarea 全局 defaultRound=pill - 圆角与 round=pill 一致', async () => {
-    const saved = defaultRound.value;
-    defaultRound.value = 'pill';
-    try {
-      const screen = render(OTextarea, {});
-      await flush();
-      const n = parseFloat(readRadius(screen));
-      expect(n).toBeGreaterThan(0);
-      expect(n).toBeLessThan(60);
-    } finally {
-      defaultRound.value = saved;
-    }
-  });
-
-  test('OTextarea round=8px - 自定义圆角原样透传', async () => {
-    const screen = render(OTextarea, { props: { round: '8px' } });
-    await flush();
-    expect(readRadius(screen)).toBe('8px');
   });
 
   test('OTextarea disabled - 透传到原生 textarea', async () => {

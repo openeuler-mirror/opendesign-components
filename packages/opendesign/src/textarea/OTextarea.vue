@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref, h, computed } from 'vue';
+import { ref, h } from 'vue';
 import { textareaProps } from './types';
 
 import { InBox } from '../_components/in-box';
 import { InTextarea } from '../_components/in-textarea';
 import { formateToString, pick } from '../_utils/helper';
 import { useFormField } from '../_composables/use-form-field';
-import { defaultRound } from '../_utils/global';
 
 const props = defineProps(textareaProps);
 
@@ -64,19 +63,6 @@ const {
 } = useFormField(props, emits);
 
 const inTextareaRef = ref<InstanceType<typeof InTextarea>>();
-
-const originRound = computed(() => {
-  return effectiveRound.value || defaultRound.value;
-});
-
-/**
- * @description 圆角归一化：textarea 为多行控件、高度不定，`pill` 若按 InBox
- * 通用逻辑（100vh 圆角）渲染，圆角会随文本域高度放大，故归一化为按控件尺寸
- * 的半高圆角 `--o-textarea-pill-radius`；显式自定义值与非 pill 值原样透传
- */
-const round = computed(() => {
-  return originRound.value === 'pill' ? 'var(--o-textarea-pill-radius)' : originRound.value;
-});
 
 const onInput = (e: Event) => {
   emits('input', e);
@@ -147,9 +133,8 @@ defineExpose({
           color: color,
           disabled: effectiveDisabled,
           readonly: props.readonly,
-          round: originRound,
+          round: effectiveRound,
           focused: isFocus,
-          style: { '--_box-radius': round },
         },
         {
           default: () =>
