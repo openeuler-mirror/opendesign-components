@@ -12,6 +12,7 @@ export const router = createRouter({
       component: TheHome,
     },
     ...componentRoutes,
+    { path: '/versioning', name: 'Versioning', component: () => import('@/pages/TheVersioning.vue') },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/pages/NotFound.vue') },
   ],
   scrollBehavior() {

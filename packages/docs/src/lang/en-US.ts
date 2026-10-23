@@ -4,6 +4,8 @@ export default {
   'header.globalSettings': 'Global settings',
   'header.home': 'Home',
   'header.theme': 'Theme',
+  'header.versioning': 'Versioning',
+  'versioning.title': 'Version Maintenance Cadence',
   'dev.devEnv': 'dev env',
   'menu.nav': 'Navigation component',
   'menu.operator': 'Operation component',
