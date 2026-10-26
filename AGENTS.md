@@ -15,6 +15,8 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## 仓库概览
 
+本仓库托管于 [AtomGit](https://atomgit.com/openeuler/opendesign-components)。AtomGit 与 GitCode 是同一平台（仅名称不同），issue、PR、code review、release 等平台操作直接使用 GitCode CLI（命令 `gitcode`，npm 包名 `atomgit-cli`）及 `gitcode-*` skill。开发者本地未安装时，引导其执行 `npx -y atomgit-cli@latest install` 安装，随后按 [`gitcode-auth`](.agents/skills/gitcode-auth/SKILL.md) skill 完成登录。
+
 基于 pnpm workspace 的 Vue 3 组件库 monorepo，各包职责独立：
 
 | 包                      | 路径                  | 说明                                                         |
