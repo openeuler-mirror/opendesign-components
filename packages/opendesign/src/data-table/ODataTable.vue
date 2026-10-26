@@ -477,7 +477,7 @@ defineExpose<DataTableExposed>({
     <div v-if="!hasLeftFixedColumn && !hasRightFixedColumn && !props.loading && props.data.length" class="o-data-table-left-shadow"></div>
     <OScroller
       class="o-table-scroller"
-      wrap-class="o-table-wrap"
+      :wrap-class="['o-table-wrap', { 'o-table-wrap--empty': !props.data?.length }]"
       bar-class="o-table-scroll-bar"
       :size="props.size"
       :disabled-x="props.loading || !props.data.length"
@@ -588,7 +588,7 @@ defineExpose<DataTableExposed>({
               </template>
             </TableRow>
           </template>
-          <tr v-if="props.loading || !props.data?.length">
+          <tr v-if="!props.data?.length">
             <td :colspan="dataColumns.length" class="empty-placeholder"></td>
           </tr>
         </tbody>

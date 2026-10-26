@@ -26,7 +26,7 @@ const emit = defineEmits<{
 const { isPhonePad } = useScreen();
 const isResponding = computed(() => !noResponsive?.value && isPhonePad.value);
 
-const roundClass = getRoundClass({ round: round?.value }, 'date-picker-columns');
+const roundClass = getRoundClass({ round: round }, 'date-picker-columns');
 
 const currentYear = ref<number>(0);
 const currentMonth = ref<number>(0);

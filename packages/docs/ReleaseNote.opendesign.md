@@ -1,3 +1,32 @@
+## 1.2.7-sp2
+
+### Bug Fixes
+
+- **OPopup:** 修复固定定位 + 窗口缩放场景下弹层脱离触发元素的问题（窗口尺寸变化时刷新定位源，重算前同步定位快照，避免基于过期矩形计算）
+- **OToast:** 修复移动端 Toast 列表未按断点约束最大宽度导致内容折行异常的问题（新增列表容器 CSS 变量 `--toast-list-max-width`）
+
+## 1.2.7-sp1
+
+### BREAKING CHANGES
+
+- **OPopup/OPopover:** `targetRect` 属性类型从 `VirtualElement`（`getBoundingClientRect` 闭包）切换为 `TargetRect` 快照数据（视口坐标系纯数据，结构兼容 `DOMRect`），旧闭包形态不再支持；滚动/缩放的跟随职责移交调用方（OTour 已同步迁移并自行监听滚动）
+
+### Bug Fixes
+
+- **OPopup:**
+  - 修复挂载即传 `target` 时 immediate 监听器级联 TDZ 抛错导致 setup 失败的问题
+  - 修复非受控模式隐藏时丢失 `update:visible` / `change` 事件的问题
+  - 修复空 `targetRect` 覆盖插槽/`target` 绑定的触发元素导致弹层停留在 (0,0) 的问题
+- **OTour:** 修复页面滚动时遮罩镂空与步骤弹层未同步跟随目标的问题
+- **ODataTable:**
+  - 修改列宽重分配机制：新增按表格尺寸的默认最小列宽，初始测量与拖拽均按最小/最大宽度钳制，末列自动吸收盈余宽度，并暴露 `userWidths`（用户拖拽设定的列宽 Map）
+  - 修复祖先元素 transform 缩放导致表头高度测量值错误的问题
+- **OStep:** 修复 SSR 渲染时 setup 顶层创建 ResizeObserver 抛 ReferenceError 的问题（[#201](https://atomgit.com/openeuler/opendesign-components/issues/201)）
+- **OSelect:** 修复选项文本过长时溢出容器的问题；同时 ODialog 内容区允许正常收缩，移动端（≤pad_v）选项与多选标签支持横向滚动
+- **OInput/OSelect:** 修复禁用态背景色与 prepend/append 区域禁用态样式异常
+- **OImageViewer:** 修复暗色模式下操作栏背景及进度/错误文字颜色异常
+- **OButton:** 修复 ascend/kunpeng 主题下 solid 按钮样式误影响 DatePicker 面板按钮、导致文字不可见的问题
+
 ## 1.2.5-sp4
 
 ### Bug Fixes
@@ -7,6 +36,79 @@
   - 修复祖先元素 transform 缩放导致表头高度测量值错误的问题
 - **OSelect:** 修复选项文本过长时溢出容器的问题；同时 ODialog 内容区允许正常收缩，移动端（≤pad_v）选项与多选标签支持横向滚动
 - **OButton:** 修复 ascend/kunpeng 主题下 solid 按钮样式误影响 DatePicker 面板按钮、导致文字不可见的问题
+
+## 1.2.7
+
+### Warning
+
+本版本 `OPopup`/`OPopover` 的 `targetRect` 属性采用 `VirtualElement`（`getBoundingClientRect` 闭包）契约，该契约存在设计缺陷且已在后续版本中移除，请勿在 1.2.7 中使用 `targetRect`，建议升级到 1.2.7-sp1 并按 `TargetRect` 快照数据新契约传参（详见 1.2.7-sp1 的 BREAKING CHANGES）
+
+### Features
+
+- **OTour:** 新增漫游引导组件，支持遮罩高亮聚焦、自定义指示器插槽与分步引导配置
+- **OImageViewer:** 新增图片查看器组件，支持缩放与自动适屏、无限循环切图、无障碍增强与移动端手势切图
+- **OPopup:** 新增 `targetRect` 属性，支持无实际 DOM 时的定位计算
+- **OSelect:** 能力增强
+  - 数据驱动：新增 `options`/`fieldNames`，支持扁平与分组选项结构
+  - 搜索过滤：`filterable`、自定义过滤/排序、远程搜索与输入值保留
+  - 虚拟滚动：`virtual` 基于 OVirtualList 渲染大数据量选项
+  - 创建选项：`allowCreate` 输入不存在值时快速创建，支持 `tokenSeparators` 分词输入
+  - 多选增强：`limit` 数量上限（超限触发 `exceed-limit`）、标签随容器宽度响应式折叠、`renderTag` 自定义标签、`change` 事件新增选中项第二参数
+  - 自定义渲染：`renderLabel`/`renderTag` 与 `#group-label`/`#option-label` 插槽
+  - 无障碍与移动端：listbox role 与 aria 属性、移动端交互适配
+  - 表单兜底：`fallbackOption` 值不在选项列表时的显示兜底；暴露 `focus`/`blur`/`scrollTo` 方法
+- **OForm:** 表单容器统一管控与校验增强
+  - 属性继承：新增 `disabled`/`size`/`round`/`clearable` 表单级属性，经 `useFormField` 下发给全部表单控件（控件自身设置优先）——表单容器一处声明即可统一管控整表控件状态，无需逐控件配置
+  - 校验增强：新增 `rules` 全局校验规则与 `requiredIcon` 仅星号模式；新增 `validateField` 事件（载荷 `{ field, isValid, message }`），原 `validate` 事件废弃，将在 v2.0.0 移除
+  - 方法扩展：暴露 `scrollToField` 滚动定位指定字段，校验失败自动滚动至首个错误项
+  - 布局：`labelWidth` 支持 `'auto'` 自动测量标签最大宽度对齐
+- **OFigure:** 预览层从 OLayer 切换至 OImageViewer
+- **OLayer:** 暴露 `rootEl`/`mainEl` 引用
+- **hooks:** 新增 `useRenderWithCtx`：在非 setup 作用域挂载组件时继承 appContext 与 inject 链
+- 新增 `o-sr-only` 全局工具类，用于无障碍屏幕阅读器隐藏
+
+### Bug Fixes
+
+- **OAnchor:** 修复滚动到底部无法选中最后一项：接近底部时剩余可滚动距离不足一屏，末个锚点可能永远无法进入固定阈值范围，现按滚动进度动态上调阈值确保底部锚点可被选中
+- **OPopover:** 修复 z-index 层级导致遮挡的问题
+- **OLayer:**
+  - 修复弹窗嵌套导致滚动穿透的问题
+  - 修正 `transitionOrign` 拼写为 `transitionOrigin`，旧名保留兼容并输出废弃警告
+- **OVirtualList/OOption:** 使用 `OScrollbar` 替代 `v-scrollbar` 以提供响应性
+- **OScrollbar:** 修复 SSR 兼容性与资源泄漏，透传插槽作用域参数
+- **OLink:** 调整 RouterLink 解析时机，避免无 vue-router 环境下的 Vue resolve 警告
+- **OFigure:** 修复 preset-color 水合报错
+- **OSwitch:** 修复背景底上文字的颜色
+- **OAvatar:** 修复 SSR 水合不一致问题
+- **ODataTable:** 优化树型表格里面的缩进
+
+### Style
+
+- **ODialog:** 弹窗宽度由百分比改为栅格列计算，重构响应式宽度策略
+- **OLayer:** 关闭按钮新增响应式样式适配
+
+## 1.2.6
+
+### Features
+
+- **OTag:** 重构颜色与交互态体系，新增 pending/disabled/main2 颜色及 interactive 属性
+- **OVirtualList:** 重构虚拟滚动核心，新增水平布局、对齐策略、阈值控制等能力
+
+### Bug Fixes
+
+- **OButton/OLink/OSelect/OSlider/OUpload:** 使用 defineSlots 补全插槽类型声明，修复 TS 类型缺失
+- **OCarousel:** 修复 activeClass 在对象/数组形式下不生效的问题（使用 normalizeClass 重构处理逻辑）
+- **OOption:** 修复多选激活时的字重为 regular
+- **utils:**
+  - 修复 v-on-resize 多元素共用 listener 导致回调误删与泄漏的问题
+  - 调整 dateTimeNumberToString 的 padding 为 1970-1-1
+  - 修复 isEmptyObject 的判定条件
+  - log 适配服务端环境
+  - RAF 防抖节流函数在 SSR 环境下调用时告警
+
+### Style
+
+- **OInput/OSearch:** 背景色由 control5-light/control4-light 调整为 fill2
 
 ## 1.2.5-sp3
 

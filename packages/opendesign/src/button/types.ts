@@ -47,7 +47,8 @@ export const buttonProps = {
    * @en-US Disabled state
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 跳转链接，如果设置了此属性，则按钮会以 a 标签渲染

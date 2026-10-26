@@ -36,20 +36,18 @@ defineExpose({
   <OLayer
     ref="layerRef"
     class="o-loading"
-    :class="[
-      `o-loading-${props.size}`,
-    ]"
+    :class="[`o-loading-${props.size}`]"
     :visible="props.visible"
     :wrapper="props.wrapper"
     :unmount-on-hide="props.unmountOnHide"
     :main-class="mergeClass('o-loading-main', props.mainClass)"
     :main-transition="props.mainTransition"
     :mask-transition="props.maskTransition"
-    transition-orign="css"
+    transition-origin="css"
     :mask="props.mask"
     :mask-close="false"
     @change="(v: boolean) => emits('change', v)"
-    @update:visible="(v:boolean, e?:MouseEvent) => emits('update:visible', v, e)"
+    @update:visible="(v: boolean, e?: MouseEvent) => emits('update:visible', v, e)"
   >
     <slot>
       <div class="o-loading-icon">

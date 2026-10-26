@@ -1,4 +1,5 @@
-import { ExtractPropTypes, PropType } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
+import type { ImageViewerPropsT } from '../image-viewer/types';
 
 type PreviewCloseType = 'none' | 'button' | 'mask' | 'body';
 
@@ -61,11 +62,12 @@ export const figureProps = {
     type: Boolean,
   },
   /**
-   * @zh-CN 是否可点击预览
-   * @en-US Whether clickable preview
+   * @zh-CN 是否可点击预览，`true` 表示使用默认配置预览，传对象时作为 OImageViewer 的属性配置
+   * @en-US Whether clickable preview, `true` means use default config, object means OImageViewer props
    */
   preview: {
-    type: Boolean,
+    type: [Boolean, Object] as PropType<boolean | Partial<ImageViewerPropsT>>,
+    default: false,
   },
   /**
    * @zh-CN 是否支持调用实例接口进行预览

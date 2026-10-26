@@ -2,7 +2,7 @@ import { test, expect, describe, afterEach } from 'vitest';
 import { markRaw } from 'vue';
 import OButton from '../OButton.vue';
 import OIconAddRaw from '../../icon-components/OIconAdd/OIconAdd.vue';
-import { renderSSR, ssrThenHydrate, spyHydrationErrors } from '../../../__tests__/_helpers/ssr';
+import { renderSSR, ssrHydrateAndCompare } from '../../../__tests__/_helpers/ssr';
 
 // icon prop 透传组件时必须 markRaw，避免 Vue 把组件本身变成响应式对象
 const OIconAdd = markRaw(OIconAddRaw);
@@ -68,18 +68,21 @@ describe('SSR 契约（字符串渲染）', () => {
 });
 
 /**
- * 客户端水合（hydration）：renderSSR → 把 HTML 注入真实 DOM → createSSRApp(...).mount(root, true)，
- * 模拟「服务端发 HTML → 浏览器接管响应式」的完整链路，监听 console.error 抓 mismatch 警告。
+ * 客户端水合（hydration）安全性检测：console.warn 为主。
  *
- * 抓的是「服务端首帧 HTML 和客户端 hydrate 时的虚拟 DOM 不一致」类问题：
- *   - 随机/时间戳：Math.random()、Date.now()、new Date() 在 setup/模板中直接使用
- *   - 条件渲染依赖客户端状态：v-if="isClient" 类（除非两端首帧值一致，如 ref(false) + onMounted 改）
- *   - 时区差异导致的日期格式化输出不同
- *   - Teleport / OPopup 未包 ClientOnly
- *   - 无效 HTML 嵌套被浏览器自动修正（<div> 嵌 <p>、<a> 嵌 <a>）
+ * 通过 ssrHydrateAndCompare 拦截 Vue hydration 过程中的 console.warn 警告，
+ * 检测是否存在水合 mismatch。textContent 对比和 Element 引用对比作为诊断字段保留。
  *
- * mismatch 只比对「服务端 renderToString 输出」vs「客户端首次 hydrate 时的虚拟 DOM」。
- * 水合完成后的更新（如 onMounted 内改 ref 触发的重渲染）不算 mismatch。
+ * console.warn 覆盖的 mismatch 类型：
+ *   - 文本值不同、节点类型不同、子节点数量不同
+ *   - 非法 HTML 嵌套、Teleport 移出 root
+ *   - class/style/属性 mismatch（check-only，Vue 只 warn 不 patch DOM）
+ *
+ * 不可突破的盲区：v-html 内容不同但文本相同（Vue 不 patch、不 warn、不替换 Element）。
+ *
+ * Browser Mode 环境共享限制：SSR 和客户端在同一浏览器上下文，
+ * typeof window / window.innerWidth / navigator.userAgent 等两端一致，
+ * 无法测试真实 Node.js SSR 与客户端环境差异。
  */
 describe('SSR 契约（客户端水合）', () => {
   let mountedRoot: HTMLElement | null = null;
@@ -91,59 +94,51 @@ describe('SSR 契约（客户端水合）', () => {
     }
   });
 
-  test('OButton hydration default - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, {}, 'Hi');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration default - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, {}, 'Hi');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration disabled=true - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { disabled: true }, 'Hi');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration disabled=true - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { disabled: true }, 'Hi');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration loading=true - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { loading: true }, 'Hi');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration loading=true - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { loading: true }, 'Hi');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration href=URL - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { href: 'https://example.com' }, 'Link');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration href=URL - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { href: 'https://example.com' }, 'Link');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration size=large - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { size: 'large' }, 'X');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration size=large - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { size: 'large' }, 'X');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration round=12px - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { round: '12px' }, 'X');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration round=12px - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { round: '12px' }, 'X');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration icon=OIconAdd - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { icon: OIconAdd }, 'X');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration icon=OIconAdd - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { icon: OIconAdd }, 'X');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 
-  test('OButton hydration tag=div - 无 hydration mismatch 警告', async () => {
-    const spy = spyHydrationErrors();
-    mountedRoot = await ssrThenHydrate(OButton, { tag: 'div' }, 'X');
-    expect(spy.hasHydrationMismatch()).toBe(false);
-    spy.restore();
+  test('OButton hydration tag=div - 无水合 mismatch', async () => {
+    const result = await ssrHydrateAndCompare(OButton, { tag: 'div' }, 'X');
+    mountedRoot = result.root;
+    expect(result.hasMismatch).toBe(false);
   });
 });

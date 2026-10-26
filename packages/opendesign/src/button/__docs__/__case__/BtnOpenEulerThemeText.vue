@@ -5,7 +5,7 @@
 
 - **基础组件**：使用 `OLink` 组件实现
 - **颜色**：文本按钮的颜色有 `normal`、`primary`、`success`、`warning`、`danger` 5种，默认为 `normal`
-- **注意**：欧拉主题中文本按钮无 hover 下划线，因此不能配置 `hover-underline`
+- **注意**：欧拉主题中文本按钮无 hover 下划线，因此需显式设置 `hover-underline="false"`
 
 <!-- en-US -->
 
@@ -13,18 +13,45 @@
 
 - **Base Component**: Implemented using the `OLink` component.
 - **Color Options**: Text buttons have 5 color variants: `normal`, `primary`, `success`, `warning`, and `danger`, with `normal` as the default.
-- **Note**: In the Euler theme, text buttons do not support hover underlines, so the `hover-underline` parameter should not be configured.
+- **Note**: In the Euler theme, text buttons do not have hover underlines, so you need to explicitly set `hover-underline="false"`.
 </docs>
 <script setup lang="ts">
+import { resolveComponent, type Component } from 'vue';
 import { OLink, OIconChevronRight } from '@opensig/opendesign';
+
+const DocIconMenu = resolveComponent('DocIconMenu') as Component;
 </script>
 <template>
   <div class="row">
-    <OLink>Text Normal Button</OLink>
-    <OLink disabled>Text Normal Disable Button</OLink>
-    <OLink color="primary">Text Primary Button<template #suffix><OIconChevronRight /></template></OLink>
-    <OLink color="success">Text Success Button</OLink>
-    <OLink color="warning">Text Warning Button</OLink>
-    <OLink color="danger">Text Danger Button</OLink>
+    <div>
+      <p>默认样式</p>
+      <div>
+        <OLink :hover-underline="false">文本按钮</OLink>
+        <OLink :hover-underline="false"
+          >文本按钮<template #suffix><OIconChevronRight /></template
+        ></OLink>
+        <OLink :hover-underline="false"
+          ><template #icon><DocIconMenu /></template>文本按钮</OLink
+        >
+      </div>
+    </div>
+    <div>
+      <p>变体</p>
+      <div>
+        <OLink color="primary" :hover-underline="false">文本按钮</OLink>
+        <OLink color="success" :hover-underline="false">文本按钮</OLink>
+        <OLink color="warning" :hover-underline="false">文本按钮</OLink>
+        <OLink color="danger" :hover-underline="false">文本按钮</OLink>
+      </div>
+    </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+div + div {
+  margin-left: 48px;
+}
+.o-link + .o-link {
+  margin-left: 24px;
+}
+</style>

@@ -55,6 +55,19 @@ function readLinkStat(linkPath) {
 }
 
 /**
+ * @description 将链接目标解析为绝对路径
+ *   为保证符号链接的可移植性，target 常以相对于 linkPath 所在目录的相对路径存储，
+ *   但 fs.existsSync / fs.realpathSync 等会以 process.cwd() 解析相对路径从而误判，
+ *   故先据此解析为绝对路径再做存在性 / 一致性检查
+ * @param {string} target - 链接目标（绝对或相对路径）
+ * @param {string} linkPath - 链接路径（绝对路径），相对目标以此为基准解析
+ * @returns {string} 解析后的绝对路径
+ */
+function resolveLinkTarget(target, linkPath) {
+  return path.isAbsolute(target) ? target : path.resolve(path.dirname(linkPath), target);
+}
+
+/**
  * @description 删除链接路径上的现有条目（symlink / 目录 / 文件均可）
  * @param {fs.Stats} stat - lstat 结果，用于判断删除策略
  * @param {string} linkPath - 要删除的路径（绝对路径）
@@ -70,12 +83,12 @@ function removeExistingEntry(stat, linkPath) {
 /**
  * @description 判断已有符号链接是否指向预期目标
  * @param {string} linkPath - 符号链接路径（绝对路径）
- * @param {string} target - 预期目标路径（绝对路径）
+ * @param {string} target - 预期目标路径（可能是相对于 linkPath 所在目录的相对路径）
  * @returns {boolean} 已指向正确目标则返回 true
  */
 function isSymlinkCorrect(linkPath, target) {
   const existingTarget = fs.realpathSync(linkPath);
-  return path.resolve(existingTarget) === path.resolve(target);
+  return path.resolve(existingTarget) === path.resolve(resolveLinkTarget(target, linkPath));
 }
 
 /**
@@ -85,7 +98,8 @@ function isSymlinkCorrect(linkPath, target) {
  * @param {'dir'|'file'} kind - 链接类型，目录用 'dir'，文件用 'file'
  */
 function ensureSymlink(target, linkPath, kind = 'dir') {
-  if (!fs.existsSync(target)) {
+  // target 可能是相对于 linkPath 所在目录的相对路径，existsSync 以 cwd 解析会误判，需先解析为绝对路径
+  if (!fs.existsSync(resolveLinkTarget(target, linkPath))) {
     console.warn(`[sync-agents] 源路径不存在，跳过: ${target}`);
     return;
   }

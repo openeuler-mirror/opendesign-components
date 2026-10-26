@@ -1,92 +1,251 @@
 <docs lang="md">
-<!--zh-CN-->
+<!-- zh-CN -->
+
 ### API 调用
 
-<!--en-US-->
+组件暴露 `scrollToView`、`scrollToOffset` ^[1.2.6](primary) 两个方法，支持在定尺寸、不定尺寸、垂直、水平四种模式下调用。通过上方切换器可组合选择布局方向与尺寸模式，观察各模式下的 API 行为差异。
+
+- **定尺寸模式**（垂直=定高，水平=定宽）：项尺寸已知，两个 API 均完全支持，`behavior` 可选 smooth / instant，对齐精准。
+- **不定尺寸模式**（垂直=不定高，水平=不定宽）：项尺寸运行时测量，`scrollToView` 的 `behavior` 将被强制为 instant；目标项未测量时会先以 start 对齐触发渲染，测量后通过"二次逼近"^[1.2.6](primary)机制重新滚动到目标位置。
+- **水平模式**：所有 API 通过轴选择器自动适配水平滚动轴，行为与垂直模式一致。
+
+<!-- en-US -->
+
 ### API Call
+
+The component exposes two methods: `scrollToView` and `scrollToOffset` ^[1.2.6](primary), all supported in fixed-size, dynamic-size, vertical, and horizontal modes. Use the switcher above to combine layout direction and size mode to observe API behavior differences.
+
+- **Fixed-size mode** (vertical=fixed-height, horizontal=fixed-width): Item sizes are known, both APIs are fully supported, `behavior` can be smooth or instant, alignment is precise.
+- **Dynamic-size mode** (vertical=dynamic-height, horizontal=dynamic-width): Item sizes are measured at runtime, `scrollToView`'s `behavior` is forced to instant; unmeasured target items are first start-aligned to trigger rendering, then re-scrolled to the target position via a "two-pass approach" ^[1.2.6](primary) mechanism after measurement.
+- **Horizontal mode**: All APIs automatically adapt to the horizontal scroll axis via an axis selector, behaving identically to vertical mode.
 </docs>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-import { OVirtualList } from '@opensig/opendesign';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import { OVirtualList, ORadio, ORadioGroup, OButton, OInput, OSelect, OOption } from '@opensig/opendesign';
+
+// ============================================================================
+// 模式切换
+// ============================================================================
+
+/** 布局方向 */
+const layout = ref<'vertical' | 'horizontal'>('vertical');
+/** 高度模式：fixed=定高 / dynamic=不定高 */
+const heightMode = ref<'fixed' | 'dynamic'>('fixed');
+
+const isDynamic = computed(() => heightMode.value === 'dynamic');
+const isHorizontal = computed(() => layout.value === 'horizontal');
+
+/** 主轴尺寸术语：垂直=高，水平=宽 */
+const sizeTerm = computed(() => (isHorizontal.value ? '宽' : '高'));
+
+/** 切换模式时强制重建组件，确保滚动状态重置 */
+const componentKey = computed(() => `${layout.value}-${heightMode.value}`);
+
+// ============================================================================
+// 列表数据
+// ============================================================================
 
 const list = ref(
-  new Array(50).fill(1).map((_, idx) => ({
+  new Array(1000).fill(1).map((_, idx) => ({
+    id: idx + 1,
     label: idx + 1,
-    height: Math.floor(Math.random() * 80 + 40),
-  }))
+    /** 不定高模式下的随机尺寸（px） */
+    size: (idx % 8) * 10 + 40,
+  })),
 );
 
-const defaultStartIndex = 10;
-const index = ref(5);
+/** 定高模式的项尺寸（垂直=高度，水平=宽度） */
+const FIXED_SIZE = 80;
+const itemSize = computed(() => (isDynamic.value ? undefined : FIXED_SIZE));
+const defaultItemSize = computed(() => (isDynamic.value ? FIXED_SIZE : undefined));
+
+// ============================================================================
+// API 参数与调用
+// ============================================================================
+
+const defaultStartIndex = 500;
+const index = ref(400);
+const align = ref<'start' | 'end' | 'center' | 'nearest'>('center');
+const behavior = ref<ScrollBehavior>('smooth');
+const offsetPx = ref(5000);
 const virtualRef = ref<InstanceType<typeof OVirtualList>>();
-const virtualRef2 = ref<InstanceType<typeof OVirtualList>>();
-const onClick = () => {
+
+/** scrollToView：按索引滚动到指定项 */
+const onScrollToView = () => {
   const to = Math.max(index.value - 1, 0);
-  virtualRef.value?.scrollToView(to, 'center', 'smooth');
-  virtualRef2.value?.scrollToView(to, 'start');
+  virtualRef.value?.scrollToView(to, align.value, behavior.value);
+};
+
+/** scrollToOffset：滚动到指定像素偏移量 */
+const onScrollToOffset = () => {
+  virtualRef.value?.scrollToOffset(offsetPx.value);
 };
 </script>
+
 <template>
   <div>
-    <div>
-      <input v-model="index" />
-      <button @click="onClick">滚动到</button>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div>
-          <h5>高度固定且一致， 滚动到居中对齐： 'center'</h5>
-          <OVirtualList ref="virtualRef" class="container" :list="list" :default-start-index="defaultStartIndex" :item-size="80">
-            <template #default="{ item, index }">
-              <div :key="item.label" class="section" :class="`item-${index + 1}`">
-                <span>Row:</span> <span>{{ item.label }}</span
-                >------<span>Height:</span> <span>80px</span>
-              </div>
-            </template>
-          </OVirtualList>
-        </div>
+    <!-- 模式切换器：布局方向 × 高度模式 -->
+    <div class="mode-switch">
+      <div class="mode-group">
+        <span class="mode-label">布局方向</span>
+        <ORadioGroup v-model="layout">
+          <ORadio value="vertical">垂直</ORadio>
+          <ORadio value="horizontal">水平</ORadio>
+        </ORadioGroup>
       </div>
-      <div class="col">
-        <div>
-          <h5>动态高度，滚动到顶部对齐：'start'</h5>
-          <OVirtualList ref="virtualRef2" class="container" :list="list" :default-start-index="defaultStartIndex" :default-item-size="80">
-            <template #default="{ item, index }">
-              <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
-                <span>Row:</span> <span>{{ item.label }}</span
-                >------<span>Height:</span> <span>{{ item.height }}</span>
-              </div>
-            </template>
-          </OVirtualList>
-        </div>
+      <div class="mode-group">
+        <span class="mode-label">{{ isHorizontal ? '宽度模式' : '高度模式' }}</span>
+        <ORadioGroup v-model="heightMode">
+          <ORadio value="fixed">定{{ sizeTerm }}</ORadio>
+          <ORadio value="dynamic">不定{{ sizeTerm }}</ORadio>
+        </ORadioGroup>
       </div>
     </div>
+
+    <!-- scrollToView 演示 -->
+    <h5>scrollToView —— 按索引滚动到指定项</h5>
+    <div class="api-controls">
+      <OInput v-model.number="index" only-numeric-input placeholder="索引" />
+      <OSelect v-model="align">
+        <OOption label="start" value="start" />
+        <OOption label="end" value="end" />
+        <OOption label="center" value="center" />
+        <OOption label="nearest" value="nearest" />
+      </OSelect>
+      <OSelect v-model="behavior">
+        <OOption label="instant" value="instant" />
+        <OOption label="smooth" value="smooth" />
+      </OSelect>
+      <OButton variant="solid" color="brand" @click="onScrollToView">滚动到</OButton>
+    </div>
+
+    <!-- scrollToOffset 演示 -->
+    <h5>scrollToOffset —— 滚动到指定像素偏移量</h5>
+    <div class="api-controls">
+      <OInput v-model.number="offsetPx" only-numeric-input placeholder="偏移量(px)" />
+      <OButton variant="solid" color="brand" @click="onScrollToOffset">滚动到偏移</OButton>
+    </div>
+
+    <!-- 虚拟列表——通过 :key 切换模式时强制重建 -->
+    <OVirtualList
+      :key="componentKey"
+      ref="virtualRef"
+      :default-start-index="defaultStartIndex"
+      :item-size="itemSize"
+      :default-item-size="defaultItemSize"
+      :list="list"
+      :layout="layout"
+      :class="['container', { 'container-h': isHorizontal }]"
+    >
+      <template #default="{ item, index }">
+        <div
+          :class="[`item-${(index % 8) + 1}`, 'section', { 'section-h': isHorizontal }]"
+          :style="isDynamic ? { [isHorizontal ? 'width' : 'height']: item.size + 'px' } : undefined"
+        >
+          <span>{{ isHorizontal ? 'Col' : 'Row' }}:</span>
+          <span>{{ item.label }}</span>
+          <span>——</span>
+          <span>{{ isDynamic ? `${item.size}px` : `id:${item.id}` }}</span>
+        </div>
+      </template>
+    </OVirtualList>
+
+    <!-- 当前模式说明 -->
+    <p class="mode-hint">
+      <span
+        >当前为<strong>{{ isHorizontal ? '水平' : '垂直' }}{{ isDynamic ? '不定' : '定' }}{{ sizeTerm }}模式</strong>。</span
+      >
+      <span v-if="isDynamic"
+        >项尺寸运行时测量，<code>scrollToView</code> 的 <code>behavior</code> 将被强制为 <code>instant</code>（smooth
+        无法精准对齐未测量项）；目标项未测量时会先以 start 对齐触发渲染，测量后通过"二次逼近"机制重新滚动到目标位置。</span
+      >
+      <span v-else>项尺寸已知，两个 API 均完全支持，<code>behavior</code> 可选 smooth / instant，对齐精准。</span>
+      <span v-if="isHorizontal"> 横向模式下，所有 API 通过轴选择器自动适配水平滚动轴。</span>
+    </p>
   </div>
 </template>
+
 <style lang="scss" scoped>
-@use "sass:math";
+@use 'sass:list';
+// 交叉色板：8 色系交叉取浅色（1-2 级），避免同色系连续
+$demo-bg:
+  rgb(var(--o-deepblue-1)), rgb(var(--o-yellow-2)), rgb(var(--o-purple-1)), rgb(var(--o-cyan-2)), rgb(var(--o-pink-1)), rgb(var(--o-blue-2)),
+  rgb(var(--o-rosyred-1)), rgb(var(--o-lime-2));
+
+.o-select,
+.o-input {
+  width: 120px;
+}
+
+.mode-switch {
+  display: flex;
+  gap: var(--o-gap-3);
+  margin-bottom: var(--o-gap-3);
+}
+
+.mode-group {
+  display: flex;
+  align-items: center;
+  gap: var(--o-gap-1);
+}
+
+.mode-label {
+  color: var(--o-color-info2);
+}
+
+.api-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--o-gap-2);
+  margin-bottom: var(--o-gap-3);
+}
+
 .container {
   width: 400px;
   height: 300px;
-  border: 2px solid rgb(111, 45, 234);
+  border: 2px solid var(--o-color-control4);
   box-sizing: border-box;
   display: flex;
 }
 
-section > div {
-  flex: 0 1 30%;
+/* 水平模式：矮容器，卡片轮播风格 */
+.container-h {
+  width: 100%;
+  height: 120px;
 }
+
 .section {
-  height: 60px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10px 0;
+  box-sizing: border-box;
 }
 
-@for $i from 1 through 100 {
+/* 水平模式：项内容垂直排列，卡片风格 */
+.section-h {
+  flex-direction: column;
+  gap: var(--o-gap-1);
+  border-radius: var(--o-radius_control-s);
+}
+
+.mode-hint {
+  margin-top: var(--o-gap-2);
+  font-size: var(--o-font_size-tip2);
+  line-height: var(--o-line_height-tip2);
+  color: var(--o-color-info3);
+
+  code {
+    background-color: var(--o-color-fill2);
+    padding: 0 4px;
+    border-radius: var(--o-radius_control-s);
+  }
+}
+
+@for $i from 1 through 8 {
   .item-#{$i} {
-    background-color: rgba(math.random(255), math.random(255), math.random(255), 1);
+    background-color: list.nth($demo-bg, $i);
   }
 }
 </style>

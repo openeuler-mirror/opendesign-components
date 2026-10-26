@@ -20,7 +20,7 @@ export const layerProps = {
   },
   /**
    * @zh-CN 是否在隐藏是卸载组件
-   * @en-US Whether to unmounted the component when hidden
+   * @en-US Whether to unmount the component when hidden
    */
   unmountOnHide: {
     type: Boolean,
@@ -55,10 +55,20 @@ export const layerProps = {
    * @zh-CN 内容盒子缩放动画的 transform-origin 的值，'mouse' 表示鼠标点击的位置，'css' 表示使用 --layer-origin 变量（默认值 center）
    * @en-US Set the value of transform-origin to main box scaling animation; 'mouse' indicates the mouse click position, 'css' indicates using the --layer-origin variable (default: center)
    * @default 'mouse'
+   * @since 1.2.7
+   */
+  transitionOrigin: {
+    type: String as PropType<'mouse' | 'css'>,
+    default: 'mouse',
+  },
+  /**
+   * @zh-CN 已废弃，请使用 `transitionOrigin` 替代
+   * @en-US Deprecated. Use `transitionOrigin` instead
+   * @deprecated 请使用transitionOrigin替代
    */
   transitionOrign: {
     type: String as PropType<'mouse' | 'css'>,
-    default: 'mouse',
+    default: undefined,
   },
   /**
    * @zh-CN 是否渲染遮罩层

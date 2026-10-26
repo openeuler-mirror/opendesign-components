@@ -7,13 +7,23 @@ export default {
 import { ref, watch, computed, onMounted, nextTick, onUnmounted, CSSProperties, Ref, provide } from 'vue';
 import { layerProps } from './types';
 import { layerInjectKey } from './provide';
-import { useMouse, UseMouseT } from '../hooks/use-mouse';
-import { isFunction } from '../_utils/is';
-import { createTopZIndex, removeZIndex } from '../_utils/z-index';
+import { useMouse } from '../hooks/use-mouse';
+import { isFunction, isUndefined } from '../_utils/is';
+import { Log } from '../_utils/log';
+import { createTopZIndex } from '../_utils/z-index';
 import { IconClose } from '../_utils/icons';
 import { OIcon } from '../icon';
 
 const props = defineProps(layerProps);
+
+const logger = new Log('OLayer');
+// 运行时废弃警告：transitionOrign 拼写已纠正为 transitionOrigin
+if (!isUndefined(props.transitionOrign)) {
+  logger.warn('[OLayer] prop `transitionOrign` 已废弃，请使用 `transitionOrigin` 替代');
+}
+
+// 合并新旧 prop：旧 transitionOrign 作为兼容回退
+const transitionOrigin = computed(() => props.transitionOrign ?? props.transitionOrigin);
 
 const emits = defineEmits<{
   /**
@@ -49,7 +59,7 @@ const LayerClass = {
 };
 const mainRef: Ref<HTMLElement | null> = ref(null);
 
-let mouse: UseMouseT = useMouse({
+let mouse = useMouse({
   type: 'client',
 });
 
@@ -70,14 +80,21 @@ const initWrapperEl = () => {
   return wrapperEl;
 };
 
+const hasSetLayerClass = ref(false);
 const handleWrapperScroll = () => {
   nextTick(() => {
     initWrapperEl();
     if (wrapperEl) {
       if (visible.value) {
-        wrapperEl.classList.add(LayerClass.OPEN);
+        if (!wrapperEl.classList.contains(LayerClass.OPEN)) {
+          wrapperEl.classList.add(LayerClass.OPEN);
+          hasSetLayerClass.value = true;
+        }
       } else {
-        wrapperEl.classList.remove(LayerClass.OPEN);
+        if (hasSetLayerClass.value) {
+          wrapperEl.classList.remove(LayerClass.OPEN);
+          hasSetLayerClass.value = false;
+        }
       }
     }
   });
@@ -104,7 +121,7 @@ const getOriginStyle = () => {
   return `${ox} ${oy}`;
 };
 const updateOrigin = (_el: HTMLElement | null) => {
-  if (props.transitionOrign === 'mouse') {
+  if (transitionOrigin.value === 'mouse') {
     initWrapperEl();
     mainStyle.value.transformOrigin = getOriginStyle();
   }
@@ -127,8 +144,6 @@ const beforeToggle = async (show: boolean) => {
 const updateZIndex = (show: boolean) => {
   if (show) {
     zIndex.value = createTopZIndex();
-  } else {
-    removeZIndex(zIndex.value);
   }
 };
 watch(
@@ -209,8 +224,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   mouse?.destroy();
-  // 卸载时移除类
-  wrapperEl?.classList.remove(LayerClass.OPEN);
+  if (hasSetLayerClass.value && wrapperEl) {
+    wrapperEl.classList.remove(LayerClass.OPEN);
+    hasSetLayerClass.value = false;
+  }
 });
 
 provide(layerInjectKey, { toggle });
@@ -221,6 +238,24 @@ defineExpose({
    * @en-US Toggle the layer visibility
    */
   toggle,
+  /**
+   * @zh-CN 根 DOM 元素（即 `.o-layer` 容器）
+   * @en-US Root DOM element (the `.o-layer` container)
+   * @description 供外部组件绑定键盘事件、焦点陷阱等需要覆盖整个浮层的行为。
+   * 元素受 `v-if="isMounted"` 控制，未挂载时返回 null。
+   */
+  get rootEl() {
+    return layerRef.value;
+  },
+  /**
+   * @zh-CN 内容区 DOM 元素（即 `.o-layer-main` 容器）
+   * @en-US Content DOM element (the `.o-layer-main` container)
+   * @description 接收 `mainClass` / `mainStyle` 的元素，包裹 slot 内容。
+   * 供外部组件绑定 click 等内容区级别的事件。
+   */
+  get mainEl() {
+    return mainRef.value;
+  },
 });
 </script>
 <template>

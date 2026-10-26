@@ -11,6 +11,7 @@ kind: display
 <!-- @case CarouselResponsive -->
 <!-- @case CustomArrow -->
 <!-- @case CustomIndicator -->
+<!-- @case ActiveClass -->
 <!-- @case ThemeSwitch -->
 <!-- @case SkinCarousel1 -->
 <!-- @case SkinCarousel2 -->

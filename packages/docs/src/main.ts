@@ -11,6 +11,7 @@ import * as DocIcons from '@/icon-components';
 import CodeContainer from './components/CodeContainer.vue';
 import DemoContainer from './components/DemoContainer.vue';
 import DemoUsage from './components/DemoUsage.vue';
+import DevOnly from './components/DevOnly.vue';
 import DocLink from './components/DocLink.vue';
 
 import '@opensig/opendesign-token/themes/a.dark.token.css';
@@ -27,7 +28,7 @@ import '@opensig/opendesign-token/themes/m.dark.token.css';
 import '@opensig/opendesign-token/themes/m.light.token.css';
 
 import '@opensig/opendesign-token/fonts/font-harmony.css';
-import {initRound} from '@opensig/opendesign'
+import { initRound } from '@opensig/opendesign';
 
 // initRound('pill');
 
@@ -39,6 +40,7 @@ app.use(router);
 app.component('CodeContainer', CodeContainer);
 app.component('DemoContainer', DemoContainer);
 app.component('DemoUsage', DemoUsage);
+app.component('DevOnly', DevOnly);
 Object.entries(Opendesign).forEach(([name, value]) => {
   if (typeof value !== 'object' || !value) {
     return;

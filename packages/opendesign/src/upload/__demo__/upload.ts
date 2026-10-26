@@ -75,7 +75,7 @@ export const uploadRequest = (options: UploadRequestOptionT, hasProgress: boolea
     file.file,
     (success) => {
       if (success) {
-        onSuccess(success);
+        onSuccess();
       } else {
         onError(
           {

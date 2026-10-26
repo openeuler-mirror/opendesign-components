@@ -39,4 +39,4 @@ CLAUDE.md
 .claude/settings.local.json
 # Windows: Node/Playwright 在 Windows 下误将 /dev/null 路径解析为当前目录的 "nul" 文件
 nul
-
+.playwright-*

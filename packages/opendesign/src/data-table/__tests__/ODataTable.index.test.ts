@@ -121,6 +121,78 @@ describe('静态契约（按 types.ts 属性）', () => {
     expect(strRoot.style.getPropertyValue('--table-height')).toBe('50vh');
   });
 
+  test('ODataTable 空数据未传 height - 空表体保持 --table-body-min-height 最小高度', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // 空表体最小高度 = --table-body-min-height 扣除表头与边框，不随内容消失而塌陷
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(minBody - headerH - borderW * 2);
+  });
+
+  test('ODataTable loading 未传 height - 空表体保持 --table-body-min-height 最小高度', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns, loading: true } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // loading 时同样保留最小高度，防止表体塌陷
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(minBody - headerH - borderW * 2);
+  });
+
+  test('ODataTable 空数据 + height - 空占位符撑满固定高度扣除表头', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns, height: 300 } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // 传 height 时空占位符撑满 --table-height(300) 扣除表头与边框
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(300 - headerH - borderW * 2);
+  });
+
+  test('ODataTable loading + 有数据 - 不渲染占位行，避免表体被撑高', async () => {
+    const screen = render(ODataTable, { props: { data: baseData, columns: baseColumns, loading: true } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    // loading 遮罩为绝对定位浮层，数据行已撑起表体，无需占位行，避免其获得兜底高度撑出额外空白
+    expect(root.querySelector('td.empty-placeholder')).toBeNull();
+  });
+
+  test('ODataTable 空数据 + height 小于最小高度 - 空占位符保持 --table-body-min-height 下限', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns, height: 150 } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // 显式 height(150) 小于最小高度时，空占位符仍保持 --table-body-min-height 下限，不随小 height 塌缩
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(minBody - headerH - borderW * 2);
+  });
+
+  test('ODataTable 空数据 + height 小于最小高度 - 滚动容器保持 --table-body-min-height 下限', async () => {
+    for (const height of [50, 150]) {
+      const screen = render(ODataTable, { props: { data: [], columns: baseColumns, height } });
+      const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+      await flush();
+      const wrap = root.querySelector('.o-table-wrap') as HTMLElement;
+      const cs = getComputedStyle(root);
+      const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+      // 显式 height(50/150) 小于最小高度时，滚动容器高度保持 --table-body-min-height 下限，不裁切空占位符
+      expect(wrap.offsetHeight, `height=${height}`).toBeGreaterThanOrEqual(minBody);
+    }
+  });
+
   test('ODataTable maxHeight - 默认 fit-content，数字时转 px', async () => {
     const def = render(ODataTable, { props: { data: baseData, columns: baseColumns } });
     expect((def.container.querySelector('.o-data-table') as HTMLElement).style.getPropertyValue('--table-max-height')).toBe('fit-content');
@@ -1591,5 +1663,53 @@ describe('插槽契约（具名插槽）', () => {
     await flush();
     const expandedContent = screen.container.querySelector('.custom-expand');
     expect(expandedContent?.textContent).toBe('E:Alice');
+  });
+});
+
+// ============================================================================
+// 响应式契约：optionsFn 依赖的响应式数据变更后应自动重新调用
+//
+// 问题描述：optionsFn 在 onMounted 中仅调用一次，其内部访问的响应式数据
+// （如 ref / reactive）不会被追踪，数据变更时筛选项不会更新。
+// ============================================================================
+describe('响应式契约（optionsFn 依赖追踪）', () => {
+  test('ODataTable column.filter.optionsFn - 依赖的响应式数据变更后自动重新调用 optionsFn', async () => {
+    const filterOptions = ref([
+      { label: 'Option A', value: 'a' },
+      { label: 'Option B', value: 'b' },
+    ]);
+
+    const columns: DataTableColumnT[] = [
+      {
+        label: 'Name',
+        key: 'name',
+        filter: {
+          optionsFn: () => filterOptions.value,
+        },
+      },
+      { label: 'Age', key: 'age' },
+    ];
+
+    const screen = render(ODataTable, { props: { data: baseData, columns } });
+    await flush();
+
+    // 初始渲染：options.length > 0，filter trigger 可见
+    const trigger = screen.container.querySelector('.o-data-table-column-filter__trigger') as HTMLElement;
+    expect(trigger).not.toBeNull();
+    expect(getComputedStyle(trigger).display).not.toBe('none');
+
+    // 清空 options 数据 —— optionsFn 应被重新调用
+    filterOptions.value = [];
+    await flush();
+
+    // options 为空后 trigger 应隐藏（v-show="options.length" → display:none）
+    expect(getComputedStyle(trigger).display).toBe('none');
+
+    // 恢复数据 —— optionsFn 应再次被重新调用
+    filterOptions.value = [{ label: 'New', value: 'new' }];
+    await flush();
+
+    // trigger 应重新可见
+    expect(getComputedStyle(trigger).display).not.toBe('none');
   });
 });

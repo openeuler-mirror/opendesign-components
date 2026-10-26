@@ -155,7 +155,7 @@ const rules: Linter.RulesRecord = {
 };
 export default defineConfig([
   {
-    ignores: ['**/__demo__/**', '**/__docs__/**', '**/__tests__/**'],
+    ignores: ['**/__demo__/**', '**/__docs__/**', '**/__tests__/**', '**/*.test.*'],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],

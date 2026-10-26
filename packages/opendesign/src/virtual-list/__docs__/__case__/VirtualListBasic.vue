@@ -1,22 +1,27 @@
 <docs lang="md">
-<!--zh-CN-->
-### Scroller basic
+<!-- zh-CN -->
 
-<!--en-US-->
-### Scroller basic
+### 基础用法
+
+<!-- en-US -->
+
+### Basic Usage
 </docs>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue';
-import { OVirtualList, RenderIndexInfo, BaseScrollerPropsT } from '@opensig/opendesign';
+import { BaseScrollerPropsT, OButton, OVirtualList, RenderIndexInfo } from '@opensig/opendesign';
 import { uniqueId } from '../../../_utils/helper';
 
 const list = ref(
-  new Array(50).fill(1).map((_, idx) => ({
+  new Array(1000).fill(1).map((_, idx) => ({
     label: idx + 1,
-    height: Math.floor(Math.random() * 80 + 40),
-  }))
+    height: (idx % 8) * 10 + 40,
+  })),
 );
+
+/** 按项定高：偶数行 40px，奇数行 80px */
+const perIndexSize = (_item: unknown, index: number) => (index % 2 === 0 ? 40 : 80);
 
 const onClick = (item: any) => {
   item.height -= 10;
@@ -31,14 +36,14 @@ const list2 = ref(
   new Array(20).fill(1).map((_, idx) => ({
     id: uniqueId(),
     label: `${idx + 1}`,
-    height: Math.floor(Math.random() * 80 + 40),
-  }))
+    height: (idx % 8) * 10 + 40,
+  })),
 );
 const changeListData = () => {
   const n = new Array(10).fill(1).map((_, idx) => ({
     id: uniqueId(),
     label: `add${idx + 1}`,
-    height: Math.floor(Math.random() * 80 + 40),
+    height: (idx % 8) * 10 + 40,
   }));
   list2.value = list2.value.concat(n);
 };
@@ -49,16 +54,16 @@ const scrollbarProps: Partial<BaseScrollerPropsT> = {
   autoUpdateOnScrollSize: true,
 };
 const onRenderChange = (params: RenderIndexInfo) => {
-  console.log(params.start, params.end, params.count, params.visible);
+  console.log(params);
 };
 </script>
 <template>
   <div class="row">
     <div class="col">
-      <h5>高度固定且一致 default-start-index: 10</h5>
-      <OVirtualList class="container" :list="list" :default-start-index="10" :item-size="80" @render-change="onRenderChange">
+      <h5>定高模式（itemSize=80）</h5>
+      <OVirtualList :default-start-index="500" :item-size="80" :list="list" class="container" @render-change="onRenderChange">
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" class="section">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>80px</span>
           </div>
@@ -66,10 +71,24 @@ const onRenderChange = (params: RenderIndexInfo) => {
       </OVirtualList>
     </div>
     <div class="col">
-      <h5>动态高度 default-start-index: 10</h5>
-      <OVirtualList class="container" :list="list" :default-start-index="10" @render-change="onRenderChange">
+      <h5>按索引定高（itemSize 为函数）</h5>
+      <OVirtualList :default-start-index="500" :item-size="perIndexSize" :list="list" class="container" @render-change="onRenderChange">
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }" @click="onClick(item)">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" class="section">
+            <span>Row:</span> <span>{{ item.label }}</span
+            >------<span>Height:</span> <span>{{ index % 2 === 0 ? 40 : 80 }}px</span>
+          </div>
+        </template>
+      </OVirtualList>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h5>不定高模式（运行时测量）</h5>
+      <OVirtualList :default-start-index="500" :list="list" class="container" @render-change="onRenderChange">
+        <template #default="{ item, index }">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" :style="{ height: item.height + 'px' }" class="section" @click="onClick(item)">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>{{ item.height }}</span>
           </div>
@@ -79,20 +98,20 @@ const onRenderChange = (params: RenderIndexInfo) => {
   </div>
 
   <h4>容器变化</h4>
-  <button @click="changeContainerSize">容器高度+20</button>
+  <OButton size="small" @click="changeContainerSize">容器高度+100</OButton>
 
   <div class="row">
     <div class="col">
       <OVirtualList
-        class="container2"
-        :list="list"
-        :default-start-index="10"
-        :style="{ height: containerHeight + 'px' }"
+        :default-start-index="500"
         :item-size="80"
+        :list="list"
+        :style="{ height: containerHeight + 'px' }"
+        class="container2"
         @render-change="onRenderChange"
       >
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" class="section">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>80px</span>
           </div>
@@ -100,31 +119,31 @@ const onRenderChange = (params: RenderIndexInfo) => {
       </OVirtualList>
     </div>
     <div class="col">
-      <OVirtualList class="container2" :list="list" :default-start-index="44" :style="{ height: containerHeight + 'px' }" @render-change="onRenderChange">
+      <OVirtualList :default-start-index="800" :list="list" :style="{ height: containerHeight + 'px' }" class="container2" @render-change="onRenderChange">
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" :style="{ height: item.height + 'px' }" class="section">
             <span>Row:</span> <span>{{ item.label }}</span
-            >------<span>Height:</span> <span>80px</span>
+            >------<span>Height:</span> <span>{{ item.height }}</span>
           </div>
         </template>
       </OVirtualList>
     </div>
   </div>
   <h4>数据变化</h4>
-  <button @click="changeListData">数据变化 长度+10</button> <span> list length: {{ list2.length }}</span>
+  <OButton size="small" @click="changeListData">追加数据（长度+10）</OButton> <span>列表长度：{{ list2.length }}</span>
 
   <div class="row">
     <div class="col">
       <OVirtualList
-        class="container2"
-        :list="list2"
-        :default-start-index="10"
-        :style="{ height: containerHeight + 'px' }"
+        :default-start-index="15"
         :item-size="80"
+        :list="list2"
         :scrollbar="scrollbarProps"
+        :style="{ height: containerHeight + 'px' }"
+        class="container2"
       >
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" class="section">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>80px</span>
           </div>
@@ -133,15 +152,15 @@ const onRenderChange = (params: RenderIndexInfo) => {
     </div>
     <div class="col">
       <OVirtualList
-        class="container2"
+        :default-start-index="15"
         :list="list2"
-        :default-start-index="10"
-        :style="{ height: containerHeight + 'px' }"
         :scrollbar="scrollbarProps"
+        :style="{ height: containerHeight + 'px' }"
+        class="container2"
         @render-change="onRenderChange"
       >
         <template #default="{ item, index }">
-          <div :key="item.label" class="section" :class="`item-${index + 1}`" :style="{ height: item.height + 'px' }">
+          <div :key="item.label" :class="`item-${(index % 8) + 1}`" :style="{ height: item.height + 'px' }" class="section">
             <span>Row:</span> <span>{{ item.label }}</span
             >------<span>Height:</span> <span>{{ item.height }}</span>
           </div>
@@ -151,40 +170,34 @@ const onRenderChange = (params: RenderIndexInfo) => {
   </div>
 </template>
 <style lang="scss" scoped>
-@use "sass:math";
-.scrollbar-wrapper {
-  position: relative;
-}
+@use 'sass:list';
+// 交叉色板：8 色系交叉取浅色（1-2 级），避免同色系连续
+$demo-bg:
+  rgb(var(--o-deepblue-1)), rgb(var(--o-yellow-2)), rgb(var(--o-purple-1)), rgb(var(--o-cyan-2)), rgb(var(--o-pink-1)), rgb(var(--o-blue-2)),
+  rgb(var(--o-rosyred-1)), rgb(var(--o-lime-2));
+
 .container {
   width: 100%;
   height: 300px;
-  border: 2px solid rgb(111, 45, 234);
+  border: 2px solid var(--o-color-control4);
   box-sizing: border-box;
   display: flex;
+}
+.container2 {
+  width: 100%;
+  border: 2px solid var(--o-color-control4);
 }
 .col {
   flex: 1;
 }
-
-section > div {
-  flex: 0 1 30%;
-}
 .section {
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10px 0;
 }
-
-@for $i from 1 through 50 {
+@for $i from 1 through 8 {
   .item-#{$i} {
-    background-color: rgba(math.random(255), math.random(255), math.random(255), 1);
+    background-color: list.nth($demo-bg, $i);
   }
-}
-
-.container2 {
-  width: 100%;
-  border: 2px solid rgb(111, 45, 234);
 }
 </style>

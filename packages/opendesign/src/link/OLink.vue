@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { computed, inject, useAttrs, resolveComponent, h, useSlots, renderSlot, type VNode } from 'vue';
+import { computed, inject, useAttrs, resolveComponent, h, renderSlot, type VNode } from 'vue';
 import { configProviderInjectKey } from '../config-provider';
 import { defaultSize } from '../_utils/global';
 import { IconLinkArrow, IconLoading } from '../_utils/icons';
+import { Log } from '../_utils/log';
 
 import { linkProps } from './types';
 
 const props = defineProps(linkProps);
 const configProvider = inject(configProviderInjectKey, {});
 const $attr = useAttrs();
+const logger = new Log('OLink');
 
 const emits = defineEmits<{ (e: 'click', val: MouseEvent): void }>();
 const onClick = (e: MouseEvent) => {
@@ -34,8 +36,17 @@ const linkClass = computed(() => [
   `o-link-${props.size || defaultSize}`,
 ]);
 
-const $slots = useSlots();
-const RouterLink = resolveComponent('RouterLink');
+/**
+ * 插槽定义
+ */
+const $slots = defineSlots<{
+  /** 默认插槽，链接内容 */
+  default?(): any;
+  /** 前缀图标插槽 */
+  icon?(): any;
+  /** 后缀插槽 */
+  suffix?(): any;
+}>();
 
 const prefix = () => {
   const children: VNode[] = [];
@@ -71,10 +82,15 @@ const suffix = () => {
 };
 const Link = () => {
   const _props: Record<string, any> = { ...$attr, class: ['o-link', linkClass.value], onClick };
-  if (props.to && RouterLink) {
-    _props.to = props.to;
-    _props.replace = props.replace;
-    return h(RouterLink, _props, { default: () => [prefix(), main(), suffix()] });
+  if (props.to) {
+    const RouterLink = resolveComponent('RouterLink');
+    if (typeof RouterLink !== 'string') {
+      _props.to = props.to;
+      _props.replace = props.replace;
+      return h(RouterLink, _props, { default: () => [prefix(), main(), suffix()] });
+    } else {
+      logger.warn('to属性会使用到RouterLink，请在具有vue-router的运行时环境下使用');
+    }
   }
   if (props.tag === 'a') {
     _props.href = props.href;

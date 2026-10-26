@@ -25,23 +25,33 @@
       "skillPath": "skills/nuxt/SKILL.md",
       "computedHash": "3f271d53fd31dbb482e6aad3f54992955f1b5cb0afa9972c592b087316005436"
     },
+    "opendesign-application": {
+      "source": "https://atomgit.com/openeuler/opendesign-skills.git",
+      "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/opendesign-application/SKILL.md",
+      "computedHash": "26da71d7004a3110ffc1a10cfceaa2a7a526ba74bd4de071cf27c1f34b782b3d"
+    },
     "opendesign-components": {
-      "source": "git@atomgit.com:openeuler/opendesign-skills.git",
+      "source": "https://atomgit.com/openeuler/opendesign-skills.git",
+      "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-components/SKILL.md",
-      "computedHash": "78f5f56f45ca9bef5bf8e741d06d552616e2ec7f0a47365fd5f28981fe3c1495"
+      "computedHash": "c0d832df6ae9b2ceb0428467672d02b9858b248425fea53cd67272834c92e6e2"
     },
     "opendesign-scripts": {
-      "source": "git@atomgit.com:openeuler/opendesign-skills.git",
+      "source": "https://atomgit.com/openeuler/opendesign-skills.git",
+      "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-scripts/SKILL.md",
-      "computedHash": "3913f3b743d9179057fcc58a36e67489d2d32d8681642e3a1bf510d92f7e055e"
+      "computedHash": "6d3c1e56c550088683f787807a1d4eea38828bea5c789321f48582cd02ae59ef"
     },
     "opendesign-tokens": {
-      "source": "git@atomgit.com:openeuler/opendesign-skills.git",
+      "source": "https://atomgit.com/openeuler/opendesign-skills.git",
+      "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-tokens/SKILL.md",
-      "computedHash": "fa455216804a5a6f5f92d455dc00fe01395889f8fc0f0f6d1944fff5adaeae47"
+      "computedHash": "314efb14503cccd505d0f2d3acc235bbe0cc684ad0a8a3abad224d7e04cac1f5"
     },
     "pinia": {
       "source": "antfu/skills",
@@ -83,13 +93,13 @@
       "source": "rolldown/tsdown",
       "sourceType": "github",
       "skillPath": "skills/tsdown/SKILL.md",
-      "computedHash": "47f632fbbbdefb7d5b18263502c218cec477255c0fa14baf168c47b83edabeee"
+      "computedHash": "8539dbd043e7d7c57e619fe4ff3a85be17b75762099fd17a3a63de23e734dd3a"
     },
     "tsdown-migrate": {
       "source": "rolldown/tsdown",
       "sourceType": "github",
       "skillPath": "skills/tsdown-migrate/SKILL.md",
-      "computedHash": "2ef3e45913861eaf12af22188656733c3b3f7244258f46a60ff892eae9831537"
+      "computedHash": "ef840c62747ce5aed1e8b35197d767b022a690648f4a55d31e5e81ed8c21e0bd"
     },
     "vite": {
       "source": "antfu/skills",

@@ -26,7 +26,7 @@ const emits = defineEmits<InInputEmitsT>();
 const { t } = useI18n();
 const { isPhonePad } = useScreen();
 
-const { disabled, type, modelValue, inputOnOutlimit, maxLength, minLength, showLength, onlyNumericInput } = toRefs(props);
+const { type, modelValue, inputOnOutlimit, maxLength, minLength, showLength, onlyNumericInput } = toRefs(props);
 
 const {
   displayValue,
@@ -62,7 +62,7 @@ const {
 
 const { showPassword, onEyeMouseDown, onEyeClick } = useInputPassword({
   type,
-  disabled,
+  disabled: computed(() => !!props.disabled),
   showPasswordEvent: props.showPasswordEvent,
 });
 

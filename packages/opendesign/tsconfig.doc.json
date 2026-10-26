@@ -5,5 +5,5 @@
       "@opensig/opendesign": ["./src/index.ts"]
     }
   },
-  "include": ["src/**/__docs__", "src/_demo", "src/index.ts"]
+  "include": ["src/vite-env.d.ts", "src/**/__docs__", "src/_demo", "src/index.ts"]
 }

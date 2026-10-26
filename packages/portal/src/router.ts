@@ -429,6 +429,14 @@ export const routes = [
     },
   },
   {
+    path: '/image-viewer',
+    name: 'ImageViewer',
+    component: () => import('@opendesign-src/image-viewer/__demo__/TheIndex.vue'),
+    meta: {
+      title: '图片形变 ImageViewer',
+    },
+  },
+  {
     path: '/resize-observer',
     name: 'ResizeObserver',
     component: () => import('@opendesign-src/resize-observer/__demo__/IndexResize.vue'),

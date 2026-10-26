@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface OptionPropT {
-  name: string;
+  name?: string;
 }
 const props = defineProps<OptionPropT>();
 </script>

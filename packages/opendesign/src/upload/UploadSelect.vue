@@ -4,6 +4,7 @@ import { IconAdd } from '../_utils/icons';
 import OButton from '../button/OButton.vue';
 import slot from './slot';
 import { useI18n } from '../locale';
+import type { SizeT, RoundT } from '../_utils/types';
 
 interface UploadSelectPropsT {
   draggable?: boolean;
@@ -11,6 +12,8 @@ interface UploadSelectPropsT {
   dragHoverLabel?: string;
   btnLabel?: string;
   disabled?: boolean;
+  size?: SizeT;
+  round?: RoundT;
 }
 
 const props = defineProps<UploadSelectPropsT>();
@@ -100,7 +103,7 @@ const onDrap = (e: DragEvent) => {
           </div>
         </slot>
       </div>
-      <OButton v-else color="primary" round="pill" :disabled="props.disabled" :icon="IconAdd">
+      <OButton v-else color="primary" :size="props.size" :round="props.round ?? 'pill'" :disabled="props.disabled" :icon="IconAdd">
         {{ props.btnLabel ?? t('upload.buttonLabel') }}
       </OButton>
     </slot>

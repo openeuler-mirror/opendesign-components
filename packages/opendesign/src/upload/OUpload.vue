@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { uploadProps, UploadFileT } from './types';
-import { computed, ref, inject, watch, useTemplateRef } from 'vue';
+import { computed, ref, watch, useTemplateRef } from 'vue';
 import { isArray, isFunction } from '../_utils/is';
 import { filterSlots } from '../_utils/vue-utils';
 import UploadItem from './UploadItem.vue';
@@ -9,11 +9,30 @@ import { doUploadFileList, doUploadFile, generateImageDataUrl, isPictureType } f
 import UploadSelect from './UploadSelect.vue';
 import { IconAdd } from '../_utils/icons';
 import InputSelect from './InputSelect.vue';
-import { formItemInjectKey } from '../form/provide';
+import { useFormField } from '../_composables/use-form-field';
 import { useI18n } from '../locale';
 import { log } from '../_utils/log';
 
 const props = defineProps(uploadProps);
+/**
+ * 插槽定义
+ */
+const slots = defineSlots<{
+  /** 默认插槽（透传至 UploadSelect） */
+  default?(props: Record<string, any>): any;
+  /** 上传项插槽（透传至 UploadItem），可获取文件信息 */
+  item?(props: Record<string, any>): any;
+  /** 拖拽区域插槽（透传至 UploadSelect） */
+  'select-drag'?(props: Record<string, any>): any;
+  /** 拖拽区域额外插槽（透传至 UploadSelect） */
+  'select-drag-extra'?(props: Record<string, any>): any;
+  /** 选择区域下方额外内容 */
+  'select-extra'?(): any;
+  /** 添加按钮区域 */
+  'select-add'?(): any;
+  /** 添加按钮文字 */
+  'select-add-label'?(): any;
+}>();
 const emits = defineEmits<{
   (e: 'progress', value: UploadFileT): void;
   (e: 'success', value: UploadFileT): void;
@@ -56,7 +75,7 @@ watch(
 );
 
 // 表单注入，用于规则校验
-const formItemInjection = inject(formItemInjectKey, null);
+const { effectiveDisabled, effectiveSize, effectiveRound, onChange: onFormItemChange } = useFormField(props);
 
 let fileId = 1;
 
@@ -106,7 +125,7 @@ const afterSelected = (files: UploadFileT[]) => {
       emitUpdateValue(fileList.value);
       emits('select', fileList.value);
 
-      formItemInjection?.fieldHandlers.onChange?.();
+      onFormItemChange();
 
       if (!props.lazyUpload) {
         doUploadFile(fileList.value[idx], uploadOption.value);
@@ -127,7 +146,7 @@ const afterSelected = (files: UploadFileT[]) => {
     emitUpdateValue(fileList.value);
     emits('select', fileList.value);
 
-    formItemInjection?.fieldHandlers.onChange?.();
+    onFormItemChange();
 
     if (!props.lazyUpload) {
       doUploadFileList(fileList.value.slice(s, s + l), uploadOption.value);
@@ -179,7 +198,7 @@ const doRemoveFile = async (file: UploadFileT) => {
   const index = fileList.value.findIndex((item) => item.id === file.id);
   fileList.value.splice(index, 1);
 
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 
   emitUpdateValue(fileList.value);
 
@@ -234,7 +253,7 @@ const doRetryUpload = (file: UploadFileT, force?: boolean) => {
 
   doUploadFile(file, uploadOption.value);
 
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 
 /**
@@ -265,7 +284,7 @@ const replaceByIndex = (index: number, newFile: UploadFileT) => {
 
     emits('change', fileList.value);
 
-    formItemInjection?.fieldHandlers.onChange?.();
+    onFormItemChange();
   } else {
     doReplaceFile(file);
   }
@@ -285,7 +304,7 @@ const onFileReplace = (file: UploadFileT, e: Event) => {
 
   emits('itemReplace', file, e);
 
-  formItemInjection?.fieldHandlers.onChange?.();
+  onFormItemChange();
 };
 /**
  * 选择文件
@@ -348,10 +367,12 @@ defineExpose({
 </script>
 <template>
   <div class="o-upload" :class="{ 'o-upload-draggable': draggable }">
-    <InputSelect ref="selectRef" :accept="props.accept" :disabled="props.disabled" @selected="onFileSelected" />
+    <InputSelect ref="selectRef" :accept="props.accept" :disabled="effectiveDisabled" @selected="onFileSelected" />
     <div v-if="['text', 'picture'].includes(props.listType)" class="o-upload-select-wrap">
       <UploadSelect
-        :disabled="props.disabled"
+        :disabled="effectiveDisabled"
+        :size="effectiveSize"
+        :round="effectiveRound"
         :draggable="props.draggable"
         :btn-label="props.btnLabel"
         :drag-label="props.dragLabel"
@@ -359,11 +380,11 @@ defineExpose({
         @to-select="doSelect"
         @selected="onFileSelected"
       >
-        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
+        <template v-for="name in filterSlots(slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadSelect>
-      <div v-if="$slots['select-extra']" class="o-upload-select-extra">
+      <div v-if="slots['select-extra']" class="o-upload-select-extra">
         <slot name="select-extra"></slot>
       </div>
     </div>
@@ -380,7 +401,7 @@ defineExpose({
         :key="item.id"
         :file="item"
         :list-type="props.listType"
-        :showProgress="props.showProgress"
+        :show-progress="props.showProgress"
         :draggable="props.draggable"
         @remove="onRemoveFile"
         @retry="onFileUploadRetry"
@@ -389,7 +410,7 @@ defineExpose({
         @item-click="onUploadItemLabelClick"
         @download="onFileDownload"
       >
-        <template v-for="name in filterSlots($slots, slot.names)" #[name]="slotData">
+        <template v-for="name in filterSlots(slots, slot.names)" #[name]="slotData">
           <slot :name="name" v-bind="slotData"></slot>
         </template>
       </UploadItem>
@@ -397,7 +418,7 @@ defineExpose({
         v-if="props.listType === 'picture-card'"
         class="o-upload-card-add"
         :class="{
-          'is-disabled': props.disabled,
+          'is-disabled': effectiveDisabled,
         }"
         @click="doSelect"
       >

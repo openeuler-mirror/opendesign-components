@@ -84,7 +84,7 @@ defineExpose({
     :mask-close="props.maskClose"
     :before-hide="props.beforeHide"
     :before-show="props.beforeShow"
-    :transition-orign="isPhonePad ? 'css' : 'mouse'"
+    :transition-origin="isPhonePad ? 'css' : 'mouse'"
     @change="onChange"
     @update:visible="onUpdateVisible"
   >

@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { ref, onUnmounted, watchEffect, toRefs } from 'vue';
+import { ref, onMounted, onUnmounted, watchEffect, toRefs, computed } from 'vue';
+import { useEventListener, useIntervalFn, useResizeObserver, useTimeoutFn } from '@vueuse/core';
 import ScrollbarRail from './ScrollbarRail.vue';
-import { scrollbarProps, ScrollerDirection } from './types';
+import { scrollbarProps, ScrollerDirection, ScrollbarSlotProps } from './types';
 import { mergeClass, resolveHtmlElement } from '../_utils/vue-utils';
-import { useResizeObserver } from '../hooks/use-resize-observer';
 import { useScreen } from '../hooks';
+import { isClient } from '../_utils/is';
 
 const ScrollbarClass = {
   container: 'o-scrollbar-container',
@@ -12,11 +13,23 @@ const ScrollbarClass = {
 
 const props = defineProps(scrollbarProps);
 
+defineSlots<{
+  /**
+   * @zh-CN 滑块插槽，接收滚动方向与拖拽状态
+   * @en-US Thumb slot, receives direction and dragging state
+   */
+  thumb?(props: ScrollbarSlotProps): any;
+  /**
+   * @zh-CN 轨道插槽，接收滚动方向与拖拽状态
+   * @en-US Track slot, receives direction and dragging state
+   */
+  track?(props: ScrollbarSlotProps): any;
+}>();
+
 const { isPhonePad } = useScreen();
 
 // 滚动目标容器
 let scrollTargetEl: HTMLElement | null = null;
-let scrollListenEl: HTMLElement | null | Window = null;
 const rootRef = ref<HTMLElement | null>(null);
 const hasY = ref(false);
 const hasX = ref(false);
@@ -30,10 +43,6 @@ const showXBar = ref(false);
 const showYBar = ref(false);
 let lastTop = -1;
 let lastLeft = -1;
-let xTimer: number | null = null;
-let yTimer: number | null = null;
-
-let ro: ReturnType<typeof useResizeObserver> | null = null;
 
 let lastScrollWidth = -1;
 let lastScrollHeight = -1;
@@ -77,6 +86,24 @@ const updateScrollbarByScollSize = () => {
 };
 
 /**
+ * 滚动条自动隐藏定时器，使用 useTimeoutFn 管理横纵向两个独立定时器
+ */
+const xHideTimer = useTimeoutFn(
+  () => {
+    showXBar.value = false;
+  },
+  () => props.duration,
+  { immediate: false },
+);
+const yHideTimer = useTimeoutFn(
+  () => {
+    showYBar.value = false;
+  },
+  () => props.duration,
+  { immediate: false },
+);
+
+/**
  * 容器滚动事件响应函数
  */
 const onScroll = () => {
@@ -96,31 +123,30 @@ const onScroll = () => {
 
   if (lastLeft >= 0) {
     showXBar.value = scrollLeft !== lastLeft;
-    if (xTimer) {
-      clearTimeout(xTimer);
-    }
-    xTimer = window.setTimeout(() => {
-      showXBar.value = false;
-      xTimer = null;
-    }, props.duration);
+    xHideTimer.start();
   }
   lastLeft = scrollLeft;
 
   if (lastTop >= 0) {
     showYBar.value = scrollTop !== lastTop;
-    if (yTimer) {
-      clearTimeout(yTimer);
-      yTimer = null;
-    }
-    yTimer = window.setTimeout(() => {
-      showYBar.value = false;
-    }, props.duration);
+    yHideTimer.start();
   }
   lastTop = scrollTop;
 };
+
 let childToObserve: HTMLElement | null = null;
+
 /**
- * 初始化
+ * init() 中创建的资源清理函数列表
+ * @description useResizeObserver / useEventListener 在 onMounted 的 Promise.then 微任务中创建，
+ * 此时组件 effect scope 已关闭，tryOnScopeDispose 无法注册自动清理，需在 onUnmounted 中手动调用
+ */
+const initCleanups: (() => void)[] = [];
+
+/**
+ * 初始化滚动条
+ * @description 监听目标元素尺寸变化与滚动事件，仅在 onMounted 后调用。
+ * 内部创建的 useResizeObserver / useEventListener 返回值需手动收集，因其在 Promise.then 微任务中执行
  */
 const init = () => {
   if (!scrollTargetEl) {
@@ -128,62 +154,57 @@ const init = () => {
   }
 
   scrollTargetEl.classList.add(ScrollbarClass.container);
-  ro = useResizeObserver();
 
-  // 监听滚动元素的尺寸变化，这里无法监听子元素尺寸变化引起的父容器scrollheight变化
-  ro.observe(scrollTargetEl, updateScrollbar);
-  // 监听scrollTargetEl的子元素，子元素的变化会导致scroll size变化
+  // 监听滚动容器及其子元素的尺寸变化，子元素变化会导致 scroll size 变化
+  const ro1 = useResizeObserver(scrollTargetEl, updateScrollbar);
+  initCleanups.push(ro1.stop);
   if (scrollTargetEl.children.length === 1 && scrollTargetEl.children[0] instanceof HTMLElement) {
     childToObserve = scrollTargetEl.children[0];
-    ro.observe(childToObserve, updateScrollbar);
+    const ro2 = useResizeObserver(childToObserve, updateScrollbar);
+    initCleanups.push(ro2.stop);
   }
 
   updateScrollbar();
 
-  scrollListenEl = isBody.value ? window : scrollTargetEl;
-  scrollListenEl.addEventListener('scroll', onScroll, { passive: true });
+  // isBody 时监听 window 滚动，否则监听目标元素
+  const stopScroll = useEventListener(isBody.value ? window : scrollTargetEl, 'scroll', onScroll, { passive: true });
+  initCleanups.push(stopScroll);
+};
 
-  // 处理hover事件，控制显示滚动条
-  handleWrapperHoverEvent();
-};
 /**
- * 根据滚动目标定期刷新滚动演示
+ * 定期检查滚动容器尺寸变化并刷新滚动条
+ * @description 使用 useIntervalFn 管理定时器，组件卸载时自动清理。
+ * 回调内通过 isClient 守卫，确保 SSR / Node.js 环境下 timer 回调不访问 window
  */
-let updateTimer: number;
-let updateIdleTimer: number;
-const updateScrollbarOnIdle = () => {
-  if (window.requestIdleCallback) {
-    updateTimer = window.setInterval(() => {
-      updateIdleTimer = window.requestIdleCallback(updateScrollbarByScollSize);
-    }, 1000);
-  }
-};
-const cancelUpdateScrollbarOnIdle = () => {
-  if (updateTimer) {
-    clearInterval(updateTimer);
-    if(cancelIdleCallback) {
-      cancelIdleCallback(updateIdleTimer);
+const { pause: pauseIdleUpdate, resume: resumeIdleUpdate } = useIntervalFn(
+  () => {
+    if (isClient && window.requestIdleCallback) {
+      window.requestIdleCallback(updateScrollbarByScollSize);
     }
-    updateTimer = 0;
-    updateIdleTimer = 0;
-  }
-};
+  },
+  1000,
+  { immediate: false },
+);
+
 /**
- * 基于滚动监听元素初始化
+ * 解析 target prop 并初始化滚动条
+ * @description 在 onMounted 中执行，避免 SSR 期间访问 document
  */
 const { target } = toRefs(props);
-resolveHtmlElement(target).then((el) => {
-  if (el === document.body) {
-    isBody.value = true;
-    scrollTargetEl = document.documentElement;
-  } else if (el) {
-    scrollTargetEl = el;
-  }
-  if (!scrollTargetEl) {
-    return;
-  }
+onMounted(() => {
+  resolveHtmlElement(target).then((el) => {
+    if (el === document.body) {
+      isBody.value = true;
+      scrollTargetEl = document.documentElement;
+    } else if (el) {
+      scrollTargetEl = el;
+    }
+    if (!scrollTargetEl) {
+      return;
+    }
 
-  init();
+    init();
+  });
 });
 
 /** ********
@@ -194,17 +215,27 @@ const isShowScrollbar = ref(props.showType === 'always');
 
 watchEffect(() => {
   isShowScrollbar.value = props.showType === 'always';
-  // 可以考虑是否在滚动条显示时就定时刷新
   if (props.showType === 'always') {
-    if (props.autoUpdateOnScrollSize) {
-      updateScrollbarOnIdle();
+    // SSR 期间不启动定时器，避免 Node.js 环境下 interval 回调访问 window 报错
+    if (props.autoUpdateOnScrollSize && isClient) {
+      resumeIdleUpdate();
     }
   } else {
-    cancelUpdateScrollbarOnIdle();
+    pauseIdleUpdate();
   }
 });
 
-let wrapperEl: HTMLElement | null = null;
+/**
+ * hover 显示模式下的目标元素
+ * @description 仅在 showType=hover 且非触屏设备时返回 offsetParent，否则返回 null 使 useEventListener 自动跳过
+ */
+const hoverTarget = computed(() => {
+  const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
+  if (!isHoverShow) {
+    return null;
+  }
+  return rootRef.value?.offsetParent as HTMLElement | null;
+});
 
 const onWrapperHoverIn = () => {
   isShowScrollbar.value = true;
@@ -224,42 +255,13 @@ const onWrapperHoverOut = () => {
   }
 };
 
-const removeWrapperHoverEvent = () => {
-  if (wrapperEl) {
-    wrapperEl.removeEventListener('mouseenter', onWrapperHoverIn);
-    wrapperEl.removeEventListener('mouseleave', onWrapperHoverOut);
-  }
-};
-function handleWrapperHoverEvent () {
-  watchEffect(() => {
-    const isHoverShow = props.showType === 'hover' && !isPhonePad.value;
-    wrapperEl = rootRef.value?.offsetParent as HTMLElement;
-    if (!wrapperEl) {
-      return;
-    }
-    if (isHoverShow) {
-      wrapperEl?.addEventListener('mouseenter', onWrapperHoverIn);
-      wrapperEl?.addEventListener('mouseleave', onWrapperHoverOut);
-    } else {
-      removeWrapperHoverEvent();
-    }
-  });
-};
-/** ********/
+// hover 事件监听，hoverTarget 为 null 时自动跳过，组件卸载时自动清理
+useEventListener(hoverTarget, 'mouseenter', onWrapperHoverIn);
+useEventListener(hoverTarget, 'mouseleave', onWrapperHoverOut);
 
 onUnmounted(() => {
-  if (scrollTargetEl) {
-    ro?.unobserve(scrollTargetEl, updateScrollbar);
-
-    scrollListenEl?.removeEventListener('scroll', onScroll);
-  }
-  if (childToObserve) {
-    ro?.unobserve(childToObserve, updateScrollbar);
-  }
-
-  removeWrapperHoverEvent();
-  cancelUpdateScrollbarOnIdle();
-
+  initCleanups.forEach((fn) => fn());
+  initCleanups.length = 0;
   scrollTargetEl?.classList.remove(ScrollbarClass.container);
 });
 
@@ -287,16 +289,10 @@ const onBarHoverIn = (d: ScrollerDirection) => {
   }
   if (d === 'x') {
     showXBar.value = true;
-    if (xTimer) {
-      clearTimeout(xTimer);
-      yTimer = null;
-    }
+    xHideTimer.stop();
   } else if (d === 'y') {
     showYBar.value = true;
-    if (yTimer) {
-      clearTimeout(yTimer);
-      yTimer = null;
-    }
+    yHideTimer.stop();
   }
 };
 
@@ -305,13 +301,9 @@ const onBarHoverOut = (d: ScrollerDirection) => {
     return;
   }
   if (d === 'x') {
-    xTimer = window.setTimeout(() => {
-      showXBar.value = false;
-    }, props.duration);
+    xHideTimer.start();
   } else if (d === 'y') {
-    yTimer = window.setTimeout(() => {
-      showYBar.value = false;
-    }, props.duration);
+    yHideTimer.start();
   }
 };
 
@@ -328,20 +320,22 @@ defineExpose({
   <div
     ref="rootRef"
     class="o-scrollbar"
-    :class="mergeClass(
-      `o-scrollbar-${props.size}`,
-      {
-        'o-scrollbar-auto-show': props.showType === 'auto',
-        'o-scrollbar-always-show': props.showType === 'always',
-        'o-scrollbar-hover-show': props.showType === 'hover' && !isPhonePad,
-        'o-scrollbar-visible': isShowScrollbar,
-        'o-scrollbar-both': hasX && hasY,
-        'o-scrollbar-visible-x': showXBar,
-        'o-scrollbar-visible-y': showYBar,
-        'o-scrollbar-to-body': isBody,
-      },
-      props.barClass,
-    )"
+    :class="
+      mergeClass(
+        `o-scrollbar-${props.size}`,
+        {
+          'o-scrollbar-auto-show': props.showType === 'auto',
+          'o-scrollbar-always-show': props.showType === 'always',
+          'o-scrollbar-hover-show': props.showType === 'hover' && !isPhonePad,
+          'o-scrollbar-visible': isShowScrollbar,
+          'o-scrollbar-both': hasX && hasY,
+          'o-scrollbar-visible-x': showXBar,
+          'o-scrollbar-visible-y': showYBar,
+          'o-scrollbar-to-body': isBody,
+        },
+        props.barClass,
+      )
+    "
   >
     <template v-if="props.showType !== 'never'">
       <ScrollbarRail
@@ -354,8 +348,8 @@ defineExpose({
         @mouseenter="onBarHoverIn('x')"
         @mouseleave="onBarHoverOut('x')"
       >
-        <template #thumb><slot name="thumb"></slot></template>
-        <template #track><slot name="track"></slot></template>
+        <template #thumb="slotProps"><slot name="thumb" v-bind="slotProps"></slot></template>
+        <template #track="slotProps"><slot name="track" v-bind="slotProps"></slot></template>
       </ScrollbarRail>
       <ScrollbarRail
         v-if="hasY && !props.disabledY"
@@ -367,8 +361,8 @@ defineExpose({
         @mouseenter="onBarHoverIn('y')"
         @mouseleave="onBarHoverOut('y')"
       >
-        <template #thumb><slot name="thumb"></slot></template>
-        <template #track><slot name="track"></slot></template>
+        <template #thumb="slotProps"><slot name="thumb" v-bind="slotProps"></slot></template>
+        <template #track="slotProps"><slot name="track" v-bind="slotProps"></slot></template>
       </ScrollbarRail>
     </template>
   </div>

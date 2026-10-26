@@ -43,7 +43,8 @@ export const inInputProps = {
    * @en-US Whether to disable.
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 是否只读
@@ -64,7 +65,8 @@ export const inInputProps = {
    * @en-US clearable.
    */
   clearable: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 最小字符长度

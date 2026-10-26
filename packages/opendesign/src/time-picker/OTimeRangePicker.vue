@@ -71,6 +71,18 @@ defineSlots<{
   shortcut(props: TimePickerRangeShortcutSlotProps): any;
 }>();
 
+const {
+  effectiveColor: color,
+  effectiveRound,
+  effectiveClearable,
+  effectiveDisabled,
+  effectiveSize,
+  inputId: startInputId,
+  triggerFocus,
+  triggerBlur,
+  onChange: onFormItemChange,
+} = useFormField(props, emits);
+
 /**
  * @zh-CN 时间范围选择器的值 v-model 开始时间
  * @en-US The value of the time picker. Start time
@@ -94,10 +106,11 @@ const focused = computed(() => startFocused.value || endFocused.value);
 watch(focused, (newVal, oldVal) => {
   if (!newVal && oldVal) {
     emits('blur');
+    triggerBlur();
   }
 });
 
-const isClearable = computed(() => props.clearable && !props.disabled && !props.readonly && (!!tempStart.value || !!tempEnd.value));
+const isClearable = computed(() => effectiveClearable.value && !effectiveDisabled.value && !props.readonly && (!!tempStart.value || !!tempEnd.value));
 
 const { t } = useI18n();
 
@@ -147,12 +160,10 @@ watch(
   }, 300),
 );
 
-const { effectiveColor: color, inputId: startInputId, notifyChange } = useFormField(props, emits);
-
 let skipOpenPanel = false;
 
 const openPanel = () => {
-  if (props.disabled || props.readonly) return;
+  if (effectiveDisabled.value || props.readonly) return;
   panelRef.value?.open(tempStart.value || undefined, tempEnd.value || undefined);
 };
 
@@ -178,6 +189,7 @@ useClickOutside({
 const onFocus = (e: FocusEvent, rangeType: RangeType) => {
   if (!focused.value) {
     emits('focus', e);
+    triggerFocus(e);
   }
   if (rangeType === RangeType.s) {
     startFocused.value = true;
@@ -209,7 +221,7 @@ const onChange = () => {
     end.value = tempEnd.value;
     prevRangeValue = { start: start.value, end: end.value };
     emits('change', prevRangeValue, oldVal);
-    notifyChange();
+    onFormItemChange();
   }
 };
 
@@ -331,12 +343,15 @@ const onClear = () => {
   prevRangeValue = { start: undefined, end: undefined };
   emits('clear');
   emits('change', prevRangeValue, oldVal);
-  notifyChange();
+  onFormItemChange();
   blurAndClose();
 };
 
 provide(timePickerInjectKey, {
   ...toRefs(props),
+  disabled: effectiveDisabled,
+  size: effectiveSize,
+  round: effectiveRound,
   isRange: ref(true),
 });
 
@@ -372,12 +387,12 @@ defineExpose({
   <InBox
     ref="inBoxRef"
     v-bind="{
-      size: props.size,
+      size: effectiveSize,
       variant: props.variant,
       color: color,
-      disabled: props.disabled,
+      disabled: effectiveDisabled,
       readonly: props.readonly,
-      round: props.round,
+      round: effectiveRound,
       focused: !!focused,
     }"
     :class="['o-time-picker', 'o-time-range-picker', { 'o_input-clearable': isClearable }, 'o-input']"
@@ -388,7 +403,7 @@ defineExpose({
       v-model="tempStart"
       class="o-input-wrap o-range-start-input-wrap"
       :class="{ 'o-input-wrap-focused': startFocused }"
-      :disabled="disabled"
+      :disabled="effectiveDisabled"
       :readonly="readonly"
       :input-id="startInputId"
       :placeholder="props.placeholderStart ?? t('timePicker.startTime')"
@@ -402,7 +417,7 @@ defineExpose({
     >
       <template #extra>
         <TimeRangePanel
-          v-if="!disabled && !readonly"
+          v-if="!effectiveDisabled && !readonly"
           ref="panelRef"
           :target="inBoxRef?.$el"
           :option-title="props.optionTitle"
@@ -421,7 +436,7 @@ defineExpose({
       v-model="tempEnd"
       class="o-input-wrap o-range-end-input-wrap"
       :class="{ 'o-input-wrap-focused': endFocused }"
-      :disabled="disabled"
+      :disabled="effectiveDisabled"
       :readonly="readonly"
       :placeholder="props.placeholderEnd ?? t('timePicker.endTime')"
       :max-length="props.format?.length ?? 8"

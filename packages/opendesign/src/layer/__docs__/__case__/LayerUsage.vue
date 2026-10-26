@@ -3,7 +3,7 @@
 
 ### 使用
 
-`transitionOrign`：设置内容盒子缩放动画的原点，即设置 css 属性 `transform-origin` 的值。取值有：
+`transitionOrigin`：设置内容盒子缩放动画的原点，即设置 css 属性 `transform-origin` 的值。取值有：
 
 - `'mouse'`: 鼠标点击的位置（默认值）
 - `'css'`: 通过 css 变量 `--layer-origin` 设置（`--layer-origin` 默认值为 `center`）
@@ -27,7 +27,7 @@
 
 ### Usage
 
-`transitionOrign`: Sets the origin point for the scaling animation of the content box, i.e., sets the value of the CSS property `transform-origin`. Values are:
+`transitionOrigin`: Sets the origin point for the scaling animation of the content box, i.e., sets the value of the CSS property `transform-origin`. Values are:
 
 - `'mouse'`: The position where the mouse clicks (default value).
 - `'css'`: Set via CSS variable `--layer-origin` (the default value of `--layer-origin` is `center`).
@@ -53,7 +53,7 @@ import { propsToAttrStr } from '../../../_demo/utils';
 import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
 const _oSchema = {
-  transitionOrign: {
+  transitionOrigin: {
     type: 'list',
     list: ['mouse', 'css'],
     default: 'mouse',

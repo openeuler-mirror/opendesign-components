@@ -119,10 +119,9 @@ watch(locale, (newLocale, oldLocale) => {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  
-  [data-o-theme="k.dark"] &{
-    background-image: url(/opendesign-logo-dark.png);
 
+  [data-o-theme$='dark'] & {
+    background-image: url(/opendesign-logo-dark.png);
   }
   @include respond-to('<=pad_v') {
     width: 120px;

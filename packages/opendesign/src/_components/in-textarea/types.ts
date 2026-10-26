@@ -31,7 +31,8 @@ export const inTextareaProps = {
    * @en-US Whether to disable
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 是否只读
@@ -45,7 +46,8 @@ export const inTextareaProps = {
    * @en-US Whether to clear
    */
   clearable: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 格式化函数，控制显示格式
@@ -113,7 +115,7 @@ export const inTextareaProps = {
    */
   showLength: {
     type: [String, Function] as PropType<'always' | 'auto' | 'never'>,
-    default: 'auto'
+    default: 'auto',
   },
   /**
    * @zh-CN 获取长度方法

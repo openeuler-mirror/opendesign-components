@@ -1,8 +1,8 @@
-import { InjectionKey, Ref } from 'vue';
+import { ComputedRef, InjectionKey, Ref } from 'vue';
 
 export const checkboxGroupInjectKey: InjectionKey<{
   realValue: Ref<Array<string | number>>;
-  disabled: Ref<boolean>;
+  disabled: ComputedRef<boolean | undefined>;
   isMinimum: Ref<boolean>;
   isMaximum: Ref<boolean>;
   updateModelValue: (val: Array<string | number>) => void;

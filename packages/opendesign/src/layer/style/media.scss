@@ -1,0 +1,12 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('<=pad_v') {
+  .o-layer-close {
+    top: var(--o-gap-4);
+    right: var(--o-gap-4);
+  }
+  .o-layer-close-icon {
+    font-size: var(--o-icon_size-s);
+    padding: 6px;
+  }
+}

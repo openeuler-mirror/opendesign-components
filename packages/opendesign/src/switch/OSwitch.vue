@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, watch, useSlots } from 'vue';
-import { switchProps } from './types';
+import { switchProps, SwitchSizeTypes } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { IconLoading } from '../_utils/icons';
 import { isPromise, isBoolean, isUndefined } from '../_utils/is';
 import { log } from '../_utils/log';
 import { isEmptySlot } from '../_utils/vue-utils';
+import { useFormField } from '../_composables/use-form-field';
+import { defaultSize } from '../_utils/global';
 
 const props = defineProps(switchProps);
 const slots = useSlots();
@@ -15,7 +17,15 @@ const emits = defineEmits<{
   (e: 'change', val: string | number | boolean, ev: Event): void;
 }>();
 
-const round = getRoundClass(props, 'switch');
+const { effectiveColor: _color, effectiveRound, effectiveDisabled, effectiveSize, onChange: onFormItemChange } = useFormField(props, emits);
+
+const validSwitchSizes = new Set<string>(SwitchSizeTypes);
+const resolvedSize = computed(() => {
+  const s = effectiveSize.value || defaultSize.value;
+  return validSwitchSizes.has(s) ? s : defaultSize.value;
+});
+
+const round = getRoundClass({ round: effectiveRound }, 'switch');
 
 // 是否选中
 const _checked = ref(props.defaultChecked);
@@ -40,7 +50,7 @@ watch(
 );
 
 const isChangeable = (): Promise<boolean> => {
-  if (props.loading || props.disabled) {
+  if (props.loading || effectiveDisabled.value) {
     return Promise.resolve(false);
   }
 
@@ -65,6 +75,7 @@ const onClick = (ev: Event) => {
         const val = checked ? props.checkedValue : props.uncheckedValue;
         emits('update:modelValue', val);
         emits('change', val, ev);
+        onFormItemChange();
       }
     })
     .catch((err) => {
@@ -77,10 +88,10 @@ const onClick = (ev: Event) => {
   <div
     class="o-switch"
     :class="[
-      `o-switch-${props.size}`,
+      `o-switch-${resolvedSize}`,
       round.class.value,
       { 'o-switch-checked': isChecked },
-      { 'o-switch-disabled': props.disabled },
+      { 'o-switch-disabled': effectiveDisabled },
       { 'o-switch-loading': props.loading },
       { 'o-switch-custom': isCustomIcon },
     ]"

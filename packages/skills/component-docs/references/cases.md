@@ -409,6 +409,9 @@ import { DocDemoSchema, DocDemoTemplate } from '../../../_demo/types';
 
 **规则：** `@opensig/opendesign` 的所有导出（组件、图标、类型、常量）必须从包名导入。相对路径和 `@/` 别名仅用于项目内部模块（`_demo` 工具、`data.ts`、`useScreen` 等非 opendesign 导出的内容）。
 
+> [!IMPORTANT]
+> **case 文件必须显式导入模板中使用的每一个 opendesign 组件**，即使文档站已在 `main.ts` 中全局注册了所有组件。case 不仅是文档站的渲染素材，更是用户复制到项目中的参考代码——用户的项目中没有全局注册，缺少 import 会导致组件不可用。同样，`<script setup>` 中通过 `h()` 引用的组件、赋值给数据属性的图标组件、以及用于类型标注的 interface/type，也必须显式导入。
+
 ---
 
 ## 主题可见性
@@ -596,6 +599,7 @@ case 写完后，需要在 `index.zh-CN.md` / `index.en-US.md` 的示例区引�
 - [ ] CSS 值使用了 opendesign-token 变量（`var(--o-color-*)` 等），而非硬编码
 - [ ] 文件命名符合约定（XxxUsage / XxxBasic / XxxFeature）
 - [ ] 所有 opendesign 导出（组件、图标、类型、常量）从 `@opensig/opendesign` 导入，未使用相对路径或 `@/` 别名
+- [ ] 模板中使用的每个 opendesign 组件（`OForm`、`OFormItem`、`OSelect`、`OButton` 等）均有显式 import——文档站全局注册不能替代 import，case 是用户参考代码
 - [ ] 与组件交互的变量使用了包导出的类型标注（如 `DataTableColumnT`、`DataTableSortMethodT`）
 - [ ] 需要但未导出的复杂类型已向开发者确认是否应添加导出
 - [ ] 实验性 case 与普通 case 分开放置

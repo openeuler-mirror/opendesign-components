@@ -10,6 +10,8 @@
 @include respond('<=pad_v') {
   .o-tag-medium {
     --tag-padding: 0 5px;
+    --tag-text-size: 10px;
+    --tag-text-height: 14px;
     --tag-height: var(--o-control_size-xs);
 
     .o-tag-label,

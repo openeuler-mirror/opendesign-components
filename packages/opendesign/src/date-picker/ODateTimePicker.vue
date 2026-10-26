@@ -65,7 +65,20 @@ defineSlots<{
  */
 const modelValue = defineModel<DateModelValue>('modelValue', { default: undefined });
 
-const { timestampValue, effectiveColor, inputId, isFocus, onFocus, onBlur, onClear, onPressEnter, notifyChange } = usePickerBase({
+const {
+  timestampValue,
+  effectiveColor,
+  effectiveRound,
+  effectiveDisabled,
+  effectiveSize,
+  inputId,
+  isFocus,
+  onFocus,
+  onBlur,
+  onClear,
+  onPressEnter,
+  onChange: onFormItemChange,
+} = usePickerBase({
   props,
   mode: 'datetime',
   modelValue,
@@ -76,10 +89,10 @@ const propsRefs = toRefs(props);
 
 // 为 DatePanelTime 提供 time-picker 上下文
 provide(timePickerInjectKey, {
-  disabled: propsRefs.disabled,
+  disabled: effectiveDisabled,
+  size: effectiveSize,
   readonly: propsRefs.readonly,
-  size: propsRefs.size,
-  round: propsRefs.round,
+  round: effectiveRound,
   noResponsive: propsRefs.noResponsive,
   popupPosition: propsRefs.popupPosition,
   popupWrapper: propsRefs.popupWrapper,
@@ -102,7 +115,7 @@ provide(timePickerInjectKey, {
 
 const onChange = (newVal: number | undefined, oldVal: number | undefined) => {
   emits('change', newVal, oldVal);
-  notifyChange();
+  onFormItemChange();
 };
 
 const inBoxRef = ref<InstanceType<typeof InBox>>();
@@ -136,12 +149,12 @@ defineExpose({
   <InBox
     ref="inBoxRef"
     v-bind="{
-      size: props.size,
+      size: effectiveSize,
       variant: props.variant,
       color: effectiveColor,
-      disabled: props.disabled,
+      disabled: effectiveDisabled,
       readonly: props.readonly,
-      round: props.round,
+      round: effectiveRound,
       focused: isFocus,
     }"
     :class="['o-date-picker', 'o-datetime-picker', 'o-input']"

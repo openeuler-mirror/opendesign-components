@@ -1,4 +1,4 @@
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import { inBoxProps } from '../_components/in-box/types';
 
 const { size, round, color, readonly, variant } = inBoxProps;
@@ -21,7 +21,8 @@ export const ipInputProps = {
    * @en-US Whether to disable.
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN ip片段长度

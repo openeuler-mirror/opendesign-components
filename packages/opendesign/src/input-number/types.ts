@@ -57,11 +57,10 @@ export const inputNumberProps = {
   /**
    * @zh-CN 是否可以清除
    * @en-US Whether the value can be cleared
-   * @default false
    */
   clearable: {
-    type: Boolean,
-    default: false,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 大小

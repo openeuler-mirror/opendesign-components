@@ -1,9 +1,9 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, PropType } from 'vue';
 
 export const optionProps = {
   /**
    * @zh-CN 选项显示文本
-   * @en-US The option displays text.
+   * @en-US Option display text
    * @default ''
    */
   label: {
@@ -33,6 +33,17 @@ export const optionProps = {
   indeterminate: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @zh-CN 原始选项数据（数据驱动模式下由 OSelect 透传）
+   * @en-US Raw option data (forwarded by OSelect in data-driven mode)
+   * @description 携带 options prop 中的所有自定义字段（如 icon、iconColor 等），
+   * 供 renderLabel / #option-label 访问；插槽模式下不传，OOption 内部从 label/value/disabled 重建
+   * @since 1.2.7
+   */
+  raw: {
+    type: Object as PropType<Record<string, unknown>>,
+    default: undefined,
   },
 };
 

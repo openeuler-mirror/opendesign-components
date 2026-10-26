@@ -68,7 +68,7 @@ const onChane = (v: boolean) => {
     <OButton @click="toggle3(true)">Open to Section</OButton>
     <OButton class="center" @click="toggle3(true)">Open to Section</OButton>
     <OButton class="left" @click="toggle3(true)">Open to Section</OButton>
-    <OLayer v-model:visible="show3" :wrapper="wrapperRef" transition-orign="css" @change="onChane">
+    <OLayer v-model:visible="show3" :wrapper="wrapperRef" transition-origin="css" @change="onChane">
       <div class="box">
         <h2>title</h2>
         <p>this is content this is content this is content this is content this is content this is content this is content this is content</p>

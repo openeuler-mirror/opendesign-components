@@ -38,7 +38,8 @@ export const inBoxProps = {
    * 是否禁用
    */
   disabled: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * 是否只读

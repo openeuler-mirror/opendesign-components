@@ -56,7 +56,8 @@ export const timePickerProps = {
    * @en-US Support quick clearing.
    */
   clearable: {
-    type: Boolean,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 弹出框位置

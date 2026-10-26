@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, Ref } from 'vue';
 import OScrollbar from './OScrollbar.vue';
-import { scrollerProps } from './types';
+import { scrollerProps, ScrollbarSlotProps } from './types';
 import { mergeClass } from '../_utils/vue-utils';
 
 const props = defineProps(scrollerProps);
@@ -12,6 +12,23 @@ const emits = defineEmits<{
    * @since 1.2.0
    */
   (e: 'scroll', event: Event): void;
+}>();
+defineSlots<{
+  /**
+   * @zh-CN 默认插槽，滚动区域内容
+   * @en-US Default slot, scroll area content
+   */
+  default?(): any;
+  /**
+   * @zh-CN 滑块插槽，接收滚动方向与拖拽状态
+   * @en-US Thumb slot, receives direction and dragging state
+   */
+  thumb?(props: ScrollbarSlotProps): any;
+  /**
+   * @zh-CN 轨道插槽，接收滚动方向与拖拽状态
+   * @en-US Track slot, receives direction and dragging state
+   */
+  track?(props: ScrollbarSlotProps): any;
 }>();
 const targetRef: Ref<HTMLElement | null> = ref(null);
 
@@ -80,11 +97,11 @@ defineExpose({
       :bar-class="props.barClass"
       :auto-update-on-scroll-size="props.autoUpdateOnScrollSize"
     >
-      <template #thumb>
-        <slot name="thumb"></slot>
+      <template #thumb="slotProps">
+        <slot name="thumb" v-bind="slotProps"></slot>
       </template>
-      <template #track>
-        <slot name="track"></slot>
+      <template #track="slotProps">
+        <slot name="track" v-bind="slotProps"></slot>
       </template>
     </OScrollbar>
   </div>

@@ -45,7 +45,4 @@ import videoSrc from '@assets/images/opendesign-twinkle.mp4';
 .figure-poster {
   max-width: 500px;
 }
-.figure-video {
-  width: 100%;
-}
 </style>

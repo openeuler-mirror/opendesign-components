@@ -1,0 +1,46 @@
+@use '../../_styles/mixin.scss' as *;
+
+@include respond('laptop') {
+  .o-tour {
+    --tour-padding: 16px;
+    --tour-footer-gap: 8px;
+  }
+  .o-tour-center {
+    --tour-detail-gap: 12px;
+    --tour-footer-gap: 24px;
+  }
+  .o-tour-not-mask {
+    --tour-padding: 12px;
+    --tour-title-size: var(--o-font_size-tip1);
+    --tour-title-height: var(--o-line_height-tip1);
+
+    --tour-detail-size: var(--o-font_size-tip2);
+    --tour-detail-height: var(--o-line_height-tip2);
+  }
+}
+
+@include respond('pad_h') {
+  .o-tour {
+    --tour-width: var(--o-r-grid-4);
+    --tour-padding: 12px;
+    --tour-detail-gap: 8px;
+    --tour-footer-gap: 8px;
+
+    --tour-title-size: var(--o-font_size-tip2);
+    --tour-title-height: var(--o-line_height-tip2);
+  }
+  .o-tour-center {
+    --tour-width: var(--o-r-grid-6);
+    --tour-footer-gap: 16px;
+
+    --tour-title-size: var(--o-font_size-tip1);
+    --tour-title-height: var(--o-line_height-tip1);
+  }
+  .o-tour-not-mask {
+    --tour-title-size: var(--o-font_size-tip1);
+    --tour-title-height: var(--o-line_height-tip1);
+
+    --tour-detail-size: var(--o-font_size-tip2);
+    --tour-detail-height: var(--o-line_height-tip2);
+  }
+}

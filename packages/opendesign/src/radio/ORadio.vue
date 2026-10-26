@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, watch, onMounted } from 'vue';
+import { computed, inject, nextTick, provide, ref, watch, onMounted, toValue } from 'vue';
 import { radioInjectKey } from './provide';
 import { radioProps } from './types';
 import { radioGroupInjectKey } from '../radio-group/provide';
+import { formItemInjectKey } from '../form/provide';
 import { isUndefined } from '../_utils/is';
 import { uniqueId } from '../_utils/helper';
 
@@ -22,6 +23,7 @@ const emits = defineEmits<{
 }>();
 
 const radioGroupInjection = inject(radioGroupInjectKey, null);
+const formItem = inject(formItemInjectKey, null);
 
 const inputId = ref(props.inputId);
 onMounted(() => {
@@ -50,7 +52,7 @@ watch(
   (val) => {
     _checked.value = val;
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 defineExpose({
@@ -62,7 +64,10 @@ defineExpose({
 });
 
 // 是否disabled
-const isDisabled = computed(() => radioGroupInjection?.disabled.value || props.disabled);
+const isDisabled = computed(() => {
+  const propDisabled = props.disabled ?? toValue(formItem?.disabled) ?? false;
+  return radioGroupInjection?.disabled.value || propDisabled;
+});
 
 const onClick = (ev: Event) => {
   ev.stopPropagation();
@@ -80,7 +85,11 @@ const onChange = (ev: Event) => {
   radioGroupInjection?.updateModelValue(val);
   nextTick(() => {
     emits('change', val, ev);
-    radioGroupInjection?.onChange(val, ev);
+    if (radioGroupInjection) {
+      radioGroupInjection.onChange(val, ev);
+    } else {
+      formItem?.fieldHandlers.onChange?.();
+    }
   });
 };
 

@@ -60,10 +60,14 @@
   border: var(--_box-prepend-append-bd);
   background-color: var(--_box-prepend-append-bg-color);
   overflow: hidden;
+}
 
-  .o_box-readonly &,
-  .o_box-disabled & {
+.o_box:has(.o_box-readonly),
+.o_box:has(.o_box-disabled) {
+  .o_box-append,
+  .o_box-prepend {
     border-color: var(--_box-prepend-append-bd-color-disabled);
+    background-color: var(--_box-prepend-append-bg-color-disabled);
   }
 }
 

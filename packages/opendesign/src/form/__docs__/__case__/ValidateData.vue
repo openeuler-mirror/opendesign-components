@@ -3,19 +3,19 @@
 
 ### 表单校验
 
-表单校验用于验证用户输入的数据是否符合要求。通过 OFormItem 组件的 rules 属性配置校验规则。
+表单校验用于验证用户输入的数据是否符合要求。可通过 OFormItem 的 `rules` 属性或 OForm 的全局 `rules` 属性配置校验规则。
 
 #### 使用方法
 
-- 通过 `OFrom` 组件的 `model` 参数指定要校验的表单数据。
-- 通过 `OFromItem` 组件的 `field` 参数指定要校验的字段名，可以是带点的嵌套字段名（如：`a.b.c`），暂不支持数组索引。
-- 通过 `OFromItem` 组件的 `rules` 属性指定要校验的规则。
+- 通过 `OForm` 组件的 `model` 参数指定要校验的表单数据。
+- 通过 `OFormItem` 组件的 `field` 参数指定要校验的字段名，可以是带点的嵌套字段名（如：`a.b.c`），暂不支持数组索引。
+- 通过 `OFormItem` 组件的 `rules` 属性指定要校验的规则，或通过 `OForm` 的 `rules` 属性按字段名全局配置（FormItem 局部 `rules` 优先）。
 
 #### 校验规则类型
 
 **必填校验 `RequiredRuleT`**：验证字段是否已经填写
 
-> 注：当 `OFromItem` 组件的 `required` 属性为 true 时，`OFrom` 组件会自动添加必填校验规则。
+> 注：当 `OFormItem` 组件的 `required` 属性为 true 时，`OForm` 组件会自动添加必填校验规则。
 
 ```ts
 type RequiredRuleT = {
@@ -84,7 +84,7 @@ type ValidatorResultT = {
 
 #### 手动校验
 
-可通过 `OForm` 组件实例的 `validate` 方法校验表单数据。注意：
+可通过 `OForm` 组件实例的 `validate` 方法校验表单数据，或使用 `validateField(field)` 校验指定字段。注意：
 
 1. 若未传入 `trigger` 参数，则使用 `defaultTrigger` 属性定义的事件进行校验；
 2. 若未定义 `defaultTrigger`，则使用 `change` 事件进行校验；
@@ -99,14 +99,14 @@ type ValidatorResultT = {
 ### Form Validation
 
 Form validation is used to verify whether user-input data meets the required criteria.
-Validation rules are configured via the `rules` property of the `OFormItem` component.
+Validation rules can be configured via the `rules` property of `OFormItem` or the global `rules` property of `OForm`.
 
 #### Usage
 
 - Use the `model` parameter of the `OForm` component to specify the form data to be validated.
 - Use the `field` parameter of the `OFormItem` component to specify the field name to validate.
   This can be a dotted nested field name (e.g., `a.b.c`), but array indices are not currently supported.
-- Use the `rules` property of the `OFormItem` component to define the validation rules.
+- Use the `rules` property of the `OFormItem` component to define validation rules, or use the `rules` property of `OForm` for global configuration by field name (FormItem local `rules` take priority).
 
 #### Validation Rule Types
 
@@ -181,7 +181,7 @@ When multiple validation rules are configured for the same field:
 
 #### Manual Validation
 
-Use the `validate` method of the `OForm` component instance to validate form data manually. Note:
+Use the `validate` method of the `OForm` component instance to validate all form data, or `validateField(field)` to validate specific fields. Note:
 
 1. If no `trigger` parameter is provided, the event defined by the `defaultTrigger` property is used for validation.
 2. If `defaultTrigger` is not defined, the `change` event is used for validation.
@@ -196,15 +196,69 @@ The form submission event is only triggered after validation passes.
 
 <script setup lang="ts">
 import { reactive, useTemplateRef } from 'vue';
-import { OForm, OFormItem, OInput, OCheckbox, OCheckboxGroup, OButton, OUpload, type FieldResultT, type RulesT, type UploadFileT } from '@opensig/opendesign';
+import {
+  OForm,
+  OFormItem,
+  OInput,
+  OInputNumber,
+  OTextarea,
+  OSelect,
+  OOption,
+  OCheckbox,
+  OCheckboxGroup,
+  ORadio,
+  ORadioGroup,
+  OUpload,
+  ODatePicker,
+  OTimePicker,
+  OIpInput,
+  OCascaderV2,
+  OSwitch,
+  OButton,
+  type FieldResultT,
+  type RulesT,
+  type UploadFileT,
+} from '@opensig/opendesign';
 
 const formModel = reactive({
   name: '',
+  age: undefined as number | undefined,
+  remark: '',
+  city: '',
   task: [] as string[],
+  gender: '',
   uploadList: [] as UploadFileT[],
+  birthDate: undefined as number | undefined,
+  workTime: undefined as string | undefined,
+  ip: '',
+  region: [] as Array<string | number>,
   pwd: '',
   pwdAgain: '',
+  active: false,
 });
+
+const cityOptions = [
+  { label: 'Beijing', value: 'beijing' },
+  { label: 'Shanghai', value: 'shanghai' },
+  { label: 'Shenzhen', value: 'shenzhen' },
+];
+
+const genderOptions = [
+  { label: 'Male', value: 'male' },
+  { label: 'Female', value: 'female' },
+];
+
+const regionOptions = [
+  {
+    value: 'beijing',
+    label: 'Beijing',
+    children: [
+      { value: 'haidian', label: 'Haidian' },
+      { value: 'chaoyang', label: 'Chaoyang' },
+    ],
+  },
+  { value: 'shanghai', label: 'Shanghai', children: [{ value: 'pudong', label: 'Pudong' }] },
+];
 
 const formInst = useTemplateRef('formRef');
 
@@ -216,58 +270,88 @@ const clear = () => {
   formInst.value?.clearValidate();
 };
 
-const inputRules: RulesT[] = [
+const nameRules: RulesT[] = [
   {
     triggers: ['input', 'change'],
     validator: (value: string) => {
       if (value.length < 5) {
-        return {
-          type: 'warning',
-          message: 'The length of your name is too short.',
-        };
+        return { type: 'warning', message: 'The length of your name is too short.' };
       }
-      return {
-        type: 'success',
-        message: 'The length of your name is OK.',
-      };
+      return { type: 'success', message: 'The length of your name is OK.' };
     },
   },
   {
     triggers: ['input', 'change'],
     validator: (value: string) => {
       if (value.length > 10) {
-        return {
-          type: 'warning',
-          message: 'The length of your name is too long.',
-        };
+        return { type: 'warning', message: 'The length of your name is too long.' };
       }
     },
   },
 ];
+
+const ageRules: RulesT[] = [
+  { required: true, message: 'Age is required', triggers: 'change' },
+  {
+    triggers: 'change',
+    validator: (value: number) => {
+      if (value < 18) return { type: 'danger', message: 'Must be at least 18 years old.' };
+      if (value > 120) return { type: 'danger', message: 'Age seems unrealistic.' };
+    },
+  },
+];
+
+const remarkRules: RulesT[] = [
+  { required: true, message: 'Remark is required', triggers: 'blur' },
+  {
+    triggers: ['input', 'change'],
+    validator: (value: string) => {
+      if (value.length > 100) return { type: 'warning', message: 'Remark is too long (max 100).' };
+    },
+  },
+];
+
+const cityRules: RulesT[] = [{ required: true, message: 'Please select a city', triggers: 'change' }];
+
+const taskRules: RulesT[] = [{ required: true, message: 'Please select a task', triggers: 'change' }];
+
+const genderRules: RulesT[] = [{ required: true, message: 'Please select gender', triggers: 'change' }];
 
 const uploadRules: RulesT[] = [
   {
     validator: (value: Array<any>) => {
       if (value.length < 2) {
-        console.error('Suggestion: upload more files.');
-        return {
-          type: 'warning',
-          message: 'Suggestion: upload more files.',
-        };
+        return { type: 'warning', message: 'Suggestion: upload more files.' };
       }
     },
   },
 ];
 
+const birthDateRules: RulesT[] = [{ required: true, message: 'Please select a date', triggers: 'change' }];
+
+const workTimeRules: RulesT[] = [{ required: true, message: 'Please select a time', triggers: 'change' }];
+
+const regionRules: RulesT[] = [{ required: true, message: 'Please select a region', triggers: 'change' }];
+
+const pwdRules: RulesT[] = [{ required: true, message: 'Password is required', triggers: 'blur' }];
+
 const pwdAgainRules: RulesT[] = [
+  { required: true, message: 'Please confirm password', triggers: 'blur' },
   {
+    triggers: 'blur',
     validator: (value: string) => {
       if (value !== formModel.pwd) {
-        return {
-          type: 'danger',
-          message: 'The two passwords do not match.',
-        };
+        return { type: 'danger', message: 'The two passwords do not match.' };
       }
+    },
+  },
+];
+
+const activeRules: RulesT[] = [
+  {
+    triggers: 'change',
+    validator: (value: boolean) => {
+      if (!value) return { type: 'danger', message: 'Please agree to the terms.' };
     },
   },
 ];
@@ -281,24 +365,53 @@ const onFormSubmit = (results: FieldResultT[]) => {
 };
 </script>
 <template>
-  <OForm ref="formRef" class="form" has-required :model="formModel" @submit="onFormSubmit">
-    <OFormItem label="Name" required field="name" :rules="inputRules">
+  <OForm ref="formRef" class="form" has-required :model="formModel" clearable size="medium" @submit="onFormSubmit">
+    <OFormItem label="Name" required field="name" :rules="nameRules">
       <OInput v-model="formModel.name" />
     </OFormItem>
-    <OFormItem label="Task" required field="task">
+    <OFormItem label="Age" required field="age" :rules="ageRules">
+      <OInputNumber v-model="formModel.age" :min="0" :max="150" />
+    </OFormItem>
+    <OFormItem label="Remark" required field="remark" :rules="remarkRules">
+      <OTextarea v-model="formModel.remark" placeholder="Max 100 characters" />
+    </OFormItem>
+    <OFormItem label="City" required field="city" :rules="cityRules">
+      <OSelect v-model="formModel.city" placeholder="Please select">
+        <OOption v-for="item in cityOptions" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+    </OFormItem>
+    <OFormItem label="Task" required field="task" :rules="taskRules">
       <OCheckboxGroup v-model="formModel.task">
         <OCheckbox :value="2">Task 1</OCheckbox>
         <OCheckbox :value="3">Task 2</OCheckbox>
       </OCheckboxGroup>
     </OFormItem>
+    <OFormItem label="Gender" required field="gender" :rules="genderRules">
+      <ORadioGroup v-model="formModel.gender">
+        <ORadio v-for="item in genderOptions" :key="item.value" :value="item.value">{{ item.label }}</ORadio>
+      </ORadioGroup>
+    </OFormItem>
     <OFormItem label="UploadList" required :rules="uploadRules" field="uploadList">
       <OUpload v-model="formModel.uploadList" btn-label="Upload" multiple color="normal" variant="solid" />
     </OFormItem>
-    <OFormItem label="Password" required field="pwd">
+    <OFormItem label="Birth Date" required field="birthDate" :rules="birthDateRules">
+      <ODatePicker v-model="formModel.birthDate" />
+    </OFormItem>
+    <OFormItem label="Work Time" required field="workTime" :rules="workTimeRules">
+      <OTimePicker v-model="formModel.workTime" />
+    </OFormItem>
+    <OFormItem label="Region" required field="region" :rules="regionRules">
+      <OCascaderV2 v-model="formModel.region" :options="regionOptions" placeholder="Please select" />
+    </OFormItem>
+    <OFormItem label="Password" required field="pwd" :rules="pwdRules">
       <OInput v-model="formModel.pwd" type="password" />
     </OFormItem>
     <OFormItem label="Password Again" required field="pwdAgain" :rules="pwdAgainRules">
       <OInput v-model="formModel.pwdAgain" type="password" />
+    </OFormItem>
+    <OFormItem label="Agreement" required field="active" :rules="activeRules">
+      <OSwitch v-model="formModel.active" />
+      <span style="margin-left: 8px; color: var(--o-color-info3); font-size: 12px">I agree to the terms</span>
     </OFormItem>
     <div>
       <OButton type="submit">Submit</OButton>

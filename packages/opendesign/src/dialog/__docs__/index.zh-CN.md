@@ -11,6 +11,7 @@ kind: container
 <!-- @case DialogActions -->
 <!-- @case DialogSlot -->
 <!-- @case DialogSlotForm -->
+<!-- @case DialogNested -->
 
 ### 非模态弹窗
 

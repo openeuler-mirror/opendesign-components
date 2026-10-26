@@ -9,6 +9,8 @@
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { OScrollbar } from '@opensig/opendesign';
+
 const container1 = ref();
 const container2 = ref();
 </script>

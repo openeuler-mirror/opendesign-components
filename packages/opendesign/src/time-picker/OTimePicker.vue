@@ -76,17 +76,21 @@ const modelValue = defineModel<string | undefined>('modelValue', { default: unde
 
 const {
   effectiveColor: color,
+  effectiveRound,
+  effectiveClearable,
+  effectiveDisabled,
+  effectiveSize,
   inputId,
   isFocus,
   onFocus: formOnFocus,
   onBlur: formOnBlur,
   onClear: formOnClear,
   onPressEnter: formOnPressEnter,
-  notifyChange,
+  onChange: onFormItemChange,
 } = useFormField(props, emits);
 
 const propsRefs = toRefs(props);
-const { format, hourStep, minuteStep, secondStep, disabled, readonly, noResponsive } = propsRefs;
+const { format, hourStep, minuteStep, secondStep, readonly, noResponsive } = propsRefs;
 
 const { t } = useI18n();
 const { isPhonePad } = useScreen();
@@ -122,6 +126,9 @@ const { hourOptions, minuteOptions, secondOptions, disabledHourOptions, disabled
 // 向下传递预计算的共享选项，TimeColumns 可直接 inject 而无需重复计算
 provide(timePickerInjectKey, {
   ...propsRefs,
+  disabled: effectiveDisabled,
+  size: effectiveSize,
+  round: effectiveRound,
   computedOptions: { hourOptions, minuteOptions, secondOptions, disabledHourOptions },
 });
 
@@ -210,7 +217,7 @@ const handleChange = () => {
   modelValue.value = isTempInputValueValid.value ? tempInputValue.value : panelRef.value?.getValue();
   emits('change', modelValue.value, prevValue);
   prevValue = modelValue.value;
-  notifyChange();
+  onFormItemChange();
 };
 
 const handleInput = useDebounceFn(async () => {
@@ -264,7 +271,7 @@ const onClear = (e?: Event) => {
   prevValue = undefined;
   emits('change', undefined, oldVal);
   formOnClear(e);
-  notifyChange();
+  onFormItemChange();
   blurAndClose();
 };
 
@@ -306,12 +313,12 @@ defineExpose({
   <InBox
     ref="inBoxRef"
     v-bind="{
-      size: props.size,
+      size: effectiveSize,
       variant: props.variant,
       color: color,
-      disabled: props.disabled,
+      disabled: effectiveDisabled,
       readonly: props.readonly,
-      round: props.round,
+      round: effectiveRound,
       focused: isFocus,
     }"
     :class="['o-time-picker', 'o-input']"
@@ -321,8 +328,8 @@ defineExpose({
       ref="inInputRef"
       v-model="tempInputValue"
       :class="['o-input-wrap', { 'o-input-wrap-focused': isFocus, 'o-input-wrap-touch': isResponding }]"
-      :disabled="disabled"
-      :clearable="props.clearable && !!tempInputValue"
+      :disabled="effectiveDisabled"
+      :clearable="effectiveClearable && !!tempInputValue"
       :placeholder="props.placeholder ?? t('timePicker.placeholder')"
       :input-id="inputId"
       :max-length="format?.length ?? 8"
@@ -341,7 +348,7 @@ defineExpose({
       </template>
       <template #extra>
         <TimePanel
-          v-if="!disabled && !readonly"
+          v-if="!effectiveDisabled && !readonly"
           ref="panelRef"
           :target="inBoxRef?.$el"
           :option-title="props.optionTitle"

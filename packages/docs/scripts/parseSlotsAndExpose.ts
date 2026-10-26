@@ -99,7 +99,8 @@ function parseTypeArg(typeArg: TypeNode, slots: Definition[]) {
 function parseExposeJSDocFromRaw(rawBody: string): Map<string, { description: string; tags: { name: string; text: string }[] }> {
   const result = new Map<string, { description: string; tags: { name: string; text: string }[] }>();
   // 匹配 JSDoc 注释（/** ... */）后紧跟的属性名，只提取注释部分和属性名
-  const jsDocPropRegex = /(\/\*\*[\s\S]*?\*\/)\s*(\w+)\s*:/g;
+  // 支持三种属性写法：显式赋值（name:）、简写带逗号（name,）、简写无逗号收尾（name}）
+  const jsDocPropRegex = /(\/\*\*[\s\S]*?\*\/)\s*(\w+)\s*(?::|,|(?=\}))/g;
   let match: RegExpExecArray | null;
   while ((match = jsDocPropRegex.exec(rawBody)) !== null) {
     const jsDocText = match[1]; // 仅 JSDoc 注释部分，不含属性名
@@ -120,7 +121,7 @@ function parseExposeJSDocFromRaw(rawBody: string): Map<string, { description: st
         descriptionLines.push(line);
       }
     }
-    result.set(propName, { description: descriptionLines.join(' '), tags });
+    result.set(propName, { description: descriptionLines.join('<br />'), tags });
   }
   return result;
 }

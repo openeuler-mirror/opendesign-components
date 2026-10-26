@@ -16,9 +16,9 @@ export const router = createRouter({
   ],
   scrollBehavior() {
     return {
-      top: 0
-    }
-  }
+      top: 0,
+    };
+  },
 });
 export type MetaT = { sidebar: string; lang: string; kind: string; sidebarName: string };
 export type RouteT = {
@@ -39,3 +39,7 @@ export const sidebarRouteConfig = {
 } satisfies Record<string, SidebarItemT>;
 
 export type SidebarNameT = keyof typeof sidebarRouteConfig;
+
+router.afterEach((to) => {
+  document.title = to.meta.sidebar ? `${to.meta.sidebar} - OpenDesign` : 'OpenDesign';
+});

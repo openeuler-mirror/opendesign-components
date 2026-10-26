@@ -66,6 +66,10 @@ export function useRangePickerBase(opts: {
     ...propsRefs,
     mode: modeRef,
     color: formField.effectiveColor,
+    disabled: formField.effectiveDisabled,
+    size: formField.effectiveSize,
+    round: formField.effectiveRound,
+    clearable: formField.effectiveClearable,
   });
 
   return { startTimestamp, endTimestamp, ...formField };

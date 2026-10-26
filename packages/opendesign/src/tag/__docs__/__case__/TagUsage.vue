@@ -36,10 +36,12 @@ const _oSchema = {
 } satisfies Record<string, DocDemoSchema>;
 
 const _oTemplate: DocDemoTemplate<typeof _oSchema> = (_props) => `
-<OTag ${propsToAttrStr(_props)}>
-  <template #icon><OIconAdd /></template>
-  Icon Tag
-</OTag>
+<div style="background-color: var(--o-color-fill2);padding: var(--o-r-gap-4);">
+  <OTag ${propsToAttrStr(_props)}>
+    <template #icon><OIconAdd /></template>
+    Icon Tag
+  </OTag>
+</div>
 `;
 
 const _oCtx = {};

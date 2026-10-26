@@ -13,9 +13,16 @@ import { OTag } from '@opensig/opendesign';
 
 <template>
   <div class="col">
-    <OTag round="pill" color="success">已完成</OTag>
-    <OTag round="pill" class="c-tag-unstart">未开始</OTag>
-    <OTag round="pill" class="c-tag-processing">处理中</OTag>
-    <OTag round="pill" color="danger">未通过</OTag>
+    <OTag color="success">已完成</OTag>
+    <OTag color="pending">进行中</OTag>
+    <OTag color="danger">未通过</OTag>
+    <OTag color="disabled">已结束</OTag>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.col {
+  background-color: var(--o-color-fill2);
+  padding: var(--o-r-gap-4);
+}
+</style>

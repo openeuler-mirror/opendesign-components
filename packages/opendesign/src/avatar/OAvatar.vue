@@ -4,7 +4,7 @@ import { computed, ref } from 'vue';
 import { IconAvatar, IconEdit } from '../_utils/icons';
 
 import { avatarProps } from './types.ts';
-import { normalizeSize } from './utils.ts';
+import { normalizeSize, nameToColorIndex } from './utils.ts';
 
 const props = defineProps(avatarProps);
 
@@ -51,7 +51,7 @@ const outerStyle = computed(() => {
     style['--avatar-size'] = normalizeSize(props.size);
   }
   if (showText.value) {
-    style['--avatar-bg'] = props.background || `var(--o-color-auxiliary${Math.floor(Math.random() * 8) + 1})`;
+    style['--avatar-bg'] = props.background || `var(--o-color-auxiliary${nameToColorIndex(props.name)})`;
   } else if (!showDefault.value && !hasError.value) {
     style['--avatar-bg'] = `var(--o-color-fill2)`;
   }

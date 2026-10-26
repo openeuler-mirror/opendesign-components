@@ -14,6 +14,9 @@
     --form-item-main-box-width-standard: min(var(--o-r-grid-4), 100%);
     --form-item-main-box-width-wide: min(var(--o-r-grid-8), 100%);
   }
+  .o-form-layout-h {
+    --form-label-max-width: var(--o-r-grid-3);
+  }
 }
 @include respond('<=pad_v') {
   .o-form {

@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, computed, inject, provide } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { defaultSize } from '../_utils/global';
 import { OInput } from '../input';
 import { isValidNumber, correctValue, string2number, number2string } from './input-number';
 import { isFunction, isUndefined, isNumber } from '../_utils/is';
 import { inputNumberProps } from './types';
 import NumberControl from './NumberControl.vue';
-import { formItemInjectKey } from '../form/provide';
-import { innerComponentInjectKey } from '../_components/provide';
+import { useFormField } from '../_composables/use-form-field';
 
 const props = defineProps(inputNumberProps);
 
@@ -23,18 +22,27 @@ const emits = defineEmits<{
   (e: 'minus', value: number, evt: MouseEvent): void;
 }>();
 
+const {
+  effectiveColor: color,
+  effectiveDisabled,
+  effectiveSize,
+  effectiveRound,
+  effectiveClearable,
+  triggerFocus,
+  triggerBlur,
+  onChange: onFormItemChange,
+  onInput: onFormItemInput,
+  blockChildInject,
+} = useFormField(props, emits);
+
+/**
+ * @description 阻断内嵌 OInput 的 FormItem inject，OInputNumber 自身通过 useFormField 统一获取继承值
+ */
+blockChildInject();
+
 const inputValue = ref(number2string(props.modelValue ?? props.defaultValue));
 const realValue = ref(props.modelValue ?? props.defaultValue ?? NaN);
 let lastValue = realValue.value;
-
-const formItemInjection = inject(formItemInjectKey, null);
-const color = computed(() => {
-  if (formItemInjection?.fieldResult.value) {
-    return formItemInjection?.fieldResult.value?.type || undefined;
-  } else {
-    return props.color;
-  }
-});
 
 watch(
   () => props.modelValue,
@@ -63,7 +71,7 @@ const emitChange = () => {
   if (realValue.value !== lastValue) {
     emits('change', realValue.value);
     lastValue = realValue.value;
-    formItemInjection?.fieldHandlers.onChange?.();
+    onFormItemChange();
   }
 };
 
@@ -73,15 +81,15 @@ const emitUpdateValue = () => {
 
 const onInput = (evt: Event) => {
   emits('input', evt);
-  formItemInjection?.fieldHandlers.onInput?.();
+  onFormItemInput();
 };
 const onFocus = (evt: FocusEvent) => {
   emits('focus', evt);
-  formItemInjection?.fieldHandlers.onFocus?.();
+  triggerFocus(evt);
 };
 const onBlur = (evt: FocusEvent) => {
   emits('blur', evt);
-  formItemInjection?.fieldHandlers.onBlur?.();
+  triggerBlur();
 };
 const onPressEnter = (evt: KeyboardEvent): void => {
   emits('pressEnter', evt);
@@ -105,7 +113,7 @@ const onUpdateModelValue = (value: string) => {
 };
 
 const addable = computed(() => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     return false;
   }
   if (!isUndefined(props.max) && props.max <= realValue.value) {
@@ -114,7 +122,7 @@ const addable = computed(() => {
   return true;
 });
 const reducible = computed(() => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     return false;
   }
   if (!isUndefined(props.min) && props.min >= realValue.value) {
@@ -124,7 +132,7 @@ const reducible = computed(() => {
 });
 
 const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
-  if (props.disabled) {
+  if (effectiveDisabled.value) {
     return;
   }
   let v = Number.isNaN(realValue.value) ? 0 : realValue.value;
@@ -149,27 +157,22 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
     emits('minus', v, e);
   }
 };
-
-// 表明是否为嵌套子组件，避免表单验证逻辑重复执行
-provide(innerComponentInjectKey, {
-  isInnerInput: true,
-});
 </script>
 <template>
   <OInput
     :model-value="inputValue"
     class="o-input-number"
-    :class="[props.autoWidth ? '' : `o-input-number-size-${props.size || defaultSize}`]"
+    :class="[props.autoWidth ? '' : `o-input-number-size-${effectiveSize || defaultSize}`]"
     :validate="validate"
     :value-on-invalid-change="valueOnInvalidChange"
-    :size="props.size"
+    :size="effectiveSize"
     :placeholder="props.placeholder"
     :color="color"
     :variant="props.variant"
-    :round="props.round"
-    :disabled="props.disabled"
+    :round="effectiveRound"
+    :disabled="effectiveDisabled"
     :readonly="props.readonly"
-    :clearable="props.clearable"
+    :clearable="effectiveClearable"
     :auto-width="props.autoWidth"
     :format="props.format"
     :input-id="props.inputId"

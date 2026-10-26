@@ -24,6 +24,10 @@
     overflow: auto;
     position: relative;
     border-radius: unset;
+
+    &.o-table-wrap--empty {
+      min-height: var(--table-body-min-height);
+    }
   }
 
   .o-table-header {
@@ -241,8 +245,9 @@
   }
 
   .empty-placeholder {
-    height: calc(var(--table-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
-    min-height: calc(var(--table-body-min-height) - var(--table-header-height) * 1px - var(--h-border-width) * 2);
+    height: calc(
+      max(var(--table-height, var(--table-body-min-height)), var(--table-body-min-height)) - var(--table-header-height) * 1px - var(--h-border-width) * 2
+    );
   }
   .o-table-loading-wrap,
   .o-table-tip-wrap {
@@ -416,8 +421,7 @@
 }
 
 .o-table-row-icon-placeholder {
-  width: var(--table-row-icon-size);
-  margin-right: var(--table-row-icon-gap);
+  width: var(--table-row-icon-placeholder-size);
   visibility: hidden;
 }
 .o-table-row-expand-trigger {

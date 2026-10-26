@@ -8,7 +8,24 @@ import { stepProps } from './types';
 
 const props = defineProps(stepProps);
 
-const ro = useResizeObserver();
+/**
+ * resize 监听器实例（惰性创建）
+ *
+ * @description SSR 阶段不执行 onMounted，不会触达监听器；
+ * 延迟到首次真正 observe 时创建，避免服务端渲染时访问不存在的 ResizeObserver 全局变量
+ */
+let ro: ReturnType<typeof useResizeObserver> | null = null;
+
+/**
+ * @description 获取 resize 监听器实例，不存在时创建
+ * @returns resize 监听器实例
+ */
+const getResizeObserver = (): ReturnType<typeof useResizeObserver> => {
+  if (!ro) {
+    ro = useResizeObserver();
+  }
+  return ro;
+};
 
 const stepItemHeadRefs = ref<Array<HTMLDivElement>>([]);
 
@@ -53,13 +70,13 @@ const handleResize = (en: ResizeObserverEntry) => {
 
 const observeAllItems = (): void => {
   stepItemHeadRefs.value.forEach((element) => {
-    ro.observe(element, handleResize);
+    getResizeObserver().observe(element, handleResize);
   });
 };
 
 const unobserveAllItems = (): void => {
   stepItemHeadRefs.value.forEach((element) => {
-    ro.unobserve(element, handleResize);
+    ro?.unobserve(element, handleResize);
   });
 };
 

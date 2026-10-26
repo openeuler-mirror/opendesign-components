@@ -21,11 +21,10 @@ export const radioGroupProps = {
   /**
    * @zh-CN 单选框组是否禁用
    * @en-US Whether the radio box group is disabled.
-   * @default false
    */
   disabled: {
-    type: Boolean,
-    default: false,
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
   /**
    * @zh-CN 单选框组方向

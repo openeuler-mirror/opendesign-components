@@ -1,6 +1,16 @@
 import { ComponentPublicInstance, ExtractPropTypes, PropType } from 'vue';
 export type ScrollerDirection = 'x' | 'y';
 
+/**
+ * 滚动条插槽作用域参数（thumb / track 通用）
+ */
+export interface ScrollbarSlotProps {
+  /** 滚动方向 */
+  direction: ScrollerDirection;
+  /** 是否正在拖拽 */
+  dragging: boolean;
+}
+
 export const ScrollerSizeTypes = ['medium', 'small'] as const;
 export type ScrollerSizeT = (typeof ScrollerSizeTypes)[number];
 

@@ -14,8 +14,9 @@
   --form-item-main-box-width-min: calc((var(--form-item-main-box-width-standard) - var(--form-item-main-box-inline-gap)) / 2);
 }
 .o-form-layout-h {
-  --form-label-width: 20%;
-  --form-label-max-width: 240px;
+  --form-label-width: auto;
+  --form-label-min-width: 96px;
+  --form-label-max-width: var(--o-r-grid-4);
   --form-item-align: flex-start;
 }
 .o-form-layout-v {

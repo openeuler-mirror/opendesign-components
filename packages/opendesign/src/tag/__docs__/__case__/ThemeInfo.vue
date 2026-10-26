@@ -18,3 +18,10 @@ import { OTag } from '@opensig/opendesign';
     <OTag round="pill" class="c-tag-normal-inverse">Python</OTag>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.col {
+  background-color: var(--o-color-fill2);
+  padding: var(--o-r-gap-4);
+}
+</style>
