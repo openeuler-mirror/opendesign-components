@@ -44,6 +44,7 @@ temp
 !.agents/skills/component-testing/
 !.agents/skills/global-utilities/
 !.agents/skills/release-note/
+!.agents/skills/commit-convention/
 # Claude Code 个人本地设置（权限/偏好，不入仓）
 .claude/settings.local.json
 # Windows: Node/Playwright 在 Windows 下误将 /dev/null 路径解析为当前目录的 "nul" 文件

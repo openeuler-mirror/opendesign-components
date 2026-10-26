@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 **重要:**
 
-- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing` | 资源发现 → `global-utilities`。详细工作流指南见 [`.agents/skills/README.md`](.agents/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
+- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing` | 资源发现 → `global-utilities` | 提交 / PR 交付 → `commit-convention`。详细工作流指南见 [`.agents/skills/README.md`](.agents/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
 - **全局资源维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局 CSS 类、SCSS Mixin、TS 工具函数、composable 或内部组件发生新增、重命名、废弃等变更时，必须同步更新 [`global-utilities`](.agents/skills/global-utilities/SKILL.md) skill 的快速索引表和对应 reference 文档。
 - 你的所有回答应始终遵循`karpathy-guidelines`
 - **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 `clean-code` skill。
@@ -72,6 +72,10 @@ pnpm docs:install  # 完整初始化：install + 生成图标 + 生成 API 文�
 # opendesign 组件库构建
 pnpm -C packages/opendesign build
 ```
+
+## 提交信息与 PR 交付
+
+提交信息遵循 `<type>(<scope>): <gitmoji> <中文摘要>` 格式；AI 辅助的提交须携带 `Co-Authored-By: <模型名及版本>` trailer，且与 PR 声明段披露的模型一致（上游门禁校验）。格式细则、gitmoji 对照、上游 PR 模板与门禁规则见 [`commit-convention`](.agents/skills/commit-convention/SKILL.md) skill。
 
 ## CSS 变量规范
 

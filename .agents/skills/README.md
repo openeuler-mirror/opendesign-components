@@ -10,7 +10,8 @@
 | **日常编码 / 重构** | [`clean-code`](clean-code/SKILL.md)               | 写新 composable、重构复杂函数、消除嵌套、精简参数                    | "帮我重构这个 composable，降低复杂度"、"这个函数参数太多了，帮我优化"、"帮我用卫语句消除嵌套"    |
 | **测试用例**        | [`component-testing`](component-testing/SKILL.md) | 写组件测试用例、调试测试失败、补响应式/SSR/视觉断言、理解测试约定    | "帮我给 Button 写测试用例"、"帮我补 SSR 测试"、"这个 responsive 测试失败了帮我看看"              |
 | **版本发布**        | [`release-note`](release-note/SKILL.md)           | 写版本日志、整理变更归类、更新 ReleaseNote 文件                      | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
-| **资源发现**        | [`global-utilities`](global-utilities/SKILL.md)   | 查找全局 CSS 类、SCSS mixin、TS 工具函数、composable、内部组件       | "有没有全局的 sr-only？"、"防抖函数在哪？"、"InBox 怎么用？"、"有哪些全局工具类"                 |
+| **资源发现**        | [`global-utilities`](global-utilities/SKILL.md)   | 查找全局 CSS 类、SCSS mixin、TS 工具函数、composable、内部组件       | “有没有全局的 sr-only？”、“防抖函数在哪？”、“InBox 怎么用？”、“有哪些全局工具类”                 |
+| **提交 / PR 交付**  | [`commit-convention`](commit-convention/SKILL.md) | 写提交信息、向上游提 PR、AI 使用声明（Co-Authored-By / PR 声明段）   | “帮我写提交信息”、“向 up 提个 PR”、“这个提交要加 Co-Authored-By 吗”                              |
 
 ## 各 Skill 速览
 
@@ -131,7 +132,19 @@ Release Note 生成指南。6 步工作流：
 
 自动触发关键词：sr-only / o-sr-only、hide-scrollbar、svg-icon、rotating、fade-in、zoom-fade、respond mixin、hover mixin、getRoundClass、createTopZIndex、debounce、throttleRAF、isString、isEmptySlot、useFormField、useRenderWithCtx、InBox、InInput、ClientOnly、OPopup、OPopover、全局类、全局方法、有哪些全局
 
-> **维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局资源发生新增、重命名、废弃等变更时，必须同步更新此 skill 的 `SKILL.md` 快速索引表和对应 reference 文档。详见 [SKILL.md → 维护规则](global-utilities/SKILL.md#维护规则强制)。
+---
+
+### commit-convention
+
+提交信息与 PR 交付规范。核心原则：
+
+- 提交信息格式：`<type>(<scope>): <gitmoji> <中文摘要>`
+- AI 参与的提交携带 `Co-Authored-By: <模型名及版本>` trailer
+- 向 `up` 的 PR 沿用上游模板的「AI 参与」声明段，PR 披露模型与 commit trailer 一致——上游门禁校验一致性，不一致被 `ai-compliance-failed` 拦截
+
+自动触发关键词：提交信息、commit message、squash、cherry-pick、创建 PR、提 PR、向上游交付、Co-Authored-By、AI 声明、AI 参与、ai-assisted、ai-compliance-failed
+
+> **维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局资源发生新增、重命名、废弃等变更时,必须同步更新此 skill 的 `SKILL.md` 快速索引表和对应 reference 文档。详见 [SKILL.md → 维护规则](global-utilities/SKILL.md#维护规则强制)。
 
 ## Skill 触发机制
 
