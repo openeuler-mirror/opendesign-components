@@ -18,7 +18,7 @@ metadata:
 在做任何分析或重构之前，先跑：
 
 ```bash
-pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <目标文件路径>
+pnpm exec eslint --config .agents/skills/clean-code/eslint.diagnose.ts <目标文件路径>
 ```
 
 输出不含格式/类型等无关警告，便于直接阅读。**根据 warning 的规则名查找对应参考文档：**
@@ -41,7 +41,7 @@ pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <目标�
 ## 完整工作流
 
 ```
-1. pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <文件>
+1. pnpm exec eslint --config .agents/skills/clean-code/eslint.diagnose.ts <文件>
                                ← 取得全部问题列表（唯一可信来源）
 2. 按规则名查上方映射表，打开对应参考文档
 3. 按参考文档选择手法重构
@@ -58,7 +58,7 @@ pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <目标�
 重构完成后，再次运行诊断配置：
 
 ```bash
-pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <修改的文件路径>
+pnpm exec eslint --config .agents/skills/clean-code/eslint.diagnose.ts <修改的文件路径>
 ```
 
 **读取结果的方式：**

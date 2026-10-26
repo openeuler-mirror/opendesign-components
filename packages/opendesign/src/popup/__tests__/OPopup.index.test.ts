@@ -28,6 +28,7 @@ import ODialog from '../../dialog/ODialog.vue';
 import { PopupPositionTypes, TargetRect } from '../types';
 import { flush } from '../../../__tests__/_helpers/dom';
 import { THEMES, paintThemed, isTransparent } from '../../../__tests__/_helpers/theme';
+import { setViewport } from '../../../__tests__/_helpers/viewport';
 
 /** 关闭 Transition stub 的渲染选项（保留真实过渡钩子） */
 const REAL_TRANSITION = { global: { stubs: { Transition: false } } } as const;
@@ -725,6 +726,121 @@ describe('定位源契约（元素模式 / targetRect 数据模式 / 模式回�
 
     const after = (lastBodyEl('.o-popup') as HTMLElement).getBoundingClientRect();
     expect(Math.abs(before.top - after.top - 40)).toBeLessThan(1);
+  });
+
+  test('OPopup 元素模式 - 固定显示时窗口宽度变化后弹层保持贴合交互元素', async () => {
+    // 业务门户悬浮窗结构：fixed 右对齐容器承载触发元素与 wrapper，弹层固定显示
+    await setViewport('desktop');
+    // 弹层内容宽度：窗口宽度变化后改变其尺寸，触发 popup 自身 RO 的定位重算路径
+    const panelWidth = ref(200);
+    const Host = defineComponent({
+      setup() {
+        const targetRef = ref<HTMLElement | null>(null);
+        const wrapperRef = ref<HTMLElement | null>(null);
+        return () =>
+          h('div', { class: 'float-wrap', style: 'position:fixed;right:40px;bottom:200px;width:48px;' }, [
+            h(
+              'div',
+              {
+                ref: wrapperRef,
+                class: 'float-target',
+                style: 'position:relative;width:100%;height:48px;display:flex;align-items:center;justify-content:center;',
+              },
+              [
+                h('div', { ref: targetRef, class: 'float-icon', style: 'width:24px;height:24px;' }),
+                h(
+                  OPopup as any,
+                  { ...POSITIONING_PROPS, position: 'rt', target: targetRef.value, wrapper: wrapperRef.value, offset: 20 },
+                  {
+                    default: () => h('div', { class: 'test-content', style: `width:${panelWidth.value}px;height:120px;` }, '弹层内容'),
+                  },
+                ),
+              ],
+            ),
+          ]);
+      },
+    });
+    render(Host, REAL_TRANSITION);
+    await flush();
+    const target = document.querySelector('.float-icon') as HTMLElement;
+    const popup = lastBodyEl('.o-popup') as HTMLElement;
+
+    // ① 窗口宽度缩小：fixed 右对齐容器视口位置随之移动（尺寸不变），
+    //    window resize 监听随即刷新定位源快照并重算，弹层即时保持贴合
+    await setViewport('pad_h');
+    await flush();
+
+    // ② 弹层内容尺寸变化（自适应面板）触发 popup 自身 RO 重算：
+    //    若重算基于过期快照，弹层会脱离触发元素
+    panelWidth.value = 320;
+    await new Promise((r) => setTimeout(r, 200)); // onPopupResize debounce(100ms)
+    await flush();
+
+    const targetRect = target.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    // 贴合方位 rt 右侧空间不足自动翻转 lt：弹层右缘应在图标左侧 20px 处
+    expect(Math.abs(targetRect.left - (popupRect.left + popupRect.width) - 20)).toBeLessThan(1);
+    // 相对贴合关系不变：弹层顶边与图标顶边对齐
+    expect(Math.abs(popupRect.top - targetRect.top)).toBeLessThan(1);
+
+    // 视口还原：避免 pad_h(1100×800) 泄漏到同文件后续 describe
+    await setViewport('desktop');
+  });
+
+  test('OPopup 元素模式 - 纯窗口缩放（弹层自身尺寸不变）后弹层即时保持贴合', async () => {
+    // 与上一用例解耦：不改变弹层内容尺寸触发 RO，仅验证 window resize 监听路径
+    await setViewport('desktop');
+    const Host = defineComponent({
+      setup() {
+        const targetRef = ref<HTMLElement | null>(null);
+        const wrapperRef = ref<HTMLElement | null>(null);
+        return () =>
+          h('div', { class: 'float-wrap', style: 'position:fixed;right:40px;bottom:200px;width:48px;' }, [
+            h(
+              'div',
+              {
+                ref: wrapperRef,
+                class: 'float-target',
+                style: 'position:relative;width:100%;height:48px;display:flex;align-items:center;justify-content:center;',
+              },
+              [
+                h('div', { ref: targetRef, class: 'float-icon', style: 'width:24px;height:24px;' }),
+                h(
+                  OPopup as any,
+                  { ...POSITIONING_PROPS, position: 'rt', target: targetRef.value, wrapper: wrapperRef.value, offset: 20 },
+                  {
+                    default: () => h('div', { class: 'test-content', style: 'width:200px;height:120px;' }, '弹层内容'),
+                  },
+                ),
+              ],
+            ),
+          ]);
+      },
+    });
+    render(Host, REAL_TRANSITION);
+    await flush();
+    const target = document.querySelector('.float-icon') as HTMLElement;
+    const popup = lastBodyEl('.o-popup') as HTMLElement;
+    const beforeTarget = target.getBoundingClientRect();
+    const beforePopup = popup.getBoundingClientRect();
+    // 初始贴合方位：图标贴近视口右缘，rt 空间不足自动翻转 lt（弹层右缘在图标左侧 20px 处），顶边对齐
+    expect(Math.abs(beforeTarget.left - (beforePopup.left + beforePopup.width) - 20)).toBeLessThan(1);
+    expect(Math.abs(beforePopup.top - beforeTarget.top)).toBeLessThan(1);
+
+    // 窗口宽度缩小：fixed 右对齐容器视口位置移动而自身尺寸不变，
+    // window resize 监听刷新定位源快照，弹层即时保持贴合
+    await setViewport('pad_h');
+    await flush();
+
+    const afterTarget = target.getBoundingClientRect();
+    const afterPopup = popup.getBoundingClientRect();
+    // 贴合方位 lt 保持：弹层右缘仍应在图标左侧 20px 处，顶边对齐
+    expect(Math.abs(afterTarget.left - (afterPopup.left + afterPopup.width) - 20)).toBeLessThan(1);
+    // 相对贴合关系不变：弹层顶边与图标顶边对齐
+    expect(Math.abs(afterPopup.top - afterTarget.top)).toBeLessThan(1);
+
+    // 视口还原：避免 pad_h(1100×800) 泄漏到同文件后续 describe
+    await setViewport('desktop');
   });
 });
 
