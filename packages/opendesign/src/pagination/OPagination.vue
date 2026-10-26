@@ -41,7 +41,7 @@ if (!pageSize.value) {
   pageSize.value = props.pageSizes[0];
 }
 
-const totalPage = computed(() => Math.ceil(props.total / pageSize.value!));
+const totalPage = computed(() => Math.max(Math.ceil(props.total / pageSize.value!), 1));
 
 // 当前页码
 const pageVal = defineModel<number>('page');
