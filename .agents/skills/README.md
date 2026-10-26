@@ -1,6 +1,6 @@
 # 项目开发 Skills 使用指南
 
-本目录存放项目开发专属 skill，随代码一起提交。每个 skill 由一个 `SKILL.md` 文件定义，AI agent 会在对话中检测到匹配话题时**自动加载**并遵循其规范——你不需要手动"运行"它们，只需在对应阶段与 AI agent 正常交流即可。
+本目录存放项目开发专属 skill，随代码一起提交（本仓自建 skill 由 `.gitignore` 反选跟踪；`npx skills add` 安装的第三方 skill 为本地缓存，不入仓）。每个 skill 由一个 `SKILL.md` 文件定义，AI agent 会在对话中检测到匹配话题时**自动加载**并遵循其规范——你不需要手动"运行"它们，只需在对应阶段与 AI agent 正常交流即可。
 
 ## 开发阶段 → Skill 映射
 
@@ -40,7 +40,7 @@
 
 代码质量诊断与重构指南。核心工作流：
 
-1. 运行 ESLint 诊断：`pnpm exec eslint --config packages/skills/clean-code/eslint.diagnose.ts <文件>`
+1. 运行 ESLint 诊断：`pnpm exec eslint --config .agents/skills/clean-code/eslint.diagnose.ts <文件>`
 2. 将触发的规则映射到对应参考文档
 3. 按参考文档中的模式重构代码
 4. 重新运行 ESLint 确认问题已修复
