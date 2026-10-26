@@ -121,6 +121,78 @@ describe('静态契约（按 types.ts 属性）', () => {
     expect(strRoot.style.getPropertyValue('--table-height')).toBe('50vh');
   });
 
+  test('ODataTable 空数据未传 height - 空表体保持 --table-body-min-height 最小高度', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // 空表体最小高度 = --table-body-min-height 扣除表头与边框，不随内容消失而塌陷
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(minBody - headerH - borderW * 2);
+  });
+
+  test('ODataTable loading 未传 height - 空表体保持 --table-body-min-height 最小高度', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns, loading: true } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // loading 时同样保留最小高度，防止表体塌陷
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(minBody - headerH - borderW * 2);
+  });
+
+  test('ODataTable 空数据 + height - 空占位符撑满固定高度扣除表头', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns, height: 300 } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // 传 height 时空占位符撑满 --table-height(300) 扣除表头与边框
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(300 - headerH - borderW * 2);
+  });
+
+  test('ODataTable loading + 有数据 - 不渲染占位行，避免表体被撑高', async () => {
+    const screen = render(ODataTable, { props: { data: baseData, columns: baseColumns, loading: true } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    // loading 遮罩为绝对定位浮层，数据行已撑起表体，无需占位行，避免其获得兜底高度撑出额外空白
+    expect(root.querySelector('td.empty-placeholder')).toBeNull();
+  });
+
+  test('ODataTable 空数据 + height 小于最小高度 - 空占位符保持 --table-body-min-height 下限', async () => {
+    const screen = render(ODataTable, { props: { data: [], columns: baseColumns, height: 150 } });
+    const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+    await flush();
+    const placeholder = root.querySelector('td.empty-placeholder') as HTMLElement;
+    const cs = getComputedStyle(root);
+    const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+    const headerH = parseFloat(cs.getPropertyValue('--table-header-height')) || 0;
+    const borderW = parseFloat(cs.getPropertyValue('--h-border-width')) || 0;
+    // 显式 height(150) 小于最小高度时，空占位符仍保持 --table-body-min-height 下限，不随小 height 塌缩
+    expect(placeholder.offsetHeight).toBeGreaterThanOrEqual(minBody - headerH - borderW * 2);
+  });
+
+  test('ODataTable 空数据 + height 小于最小高度 - 滚动容器保持 --table-body-min-height 下限', async () => {
+    for (const height of [50, 150]) {
+      const screen = render(ODataTable, { props: { data: [], columns: baseColumns, height } });
+      const root = screen.container.querySelector('.o-data-table') as HTMLElement;
+      await flush();
+      const wrap = root.querySelector('.o-table-wrap') as HTMLElement;
+      const cs = getComputedStyle(root);
+      const minBody = parseFloat(cs.getPropertyValue('--table-body-min-height')) || 200;
+      // 显式 height(50/150) 小于最小高度时，滚动容器高度保持 --table-body-min-height 下限，不裁切空占位符
+      expect(wrap.offsetHeight, `height=${height}`).toBeGreaterThanOrEqual(minBody);
+    }
+  });
+
   test('ODataTable maxHeight - 默认 fit-content，数字时转 px', async () => {
     const def = render(ODataTable, { props: { data: baseData, columns: baseColumns } });
     expect((def.container.querySelector('.o-data-table') as HTMLElement).style.getPropertyValue('--table-max-height')).toBe('fit-content');
