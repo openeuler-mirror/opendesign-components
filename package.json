@@ -11,12 +11,10 @@
     "docs:dev": "pnpm -C packages/docs dev",
     "docs:build": "pnpm -C packages/docs build",
     "prepare": "simple-git-hooks || true",
-    "skills:install": "npx -y skills@latest experimental_install",
-    "sync-agents": "node scripts/sync-agents.js"
+    "skills:install": "npx -y skills@latest experimental_install"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "post-checkout": "pnpm sync-agents"
+    "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,mts,cts,vue}": [

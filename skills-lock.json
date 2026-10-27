@@ -5,65 +5,198 @@
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/antfu/SKILL.md",
-      "computedHash": "79a663bcf1f0580143905b81dc86bc86a21a6e759bdfa674f70a3d0a94e06ba3"
+      "computedHash": "46935e4dc837849a1df6fa968c3ec32c647bd0faecf34f7a3577503f85d7bc52"
     },
     "create-adaptable-composable": {
       "source": "vuejs-ai/skills",
       "sourceType": "github",
       "skillPath": "skills/create-adaptable-composable/SKILL.md",
-      "computedHash": "3d044f8c43ddaee6a58ab28acc9d6315775aed150c3a9ab059d2714768be5bec"
+      "computedHash": "2f215126499d29a733be980ef9ce8f4ffb5f25a8831aec965d86c0cd21b2c5d2"
+    },
+    "gitcode-api": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-api/SKILL.md",
+      "computedHash": "819f0d2ac881d6657885d1665a47189abdf12c5cb9ec4ed0b8d58714156d602c"
+    },
+    "gitcode-auth": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-auth/SKILL.md",
+      "computedHash": "767a7c2ffaaeaff765f82eb747754458fe655c85e6acc2595d8af93970bf32a9"
+    },
+    "gitcode-commit": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-commit/SKILL.md",
+      "computedHash": "25a0e698862c2fbaac4b003c94a14db1b3a29c19806356856b29351f42172e4d"
+    },
+    "gitcode-issue": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-issue/SKILL.md",
+      "computedHash": "b98ca8a4621bb386240eb47767c192b04fe8474db194a1d13133497a4c05f16d"
+    },
+    "gitcode-issue-create": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-issue-create/SKILL.md",
+      "computedHash": "29cea607f88e7a58fcb153f667f6d68f8af0fff0c73ac6b72b1eba51041ad200"
+    },
+    "gitcode-issue-review": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-issue-review/SKILL.md",
+      "computedHash": "9a92a275a6c4fac0454ab1e392870ab31b9a6bf6cf43fccfd314c45d358e54ca"
+    },
+    "gitcode-issue-triage": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-issue-triage/SKILL.md",
+      "computedHash": "f9b0c1353e4326d4c0271fd929650e8d667a466d7eef33eded131893cd196111"
+    },
+    "gitcode-pr": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-pr/SKILL.md",
+      "computedHash": "8628323b0b618fd82e254b8461c513853b1cf8a8d95e1e1d02aa50d44dcddaee"
+    },
+    "gitcode-pr-apply-feedback": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-pr-apply-feedback/SKILL.md",
+      "computedHash": "fc10d24e6862013fcddca9e43a8c995995b3656bb2b5488a836b7ed8d5498719"
+    },
+    "gitcode-pr-create": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-pr-create/SKILL.md",
+      "computedHash": "9398c79a75dbe655508e6455ceaebca9f58084ba9d2db751012e3d80ae6d14d6"
+    },
+    "gitcode-pr-inline-review": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-pr-inline-review/SKILL.md",
+      "computedHash": "a4e1a239e0184ba1d841dc0108a23c71c7c861e55eb00fb7e08f6887b07cc37b"
+    },
+    "gitcode-pr-review": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-pr-review/SKILL.md",
+      "computedHash": "4e756b4f54367e3e8cb9b10c10f36ca86fd5850f60e8e67eed411d8633d383ce"
+    },
+    "gitcode-precommit": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-precommit/SKILL.md",
+      "computedHash": "2631bfff8c0a1eb969655e2e823bc6745ba8e8eee185f06f44abdb9c0edb6c77"
+    },
+    "gitcode-regression": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-regression/SKILL.md",
+      "computedHash": "dea42c0e76fa68ef322e837d27fb7ce633250cda37453dbf07ed524a684f6c4d"
+    },
+    "gitcode-release": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-release/SKILL.md",
+      "computedHash": "23dcb67e4d88b3cc0148e974e70781f3f51601fe9f914f0d2a8ff9900bb845b1"
+    },
+    "gitcode-release-helper": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-release-helper/SKILL.md",
+      "computedHash": "616c2c8632e4f9d739332f0a65836752e4068acbc36c2db34e39642b8c97f1b0"
+    },
+    "gitcode-repo": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-repo/SKILL.md",
+      "computedHash": "3337ee64f45de283f37a8e2a2907f0b199e75e3a6ae2c83b0fb5860fe9c258db"
+    },
+    "gitcode-repo-onboarding": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-repo-onboarding/SKILL.md",
+      "computedHash": "36b483fdfad975e8ea7274583fbba7beb817efbea50295e60c203a2c730881e7"
+    },
+    "gitcode-review": {
+      "source": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceUrl": "https://atomgit.com/AC-0308/atomgit-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/gitcode-review/SKILL.md",
+      "computedHash": "572a88bc3af6122d50516a0b80a5f067557d9327689d729bde100e4d35531b1d"
     },
     "karpathy-guidelines": {
       "source": "forrestchang/andrej-karpathy-skills",
       "sourceType": "github",
       "skillPath": "skills/karpathy-guidelines/SKILL.md",
-      "computedHash": "0ec1641120accbb458780e0bd19a50a4182f2b97863e90851b91307f29802c9f"
+      "computedHash": "41e8ca055bbde13d240776a14a076a59614057200340c243130a76ba4e64cac8"
     },
     "nuxt": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/nuxt/SKILL.md",
-      "computedHash": "3f271d53fd31dbb482e6aad3f54992955f1b5cb0afa9972c592b087316005436"
+      "computedHash": "03fc229d7c6a300b2ded6d9f984b45d8a554c2c991199c54760893e627c91371"
     },
     "opendesign-application": {
       "source": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-application/SKILL.md",
-      "computedHash": "26da71d7004a3110ffc1a10cfceaa2a7a526ba74bd4de071cf27c1f34b782b3d"
+      "computedHash": "12d84227151e0945286760793a59520e51fc5fa16a2729a21fc86506987f0153"
     },
     "opendesign-components": {
       "source": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-components/SKILL.md",
-      "computedHash": "c0d832df6ae9b2ceb0428467672d02b9858b248425fea53cd67272834c92e6e2"
+      "computedHash": "b810d33ec776c6dc1e92617d6ee8df81314ccb0722f20d876f55abf421b1f2aa"
     },
     "opendesign-scripts": {
       "source": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-scripts/SKILL.md",
-      "computedHash": "6d3c1e56c550088683f787807a1d4eea38828bea5c789321f48582cd02ae59ef"
+      "computedHash": "fccfe0c3c4007d2c68d4ffac2c6a6d66135822094431d6716f45b25dd14074ea"
     },
     "opendesign-tokens": {
       "source": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceUrl": "https://atomgit.com/openeuler/opendesign-skills.git",
       "sourceType": "git",
       "skillPath": "skills/opendesign-tokens/SKILL.md",
-      "computedHash": "314efb14503cccd505d0f2d3acc235bbe0cc684ad0a8a3abad224d7e04cac1f5"
+      "computedHash": "f51c177010e9461b38043be6a70311c8b933eb523a5e8476c597b37e43dd77c1"
     },
     "pinia": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/pinia/SKILL.md",
-      "computedHash": "8e8346fac8cb76d6f186462b712352d5a651c9c049076ea73559f47210c874ef"
+      "computedHash": "b02c9f6c2e1ec051be0ca5025804d8262815221fd7f5020734b5a9ad87f15617"
     },
     "pnpm": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/pnpm/SKILL.md",
-      "computedHash": "20bca721bb934e39c8ff2dc3df2cd1712f9efb5419afe2cb847267f6fe0eacbc"
+      "computedHash": "d1bd6f4fd38ff1ba33b857223c58a832d1cd5b488163ba0d389db449be472603"
     },
     "refactor": {
       "source": "github/awesome-copilot",
@@ -93,7 +226,7 @@
       "source": "rolldown/tsdown",
       "sourceType": "github",
       "skillPath": "skills/tsdown/SKILL.md",
-      "computedHash": "8539dbd043e7d7c57e619fe4ff3a85be17b75762099fd17a3a63de23e734dd3a"
+      "computedHash": "5764d08af27a89c5fdaf3d49926116636ea33580b864e3aae201a90703a7ef53"
     },
     "tsdown-migrate": {
       "source": "rolldown/tsdown",
@@ -105,19 +238,25 @@
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/vite/SKILL.md",
-      "computedHash": "1cdc4bbecaa89544e6ef92566b015db989994bf90c4472683ac64f7a114dc3af"
+      "computedHash": "88ee465fd10f711efecc76e91e96accae2b229dda371614dcf219099c264a486"
+    },
+    "vitepress": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "skillPath": "skills/vitepress/SKILL.md",
+      "computedHash": "b7fd97083e6b963b478b430552861cf1514f39b8e3e7fdf0a348e86d76ecf418"
     },
     "vitest": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/vitest/SKILL.md",
-      "computedHash": "3594bf6d97ca50836c611d8b1907322888c03d2c41b2f26761e644b8e67fe106"
+      "computedHash": "90f1cee9326269c91b46a601b3a575491505d8e771009dacff01329381d45291"
     },
     "vue": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/vue/SKILL.md",
-      "computedHash": "f72b54618560c53d65740515ded5bb833750c4574dbe961fd21f022bd2b31a74"
+      "computedHash": "29ad402cf2ff868b3b43160883fbc42e135223655a41d16092d0d205f2c1ed31"
     },
     "vue-best-practices": {
       "source": "antfu/skills",
@@ -129,43 +268,19 @@
       "source": "vuejs-ai/skills",
       "sourceType": "github",
       "skillPath": "skills/vue-debug-guides/SKILL.md",
-      "computedHash": "58bb2ad9e92dce0c15b42acc65aeec1dd93bc36f9db96ab248e52b1d22945472"
+      "computedHash": "29e3785d80245a64ead02602062d859f6e6553b506614ac75a1ead7f1e1529da"
     },
     "vue-jsx-best-practices": {
       "source": "vuejs-ai/skills",
       "sourceType": "github",
       "skillPath": "skills/vue-jsx-best-practices/SKILL.md",
-      "computedHash": "4e214770e8c516a073929902c54cb17ab8ac45c01f11beabd85f470392de2a1c"
+      "computedHash": "f78720a9904eb748af26cff651aaf8c0c8e6a72f9ee30e6f0626fc45e33cfd9a"
     },
     "vue-pinia-best-practices": {
       "source": "vuejs-ai/skills",
       "sourceType": "github",
       "skillPath": "skills/vue-pinia-best-practices/SKILL.md",
-      "computedHash": "ab191c9cc34d755e5e2133bbedc56bd5f9ba0841e242a7b54c818780a5c78a9c"
-    },
-    "vue-router-best-practices": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/vue-router-best-practices/SKILL.md",
-      "computedHash": "405d377ebeef773b240f31902dfb204095d4bcc945e8a4c2f4b560062c032fbb"
-    },
-    "vue-testing-best-practices": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/vue-testing-best-practices/SKILL.md",
-      "computedHash": "c568e4abe743cd36a0eb15730f72de54b8d84c9bfbaa4395bc448428b9c71c12"
-    },
-    "vueuse-functions": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/vueuse-functions/SKILL.md",
-      "computedHash": "0a762ae555673c6a7705749bd58d74e2ae9b07007a2cde8168f1f6c480b8d8d9"
-    },
-    "web-design-guidelines": {
-      "source": "antfu/skills",
-      "sourceType": "github",
-      "skillPath": "skills/web-design-guidelines/SKILL.md",
-      "computedHash": "57cefa41cea390d412000acc24e5526034027ca46d4f7581ba8fa05777a8687f"
+      "computedHash": "d4ba913bec21910b8e37b2115cd964df2dc43ad62346b981c7b88d4ddc8cf792"
     }
   }
 }

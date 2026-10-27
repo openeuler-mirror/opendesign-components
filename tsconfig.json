@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["eslint.*", "prettier.*", "packages/skills/**/*", "eslint-rules/**/*"]
+  "include": ["eslint.*", "prettier.*", ".agents/skills/**/*", "eslint-rules/**/*"]
 }
