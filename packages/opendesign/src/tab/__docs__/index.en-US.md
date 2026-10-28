@@ -13,6 +13,7 @@ kind: nav
 <!-- @case CustomHead -->
 <!-- @case AlignLeft -->
 <!-- @case MobileOverflow -->
+<!-- @case FillTrailingSpace -->
 <!-- @case VModelInitial -->
 
 > [!WARNING]
