@@ -3,7 +3,8 @@
  *
  * 组织原则：
  *   1. 移动端滚动行为：scrollActiveIntoView 仅应水平滚动 nav 容器，
- *      不应触发页面垂直滚动（首屏下方的 OTab 不应把页面拉到 tab 位置）
+ *      不应触发页面垂直滚动（首屏下方的 OTab 不应把页面拉到 tab 位置）；
+ *      指示器 anchor 在手势/编程/激活切换滚动后始终与激活页签对齐
  *
  * 不归属本文件的维度：
  *   - 不同断点下的尺寸数值 → OTab.responsive.test.ts
@@ -215,5 +216,91 @@ describe('移动端滚动行为（lePadV 断点）', () => {
 
     // 切换后页面垂直位置仍不应改变
     expect(window.scrollY).toBe(0);
+  });
+
+  // ==========================================================================
+  // 指示器对齐验证（spec issue #226 用户故事 12）：移动端横向滚动模式下，
+  // 底部指示线 `.o-tab-nav-anchor` 应始终与激活页签 `.o-tab-nav-active` 的
+  // 实际渲染位置左右缘对齐——无论滚动来源是用户手势滑动、编程滚动，
+  // 还是激活切换触发的 scrollActiveIntoView 平滑滚动。
+  //
+  // 断言来由：指示器是滚动容器的 absolute 子元素（left:0 + translate3d），
+  // 激活页签 navEl.offsetLeft 是布局坐标；两者需在同一视口坐标系下对齐。
+  // 采样于滚动落定后（等待 500ms 覆盖 smooth 滚动与指示器 transition），
+  // 容差 ±1px 吸收设备像素比带来的亚像素偏差（实测约 0.48px）。
+  // ==========================================================================
+
+  test('OTab 指示器对齐 - 用户手势滑动后 anchor 与激活页签左右缘对齐', async () => {
+    await setViewport('phone');
+    window.scrollTo(0, 0);
+
+    const screen = render({
+      setup() {
+        return () => h(OTab, { modelValue: 'tab1' }, () => Array.from({ length: 10 }, (_, i) => h(OTabPane, { value: `tab${i + 1}`, label: `标签${i + 1}` })));
+      },
+    });
+
+    await flush();
+    // 等待挂载时的 scrollActiveIntoView（tab1 无需滚动）与指示器定位落定
+    await new Promise((r) => setTimeout(r, 500));
+
+    const container = screen.container.querySelector('.o-tab-navs-container') as HTMLElement;
+    expect(container).not.toBeNull();
+    // 测量列表（v-show 隐藏）内也有同名类，须取可见列表内的激活项
+    const visibleList = screen.container.querySelector('.o-tab-nav-list:not(.width-measurement)') as HTMLElement;
+    const activeNav = visibleList.querySelector('.o-tab-nav-active') as HTMLElement;
+    expect(activeNav).not.toBeNull();
+    const anchor = screen.container.querySelector('.o-tab-nav-anchor') as HTMLElement;
+    expect(anchor).not.toBeNull();
+
+    // 模拟用户手势滑动浏览页签（编程滚动，与手势对布局等价），滑到中部再滑到末端
+    container.scrollTo({ left: 150, behavior: 'auto' });
+    await new Promise((r) => setTimeout(r, 300));
+    container.scrollTo({ left: container.scrollWidth - container.clientWidth, behavior: 'auto' });
+    await new Promise((r) => setTimeout(r, 300));
+    expect(container.scrollLeft).toBeGreaterThan(0);
+
+    // 滚动落定后采样：指示器左右缘应与激活页签（即便已滑出视口）左右缘对齐
+    const activeRect = activeNav.getBoundingClientRect();
+    const anchorRect = anchor.getBoundingClientRect();
+    expect(Math.abs(anchorRect.left - activeRect.left)).toBeLessThanOrEqual(1);
+    expect(Math.abs(anchorRect.right - activeRect.right)).toBeLessThanOrEqual(1);
+  });
+
+  test('OTab 指示器对齐 - 激活切换触发的平滑滚动落定后 anchor 与激活页签左右缘对齐', async () => {
+    await setViewport('phone');
+    window.scrollTo(0, 0);
+
+    const screen = render({
+      setup() {
+        return () => h(OTab, { modelValue: 'tab1' }, () => Array.from({ length: 10 }, (_, i) => h(OTabPane, { value: `tab${i + 1}`, label: `标签${i + 1}` })));
+      },
+    });
+
+    await flush();
+    await new Promise((r) => setTimeout(r, 500));
+
+    const container = screen.container.querySelector('.o-tab-navs-container') as HTMLElement;
+    expect(container).not.toBeNull();
+    const visibleList = screen.container.querySelector('.o-tab-nav-list:not(.width-measurement)') as HTMLElement;
+    const anchor = screen.container.querySelector('.o-tab-nav-anchor') as HTMLElement;
+    expect(anchor).not.toBeNull();
+
+    // 切换到靠后的页签，触发 scrollActiveIntoView 的 smooth scrollTo
+    // 注意：末尾还有一个 v-show 隐藏的省略号 nav（也带 o-tab-nav 类），须排除
+    const navs = visibleList.querySelectorAll('.o-tab-nav:not(.o-tab-nav-ellipsis)');
+    (navs[navs.length - 1] as HTMLElement).click();
+
+    // 等待 smooth 滚动与指示器 transition（var(--o-duration-m1)）全部落定
+    await flush();
+    await new Promise((r) => setTimeout(r, 500));
+    expect(container.scrollLeft).toBeGreaterThan(0);
+
+    // 落定后采样：指示器左右缘应与激活页签左右缘对齐
+    const activeNav = visibleList.querySelector('.o-tab-nav-active') as HTMLElement;
+    const activeRect = activeNav.getBoundingClientRect();
+    const anchorRect = anchor.getBoundingClientRect();
+    expect(Math.abs(anchorRect.left - activeRect.left)).toBeLessThanOrEqual(1);
+    expect(Math.abs(anchorRect.right - activeRect.right)).toBeLessThanOrEqual(1);
   });
 });
