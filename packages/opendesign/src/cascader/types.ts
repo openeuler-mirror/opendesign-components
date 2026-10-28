@@ -42,8 +42,8 @@ export const cascaderProps = {
     default: false,
   },
   /**
-   * @zh-CN 圆角大小
-   * @en-US Round size
+   * @zh-CN 圆角大小。值为 `pill` 时取同尺寸单行 pill 圆角（胶囊常数，不随多选标签撑高而变化，1.2.7-sp3 起）；也可以是 CSS `border-radius` 可接受的任意值
+   * @en-US Round size. When set to `pill`, uses the pill radius of the single-line input of the same size (a capsule constant, not affected by multi-select tag growth; since 1.2.7-sp3); any valid CSS `border-radius` value is also accepted
    */
   round: {
     type: String as PropType<RoundT>,
