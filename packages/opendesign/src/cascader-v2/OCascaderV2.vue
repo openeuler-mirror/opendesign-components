@@ -487,6 +487,8 @@ watch(
       color: color,
       disabled: effectiveDisabled,
       round: effectiveRound,
+      // 多行控件：pill 圆角改用同 size 单行 pill 圆角常数，避免半高 clamp 巨大圆弧
+      multiline: true,
       focused: isSelecting,
     }"
     class="o-cascader-v2"

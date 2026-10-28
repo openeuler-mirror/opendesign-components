@@ -1,6 +1,7 @@
 @use '../../_styles/mixin.scss' as *;
 
-@include respond('pad_v-laptop') {
+// 降档与 input/select 家族对齐：<=laptop（≤1680，含等号），而非旧的有界区间
+@include respond('<=laptop') {
   .o-cascader-v2-large {
     --_box-height: 36px;
     --cascader-v2-icon-size: var(--o-icon_size_control-s);
@@ -26,5 +27,14 @@
     --cascader-v2-option-text-size: var(--o-font_size-tip1);
     --cascader-v2-option-text-height: var(--o-line_height-tip1);
     --cascader-v2-option-icon-size: var(--o-icon_size-xs);
+  }
+}
+
+// <=pad_v（≤840）：large 恢复默认档高度与图标尺寸，与 input/select 家族一致
+@include respond('<=pad_v') {
+  .o-cascader-v2-large {
+    --_box-height: var(--o-control_size-l);
+    --cascader-v2-icon-size: var(--o-icon_size_control-m);
+    --cascader-v2-height: var(--o-control_size-l);
   }
 }

@@ -1,0 +1,54 @@
+@use './mixin.scss' as *;
+
+/**
+ * @description 多行控件的 pill 圆角 mixin。
+ *
+ * 多行输入控件（OTextarea / OSelect 多选 / OCascaderV2 多选）高度随内容增长，
+ * pill 语义的"半高胶囊"（100vh 由浏览器 clamp 到半高）在高盒子上会形成巨大圆弧。
+ * 因此多行控件的 pill 圆角改用预定义常数：同 size 下单行 OInput（含 1px 边框、
+ * border-box）容器高度的一半，保证同一表单中同 size 控件圆角一致。
+ *
+ * 常数值与断点（V2 断点表，max-width 含等号）：
+ *   - small  ：全断点 12px（单行高 24px 恒定）
+ *   - medium ：默认 16px；<=laptop(≤1680) 降 14px（单行高 32→28，≤840 不恢复）
+ *   - large  ：默认 20px；<=laptop 降 18px（单行高 40→36）；<=pad_v(≤840) 恢复 20px
+ *
+ * @param {String} $pill-class pill 圆角 class 名（如 'o_box-round-pill' / 'o-select-round-pill'）
+ * @param {String} $size-class size class 前缀（如 'o_box' / 'o-select'，将拼出 o_box-large 等）
+ * @param {String} $radius-var 待覆写的圆角 CSS 变量名（如 '_box-radius' / 'select-radius'）
+ *
+ * @usage
+ *   @use '../../_styles/round-pill.scss' as *;
+ *   @include round-pill-multiline('o_box-round-pill', 'o_box', '_box-radius');
+ */
+@mixin round-pill-multiline($pill-class, $size-class, $radius-var) {
+  .#{$pill-class} {
+    // pill 圆角常数（默认桌面档）：取同 size 单行 OInput 高度的一半
+    &.#{$size-class}-small {
+      --#{$radius-var}: 12px;
+    }
+    &.#{$size-class}-medium {
+      --#{$radius-var}: 16px;
+    }
+    &.#{$size-class}-large {
+      --#{$radius-var}: 20px;
+    }
+
+    // <=laptop（≤1680）：镜像单行控件的断点高度降档（medium 32→28、large 40→36）
+    @include respond('<=laptop') {
+      &.#{$size-class}-medium {
+        --#{$radius-var}: 14px;
+      }
+      &.#{$size-class}-large {
+        --#{$radius-var}: 18px;
+      }
+    }
+
+    // <=pad_v（≤840）：large 恢复默认档（单行高恢复 40px）；medium 保持降档值
+    @include respond('<=pad_v') {
+      &.#{$size-class}-large {
+        --#{$radius-var}: 20px;
+      }
+    }
+  }
+}

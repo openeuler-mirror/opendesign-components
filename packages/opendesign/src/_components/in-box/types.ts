@@ -15,6 +15,15 @@ export const inBoxProps = {
     type: String as PropType<RoundT>,
   },
   /**
+   * 是否多行控件（如 textarea、select/cascader 多选）。
+   * 为真时 pill 不内联 100vh（高盒子上半高 clamp 会形成巨大圆弧），
+   * 圆角改由样式层按 size 提供常数（同 size 单行 pill 圆角），
+   * 自定义 round 值不受影响。
+   */
+  multiline: {
+    type: Boolean,
+  },
+  /**
    * 颜色类型 Color2T
    */
   color: {

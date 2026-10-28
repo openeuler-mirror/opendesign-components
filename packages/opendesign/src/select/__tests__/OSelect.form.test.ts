@@ -168,7 +168,9 @@ describe('表单继承', () => {
       const { screen } = renderForm({ round: '4px' }, { label: 'S', field: 'f' }, { round: 'pill' });
       await flush();
       const el = screen.container.querySelector('.o-select') as HTMLElement;
-      expect(el.style.getPropertyValue('--select-radius')).toBe('100vh');
+      // pill（多行语义）不内联圆角变量，覆盖关系体现在 pill class 注入
+      expect(el.classList.contains('o-select-round-pill')).toBe(true);
+      expect(el.style.getPropertyValue('--select-radius')).toBe('');
     });
 
     test('OFormItem round=8px — 覆盖 OForm round=4px', async () => {
@@ -513,7 +515,9 @@ describe('表单继承', () => {
       const el = screen.container.querySelector('.o-select') as HTMLElement;
       expect(el.classList.contains('o-select-large')).toBe(true);
       expect(el.classList.contains('o-select-small')).toBe(false);
-      expect(el.style.getPropertyValue('--select-radius')).toBe('100vh');
+      // round=pill 为多行语义：不内联圆角变量，以 pill class 生效
+      expect(el.classList.contains('o-select-round-pill')).toBe(true);
+      expect(el.style.getPropertyValue('--select-radius')).toBe('');
       expect(el.classList.contains('o-select-disabled')).toBe(true);
       // disabled 时即使有值也不显示清除按钮
       expect(screen.container.querySelector('.o-select-clear')).toBeNull();
