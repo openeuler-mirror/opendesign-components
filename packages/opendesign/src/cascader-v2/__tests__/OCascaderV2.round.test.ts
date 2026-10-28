@@ -81,6 +81,22 @@ async function renderMain(props: Record<string, unknown> = {}): Promise<HTMLElem
 }
 
 /**
+ * 渲染后返回 InBox 根元素（` `.o-cascader-v2`，同时携带 `o_box-*` 组件类与
+ * `o-cascader-v2-{size}` 尺寸类），供 class 组成断言使用。
+ * @param props 透传给组件的 props（同 renderMain）
+ * @returns InBox 根元素
+ */
+async function renderRoot(props: Record<string, unknown> = {}): Promise<HTMLElement> {
+  const screen = render(OCascaderV2, {
+    props: { options: OPTIONS, placeholder: '请选择', ...props },
+  });
+  await flush();
+  const root = screen.container.querySelector('.o-cascader-v2');
+  expect(root).not.toBeNull();
+  return root as HTMLElement;
+}
+
+/**
  * 清理 teleport 到 body 的浮层节点（OPopup / 面板），避免跨用例 DOM 泄漏。
  */
 const cleanupBodyPopups = () => {
@@ -150,6 +166,25 @@ describe('OCascaderV2 pill 圆角（多行语义常数矩阵）', () => {
 
     const mediumMain = await renderMain({ size: 'medium', round: 'pill' });
     expectRadiusCornersPx(mediumMain, medium, `OCascaderV2 medium @${viewport}`);
+  });
+
+  /**
+   * R2 补充 · 默认档（不传 size）：组件默认 size 为 large（源码
+   * cascaderDefaultSize），未传 size 时 pill 圆角必须取 large 档常数，
+   * 而非 InBox 全局回退的 medium 档——锁定 InBox size 口径与组件
+   * 实际渲染尺寸一致的契约。
+   */
+  test('默认 size（large）+ pill：圆角取 large 档常数而非 InBox 回退的 medium 档', async () => {
+    await setViewport('desktop');
+
+    // 前置：组件默认档为 large（高度 class 落 large，40px 高）
+    const root = await renderRoot({ round: 'pill' });
+    expect(root.classList.contains('o-cascader-v2-large')).toBe(true);
+
+    // 核心契约：不传 size 时 pill 圆角 = large 档常数（共享矩阵单一来源），
+    // InBox 的 size 口径须与组件实际渲染尺寸一致，不落入全局回退 medium
+    const main = root.querySelector('.o_box-main') as HTMLElement;
+    expectRadiusCornersPx(main, PILL_RADIUS_MATRIX.large.desktop, 'OCascaderV2 默认档 large @desktop');
   });
 });
 

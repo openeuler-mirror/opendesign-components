@@ -482,7 +482,9 @@ watch(
   <InBox
     ref="cascaderV2Ref"
     v-bind="{
-      size: effectiveSize,
+      // size 口径与下方尺寸 class 一致：未传时回退组件默认 large，
+      // 避免落入 InBox 全局回退 medium 导致 pill 圆角错档
+      size: effectiveSize || cascaderDefaultSize,
       variant: props.variant,
       color: color,
       disabled: effectiveDisabled,
