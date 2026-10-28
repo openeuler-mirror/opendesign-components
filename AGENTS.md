@@ -200,3 +200,21 @@ pc: (1680px, 1920px)
 | `packages/docs`       | 文档站构建、测试架构、Vite 插件                       |
 | `packages/portal`     | Portal 站点路由、页面布局                             |
 | `packages/scripts`    | CLI 构建命令（详细用法见 `opendesign-scripts` skill） |
+
+## Agent skills
+
+### Issue tracker
+
+spec 是 up（AtomGit）上的 issue，按「自己的/别人的 issue」分流升级或新建；ticket 存于本地被 git 忽略的 `.scratch/`。见 `docs/agents/issue-tracker.md`。
+
+### Triage labels
+
+五个 triage 角色（`needs-triage` / `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`），up 无 label 权限，以 issue 正文或本地 ticket 的 `Status:` 行表达。见 `docs/agents/triage-labels.md`。
+
+### Domain docs
+
+单上下文布局：根 `GLOSSARY.md` + `docs/adr/`。见 `docs/agents/domain.md`。
+
+### Task lifecycle
+
+任务从需求到合入的六阶段流转、收尾三问升格、许愿式需求处理、载体纪律与分支卫生（spec=平台 issue，ticket=本地执行态）。见 `docs/agents/task-lifecycle.md`。

@@ -50,3 +50,6 @@ temp
 # Windows: Node/Playwright 在 Windows 下误将 /dev/null 路径解析为当前目录的 "nul" 文件
 nul
 .playwright-*
+
+# 本地任务 tracker：执行态 ticket（spec 存于 AtomGit issue）
+.scratch/

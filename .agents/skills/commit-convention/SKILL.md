@@ -2,7 +2,7 @@
 name: commit-convention
 description: 提交信息与 PR 交付规范。当被要求写提交信息 / commit message、改写或合并提交（squash / fixup / cherry-pick）、创建或更新 PR、向上游（up）交付、填写 Co-Authored-By trailer、填写 AI 参与声明（Agent 平台 / 模型 / Prompt 上下文）、遇到 ai-assisted / ai-compliance-failed / ai-co-authored 标签时应用。凡涉及 git 提交信息的产出，以及以 openeuler/opendesign-components 为目标的 PR，动手前必须查阅本 skill。
 metadata:
-  version: '1.0.0'
+  version: '1.1.0'
 ---
 
 # 提交信息与 PR 交付规范
@@ -45,6 +45,21 @@ Co-Authored-By: Claude Sonnet 4.6
 
 合并 / 改写提交（squash、rebase、cherry-pick）时保留原提交的 `Co-Authored-By` trailer，避免门禁在合并提交上失配。
 
+### 交付提交的 body 正确性清单
+
+归并 / 改写后的交付提交，body 逐项核对：
+
+- **与 diff 一致**：每条改动点描述能在本提交 diff 中找到对应变更；diff 中的显著变更（新增文件、破坏性 API 变化）无遗漏；squash 后的 body 重写为整体描述，不得照抄旧提交堆叠的正文（旧描述的粒度已不存在）；
+- **引用可解析**：issue 号、组件名、文件路径均真实存在；只引用长期稳定地址（spec issue URL、issue 号），不引用本地 `.scratch/` 路径（不入 git，事后断链）；
+- **格式完整**：`<type>(<scope>): <gitmoji> <中文摘要>` 首行，摘要动词开头且 ≤50 字符；尾行 `fixes #<issue号>`；有 AI 参与时正文后空一行加 `Co-Authored-By`，模型名与 PR 披露一致；
+- **类型准确**：`<type>` 与变更性质相符（新功能 feat / 修复 fix / 文档 docs / 仅重构无行为变化 refactor），归并后的提交按整体性质重新选型，不继承旧提交的类型。
+
+判据命令（逐提交检查，与线性交付判据同批执行）：
+
+```bash
+git log --format='%h %s%n%b---' up/main..HEAD   # 逐条对照上四项
+```
+
 ## 上游 PR 模板
 
 向 `up` 创建 PR 时，描述必须沿用以下骨架（该模板为上游平台级配置，仓库内无对应文件；使用 `gitcode-pr-create` 等 skill 创建 PR 时，以本模板为准而非其通用模板）：
@@ -82,6 +97,32 @@ _(格式为fixes #<issue号>, 或者resolves #<issue号>)_: fixes #<issue号>
 - **如实勾选**是否有 AI 参与；勾「是」时三项必填，平台写实际使用的 Agent 平台及版本，模型写实际模型名及版本
 - **Prompt上下文**写核心意图而非完整提示词，不得留空或语义不明
 - 未参与 AI 的提交，声明段勾「否」即可，commit 不加 `Co-Authored-By` trailer
+
+## 线性交付
+
+交付 `up` 的 PR 必须保持线性历史：PR 分支上只有顺序提交，无 merge commit。
+
+- 交付分支从 `up/main` 建基，逐个 cherry-pick **逻辑单元**提交——每个交付提交是一个可独立理解的完整变更（功能 + 对应测试 + 对应文档），按依赖顺序排列；
+- 本地开发 / 集成分支的 merge 历史不带入交付——cherry-pick 本身就是线性重建，无需先整理开发分支；
+- 合入方式由上游维护者决定，无法强制；线性化的可控部分是**我们交给平台的历史**本身。
+
+### 过程态提交的整理
+
+`/implement` 与 `/implement-spec` 的工作分支上允许过程态提交：红绿循环的中间态、fixup、agent 试错、多 ticket 交错的小提交——这是开发自由，不要求开发过程整洁。但**交付前必须整理**，过程态提交禁止进入 PR：
+
+- 按逻辑单元归并：同一 ticket 的多个提交 squash 为一个，或按「功能 / 测试 / 文档」拆为少数几个完整提交；归并时用 `git rebase -i`（squash / fixup / reword）；
+- 每个交付提交独立可理解，且工作树可构建、测试通过（评审者可能逐提交 checkout 检查）；
+- 归并 / 改写时按上文规则保留 `Co-Authored-By` trailer，模型名与 PR 披露一致；含 AI 参与的过程提交归并后，交付提交必须携带 trailer；
+- 集成分支上不同 ticket 的交错提交，以逻辑单元为目标重新分组，不受原时间序约束。
+
+PR 评审期间需要更新时：新提交继续 cherry-pick 上去，或把整个分支 rebase 到最新 `up/main`，**禁止在交付分支上 merge**（包括 merge `up/main`）。
+
+**判据命令**（创建/更新 PR 前必跑，HEAD 必须是交付分支 `deliver/<slug>`——集成分支因 merger 合并必然含 merge commit，在其上跑判据必误报）：
+
+```bash
+git log --merges up/main..HEAD                 # 输出必须为空：无 merge commit
+git log --oneline up/main..HEAD                # 逐条检查：无 WIP / fixup / 过程态提交
+```
 
 ## 门禁校验（实测行为）
 
