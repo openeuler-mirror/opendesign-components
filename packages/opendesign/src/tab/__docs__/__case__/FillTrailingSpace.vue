@@ -28,7 +28,7 @@ const tabs = reactive(
 /** 页签容器可用宽度（200–1000px），直接复现溢出场景 */
 const containerWidth = ref(600);
 /** 页签尺寸（省略号与页签本体宽随尺寸变化） */
-const size = ref('medium');
+const size = ref<'small' | 'medium' | 'large'>('medium');
 /** 是否可关闭（关闭按钮参与页签宽度几何，验证溢出收口） */
 const closable = ref(false);
 

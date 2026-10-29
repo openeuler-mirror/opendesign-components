@@ -329,8 +329,8 @@ interface StateTabsOptions {
   count?: number;
   /** 自定义页签数据（文案变化场景使用） */
   tabs?: TabItem[];
-  /** 初始激活页签值 */
-  modelValue?: string;
+  /** 初始激活页签值（OTab 的 modelValue 为必传 prop） */
+  modelValue: string;
   /** 页签是否可关闭（关闭按钮触发 delete → 状态移除） */
   closable?: boolean;
   /** 是否渲染添加按钮 */
@@ -344,12 +344,12 @@ interface StateTabsOptions {
  * @returns screen 渲染句柄；state 响应式状态（tabs/prefix）；
  *   removeTab/addTab 业务侧增删页签的操作入口
  */
-function renderStateTabs({ width, count, tabs, modelValue, closable, addable }: StateTabsOptions) {
+function renderStateTabs({ width, count, tabs, modelValue, closable, addable = false }: StateTabsOptions) {
   const items: TabItem[] = tabs ?? Array.from({ length: count ?? 0 }, (_, i) => ({ value: `tab${i + 1}`, label: `标签${i + 1}` }));
   const state = reactive({ tabs: items.map((t) => ({ ...t })), prefix: false });
 
   /** 业务侧响应 delete 事件：从状态中移除对应页签 */
-  const removeTab = (value: string) => {
+  const removeTab = (value: string | number) => {
     state.tabs = state.tabs.filter((t) => t.value !== value);
   };
   /** 业务侧响应 add 事件：向状态追加新页签 */

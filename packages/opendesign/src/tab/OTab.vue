@@ -76,27 +76,6 @@ const { width: tabNavMeasurementWidth } = useElementBounding(tabNavMeasurementRe
 const ellipsisRef = ref<HTMLDivElement>();
 const { width: ellipsisWidth } = useElementBounding(ellipsisRef);
 
-/**
- * @description 可见列表的内联样式注入（按路径分流）
- * - maxShow 路径：宽度固定为容器宽，折叠项由数量/宽度状态机决定；
- * - 几何路径溢出态：尾部注入省略号让位身位（页签间距 + 省略号本体宽）——
- *   滚动到最右时末尾页签右缘止于省略号本体左缘，身位区由省略号本体覆盖，
- *   尾部无空白语义保持（getMaxScrollLeft 取列表 offsetWidth，含身位）；
- * - 几何路径非溢出：不注入（溢出判定走零高度测量列表，不受本样式影响）
- */
-const navListStyle = computed(() => {
-  if (props.variant === 'button' || lePadV.value) {
-    return;
-  }
-  if (!isUndefined(props.maxShow) && props.maxShow > 0) {
-    return { width: `${navsContainerWidth.value}px` };
-  }
-  if (isCollapseActive.value) {
-    return { paddingRight: `${navGapNumber.value + ellipsisWidth.value}px` };
-  }
-  return undefined;
-});
-
 const tabNavRef = ref<HTMLDivElement>();
 const tabNavLeftOverflown = ref(false);
 const tabNavRightOverflown = ref(false);
@@ -158,6 +137,27 @@ const isOverflown = computed(() => tabNavMeasurementWidth.value > navsContainerW
  * 几何路径判「内容是否溢出」；maxShow/button/移动端路径沿用「隐藏名单非空」
  */
 const isCollapseActive = computed(() => (isGeometryPath() ? isOverflown.value : hiddenUids.value.length > 0));
+
+/**
+ * @description 可见列表的内联样式注入（按路径分流）
+ * - maxShow 路径：宽度固定为容器宽，折叠项由数量/宽度状态机决定；
+ * - 几何路径溢出态：尾部注入省略号让位身位（页签间距 + 省略号本体宽）——
+ *   滚动到最右时末尾页签右缘止于省略号本体左缘，身位区由省略号本体覆盖，
+ *   尾部无空白语义保持（getMaxScrollLeft 取列表 offsetWidth，含身位）；
+ * - 几何路径非溢出：不注入（溢出判定走零高度测量列表，不受本样式影响）
+ */
+const navListStyle = computed(() => {
+  if (props.variant === 'button' || lePadV.value) {
+    return;
+  }
+  if (!isUndefined(props.maxShow) && props.maxShow > 0) {
+    return { width: `${navsContainerWidth.value}px` };
+  }
+  if (isCollapseActive.value) {
+    return { paddingRight: `${navGapNumber.value + ellipsisWidth.value}px` };
+  }
+  return undefined;
+});
 
 /**
  * @description 从零高度测量列表（.width-measurement）同步每个页签项的实测宽度到 childMap
