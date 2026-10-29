@@ -1,13 +1,13 @@
 <docs lang="md">
 <!-- zh-CN -->
 
-### 溢出尾部无空白 ^[1.2.5-sp5](primary)
+### 溢出尾部无空白 ^[1.2.5-sp5、1.2.7-sp3](primary)
 
 无 `maxShow` 时，桌面端页签溢出采用“全量渲染 + 容器裁切”：拖动滑块缩小容器宽度，页签栏右端始终被内容填满——最后被裁切的页签伸入渐变阴影自然淡出，不再出现“不足一个页签宽”的尾部空白。不完全可见的页签收入省略号弹层，其露出的可见部分仍可直接点击；切换激活项时列表平滑滚动，激活页签保持完整可见，滚动到尾部时末尾页签右缘止于渐变阴影左缘，尾部无空白。可切换尺寸、开启页签关闭按钮，观察溢出几何在尺寸与页签宽度变化下的自适应。
 
 <!-- en-US -->
 
-### No Trailing Whitespace on Overflow ^[1.2.5-sp5](primary)
+### No Trailing Whitespace on Overflow ^[1.2.5-sp5 / 1.2.7-sp3](primary)
 
 Without `maxShow`, desktop tab overflow uses full rendering plus container clipping: drag the slider to shrink the container width — the tab bar stays filled to the right edge, and the last clipped tab fades out naturally in the gradient shadow, so no "less-than-one-tab" trailing gap appears. Incompletely visible tabs are collected into the ellipsis popup, while their visible parts remain directly clickable; switching the active tab scrolls the list smoothly and keeps the active tab fully visible, and scrolling to the end stops the last tab's right edge at the left edge of the gradient shadow, leaving no trailing blank. Switch the size or enable the close buttons to observe how the overflow geometry adapts to size and tab-width changes.
 </docs>

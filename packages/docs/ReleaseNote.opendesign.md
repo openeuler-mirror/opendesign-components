@@ -1,3 +1,9 @@
+## 1.2.7-sp3
+
+### Bug Fixes
+
+- **OTab:** 修复无 `maxShow` 时桌面端页签溢出尾部残留“不足一个页签宽”空白断裂带的问题：溢出改为全量渲染 + 容器裁切 + 激活项编程滚动入视，不完全可见的页签收入省略号弹层；升级后可见行为差异与边缘场景披露同 1.2.5-sp5 条目（[#215](https://atomgit.com/openeuler/opendesign-components/issues/215)、[#226](https://atomgit.com/openeuler/opendesign-components/issues/226)）
+
 ## 1.2.5-sp5
 
 ### Bug Fixes
