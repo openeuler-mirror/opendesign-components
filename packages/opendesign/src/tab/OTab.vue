@@ -120,10 +120,18 @@ const getChildData = (uid: number) => childMap[uid] as unknown as ChildDataT;
 const getActiveUid = (): number | undefined => (activeKey.value != null ? paneKeyToUid.value.get(activeKey.value) : undefined);
 
 /**
+ * @description 判断当前是否为流式导航渲染路径（非 button 变体且非移动断点）
+ * button 变体与移动端（lePadV）是同一「全量渲染早退」阵营，样式注入与
+ * 折叠状态机均以此为门卫判据，三处消费点共用同一条线
+ * @returns 是否为流式路径（参与折叠/裁切布局的路径）
+ */
+const isFlowNavPath = () => props.variant !== 'button' && !lePadV.value;
+
+/**
  * @description 判断当前是否走溢出几何路径：桌面端（非 lePadV）+ 非 button 变体 + 未设置 maxShow
  * @returns 是否为几何路径（全量渲染 + 容器裁切 + 编程滚动）
  */
-const isGeometryPath = () => !lePadV.value && props.variant !== 'button' && isUndefined(props.maxShow);
+const isGeometryPath = () => isFlowNavPath() && isUndefined(props.maxShow);
 
 /**
  * @description 溢出统一判据：内容总宽（全量测量列表宽度）> 容器宽
@@ -147,7 +155,7 @@ const isCollapseActive = computed(() => (isGeometryPath() ? isOverflown.value : 
  * - 几何路径非溢出：不注入（溢出判定走零高度测量列表，不受本样式影响）
  */
 const navListStyle = computed(() => {
-  if (props.variant === 'button' || lePadV.value) {
+  if (!isFlowNavPath()) {
     return;
   }
   if (!isUndefined(props.maxShow) && props.maxShow > 0) {
@@ -192,7 +200,9 @@ const insertActiveUidNearby = (localShow: number[]): number => {
   if (activeUid == null || localShow.includes(activeUid)) {
     return 0;
   }
-  const activeItemIndexInTotal = uidSet.value.findIndex((uid) => uid === activeUid);
+  // 模板序索引表：uid → 在 uidSet 中的位置，供插入点查找与排序键共用（避免逐次 findIndex 线性扫）
+  const orderMap = new Map(uidSet.value.map((uid, index) => [uid, index]));
+  const activeItemIndexInTotal = orderMap.get(activeUid) ?? -1;
   const targetIndex =
     activeItemIndexInTotal === 0
       ? 0
@@ -200,8 +210,8 @@ const insertActiveUidNearby = (localShow: number[]): number => {
           if (i === localShow.length - 1) {
             return true;
           }
-          const curIndexInTotal = uidSet.value.findIndex((v) => v === uid);
-          const nextIndexInTotal = uidSet.value.findIndex((v) => v === localShow[i + 1]);
+          const curIndexInTotal = orderMap.get(uid)!;
+          const nextIndexInTotal = orderMap.get(localShow[i + 1])!;
           if (curIndexInTotal < activeItemIndexInTotal && nextIndexInTotal > activeItemIndexInTotal) {
             return true;
           }
@@ -236,8 +246,9 @@ const backfillHiddenUids = (localShow: number[], widthCount: number, pushUid: (l
  * @param localHidden 本地隐藏 uid 列表（原地排序后写回 hiddenUids）
  */
 const commitUidLists = (localShow: number[], localHidden: number[]) => {
-  // 模板序索引：以 uid 在 uidSet 中的位置作为排序键，保证输出顺序与书写顺序一致
-  const order = (uid: number) => uidSet.value.findIndex((v) => v === uid);
+  // 模板序索引表：以 uid 在 uidSet 中的位置作为排序键，保证输出顺序与书写顺序一致
+  const orderMap = new Map(uidSet.value.map((uid, index) => [uid, index]));
+  const order = (uid: number) => orderMap.get(uid) ?? 0;
   localShow.sort((a, b) => order(a) - order(b));
   localHidden.sort((a, b) => order(a) - order(b));
   showUids.value = localShow;
@@ -270,7 +281,7 @@ const pushShowUidWithMaxShow = (localShow: number[], uid: number, widthCount: nu
  * 此路径独立演进，与无 maxShow 的几何路径互不共享判据：同时受"可见数量 ≤ maxShow"与"总宽 ≤ 容器宽"约束，
  * 溢出项折叠进"更多"按钮弹层
  */
-const sortUidListWithMaxShow = () => {
+const collapseListWithMaxShow = () => {
   /** 数量上限判据：给定可见数量超出 maxShow 即视为溢出 */
   const isNumExceed = (showNum: number) => showNum > props.maxShow!;
 
@@ -311,19 +322,19 @@ const sortUidListWithMaxShow = () => {
 };
 
 /**
- * @description 有 maxShow 的折叠状态机入口
- * button 变体与移动端（lePadV）走全量渲染早退；无 maxShow 的桌面端由几何路径
- * 处理、不进入宽度状态机（本函数仅供 layout 管线的非几何分支调用）
+ * @description 更新可见/隐藏名单（非几何分支）
+ * button 变体与移动端（lePadV）走全量渲染早退（名单恒为全量）；有 maxShow
+ * 的流式路径由宽度状态机折叠（本函数仅供 layout 管线的非几何分支调用）
  */
-const sortUidList = () => {
-  if (props.variant === 'button' || lePadV.value) {
+const updateVisibleUids = () => {
+  if (!isFlowNavPath()) {
     showUids.value = uidSet.value;
     hiddenUids.value = [];
     return;
   }
   // maxShow 路径的宽度数据来源：测量列表 DOM（节点保留，仅此处同步实测值）
   syncNavElWidths();
-  sortUidListWithMaxShow();
+  collapseListWithMaxShow();
 };
 
 const [DefineTabNavTemplate, ReuseTabNavTemplate] = createReusableTemplate();
@@ -406,6 +417,18 @@ const scrollActiveIntoView = async () => {
   });
 };
 /**
+ * @description 仅在内联样式值变化时写入，避免逐帧重算期间触发无谓的样式失效
+ * @param el 目标 DOM 节点
+ * @param prop 内联样式属性名（camelCase）
+ * @param value 目标值，空字符串即移除内联声明
+ */
+const setStyleIfChanged = (el: HTMLElement, prop: 'clipPath' | 'visibility' | 'transform', value: string) => {
+  if (el.style[prop] !== value) {
+    el.style[prop] = value;
+  }
+};
+
+/**
  * @description 将省略号钉在容器可视右缘
  * 省略号是容器 padding box 上的 absolute 子元素（right:0），随内容一起滚动；
  * 编程滚动后按当前 scrollLeft 平移回视口右缘，保证任意滚动位置都能点击展开弹层
@@ -416,19 +439,7 @@ const pinEllipsisToViewport = (container: HTMLElement) => {
   if (!ellipsis) {
     return;
   }
-  ellipsis.style.transform = container.scrollLeft > 0 ? `translateX(${container.scrollLeft}px)` : '';
-};
-
-/**
- * @description 仅在内联样式值变化时写入，避免逐帧重算期间触发无谓的样式失效
- * @param el 目标 DOM 节点
- * @param prop 内联样式属性名（camelCase）
- * @param value 目标值，空字符串即移除内联声明
- */
-const setStyleIfChanged = (el: HTMLElement, prop: 'clipPath' | 'visibility', value: string) => {
-  if (el.style[prop] !== value) {
-    el.style[prop] = value;
-  }
+  setStyleIfChanged(ellipsis, 'transform', container.scrollLeft > 0 ? `translateX(${container.scrollLeft}px)` : '');
 };
 
 /**
@@ -548,12 +559,12 @@ const layout = debounceRAF(() => {
     layoutGeometry();
     return;
   }
-  sortUidList();
+  updateVisibleUids();
   updateAnchor();
   scrollActiveIntoView();
   // 离开几何路径（断点切换/变更 maxShow）时清除省略号钉住的平移与页签遮蔽内联样式，避免残留
   if (ellipsisRef.value) {
-    ellipsisRef.value.style.transform = '';
+    setStyleIfChanged(ellipsisRef.value, 'transform', '');
   }
   clearNavMasks();
 });
