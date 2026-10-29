@@ -297,11 +297,12 @@ describe('静态契约补充（值绑定与折叠）', () => {
     expect(input.value).toBe('A');
   });
 
-  test('OSelect round=pill - 注入 o-select-round-pill 类与 --select-radius', async () => {
+  test('OSelect round=pill - 注入 o-select-round-pill 类（多行语义：无内联圆角变量）', async () => {
     const screen = render(OSelect, { props: { round: 'pill' } });
     const el = screen.container.querySelector('.o-select') as HTMLElement;
     expect(el.classList.contains('o-select-round-pill')).toBe(true);
-    expect(el.style.getPropertyValue('--select-radius')).toBe('100vh');
+    // select 全模式按多行处理：pill 不内联 100vh，圆角由 CSS 按 size 提供常数
+    expect(el.style.getPropertyValue('--select-radius')).toBe('');
   });
 
   test('OSelect round=12px - 注入自定义 --select-radius 内联样式', async () => {

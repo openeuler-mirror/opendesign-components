@@ -12,8 +12,8 @@ export const textareaProps = {
     type: String as PropType<SizeT>,
   },
   /**
-   * @zh-CN 圆角
-   * @en-US Round
+   * @zh-CN 圆角。值为 `pill` 时取同尺寸单行 pill 圆角（胶囊常数，不随内容高度变化，1.2.7-sp3 起多行控件按此语义）；也可以是 CSS `border-radius` 可接受的任意值
+   * @en-US Round. When set to `pill`, uses the pill radius of the single-line input of the same size (a capsule constant, not affected by content height; multiline controls follow this semantics since 1.2.7-sp3); any valid CSS `border-radius` value is also accepted
    */
   round: {
     type: String as PropType<RoundT>,

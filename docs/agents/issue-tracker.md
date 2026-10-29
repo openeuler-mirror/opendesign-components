@@ -7,8 +7,10 @@ spec 的载体是 AtomGit 上游（`up` = `openeuler/opendesign-components`）�
 按需求来源分流，规则由 issue 编辑权决定：
 
 - **原 issue 是自己开的**：原地升级——直接修改原 issue 的 title 与正文为 spec（验收标准、悬而未决区块等），正文可保留「原始需求」章节以留存最初的表述。讨论与假设确认走评论区：**正文承载规格，评论承载过程**。
-- **原 issue 是别人开的**：在 up 上新建一个 issue 作为 spec（正文顶部写 `Upstream: <原 issue URL>`），然后在原 issue 下留一条评论，指引到新 spec issue。禁止把 spec 塞进别人 issue 的评论区——评论区是 append-only 的讨论流，无法作为可编辑的权威文档。
-- **本地发起的任务**：同样在 up 建 issue 作 spec，作为公开的工作记录。
+- **原 issue 是别人开的**：在 up 上新建一个 issue 作为 spec（标题加 `【SPEC】` 前缀，正文顶部写 `Upstream: <原 issue URL>`），然后在原 issue 下留一条评论，指引到新 spec issue。禁止把 spec 塞进别人 issue 的评论区——评论区是 append-only 的讨论流，无法作为可编辑的权威文档。
+- **本地发起的任务**：同样在 up 建 issue 作 spec（标题加 `【SPEC】` 前缀），作为公开的工作记录。
+
+spec issue 的标题格式：`【SPEC】<主题>`（如 `【SPEC】多行输入控件的 pill 圆角语义调整`）。前缀用于在 issue 列表页快速区分 spec 与普通 issue——up 无 label 权限，标题前缀是唯一可用的类型标记。原地升级自己开的 issue 时同样补加该前缀。标题只写主题，不携带版本号、目标分支等元数据——目标版本与分支可能随时间增加或变更（多版本交付），此类信息由正文 `Since:` 行承载，正文的可编辑性允许追加多版本，避免标题漂移或被迫另开 issue。
 
 平台操作一律走 `gitcode` CLI（`gitcode-issue` / `gitcode-pr` 等 skill）。
 

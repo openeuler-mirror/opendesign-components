@@ -143,7 +143,7 @@
 
 ## 全局 SCSS Mixin（`_styles/mixin.scss`）
 
-> `mixin.scss` 通过 Vite 全局注入（`additionalData`），组件 SCSS 中**无需手动 `@use`**，直接使用即可。
+> `mixin.scss` 通过 Vite 全局注入（`additionalData`），组件 SCSS 中**无需手动 `@use`**，直接使用即可。`round-pill.scss` 中的 mixin 不在全局注入范围，需手动 `@use` 引入。
 
 ### `@include hover` — hover 设备检测
 
@@ -210,6 +210,20 @@
 ```
 
 等价于先输出一次内容（无 hover），再输出 `@media (hover: hover) { &:hover { ... } }`。
+
+### `@include round-pill-multiline($pill-class, $size-class, $radius-var)` — 多行控件 pill 圆角（`_styles/round-pill.scss`）
+
+```scss
+@use '../../_styles/round-pill.scss' as *;
+
+// 消费方在自己的样式文件中 include，选择器落到组件自身 CSS 作用域内
+@include round-pill-multiline('o_box-round-pill', 'o_box', '_box-radius');
+// 或 select：@include round-pill-multiline('o-select-round-pill', 'o-select', 'select-radius');
+```
+
+**用途：** 多行输入控件（textarea / select 多选 / cascader 多选）高度随内容增长，pill 的 100vh 会被浏览器 clamp 到半高形成巨大圆弧。本 mixin 按 size 提供胶囊常数（同 size 单行 pill 圆角）：small 12px / medium 16px / large 20px，`<=laptop` 降为 14/18px，`<=pad_v` 恢复 large 20px，保证同一表单中同 size 控件圆角一致。
+
+**配套：** JS 侧需在 `getRoundClass` 第三参传 `multiline`，pill 时不再内联 `100vh`，圆角交给本 mixin 的 CSS 常数（见 ts-utilities.md 的 `style-class.ts` 条目）。
 
 ### 已废弃 Mixin
 

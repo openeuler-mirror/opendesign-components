@@ -292,7 +292,7 @@ const { tagsWrapRef, isResponsiveTag, isMeasuring, valueListDisplay, valueListFo
   { isSelecting, showTagInput, finalValueList, optionLabels },
 );
 
-const round = getRoundClass({ round: effectiveRound }, 'select');
+const round = getRoundClass({ round: effectiveRound }, 'select', true);
 
 // ============================================================================
 // 选中值的 DOM 文本可读性

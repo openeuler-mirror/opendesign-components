@@ -28,9 +28,15 @@ import { getRoundClass } from '../../_utils/style-class';
 const round = getRoundClass(props, 'select');
 // round.class → computed<string>   圆角 class（如 'o_box-pill'）
 // round.style → computed<string|undefined>  内联 style 覆盖
+
+// 多行控件（textarea / select 多选 / cascader 多选）：第三参传 true 后，
+// pill 不再内联 100vh（高盒子半高 clamp 会形成巨大圆弧），圆角交给 CSS
+// 常数（配套 @include round-pill-multiline，见 css-classes.md）；
+// 自定义 round 值不受影响
+const round = getRoundClass(props, 'select', true);
 ```
 
-> 所有支持 `round` prop 的组件必须通过此函数，禁止自行计算。
+> 所有支持 `round` prop 的组件必须通过此函数，禁止自行计算。多行控件的 pill 圆角常数由 `_styles/round-pill.scss` 的 `round-pill-multiline` mixin 提供（需手动 `@use` 引入）。
 
 ### `z-index.ts` — 浮层 z-index 分配
 
@@ -129,7 +135,7 @@ const { renderWithCtx, mountWithCtx, cleanup } = useRenderWithCtx();
 
 ### `InBox`（`_components/in-box`）
 
-输入框视觉外壳。提供 size / variant / color / round / disabled / readonly 状态，不含输入逻辑。
+输入框视觉外壳。提供 size / variant / color / round / multiline / disabled / readonly 状态，不含输入逻辑。`round="pill"` 且 `multiline` 为真时圆角走 CSS 常数路径（见上文 `style-class.ts` 条目）。
 
 **适用场景：** 内容自定义但需要输入框外观（DatePicker、Select、TimePicker 等）。
 

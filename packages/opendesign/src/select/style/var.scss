@@ -1,3 +1,5 @@
+@use '../../_styles/round-pill.scss' as *;
+
 .o-select {
   --select-text-size: var(--o-font_size-text1);
   --select-text-height: var(--o-line_height-text1);
@@ -189,9 +191,12 @@
 }
 
 .o-select-round-pill {
-  --select-radius: var(--o-control_size-l);
   overflow: hidden;
 }
+
+// 多行 pill 圆角：按 size 提供常数（同 size 单行 pill 圆角），含断点镜像。
+// 单/多选不隔离：单选固定高度下常数恰为半高，视觉与 100vh clamp 一致
+@include round-pill-multiline('o-select-round-pill', 'o-select', 'select-radius');
 
 .o-select-options {
   --select-empty-padding: 16px;

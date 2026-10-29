@@ -27,6 +27,7 @@ metadata:
 | 动画过渡类（fade、zoom、rotating） | css-classes.md   | `_styles/animation.scss`         |
 | 响应式媒体查询 mixin               | css-classes.md   | `_styles/mixin.scss`             |
 | hover 设备检测 mixin               | css-classes.md   | `_styles/mixin.scss`             |
+| 多行 pill 圆角 mixin               | css-classes.md   | `_styles/round-pill.scss`        |
 | 圆角 class 计算                    | ts-utilities.md  | `_utils/style-class.ts`          |
 | z-index 分配                       | ts-utilities.md  | `_utils/z-index.ts`              |
 | 防抖 / 节流                        | ts-utilities.md  | `_utils/helper.ts`               |

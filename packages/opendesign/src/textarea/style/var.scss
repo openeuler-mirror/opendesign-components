@@ -1,3 +1,5 @@
+@use '../../_styles/round-pill.scss' as *;
+
 .o-textarea {
   --textarea-min-height: 126px;
   --textarea-min-width: var(--o-control_size-xl);
@@ -30,3 +32,6 @@
     }
   }
 }
+
+// 多行 pill 圆角：按 size 提供常数（同 size 单行 pill 圆角），含断点镜像
+@include round-pill-multiline('o_box-round-pill', 'o_box', '_box-radius');
