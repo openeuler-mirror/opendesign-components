@@ -21,15 +21,15 @@
  * 笔误；rect / scrollLeft 直接真值断言，无需 mock。
  *
  * 不归属本文件的维度：
- *   - 不同断点下的尺寸数值 → OTab.responsive.test.ts
- *   - SSR 字符串渲染 + hydration → OTab.ssr.test.ts
+ *   - 断点自适应行为（溢出判定随断点进退）已由本文件断点往返用例覆盖；
+ *     尺寸数值断言按仓库现状暂不单列 responsive 文件
  */
 import { test, expect, describe, vi, beforeEach } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h, reactive, type VNode } from 'vue';
 import OTab from '../OTab.vue';
 import OTabPane from '../OTabPane.vue';
-import { flush } from '../../../__tests__/_helpers/dom';
+import { flush, waitFor } from '../../../__tests__/_helpers/dom';
 import { setViewport } from '../../../__tests__/_helpers/viewport';
 
 /** 滚动宿主：省略号、anchor 均锚定于该容器（position: relative） */
@@ -87,11 +87,15 @@ function renderTabs({ width, count, modelValue, variant = 'text', maxShow, size 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /**
- * 等布局落定：sortUidList（debounceRAF）+ useElementBounding 测量链 +
- * 省略号显隐一帧时差收敛。固定等待（非轮询条件），无时间敏感断言。
+ * 等布局落定：layout 收口管线（debounceRAF）+ useElementBounding 测量链 +
+ * 省略号显隐一帧时差收敛 + scrollTo smooth 滚动落定。
+ * 等待策略：flush 驱动 RAF 排空 → waitFor 轮询布局就绪（激活页签或可见
+ * 列表已挂载，快机快速返回、慢机自动延长）→ 固定余量覆盖 smooth 滚动
+ * 动画全程（scrollTo 无可轮询的完成信号，无法条件化）。
  */
 async function settle() {
   await flush();
+  await waitFor(() => document.querySelector(ACTIVE_NAV_SELECTOR) != null || document.querySelector(VISIBLE_LIST_SELECTOR) != null);
   await wait(500);
 }
 
@@ -99,6 +103,25 @@ async function settle() {
 function getEllipsisShadowLeft(ellipsis: HTMLElement): number {
   const shadowWidth = parseFloat(getComputedStyle(ellipsis, ':before').width) || 0;
   return ellipsis.getBoundingClientRect().left - shadowWidth;
+}
+
+/**
+ * 断言列表最右内容缘与省略号渐变阴影左缘贴合（双边界，±1px 容差）
+ * 仅适用于「滚到最大滚动量」的滚动终点场景：让位身位 = 省略号本体宽 +
+ * 阴影宽，末页签右缘应恰好落在阴影左缘——大于容差即「少让位」（内容
+ * 侵入覆盖区被裁切），小于容差即「多让位」（尾部露出空白）。只断言
+ * 下界发现不了多让位，双向夹逼才完整。scrollLeft=0 的溢出态末页签
+ * 右缘本就越过阴影左缘（被容器右缘裁切），不适用本断言。
+ * @param screen 渲染句柄
+ */
+function expectLastNavFlushWithShadow(screen: ScreenLike) {
+  const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+  expect(ellipsis, '应存在省略号节点').not.toBeNull();
+  const navs = getNavs(screen);
+  expect(navs.length, '可见列表应非空').toBeGreaterThan(0);
+  const lastRight = navs[navs.length - 1].getBoundingClientRect().right;
+  const shadowLeft = getEllipsisShadowLeft(ellipsis);
+  expect(Math.abs(lastRight - shadowLeft), '最右内容缘应贴合渐变阴影左缘（少让位侵入 / 多让位出空白均失败）').toBeLessThanOrEqual(1);
 }
 
 beforeEach(() => {
@@ -122,7 +145,7 @@ describe('桌面端溢出静态几何契约', () => {
 
     const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
     expect(ellipsis).not.toBeNull();
-    // 前置确认：溢出态下省略号显示（现状即为真，非本用例的红点）
+    // 前置确认：溢出态下省略号显示
     expect(getComputedStyle(ellipsis).display).not.toBe('none');
 
     const navs = Array.from(screen.container.querySelectorAll(VISIBLE_NAV_SELECTOR)) as HTMLElement[];
@@ -132,9 +155,11 @@ describe('桌面端溢出静态几何契约', () => {
     const shadowLeft = getEllipsisShadowLeft(ellipsis);
 
     // 期望行为（spec User Story 1/2 + Testing Decisions 用例清单 #1）：
-    // 溢出态下最后一个页签应被容器右缘裁切或贴住省略号阴影，右缘 ≥ 阴影左缘
-    // （1px 亚像素容差）——尾部不允许出现「不足一个页签宽」的空白断裂带。
-    expect(lastNavRight).toBeGreaterThanOrEqual(shadowLeft - 1);
+    // 溢出态下最后一个页签被容器右缘裁切，其右缘越过容器右缘（内容真溢出，
+    // 断言其伸入省略号本体区域）——尾部不允许出现「不足一个页签宽」的空白断裂带。
+    const containerRect = screen.container.querySelector(CONTAINER_SELECTOR)!.getBoundingClientRect();
+    expect(lastNavRight, '溢出态末页签应被容器右缘裁切（右缘越界）').toBeGreaterThan(containerRect.right);
+    expect(lastNavRight, '末页签右缘应伸入省略号阴影与本体区域').toBeGreaterThanOrEqual(shadowLeft - 1);
   });
 
   test('OTab 不完全可见页签 - 部分可见页签保留在可见列表且进入省略号弹层名单', async () => {
@@ -193,7 +218,7 @@ describe('桌面端溢出静态几何契约', () => {
     // 期望行为（spec User Story 6 + Implementation Decisions「布局收口管线：
     // 滚动激活项入视」+ Testing Decisions 用例清单 #4）：激活视口外的页签时，
     // 滚动宿主（nav 容器）的 scrollLeft 应被编程式调整（桌面端与移动端同构）。
-    expect(container.scrollLeft, '激活视口外页签时容器 scrollLeft 应大于 0（桌面端无滚动）').toBeGreaterThan(0);
+    expect(container.scrollLeft, '激活视口外页签时容器 scrollLeft 应大于 0').toBeGreaterThan(0);
 
     // 期望行为（复用移动端同款断言）：激活页签 rect 完整在容器可视范围内（±1px 容差），
     // 不被左右边缘裁切。
@@ -219,7 +244,7 @@ describe('桌面端溢出静态几何契约', () => {
     const ellipsisA = screenA.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
     expect(ellipsisA).not.toBeNull();
 
-    // 前置确认（现状即为真，非红点）：内容总宽（全量测量列表宽度）> 容器宽 → 溢出
+    // 前置确认：内容总宽（全量测量列表宽度）> 容器宽 → 溢出
     const contentWidth = measurementA.getBoundingClientRect().width;
     expect(contentWidth).toBeGreaterThan(containerA.clientWidth);
 
@@ -232,7 +257,7 @@ describe('桌面端溢出静态几何契约', () => {
     screenA.unmount();
     await flush();
 
-    // ── 前置条件 B（回归护栏，现状为绿）：600px 容器 + 3 个页签（总宽约 199px）
+    // ── 前置条件 B（回归护栏）：600px 容器 + 3 个页签（总宽约 199px）
     // → 内容不溢出。
     const screenB = renderTabs({ width: 600, count: 3, modelValue: 'tab1' });
     await settle();
@@ -270,10 +295,10 @@ describe('桌面端溢出静态几何契约', () => {
 
     // 期望行为（spec Testing Decisions 用例清单 #3「完全不可见页签可见部分不可点或不存在」）：
     // 容器 overflow-x 裁切下，完全不可见页签的盒子与容器可视区矩形无交集，
-    // 即其可见部分为零、无可点区域；此类页签仅能经省略号弹层触达。
+    // 即其可见部分为零、无可点区域；此类页签必须经省略号弹层可达（触达性断言）。
+    const options = await readHiddenListTexts(screen);
     for (const nav of fullyHiddenNavs) {
-      const rect = nav.getBoundingClientRect();
-      expect(rect.right, `完全不可见页签 ${nav.textContent?.trim()} 的盒子应整体在容器左缘之外`).toBeLessThanOrEqual(containerRect.left);
+      expect(options, `完全不可见页签 ${nav.textContent?.trim()} 应出现在省略号弹层名单中`).toContain((nav.textContent || '').trim());
     }
   });
 });
@@ -451,9 +476,10 @@ describe('动态交互收口（几何模型验证）', () => {
     // 布局收口：后续页签前移填补空位（左缘对齐被关闭页签原位，±2px 容差）
     const shiftedNav = findNavByText(navs, '标签4')!;
     expect(Math.abs(shiftedNav.getBoundingClientRect().left - removedLeft)).toBeLessThanOrEqual(2);
-    // 无空白残留：最后一个页签右缘仍贴住省略号阴影左缘
-    const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
-    expect(navs[navs.length - 1].getBoundingClientRect().right).toBeGreaterThanOrEqual(getEllipsisShadowLeft(ellipsis) - 1);
+    // 无空白残留：内容仍溢出容器右缘（末页签被裁切，无断裂带）——
+    // scrollLeft=0 场景末页签右缘本就越过阴影左缘，不适用滚动终点双边界
+    const containerRect = screen.container.querySelector(CONTAINER_SELECTOR)!.getBoundingClientRect();
+    expect(navs[navs.length - 1].getBoundingClientRect().right, '末页签右缘应仍溢出容器右缘（尾部无空白）').toBeGreaterThan(containerRect.right);
 
     // 激活项（tab1）保持完整可见、无多余滚动
     expectActiveFullyVisible(screen);
@@ -721,13 +747,13 @@ describe('动态交互收口（几何模型验证）', () => {
 });
 
 // ============================================================================
-// maxShow/button 回归护栏（特征化用例组）
+// maxShow/button 回归护栏（特征化）
 //
 // Spec：https://gitcode.com/opendesign/opendesign-components/issues/226
 // Testing Decisions #6「回归护栏：maxShow 路径不变、button 变体不变」：
 // 溢出几何模型仅覆盖「无 maxShow + 非 button + 桌面端」路径，maxShow 状态机
 // 与 button 变体是隔离墙内的独立路径。本组用例为特征化护栏——断言的是
-// 上述路径当前行为的保持，而非新行为；预期全绿，若红说明几何路径越界。
+// 上述路径当前行为的保持，而非新行为；若红说明几何路径越界。
 // ============================================================================
 
 /** maxShow 模式「更多」按钮的下拉箭头图标节点（按钮本身不带 .o-tab-nav-ellipsis 类） */
@@ -880,7 +906,7 @@ describe('maxShow/button 回归护栏（特征化）', () => {
 });
 
 // ============================================================================
-// 省略号覆盖区遮蔽（视觉契约）
+// 省略号覆盖区遮蔽（遮蔽几何契约）
 //
 // 背景：几何路径下省略号盒背景透明，其覆盖区（省略号本体左缘至容器右缘）
 // 会透出下层页签文字。本组断言覆盖区遮蔽契约——边界线 B = 容器右缘 −
@@ -945,7 +971,7 @@ function expectCoverageMaskConsistent(screen: ScreenLike): number {
   return boundary;
 }
 
-describe('省略号覆盖区遮蔽（视觉契约）', () => {
+describe('省略号覆盖区遮蔽（遮蔽几何契约）', () => {
   test('OTab 部分可见页签 - 可见区止于省略号本体左缘（clip-path 右侧裁切）', async () => {
     await setViewport('desktop');
     // 前置条件：540px 容器 + 10 个页签（总宽约 747px），省略号边界线落在
@@ -1073,7 +1099,7 @@ describe('省略号覆盖区遮蔽（视觉契约）', () => {
 });
 
 // ============================================================================
-// 省略号右缘让位滚动（视觉契约）
+// 省略号右缘让位滚动（让位滚动契约）
 //
 // 背景：省略号显示时，若滚动终点把「容器右缘」当作可见终点，末尾页签
 // 会整体落入省略号覆盖区被裁切/隐藏（激活项只剩碎片），且浏览器钳制下
@@ -1100,7 +1126,7 @@ function expectActiveLeftOfEllipsis(screen: ScreenLike) {
   expect(getComputedStyle(activeNav).visibility, '让位后激活页签应保持可见').toBe('visible');
 }
 
-describe('省略号右缘让位滚动（视觉契约）', () => {
+describe('省略号右缘让位滚动（让位滚动契约）', () => {
   test('OTab 激活末尾页签 - 滚动入视时为省略号让位，末页签完整可见', async () => {
     await setViewport('desktop');
     // 前置条件：600px 容器 + 10 个页签（总宽约 747px），初始激活末尾 tab10
@@ -1116,22 +1142,16 @@ describe('省略号右缘让位滚动（视觉契约）', () => {
     expectActiveLeftOfEllipsis(screen);
   });
 
-  test('OTab 激活末尾页签 - 滚动终点末页签右缘伸入渐变阴影，尾部无空白', async () => {
+  test('OTab 激活末尾页签 - 滚动终点末页签右缘止于渐变阴影左缘，尾部无空白', async () => {
     await setViewport('desktop');
     // 前置条件：600px 容器 + 10 个页签（总宽约 747px），初始激活末尾 tab10
     // （滚动入视被 clamp 到最大滚动量，落点即滚动终点）
     const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10' });
     await settle();
 
-    // 滚动终点契约：末尾页签右缘不得早于省略号渐变阴影左缘——
-    // 尾部空白语义上等同于「省略号与内容之间露出一段无内容空隙」
-    const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
-    const activeNav = screen.container.querySelector(ACTIVE_NAV_SELECTOR) as HTMLElement;
-    expect(ellipsis, '应存在省略号节点').not.toBeNull();
-    expect(activeNav, '应存在激活页签').not.toBeNull();
-    const activeRight = activeNav.getBoundingClientRect().right;
-    const shadowLeft = getEllipsisShadowLeft(ellipsis);
-    expect(activeRight, '滚动到最右时末尾页签右缘应不低于渐变阴影左缘（尾部无空白）').toBeGreaterThanOrEqual(shadowLeft - 1);
+    // 滚动终点契约：末尾页签右缘贴合渐变阴影左缘（双边界——
+    // 多让位即尾部露出空隙，少让位即末页签侵入覆盖区被裁切）
+    expectLastNavFlushWithShadow(screen);
   });
 
   test('OTab 弹层选中末尾页签 - 滚动落点同样为省略号让位', async () => {
