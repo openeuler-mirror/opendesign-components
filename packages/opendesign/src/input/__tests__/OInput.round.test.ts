@@ -19,14 +19,15 @@
  *   - 按 types.ts 的功能/视觉/插槽契约 → OInput.index.test.ts
  *   - SSR 字符串渲染 + hydration mismatch → OInput.ssr.test.ts
  */
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, afterEach } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h } from 'vue';
 import OInput from '../OInput.vue';
 import OForm from '../../form/OForm.vue';
 import OFormItem from '../../form/OFormItem.vue';
 import { setViewport, type BreakpointName } from '../../../__tests__/_helpers/viewport';
-import { OINPUT_HEIGHT_MATRIX, ROUND_MATRIX_VIEWPORTS, expectRadiusCornersPx, type RoundSizeKey } from '../../../__tests__/_helpers/round-pill';
+import { OINPUT_HEIGHT_MATRIX, PILL_RADIUS_MATRIX, ROUND_MATRIX_VIEWPORTS, expectRadiusCornersPx, type RoundSizeKey } from '../../../__tests__/_helpers/round-pill';
+import { initRound, defaultRound } from '../../_utils/global';
 
 /** OInput 组件 props 的测试用子集（仅本文件关注的字段） */
 interface InputPropsSubset {
@@ -157,4 +158,48 @@ describe('G4 · OForm 继承基线', () => {
       expect(parseFloat(inheritedCs[propName]), `OForm 继承路径 - ${cornerName}圆角声明值 ≥ 半高 16px`).toBeGreaterThanOrEqual(16);
     }
   });
+});
+
+// ============================================================================
+// G5 · 全局 initRound('pill') 路径：单行与多行常数的收敛契约
+//
+// 单行全局 pill 不内联 100vh（defaultRound 只驱动 class 兜底），圆角由
+// InBox 样式表的 `--o-control_size-l`（40px）提供，渲染层 clamp 到实际高度
+// 半高——而断点降档由组件 media.scss 改 --_box-height（24/28/36/40），
+// 所以单行视觉圆角 = 各断点实际高度 ÷ 2，恰逐档等于多行 mixin 常数。
+// 本组用例锁死该收敛：单行断言高度精确 + 声明值 ≥ 半高（clamp 后视觉即半高），
+// 期望值取共享 PILL_RADIUS_MATRIX（与多行 R4 用例同一矩阵）。
+// ============================================================================
+describe("G5 · 全局 initRound('pill') - 单行圆角与多行常数收敛（3 size × 6 视口）", () => {
+  // 快照 + 复位：全局圆角配置的用例间隔离，避免污染其他测试文件
+  const ROUND_SNAPSHOT = defaultRound.value;
+  afterEach(() => {
+    defaultRound.value = ROUND_SNAPSHOT;
+  });
+
+  for (const size of ['small', 'medium', 'large'] as RoundSizeKey[]) {
+    for (const bp of ROUND_MATRIX_VIEWPORTS) {
+      const height = OINPUT_HEIGHT_MATRIX[size][bp];
+      const expected = PILL_RADIUS_MATRIX[size][bp];
+      test(`initRound('pill') 无 round prop size=${size} @${bp} - 高度${height}px，视觉圆角收敛到常数 ${expected}px`, async () => {
+        initRound('pill');
+        try {
+          const main = await renderInputMain(bp, { size });
+          // class 兜底路径生效（全局 pill 只挂 class，不内联）
+          const root = main.closest('.o-input') as HTMLElement;
+          expect(root.classList.contains('o_box-round-pill'), '全局 pill - o_box-round-pill class 兜底').toBe(true);
+          // 高度精确（断点降档后实际高度决定 clamp 半高）
+          expect(getComputedStyle(main).height, `OInput 全局 pill size=${size} @${bp} - 高度`).toBe(`${height}px`);
+          // 声明值 ≥ 高度/2：40px token 被 clamp 到实际半高，视觉即期望常数
+          const half = height / 2;
+          for (const [cornerName, propName] of RADIUS_CORNERS) {
+            const radius = parseFloat(getComputedStyle(main)[propName]);
+            expect(radius, `OInput 全局 pill size=${size} @${bp} - ${cornerName}圆角声明值 ≥ 半高 ${half}px（clamp 后视觉 = ${expected}px）`).toBeGreaterThanOrEqual(half);
+          }
+        } finally {
+          defaultRound.value = ROUND_SNAPSHOT;
+        }
+      });
+    }
+  }
 });

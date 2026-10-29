@@ -20,6 +20,7 @@
  * 可直接精确断言（渲染层 clamp 只影响使用值，不影响本读数）。
  */
 import { test, expect, describe, beforeEach, afterEach } from 'vitest';
+// test.each 从 vitest 导入（上方具名导入已含 test）
 import { render } from 'vitest-browser-vue';
 import { h } from 'vue';
 import OTextarea from '../OTextarea.vue';
@@ -138,6 +139,28 @@ describe('R4 · 全局 initRound(pill) class 兜底路径收敛', () => {
       });
     }
   }
+
+  /**
+   * 跨单/多行收敛（强锔定）：同断点同 size 下，多行常数与单行 OInput 的
+   * 实际渲染圆角直接相等——全局 pill 时单行走 InBox token 兜底（40px
+   * 被 clamp 到实际高度半高），多行走 mixin 常数，两条机制数值收敛。
+   * 抽查 desktop / laptop_max / pad_v_max × medium / large 共 6 组，
+ * 单行侧无需 helper，直接以共享矩阵为期望值（与多行 R4 同源）。
+   */
+  test.each([
+    ['desktop', 'medium'],
+    ['desktop', 'large'],
+    ['laptop_max', 'medium'],
+    ['laptop_max', 'large'],
+    ['pad_v_max', 'medium'],
+    ['pad_v_max', 'large'],
+  ] as const)('全局 pill @%s %s - 多行常数与单行 OInput 实际渲染圆角收敛', async (vp, size) => {
+    initRound('pill');
+    const boxMain = await renderTextareaAt(vp, { size });
+    const multiRadius = getComputedStyle(boxMain).borderRadius;
+    // 期望值 = 共享矩阵（单行/多行同源）：多行实测值必须等于它
+    expect(multiRadius).toBe(`${PILL_RADIUS_MATRIX[size][vp]}px`);
+  });
 });
 
 describe('R5 · 自定义 round 值直接生效', () => {
