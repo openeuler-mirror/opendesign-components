@@ -1,24 +1,20 @@
 /**
- * OTab 桌面端溢出新行为红用例组。
+ * OTab 桌面端溢出几何模型行为契约。
  *
  * Spec：https://gitcode.com/openeuler/opendesign-components/issues/226
  * （原始 bug 报告：#215；规格、实施决策与验收标准以 #226 为权威源）
  *
- * ⚠️ 本组用例遵循仓库红绿纪律「先写失败用例确认红 → 修复 → 转绿」：
- * 基于 6e064cab 现状运行时**全部失败（红）**，等待溢出几何模型实现（T04，
- * 即「全量渲染 + 容器裁切 + 激活项就近滚动入视」）落地后转绿。
- *
  * 范围：桌面端（非 lePadV 断点，全局 setup 默认视口 1920×1080）的溢出行为，含四组用例：
- *   - 静态几何契约（T03 红用例组）：`variant` 非 `button`、未设置 `maxShow` 的
- *     几何路径——模型就位前先行红、T04 落地后转绿；
- *   - 动态交互收口（T05 验证用例组）：几何路径的动态场景（closable /
- *     addable / 文案变化 / 断点往返 / 弹层选中 / prefix 插槽），预期全绿——
- *     若出现红即为几何模型的真实 bug；
- *   - 省略号覆盖区遮蔽（视觉契约红用例组）：几何路径溢出态下省略号覆盖区
+ *   - 静态几何契约：`variant` 非 `button`、未设置 `maxShow` 的几何路径
+ *     （全量渲染 + 容器裁切 + 激活项滚动入视）；
+ *   - 动态交互收口：几何路径的动态场景（closable /
+ *     addable / 文案变化 / 断点往返 / 弹层选中 / prefix 插槽），若红即
+ *     为几何模型的真实 bug；
+ *   - 省略号覆盖区遮蔽：几何路径溢出态下省略号覆盖区
  *     的页签遮蔽——部分可见页签 clip-path 右侧裁切至边界、完全覆盖页签
- *     visibility 隐藏保占位、离开几何路径/非溢出清场，待遮蔽实现落地后转绿；
- *   - maxShow/button 回归护栏（特征化用例组）：隔离墙路径当前行为的保持
- *     （Spec Testing Decisions #6），预期全绿——若红说明几何路径越界。
+ *     visibility 隐藏保占位、离开几何路径/非溢出清场；
+ *   - maxShow/button 回归护栏：隔离墙路径当前行为的保持
+ *     （Spec Testing Decisions #6），若红说明几何路径越界。
  *
  * 断言接缝：组件挂载级 DOM 行为（class / rect / scrollLeft / 弹层内容），
  * 只断言外部可观测行为，不断言内部状态与实现细节。
@@ -112,11 +108,11 @@ beforeEach(() => {
   document.body.querySelectorAll(':scope > .o-popup, :scope > .o-layer').forEach((el) => el.remove());
 });
 
-describe('桌面端溢出新行为（红用例组，待溢出几何模型实现后转绿）', () => {
+describe('桌面端溢出静态几何契约', () => {
   test('OTab 溢出态尾部无空白 - 最后可见页签右缘不低于省略号阴影左缘', async () => {
     await setViewport('desktop');
     // 前置条件：600px 容器 + 10 个「标签N」页签（自然内容总宽约 747px，明显溢出），
-    // 激活首个页签（位于左缘，无需滚动）。现状下旧宽度状态机只保留 7 个完整放得下的页签。
+    // 激活首个页签（位于左缘，无需滚动）。
     const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab1' });
     await settle();
 
@@ -134,8 +130,6 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
     // 期望行为（spec User Story 1/2 + Testing Decisions 用例清单 #1）：
     // 溢出态下最后一个页签应被容器右缘裁切或贴住省略号阴影，右缘 ≥ 阴影左缘
     // （1px 亚像素容差）——尾部不允许出现「不足一个页签宽」的空白断裂带。
-    // 现状红：旧算法以「页签完整放入容器」为唯一纳入标准，离散页签宽度必然
-    // 剩余 0..单页签宽的尾部空白（issue #215 的断裂带，实测约 39px）。
     expect(lastNavRight).toBeGreaterThanOrEqual(shadowLeft - 1);
   });
 
@@ -154,7 +148,6 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
     // 期望行为（spec User Story 3/5 + Implementation Decisions「可见性与隐藏名单判定」
     // + Testing Decisions 用例清单 #2）：全部页签常驻 DOM，内容溢出被容器裁切，
     // 被裁切的页签保留其可见部分（部分可见）。
-    // 现状红：旧算法只折叠「放不下」的项，可见列表中不存在任何被裁切的部分可见页签。
     const partialNav = navs.find((nav) => {
       const rect = nav.getBoundingClientRect();
       return rect.right > containerRect.right + 1 && rect.left < containerRect.right - 1;
@@ -168,7 +161,6 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
 
     // 期望行为（spec「不完全可见（左右任一缘越界）即进弹层名单」）：
     // 部分可见页签应出现在省略号弹层名单中（受控重复：既露出又出现在弹层）。
-    // 现状红：部分可见页签被整体折叠出可见列表，弹层名单与其可见性状态脱节。
     const popup = lastBodyEl('.o-tab-more-popup');
     expect(popup).not.toBeNull();
     const optionTexts = Array.from(popup!.querySelectorAll('.o-option')).map((o) => (o.textContent || '').trim());
@@ -176,12 +168,9 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
 
     // 期望行为（同一几何规则的反向）：完全可见的页签不应出现在弹层名单中
     // （名单 = 不完全可见页签集合，与滚动位置/容器宽度的判定解耦后的唯一语义）。
-    // 现状红：标签7 完整可见（右缘未触及省略号）却因「放不下」被折叠进弹层名单。
     const ellipsisWidth = ellipsis.getBoundingClientRect().width;
     const fullyVisibleBoundary = containerRect.right - ellipsisWidth;
-    const fullyVisibleLabels = navs
-      .filter((nav) => nav.getBoundingClientRect().right <= fullyVisibleBoundary - 1)
-      .map((nav) => (nav.textContent || '').trim());
+    const fullyVisibleLabels = navs.filter((nav) => nav.getBoundingClientRect().right <= fullyVisibleBoundary - 1).map((nav) => (nav.textContent || '').trim());
     for (const label of fullyVisibleLabels) {
       expect(optionTexts, `完全可见页签 ${label} 不应出现在省略号弹层名单中`).not.toContain(label);
     }
@@ -200,12 +189,10 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
     // 期望行为（spec User Story 6 + Implementation Decisions「布局收口管线：
     // 滚动激活项入视」+ Testing Decisions 用例清单 #4）：激活视口外的页签时，
     // 滚动宿主（nav 容器）的 scrollLeft 应被编程式调整（桌面端与移动端同构）。
-    // 现状红：桌面端 scrollActiveIntoView 有 lePadV 守卫直接返回，scrollLeft 恒为 0。
     expect(container.scrollLeft, '激活视口外页签时容器 scrollLeft 应大于 0（桌面端无滚动）').toBeGreaterThan(0);
 
     // 期望行为（复用移动端同款断言）：激活页签 rect 完整在容器可视范围内（±1px 容差），
-    // 不被左右边缘裁切。现状下此断言因旧算法「激活项就近插入」恰好为绿，
-    // 红点在上一条：桌面端根本不滚动。
+    // 不被左右边缘裁切。
     const activeNav = screen.container.querySelector('.o-tab-nav-active') as HTMLElement;
     expect(activeNav).not.toBeNull();
     const containerRect = container.getBoundingClientRect();
@@ -217,11 +204,9 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
   test('OTab 省略号显隐判据 - 以内容溢出为准，非溢出时隐藏且居中布局不变', async () => {
     await setViewport('desktop');
 
-    // ── 前置条件 A（红）：solid 变体 8 个页签（自然内容总宽约 920px，
+    // ── 前置条件 A：solid 变体 8 个页签（自然内容总宽约 920px，
     // 含边框与 solid 间距）放入 880px 容器 → 内容溢出约 40px。
-    // 现状：旧宽度状态机以 clientWidth（不含边框）+ 估算间距计算「放得下」，
-    // 判定不溢出 → hiddenUids 为空 → 省略号与溢出态 class 均不显示，
-    // 内容实际被容器裁切。solid 属于「variant 非 button」路径，在本 spec 范围内。
+    // solid 属于「variant 非 button」路径，在本 spec 范围内。
     const screenA = renderTabs({ width: 880, count: 8, modelValue: 'tab1', variant: 'solid' });
     await settle();
 
@@ -237,8 +222,7 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
     // 期望行为（spec Implementation Decisions「省略号显隐与布局模式切换：
     // 统一改判『内容总宽 > 容器宽』（布局值，与滚动位置无关）」）：
     // 内容溢出时省略号显示、容器带溢出态 class（grid 居中 → 流式布局切换）。
-    // 现状红：两者均未显示（实测 display:none / 无 overflown 类）。
-    expect(getComputedStyle(ellipsisA).display, '内容溢出时省略号应显示（现状：solid 估宽偏差导致漏显）').not.toBe('none');
+    expect(getComputedStyle(ellipsisA).display, '内容溢出时省略号应显示').not.toBe('none');
     expect(containerA.classList.contains('overflown'), '内容溢出时容器应带 overflown 溢出态 class').toBe(true);
 
     screenA.unmount();
@@ -291,10 +275,9 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
 });
 
 // ============================================================================
-// 动态交互收口（T05 验证用例组）
+// 动态交互收口
 //
-// 前提：T04 的溢出几何模型（全量渲染 + 容器裁切 + 激活项滚动入视）已就位，
-// 本组为验证性用例，预期全绿；若红即为模型真实 bug（红绿纪律同样适用）。
+// 验证几何模型在动态触发源下的收口正确性；若红即为模型真实 bug。
 //
 // 场景与收口管线触发源的映射（三类触发源均被真实触达，满足验收硬指标）：
 //   - 页签增删（MutationObserver + uidSet watch）：
@@ -447,7 +430,7 @@ function expectAnchorAligned(screen: ScreenLike) {
   expect(Math.abs(anchorRect.right - activeRect.right)).toBeLessThanOrEqual(1.5);
 }
 
-describe('动态交互收口（几何模型验证用例组）', () => {
+describe('动态交互收口（几何模型验证）', () => {
   test('closable 关闭视口内非激活页签 - 后续页签前移无空白、省略号名单重算', async () => {
     await setViewport('desktop');
     const { screen } = renderStateTabs({ width: 600, count: 10, modelValue: 'tab1', closable: true });
@@ -768,7 +751,7 @@ function getMoreButton(screen: ScreenLike): HTMLElement | null {
   return arrow ? (arrow.closest('.o-tab-nav') as HTMLElement) : null;
 }
 
-describe('maxShow/button 回归护栏（特征化用例组）', () => {
+describe('maxShow/button 回归护栏（特征化）', () => {
   test('maxShow 数量上限折叠 - 可见列表恰 maxShow 项并展示「更多」按钮', async () => {
     await setViewport('desktop');
     // 前置条件：600px 容器 + 10 个页签，数量上限 4 → 宽度约束不参与裁剪
@@ -900,7 +883,7 @@ describe('maxShow/button 回归护栏（特征化用例组）', () => {
 });
 
 // ============================================================================
-// 省略号覆盖区遮蔽（视觉契约红用例组）
+// 省略号覆盖区遮蔽（视觉契约）
 //
 // 背景：几何路径下省略号盒背景透明，其覆盖区（省略号本体左缘至容器右缘）
 // 会透出下层页签文字。本组断言覆盖区遮蔽契约——边界线 B = 容器右缘 −
@@ -910,8 +893,6 @@ describe('maxShow/button 回归护栏（特征化用例组）', () => {
 //   - 跨越 B 的部分可见页签：clip-path 右侧裁切，可见区恰止于 B；
 //   - 左缘 ≥ B 的页签（整体落入覆盖区）：visibility:hidden（保布局占位）。
 // 断言接缝为 computed style + rect 的外部可观测量。
-// ⚠️ 红绿纪律：遮蔽断言基于现状运行失败（红），待遮蔽实现落地后转绿；
-// 清场护栏用例现状即绿，修复后必须保持绿。
 // ============================================================================
 
 /**
@@ -967,7 +948,7 @@ function expectCoverageMaskConsistent(screen: ScreenLike): number {
   return boundary;
 }
 
-describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
+describe('省略号覆盖区遮蔽（视觉契约）', () => {
   test('OTab 部分可见页签 - 可见区止于省略号本体左缘（clip-path 右侧裁切）', async () => {
     await setViewport('desktop');
     // 前置条件：540px 容器 + 10 个页签（总宽约 747px），省略号边界线落在
@@ -988,8 +969,8 @@ describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
     });
     expect(straddling, '前置：应存在跨越省略号边界线的部分可见页签').toBeDefined();
 
-    // 期望行为：部分可见页签的可见区止于省略号本体左缘（现状红：无注入样式，
-    // 透明覆盖区透出下层页签文字）——遮蔽三分支由 expectCoverageMaskConsistent 全量校验
+    // 期望行为：部分可见页签的可见区止于省略号本体左缘（否则透明
+    // 覆盖区透出下层页签文字）——遮蔽三分支由 expectCoverageMaskConsistent 全量校验
     expectCoverageMaskConsistent(screen);
   });
 
@@ -1010,8 +991,8 @@ describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
     });
     expect(covered.length, '前置：应存在整体落入省略号覆盖区的页签').toBeGreaterThan(0);
 
-    // 期望行为：覆盖区内页签隐藏但保留布局占位（现状红：均保持 visible，
-    // 文字经透明覆盖区透出）。遮蔽三分支一致性由 expectCoverageMaskConsistent 全量校验
+    // 期望行为：覆盖区内页签隐藏但保留布局占位（否则文字经透明
+    // 覆盖区透出）。遮蔽三分支一致性由 expectCoverageMaskConsistent 全量校验
     expectCoverageMaskConsistent(screen);
   });
 
@@ -1022,7 +1003,7 @@ describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
     const { screen } = renderStateTabs({ width: 560, count: 10, modelValue: 'tab1' });
     await settle();
 
-    // 初始遮蔽契约成立（现状红：无注入样式）
+    // 初始遮蔽契约成立
     expectCoverageMaskConsistent(screen);
 
     // 弹层选中视口外页签 标签9（激活 → 编程滚动入视，覆盖区逐帧迁移）
@@ -1048,7 +1029,7 @@ describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
     const { screen } = renderStateTabs({ width: 600, count: 10, modelValue: 'tab5' });
     await settle();
 
-    // 桌面（几何路径）：遮蔽生效——存在携带遮蔽样式的页签（现状红：无）
+    // 桌面（几何路径）：遮蔽生效——存在携带遮蔽样式的页签
     const maskedCount = getNavs(screen).filter(isMasked).length;
     expect(maskedCount, '溢出态下应存在携带遮蔽样式的页签').toBeGreaterThan(0);
     expectCoverageMaskConsistent(screen);
@@ -1095,15 +1076,13 @@ describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
 });
 
 // ============================================================================
-// 省略号右缘让位滚动（视觉契约红用例组）
+// 省略号右缘让位滚动（视觉契约）
 //
-// 背景：遮蔽落地后，滚到最右时末尾页签整体落入省略号覆盖区被裁切/隐藏
-// （激活项只剩碎片）。根因：滚动入视与 clamp 把「容器右缘」当作可见终点，
-// 未为省略号本体让位；且内容尾部无空白，浏览器钳制下也不存在可让位的
-// 滚动余量。期望行为：省略号显示时，滚动终点为末尾页签右缘止于省略号
-// 本体左缘（边界线 B 与遮蔽/名单同一条线），激活末尾页签完整可见且
-// 不携带遮蔽样式。
-// ⚠️ 红绿纪律：让位断言基于现状运行失败（红），待让位实现落地后转绿。
+// 背景：省略号显示时，若滚动终点把「容器右缘」当作可见终点，末尾页签
+// 会整体落入省略号覆盖区被裁切/隐藏（激活项只剩碎片），且浏览器钳制下
+// 不存在可让位的滚动余量。让位契约：溢出态给可见列表尾部注入让位身位
+// （省略号本体宽 + 渐变阴影宽），滚动终点为末尾页签右缘止于渐变阴影左缘
+// ——激活末尾页签完整可见、不携带遮蔽样式，且尾部无空白。
 // ============================================================================
 
 /**
@@ -1124,7 +1103,7 @@ function expectActiveLeftOfEllipsis(screen: ScreenLike) {
   expect(getComputedStyle(activeNav).visibility, '让位后激活页签应保持可见').toBe('visible');
 }
 
-describe('省略号右缘让位滚动（视觉契约红用例组）', () => {
+describe('省略号右缘让位滚动（视觉契约）', () => {
   test('OTab 激活末尾页签 - 滚动入视时为省略号让位，末页签完整可见', async () => {
     await setViewport('desktop');
     // 前置条件：600px 容器 + 10 个页签（总宽约 747px），初始激活末尾 tab10
@@ -1135,9 +1114,27 @@ describe('省略号右缘让位滚动（视觉契约红用例组）', () => {
     const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
     expect(container.scrollLeft, '前置：激活视口外页签后容器已发生编程滚动').toBeGreaterThan(0);
 
-    // 期望行为：末尾页签完整可见于省略号左缘之内（现状红：滚动终点把
-    // 容器右缘当可见终点，末页签整体落入覆盖区被裁切，只剩碎片）
+    // 期望行为：末尾页签完整可见于省略号左缘之内（让位身位保证
+    // 滚动终点不以容器右缘为可见终点）
     expectActiveLeftOfEllipsis(screen);
+  });
+
+  test('OTab 激活末尾页签 - 滚动终点末页签右缘伸入渐变阴影，尾部无空白', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 10 个页签（总宽约 747px），初始激活末尾 tab10
+    // （滚动入视被 clamp 到最大滚动量，落点即滚动终点）
+    const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10' });
+    await settle();
+
+    // 滚动终点契约：末尾页签右缘不得早于省略号渐变阴影左缘——
+    // 尾部空白语义上等同于「省略号与内容之间露出一段无内容空隙」
+    const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+    const activeNav = screen.container.querySelector(ACTIVE_NAV_SELECTOR) as HTMLElement;
+    expect(ellipsis, '应存在省略号节点').not.toBeNull();
+    expect(activeNav, '应存在激活页签').not.toBeNull();
+    const activeRight = activeNav.getBoundingClientRect().right;
+    const shadowLeft = getEllipsisShadowLeft(ellipsis);
+    expect(activeRight, '滚动到最右时末尾页签右缘应不低于渐变阴影左缘（尾部无空白）').toBeGreaterThanOrEqual(shadowLeft - 1);
   });
 
   test('OTab 弹层选中末尾页签 - 滚动落点同样为省略号让位', async () => {
@@ -1148,9 +1145,7 @@ describe('省略号右缘让位滚动（视觉契约红用例组）', () => {
     await settle();
 
     const popup = await openEllipsisPopup(screen);
-    const option10 = Array.from(popup.querySelectorAll('.o-option')).find(
-      (o) => (o.textContent || '').trim() === '标签10',
-    ) as HTMLElement;
+    const option10 = Array.from(popup.querySelectorAll('.o-option')).find((o) => (o.textContent || '').trim() === '标签10') as HTMLElement;
     expect(option10).toBeDefined();
     option10.click();
     await settle();
@@ -1158,13 +1153,13 @@ describe('省略号右缘让位滚动（视觉契约红用例组）', () => {
     const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
     expect(container.scrollLeft, '前置：选中视口外页签后容器已发生编程滚动').toBeGreaterThan(0);
 
-    // 期望行为：动态激活路径的滚动落点同样让位（现状红：与初始激活同病）
+    // 期望行为：动态激活路径的滚动落点同样让位
     expectActiveLeftOfEllipsis(screen);
   });
 
   test('OTab size 矩阵 - 各尺寸下让位身位随省略号本体宽自适应', async () => {
     await setViewport('desktop');
-    // 省略号「…」宽度随 size 字号变化，让位身位（页签间距 + 省略号宽）
+    // 省略号「…」宽度随 size 字号变化，让位身位（省略号本体宽 + 渐变阴影宽）
     // 须在各尺寸下均成立：末尾页签完整可见于省略号本体左缘之内
     for (const size of ['small', 'medium', 'large'] as const) {
       const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10', size });

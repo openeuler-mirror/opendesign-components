@@ -117,8 +117,7 @@ const getChildData = (uid: number) => childMap[uid] as unknown as ChildDataT;
  * @description 获取当前激活 pane 对应的 uid
  * @returns 激活项 uid；无激活值或映射不到子项时返回 undefined
  */
-const getActiveUid = (): number | undefined =>
-  activeKey.value != null ? paneKeyToUid.value.get(activeKey.value) : undefined;
+const getActiveUid = (): number | undefined => (activeKey.value != null ? paneKeyToUid.value.get(activeKey.value) : undefined);
 
 /**
  * @description 判断当前是否走溢出几何路径：桌面端（非 lePadV）+ 非 button 变体 + 未设置 maxShow
@@ -141,9 +140,10 @@ const isCollapseActive = computed(() => (isGeometryPath() ? isOverflown.value : 
 /**
  * @description 可见列表的内联样式注入（按路径分流）
  * - maxShow 路径：宽度固定为容器宽，折叠项由数量/宽度状态机决定；
- * - 几何路径溢出态：尾部注入省略号让位身位（页签间距 + 省略号本体宽）——
- *   滚动到最右时末尾页签右缘止于省略号本体左缘，身位区由省略号本体覆盖，
- *   尾部无空白语义保持（getMaxScrollLeft 取列表 offsetWidth，含身位）；
+ * - 几何路径溢出态：尾部注入省略号让位身位（省略号本体宽 + 渐变阴影宽，
+ *   阴影宽经 CSS 变量 --tab-nav-ellipsis-shadow-width 在样式侧消费）——滚动
+ *   到最右时末尾页签右缘止于渐变阴影左缘，尾部无空白语义保持
+ *   （getMaxScrollLeft 取列表 offsetWidth，含身位）；
  * - 几何路径非溢出：不注入（溢出判定走零高度测量列表，不受本样式影响）
  */
 const navListStyle = computed(() => {
@@ -154,7 +154,9 @@ const navListStyle = computed(() => {
     return { width: `${navsContainerWidth.value}px` };
   }
   if (isCollapseActive.value) {
-    return { paddingRight: `${navGapNumber.value + ellipsisWidth.value}px` };
+    // 身位不消费页签间距（navGapNumber），几何路径与间距解耦；
+    // 阴影宽走 calc 链，用户覆盖 CSS 变量即时生效
+    return { paddingRight: `calc(${ellipsisWidth.value}px + var(--tab-nav-ellipsis-shadow-width))` };
   }
   return undefined;
 });
@@ -177,8 +179,7 @@ const syncNavElWidths = () => {
  * @param localShow 本地可见 uid 数组
  * @returns 可见列表累计宽度
  */
-const sumShowWidth = (localShow: number[]) =>
-  localShow.reduce((count, uid) => count + getChildData(uid).navElWidth! + navGapNumber.value, -navGapNumber.value);
+const sumShowWidth = (localShow: number[]) => localShow.reduce((count, uid) => count + getChildData(uid).navElWidth! + navGapNumber.value, -navGapNumber.value);
 
 /**
  * @description 激活项不在可见列表时，按模板书写顺序"就近"插回可见列表
@@ -219,11 +220,7 @@ const insertActiveUidNearby = (localShow: number[]): number => {
  * @param pushUid 当前路径的"尝试塞入"实现（见 pushShowUidWithMaxShow）
  * @returns 更新后的宽度记账
  */
-const backfillHiddenUids = (
-  localShow: number[],
-  widthCount: number,
-  pushUid: (localShow: number[], uid: number, widthCount: number) => number,
-) => {
+const backfillHiddenUids = (localShow: number[], widthCount: number, pushUid: (localShow: number[], uid: number, widthCount: number) => number) => {
   const localHidden = uidSet.value.filter((uid) => !localShow.includes(uid));
   // 用局部累加器承接每轮塞入后的宽度记账，避免改写入参
   let count = widthCount;
@@ -307,7 +304,10 @@ const sortUidListWithMaxShow = () => {
 
   // 回填：溢出缓解后把隐藏项重新塞回可见列表，再按模板序提交
   widthCount = backfillHiddenUids(localShow, widthCount, pushShowUidWithMaxShow);
-  commitUidLists(localShow, uidSet.value.filter((uid) => !localShow.includes(uid)));
+  commitUidLists(
+    localShow,
+    uidSet.value.filter((uid) => !localShow.includes(uid)),
+  );
 };
 
 /**
