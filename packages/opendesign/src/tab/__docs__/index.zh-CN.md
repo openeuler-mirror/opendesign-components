@@ -13,10 +13,13 @@ kind: nav
 <!-- @case CustomHead -->
 <!-- @case AlignLeft -->
 <!-- @case MobileOverflow -->
+<!-- @case FillTrailingSpace -->
 <!-- @case VModelInitial -->
 
 > [!WARNING]
 > **BREAKING CHANGE (v1.2.0)**：页签溢出交互重构，内部 DOM 结构发生变化。如果您通过 CSS 选择器依赖了内部 DOM 结构（如 `.o-tab-navs-container` 的子元素层级），请检查样式是否仍然生效。
+
+未设置 `maxShow` 时，溢出的页签仍全量渲染并被容器裁切：激活的页签始终滚动至完整可见，未完整显示的页签可经省略号弹层访问。
 
 ## API
 
