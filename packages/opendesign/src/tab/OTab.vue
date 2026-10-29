@@ -269,8 +269,8 @@ const pushShowUidWithMaxShow = (localShow: number[], uid: number, widthCount: nu
 };
 
 /**
- * @description 有 maxShow 的溢出折叠路径：数量与宽度双上限（回归隔离墙，行为保持不变）
- * 与无 maxShow 路径互不共享判据：同时受"可见数量 ≤ maxShow"与"总宽 ≤ 容器宽"约束，
+ * @description 有 maxShow 的溢出折叠路径：数量与宽度双上限
+ * 此路径独立演进，与无 maxShow 的几何路径互不共享判据：同时受"可见数量 ≤ maxShow"与"总宽 ≤ 容器宽"约束，
  * 溢出项折叠进"更多"按钮弹层
  */
 const sortUidListWithMaxShow = () => {
@@ -311,9 +311,9 @@ const sortUidListWithMaxShow = () => {
 };
 
 /**
- * @description 有 maxShow 的折叠状态机入口（回归隔离墙，行为保持不变）
- * button 变体与移动端（lePadV）走全量渲染早退；无 maxShow 桌面端已分流到几何路径，
- * 不再进入宽度状态机（本函数仅供 layout 管线的非几何分支调用）
+ * @description 有 maxShow 的折叠状态机入口
+ * button 变体与移动端（lePadV）走全量渲染早退；无 maxShow 的桌面端由几何路径
+ * 处理、不进入宽度状态机（本函数仅供 layout 管线的非几何分支调用）
  */
 const sortUidList = () => {
   if (props.variant === 'button' || lePadV.value) {
@@ -539,7 +539,7 @@ const layoutGeometry = () => {
  * 触发源：容器 resize（v-on-resize）/ 页签增删（MutationObserver + uidSet）/ 断点切换（lePadV）/
  * 激活变化 / 省略号宽度变化 / 容器与内容测量宽度变化（onMounted watch）
  * - 几何路径：几何布局管线；
- * - 其余路径（maxShow 状态机 / button / 移动端）：状态机 + 指示器 + 移动端入视滚动，行为保持不变
+ * - 其余路径（maxShow 状态机 / button / 移动端）：状态机 + 指示器 + 移动端入视滚动
  */
 const layout = debounceRAF(() => {
   // 移动端两侧渐变 class（内部自带 lePadV 守卫，桌面端为空操作）
