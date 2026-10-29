@@ -411,9 +411,62 @@ const pinEllipsisToViewport = (container: HTMLElement) => {
 };
 
 /**
+ * @description 仅在内联样式值变化时写入，避免逐帧重算期间触发无谓的样式失效
+ * @param el 目标 DOM 节点
+ * @param prop 内联样式属性名（camelCase）
+ * @param value 目标值，空字符串即移除内联声明
+ */
+const setStyleIfChanged = (el: HTMLElement, prop: 'clipPath' | 'visibility', value: string) => {
+  if (el.style[prop] !== value) {
+    el.style[prop] = value;
+  }
+};
+
+/**
+ * @description 省略号覆盖区遮蔽：对单个页签注入/清除内联遮蔽样式
+ * 边界线与隐藏名单同一条线（visibleRight，±1px 容差）三分支：
+ * - 右缘越界且左缘仍在边界内（部分可见）→ clip-path 右侧裁切，可见区恰止于边界线；
+ * - 左缘越过边界线（整体落入覆盖区）→ visibility 隐藏，保留布局占位；
+ * - 右缘未越界（含左侧滚出、渐变阴影区）→ 无遮蔽样式。
+ * 省略号盒背景透明，未遮蔽时覆盖区会透出下层页签文字；裁切不依赖任何颜色假设
+ * @param navEl 页签 DOM 节点
+ * @param rect 页签当前视口矩形
+ * @param visibleRight 可见边界线（容器右缘 − 省略号本体宽）
+ */
+const applyCoverageMask = (navEl: HTMLElement, rect: DOMRect, visibleRight: number) => {
+  if (rect.right > visibleRight + 1) {
+    if (rect.left >= visibleRight - 1) {
+      setStyleIfChanged(navEl, 'visibility', 'hidden');
+      setStyleIfChanged(navEl, 'clipPath', '');
+    } else {
+      setStyleIfChanged(navEl, 'clipPath', `inset(0 ${rect.right - visibleRight}px 0 0)`);
+      setStyleIfChanged(navEl, 'visibility', '');
+    }
+    return;
+  }
+  setStyleIfChanged(navEl, 'clipPath', '');
+  setStyleIfChanged(navEl, 'visibility', '');
+};
+
+/**
+ * @description 清除全部页签的覆盖区遮蔽内联样式（离开几何路径清场）
+ * 未挂载的页签（如 maxShow 折叠出可见列表）无 navEl，无需处理
+ */
+const clearNavMasks = () => {
+  uidSet.value.forEach((uid) => {
+    const navEl = getChildData(uid)?.navEl;
+    if (navEl) {
+      setStyleIfChanged(navEl, 'clipPath', '');
+      setStyleIfChanged(navEl, 'visibility', '');
+    }
+  });
+};
+
+/**
  * @description 几何路径隐藏名单重算：不完全可见（左/右任一缘越界）的页签进入省略号弹层名单
  * 同步 getBoundingClientRect 计算。右缘可见边界 = 容器右缘 − 省略号本体宽度
- * （渐变阴影区计为可见、省略号本体覆盖区计为不可见），边界容差 1px
+ * （渐变阴影区计为可见、省略号本体覆盖区计为不可见），边界容差 1px。
+ * 同循环内逐页签同步覆盖区遮蔽：越界右缘裁切、覆盖区整体隐藏（见 applyCoverageMask）
  */
 const updateHiddenListGeometry = () => {
   if (!isGeometryPath()) {
@@ -439,6 +492,8 @@ const updateHiddenListGeometry = () => {
     if (rect.left < containerRect.left - 1 || rect.right > visibleRight + 1) {
       hidden.push(uid);
     }
+    // 覆盖区遮蔽与名单同线同步：右缘越界裁切、整体覆盖隐藏、未越界清场
+    applyCoverageMask(navEl, rect, visibleRight);
   });
   hiddenUids.value = hidden;
 };
@@ -487,10 +542,11 @@ const layout = debounceRAF(() => {
   sortUidList();
   updateAnchor();
   scrollActiveIntoView();
-  // 离开几何路径（断点切换/变更 maxShow）时清除省略号钉住的平移，避免残留内联样式
+  // 离开几何路径（断点切换/变更 maxShow）时清除省略号钉住的平移与页签遮蔽内联样式，避免残留
   if (ellipsisRef.value) {
     ellipsisRef.value.style.transform = '';
   }
+  clearNavMasks();
 });
 
 /**

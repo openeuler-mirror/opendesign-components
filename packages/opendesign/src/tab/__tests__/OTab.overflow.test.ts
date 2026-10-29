@@ -8,12 +8,17 @@
  * 基于 6e064cab 现状运行时**全部失败（红）**，等待溢出几何模型实现（T04，
  * 即「全量渲染 + 容器裁切 + 激活项就近滚动入视」）落地后转绿。
  *
- * 范围：桌面端（非 lePadV 断点，全局 setup 默认视口 1920×1080）、
- * `variant` 非 `button`、未设置 `maxShow` 的溢出行为，含两组用例：
- *   - 静态几何契约（T03 红用例组）：模型就位前先行红、T04 落地后转绿；
- *   - 动态交互收口（T05 验证用例组）：模型就位后的动态场景（closable /
+ * 范围：桌面端（非 lePadV 断点，全局 setup 默认视口 1920×1080）的溢出行为，含四组用例：
+ *   - 静态几何契约（T03 红用例组）：`variant` 非 `button`、未设置 `maxShow` 的
+ *     几何路径——模型就位前先行红、T04 落地后转绿；
+ *   - 动态交互收口（T05 验证用例组）：几何路径的动态场景（closable /
  *     addable / 文案变化 / 断点往返 / 弹层选中 / prefix 插槽），预期全绿——
- *     若出现红即为几何模型的真实 bug。
+ *     若出现红即为几何模型的真实 bug；
+ *   - 省略号覆盖区遮蔽（视觉契约红用例组）：几何路径溢出态下省略号覆盖区
+ *     的页签遮蔽——部分可见页签 clip-path 右侧裁切至边界、完全覆盖页签
+ *     visibility 隐藏保占位、离开几何路径/非溢出清场，待遮蔽实现落地后转绿；
+ *   - maxShow/button 回归护栏（特征化用例组）：隔离墙路径当前行为的保持
+ *     （Spec Testing Decisions #6），预期全绿——若红说明几何路径越界。
  *
  * 断言接缝：组件挂载级 DOM 行为（class / rect / scrollLeft / 弹层内容），
  * 只断言外部可观测行为，不断言内部状态与实现细节。
@@ -81,12 +86,17 @@ function renderTabs({ width, count, modelValue, variant = 'text' }: RenderTabsOp
 }
 
 /**
+ * 固定时长等待：弹层过渡显隐等非时间敏感场景（无轮询条件，保持时序不变）
+ */
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
  * 等布局落定：sortUidList（debounceRAF）+ useElementBounding 测量链 +
  * 省略号显隐一帧时差收敛。固定等待（非轮询条件），无时间敏感断言。
  */
 async function settle() {
   await flush();
-  await new Promise((r) => setTimeout(r, 500));
+  await wait(500);
 }
 
 /** 读取省略号渐变阴影的左缘（视口坐标）：阴影为省略号节点的 ::before，左移一个阴影宽 */
@@ -152,7 +162,7 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
     // 点击省略号打开弹层（内容 Teleport 到 document.body，取最后一个实例）
     const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
     ellipsis.click();
-    await new Promise((r) => setTimeout(r, 600));
+    await wait(600);
 
     // 期望行为（spec「不完全可见（左右任一缘越界）即进弹层名单」）：
     // 部分可见页签应出现在省略号弹层名单中（受控重复：既露出又出现在弹层）。
@@ -362,7 +372,7 @@ const isPartiallyCutByRight = (containerRect: DOMRect) => (nav: HTMLElement) => 
  */
 async function openEllipsisPopup(screen: ScreenLike): Promise<HTMLElement> {
   (screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement).click();
-  await new Promise((r) => setTimeout(r, 600));
+  await wait(600);
   const popup = lastBodyEl(POPUP_SELECTOR);
   expect(popup, '省略号弹层应已展开').not.toBeNull();
   return popup!;
@@ -700,5 +710,359 @@ describe('动态交互收口（几何模型验证用例组）', () => {
     expect(getComputedStyle(ellipsis).display).toBe('none');
     expect(container.classList.contains('overflown')).toBe(false);
     expect(container.scrollLeft).toBe(0);
+  });
+});
+
+// ============================================================================
+// maxShow/button 回归护栏（特征化用例组）
+//
+// Spec：https://gitcode.com/opendesign/opendesign-components/issues/226
+// Testing Decisions #6「回归护栏：maxShow 路径不变、button 变体不变」：
+// 溢出几何模型仅覆盖「无 maxShow + 非 button + 桌面端」路径，maxShow 状态机
+// 与 button 变体是隔离墙内的独立路径。本组用例为特征化护栏——断言的是
+// 上述路径当前行为的保持，而非新行为；预期全绿，若红说明几何路径越界。
+// ============================================================================
+
+/** maxShow 模式「更多」按钮的下拉箭头图标节点（按钮本身不带 .o-tab-nav-ellipsis 类） */
+const MORE_ARROW_SELECTOR = '.o-tab-nav-more-arrow';
+
+/**
+ * 读取可见列表内的页签元素（排除「更多」按钮——它同带 .o-tab-nav 类，
+ * 但 maxShow 模式下不带省略号类名，不能沿用 VISIBLE_NAV_SELECTOR 的排除法）
+ */
+const getPaneNavs = (screen: ScreenLike) =>
+  (Array.from(screen.container.querySelector(VISIBLE_LIST_SELECTOR)!.querySelectorAll(':scope > .o-tab-nav')) as HTMLElement[]).filter(
+    (el) => !el.querySelector(MORE_ARROW_SELECTOR),
+  );
+
+/** 读取 maxShow 模式的「更多」按钮元素（箭头图标的最近 nav 祖先） */
+function getMoreButton(screen: ScreenLike): HTMLElement | null {
+  const arrow = screen.container.querySelector(MORE_ARROW_SELECTOR);
+  return arrow ? (arrow.closest('.o-tab-nav') as HTMLElement) : null;
+}
+
+describe('maxShow/button 回归护栏（特征化用例组）', () => {
+  test('maxShow 数量上限折叠 - 可见列表恰 maxShow 项并展示「更多」按钮', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 10 个页签，数量上限 4 → 宽度约束不参与裁剪
+    const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab1', maxShow: 4 });
+    await settle();
+
+    // 期望行为（特征化护栏）：数量上限折叠——可见列表恰 4 项（模板序前 4 个）
+    const paneNavs = getPaneNavs(screen);
+    expect(paneNavs.map((n) => (n.textContent || '').trim())).toEqual(['标签1', '标签2', '标签3', '标签4']);
+
+    // 「更多」按钮展示（含默认文案与箭头图标），容器处于溢出折叠态
+    const moreButton = getMoreButton(screen);
+    expect(moreButton).not.toBeNull();
+    expect(getComputedStyle(moreButton!).display).not.toBe('none');
+    expect((moreButton!.textContent || '').trim()).toContain('更多');
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    expect(container.classList.contains('overflown')).toBe(true);
+  });
+
+  test('maxShow 溢出预留宽度 - 折叠内容不越过容器宽，宽度上限参与裁剪', async () => {
+    await setViewport('desktop');
+    // 前置条件：300px 窄容器 + 10 个页签，数量上限 4 → 宽度上限更紧
+    // （折叠内容与「更多」按钮需整体放入容器，仅 3 项可完整容纳）
+    const screen = renderTabs({ width: 300, count: 10, modelValue: 'tab1', maxShow: 4 });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    const containerRect = container.getBoundingClientRect();
+    const paneNavs = getPaneNavs(screen);
+    const moreButton = getMoreButton(screen);
+    expect(moreButton).not.toBeNull();
+
+    // 期望行为（特征化护栏）：为「更多」按钮预留宽度后折叠内容整体在容器宽内
+    for (const nav of paneNavs) {
+      const rect = nav.getBoundingClientRect();
+      expect(rect.left).toBeGreaterThanOrEqual(containerRect.left - 1);
+      expect(rect.right).toBeLessThanOrEqual(moreButton!.getBoundingClientRect().left + 1);
+    }
+    expect(moreButton!.getBoundingClientRect().right).toBeLessThanOrEqual(containerRect.right + 1);
+    // 数量与宽度双上限取更紧者：窄容器下可见项少于 maxShow
+    expect(paneNavs.length).toBeLessThan(4);
+    expect(paneNavs.length).toBeGreaterThan(0);
+  });
+
+  test('maxShow 弹层名单 - 折叠项进入「更多」弹层，可见项不在', async () => {
+    await setViewport('desktop');
+    const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab1', maxShow: 4 });
+    await settle();
+
+    // 打开「更多」弹层（内容 Teleport 到 document.body，取最后一个实例）
+    getMoreButton(screen)!.click();
+    await wait(600);
+    const popup = lastBodyEl(POPUP_SELECTOR);
+    expect(popup).not.toBeNull();
+    const optionTexts = Array.from(popup!.querySelectorAll('.o-option')).map((o) => (o.textContent || '').trim());
+
+    // 期望行为（特征化护栏，maxShow 语义）：数量上限折叠的项（标签5..标签10）在弹层名单中
+    for (let i = 5; i <= 10; i++) {
+      expect(optionTexts, `折叠项 标签${i} 应出现在「更多」弹层名单中`).toContain(`标签${i}`);
+    }
+    // 反向：可见项（标签1..标签4）不在弹层名单中
+    for (let i = 1; i <= 4; i++) {
+      expect(optionTexts, `可见项 标签${i} 不应出现在「更多」弹层名单中`).not.toContain(`标签${i}`);
+    }
+  });
+
+  test('maxShow 路径不发生编程滚动 - 激活折叠项被就近插回可见列表，scrollLeft 恒 0', async () => {
+    await setViewport('desktop');
+    // 前置条件：激活项 tab10 初始位于折叠名单中——maxShow 状态机将其就近插回
+    // 可见列表（而非依赖几何路径的编程滚动入视）
+    const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10', maxShow: 4 });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    const paneNavs = getPaneNavs(screen);
+    // 激活项在可见列表内（就近插回语义），可见数量仍不超过 maxShow
+    expect(paneNavs.map((n) => (n.textContent || '').trim())).toContain('标签10');
+    expect(paneNavs.length).toBe(4);
+    // 防几何路径越界：maxShow 路径不发生编程滚动
+    expect(container.scrollLeft, 'maxShow 路径容器 scrollLeft 应恒为 0').toBe(0);
+
+    // 从弹层选中折叠项后激活切换，仍不引入滚动（隔离墙语义保持）
+    getMoreButton(screen)!.click();
+    await wait(600);
+    const popup = lastBodyEl(POPUP_SELECTOR)!;
+    const option1 = Array.from(popup.querySelectorAll('.o-option')).find((o) => (o.textContent || '').trim() === '标签1') as HTMLElement;
+    option1.click();
+    await settle();
+    expect(container.scrollLeft, '弹层选中折叠项后 scrollLeft 应保持 0').toBe(0);
+    expect(getPaneNavs(screen).map((n) => (n.textContent || '').trim())).toContain('标签1');
+  });
+
+  test('button 变体 - 全量渲染无折叠、无指示器，溢出态 class 判据与几何路径隔离', async () => {
+    await setViewport('desktop');
+    // 前置条件：400px 容器 + 10 个页签 → 内容总宽超出容器（自然溢出）
+    const screen = renderTabs({ width: 400, count: 10, modelValue: 'tab1', variant: 'button' });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    expect(container.scrollWidth, '前置：内容总宽超出容器').toBeGreaterThan(container.clientWidth);
+
+    // 期望行为（特征化护栏）：button 变体全量渲染，不折叠、无「更多」按钮与省略号节点
+    const paneNavs = getPaneNavs(screen);
+    expect(paneNavs.map((n) => (n.textContent || '').trim())).toEqual(Array.from({ length: 10 }, (_, i) => `标签${i + 1}`));
+    expect(screen.container.querySelector(MORE_ARROW_SELECTOR)).toBeNull();
+    expect(screen.container.querySelector(ELLIPSIS_SELECTOR)).toBeNull();
+    // 溢出态 class 判据与几何路径隔离：button 路径隐藏名单恒空 → 不进入折叠态
+    expect(container.classList.contains('overflown')).toBe(false);
+    // 无指示器（anchor 仅 text 变体渲染）
+    expect(screen.container.querySelector('.o-tab-nav-anchor')).toBeNull();
+    // 不发生编程滚动
+    expect(container.scrollLeft).toBe(0);
+  });
+
+  test('button 变体 - maxShow 折叠对 button 不生效（全量渲染早退优先）', async () => {
+    await setViewport('desktop');
+    // 前置条件：button + maxShow=4——button 的全量渲染早退先于 maxShow 状态机
+    const screen = renderTabs({ width: 400, count: 10, modelValue: 'tab1', variant: 'button', maxShow: 4 });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    // 期望行为（特征化护栏）：maxShow 数量上限对 button 变体不生效，仍全量渲染
+    const paneNavs = getPaneNavs(screen);
+    expect(paneNavs.length).toBe(10);
+    expect(getMoreButton(screen)).toBeNull();
+    expect(container.classList.contains('overflown')).toBe(false);
+    expect(container.scrollLeft).toBe(0);
+  });
+});
+
+// ============================================================================
+// 省略号覆盖区遮蔽（视觉契约红用例组）
+//
+// 背景：几何路径下省略号盒背景透明，其覆盖区（省略号本体左缘至容器右缘）
+// 会透出下层页签文字。本组断言覆盖区遮蔽契约——边界线 B = 容器右缘 −
+// 省略号本体宽（与隐藏名单同一条线，±1px 容差）：
+//   - 右缘 ≤ B 的页签（含渐变阴影区、视口内完整可见、左侧滚出）：
+//     不携带任何遮蔽注入样式；
+//   - 跨越 B 的部分可见页签：clip-path 右侧裁切，可见区恰止于 B；
+//   - 左缘 ≥ B 的页签（整体落入覆盖区）：visibility:hidden（保布局占位）。
+// 断言接缝为 computed style + rect 的外部可观测量。
+// ⚠️ 红绿纪律：遮蔽断言基于现状运行失败（红），待遮蔽实现落地后转绿；
+// 清场护栏用例现状即绿，修复后必须保持绿。
+// ============================================================================
+
+/**
+ * 读取页签 computed clip-path 的右侧裁切量（px）
+ * @param nav 页签元素
+ * @returns inset() 的 right 分量；无 inset 裁切时返回 null
+ */
+function getClipRightInset(nav: HTMLElement): number | null {
+  const clip = getComputedStyle(nav).clipPath;
+  const matched = clip.match(/inset\(([^)]+)\)/);
+  if (!matched) {
+    return null;
+  }
+  // inset(top right bottom left)，不足 4 值时按 CSS 展开规则取第 2 位为 right
+  const parts = matched[1].trim().split(/\s+/).map(parseFloat);
+  return parts.length >= 2 ? parts[1] : parts[0];
+}
+
+/**
+ * 判据：页签携带遮蔽注入样式（clip-path 裁切或 visibility 隐藏）
+ * @param nav 页签元素
+ */
+const isMasked = (nav: HTMLElement) => getComputedStyle(nav).clipPath !== 'none' || getComputedStyle(nav).visibility === 'hidden';
+
+/**
+ * 断言覆盖区遮蔽契约在全部可见页签上一致成立（遮蔽契约的三分支全量校验）
+ * @param screen 渲染句柄
+ * @returns 边界线 B 的视口横坐标（供前置条件复用）
+ */
+function expectCoverageMaskConsistent(screen: ScreenLike): number {
+  const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+  const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+  const containerRect = container.getBoundingClientRect();
+  const boundary = containerRect.right - ellipsis.getBoundingClientRect().width;
+  for (const nav of getNavs(screen)) {
+    const rect = nav.getBoundingClientRect();
+    const label = (nav.textContent || '').trim();
+    if (rect.right <= boundary + 1) {
+      // 阴影区/视口内完整可见/左侧滚出：不携带任何遮蔽注入样式
+      expect(getComputedStyle(nav).clipPath, `页签 ${label} 右缘未越界，不应携带 clip-path`).toBe('none');
+      expect(getComputedStyle(nav).visibility, `页签 ${label} 右缘未越界，应保持可见`).toBe('visible');
+    } else if (rect.left >= boundary - 1) {
+      // 整体落入覆盖区：隐藏但保留布局占位
+      expect(getComputedStyle(nav).visibility, `页签 ${label} 整体在省略号覆盖区内，应被隐藏`).toBe('hidden');
+      expect(rect.width, `页签 ${label} 隐藏后应保留布局占位`).toBeGreaterThan(0);
+    } else {
+      // 跨越边界：clip-path 右侧裁切，裁切量 = 右缘越界量（可见区恰止于 B）
+      const inset = getClipRightInset(nav);
+      expect(inset, `页签 ${label} 跨越省略号边界，应携带 clip-path 右侧裁切`).not.toBeNull();
+      expect(Math.abs(inset! - (rect.right - boundary)), `页签 ${label} 裁切后可见区应恰止于省略号本体左缘`).toBeLessThanOrEqual(1.5);
+    }
+  }
+  return boundary;
+}
+
+describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
+  test('OTab 部分可见页签 - 可见区止于省略号本体左缘（clip-path 右侧裁切）', async () => {
+    await setViewport('desktop');
+    // 前置条件：540px 容器 + 10 个页签（总宽约 747px），省略号边界线落在
+    // 中部页签跨度内，保证存在「左缘在边界内、右缘越界」的跨越页签。
+    // 激活首个页签（完整可见，无需滚动）。
+    const screen = renderTabs({ width: 540, count: 10, modelValue: 'tab1' });
+    await settle();
+
+    const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    expect(getComputedStyle(ellipsis).display).not.toBe('none');
+    const boundary = container.getBoundingClientRect().right - ellipsis.getBoundingClientRect().width;
+
+    // 前置确认：存在跨越边界线的部分可见页签（保证裁切分支被真实触达）
+    const straddling = getNavs(screen).find((nav) => {
+      const rect = nav.getBoundingClientRect();
+      return rect.left < boundary - 1 && rect.right > boundary + 1;
+    });
+    expect(straddling, '前置：应存在跨越省略号边界线的部分可见页签').toBeDefined();
+
+    // 期望行为：部分可见页签的可见区止于省略号本体左缘（现状红：无注入样式，
+    // 透明覆盖区透出下层页签文字）——遮蔽三分支由 expectCoverageMaskConsistent 全量校验
+    expectCoverageMaskConsistent(screen);
+  });
+
+  test('OTab 完全落入覆盖区的页签 - visibility 隐藏且保留布局占位', async () => {
+    await setViewport('desktop');
+    // 前置条件：540px 容器 + 10 个页签，尾部页签整体落入省略号覆盖区
+    const screen = renderTabs({ width: 540, count: 10, modelValue: 'tab1' });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+    const boundary = container.getBoundingClientRect().right - ellipsis.getBoundingClientRect().width;
+
+    // 前置确认：存在整体落入覆盖区的页签（左缘越过边界线）
+    const covered = getNavs(screen).filter((nav) => {
+      const rect = nav.getBoundingClientRect();
+      return rect.left >= boundary - 1 && rect.right > boundary + 1;
+    });
+    expect(covered.length, '前置：应存在整体落入省略号覆盖区的页签').toBeGreaterThan(0);
+
+    // 期望行为：覆盖区内页签隐藏但保留布局占位（现状红：均保持 visible，
+    // 文字经透明覆盖区透出）。遮蔽三分支一致性由 expectCoverageMaskConsistent 全量校验
+    expectCoverageMaskConsistent(screen);
+  });
+
+  test('OTab 滚动后覆盖区迁移 - 遮蔽样式随逐帧重算更新且无残留', async () => {
+    await setViewport('desktop');
+    // 前置条件：560px 容器 + 10 个页签，初始激活首项；随后弹层选中视口外页签，
+    // 容器平滑滚动，覆盖区随滚动位置迁移
+    const { screen } = renderStateTabs({ width: 560, count: 10, modelValue: 'tab1' });
+    await settle();
+
+    // 初始遮蔽契约成立（现状红：无注入样式）
+    expectCoverageMaskConsistent(screen);
+
+    // 弹层选中视口外页签 标签9（激活 → 编程滚动入视，覆盖区逐帧迁移）
+    const popup = await openEllipsisPopup(screen);
+    const option9 = Array.from(popup.querySelectorAll('.o-option')).find((o) => (o.textContent || '').trim() === '标签9') as HTMLElement;
+    expect(option9).toBeDefined();
+    option9.click();
+    await settle();
+
+    // 激活项滚动入视且完整可见
+    expectActiveFullyVisible(screen);
+    // 曾落入覆盖区的 标签9 现已完整可见：不携带任何遮蔽注入样式（无残留）
+    const nav9 = findNavByText(getNavs(screen), '标签9')!;
+    expect(getComputedStyle(nav9).visibility).toBe('visible');
+    expect(getComputedStyle(nav9).clipPath).toBe('none');
+    // 新滚动位置下遮蔽契约仍一致（覆盖区迁移到新的页签集合）
+    expectCoverageMaskConsistent(screen);
+  });
+
+  test('OTab 断点往返 desktop↔phone - 离开几何路径遮蔽样式清场，返回后重算', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 10 个页签（溢出），激活中位页签
+    const { screen } = renderStateTabs({ width: 600, count: 10, modelValue: 'tab5' });
+    await settle();
+
+    // 桌面（几何路径）：遮蔽生效——存在携带遮蔽样式的页签（现状红：无）
+    const maskedCount = getNavs(screen).filter(isMasked).length;
+    expect(maskedCount, '溢出态下应存在携带遮蔽样式的页签').toBeGreaterThan(0);
+    expectCoverageMaskConsistent(screen);
+
+    // 切到 phone（lePadV）：离开几何路径，全部页签无遮蔽注入样式（清场）
+    await setViewport('phone');
+    await settle();
+    for (const nav of getNavs(screen)) {
+      const label = (nav.textContent || '').trim();
+      expect(getComputedStyle(nav).clipPath, `页签 ${label} 离开几何路径后不应携带 clip-path`).toBe('none');
+      expect(getComputedStyle(nav).visibility, `页签 ${label} 离开几何路径后应恢复可见`).toBe('visible');
+    }
+
+    // 切回 desktop（几何路径）：遮蔽重算恢复
+    await setViewport('desktop');
+    await settle();
+    expect(getNavs(screen).filter(isMasked).length).toBeGreaterThan(0);
+    expectCoverageMaskConsistent(screen);
+  });
+
+  test('OTab 非溢出与 maxShow 路径 - 页签不携带任何遮蔽注入样式', async () => {
+    await setViewport('desktop');
+    // 前置条件 A：非溢出（600px 容器 + 3 个页签，总宽约 199px）
+    const screenA = renderTabs({ width: 600, count: 3, modelValue: 'tab1' });
+    await settle();
+    const ellipsisA = screenA.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+    expect(getComputedStyle(ellipsisA).display).toBe('none');
+    for (const nav of getNavs(screenA)) {
+      expect(getComputedStyle(nav).clipPath).toBe('none');
+      expect(getComputedStyle(nav).visibility).toBe('visible');
+    }
+    screenA.unmount();
+    await flush();
+
+    // 前置条件 B：maxShow 状态机路径（隔离墙，遮蔽仅限几何路径）
+    const screenB = renderTabs({ width: 600, count: 10, modelValue: 'tab1', maxShow: 4 });
+    await settle();
+    for (const nav of getPaneNavs(screenB)) {
+      const label = (nav.textContent || '').trim();
+      expect(getComputedStyle(nav).clipPath, `页签 ${label} 属 maxShow 路径，不应携带 clip-path`).toBe('none');
+      expect(getComputedStyle(nav).visibility, `页签 ${label} 属 maxShow 路径，应保持可见`).toBe('visible');
+    }
   });
 });
