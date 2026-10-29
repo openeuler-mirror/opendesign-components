@@ -67,17 +67,21 @@ interface RenderTabsOptions {
   count: number;
   /** 初始激活页签 */
   modelValue: string;
-  /** 变体（默认 text；button 路径为回归隔离墙，不在本组用例范围） */
-  variant?: 'text' | 'solid';
+  /** 变体（默认 text；几何路径用例限定非 button，护栏组覆盖 button 隔离墙路径） */
+  variant?: 'text' | 'solid' | 'button';
+  /** 最大展示个数（maxShow 状态机路径，护栏组使用） */
+  maxShow?: number;
+  /** 尺寸（省略号本体宽随字号变化，验证让位身位随尺寸自适应） */
+  size?: 'small' | 'medium' | 'large';
 }
 
 /** 以固定宽度容器 + N 个「标签N」页签挂载 OTab（桌面端默认 text/medium） */
-function renderTabs({ width, count, modelValue, variant = 'text' }: RenderTabsOptions) {
+function renderTabs({ width, count, modelValue, variant = 'text', maxShow, size }: RenderTabsOptions) {
   return render({
     setup() {
       return () =>
         h('div', { style: `width: ${width}px;` }, [
-          h(OTab, { modelValue, variant }, () =>
+          h(OTab, { modelValue, variant, maxShow, size }, () =>
             Array.from({ length: count }, (_, i) => h(OTabPane, { value: `tab${i + 1}`, label: `标签${i + 1}` })),
           ),
         ]);
@@ -1064,5 +1068,121 @@ describe('省略号覆盖区遮蔽（视觉契约红用例组）', () => {
       expect(getComputedStyle(nav).clipPath, `页签 ${label} 属 maxShow 路径，不应携带 clip-path`).toBe('none');
       expect(getComputedStyle(nav).visibility, `页签 ${label} 属 maxShow 路径，应保持可见`).toBe('visible');
     }
+  });
+});
+
+// ============================================================================
+// 省略号右缘让位滚动（视觉契约红用例组）
+//
+// 背景：遮蔽落地后，滚到最右时末尾页签整体落入省略号覆盖区被裁切/隐藏
+// （激活项只剩碎片）。根因：滚动入视与 clamp 把「容器右缘」当作可见终点，
+// 未为省略号本体让位；且内容尾部无空白，浏览器钳制下也不存在可让位的
+// 滚动余量。期望行为：省略号显示时，滚动终点为末尾页签右缘止于省略号
+// 本体左缘（边界线 B 与遮蔽/名单同一条线），激活末尾页签完整可见且
+// 不携带遮蔽样式。
+// ⚠️ 红绿纪律：让位断言基于现状运行失败（红），待让位实现落地后转绿。
+// ============================================================================
+
+/**
+ * 断言激活页签在省略号左缘内完整可见且未被遮蔽管线处理（让位契约）
+ * @param screen 渲染句柄
+ */
+function expectActiveLeftOfEllipsis(screen: ScreenLike) {
+  const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+  const activeNav = screen.container.querySelector(ACTIVE_NAV_SELECTOR) as HTMLElement;
+  expect(ellipsis, '应存在省略号节点').not.toBeNull();
+  expect(activeNav, '应存在激活页签').not.toBeNull();
+  // 激活页签右缘不越过省略号本体左缘（±1px 容差）
+  const ellipsisLeft = ellipsis.getBoundingClientRect().left;
+  const activeRight = activeNav.getBoundingClientRect().right;
+  expect(activeRight, '激活页签右缘应止于省略号本体左缘（为省略号让位）').toBeLessThanOrEqual(ellipsisLeft + 1);
+  // 让位后激活页签不落入遮蔽范围：不携带裁切/隐藏样式
+  expect(getComputedStyle(activeNav).clipPath, '让位后激活页签不应携带 clip-path 裁切').toBe('none');
+  expect(getComputedStyle(activeNav).visibility, '让位后激活页签应保持可见').toBe('visible');
+}
+
+describe('省略号右缘让位滚动（视觉契约红用例组）', () => {
+  test('OTab 激活末尾页签 - 滚动入视时为省略号让位，末页签完整可见', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 10 个页签（总宽约 747px），初始激活末尾 tab10
+    // （位于视口外，挂载时滚动入视）
+    const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10' });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    expect(container.scrollLeft, '前置：激活视口外页签后容器已发生编程滚动').toBeGreaterThan(0);
+
+    // 期望行为：末尾页签完整可见于省略号左缘之内（现状红：滚动终点把
+    // 容器右缘当可见终点，末页签整体落入覆盖区被裁切，只剩碎片）
+    expectActiveLeftOfEllipsis(screen);
+  });
+
+  test('OTab 弹层选中末尾页签 - 滚动落点同样为省略号让位', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 10 个页签，初始激活 tab1；经省略号弹层选中
+    // 末尾页签（动态激活 → 滚动入视路径）
+    const { screen } = renderStateTabs({ width: 600, count: 10, modelValue: 'tab1' });
+    await settle();
+
+    const popup = await openEllipsisPopup(screen);
+    const option10 = Array.from(popup.querySelectorAll('.o-option')).find(
+      (o) => (o.textContent || '').trim() === '标签10',
+    ) as HTMLElement;
+    expect(option10).toBeDefined();
+    option10.click();
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    expect(container.scrollLeft, '前置：选中视口外页签后容器已发生编程滚动').toBeGreaterThan(0);
+
+    // 期望行为：动态激活路径的滚动落点同样让位（现状红：与初始激活同病）
+    expectActiveLeftOfEllipsis(screen);
+  });
+
+  test('OTab size 矩阵 - 各尺寸下让位身位随省略号本体宽自适应', async () => {
+    await setViewport('desktop');
+    // 省略号「…」宽度随 size 字号变化，让位身位（页签间距 + 省略号宽）
+    // 须在各尺寸下均成立：末尾页签完整可见于省略号本体左缘之内
+    for (const size of ['small', 'medium', 'large'] as const) {
+      const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10', size });
+      await settle();
+      expectActiveLeftOfEllipsis(screen);
+      screen.unmount();
+      await flush();
+    }
+  });
+
+  test('OTab 断点往返 desktop↔phone - 让位身位随几何路径进退，无残留', async () => {
+    await setViewport('desktop');
+    const { screen } = renderStateTabs({ width: 600, count: 10, modelValue: 'tab5' });
+    await settle();
+
+    // 桌面（几何路径溢出态）：列表携带让位身位，激活项在省略号左缘内完整可见
+    const list = screen.container.querySelector(VISIBLE_LIST_SELECTOR) as HTMLElement;
+    expect(list.style.paddingRight, '溢出态下可见列表应携带尾部让位身位').not.toBe('');
+    expectActiveLeftOfEllipsis(screen);
+
+    // 切到 phone（lePadV）：离开几何路径，让位身位清除
+    await setViewport('phone');
+    await settle();
+    expect(list.style.paddingRight, '离开几何路径后让位身位应清除').toBe('');
+
+    // 切回 desktop（几何路径）：让位身位恢复，激活项完整可见
+    await setViewport('desktop');
+    await settle();
+    expect(list.style.paddingRight, '回到几何路径后让位身位应恢复').not.toBe('');
+    expectActiveLeftOfEllipsis(screen);
+  });
+
+  test('OTab 非溢出 - 不注入尾部让位身位', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 3 个页签（总宽约 199px），内容不溢出
+    const screen = renderTabs({ width: 600, count: 3, modelValue: 'tab1' });
+    await settle();
+
+    const ellipsis = screen.container.querySelector(ELLIPSIS_SELECTOR) as HTMLElement;
+    expect(getComputedStyle(ellipsis).display).toBe('none');
+    const list = screen.container.querySelector(VISIBLE_LIST_SELECTOR) as HTMLElement;
+    expect(list.style.paddingRight, '非溢出态不应注入让位身位').toBe('');
   });
 });

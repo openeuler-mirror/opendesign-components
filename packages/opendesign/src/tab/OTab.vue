@@ -76,15 +76,24 @@ const { width: tabNavMeasurementWidth } = useElementBounding(tabNavMeasurementRe
 const ellipsisRef = ref<HTMLDivElement>();
 const { width: ellipsisWidth } = useElementBounding(ellipsisRef);
 
+/**
+ * @description 可见列表的内联样式注入（按路径分流）
+ * - maxShow 路径：宽度固定为容器宽，折叠项由数量/宽度状态机决定；
+ * - 几何路径溢出态：尾部注入省略号让位身位（页签间距 + 省略号本体宽）——
+ *   滚动到最右时末尾页签右缘止于省略号本体左缘，身位区由省略号本体覆盖，
+ *   尾部无空白语义保持（getMaxScrollLeft 取列表 offsetWidth，含身位）；
+ * - 几何路径非溢出：不注入（溢出判定走零高度测量列表，不受本样式影响）
+ */
 const navListStyle = computed(() => {
   if (props.variant === 'button' || lePadV.value) {
     return;
   }
   if (!isUndefined(props.maxShow) && props.maxShow > 0) {
-    // maxShow 路径：可见列表固定为容器宽（回归隔离墙，行为保持不变）
     return { width: `${navsContainerWidth.value}px` };
   }
-  // 几何路径：页签全量渲染，溢出由容器裁切，不再注入收缩内联宽度
+  if (isCollapseActive.value) {
+    return { paddingRight: `${navGapNumber.value + ellipsisWidth.value}px` };
+  }
   return undefined;
 });
 
