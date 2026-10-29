@@ -13,10 +13,13 @@ kind: nav
 <!-- @case CustomHead -->
 <!-- @case AlignLeft -->
 <!-- @case MobileOverflow -->
+<!-- @case FillTrailingSpace -->
 <!-- @case VModelInitial -->
 
 > [!WARNING]
 > **BREAKING CHANGE (v1.2.0)**: Tab overflow interaction has been refactored and the internal DOM structure has changed. If you relied on internal DOM structure via CSS selectors (e.g., children of `.o-tab-navs-container`), please verify your styles still work correctly.
+
+Without `maxShow`, overflowing tabs are still fully rendered and clipped by the container: the active tab is always scrolled into full view, and incompletely visible tabs remain reachable via the ellipsis popup.
 
 ## API
 
