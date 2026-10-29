@@ -89,9 +89,7 @@ function renderTabs({ width, count, modelValue, variant = 'text', maxShow, size 
   });
 }
 
-/**
- * 固定时长等待：弹层过渡显隐等非时间敏感场景（无轮询条件，保持时序不变）
- */
+/** 固定时长等待：弹层过渡显隐等非时间敏感场景（无轮询条件，保持时序不变） */
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /**
@@ -264,6 +262,31 @@ describe('桌面端溢出新行为（红用例组，待溢出几何模型实现�
     const leftMargin = listRectB.left - containerRectB.left;
     const rightMargin = containerRectB.right - listRectB.right;
     expect(Math.abs(leftMargin - rightMargin)).toBeLessThanOrEqual(2);
+  });
+
+  test('OTab 完全不可见页签 - 可见部分不可点（盒子与容器可视区无交集）', async () => {
+    await setViewport('desktop');
+    // 前置条件：600px 容器 + 10 个页签（总宽约 747px），激活末尾页签 tab10 →
+    // 容器滚动至尾部，左侧页签整体滚出可视区。
+    const screen = renderTabs({ width: 600, count: 10, modelValue: 'tab10' });
+    await settle();
+
+    const container = screen.container.querySelector(CONTAINER_SELECTOR) as HTMLElement;
+    expect(container.scrollLeft, '前置：激活视口外页签后容器已发生编程滚动').toBeGreaterThan(0);
+
+    // 完全不可见页签：整体位于容器可视区左缘之外（右缘仍越界即整体滚出）
+    const containerRect = container.getBoundingClientRect();
+    const navs = Array.from(screen.container.querySelectorAll(VISIBLE_NAV_SELECTOR)) as HTMLElement[];
+    const fullyHiddenNavs = navs.filter((nav) => nav.getBoundingClientRect().right < containerRect.left - 1);
+    expect(fullyHiddenNavs.length, '前置：应存在完全滚出可视区的页签').toBeGreaterThan(0);
+
+    // 期望行为（spec Testing Decisions 用例清单 #3「完全不可见页签可见部分不可点或不存在」）：
+    // 容器 overflow-x 裁切下，完全不可见页签的盒子与容器可视区矩形无交集，
+    // 即其可见部分为零、无可点区域；此类页签仅能经省略号弹层触达。
+    for (const nav of fullyHiddenNavs) {
+      const rect = nav.getBoundingClientRect();
+      expect(rect.right, `完全不可见页签 ${nav.textContent?.trim()} 的盒子应整体在容器左缘之外`).toBeLessThanOrEqual(containerRect.left);
+    }
   });
 });
 
