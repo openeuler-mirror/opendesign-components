@@ -1,3 +1,5 @@
+@use '../../_styles/round-pill.scss' as *;
+
 .o-cascader-v2 {
   --cascader-v2-text-size: var(--o-font_size-text1);
   --cascader-v2-text-height: var(--o-line_height-text1);
@@ -113,3 +115,6 @@
   --cascader-v2-option-popover-max-width: 368px;
   --cascader-v2-option-popover-color-selected: var(--o-color-primary1);
 }
+
+// 多行 pill 圆角：按 size 提供常数（同 size 单行 pill 圆角），含断点镜像
+@include round-pill-multiline('o_box-round-pill', 'o_box', '_box-radius');

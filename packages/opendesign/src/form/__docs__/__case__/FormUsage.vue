@@ -3,7 +3,7 @@
 
 ### 使用
 
-目前 `OForm` 支持的表单项有 `OInput`、`OInputNumber`、`OTextarea`、`OSelect`、`OCheckboxGroup`、`ORadioGroup`、`OUpload`、`ODatePicker`、`OTimePicker`、`OIpInput`、`OCascaderV2`、`OSwitch`
+目前 `OForm` 支持的表单项有 `OInput`、`OInputNumber`、`OTextarea`、`OSelect`、`OCheckboxGroup`、`ORadioGroup`、`OUpload`、`ODatePicker`、`OTimePicker`、`OIpInput`、`OSearch`、`OCascader`、`OCascaderV2`、`OSwitch`
 
 **布局**
 
@@ -22,7 +22,7 @@
 
 ### Usage
 
-Currently, `OForm` supports the following form items: `OInput`, `OInputNumber`, `OTextarea`, `OSelect`, `OCheckboxGroup`, `ORadioGroup`, `OUpload`, `ODatePicker`, `OTimePicker`, `OIpInput`, `OCascaderV2`, `OSwitch`
+Currently, `OForm` supports the following form items: `OInput`, `OInputNumber`, `OTextarea`, `OSelect`, `OCheckboxGroup`, `ORadioGroup`, `OUpload`, `ODatePicker`, `OTimePicker`, `OIpInput`, `OSearch`, `OCascader`, `OCascaderV2`, `OSwitch`
 
 **Layout**
 
@@ -96,6 +96,11 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
         <OOption v-for="item in ctx.options" :key="item.value" :label="item.label" :value="item.value" />
       </OSelect>
     </OFormItem>
+    <OFormItem label="Select 多选" field="cities">
+      <OSelect v-model="ctx.model.cities" multiple placeholder="请选择">
+        <OOption v-for="item in ctx.options" :key="item.value" :label="item.label" :value="item.value" />
+      </OSelect>
+    </OFormItem>
     <OFormItem label="Number" field="count">
       <OInputNumber v-model="ctx.model.count" />
     </OFormItem>
@@ -121,6 +126,15 @@ const _oTemplate: DocDemoTemplate<typeof _oSchema> = (props) => {
     <OFormItem label="Cascader" field="region">
       <OCascaderV2 v-model="ctx.model.region" :options="ctx.cascaderOptions" placeholder="请选择" />
     </OFormItem>
+    <OFormItem label="Cascader 多选" field="regions">
+      <OCascaderV2 v-model="ctx.model.regions" :options="ctx.cascaderOptions" multiple placeholder="请选择" />
+    </OFormItem>
+    <OFormItem label="Search" field="keyword">
+      <OSearch v-model="ctx.model.keyword" placeholder="请搜索" />
+    </OFormItem>
+    <OFormItem label="Cascader(v1)" field="area">
+      <OCascader v-model="ctx.model.area" :options="ctx.cascaderOptions" placeholder="请选择" />
+    </OFormItem>
     <OFormItem label="Switch" field="active">
       <OSwitch v-model="ctx.model.active" />
     </OFormItem>
@@ -140,6 +154,7 @@ const _oCtx = {
     name: '',
     remark: '',
     city: '',
+    cities: ['opt1', 'opt2'],
     count: 1,
     hobbies: [] as (string | number)[],
     gender: '',
@@ -147,6 +162,9 @@ const _oCtx = {
     date: undefined as any,
     time: undefined as any,
     region: '',
+    regions: ['beijing', 'shanghai'],
+    keyword: '',
+    area: '',
     active: false,
     overrideRemark: '',
     ctrlSwitch: false,

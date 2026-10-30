@@ -51,6 +51,8 @@ watch(locale, (newLocale, oldLocale) => {
         >
           {{ typeof item.label === 'function' ? item.label() : item.label }}
         </div>
+        <!-- 版本策略：内部路由页面，站内跳转，不切换侧栏 -->
+        <RouterLink class="nav-item" :class="{ active: route.name === 'Versioning' }" :to="{ name: 'Versioning' }">{{ t('header.versioning') }}</RouterLink>
       </div>
       <div class="tools">
         <div class="tool-item">
@@ -146,6 +148,8 @@ watch(locale, (newLocale, oldLocale) => {
   position: relative;
   display: flex;
   align-items: center;
+  color: inherit;
+  text-decoration: none;
   &.active {
     &::after {
       content: '';

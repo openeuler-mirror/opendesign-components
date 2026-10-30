@@ -8,6 +8,9 @@ import { page } from 'vitest/browser';
  *   类 3 — pad_v (601-840) + phone (360-600)：命中 @respond('<=pad_v')，phone 再叠 @respond('phone')
  *
  * 类内 subrange 各跑一个代表视口，确保覆盖到 SCSS 端点而不仅是区间中点。
+ *
+ * 边界档（*_max/*_min）：取 media query 端点本身的宽度，用于锁定
+ * max-width 含等号语义（如 1680 恰好命中 <=laptop、841 恰好脱离 <=pad_v）。
  */
 // width 决定命中哪条 media query；height 只为让浏览器视口贴近真实设备纵向像素，不影响断点
 export const BREAKPOINTS = {
@@ -19,6 +22,10 @@ export const BREAKPOINTS = {
   // 类 3：折叠屏/手机横屏/pad竖屏  (360-840)
   pad_v: { width: 768, height: 1024 }, //  601-840   折叠屏/手机横屏/pad竖屏
   phone: { width: 375, height: 812 }, //  360-600   phone
+  // 边界档：media query 端点本身，验证 max-width 含等号
+  laptop_max: { width: 1680, height: 1080 }, // <=laptop 上界（1680 仍属类 2，含等号）
+  pad_v_max: { width: 840, height: 800 }, // <=pad_v 上界（840 仍属类 3，含等号）
+  pad_v_min: { width: 841, height: 800 }, // >pad_v 下界（841 起脱离类 3，进入 pad_h 区间）
 } as const;
 
 export type BreakpointName = keyof typeof BREAKPOINTS;

@@ -60,6 +60,7 @@
   margin-right: var(--message-icon-gap);
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .o-message-close {
@@ -70,6 +71,7 @@
   font-size: var(--message-icon-size);
   color: var(--message-icon-close-color);
   transition: color var(--o-duration-s) var(--o-easing-standard);
+  flex-shrink: 0;
 
   @include x-svg-hover;
   @include hover {
