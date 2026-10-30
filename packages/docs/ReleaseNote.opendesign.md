@@ -1,3 +1,14 @@
+## 1.2.7-sp3
+
+### Bug Fixes
+
+- **OTextarea/OSelect/OCascader/OCascaderV2:** 修复 `round="pill"` 时多行形态（多行文本域、下拉多选、级联多选）圆角被钳制为巨大全胶囊弧形的问题：多行 pill 圆角改为对齐同尺寸单行胶囊圆角常数（不随内容高度变化，随断点镜像）；顺带对齐 OCascaderV2 medium 档 ≤840 视口的高度断点家族（[#206](https://atomgit.com/openeuler/opendesign-components/issues/206)）
+- **OTab:** 修复无 `maxShow` 时桌面端页签溢出尾部残留“不足一个页签宽”空白断裂带的问题：溢出改为全量渲染 + 容器裁切 + 激活项编程滚动入视，不完全可见的页签收入省略号弹层；升级后可见行为差异与边缘场景披露[同 1.2.5-sp5](#125-sp5)（[#215](https://atomgit.com/openeuler/opendesign-components/issues/215)、[#226](https://atomgit.com/openeuler/opendesign-components/issues/226)）
+- **useResponseCssVar:** 改为只读实现，修复断点 CSS 变量在视口跨断点折返后被内联样式钉死、无法跟随当前断点恢复的问题（[同 1.2.5-sp5](#125-sp5)）
+- **ODataTable:** 修复空数据/Loading 状态未传 `height` 时表体高度塌陷的问题（[同 1.2.5-sp5](#125-sp5)）
+- **OMessage:** 修复关闭按钮被压缩的问题（[同 1.2.5-sp5](#125-sp5)）
+- **OPagination:** 修复 `total` 为 0 时的错误校验判断（[同 1.2.5-sp5](#125-sp5)）
+
 ## 1.2.5-sp5
 
 ### Bug Fixes
