@@ -1,3 +1,29 @@
+## 1.2.7-sp3
+
+### Bug Fixes
+
+- **OTextarea/OSelect/OCascader/OCascaderV2:** 修复 `round="pill"` 时多行形态（多行文本域、下拉多选、级联多选）圆角被钳制为巨大全胶囊弧形的问题：多行 pill 圆角改为对齐同尺寸单行胶囊圆角常数（不随内容高度变化，随断点镜像）；顺带对齐 OCascaderV2 medium 档 ≤840 视口的高度断点家族（[#206](https://atomgit.com/openeuler/opendesign-components/issues/206)）
+- **OTab:** 修复无 `maxShow` 时桌面端页签溢出尾部残留“不足一个页签宽”空白断裂带的问题：溢出改为全量渲染 + 容器裁切 + 激活项编程滚动入视，不完全可见的页签收入省略号弹层；升级后可见行为差异与边缘场景披露[同 1.2.5-sp5](#125-sp5)（[#215](https://atomgit.com/openeuler/opendesign-components/issues/215)、[#226](https://atomgit.com/openeuler/opendesign-components/issues/226)）
+- **useResponseCssVar:** 改为只读实现，修复断点 CSS 变量在视口跨断点折返后被内联样式钉死、无法跟随当前断点恢复的问题（[同 1.2.5-sp5](#125-sp5)）
+- **ODataTable:** 修复空数据/Loading 状态未传 `height` 时表体高度塌陷的问题（[同 1.2.5-sp5](#125-sp5)）
+- **OMessage:** 修复关闭按钮被压缩的问题（[同 1.2.5-sp5](#125-sp5)）
+- **OPagination:**
+  - 修复 `total` 为 0 时的错误校验判断（[同 1.2.5-sp5](#125-sp5)）
+  - 修复跳页输入框在页码被切换（箭头、页码按钮）后，输入原页码回车/失焦提交不生效、页码停留在当前页的问题（[#228](https://atomgit.com/openeuler/opendesign-components/issues/228)）
+
+## 1.2.5-sp5
+
+### Bug Fixes
+
+- **OTab:** 修复无 `maxShow` 时桌面端页签溢出尾部残留“不足一个页签宽”空白断裂带的问题：溢出改为全量渲染 + 容器裁切 + 激活项编程滚动入视，不完全可见的页签收入省略号弹层（[#215](https://atomgit.com/openeuler/opendesign-components/issues/215)、[#226](https://atomgit.com/openeuler/opendesign-components/issues/226)）
+  - 升级后可见行为差异：① 溢出态尾部空白消失，最后页签可被部分裁切淡出；② 激活切换时列表由静态就近插入改为平滑平移，激活页签始终完整可见；③ 不完全可见的页签收入省略号弹层，其露出部分的可见区域可直接点击，但伸入省略号覆盖区的部分由省略号接管点击（完全落入覆盖区的页签只能经弹层触达）；④ 溢出折叠态（省略号显隐与容器溢出 class）改以“内容是否溢出容器”为判据，与隐藏名单解耦，语义等价；⑤ 溢出态下伸入省略号覆盖区的页签被几何遮蔽（部分可见页签裁切至省略号本体左缘、覆盖区内页签隐藏保占位），透明省略号盒不再透出下层页签文字；⑥ 滚动到尾部时列表为右侧省略号让出渐变阴影身位，末尾页签右缘止于渐变阴影左缘，尾部无空白
+  - 依赖未公开内部实现的边缘场景（按 semver 惯例不算破坏性变更，仅披露）：可见列表内页签元素在溢出时从子集变为全量（`querySelectorAll` 总数从 N+show 变为 2N）；省略号弹层从“只含完全隐藏页签”变为含部分可见页签；隐藏页签的 `#nav` 插槽/自定义导航渲染函数执行次数增加；溢出态下页签元素可能携带内联 `clip-path`/`visibility`、可见列表携带尾部内联 `padding-right`（几何遮蔽与让位滚动）；`--tab-nav-ellipsis-shadow-width` 参与溢出态尾部让位身位的宽度（身位 = 省略号本体宽 + 该变量，经内联 `calc` 消费）：覆盖它会同时改变渐变阴影宽度与滚动终点的让位量；它不再参与 JS 侧的宽度状态机（旧算法曾以它为省略号总宽预留参与折叠计算）
+- **useResponseCssVar:** 改为只读实现，修复断点 CSS 变量在视口跨断点折返后被内联样式钉死、无法跟随当前断点恢复的问题
+- **ODataTable:** 修复空数据/Loading 状态未传 `height` 时表体高度塌陷的问题
+- **OMessage:** 修复关闭按钮被压缩的问题
+- **OPagination:** 修复 `total` 为 0 时的错误校验判断
+- **OToast:** 修复移动端提示文案折行的问题
+
 ## 1.2.7-sp2
 
 ### Bug Fixes

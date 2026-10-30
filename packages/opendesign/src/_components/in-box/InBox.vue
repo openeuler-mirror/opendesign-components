@@ -11,7 +11,8 @@ defineSlots<{
 
 const props = defineProps(inBoxProps);
 
-const round = getRoundClass(props, '_box');
+// 多行控件的 pill 圆角走 CSS 常数路径（见 style-class.ts 注释）
+const round = getRoundClass(props, '_box', () => props.multiline);
 </script>
 <template>
   <div

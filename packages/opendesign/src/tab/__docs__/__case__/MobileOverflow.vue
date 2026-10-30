@@ -3,13 +3,13 @@
 
 ### 移动端溢出 ^[1.2.5-sp1](primary)
 
-在触屏设备且屏幕宽度 ≤ pad_v 断点（840px）时，页签导航自动切换为横向滚动模式：所有页签平铺展示，溢出内容可通过滑动到达，并在左右两侧显示渐变遮罩以提示溢出方向。桌面端保持原有的省略号折叠交互。
+在触屏设备且屏幕宽度 ≤ pad_v 断点（840px）时，页签导航自动切换为横向滚动模式：所有页签平铺展示，溢出内容可通过滑动到达，并在左右两侧显示渐变遮罩以提示溢出方向。桌面端溢出改为全量渲染 + 容器裁切，不完全可见的页签收入省略号弹层。
 
 <!-- en-US -->
 
 ### Mobile Overflow ^[1.2.5-sp1](primary)
 
-On touch devices with screen width ≤ pad_v breakpoint (840px), the tab nav automatically switches to horizontal scroll mode: all tabs are laid out inline, overflowing content can be reached by swiping, and gradient shadows appear on both sides to indicate the overflow direction. Desktop retains the original ellipsis collapse interaction.
+On touch devices with screen width ≤ pad_v breakpoint (840px), the tab nav automatically switches to horizontal scroll mode: all tabs are laid out inline, overflowing content can be reached by swiping, and gradient shadows appear on both sides to indicate the overflow direction. Desktop overflow now uses full rendering plus container clipping, with incompletely visible tabs collected into the ellipsis popup.
 </docs>
 <script setup lang="ts">
 import { ref } from 'vue';
