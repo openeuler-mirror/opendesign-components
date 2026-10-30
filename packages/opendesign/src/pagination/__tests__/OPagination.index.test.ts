@@ -83,6 +83,79 @@ describe('动态契约（用户交互 → 组件响应）', () => {
   });
 });
 
+describe('动态契约（jumper 跳页提交）', () => {
+  test('OPagination jumper - 点击箭头切页后输入原页码回车可切回', async () => {
+    // 业务场景：点击箭头切到第 2 页后，在跳转输入框输入 1 并回车，应切回第 1 页
+    const onChange = vi.fn();
+    const screen = render({
+      render: () => h(OPagination, { total: 100, pageSize: 12, onChange }),
+    });
+    await flush();
+    (screen.container.querySelector('.o-pagination-next') as HTMLElement).click();
+    await flush();
+    const input = screen.container.querySelector('.o-pagination-goto input') as HTMLInputElement;
+    input.focus();
+    await userEvent.fill(input, '1');
+    await userEvent.keyboard('{Enter}');
+    await flush();
+    const active = screen.container.querySelector('.o-pagination-item.active') as HTMLElement;
+    expect(active.textContent?.trim()).toBe('1');
+    expect(onChange).toHaveBeenCalledWith({ page: 1, pageSize: 12 }, { page: 2, pageSize: 12 });
+  });
+
+  test('OPagination jumper - 切页后输入原页码失焦可切回', async () => {
+    // 业务场景：点击箭头切到第 2 页后，在跳转输入框输入 1 后失焦，应切回第 1 页
+    const screen = render({
+      render: () => h(OPagination, { total: 100, pageSize: 12 }),
+    });
+    await flush();
+    (screen.container.querySelector('.o-pagination-next') as HTMLElement).click();
+    await flush();
+    const input = screen.container.querySelector('.o-pagination-goto input') as HTMLInputElement;
+    input.focus();
+    await userEvent.fill(input, '1');
+    input.blur();
+    await flush();
+    const active = screen.container.querySelector('.o-pagination-item.active') as HTMLElement;
+    expect(active.textContent?.trim()).toBe('1');
+  });
+
+  test('OPagination jumper - 输入当前页码回车不重复触发 change', async () => {
+    // 业务场景：停在第 2 页时输入 2 回车，页码未变化，不应再次触发 change
+    const onChange = vi.fn();
+    const screen = render({
+      render: () => h(OPagination, { total: 100, pageSize: 12, onChange }),
+    });
+    await flush();
+    (screen.container.querySelector('.o-pagination-next') as HTMLElement).click();
+    await flush();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    const input = screen.container.querySelector('.o-pagination-goto input') as HTMLInputElement;
+    input.focus();
+    await userEvent.fill(input, '2');
+    await userEvent.keyboard('{Enter}');
+    await flush();
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  test('OPagination simple - 简洁布局切页后输入原页码回车可切回', async () => {
+    // 业务场景：简洁布局下点击箭头切到第 2 页后，输入 1 并回车，应切回第 1 页
+    const onChange = vi.fn();
+    const screen = render({
+      render: () => h(OPagination, { total: 100, pageSize: 12, simple: true, onChange }),
+    });
+    await flush();
+    (screen.container.querySelector('.o-pagination-next') as HTMLElement).click();
+    await flush();
+    const input = screen.container.querySelector('.o-pagination-simple input') as HTMLInputElement;
+    input.focus();
+    await userEvent.fill(input, '1');
+    await userEvent.keyboard('{Enter}');
+    await flush();
+    expect(onChange).toHaveBeenCalledWith({ page: 1, pageSize: 12 }, { page: 2, pageSize: 12 });
+  });
+});
+
 describe('动态契约（total=0 空数据语义）', () => {
   test('OPagination total=0 - jumper 跳转输入框不进入失效态', async () => {
     // 业务场景：后端分页数据未加载完成（total=0）时，空数据按“1 个空页”处理，

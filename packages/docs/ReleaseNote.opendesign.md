@@ -7,7 +7,9 @@
 - **useResponseCssVar:** 改为只读实现，修复断点 CSS 变量在视口跨断点折返后被内联样式钉死、无法跟随当前断点恢复的问题（[同 1.2.5-sp5](#125-sp5)）
 - **ODataTable:** 修复空数据/Loading 状态未传 `height` 时表体高度塌陷的问题（[同 1.2.5-sp5](#125-sp5)）
 - **OMessage:** 修复关闭按钮被压缩的问题（[同 1.2.5-sp5](#125-sp5)）
-- **OPagination:** 修复 `total` 为 0 时的错误校验判断（[同 1.2.5-sp5](#125-sp5)）
+- **OPagination:**
+  - 修复 `total` 为 0 时的错误校验判断（[同 1.2.5-sp5](#125-sp5)）
+  - 修复跳页输入框在页码被切换（箭头、页码按钮）后，输入原页码回车/失焦提交不生效、页码停留在当前页的问题（[#228](https://atomgit.com/openeuler/opendesign-components/issues/228)）
 
 ## 1.2.5-sp5
 
