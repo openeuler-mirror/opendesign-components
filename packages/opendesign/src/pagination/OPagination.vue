@@ -130,6 +130,28 @@ const goToPage = (val: string | number) => {
   updatePageAndPageSize(v, pageSize.value!);
 };
 
+// 跳转输入框的实时输入值：键入时更新，页码被外部改变（箭头、页码按钮）时重置
+const jumpDraft = ref<number>(pageVal.value ?? 1);
+
+watch(pageVal, (v) => {
+  jumpDraft.value = v ?? 1;
+});
+
+/**
+ * @description 跳转输入框键入时同步实时输入值
+ * @param v 输入框当前数值
+ */
+const onJumpInput = (v: number) => {
+  jumpDraft.value = v;
+};
+
+/**
+ * @description 跳转输入框提交（回车 / 失焦）时按实时输入值跳页
+ */
+const commitJump = () => {
+  goToPage(jumpDraft.value);
+};
+
 const selectPageSize = (val: SelectValueT) => {
   const size = Number(val);
   if (!size) {
@@ -217,6 +239,9 @@ defineExpose({
                 :empty-value="pageVal"
                 :validate="validateInput"
                 @change="goToPage"
+                @update:model-value="onJumpInput"
+                @press-enter="commitJump"
+                @blur="commitJump"
               />&nbsp;/&nbsp;<span>{{ totalPage }}</span>
             </div>
           </template>
@@ -298,6 +323,9 @@ defineExpose({
             :validate="validateInput"
             :empty-value="pageVal"
             @change="goToPage"
+            @update:model-value="onJumpInput"
+            @press-enter="commitJump"
+            @blur="commitJump"
           />
         </div>
       </template>
