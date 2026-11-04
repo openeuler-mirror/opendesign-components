@@ -11,6 +11,7 @@ export default {
   'common.search': 'Search',
   // pagination
   'pagination.goto': 'Go to',
+  'pagination.nav': 'Pagination',
   'pagination.page': 'Page',
   'pagination.countPerPage': '/page',
   'pagination.total': 'Total: {0}',

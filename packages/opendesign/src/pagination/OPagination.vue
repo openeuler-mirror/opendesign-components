@@ -188,6 +188,8 @@ defineExpose({
 </script>
 <template>
   <div
+    role="navigation"
+    :aria-label="t('pagination.nav')"
     class="o-pagination"
     :class="[`o-pagination-${props.variant}`, round.class.value, { 'o-pagination-ly-simple': props.simple }]"
     :style="round.style.value"
@@ -251,6 +253,7 @@ defineExpose({
               :key="item.value"
               class="o-pagination-item"
               :class="{ active: item.value === pageVal }"
+              :aria-current="item.value === pageVal ? 'page' : undefined"
               tabindex="-1"
               @click="selectPage(item.value)"
             >
