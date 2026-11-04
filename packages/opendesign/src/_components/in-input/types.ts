@@ -159,6 +159,81 @@ export const inInputProps = {
   onlyNumericInput: {
     type: Boolean,
   },
+  /**
+   * @zh-CN 无障碍角色，透传到原生 input（如 combobox）
+   * @en-US Accessibility role forwarded to the native input (e.g. combobox)
+   * @since NEXT
+   */
+  role: {
+    type: String,
+  },
+  /**
+   * @zh-CN 无障碍标签，透传到原生 input
+   * @en-US Accessibility label forwarded to the native input
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
+   * @zh-CN 展开状态，透传到原生 input 的 aria-expanded
+   * @en-US Expanded state forwarded to aria-expanded of the native input
+   * @since NEXT
+   */
+  ariaExpanded: {
+    type: [Boolean, String],
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
+  /**
+   * @zh-CN 弹层类型，透传到原生 input 的 aria-haspopup
+   * @en-US Popup type forwarded to aria-haspopup of the native input
+   * @since NEXT
+   */
+  ariaHaspopup: {
+    type: String,
+  },
+  /**
+   * @zh-CN 关联面板 id，透传到原生 input 的 aria-controls
+   * @en-US Related panel id forwarded to aria-controls of the native input
+   * @since NEXT
+   */
+  ariaControls: {
+    type: String,
+  },
+  /**
+   * @zh-CN 当前高亮选项 id，透传到原生 input 的 aria-activedescendant，用于键盘高亮联动 listbox 选项
+   * @en-US Currently highlighted option id forwarded to aria-activedescendant of the native input, used to link the keyboard-highlighted listbox option
+   * @since NEXT
+   */
+  ariaActiveDescendant: {
+    type: String,
+  },
+  /**
+   * @zh-CN 辅助描述元素 id，透传到原生 input 的 aria-describedby，用于关联错误提示/辅助文本
+   * @en-US Described-by element id forwarded to aria-describedby of the native input, used to associate error hints or helper text
+   * @since NEXT
+   */
+  ariaDescribedBy: {
+    type: String,
+  },
+  /**
+   * @zh-CN 校验失败状态，透传到原生 input 的 aria-invalid；显式传 false（校验重新通过）也会渲染
+   * @en-US Invalid state forwarded to aria-invalid of the native input; explicit false (validation passed again) is also rendered
+   * @since NEXT
+   */
+  ariaInvalid: {
+    type: [Boolean, String],
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
+  /**
+   * @zh-CN 必填状态，透传到原生 input 的 aria-required
+   * @en-US Required state forwarded to aria-required of the native input
+   * @since NEXT
+   */
+  ariaRequired: {
+    type: [Boolean, String],
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
 };
 
 export type InInputProps = ExtractPropTypes<typeof inInputProps>;
