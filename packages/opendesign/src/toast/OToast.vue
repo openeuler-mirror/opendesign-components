@@ -82,7 +82,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="isVisible" class="o-toast">
+  <div v-if="isVisible" class="o-toast" role="alert" aria-live="assertive" aria-atomic="true">
     <slot>{{ message }}</slot>
   </div>
 </template>
