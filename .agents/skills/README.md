@@ -12,6 +12,7 @@
 | **版本发布**        | [`release-note`](release-note/SKILL.md)           | 写版本日志、整理变更归类、更新 ReleaseNote 文件                      | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
 | **资源发现**        | [`global-utilities`](global-utilities/SKILL.md)   | 查找全局 CSS 类、SCSS mixin、TS 工具函数、composable、内部组件       | “有没有全局的 sr-only？”、“防抖函数在哪？”、“InBox 怎么用？”、“有哪些全局工具类”                 |
 | **提交 / PR 交付**  | [`commit-convention`](commit-convention/SKILL.md) | 写提交信息、向上游提 PR、AI 使用声明（Co-Authored-By / PR 声明段）   | “帮我写提交信息”、“向 up 提个 PR”、“这个提交要加 Co-Authored-By 吗”                              |
+| **PR 检视**         | [`opendesign-review`](opendesign-review/SKILL.md) | 检视 PR / MR、判断可合入性、复核他人 review 结论、核查 MR 自述声明   | “帮我 review 这个 PR”、“这个 MR 有什么问题”、“复核一下上次的 review 结论”                        |
 
 ## 各 Skill 速览
 
@@ -143,6 +144,27 @@ Release Note 生成指南。6 步工作流：
 - 向 `up` 的 PR 沿用上游模板的「AI 参与」声明段，PR 披露模型与 commit trailer 一致——上游门禁校验一致性，不一致被 `ai-compliance-failed` 拦截
 
 自动触发关键词：提交信息、commit message、squash、cherry-pick、创建 PR、提 PR、向上游交付、Co-Authored-By、AI 声明、AI 参与、ai-assisted、ai-compliance-failed
+
+### opendesign-review
+
+组件库 PR 检视规范。核心原则：
+
+- 检视预算顺序固定：① 权威 spec → ② 全量阅读 + 依赖回溯 → ③ 兼容 checklist → ④ 探针实测 → ⑤ 机械检查（机器能做的垫底）
+- 双轴并发（Spec / Standards 独立上下文），报告并列呈现、不跨轴合并成单一「最严重项」
+- 实测裁决：几何 / 像素 / 视觉类结论必须探针实测，算术只能当假设；数值与注释矛盾时默认一方有错，不得用「设计如此」消解
+- 只读检视：主工作区零破坏性 git 操作，一律 worktree / `git show` 落盘（`post-checkout` hook 有副作用）
+- 每条结论标注置信度（实测 / 读代码推断 / 未验证），报告开头声明「验证了什么、没验证什么」
+- 疑似 breaking 三档判定（无 / 疑似 / 确认）+ 版本线裁决：确认 breaking 落 `release/1.2.x-spN` 补丁线 → 合入阻塞；落 `master` 主线 → 必须有 `BREAKING CHANGES` 披露 + commit `!` 标记
+
+参考文档索引：
+
+| 文件                                                                      | 用途                                                                                                                            |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [`probe-methods.md`](opendesign-review/references/probe-methods.md)       | 探针写法与清理、实测裁决反例、红绿反证、覆盖状态清单、对照实验规则                                                              |
+| [`compat-checklist.md`](opendesign-review/references/compat-checklist.md) | 兼容 checklist（向后 + 向前：导出面 / props / 内部消费方 / CSS 变量语义 / DOM 契约 / SSR / 双线移植 / 版本披露 / 跨线消费降级） |
+| [`review-gaps.md`](opendesign-review/references/review-gaps.md)           | 检视空白清单（弹层与 transform / 浏览器兼容 / CI 稳定性 / 可访问性 / 多主题 / 提交可移植性）                                    |
+
+自动触发关键词：检视、review、评审、PR review、MR 检视、可合入、复核 review 结论、spec 与实现冲突、实测、探针、红绿反证、覆盖状态、置信度、双轴、兼容 checklist、breaking change、破坏性变更、补丁版本、SSR
 
 > **维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局资源发生新增、重命名、废弃等变更时,必须同步更新此 skill 的 `SKILL.md` 快速索引表和对应 reference 文档。详见 [SKILL.md → 维护规则](global-utilities/SKILL.md#维护规则强制)。
 
