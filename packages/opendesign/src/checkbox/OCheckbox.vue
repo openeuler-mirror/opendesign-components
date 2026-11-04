@@ -24,11 +24,30 @@ const emits = defineEmits<{
 }>();
 
 const inputId = ref(props.inputId);
+/** input 元素引用，用于设置 indeterminate DOM 属性 */
+const inputRef = ref<HTMLInputElement>();
 onMounted(() => {
   if (!inputId.value) {
     inputId.value = uniqueId();
   }
+  // 同步初始 indeterminate 状态到 DOM
+  if (inputRef.value) {
+    inputRef.value.indeterminate = props.indeterminate;
+  }
 });
+
+/**
+ * @description 监听 indeterminate prop 变化，同步到 input DOM 属性
+ * 使无障碍树能报告 mixed 态，AI 代理可感知三态
+ */
+watch(
+  () => props.indeterminate,
+  (val) => {
+    if (inputRef.value) {
+      inputRef.value.indeterminate = val;
+    }
+  },
+);
 const checkboxGroupInjection = inject(checkboxGroupInjectKey, null);
 const formItem = inject(formItemInjectKey, null);
 
@@ -129,7 +148,17 @@ provide(checkboxInjectKey, {
     :for="inputId"
   >
     <div class="o-checkbox-wrap">
-      <input :id="inputId" type="checkbox" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input
+        :id="inputId"
+        ref="inputRef"
+        type="checkbox"
+        :value="props.value"
+        :disabled="isDisabled"
+        :checked="isChecked"
+        :aria-label="props.ariaLabel"
+        @click="onClick"
+        @change="onChange"
+      />
       <slot name="checkbox" :checked="isChecked" :disabled="isDisabled">
         <div class="o-checkbox-input-wrap">
           <span class="o-checkbox-input">
