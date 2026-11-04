@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed, inject, useId } from 'vue';
 import { collapseItemProps } from './types';
 import { IconChevronRight } from '../_utils/icons';
 import { collapseInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
 
 const props = defineProps(collapseItemProps);
+
+/** 折叠头部 DOM id，供 body 的 aria-labelledby 引用（SSR 友好） */
+const headerId = useId();
+/** 折叠内容 DOM id，供外部（如描述列表）引用 */
+const bodyId = useId();
 const collapseInjection = inject(collapseInjectKey, null);
 
 // 是否展开
@@ -77,7 +82,7 @@ const onAfterLeave = (el: Element) => {
 
 <template>
   <div class="o-collapse-item" :class="{ 'o-collapse-item-expanded': isExpanded }">
-    <div class="o-collapse-item-header" @click="onClick">
+    <div :id="headerId" role="button" class="o-collapse-item-header" :aria-expanded="isExpanded" @click="onClick">
       <span class="o-collapse-item-icon">
         <IconChevronRight />
       </span>
@@ -93,7 +98,7 @@ const onAfterLeave = (el: Element) => {
       @leave="onLeave"
       @after-leave="onAfterLeave"
     >
-      <div v-show="isExpanded" class="o-collapse-item-body">
+      <div v-show="isExpanded" :id="bodyId" role="region" :aria-labelledby="headerId" class="o-collapse-item-body">
         <slot></slot>
       </div>
     </Transition>
