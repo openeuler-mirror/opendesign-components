@@ -203,7 +203,7 @@ describe('动态契约（用户交互 → 组件响应）', () => {
     const screen = render({
       render: () => h(OButton, { disabled: true, onClick }, { default: () => 'X' }),
     });
-    await screen.getByRole('button').click();
+    (screen.container.querySelector('.o-btn') as HTMLElement).click();
     expect(onClick).not.toHaveBeenCalled();
   });
 
