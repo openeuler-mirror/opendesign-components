@@ -232,6 +232,9 @@ defineExpose({
     show-length="never"
     :readonly="readonly"
     no-keyboard
+    role="combobox"
+    aria-haspopup="dialog"
+    :aria-expanded="isFocus"
     @keydown.esc="handleCancel"
     @input="handleInput"
     @focus="onFocus"

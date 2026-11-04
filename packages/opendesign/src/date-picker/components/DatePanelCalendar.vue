@@ -25,7 +25,7 @@ const datePickerCtx = inject(datePickerInjectKey)!;
 </script>
 
 <template>
-  <div class="o-date-panel-calendar" @mouseleave="emits('leave')">
+  <div class="o-date-panel-calendar" role="grid" @mouseleave="emits('leave')">
     <div v-for="dow in props.weekDayHeaders" :key="dow" class="o-date-panel-cell o-date-panel-weekday">
       {{ t(`datePicker.weekdays.${dow}`) }}
     </div>
@@ -44,6 +44,10 @@ const datePickerCtx = inject(datePickerInjectKey)!;
           'is-range-end': cell.isRangeEnd,
           'is-in-range': cell.isInRange,
         }"
+        role="gridcell"
+        :aria-selected="cell.isSelected"
+        :aria-disabled="cell.isDisabled || !cell.isCurrentMonth || undefined"
+        :aria-current="cell.isToday ? 'date' : undefined"
         @click="!cell.isDisabled && cell.isCurrentMonth && emits('select', cell.date)"
         @mouseover="!cell.isDisabled && cell.isCurrentMonth && emits('hover', cell.date)"
       >
