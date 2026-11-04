@@ -18,7 +18,12 @@ const onClick = (isHalf: boolean) => {
 </script>
 
 <template>
-  <div class="o-rate-item" :class="{ 'is-full': props.status === 'full', 'is-half': props.status === 'half' }">
+  <div
+    role="radio"
+    class="o-rate-item"
+    :aria-checked="props.status !== 'empty'"
+    :class="{ 'is-full': props.status === 'full', 'is-half': props.status === 'half' }"
+  >
     <span class="o-rate-icon o-rate-icon-top" @mouseenter="onHover(true)" @click="onClick(true)">
       <slot>
         <IconStar />
