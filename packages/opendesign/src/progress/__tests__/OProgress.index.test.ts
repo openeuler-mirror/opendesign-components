@@ -140,3 +140,48 @@ describe('插槽契约（具名插槽）', () => {
     expect(iconSlot?.querySelector('.custom-icon')).not.toBeNull();
   });
 });
+
+describe('无障碍契约（ARIA）', () => {
+  test('OProgress role=progressbar - 根元素有 role=progressbar', async () => {
+    const screen = render(OProgress, { props: { percentage: 50 } });
+    const el = screen.container.querySelector('.o-progress') as HTMLElement;
+    expect(el.getAttribute('role')).toBe('progressbar');
+  });
+
+  test('OProgress aria-valuenow - 反映当前 percentage', async () => {
+    const screen = render(OProgress, { props: { percentage: 42 } });
+    const el = screen.container.querySelector('.o-progress') as HTMLElement;
+    expect(el.getAttribute('aria-valuenow')).toBe('42');
+  });
+
+  test('OProgress aria-valuemin/max - 固定为 0/100', async () => {
+    const screen = render(OProgress, { props: { percentage: 50 } });
+    const el = screen.container.querySelector('.o-progress') as HTMLElement;
+    expect(el.getAttribute('aria-valuemin')).toBe('0');
+    expect(el.getAttribute('aria-valuemax')).toBe('100');
+  });
+
+  test('OProgress aria-valuetext - 反映 format 函数返回值', async () => {
+    const screen = render(OProgress, {
+      props: { percentage: 30, format: (p: number) => `已完成 ${p}%` },
+    });
+    const el = screen.container.querySelector('.o-progress') as HTMLElement;
+    expect(el.getAttribute('aria-valuetext')).toContain('已完成 30%');
+  });
+});
+
+describe('无障碍契约（ARIA）— 可访问名称', () => {
+  test('OProgress 根元素设默认 aria-label', async () => {
+    const screen = render(OProgress, { props: { percentage: 40 } });
+    await flush();
+    const el = screen.container.querySelector('.o-progress') as HTMLElement;
+    expect(el.getAttribute('aria-label')).toBeTruthy();
+  });
+
+  test('OProgress 显式传 ariaLabel 时优先渲染', async () => {
+    const screen = render(OProgress, { props: { percentage: 40, ariaLabel: '上传进度' } });
+    await flush();
+    const el = screen.container.querySelector('.o-progress') as HTMLElement;
+    expect(el.getAttribute('aria-label')).toBe('上传进度');
+  });
+});

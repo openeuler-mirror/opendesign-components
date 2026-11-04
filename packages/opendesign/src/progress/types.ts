@@ -89,6 +89,14 @@ export const progressProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * @zh-CN 进度条的可访问名称，透传到根元素的 aria-label，缺省时使用 i18n 默认值
+   * @en-US Accessible label of the progress bar, forwarded to the root element's aria-label, falls back to the i18n default when omitted
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type ProgressPropsT = ExtractPropTypes<typeof progressProps>;
