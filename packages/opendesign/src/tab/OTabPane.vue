@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, ref, useSlots, watch } from 'vue';
+import { computed, getCurrentInstance, inject, ref, useId, useSlots, watch } from 'vue';
 
 import { isUndefined } from '../_utils/is';
 import { log } from '../_utils/log';
@@ -23,12 +23,16 @@ const paneKey = computed(() => {
   return props.value ?? props.label ?? instance?.uid ?? Math.random();
 });
 
+/** 页签面板 DOM id，供对应 nav 的 aria-controls 引用（SSR 友好）；nav 的 DOM id 为 `${paneId}-nav`，供 pane 的 aria-labelledby 引用 */
+const paneId = useId();
+
 const registerSelf = () => {
   tabInjection?.addChild({
     uid: instance.uid,
     getVNode: () => instance?.vnode!,
     props,
     paneKey,
+    paneId,
     navRenderer: isEmptySlot(runtimeSlots.nav) ? undefined : () => runtimeSlots.nav?.(),
   });
 };
@@ -62,6 +66,9 @@ watch(
     <div
       v-if="toMount"
       v-show="isActive"
+      :id="paneId"
+      role="tabpanel"
+      :aria-labelledby="`${paneId}-nav`"
       :class="[
         'o-tab-pane',
         {
