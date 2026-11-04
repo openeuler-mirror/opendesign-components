@@ -47,6 +47,14 @@ export const badgeProps = {
     type: Array as PropType<Array<number | string>>,
     default: () => [],
   },
+  /**
+   * @zh-CN 无障碍标签，用于 dot 模式或图标徽标的屏幕阅读器描述
+   * @en-US Accessibility label for screen reader description in dot or icon badge mode
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type BadgePropsT = ExtractPropTypes<typeof badgeProps>;
