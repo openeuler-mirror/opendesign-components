@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, nextTick } from 'vue';
+import { computed, provide, ref, useId, watch, nextTick } from 'vue';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
@@ -88,6 +88,8 @@ const inputMirrorRef = ref<HTMLSpanElement>();
 const inputWidth = ref(12);
 
 const isSelecting = ref(false);
+/** 选项容器唯一 id，供 input 的 aria-controls 引用（SSR 友好） */
+const optionsId = useId();
 const lazyRootLoading = ref(false);
 // 记录最近一次点击是否在 InBox 内部
 const lastClickWasInside = ref(false);
@@ -523,6 +525,11 @@ watch(
         :readonly="!props.filterable"
         type="text"
         class="o-cascader-v2-input"
+        role="combobox"
+        aria-haspopup="listbox"
+        :aria-expanded="isSelecting"
+        :aria-controls="optionsId"
+        :aria-disabled="effectiveDisabled || undefined"
         @input="handleInput"
       />
       <div v-else class="o-cascader-v2-tags-wrap">
@@ -573,6 +580,11 @@ watch(
           :disabled="effectiveDisabled"
           type="text"
           class="o-cascader-v2-input"
+          role="combobox"
+          aria-haspopup="listbox"
+          :aria-expanded="isSelecting"
+          :aria-controls="optionsId"
+          :aria-disabled="effectiveDisabled || undefined"
           :style="props.filterable && valueListDisplay.length > 0 ? { width: `${inputWidth}px` } : { width: '100%' }"
           @input="handleInput"
         />
@@ -629,7 +641,7 @@ watch(
         wrap-class="o-cascader-v2-panel-popup"
         @change="onOptionVisibleChange"
       >
-        <div ref="cascaderv2Panel"></div>
+        <div :id="optionsId" ref="cascaderv2Panel"></div>
       </OPopup>
 
       <!-- TODO 移动端 -->
