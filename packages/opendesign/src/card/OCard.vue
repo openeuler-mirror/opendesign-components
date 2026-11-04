@@ -66,6 +66,7 @@ const popoverStyle = computed(() => ({
     :tag="!!props.href ? 'a' : 'div'"
     :href="props.href"
     class="o-card"
+    role="group"
     tabindex="-1"
     :class="[
       `o-card-layout-${props.layout}`,
