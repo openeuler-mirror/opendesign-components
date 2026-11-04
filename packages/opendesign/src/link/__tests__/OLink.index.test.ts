@@ -215,3 +215,30 @@ describe('全局配置契约（configProvider 联动）', () => {
     expect(linkClick).not.toHaveBeenCalled();
   });
 });
+
+describe('无障碍契约（ARIA）', () => {
+  test('OLink aria-disabled - disabled 时有 aria-disabled=true', async () => {
+    const screen = render(OLink, { props: { disabled: true }, slots: { default: () => 'X' } });
+    const el = screen.container.querySelector('.o-link') as HTMLElement;
+    expect(el.getAttribute('aria-disabled')).toBe('true');
+  });
+
+  test('OLink tabindex - disabled 时 tabindex=-1', async () => {
+    const screen = render(OLink, { props: { disabled: true }, slots: { default: () => 'X' } });
+    const el = screen.container.querySelector('.o-link') as HTMLElement;
+    expect(el.getAttribute('tabindex')).toBe('-1');
+  });
+
+  test('OLink aria-disabled - loading 时有 aria-disabled=true', async () => {
+    const screen = render(OLink, { props: { loading: true }, slots: { default: () => 'X' } });
+    const el = screen.container.querySelector('.o-link') as HTMLElement;
+    expect(el.getAttribute('aria-disabled')).toBe('true');
+  });
+
+  test('OLink aria-disabled - 正常态无该属性', async () => {
+    const screen = render(OLink, { slots: { default: () => 'X' } });
+    const el = screen.container.querySelector('.o-link') as HTMLElement;
+    expect(el.getAttribute('aria-disabled')).toBeNull();
+    expect(el.getAttribute('tabindex')).toBeNull();
+  });
+});

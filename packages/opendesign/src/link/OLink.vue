@@ -82,6 +82,11 @@ const suffix = () => {
 };
 const Link = () => {
   const _props: Record<string, any> = { ...$attr, class: ['o-link', linkClass.value], onClick };
+  /** disabled 或 loading 时注入 ARIA 禁用语义并移出 tab 序 */
+  if (props.disabled || props.loading) {
+    _props['aria-disabled'] = 'true';
+    _props.tabindex = -1;
+  }
   if (props.to) {
     const RouterLink = resolveComponent('RouterLink');
     if (typeof RouterLink !== 'string') {
