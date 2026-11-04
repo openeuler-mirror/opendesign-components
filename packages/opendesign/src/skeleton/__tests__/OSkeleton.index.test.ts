@@ -63,3 +63,19 @@ describe('SSR 契约', () => {
     if (result.root) result.root.remove();
   });
 });
+
+describe('无障碍契约（ARIA）', () => {
+  test('OSkeleton aria-busy - loading=true 时容器有 aria-busy=true', async () => {
+    const screen = render(OSkeleton, {});
+    await flush();
+    const el = screen.container.querySelector('.o-skeleton') as HTMLElement;
+    expect(el.getAttribute('aria-busy')).toBe('true');
+  });
+
+  test('OSkeleton aria-hidden - 骨架占位元素有 aria-hidden=true', async () => {
+    const screen = render(OSkeleton, { props: { rows: 3 } });
+    await flush();
+    const text = screen.container.querySelector('.o-skeleton-text') as HTMLElement;
+    expect(text.getAttribute('aria-hidden')).toBe('true');
+  });
+});
