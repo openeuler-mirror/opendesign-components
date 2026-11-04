@@ -60,6 +60,9 @@ const isContentOverflow = useElementOverflown(itemContentRef);
 <template>
   <li
     ref="menuItemRef"
+    role="menuitem"
+    :aria-current="isSelected ? 'page' : undefined"
+    :aria-disabled="$props.disabled || undefined"
     :class="{
       'o-menu-item': true,
       'o-menu-item-selected': isSelected,

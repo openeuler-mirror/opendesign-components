@@ -82,7 +82,7 @@ provide(menuInjectKey, {
 </script>
 
 <template>
-  <ul :class="['o-menu', `o-menu-${size}`, arrowPosition && `o-menu-arrow-${arrowPosition}`]">
+  <ul role="menu" :class="['o-menu', `o-menu-${size}`, arrowPosition && `o-menu-arrow-${arrowPosition}`]">
     <slot></slot>
   </ul>
 </template>
