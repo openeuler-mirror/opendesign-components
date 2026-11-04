@@ -38,6 +38,14 @@ export const sliderProps = {
     default: 0,
   },
   /**
+   * @zh-CN 滑块的可访问名称，透传到滑块按钮的 aria-label，缺省时使用 i18n 默认值
+   * @en-US Accessible label of the slider thumb, forwarded to the thumb's aria-label, falls back to the i18n default when omitted
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 滑动条最小值
    * @en-US The min value.
    * @default 0
@@ -169,6 +177,14 @@ export const sliderButtonProps = {
   modelValue: {
     type: Number,
     default: 0,
+  },
+  /**
+   * @zh-CN 滑块的可访问名称，缺省时使用 i18n 默认值
+   * @en-US Accessible label of the slider thumb, falls back to the i18n default when omitted
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
   },
   /**
    * @zh-CN 气泡定位方向

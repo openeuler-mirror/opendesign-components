@@ -118,6 +118,7 @@ defineExpose({
           :position="position"
           :show-solid-circle="showStops"
           :show-popover="showPopover"
+          :aria-label="props.ariaLabel"
           @update:model-value="setFirstValue"
         />
         <OSliderButton
@@ -129,6 +130,7 @@ defineExpose({
           :position="position"
           :show-solid-circle="showStops"
           :show-popover="showPopover"
+          :aria-label="props.ariaLabel"
           @update:model-value="setSecondValue"
         />
         <div v-if="showStops">

@@ -139,3 +139,64 @@ describe('插槽契约（具名插槽）', () => {
     expect(unitWrap?.textContent).not.toContain('fallback');
   });
 });
+
+describe('无障碍契约（ARIA）', () => {
+  test('OSlider role=slider - 滑块按钮有 role=slider', async () => {
+    const screen = render(OSlider, { props: { modelValue: 30 } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('role')).toBe('slider');
+  });
+
+  test('OSlider aria-valuenow - 反映当前 modelValue', async () => {
+    const screen = render(OSlider, { props: { modelValue: 42 } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-valuenow')).toBe('42');
+  });
+
+  test('OSlider aria-valuemin/max - 反映 min/max prop', async () => {
+    const screen = render(OSlider, { props: { modelValue: 50, min: 10, max: 90 } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-valuemin')).toBe('10');
+    expect(thumb.getAttribute('aria-valuemax')).toBe('90');
+  });
+
+  test('OSlider aria-orientation - direction=h 时为 horizontal', async () => {
+    const screen = render(OSlider, { props: { modelValue: 50 } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-orientation')).toBe('horizontal');
+  });
+
+  test('OSlider aria-orientation - direction=v 时为 vertical', async () => {
+    const screen = render(OSlider, { props: { modelValue: 50, direction: 'v' } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-orientation')).toBe('vertical');
+  });
+
+  test('OSlider aria-disabled - disabled 时为 true', async () => {
+    const screen = render(OSlider, { props: { modelValue: 50, disabled: true } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-disabled')).toBe('true');
+  });
+});
+
+describe('无障碍契约（ARIA）— 可访问名称', () => {
+  test('OSlider 滑块设默认 aria-label', async () => {
+    const screen = render(OSlider, { props: { modelValue: 30 } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-label')).toBeTruthy();
+  });
+
+  test('OSlider 显式传 ariaLabel 时优先渲染', async () => {
+    const screen = render(OSlider, { props: { modelValue: 30, ariaLabel: '音量' } });
+    await flush();
+    const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
+    expect(thumb.getAttribute('aria-label')).toBe('音量');
+  });
+});

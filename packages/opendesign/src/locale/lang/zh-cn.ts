@@ -13,6 +13,8 @@ export default {
   'progress.progressbar': '进度条',
   // breadcrumb
   'breadcrumb.nav': '面包屑',
+  // slider
+  'slider.slider': '滑块',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',
