@@ -265,6 +265,8 @@ defineExpose({
       v-show="visible || toMount"
       ref="layerRef"
       class="o-layer"
+      role="dialog"
+      aria-modal="true"
       :class="{ 'o-layer-to-body': isToBody }"
       v-bind="$attrs"
       :style="{
