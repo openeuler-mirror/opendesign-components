@@ -121,3 +121,29 @@ describe('插槽契约（具名插槽）', () => {
     expect(screen.container.querySelector('.o-divider-label')).toBeNull();
   });
 });
+
+describe('无障碍契约（ARIA）', () => {
+  test('ODivider aria-orientation - direction=h 时为 horizontal', async () => {
+    const screen = render(ODivider, { props: { direction: 'h' } });
+    const el = screen.container.querySelector('.o-divider') as HTMLElement;
+    expect(el.getAttribute('aria-orientation')).toBe('horizontal');
+  });
+
+  test('ODivider aria-orientation - direction=v 时为 vertical', async () => {
+    const screen = render(ODivider, { props: { direction: 'v' } });
+    const el = screen.container.querySelector('.o-divider') as HTMLElement;
+    expect(el.getAttribute('aria-orientation')).toBe('vertical');
+  });
+
+  test('ODivider aria-hidden - 无 slot（纯装饰）时为 true', async () => {
+    const screen = render(ODivider, {});
+    const el = screen.container.querySelector('.o-divider') as HTMLElement;
+    expect(el.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  test('ODivider aria-hidden - 有 slot（含标签）时无该属性', async () => {
+    const screen = render(ODivider, { slots: { default: () => 'Label' } });
+    const el = screen.container.querySelector('.o-divider') as HTMLElement;
+    expect(el.getAttribute('aria-hidden')).toBeNull();
+  });
+});
