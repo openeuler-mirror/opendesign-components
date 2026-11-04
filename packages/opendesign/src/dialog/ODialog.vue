@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, useId, useSlots } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
@@ -25,6 +25,11 @@ const emits = defineEmits<{
 }>();
 
 const { isPhonePad } = useScreen();
+
+const slots = useSlots();
+
+/** 弹窗标题 id，供 role=dialog 的 aria-labelledby 引用（SSR 友好） */
+const headerId = useId();
 
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 
@@ -76,6 +81,7 @@ defineExpose({
     ]"
     :visible="props.visible"
     :wrapper="props.wrapper"
+    :aria-labelledby="slots.header ? headerId : undefined"
     :unmount-on-hide="props.unmountOnHide"
     :main-class="mergeClass('o-dlg-main', props.mainClass)"
     :main-transition="props.mainTransition"
@@ -88,7 +94,7 @@ defineExpose({
     @change="onChange"
     @update:visible="onUpdateVisible"
   >
-    <div v-if="$slots.header" class="o-dlg-header">
+    <div v-if="$slots.header" :id="headerId" class="o-dlg-header">
       <slot name="header"></slot>
     </div>
     <div
