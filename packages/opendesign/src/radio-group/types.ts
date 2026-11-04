@@ -35,6 +35,22 @@ export const radioGroupProps = {
     type: String as PropType<DirectionT>,
     default: 'h',
   },
+  /**
+   * @zh-CN 原生 name 属性，用于关联组内所有单选框（原生方向键导航）
+   * @en-US Native name attribute to associate all radios in the group (native arrow key navigation)
+   * @since NEXT
+   */
+  name: {
+    type: String,
+  },
+  /**
+   * @zh-CN 单选组的可访问名称，透传到根元素的 aria-label，缺省时使用 i18n 默认值
+   * @en-US Accessible label of the radio group, forwarded to the root element's aria-label, falls back to the i18n default when omitted
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type RadioGroupPropsT = ExtractPropTypes<typeof radioGroupProps>;

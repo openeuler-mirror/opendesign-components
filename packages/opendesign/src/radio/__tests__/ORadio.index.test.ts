@@ -6,6 +6,7 @@ import { render } from 'vitest-browser-vue';
 import { userEvent } from 'vitest/browser';
 import { h } from 'vue';
 import ORadio from '../ORadio.vue';
+import ORadioGroup from '../../radio-group/ORadioGroup.vue';
 import { THEMES, paintThemed } from '../../../__tests__/_helpers/theme';
 import { flush } from '../../../__tests__/_helpers/dom';
 
@@ -131,5 +132,69 @@ describe('插槽契约（具名插槽）', () => {
       },
     });
     expect(screen.container.querySelector('.custom-radio')).not.toBeNull();
+  });
+});
+
+describe('无障碍契约（ARIA）', () => {
+  test('ORadio name - 独立使用时 input 有 name 属性', async () => {
+    const screen = render(ORadio, { props: { value: 'a' } });
+    await flush();
+    const input = screen.container.querySelector('input[type=radio]') as HTMLInputElement;
+    expect(input.getAttribute('name')).toBeTruthy();
+  });
+
+  test('ORadio name - group 内所有 radio 共享同一 name', async () => {
+    const screen = render(ORadioGroup, {
+      slots: {
+        default: () => [h(ORadio, { value: 'a' }), h(ORadio, { value: 'b' })],
+      },
+    });
+    await flush();
+    const inputs = screen.container.querySelectorAll('input[type=radio]');
+    expect(inputs.length).toBe(2);
+    expect(inputs[0].getAttribute('name')).toBe(inputs[1].getAttribute('name'));
+    expect(inputs[0].getAttribute('name')).toBeTruthy();
+  });
+
+  test('ORadio name - 使用 props.name 指定组名', async () => {
+    const screen = render(ORadioGroup, {
+      props: { name: 'my-group' },
+      slots: {
+        default: () => h(ORadio, { value: 'a' }),
+      },
+    });
+    await flush();
+    const input = screen.container.querySelector('input[type=radio]') as HTMLInputElement;
+    expect(input.getAttribute('name')).toBe('my-group');
+  });
+
+  test('ORadioGroup role - 根元素有 role=radiogroup', async () => {
+    const screen = render(ORadioGroup, {
+      slots: { default: () => h(ORadio, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-radio-group') as HTMLElement;
+    expect(group.getAttribute('role')).toBe('radiogroup');
+  });
+});
+
+describe('无障碍契约（ARIA）— 可访问名称', () => {
+  test('ORadioGroup 根元素设默认 aria-label', async () => {
+    const screen = render(ORadioGroup, {
+      slots: { default: () => h(ORadio, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-radio-group') as HTMLElement;
+    expect(group.getAttribute('aria-label')).toBeTruthy();
+  });
+
+  test('ORadioGroup 显式传 ariaLabel 时优先渲染', async () => {
+    const screen = render(ORadioGroup, {
+      props: { ariaLabel: '性别' },
+      slots: { default: () => h(ORadio, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-radio-group') as HTMLElement;
+    expect(group.getAttribute('aria-label')).toBe('性别');
   });
 });
