@@ -34,6 +34,19 @@ describe('ARIA — 页签', () => {
     const pane = screen.container.querySelector('.o-tab-pane') as HTMLElement;
     expect(pane.getAttribute('role')).toBe('tabpanel');
   });
+
+  test('disabled 页签的 nav 镜像 aria-disabled="true"，可用页签无该属性', async () => {
+    const screen = render(OTab, {
+      props: { modelValue: '1' },
+      slots: {
+        default: () => [h(OTabPane as any, { value: '1', label: 'T1' }), h(OTabPane as any, { value: '2', label: 'T2', disabled: true })],
+      },
+    });
+    await flush();
+    const tabs = screen.container.querySelectorAll('.o-tab-nav-list:not(.width-measurement) .o-tab-nav[role="tab"]');
+    expect(tabs[1].getAttribute('aria-disabled')).toBe('true');
+    expect(tabs[0].getAttribute('aria-disabled')).toBeNull();
+  });
 });
 
 describe('ARIA — tab 与 panel 双向关联', () => {
