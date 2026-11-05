@@ -78,4 +78,66 @@ describe('ARIA — 日历', () => {
     const selected = document.querySelector('[role="gridcell"][aria-selected="true"]');
     expect(selected).not.toBeNull();
   });
+
+  test('非当月补位日期格镜像 aria-disabled="true"，当月可用格无该属性', async () => {
+    await renderAndOpen();
+    const cells = document.querySelectorAll('[role="gridcell"]');
+    expect(cells.length).toBeGreaterThan(0);
+    // 月历首尾携带相邻月补位格，其应镜像禁用态
+    expect(document.querySelector('[role="gridcell"][aria-disabled="true"]')).not.toBeNull();
+    // 今天属当月可用格，不携带禁用属性
+    const today = document.querySelector('[role="gridcell"][aria-current="date"]');
+    expect(today?.getAttribute('aria-disabled')).toBeNull();
+  });
+
+  test('点击日期后 - 选中格镜像移动到新值且 v-model 提交', async () => {
+    const value = ref<number | undefined>(undefined);
+    const pickerRef = ref<any>(null);
+    render({
+      setup() {
+        return () =>
+          h(ODatePicker as any, {
+            ref: pickerRef,
+            modelValue: value.value,
+            'onUpdate:modelValue': (v: number) => {
+              value.value = v;
+            },
+          });
+      },
+    });
+    await flush();
+    pickerRef.value.focus();
+    await waitFor(() => document.querySelector('[role="grid"]') !== null);
+    // 点击当月 15 号（非禁用、非补位格）
+    const target = [...document.querySelectorAll('[role="gridcell"]')].find(
+      (el) => el.textContent?.trim() === '15' && !el.hasAttribute('aria-disabled'),
+    ) as HTMLElement;
+    expect(target).toBeTruthy();
+    target.click();
+    await flush();
+    // date 模式点击即提交并收起面板，重新打开后选中格镜像到 15 号
+    pickerRef.value.focus();
+    await waitFor(() => document.querySelector('[role="grid"]') !== null);
+    const selected = document.querySelector('[role="gridcell"][aria-selected="true"]');
+    expect(selected?.textContent?.trim()).toBe('15');
+    // v-model 已提交为当月 15 号
+    expect(dayjs(value.value).date()).toBe(15);
+  });
+
+  test('input 的 aria-expanded 镜像面板开合（关闭 false → 聚焦打开 true → 失焦关闭 false）', async () => {
+    const pickerRef = ref<any>(null);
+    const screen = render({
+      setup() {
+        return () => h(ODatePicker as any, { ref: pickerRef, modelValue: undefined });
+      },
+    });
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLInputElement;
+    expect(input.getAttribute('aria-expanded')).toBe('false');
+    pickerRef.value.focus();
+    await waitFor(() => document.querySelector('[role="grid"]') !== null);
+    expect(input.getAttribute('aria-expanded')).toBe('true');
+    pickerRef.value.blur();
+    await waitFor(() => input.getAttribute('aria-expanded') === 'false');
+  });
 });
