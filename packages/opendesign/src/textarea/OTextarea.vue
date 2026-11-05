@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, h } from 'vue';
+import { ref, h, computed } from 'vue';
 import { textareaProps } from './types';
 
 import { InBox } from '../_components/in-box';
@@ -63,6 +63,11 @@ const {
 } = useFormField(props, emits);
 
 const inTextareaRef = ref<InstanceType<typeof InTextarea>>();
+
+/**
+ * 校验失败状态：显式传 ariaInvalid 优先，否则 color 为 danger 时联动镜像（校验失败状态）
+ */
+const effectiveAriaInvalid = computed(() => props.ariaInvalid ?? (color.value === 'danger' || undefined));
 
 const onInput = (e: Event) => {
   emits('input', e);
@@ -163,9 +168,15 @@ defineExpose({
                   'maxLength',
                   'inputOnOutlimit',
                   'showLength',
+                  // aria 透传 props：转发到 InTextarea 的原生 textarea
+                  'role',
+                  'ariaLabel',
+                  'ariaDescribedBy',
+                  'ariaRequired',
                 ]),
                 disabled: effectiveDisabled,
                 clearable: effectiveClearable,
+                ariaInvalid: effectiveAriaInvalid,
                 onChange: onChange,
                 onInput: onInput,
                 onFocus: onFocus,
