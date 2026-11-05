@@ -17,7 +17,7 @@ const emits = defineEmits<InInputEmitsT>();
 const slots = defineSlots<{
   suffix(): any;
   prefix(): any;
-  length(props: {length: number}): any;
+  length(props: { length: number }): any;
 }>();
 
 const { t } = useI18n();
@@ -131,6 +131,12 @@ defineExpose({
         v-scrollbar="scrollbarProps"
         :value="displayValue"
         class="o_textarea-textarea"
+        :role="props.role"
+        :aria-label="props.ariaLabel"
+        :aria-describedby="props.ariaDescribedBy"
+        :aria-invalid="props.ariaInvalid"
+        :aria-required="props.ariaRequired"
+        :aria-disabled="props.disabled || undefined"
         :placeholder="props.placeholder"
         :readonly="props.readonly"
         :disabled="props.disabled"
@@ -146,16 +152,12 @@ defineExpose({
       <div v-if="isClearable" class="o_textarea-icon o_textarea-clear" @click="handleClear" @mousedown.prevent>
         <IconClose class="o_textarea-clear-icon" />
       </div>
-      <div
-        v-if="isShowLength"
-        class="o_textarea-icon o_textarea-count"
-        :class="{ 'o_textarea-count-error': isOutLengthLimit }"
-      >
-      <slot name="length" :length="inputValueLength">
+      <div v-if="isShowLength" class="o_textarea-icon o_textarea-count" :class="{ 'o_textarea-count-error': isOutLengthLimit }">
+        <slot name="length" :length="inputValueLength">
           <span v-if="props.maxLength ?? props.minLength" v-html="t('input.limit', inputValueLength, props.maxLength ?? props.minLength)"></span>
           <span v-else>{{ inputValueLength }}</span>
         </slot>
-    </div>
+      </div>
     </div>
 
     <div v-if="slots.suffix?.()" class="o_textarea-suffix" @mousedown.prevent>

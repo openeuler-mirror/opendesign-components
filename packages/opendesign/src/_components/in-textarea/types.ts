@@ -156,6 +156,48 @@ export const inTextareaProps = {
     type: [Boolean, Object] as PropType<boolean | Partial<BaseScrollerPropsT>>,
     default: true,
   },
+  /**
+   * @zh-CN 无障碍角色，透传到原生 textarea
+   * @en-US Accessibility role forwarded to the native textarea
+   * @since NEXT
+   */
+  role: {
+    type: String,
+  },
+  /**
+   * @zh-CN 无障碍标签，透传到原生 textarea
+   * @en-US Accessibility label forwarded to the native textarea
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
+   * @zh-CN 辅助描述元素 id，透传到原生 textarea 的 aria-describedby，用于关联错误提示/辅助文本
+   * @en-US Described-by element id forwarded to aria-describedby of the native textarea, used to associate error hints or helper text
+   * @since NEXT
+   */
+  ariaDescribedBy: {
+    type: String,
+  },
+  /**
+   * @zh-CN 校验失败状态，透传到原生 textarea 的 aria-invalid；显式传 false（校验重新通过）也会渲染
+   * @en-US Invalid state forwarded to aria-invalid of the native textarea; explicit false (validation passed again) is also rendered
+   * @since NEXT
+   */
+  ariaInvalid: {
+    type: [Boolean, String],
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
+  /**
+   * @zh-CN 必填状态，透传到原生 textarea 的 aria-required
+   * @en-US Required state forwarded to aria-required of the native textarea
+   * @since NEXT
+   */
+  ariaRequired: {
+    type: [Boolean, String],
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
 };
 
 export type inTextareaPropsT = ExtractPropTypes<typeof inTextareaProps>;
