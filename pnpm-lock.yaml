@@ -329,7 +329,7 @@ importers:
         specifier: catalog:vue
         version: 10.11.1(vue@3.5.25(typescript@5.8.3))
       vue:
-        specifier: ^3.3.0
+        specifier: ^3.5.0
         version: 3.5.25(typescript@5.8.3)
     devDependencies:
       '@opensig/open-scripts':

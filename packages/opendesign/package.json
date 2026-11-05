@@ -34,7 +34,7 @@
   "peerDependencies": {
     "@vueuse/core": "catalog:vue",
     "dayjs": "catalog:utils",
-    "vue": "^3.3.0"
+    "vue": "^3.5.0"
   },
   "devDependencies": {
     "@opensig/open-scripts": "workspace:^",
