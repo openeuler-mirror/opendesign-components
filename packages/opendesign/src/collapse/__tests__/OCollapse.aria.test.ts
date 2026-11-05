@@ -36,13 +36,16 @@ describe('ARIA — 折叠面板', () => {
     const screen = render({
       setup() {
         return () =>
-          h(OCollapse as any, {
-            modelValue: expanded.value,
-            'onUpdate:modelValue': (v: Array<string>) => {
-              expanded.value = v;
+          h(
+            OCollapse as any,
+            {
+              modelValue: expanded.value,
+              'onUpdate:modelValue': (v: Array<string>) => {
+                expanded.value = v;
+              },
             },
-            default: () => h(OCollapseItem, { value: '1', title: 'T' }),
-          });
+            () => [h(OCollapseItem as any, { value: '1', title: 'T' })],
+          );
       },
     });
     await flush();
