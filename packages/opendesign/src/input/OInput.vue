@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, h } from 'vue';
+import { ref, h, computed } from 'vue';
 import { inputProps } from './types';
 
 import { InInput } from '../_components/in-input';
@@ -71,6 +71,11 @@ const {
 } = useFormField(props, emits);
 
 const inInputRef = ref<InstanceType<typeof InInput>>();
+
+/**
+ * 校验失败状态：显式传 ariaInvalid 优先，否则 color 为 danger 时联动镜像（校验失败状态）
+ */
+const effectiveAriaInvalid = computed(() => props.ariaInvalid ?? (color.value === 'danger' || undefined));
 
 const onInput = (e: Event, value: string) => {
   emits('input', e, value);
@@ -187,9 +192,19 @@ defineExpose({
                   'inputOnOutlimit',
                   'showLength',
                   'onlyNumericInput',
+                  // aria 透传 props：转发到 InInput 的原生 input
+                  'role',
+                  'ariaLabel',
+                  'ariaExpanded',
+                  'ariaHaspopup',
+                  'ariaControls',
+                  'ariaActiveDescendant',
+                  'ariaDescribedBy',
+                  'ariaRequired',
                 ]),
                 clearable: effectiveClearable,
                 disabled: effectiveDisabled,
+                ariaInvalid: effectiveAriaInvalid,
                 onChange: onChange,
                 onInput: onInput,
                 onFocus: onFocus,
