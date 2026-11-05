@@ -78,6 +78,8 @@ const onClick = (e: MouseEvent) => {
 <template>
   <div
     :style="outerStyle"
+    :role="showText ? 'img' : undefined"
+    :aria-label="showText ? props.name : undefined"
     :class="[
       'o-avatar',
       'o-avatar-circle',
@@ -90,7 +92,14 @@ const onClick = (e: MouseEvent) => {
     ]"
     @click="onClick"
   >
-    <img v-if="url && !hasError" :src="url" :style="{ objectFit: props.objectFit }" alt="avatar" @load="handleImgLoad" @error="handleImgError" />
+    <img
+      v-if="url && !hasError"
+      :src="url"
+      :style="{ objectFit: props.objectFit }"
+      :alt="props.name || 'avatar'"
+      @load="handleImgLoad"
+      @error="handleImgError"
+    />
     <template v-else-if="showText">
       <slot name="name">
         <component :is="props.nameFormatter({ name: props.name })" v-if="props.nameFormatter" />
