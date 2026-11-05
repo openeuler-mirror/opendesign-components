@@ -7,14 +7,15 @@ import { isNumber } from '../_utils/is';
 const props = defineProps(badgeProps);
 
 /**
- * @description 是否为数值计数场景（value 为 number 类型），用于决定是否添加 role=status / aria-live
+ * @description 数值计数且非 dot 模式时徽标有可见文本，挂 role=status 作为 live region
+ * （role=status 隐含 aria-live=polite，显式声明便于阅读）；dot 无文本，不作为播报源
  */
-const isCountMode = computed(() => isNumber(props.value));
+const hasCountText = computed(() => isNumber(props.value) && !props.dot);
 
 /**
- * @description dot 模式的无障碍标签，优先使用 ariaLabel prop，回退为 'new'
+ * @description 无障碍标签：ariaLabel prop 优先透传（各模式均生效），dot 模式缺省回退 'new'
  */
-const dotAriaLabel = computed(() => (props.dot ? props.ariaLabel || 'new' : undefined));
+const badgeAriaLabel = computed(() => props.ariaLabel || (props.dot ? 'new' : undefined));
 
 const content = computed(() => {
   if (props.dot) {
@@ -43,9 +44,9 @@ const style = computed(() => {
     <sup
       class="o-badge-content"
       :style="style"
-      :role="isCountMode ? 'status' : undefined"
-      :aria-live="isCountMode ? 'polite' : undefined"
-      :aria-label="dotAriaLabel"
+      :role="hasCountText ? 'status' : undefined"
+      :aria-live="hasCountText ? 'polite' : undefined"
+      :aria-label="badgeAriaLabel"
     >
       <slot name="content">
         <div class="o-badge-label">{{ content }}</div>

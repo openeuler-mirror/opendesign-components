@@ -48,8 +48,11 @@ export const badgeProps = {
     default: () => [],
   },
   /**
-   * @zh-CN 无障碍标签，用于 dot 模式或图标徽标的屏幕阅读器描述
-   * @en-US Accessibility label for screen reader description in dot or icon badge mode
+   * @zh-CN 无障碍标签，透传到徽标元素；dot 模式缺省回退 "new"。计数模式下设置后将覆盖默认播报名，
+   * 慎与 role=status 播报语义组合
+   * @en-US Accessibility label forwarded to the badge element; falls back to "new" in dot
+   * mode. In count mode, setting this overrides the default announced name—use with care
+   * alongside role=status announcements
    * @since NEXT
    */
   ariaLabel: {

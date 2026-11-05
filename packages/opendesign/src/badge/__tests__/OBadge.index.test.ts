@@ -171,4 +171,26 @@ describe('无障碍契约（ARIA）', () => {
     const sup = screen.container.querySelector('.o-badge-content') as HTMLElement;
     expect(sup.getAttribute('aria-label')).toBe('未读消息');
   });
+
+  test('OBadge aria-label - 计数模式 ariaLabel 透传覆盖播报名', async () => {
+    const screen = render(OBadge, { props: { value: 5, ariaLabel: 'x' }, slots: { default: () => 'B' } });
+    const sup = screen.container.querySelector('.o-badge-content') as HTMLElement;
+    expect(sup.getAttribute('aria-label')).toBe('x');
+  });
+
+  test('OBadge role - dot + 数字 value 时 sup 无 role（dot 无文本不播报）', async () => {
+    const screen = render(OBadge, { props: { value: 5, dot: true }, slots: { default: () => 'B' } });
+    const sup = screen.container.querySelector('.o-badge-content') as HTMLElement;
+    expect(sup.getAttribute('role')).toBeNull();
+    expect(sup.getAttribute('aria-live')).toBeNull();
+  });
+
+  test('OBadge aria-label - content 插槽图标徽标时 ariaLabel 生效', async () => {
+    const screen = render(OBadge, {
+      props: { ariaLabel: 'hot' },
+      slots: { default: () => 'B', content: () => h('i', { class: 'o-icon-demo' }) },
+    });
+    const sup = screen.container.querySelector('.o-badge-content') as HTMLElement;
+    expect(sup.getAttribute('aria-label')).toBe('hot');
+  });
 });
