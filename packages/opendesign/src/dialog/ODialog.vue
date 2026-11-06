@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useId, useSlots } from 'vue';
+import { computed, ref, useId } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
@@ -26,7 +26,22 @@ const emits = defineEmits<{
 
 const { isPhonePad } = useScreen();
 
-const slots = useSlots();
+/**
+ * 组件插槽类型定义。
+ *
+ * 采用 defineSlots 而非 useSlots：为插槽名提供编译期拼写校验与编辑器精确补全，
+ * 其 JSDoc 同时作为 gen:api 提取插槽说明列的来源（与 OSelect 等组件保持一致）。
+ */
+const slots = defineSlots<{
+  /** 自定义弹窗标题内容 */
+  header?(): any;
+  /** 弹窗主体内容 */
+  default?(): any;
+  /** 自定义弹窗底部内容 */
+  footer?(): any;
+  /** 自定义操作按钮区域，可获取 isPhonePad 标记以适配响应式按钮形态 */
+  actions?(props: { isPhonePad: boolean }): any;
+}>();
 
 /** 弹窗标题 id，供 role=dialog 的 aria-labelledby 引用（SSR 友好） */
 const headerId = useId();
@@ -81,6 +96,8 @@ defineExpose({
     ]"
     :visible="props.visible"
     :wrapper="props.wrapper"
+    role="dialog"
+    aria-modal="true"
     :aria-labelledby="slots.header ? headerId : undefined"
     :unmount-on-hide="props.unmountOnHide"
     :main-class="mergeClass('o-dlg-main', props.mainClass)"
