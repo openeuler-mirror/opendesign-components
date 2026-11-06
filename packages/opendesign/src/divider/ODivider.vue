@@ -13,6 +13,8 @@ const props = defineProps(dividerProps);
       `o-divider-${props.direction}`,
       { 'o-divider-darker': props.darker, [`o-divider-label-${props.labelPosition}`]: $slots.default },
     ]"
+    :aria-hidden="$slots.default ? undefined : 'true'"
+    :aria-orientation="props.direction === 'v' ? 'vertical' : 'horizontal'"
   >
     <template v-if="props.direction === 'h'">
       <div class="o-divider-line"></div>
