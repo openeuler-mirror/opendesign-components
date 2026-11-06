@@ -45,7 +45,6 @@ watch(isVisible, (val) => {
   updateVisible(val);
 });
 
-
 provide(dropdownInjectKey, { updateVisible });
 </script>
 
@@ -64,7 +63,7 @@ provide(dropdownInjectKey, { updateVisible });
       :adjust-min-width="props.optionWidthMode === 'min-width'"
       :adjust-width="props.optionWidthMode === 'width'"
     >
-      <ul class="o-dropdown-list" :class="mergeClass(`o-dropdown-list-${props.size}`, props.optionWrapClass)">
+      <ul role="menu" class="o-dropdown-list" :class="mergeClass(`o-dropdown-list-${props.size}`, props.optionWrapClass)">
         <slot name="dropdown"></slot>
       </ul>
     </OPopup>

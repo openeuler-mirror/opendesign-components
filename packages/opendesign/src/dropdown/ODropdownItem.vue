@@ -16,7 +16,13 @@ const onItemClick = () => {
 </script>
 
 <template>
-  <li class="o-dropdown-item" :class="{ 'o-dropdown-disabled': props.disabled }" @click="onItemClick">
+  <li
+    role="menuitem"
+    class="o-dropdown-item"
+    :class="{ 'o-dropdown-disabled': props.disabled }"
+    :aria-disabled="props.disabled || undefined"
+    @click="onItemClick"
+  >
     <slot>{{ props.label || `${props.value}` }}</slot>
   </li>
 </template>
