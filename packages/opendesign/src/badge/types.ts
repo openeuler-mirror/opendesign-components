@@ -47,6 +47,17 @@ export const badgeProps = {
     type: Array as PropType<Array<number | string>>,
     default: () => [],
   },
+  /**
+   * @zh-CN 无障碍标签，透传到徽标元素；dot 模式缺省回退 "new"。计数模式下设置后将覆盖默认播报名，
+   * 慎与 role=status 播报语义组合
+   * @en-US Accessibility label forwarded to the badge element; falls back to "new" in dot
+   * mode. In count mode, setting this overrides the default announced name—use with care
+   * alongside role=status announcements
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type BadgePropsT = ExtractPropTypes<typeof badgeProps>;
