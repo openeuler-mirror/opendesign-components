@@ -155,6 +155,7 @@ onMounted(() => {
 <template>
   <InBox
     class="o-ip-input"
+    role="group"
     :color="color"
     :size="effectiveSize"
     :disabled="effectiveDisabled"
