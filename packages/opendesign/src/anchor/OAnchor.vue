@@ -349,7 +349,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="anchorRef" :class="['o-anchor', `o-anchor-${props.layout}`, `o-anchor-${props.size}`, isAnchorStickying && `o-anchor-stickying`]">
+  <div ref="anchorRef" role="navigation" :class="['o-anchor', `o-anchor-${props.layout}`, `o-anchor-${props.size}`, isAnchorStickying && `o-anchor-stickying`]">
     <div v-if="props.layout === 'v'" class="o-anchor-line">
       <div class="o-anchor-indicator" :style="indicatorStyle"></div>
     </div>
