@@ -73,6 +73,14 @@ export const buttonProps = {
     type: String,
     default: 'button',
   },
+  /**
+   * @zh-CN 无障碍标签，用于 icon-only 按钮等无文本节点的屏幕阅读器描述
+   * @en-US Accessibility label for screen reader description of buttons without text nodes (e.g. icon-only)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type ButtonPropsT = ExtractPropTypes<typeof buttonProps>;

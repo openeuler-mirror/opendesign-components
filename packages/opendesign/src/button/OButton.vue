@@ -73,6 +73,9 @@ const onClick = (e: MouseEvent) => {
     :href="props.href"
     :type="tag === 'button' ? 'button' : ''"
     class="o-btn"
+    :aria-disabled="mergedDisabled || undefined"
+    :aria-busy="props.loading || undefined"
+    :aria-label="props.ariaLabel"
     :class="[
       `o-btn-${props.color}`,
       `o-btn-${mergedSize}`,
