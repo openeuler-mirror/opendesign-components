@@ -96,6 +96,7 @@ defineExpose({
   <div
     v-if="isVisible"
     class="o-message"
+    :role="props.status === 'danger' ? 'alert' : 'status'"
     :class="[
       `o-message-${props.status}`,
       {
