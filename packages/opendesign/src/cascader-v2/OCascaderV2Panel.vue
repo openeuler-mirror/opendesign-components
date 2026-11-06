@@ -638,10 +638,13 @@ const handleClick = (option: { label: string; value: string | number; disabled?:
     <template v-else-if="props.filterable && filterValue">
       <template v-if="filteredOptions.length">
         <OScroller class="o-cascader-v2-panel-scroller" wrap-class="o-cascader-v2-panel-container" show-type="hover" size="small" disabled-x>
-          <ul class="o-cascader-v2-options" :class="{ 'o-cascader-v2-options-filterable': props.filterable }">
+          <ul role="listbox" class="o-cascader-v2-options" :class="{ 'o-cascader-v2-options-filterable': props.filterable }">
             <li
               v-for="option in filteredOptions"
               :key="option.value"
+              role="option"
+              :aria-selected="option.isActive || undefined"
+              :aria-disabled="option.disabled || undefined"
               :class="{ 'o-cascader-v2-option-selected': option.isActive, 'o-cascader-v2-option-disabled': option.disabled }"
               class="o-cascader-v2-option"
               @click="handleClick(option)"
@@ -673,10 +676,13 @@ const handleClick = (option: { label: string; value: string | number; disabled?:
       <template v-for="(columnInfo, index) in panelInfo" :key="index">
         <ODivider v-if="index > 0" direction="v" class="o-cascader-v2-panel-divider" />
         <OScroller class="o-cascader-v2-panel-scroller" wrap-class="o-cascader-v2-panel-container" show-type="hover" size="small" disabled-x>
-          <ul class="o-cascader-v2-options">
+          <ul role="listbox" class="o-cascader-v2-options">
             <li
               v-for="option in columnInfo"
               :key="option.value"
+              role="option"
+              :aria-selected="(option.isActive && (!option.isLeaf || !isMultiple)) || undefined"
+              :aria-disabled="option.disabled || undefined"
               :class="{
                 'o-cascader-v2-option-selected': option.isActive && (!option.isLeaf || !isMultiple),
                 'o-cascader-v2-option-disabled': option.disabled,
