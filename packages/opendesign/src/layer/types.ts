@@ -98,6 +98,15 @@ export const layerProps = {
     default: false,
   },
   /**
+   * @zh-CN 浮层的无障碍角色，opt-in 传 `dialog` 或 `tooltip`；未传则不渲染 role 属性，避免非对话框浮层（如 OLoading）被误标
+   * @en-US Accessibility role of the layer, opt-in `dialog` or `tooltip`; not rendered when omitted, avoiding mislabeling non-dialog layers (e.g. OLoading)
+   * @since NEXT
+   */
+  role: {
+    type: String as PropType<'dialog' | 'tooltip' | ''>,
+    default: '',
+  },
+  /**
    * @zh-CN 浮层打开前的回调，返回 false 表示取消打开浮层，否则打开浮层
    * @en-US Callback before the layer is opened, returning false means canceling the opening of the layer, otherwise opening the layer
    */
