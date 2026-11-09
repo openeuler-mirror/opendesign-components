@@ -16,7 +16,7 @@ const icon: any = computed(() => (props.status ? iconMap[props.status] : undefin
 </script>
 
 <template>
-  <div class="o-result" :class="{ [`o-result-${props.status}`]: props.status }">
+  <div role="status" class="o-result" :class="{ [`o-result-${props.status}`]: props.status }">
     <div v-if="$slots.image" class="o-result-image">
       <slot name="image"></slot>
     </div>
