@@ -230,6 +230,14 @@ export const popupProps = {
     type: Boolean,
     default: true,
   },
+  /**
+   * @zh-CN 弹层的无障碍角色，opt-in 传 `dialog` 或 `tooltip`；未传则不渲染 role 属性
+   * @en-US Accessibility role of the popup layer, opt-in `dialog` or `tooltip`; not rendered when omitted
+   * @since NEXT
+   */
+  role: {
+    type: String,
+  },
 };
 
 export type PopupPropsT = ExtractPropTypes<typeof popupProps>;
