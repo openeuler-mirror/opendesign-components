@@ -22,7 +22,7 @@ watch(
     if (!isUndefined(val)) {
       realValue.value = val;
     }
-  }
+  },
 );
 
 const hoverIndex = ref(-1);
@@ -61,7 +61,7 @@ const setValue = (index: number, isTopIcon: boolean) => {
 const iconStatus = computed(() => {
   const statusArr: Array<'' | 'full' | 'half'> = new Array(props.count).fill('');
   for (let i = 0; i < props.count; i++) {
-    const val = hoverIndex.value === -1 ? realValue.value ?? -1 : hoverIndex.value;
+    const val = hoverIndex.value === -1 ? (realValue.value ?? -1) : hoverIndex.value;
 
     if (!props.allowHalf) {
       if (i + 1 <= val) {
@@ -89,6 +89,7 @@ const showLabel = computed(() => {
 <template>
   <div
     class="o-rate"
+    role="radiogroup"
     :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`, { 'o-rate-readonly': props.readonly }]"
     @mouseleave="resetHoverIndex"
   >
@@ -96,6 +97,8 @@ const showLabel = computed(() => {
       <OPopover v-for="(item, idx) in count" :key="item" :adjust-width="false" :adjust-min-width="false" :visible="false" wrap-class="o-rate-popover">
         <template #target>
           <ORateItem
+            :aria-posinset="idx + 1"
+            :aria-setsize="count"
             :status="iconStatus[idx] || 'empty'"
             @hover="
               (isHalf) => {
@@ -120,6 +123,8 @@ const showLabel = computed(() => {
         v-for="(item, idx) in count"
         :key="item"
         :index="idx"
+        :aria-posinset="idx + 1"
+        :aria-setsize="count"
         :status="iconStatus[idx] || 'empty'"
         @hover="
           (isHalf) => {
