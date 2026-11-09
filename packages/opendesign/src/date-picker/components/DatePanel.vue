@@ -378,6 +378,7 @@ defineExpose({
     <OPopup
       v-else
       v-model:visible="visible"
+      role="dialog"
       :class="['o-date-panel', `o-date-panel-${size}`, 'o-time-panel', `o-time-panel-${size}`]"
       hide-close
       :target="props.target"
