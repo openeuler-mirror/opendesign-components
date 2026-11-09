@@ -7,7 +7,7 @@ const props = defineProps(skeletonProps);
 </script>
 
 <template>
-  <div v-if="props.loading" :class="['o-skeleton', { 'o-skeleton-animation': props.animation }]">
+  <div v-if="props.loading" :class="['o-skeleton', { 'o-skeleton-animation': props.animation }]" aria-busy="true">
     <slot name="template">
       <OSkeletonText :rows="props.rows" />
     </slot>

@@ -7,5 +7,10 @@ const round = getRoundClass(props, 'skeleton');
 </script>
 
 <template>
-  <div class="o-skeleton-item o-skeleton-avatar" :class="[`o-skeleton-avatar-${props.size}`, round.class.value]" :style="round.style.value"></div>
+  <div
+    class="o-skeleton-item o-skeleton-avatar"
+    :class="[`o-skeleton-avatar-${props.size}`, round.class.value]"
+    :style="round.style.value"
+    aria-hidden="true"
+  ></div>
 </template>
