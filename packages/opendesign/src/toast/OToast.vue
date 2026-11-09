@@ -82,7 +82,8 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="isVisible" class="o-toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <!-- aria-live 随 role 联动：alert → assertive（立即播报），status 及其他角色 → polite -->
+  <div v-if="isVisible" class="o-toast" :role="role" :aria-live="role === 'alert' ? 'assertive' : 'polite'" aria-atomic="true">
     <slot>{{ message }}</slot>
   </div>
 </template>
