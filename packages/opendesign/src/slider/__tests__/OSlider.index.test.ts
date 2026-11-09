@@ -199,4 +199,32 @@ describe('无障碍契约（ARIA）— 可访问名称', () => {
     const thumb = screen.container.querySelector('.o-slider-btn-wrap') as HTMLElement;
     expect(thumb.getAttribute('aria-label')).toBe('音量');
   });
+
+  test('OSlider range - 双把手 aria-label 按实际值区分 min / max', async () => {
+    const screen = render(OSlider, { props: { range: true, modelValue: [20, 80] } });
+    await flush();
+    const thumbs = screen.container.querySelectorAll('.o-slider-btn-wrap');
+    expect(thumbs.length).toBe(2);
+    expect(thumbs[0].getAttribute('aria-label')).toContain('(min)');
+    expect(thumbs[0].getAttribute('aria-label')).not.toContain('(max)');
+    expect(thumbs[1].getAttribute('aria-label')).toContain('(max)');
+    expect(thumbs[1].getAttribute('aria-label')).not.toContain('(min)');
+  });
+
+  test('OSlider range - modelValue 初始即交叉（[70, 30]）时后缀仍与值方向匹配', async () => {
+    const screen = render(OSlider, { props: { range: true, modelValue: [70, 30] } });
+    await flush();
+    const thumbs = screen.container.querySelectorAll('.o-slider-btn-wrap');
+    // 第一个把手持有值 70，第二个持有值 30，后缀按值判定而非把手序号
+    expect(thumbs[0].getAttribute('aria-label')).toContain('(max)');
+    expect(thumbs[1].getAttribute('aria-label')).toContain('(min)');
+  });
+
+  test('OSlider range - 传 ariaLabel 时 min / max 后缀拼在调用者文案上', async () => {
+    const screen = render(OSlider, { props: { range: true, modelValue: [20, 80], ariaLabel: '价格区间' } });
+    await flush();
+    const thumbs = screen.container.querySelectorAll('.o-slider-btn-wrap');
+    expect(thumbs[0].getAttribute('aria-label')).toBe('价格区间 (min)');
+    expect(thumbs[1].getAttribute('aria-label')).toBe('价格区间 (max)');
+  });
 });

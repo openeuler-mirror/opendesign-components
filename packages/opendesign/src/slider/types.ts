@@ -187,6 +187,22 @@ export const sliderButtonProps = {
     type: String,
   },
   /**
+   * @zh-CN 范围模式标记：双把手时需拼后缀区分可访问名称
+   * @en-US Range mode flag: dual thumbs need suffixes to distinguish accessible names
+   * @since NEXT
+   */
+  range: {
+    type: Boolean,
+  },
+  /**
+   * @zh-CN 本把手实际值是否为较小值（按实际值判定而非拖动槽位序号，交叉拖动后自动交换）
+   * @en-US Whether this thumb holds the smaller actual value (judged by actual value, not drag slot order; swaps automatically after crossing)
+   * @since NEXT
+   */
+  isMin: {
+    type: Boolean,
+  },
+  /**
    * @zh-CN 气泡定位方向
    * @en-US Bubble positioning direction.
    */

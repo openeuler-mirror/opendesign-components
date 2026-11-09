@@ -44,6 +44,18 @@ const showToolTip = computed(() => {
   return initData.hovering || initData.dragging;
 });
 
+/**
+ * @description 可访问名称：base 优先取调用者 ariaLabel，缺省回退 i18n 默认；
+ * 范围模式下按实际值拼英文 (min)/(max) 后缀区分双把手，不走 i18n
+ */
+const ariaLabelText = computed(() => {
+  const base = props.ariaLabel ?? t('slider.slider');
+  if (!props.range) {
+    return base;
+  }
+  return `${base} ${props.isMin ? '(min)' : '(max)'}`;
+});
+
 const currentPosition = computed(() => {
   return `${((props.modelValue - min.value) / (max.value - min.value)) * 100}%`;
 });
@@ -278,7 +290,7 @@ defineExpose({
     :style="wrapperStyle"
     :tabindex="disabled ? undefined : 0"
     role="slider"
-    :aria-label="props.ariaLabel ?? t('slider.slider')"
+    :aria-label="ariaLabelText"
     :aria-valuenow="props.modelValue"
     :aria-valuemin="min"
     :aria-valuemax="max"
