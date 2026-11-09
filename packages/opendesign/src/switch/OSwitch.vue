@@ -87,6 +87,10 @@ const onClick = (ev: Event) => {
 <template>
   <div
     class="o-switch"
+    role="switch"
+    :aria-checked="isChecked"
+    :aria-disabled="effectiveDisabled || undefined"
+    :aria-busy="props.loading || undefined"
     :class="[
       `o-switch-${resolvedSize}`,
       round.class.value,

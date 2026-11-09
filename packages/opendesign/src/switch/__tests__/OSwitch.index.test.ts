@@ -93,7 +93,7 @@ describe('动态契约（用户交互 → 组件响应）', () => {
   test('OSwitch disabled - 点击不切换', async () => {
     const screen = render(OSwitch, { props: { disabled: true } });
     const el = screen.container.querySelector('.o-switch') as HTMLElement;
-    await userEvent.click(el);
+    el.click();
     await flush();
     expect(el.classList.contains('o-switch-checked')).toBe(false);
   });
