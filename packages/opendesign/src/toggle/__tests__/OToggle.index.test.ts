@@ -83,7 +83,7 @@ describe('动态契约（用户交互 → 组件响应）', () => {
   test('OToggle disabled - 点击不切换', async () => {
     const screen = render(OToggle, { props: { disabled: true }, slots: { default: () => 'D' } });
     const el = screen.container.querySelector('.o-toggle') as HTMLElement;
-    await userEvent.click(el);
+    el.click();
     await flush();
     expect(el.classList.contains('o-toggle-checked')).toBe(false);
   });

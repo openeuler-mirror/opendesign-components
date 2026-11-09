@@ -34,7 +34,7 @@ watch(
     if (!isUndefined(val)) {
       isChecked.value = val;
     }
-  }
+  },
 );
 
 const onClick = (ev: MouseEvent) => {
@@ -52,6 +52,9 @@ const onClick = (ev: MouseEvent) => {
 <template>
   <div
     class="o-toggle"
+    role="button"
+    :aria-pressed="isChecked"
+    :aria-disabled="props.disabled || undefined"
     :class="[
       round.class.value,
       {
