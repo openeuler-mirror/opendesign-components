@@ -2,12 +2,14 @@
 import { CSSProperties, computed } from 'vue';
 import { progressProps } from './types';
 import { isNumber, isUndefined } from '../_utils/is';
+import { useI18n } from '../locale';
 
 const DEFAULT_STROKE_WIDTH = {
   medium: 8,
   small: 4,
 };
 const props = defineProps(progressProps);
+const { t } = useI18n();
 
 const strokeWidth = computed(() => props.strokeWidth ?? DEFAULT_STROKE_WIDTH[props.size]);
 
@@ -60,7 +62,16 @@ const circleStrokeDashArr = computed(() => {
 </script>
 
 <template>
-  <div class="o-progress" :class="[`o-progress-${props.variant}`, `o-progress-${props.size}`, `o-progress-${props.color}`]">
+  <div
+    class="o-progress"
+    :class="[`o-progress-${props.variant}`, `o-progress-${props.size}`, `o-progress-${props.color}`]"
+    role="progressbar"
+    :aria-label="props.ariaLabel ?? t('progress.progressbar')"
+    :aria-valuenow="props.percentage"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    :aria-valuetext="label"
+  >
     <!-- variant === 'line' -->
     <div v-if="props.variant === 'line'" class="o-progress-line-wrap">
       <div class="o-progress-line-track" :style="lineTrackStyle">

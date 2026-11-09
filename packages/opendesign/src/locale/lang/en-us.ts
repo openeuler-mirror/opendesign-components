@@ -9,6 +9,8 @@ export default {
   'common.confirm': 'Confirm',
   'common.reset': 'Reset',
   'common.search': 'Search',
+  // progress
+  'progress.progressbar': 'Progress bar',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',

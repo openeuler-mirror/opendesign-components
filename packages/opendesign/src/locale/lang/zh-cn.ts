@@ -9,6 +9,8 @@ export default {
   'common.confirm': '确认',
   'common.reset': '重置',
   'common.search': '搜索',
+  // progress
+  'progress.progressbar': '进度条',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',
