@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { provide, ref, watch } from 'vue';
+import { computed, provide, ref, useId, watch } from 'vue';
 import { radioGroupProps } from './types';
 import { radioGroupInjectKey } from './provide';
 import { isUndefined } from '../_utils/is';
-import { uniqueId } from '../_utils/helper';
 import { useI18n } from '../locale';
 import { useFormField } from '../_composables/use-form-field';
 
@@ -21,19 +20,14 @@ const { effectiveDisabled, onChange: onFormItemChange } = useFormField(props);
 const realValue = ref(props.modelValue ?? props.defaultValue);
 
 /**
- * @description 组内共享的 name 属性，优先使用 props.name，否则自动生成唯一 name
- * 确保 group 内所有 radio 共享同一 name，启用原生方向键导航
+ * @description 组内共享的 name 属性，优先使用 props.name，否则回退 useId 生成的稳定 id
+ * useId 基于组件树位置生成，服务端与客户端水合时天然一致（SSR 安全）。
+ * 确保 group 内所有 radio 共享同一 name，启用原生方向键导航。
+ * 采用 computed 派生而非 ref+watch：fallback 只生成一次，prop 变化时自动同步，
+ * 无需在初始化与 watch 两处重复 prop 优先逻辑；注入侧仍以 Ref 语义消费。
  */
-const groupName = ref(props.name || uniqueId('radio-'));
-
-watch(
-  () => props.name,
-  (val) => {
-    if (val) {
-      groupName.value = val;
-    }
-  },
-);
+const fallbackName = useId();
+const groupName = computed(() => props.name || fallbackName);
 
 watch(
   () => props.modelValue,
