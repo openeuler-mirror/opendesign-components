@@ -106,7 +106,7 @@ const isContentOverflow = useElementOverflown(itemContentRef);
     :style="{ '--menu-level': currentDepth }"
     :data-level="currentDepth"
   >
-    <div ref="subMenuTitleRef" class="o-sub-menu-title" @click="onSubItemClick">
+    <div ref="subMenuTitleRef" role="button" aria-haspopup="menu" :aria-expanded="isExpanded" class="o-sub-menu-title" @click="onSubItemClick">
       <div v-if="arrowPosition === 'left'" class="o-sub-menu-arrow">
         <IconChevronDownBold />
       </div>
@@ -122,7 +122,7 @@ const isContentOverflow = useElementOverflown(itemContentRef);
         <IconChevronDownBold />
       </div>
     </div>
-    <ul class="o-sub-menu-children" :class="{ expanded: isExpanded }">
+    <ul role="menu" class="o-sub-menu-children" :class="{ expanded: isExpanded }">
       <div class="o-sub-menu-children-wrap">
         <slot></slot>
       </div>
