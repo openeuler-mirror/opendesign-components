@@ -140,3 +140,44 @@ describe('插槽契约（具名插槽）', () => {
     expect(screen.container.querySelector('.custom-cb')).not.toBeNull();
   });
 });
+
+describe('无障碍契约（ARIA）', () => {
+  test('OCheckbox indeterminate - prop 为 true 时 input DOM 属性 indeterminate=true', async () => {
+    const screen = render(OCheckbox, { props: { value: 'a', indeterminate: true } });
+    await flush();
+    const input = screen.container.querySelector('input[type=checkbox]') as HTMLInputElement;
+    expect(input.indeterminate).toBe(true);
+  });
+
+  test('OCheckbox indeterminate - prop 为 false 时 input DOM 属性 indeterminate=false', async () => {
+    const screen = render(OCheckbox, { props: { value: 'a', indeterminate: false } });
+    await flush();
+    const input = screen.container.querySelector('input[type=checkbox]') as HTMLInputElement;
+    expect(input.indeterminate).toBe(false);
+  });
+
+  test('OCheckbox indeterminate - 从 false 切换到 true 时 DOM 属性同步', async () => {
+    const { rerender } = render(OCheckbox, { props: { value: 'a', indeterminate: false } });
+    await flush();
+    let input = document.querySelector('input[type=checkbox]') as HTMLInputElement;
+    expect(input.indeterminate).toBe(false);
+    await rerender({ value: 'a', indeterminate: true });
+    await flush();
+    input = document.querySelector('input[type=checkbox]') as HTMLInputElement;
+    expect(input.indeterminate).toBe(true);
+  });
+
+  test('OCheckbox aria-label - 透传 ariaLabel prop 到 input', async () => {
+    const screen = render(OCheckbox, { props: { value: 'a', ariaLabel: '同意条款' } });
+    await flush();
+    const input = screen.container.querySelector('input[type=checkbox]') as HTMLInputElement;
+    expect(input.getAttribute('aria-label')).toBe('同意条款');
+  });
+
+  test('OCheckbox aria-label - 不传时无 aria-label 属性', async () => {
+    const screen = render(OCheckbox, { props: { value: 'a' } });
+    await flush();
+    const input = screen.container.querySelector('input[type=checkbox]') as HTMLInputElement;
+    expect(input.getAttribute('aria-label')).toBeNull();
+  });
+});

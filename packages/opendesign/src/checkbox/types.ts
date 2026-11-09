@@ -47,6 +47,14 @@ export const checkboxProps = {
   inputId: {
     type: String,
   },
+  /**
+   * @zh-CN 无障碍标签，用于屏幕阅读器描述复选框用途
+   * @en-US Accessibility label for screen reader description of the checkbox purpose
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type CheckboxPropsT = ExtractPropTypes<typeof checkboxProps>;
