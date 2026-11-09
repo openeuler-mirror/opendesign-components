@@ -705,9 +705,10 @@ watch(lePadV, () => {
   >
     <DefineTabNavTemplate v-slot="{ uid, measurement }">
       <div
-        :id="`${childMap[uid].paneId}-nav`"
+        :id="measurement ? undefined : `${toValue(childMap[uid].paneId)}-nav`"
         :ref="(el) => (measurement ? setNavMeasureEl(el, uid) : setNavEl(el, uid))"
         v-on-resize="measurement ? () => onHeadItemResize(uid) : () => {}"
+        :aria-hidden="measurement || undefined"
         :class="[
           'o-tab-nav',
           {
@@ -717,7 +718,7 @@ watch(lePadV, () => {
           },
         ]"
         role="tab"
-        :aria-controls="childMap[uid].paneId"
+        :aria-controls="measurement ? undefined : toValue(childMap[uid].paneId)"
         :aria-selected="toValue(childMap[uid].paneKey) === activeKey"
         :aria-disabled="childMap[uid].props.disabled || undefined"
         @click="() => updateValue(uid)"

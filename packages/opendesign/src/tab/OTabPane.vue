@@ -23,8 +23,14 @@ const paneKey = computed(() => {
   return props.value ?? props.label ?? instance?.uid ?? Math.random();
 });
 
-/** 页签面板 DOM id，供对应 nav 的 aria-controls 引用（SSR 友好）；nav 的 DOM id 为 `${paneId}-nav`，供 pane 的 aria-labelledby 引用 */
-const paneId = useId();
+/** 内部自动生成的页签面板 DOM id（SSR 友好），用户未传 id prop 时兜底 */
+const autoId = useId();
+
+/**
+ * @description 页签面板 DOM id，供对应 nav 的 aria-controls 引用（SSR 友好）；nav 的 DOM id 为 `${paneId}-nav`，供 pane 的 aria-labelledby 引用
+ * 用户传入 id prop 时优先采用，保证 pane / nav / aria 双向关联三侧同源；声明为 prop 后 id 脱离 fallthrough 链，模板绑定成为唯一出口
+ */
+const paneId = computed(() => props.id ?? autoId);
 
 const registerSelf = () => {
   tabInjection?.addChild({
