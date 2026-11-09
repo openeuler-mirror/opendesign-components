@@ -26,6 +26,7 @@ const updateVisible = (val: boolean) => {
   <OPopup
     v-else
     class="o-popover"
+    role="tooltip"
     :offset="props.offset"
     :edge-offset="props.edgeOffset"
     :visible="props.visible"
