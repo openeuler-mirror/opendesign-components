@@ -99,6 +99,14 @@ export const carouselProps = {
   pauseOnHover: {
     type: Boolean,
   },
+  /**
+   * @zh-CN 无障碍标签，用于 role=region 的屏幕阅读器描述
+   * @en-US Accessibility label for the region role screen reader description
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type CarouselPropsT = ExtractPropTypes<typeof carouselProps>;
