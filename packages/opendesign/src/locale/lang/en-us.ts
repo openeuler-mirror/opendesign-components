@@ -11,6 +11,8 @@ export default {
   'common.search': 'Search',
   // progress
   'progress.progressbar': 'Progress bar',
+  // breadcrumb
+  'breadcrumb.nav': 'Breadcrumb',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',
