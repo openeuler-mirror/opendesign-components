@@ -196,6 +196,7 @@ defineExpose({
   <ClientOnly>
     <OPopup
       v-model:visible="visible"
+      role="dialog"
       :class="['o-time-panel', `o-time-panel-${size}`, 'o-time-range-panel']"
       hide-close
       :target="props.target"

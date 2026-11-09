@@ -172,7 +172,7 @@ defineExpose({
     @wheel="handleWheel"
   >
     <div class="o-time-panel-indicator" />
-    <div ref="listRef" class="o-time-panel-column-list">
+    <div ref="listRef" class="o-time-panel-column-list" role="listbox">
       <div v-if="isResponding" class="o-time-panel-column-spacer" />
       <div
         v-for="item in props.options"
@@ -181,6 +181,9 @@ defineExpose({
         class="o-time-panel-item"
         :class="{ active: modelValue === item.value, disabled: isItemDisabled(item.value) }"
         :data-item-value="item.value"
+        role="option"
+        :aria-selected="modelValue === item.value"
+        :aria-disabled="isItemDisabled(item.value) || undefined"
         @click="handleItemClick(item)"
       >
         <div class="o-time-panel-item__inner">{{ item.label }}</div>
