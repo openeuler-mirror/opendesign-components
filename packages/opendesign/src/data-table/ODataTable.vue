@@ -488,6 +488,7 @@ defineExpose<DataTableExposed>({
       <table
         ref="tableEl"
         class="o-table-inner-table"
+        :aria-busy="props.loading || undefined"
         :style="{
           minWidth: isNumeric(props.minTableWidth) ? `${props.minTableWidth}px` : props.minTableWidth,
         }"
@@ -502,6 +503,7 @@ defineExpose<DataTableExposed>({
                 <th
                   v-if="!column.headerHidden"
                   :ref="(el) => setThRef(el, column)"
+                  scope="col"
                   :colspan="column.colSpan || column.customColSpan"
                   :rowspan="column.rowSpan"
                   :class="{
@@ -594,13 +596,13 @@ defineExpose<DataTableExposed>({
         </tbody>
       </table>
     </OScroller>
-    <div v-if="props.loading" class="o-table-loading-wrap">
+    <div v-if="props.loading" role="status" class="o-table-loading-wrap">
       <slot name="loading">
         <IconLoading class="o-rotating" />
         <div class="o-table-loading-label">{{ loadingLabel }}</div>
       </slot>
     </div>
-    <div v-else-if="!props.data?.length" class="o-table-tip-wrap">
+    <div v-else-if="!props.data?.length" role="status" class="o-table-tip-wrap">
       <slot v-if="!props.loading" name="empty">
         <div class="o-table-empty-label">{{ emptyLabel }}</div>
       </slot>

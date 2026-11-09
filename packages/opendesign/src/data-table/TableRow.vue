@@ -157,6 +157,8 @@ provide(dataTableRowInjectKey, {
       },
     ]"
     :data-level="level"
+    :aria-selected="selection ? selectedKeys.includes(rowKey) : undefined"
+    :aria-disabled="rowKeyMap.get(rowKey)?.disabled || undefined"
   >
     <template v-for="(column, colIndex) in dataColumns" :key="column.key">
       <td
