@@ -576,6 +576,8 @@ const shouldMount = computed(() => {
               animating: isAnimating,
             },
           ]"
+          :role="props.role"
+          :aria-modal="props.role === 'dialog' ? 'true' : undefined"
           v-bind="$attrs"
           @mouseenter="onPopupHoverIn"
           @mouseleave="onPopupHoverOut"
