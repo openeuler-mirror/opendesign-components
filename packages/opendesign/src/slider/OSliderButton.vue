@@ -3,10 +3,12 @@ import { computed, reactive, toRefs, inject, ref, CSSProperties, ComputedRef, wa
 import { OPopover } from '../popover';
 import { ArrowLeft, ArrowRight, ArrowDown, ArrowUp, Home, End, pageDown, pageUp } from '../_utils/keycode';
 import { mergeClass } from '../_utils/vue-utils';
+import { useI18n } from '../locale';
 import { sliderInjectKey } from './provide';
 import { sliderButtonProps, type SliderButtonInitData } from './types';
 
 const props = defineProps(sliderButtonProps);
+const { t } = useI18n();
 const emit = defineEmits<{
   /**
    * @zh-CN 双向绑定值更新
@@ -40,6 +42,18 @@ const formatValue = computed(() => {
 
 const showToolTip = computed(() => {
   return initData.hovering || initData.dragging;
+});
+
+/**
+ * @description 可访问名称：base 优先取调用者 ariaLabel，缺省回退 i18n 默认；
+ * 范围模式下按实际值拼英文 (min)/(max) 后缀区分双把手，不走 i18n
+ */
+const ariaLabelText = computed(() => {
+  const base = props.ariaLabel ?? t('slider.slider');
+  if (!props.range) {
+    return base;
+  }
+  return `${base} ${props.isMin ? '(min)' : '(max)'}`;
 });
 
 const currentPosition = computed(() => {
@@ -162,7 +176,7 @@ const getClientXY = (event: MouseEvent | TouchEvent) => {
   };
 };
 
-const handleDragStart = (event: MouseEvent | TouchEvent) => {
+function handleDragStart(event: MouseEvent | TouchEvent) {
   initData.dragging = true;
   initData.isClick = true;
   const { clientX, clientY } = getClientXY(event);
@@ -173,9 +187,9 @@ const handleDragStart = (event: MouseEvent | TouchEvent) => {
   }
   initData.startPosition = Number.parseFloat(currentPosition.value);
   initData.newPosition = initData.startPosition;
-};
+}
 
-const handleDragging = (event: MouseEvent | TouchEvent) => {
+function handleDragging(event: MouseEvent | TouchEvent) {
   if (initData.dragging) {
     initData.isClick = false;
     resetSize();
@@ -191,9 +205,9 @@ const handleDragging = (event: MouseEvent | TouchEvent) => {
     initData.newPosition = initData.startPosition + diff;
     setPosition(initData.newPosition);
   }
-};
+}
 
-const handleDragEnd = () => {
+function handleDragEnd() {
   if (initData.dragging) {
     setTimeout(() => {
       initData.dragging = false;
@@ -208,27 +222,27 @@ const handleDragEnd = () => {
     window.removeEventListener('touchend', handleDragEnd);
     window.removeEventListener('contextmenu', handleDragEnd);
   }
-};
+}
 
 const clamp = (num: number, lower: number, upper: number) => {
   return Math.max(lower, Math.min(num, upper));
 };
 
-const setPosition = async (newPosition: number) => {
+async function setPosition(newPosition: number) {
   if (newPosition === null || Number.isNaN(+newPosition)) {
     return;
   }
 
-  newPosition = clamp(newPosition, 0, 100);
+  const clampedPosition = clamp(newPosition, 0, 100);
   const fullSteps = Math.floor((max.value - min.value) / step.value);
   const fullRangePercentage = ((fullSteps * step.value) / (max.value - min.value)) * 100;
   const threshold = fullRangePercentage + (100 - fullRangePercentage) / 2;
   let value;
-  if (newPosition < fullRangePercentage) {
+  if (clampedPosition < fullRangePercentage) {
     const valueBetween = fullRangePercentage / fullSteps;
-    const steps = Math.round(newPosition / valueBetween);
+    const steps = Math.round(clampedPosition / valueBetween);
     value = min.value + steps * step.value;
-  } else if (newPosition < threshold) {
+  } else if (clampedPosition < threshold) {
     value = min.value + fullSteps * step.value;
   } else {
     value = max.value;
@@ -242,7 +256,7 @@ const setPosition = async (newPosition: number) => {
   if (!initData.dragging && props.modelValue !== initData.oldValue) {
     initData.oldValue = props.modelValue;
   }
-};
+}
 
 watch(
   () => initData.dragging,
@@ -275,6 +289,14 @@ defineExpose({
     :class="{ 'o-slider-btn-wrap-hover': showToolTip && !props.showSolidCircle && !disabled }"
     :style="wrapperStyle"
     :tabindex="disabled ? undefined : 0"
+    role="slider"
+    :aria-label="ariaLabelText"
+    :aria-valuenow="props.modelValue"
+    :aria-valuemin="min"
+    :aria-valuemax="max"
+    :aria-valuetext="`${formatValue}`"
+    :aria-orientation="props.direction === 'v' ? 'vertical' : 'horizontal'"
+    :aria-disabled="disabled || undefined"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousedown="onButtonDown"

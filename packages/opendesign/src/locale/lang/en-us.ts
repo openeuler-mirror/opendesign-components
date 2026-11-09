@@ -13,6 +13,8 @@ export default {
   'progress.progressbar': 'Progress bar',
   // breadcrumb
   'breadcrumb.nav': 'Breadcrumb',
+  // slider
+  'slider.slider': 'Slider',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',

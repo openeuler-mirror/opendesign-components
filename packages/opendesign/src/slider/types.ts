@@ -38,6 +38,14 @@ export const sliderProps = {
     default: 0,
   },
   /**
+   * @zh-CN 滑块的可访问名称，透传到滑块按钮的 aria-label，缺省时使用 i18n 默认值
+   * @en-US Accessible label of the slider thumb, forwarded to the thumb's aria-label, falls back to the i18n default when omitted
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 滑动条最小值
    * @en-US The min value.
    * @default 0
@@ -169,6 +177,30 @@ export const sliderButtonProps = {
   modelValue: {
     type: Number,
     default: 0,
+  },
+  /**
+   * @zh-CN 滑块的可访问名称，缺省时使用 i18n 默认值
+   * @en-US Accessible label of the slider thumb, falls back to the i18n default when omitted
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
+   * @zh-CN 范围模式标记：双把手时需拼后缀区分可访问名称
+   * @en-US Range mode flag: dual thumbs need suffixes to distinguish accessible names
+   * @since NEXT
+   */
+  range: {
+    type: Boolean,
+  },
+  /**
+   * @zh-CN 本把手实际值是否为较小值（按实际值判定而非拖动槽位序号，交叉拖动后自动交换）
+   * @en-US Whether this thumb holds the smaller actual value (judged by actual value, not drag slot order; swaps automatically after crossing)
+   * @since NEXT
+   */
+  isMin: {
+    type: Boolean,
   },
   /**
    * @zh-CN 气泡定位方向
