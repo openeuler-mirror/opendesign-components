@@ -100,7 +100,7 @@ onUnmounted(() => {
 
 <template>
   <OResizeObserver @resize="onStepResize">
-    <div class="o-step" v-bind="$attrs" :class="[`o-step-${props.direction}`]">
+    <div role="list" class="o-step" v-bind="$attrs" :class="[`o-step-${props.direction}`]">
       <slot></slot>
     </div>
   </OResizeObserver>

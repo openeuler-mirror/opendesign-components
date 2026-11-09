@@ -43,13 +43,18 @@ watch(stepItemHeadRef, (val) => {
 </script>
 
 <template>
-  <div class="o-step-item" :class="[`o-step-item-${stepInjection?.props.direction}`, `o-step-item-${props.status}`]">
+  <div
+    role="listitem"
+    class="o-step-item"
+    :class="[`o-step-item-${stepInjection?.props.direction}`, `o-step-item-${props.status}`]"
+    :aria-current="props.status === 'processing' ? 'step' : undefined"
+  >
     <div ref="stepItemHeadRef" class="o-step-item-head">
       <ODivider class="o-step-item-line" :direction="stepInjection?.props.direction" :style="stepInjection?.stepItemDividerRects.value[props.stepIndex]" />
       <div class="o-step-item-symbol" :class="{ 'o-step-item-symbol-custom': isCustomIcon }">
         <slot name="icon">
           <template v-if="props.icon">
-            <component class="o-step-item-icon" :is="typeof props.icon === 'boolean' ? defaultIcon : props.icon" />
+            <component :is="typeof props.icon === 'boolean' ? defaultIcon : props.icon" class="o-step-item-icon" />
           </template>
           <template v-else>
             {{ props.stepIndex + 1 }}
