@@ -245,7 +245,11 @@ watch(selectedValOfSuffix, (val?: string) => {
 </script>
 
 <template>
-  <div class="o-search" :class="[{ 'o-search-with-prefix': showPrefixSelect, 'o-search-with-suffix': showSuffixSelect }, `o-search-${props.size}`]">
+  <div
+    role="search"
+    class="o-search"
+    :class="[{ 'o-search-with-prefix': showPrefixSelect, 'o-search-with-suffix': showSuffixSelect }, `o-search-${props.size}`]"
+  >
     <!-- 头部筛选框 -->
     <OSelect
       v-if="props.showPrefixSelect"
