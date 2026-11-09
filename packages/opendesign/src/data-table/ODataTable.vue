@@ -488,6 +488,7 @@ defineExpose<DataTableExposed>({
       <table
         ref="tableEl"
         class="o-table-inner-table"
+        :aria-busy="props.loading || undefined"
         :style="{
           minWidth: isNumeric(props.minTableWidth) ? `${props.minTableWidth}px` : props.minTableWidth,
         }"

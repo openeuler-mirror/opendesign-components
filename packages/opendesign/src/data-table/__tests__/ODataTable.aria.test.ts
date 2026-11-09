@@ -77,6 +77,20 @@ describe('ARIA — 数据表格', () => {
     expect(rowSelectedStates(screen)).toEqual(['true', 'true']);
   });
 
+  test('loading - <table> 镜像 aria-busy=true，非 loading 时无该属性', async () => {
+    const screen = render(ODataTable, {
+      props: { data: baseData, columns: baseColumns, loading: true },
+    });
+    await flush();
+    const table = screen.container.querySelector('table') as HTMLTableElement;
+    expect(table.getAttribute('aria-busy')).toBe('true');
+
+    const idle = render(ODataTable, { props: { data: baseData, columns: baseColumns } });
+    await flush();
+    const idleTable = idle.container.querySelector('table') as HTMLTableElement;
+    expect(idleTable.getAttribute('aria-busy')).toBeNull();
+  });
+
   test('disabledProp - 命中行镜像 aria-disabled=true，其余行无该属性', async () => {
     const data = [
       { id: 'd1', name: 'A', age: 1, myDisabled: true },
