@@ -97,6 +97,8 @@ const showLabel = computed(() => {
       <OPopover v-for="(item, idx) in count" :key="item" :adjust-width="false" :adjust-min-width="false" :visible="false" wrap-class="o-rate-popover">
         <template #target>
           <ORateItem
+            :aria-posinset="idx + 1"
+            :aria-setsize="count"
             :status="iconStatus[idx] || 'empty'"
             @hover="
               (isHalf) => {
@@ -121,6 +123,8 @@ const showLabel = computed(() => {
         v-for="(item, idx) in count"
         :key="item"
         :index="idx"
+        :aria-posinset="idx + 1"
+        :aria-setsize="count"
         :status="iconStatus[idx] || 'empty'"
         @hover="
           (isHalf) => {

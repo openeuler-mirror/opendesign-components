@@ -20,6 +20,26 @@ describe('ARIA — 评分', () => {
     expect(items[4].getAttribute('aria-checked')).toBe('false');
   });
 
+  test('星级项镜像 aria-posinset / aria-setsize（第 N 颗 / 共 M 颗）', async () => {
+    const screen = render(ORate, { props: { modelValue: 3, count: 5 } });
+    await flush();
+    const items = screen.container.querySelectorAll('.o-rate-item');
+    const posinsets = [...items].map((el) => el.getAttribute('aria-posinset'));
+    expect(posinsets).toEqual(['1', '2', '3', '4', '5']);
+    items.forEach((el) => expect(el.getAttribute('aria-setsize')).toBe('5'));
+  });
+
+  test('labels 分支下星级项同样镜像 aria-posinset / aria-setsize', async () => {
+    const screen = render(ORate, {
+      props: { modelValue: 2, count: 3, labels: ['差', '中', '好'] },
+    });
+    await flush();
+    const items = screen.container.querySelectorAll('.o-rate-item');
+    const posinsets = [...items].map((el) => el.getAttribute('aria-posinset'));
+    expect(posinsets).toEqual(['1', '2', '3']);
+    items.forEach((el) => expect(el.getAttribute('aria-setsize')).toBe('3'));
+  });
+
   test('中间评分项逐项镜像 aria-checked（modelValue=3 时前 3 项 true）', async () => {
     const screen = render(ORate, { props: { modelValue: 3, count: 5 } });
     await flush();
