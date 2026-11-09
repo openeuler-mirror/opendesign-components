@@ -7,6 +7,13 @@ export enum Duration {
 
 export type ToastPositionT = 'top' | 'bottom' | 'center';
 
+/**
+ * @zh-CN 无障碍角色：`status` 为常规轻提示（polite），`alert` 为需立即播报的错误/警告类消息（assertive）
+ * @en-US ARIA role: `status` for regular toasts (polite), `alert` for error/warning messages
+ * that require immediate announcement (assertive)
+ */
+export type ToastRoleT = 'status' | 'alert';
+
 export const toastProps = {
   /**
    * @zh-CN 消息是否可见
@@ -53,6 +60,19 @@ export const toastProps = {
   position: {
     type: String as PropType<ToastPositionT>,
     default: 'bottom',
+  },
+  /**
+   * @zh-CN 无障碍角色，透传到轻提示元素。默认 `status`（隐式 polite 打断级播报），契合
+   * "已复制""已保存"这类常规被动反馈；错误/警告类需立即打断播报的消息可传 `alert`
+   * @en-US Accessibility role forwarded to the toast element. Defaults to `status` (implicit
+   * polite announcement) for regular passive feedback; pass `alert` for error/warning
+   * messages that need to interrupt immediately
+   * @default 'status'
+   * @since NEXT
+   */
+  role: {
+    type: String as PropType<ToastRoleT>,
+    default: 'status',
   },
   /**
    * @zh-CN 关闭前的钩子函数
