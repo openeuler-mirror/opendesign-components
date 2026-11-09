@@ -11,6 +11,8 @@ export default {
   'common.search': '搜索',
   // progress
   'progress.progressbar': '进度条',
+  // breadcrumb
+  'breadcrumb.nav': '面包屑',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',

@@ -16,12 +16,19 @@ const breadcrumbInjection = inject(breadcrumbInjectKey, null);
     <router-link v-if="props.to" :to="props.to" :replace="props.replace" class="o-breadcrumb-item-label">
       <slot></slot>
     </router-link>
-    <HtmlTag v-else :tag="!!props.href ? 'a' : 'span'" :href="props.href" :target="props.href ? props.target : undefined" class="o-breadcrumb-item-label">
+    <HtmlTag
+      v-else
+      :tag="!!props.href ? 'a' : 'span'"
+      :href="props.href"
+      :target="props.href ? props.target : undefined"
+      :aria-current="!props.to && !props.href ? 'page' : undefined"
+      class="o-breadcrumb-item-label"
+    >
       <slot></slot>
     </HtmlTag>
 
     <!-- separator -->
-    <span class="o-breadcrumb-item-separator">
+    <span class="o-breadcrumb-item-separator" aria-hidden="true">
       <slot name="separator">
         <template v-if="props.separator"> {{ props.separator }}</template>
         <template v-else-if="breadcrumbInjection?.separator.value">{{ breadcrumbInjection?.separator.value }} </template>
