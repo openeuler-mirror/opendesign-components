@@ -11,6 +11,7 @@ export default {
   'common.search': '搜索',
   // pagination
   'pagination.goto': '前往',
+  'pagination.nav': '分页',
   'pagination.page': '页',
   'pagination.countPerPage': '条/页',
   'pagination.total': '共 {0} 条',
