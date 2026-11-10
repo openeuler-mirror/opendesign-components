@@ -5,6 +5,8 @@ import { test, expect, describe } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h, ref } from 'vue';
 import OToggle from '../OToggle.vue';
+import OCheckbox from '../../checkbox/OCheckbox.vue';
+import ORadio from '../../radio/ORadio.vue';
 import { flush } from '../../../__tests__/_helpers/dom';
 
 describe('ARIA — OToggle', () => {
@@ -50,5 +52,30 @@ describe('ARIA — OToggle', () => {
     await flush();
     const idleEl = idle.container.querySelector('.o-toggle') as HTMLElement;
     expect(idleEl.getAttribute('aria-disabled')).toBeNull();
+  });
+
+  test('在 OCheckbox 的视觉替换插槽内不重复声明 button 语义（父级原生 checkbox 持语义）', async () => {
+    const screen = render(OCheckbox, {
+      props: { value: 1, modelValue: [1] },
+      slots: { checkbox: ({ checked }: { checked: boolean }) => h(OToggle, { checked }) },
+    });
+    await flush();
+    // 父级原生 input 已提供 checkbox 角色与选中态
+    expect(screen.container.querySelector('input[type="checkbox"]')).toBeTruthy();
+    const el = screen.container.querySelector('.o-toggle') as HTMLElement;
+    expect(el.getAttribute('role')).toBeNull();
+    expect(el.getAttribute('aria-pressed')).toBeNull();
+  });
+
+  test('在 ORadio 的视觉替换插槽内不重复声明 button 语义（父级原生 radio 持语义）', async () => {
+    const screen = render(ORadio, {
+      props: { value: 1, modelValue: 1 },
+      slots: { radio: ({ checked }: { checked: boolean }) => h(OToggle, { checked }) },
+    });
+    await flush();
+    expect(screen.container.querySelector('input[type="radio"]')).toBeTruthy();
+    const el = screen.container.querySelector('.o-toggle') as HTMLElement;
+    expect(el.getAttribute('role')).toBeNull();
+    expect(el.getAttribute('aria-pressed')).toBeNull();
   });
 });
