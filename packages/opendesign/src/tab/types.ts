@@ -111,7 +111,7 @@ export const tabPaneProps = {
   /**
    * @zh-CN 页签面板 DOM id，未传时由内部自动生成；对应 nav 的 DOM id 派生为 `` `${id}-nav` ``
    * @en-US DOM id of the tab panel, auto-generated internally when absent; the DOM id of the corresponding nav is derived as `` `${id}-nav` ``
-   * @since 1.2.7
+   * @since NEXT
    */
   id: {
     type: String,
