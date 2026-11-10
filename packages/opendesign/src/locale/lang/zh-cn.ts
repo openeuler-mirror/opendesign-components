@@ -15,6 +15,8 @@ export default {
   'breadcrumb.nav': '面包屑',
   // slider
   'slider.slider': '滑块',
+  // radio
+  'radio.group': '单选组',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',

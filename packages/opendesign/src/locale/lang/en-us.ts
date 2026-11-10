@@ -15,6 +15,8 @@ export default {
   'breadcrumb.nav': 'Breadcrumb',
   // slider
   'slider.slider': 'Slider',
+  // radio
+  'radio.group': 'Radio group',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',

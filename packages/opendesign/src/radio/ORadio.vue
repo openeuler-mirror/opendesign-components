@@ -109,7 +109,16 @@ provide(radioInjectKey, {
     :for="inputId"
   >
     <div class="o-radio-wrap">
-      <input :id="inputId" type="radio" :value="props.value" :disabled="isDisabled" :checked="isChecked" @click="onClick" @change="onChange" />
+      <input
+        :id="inputId"
+        type="radio"
+        :name="radioGroupInjection?.name.value || inputId"
+        :value="props.value"
+        :disabled="isDisabled"
+        :checked="isChecked"
+        @click="onClick"
+        @change="onChange"
+      />
       <slot name="radio" :checked="isChecked" :disabled="isDisabled">
         <div class="o-radio-input-wrap">
           <span class="o-radio-input"></span>
