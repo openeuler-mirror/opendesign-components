@@ -4,6 +4,8 @@ import { TabPanePropsT } from './types';
 
 export type TabChildData = {
   paneKey: ComputedRef<string | number>;
+  /** 页签面板 DOM id，供 nav 的 aria-controls 引用；nav 的 DOM id 为 `${paneId}-nav`；响应式引用以支持运行时变更 id */
+  paneId: ComputedRef<string>;
   props: Readonly<TabPanePropsT>;
   navRenderer?: () => any;
 };

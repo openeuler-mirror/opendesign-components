@@ -109,6 +109,15 @@ export type TabPropsT = ExtractPropTypes<typeof tabProps>;
 
 export const tabPaneProps = {
   /**
+   * @zh-CN 页签面板 DOM id，未传时由内部自动生成；对应 nav 的 DOM id 派生为 `` `${id}-nav` ``
+   * @en-US DOM id of the tab panel, auto-generated internally when absent; the DOM id of the corresponding nav is derived as `` `${id}-nav` ``
+   * @since NEXT
+   */
+  id: {
+    type: String,
+    default: undefined,
+  },
+  /**
    * @zh-CN 页签值
    * @en-US Tab value
    */

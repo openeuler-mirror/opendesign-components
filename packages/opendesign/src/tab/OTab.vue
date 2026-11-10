@@ -705,8 +705,10 @@ watch(lePadV, () => {
   >
     <DefineTabNavTemplate v-slot="{ uid, measurement }">
       <div
+        :id="measurement ? undefined : `${toValue(childMap[uid].paneId)}-nav`"
         :ref="(el) => (measurement ? setNavMeasureEl(el, uid) : setNavEl(el, uid))"
         v-on-resize="measurement ? () => onHeadItemResize(uid) : () => {}"
+        :aria-hidden="measurement || undefined"
         :class="[
           'o-tab-nav',
           {
@@ -715,6 +717,10 @@ watch(lePadV, () => {
             'o-tab-nav-closable': childMap[uid].props.closable,
           },
         ]"
+        role="tab"
+        :aria-controls="measurement ? undefined : toValue(childMap[uid].paneId)"
+        :aria-selected="toValue(childMap[uid].paneKey) === activeKey"
+        :aria-disabled="childMap[uid].props.disabled || undefined"
         @click="() => updateValue(uid)"
       >
         <component :is="childMap[uid].navRenderer" v-if="childMap[uid].navRenderer" />
@@ -739,7 +745,7 @@ watch(lePadV, () => {
       <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>
       </div>
-      <div :class="{ 'o-tab-navs': true, 'o-tab-navs-overflown-left': tabNavLeftOverflown, 'o-tab-navs-overflown-right': tabNavRightOverflown }">
+      <div role="tablist" :class="{ 'o-tab-navs': true, 'o-tab-navs-overflown-left': tabNavLeftOverflown, 'o-tab-navs-overflown-right': tabNavRightOverflown }">
         <div
           ref="navsContainerRef"
           v-on-resize="onHeadResize"
