@@ -28,6 +28,16 @@ pnpm docs:dev
 | `@opensig/open-scripts` | `packages/scripts`    | 组件库专用构建 CLI  |
 | docs                    | `packages/docs`       | 文档站 + 组件测试   |
 
+## 项目目标：GEO 友好
+
+除功能与视觉之外，本项目的长期目标之一是让组件渲染出的产物 **GEO（Generative Engine Optimization）友好**——读无障碍树的 AI 代理（Playwright MCP、browser-use 等）与屏幕阅读器都能正确识别并操作组件。落实为三条产物契约：
+
+- **语义宿主优先**：用原生 `<button>` / `<input>` / `<table>` / `<nav>` / `<dialog>`，而不是靠 `<div @click>` 冒充交互元素；
+- **状态镜像到 ARIA**：展开、选中、禁用、忙碌等状态除 CSS class 外同步到 `aria-*`，复合控件（combobox / listbox / menu / tab / grid）按 WAI-ARIA APG 给角色；
+- **焦点管理**：弹层焦点陷阱与关闭后焦点还原，列表 roving tabindex 与方向键激活。
+
+这套契约同时就是无障碍（a11y）本职。范围限于本库产物：页面级可抓取性、站点结构化数据属消费方应用；也不宣称它能提升生成式引擎的引用率——该因果尚未被证实，视觉 / 像素驱动的代理不读无障碍树，不在受益范围。
+
 ## 版本策略
 
 组件库遵循语义化版本 `MAJOR.MINOR.PATCH-SUFFIX`，并按以下节奏发布与维护：

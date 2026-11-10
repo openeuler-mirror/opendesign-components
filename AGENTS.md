@@ -13,6 +13,18 @@ This file provides guidance to AI coding agents when working with code in this r
 - **文档修改原则：** 对项目中的文档进行修改时，应以"融合"方式整合新内容，而非"补丁"式叠加——优先将新增内容自然融入原有结构与行文脉络，必要时重排章节、调整上下文衔接，保持文档的连贯性与整体性；禁止简单追加段落、堆砌附录，或留下"以下为新增"等拼接痕迹。
 - **Bug 修复流程：** 修复任何 bug 前，必须遵循"测试先行"原则——先编写描述具体业务场景的测试用例，**只运行该用例所在文件**（而非全量测试）确认得到**失败的**测试结果，随后向用户确认用例场景与失败结果均真实可信，最后才进入修复阶段。修复完成后按「单文件 → 组件目录」逐步回归，随后询问用户是否扩大至全量测试，由用户决定，严禁未经此流程直接修改代码。精确运行特定用例的命令见 [component-testing skill → 命令](.agents/skills/component-testing/SKILL.md#命令)。
 
+## GEO 友好目标
+
+本项目的长期目标之一是组件渲染产物 **GEO（Generative Engine Optimization）友好**：读无障碍树的 AI 代理（Playwright MCP、browser-use 等）与屏幕阅读器都能正确识别并操作组件。新增或修改组件时，下面三条是必交的产物契约，与功能、视觉同级：
+
+1. **语义宿主优先**：原生 `<button>` / `<input>` / `<table>` / `<nav>` / `<dialog>` 优于 `<div @click>`；已有原生 seam（原生表单控件、原生表格、原生链接）的组件在其上加 ARIA，不重写结构。
+2. **状态镜像到 ARIA**：展开、选中、禁用、忙碌、校验失败等状态除 CSS class 外同步到 `aria-expanded` / `aria-selected` / `aria-disabled` / `aria-busy` / `aria-invalid` 等；combobox / listbox / menu / tab / grid 等复合控件按 WAI-ARIA APG 给角色与关联。
+3. **焦点管理**：弹层焦点陷阱与关闭后焦点还原、列表 roving tabindex、方向键激活；不可聚焦的交互元素对代理与键盘用户同样不可达。
+
+方法与证据纪律（哪些可宣称、哪些只是推断）见 [`geo`](.agents/skills/geo/SKILL.md) skill；ARIA 断言的测试写法见 [`component-testing`](.agents/skills/component-testing/SKILL.md)。
+
+边界：范围只到本库产物（L1），页面级可抓取性与站点结构化数据属消费方应用；组件内不加 JSON-LD / schema.org；`data-*` 不作为主杠杆（不进无障碍树）；不宣称 ARIA / 语义 HTML 能提升生成式引擎的引用率（因果未证），视觉 / 像素驱动的代理不读无障碍树。
+
 ## 仓库概览
 
 本仓库托管于 [AtomGit](https://atomgit.com/openeuler/opendesign-components)。AtomGit 与 GitCode 是同一平台（仅名称不同），issue、PR、code review、release 等平台操作直接使用 GitCode CLI（命令 `gitcode`，npm 包名 `atomgit-cli`）及 `gitcode-*` skill。开发者本地未安装时，引导其执行 `npx -y atomgit-cli@latest install` 安装，随后按 [`gitcode-auth`](.agents/skills/gitcode-auth/SKILL.md) skill 完成登录。
