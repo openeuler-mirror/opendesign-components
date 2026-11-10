@@ -46,6 +46,7 @@ temp
 !.agents/skills/release-note/
 !.agents/skills/commit-convention/
 !.agents/skills/opendesign-review/
+!.agents/skills/geo/
 # Claude Code 个人本地设置（权限/偏好，不入仓）
 .claude/settings.local.json
 # Windows: Node/Playwright 在 Windows 下误将 /dev/null 路径解析为当前目录的 "nul" 文件
@@ -54,3 +55,5 @@ nul
 
 # 本地任务 tracker：执行态 ticket（spec 存于 AtomGit issue）
 .scratch/
+# 本地过程态文档：整目录不入仓（审计报告、方案草案等产出物；任务状态进 .scratch/）
+docs-local/

@@ -26,6 +26,8 @@ spec issue 的标题格式：`【SPEC】<主题>`（如 `【SPEC】多行输入�
 - `Status:` 行记录 triage 状态；评论与讨论历史追加到文件底部 `## Comments` 标题下
 - **git 忽略**：`.scratch/` 整目录在 `.gitignore` 中（ticket 是执行态，任务完成即废，无长期价值；跨机器续做需重建）。commit body 引用 spec issue URL 而非本地 ticket 路径，保证引用长期有效。
 
+`.scratch/` 只装**任务状态**。过程态**文档**（审计报告、方案草案、调研笔记、草拟中的文档）放 `docs-local/`（同样整目录被忽略，见仓根 `AGENTS.md`「本地文档」节）；判据问一句「这是任务状态，还是产出物」。
+
 ## 当 skill 说「发布到 issue tracker」时
 
 - 发布 **spec** → 按上文分流规则在 up 上创建或升级 issue；

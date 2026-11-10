@@ -4,15 +4,16 @@
 
 ## 开发阶段 → Skill 映射
 
-| 开发阶段            | Skill                                             | 典型场景                                                             | 可以给 AI agent 的提示语                                                                         |
-| ------------------- | ------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| **组件开发**        | [`component-docs`](component-docs/SKILL.md)       | 新建组件、写 `types.ts` 注释、写 demo/case、写文档页、运行 `gen:api` | "帮我给 Button 的 props 加 JSDoc 注释"、"帮我写一个 disabled case"、"运行 gen:api 更新 API 文档" |
-| **日常编码 / 重构** | [`clean-code`](clean-code/SKILL.md)               | 写新 composable、重构复杂函数、消除嵌套、精简参数                    | "帮我重构这个 composable，降低复杂度"、"这个函数参数太多了，帮我优化"、"帮我用卫语句消除嵌套"    |
-| **测试用例**        | [`component-testing`](component-testing/SKILL.md) | 写组件测试用例、调试测试失败、补响应式/SSR/视觉断言、理解测试约定    | "帮我给 Button 写测试用例"、"帮我补 SSR 测试"、"这个 responsive 测试失败了帮我看看"              |
-| **版本发布**        | [`release-note`](release-note/SKILL.md)           | 写版本日志、整理变更归类、更新 ReleaseNote 文件                      | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
-| **资源发现**        | [`global-utilities`](global-utilities/SKILL.md)   | 查找全局 CSS 类、SCSS mixin、TS 工具函数、composable、内部组件       | “有没有全局的 sr-only？”、“防抖函数在哪？”、“InBox 怎么用？”、“有哪些全局工具类”                 |
-| **提交 / PR 交付**  | [`commit-convention`](commit-convention/SKILL.md) | 写提交信息、向上游提 PR、AI 使用声明（Co-Authored-By / PR 声明段）   | “帮我写提交信息”、“向 up 提个 PR”、“这个提交要加 Co-Authored-By 吗”                              |
-| **PR 检视**         | [`opendesign-review`](opendesign-review/SKILL.md) | 检视 PR / MR、判断可合入性、复核他人 review 结论、核查 MR 自述声明   | “帮我 review 这个 PR”、“这个 MR 有什么问题”、“复核一下上次的 review 结论”                        |
+| 开发阶段            | Skill                                             | 典型场景                                                                                | 可以给 AI agent 的提示语                                                                         |
+| ------------------- | ------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **组件开发**        | [`component-docs`](component-docs/SKILL.md)       | 新建组件、写 `types.ts` 注释、写 demo/case、写文档页、运行 `gen:api`                    | "帮我给 Button 的 props 加 JSDoc 注释"、"帮我写一个 disabled case"、"运行 gen:api 更新 API 文档" |
+| **日常编码 / 重构** | [`clean-code`](clean-code/SKILL.md)               | 写新 composable、重构复杂函数、消除嵌套、精简参数                                       | "帮我重构这个 composable，降低复杂度"、"这个函数参数太多了，帮我优化"、"帮我用卫语句消除嵌套"    |
+| **测试用例**        | [`component-testing`](component-testing/SKILL.md) | 写组件测试用例、调试测试失败、补响应式/SSR/视觉断言、理解测试约定                       | "帮我给 Button 写测试用例"、"帮我补 SSR 测试"、"这个 responsive 测试失败了帮我看看"              |
+| **版本发布**        | [`release-note`](release-note/SKILL.md)           | 写版本日志、整理变更归类、更新 ReleaseNote 文件                                         | "帮我从 v1.2.3 到 v1.2.4 生成 release note"、"帮我整理这批 commit 的变更归类"                    |
+| **资源发现**        | [`global-utilities`](global-utilities/SKILL.md)   | 查找全局 CSS 类、SCSS mixin、TS 工具函数、composable、内部组件                          | “有没有全局的 sr-only？”、“防抖函数在哪？”、“InBox 怎么用？”、“有哪些全局工具类”                 |
+| **提交 / PR 交付**  | [`commit-convention`](commit-convention/SKILL.md) | 写提交信息、向上游提 PR、AI 使用声明（Co-Authored-By / PR 声明段）                      | “帮我写提交信息”、“向 up 提个 PR”、“这个提交要加 Co-Authored-By 吗”                              |
+| **PR 检视**         | [`opendesign-review`](opendesign-review/SKILL.md) | 检视 PR / MR、判断可合入性、复核他人 review 结论、核查 MR 自述声明                      | “帮我 review 这个 PR”、“这个 MR 有什么问题”、“复核一下上次的 review 结论”                        |
+| **GEO / AI 可读性** | [`geo`](geo/SKILL.md)                             | 审计组件无障碍树 / ARIA / 语义化 HTML、诊断 AI 代理可操作性、产出分阶段方案并落地后回写 | “帮我评估下组件库对 AI 代理友好吗”、“组件的 ARIA 缺口在哪”                                       |
 
 ## 各 Skill 速览
 
@@ -165,6 +166,25 @@ Release Note 生成指南。6 步工作流：
 | [`review-gaps.md`](opendesign-review/references/review-gaps.md)           | 检视空白清单（弹层与 transform / 浏览器兼容 / CI 稳定性 / 可访问性 / 多主题 / 提交可移植性）                                    |
 
 自动触发关键词：检视、review、评审、PR review、MR 检视、可合入、复核 review 结论、spec 与实现冲突、实测、探针、红绿反证、覆盖状态、置信度、双轴、兼容 checklist、breaking change、破坏性变更、补丁版本、SSR
+
+---
+
+### geo
+
+组件库 GEO（生成式引擎优化）分析与方案方法论，可移植到任意组件库（Vue/React/Svelte 等）。核心原则：
+
+- 范围三层（L1 库产物 / L2 文档站 / L3 消费方应用）与目标（a 内容引用 / b 代理可操作 / c AI 编码工具认识组件）先与用户确认，不擅自假定
+- 诚实边界："语义 HTML 提升引用率"是推断不得宣称；视觉代理（computer-use/Operator）不读无障碍树，不在 ARIA 受益范围
+- 工作流闭环到第 6 步"落地后回写"：方案实施后把状态回写进库自己的方案文档，防止文档腐烂成历史快照仍自称真相源
+
+参考文档索引：
+
+| 文件                                        | 用途                                                                 |
+| ------------------------------------------- | -------------------------------------------------------------------- |
+| [`findings.md`](geo/references/findings.md) | GEO 调研结论：什么有效/无效、AI 代理图谱、schema.org、ARIA、诚实张力 |
+| [`levers.md`](geo/references/levers.md)     | L1 杠杆清单、不要做、向后兼容风险                                    |
+
+自动触发关键词：GEO、生成式引擎优化、AI 引用、AI 可读性、无障碍树、ARIA、代理可操作、语义化 HTML 评估、AI 代理能否操作组件
 
 > **维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局资源发生新增、重命名、废弃等变更时,必须同步更新此 skill 的 `SKILL.md` 快速索引表和对应 reference 文档。详见 [SKILL.md → 维护规则](global-utilities/SKILL.md#维护规则强制)。
 
