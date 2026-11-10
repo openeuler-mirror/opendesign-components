@@ -72,4 +72,19 @@ describe('ARIA — 菜单项禁用镜像', () => {
     expect(items[0].getAttribute('aria-disabled')).toBe('true');
     expect(items[1].getAttribute('aria-disabled')).toBeNull();
   });
+
+  test('子菜单标题的 aria-controls 指向其菜单容器（APG menu 契约）', async () => {
+    const screen = render(OMenu, {
+      slots: {
+        default: () => h(OSubMenu, { value: 'sub', label: 'Sub' }, { default: () => h(OMenuItem, { value: 'a' }) }),
+      },
+    });
+    await flush();
+    const title = screen.container.querySelector('.o-sub-menu-title') as HTMLElement;
+    const children = screen.container.querySelector('.o-sub-menu-children') as HTMLElement;
+    const controls = title.getAttribute('aria-controls');
+    expect(controls).toBeTruthy();
+    expect(children.getAttribute('id')).toBe(controls);
+    expect(children.getAttribute('role')).toBe('menu');
+  });
 });

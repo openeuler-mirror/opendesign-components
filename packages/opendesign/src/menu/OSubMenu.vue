@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, provide, useTemplateRef } from 'vue';
+import { computed, inject, provide, useId, useTemplateRef } from 'vue';
 import { subMenuProps } from './types';
 import { IconChevronDownBold } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
@@ -93,6 +93,12 @@ menuInjection?.notifyTreeChange();
 const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
 const itemContentRef = useTemplateRef('itemContentRef');
 const isContentOverflow = useElementOverflown(itemContentRef);
+
+/**
+ * @description 子菜单内容容器 DOM id，供标题的 aria-controls 引用（SSR 友好）；
+ * 标题与它控制的内容建立关联后，读屏与 AI 代理能从标题定位到被展开的子菜单
+ */
+const childrenId = useId();
 </script>
 
 <template>
@@ -106,7 +112,15 @@ const isContentOverflow = useElementOverflown(itemContentRef);
     :style="{ '--menu-level': currentDepth }"
     :data-level="currentDepth"
   >
-    <div ref="subMenuTitleRef" role="button" aria-haspopup="menu" :aria-expanded="isExpanded" class="o-sub-menu-title" @click="onSubItemClick">
+    <div
+      ref="subMenuTitleRef"
+      role="button"
+      aria-haspopup="menu"
+      :aria-expanded="isExpanded"
+      :aria-controls="childrenId"
+      class="o-sub-menu-title"
+      @click="onSubItemClick"
+    >
       <div v-if="arrowPosition === 'left'" class="o-sub-menu-arrow">
         <IconChevronDownBold />
       </div>
@@ -122,7 +136,7 @@ const isContentOverflow = useElementOverflown(itemContentRef);
         <IconChevronDownBold />
       </div>
     </div>
-    <ul role="menu" class="o-sub-menu-children" :class="{ expanded: isExpanded }">
+    <ul :id="childrenId" role="menu" class="o-sub-menu-children" :class="{ expanded: isExpanded }">
       <div class="o-sub-menu-children-wrap">
         <slot></slot>
       </div>
