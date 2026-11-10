@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 **重要:**
 
-- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing` | 资源发现 → `global-utilities` | 提交 / PR 交付 → `commit-convention` | PR 检视 → `opendesign-review`。详细工作流指南见 [`.agents/skills/README.md`](.agents/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
+- **开发阶段速查：** 组件开发阶段 → `component-docs` | 日常编码/重构阶段 → `clean-code` | 版本发布阶段 → `release-note` | 测试用例 → `component-testing` | 资源发现 → `global-utilities` | 提交 / PR 交付 → `commit-convention` | PR 检视 → `opendesign-review` | GEO / 无障碍分析 → `geo`。详细工作流指南见 [`.agents/skills/README.md`](.agents/skills/README.md)，当提及`since`等关键字时，必须查阅`component-docs`和`release-note`的相关内容。
 - **全局资源维护约束：** 当 `_styles/`、`_utils/`、`_composables/`、`_hooks/` 或 `_components/` 目录下的全局 CSS 类、SCSS Mixin、TS 工具函数、composable 或内部组件发生新增、重命名、废弃等变更时，必须同步更新 [`global-utilities`](.agents/skills/global-utilities/SKILL.md) skill 的快速索引表和对应 reference 文档。
 - 你的所有回答应始终遵循`karpathy-guidelines`
 - **代码质量要求：** 生成的代码必须满足 clean code 标准——函数职责单一、命名清晰、无冗余嵌套、参数不超过 3 个（超出则封装为对象）。详细规范参见 `clean-code` skill。
@@ -12,6 +12,18 @@ This file provides guidance to AI coding agents when working with code in this r
 - **中文注释要求：** 所有新增或修改的代码必须附带完备的 JSDoc 格式中文注释，包括：`@description` 功能说明、`@param` 参数含义、`@returns` 返回值说明、关键逻辑的行内注释、复杂条件分支的解释。注释应准确、简洁，避免无意义的翻译式注释。注释应描述代码"当前是什么"及"为什么这样设计"，而非"之前存在什么问题、做了什么修复"——对历史问题的修复说明应写入 commit message，不得出现在代码注释中。
 - **文档修改原则：** 对项目中的文档进行修改时，应以"融合"方式整合新内容，而非"补丁"式叠加——优先将新增内容自然融入原有结构与行文脉络，必要时重排章节、调整上下文衔接，保持文档的连贯性与整体性；禁止简单追加段落、堆砌附录，或留下"以下为新增"等拼接痕迹。
 - **Bug 修复流程：** 修复任何 bug 前，必须遵循"测试先行"原则——先编写描述具体业务场景的测试用例，**只运行该用例所在文件**（而非全量测试）确认得到**失败的**测试结果，随后向用户确认用例场景与失败结果均真实可信，最后才进入修复阶段。修复完成后按「单文件 → 组件目录」逐步回归，随后询问用户是否扩大至全量测试，由用户决定，严禁未经此流程直接修改代码。精确运行特定用例的命令见 [component-testing skill → 命令](.agents/skills/component-testing/SKILL.md#命令)。
+
+## GEO 友好目标
+
+本项目的长期目标之一是组件渲染产物 **GEO（Generative Engine Optimization）友好**：读无障碍树的 AI 代理（Playwright MCP、browser-use 等）与屏幕阅读器都能正确识别并操作组件。新增或修改组件时，下面三条是必交的产物契约，与功能、视觉同级：
+
+1. **语义宿主优先**：原生 `<button>` / `<input>` / `<table>` / `<nav>` / `<dialog>` 优于 `<div @click>`；已有原生 seam（原生表单控件、原生表格、原生链接）的组件在其上加 ARIA，不重写结构。
+2. **状态镜像到 ARIA**：展开、选中、禁用、忙碌、校验失败等状态除 CSS class 外同步到 `aria-expanded` / `aria-selected` / `aria-disabled` / `aria-busy` / `aria-invalid` 等；combobox / listbox / menu / tab / grid 等复合控件按 WAI-ARIA APG 给角色与关联。
+3. **焦点管理**：弹层焦点陷阱与关闭后焦点还原、列表 roving tabindex、方向键激活；不可聚焦的交互元素对代理与键盘用户同样不可达。
+
+方法与证据纪律（哪些可宣称、哪些只是推断）见 [`geo`](.agents/skills/geo/SKILL.md) skill；ARIA 断言的测试写法见 [`component-testing`](.agents/skills/component-testing/SKILL.md)。
+
+边界：范围只到本库产物（L1），页面级可抓取性与站点结构化数据属消费方应用；组件内不加 JSON-LD / schema.org；`data-*` 不作为主杠杆（不进无障碍树）；不宣称 ARIA / 语义 HTML 能提升生成式引擎的引用率（因果未证），视觉 / 像素驱动的代理不读无障碍树。
 
 ## 仓库概览
 
@@ -206,6 +218,14 @@ pc: (1680px, 1920px)
 ### Issue tracker
 
 spec 是 up（AtomGit）上的 issue，按「自己的/别人的 issue」分流升级或新建；ticket 存于本地被 git 忽略的 `.scratch/`。见 `docs/agents/issue-tracker.md`。
+
+### 本地文档（`docs-local/`）
+
+过程态**文档**——审计报告、方案草案、调研笔记、草拟中的文档——放 `docs-local/`，该目录整体被 git 忽略（按需创建）。放进去即完成处置：既不用改 `.gitignore` 单点排除，也不用记得别 `git add`。
+
+与 `.scratch/` 分工：`.scratch/` 存执行态 **ticket**（做什么、到哪一步、谁认领，任务结束即废），`docs-local/` 存过程态 **文档**（承载内容与结论的产出物）。判据问一句「这是任务状态，还是产出物」：任务状态进 `.scratch/`，产出物进 `docs-local/`。两者都整目录忽略、都不用 `git add -f` 强加。
+
+需要长期留痕的内容走仓内稳定落点：结论与落地状态→issue（真相源），不可逆决策→`docs/adr/`，通用规范→本文件或 `docs/`。`docs-local/` 里的是草稿，随时可丢。
 
 ### Triage labels
 
