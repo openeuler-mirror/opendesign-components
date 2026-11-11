@@ -4,8 +4,12 @@ import { menuInjectKey } from './provide';
 import { menuProps } from './types';
 import MenuTree from './menu';
 import { isArray } from '../_utils/is';
+import { useI18n } from '../locale';
 
 const props = defineProps(menuProps);
+
+// 菜单可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条
+const { t } = useI18n();
 
 const emits = defineEmits<{
   /**
@@ -82,7 +86,7 @@ provide(menuInjectKey, {
 </script>
 
 <template>
-  <ul role="menu" :class="['o-menu', `o-menu-${size}`, arrowPosition && `o-menu-arrow-${arrowPosition}`]">
+  <ul role="menu" :aria-label="props.ariaLabel ?? t('menu.group')" :class="['o-menu', `o-menu-${size}`, arrowPosition && `o-menu-arrow-${arrowPosition}`]">
     <slot></slot>
   </ul>
 </template>

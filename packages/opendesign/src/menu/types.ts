@@ -70,9 +70,17 @@ export const menuProps = {
    * @default right
    */
   arrowPosition: {
-    type: String as PropType<'left'|'right'>,
-    default: 'right'
-  }
+    type: String as PropType<'left' | 'right'>,
+    default: 'right',
+  },
+  /**
+   * @zh-CN 无障碍标签，为菜单（role=menu）提供可访问名称（未传时回退 i18n 默认词条）
+   * @en-US Accessibility label for the menu (role=menu; falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type MenuPropsT = ExtractPropTypes<typeof menuProps>;

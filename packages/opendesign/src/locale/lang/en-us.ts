@@ -27,6 +27,8 @@ export default {
   'search.group': 'Search',
   // rate
   'rate.group': 'Rating',
+  // menu
+  'menu.group': 'Menu',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',
