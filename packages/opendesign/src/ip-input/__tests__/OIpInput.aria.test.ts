@@ -13,4 +13,13 @@ describe('ARIA — OIpInput', () => {
     const el = screen.container.querySelector('.o-ip-input') as HTMLElement;
     expect(el.getAttribute('role')).toBe('group');
   });
+
+  test('未传 ariaLabel 时回退 i18n 默认词条，显式传入时覆盖', async () => {
+    const bare = render(OIpInput, { props: { modelValue: '192.168.1.1' } });
+    await flush();
+    expect((bare.container.querySelector('.o-ip-input') as HTMLElement).getAttribute('aria-label')).toBeTruthy();
+    const explicit = render(OIpInput, { props: { modelValue: '192.168.1.1', ariaLabel: '服务器地址' } });
+    await flush();
+    expect((explicit.container.querySelector('.o-ip-input') as HTMLElement).getAttribute('aria-label')).toBe('服务器地址');
+  });
 });
