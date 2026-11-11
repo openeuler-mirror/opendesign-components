@@ -61,6 +61,7 @@ const onClick = (ev: MouseEvent) => {
   <div
     class="o-toggle"
     :role="hostOwnsSemantics ? undefined : 'button'"
+    :aria-label="hostOwnsSemantics ? undefined : props.ariaLabel"
     :aria-pressed="hostOwnsSemantics ? undefined : isChecked"
     :aria-disabled="hostOwnsSemantics ? undefined : props.disabled || undefined"
     :class="[

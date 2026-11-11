@@ -78,4 +78,27 @@ describe('ARIA — OToggle', () => {
     expect(el.getAttribute('role')).toBeNull();
     expect(el.getAttribute('aria-pressed')).toBeNull();
   });
+
+  test('ariaLabel 提供可访问名称，未传时无该属性；父级持语义时让位不输出', async () => {
+    // 独立使用：名称生效
+    const screen = render(OToggle, { props: { ariaLabel: '全选' } });
+    await flush();
+    const el = screen.container.querySelector('.o-toggle') as HTMLElement;
+    expect(el.getAttribute('aria-label')).toBe('全选');
+
+    // 未传：无属性
+    const bare = render(OToggle, { props: {} });
+    await flush();
+    const bareEl = bare.container.querySelector('.o-toggle') as HTMLElement;
+    expect(bareEl.getAttribute('aria-label')).toBeNull();
+
+    // 父级持语义：随 role 一起让位
+    const nested = render(OCheckbox, {
+      props: { value: 1, modelValue: [1] },
+      slots: { checkbox: ({ checked }: { checked: boolean }) => h(OToggle, { checked, ariaLabel: '全选' }) },
+    });
+    await flush();
+    const nestedEl = nested.container.querySelector('.o-toggle') as HTMLElement;
+    expect(nestedEl.getAttribute('aria-label')).toBeNull();
+  });
 });
