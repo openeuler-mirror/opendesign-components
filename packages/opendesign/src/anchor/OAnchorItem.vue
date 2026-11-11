@@ -121,9 +121,19 @@ const handleMouseleave = () => {
     >
       {{ props.title }}
       <template #target>
+        <!--
+          项级状态镜像（视觉状态无障碍树不可读，需同步为 ARIA）：
+          - aria-current="location"：标记「当前所在区段」（页内导航用 location，不是分页语义的 page）
+          - aria-disabled：<a> 无原生 disabled 属性，禁用只能用 ARIA 表达
+          - tabindex="-1"：aria-disabled 不改变可聚焦性，禁用项还得移出 Tab 序
+            （仍可被读屏虚拟光标读到，只是不参与 Tab 导航）
+        -->
         <a
           :href="props.href"
           :target="props.target"
+          :aria-current="isActive ? 'location' : undefined"
+          :aria-disabled="props.disabled || undefined"
+          :tabindex="props.disabled ? -1 : undefined"
           :class="{ 'o-anchor-item-link': true, 'is-active': isActive, disabled: props.disabled, 'o-anchor-item-sub-link': depth > 1 }"
           :style="{ '--anchor-item-depth': depth - 1 }"
           :data-depth="depth - 1"
