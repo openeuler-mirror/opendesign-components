@@ -5,9 +5,10 @@
  * aria-current="page" 状态镜像，使屏幕阅读器能识别分页导航
  * 区域与当前位置。
  */
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, vi } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h, ref } from 'vue';
+import { userEvent } from 'vitest/browser';
 import OPagination from '../OPagination.vue';
 import { flush } from '../../../__tests__/_helpers/dom';
 
@@ -55,5 +56,33 @@ describe('ARIA — 分页导航', () => {
     expect(currents.length).toBe(1);
     expect(currents[0].textContent?.trim()).toBe('3');
     expect(page.value).toBe(3);
+  });
+
+  test('ariaLabel 显式传入时覆盖默认词条', async () => {
+    const screen = render(OPagination, { props: { total: 50, pageSize: 10, ariaLabel: '搜索结果分页' } });
+    await flush();
+    const nav = screen.container.querySelector('.o-pagination') as HTMLElement;
+    expect(nav.getAttribute('aria-label')).toBe('搜索结果分页');
+  });
+});
+
+describe('ARIA — more 弹层虚拟列表', () => {
+  test('more 弹层虚拟路径的选项不夹中间 list/listitem 语义层', async () => {
+    // totalPage > showPageCount 出现 more 项；more 列表 > 50 条走 OVirtualList 虚拟路径
+    const screen = render({ setup: () => () => h(OPagination, { total: 1000, pageSize: 10, page: 1 }) });
+    await flush();
+    // 页码省略出现 more 图标，悬停弹出含虚拟列表的弹层（OPopover 默认 hover 触发）
+    const moreIcon = screen.container.querySelector('.o-pagination-more-icon-wrap') as HTMLElement;
+    expect(moreIcon).toBeTruthy();
+    await userEvent.hover(moreIcon);
+    // 弹层带默认 hoverDelay，等待其挂载
+    await vi.waitFor(() => expect(document.querySelector('.o-options-popup')).toBeTruthy(), { timeout: 2000 });
+    const popup = document.querySelector('.o-options-popup') as HTMLElement;
+    // 虚拟列表渲染的选项直接暴露在弹层结构中，不夹 list/listitem 中间语义层
+    //（若日后弹层补 role=listbox，中间层会破坏「子节点只能是 option」的 ARIA 契约）
+    const options = popup.querySelectorAll('[role="option"]');
+    expect(options.length).toBeGreaterThan(0);
+    expect(popup.querySelectorAll('[role="list"]').length).toBe(0);
+    expect(popup.querySelectorAll('[role="listitem"]').length).toBe(0);
   });
 });
