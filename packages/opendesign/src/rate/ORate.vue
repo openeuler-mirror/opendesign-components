@@ -6,8 +6,12 @@ import { rateProps } from './types';
 import { defaultSize } from '../_utils/global';
 import { isArray, isUndefined } from '../_utils/is';
 import ORateItem from './ORateItem.vue';
+import { useI18n } from '../locale';
 
 const props = defineProps(rateProps);
+
+// 评分组可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条（与 ORadioGroup 同构）
+const { t } = useI18n();
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: number): void;
@@ -90,6 +94,7 @@ const showLabel = computed(() => {
   <div
     class="o-rate"
     role="radiogroup"
+    :aria-label="props.ariaLabel ?? t('rate.group')"
     :class="[`o-rate-${props.color}`, `o-rate-${props.size || defaultSize}`, { 'o-rate-readonly': props.readonly }]"
     @mouseleave="resetHoverIndex"
   >

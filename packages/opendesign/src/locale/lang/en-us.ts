@@ -25,6 +25,8 @@ export default {
   'ipInput.group': 'IP address',
   // search
   'search.group': 'Search',
+  // rate
+  'rate.group': 'Rating',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',

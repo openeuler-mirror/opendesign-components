@@ -71,4 +71,18 @@ describe('ARIA — 评分', () => {
     expect(states).toEqual(['true', 'true', 'true', 'true', 'true']);
     expect(value.value).toBe(5);
   });
+
+  test('未传 ariaLabel 时根元素回退 i18n 默认词条，有可访问名称', async () => {
+    const screen = render(ORate, { props: { modelValue: 3, count: 5 } });
+    await flush();
+    const root = screen.container.querySelector('.o-rate') as HTMLElement;
+    expect(root.getAttribute('aria-label')).toBeTruthy();
+  });
+
+  test('ariaLabel 显式传入时覆盖默认词条', async () => {
+    const screen = render(ORate, { props: { modelValue: 3, count: 5, ariaLabel: '商品评分' } });
+    await flush();
+    const root = screen.container.querySelector('.o-rate') as HTMLElement;
+    expect(root.getAttribute('aria-label')).toBe('商品评分');
+  });
 });
