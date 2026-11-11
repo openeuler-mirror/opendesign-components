@@ -14,4 +14,11 @@ describe('ARIA — OAvatar', () => {
     expect(el.getAttribute('role')).toBe('img');
     expect(el.getAttribute('aria-label')).toBe('Alice');
   });
+
+  test('ariaLabel 显式传入时覆盖 name 作为可访问名称', async () => {
+    const screen = render(OAvatar, { props: { name: 'Alice', ariaLabel: '张三的头像' } });
+    await flush();
+    const el = screen.container.querySelector('.o-avatar') as HTMLElement;
+    expect(el.getAttribute('aria-label')).toBe('张三的头像');
+  });
 });

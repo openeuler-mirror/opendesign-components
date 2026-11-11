@@ -79,7 +79,7 @@ const onClick = (e: MouseEvent) => {
   <div
     :style="outerStyle"
     :role="showText ? 'img' : undefined"
-    :aria-label="showText ? props.name : undefined"
+    :aria-label="showText ? props.ariaLabel || props.name : undefined"
     :class="[
       'o-avatar',
       'o-avatar-circle',
@@ -96,7 +96,7 @@ const onClick = (e: MouseEvent) => {
       v-if="url && !hasError"
       :src="url"
       :style="{ objectFit: props.objectFit }"
-      :alt="props.name || 'avatar'"
+      :alt="props.ariaLabel || props.name || 'avatar'"
       @load="handleImgLoad"
       @error="handleImgError"
     />
