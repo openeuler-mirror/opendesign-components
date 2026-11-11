@@ -51,13 +51,14 @@ Co-Authored-By: Claude Sonnet 4.6
 
 - **与 diff 一致**：每条改动点描述能在本提交 diff 中找到对应变更；diff 中的显著变更（新增文件、破坏性 API 变化）无遗漏；squash 后的 body 重写为整体描述，不得照抄旧提交堆叠的正文（旧描述的粒度已不存在）；
 - **引用可解析**：issue 号、组件名、文件路径均真实存在；只引用长期稳定地址（spec issue URL、issue 号），不引用本地 `.scratch/` 路径（不入 git，事后断链）；
+- **不写版本时态与跨提交引用**：body 不出现 `NEXT` / “下一版本” / “待发布” 等版本时态词，也不出现 commit SHA、“前序 / 后续 PR”、“本栈”等交付编排指代。理由：`NEXT` 是滚动标号（下个版本一发布即过期），SHA 与栈位置随 rebase / squash 失效，而 cherry-pick 到已发版分支（如 release 线 hotfix）会让“未来时”语义直接倒流；commit message 一经推送便无法改写。版本区间归 release note 与 PR 描述，提交间关系归 PR 描述，稳定锚点只用 issue 号与 spec 节号。**引用代码内占位符字面量**（`@since NEXT`、`^[NEXT](primary)`）不受此限——它们在发版时被批量替换（见 [`version-placeholder`](../release-note/references/version-placeholder.md)），commit message 则没有替换机制；
 - **格式完整**：`<type>(<scope>): <gitmoji> <中文摘要>` 首行，摘要动词开头且 ≤50 字符；尾行 `fixes #<issue号>`；有 AI 参与时正文后空一行加 `Co-Authored-By`，模型名与 PR 披露一致；
 - **类型准确**：`<type>` 与变更性质相符（新功能 feat / 修复 fix / 文档 docs / 仅重构无行为变化 refactor），归并后的提交按整体性质重新选型，不继承旧提交的类型。
 
 判据命令（逐提交检查，与线性交付判据同批执行）：
 
 ```bash
-git log --format='%h %s%n%b---' up/main..HEAD   # 逐条对照上四项
+git log --format='%h %s%n%b---' up/main..HEAD   # 逐条对照上五项
 ```
 
 ## 上游 PR 模板
