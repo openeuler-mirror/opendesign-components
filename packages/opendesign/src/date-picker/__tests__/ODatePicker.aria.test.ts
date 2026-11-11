@@ -73,6 +73,13 @@ describe('ARIA — 日历', () => {
     expect(dialog).not.toBeNull();
   });
 
+  test('弹层面板带可访问名称（aria-label），读屏可感知用途', async () => {
+    await renderAndOpen();
+    const dialog = document.querySelector('.o-popup[role=dialog]');
+    expect(dialog).not.toBeNull();
+    expect(dialog?.getAttribute('aria-label')).toBeTruthy();
+  });
+
   test('选中日期设 aria-selected="true"', async () => {
     await renderAndOpen(dayjs().startOf('day').valueOf());
     const selected = document.querySelector('[role="gridcell"][aria-selected="true"]');
