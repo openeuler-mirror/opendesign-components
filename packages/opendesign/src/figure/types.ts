@@ -55,6 +55,14 @@ export const figureProps = {
     type: String,
   },
   /**
+   * @zh-CN 无障碍标签，为 figure 提供可访问名称（未传时回退 alt 文本；链接模式不输出，保留原生 link 语义）
+   * @en-US Accessibility label for the figure (falls back to the alt text; omitted in link mode to preserve native link semantics)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 图片加载完成前显示的预制随机多彩背景
    * @en-US Show a colorful background before the image is loaded
    */
