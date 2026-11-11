@@ -745,7 +745,11 @@ watch(lePadV, () => {
       <div v-if="$slots.prefix" class="o-tab-head-prefix">
         <slot name="prefix"></slot>
       </div>
-      <div role="tablist" :class="{ 'o-tab-navs': true, 'o-tab-navs-overflown-left': tabNavLeftOverflown, 'o-tab-navs-overflown-right': tabNavRightOverflown }">
+      <div
+        role="tablist"
+        :aria-label="props.ariaLabel ?? t('tab.group')"
+        :class="{ 'o-tab-navs': true, 'o-tab-navs-overflown-left': tabNavLeftOverflown, 'o-tab-navs-overflown-right': tabNavRightOverflown }"
+      >
         <div
           ref="navsContainerRef"
           v-on-resize="onHeadResize"

@@ -132,4 +132,24 @@ describe('ARIA — tab 与 panel 双向关联', () => {
     expect(nav).not.toBeNull();
     expect(nav?.getAttribute('role')).toBe('tab');
   });
+
+  test('未传 ariaLabel 时 tablist 回退 i18n 默认词条，显式传入时覆盖', async () => {
+    const renderTab = (ariaLabel?: string) => {
+      const screen = render(OTab, {
+        props: { modelValue: '1', ...(ariaLabel ? { ariaLabel } : {}) },
+        slots: { default: () => [h(OTabPane, { value: '1', label: 'T1' })] },
+      });
+      return screen;
+    };
+    // 未传：回退 i18n 默认名（tablist 不再是无名单选组）
+    const bare = renderTab();
+    await flush();
+    const bareList = bare.container.querySelector('.o-tab-navs') as HTMLElement;
+    expect(bareList.getAttribute('aria-label')).toBeTruthy();
+    // 显式传入：覆盖
+    const explicit = renderTab('视图切换');
+    await flush();
+    const explicitList = explicit.container.querySelector('.o-tab-navs') as HTMLElement;
+    expect(explicitList.getAttribute('aria-label')).toBe('视图切换');
+  });
 });

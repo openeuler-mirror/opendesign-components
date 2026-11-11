@@ -39,6 +39,8 @@ export default {
   'select.confirm': '确定',
   // input
   'input.limit': '<b>{0}</b>/{1}',
+  // tab
+  'tab.group': '页签',
   // table
   'table.filterEmptyOption': '空',
   'table.filterPlaceholder': '请输入搜索内容',

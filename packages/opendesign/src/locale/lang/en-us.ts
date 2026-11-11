@@ -39,6 +39,8 @@ export default {
   'select.confirm': 'Ok',
   // input
   'input.limit': '<b>{0}</b>/{1}',
+  // tab
+  'tab.group': 'Tabs',
   // table
   'table.filterEmptyOption': 'empty',
   'table.filterPlaceholder': 'Enter keywords',
