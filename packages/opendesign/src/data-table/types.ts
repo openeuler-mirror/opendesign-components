@@ -347,6 +347,16 @@ export const dataTableProps = {
     default: true,
   },
   /**
+   * @zh-CN 表格可访问名称，镜像到 `<table>` 的 `aria-label`（WAI-ARIA table 契约）：
+   * 为屏幕阅读器与读无障碍树的 AI 代理提供表格用途描述；不传时不输出该属性
+   * @en-US Accessible name of the table, mirrored to `aria-label` on `<table>`.
+   * Omitted when not provided
+   * @since NEXT
+   */
+  caption: {
+    type: String,
+  },
+  /**
    * @zh-CN 表头风格
    * @en-US table header style
    * @since 1.2.2

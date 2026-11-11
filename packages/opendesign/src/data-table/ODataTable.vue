@@ -223,6 +223,29 @@ const handleTableFilterChange = (key: string, newVal: DataTableConditionValue[])
 const getTableSorterValue = (key: string): DataTableSortMethodT => {
   return getValueByPath(conditions.value, key) as DataTableSortMethodT;
 };
+/**
+ * @description 可排序列 th 的 aria-sort 镜像值（WAI-ARIA table 契约）：
+ * ASC → ascending、DESC → descending、NA → none；非排序列不输出该属性
+ * （给不可排序列写 none 会让读屏用户误以为该列可点）。
+ * 多条件排序（sortMode=multiple）下多个列同时带 ascending/descending：ARIA 1.2
+ * 对 aria-sort 有「一次只标一个表头」的提示，但那针对单列排序场景；组件支持
+ * 多列排序时逐列如实镜像排序方向，对读屏与 AI 代理更有信息量，属有意取舍。
+ * @param column 当前列定义（需含 sortKey）
+ * @returns aria-sort 属性值；列无 sortKey 时返回 undefined（不输出属性）
+ */
+const getThAriaSort = (column: EffectiveDataTableColumnT): 'ascending' | 'descending' | 'none' | undefined => {
+  if (!column.sortKey) {
+    return undefined;
+  }
+  const sortValue = getTableSorterValue(column.sortKey);
+  if (sortValue === DataTableSortMethod.ASC) {
+    return 'ascending';
+  }
+  if (sortValue === DataTableSortMethod.DESC) {
+    return 'descending';
+  }
+  return 'none';
+};
 const sortKeys = computed(() => Array.from(new Set(dataColumns.value.filter((v) => v.sortKey).map((v) => v.sortKey!))));
 
 /**
@@ -485,9 +508,12 @@ defineExpose<DataTableExposed>({
       auto-update-on-scroll-size
       @scroll="checkTableOverflow"
     >
+      <!-- 表格可访问名称直接挂 table：HTML-AAM 的命名顺序是先 aria-label、后 caption 内容，
+           挂在 table 上不依赖各 AT 对「空 caption 自身 accname」的计算，也不会动视觉布局 -->
       <table
         ref="tableEl"
         class="o-table-inner-table"
+        :aria-label="props.caption"
         :aria-busy="props.loading || undefined"
         :style="{
           minWidth: isNumeric(props.minTableWidth) ? `${props.minTableWidth}px` : props.minTableWidth,
@@ -504,6 +530,7 @@ defineExpose<DataTableExposed>({
                   v-if="!column.headerHidden"
                   :ref="(el) => setThRef(el, column)"
                   scope="col"
+                  :aria-sort="getThAriaSort(column)"
                   :colspan="column.colSpan || column.customColSpan"
                   :rowspan="column.rowSpan"
                   :class="{

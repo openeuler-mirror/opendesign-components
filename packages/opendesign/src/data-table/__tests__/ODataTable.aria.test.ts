@@ -104,4 +104,66 @@ describe('ARIA — 数据表格', () => {
     expect(rows[0].getAttribute('aria-disabled')).toBe('true');
     expect(rows[1].getAttribute('aria-disabled')).toBeNull();
   });
+
+  test('可排序列 th 镜像 aria-sort，非排序列无该属性', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name' },
+      { label: 'Age', key: 'age', sortKey: 'age' },
+    ];
+    const conditions = ref<Record<string, number | undefined>>({ age: 1 });
+    const screen = render(ODataTable, {
+      props: {
+        data: baseData,
+        columns,
+        conditions: conditions.value,
+        'onUpdate:conditions': (v: Record<string, number | undefined>) => {
+          conditions.value = v;
+        },
+      },
+    });
+    await flush();
+    const ths = [...screen.container.querySelectorAll('thead th')];
+    // 非排序列不输出 aria-sort
+    expect(ths[0].getAttribute('aria-sort')).toBeNull();
+    // 排序列初始升序（conditions.age = ASC = 1）
+    expect(ths[1].getAttribute('aria-sort')).toBe('ascending');
+
+    // 用户点击排序器：升 → 降（真实交互路径验证镜像翻转）
+    const sorter = ths[1].querySelector('.o-data-table-sorter') as HTMLElement;
+    sorter.click();
+    await flush();
+    expect(conditions.value.age).toBe(-1);
+    expect(ths[1].getAttribute('aria-sort')).toBe('descending');
+
+    // 再点：降 → 取消（NA），回到 none（WAI-ARIA：排序列未激活时输出 none）
+    sorter.click();
+    await flush();
+    expect(ths[1].getAttribute('aria-sort')).toBe('none');
+  });
+
+  test('caption 镜像为 table 的 aria-label，未设置时无该属性', async () => {
+    const plain = render(ODataTable, { props: { data: baseData, columns: baseColumns } });
+    await flush();
+    const plainTable = plain.container.querySelector('table') as HTMLElement;
+    expect(plainTable.getAttribute('aria-label')).toBeNull();
+
+    const named = render(ODataTable, { props: { data: baseData, columns: baseColumns, caption: '用户列表' } });
+    await flush();
+    const namedTable = named.container.querySelector('table') as HTMLElement;
+    expect(namedTable.getAttribute('aria-label')).toBe('用户列表');
+  });
+
+  test('多条件排序下每列各自镜像自己的排序方向', async () => {
+    const columns: DataTableColumnT[] = [
+      { label: 'Name', key: 'name', sortKey: 'name' },
+      { label: 'Age', key: 'age', sortKey: 'age' },
+    ];
+    const screen = render(ODataTable, {
+      props: { data: baseData, columns, sortMode: 'multiple', conditions: { name: 1, age: -1 } },
+    });
+    await flush();
+    const ths = [...screen.container.querySelectorAll('thead th')];
+    expect(ths[0].getAttribute('aria-sort')).toBe('ascending');
+    expect(ths[1].getAttribute('aria-sort')).toBe('descending');
+  });
 });
