@@ -157,7 +157,15 @@ defineExpose({
               </template>
             </template>
           </div>
-          <div v-if="props.file.status === 'uploading' && props.showProgress && props.file.percent" class="o-upload-progress o-upload-card-progress">
+          <div
+            v-if="props.file.status === 'uploading' && props.showProgress && props.file.percent"
+            role="progressbar"
+            :aria-valuenow="props.file.percent"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            :aria-label="`${props.file.name} ${t('upload.loading')}`"
+            class="o-upload-progress o-upload-card-progress"
+          >
             <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
           </div>
         </div>
@@ -223,13 +231,22 @@ defineExpose({
           <OButton class="o-upload-row-icon o-upload-icon-remove o-upload-icon-hover-in" :icon="IconDelete" :title="t('upload.delete')" @click="onFileRemove" />
         </div>
 
-        <div v-if="props.file.status === 'uploading' && props.showProgress && props.file.percent" class="o-upload-progress o-upload-row-progress">
+        <div
+          v-if="props.file.status === 'uploading' && props.showProgress && props.file.percent"
+          role="progressbar"
+          :aria-valuenow="props.file.percent"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          :aria-label="`${props.file.name} ${t('upload.loading')}`"
+          class="o-upload-progress o-upload-row-progress"
+        >
           <div class="o-upload-progress-bar" :style="{ width: props.file.percent + '%' }"></div>
         </div>
       </div>
 
       <div
         v-if="props.file.message"
+        :role="props.file.status === 'failed' ? 'alert' : 'status'"
         class="o-upload-item-tip"
         :class="[
           {
