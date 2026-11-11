@@ -98,8 +98,8 @@ export const anchorItemProps = {
     default: '_self',
   },
   /**
-   * @zh-CN 锚点是否禁用
-   * @en-US Anchor disable status
+   * @zh-CN 锚点是否禁用；禁用项镜像 `aria-disabled` 并移出 Tab 序（不可用项不应占据 Tab 导航）
+   * @en-US Anchor disable status. Disabled items mirror `aria-disabled` and are removed from the Tab order
    * @default false
    */
   disabled: {
