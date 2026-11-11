@@ -32,6 +32,8 @@ export default {
   // scrollbar
   'scrollbar.vertical': '垂直滚动条',
   'scrollbar.horizontal': '水平滚动条',
+  // anchor
+  'anchor.group': '页内导航',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',
