@@ -14,7 +14,7 @@ provide(breadcrumbInjectKey, {
 </script>
 
 <template>
-  <div role="navigation" :aria-label="t('breadcrumb.nav')" class="o-breadcrumb">
+  <div role="navigation" :aria-label="props.ariaLabel ?? t('breadcrumb.nav')" class="o-breadcrumb">
     <slot></slot>
   </div>
 </template>
