@@ -13,6 +13,12 @@ import { type Layout } from './types';
 const props = defineProps<{
   /** 列表项索引 */
   index: number;
+  /** 是否输出 listitem 语义与集合位置镜像（由 OVirtualList 的 semanticRole 下发；嵌在 ARIA 复合容器内时为 false） */
+  semanticRole?: boolean;
+  /** 列表总项数（供 aria-setsize 镜像，虚拟裁剪后读屏仍知全集规模） */
+  setSize?: number;
+  /** 当前项在全集中的位置（1 起，供 aria-posinset 镜像） */
+  posInSet?: number;
   /** 项主轴尺寸（定高/按索引定高模式传入 px 值；不定高模式不传） */
   mainSize?: number;
   /** 布局方向，决定尺寸写入 width 还是 height */
@@ -58,7 +64,14 @@ useResizeObserver(itemRef, (entries) => {
 </script>
 
 <template>
-  <div ref="itemRef" :style="itemStyle" class="o-virtual-render-item">
+  <div
+    ref="itemRef"
+    :style="itemStyle"
+    :role="props.semanticRole !== false ? 'listitem' : undefined"
+    :aria-setsize="props.semanticRole !== false && props.setSize ? props.setSize : undefined"
+    :aria-posinset="props.semanticRole !== false && props.posInSet ? props.posInSet : undefined"
+    class="o-virtual-render-item"
+  >
     <slot></slot>
   </div>
 </template>
