@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, inject, nextTick } from 'vue';
+import { ref, computed, watch, inject, nextTick } from 'vue';
 import { buttonToggleProps } from './types';
 import { getRoundClass } from '../_utils/style-class';
 import { isUndefined } from '../_utils/is';
@@ -8,6 +8,14 @@ import { radioInjectKey } from '../radio/provide';
 
 const checkboxInjection = inject(checkboxInjectKey, null);
 const radioInjection = inject(radioInjectKey, null);
+
+/**
+ * @description 是否由父级宿主持有交互语义：在 OCheckbox / ORadio 的视觉替换插槽内渲染时，
+ * 父级的原生 input 已提供 checkbox/radio 角色与选中态，且 OToggle 自身的点击已被接管，
+ * 此时不得再声明 button 角色与 aria-pressed——否则无障碍树中出现嵌套的第二个交互语义，
+ * 读屏与 AI 代理会误认为里面还有一个可独立激活的按钮
+ */
+const hostOwnsSemantics = computed(() => !!(checkboxInjection || radioInjection));
 
 const props = defineProps(buttonToggleProps);
 
@@ -52,9 +60,9 @@ const onClick = (ev: MouseEvent) => {
 <template>
   <div
     class="o-toggle"
-    role="button"
-    :aria-pressed="isChecked"
-    :aria-disabled="props.disabled || undefined"
+    :role="hostOwnsSemantics ? undefined : 'button'"
+    :aria-pressed="hostOwnsSemantics ? undefined : isChecked"
+    :aria-disabled="hostOwnsSemantics ? undefined : props.disabled || undefined"
     :class="[
       round.class.value,
       {
