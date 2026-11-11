@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onUnmounted, ref, toRefs, toValue, watch } from 'vue';
+import { computed, inject, onUnmounted, ref, toRefs, toValue, useId, watch } from 'vue';
 import { selectOptionInjectKey } from '../select/provide';
 import { optionProps } from './types';
 import { SelectOptionData } from '../select/types';
@@ -11,6 +11,9 @@ const props = defineProps(optionProps);
 const { label, value } = toRefs(props);
 
 const selectInject = inject(selectOptionInjectKey, null);
+
+/** 选项 DOM id（useId，SSR 友）：供 combobox 的 aria-activedescendant 指向（注册上报给 OSelect） */
+const optionDomId = useId();
 
 const isMultiple = computed(() => toValue(selectInject?.multiple));
 
@@ -39,6 +42,7 @@ watch(
     selectInject?.registerOption({
       label: newLabel || `${newValue}`,
       value: newValue,
+      domId: optionDomId,
     });
   },
   { immediate: true },
@@ -88,7 +92,7 @@ const clickOption = () => {
 };
 </script>
 <template>
-  <div class="o-option" role="option" :aria-selected="isActive" :aria-disabled="effectiveDisabled || undefined" @click="clickOption">
+  <div :id="optionDomId" class="o-option" role="option" :aria-selected="isActive" :aria-disabled="effectiveDisabled || undefined" @click="clickOption">
     <div
       class="o-option-item"
       :class="[

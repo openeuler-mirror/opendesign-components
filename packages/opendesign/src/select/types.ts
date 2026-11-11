@@ -9,6 +9,10 @@ export type OptionWidthModeT = (typeof OptionWidthModeTypes)[number];
 export interface SelectOptionT {
   label: string;
   value: string | number;
+  /** 选项 DOM id（OOption 生成并上报，供 combobox 的 aria-activedescendant 指向）
+   * @since NEXT
+   */
+  domId?: string;
 }
 
 export type SelectValueT = string | number | string[] | number[] | (string | number)[];
@@ -127,6 +131,14 @@ export const selectProps = {
    * @en-US Select box prompt text.
    */
   placeholder: {
+    type: String,
+  },
+  /**
+   * @zh-CN 无障碍标签，为 combobox 输入框提供可访问名称（未传时回退 placeholder 文本）
+   * @en-US Accessibility label for the combobox input (falls back to the placeholder text when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
     type: String,
   },
   /**

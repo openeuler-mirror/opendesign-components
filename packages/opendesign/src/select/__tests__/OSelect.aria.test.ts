@@ -206,4 +206,127 @@ describe('ARIA — disabled 状态', () => {
     const enabledOption = Array.from(options).find((o) => o.textContent?.includes('B'));
     expect(enabledOption?.getAttribute('aria-disabled')).not.toBe('true');
   });
+
+  test('ariaLabel 提供可访问名称，未传时回退 placeholder，两者皆无时无属性', async () => {
+    // 显式传入：优先于 placeholder
+    const screen = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], ariaLabel: '城市', placeholder: '请选择' },
+    });
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-label')).toBe('城市');
+
+    // 未传：回退 placeholder
+    const fallback = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], placeholder: '请选择' },
+    });
+    await flush();
+    const fallbackInput = fallback.container.querySelector('.o-select-input') as HTMLElement;
+    expect(fallbackInput.getAttribute('aria-label')).toBe('请选择');
+
+    // 皆无：不输出
+    const bare = render(OSelect, { props: { options: [{ label: 'A', value: 'a' }] } });
+    await flush();
+    const bareInput = bare.container.querySelector('.o-select-input') as HTMLElement;
+    expect(bareInput.getAttribute('aria-label')).toBeNull();
+  });
+
+  test('multiple 时选项容器镜像 aria-multiselectable="true"，单选时无该属性', async () => {
+    const multi = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], multiple: true },
+    });
+    await flush();
+    const multiEl = multi.container.querySelector('.o-select') as HTMLElement;
+    await multiEl.click();
+    await flush();
+    const listbox = document.querySelector('.o-select-options') as HTMLElement;
+    expect(listbox.getAttribute('aria-multiselectable')).toBe('true');
+    cleanupBodyPopups();
+
+    const single = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }] },
+    });
+    await flush();
+    const singleEl = single.container.querySelector('.o-select') as HTMLElement;
+    await singleEl.click();
+    await flush();
+    // 同一 document 上前一次 multiple 的弹层已被清理，此时 listbox 即单选容器
+    const singleListbox = document.querySelector('.o-select-options') as HTMLElement;
+    expect(singleListbox.getAttribute('aria-multiselectable')).toBeNull();
+  });
+
+  test('展开后 input 的 aria-activedescendant 指向选中项 id，该 id 存在于 listbox', async () => {
+    const screen = render(OSelect, {
+      props: {
+        options: [
+          { label: 'A', value: 'a' },
+          { label: 'B', value: 'b' },
+        ],
+        modelValue: 'b',
+      },
+    });
+    await flush();
+    const selectEl = screen.container.querySelector('.o-select') as HTMLElement;
+    await selectEl.click();
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    const activeId = input.getAttribute('aria-activedescendant');
+    // 指向选中项（b）的 DOM id
+    expect(activeId).toBeTruthy();
+    const activeOption = document.getElementById(activeId!) as HTMLElement;
+    expect(activeOption).toBeTruthy();
+    expect(activeOption.getAttribute('role')).toBe('option');
+    expect(activeOption.getAttribute('aria-selected')).toBe('true');
+    expect(activeOption.textContent).toContain('B');
+  });
+
+  test('未选中值或未展开时不输出 aria-activedescendant', async () => {
+    // 无选中值
+    const none = render(OSelect, { props: { options: [{ label: 'A', value: 'a' }] } });
+    await flush();
+    const noneEl = none.container.querySelector('.o-select') as HTMLElement;
+    await noneEl.click();
+    await flush();
+    const noneInput = none.container.querySelector('.o-select-input') as HTMLElement;
+    expect(noneInput.getAttribute('aria-activedescendant')).toBeNull();
+    cleanupBodyPopups();
+
+    // 有选中但未展开
+    const closed = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], modelValue: 'a' },
+    });
+    await flush();
+    const closedInput = closed.container.querySelector('.o-select-input') as HTMLElement;
+    expect(closedInput.getAttribute('aria-activedescendant')).toBeNull();
+  });
+});
+
+describe('ARIA — 虚拟模式 listbox 契约', () => {
+  beforeEach(async () => {
+    await setViewport('desktop');
+  });
+  afterEach(cleanupBodyPopups);
+
+  test('虚拟模式下展开的 listbox 子树中选项直接可达，不夹中间 list/listitem 语义层', async () => {
+    const screen = render(OSelect, {
+      props: {
+        virtual: true,
+        options: Array.from({ length: 100 }, (_, i) => ({ label: `选项${i}`, value: i })),
+        virtualListProps: { itemSize: 36 },
+      },
+    });
+    await flush();
+    const selectEl = screen.container.querySelector('.o-select') as HTMLElement;
+    await selectEl.click();
+    await flush();
+    const listbox = document.querySelector('.o-select-options[role="listbox"]') as HTMLElement;
+    expect(listbox).toBeTruthy();
+    // listbox 的语义子节点只能是 option（或分组结构），中间夹 list/listitem
+    // 会让读屏把弹层播报为嵌套列表而非选项列表
+    expect(listbox.querySelectorAll('[role="list"]').length).toBe(0);
+    expect(listbox.querySelectorAll('[role="listitem"]').length).toBe(0);
+    // 选项存在于 listbox 子树内
+    const options = listbox.querySelectorAll('[role="option"]');
+    expect(options.length).toBeGreaterThan(0);
+  });
 });

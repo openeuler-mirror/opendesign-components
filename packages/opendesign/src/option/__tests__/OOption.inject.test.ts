@@ -64,39 +64,31 @@ function renderWithInject(
 
 describe('registerOption — 挂载时注册选项', () => {
   test('挂载时调用 registerOption 传递 label + value', async () => {
-    const { registerMock } = renderWithInject(
-      { value: 'a', label: 'Label A' },
-    );
+    const { registerMock } = renderWithInject({ value: 'a', label: 'Label A' });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: 'Label A', value: 'a' });
+    expect(registerMock).toHaveBeenCalledWith({ label: 'Label A', value: 'a', domId: expect.any(String) });
   });
 
   test('label 未传时 registerOption 用 value 字符串作 label', async () => {
-    const { registerMock } = renderWithInject(
-      { value: 42 },
-    );
+    const { registerMock } = renderWithInject({ value: 42 });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: '42', value: 42 });
+    expect(registerMock).toHaveBeenCalledWith({ label: '42', value: 42, domId: expect.any(String) });
   });
 
   test('label 变化时重新注册新 label', async () => {
-    const { screen, registerMock } = renderWithInject(
-      { value: 'a', label: 'Old' },
-    );
+    const { screen, registerMock } = renderWithInject({ value: 'a', label: 'Old' });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: 'Old', value: 'a' });
+    expect(registerMock).toHaveBeenCalledWith({ label: 'Old', value: 'a', domId: expect.any(String) });
 
     await screen.rerender({ value: 'a', label: 'New' });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: 'New', value: 'a' });
+    expect(registerMock).toHaveBeenCalledWith({ label: 'New', value: 'a', domId: expect.any(String) });
   });
 });
 
 describe('unregisterOption — 卸载时清理选项', () => {
   test('卸载时调用 unregisterOption', async () => {
-    const { screen, unregisterMock } = renderWithInject(
-      { value: 'a', label: 'A' },
-    );
+    const { screen, unregisterMock } = renderWithInject({ value: 'a', label: 'A' });
     await flush();
     expect(unregisterMock).not.toHaveBeenCalled();
 
@@ -105,9 +97,7 @@ describe('unregisterOption — 卸载时清理选项', () => {
   });
 
   test('卸载时 label 未传则用 value 字符串作 label', async () => {
-    const { screen, unregisterMock } = renderWithInject(
-      { value: 'x' },
-    );
+    const { screen, unregisterMock } = renderWithInject({ value: 'x' });
     await flush();
     await screen.unmount();
     expect(unregisterMock).toHaveBeenCalledWith({ label: 'x', value: 'x' });
@@ -116,9 +106,7 @@ describe('unregisterOption — 卸载时清理选项', () => {
 
 describe('select — 点击通知父选择器', () => {
   test('点击选项时调用 select 传递 label + value', async () => {
-    const { screen, selectMock } = renderWithInject(
-      { value: 'b', label: 'B' },
-    );
+    const { screen, selectMock } = renderWithInject({ value: 'b', label: 'B' });
     await flush();
     const option = screen.container.querySelector('.o-option') as HTMLElement;
     await option.click();
@@ -126,9 +114,7 @@ describe('select — 点击通知父选择器', () => {
   });
 
   test('disabled prop 为 true 时点击不调用 select', async () => {
-    const { screen, selectMock } = renderWithInject(
-      { value: 'a', label: 'A', disabled: true },
-    );
+    const { screen, selectMock } = renderWithInject({ value: 'a', label: 'A', disabled: true });
     await flush();
     const option = screen.container.querySelector('.o-option') as HTMLElement;
     await option.click();
@@ -136,9 +122,7 @@ describe('select — 点击通知父选择器', () => {
   });
 
   test('label 未传时 select 用 value 字符串作 label', async () => {
-    const { screen, selectMock } = renderWithInject(
-      { value: 99 },
-    );
+    const { screen, selectMock } = renderWithInject({ value: 99 });
     await flush();
     const option = screen.container.querySelector('.o-option') as HTMLElement;
     await option.click();
@@ -148,30 +132,21 @@ describe('select — 点击通知父选择器', () => {
 
 describe('active 状态 — selectValue 驱动选中样式', () => {
   test('value 在 selectValue 中时 o-option-item 含 active 类', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { selectValue: ['a', 'b'] },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { selectValue: ['a', 'b'] });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('active')).toBe(true);
   });
 
   test('value 不在 selectValue 中时无 active 类', async () => {
-    const { screen } = renderWithInject(
-      { value: 'c', label: 'C' },
-      { selectValue: ['a', 'b'] },
-    );
+    const { screen } = renderWithInject({ value: 'c', label: 'C' }, { selectValue: ['a', 'b'] });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('active')).toBe(false);
   });
 
   test('selectValue 动态变化时 active 状态同步更新', async () => {
-    const { screen, selectValueRef } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { selectValue: [] },
-    );
+    const { screen, selectValueRef } = renderWithInject({ value: 'a', label: 'A' }, { selectValue: [] });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('active')).toBe(false);
@@ -183,10 +158,7 @@ describe('active 状态 — selectValue 驱动选中样式', () => {
   });
 
   test('active 时 aria-selected 为 true', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { selectValue: ['a'] },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { selectValue: ['a'] });
     await flush();
     const root = screen.container.querySelector('.o-option');
     expect(root?.getAttribute('aria-selected')).toBe('true');
@@ -195,40 +167,28 @@ describe('active 状态 — selectValue 驱动选中样式', () => {
 
 describe('effectiveDisabled — limit 达上限禁用未选项', () => {
   test('limitReached 且未选中时注入 o-option-disabled 类', async () => {
-    const { screen } = renderWithInject(
-      { value: 'c', label: 'C' },
-      { selectValue: ['a'], limitReached: true },
-    );
+    const { screen } = renderWithInject({ value: 'c', label: 'C' }, { selectValue: ['a'], limitReached: true });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('o-option-disabled')).toBe(true);
   });
 
   test('limitReached 但已选中时不注入 o-option-disabled 类', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { selectValue: ['a'], limitReached: true },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { selectValue: ['a'], limitReached: true });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('o-option-disabled')).toBe(false);
   });
 
   test('limitReached 且未选中时 aria-disabled 为 true', async () => {
-    const { screen } = renderWithInject(
-      { value: 'c', label: 'C' },
-      { selectValue: ['a'], limitReached: true },
-    );
+    const { screen } = renderWithInject({ value: 'c', label: 'C' }, { selectValue: ['a'], limitReached: true });
     await flush();
     const root = screen.container.querySelector('.o-option');
     expect(root?.getAttribute('aria-disabled')).toBe('true');
   });
 
   test('limitReached 时仍允许点击（触发 exceed-limit 逻辑）', async () => {
-    const { screen, selectMock } = renderWithInject(
-      { value: 'c', label: 'C' },
-      { selectValue: ['a'], limitReached: true },
-    );
+    const { screen, selectMock } = renderWithInject({ value: 'c', label: 'C' }, { selectValue: ['a'], limitReached: true });
     await flush();
     const option = screen.container.querySelector('.o-option') as HTMLElement;
     await option.click();
@@ -237,10 +197,7 @@ describe('effectiveDisabled — limit 达上限禁用未选项', () => {
   });
 
   test('disabled prop 优先于 limitReached — 禁止点击', async () => {
-    const { screen, selectMock } = renderWithInject(
-      { value: 'c', label: 'C', disabled: true },
-      { selectValue: [], limitReached: true },
-    );
+    const { screen, selectMock } = renderWithInject({ value: 'c', label: 'C', disabled: true }, { selectValue: [], limitReached: true });
     await flush();
     const option = screen.container.querySelector('.o-option') as HTMLElement;
     await option.click();
@@ -251,30 +208,21 @@ describe('effectiveDisabled — limit 达上限禁用未选项', () => {
 
 describe('multiple — 多选模式渲染复选框', () => {
   test('multiple=true 时 o-option-item 含 o-option-multiple 类', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { multiple: true },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { multiple: true });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('o-option-multiple')).toBe(true);
   });
 
   test('multiple=false 时无 o-option-multiple 类', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { multiple: false },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { multiple: false });
     await flush();
     const item = screen.container.querySelector('.o-option-item') as HTMLElement;
     expect(item.classList.contains('o-option-multiple')).toBe(false);
   });
 
   test('multiple=true 时渲染 OCheckbox 组件', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { multiple: true },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { multiple: true });
     await flush();
     // OCheckbox 渲染为 .o-checkbox
     const checkbox = screen.container.querySelector('.o-checkbox');
@@ -282,20 +230,14 @@ describe('multiple — 多选模式渲染复选框', () => {
   });
 
   test('multiple=false 时不渲染 OCheckbox', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A' },
-      { multiple: false },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A' }, { multiple: false });
     await flush();
     const checkbox = screen.container.querySelector('.o-checkbox');
     expect(checkbox).toBeNull();
   });
 
   test('multiple + indeterminate — OCheckbox 收到 indeterminate prop', async () => {
-    const { screen } = renderWithInject(
-      { value: 'a', label: 'A', indeterminate: true },
-      { multiple: true },
-    );
+    const { screen } = renderWithInject({ value: 'a', label: 'A', indeterminate: true }, { multiple: true });
     await flush();
     // indeterminate 在 OCheckbox 上表现为 .o-checkbox-indeterminate 类
     const checkbox = screen.container.querySelector('.o-checkbox');
@@ -310,8 +252,7 @@ describe('renderLabelFn — 自定义 label 渲染', () => {
     const { screen } = renderWithInject(
       { value: 'a', label: 'A' },
       {
-        renderLabelFn: (option: Record<string, unknown>, _selected: boolean) =>
-          h('span', { class: 'custom-label' }, `Custom: ${option.label}`),
+        renderLabelFn: (option: Record<string, unknown>, _selected: boolean) => h('span', { class: 'custom-label' }, `Custom: ${option.label}`),
       },
     );
     await flush();
@@ -366,8 +307,7 @@ describe('renderLabelFn — 自定义 label 渲染', () => {
       { value: 'a', label: 'A' },
       {
         multiple: true,
-        renderLabelFn: (option: Record<string, unknown>, _selected: boolean) =>
-          h('span', { class: 'multi-custom' }, `M: ${option.label}`),
+        renderLabelFn: (option: Record<string, unknown>, _selected: boolean) => h('span', { class: 'multi-custom' }, `M: ${option.label}`),
       },
     );
     await flush();

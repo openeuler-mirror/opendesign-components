@@ -1,0 +1,33 @@
+feat(OSelect): ♿ 选择器 combobox 补可访问名称与高亮项关联
+
+OSelect 的 combobox input 此前无名称入口、多选 listbox 未声明
+aria-multiselectable、无高亮项关联——读屏无法播报用途、无法
+感知可多选、聚焦时无法定位当前项（#237 §13-B / §13-C）。
+
+- 新增 ariaLabel prop（@since NEXT）：显式传入优先，未传回退
+  placeholder 文本
+- 多选时选项容器 SelectOption 镜像 aria-multiselectable="true"
+- combobox input 补 :aria-activedescendant：
+  - OOption 生成 DOM id（useId，SSR 友）并经 registerOption
+    上报（SelectOptionT 新增可选 domId 字段）——覆盖数据驱动
+    /插槽/虚拟滚动全部渲染路径（均经 OOption）
+  - OSelect 维护高亮项状态：当前无键盘导航，高亮跟随选中值
+    （单选取选中项，多选取第一个；无选中或未展开时不输出），
+    键盘层（方向键移动）归 major，届时仅需替换驱动源
+- 虚拟路径 OVirtualList 传 :semantic-role="false"：选项的
+  role=option 直接挂在 listbox 子树，OVirtualList 自身的
+  list/listitem 中间语义层会破坏 listbox「子节点只能是
+  option」的 ARIA 契约，须关闭（依赖 #1045 的 semanticRole
+  prop，合入顺序：#1045 先于本 PR）
+- OSelect.aria.test.ts：名称三级回退 / multiselectable /
+  activedescendant 指向真实存在且 aria-selected 的选项 /
+  空值与未收起不输出 / 虚拟模式 listbox 子树无中间语义层
+  五组断言
+- OOption.inject.test.ts：registerOption 断言随契约更新
+  （新增 domId 字段）
+
+非破坏变更：新增属性输出 + inject 契约可选字段，零行为与
+样式影响。
+
+Refs #237
+Co-Authored-By: GLM 5.3
