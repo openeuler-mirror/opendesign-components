@@ -73,6 +73,14 @@ export const switchProps = {
     default: false,
   },
   /**
+   * @zh-CN 无障碍标签，为开关提供可访问名称（屏幕阅读器播报“开关：<名称>”而非仅“开关”）
+   * @en-US Accessibility label providing an accessible name for the switch
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 状态改变前的钩子函数
    * @en-US Hook function before state change
    */

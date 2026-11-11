@@ -88,6 +88,7 @@ const onClick = (ev: Event) => {
   <div
     class="o-switch"
     role="switch"
+    :aria-label="props.ariaLabel"
     :aria-checked="isChecked"
     :aria-disabled="effectiveDisabled || undefined"
     :aria-busy="props.loading || undefined"
