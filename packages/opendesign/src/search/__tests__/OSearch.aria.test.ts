@@ -26,4 +26,13 @@ describe('ARIA — 根元素', () => {
     const root = screen.container.querySelector('.o-search') as HTMLElement;
     expect(root.getAttribute('role')).toBe('search');
   });
+
+  test('未传 ariaLabel 时回退 i18n 默认词条，显式传入时覆盖', async () => {
+    const bare = render(OSearch, {});
+    await flush();
+    expect((bare.container.querySelector('.o-search') as HTMLElement).getAttribute('aria-label')).toBeTruthy();
+    const explicit = render(OSearch, { props: { ariaLabel: '站内搜索' } });
+    await flush();
+    expect((explicit.container.querySelector('.o-search') as HTMLElement).getAttribute('aria-label')).toBe('站内搜索');
+  });
 });

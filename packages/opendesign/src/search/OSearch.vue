@@ -8,10 +8,14 @@ import { splitByMatch } from '../_utils/string';
 import { debounce } from '../_utils/helper';
 import { OIconSearch } from '../icon-components';
 import { useFormField, type FormFieldProps } from '../_composables/use-form-field';
+import { useI18n } from '../locale';
 import { vOutClick } from '../directives';
 import { searchProps } from './types';
 
 const props = defineProps(searchProps);
+
+// 搜索地标可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条
+const { t } = useI18n();
 
 const emits = defineEmits<{
   /**
@@ -247,6 +251,7 @@ watch(selectedValOfSuffix, (val?: string) => {
 <template>
   <div
     role="search"
+    :aria-label="props.ariaLabel ?? t('search.group')"
     class="o-search"
     :class="[{ 'o-search-with-prefix': showPrefixSelect, 'o-search-with-suffix': showSuffixSelect }, `o-search-${props.size}`]"
   >

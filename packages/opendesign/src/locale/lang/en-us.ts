@@ -23,6 +23,8 @@ export default {
   'checkbox.group': 'Checkbox group',
   // ipInput
   'ipInput.group': 'IP address',
+  // search
+  'search.group': 'Search',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',
