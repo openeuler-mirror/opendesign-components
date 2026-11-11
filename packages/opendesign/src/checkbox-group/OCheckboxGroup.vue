@@ -4,8 +4,12 @@ import { checkboxGroupProps } from './types';
 import { checkboxGroupInjectKey } from './provide';
 import { isArray, isUndefined } from '../_utils/is';
 import { useFormField } from '../_composables/use-form-field';
+import { useI18n } from '../locale';
 
 const props = defineProps(checkboxGroupProps);
+
+// 复选组可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条（与 ORadioGroup 同构）
+const { t } = useI18n();
 
 const emits = defineEmits<{
   (e: 'update:modelValue', val: Array<string | number>): void;
@@ -51,7 +55,7 @@ provide(checkboxGroupInjectKey, {
 </script>
 
 <template>
-  <div class="o-checkbox-group" :class="`o-checkbox-group-${props.direction}`">
+  <div class="o-checkbox-group" :class="`o-checkbox-group-${props.direction}`" role="group" :aria-label="props.ariaLabel ?? t('checkbox.group')">
     <slot></slot>
   </div>
 </template>
