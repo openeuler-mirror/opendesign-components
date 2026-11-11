@@ -82,7 +82,7 @@ const onAfterLeave = (el: Element) => {
 
 <template>
   <div class="o-collapse-item" :class="{ 'o-collapse-item-expanded': isExpanded }">
-    <div :id="headerId" role="button" class="o-collapse-item-header" :aria-expanded="isExpanded" @click="onClick">
+    <div :id="headerId" role="button" class="o-collapse-item-header" :aria-expanded="isExpanded" :aria-controls="bodyId" @click="onClick">
       <span class="o-collapse-item-icon">
         <IconChevronRight />
       </span>

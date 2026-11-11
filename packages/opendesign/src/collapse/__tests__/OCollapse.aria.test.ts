@@ -75,4 +75,14 @@ describe('ARIA — 折叠面板关联', () => {
     expect(labelledBy).toBeTruthy();
     expect(header.getAttribute('id')).toBe(labelledBy);
   });
+
+  test('header 的 aria-controls 指向 body 的 DOM id（APG accordion 模式）', async () => {
+    const screen = render(OCollapseItem, { props: { title: 'H' } });
+    await flush();
+    const header = screen.container.querySelector('.o-collapse-item-header') as HTMLElement;
+    const body = screen.container.querySelector('.o-collapse-item-body') as HTMLElement;
+    const controls = header.getAttribute('aria-controls');
+    expect(controls).toBeTruthy();
+    expect(body.getAttribute('id')).toBe(controls);
+  });
 });
