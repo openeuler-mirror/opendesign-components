@@ -98,12 +98,12 @@ export const layerProps = {
     default: false,
   },
   /**
-   * @zh-CN 浮层的无障碍角色，opt-in 传 `dialog` 或 `tooltip`；未传则不渲染 role 属性，避免非对话框浮层（如 OLoading）被误标
-   * @en-US Accessibility role of the layer, opt-in `dialog` or `tooltip`; not rendered when omitted, avoiding mislabeling non-dialog layers (e.g. OLoading)
+   * @zh-CN 浮层的无障碍角色，opt-in 传 `dialog`、`tooltip` 或 `status`；未传则不渲染 role 属性，避免非对话框浮层被误标（如全屏遮罩的 OLoading 需显式传 status）
+   * @en-US Accessibility role of the layer, opt-in `dialog`, `tooltip` or `status`; not rendered when omitted, avoiding mislabeling non-dialog layers (e.g. OLoading passes `status` explicitly)
    * @since NEXT
    */
   role: {
-    type: String as PropType<'dialog' | 'tooltip' | ''>,
+    type: String as PropType<'dialog' | 'tooltip' | 'status' | ''>,
     default: '',
   },
   /**

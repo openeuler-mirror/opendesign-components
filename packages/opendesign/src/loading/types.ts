@@ -2,7 +2,7 @@ import { ExtractPropTypes, PropType } from 'vue';
 import { layerProps } from '../layer/types';
 
 import { SizeT } from '../_utils/types';
- 
+
 const { maskClose, ...extractProps } = layerProps;
 
 export const loadingProps = {
@@ -15,12 +15,20 @@ export const loadingProps = {
     type: String,
   },
   /**
+   * @zh-CN 无障碍标签，为加载层提供可访问名称（未传时回退到 label 文本）
+   * @en-US Accessibility label for the loading layer (falls back to the label text when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 加载尺寸
    * @en-US loading size
    */
   size: {
     type: String as PropType<SizeT | 'mini'>,
-    default: 'small'
+    default: 'small',
   },
   /**
    * @zh-CN 自定义loading图标

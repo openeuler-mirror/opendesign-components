@@ -37,6 +37,8 @@ defineExpose({
     ref="layerRef"
     class="o-loading"
     :class="[`o-loading-${props.size}`]"
+    role="status"
+    :aria-label="props.ariaLabel ?? (props.label || undefined)"
     :visible="props.visible"
     :wrapper="props.wrapper"
     :unmount-on-hide="props.unmountOnHide"
