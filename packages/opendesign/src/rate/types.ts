@@ -83,6 +83,14 @@ export const rateProps = {
   labels: {
     type: Array as PropType<Array<string>>,
   },
+  /**
+   * @zh-CN 无障碍标签，为评分组提供可访问名称（未传时回退到 i18n 默认词条）
+   * @en-US Accessibility label for the rate group (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export const rateItemProps = {

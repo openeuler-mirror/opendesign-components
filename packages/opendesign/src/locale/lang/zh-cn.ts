@@ -25,6 +25,8 @@ export default {
   'ipInput.group': 'IP 地址',
   // search
   'search.group': '搜索',
+  // rate
+  'rate.group': '评分',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',
