@@ -128,6 +128,14 @@ export const inputNumberProps = {
   clearValue: {
     type: Number,
   },
+  /**
+   * @zh-CN 无障碍标签，为数字输入框提供可访问名称（透传到内嵌 OInput 的原生 input）
+   * @en-US Accessibility label for the number input (forwarded to the native input of the embedded OInput)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type InputNumberPropsT = ExtractPropTypes<typeof inputNumberProps>;
