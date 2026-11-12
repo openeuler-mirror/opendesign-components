@@ -17,6 +17,8 @@ export default {
   'slider.slider': 'Slider',
   // radio
   'radio.group': 'Radio group',
+  // checkbox
+  'checkbox.group': 'Checkbox group',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',

@@ -49,6 +49,14 @@ export const checkboxGroupProps = {
     type: Number,
     default: undefined,
   },
+  /**
+   * @zh-CN 无障碍标签，为复选组提供可访问名称（未传时回退到 i18n 默认词条）
+   * @en-US Accessibility label for the checkbox group (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type CheckboxGroupPropsT = ExtractPropTypes<typeof checkboxGroupProps>;

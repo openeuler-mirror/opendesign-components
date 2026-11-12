@@ -17,6 +17,8 @@ export default {
   'slider.slider': '滑块',
   // radio
   'radio.group': '单选组',
+  // checkbox
+  'checkbox.group': '复选组',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',
