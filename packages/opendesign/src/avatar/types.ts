@@ -34,6 +34,14 @@ export const avatarProps = {
     type: String,
   },
   /**
+   * @zh-CN 无障碍标签，覆盖默认名称（name）作为可访问名称；图片模式同时作为 alt
+   * @en-US Accessibility label overriding the default name; also used as alt in image mode
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 名称渲染函数，接收 name 属性，返回 VNode 自定义渲染
    * @en-US Name formatter, receives name prop and returns VNode for custom rendering
    */
