@@ -2,6 +2,9 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { ScrollerSizeT, ScrollbarSlotProps } from './types';
 import { vOnResize } from '../directives/on-resize';
+import { useI18n } from '../locale';
+
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -25,6 +28,10 @@ const props = withDefaults(
      * 滚动条尺寸大小
      */
     size?: ScrollerSizeT;
+    /**
+     * 被控滚动内容容器的 id，镜像到 aria-controls（读屏可定位被控区域）
+     */
+    controlsId?: string;
   }>(),
   {
     direction: 'y',
@@ -59,6 +66,9 @@ const barRef = ref<HTMLElement | null>(null);
 const thumbRef = ref<HTMLElement | null>(null);
 
 const trackLength = ref(0);
+
+// 滚动位置百分比（0~100，直接由 offsetRate 派生），镜像到 aria-valuenow
+const ariaValueNow = computed(() => Math.round(props.offsetRate * 100));
 
 const thumbSize = computed(() => {
   if (trackLength.value && props.thumbRate) {
@@ -189,6 +199,13 @@ const onResize = () => {
         'o-scrollbar-dragging': isDarggingBar,
       },
     ]"
+    role="scrollbar"
+    :aria-orientation="props.direction === 'y' ? 'vertical' : 'horizontal'"
+    :aria-valuenow="ariaValueNow"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    :aria-label="props.direction === 'y' ? t('scrollbar.vertical') : t('scrollbar.horizontal')"
+    :aria-controls="props.controlsId || undefined"
     @click="onTrackClick"
   >
     <div

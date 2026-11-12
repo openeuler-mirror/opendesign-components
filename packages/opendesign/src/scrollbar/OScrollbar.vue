@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, watchEffect, toRefs, computed } from 'vue';
+import { ref, onMounted, onUnmounted, watchEffect, toRefs, computed, useId } from 'vue';
 import { useEventListener, useIntervalFn, useResizeObserver, useTimeoutFn } from '@vueuse/core';
 import ScrollbarRail from './ScrollbarRail.vue';
 import { scrollbarProps, ScrollerDirection, ScrollbarSlotProps } from './types';
@@ -187,10 +187,18 @@ const { pause: pauseIdleUpdate, resume: resumeIdleUpdate } = useIntervalFn(
 );
 
 /**
+ * 被控滚动内容容器 id，镜像到轨道的 aria-controls（读屏可定位被控滚动区域）
+ * @description 由 OScrollbar 在 init 时写入滚动目标（目标已有 id 则复用，避免覆盖消费方标记）；
+ * isBody 页面滚动场景无单一下游容器，不输出
+ */
+const controlsId = ref<string | undefined>(undefined);
+
+/**
  * 解析 target prop 并初始化滚动条
  * @description 在 onMounted 中执行，避免 SSR 期间访问 document
  */
 const { target } = toRefs(props);
+const targetId = useId();
 onMounted(() => {
   resolveHtmlElement(target).then((el) => {
     if (el === document.body) {
@@ -202,6 +210,12 @@ onMounted(() => {
     if (!scrollTargetEl) {
       return;
     }
+
+    // 滚动目标有稳定标识后，rail 的 aria-controls 才能指向它
+    if (scrollTargetEl !== document.documentElement && !scrollTargetEl.id) {
+      scrollTargetEl.id = targetId;
+    }
+    controlsId.value = scrollTargetEl.id || undefined;
 
     init();
   });
@@ -342,6 +356,7 @@ defineExpose({
         v-if="hasX && !props.disabledX"
         :size="props.size"
         direction="x"
+        :controls-id="controlsId"
         :thumb-rate="hThumbRate"
         :offset-rate="hOffsetRate"
         @scroll="onHBarScroll"
@@ -355,6 +370,7 @@ defineExpose({
         v-if="hasY && !props.disabledY"
         direction="y"
         :size="props.size"
+        :controls-id="controlsId"
         :thumb-rate="vThumbRate"
         :offset-rate="vOffsetRate"
         @scroll="onVBarScroll"
