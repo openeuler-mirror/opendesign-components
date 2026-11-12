@@ -134,8 +134,8 @@ export const selectProps = {
     type: String,
   },
   /**
-   * @zh-CN 无障碍标签，为 combobox 输入框提供可访问名称（未传时回退 placeholder 文本）
-   * @en-US Accessibility label for the combobox input (falls back to the placeholder text when not provided)
+   * @zh-CN 无障碍标签，为主输入框与多选 tag 内联搜索框提供可访问名称（未传时回退 placeholder 文本）
+   * @en-US Accessibility label for the main input and the inline search input in multiple tag mode (falls back to the placeholder text when not provided)
    * @since NEXT
    */
   ariaLabel: {

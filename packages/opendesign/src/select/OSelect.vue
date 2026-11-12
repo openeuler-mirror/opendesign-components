@@ -258,6 +258,8 @@ const activeDescendantId = computed<string | undefined>(() => {
   if (!isSelecting.value) return undefined;
   return optionInfoMap.get(activeOptionValue.value)?.domId;
 });
+/** combobox 可访问名称：显式 ariaLabel 优先，未传回退 placeholder；主输入框与多选 tag 内联搜索框共用 */
+const comboboxAriaLabel = computed<string | undefined>(() => props.ariaLabel ?? (props.placeholder || undefined));
 
 watchEffect(() => {
   // 仅检查插槽函数是否存在，不在 watchEffect 中调用它（避免 render 外触发 Vue 警告）
@@ -1010,7 +1012,7 @@ defineExpose({
       :readonly="!showTagInput"
       :inputmode="isResponding ? 'none' : undefined"
       role="combobox"
-      :aria-label="props.ariaLabel ?? (props.placeholder || undefined)"
+      :aria-label="comboboxAriaLabel"
       aria-haspopup="listbox"
       :aria-expanded="isSelecting"
       :aria-controls="optionsId"
@@ -1067,6 +1069,7 @@ defineExpose({
             type="text"
             class="o-select-input o-select-input--tag"
             :readonly="!showTagInput"
+            :aria-label="comboboxAriaLabel"
             @input="onInput"
             @compositionstart="onCompositionStart"
             @compositionend="onCompositionEnd"
