@@ -861,10 +861,13 @@ defineExpose<VirtualListExpose>({
   <div :class="{ 'o-horizontal': isHorizontal, 'o-scrollbar-wrapper': scrollbarProps }" class="o-virtual-list">
     <div ref="wrapperRef" class="o-virtual-list-wrapper" @scroll.passive="onScroll">
       <div :style="contentStyle" class="o-virtual-body">
-        <div :style="renderListStyle" class="o-virtual-render-list">
+        <div :style="renderListStyle" :role="props.semanticRole ? 'list' : undefined" class="o-virtual-render-list">
           <template v-for="item in renderList" :key="item.index">
             <VirtualListItem
               :index="item.index"
+              :semantic-role="props.semanticRole"
+              :set-size="props.semanticRole ? listData.length || undefined : undefined"
+              :pos-in-set="props.semanticRole ? item.index + 1 : undefined"
               :layout="props.layout"
               :main-size="isFixedHeight || isFunctionHeight ? getItemHeight(item.data, item.index) : undefined"
               :observe-resize="isDynamicMode"

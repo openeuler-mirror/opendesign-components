@@ -92,6 +92,19 @@ export const virtualListProps = {
     type: Number as PropType<number | null>,
     default: null,
   },
+  /**
+   * @zh-CN 是否输出 list/listitem 语义。当 OVirtualList 被嵌在其它 ARIA 复合容器（如 role="listbox"）内时，
+   * 中间的 list/listitem 层会破坏宿主容器「子节点只能是 option」的 ARIA 契约，应传 false 关闭
+   * @en-US Whether to render list/listitem semantics. When OVirtualList is nested inside another ARIA
+   * composite container (e.g. role="listbox"), the intermediate list/listitem layer breaks the host's
+   * "children must be options" ARIA contract; pass false to disable
+   * @default true
+   * @since NEXT
+   */
+  semanticRole: {
+    type: Boolean,
+    default: true,
+  },
 };
 export type VirtualListPropsT = ExtractPropTypes<typeof virtualListProps>;
 
