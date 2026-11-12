@@ -2,6 +2,8 @@ export default {
   locale: 'en-US',
   // common
   'common.more': 'more',
+  // carousel
+  'carousel.slide': 'Slide {0} of {1}',
   'common.empty': 'No Data',
   'common.loading': 'Loading...',
   'common.checkAll': 'Check All',

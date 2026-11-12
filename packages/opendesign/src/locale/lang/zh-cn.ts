@@ -2,6 +2,8 @@ export default {
   locale: 'zh-CN',
   // common
   'common.more': '更多',
+  // carousel
+  'carousel.slide': '第 {0} / {1} 张',
   'common.empty': '暂无数据',
   'common.loading': '加载中...',
   'common.checkAll': '全选',

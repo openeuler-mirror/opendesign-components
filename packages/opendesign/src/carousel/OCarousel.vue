@@ -7,6 +7,7 @@ import { carouselInjectKey } from './provide';
 
 import { carouselProps } from './types';
 import Effect from './effects/effect';
+import { useI18n } from '../locale';
 
 const props = defineProps(carouselProps);
 
@@ -64,6 +65,9 @@ const fixIndex = (idx: number) => {
 };
 
 const activeIndex = ref(props.activeIndex ? fixIndex(props.activeIndex) : 0);
+
+// 指示器可访问名称：第 N / 共 M 张（读屏可定位当前幻灯片位置）
+const { t } = useI18n();
 
 watch(
   () => props.activeIndex,
@@ -365,7 +369,14 @@ defineExpose({
       </div>
     </div>
     <div v-if="!props.hideIndicator" class="o-carousel-indicator-wrap" :class="props.indicatorWrapClass">
-      <div v-for="(item, idx) in total" :key="item" class="o-carousel-indicator-item" @click="props.indicatorClick && activeSlide(idx)">
+      <div
+        v-for="(item, idx) in total"
+        :key="item"
+        class="o-carousel-indicator-item"
+        :aria-label="t('carousel.slide', idx + 1, total)"
+        :aria-current="item - 1 === activeIndex || undefined"
+        @click="props.indicatorClick && activeSlide(idx)"
+      >
         <slot name="indicator" :active="item - 1 === activeIndex" :index="idx">
           <div
             class="o-carousel-indicator-bar"
