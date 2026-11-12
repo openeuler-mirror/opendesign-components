@@ -74,6 +74,14 @@ export const searchProps = {
     type: String,
   },
   /**
+   * @zh-CN 无障碍标签，为搜索地标（role=search）提供可访问名称（未传时回退 i18n 默认词条）
+   * @en-US Accessibility label for the search landmark (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
    * @zh-CN 头部筛选框占位符
    * @en-US Head selection box placeholder.
    */
