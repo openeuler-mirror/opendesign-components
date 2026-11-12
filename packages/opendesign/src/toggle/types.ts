@@ -43,6 +43,14 @@ export const buttonToggleProps = {
     type: Boolean,
     default: false,
   },
+  /**
+   * @zh-CN 无障碍标签，为独立使用的开关按钮提供可访问名称；父级（ORadioGroup 等）持语义时自动让位不输出
+   * @en-US Accessibility label for standalone usage; yielded automatically when the host owns semantics
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type ButtonToggleProps = ExtractPropTypes<typeof buttonToggleProps>;
