@@ -60,6 +60,14 @@ export const ipInputProps = {
    * @default 'outline'
    */
   variant,
+  /**
+   * @zh-CN 无障碍标签，为 IP 输入组（role=group）提供可访问名称（未传时回退 i18n 默认词条）
+   * @en-US Accessibility label for the IP input group (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 } as const;
 
 export type IpInputPropsT = ExtractPropTypes<typeof ipInputProps>;

@@ -6,10 +6,14 @@ import { ipInputProps, type IpSegment } from './types';
 import { Backspace } from '../_utils/keycode';
 import { formateToString } from '../_utils/helper';
 import { useFormField } from '../_composables/use-form-field';
+import { useI18n } from '../locale';
 
 type InstanceOfOInputT = InstanceType<typeof OInput>;
 
 const props = defineProps(ipInputProps);
+
+// IP 输入组可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条
+const { t } = useI18n();
 
 const emit = defineEmits<{
   /**
@@ -156,6 +160,7 @@ onMounted(() => {
   <InBox
     class="o-ip-input"
     role="group"
+    :aria-label="props.ariaLabel ?? t('ipInput.group')"
     :color="color"
     :size="effectiveSize"
     :disabled="effectiveDisabled"

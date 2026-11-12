@@ -19,6 +19,8 @@ export default {
   'radio.group': '单选组',
   // checkbox
   'checkbox.group': '复选组',
+  // ipInput
+  'ipInput.group': 'IP 地址',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',

@@ -19,6 +19,8 @@ export default {
   'radio.group': 'Radio group',
   // checkbox
   'checkbox.group': 'Checkbox group',
+  // ipInput
+  'ipInput.group': 'IP address',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',
