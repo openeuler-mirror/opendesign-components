@@ -41,4 +41,14 @@ describe('ARIA — 面包屑', () => {
     expect(items[0].getAttribute('aria-current')).toBeNull();
     expect(items[1].getAttribute('aria-current')).toBeNull();
   });
+
+  test('ariaLabel 显式传入时覆盖默认词条', async () => {
+    const screen = render(OBreadcrumb, {
+      props: { ariaLabel: '文档路径' },
+      slots: { default: () => h(OBreadcrumbItem, {}, () => 'Home') },
+    });
+    await flush();
+    const nav = screen.container.querySelector('.o-breadcrumb') as HTMLElement;
+    expect(nav.getAttribute('aria-label')).toBe('文档路径');
+  });
 });

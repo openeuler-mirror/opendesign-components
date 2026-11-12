@@ -8,6 +8,14 @@ export const breadcrumbProps = {
   separator: {
     type: [String, Number],
   },
+  /**
+   * @zh-CN 无障碍标签，为面包屑导航（role=navigation）提供可访问名称（未传时回退 i18n 默认词条）
+   * @en-US Accessibility label for the breadcrumb navigation (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export const breadcrumbItemProps = {
