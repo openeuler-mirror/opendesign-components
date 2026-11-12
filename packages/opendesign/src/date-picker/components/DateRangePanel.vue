@@ -6,6 +6,9 @@ import { OPopup } from '../../popup';
 import ClientOnly from '../../_components/client-only.ts';
 import { ODivider } from '../../divider';
 import { isEmptySlot } from '../../_utils/vue-utils.ts';
+import { useI18n } from '../../locale';
+
+const { t } = useI18n();
 
 import { datePickerInjectKey } from '../provide.ts';
 import { DatePickerMode } from '../types.ts';
@@ -73,6 +76,7 @@ defineExpose({
     <OPopup
       v-model:visible="visible"
       role="dialog"
+      :aria-label="t('datePicker.selectDate')"
       :class="['o-date-panel', `o-date-panel-${size}`, 'o-date-range-panel']"
       hide-close
       :target="props.target"
