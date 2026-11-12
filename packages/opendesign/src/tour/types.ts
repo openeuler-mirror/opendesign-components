@@ -109,6 +109,14 @@ export const tourProps = {
   contentStyle: {
     type: Object as PropType<CSSProperties>,
   },
+  /**
+   * @zh-CN 无障碍标签，为引导弹层（role=dialog）提供可访问名称（未传时回退 i18n 默认词条）
+   * @en-US Accessibility label for the tour dialog (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type TourPropsT = typeof tourProps;

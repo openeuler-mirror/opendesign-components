@@ -100,6 +100,7 @@ export default {
   'dateRangePicker.placeholderEnd': '结束日期',
   'dateRangePicker.selectRange': '选择日期范围',
   // tour
+  'tour.step': '引导',
   'tour.close': '关闭',
   'tour.prev': '上一步',
   'tour.next': '下一步',

@@ -12,6 +12,7 @@ import { useScreen } from '../hooks';
 import { OPopup } from '../popup';
 import type { TargetRect } from '../popup';
 import { useTarget } from './composables/use-target';
+import { useI18n } from '../locale';
 import { useMask } from './composables/use-mask';
 import { useAnchorImageColor } from './composables/use-anchor-image-color';
 import { tourProps } from './types';
@@ -25,6 +26,9 @@ defineOptions({
 });
 
 const props = defineProps(tourProps);
+
+// 引导弹层可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条
+const { t } = useI18n();
 /**
  * @zh-CN 是否显示漫游引导，双向绑定值
  * @en-US Whether to show the tour, bidirectional binding value.
@@ -182,6 +186,8 @@ provide(tourKey, {
         <OPopup
           trigger="none"
           class="o-tour-popup"
+          role="dialog"
+          :aria-label="props.ariaLabel ?? t('tour.step')"
           :visible="showTour"
           :target-rect="popupTargetRect"
           :position="mergedPosition"

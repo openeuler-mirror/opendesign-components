@@ -100,6 +100,7 @@ export default {
   'dateRangePicker.placeholderEnd': 'End date',
   'dateRangePicker.selectRange': 'Select date range',
   // tour
+  'tour.step': 'Tour',
   'tour.close': 'Close',
   'tour.prev': 'Previous',
   'tour.next': 'Next',
