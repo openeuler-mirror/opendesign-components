@@ -255,6 +255,8 @@ defineExpose({
     :tag="!!props.href ? 'a' : 'div'"
     class="o-figure"
     :href="props.href"
+    :role="props.href ? undefined : 'figure'"
+    :aria-label="props.href ? undefined : (props.ariaLabel ?? (props.alt || undefined))"
     :class="{
       'is-loading': isLoading,
       'is-error': isError,
