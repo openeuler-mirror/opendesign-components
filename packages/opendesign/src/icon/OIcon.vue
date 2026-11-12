@@ -12,6 +12,9 @@ const props = defineProps(iconProps);
         'o-icon-btn-disabled': props.disabled,
       },
     ]"
+    :role="props.button ? 'button' : undefined"
+    :aria-label="props.button ? props.ariaLabel : undefined"
+    :aria-disabled="props.button && props.disabled ? 'true' : undefined"
     :tabindex="props.button ? 0 : ''"
   >
     <slot>

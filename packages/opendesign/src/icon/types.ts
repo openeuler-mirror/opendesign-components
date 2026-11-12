@@ -28,6 +28,14 @@ export const iconProps = {
   loading: {
     type: Boolean,
   },
+  /**
+   * @zh-CN 无障碍标签，button 模式下作为图标的可访问名称（图标无文本节点，读屏需名称才能播报用途）
+   * @en-US Accessibility label serving as the icon's accessible name in button mode (icons have no text node)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export type IconPropsT = ExtractPropTypes<typeof iconProps>;
