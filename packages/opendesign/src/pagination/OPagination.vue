@@ -189,7 +189,7 @@ defineExpose({
 <template>
   <div
     role="navigation"
-    :aria-label="t('pagination.nav')"
+    :aria-label="props.ariaLabel ?? t('pagination.nav')"
     class="o-pagination"
     :class="[`o-pagination-${props.variant}`, round.class.value, { 'o-pagination-ly-simple': props.simple }]"
     :style="round.style.value"
@@ -268,7 +268,13 @@ defineExpose({
                 <OOptionList scrollbar>
                   <!-- 当下拉项大于50，采用虚拟列表 -->
                   <template v-if="item.list && item.list.length > 50">
-                    <OVirtualList :list="item.list" class="o-pagination-virtual-more-list" :scrollbar="{ showType: 'hover', size: 'small' }">
+                    <!-- more 弹层语义宿主是 OOption（role=option）：与 OSelect 虚拟路径同构，关闭 OVirtualList 的 list/listitem 中间语义层，避免在选项结构中夹入嵌套列表语义 -->
+                    <OVirtualList
+                      :list="item.list"
+                      :semantic-role="false"
+                      class="o-pagination-virtual-more-list"
+                      :scrollbar="{ showType: 'hover', size: 'small' }"
+                    >
                       <template #default="data">
                         <OOption
                           :key="data.item"
