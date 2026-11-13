@@ -55,7 +55,13 @@ provide(checkboxGroupInjectKey, {
 </script>
 
 <template>
-  <div class="o-checkbox-group" :class="`o-checkbox-group-${props.direction}`" role="group" :aria-label="props.ariaLabel ?? t('checkbox.group')">
+  <div
+    class="o-checkbox-group"
+    :class="`o-checkbox-group-${props.direction}`"
+    role="group"
+    :aria-label="props.ariaLabel ?? t('checkbox.group')"
+    :aria-describedby="props.ariaDescribedBy"
+  >
     <slot></slot>
   </div>
 </template>

@@ -197,4 +197,23 @@ describe('无障碍契约（ARIA）— 可访问名称', () => {
     const group = screen.container.querySelector('.o-radio-group') as HTMLElement;
     expect(group.getAttribute('aria-label')).toBe('性别');
   });
+
+  test('ORadioGroup ariaDescribedBy - 传入时透传到根元素 aria-describedby', async () => {
+    const screen = render(ORadioGroup, {
+      props: { ariaDescribedBy: 'gender-tip' },
+      slots: { default: () => h(ORadio, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-radio-group') as HTMLElement;
+    expect(group.getAttribute('aria-describedby')).toBe('gender-tip');
+  });
+
+  test('ORadioGroup ariaDescribedBy - 未传时不渲染 aria-describedby', async () => {
+    const screen = render(ORadioGroup, {
+      slots: { default: () => h(ORadio, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-radio-group') as HTMLElement;
+    expect(group.getAttribute('aria-describedby')).toBeNull();
+  });
 });
