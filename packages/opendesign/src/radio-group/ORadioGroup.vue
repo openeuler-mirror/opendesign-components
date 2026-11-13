@@ -59,7 +59,13 @@ provide(radioGroupInjectKey, {
 </script>
 
 <template>
-  <div class="o-radio-group" :class="[`o-radio-group-${props.direction}`]" role="radiogroup" :aria-label="props.ariaLabel ?? t('radio.group')">
+  <div
+    class="o-radio-group"
+    :class="[`o-radio-group-${props.direction}`]"
+    role="radiogroup"
+    :aria-label="props.ariaLabel ?? t('radio.group')"
+    :aria-describedby="props.ariaDescribedBy"
+  >
     <slot></slot>
   </div>
 </template>

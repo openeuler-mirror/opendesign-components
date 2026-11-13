@@ -1,7 +1,8 @@
 /**
  * OCheckboxGroup ARIA 无障碍契约测试。
  *
- * 覆盖：role=group 与可访问名称（ariaLabel 显式传入 / 未传回退 i18n 默认词条）。
+ * 覆盖：role=group、可访问名称（ariaLabel 显式传入 / 未传回退 i18n 默认词条）、
+ * 辅助描述关联（ariaDescribedBy 透传到根元素 aria-describedby）。
  */
 import { test, expect, describe } from 'vitest';
 import { render } from 'vitest-browser-vue';
@@ -37,5 +38,26 @@ describe('ARIA — OCheckboxGroup', () => {
     await flush();
     const group = screen.container.querySelector('.o-checkbox-group') as HTMLElement;
     expect(group.getAttribute('aria-label')).toBe('兴趣标签');
+  });
+});
+
+describe('ARIA — OCheckboxGroup 辅助描述关联', () => {
+  test('OCheckboxGroup ariaDescribedBy - 传入时透传到根元素 aria-describedby', async () => {
+    const screen = render(OCheckboxGroup, {
+      props: { ariaDescribedBy: 'hobby-tip' },
+      slots: { default: () => h(OCheckbox, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-checkbox-group') as HTMLElement;
+    expect(group.getAttribute('aria-describedby')).toBe('hobby-tip');
+  });
+
+  test('OCheckboxGroup ariaDescribedBy - 未传时不渲染 aria-describedby', async () => {
+    const screen = render(OCheckboxGroup, {
+      slots: { default: () => h(OCheckbox, { value: 'a' }) },
+    });
+    await flush();
+    const group = screen.container.querySelector('.o-checkbox-group') as HTMLElement;
+    expect(group.getAttribute('aria-describedby')).toBeNull();
   });
 });

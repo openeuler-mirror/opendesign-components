@@ -57,6 +57,14 @@ export const checkboxGroupProps = {
   ariaLabel: {
     type: String,
   },
+  /**
+   * @zh-CN 辅助描述元素 id，透传到根元素的 aria-describedby，用于关联表单错误提示或辅助说明文本
+   * @en-US Described-by element id forwarded to the root element's aria-describedby, used to associate form error hints or helper text
+   * @since NEXT
+   */
+  ariaDescribedBy: {
+    type: String,
+  },
 };
 
 export type CheckboxGroupPropsT = ExtractPropTypes<typeof checkboxGroupProps>;
