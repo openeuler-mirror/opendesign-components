@@ -8,6 +8,7 @@ import { test, expect, describe, afterEach, beforeEach } from 'vitest';
 import { render } from 'vitest-browser-vue';
 import { h, ref } from 'vue';
 import OTimePicker from '../OTimePicker.vue';
+import OTimeRangePicker from '../OTimeRangePicker.vue';
 import { flush, waitFor } from '../../../__tests__/_helpers/dom';
 import { setViewport } from '../../../__tests__/_helpers/viewport';
 
@@ -169,5 +170,81 @@ describe('ARIA — 时间列', () => {
     await renderAndOpen();
     const dialog = document.querySelector('.o-popup[role="dialog"]');
     expect(dialog).not.toBeNull();
+  });
+});
+
+describe('ARIA — 输入框可访问名称与表单状态', () => {
+  beforeEach(async () => {
+    await setViewport('desktop');
+  });
+  afterEach(cleanupBodyPopups);
+
+  test('OTimePicker ariaLabel - 显式传入时 input 渲染 aria-label', async () => {
+    const screen = render(OTimePicker, { props: { ariaLabel: '开始时间' } });
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLElement;
+    expect(input.getAttribute('aria-label')).toBe('开始时间');
+  });
+
+  test('OTimePicker ariaLabel - 未传时回退 placeholder 文本', async () => {
+    const screen = render(OTimePicker, { props: { placeholder: '请选择时间' } });
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLElement;
+    expect(input.getAttribute('aria-label')).toBe('请选择时间');
+  });
+
+  test('OTimePicker ariaDescribedBy - 传入时透传 input aria-describedby，未传不渲染', async () => {
+    const withId = render(OTimePicker, { props: { ariaDescribedBy: 'time-error' } });
+    await flush();
+    const withInput = withId.container.querySelector('.o_input-input') as HTMLElement;
+    expect(withInput.getAttribute('aria-describedby')).toBe('time-error');
+
+    const without = render(OTimePicker, {});
+    await flush();
+    const withoutInput = without.container.querySelector('.o_input-input') as HTMLElement;
+    expect(withoutInput.getAttribute('aria-describedby')).toBeNull();
+  });
+
+  test('OTimePicker ariaRequired - 传入 true 时 input 渲染 aria-required', async () => {
+    const screen = render(OTimePicker, { props: { ariaRequired: true } });
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
+});
+
+describe('ARIA — OTimeRangePicker 输入框可访问名称与表单状态', () => {
+  beforeEach(async () => {
+    await setViewport('desktop');
+  });
+  afterEach(cleanupBodyPopups);
+
+  /** 渲染 OTimeRangePicker 并返回开始/结束两个 input */
+  const renderRange = async (props: Record<string, unknown> = {}) => {
+    const screen = render(OTimeRangePicker as any, { props });
+    await flush();
+    const inputs = screen.container.querySelectorAll('.o_input-input');
+    return { start: inputs[0] as HTMLElement, end: inputs[1] as HTMLElement };
+  };
+
+  test('OTimeRangePicker ariaLabel - 显式传入时开始与结束输入框共用可访问名称', async () => {
+    const { start, end } = await renderRange({ ariaLabel: '服务时段' });
+    expect(start.getAttribute('aria-label')).toBe('服务时段');
+    expect(end.getAttribute('aria-label')).toBe('服务时段');
+  });
+
+  test('OTimeRangePicker ariaLabel - 未传时开始/结束分别回退各自占位文本', async () => {
+    const { start, end } = await renderRange();
+    expect(start.getAttribute('aria-label')).toBe(start.getAttribute('placeholder'));
+    expect(end.getAttribute('aria-label')).toBe(end.getAttribute('placeholder'));
+    expect(start.getAttribute('aria-label')).not.toBe(end.getAttribute('aria-label'));
+  });
+
+  test('OTimeRangePicker ariaDescribedBy/ariaRequired - 透传到开始与结束输入框', async () => {
+    const { start, end } = await renderRange({ ariaDescribedBy: 'range-error', ariaRequired: true });
+    for (const input of [start, end]) {
+      expect(input.getAttribute('aria-describedby')).toBe('range-error');
+      expect(input.getAttribute('aria-required')).toBe('true');
+    }
   });
 });

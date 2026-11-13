@@ -53,6 +53,8 @@ export type DatePickerRangeShortcutSlotProps = {
 // ── 基础 props（所有选择器共用）
 const { placeholder, inputId, disabled, readonly, size, round, color, variant } = inputProps;
 const { noResponsive, optionTitle } = selectProps;
+// 无障碍 props（与 timePickerProps 同源，保证两个选择器家族口径一致）
+const { ariaLabel, ariaDescribedBy, ariaRequired } = timePickerProps;
 
 export const basePickerProps = {
   placeholder,
@@ -65,6 +67,9 @@ export const basePickerProps = {
   variant,
   noResponsive,
   optionTitle,
+  ariaLabel,
+  ariaDescribedBy,
+  ariaRequired,
 };
 
 // ── 弹出层 props
