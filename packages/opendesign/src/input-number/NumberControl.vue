@@ -7,6 +7,10 @@ const props = defineProps<{
   type: ControlType | 'both';
   addable: boolean;
   reducible: boolean;
+  /** 增加按钮的无障碍名称（由父组件传入 i18n 词条） */
+  increaseLabel?: string;
+  /** 减少按钮的无障碍名称（由父组件传入 i18n 词条） */
+  decreaseLabel?: string;
 }>();
 
 const emits = defineEmits<{
@@ -43,7 +47,10 @@ const isDisabledWhenNotBoth = () => {
           `type-${props.type}`,
         ]"
         tabindex="-1"
-        @click="(e:MouseEvent) => onControlClick('plus', e)"
+        role="button"
+        :aria-label="props.increaseLabel"
+        :aria-disabled="!props.addable || undefined"
+        @click="(e: MouseEvent) => onControlClick('plus', e)"
       >
         <slot name="plus"><IconChevronUp class="o-input-number-icon-plus" /></slot>
       </div>
@@ -53,7 +60,10 @@ const isDisabledWhenNotBoth = () => {
           'is-disabled': !props.reducible,
         }"
         tabindex="-1"
-        @click="(e:MouseEvent) => onControlClick('minus', e)"
+        role="button"
+        :aria-label="props.decreaseLabel"
+        :aria-disabled="!props.reducible || undefined"
+        @click="(e: MouseEvent) => onControlClick('minus', e)"
       >
         <slot name="minus"><IconChevronDown class="o-input-number-icon-minus" /></slot>
       </div>
@@ -62,10 +72,13 @@ const isDisabledWhenNotBoth = () => {
       v-else
       class="o-input-number-btn"
       tabindex="-1"
+      role="button"
+      :aria-label="props.type === 'plus' ? props.increaseLabel : props.decreaseLabel"
+      :aria-disabled="isDisabledWhenNotBoth() || undefined"
       :class="{
         'is-disabled': isDisabledWhenNotBoth(),
       }"
-      @click="(e:MouseEvent) => onControlClick(props.type as ControlType, e)"
+      @click="(e: MouseEvent) => onControlClick(props.type as ControlType, e)"
     >
       <slot v-if="props.type === 'plus'" name="plus"><IconAdd /></slot>
       <slot v-if="props.type === 'minus'" name="minus"><IconMinus /></slot>

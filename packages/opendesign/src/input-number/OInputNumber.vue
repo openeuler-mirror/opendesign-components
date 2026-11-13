@@ -7,8 +7,14 @@ import { isFunction, isUndefined, isNumber } from '../_utils/is';
 import { inputNumberProps } from './types';
 import NumberControl from './NumberControl.vue';
 import { useFormField } from '../_composables/use-form-field';
+import { useI18n } from '../locale';
 
 const props = defineProps(inputNumberProps);
+
+// 控制按钮可访问名称：区分增加 / 减少操作
+const { t } = useI18n();
+const increaseLabel = computed(() => t('inputNumber.increase'));
+const decreaseLabel = computed(() => t('inputNumber.decrease'));
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number): void;
@@ -167,6 +173,7 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
     :value-on-invalid-change="valueOnInvalidChange"
     :size="effectiveSize"
     :placeholder="props.placeholder"
+    :aria-label="props.ariaLabel"
     :color="color"
     :variant="props.variant"
     :round="effectiveRound"
@@ -191,6 +198,8 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
         :type="props.controls === 'left' ? 'both' : 'minus'"
         :addable="addable"
         :reducible="reducible"
+        :increase-label="increaseLabel"
+        :decrease-label="decreaseLabel"
         @minus="(e) => onControlEvent('minus', e)"
         @plus="(e) => onControlEvent('plus', e)"
       >
@@ -208,6 +217,8 @@ const onControlEvent = (type: 'plus' | 'minus', e: MouseEvent) => {
         :type="props.controls === 'right' ? 'both' : 'plus'"
         :addable="addable"
         :reducible="reducible"
+        :increase-label="increaseLabel"
+        :decrease-label="decreaseLabel"
         @minus="(e) => onControlEvent('minus', e)"
         @plus="(e) => onControlEvent('plus', e)"
       >

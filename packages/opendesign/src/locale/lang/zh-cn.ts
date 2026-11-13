@@ -34,6 +34,9 @@ export default {
   'scrollbar.horizontal': '水平滚动条',
   // anchor
   'anchor.group': '页内导航',
+  // inputNumber
+  'inputNumber.increase': '增加',
+  'inputNumber.decrease': '减少',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',

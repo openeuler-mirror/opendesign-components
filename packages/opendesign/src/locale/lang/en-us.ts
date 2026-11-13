@@ -34,6 +34,9 @@ export default {
   'scrollbar.horizontal': 'Horizontal scrollbar',
   // anchor
   'anchor.group': 'Page navigation',
+  // inputNumber
+  'inputNumber.increase': 'Increase',
+  'inputNumber.decrease': 'Decrease',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',
