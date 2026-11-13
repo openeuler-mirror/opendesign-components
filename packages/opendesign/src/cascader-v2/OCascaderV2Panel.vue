@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, watch } from 'vue';
+import { computed, inject, ref, useId, watch, watchEffect, onBeforeUnmount } from 'vue';
 import { OScroller } from '../scrollbar';
 import { ODivider } from '../divider';
 import { IconLoading } from '../_utils/icons';
@@ -26,6 +26,17 @@ const filterValue = cascaderV2Inject?.filterValue;
 const isSelecting = cascaderV2Inject?.isSelecting;
 const isLoading = cascaderV2Inject?.loading;
 const cascaderTree = new CascaderTree();
+
+/** 面板内选项 DOM id 前缀（SSR 友好），生成规则与高亮上报同源，保证指向一致 */
+const panelOptionIdPrefix = useId();
+
+/**
+ * 生成选项 DOM id：scope 区分筛选结果列表与各级列，index 为列表内下标
+ * @param scope 列标识（筛选列表为 'f'，级联列为 'c0'/'c1'/...）
+ * @param index 列表内下标
+ * @returns 选项 DOM id
+ */
+const optionDomId = (scope: string, index: number) => `${panelOptionIdPrefix}-${scope}-${index}`;
 
 const ROOT_KEY = '__root__';
 const lazyLoadState = ref<Record<string, 'loading' | 'loaded' | 'error'>>({});
@@ -137,6 +148,38 @@ const filteredOptions = computed(() => {
       isActive: selectedVal.value.includes(node.value),
       isLeaf: node.isLeaf,
     }));
+});
+
+/**
+ * combobox 高亮项 DOM id（aria-activedescendant 指向值）：
+ * 当前无键盘导航，高亮跟随选中值——列模式取末列的首个选中项（多选列模式的选中叶子
+ * 由勾选框镜像，aria-selected 条件不同，但均为视觉可辨的选中态），
+ * 筛选模式取搜索结果中的首个选中项，无选中时为 undefined。
+ * 键盘层（方向键移动高亮）归 major 批次，届时仅需替换本状态的驱动源。
+ */
+const activeOptionDomId = computed(() => {
+  // 加载态面板只渲染加载图标、不渲染任何选项列表，此时不能输出高亮 id（否则悬空 IDREF）
+  if (isLoading?.value) return undefined;
+  if (props.filterable && filterValue?.value) {
+    const filterIdx = filteredOptions.value.findIndex((option) => option.isActive);
+    return filterIdx > -1 ? optionDomId('f', filterIdx) : undefined;
+  }
+  const columns = panelInfo.value ?? [];
+  const lastColumn = columns[columns.length - 1];
+  if (!lastColumn) return undefined;
+  const lastIdx = lastColumn.findIndex((option) => option.isActive);
+  return lastIdx > -1 ? optionDomId(`c${columns.length - 1}`, lastIdx) : undefined;
+});
+
+// 高亮项 DOM id 上报给选择框 input 的 aria-activedescendant
+watchEffect(() => {
+  const target = cascaderV2Inject?.activeOptionDomId;
+  if (target) target.value = activeOptionDomId.value;
+});
+// 面板卸载（浮层收起且 unmountOnHide）时清空上报，避免残留悬空引用
+onBeforeUnmount(() => {
+  const target = cascaderV2Inject?.activeOptionDomId;
+  if (target) target.value = undefined;
 });
 
 const updateSelectedValue = (option: { label: string; value: string | number }, doSelect: boolean = true, path?: CascaderV2NodePathT) => {
@@ -638,9 +681,15 @@ const handleClick = (option: { label: string; value: string | number; disabled?:
     <template v-else-if="props.filterable && filterValue">
       <template v-if="filteredOptions.length">
         <OScroller class="o-cascader-v2-panel-scroller" wrap-class="o-cascader-v2-panel-container" show-type="hover" size="small" disabled-x>
-          <ul role="listbox" class="o-cascader-v2-options" :class="{ 'o-cascader-v2-options-filterable': props.filterable }">
+          <ul
+            role="listbox"
+            class="o-cascader-v2-options"
+            :class="{ 'o-cascader-v2-options-filterable': props.filterable }"
+            :aria-multiselectable="isMultiple || undefined"
+          >
             <li
-              v-for="option in filteredOptions"
+              v-for="(option, optionIdx) in filteredOptions"
+              :id="optionDomId('f', optionIdx)"
               :key="option.value"
               role="option"
               :aria-selected="option.isActive || undefined"
@@ -676,9 +725,10 @@ const handleClick = (option: { label: string; value: string | number; disabled?:
       <template v-for="(columnInfo, index) in panelInfo" :key="index">
         <ODivider v-if="index > 0" direction="v" class="o-cascader-v2-panel-divider" />
         <OScroller class="o-cascader-v2-panel-scroller" wrap-class="o-cascader-v2-panel-container" show-type="hover" size="small" disabled-x>
-          <ul role="listbox" class="o-cascader-v2-options">
+          <ul role="listbox" class="o-cascader-v2-options" :aria-multiselectable="isMultiple || undefined">
             <li
-              v-for="option in columnInfo"
+              v-for="(option, optionIdx) in columnInfo"
+              :id="optionDomId(`c${index}`, optionIdx)"
               :key="option.value"
               role="option"
               :aria-selected="(option.isActive && (!option.isLeaf || !isMultiple)) || undefined"
