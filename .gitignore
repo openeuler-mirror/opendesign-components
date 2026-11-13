@@ -41,6 +41,7 @@ temp
 !.agents/skills/README.md
 !.agents/skills/clean-code/
 !.agents/skills/component-docs/
+!.agents/skills/component-api/
 !.agents/skills/component-testing/
 !.agents/skills/global-utilities/
 !.agents/skills/release-note/
