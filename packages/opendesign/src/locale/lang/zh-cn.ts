@@ -29,6 +29,9 @@ export default {
   'rate.group': '评分',
   // menu
   'menu.group': '菜单',
+  // scrollbar
+  'scrollbar.vertical': '垂直滚动条',
+  'scrollbar.horizontal': '水平滚动条',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',

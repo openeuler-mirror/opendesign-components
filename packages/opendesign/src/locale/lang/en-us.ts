@@ -29,6 +29,9 @@ export default {
   'rate.group': 'Rating',
   // menu
   'menu.group': 'Menu',
+  // scrollbar
+  'scrollbar.vertical': 'Vertical scrollbar',
+  'scrollbar.horizontal': 'Horizontal scrollbar',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',
