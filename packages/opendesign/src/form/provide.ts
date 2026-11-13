@@ -35,6 +35,8 @@ export interface formItemCtx {
   round?: MaybeRefOrGetter<RoundT | undefined>;
   clearable?: MaybeRefOrGetter<boolean | undefined>;
   showMessage?: MaybeRefOrGetter<boolean | undefined>;
+  /** 校验消息元素 id：消息实际渲染时非空，供子控件 aria-describedby 关联 */
+  messageId?: MaybeRefOrGetter<string | undefined>;
 }
 
 export const formItemInjectKey: InjectionKey<formItemCtx> = Symbol('provide-form-item');

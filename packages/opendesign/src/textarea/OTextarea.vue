@@ -54,6 +54,7 @@ const {
   effectiveSize,
   effectiveRound,
   effectiveClearable,
+  describedById,
   inputId: textareaId,
   isFocus,
   triggerFocus,
@@ -68,6 +69,12 @@ const inTextareaRef = ref<InstanceType<typeof InTextarea>>();
  * 校验失败状态：显式传 ariaInvalid 优先，否则 color 为 danger 时联动镜像（校验失败状态）
  */
 const effectiveAriaInvalid = computed(() => props.ariaInvalid ?? (color.value === 'danger' || undefined));
+
+/**
+ * 辅助描述关联：显式传入的 ariaDescribedBy 与表单项校验消息 id 共存拼接
+ * （显式在前、自动关联在后，符合 aria 规范多 id 空格分隔语义）
+ */
+const effectiveAriaDescribedBy = computed(() => [props.ariaDescribedBy, describedById.value].filter(Boolean).join(' ') || undefined);
 
 const onInput = (e: Event) => {
   emits('input', e);
@@ -171,12 +178,12 @@ defineExpose({
                   // aria 透传 props：转发到 InTextarea 的原生 textarea
                   'role',
                   'ariaLabel',
-                  'ariaDescribedBy',
                   'ariaRequired',
                 ]),
                 disabled: effectiveDisabled,
                 clearable: effectiveClearable,
                 ariaInvalid: effectiveAriaInvalid,
+                ariaDescribedBy: effectiveAriaDescribedBy,
                 onChange: onChange,
                 onInput: onInput,
                 onFocus: onFocus,

@@ -58,6 +58,12 @@ export function useFormField(props: Partial<FormFieldProps>, emit?: FormFieldEmi
   });
 
   const inputId = ref(props.inputId);
+
+  /**
+   * @description 校验消息元素 id：表单项消息实际渲染时非空，
+   * 供控件层作为 aria-describedby 的回退关联（读屏聚焦控件时播报校验错误）
+   */
+  const describedById = computed<string | undefined>(() => toValue(formItem?.messageId));
   onMounted(() => {
     if (!inputId.value) {
       inputId.value = uniqueId();
@@ -127,6 +133,7 @@ export function useFormField(props: Partial<FormFieldProps>, emit?: FormFieldEmi
     effectiveSize,
     effectiveRound,
     effectiveClearable,
+    describedById,
     inputId,
     isFocus,
     onFocus,

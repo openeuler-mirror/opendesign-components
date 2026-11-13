@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, provide, inject, onMounted, onBeforeUnmount, toValue } from 'vue';
+import { computed, ref, watch, provide, inject, onMounted, onBeforeUnmount, toValue, useAttrs, useId } from 'vue';
 import { RequiredRuleT, formItemProps, TriggerT, FieldResultT, ValidateStatusT, ValidatorT } from './types';
 import { RoundT, SizeT } from '../_utils/types';
 import { formItemInjectKey, formInjectKey, formCtx } from './provide';
@@ -301,6 +301,23 @@ onBeforeUnmount(() => {
   }
 });
 
+const attrs = useAttrs();
+
+/** 源头 id 兜底（SSR 友 useId）：用户未在 OFormItem 上传 id 时使用 */
+const fallbackItemId = useId();
+/**
+ * 表单项源头 id：用户传入的 id（经 attrs 透传到根元素）优先，否则 useId 兜底。
+ * 同一表单项派生的其他 id（校验消息 id 等）均以它为源头，保证互链 id 同源、DOM 上可读
+ */
+const itemId = computed(() => (attrs.id as string) || fallbackItemId);
+/**
+ * 校验消息元素 id：从表单项源头 id 派生（`{itemId}-message`），
+ * 消息实际渲染时供子控件 aria-describedby 关联（读屏播报校验错误）
+ */
+const messageId = computed(() => `${itemId.value}-message`);
+/** 消息是否实际渲染（含 showMessage 与消息内容判定）——仅此时向子控件提供关联 id */
+const messageRendered = computed(() => mergedShowMessage.value && !!fieldResult.value?.message?.length);
+
 provide(formItemInjectKey, {
   fieldHandlers,
   fieldResult: effectiveFieldResult,
@@ -309,6 +326,7 @@ provide(formItemInjectKey, {
   round: mergedRound,
   clearable: mergedClearable,
   showMessage: mergedShowMessage,
+  messageId: computed(() => (messageRendered.value ? messageId.value : undefined)),
 });
 </script>
 <template>
@@ -340,7 +358,13 @@ provide(formItemInjectKey, {
       <div class="o-form-item-main-wrap">
         <slot></slot>
       </div>
-      <div v-if="mergedShowMessage && fieldResult?.message?.length" class="o-form-item-message" :class="`type-${fieldResult.type}`">
+      <div
+        v-if="messageRendered"
+        :id="messageId"
+        :role="fieldResult?.type === 'danger' ? 'alert' : undefined"
+        class="o-form-item-message"
+        :class="`type-${fieldResult.type}`"
+      >
         <slot name="message" :message="fieldResult?.message" :type="fieldResult?.type">
           <div v-if="!isArray(fieldResult?.message)">{{ fieldResult?.message }}</div>
           <template v-else>
