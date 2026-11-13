@@ -34,6 +34,31 @@ export const timePickerProps = {
   noResponsive,
   optionTitle,
   /**
+   * @zh-CN 无障碍标签，为输入框提供可访问名称（未传时回退占位文本；区间选择器未传时开始/结束分别回退各自占位文本）
+   * @en-US Accessibility label for the input (falls back to the placeholder text when not provided; for range pickers, the start/end inputs fall back to their own placeholders respectively)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
+  /**
+   * @zh-CN 辅助描述元素 id，透传到输入框的 aria-describedby，用于关联表单错误提示/辅助文本
+   * @en-US Described-by element id forwarded to aria-describedby of the input, used to associate error hints or helper text
+   * @since NEXT
+   */
+  ariaDescribedBy: {
+    type: String,
+  },
+  /**
+   * @zh-CN 必填状态，透传到输入框的 aria-required
+   * @en-US Required state forwarded to aria-required of the input
+   * @since NEXT
+   */
+  ariaRequired: {
+    type: [Boolean, String] as PropType<boolean | string | undefined>,
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
+  /**
    * @zh-CN 时间格式
    * @en-US Time format.
    * @default 'HH:mm:ss'
@@ -177,6 +202,9 @@ const {
   disabledSeconds,
   minTime,
   maxTime,
+  ariaLabel,
+  ariaDescribedBy,
+  ariaRequired,
 } = timePickerProps;
 
 export type TimePickerPropsT = ExtractPropTypes<typeof timePickerProps>;
@@ -191,6 +219,9 @@ export const timeRangePickerProps = {
   variant,
   noResponsive,
   optionTitle,
+  ariaLabel,
+  ariaDescribedBy,
+  ariaRequired,
   format,
   trigger,
   clearable,

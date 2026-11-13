@@ -10,6 +10,10 @@ import { render } from 'vitest-browser-vue';
 import { h, ref } from 'vue';
 import dayjs from 'dayjs';
 import ODatePicker from '../ODatePicker.vue';
+import ODateRangePicker from '../ODateRangePicker.vue';
+import ODateTimeRangePicker from '../ODateTimeRangePicker.vue';
+import OMonthRangePicker from '../OMonthRangePicker.vue';
+import OYearRangePicker from '../OYearRangePicker.vue';
 import { flush, waitFor } from '../../../__tests__/_helpers/dom';
 import { setViewport } from '../../../__tests__/_helpers/viewport';
 
@@ -147,4 +151,91 @@ describe('ARIA — 日历', () => {
     pickerRef.value.blur();
     await waitFor(() => input.getAttribute('aria-expanded') === 'false');
   });
+});
+
+describe('ARIA — 输入框可访问名称与表单状态', () => {
+  beforeEach(async () => {
+    await setViewport('desktop');
+  });
+  afterEach(cleanupBodyPopups);
+
+  test('ODatePicker ariaLabel - 显式传入时 input 渲染 aria-label', async () => {
+    const screen = render(ODatePicker, { props: { ariaLabel: '入住日期' } });
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLElement;
+    expect(input.getAttribute('aria-label')).toBe('入住日期');
+  });
+
+  test('ODatePicker ariaLabel - 未传时回退占位文本（i18n 默认词条）', async () => {
+    const screen = render(ODatePicker, {});
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLElement;
+    expect(input.getAttribute('aria-label')).toBeTruthy();
+    expect(input.getAttribute('aria-label')).toBe(input.getAttribute('placeholder'));
+  });
+
+  test('ODatePicker ariaDescribedBy - 传入时透传 input aria-describedby，未传不渲染', async () => {
+    const withId = render(ODatePicker, { props: { ariaDescribedBy: 'date-error' } });
+    await flush();
+    const withInput = withId.container.querySelector('.o_input-input') as HTMLElement;
+    expect(withInput.getAttribute('aria-describedby')).toBe('date-error');
+
+    const without = render(ODatePicker, {});
+    await flush();
+    const withoutInput = without.container.querySelector('.o_input-input') as HTMLElement;
+    expect(withoutInput.getAttribute('aria-describedby')).toBeNull();
+  });
+
+  test('ODatePicker ariaRequired - 传入 true 时 input 渲染 aria-required', async () => {
+    const screen = render(ODatePicker, { props: { ariaRequired: true } });
+    await flush();
+    const input = screen.container.querySelector('.o_input-input') as HTMLElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
+});
+
+describe('ARIA — 区间选择器输入框可访问名称与表单状态', () => {
+  beforeEach(async () => {
+    await setViewport('desktop');
+  });
+  afterEach(cleanupBodyPopups);
+
+  // 四个区间组件（date / datetime / month / year）共用同一 InInput 模板形态，
+  // 参数化循环逐个验证透传链路
+  const RANGE_PICKERS = [
+    { name: 'ODateRangePicker', comp: ODateRangePicker },
+    { name: 'ODateTimeRangePicker', comp: ODateTimeRangePicker },
+    { name: 'OMonthRangePicker', comp: OMonthRangePicker },
+    { name: 'OYearRangePicker', comp: OYearRangePicker },
+  ] as const;
+
+  /** 渲染区间选择器并返回开始/结束两个 input */
+  const renderRange = async (comp: unknown, props: Record<string, unknown> = {}) => {
+    const screen = render(comp as any, { props });
+    await flush();
+    const inputs = screen.container.querySelectorAll('.o_input-input');
+    return { start: inputs[0] as HTMLElement, end: inputs[1] as HTMLElement };
+  };
+
+  for (const { name, comp } of RANGE_PICKERS) {
+    test(`${name} ariaLabel - 显式传入时开始与结束输入框共用可访问名称`, async () => {
+      const { start, end } = await renderRange(comp, { ariaLabel: '出差时段' });
+      expect(start.getAttribute('aria-label')).toBe('出差时段');
+      expect(end.getAttribute('aria-label')).toBe('出差时段');
+    });
+
+    test(`${name} ariaLabel - 未传时开始/结束分别回退各自占位文本`, async () => {
+      const { start, end } = await renderRange(comp);
+      expect(start.getAttribute('aria-label')).toBe(start.getAttribute('placeholder'));
+      expect(end.getAttribute('aria-label')).toBe(end.getAttribute('placeholder'));
+    });
+
+    test(`${name} ariaDescribedBy/ariaRequired - 透传到开始与结束输入框`, async () => {
+      const { start, end } = await renderRange(comp, { ariaDescribedBy: 'range-error', ariaRequired: true });
+      for (const input of [start, end]) {
+        expect(input.getAttribute('aria-describedby')).toBe('range-error');
+        expect(input.getAttribute('aria-required')).toBe('true');
+      }
+    });
+  }
 });
