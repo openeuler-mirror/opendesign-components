@@ -16,6 +16,23 @@
 | 布局组件给 landmark(`main`/`nav`/`aside`/`article`/`section`/`header`/`footer`)            | a 防御             | 中    | 低    | WHATWG §4.3      |
 | 稳定 `data-*` 命名(`data-o-component`/`data-o-part`)                                       | b(仅读 DOM 的代理) | 低    | 低    | 弱,不进 a11y 树  |
 
+## 内链 id 的生成与绑定(`aria-labelledby`/`aria-controls`/`aria-describedby` 的 id 从哪来)
+
+ARIA 互链需要一个 id 锚点(触发器↔菜单、tab↔panel、label↔控件)。id 怎么来,看它绑在哪个元素上,只有两种情况:
+
+| 情况                                                                                             | 做法                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| id 绑在根元素上(模板里给根元素写了 `:id`)                                                        | `useAttrs().id` 优先,没传用 `useId()` 兜底,**不声明 `id` prop**。用户写的 `<Xxx id="foo">` 本来就会透传到根元素,读一下它,互链两侧就同源了 |
+| id 要绑在非根元素上,或用户需要在自己的代码里引用它(`label for=`/`getElementById`/外部 aria 关联) | 声明 `id` prop,`props.id ?? useId()` 兜底,并在模板里手动绑定到目标元素                                                                    |
+
+硬约束:
+
+- 声明 `id` prop 后,Vue 不再把它透传到 DOM(prop 不进 `attrs`)——必须在模板里手动绑。忘绑 = DOM 上没有 id,静默失效,不报错。
+- 兜底一律用 Vue ≥3.5 的 `useId()`(SSR 友好)。不要用 `Math.random()` 或模块级自增计数器:SSR 下会同页重复,且每次渲染变值。
+- 读 attrs 用 `useAttrs()`,不要 `getCurrentInstance()?.attrs`(后者是逃生舱 API,拿 `uid`/`vnode` 这类东西才用)。
+- 声明了 `id` prop 的,把派生规则(如 `` `${id}-nav` ``)写进 JSDoc 当契约;测试里加一条:用户传 id 时,互链两侧的 id 必须一致,不能被内部 useId 换掉。
+- `aria-*` 属性默认靠 attrs 透传就够;只有组件要按内部状态增删改写时才声明为 prop(如 `aria-expanded` 跟着展开状态走)。
+
 ## 不要做(明确排除)
 
 - 不在组件内加 JSON-LD/schema.org —— Google 说对 AI Overviews 无益;组件不带页面级实体。
