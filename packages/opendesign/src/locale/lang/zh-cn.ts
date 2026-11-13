@@ -27,6 +27,8 @@ export default {
   'search.group': '搜索',
   // rate
   'rate.group': '评分',
+  // menu
+  'menu.group': '菜单',
   // pagination
   'pagination.goto': '前往',
   'pagination.nav': '分页',

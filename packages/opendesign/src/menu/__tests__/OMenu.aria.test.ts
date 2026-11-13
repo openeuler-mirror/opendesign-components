@@ -87,4 +87,18 @@ describe('ARIA — 菜单项禁用镜像', () => {
     expect(children.getAttribute('id')).toBe(controls);
     expect(children.getAttribute('role')).toBe('menu');
   });
+
+  test('未传 ariaLabel 时菜单回退 i18n 默认词条，显式传入时覆盖', async () => {
+    const renderMenu = (ariaLabel?: string) =>
+      render(OMenu, {
+        props: { modelValue: 'a', ...(ariaLabel ? { ariaLabel } : {}) },
+        slots: { default: () => [h(OMenuItem, { value: 'a' })] },
+      });
+    const bare = renderMenu();
+    await flush();
+    expect((bare.container.querySelector('.o-menu') as HTMLElement).getAttribute('aria-label')).toBeTruthy();
+    const explicit = renderMenu('导航菜单');
+    await flush();
+    expect((explicit.container.querySelector('.o-menu') as HTMLElement).getAttribute('aria-label')).toBe('导航菜单');
+  });
 });
