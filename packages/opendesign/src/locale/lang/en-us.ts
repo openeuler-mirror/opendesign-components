@@ -32,6 +32,8 @@ export default {
   // scrollbar
   'scrollbar.vertical': 'Vertical scrollbar',
   'scrollbar.horizontal': 'Horizontal scrollbar',
+  // anchor
+  'anchor.group': 'Page navigation',
   // pagination
   'pagination.goto': 'Go to',
   'pagination.nav': 'Pagination',

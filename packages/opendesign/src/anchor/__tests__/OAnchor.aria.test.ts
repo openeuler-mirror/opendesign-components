@@ -85,4 +85,13 @@ describe('ARIA — OAnchor', () => {
     expect(ev.defaultPrevented).toBe(true);
     expect(location.hash).not.toBe('#anc-target');
   });
+
+  test('未传 ariaLabel 时回退 i18n 默认词条，显式传入时覆盖', async () => {
+    const bare = render(OAnchor, {});
+    await flush();
+    expect((bare.container.querySelector('.o-anchor') as HTMLElement).getAttribute('aria-label')).toBeTruthy();
+    const explicit = render(OAnchor, { props: { ariaLabel: '本页目录' } });
+    await flush();
+    expect((explicit.container.querySelector('.o-anchor') as HTMLElement).getAttribute('aria-label')).toBe('本页目录');
+  });
 });

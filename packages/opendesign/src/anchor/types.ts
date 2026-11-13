@@ -62,6 +62,14 @@ export const anchorProps = {
     type: Boolean,
     default: true,
   },
+  /**
+   * @zh-CN 无障碍标签，为锚点导航（role=navigation）提供可访问名称（未传时回退 i18n 默认词条）
+   * @en-US Accessibility label for the anchor navigation (falls back to i18n default when not provided)
+   * @since NEXT
+   */
+  ariaLabel: {
+    type: String,
+  },
 };
 
 export const anchorItemProps = {

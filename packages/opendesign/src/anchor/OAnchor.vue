@@ -6,8 +6,12 @@ import { isString, isUndefined, isWindow, isCurrentPageLink } from '../_utils/is
 import { checkElementOverflowHorizontal, getCssVariable, getScroll, getScrollParents, scrollTo } from '../_utils/dom';
 import { throttleRAF } from '../_utils/helper';
 import { useResizeObserver } from '../hooks/use-resize-observer';
+import { useI18n } from '../locale';
 
 const props = defineProps(anchorProps);
+
+// 锚点导航可访问名称：显式 ariaLabel 优先，未传回退 i18n 默认词条（landmark 需名称才可被读屏区分）
+const { t } = useI18n();
 
 const emits = defineEmits<{
   /**
@@ -349,7 +353,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="anchorRef" role="navigation" :class="['o-anchor', `o-anchor-${props.layout}`, `o-anchor-${props.size}`, isAnchorStickying && `o-anchor-stickying`]">
+  <div
+    ref="anchorRef"
+    role="navigation"
+    :aria-label="props.ariaLabel ?? t('anchor.group')"
+    :class="['o-anchor', `o-anchor-${props.layout}`, `o-anchor-${props.size}`, isAnchorStickying && `o-anchor-stickying`]"
+  >
     <div v-if="props.layout === 'v'" class="o-anchor-line">
       <div class="o-anchor-indicator" :style="indicatorStyle"></div>
     </div>
