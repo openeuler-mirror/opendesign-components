@@ -402,3 +402,80 @@ describe('ARIA — 虚拟模式 listbox 契约', () => {
     expect(options.length).toBeGreaterThan(0);
   });
 });
+
+describe('ARIA — 表单校验状态透传', () => {
+  beforeEach(async () => {
+    await setViewport('desktop');
+  });
+  afterEach(cleanupBodyPopups);
+
+  test('OSelect ariaDescribedBy - 传入时透传到主输入框 aria-describedby', async () => {
+    const screen = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], ariaDescribedBy: 'city-error' },
+    });
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-describedby')).toBe('city-error');
+  });
+
+  test('OSelect ariaRequired - 传入 true 时主输入框渲染 aria-required', async () => {
+    const screen = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], ariaRequired: true },
+    });
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
+
+  test('OSelect ariaInvalid - 传入 true 时主输入框渲染 aria-invalid', async () => {
+    const screen = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], ariaInvalid: true },
+    });
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+  });
+
+  test('OSelect ariaInvalid - 校验重新通过显式传 false 时仍渲染 aria-invalid="false"', async () => {
+    const screen = render(OSelect, {
+      props: { options: [{ label: 'A', value: 'a' }], ariaInvalid: false },
+    });
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-invalid')).toBe('false');
+  });
+
+  test('OSelect 三项状态 - 未传时不渲染对应属性', async () => {
+    const screen = render(OSelect, { props: { options: [{ label: 'A', value: 'a' }] } });
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-describedby')).toBeNull();
+    expect(input.getAttribute('aria-required')).toBeNull();
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+  });
+
+  test('OSelect 多选内联搜索框 - 同步透传 aria-describedby / required / invalid', async () => {
+    const screen = render(OSelect, {
+      props: {
+        multiple: true,
+        modelValue: ['a'],
+        filterable: true,
+        options: [
+          { label: 'A', value: 'a' },
+          { label: 'B', value: 'b' },
+        ],
+        ariaDescribedBy: 'tags-error',
+        ariaRequired: true,
+        ariaInvalid: true,
+      },
+    });
+    await flush();
+    const selectEl = screen.container.querySelector('.o-select') as HTMLElement;
+    await selectEl.click();
+    await flush();
+    const tagInput = screen.container.querySelector('.o-select-input--tag') as HTMLElement;
+    expect(tagInput.getAttribute('aria-describedby')).toBe('tags-error');
+    expect(tagInput.getAttribute('aria-required')).toBe('true');
+    expect(tagInput.getAttribute('aria-invalid')).toBe('true');
+  });
+});

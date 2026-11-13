@@ -143,6 +143,32 @@ export const selectProps = {
     type: String,
   },
   /**
+   * @zh-CN 辅助描述元素 id，透传到输入框的 aria-describedby，用于关联表单错误提示/辅助文本
+   * @en-US Described-by element id forwarded to aria-describedby of the input, used to associate error hints or helper text
+   * @since NEXT
+   */
+  ariaDescribedBy: {
+    type: String,
+  },
+  /**
+   * @zh-CN 校验失败状态，透传到输入框的 aria-invalid；显式传 false（校验重新通过）也会渲染
+   * @en-US Invalid state forwarded to aria-invalid of the input; explicit false (validation passed again) is also rendered
+   * @since NEXT
+   */
+  ariaInvalid: {
+    type: [Boolean, String] as PropType<boolean | string | undefined>,
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
+  /**
+   * @zh-CN 必填状态，透传到输入框的 aria-required
+   * @en-US Required state forwarded to aria-required of the input
+   * @since NEXT
+   */
+  ariaRequired: {
+    type: [Boolean, String] as PropType<boolean | string | undefined>,
+    default: undefined, // 覆盖 Boolean 类型的隐式 false，缺省时不渲染该属性
+  },
+  /**
    * @zh-CN 支持多选
    * @en-US Support multiple selections.
    */
