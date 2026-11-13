@@ -20,6 +20,17 @@ export const optionProps = {
     default: '',
   },
   /**
+   * @zh-CN 选项根元素 id
+   * @en-US id of the option root element
+   * @description 显式传入时直接作为根元素 id；未传入时内部 useId 生成，
+   * 供 combobox 的 aria-activedescendant 指向（注册上报给 OSelect）
+   * @since NEXT
+   */
+  id: {
+    type: String,
+    default: undefined,
+  },
+  /**
    * @zh-CN 支持选项禁用
    * @en-US Disabled support options.
    */

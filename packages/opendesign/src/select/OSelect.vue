@@ -256,7 +256,7 @@ const activeOptionValue = computed<string | number | undefined>(() => {
 /** 高亮项的 DOM id：选项展开且映射存在时非空，透传给 combobox input */
 const activeDescendantId = computed<string | undefined>(() => {
   if (!isSelecting.value) return undefined;
-  return optionInfoMap.get(activeOptionValue.value)?.domId;
+  return optionInfoMap.get(activeOptionValue.value)?.id;
 });
 /** combobox 可访问名称：显式 ariaLabel 优先，未传回退 placeholder；主输入框与多选 tag 内联搜索框共用 */
 const comboboxAriaLabel = computed<string | undefined>(() => props.ariaLabel ?? (props.placeholder || undefined));

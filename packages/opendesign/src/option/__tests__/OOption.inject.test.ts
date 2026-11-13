@@ -66,23 +66,41 @@ describe('registerOption — 挂载时注册选项', () => {
   test('挂载时调用 registerOption 传递 label + value', async () => {
     const { registerMock } = renderWithInject({ value: 'a', label: 'Label A' });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: 'Label A', value: 'a', domId: expect.any(String) });
+    expect(registerMock).toHaveBeenCalledWith({ label: 'Label A', value: 'a', id: expect.any(String) });
   });
 
   test('label 未传时 registerOption 用 value 字符串作 label', async () => {
     const { registerMock } = renderWithInject({ value: 42 });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: '42', value: 42, domId: expect.any(String) });
+    expect(registerMock).toHaveBeenCalledWith({ label: '42', value: 42, id: expect.any(String) });
   });
 
   test('label 变化时重新注册新 label', async () => {
     const { screen, registerMock } = renderWithInject({ value: 'a', label: 'Old' });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: 'Old', value: 'a', domId: expect.any(String) });
+    expect(registerMock).toHaveBeenCalledWith({ label: 'Old', value: 'a', id: expect.any(String) });
 
     await screen.rerender({ value: 'a', label: 'New' });
     await flush();
-    expect(registerMock).toHaveBeenCalledWith({ label: 'New', value: 'a', domId: expect.any(String) });
+    expect(registerMock).toHaveBeenCalledWith({ label: 'New', value: 'a', id: expect.any(String) });
+  });
+
+  test('传入 id prop 时 registerOption 上报用户 id 且根元素使用用户 id', async () => {
+    const { screen, registerMock } = renderWithInject({ value: 'a', label: 'A', id: 'city-option-a' });
+    await flush();
+    expect(registerMock).toHaveBeenCalledWith({ label: 'A', value: 'a', id: 'city-option-a' });
+    const root = screen.container.querySelector('.o-option') as HTMLElement;
+    expect(root.getAttribute('id')).toBe('city-option-a');
+  });
+
+  test('未传 id prop 时根元素使用内部生成的 id', async () => {
+    const { screen, registerMock } = renderWithInject({ value: 'a', label: 'A' });
+    await flush();
+    const root = screen.container.querySelector('.o-option') as HTMLElement;
+    const generatedId = root.getAttribute('id');
+    // 生成的 id 非空，且上报值与根元素实际 id 一致
+    expect(generatedId).toBeTruthy();
+    expect(registerMock).toHaveBeenCalledWith({ label: 'A', value: 'a', id: generatedId });
   });
 });
 

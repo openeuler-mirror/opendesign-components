@@ -12,8 +12,10 @@ const { label, value } = toRefs(props);
 
 const selectInject = inject(selectOptionInjectKey, null);
 
-/** 选项 DOM id（useId，SSR 友）：供 combobox 的 aria-activedescendant 指向（注册上报给 OSelect） */
-const optionDomId = useId();
+/** 内部生成的选项 id（useId，SSR 友）：用户未传 id prop 时的回退值 */
+const generatedOptionId = useId();
+/** 选项根元素 id：用户显式传入优先，否则回退 useId 生成；上报给 OSelect 供 aria-activedescendant 指向 */
+const optionId = computed(() => props.id || generatedOptionId);
 
 const isMultiple = computed(() => toValue(selectInject?.multiple));
 
@@ -36,13 +38,13 @@ watch(
   { immediate: true, deep: true },
 );
 watch(
-  [value, label],
-  ([newValue, newLabel]) => {
+  [value, label, optionId],
+  ([newValue, newLabel, newId]) => {
     // 初始化并同步 select 的候选项
     selectInject?.registerOption({
       label: newLabel || `${newValue}`,
       value: newValue,
-      domId: optionDomId,
+      id: newId,
     });
   },
   { immediate: true },
@@ -92,7 +94,7 @@ const clickOption = () => {
 };
 </script>
 <template>
-  <div :id="optionDomId" class="o-option" role="option" :aria-selected="isActive" :aria-disabled="effectiveDisabled || undefined" @click="clickOption">
+  <div :id="optionId" class="o-option" role="option" :aria-selected="isActive" :aria-disabled="effectiveDisabled || undefined" @click="clickOption">
     <div
       class="o-option-item"
       :class="[

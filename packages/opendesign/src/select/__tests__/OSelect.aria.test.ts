@@ -333,6 +333,25 @@ describe('ARIA — 名称与高亮项', () => {
     expect(activeOption.textContent).toContain('B');
   });
 
+  test('用户自定义 OOption id 时 aria-activedescendant 指向该 id', async () => {
+    // 插槽模式：用户在 OOption 上显式传入 id，activedescendant 应直接指向它
+    const screen = render(OSelect, {
+      props: { modelValue: 'b' },
+      slots: {
+        default: () => [h(OOption, { value: 'a', label: 'A', id: 'custom-opt-a' }), h(OOption, { value: 'b', label: 'B', id: 'custom-opt-b' })],
+      },
+    });
+    await flush();
+    const selectEl = screen.container.querySelector('.o-select') as HTMLElement;
+    await selectEl.click();
+    await flush();
+    const input = screen.container.querySelector('.o-select-input') as HTMLElement;
+    expect(input.getAttribute('aria-activedescendant')).toBe('custom-opt-b');
+    const customOption = document.getElementById('custom-opt-b') as HTMLElement;
+    expect(customOption.getAttribute('role')).toBe('option');
+    expect(customOption.getAttribute('aria-selected')).toBe('true');
+  });
+
   test('未选中值或未展开时不输出 aria-activedescendant', async () => {
     // 无选中值
     const none = render(OSelect, { props: { options: [{ label: 'A', value: 'a' }] } });

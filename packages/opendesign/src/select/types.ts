@@ -9,10 +9,11 @@ export type OptionWidthModeT = (typeof OptionWidthModeTypes)[number];
 export interface SelectOptionT {
   label: string;
   value: string | number;
-  /** 选项 DOM id（OOption 生成并上报，供 combobox 的 aria-activedescendant 指向）
+  /** 选项根元素 DOM id（OOption 上报：用户显式传入的 id prop 优先，未传则 useId 生成），
+   * 供 combobox 的 aria-activedescendant 指向
    * @since NEXT
    */
-  domId?: string;
+  id?: string;
 }
 
 export type SelectValueT = string | number | string[] | number[] | (string | number)[];
