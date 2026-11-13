@@ -136,6 +136,16 @@ export const cascaderV2Props = {
    */
   placeholder,
   /**
+   * @zh-CN 透传给选择框 input 的原生属性（单选 input 与多选内联搜索框共用），用于提供可访问名称与表单校验状态，如 `aria-label`、`aria-describedby`、`aria-required`、`aria-invalid`。
+   * 合并优先级为用户传入的 key 优先：未传 `aria-label` 时回退 `placeholder` 文本作为可访问名称。
+   * @en-US Native attributes forwarded to the select input (shared by the single input and the inline search input in multiple mode), e.g. `aria-label`, `aria-describedby`, `aria-required`, `aria-invalid`.
+   * User keys take precedence: `aria-label` falls back to the `placeholder` text when not provided.
+   * @since NEXT
+   */
+  inputProps: {
+    type: Object as PropType<Record<string, string | number | boolean | undefined>>,
+  },
+  /**
    * @zh-CN 支持筛选
    * @en-US Whether to support filtering.
    */

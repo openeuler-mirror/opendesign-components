@@ -38,4 +38,9 @@ export const cascaderV2InjectKey: InjectionKey<{
   setRootLoading: (v: boolean) => void;
   /** 懒加载失败时的统一回调，对外触发 `lazyload-error` 事件 */
   onLazyloadError: (node: CascaderV2LazyNodeT) => void;
+  /**
+   * combobox 高亮项 DOM id（aria-activedescendant 指向值）：由面板写入、选择框 input 读取，
+   * 面板渲染列 / 筛选结果变化时更新，面板卸载时置空
+   */
+  activeOptionDomId: Ref<string | undefined>;
 }> = Symbol('provide-cascader-v2-option');

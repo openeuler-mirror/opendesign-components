@@ -90,6 +90,17 @@ const inputWidth = ref(12);
 const isSelecting = ref(false);
 /** 选项容器唯一 id，供 input 的 aria-controls 引用（SSR 友好） */
 const optionsId = useId();
+/**
+ * 选择框 input 的原生属性（单选 input 与多选内联搜索框共用）：
+ * 用户传入的 `inputProps` 优先，未传 `aria-label` 时回退 placeholder 文本作为可访问名称
+ */
+const mergedInputProps = computed<Record<string, string | number | boolean | undefined>>(() => {
+  const userInputProps = props.inputProps ?? {};
+  const ariaLabel = userInputProps['aria-label'] ?? (props.placeholder || undefined);
+  return { ...userInputProps, 'aria-label': ariaLabel };
+});
+/** 面板上报的高亮项 DOM id（aria-activedescendant 指向值），仅面板展开时透传给 combobox input */
+const activeOptionDomId = ref<string>();
 const lazyRootLoading = ref(false);
 // 记录最近一次点击是否在 InBox 内部
 const lastClickWasInside = ref(false);
@@ -330,6 +341,7 @@ provide(cascaderV2InjectKey, {
   filterValue,
   isSelecting,
   loading: computed(() => props.loading),
+  activeOptionDomId,
   doSelectBatch(toAdd: Array<{ value: string | number; label: string; path: CascaderV2NodePathT }>, toRemove: Array<string | number>) {
     toAdd.forEach((item) => {
       if (!valueList.value.includes(item.value)) {
@@ -525,11 +537,13 @@ watch(
         :readonly="!props.filterable"
         type="text"
         class="o-cascader-v2-input"
+        v-bind="mergedInputProps"
         role="combobox"
         aria-haspopup="listbox"
         :aria-expanded="isSelecting"
         :aria-controls="optionsId"
         :aria-disabled="effectiveDisabled || undefined"
+        :aria-activedescendant="isSelecting ? activeOptionDomId : undefined"
         @input="handleInput"
       />
       <div v-else class="o-cascader-v2-tags-wrap">
@@ -580,11 +594,13 @@ watch(
           :disabled="effectiveDisabled"
           type="text"
           class="o-cascader-v2-input"
+          v-bind="mergedInputProps"
           role="combobox"
           aria-haspopup="listbox"
           :aria-expanded="isSelecting"
           :aria-controls="optionsId"
           :aria-disabled="effectiveDisabled || undefined"
+          :aria-activedescendant="isSelecting ? activeOptionDomId : undefined"
           :style="props.filterable && valueListDisplay.length > 0 ? { width: `${inputWidth}px` } : { width: '100%' }"
           @input="handleInput"
         />
