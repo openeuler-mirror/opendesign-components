@@ -84,6 +84,8 @@ git log --format='%h %s%n%b---' up/main..HEAD   # 逐条对照上五项
 
 <根因 / 改动点 / 影响面>
 
+> 影响面叙事（波及谁、哪个消费方会怎样、如何迁移、应用侧配置快照）写在这里或 commit body，**不写进代码注释**——代码注释只描述代码当前是什么与为什么这样设计（见根 `AGENTS.md` 中文注释要求的分流规则）。
+
 ### 该PR关联的issue
 
 _(格式为fixes #<issue号>, 或者resolves #<issue号>)_: fixes #<issue号>
