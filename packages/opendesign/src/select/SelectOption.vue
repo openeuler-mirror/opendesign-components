@@ -68,6 +68,7 @@ defineExpose({ virtualListRef });
   <div
     :id="props.listboxId"
     role="listbox"
+    :aria-multiselectable="props.multiple || undefined"
     class="o-select-options"
     :class="[
       `o-select-options-${props.size || defaultSize}`,
@@ -86,7 +87,8 @@ defineExpose({ virtualListRef });
       <div v-else-if="isVirtualEmpty" class="o-select-empty">
         <slot name="empty-content" />
       </div>
-      <OVirtualList v-else ref="virtualListRef" :list="props.virtualItems!" v-bind="mergedVirtualListProps" class="o-option-list">
+      <!-- OSelect 虚拟路径：选项的 role=option 直接挂在 listbox 子树，OVirtualList 自身的 list/listitem 中间语义层必须关闭，否则破坏 listbox 的 ARIA 契约 -->
+      <OVirtualList v-else ref="virtualListRef" :list="props.virtualItems!" :semantic-role="false" v-bind="mergedVirtualListProps" class="o-option-list">
         <template #default="{ item }">
           <slot name="virtual-item" :item="item" />
         </template>

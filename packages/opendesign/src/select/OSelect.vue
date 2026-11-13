@@ -245,6 +245,22 @@ const {
   valueList,
 });
 
+/**
+ * combobox 高亮项（aria-activedescendant 指向值）：当前无键盘导航，
+ * 高亮跟随选中值（单选取选中项，多选取第一个选中项；无选中时为 undefined）。
+ * 键盘层（方向键移动高亮）归 major 批次，届时仅需替换本状态的驱动源。
+ */
+const activeOptionValue = computed<string | number | undefined>(() => {
+  return valueList.value[0];
+});
+/** 高亮项的 DOM id：选项展开且映射存在时非空，透传给 combobox input */
+const activeDescendantId = computed<string | undefined>(() => {
+  if (!isSelecting.value) return undefined;
+  return optionInfoMap.get(activeOptionValue.value)?.id;
+});
+/** combobox 可访问名称：显式 ariaLabel 优先，未传回退 placeholder；主输入框与多选 tag 内联搜索框共用 */
+const comboboxAriaLabel = computed<string | undefined>(() => props.ariaLabel ?? (props.placeholder || undefined));
+
 watchEffect(() => {
   // 仅检查插槽函数是否存在，不在 watchEffect 中调用它（避免 render 外触发 Vue 警告）
   if (slots.default && props.options && props.options.length > 0) {
@@ -996,9 +1012,11 @@ defineExpose({
       :readonly="!showTagInput"
       :inputmode="isResponding ? 'none' : undefined"
       role="combobox"
+      :aria-label="comboboxAriaLabel"
       aria-haspopup="listbox"
       :aria-expanded="isSelecting"
       :aria-controls="optionsId"
+      :aria-activedescendant="activeDescendantId"
       :aria-autocomplete="!isResponding && props.filterable ? 'list' : undefined"
       :aria-disabled="isDisabled || undefined"
       @input="onInput"
@@ -1051,6 +1069,7 @@ defineExpose({
             type="text"
             class="o-select-input o-select-input--tag"
             :readonly="!showTagInput"
+            :aria-label="comboboxAriaLabel"
             @input="onInput"
             @compositionstart="onCompositionStart"
             @compositionend="onCompositionEnd"
