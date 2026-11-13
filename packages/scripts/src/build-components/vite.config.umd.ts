@@ -52,6 +52,7 @@ export default (type: 'component' | 'icon'): InlineConfig => {
         name,
       },
     },
-    plugins: [vue() as any],
+    // comments: false —— 模板里的 HTML 注释默认会被编译成 createCommentVNode 落进产物，构建侧必须显式关闭
+    plugins: [vue({ template: { compilerOptions: { comments: false } } }) as any],
   };
 };

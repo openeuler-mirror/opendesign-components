@@ -8,7 +8,8 @@ const langs = globSync('src/locale/lang/*.ts');
 export default (): InlineConfig => {
   return {
     plugins: [
-      vue() as any,
+      // comments: false —— 模板里的 HTML 注释默认会被编译成 createCommentVNode 落进产物，构建侧必须显式关闭
+      vue({ template: { compilerOptions: { comments: false } } }) as any,
       // dts(),
       dts({
         outDir: ['es', 'lib'],
