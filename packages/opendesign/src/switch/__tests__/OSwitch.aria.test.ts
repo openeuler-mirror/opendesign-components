@@ -59,8 +59,8 @@ describe('ARIA — OSwitch', () => {
     expect(idleEl.getAttribute('aria-busy')).toBeNull();
   });
 
-  test('ariaLabel 提供可访问名称，未传时无该属性', async () => {
-    const screen = render(OSwitch, { props: { ariaLabel: '自动续费' } });
+  test('aria-label 经 attrs 透传提供可访问名称，未传时无该属性', async () => {
+    const screen = render(OSwitch, { attrs: { 'aria-label': '自动续费' } });
     await flush();
     const el = screen.container.querySelector('.o-switch') as HTMLElement;
     expect(el.getAttribute('aria-label')).toBe('自动续费');
