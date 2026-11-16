@@ -76,6 +76,28 @@ describe('无障碍契约（ARIA）', () => {
     expect(controlsId).toBeTruthy();
   });
 
+  test('OCascaderV2 互链 id 同源 - 用户透传 id 时根持源头 id，选项容器与面板选项 id 从源头派生', async () => {
+    const screen = render(OCascaderV2, { props: { options: sampleOptions }, attrs: { id: 'addr-cascader' } });
+    await flush();
+    // 根 InBox 持用户透传的源头 id（显式绑定，与 attrs 透传落同一元素）
+    const root = screen.container.querySelector('.o-cascader-v2') as HTMLElement;
+    expect(root.getAttribute('id')).toBe('addr-cascader');
+    // 选项容器 id 从源头派生，input 的 aria-controls 指向同一 id
+    const input = screen.container.querySelector('.o-cascader-v2-input') as HTMLInputElement;
+    const controlsId = input.getAttribute('aria-controls');
+    expect(controlsId).toBe('addr-cascader-options');
+    // 面板展开后：选项容器与选项 DOM id 前缀均从注入源头派生（关闭时弹层卸载，容器不存在）
+    input.click();
+    await flush();
+    const optionsContainer = document.getElementById('addr-cascader-options');
+    expect(optionsContainer).not.toBeNull();
+    const optionIds = [...document.querySelectorAll('.o-cascader-v2-panel-popup [role="option"]')].map((el) => el.getAttribute('id'));
+    expect(optionIds.length).toBeGreaterThan(0);
+    for (const id of optionIds) {
+      expect(id?.startsWith('addr-cascader-opt-')).toBe(true);
+    }
+  });
+
   test('OCascaderV2 aria-disabled - disabled 时 input 有 aria-disabled=true', async () => {
     const screen = render(OCascaderV2, { props: { options: sampleOptions, disabled: true } });
     await flush();

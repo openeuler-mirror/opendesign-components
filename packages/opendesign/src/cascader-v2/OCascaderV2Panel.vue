@@ -27,8 +27,15 @@ const isSelecting = cascaderV2Inject?.isSelecting;
 const isLoading = cascaderV2Inject?.loading;
 const cascaderTree = new CascaderTree();
 
-/** 面板内选项 DOM id 前缀（SSR 友好），生成规则与高亮上报同源，保证指向一致 */
-const panelOptionIdPrefix = useId();
+/** 面板独立使用（未注入级联上下文）时的选项 DOM id 前缀兜底（SSR 友好） */
+const fallbackIdPrefix = useId();
+
+/**
+ * @description 面板内选项 DOM id 前缀：注入级联上下文时从源头 id（用户透传 id ?? useId）派生，
+ * 与选择框的 aria 互链同源；独立使用时回退自身 useId 兜底。
+ * 生成规则与高亮上报（activeOptionDomId）同源，保证指向一致
+ */
+const panelOptionIdPrefix = computed(() => (cascaderV2Inject?.sourceId ? `${cascaderV2Inject.sourceId.value}-opt` : fallbackIdPrefix));
 
 /**
  * 生成选项 DOM id：scope 区分筛选结果列表与各级列，index 为列表内下标
@@ -36,7 +43,7 @@ const panelOptionIdPrefix = useId();
  * @param index 列表内下标
  * @returns 选项 DOM id
  */
-const optionDomId = (scope: string, index: number) => `${panelOptionIdPrefix}-${scope}-${index}`;
+const optionDomId = (scope: string, index: number) => `${panelOptionIdPrefix.value}-${scope}-${index}`;
 
 const ROOT_KEY = '__root__';
 const lazyLoadState = ref<Record<string, 'loading' | 'loaded' | 'error'>>({});
