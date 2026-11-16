@@ -43,4 +43,9 @@ export const cascaderV2InjectKey: InjectionKey<{
    * 面板渲染列 / 筛选结果变化时更新，面板卸载时置空
    */
   activeOptionDomId: Ref<string | undefined>;
+  /**
+   * 组件源头 DOM id（用户透传 id ?? useId 兜底）：面板内选项 DOM id 前缀从该源头派生，
+   * 保证跨组件互链 id 同源；未注入（Panel 独立使用）时面板自行兜底
+   */
+  sourceId: Ref<string>;
 }> = Symbol('provide-cascader-v2-option');

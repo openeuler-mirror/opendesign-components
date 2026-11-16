@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, useId, watch, nextTick } from 'vue';
+import { computed, provide, ref, useAttrs, useId, watch, nextTick } from 'vue';
 import { IconChevronDown, IconClose, IconLoading } from '../_utils/icons';
 import { OPopup } from '../popup';
 import { OPopover } from '../popover';
@@ -88,8 +88,15 @@ const inputMirrorRef = ref<HTMLSpanElement>();
 const inputWidth = ref(12);
 
 const isSelecting = ref(false);
-/** 选项容器唯一 id，供 input 的 aria-controls 引用（SSR 友好） */
-const optionsId = useId();
+const attrs = useAttrs();
+const generatedId = useId();
+/**
+ * @description 级联选择器源头 DOM id：用户透传的 id 优先（显式绑在根 InBox 上，与互链同源），
+ * 未透传时回退 useId() 生成的 SSR 友好 id；选项容器 id 与面板选项 id 前缀均从该源头派生
+ */
+const sourceId = computed(() => String(attrs.id || generatedId));
+/** 选项容器 DOM id（combobox input 的 aria-controls 指向值），从源头派生 */
+const optionsId = computed(() => `${sourceId.value}-options`);
 /**
  * 选择框 input 的原生属性（单选 input 与多选内联搜索框共用）：
  * 用户传入的 `inputProps` 优先，未传 `aria-label` 时回退 placeholder 文本作为可访问名称
@@ -340,6 +347,7 @@ provide(cascaderV2InjectKey, {
   selectValue: valueList,
   filterValue,
   isSelecting,
+  sourceId,
   loading: computed(() => props.loading),
   activeOptionDomId,
   doSelectBatch(toAdd: Array<{ value: string | number; label: string; path: CascaderV2NodePathT }>, toRemove: Array<string | number>) {
@@ -506,6 +514,7 @@ watch(
       // 多行控件：pill 圆角改用同 size 单行 pill 圆角常数，避免半高 clamp 巨大圆弧
       multiline: true,
       focused: isSelecting,
+      id: sourceId,
     }"
     class="o-cascader-v2"
     :class="[
