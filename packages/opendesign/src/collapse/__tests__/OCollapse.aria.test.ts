@@ -85,4 +85,17 @@ describe('ARIA — 折叠面板关联', () => {
     expect(controls).toBeTruthy();
     expect(body.getAttribute('id')).toBe(controls);
   });
+
+  test('用户透传 id 时根元素持源头 id，header / body 锚点从源头派生且互链同源', async () => {
+    const screen = render(OCollapseItem, { props: { title: 'H' }, attrs: { id: 'faq-item' } });
+    await flush();
+    const root = screen.container.querySelector('.o-collapse-item') as HTMLElement;
+    const header = screen.container.querySelector('.o-collapse-item-header') as HTMLElement;
+    const body = screen.container.querySelector('.o-collapse-item-body') as HTMLElement;
+    expect(root.getAttribute('id')).toBe('faq-item');
+    expect(header.getAttribute('id')).toBe('faq-item-header');
+    expect(body.getAttribute('id')).toBe('faq-item-body');
+    expect(header.getAttribute('aria-controls')).toBe('faq-item-body');
+    expect(body.getAttribute('aria-labelledby')).toBe('faq-item-header');
+  });
 });
