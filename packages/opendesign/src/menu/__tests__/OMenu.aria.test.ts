@@ -88,6 +88,23 @@ describe('ARIA — 菜单项禁用镜像', () => {
     expect(children.getAttribute('role')).toBe('menu');
   });
 
+  test('用户透传 id 时子菜单根持源头 id，子菜单容器 id 从源头派生且互链同源', async () => {
+    const screen = render(OMenu, {
+      slots: {
+        default: () => h(OSubMenu, { value: 'sub', label: 'Sub', id: 'nav-sub' }, { default: () => h(OMenuItem, { value: 'a' }) }),
+      },
+    });
+    await flush();
+    const subRoot = screen.container.querySelector('.o-sub-menu') as HTMLElement;
+    const title = screen.container.querySelector('.o-sub-menu-title') as HTMLElement;
+    const children = screen.container.querySelector('.o-sub-menu-children') as HTMLElement;
+    // 用户透传的 id 落在子菜单根元素（attrs 透传）
+    expect(subRoot.getAttribute('id')).toBe('nav-sub');
+    // 子菜单容器 id 从源头派生，aria-controls 指向同一 id
+    expect(children.getAttribute('id')).toBe('nav-sub-children');
+    expect(title.getAttribute('aria-controls')).toBe('nav-sub-children');
+  });
+
   test('未传 ariaLabel 时菜单回退 i18n 默认词条，显式传入时覆盖', async () => {
     const renderMenu = (ariaLabel?: string) =>
       render(OMenu, {
