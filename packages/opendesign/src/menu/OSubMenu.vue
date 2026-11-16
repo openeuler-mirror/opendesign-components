@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, provide, useId, useTemplateRef } from 'vue';
+import { computed, inject, provide, useAttrs, useId, useTemplateRef } from 'vue';
 import { subMenuProps } from './types';
 import { IconChevronDownBold } from '../_utils/icons';
 import { menuInjectKey, subMenuInjectKey } from './provide';
@@ -94,11 +94,15 @@ const subMenuTitleRef = useTemplateRef('subMenuTitleRef');
 const itemContentRef = useTemplateRef('itemContentRef');
 const isContentOverflow = useElementOverflown(itemContentRef);
 
+const attrs = useAttrs();
+const generatedId = useId();
+
 /**
- * @description 子菜单内容容器 DOM id，供标题的 aria-controls 引用（SSR 友好）；
+ * @description 子菜单内容容器 DOM id：从源头 id 派生（用户透传的 id 优先——落在子菜单根元素上，
+ * 未传时回退 useId() 生成的 SSR 友好 id），供标题的 aria-controls 引用，保证互链 id 与用户标识同源；
  * 标题与它控制的内容建立关联后，读屏与 AI 代理能从标题定位到被展开的子菜单
  */
-const childrenId = useId();
+const childrenId = computed(() => `${String(attrs.id || generatedId)}-children`);
 </script>
 
 <template>
