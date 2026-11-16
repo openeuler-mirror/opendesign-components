@@ -29,8 +29,8 @@ describe('ARIA — 按钮', () => {
     expect(btn.getAttribute('aria-busy')).toBeNull();
   });
 
-  test('ariaLabel prop 透传到按钮', async () => {
-    const screen = render(OButton, { props: { ariaLabel: '关闭' }, slots: { default: () => 'B' } });
+  test('aria-label 经 attrs 透传到按钮根元素', async () => {
+    const screen = render(OButton, { attrs: { 'aria-label': '关闭' }, slots: { default: () => 'B' } });
     await flush();
     const btn = screen.container.querySelector('.o-btn') as HTMLElement;
     expect(btn.getAttribute('aria-label')).toBe('关闭');
