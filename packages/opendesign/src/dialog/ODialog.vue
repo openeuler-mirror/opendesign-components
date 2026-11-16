@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue';
+import { computed, ref, useAttrs, useId } from 'vue';
 import { IconClose } from '../_utils/icons';
 import { OLayer } from '../layer';
 import { OButton } from '../button';
@@ -43,8 +43,15 @@ const slots = defineSlots<{
   actions?(props: { isPhonePad: boolean }): any;
 }>();
 
-/** 弹窗标题 id，供 role=dialog 的 aria-labelledby 引用（SSR 友好） */
-const headerId = useId();
+const attrs = useAttrs();
+const generatedId = useId();
+
+/**
+ * @description 弹窗标题 DOM id：从源头 id 派生（用户透传的 id 优先——落在弹层根元素上，
+ * 未传时回退 useId() 生成的 SSR 友好 id），供 role=dialog 的 aria-labelledby 引用，
+ * 保证互链 id 与用户标识同源
+ */
+const headerId = computed(() => `${String(attrs.id || generatedId)}-header`);
 
 const layerRef = ref<InstanceType<typeof OLayer> | null>(null);
 

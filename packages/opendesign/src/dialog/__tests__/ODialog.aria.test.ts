@@ -44,4 +44,20 @@ describe('ARIA — 对话框', () => {
     const layer = screen.container.querySelector('.o-layer') as HTMLElement;
     expect(layer.getAttribute('aria-labelledby')).toBeNull();
   });
+
+  test('用户透传 id 时弹层根持源头 id，标题 id 从源头派生且互链同源', async () => {
+    const screen = render(ODialog, {
+      props: { visible: true, wrapper: null },
+      attrs: { id: 'confirm-dialog' },
+      slots: { default: () => 'D', header: () => '标题' },
+    });
+    await flush();
+    const layer = screen.container.querySelector('.o-layer') as HTMLElement;
+    const header = screen.container.querySelector('.o-dlg-header') as HTMLElement;
+    // 用户透传的 id 落在弹层根元素（attrs 透传）
+    expect(layer.getAttribute('id')).toBe('confirm-dialog');
+    // 标题 id 从源头派生，aria-labelledby 指向同一 id
+    expect(header.getAttribute('id')).toBe('confirm-dialog-header');
+    expect(layer.getAttribute('aria-labelledby')).toBe('confirm-dialog-header');
+  });
 });
