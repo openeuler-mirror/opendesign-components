@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, useId } from 'vue';
+import { computed, inject, useAttrs, useId } from 'vue';
 import { collapseItemProps } from './types';
 import { IconChevronRight } from '../_utils/icons';
 import { collapseInjectKey } from './provide';
@@ -7,10 +7,19 @@ import { isUndefined } from '../_utils/is';
 
 const props = defineProps(collapseItemProps);
 
-/** 折叠头部 DOM id，供 body 的 aria-labelledby 引用（SSR 友好） */
-const headerId = useId();
-/** 折叠内容 DOM id，供外部（如描述列表）引用 */
-const bodyId = useId();
+const attrs = useAttrs();
+const generatedId = useId();
+
+/**
+ * @description 折叠项源头 DOM id：用户透传的 id 优先（绑在根元素上，与 aria 互链同源），
+ * 未透传时回退 useId() 生成的 SSR 友好 id；header / body 锚点 id 均从该源头派生，
+ * 不各自独立生成，保证互链 id 永远同源
+ */
+const itemId = computed(() => String(attrs.id || generatedId));
+/** 折叠头部 DOM id，从源头派生，供 body 的 aria-labelledby 引用 */
+const headerId = computed(() => `${itemId.value}-header`);
+/** 折叠内容 DOM id，从源头派生，供 header 的 aria-controls 及外部（如描述列表）引用 */
+const bodyId = computed(() => `${itemId.value}-body`);
 const collapseInjection = inject(collapseInjectKey, null);
 
 // 是否展开
@@ -81,7 +90,7 @@ const onAfterLeave = (el: Element) => {
 </script>
 
 <template>
-  <div class="o-collapse-item" :class="{ 'o-collapse-item-expanded': isExpanded }">
+  <div :id="itemId" class="o-collapse-item" :class="{ 'o-collapse-item-expanded': isExpanded }">
     <div :id="headerId" role="button" class="o-collapse-item-header" :aria-expanded="isExpanded" :aria-controls="bodyId" @click="onClick">
       <span class="o-collapse-item-icon">
         <IconChevronRight />
