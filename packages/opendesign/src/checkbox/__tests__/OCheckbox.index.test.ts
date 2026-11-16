@@ -167,8 +167,8 @@ describe('无障碍契约（ARIA）', () => {
     expect(input.indeterminate).toBe(true);
   });
 
-  test('OCheckbox aria-label - 透传 ariaLabel prop 到 input', async () => {
-    const screen = render(OCheckbox, { props: { value: 'a', ariaLabel: '同意条款' } });
+  test('OCheckbox inputProps - 透传对象内 aria-label 到 input', async () => {
+    const screen = render(OCheckbox, { props: { value: 'a', inputProps: { 'aria-label': '同意条款' } } });
     await flush();
     const input = screen.container.querySelector('input[type=checkbox]') as HTMLInputElement;
     expect(input.getAttribute('aria-label')).toBe('同意条款');

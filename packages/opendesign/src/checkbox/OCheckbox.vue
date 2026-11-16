@@ -155,7 +155,7 @@ provide(checkboxInjectKey, {
         :value="props.value"
         :disabled="isDisabled"
         :checked="isChecked"
-        :aria-label="props.ariaLabel"
+        v-bind="props.inputProps"
         @click="onClick"
         @change="onChange"
       />
