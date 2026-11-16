@@ -346,7 +346,6 @@ defineExpose({
     ref="slidesRef"
     class="o-carousel"
     role="region"
-    :aria-label="props.ariaLabel"
     :class="[
       {
         'o-carousel-visible': initialized,

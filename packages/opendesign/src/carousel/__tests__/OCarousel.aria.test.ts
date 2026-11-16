@@ -18,9 +18,9 @@ describe('ARIA — 轮播', () => {
     expect(root.getAttribute('role')).toBe('region');
   });
 
-  test('ariaLabel prop 透传到根', async () => {
+  test('aria-label 经 attrs 透传到根', async () => {
     const screen = render(OCarousel, {
-      props: { ariaLabel: '轮播图' },
+      attrs: { 'aria-label': '轮播图' },
       slots: { default: () => h('div', 'A') },
     });
     await flush();
@@ -28,7 +28,7 @@ describe('ARIA — 轮播', () => {
     expect(root.getAttribute('aria-label')).toBe('轮播图');
   });
 
-  test('未传 ariaLabel 时不渲染 aria-label 属性', async () => {
+  test('未传 aria-label 时不渲染该属性', async () => {
     const screen = render(OCarousel, { slots: { default: () => h('div', 'A') } });
     await flush();
     const root = screen.container.querySelector('.o-carousel') as HTMLElement;
